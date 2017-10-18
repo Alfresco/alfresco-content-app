@@ -1,0 +1,74 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "alfresco-content-app"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon-96x96.png",
+
+        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-core/bundles/assets", "output": "./assets/" },
+        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-datatable/bundles/assets", "output": "./assets/" },
+        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-viewer/bundles/assets", "output": "./assets/" },
+        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-documentlist/bundles/assets", "output": "./assets/" },
+        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-login/bundles/assets", "output": "./assets/" },
+        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-upload/bundles/assets", "output": "./assets/" },
+        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-search/bundles/assets", "output": "./assets/" },
+
+        { "glob": "pdf.worker.js", "input": "../node_modules/pdfjs-dist/build", "output": "./" }
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "styles.css"
+      ],
+      "scripts": [
+        "../node_modules/pdfjs-dist/build/pdf.js",
+        "../node_modules/pdfjs-dist/web/compatibility.js",
+        "../node_modules/pdfjs-dist/web/pdf_viewer.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}
