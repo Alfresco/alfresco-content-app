@@ -31,13 +31,13 @@
     "ng2-alfresco-datatable": "1.9.0",
     "ng2-alfresco-documentlist": "1.9.0",
     "ng2-alfresco-login": "1.9.0",
-    "ng2-alfresco-upload": "1.9.0",
     "ng2-alfresco-search": "1.9.0",
+    "ng2-alfresco-upload": "1.9.0",
     "ng2-alfresco-viewer": "1.9.0",
     "pdfjs-dist": "1.8.557",
-    "rxjs": "^5.4.2",
-    "zone.js": "^0.8.14",
-    "wsrv": "0.2.2"
+    "rxjs": "5.1.0",
+    "wsrv": "0.2.2",
+    "zone.js": "^0.8.14"
   },
   "devDependencies": {
     "@angular/cli": "1.4.7",
