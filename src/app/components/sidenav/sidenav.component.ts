@@ -23,6 +23,7 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { AlfrescoContentService } from 'ng2-alfresco-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
     selector: 'app-sidenav',
@@ -31,13 +32,17 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 })
 export class SidenavComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity = null;
+    currentRoute = '';
 
     onChangeParentSubscription: Subscription;
 
     constructor(
+        private router: Router,
         private browsingFilesService: BrowsingFilesService,
         private contentService: AlfrescoContentService
-    ) {}
+    ) {
+        this.currentRoute = this.router.routerState.snapshot.url;
+    }
 
     get menus() {
         const main = [
@@ -86,6 +91,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd ) {
+                this.currentRoute = event.url;
+            }
+        });
+
         this.onChangeParentSubscription = this.browsingFilesService.onChangeParent
             .subscribe((node: MinimalNodeEntryEntity) => {
                 this.node = node;

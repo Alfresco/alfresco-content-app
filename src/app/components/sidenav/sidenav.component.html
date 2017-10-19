@@ -57,7 +57,10 @@
                 <a
                     class="sidenav-menu__item-link"
                     [routerLink]="item.route.url"
-                    [ngClass]="{ 'disabled': item.disabled }"
+                    [ngClass]="{
+                        'disabled': item.disabled,
+                        'sidenav-menu__item-link--active': (currentRoute.includes(item.route.url))
+                     }"
                     title="{{ item.title || '' | translate }}">
                     <md-icon>{{ item.icon }}</md-icon>
                     {{ item.label | translate }}
