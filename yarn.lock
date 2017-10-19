@@ -164,10 +164,6 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/router@~3.1.1":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@angular/router/-/router-3.1.2.tgz#1046c943ace795027e2e5057df8c897da968fcd6"
-
 "@angular/tsc-wrapped@4.3.6":
   version "4.3.6"
   resolved "https://registry.yarnpkg.com/@angular/tsc-wrapped/-/tsc-wrapped-4.3.6.tgz#1aa66e0ab2c4799a4ad14b675e13953aa5fcd436"

@@ -1,0 +1,18 @@
+{
+  "ecmHost": "http://{hostname}:{port}/ecm",
+  "application": {
+      "name": "Alfresco Example Content Application",
+      "build": "1234"
+  },
+  "document-list": {
+      "supportedPageSizes": [25, 50, 100]
+  },
+  "files": {
+      "excluded": [
+          ".DS_Store",
+          "desktop.ini",
+          "thumbs.db",
+          ".git"
+      ]
+  }
+}
