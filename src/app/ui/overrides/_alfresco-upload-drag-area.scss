@@ -1,0 +1,72 @@
+@import '../_variables.scss';
+
+@mixin file-draggable__input-focus {
+    color: $alfresco-secondary-text-color !important;
+    border: 1px solid $alfresco-app-color--default !important;
+    margin-left: 0 !important;
+}
+
+alfresco-upload-drag-area:first-child {
+    & > div {
+        alfresco-upload-drag-area {
+            .file-draggable__input-focus {
+                @include file-draggable__input-focus;
+            }
+        }
+    }
+
+    .upload-border {
+        vertical-align: inherit !important;
+        text-align: inherit !important;
+    }
+
+    .file-draggable__input-focus {
+        color: none !important;
+        border: none !important;
+        margin-left: 0 !important;
+
+        alfresco-upload-drag-area {
+            & > div {
+                @include file-draggable__input-focus;
+            }
+        }
+    }
+}
+
+alfresco-upload-drag-area {
+    height: 100%;
+
+    & > div {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .file-draggable__input-focus {
+        alfresco-document-list {
+            background: $alfresco-app-color--hue-1;
+
+            alfresco-datatable > table {
+                background: inherit;
+            }
+        }
+    }
+
+    .adf-upload__dragging {
+        background: $alfresco-app-color--hue-1;
+        color: $alfresco-secondary-text-color !important;
+    }
+
+    .adf-upload__dragging td {
+        border-top: 1px solid $alfresco-app-color--default !important;
+        border-bottom: 1px solid $alfresco-app-color--default !important;
+
+        &:first-child {
+            border-left: 1px solid $alfresco-app-color--default !important;
+        }
+
+        &:last-child {
+            border-right: 1px solid $alfresco-app-color--default !important;
+        }
+    }
+}

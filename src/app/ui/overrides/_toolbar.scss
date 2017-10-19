@@ -1,0 +1,36 @@
+@import 'variables.scss';
+
+.adf-toolbar {
+    // TODO: review and remove once ADF 2.0.0 is out
+    &.inline {
+        .mat-toolbar {
+            border-left: none !important;
+            border-right: none !important;
+            background: $alfresco-gray-background;
+            padding: 0;
+            height: 48px;
+        }
+
+        // TODO remove once it gets to ADF
+        .mat-icon {
+            color: $alfresco-secondary-text-color;
+        }
+
+        &-row {
+            & > button {
+                color: $alfresco-secondary-text-color;
+            }
+        }
+    }
+}
+
+.secondary-options {
+    // TODO remove once it gets to ADF
+    button {
+        color: $alfresco-secondary-text-color;
+    }
+
+    .icon-highlight {
+        color: $alfresco-primary-accent--default;
+    }
+}

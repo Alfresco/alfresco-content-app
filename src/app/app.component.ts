@@ -20,41 +20,41 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { TranslationService, PageTitleService } from 'ng2-alfresco-core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private pageTitle: PageTitleService,
-    private translateService: TranslationService) {
-  }
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private pageTitle: PageTitleService,
+        private translateService: TranslationService) {
+    }
 
-  ngOnInit() {
-    const { router, pageTitle, route, translateService } = this;
+    ngOnInit() {
+        const { router, pageTitle, route, translateService } = this;
 
-    router
-      .events
-      .filter(event => event instanceof NavigationEnd)
-      .subscribe(() => {
-        let currentRoute = route.root;
+        router
+            .events
+            .filter(event => event instanceof NavigationEnd)
+            .subscribe(() => {
+                let currentRoute = route.root;
 
-        while (currentRoute.firstChild) {
-          currentRoute = currentRoute.firstChild;
-        }
+                while (currentRoute.firstChild) {
+                    currentRoute = currentRoute.firstChild;
+                }
 
-        const snapshot: any = currentRoute.snapshot || {};
-        const data: any = snapshot.data || {};
+                const snapshot: any = currentRoute.snapshot || {};
+                const data: any = snapshot.data || {};
 
-        if (data.i18nTitle) {
-          translateService.get(data.i18nTitle).subscribe(title => {
-            pageTitle.setTitle(title);
-          });
-        } else {
-          pageTitle.setTitle(data.title || '');
-        }
-      });
-  }
+                if (data.i18nTitle) {
+                    translateService.get(data.i18nTitle).subscribe(title => {
+                        pageTitle.setTitle(title);
+                    });
+                } else {
+                    pageTitle.setTitle(data.title || '');
+                }
+            });
+    }
 }

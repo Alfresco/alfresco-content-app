@@ -1,0 +1,15 @@
+<adf-toolbar class="app-menu">
+    <adf-toolbar-title>
+        <a
+            class="app-menu__title"
+            title="{{ appTitle }}"
+            attr.data-build-number="{{ appBuildNumber }}"
+            [routerLink]="[ '/' ]">{{ appTitle }}</a>
+    </adf-toolbar-title>
+
+    <app-search></app-search>
+
+    <adf-toolbar-divider></adf-toolbar-divider>
+
+    <app-current-user></app-current-user>
+</adf-toolbar>

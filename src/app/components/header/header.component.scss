@@ -1,0 +1,57 @@
+@import './../../ui/variables';
+
+.app-menu {
+
+    &.adf-toolbar {
+        .mat-toolbar {
+            background-color: #00bcd4;
+            font-family: 'Muli',"Roboto","Helvetica","Arial",sans-serif !important;
+            min-height: $app-menu-height;
+            height: $app-menu-height;
+
+            .mat-toolbar-layout {
+                height: $app-menu-height;
+
+                .mat-toolbar-row {
+                    height: $app-menu-height;
+                }
+            }
+        }
+
+        .adf-toolbar-divider > div {
+            background-color: $alfresco-white !important;
+        }
+    }
+
+    .app-menu__title {
+        width: 100px;
+        height: $app-menu-height;
+
+        line-height: 54px;
+        text-decoration: none;
+        text-indent: -9999px;
+
+        color: inherit;
+
+        background: url('/assets/images/alfresco-logo-white.svg') no-repeat 0 50%;
+        background-size: 100% auto;
+
+        display: block;
+        position: relative;
+        font-size: 20px;
+        line-height: 1;
+        letter-spacing: .02em;
+        font-weight: 400;
+
+        &:after {
+            content: "Build #" attr(data-build-number);
+            color: rgba(white, .66);
+            font-size: 8px;
+            position: absolute;
+            bottom: 8px;
+            right: 2px;
+            line-height: 1;
+            text-indent: 0;
+        }
+    }
+}

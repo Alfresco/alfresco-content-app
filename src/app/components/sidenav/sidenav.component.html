@@ -1,0 +1,68 @@
+<div class="sidenav">
+    <div class="sidenav__section sidenav__section--new">
+        <button class="sidenav__section--new__button" md-button [mdMenuTriggerFor]="menu">
+            <span>{{ 'APP.NEW_MENU.LABEL' | translate }}</span>
+            <md-icon>arrow_drop_down</md-icon>
+        </button>
+
+        <md-menu #menu="mdMenu" [overlapTrigger]="false">
+            <button
+                md-menu-item
+                [app-create-folder]="node?.id"
+                [disabled]="!canCreateContent(node)"
+                title="{{
+                    ( canCreateContent(node)
+                        ? 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER'
+                        : 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED'
+                    ) | translate
+                }}">
+                <md-icon>create_new_folder</md-icon>
+                <span>{{ 'APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER' | translate }}</span>
+            </button>
+
+            <alfresco-upload-button
+                [showNotificationBar]="false"
+                tooltip="{{
+                    (canCreateContent(node)
+                        ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES'
+                        : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES_NOT_ALLOWED'
+                    ) | translate }}"
+                [disabled]="!canCreateContent(node)"
+                [rootFolderId]="node?.id"
+                [multipleFiles]="true"
+                [uploadFolders]="false"
+                [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE' | translate">
+            </alfresco-upload-button>
+
+            <alfresco-upload-button
+                [showNotificationBar]="false"
+                tooltip="{{
+                    (canCreateContent(node)
+                        ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS'
+                        : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED'
+                    ) | translate }}"
+                [disabled]="!canCreateContent(node)"
+                [rootFolderId]="node?.id"
+                [multipleFiles]="true"
+                [uploadFolders]="true"
+                [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER' | translate">
+            </alfresco-upload-button>
+        </md-menu>
+    </div>
+
+    <div class="sidenav__section" *ngFor="let list of menus;">
+        <ul class="sidenav-menu">
+            <li class="sidenav-menu__item" *ngFor="let item of list">
+                <!-- [routerLinkActive]="'sidenav-menu__item-link--active'" -->
+                <a
+                    class="sidenav-menu__item-link"
+                    [routerLink]="item.route.url"
+                    [ngClass]="{ 'disabled': item.disabled }"
+                    title="{{ item.title || '' | translate }}">
+                    <md-icon>{{ item.icon }}</md-icon>
+                    {{ item.label | translate }}
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

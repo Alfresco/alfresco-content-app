@@ -1,0 +1,78 @@
+@import '../../ui/_variables.scss';
+
+$sidenav-section--h-padding: 24px;
+$sidenav-section--v-padding: 8px;
+
+$sidenav-menu-item--h-padding: 24px;
+$sidenav-menu-item--v-padding: 12px;
+
+$sidenav-menu-item--icon-size: 24px;
+
+:host {
+    .sidenav {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+
+        &__section {
+            padding:
+                $sidenav-section--v-padding
+                $sidenav-section--h-padding;
+
+            border-bottom: 1px solid $alfresco-divider-color;
+            position: relative;
+
+            &--new {
+                padding-top: 2 * $sidenav-section--v-padding;
+                padding-bottom: 2 * $sidenav-section--v-padding;
+            }
+
+            &--new__button {
+                width: 100%;
+                color: $alfresco-white;
+                background-color: $alfresco-primary-accent--default;
+            }
+        }
+
+        &-menu {
+            margin: 0 -1 * $sidenav-section--h-padding;
+            padding: 0;
+            list-style-type: none;
+
+            &__item {
+                &-link {
+                    padding:
+                        $sidenav-menu-item--v-padding
+                        $sidenav-menu-item--h-padding;
+
+                    padding-left: $sidenav-menu-item--h-padding + 16px + 24px;
+                    position: relative;
+                    display: block;
+                    color: $alfresco-secondary-text-color;
+                    text-decoration: none;
+
+                    & > .material-icons {
+                        position: absolute;
+                        top: 50%;
+                        left: $sidenav-menu-item--h-padding;
+                        margin-top: -14px;
+                    }
+
+                    &--active {
+                        color: $alfresco-primary-accent--default;
+                    }
+
+                    &:not(&--active):hover {
+                        color: $alfresco-primary-text-color;
+                    }
+
+                    &.disabled {
+                        cursor: default !important;
+                        color: $alfresco-secondary-text-color !important;
+                        opacity: .25;
+                    }
+                }
+            }
+        }
+    }
+}

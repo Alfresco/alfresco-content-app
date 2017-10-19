@@ -10,20 +10,19 @@ import { UploadModule } from 'ng2-alfresco-upload';
 import { SearchModule } from 'ng2-alfresco-search';
 
 export function modules() {
-  return [
-    // ADF modules
-    CoreModule,
-    DataTableModule,
-    DocumentListModule,
-    LoginModule,
-    SearchModule,
-    UploadModule,
-    ViewerModule
-  ];
+    return [
+        CoreModule,
+        DataTableModule,
+        DocumentListModule,
+        LoginModule,
+        SearchModule,
+        UploadModule,
+        ViewerModule
+    ];
 }
 
 @NgModule({
-  imports: modules(),
-  exports: modules()
+    imports: modules(),
+    exports: modules()
 })
-export class AdfModule {}
+export class AdfModule { }

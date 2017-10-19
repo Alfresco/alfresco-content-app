@@ -1,0 +1,201 @@
+{
+    "APP": {
+        "SIGN_IN": "Sign in",
+        "SIGN_OUT": "Sign out",
+        "NEW_MENU": {
+            "LABEL": "New",
+            "MENU_ITEMS": {
+                "CREATE_FOLDER": "Create folder",
+                "UPLOAD_FILE": "Upload file",
+                "UPLOAD_FOLDER": "Upload folder"
+            },
+            "TOOLTIPS": {
+                "CREATE_FOLDER": "Create new folder",
+                "CREATE_FOLDER_NOT_ALLOWED": "You can't create a folder here. You might not have the required permissions, check with your IT Team.",
+                "UPLOAD_FILES": "Select files to upload",
+                "UPLOAD_FILES_NOT_ALLOWED": "You need permissions to upload here, check with your IT Team.",
+                "UPLOAD_FOLDERS": "Select folders to upload",
+                "UPLOAD_FOLDERS_NOT_ALLOWED": "You need permissions to upload here, check with your IT Team."
+            }
+        },
+        "BROWSE": {
+            "PERSONAL": {
+                "TITLE": "Personal Files",
+                "SIDENAV_LINK": {
+                    "LABEL": "Personal Files",
+                    "TOOLTIP": "View your Personal Files"
+                }
+            },
+            "LIBRARIES": {
+                "TITLE": "File Libraries",
+                "SIDENAV_LINK": {
+                    "LABEL": "File Libraries",
+                    "TOOLTIP": "Access File Libraries"
+                }
+            },
+            "SHARED": {
+                "TITLE": "Shared Files",
+                "SIDENAV_LINK": {
+                    "LABEL": "Shared",
+                    "TOOLTIP": "View files that have been shared"
+                }
+            },
+            "RECENT": {
+                "TITLE": "Recent Files",
+                "SIDENAV_LINK": {
+                    "LABEL": "Recent Files",
+                    "TOOLTIP": "View files you recently edited"
+                }
+            },
+            "FAVORITES": {
+                "TITLE": "Favorites",
+                "SIDENAV_LINK": {
+                    "LABEL": "Favorites",
+                    "TOOLTIP": "View your favorite files and folders"
+                }
+            },
+            "TRASHCAN": {
+                "TITLE": "Trash",
+                "SIDENAV_LINK": {
+                    "LABEL": "Trash",
+                    "TOOLTIP": "View deleted files in the trash"
+                }
+            }
+        },
+        "ACTIONS": {
+            "VIEW": "View",
+            "EDIT": "Edit",
+            "DOWNLOAD": "Download",
+            "COPY": "Copy",
+            "MOVE": "Move",
+            "DELETE": "Delete",
+            "MORE": "More actions",
+            "UNDO": "Undo",
+            "RESTORE": "Restore",
+            "FAVORITE": "Favorite"
+        },
+        "DOCUMENT_LIST": {
+            "COLUMNS": {
+                "NAME": "Name",
+                "SIZE": "Size",
+                "MODIFIED_ON": "Modified",
+                "MODIFIED_BY": "Modified by",
+                "STATUS": "Status",
+                "TITLE": "Title",
+                "LOCATION": "Location",
+                "SHARED_BY": "Shared by",
+                "DELETED_ON": "Deleted",
+                "DELETED_BY": "Deleted by"
+            }
+        },
+        "DIALOG": {
+            "MINIMIZE": "Minimize",
+            "MAXIMIZE": "Maximize",
+            "CLOSE": "Close",
+            "UPLOAD": {
+                "IN_PROGRESS": "Uploading {{ completed }} / {{ length }}",
+                "COMPLETE": "Uploaded {{ completed }} / {{ length }}",
+                "CANCELED": "Upload canceled",
+                "CANCEL_UPLOAD": "Cancel upload",
+                "CANCEL_ALL": "Cancel uploads",
+                "REMOVE_UPLOADED": "Remove uploaded file",
+                "CANCELED_STATUS": "Canceled",
+                "ERRORS": "error(s)"
+            }
+        },
+        "FOLDER_DIALOG": {
+            "CREATE_FOLDER_TITLE": "Create new folder",
+            "EDIT_FOLDER_TITLE": "Edit folder",
+            "FOLDER_NAME": {
+                "LABEL": "Name",
+                "ERRORS": {
+                    "REQUIRED": "Folder name is required",
+                    "SPECIAL_CHARACTERS": "Folder name can't contain these characters * \" < > \\ / ? : |",
+                    "ENDING_DOT": "Folder name can't end with a period .",
+                    "ONLY_SPACES": "Folder name can't contain only spaces"
+                }
+            },
+            "FOLDER_DESCRIPTION": {
+                "LABEL": "Description"
+            },
+            "CREATE_BUTTON": {
+                "LABEL": "Create"
+            },
+            "UPDATE_BUTTON": {
+                "LABEL": "Update"
+            },
+            "CANCEL_BUTTON": {
+                "LABEL": "Cancel"
+            }
+        },
+        "PAGINATION": {
+            "ITEMS_PER_PAGE": "Items per page",
+            "CURRENT_PAGE": "Page",
+            "OF": "of",
+            "SHOW_RANGE": "Showing {{ range }} of {{ total }} items"
+        },
+        "SITES_VISIBILITY": {
+            "PUBLIC": "Public",
+            "MODERATED": "Moderated",
+            "PRIVATE": "Private"
+        },
+        "MESSAGES": {
+            "ERRORS":{
+                "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
+                "CONFLICT": "This name is already in use, try a different name.",
+                "NODE_MOVE": "Move unsuccessful, a file with the same name already exists.",
+                "EXISTENT_FOLDER": "There's already a folder with this name. Try a different name.",
+                "NODE_DELETION": "{{ name }} couldn't be deleted",
+                "NODE_DELETION_PLURAL": "{{ number }} items couldn't be deleted",
+                "NODE_RESTORE": "{{ name }} couldn't be restored",
+                "NODE_RESTORE_PLURAL": "{{ number }} items couldn't be restored",
+                "PERMISSION": "You don't have access to do this",
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "{{ number }} items couldn't be deleted",
+                        "SINGULAR": "{{ name }} item couldn't be deleted"
+                    },
+                    "NODES_RESTORE": {
+                        "PARTIAL_PLURAL": "{{ number }} items not restored because of issues with the restore location",
+                        "NODE_EXISTS": "Can't restore, {{ name }} item already exists",
+                        "LOCATION_MISSING": "Can't restore {{ name }} item, the original location no longer exists",
+                        "GENERIC": "There was a problem restoring {{ name }} item"
+                    }
+                }
+            },
+            "INFO": {
+                "TRASH": {
+                    "NODES_PURGE": {
+                        "PLURAL": "{{ number }} items deleted",
+                        "SINGULAR": "{{ name }} item deleted",
+                        "PARTIAL_SINGULAR": "{{ name }} item deleted, {{ failed }} couldn't be deleted",
+                        "PARTIAL_PLURAL": "{{ number }} items deleted, {{ failed }} couldn't be deleted"
+                    },
+                    "NODES_RESTORE": {
+                        "PLURAL": "Restore successful",
+                        "SINGULAR": "{{ name }} item restored"
+                    }
+                },
+                "NODE_DELETION": {
+                    "SINGULAR": "{{ name }} deleted",
+                    "PLURAL": "Deleted {{ number }} items",
+                    "PARTIAL_SINGULAR": "Deleted {{ success }} item, {{ failed }} couldn't be deleted",
+                    "PARTIAL_PLURAL": "Deleted {{ success }} items, {{ failed }} couldn't be deleted"
+                },
+                "NODE_COPY": {
+                    "SINGULAR": "Copied {{ number }} item",
+                    "PLURAL": "Copied {{ number }} items"
+                },
+                "NODE_MOVE": {
+                    "SINGULAR": "Moved {{ success }} item.",
+                    "PLURAL": "Moved {{ success }} items.",
+                    "PARTIAL": {
+                        "SINGULAR": "Partially moved {{ partially }} item.",
+                        "PLURAL": "Partially moved {{ partially }} items.",
+                        "FAIL": "{{ failed }} couldn't be moved."
+                    }
+                }
+            }
+        }
+    }
+}

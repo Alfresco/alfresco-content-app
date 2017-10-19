@@ -1,0 +1,89 @@
+<div class="inner-layout">
+    <div class="inner-layout__header">
+        <adf-breadcrumb [root]="'APP.BROWSE.TRASHCAN.TITLE' | translate">
+        </adf-breadcrumb>
+
+        <adf-toolbar class="inline">
+            <button
+                md-icon-button
+                [app-permanent-delete-node]="documentList.selection"
+                (selection-node-deleted)="refresh()"
+                *ngIf="documentList.selection.length"
+                title="{{ 'APP.ACTIONS.DELETE' | translate }}">
+                <md-icon>delete_forever</md-icon>
+            </button>
+
+            <button
+                md-icon-button
+                (selection-node-restored)="refresh()"
+                [app-restore-node]="documentList.selection"
+                *ngIf="documentList.selection.length"
+                title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
+                <md-icon>restore</md-icon>
+           </button>
+        </adf-toolbar>
+    </div>
+
+    <div class="inner-layout__content">
+
+        <adf-document-list #documentList
+            currentFolderId="-trashcan-"
+            selectionMode="multiple"
+            [navigate]="false"
+            [sorting]="[ 'archivedAt', 'desc' ]"
+            [pageSize]="25"
+            [contextMenuActions]="true"
+            [contentActions]="false">
+
+            <data-columns>
+
+                <data-column
+                    key="$thumbnail"
+                    type="image"
+                    [sortable]="false"
+                    class="image-table-cell">
+                </data-column>
+
+                <data-column
+                    key="name"
+                    class="app-name-column"
+                    title="APP.DOCUMENT_LIST.COLUMNS.NAME">
+                    <ng-template let-value="value" let-context>
+                        <span title="{{ context?.row?.obj | nodeNameTooltip }}">{{ value }}</span>
+                    </ng-template>
+                </data-column>
+
+                <data-column
+                    key="path.name"
+                    title="APP.DOCUMENT_LIST.COLUMNS.LOCATION">
+                    <ng-template let-value="value">
+                        <span title="{{ value }}">{{ (value || '').split('/').pop() }}</span>
+                    </ng-template>
+                </data-column>
+
+                <data-column
+                    key="content.sizeInBytes"
+                    title="APP.DOCUMENT_LIST.COLUMNS.SIZE">
+                    <ng-template let-value="value">
+                        <span title="{{ value }} bytes">{{ value | adfFileSize }}</span>
+                    </ng-template>
+                </data-column>
+
+                <data-column
+                    key="archivedAt"
+                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON">
+                    <ng-template let-value="value">
+                        <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
+                    </ng-template>
+                </data-column>
+
+                <data-column
+                    key="archivedByUser.displayName"
+                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">
+                </data-column>
+
+            </data-columns>
+
+        </adf-document-list>
+    </div>
+</div>

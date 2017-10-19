@@ -1,0 +1,125 @@
+{
+    "APP": {
+        "SIGN_IN": "russian Sign in",
+        "SIGN_OUT": "russian Sign out",
+        "NEW_MENU": {
+            "TITLE": "russian New",
+            "MENU_ITEMS": {
+                "UPLOAD_FILE": "russian Upload file",
+                "UPLOAD_FOLDER": "russian Upload folder"
+            }
+        },
+        "BROWSE": {
+            "PERSONAL": {
+                "TITLE": "Личные файлы",
+                "SIDENAV_LINK": {
+                    "LABEL": "Личные файлы",
+                    "TOOLTIP": "russian personal tooltip"
+                }
+            },
+            "LIBRARIES": {
+                "TITLE": "russian libraries title",
+                "SIDENAV_LINK": {
+                    "LABEL": "russian libraries label",
+                    "TOOLTIP": "russian libraries tooltip"
+                }
+            },
+            "SHARED": {
+                "TITLE": "russian shared title",
+                "SIDENAV_LINK": {
+                    "LABEL": "russian shared label",
+                    "TOOLTIP": "russian shared tooltip"
+                }
+            },
+            "RECENT": {
+                "TITLE": "Недавние файлы",
+                "SIDENAV_LINK": {
+                    "LABEL": "Недавние файлы",
+                    "TOOLTIP": "russian recent tooltip"
+                }
+            },
+            "FAVORITES": {
+                "TITLE": "russian favorites title",
+                "SIDENAV_LINK": {
+                    "LABEL": "russian favorites label",
+                    "TOOLTIP": "russian favorites tooltip"
+                }
+            },
+            "TRASHCAN": {
+                "TITLE": "russian trashcan title",
+                "SIDENAV_LINK": {
+                    "LABEL": "russian trashcan label",
+                    "TOOLTIP": "russian trashcan tooltip"
+                }
+            }
+        },
+        "ACTIONS": {
+            "VIEW": "Просмотр",
+            "SHARE": "Поделиться",
+            "DOWNLOAD": "Скачать",
+            "COPY": "Копировать",
+            "MOVE": "Переместить",
+            "DELETE": "Удалить",
+            "MORE": "russian More actions"
+        },
+        "DOCUMENT_LIST": {
+            "COLUMNS": {
+                "NAME": "russian Name",
+                "SIZE": "russian Size",
+                "MODIFIED_ON": "russian Modified",
+                "MODIFIED_BY": "russian Modified by",
+                "STATUS": "russian Status",
+                "TITLE": "russian Title",
+                "LOCATION": "russian Location",
+                "SHARED_BY": "russian Shared by",
+                "DELETED_ON": "russian Deleted",
+                "DELETED_BY": "russian Deleted by"
+            }
+        },
+        "DIALOG": {
+            "MINIMIZE": "russian Minimize",
+            "MAXIMIZE": "russian Maximize",
+            "CLOSE": "russian Close",
+            "UPLOAD": {
+                "IN_PROGRESS": "russian Uploading {{ completed }} / {{ length }}",
+                "CANCELED": "russian Upload canceled",
+                "CANCEL_UPLOAD": "russian Cancel upload",
+                "CANCEL_ALL": "russian Cancel uploads",
+                "REMOVE_UPLOADED": "russian Remove uploaded file",
+                "CANCELED_STATUS": "russian Canceled"
+            }
+        },
+        "PAGINATION": {
+            "ITEMS_PER_PAGE": "russian Items per page",
+            "CURRENT_PAGE": "russian Page",
+            "OF": "russian of",
+            "SHOW_RANGE": "russian Showing {{ range }} of {{ total }} items"
+        },
+        "PIPES": {
+            "DATE": {
+                "NOW": "russian just now",
+                "1_MINUTE_AGO": "russian 1 minute ago",
+                "MINUTES_AGO": "russian {{minutes }} minutes ago",
+                "1_HOUR_AGO": "russian 1 hour ago",
+                "HOURS_AGO": "russian {{ hours }} hours ago",
+                "1_DAY_AGO": "russian 1 day ago",
+                "DAYS_AGO": "russian {{ days }} days ago"
+            },
+            "SIZE": {
+                "UNITS": {
+                    "BYTE": "russian B",
+                    "KILOBYTE": "russian kB",
+                    "MEGABYTE": "russian MB",
+                    "GIGABYTE": "russian GB",
+                    "TERABYTE": "russian TB"
+                },
+                "BYTES": "{{ bytes }} russian bytes"
+            }
+        },
+        "SITES_VISIBILITY": {
+            "PUBLIC": "russian Public",
+            "MODERATED": "russian Moderated",
+            "PRIVATE": "russian Private"
+        }
+    }
+}

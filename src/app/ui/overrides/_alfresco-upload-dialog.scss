@@ -1,0 +1,23 @@
+@import '../_variables.scss';
+
+.adf-file-uploading-row {
+    &__status {
+        &--done {
+            color: $alfresco-app-color--default !important;
+        }
+
+        &--error {
+            color: $alfresco-primary-accent--hue-3 !important;
+        }
+    }
+
+    &__action {
+        &--cancel {
+            color: $alfresco-warn-color--hue-3 !important;
+        }
+
+        &--remove {
+            color: $alfresco-dark-color--hue-3 !important;
+        }
+    }
+}

@@ -1,0 +1,36 @@
+@import './../../ui/variables';
+
+$am-avatar-size: 40px;
+
+$am-avatar-light-bg: rgba(white, .15);
+$am-avatar-dark-bg: rgba(black, .15);
+
+:host {
+    font-weight: lighter;
+    position: relative;
+
+    color: $alfresco-white;
+    line-height: 20px;
+
+    .am-avatar {
+        margin-left: 5px;
+        cursor: pointer;
+
+        display: inline-block;
+        width: $am-avatar-size;
+        height: $am-avatar-size;
+        line-height: $am-avatar-size;
+        font-size: 1.2em;
+        text-align: center;
+        color: inherit;
+        border-radius: 100%;
+
+        &--light {
+            background: $am-avatar-light-bg;
+        }
+
+        &--dark {
+            background: $am-avatar-dark-bg;
+        }
+    }
+}

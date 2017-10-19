@@ -1,0 +1,28 @@
+@import 'variables';
+@import 'theme';
+
+html, body {
+    display: flex;
+    font-size: 14px;
+    font-family: "Muli", sans-serif;
+    color: $alfresco-primary-text-color;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+alfresco-content-app > ng-component {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+@import 'layout';
+
+@import './overrides/alfresco-document-list';
+@import './overrides/alfresco-upload-drag-area';
+@import './overrides/alfresco-upload-button';
+@import './overrides/alfresco-upload-dialog';
+@import './overrides/toolbar';
+@import './overrides/breadcrumb';

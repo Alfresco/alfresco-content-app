@@ -1,0 +1,83 @@
+@import '../_variables.scss';
+
+adf-document-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: auto;
+
+    & > adf-datatable {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: auto;
+    }
+}
+
+adf-document-list .adf-data-table {
+    border: none !important;
+
+    .sr-only {
+        display: none;
+    }
+
+    tr, td {
+        &:focus {
+            outline: none !important;
+        }
+    }
+
+    // TODO: Remove tr background-color once it gets to ADF
+    tr {
+        &:hover, &:focus {
+            background-color: $alfresco-app-color--hue-1;
+        }
+
+        &.is-selected {
+            background-color: $alfresco-app-color--hue-1;
+
+            &:hover {
+                background-color: $alfresco-app-color--hue-1;
+            }
+
+            .image-table-cell {
+                position: relative;
+
+                &:before {
+                    content: "\E876"; /* "done" */
+                    font-family: "Material Icons";
+                    font-size: 24px;
+                    line-height: 32px;
+                    text-align: center;
+                    color: white;
+                    position: absolute;
+                    width: 32px;
+                    height: 32px;
+                    top: 50%;
+                    left: 50%;
+                    margin-top: -16px;
+                    margin-left: -14px;
+                    border-radius: 100%;
+                    background: #00bcd4;
+                }
+            }
+        }
+
+        .app-name-column {
+            width: 100%;
+
+            .cell-container {
+                max-width: 45vw;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+    }
+
+    .adf-location-cell {
+        a {
+            text-decoration: none;
+            color: $alfresco-primary-text-color;
+        }
+    }
+}

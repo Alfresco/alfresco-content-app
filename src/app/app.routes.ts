@@ -16,20 +16,111 @@
  */
 
 import { Routes } from '@angular/router';
+import { AuthGuardEcm } from 'ng2-alfresco-core';
+
+import { LayoutComponent } from './components/layout/layout.component';
+
+import { FilesComponent } from './components/files/files.component';
+import { FavoritesComponent } from './components/favorites/favorites.component';
+import { LibrariesComponent } from './components/libraries/libraries.component';
+import { RecentFilesComponent } from './components/recent-files/recent-files.component';
+import { SharedFilesComponent } from './components/shared-files/shared-files.component';
+import { TrashcanComponent } from './components/trashcan/trashcan.component';
 
 import { LoginComponent } from './components/login/login.component';
+import { PreviewComponent } from './components/preview/preview.component';
 
 export const APP_ROUTES: Routes = [
-  {
-    path: '**',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      title: 'Sign in'
+    {
+        path: '',
+        component: LayoutComponent,
+        children: [
+            {
+                path: '',
+                redirectTo: `/personal-files`,
+                pathMatch: 'full'
+            },
+            {
+                path: 'favorites',
+                component: FavoritesComponent,
+                data: {
+                    i18nTitle: 'APP.BROWSE.FAVORITES.TITLE'
+                }
+            },
+            {
+                path: 'libraries',
+                children: [{
+                    path: '',
+                    component: LibrariesComponent,
+                    data: {
+                        i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE'
+                    }
+                }, {
+                    path: ':id',
+                    component: FilesComponent,
+                    data: {
+                        i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE'
+                    }
+                }]
+            },
+            {
+                path: 'personal-files',
+                children: [{
+                    path: '',
+                    component: FilesComponent,
+                    data: {
+                        i18nTitle: 'APP.BROWSE.PERSONAL.TITLE',
+                        defaultNodeId: '-my-'
+                    }
+                }, {
+                    path: ':id',
+                    component: FilesComponent,
+                    data: {
+                        i18nTitle: 'APP.BROWSE.PERSONAL.TITLE'
+                    }
+                }]
+            },
+            {
+                path: 'recent-files',
+                component: RecentFilesComponent,
+                data: {
+                    i18nTitle: 'APP.BROWSE.RECENT.TITLE'
+                }
+            },
+            {
+                path: 'shared',
+                component: SharedFilesComponent,
+                data: {
+                    i18nTitle: 'APP.BROWSE.SHARED.TITLE'
+                }
+            },
+            {
+                path: 'trashcan',
+                component: TrashcanComponent,
+                data: {
+                    i18nTitle: 'APP.BROWSE.TRASHCAN.TITLE'
+                }
+            }
+        ],
+        canActivate: [
+            AuthGuardEcm
+        ]
+    },
+    {
+        path: 'preview/:nodeId',
+        component: PreviewComponent
+    },
+    {
+        path: '**',
+        redirectTo: '/login',
+        pathMatch: 'full'
+    },
+    {
+        path: 'login',
+        component: LoginComponent,
+        data: {
+            title: 'Sign in'
+        }
     }
-  }
 ];
+

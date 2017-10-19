@@ -1,0 +1,68 @@
+@import './_variables.scss';
+
+$app-layout--header-height: 65px;
+$app-layout--side-width: 320px;
+
+$app-inner-layout--header-height: 48px;
+$app-inner-layout--footer-height: 48px;
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0;
+    overflow: hidden;
+
+    &__header {
+        flex: 0 0 $app-layout--header-height;
+    }
+
+    &__content {
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        overflow: hidden;
+
+        & > * {
+            display: flex;
+            flex: 1;
+        }
+
+        &-side {
+            flex: 0 0 $app-layout--side-width;
+            background: $alfresco-gray-background;
+            border-right: 1px solid $alfresco-divider-color;
+        }
+    }
+}
+
+.inner-layout {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    &__header,
+    &__footer {
+        display: flex;
+        flex: 0 0;
+        align-items: center;
+    }
+
+    &__header {
+        flex-basis: $app-inner-layout--header-height;
+        background: $alfresco-gray-background;
+        border-bottom: 1px solid $alfresco-divider-color;
+        padding: 0 24px;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow: hidden;
+    }
+
+    &__footer {
+        flex-basis: $app-inner-layout--footer-height;
+        border-top: 1px solid $alfresco-divider-color;
+    }
+}

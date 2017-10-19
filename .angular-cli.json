@@ -30,7 +30,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.scss"
       ],
       "scripts": [
         "../node_modules/pdfjs-dist/build/pdf.js",
@@ -41,6 +41,11 @@
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
+      },
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "app/ui"
+        ]
       }
     }
   ],
