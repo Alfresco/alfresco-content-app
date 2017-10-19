@@ -1,0 +1,202 @@
+{
+  "APP": {
+    "SIGN_IN": "Aanmelden",
+    "SIGN_OUT": "Afmelden",
+    "NEW_MENU": {
+      "LABEL": "Nieuw",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "Map maken",
+        "UPLOAD_FILE": "Bestand uploaden",
+        "UPLOAD_FOLDER": "Map uploaden"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "Nieuwe map maken",
+        "CREATE_FOLDER_NOT_ALLOWED": "U kunt hier geen map maken. Mogelijk beschikt u niet over de vereiste rechten, neem contact op met het IT-team.",
+        "UPLOAD_FILES": "Bestanden selecteren om te uploaden",
+        "UPLOAD_FILES_NOT_ALLOWED": "U hebt rechten nodig om bestanden hier te uploaden, neem contact op met het IT-team.",
+        "UPLOAD_FOLDERS": "Mappen selecteren om te uploaden",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "U hebt rechten nodig om bestanden hier te uploaden, neem contact op met het IT-team."
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Persoonlijke bestanden",
+        "SIDENAV_LINK": {
+          "LABEL": "Persoonlijke bestanden",
+          "TOOLTIP": "Uw persoonlijke bestanden weergeven"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "Bestandsbibliotheken",
+        "SIDENAV_LINK": {
+          "LABEL": "Bestandsbibliotheken",
+          "TOOLTIP": "Toegang krijgen tot bestandsbibliotheken"
+        }
+      },
+      "SHARED": {
+        "TITLE": "Gedeelde bestanden",
+        "SIDENAV_LINK": {
+          "LABEL": "Gedeeld",
+          "TOOLTIP": "Bestanden weergeven die zijn gedeeld"
+        }
+      },
+      "RECENT": {
+        "TITLE": "Recente bestanden",
+        "SIDENAV_LINK": {
+          "LABEL": "Recente bestanden",
+          "TOOLTIP": "Bestand weergeven die u onlangs hebt bewerkt"
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "Favorieten",
+        "SIDENAV_LINK": {
+          "LABEL": "Favorieten",
+          "TOOLTIP": "Uw favoriete bestanden en mappen weergeven"
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "Prullenbak",
+        "SIDENAV_LINK": {
+          "LABEL": "Prullenbak",
+          "TOOLTIP": "Verwijderde bestanden in de prullenbak weergeven"
+        }
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "Weergeven",
+      "SHARE": "Delen",
+      "EDIT": "Bewerken",
+      "DOWNLOAD": "Downloaden",
+      "COPY": "Kopiëren",
+      "MOVE": "Verplaatsen",
+      "DELETE": "Verwijderen",
+      "MORE": "Meer acties",
+      "UNDO": "Ongedaan maken",
+      "RESTORE": "Herstellen",
+      "FAVORITE": "Favoriet"
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "NAME": "Naam",
+        "SIZE": "Grootte",
+        "MODIFIED_ON": "Aangepast",
+        "MODIFIED_BY": "Aangepast door",
+        "STATUS": "Status",
+        "TITLE": "Titel",
+        "LOCATION": "Locatie",
+        "SHARED_BY": "Gedeeld door",
+        "DELETED_ON": "Verwijderd",
+        "DELETED_BY": "Verwijderd door"
+      }
+    },
+    "DIALOG": {
+      "MINIMIZE": "Minimaliseren",
+      "MAXIMIZE": "Maximaliseren",
+      "CLOSE": "Sluiten",
+      "UPLOAD": {
+        "IN_PROGRESS": "{{ completed }} / {{ length }} uploaden",
+        "COMPLETE": "{{ completed }} / {{ length }} geüpload",
+        "CANCELED": "Uploaden geannuleerd",
+        "CANCEL_UPLOAD": "Uploaden annuleren",
+        "CANCEL_ALL": "Uploads annuleren",
+        "REMOVE_UPLOADED": "Geüpload bestand verwijderen",
+        "CANCELED_STATUS": "Geannuleerd",
+        "ERRORS": "fout(en)"
+      }
+    },
+    "FOLDER_DIALOG": {
+      "CREATE_FOLDER_TITLE": "Nieuwe map maken",
+      "EDIT_FOLDER_TITLE": "Map bewerken",
+      "FOLDER_NAME": {
+        "LABEL": "Naam",
+        "ERRORS": {
+          "REQUIRED": "Mapnaam is vereist",
+          "SPECIAL_CHARACTERS": "Mapnaam mag de volgende tekens niet bevatten: * \" < > \\ / ? : |",
+          "ENDING_DOT": "Mapnaam mag niet eindigen met een punt .",
+          "ONLY_SPACES": "Mapnaam mag niet alleen uit spaties bestaan"
+        }
+      },
+      "FOLDER_DESCRIPTION": {
+        "LABEL": "Beschrijving"
+      },
+      "CREATE_BUTTON": {
+        "LABEL": "Maken"
+      },
+      "UPDATE_BUTTON": {
+        "LABEL": "Bijwerken"
+      },
+      "CANCEL_BUTTON": {
+        "LABEL": "Annuleren"
+      }
+    },
+    "PAGINATION": {
+      "ITEMS_PER_PAGE": "Items per pagina",
+      "CURRENT_PAGE": "Pagina",
+      "OF": "van",
+      "SHOW_RANGE": "{{ range }} van {{ total }} items wordt weergegeven"
+    },
+    "SITES_VISIBILITY": {
+      "PUBLIC": "Openbaar",
+      "MODERATED": "Onder toezicht",
+      "PRIVATE": "Privé"
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "GENERIC": "De actie is mislukt. Probeer het opnieuw of neem contact op met het IT-team.",
+        "CONFLICT": "Deze naam wordt al gebruikt, probeer een andere naam.",
+        "NODE_MOVE": "Verplaatsen is mislukt, er bestaat al een bestand met dezelfde naam.",
+        "EXISTENT_FOLDER": "Er bestaat al een map met deze naam. Probeer een andere naam.",
+        "NODE_DELETION": "Kan {{ name }} niet verwijderen",
+        "NODE_DELETION_PLURAL": "Kan {{ number }} items niet verwijderen",
+        "NODE_RESTORE": "Kan {{ name }} niet herstellen",
+        "NODE_RESTORE_PLURAL": "Kan {{ number }} items niet herstellen",
+        "PERMISSION": "U hebt geen toegang om dit te doen",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "Kan {{ number }} items niet verwijderen",
+            "SINGULAR": "Kan item {{ name }} niet verwijderen"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "Kan {{ number }} items niet herstellen vanwege problemen met de herstellocatie",
+            "NODE_EXISTS": "Herstellen niet mogelijk, het item {{ name }} bestaat al",
+            "LOCATION_MISSING": "Kan het item {{ name }} niet herstellen, de oorspronkelijke locatie bestaat niet meer",
+            "GENERIC": "Er is een probleem opgetreden bij het herstellen van het item {{ name }}"
+          }
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} items verwijderd",
+            "SINGULAR": "Item {{ name }} verwijderd",
+            "PARTIAL_SINGULAR": "Item {{ name }} verwijderd, kan {{ failed }} niet verwijderen",
+            "PARTIAL_PLURAL": "{{ number }} items verwijderd, kan {{ failed }} niet verwijderen"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "Herstellen geslaagd",
+            "SINGULAR": "Item {{ name }} hersteld"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "{{ name }} verwijderd",
+          "PLURAL": "{{ number }} items verwijderd",
+          "PARTIAL_SINGULAR": "{{ success }} item verwijderd, kan {{ failed }} niet verwijderen",
+          "PARTIAL_PLURAL": "{{ success }} items verwijderd, kan {{ failed }} niet verwijderen"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "{{ number }} item gekopieerd",
+          "PLURAL": "{{ number }} items gekopieerd"
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "{{ success }} item verplaatst.",
+          "PLURAL": "{{ success }} items verplaatst.",
+          "PARTIAL": {
+            "SINGULAR": "{{ partially }} item gedeeltelijk verplaatst.",
+            "PLURAL": "{{ partially }} items gedeeltelijk verplaatst.",
+            "FAIL": "Kan {{ failed }} niet verplaatsen."
+          }
+        }
+      }
+    }
+  }
+}

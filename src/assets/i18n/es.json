@@ -1,0 +1,202 @@
+{
+  "APP": {
+    "SIGN_IN": "Iniciar sesión",
+    "SIGN_OUT": "Cerrar sesión",
+    "NEW_MENU": {
+      "LABEL": "Nuevo",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "Crear carpeta",
+        "UPLOAD_FILE": "Añadir fichero",
+        "UPLOAD_FOLDER": "Cargar carpeta"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "Crear nueva carpeta",
+        "CREATE_FOLDER_NOT_ALLOWED": "No puede crear una carpeta aquí. Puede que no tenga los permisos necesarios; consúltelo con el equipo de TI.",
+        "UPLOAD_FILES": "Seleccionar ficheros para cargar",
+        "UPLOAD_FILES_NOT_ALLOWED": "Necesita permisos para cargar aquí; consúltelo con el equipo de TI.",
+        "UPLOAD_FOLDERS": "Seleccionar carpetas para cargar",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Necesita permisos para cargar aquí; consúltelo con el equipo de TI."
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Ficheros personales",
+        "SIDENAV_LINK": {
+          "LABEL": "Ficheros personales",
+          "TOOLTIP": "Ver sus ficheros personales"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "Bibliotecas de ficheros",
+        "SIDENAV_LINK": {
+          "LABEL": "Bibliotecas de ficheros",
+          "TOOLTIP": "Acceder a las bibliotecas de ficheros"
+        }
+      },
+      "SHARED": {
+        "TITLE": "Ficheros compartidos",
+        "SIDENAV_LINK": {
+          "LABEL": "Compartido",
+          "TOOLTIP": "Ver ficheros que se hayan compartido"
+        }
+      },
+      "RECENT": {
+        "TITLE": "Ficheros recientes",
+        "SIDENAV_LINK": {
+          "LABEL": "Ficheros recientes",
+          "TOOLTIP": "Ver ficheros que ha editado recientemente"
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "Favoritos",
+        "SIDENAV_LINK": {
+          "LABEL": "Favoritos",
+          "TOOLTIP": "Ver sus ficheros y carpetas favoritos"
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "Papelera",
+        "SIDENAV_LINK": {
+          "LABEL": "Papelera",
+          "TOOLTIP": "Ver ficheros eliminados en la papelera"
+        }
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "Ver",
+      "SHARE": "Compartir",
+      "EDIT": "Editar",
+      "DOWNLOAD": "Descargar",
+      "COPY": "Copiar",
+      "MOVE": "Mover",
+      "DELETE": "Eliminar",
+      "MORE": "Más acciones",
+      "UNDO": "Deshacer",
+      "RESTORE": "Restaurar",
+      "FAVORITE": "Favorito"
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "NAME": "Nombre",
+        "SIZE": "Tamaño",
+        "MODIFIED_ON": "Modificado",
+        "MODIFIED_BY": "Modificado por",
+        "STATUS": "Estado",
+        "TITLE": "Título",
+        "LOCATION": "Ubicación",
+        "SHARED_BY": "Compartido por",
+        "DELETED_ON": "Eliminado",
+        "DELETED_BY": "Eliminado por"
+      }
+    },
+    "DIALOG": {
+      "MINIMIZE": "Minimizar",
+      "MAXIMIZE": "Maximizar",
+      "CLOSE": "Cerrar",
+      "UPLOAD": {
+        "IN_PROGRESS": "Cargando {{ completed }} / {{ lenght }}",
+        "COMPLETE": "Cargados {{ completed }} / {{ length }}",
+        "CANCELED": "Carga cancelada",
+        "CANCEL_UPLOAD": "Cancelar carga",
+        "CANCEL_ALL": "Cancelar cargas",
+        "REMOVE_UPLOADED": "Eliminar fichero cargado",
+        "CANCELED_STATUS": "Cancelado",
+        "ERRORS": "error(es)"
+      }
+    },
+    "FOLDER_DIALOG": {
+      "CREATE_FOLDER_TITLE": "Crear nueva carpeta",
+      "EDIT_FOLDER_TITLE": "Editar carpeta",
+      "FOLDER_NAME": {
+        "LABEL": "Nombre",
+        "ERRORS": {
+          "REQUIRED": "Se necesita un nombre de carpeta",
+          "SPECIAL_CHARACTERS": "El nombre de la carpeta no puede tener los caracteres * \" < > \\ / ? : |",
+          "ENDING_DOT": "El nombre de la carpeta no puede terminar en punto .",
+          "ONLY_SPACES": "El nombre de la carpeta no puede tener solo espacios"
+        }
+      },
+      "FOLDER_DESCRIPTION": {
+        "LABEL": "Descripción"
+      },
+      "CREATE_BUTTON": {
+        "LABEL": "Crear"
+      },
+      "UPDATE_BUTTON": {
+        "LABEL": "Actualizar"
+      },
+      "CANCEL_BUTTON": {
+        "LABEL": "Cancelar"
+      }
+    },
+    "PAGINATION": {
+      "ITEMS_PER_PAGE": "Elementos por página",
+      "CURRENT_PAGE": "Página",
+      "OF": "de",
+      "SHOW_RANGE": "Mostrando {{ range }} de {{ total }} elementos"
+    },
+    "SITES_VISIBILITY": {
+      "PUBLIC": "Público",
+      "MODERATED": "Moderado",
+      "PRIVATE": "Lista privada"
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "GENERIC": "La acción no ha sido satisfactoria. Vuelva a intentarlo o póngase en contacto con el equipo de TI.",
+        "CONFLICT": "Este nombre ya está en uso; pruebe con un nombre diferente.",
+        "NODE_MOVE": "Error al mover el fichero; ya existe un fichero con el mismo nombre.",
+        "EXISTENT_FOLDER": "Ya existe una carpeta con este nombre. Pruebe un nombre diferente.",
+        "NODE_DELETION": "{{ name }} no se ha podido eliminar",
+        "NODE_DELETION_PLURAL": "{{ number }} elementos no se han podido eliminar",
+        "NODE_RESTORE": "{{ name }} no se ha podido restaurar",
+        "NODE_RESTORE_PLURAL": "{{ number }} elementos no se han podido restaurar",
+        "PERMISSION": "No tiene acceso para hacer esto",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} elementos no se han podido eliminar",
+            "SINGULAR": "El elemento {{ name }} no se ha podido eliminar"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "{{ number }} elementos no se han restaurado debido a problemas con la ubicación de restauración",
+            "NODE_EXISTS": "Error en la restauración, el elemento {{ name }} ya existe",
+            "LOCATION_MISSING": "No se ha podido restaurar el elemento {{ name }}, la ubicación original ya no existe",
+            "GENERIC": "Error al restaurar el elemento {{ name }}"
+          }
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} elementos eliminados",
+            "SINGULAR": "Elemento {{ name }} eliminado",
+            "PARTIAL_SINGULAR": "Elemento {{ name }} eliminado, {{ failed }} no se ha podido eliminar",
+            "PARTIAL_PLURAL": "{{ number }} elementos eliminados, {{ failed }} no se ha podido eliminar"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "Restauración satisfactoria",
+            "SINGULAR": "Elemento {{ name }} restaurado"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "{{ name }} eliminado",
+          "PLURAL": "Se ha eliminado {{ number }} elementos",
+          "PARTIAL_SINGULAR": "Se ha eliminado el elemento {{ success }}, {{ failed }} no se ha podido eliminar",
+          "PARTIAL_PLURAL": "Se han eliminado {{ success }} elementos, {{ failed }} no se han podido eliminar"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "Se ha copiado {{ number }} elemento",
+          "PLURAL": "Se han copiado {{ number }} elementos"
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "Se ha movido {{ success }} elemento.",
+          "PLURAL": "Se han movido {{ success }} elementos.",
+          "PARTIAL": {
+            "SINGULAR": "Se ha movido parcialmente {{ partially }} elemento.",
+            "PLURAL": "Se han movido parcialmente {{ partially }} elementos.",
+            "FAIL": "{{ failed }} no se ha podido mover."
+          }
+        }
+      }
+    }
+  }
+}

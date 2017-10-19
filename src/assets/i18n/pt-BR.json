@@ -1,0 +1,202 @@
+{
+  "APP": {
+    "SIGN_IN": "Entrar",
+    "SIGN_OUT": "Sair",
+    "NEW_MENU": {
+      "LABEL": "Novo",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "Criar pasta",
+        "UPLOAD_FILE": "Carregar arquivo",
+        "UPLOAD_FOLDER": "Carregar pasta"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "Criar nova pasta",
+        "CREATE_FOLDER_NOT_ALLOWED": "Você não pode criar uma pasta aqui. Talvez você não tenha as permissões necessárias, verifique com sua Equipe de TI.",
+        "UPLOAD_FILES": "Selecionar arquivos para carregar",
+        "UPLOAD_FILES_NOT_ALLOWED": "Você precisa de permissões para carregar aqui, verifique com sua Equipe de TI.",
+        "UPLOAD_FOLDERS": "Selecionar pastas para carregar",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Você precisa de permissões para carregar aqui, verifique com sua Equipe de TI."
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Arquivos pessoais",
+        "SIDENAV_LINK": {
+          "LABEL": "Arquivos pessoais",
+          "TOOLTIP": "Visualizar seus arquivos pessoais"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "Bibliotecas de arquivos",
+        "SIDENAV_LINK": {
+          "LABEL": "Bibliotecas de arquivos",
+          "TOOLTIP": "Acessar bibliotecas de arquivos"
+        }
+      },
+      "SHARED": {
+        "TITLE": "Arquivos compartilhados",
+        "SIDENAV_LINK": {
+          "LABEL": "Compartilhado",
+          "TOOLTIP": "Visualize arquivos que foram compartilhados"
+        }
+      },
+      "RECENT": {
+        "TITLE": "Arquivos recentes",
+        "SIDENAV_LINK": {
+          "LABEL": "Arquivos recentes",
+          "TOOLTIP": "Visualize arquivos que você editou recentemente"
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "Favoritos",
+        "SIDENAV_LINK": {
+          "LABEL": "Favoritos",
+          "TOOLTIP": "Visualize seus arquivos e pastas favoritos"
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "Lixeira",
+        "SIDENAV_LINK": {
+          "LABEL": "Lixeira",
+          "TOOLTIP": "Visualize arquivos excluídos na lixeira"
+        }
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "Visualizar",
+      "SHARE": "Compartilhar",
+      "EDIT": "Editar",
+      "DOWNLOAD": "Download",
+      "COPY": "Copiar",
+      "MOVE": "Mover",
+      "DELETE": "Excluir",
+      "MORE": "Mais ações",
+      "UNDO": "Desfazer",
+      "RESTORE": "Restaurar",
+      "FAVORITE": "Favoritos"
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "NAME": "Nome",
+        "SIZE": "Tamanho",
+        "MODIFIED_ON": "Modificado",
+        "MODIFIED_BY": "Modificado por",
+        "STATUS": "Status",
+        "TITLE": "Título",
+        "LOCATION": "Localização",
+        "SHARED_BY": "Compartilhado por",
+        "DELETED_ON": "Excluído",
+        "DELETED_BY": "Excluído por"
+      }
+    },
+    "DIALOG": {
+      "MINIMIZE": "Minimizar",
+      "MAXIMIZE": "Maximizar",
+      "CLOSE": "Fechar",
+      "UPLOAD": {
+        "IN_PROGRESS": "Carregando {{ completed }} / {{ length }}",
+        "COMPLETE": "Carregado {{ completed }} / {{ length }}",
+        "CANCELED": "Upload cancelado",
+        "CANCEL_UPLOAD": "Cancelar upload",
+        "CANCEL_ALL": "Cancelar uploads",
+        "REMOVE_UPLOADED": "Remover arquivo carregado",
+        "CANCELED_STATUS": "Cancelado",
+        "ERRORS": "erro(s)"
+      }
+    },
+    "FOLDER_DIALOG": {
+      "CREATE_FOLDER_TITLE": "Criar nova pasta",
+      "EDIT_FOLDER_TITLE": "Editar pasta",
+      "FOLDER_NAME": {
+        "LABEL": "Nome",
+        "ERRORS": {
+          "REQUIRED": "O nome da pasta é obrigatório",
+          "SPECIAL_CHARACTERS": "O nome da pasta não pode conter estes caracteres * \" < > \\ / ? : |",
+          "ENDING_DOT": "O nome da pasta não pode terminar com ponto final .",
+          "ONLY_SPACES": "O nome da pasta não pode conter somente espaços"
+        }
+      },
+      "FOLDER_DESCRIPTION": {
+        "LABEL": "Descrição"
+      },
+      "CREATE_BUTTON": {
+        "LABEL": "Criar"
+      },
+      "UPDATE_BUTTON": {
+        "LABEL": "Atualizar"
+      },
+      "CANCEL_BUTTON": {
+        "LABEL": "Cancelar"
+      }
+    },
+    "PAGINATION": {
+      "ITEMS_PER_PAGE": "Itens por página",
+      "CURRENT_PAGE": "Página",
+      "OF": "de",
+      "SHOW_RANGE": "Exibindo {{ range }} de {{ total }} itens"
+    },
+    "SITES_VISIBILITY": {
+      "PUBLIC": "Público",
+      "MODERATED": "Moderado",
+      "PRIVATE": "Privado"
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "GENERIC": "A ação não teve êxito. Tente novamente ou entre em contato com a Equipe de TI.",
+        "CONFLICT": "Este nome já está em uso, tente outro nome.",
+        "NODE_MOVE": "Falha ao mover, já existe um arquivo com o mesmo nome.",
+        "EXISTENT_FOLDER": "Já existe uma pasta com este nome. Tente outro nome.",
+        "NODE_DELETION": "Não foi possível excluir {{ name }}",
+        "NODE_DELETION_PLURAL": "Não foi possível excluir {{ number }} itens",
+        "NODE_RESTORE": "Não foi possível restaurar {{ name }}",
+        "NODE_RESTORE_PLURAL": "Não foi possível restaurar {{ number }} itens",
+        "PERMISSION": "Você não tem acesso para fazer isso",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "Não foi possível excluir {{ number }} itens",
+            "SINGULAR": "Não foi possível excluir o item {{ name }}"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "{{ number }} itens não restaurados devido a problemas com o local da restauração",
+            "NODE_EXISTS": "Não foi possível restaurar, o item {{ name }} já existe",
+            "LOCATION_MISSING": "Não foi possível restaurar o item {{ name }}, o local original não existe mais",
+            "GENERIC": "Houve um problema ao restaurar o item {{ name }}"
+          }
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} itens excluídos",
+            "SINGULAR": "Item {{ name }} excluído",
+            "PARTIAL_SINGULAR": "Item {{ name }} excluído, não foi possível excluir {{ failed }}",
+            "PARTIAL_PLURAL": "{{ number }} itens excluídos, não foi possível excluir {{ failed }}"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "Restauração bem-sucedida",
+            "SINGULAR": "Item {{ name }} restaurado"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "{{ name }} excluído",
+          "PLURAL": "{{ number }} itens excluídos",
+          "PARTIAL_SINGULAR": "Item {{ success }} excluído, não foi possível excluir {{ failed }}",
+          "PARTIAL_PLURAL": "Itens {{ success }} excluídos, não foi possível excluir {{ failed }}"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "Item {{ number }} copiado",
+          "PLURAL": "Itens {{ number }} copiados"
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "Item {{ success }} movido.",
+          "PLURAL": "Itens {{ success }} movidos.",
+          "PARTIAL": {
+            "SINGULAR": "Item {{ success }} parcialmente movido.",
+            "PLURAL": "Itens {{ success }} parcialmente movidos.",
+            "FAIL": "Não foi possível mover {{ failed }}."
+          }
+        }
+      }
+    }
+  }
+}

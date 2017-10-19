@@ -1,0 +1,202 @@
+{
+  "APP": {
+    "SIGN_IN": "Anmelden",
+    "SIGN_OUT": "Abmelden",
+    "NEW_MENU": {
+      "LABEL": "Neu",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "Ordner erstellen",
+        "UPLOAD_FILE": "Datei hochladen",
+        "UPLOAD_FOLDER": "Ordner hochladen"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "Neuen Ordner erstellen",
+        "CREATE_FOLDER_NOT_ALLOWED": "Sie können hier keinen Ordner erstellen. Unter Umständen verfügen Sie nicht über die nötigen Benutzerrechte. Wenden Sie sich an Ihr IT-Team, wenn Sie Fragen dazu haben.",
+        "UPLOAD_FILES": "Dateien zum Hochladen auswählen",
+        "UPLOAD_FILES_NOT_ALLOWED": "Sie benötigen besondere Benutzerrechte, um Dateien hier hochzuladen. Wenden Sie sich an Ihr IT-Team.",
+        "UPLOAD_FOLDERS": "Ordner zum Hochladen auswählen",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Sie benötigen besondere Benutzerrechte, um Dateien hier hochzuladen. Wenden Sie sich an Ihr IT-Team."
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Persönliche Dateien",
+        "SIDENAV_LINK": {
+          "LABEL": "Persönliche Dateien",
+          "TOOLTIP": "Ihre persönlichen Dateien anzeigen"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "Dateibibliotheken",
+        "SIDENAV_LINK": {
+          "LABEL": "Dateibibliotheken",
+          "TOOLTIP": "Auf Dateibibliotheken zugreifen"
+        }
+      },
+      "SHARED": {
+        "TITLE": "Freigegebene Dateien",
+        "SIDENAV_LINK": {
+          "LABEL": "Freigegeben",
+          "TOOLTIP": "Dateien anzeigen, die freigegeben wurden"
+        }
+      },
+      "RECENT": {
+        "TITLE": "Kürzlich bearbeitete Dateien",
+        "SIDENAV_LINK": {
+          "LABEL": "Kürzlich bearbeitete Dateien",
+          "TOOLTIP": "Dateien anzeigen, die Sie kürzlich bearbeitet haben"
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "Favoriten",
+        "SIDENAV_LINK": {
+          "LABEL": "Favoriten",
+          "TOOLTIP": "Dateien und Ordner anzeigen, die Sie zu Ihren Favoriten hinzugefügt haben"
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "Papierkorb",
+        "SIDENAV_LINK": {
+          "LABEL": "Papierkorb",
+          "TOOLTIP": "Gelöschte Dateien im Papierkorb anzeigen"
+        }
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "Anzeigen",
+      "SHARE": "Freigeben",
+      "EDIT": "Bearbeiten",
+      "DOWNLOAD": "Herunterladen",
+      "COPY": "Kopieren",
+      "MOVE": "Verschieben",
+      "DELETE": "Löschen",
+      "MORE": "Weitere Aktionen",
+      "UNDO": "Rückgängig machen",
+      "RESTORE": "Wiederherstellen",
+      "FAVORITE": "Zu Favoriten"
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "NAME": "Name",
+        "SIZE": "Größe",
+        "MODIFIED_ON": "Bearbeitet",
+        "MODIFIED_BY": "Bearbeitet von",
+        "STATUS": "Status",
+        "TITLE": "Titel",
+        "LOCATION": "Speicherort",
+        "SHARED_BY": "Freigegeben von",
+        "DELETED_ON": "Gelöscht",
+        "DELETED_BY": "Gelöscht von"
+      }
+    },
+    "DIALOG": {
+      "MINIMIZE": "Minimieren",
+      "MAXIMIZE": "Maximieren",
+      "CLOSE": "Schließen",
+      "UPLOAD": {
+        "IN_PROGRESS": "Hochladen: {{ completed }} / {{ length }}",
+        "COMPLETE": "Hochgeladen: {{ completed }} / {{ length }}",
+        "CANCELED": "Hochladen abgebrochen",
+        "CANCEL_UPLOAD": "Upload abbrechen",
+        "CANCEL_ALL": "Hochladen abbrechen",
+        "REMOVE_UPLOADED": "Hochgeladene Datei entfernen",
+        "CANCELED_STATUS": "Abgebrochen",
+        "ERRORS": "Fehler"
+      }
+    },
+    "FOLDER_DIALOG": {
+      "CREATE_FOLDER_TITLE": "Neuen Ordner erstellen",
+      "EDIT_FOLDER_TITLE": "Ordner bearbeiten",
+      "FOLDER_NAME": {
+        "LABEL": "Name",
+        "ERRORS": {
+          "REQUIRED": "Ordnername ist erforderlich",
+          "SPECIAL_CHARACTERS": "Ordnername darf die folgenden Zeichen nicht enthalten: * \" < > \\ / ? : |",
+          "ENDING_DOT": "Ordnername darf nicht mit einem Punkt enden.",
+          "ONLY_SPACES": "Ordnername darf nicht nur aus Leerzeichen bestehen."
+        }
+      },
+      "FOLDER_DESCRIPTION": {
+        "LABEL": "Beschreibung"
+      },
+      "CREATE_BUTTON": {
+        "LABEL": "Erstellen"
+      },
+      "UPDATE_BUTTON": {
+        "LABEL": "Aktualisieren"
+      },
+      "CANCEL_BUTTON": {
+        "LABEL": "Abbrechen"
+      }
+    },
+    "PAGINATION": {
+      "ITEMS_PER_PAGE": "Elemente pro Seite",
+      "CURRENT_PAGE": "Seite",
+      "OF": "von",
+      "SHOW_RANGE": "{{ range }} von {{ total }} Elementen werden angezeigt"
+    },
+    "SITES_VISIBILITY": {
+      "PUBLIC": "Öffentlich",
+      "MODERATED": "Moderiert",
+      "PRIVATE": "Privat"
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "GENERIC": "Die Aktion war nicht erfolgreich. Versuchen Sie es noch einmal oder wenden Sie sich an Ihr IT-Team.",
+        "CONFLICT": "Dieser Name wird bereits verwendet. Versuchen Sie es mit einem anderen Namen.",
+        "NODE_MOVE": "Verschiebung nicht erfolgreich. Es gibt bereits eine Datei mit demselben Namen.",
+        "EXISTENT_FOLDER": "Es gibt bereits einen Ordner mit diesem Namen. Probieren Sie es mit einem anderen Namen.",
+        "NODE_DELETION": "{{ name }} konnte nicht gelöscht werden",
+        "NODE_DELETION_PLURAL": "{{ number }} Elemente konnten nicht gelöscht werden",
+        "NODE_RESTORE": "{{ name }} konnte nicht wiederhergestellt werden",
+        "NODE_RESTORE_PLURAL": "{{ number }} Elemente konnten nicht wiederhergestellt werden",
+        "PERMISSION": "Sie haben nicht die nötigen Benutzerrechte hierfür",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} Elemente konnten nicht gelöscht werden",
+            "SINGULAR": "Element '{{ name }}' konnte nicht gelöscht werden"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "{{ number }} Elemente wurden nicht wiederhergestellt, weil es Probleme mit dem Speicherort für die Wiederherstellung gab",
+            "NODE_EXISTS": "Wiederherstellung nicht möglich, Element '{{ name }}' gibt es bereits",
+            "LOCATION_MISSING": "Element '{{ name }}' kann nicht wiederhergestellt werden, weil es den ursprünglichen Speicherort nicht mehr gibt",
+            "GENERIC": "Beim Wiederherstellen des Elements '{{ name }}' ist ein Problem aufgetreten"
+          }
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} Elemente gelöscht",
+            "SINGULAR": "Element '{{ name }}' gelöscht",
+            "PARTIAL_SINGULAR": "Element '{{ name }}' gelöscht, '{{ failed }}' konnte nicht gelöscht werden",
+            "PARTIAL_PLURAL": "{{ number }} Elemente gelöscht, {{ failed }} konnte(n) nicht gelöscht werden"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "Wiederherstellung erfolgreich",
+            "SINGULAR": "Element '{{ name }}' wiederhergestellt"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "{{ name }} gelöscht",
+          "PLURAL": "{{ number }} Elemente gelöscht",
+          "PARTIAL_SINGULAR": "{{ success }} Element gelöscht, {{ failed }} konnte(n) nicht gelöscht werden",
+          "PARTIAL_PLURAL": "{{ success }} Elemente gelöscht, {{ failed }} konnte(n) nicht gelöscht werden"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "{{ number }} Element kopiert.",
+          "PLURAL": "{{ number }} Elemente kopiert."
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "{{ success }} Element verschoben.",
+          "PLURAL": "{{ success }} Elemente verschoben.",
+          "PARTIAL": {
+            "SINGULAR": "{{ partially }} Element teilweise verschoben.",
+            "PLURAL": "{{ partially }} Elemente teilweise verschoben.",
+            "FAIL": "{{ failed }} konnte nicht verschoben werden."
+          }
+        }
+      }
+    }
+  }
+}
