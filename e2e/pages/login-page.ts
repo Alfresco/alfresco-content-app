@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { browser, ExpectedConditions as EC } from 'protractor';
+import { browser, ExpectedConditions as EC, promise } from 'protractor';
 import { LoginComponent } from '../components/components';
 import { Page } from './page';
 
@@ -35,7 +35,7 @@ export class LoginPage extends Page {
     }
 
     /** @override */
-    load(): Promise<any> {
+    load(): promise.Promise<any> {
         return super.load().then(() => {
             const { submitButton } = this.login;
             const hasSumbitButton = EC.presenceOf(submitButton);
@@ -44,11 +44,11 @@ export class LoginPage extends Page {
         });
     }
 
-    loginWith(username: string, password: string): Promise<void> {
+    loginWith(username: string, password: string): promise.Promise<void> {
         return this.login.enterCredentials(username, password).submit();
     }
 
-    loginWithAdmin(): Promise<any> {
+    loginWithAdmin(): promise.Promise<any> {
         return this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
 }

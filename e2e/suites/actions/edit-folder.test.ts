@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { protractor, element, browser, by, ElementFinder } from 'protractor';
+import { protractor, element, browser, by, ElementFinder, promise } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { APP_ROUTES, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -62,7 +62,7 @@ describe('Edit folder', () => {
                 apis.user.nodes.createFolders([ folderNameToEdit, duplicateFolderName ]),
                 loginPage.load()
             ]))
-            .then(() => loginPage.loginWith(username, password))
+            .then(() => { loginPage.loginWith(username, password); })
             .then(done);
     });
 
@@ -181,7 +181,7 @@ describe('Edit folder', () => {
         dataTable.clickOnRowByContainingText(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.clickCancel())
-            .then(() => expect(editDialog.component.isPresent()).not.toBe(true, 'dialog is not closed'));
+            .then(() => { expect(editDialog.component.isPresent()).not.toBe(true, 'dialog is not closed'); });
     });
 
     it('with duplicate folder name', () => {

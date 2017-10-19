@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { promise } from 'protractor';
 import { Page } from './page';
 import { APP_ROUTES } from '../configs';
 
@@ -25,7 +26,7 @@ export class LogoutPage extends Page {
     }
 
     /** @override */
-    load(): Promise<any> {
+    load(): promise.Promise<any> {
         return super.load();
     }
 }

@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { promise } from 'protractor';
 import { Header, DataTable, Pagination, Toolbar, Sidenav } from '../components/components';
 import { Page } from './page';
 
@@ -25,7 +26,7 @@ export class BrowsingPage extends Page {
     dataTable = new DataTable(this.app);
     pagination = new Pagination(this.app);
 
-    signOut(): Promise<void> {
+    signOut(): promise.Promise<void> {
         return this.header.userInfo.signOut();
     }
 }

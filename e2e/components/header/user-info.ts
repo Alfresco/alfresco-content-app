@@ -43,11 +43,11 @@ export class UserInfo extends Component {
             .then(() => menu);
     }
 
-    get name(): Promise<string> {
+    get name(): promise.Promise<string> {
         return this.fullName.getText();
     }
 
-    signOut(): Promise<void> {
+    signOut(): promise.Promise<void> {
         return this.openMenu()
             .then(menu => {
                 menu.clickMenuItem('Sign out');

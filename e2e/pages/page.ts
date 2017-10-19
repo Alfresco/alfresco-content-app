@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import { browser, element, by, ElementFinder } from 'protractor';
+import { browser, element, by, ElementFinder, promise } from 'protractor';
 
 export abstract class Page {
-    private static USE_HASH_STRATEGY: boolean = true;
+    private static USE_HASH_STRATEGY = true;
 
     private locators = {
         app: by.css('alfresco-content-app'),
@@ -32,26 +32,26 @@ export abstract class Page {
 
     constructor(public url: string = '') {}
 
-    get title(): Promise<string> {
+    get title(): promise.Promise<string> {
         return browser.getTitle();
     }
 
-    load(relativeUrl: string = ''): Promise<void> {
+    load(relativeUrl: string = ''): promise.Promise<void> {
         const hash = Page.USE_HASH_STRATEGY ? '/#' : '';
         const path = `${hash}${this.url}${relativeUrl}`;
 
         return browser.get(path);
     }
 
-    refresh(): Promise<void> {
+    refresh(): promise.Promise<void> {
         return browser.refresh();
     }
 
-    isSnackBarDisplayed(): Promise<boolean> {
+    isSnackBarDisplayed(): promise.Promise<boolean> {
         return this.snackBar.isDisplayed();
     }
 
-    getSnackBarMessage(): Promise<string> {
+    getSnackBarMessage(): promise.Promise<string> {
         return this.isSnackBarDisplayed()
             .then(() => this.snackBar.getText())
             .catch(() => '');

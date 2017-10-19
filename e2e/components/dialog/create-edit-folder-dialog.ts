@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { ElementFinder, by, browser, protractor, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, by, browser, protractor, ExpectedConditions as EC, promise } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
@@ -50,15 +50,15 @@ export class CreateOrEditFolderDialog extends Component {
         return browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
     }
 
-    getTitle(): Promise<string> {
+    getTitle(): promise.Promise<string> {
         return this.title.getText();
     }
 
-    isValidationMessageDisplayed(): Promise<boolean> {
+    isValidationMessageDisplayed(): promise.Promise<boolean> {
         return this.validationMessage.isDisplayed();
     }
 
-    getValidationMessage(): Promise<string> {
+    getValidationMessage(): promise.Promise<string> {
         return this.isValidationMessageDisplayed()
             .then(() => this.validationMessage.getText())
             .catch(() => '');
@@ -73,7 +73,7 @@ export class CreateOrEditFolderDialog extends Component {
         return this;
     }
 
-    deleteNameWithBackspace(): Promise<void> {
+    deleteNameWithBackspace(): promise.Promise<void> {
         const { nameInput } = this;
 
         return nameInput.clear()

@@ -49,7 +49,7 @@ export class Pagination extends Component {
         super(Pagination.selectors.root, ancestor);
     }
 
-    openMaxItemsMenu(): Promise<Menu> {
+    openMaxItemsMenu(): promise.Promise<Menu> {
         const { menu, maxItemsButton } = this;
 
         return maxItemsButton.click()
@@ -57,7 +57,7 @@ export class Pagination extends Component {
             .then(() => menu);
     }
 
-    openCurrentPageMenu(): Promise<Menu> {
+    openCurrentPageMenu(): promise.Promise<Menu> {
         const { menu, pagesButton } = this;
 
         return this.pagesButton.click()

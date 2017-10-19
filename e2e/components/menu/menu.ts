@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, promise } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
@@ -43,15 +43,15 @@ export class Menu extends Component {
         return this.component.element(by.cssContainingText(Menu.selectors.item, label));
     }
 
-    getItemTooltip(label: string): Promise<string> {
+    getItemTooltip(label: string): promise.Promise<string> {
         return this.getItemByLabel(label).getAttribute('title');
     }
 
-    clicktNthItem(nth: number): Promise<void> {
+    clicktNthItem(nth: number): promise.Promise<void> {
         return this.getNthItem(nth).click();
     }
 
-    clickMenuItem(label: string): Promise<void> {
+    clickMenuItem(label: string): promise.Promise<void> {
         return this.getItemByLabel(label).click();
     }
 }

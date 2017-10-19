@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { by, ElementFinder } from 'protractor';
+import { by, ElementFinder, promise } from 'protractor';
 import { Component } from '../component';
 
 export class LoginComponent extends Component {
@@ -61,7 +61,7 @@ export class LoginComponent extends Component {
         return this;
     }
 
-    submit(): Promise<void> {
+    submit(): promise.Promise<void> {
         return this.submitButton.click();
     }
 }

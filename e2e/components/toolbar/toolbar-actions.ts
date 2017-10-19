@@ -32,7 +32,7 @@ export class ToolbarActions extends Component {
         super(ToolbarActions.selectors.root, ancestor);
     }
 
-    isEmpty(): Promise<boolean> {
+    isEmpty(): promise.Promise<boolean> {
         return this.buttons.count().then(count => (count === 0));
     }
 

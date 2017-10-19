@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-import { browser } from 'protractor';
+import { browser, promise } from 'protractor';
 
 declare var window;
 
 export class LocalStorageUtility {
-    static clear(): Promise<any> {
+    static clear(): promise.Promise<any> {
         return browser.executeScript(() => {
             return window.localStorage.clear();
         });
     }
 
-    static getTicket(): Promise<any> {
+    static getTicket(): promise.Promise<any> {
         return browser.executeScript(() => {
             return window.localStorage.getItem('ticket-ECM');
         });

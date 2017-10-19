@@ -68,7 +68,7 @@ export class DataTable extends Component {
         return this.head.element(locator);
     }
 
-    sortByColumn(columnName: string): Promise<void> {
+    sortByColumn(columnName: string): promise.Promise<void> {
         const column = this.getColumnHeaderByLabel(columnName);
         const click = browser.actions().mouseMove(column).click();
 
