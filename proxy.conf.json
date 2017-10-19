@@ -1,17 +1,6 @@
 {
-  "/ecm": {
+  "/alfresco": {
     "target": "http://0.0.0.0:8080",
-    "pathRewrite": {
-      "^/ecm": ""
-    },
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/bpm": {
-    "target": "http://0.0.0.0:9999",
-    "pathRewrite": {
-      "^/bpm": ""
-    },
     "secure": false,
     "changeOrigin": true
   }
