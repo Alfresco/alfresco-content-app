@@ -25,7 +25,7 @@ describe('BrowsingFilesService', () => {
     });
 
     it('subscribs to event', () => {
-        const value = 'test-value';
+        const value: any = 'test-value';
 
         service.onChangeParent.subscribe((result) => {
             expect(result).toBe(value);

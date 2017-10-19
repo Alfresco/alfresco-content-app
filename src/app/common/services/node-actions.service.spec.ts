@@ -33,10 +33,10 @@ describe('NodeActionsService', () => {
     let apiService: AlfrescoApiService;
     let nodesApiService: NodesApiService;
     let nodesApi;
-    let spyOnSuccess = jasmine.createSpy('spyOnSuccess');
-    let spyOnError = jasmine.createSpy('spyOnError');
+    const spyOnSuccess = jasmine.createSpy('spyOnSuccess');
+    const spyOnError = jasmine.createSpy('spyOnError');
 
-    let helper = {
+    const helper = {
         fakeCopyNode: (isForbidden: boolean = false, nameExistingOnDestination?: string) => {
             return (entryId, options) => {
                 return new Promise((resolve, reject) => {
@@ -98,7 +98,7 @@ describe('NodeActionsService', () => {
         });
 
         it('should throw error if \'contentEntities\' required parameter is missing', async(() => {
-            let contentEntities;
+            const contentEntities = undefined;
             const doCopyBatchOperation = service.copyNodes(contentEntities).asObservable();
 
             doCopyBatchOperation.toPromise().then(
@@ -243,7 +243,7 @@ describe('NodeActionsService', () => {
             expect(spyOnBatchOperation).toHaveBeenCalledWith('copy', [fileToCopy, folderToCopy], undefined);
         });
 
-        it('should use the ContentNodeSelectorComponentData object with custom rowFilter & imageResolver & title, when opening the destination picker', () => {
+        it('should use the custom data object with custom rowFilter & imageResolver & title with destination picker', () => {
             const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
             const spyOnDestinationPicker = spyOn(service, 'getContentNodeSelection').and.callThrough();
             spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
@@ -315,8 +315,8 @@ describe('NodeActionsService', () => {
         it('should copy one folder node to destination', () => {
             spyOn(nodesApi, 'copyNode').and.callFake(helper.fakeCopyNode());
 
-            let folderToCopy = new TestNode();
-            let folderDestination = new TestNode(folderDestinationId);
+            const folderToCopy = new TestNode();
+            const folderDestination = new TestNode(folderDestinationId);
             service.copyNodeAction(folderToCopy.entry, folderDestination.entry.id);
 
             expect(nodesApi.copyNode).toHaveBeenCalledWith(
@@ -328,8 +328,8 @@ describe('NodeActionsService', () => {
         it('should copy one file node to destination', () => {
             spyOn(nodesApi, 'copyNode').and.callFake(helper.fakeCopyNode());
 
-            let fileToCopy = new TestNode(fileId, isFile, 'file-name');
-            let folderDestination = new TestNode(folderDestinationId);
+            const fileToCopy = new TestNode(fileId, isFile, 'file-name');
+            const folderDestination = new TestNode(folderDestinationId);
             service.copyNodeAction(fileToCopy.entry, folderDestination.entry.id);
 
             expect(nodesApi.copyNode).toHaveBeenCalledWith(
@@ -341,8 +341,8 @@ describe('NodeActionsService', () => {
         it('should fail to copy folder node if action is forbidden', async(() => {
             spyOn(nodesApi, 'copyNode').and.callFake(helper.fakeCopyNode(actionIsForbidden));
 
-            let folderToCopy = new TestNode();
-            let folderDestination = new TestNode(folderDestinationId);
+            const folderToCopy = new TestNode();
+            const folderDestination = new TestNode(folderDestinationId);
 
             const spyContentAction = spyOn(service, 'copyContentAction').and.callThrough();
             const spyFolderAction = spyOn(service, 'copyFolderAction').and.callThrough();
@@ -375,8 +375,8 @@ describe('NodeActionsService', () => {
             const spyContentAction = spyOn(service, 'copyContentAction').and.callThrough();
             const spyFolderAction = spyOn(service, 'copyFolderAction').and.callThrough();
 
-            let fileToCopy = new TestNode(fileId, isFile, 'test-name');
-            let folderDestination = new TestNode(folderDestinationId);
+            const fileToCopy = new TestNode(fileId, isFile, 'test-name');
+            const folderDestination = new TestNode(folderDestinationId);
             const copyObservable = service.copyNodeAction(fileToCopy.entry, folderDestination.entry.id);
 
             spyOnSuccess.calls.reset();
@@ -409,8 +409,8 @@ describe('NodeActionsService', () => {
 
             const spyContentAction = spyOn(service, 'copyContentAction').and.callThrough();
 
-            let fileToCopy = new TestNode(fileId, isFile, 'file-name');
-            let folderDestination = new TestNode(folderDestinationId);
+            const fileToCopy = new TestNode(fileId, isFile, 'file-name');
+            const folderDestination = new TestNode(folderDestinationId);
             const copyObservable = service.copyNodeAction(fileToCopy.entry, folderDestination.entry.id);
 
             spyOnSuccess.calls.reset();
@@ -607,7 +607,9 @@ describe('NodeActionsService', () => {
         });
 
         it('should allow to select destination for nodes that have permission to be moved', () => {
-            const spyOnDestinationPicker = spyOn(service, 'getContentNodeSelection').and.returnValue(Observable.of([destinationFolder.entry]));
+            const spyOnDestinationPicker =
+                spyOn(service, 'getContentNodeSelection')
+                    .and.returnValue(Observable.of([destinationFolder.entry]));
             spyOn(service, 'moveContentAction').and.returnValue(Observable.of({}));
             spyOn(service, 'moveFolderAction').and.returnValue(Observable.of({}));
 
@@ -620,7 +622,9 @@ describe('NodeActionsService', () => {
         });
 
         it('should not allow to select destination for nodes that do not have permission to be moved', () => {
-            const spyOnDestinationPicker = spyOn(service, 'getContentNodeSelection').and.returnValue(Observable.of([destinationFolder.entry]));
+            const spyOnDestinationPicker =
+                spyOn(service, 'getContentNodeSelection')
+                    .and.returnValue(Observable.of([destinationFolder.entry]));
 
             fileToMove.entry['allowableOperations'] = [];
             folderToMove.entry['allowableOperations'] = [];
@@ -631,7 +635,9 @@ describe('NodeActionsService', () => {
         });
 
         it('should call the documentListService moveNode directly for moving a file that has permission to be moved', () => {
-            const spyOnDestinationPicker = spyOn(service, 'getContentNodeSelection').and.returnValue(Observable.of([destinationFolder.entry]));
+            const spyOnDestinationPicker =
+                spyOn(service, 'getContentNodeSelection')
+                    .and.returnValue(Observable.of([destinationFolder.entry]));
             fileToMove.entry['allowableOperations'] = [permissionToMove];
             spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(Observable.of([fileToMove]));
             spyOn(service, 'moveNodeAction');
@@ -873,7 +879,7 @@ describe('NodeActionsService', () => {
                         });
                 }));
 
-                it('should take extra delete action, if all children nodes were successfully moved and folder is still on location', async(() => {
+                it('should take extra delete action, if children successfully moved and folder is still on location', async(() => {
                     const movedChildrenNodes = [ fileToMove, folderToMove ];
                     spyOn(service, 'moveFolderAction').and.returnValue(Observable.of(movedChildrenNodes));
                     spyOn(service, 'processResponse').and.returnValue({
@@ -942,7 +948,7 @@ describe('NodeActionsService', () => {
 
         beforeEach(() => {
             childNode = new TestNode(fileId, isFile, 'child-name');
-            let parentNode = new TestNode();
+            const parentNode = new TestNode();
 
             notChildNode = new TestNode('not-child-id', !isFile, 'not-child-name');
             testFamilyNodes = [
@@ -991,7 +997,7 @@ describe('NodeActionsService', () => {
     });
 
     describe('getNewNameFrom', () => {
-        let testData = [
+        const testData = [
             {
                 name: 'noExtension',
                 baseName: 'noExtension',
@@ -1043,7 +1049,7 @@ describe('NodeActionsService', () => {
         const testNode1 = new TestNode('node1-id', isFile, 'node1-name');
         const testNode2 = new TestNode('node2-id', !isFile, 'node2-name');
 
-        let testData = [
+        const testData = [
             {
                 nDimArray: [ testNode1 ],
                 expected: [ testNode1 ]
@@ -1076,7 +1082,7 @@ describe('NodeActionsService', () => {
         const parentID = 'patent-1-id';
         testNode1.entry['parentId'] = parentID;
 
-        let testData = [
+        const testData = [
             {
                 data: [ testNode1 ],
                 expected: {

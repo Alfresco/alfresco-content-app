@@ -21,13 +21,16 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 import { AlfrescoApiService, AlfrescoContentService, NodesApiService } from 'ng2-alfresco-core';
 import { DataColumn } from 'ng2-alfresco-datatable';
-import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData, ShareDataRow } from 'ng2-alfresco-documentlist';
+import {
+    DocumentListService, ContentNodeSelectorComponent,
+    ContentNodeSelectorComponentData, ShareDataRow
+} from 'ng2-alfresco-documentlist';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Injectable()
 export class NodeActionsService {
-    static SNACK_MESSAGE_DURATION_WITH_UNDO: number = 10000;
-    static SNACK_MESSAGE_DURATION: number = 3000;
+    static SNACK_MESSAGE_DURATION_WITH_UNDO = 10000;
+    static SNACK_MESSAGE_DURATION = 3000;
 
     contentCopied: Subject<MinimalNodeEntity[]> = new Subject<MinimalNodeEntity[]>();
     contentMoved: Subject<any> = new Subject<any>();
@@ -66,7 +69,7 @@ export class NodeActionsService {
      * @param contentEntities the contentEntities which have to have the action performed on
      * @param permission permission which is needed to apply the action
      */
-    private doBatchOperation(action: string, contentEntities: any[], permission?: string): Subject<string> {
+    doBatchOperation(action: string, contentEntities: any[], permission?: string): Subject<string> {
         const observable: Subject<string> = new Subject<string>();
 
         if (!this.isEntryEntitiesArray(contentEntities)) {
@@ -399,7 +402,7 @@ export class NodeActionsService {
     }
 
     getChildByName(parentId, name) {
-        let matchedNodes: Subject<any> = new Subject<any>();
+        const matchedNodes: Subject<any> = new Subject<any>();
 
         this.getNodeChildren(parentId).subscribe(
             (childrenNodes) => {
@@ -443,7 +446,7 @@ export class NodeActionsService {
         const extensionMatch = name.match(/\.[^/.]+$/);
 
         // remove extension in case there is one
-        let fileExtension = extensionMatch ? extensionMatch[0] : '';
+        const fileExtension = extensionMatch ? extensionMatch[0] : '';
         let extensionFree = extensionMatch ? name.slice(0, extensionMatch.index) : name;
 
         let prefixNumber = 1;
@@ -503,8 +506,8 @@ export class NodeActionsService {
             return nDimArray;
         }
 
-        let nodeQueue = nDimArray.slice(0);
-        let resultingArray = [];
+        const nodeQueue = nDimArray.slice(0);
+        const resultingArray = [];
 
         do {
             nodeQueue.forEach(
@@ -544,7 +547,9 @@ export class NodeActionsService {
                         const folderMoveResponseData = this.flatten(next);
                         const foundError = folderMoveResponseData.find(node => node instanceof Error);
                         // data might contain also items of form: { itemMoved, initialParentId }
-                        const foundEntry = folderMoveResponseData.find(node => (node.itemMoved && node.itemMoved.entry) || (node && node.entry));
+                        const foundEntry = folderMoveResponseData.find(
+                            node => (node.itemMoved && node.itemMoved.entry) || (node && node.entry)
+                        );
 
                         if (!foundError) {
                             // consider success if NONE of the items from the folder move response is an error

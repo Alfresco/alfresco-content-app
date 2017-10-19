@@ -53,7 +53,7 @@ describe('SidenavComponent', () => {
     }));
 
     it('updates node on change', () => {
-        const node = { entry: { id: 'someNodeId' } };
+        const node: any = { entry: { id: 'someNodeId' } };
 
         browsingService.onChangeParent.next(<any>node);
 
