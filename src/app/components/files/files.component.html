@@ -85,6 +85,7 @@
             [showNotificationBar]="false">
 
             <adf-document-list #documentList
+                [ngClass]="{ 'app-no-content': documentList.isEmpty() }"
                 [loading]="isLoading"
                 [node]="paging"
                 [sorting]="[ 'modifiedAt', 'desc' ]"

@@ -27,6 +27,7 @@
     <div class="inner-layout__content">
 
         <adf-document-list #documentList
+            [ngClass]="{ 'app-no-content': documentList.isEmpty() }"
             currentFolderId="-trashcan-"
             selectionMode="multiple"
             [navigate]="false"
@@ -34,6 +35,17 @@
             [pageSize]="25"
             [contextMenuActions]="true"
             [contentActions]="false">
+
+            <empty-folder-content>
+                <ng-template>
+                    <div class="app-no-content_block">
+                        <md-icon>delete</md-icon>
+                        <p class="app-no-content_title">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE' | translate }}</p>
+                        <p class="app-no-content_text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.FIRST_TEXT' | translate }}</p>
+                        <p class="app-no-content_text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.SECOND_TEXT' | translate }}</p>
+                    </div>
+                </ng-template>
+            </empty-folder-content>
 
             <data-columns>
 
