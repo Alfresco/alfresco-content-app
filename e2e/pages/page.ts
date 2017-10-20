@@ -21,7 +21,7 @@ export abstract class Page {
     private static USE_HASH_STRATEGY = true;
 
     private locators = {
-        app: by.css('alfresco-content-app'),
+        app: by.css('app-root'),
         overlay: by.css('.cdk-overlay-container'),
         snackBar: by.css('simple-snack-bar')
     };
