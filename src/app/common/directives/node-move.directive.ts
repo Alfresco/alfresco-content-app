@@ -159,8 +159,7 @@ export class NodeMoveDirective {
 
         const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries
             .map((folderEntry) => {
-                return this.nodesApi.restoreNode(folderEntry.nodeId || folderEntry.id)
-                    .catch((err) => Observable.of(err));
+                return this.nodesApi.restoreNode(folderEntry.nodeId || folderEntry.id);
             });
 
         Observable.zip(...restoreDeletedNodesBatch, Observable.of(null))

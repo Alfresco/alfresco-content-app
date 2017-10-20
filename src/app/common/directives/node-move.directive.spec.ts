@@ -54,11 +54,15 @@ describe('NodeMoveDirective', () => {
 
     beforeEach(() => {
         spyOn(translationService, 'get').and.callFake((keysArray) => {
-            const processedKeys = {};
-            keysArray.forEach((key) => {
-                processedKeys[key] = key;
-            });
-            return Observable.of(processedKeys);
+            if (Array.isArray(keysArray)) {
+                const processedKeys = {};
+                keysArray.forEach((key) => {
+                    processedKeys[key] = key;
+                });
+                return Observable.of(processedKeys);
+            } else {
+                return Observable.of(keysArray);
+            }
         });
     });
 
@@ -296,4 +300,170 @@ describe('NodeMoveDirective', () => {
             );
         });
     });
+
+    describe('Undo Move action', () => {
+        beforeEach(() => {
+            spyOn(service, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+
+            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({
+                onAction: () => Observable.of({})
+            });
+
+            spyOn(notificationService, 'openSnackMessage').and.callThrough();
+        });
+
+        it('should move node back to initial parent, after succeeded move', () => {
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent } };
+            component.selection = [ node ];
+
+            spyOn(service, 'moveNodeAction').and.returnValue(Observable.of({}));
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [ { itemMoved: node, initialParentId: initialParent} ]
+            };
+            service.contentMoved.next(<any>movedItems);
+
+            expect(service.moveNodeAction)
+                .toHaveBeenCalledWith(movedItems.succeeded[0].itemMoved.entry, movedItems.succeeded[0].initialParentId);
+            expect(notificationService.openSnackMessageAction)
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+        });
+
+        it('should move node back to initial parent, after succeeded move of a single file', () => {
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'name', isFolder: false, parentId: initialParent } };
+            component.selection = [ node ];
+
+            spyOn(service, 'moveNodeAction').and.returnValue(Observable.of({}));
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [ node ]
+            };
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            service.contentMoved.next(<any>movedItems);
+
+            expect(service.moveNodeAction).toHaveBeenCalledWith(node.entry, initialParent);
+            expect(notificationService.openSnackMessageAction)
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+        });
+
+        it('should restore deleted folder back to initial parent, after succeeded moving all its files', () => {
+            // when folder was deleted after all its children were moved to a folder with the same name from destination
+            spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.of(null));
+
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'folder-to-move-id', name: 'conflicting-name', parentId: initialParent, isFolder: true } };
+            component.selection = [ node ];
+
+            const itemMoved = {}; // folder was empty
+            service.moveDeletedEntries = [ node ]; // folder got deleted
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [ [ itemMoved ] ]
+            };
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            service.contentMoved.next(<any>movedItems);
+
+            expect(nodesApiService.restoreNode).toHaveBeenCalled();
+            expect(notificationService.openSnackMessageAction)
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+        });
+
+        it('should notify when error occurs on Undo Move action', () => {
+            spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.throw(null));
+
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'conflicting-name', parentId: initialParent } };
+            component.selection = [node];
+
+            const afterMoveParentId = 'parent-id-1';
+            const childMoved = { entry: { id: 'child-of-node-to-move-id', name: 'child-name', parentId: afterMoveParentId } };
+            service.moveDeletedEntries = [ node ]; // folder got deleted
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [{ itemMoved: childMoved, initialParentId: initialParent }]
+            };
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            service.contentMoved.next(<any>movedItems);
+
+            expect(nodesApiService.restoreNode).toHaveBeenCalled();
+            expect(notificationService.openSnackMessageAction)
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+            expect(notificationService.openSnackMessage)
+                .toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC', 3000);
+        });
+
+        it('should notify when some error of type Error occurs on Undo Move action', () => {
+            spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.throw(new Error('oops!')));
+
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent } };
+            component.selection = [ node ];
+
+            const childMoved = { entry: { id: 'child-of-node-to-move-id', name: 'child-name' } };
+            service.moveDeletedEntries = [ node ]; // folder got deleted
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [{ itemMoved: childMoved, initialParentId: initialParent }]
+            };
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            service.contentMoved.next(<any>movedItems);
+
+            expect(nodesApiService.restoreNode).toHaveBeenCalled();
+            expect(notificationService.openSnackMessageAction)
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+            expect(notificationService.openSnackMessage)
+                .toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC', 3000);
+        });
+
+        it('should notify permission error when it occurs on Undo Move action', () => {
+            spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent } };
+            component.selection = [ node ];
+
+            const childMoved = { entry: { id: 'child-of-node-to-move-id', name: 'child-name' } };
+            service.moveDeletedEntries = [ node ]; // folder got deleted
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [{ itemMoved: childMoved, initialParentId: initialParent }]
+            };
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            service.contentMoved.next(<any>movedItems);
+
+            expect(service.moveNodes).toHaveBeenCalled();
+            expect(nodesApiService.restoreNode).toHaveBeenCalled();
+            expect(notificationService.openSnackMessageAction)
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+            expect(notificationService.openSnackMessage)
+                .toHaveBeenCalledWith('APP.MESSAGES.ERRORS.PERMISSION', 3000);
+        });
+    });
+
 });
