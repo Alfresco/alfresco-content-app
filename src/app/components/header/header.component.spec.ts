@@ -57,33 +57,16 @@ describe('HeaderComponent', () => {
             if (val === 'application.name') {
                 return 'app-name';
             }
-
-            if (val === 'application.build') {
-                return 'build-nr';
-            }
         });
 
         fixture.detectChanges();
     });
 
-    it('get application name', () => {
+    it('should get application name from configuration file', () => {
+        expect(appConfigService.get).toHaveBeenCalledWith('application.name');
+    });
+
+    it('it should set application name', () => {
         expect(component.appName).toBe('app-name');
-    });
-
-    it('get application build number', () => {
-        expect(component.appBuildNumber).toBe('build-nr');
-    });
-
-    it('get application title', () => {
-        expect(component.appTitle).toContain('app-name');
-        expect(component.appTitle).toContain('build-nr');
-    });
-
-    it('toggle contrast', () => {
-        component.enhancedContrast =  false;
-
-        component.toggleContrast();
-
-        expect(component.enhancedContrast).toBe(true);
     });
 });

@@ -25,25 +25,10 @@ import { AppConfigService } from 'ng2-alfresco-core';
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
-    private enhancedContrast: Boolean = false;
 
     constructor(private appConfig: AppConfigService) {}
 
     get appName(): string {
         return <string>this.appConfig.get('application.name');
-    }
-
-    get appBuildNumber(): string {
-        return <string>this.appConfig.get('application.build');
-    }
-
-    get appTitle(): string {
-        const { appName, appBuildNumber } = this;
-
-        return `${appName} (Build #${appBuildNumber})`;
-    }
-
-    toggleContrast() {
-        this.enhancedContrast = !this.enhancedContrast;
     }
 }
