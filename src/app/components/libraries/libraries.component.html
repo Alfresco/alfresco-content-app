@@ -9,6 +9,7 @@
     <div class="inner-layout__content">
 
         <adf-document-list #documentList
+            [ngClass]="{ 'app-no-content': documentList.isEmpty() }"
             currentFolderId="-sites-"
             selectionMode="none"
             [navigate]="false"
@@ -17,6 +18,16 @@
             [contextMenuActions]="true"
             [contentActions]="false"
             (node-dblclick)="onNodeDoubleClick($event)">
+
+            <empty-folder-content>
+                <ng-template>
+                    <div class="app-no-content_block">
+                        <md-icon>group_work</md-icon>
+                        <p class="app-no-content_title">{{ 'APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE' | translate }}</p>
+                        <p class="app-no-content_text">{{ 'APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE' | translate }}</p>
+                    </div>
+                </ng-template>
+            </empty-folder-content>
 
             <data-columns>
                 <data-column

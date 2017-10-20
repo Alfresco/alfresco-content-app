@@ -31,6 +31,10 @@
                 "SIDENAV_LINK": {
                     "LABEL": "File Libraries",
                     "TOOLTIP": "Access File Libraries"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "You aren't a member of any File Libraries yet",
+                    "TEXT": "Join sites to upload, view, and share files."
                 }
             },
             "SHARED": {
@@ -45,6 +49,10 @@
                 "SIDENAV_LINK": {
                     "LABEL": "Recent Files",
                     "TOOLTIP": "View files you recently edited"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "No recent files or folders",
+                    "TEXT": "Items you upload or edit in the last 30 days are shown here."
                 }
             },
             "FAVORITES": {
@@ -52,6 +60,10 @@
                 "SIDENAV_LINK": {
                     "LABEL": "Favorites",
                     "TOOLTIP": "View your favorite files and folders"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "No favorite files or folders",
+                    "TEXT": "Favorite items that you want to easily find later."
                 }
             },
             "TRASHCAN": {
@@ -59,6 +71,11 @@
                 "SIDENAV_LINK": {
                     "LABEL": "Trash",
                     "TOOLTIP": "View deleted files in the trash"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "Trash is empty",
+                    "FIRST_TEXT": "Items you delete are moved to the Trash.",
+                    "SECOND_TEXT": "Empty Trash to permanently delete items."
                 }
             }
         },
