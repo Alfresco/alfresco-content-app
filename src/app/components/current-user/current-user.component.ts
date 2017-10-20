@@ -25,8 +25,9 @@ import { Subscription } from 'rxjs/Rx';
     styleUrls: [ './current-user.component.scss' ]
 })
 export class CurrentUserComponent implements OnInit, OnDestroy {
-    private user: any = null;
     private personSubscription: Subscription;
+
+    user: any = null;
 
     constructor(private peopleApi: PeopleContentService) {}
 
