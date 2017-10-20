@@ -42,16 +42,5 @@
         line-height: 1;
         letter-spacing: .02em;
         font-weight: 400;
-
-        &:after {
-            content: "Build #" attr(data-build-number);
-            color: rgba(white, .66);
-            font-size: 8px;
-            position: absolute;
-            bottom: 8px;
-            right: 2px;
-            line-height: 1;
-            text-indent: 0;
-        }
     }
 }
