@@ -42,6 +42,10 @@
                 "SIDENAV_LINK": {
                     "LABEL": "Shared",
                     "TOOLTIP": "View files that have been shared"
+                },
+                "EMPTY_STATE": {
+                    "TITLE": "No shared files or folders",
+                    "TEXT": "Items you share using the Share option are shown here."
                 }
             },
             "RECENT": {
