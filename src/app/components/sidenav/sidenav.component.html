@@ -50,17 +50,14 @@
         </md-menu>
     </div>
 
-    <div class="sidenav__section" *ngFor="let list of menus;">
+    <div class="sidenav__section" *ngFor="let list of navigation">
         <ul class="sidenav-menu">
             <li class="sidenav-menu__item" *ngFor="let item of list">
-                <!-- [routerLinkActive]="'sidenav-menu__item-link--active'" -->
                 <a
                     class="sidenav-menu__item-link"
+                    routerLinkActive="sidenav-menu__item-link--active"
                     [routerLink]="item.route.url"
-                    [ngClass]="{
-                        'disabled': item.disabled,
-                        'sidenav-menu__item-link--active': (currentRoute.includes(item.route.url))
-                     }"
+                    [ngClass]="{ 'disabled': item.disabled }"
                     title="{{ item.title || '' | translate }}">
                     <md-icon>{{ item.icon }}</md-icon>
                     {{ item.label | translate }}

@@ -23,7 +23,6 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { AlfrescoContentService } from 'ng2-alfresco-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
-import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
     selector: 'app-sidenav',
@@ -32,71 +31,63 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class SidenavComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity = null;
-    currentRoute = '';
-
     onChangeParentSubscription: Subscription;
 
-    constructor(
-        private router: Router,
-        private browsingFilesService: BrowsingFilesService,
-        private contentService: AlfrescoContentService
-    ) {
-        this.currentRoute = this.router.routerState.snapshot.url;
-    }
-
-    get menus() {
-        const main = [
+    navigation = [
+        [
             {
                 icon: 'folder',
                 label: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL',
                 title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP',
+                disabled: false,
                 route: { url: '/personal-files' }
             },
             {
                 icon: 'group_work',
                 label: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL',
                 title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP',
+                disabled: false,
                 route: { url: '/libraries' }
             }
-        ];
-
-        const secondary = [
+        ],
+        [
             {
                 icon: 'people',
                 label: 'APP.BROWSE.SHARED.SIDENAV_LINK.LABEL',
                 title: 'APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP',
+                disabled: false,
                 route: { url: '/shared' }
             },
             {
                 icon: 'schedule',
                 label: 'APP.BROWSE.RECENT.SIDENAV_LINK.LABEL',
                 title: 'APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP',
+                disabled: false,
                 route: { url: '/recent-files' }
             },
             {
                 icon: 'star',
                 label: 'APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL',
                 title: 'APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP',
+                disabled: false,
                 route: { url: '/favorites' }
             },
             {
                 icon: 'delete',
                 label: 'APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL',
                 title: 'APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP',
+                disabled: false,
                 route: { url: '/trashcan' }
             }
-        ];
+        ]
+    ];
 
-        return [ main, secondary ];
-    }
+    constructor(
+        private browsingFilesService: BrowsingFilesService,
+        private contentService: AlfrescoContentService
+    ) {}
 
     ngOnInit() {
-        this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd ) {
-                this.currentRoute = event.url;
-            }
-        });
-
         this.onChangeParentSubscription = this.browsingFilesService.onChangeParent
             .subscribe((node: MinimalNodeEntryEntity) => {
                 this.node = node;
