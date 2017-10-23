@@ -10,7 +10,7 @@ import { MaterialModule } from './common/material.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
 
-import { GenericErrorComponent } from './components/page-not-accessible/generic.component';
+import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { LoginComponent } from './components/login/login.component';
 import { PreviewComponent } from './components/preview/preview.component';
 import { FilesComponent } from './components/files/files.component';

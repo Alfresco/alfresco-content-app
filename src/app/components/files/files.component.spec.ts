@@ -26,7 +26,7 @@ import { CommonModule } from '../../common/common.module';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
-import { GenericErrorComponent } from '../page-not-accessible/generic.component';
+import { GenericErrorComponent } from '../generic-error/generic-error.component';
 import { FilesComponent } from './files.component';
 
 describe('FilesComponent', () => {

@@ -29,7 +29,7 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
 
 import { LoginComponent } from './components/login/login.component';
 import { PreviewComponent } from './components/preview/preview.component';
-import { GenericErrorComponent } from './components/page-not-accessible/generic.component';
+import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 
 export const APP_ROUTES: Routes = [
     {
