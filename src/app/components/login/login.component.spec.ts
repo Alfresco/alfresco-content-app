@@ -19,16 +19,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { AlfrescoAuthenticationService, UserPreferencesService } from 'ng2-alfresco-core';
+import { CoreModule, AuthenticationService, UserPreferencesService } from 'ng2-alfresco-core';
 import { LoginModule } from 'ng2-alfresco-login';
 
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
-    let router: Router;
-    let route: ActivatedRoute;
-    let authService: AlfrescoAuthenticationService;
-    let userPrefService: UserPreferencesService;
 
     class TestConfig {
         private testBed;
@@ -45,23 +41,17 @@ describe('LoginComponent', () => {
             };
 
             const authProvider = {
-                provide: AlfrescoAuthenticationService,
+                provide: AuthenticationService,
                 useValue: {
                     isEcmLoggedIn: jasmine.createSpy('navigateByUrl')
                         .and.returnValue(config.isEcmLoggedIn || false)
                 }
             };
 
-            const preferencesProvider = {
-                provide: UserPreferencesService,
-                useValue: {
-                    setStoragePrefix: jasmine.createSpy('setStoragePrefix')
-                }
-            };
-
             this.testBed = TestBed.configureTestingModule({
                 imports: [
                     RouterTestingModule,
+                    CoreModule,
                     LoginModule
                 ],
                 declarations: [
@@ -70,7 +60,6 @@ describe('LoginComponent', () => {
                 providers: [
                     routerProvider,
                     authProvider,
-                    preferencesProvider,
                     {
                         provide: ActivatedRoute,
                         useValue: {
@@ -90,7 +79,7 @@ describe('LoginComponent', () => {
         }
 
         get authService() {
-            return TestBed.get(AlfrescoAuthenticationService);
+            return TestBed.get(AuthenticationService);
         }
 
         get routerService() {
@@ -136,9 +125,12 @@ describe('LoginComponent', () => {
         });
 
         it('sets user preference store prefix', () => {
+            const service = testConfig.userPrefService;
+            spyOn(service, 'setStoragePrefix').and.stub();
+
             testConfig.component.onLoginSuccess({ username: 'bogus' });
 
-            expect(testConfig.userPrefService.setStoragePrefix).toHaveBeenCalledWith('bogus');
+            expect(service.setStoragePrefix).toHaveBeenCalledWith('bogus');
         });
     });
 });
