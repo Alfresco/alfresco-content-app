@@ -1,5 +1,6 @@
 import { TestBed, async } from '@angular/core/testing';
-import { MdDialog, OverlayModule } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs/Rx';
 import { CoreModule, AlfrescoApiService, NodesApiService } from 'ng2-alfresco-core';
 import { DocumentListService, NodeMinimal, NodeMinimalEntry } from 'ng2-alfresco-documentlist';
@@ -78,7 +79,7 @@ describe('NodeActionsService', () => {
                 OverlayModule
             ],
             providers: [
-                MdDialog,
+                MatDialog,
                 DocumentListService,
                 AlfrescoApiService,
                 NodesApiService,
@@ -249,7 +250,7 @@ describe('NodeActionsService', () => {
             spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
 
             let testContentNodeSelectorComponentData;
-            const dialog = TestBed.get(MdDialog);
+            const dialog = TestBed.get(MatDialog);
             const spyOnDialog = spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
                 testContentNodeSelectorComponentData = data;
                 return {};
@@ -276,7 +277,7 @@ describe('NodeActionsService', () => {
             spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
 
             let testContentNodeSelectorComponentData;
-            const dialog = TestBed.get(MdDialog);
+            const dialog = TestBed.get(MatDialog);
             spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
                 testContentNodeSelectorComponentData = data;
                 return {};
@@ -295,7 +296,7 @@ describe('NodeActionsService', () => {
             spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
 
             let testContentNodeSelectorComponentData;
-            const dialog = TestBed.get(MdDialog);
+            const dialog = TestBed.get(MatDialog);
             spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
                 testContentNodeSelectorComponentData = data;
                 return {};

@@ -18,7 +18,7 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CoreModule, AlfrescoApiService } from 'ng2-alfresco-core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { Component, DebugElement } from '@angular/core';
 import { DownloadFileDirective } from './node-download.directive';
 
@@ -33,10 +33,9 @@ describe('DownloadFileDirective', () => {
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
     let element: DebugElement;
-    let dialog: MdDialog;
+    let dialog: MatDialog;
     let apiService: AlfrescoApiService;
     let contentService;
-    let spySnackBar;
     let dialogSpy;
 
     beforeEach(() => {
@@ -56,7 +55,7 @@ describe('DownloadFileDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(DownloadFileDirective));
-        dialog = TestBed.get(MdDialog);
+        dialog = TestBed.get(MatDialog);
         apiService = TestBed.get(AlfrescoApiService);
         contentService = apiService.getInstance().content;
         dialogSpy = spyOn(dialog, 'open');
