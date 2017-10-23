@@ -19,7 +19,7 @@ import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { MinimalNodeEntryEntity, PathElementEntity, PathInfoEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
 import { NodesApiService } from 'ng2-alfresco-core';
 import { DocumentListComponent } from 'ng2-alfresco-documentlist';
 
@@ -66,7 +66,7 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
         const { isFolder, id } = favorite;
 
         // TODO: rework as it will fail on non-English setups
-        const isSitePath = (path: PathInfoEntity): boolean => {
+        const isSitePath = (path: PathInfo): boolean => {
             return path.elements.some(({ name }: PathElementEntity) => (name === 'Sites'));
         };
 

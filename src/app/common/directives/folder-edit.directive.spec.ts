@@ -19,7 +19,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component  } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { MdDialogModule, MdDialog } from '@angular/material';
+import { MatDialogModule, MatDialog } from '@angular/material';
 
 import { FolderEditDirective } from './folder-edit.directive';
 import { ContentManagementService } from '../services/content-management.service';
@@ -35,7 +35,7 @@ describe('FolderEditDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let element;
     let node: any;
-    let dialog: MdDialog;
+    let dialog: MatDialog;
     let contentService: ContentManagementService;
     let dialogRefMock;
 
@@ -46,7 +46,7 @@ describe('FolderEditDirective', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [ MdDialogModule ],
+            imports: [ MatDialogModule ],
             declarations: [
                 TestComponent,
                 FolderEditDirective
@@ -59,7 +59,7 @@ describe('FolderEditDirective', () => {
 
         fixture = TestBed.createComponent(TestComponent);
         element = fixture.debugElement.query(By.directive(FolderEditDirective));
-        dialog = TestBed.get(MdDialog);
+        dialog = TestBed.get(MatDialog);
         contentService = TestBed.get(ContentManagementService);
     });
 

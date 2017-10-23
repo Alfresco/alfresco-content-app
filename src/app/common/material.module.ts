@@ -17,20 +17,20 @@
 
 import { NgModule } from '@angular/core';
 import {
-    MdMenuModule,
-    MdIconModule,
-    MdButtonModule,
-    MdDialogModule,
-    MdInputModule
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatInputModule
 } from '@angular/material';
 
 export function modules() {
     return [
-        MdMenuModule,
-        MdIconModule,
-        MdButtonModule,
-        MdDialogModule,
-        MdInputModule
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatInputModule
     ];
 }
 

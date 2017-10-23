@@ -16,7 +16,7 @@
  */
 
 import { Directive, HostListener, ElementRef, Input } from '@angular/core';
-import { MdDialog, MdDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
@@ -27,7 +27,7 @@ import { ContentManagementService } from '../services/content-management.service
     selector: '[app-edit-folder]'
 })
 export class FolderEditDirective {
-    static DIALOG_WIDTH: number = 400;
+    static DIALOG_WIDTH = 400;
 
     @Input('app-edit-folder')
     folder: MinimalNodeEntryEntity;
@@ -39,12 +39,12 @@ export class FolderEditDirective {
     }
 
     constructor(
-        public dialogRef: MdDialog,
+        public dialogRef: MatDialog,
         public elementRef: ElementRef,
         public content: ContentManagementService
     ) {}
 
-    private get dialogConfig(): MdDialogConfig {
+    private get dialogConfig(): MatDialogConfig {
         const { DIALOG_WIDTH: width } = FolderEditDirective;
         const { folder } = this;
 

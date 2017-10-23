@@ -16,7 +16,7 @@
  */
 
 import { Directive, Input, HostListener } from '@angular/core';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { AlfrescoApiService, DownloadZipDialogComponent } from 'ng2-alfresco-core';
 
@@ -24,6 +24,7 @@ import { AlfrescoApiService, DownloadZipDialogComponent } from 'ng2-alfresco-cor
     selector: '[app-download-node]'
 })
 export class DownloadFileDirective {
+
     @Input('app-download-node')
     nodes: MinimalNodeEntity[];
 
@@ -34,7 +35,7 @@ export class DownloadFileDirective {
 
     constructor(
         private apiService: AlfrescoApiService,
-        private dialog: MdDialog
+        private dialog: MatDialog
     ) {}
 
     private downloadNodes(selection: Array<MinimalNodeEntity>) {

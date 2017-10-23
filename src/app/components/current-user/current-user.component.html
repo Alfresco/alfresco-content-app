@@ -4,15 +4,15 @@
             <span class="current-user__full-name">{{ userName }}</span>
             <span
                 class="current-user__avatar am-avatar am-avatar--light"
-                [mdMenuTriggerFor]="userMenu">
+                [matMenuTriggerFor]="userMenu">
                     {{ userInitials }}
             </span>
         </span>
     </div>
 
-    <md-menu #userMenu="mdMenu" [overlapTrigger]="false">
-        <button md-menu-item adf-logout>
+    <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+        <button mat-menu-item adf-logout>
             {{ 'APP.SIGN_OUT' | translate }}
         </button>
-    </md-menu>
+    </mat-menu>
 </div>
