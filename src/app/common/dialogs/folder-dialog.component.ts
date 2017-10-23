@@ -17,9 +17,9 @@
 
 import { Observable } from 'rxjs/Rx';
 
-import { Component, Inject, Optional } from '@angular/core';
+import { Component, Inject, Optional, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MdDialogRef, MD_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { TranslationService, NodesApiService, NotificationService } from 'ng2-alfresco-core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
@@ -27,21 +27,21 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { forbidSpecialCharacters, forbidEndingDot, forbidOnlySpaces } from './folder-name.validators';
 
 @Component({
-    selector: 'folder-dialog',
+    selector: 'app-folder-dialog',
     templateUrl: './folder-dialog.component.html'
 })
-export class FolderDialogComponent {
+export class FolderDialogComponent implements OnInit {
     form: FormGroup;
     folder: MinimalNodeEntryEntity = null;
 
     constructor(
         private formBuilder: FormBuilder,
-        private dialog: MdDialogRef<FolderDialogComponent>,
+        private dialog: MatDialogRef<FolderDialogComponent>,
         private nodesApi: NodesApiService,
         private translation: TranslationService,
         private notification: NotificationService,
         @Optional()
-        @Inject(MD_DIALOG_DATA)
+        @Inject(MAT_DIALOG_DATA)
         public data: any
     ) {}
 
@@ -76,13 +76,13 @@ export class FolderDialogComponent {
     }
 
     get name(): string {
-        let { name } = this.form.value;
+        const { name } = this.form.value;
 
         return (name || '').trim();
     }
 
     get description(): string {
-        let { description } = this.form.value;
+        const { description } = this.form.value;
 
         return (description || '').trim();
     }

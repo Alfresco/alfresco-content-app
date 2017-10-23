@@ -1,13 +1,13 @@
 <div class="sidenav">
     <div class="sidenav__section sidenav__section--new">
-        <button class="sidenav__section--new__button" md-button [mdMenuTriggerFor]="menu">
+        <button class="sidenav__section--new__button" mat-button [matMenuTriggerFor]="menu">
             <span>{{ 'APP.NEW_MENU.LABEL' | translate }}</span>
-            <md-icon>arrow_drop_down</md-icon>
+            <mat-icon>arrow_drop_down</mat-icon>
         </button>
 
-        <md-menu #menu="mdMenu" [overlapTrigger]="false">
+        <mat-menu #menu="matMenu" [overlapTrigger]="false">
             <button
-                md-menu-item
+                mat-menu-item
                 [app-create-folder]="node?.id"
                 [disabled]="!canCreateContent(node)"
                 title="{{
@@ -16,7 +16,7 @@
                         : 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED'
                     ) | translate
                 }}">
-                <md-icon>create_new_folder</md-icon>
+                <mat-icon>create_new_folder</mat-icon>
                 <span>{{ 'APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER' | translate }}</span>
             </button>
 
@@ -47,7 +47,7 @@
                 [uploadFolders]="true"
                 [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER' | translate">
             </alfresco-upload-button>
-        </md-menu>
+        </mat-menu>
     </div>
 
     <div class="sidenav__section" *ngFor="let list of navigation">
@@ -59,7 +59,7 @@
                     [routerLink]="item.route.url"
                     [ngClass]="{ 'disabled': item.disabled }"
                     title="{{ item.title || '' | translate }}">
-                    <md-icon>{{ item.icon }}</md-icon>
+                    <mat-icon>{{ item.icon }}</mat-icon>
                     {{ item.label | translate }}
                 </a>
             </li>

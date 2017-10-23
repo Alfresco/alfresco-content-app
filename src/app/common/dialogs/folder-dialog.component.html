@@ -1,4 +1,4 @@
-<h2 md-dialog-title>
+<h2 mat-dialog-title>
     {{
         (editing
             ? 'APP.FOLDER_DIALOG.EDIT_FOLDER_TITLE'
@@ -7,17 +7,17 @@
     }}
 </h2>
 
-<md-dialog-content>
+<mat-dialog-content>
     <form [formGroup]="form" (submit)="submit()">
-        <md-input-container style="width: 100%">
+        <mat-form-field style="width: 100%">
             <input
                 placeholder="{{ 'APP.FOLDER_DIALOG.FOLDER_NAME.LABEL' | translate }}"
-                mdInput
+                matInput
                 required
                 [formControl]="form.controls['name']"
             />
 
-            <md-hint *ngIf="form.controls['name'].dirty">
+            <mat-hint *ngIf="form.controls['name'].dirty">
                 <span *ngIf="form.controls['name'].errors?.required">
                     {{ 'APP.FOLDER_DIALOG.FOLDER_NAME.ERRORS.REQUIRED' | translate }}
                 </span>
@@ -25,25 +25,25 @@
                 <span *ngIf="!form.controls['name'].errors?.required && form.controls['name'].errors?.message">
                     {{ form.controls['name'].errors?.message | translate }}
                 </span>
-            </md-hint>
-        </md-input-container>
+            </mat-hint>
+        </mat-form-field>
 
         <br />
         <br />
 
-        <md-input-container style="width: 100%">
+        <mat-form-field style="width: 100%">
             <textarea
-                mdInput
+                matInput
                 placeholder="{{ 'APP.FOLDER_DIALOG.FOLDER_DESCRIPTION.LABEL' | translate }}"
                 rows="4"
                 [formControl]="form.controls['description']"></textarea>
-        </md-input-container>
+        </mat-form-field>
     </form>
-</md-dialog-content>
+</mat-dialog-content>
 
-<md-dialog-actions>
+<mat-dialog-actions>
     <button
-        md-raised-button
+        mat-raised-button
         (click)="submit()"
         [disabled]="!form.valid">
         {{
@@ -55,8 +55,8 @@
     </button>
 
     <button
-        md-button
-        md-dialog-close>
+        mat-button
+        mat-dialog-close>
         {{ 'APP.FOLDER_DIALOG.CANCEL_BUTTON.LABEL' | translate }}
     </button>
-</md-dialog-actions>
+</mat-dialog-actions>

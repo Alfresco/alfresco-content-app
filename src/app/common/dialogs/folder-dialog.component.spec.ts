@@ -17,7 +17,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { MdDialogModule, MdDialogRef } from '@angular/material';
+import { MatDialogModule, MatDialogRef } from '@angular/material';
 import { CoreModule, NodesApiService, TranslationService, NotificationService } from 'ng2-alfresco-core';
 
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
@@ -26,7 +26,6 @@ import { ComponentFixture } from '@angular/core/testing';
 
 describe('FolderDialogComponent', () => {
 
-    let dialogRefMock;
     let fixture: ComponentFixture<FolderDialogComponent>;
     let component: FolderDialogComponent;
     let translationService: TranslationService;
@@ -42,13 +41,13 @@ describe('FolderDialogComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 CoreModule,
-                MdDialogModule
+                MatDialogModule
             ],
             declarations: [
                 FolderDialogComponent
             ],
             providers: [
-                { provide: MdDialogRef, useValue: dialogRef }
+                { provide: MatDialogRef, useValue: dialogRef }
             ]
         })
         .compileComponents();

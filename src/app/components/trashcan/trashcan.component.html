@@ -5,21 +5,21 @@
 
         <adf-toolbar class="inline">
             <button
-                md-icon-button
+                mat-icon-button
                 [app-permanent-delete-node]="documentList.selection"
                 (selection-node-deleted)="refresh()"
                 *ngIf="documentList.selection.length"
                 title="{{ 'APP.ACTIONS.DELETE' | translate }}">
-                <md-icon>delete_forever</md-icon>
+                <mat-icon>delete_forever</mat-icon>
             </button>
 
             <button
-                md-icon-button
+                mat-icon-button
                 (selection-node-restored)="refresh()"
                 [app-restore-node]="documentList.selection"
                 *ngIf="documentList.selection.length"
                 title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
-                <md-icon>restore</md-icon>
+                <mat-icon>restore</mat-icon>
            </button>
         </adf-toolbar>
     </div>
@@ -39,7 +39,7 @@
             <empty-folder-content>
                 <ng-template>
                     <div class="app-no-content_block">
-                        <md-icon>delete</md-icon>
+                        <mat-icon>delete</mat-icon>
                         <p class="app-no-content_title">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE' | translate }}</p>
                         <p class="app-no-content_text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.FIRST_TEXT' | translate }}</p>
                         <p class="app-no-content_text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.SECOND_TEXT' | translate }}</p>

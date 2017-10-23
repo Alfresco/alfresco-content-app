@@ -16,7 +16,7 @@
  */
 
 import { Directive, HostListener, Input } from '@angular/core';
-import { MdDialog, MdDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
@@ -39,11 +39,11 @@ export class FolderCreateDirective {
     }
 
     constructor(
-        public dialogRef: MdDialog,
+        public dialogRef: MatDialog,
         public content: ContentManagementService
     ) {}
 
-    private get dialogConfig(): MdDialogConfig {
+    private get dialogConfig(): MatDialogConfig {
         const { DIALOG_WIDTH: width } = FolderCreateDirective;
         const { parentNodeId } = this;
 

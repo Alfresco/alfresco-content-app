@@ -6,72 +6,72 @@
         <adf-toolbar class="inline">
 
             <button
-                md-icon-button
+                mat-icon-button
                 *ngIf="canPreviewFile(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="showPreview(documentList.selection[0]?.entry?.id)">
-                <md-icon>open_in_browser</md-icon>
+                <mat-icon>open_in_browser</mat-icon>
             </button>
 
             <button
-                md-icon-button
+                mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
                 [app-download-node]="documentList.selection">
-                <md-icon>get_app</md-icon>
+                <mat-icon>get_app</mat-icon>
             </button>
 
             <button
-                md-icon-button
+                mat-icon-button
                 *ngIf="canEditFolder(documentList.selection)"
                 title="{{ 'APP.ACTIONS.EDIT' | translate }}"
                 [app-edit-folder]="documentList.selection[0]?.entry">
-                <md-icon>create</md-icon>
+                <mat-icon>create</mat-icon>
             </button>
 
             <button
-                md-icon-button
+                mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.MORE' | translate }}"
-                [mdMenuTriggerFor]="actionsMenu">
-                <md-icon>more_vert</md-icon>
+                [matMenuTriggerFor]="actionsMenu">
+                <mat-icon>more_vert</mat-icon>
             </button>
-            <md-menu #actionsMenu="mdMenu"
+            <mat-menu #actionsMenu="matMenu"
                 [overlapTrigger]="false"
                 class="secondary-options">
                 <button
-                    md-menu-item
+                    mat-menu-item
                     #favorite="favorite"
                     [app-favorite-node]="documentList.selection">
-                    <md-icon [ngClass]="{ 'icon-highlight': favorite.hasFavorites() }">
+                    <mat-icon [ngClass]="{ 'icon-highlight': favorite.hasFavorites() }">
                         {{ favorite.hasFavorites() ? 'star' :'star_border' }}
-                    </md-icon>
+                    </mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
                 </button>
 
                 <button
-                    md-menu-item
+                    mat-menu-item
                     [app-copy-node]="documentList.selection">
-                    <md-icon>content_copy</md-icon>
+                    <mat-icon>content_copy</mat-icon>
                     <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
                 </button>
 
                 <button
-                    md-menu-item
+                    mat-menu-item
                     *ngIf="canMove(documentList.selection)"
                     [app-move-node]="documentList.selection">
-                    <md-icon>library_books</md-icon>
+                    <mat-icon>library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
                 </button>
 
                 <button
-                    md-menu-item
+                    mat-menu-item
                     *ngIf="canDelete(documentList.selection)"
                     [app-delete-node]="documentList.selection">
-                    <md-icon>delete</md-icon>
+                    <mat-icon>delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
                 </button>
-            </md-menu>
+            </mat-menu>
         </adf-toolbar>
     </div>
     <div class="inner-layout__content">
@@ -90,7 +90,7 @@
             <empty-folder-content>
                 <ng-template>
                     <div class="app-no-content_block">
-                        <md-icon>star_rate</md-icon>
+                        <mat-icon>star_rate</mat-icon>
                         <p class="app-no-content_title">{{ 'APP.BROWSE.FAVORITES.EMPTY_STATE.TITLE' | translate }}</p>
                         <p class="app-no-content_text">{{ 'APP.BROWSE.FAVORITES.EMPTY_STATE.TEXT' | translate }}</p>
                     </div>
