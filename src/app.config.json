@@ -1,18 +1,64 @@
 {
-  "ecmHost": "http://{hostname}:{port}",
-  "application": {
-      "name": "Alfresco Example Content Application",
-      "build": "1234"
-  },
-  "document-list": {
-      "supportedPageSizes": [25, 50, 100]
-  },
-  "files": {
-      "excluded": [
-          ".DS_Store",
-          "desktop.ini",
-          "thumbs.db",
-          ".git"
-      ]
-  }
+    "ecmHost": "http://{hostname}:{port}",
+    "application": {
+        "name": "Alfresco Example Content Application",
+        "build": "1234"
+    },
+    "document-list": {
+        "supportedPageSizes": [
+            25,
+            50,
+            100
+        ]
+    },
+    "files": {
+        "excluded": [
+            ".DS_Store",
+            "desktop.ini",
+            "thumbs.db",
+            ".git"
+        ]
+    },
+    "languages": [
+        {
+            "key": "de",
+            "label": "German"
+        },
+        {
+            "key": "en",
+            "label": "English"
+        },
+        {
+            "key": "es",
+            "label": "Spanish"
+        },
+        {
+            "key": "fr",
+            "label": "French"
+        },
+        {
+            "key": "it",
+            "label": "Italian"
+        },
+        {
+            "key": "ja",
+            "label": "Japanese"
+        },
+        {
+            "key": "nb",
+            "label": "Norwegian"
+        },
+        {
+            "key": "nl",
+            "label": "Dutch"
+        },
+        {
+            "key": "pt-BR",
+            "label": "Brazilian Portuguese"
+        },
+        {
+            "key": "ru",
+            "label": "Russian"
+        }
+    ]
 }
