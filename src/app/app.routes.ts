@@ -29,8 +29,20 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
 
 import { LoginComponent } from './components/login/login.component';
 import { PreviewComponent } from './components/preview/preview.component';
+import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 
 export const APP_ROUTES: Routes = [
+    {
+        path: 'preview/:nodeId',
+        component: PreviewComponent
+    },
+    {
+        path: 'login',
+        component: LoginComponent,
+        data: {
+            title: 'Sign in'
+        }
+    },
     {
         path: '',
         component: LayoutComponent,
@@ -101,26 +113,15 @@ export const APP_ROUTES: Routes = [
                     i18nTitle: 'APP.BROWSE.TRASHCAN.TITLE'
                 }
             }
+            ,
+            {
+                path: '**',
+                component: GenericErrorComponent
+            }
         ],
         canActivate: [
             AuthGuardEcm
         ]
-    },
-    {
-        path: 'preview/:nodeId',
-        component: PreviewComponent
-    },
-    {
-        path: '**',
-        redirectTo: '/login',
-        pathMatch: 'full'
-    },
-    {
-        path: 'login',
-        component: LoginComponent,
-        data: {
-            title: 'Sign in'
-        }
     }
 ];
 
