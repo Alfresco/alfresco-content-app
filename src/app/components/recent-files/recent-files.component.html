@@ -70,7 +70,7 @@
     <div class="inner-layout__content">
 
         <adf-document-list #documentList
-            [ngClass]="{ 'app-no-content': documentList.isEmpty() }"
+            [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
             currentFolderId="-recent-"
             selectionMode="multiple"
             [navigate]="false"
@@ -82,10 +82,10 @@
 
             <empty-folder-content>
                 <ng-template>
-                    <div class="app-no-content_block">
+                    <div class="empty-list__block">
                         <mat-icon>access_time</mat-icon>
-                        <p class="app-no-content_title">{{ 'APP.BROWSE.RECENT.EMPTY_STATE.TITLE' | translate }}</p>
-                        <p class="app-no-content_text">{{ 'APP.BROWSE.RECENT.EMPTY_STATE.TITLE' | translate }}</p>
+                        <p class="empty-list__title">{{ 'APP.BROWSE.RECENT.EMPTY_STATE.TITLE' | translate }}</p>
+                        <p class="empty-list__text">{{ 'APP.BROWSE.RECENT.EMPTY_STATE.TITLE' | translate }}</p>
                     </div>
                 </ng-template>
             </empty-folder-content>

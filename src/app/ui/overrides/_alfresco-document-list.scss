@@ -28,11 +28,13 @@ adf-document-list .adf-data-table {
     }
 
     // TODO: Remove tr background-color once it gets to ADF
-    tr {
+    tbody tr {
         &:hover, &:focus {
             background-color: $alfresco-app-color--hue-1;
         }
+    }
 
+    tr {
         &.is-selected {
             background-color: $alfresco-app-color--hue-1;
 
@@ -86,7 +88,7 @@ adf-document-list .adf-data-table {
     }
 }
 
-.app-no-content {
+.empty-list {
     .adf-data-table {
         height: 100%;
 
@@ -96,7 +98,7 @@ adf-document-list .adf-data-table {
         }
     }
 
-    &_block {
+    &__block {
         color: $alfresco-secondary-text-color;
         display: flex;
         flex-direction: column;
@@ -107,19 +109,19 @@ adf-document-list .adf-data-table {
         }
     }
 
-    md-icon {
-        font-size: 52px;
-        height: 52px;
-        width: 52px;
-    }
-
-    &_title {
+    &__title {
         font-size: 18px;
         font-weight: 600;
     }
 
-    &_subtitle {
+    &__subtitle {
         font-size: 14px;
         font-weight: 300;
+    }
+
+    &__block > mat-icon {
+        font-size: 52px;
+        height: 52px;
+        width: 52px;
     }
 }
