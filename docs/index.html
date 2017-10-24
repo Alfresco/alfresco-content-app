@@ -13,7 +13,31 @@
   <script src="https://unpkg.com/docute@3/dist/docute.js"></script>
   <script>
     docute.init({
-      icons: [
+        nav: [
+            {
+                title: 'Home',
+                path: '/'
+            },
+            {
+                title: 'Features',
+                type: 'dropdown',
+                items: [
+                    {
+                        title: 'i18n',
+                        path: '/features/i18n'
+                    },
+                    {
+                        title: 'Routing',
+                        path: '/features/routing'
+                    }
+                ]
+            },
+            {
+                title: 'Changelog',
+                path: '/changelog'
+            }
+        ],
+        icons: [
             {
                 icon: 'github',
                 label: 'Contribute on GitHub',
