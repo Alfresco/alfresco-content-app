@@ -32,6 +32,7 @@ import { PageComponent } from '../page.component';
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private routeData: any = {};
+    isValidPath = true;
 
     private onCopyNode: Subscription;
     private onRemoveItem: Subscription;
@@ -69,12 +70,16 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
             this.fetchNode(nodeId)
                 .do((node) => this.updateCurrentNode(node))
-                .flatMap((node) => {
-                    return this.fetchNodes(node.id);
-                })
+                .flatMap((node) => this.fetchNodes(node.id))
                 .subscribe(
-                    (page) => this.onPageLoaded(page),
-                    error => this.onFetchError(error)
+                    (page) => {
+                        this.isValidPath = true;
+                        this.onPageLoaded(page);
+                    },
+                    error => {
+                        this.isValidPath = false;
+                        this.onFetchError(error);
+                    }
                 );
         });
 

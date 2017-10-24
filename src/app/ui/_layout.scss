@@ -61,8 +61,20 @@ $app-inner-layout--footer-height: 48px;
         overflow: hidden;
     }
 
+    &__content--hide {
+        display: none;
+    }
+
+    &__content--show {
+        display: flex;
+    }
+
     &__footer {
         flex-basis: $app-inner-layout--footer-height;
         border-top: 1px solid $alfresco-divider-color;
+    }
+
+    app-generic-error {
+        height: 100%;
     }
 }
