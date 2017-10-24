@@ -77,7 +77,7 @@
     "styleExt": "scss",
     "component": {},
     "serve": {
-      "proxyConfig": "proxy.conf.json",
+      "proxyConfig": "proxy.conf.js",
       "port": 3000
     }
   }
