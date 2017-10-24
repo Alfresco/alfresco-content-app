@@ -11,12 +11,8 @@
     </div>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-        <button mat-menu-item [matMenuTriggerFor]="langMenu">{{ 'APP.LANGUAGE' | translate }}</button>
         <button mat-menu-item adf-logout>
             {{ 'APP.SIGN_OUT' | translate }}
         </button>
-    </mat-menu>
-    <mat-menu #langMenu="matMenu">
-        <adf-lanugage-menu></adf-lanugage-menu>
     </mat-menu>
 </div>
