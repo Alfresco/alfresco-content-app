@@ -23,7 +23,7 @@ export class UserInfo extends Component {
     private locators = {
         avatar: by.css('.current-user__avatar'),
         fullName: by.css('.current-user__full-name'),
-        menuItems: by.css('[md-menu-item]')
+        menuItems: by.css('[mat-menu-item]')
     };
 
     fullName: ElementFinder = this.component.element(this.locators.fullName);

@@ -30,8 +30,8 @@ export class Pagination extends Component {
 
         previousButton: '.adf-pagination__previous-button',
         nextButton: '.adf-pagination__next-button',
-        maxItemsButton: '.adf-pagination__max-items + button[md-icon-button]',
-        pagesButton: '.adf-pagination__current-page + button[md-icon-button]'
+        maxItemsButton: '.adf-pagination__max-items + button[mat-icon-button]',
+        pagesButton: '.adf-pagination__current-page + button[mat-icon-button]'
     };
 
     range: ElementFinder = this.component.element(by.css(Pagination.selectors.range));
