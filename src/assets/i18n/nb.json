@@ -1,0 +1,202 @@
+{
+  "APP": {
+    "SIGN_IN": "Logg på",
+    "SIGN_OUT": "Logg ut",
+    "NEW_MENU": {
+      "LABEL": "Ny",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "Opprett mappe",
+        "UPLOAD_FILE": "Last opp fil",
+        "UPLOAD_FOLDER": "Last opp mappe"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "Opprett ny mappe",
+        "CREATE_FOLDER_NOT_ALLOWED": "Du kan ikke opprette ny mappe her. Du har kanskje ikke de nødvendige tillatelsene. Kontakt IT-teamet.",
+        "UPLOAD_FILES": "Velg filene som skal lastes opp",
+        "UPLOAD_FILES_NOT_ALLOWED": "Du må ha tillatelse for å laste opp her. Kontakt IT-teamet.",
+        "UPLOAD_FOLDERS": "Velg mappene som skal lastes opp",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Du må ha tillatelse for å laste opp her. Kontakt IT-teamet."
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Personlige filer",
+        "SIDENAV_LINK": {
+          "LABEL": "Personlige filer",
+          "TOOLTIP": "Vis dine personlige filer"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "Filbiblioteker",
+        "SIDENAV_LINK": {
+          "LABEL": "Filbiblioteker",
+          "TOOLTIP": "Gå til filbiblioteker"
+        }
+      },
+      "SHARED": {
+        "TITLE": "Delte filer",
+        "SIDENAV_LINK": {
+          "LABEL": "Delt",
+          "TOOLTIP": "Vis filer som er blitt delt"
+        }
+      },
+      "RECENT": {
+        "TITLE": "Nyere filer",
+        "SIDENAV_LINK": {
+          "LABEL": "Nyere filer",
+          "TOOLTIP": "Vis filer som nylig er redigert"
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "Favoritter",
+        "SIDENAV_LINK": {
+          "LABEL": "Favoritter",
+          "TOOLTIP": "Vis dine favorittfiler og mapper"
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "Søppel",
+        "SIDENAV_LINK": {
+          "LABEL": "Søppel",
+          "TOOLTIP": "Vis slettede filer i søppelen"
+        }
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "Vis",
+      "SHARE": "Del",
+      "EDIT": "Rediger",
+      "DOWNLOAD": "Last ned",
+      "COPY": "Kopier",
+      "MOVE": "Flytt",
+      "DELETE": "Slett",
+      "MORE": "Flere handlinger",
+      "UNDO": "Angre",
+      "RESTORE": "Gjenopprett",
+      "FAVORITE": "Favoritt"
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "NAME": "Navn",
+        "SIZE": "Størrelse",
+        "MODIFIED_ON": "Endret",
+        "MODIFIED_BY": "Endret av",
+        "STATUS": "Status",
+        "TITLE": "Tittel",
+        "LOCATION": "Sted",
+        "SHARED_BY": "Delt av",
+        "DELETED_ON": "Slettet",
+        "DELETED_BY": "Slettet av"
+      }
+    },
+    "DIALOG": {
+      "MINIMIZE": "Minimer",
+      "MAXIMIZE": "Maksimer",
+      "CLOSE": "Lukk",
+      "UPLOAD": {
+        "IN_PROGRESS": "Opplasting {{ completed }} / {{ length }}",
+        "COMPLETE": "Opplastet {{ completed }} / {{ length }}",
+        "CANCELED": "Opplasting avbrutt",
+        "CANCEL_UPLOAD": "Avbryt opplasting",
+        "CANCEL_ALL": "Avbryt opplastinger",
+        "REMOVE_UPLOADED": "Fjern opplastet fil",
+        "CANCELED_STATUS": "Avbrutt",
+        "ERRORS": "feil"
+      }
+    },
+    "FOLDER_DIALOG": {
+      "CREATE_FOLDER_TITLE": "Opprett ny mappe",
+      "EDIT_FOLDER_TITLE": "Rediger mappe",
+      "FOLDER_NAME": {
+        "LABEL": "Navn",
+        "ERRORS": {
+          "REQUIRED": "Mappenavn påkrevd",
+          "SPECIAL_CHARACTERS": "Mappenavn kan ikke inneholde disse tegnene * \" < > \\ / ? : |",
+          "ENDING_DOT": "Mappenavn kan ikke slutte med punktum .",
+          "ONLY_SPACES": "Mappenavn kan ikke inneholde bare mellomrom"
+        }
+      },
+      "FOLDER_DESCRIPTION": {
+        "LABEL": "Beskrivelse"
+      },
+      "CREATE_BUTTON": {
+        "LABEL": "Opprett"
+      },
+      "UPDATE_BUTTON": {
+        "LABEL": "Oppdater"
+      },
+      "CANCEL_BUTTON": {
+        "LABEL": "Avbryt"
+      }
+    },
+    "PAGINATION": {
+      "ITEMS_PER_PAGE": "Elementer per side",
+      "CURRENT_PAGE": "Side",
+      "OF": "av",
+      "SHOW_RANGE": "Viser {{ range }} av {{ total }} elementer"
+    },
+    "SITES_VISIBILITY": {
+      "PUBLIC": "Offentlig",
+      "MODERATED": "Moderert",
+      "PRIVATE": "Privat"
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "GENERIC": "Handlingen var mislykket. Prøv på nytt, eller kontakt IT-teamet.",
+        "CONFLICT": "Dette navnet er allerede i bruk, prøv et annet navn.",
+        "NODE_MOVE": "Mislykket flytting, det finnes allerede en fil med samme navn.",
+        "EXISTENT_FOLDER": "Det finnes allerede en mappe med det navnet, Prøv med et annet navn.",
+        "NODE_DELETION": "{{ name }} kan ikke slettes",
+        "NODE_DELETION_PLURAL": "{{ number }} elementer kan ikke slettes",
+        "NODE_RESTORE": "{{ name }} kan ikke gjenopprettes",
+        "NODE_RESTORE_PLURAL": "{{ number }} elementer kan ikke gjenopprettes",
+        "PERMISSION": "Du har ikke tilgang til å gjøre dette",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} elementer kan ikke slettes",
+            "SINGULAR": "Elementet {{ name }} kan ikke slettes"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "{{ number }} elementer kan ikke gjenopprettes fordi det finnes problemer med gjenoppretingsstedet",
+            "NODE_EXISTS": "Kan ikke gjenopprette, {{ name }} item already exists",
+            "LOCATION_MISSING": "Kan ikke gjenopprette elementet {{ name }}, det opprinnelige stedet finnes ikke lenger",
+            "GENERIC": "Problem med å gjenopprette elementet {{ name }}"
+          }
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} elementer slettet",
+            "SINGULAR": "Elementet {{ name }} slettet",
+            "PARTIAL_SINGULAR": "Elementet {{ name }} slettet, {{ failed }} kan ikke slettes",
+            "PARTIAL_PLURAL": "{{ number }} elementer slettet, {{ failed }} kan ikke slettes"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "Er nå gjenopprettet",
+            "SINGULAR": "Elementet {{ name }} gjenopprettet"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "Element {{ name }} slettet",
+          "PLURAL": "Slettet {{ number }} elementer",
+          "PARTIAL_SINGULAR": "Slettet {{ success }} element, {{ failed }} kunne ikke slettes",
+          "PARTIAL_PLURAL": "Slettet {{ success }} elementer, {{ failed }} kunne ikke slettes"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "Kopierte {{ number }} element",
+          "PLURAL": "Kopierte {{ number }} elementer"
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "Flyttet {{ success }} element.",
+          "PLURAL": "Flyttet {{ success }} elementer.",
+          "PARTIAL": {
+            "SINGULAR": "Flyttet element {{ partially }} delvis.",
+            "PLURAL": "Flyttet elementer {{ partially }} delvis.",
+            "FAIL": "{{ failed }} kunne ikke flyttes."
+          }
+        }
+      }
+    }
+  }
+}
