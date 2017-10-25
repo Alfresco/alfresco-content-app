@@ -47,7 +47,7 @@ exports.config = {
     jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
         consolidateAll: true,
         savePath: `${projectRoot}/e2e-output/junit-report`,
-        filePrefix: 'junit.xml',
+        filePrefix: 'results.xml',
         useDotNotation: false,
         useFullTestName: false,
         reportFailedUrl: true
