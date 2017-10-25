@@ -10,8 +10,7 @@ const projectRoot = path.resolve(__dirname);
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    './e2e/suites/authentication/login.test.ts',
-    // './e2e/**/*.test.ts'
+    './e2e/**/*.test.ts'
   ],
   capabilities: {
     'browserName': 'chrome',
@@ -53,6 +52,5 @@ exports.config = {
         useFullTestName: false,
         reportFailedUrl: true
     }));
-
   }
 };
