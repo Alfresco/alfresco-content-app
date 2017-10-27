@@ -33,6 +33,10 @@ $app-inner-layout--footer-height: 48px;
             border-right: 1px solid $alfresco-divider-color;
         }
     }
+
+    .content--hide {
+        display: none;
+    }
 }
 
 .inner-layout {
@@ -59,14 +63,6 @@ $app-inner-layout--footer-height: 48px;
         flex-direction: column;
         flex: 1;
         overflow: hidden;
-    }
-
-    &__content--hide {
-        display: none;
-    }
-
-    &__content--show {
-        display: flex;
     }
 
     &__footer {

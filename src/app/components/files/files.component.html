@@ -78,26 +78,18 @@
         </adf-toolbar>
     </div>
 
-    <div class="inner-layout__content"
-        [ngClass]="{
-            'inner-layout__content--hide': isValidPath,
-            'inner-layout__content--show': !isValidPath
-        }">
+    <div [attr.class]="isValidPath ? 'content--hide' : 'inner-layout__content'">
         <app-generic-error></app-generic-error>
     </div>
 
-    <div class="inner-layout__content"
-        [ngClass]="{
-            'inner-layout__content--hide': !isValidPath ,
-            'inner-layout__content--show': isValidPath
-        }">
+    <div [attr.class]="!isValidPath ? 'content--hide' : 'inner-layout__content'">
         <alfresco-upload-drag-area
             [rootFolderId]="node?.id"
             [disabled]="!canCreateContent(node)"
             [showNotificationBar]="false">
 
             <adf-document-list #documentList
-                [ngClass]="{ 'app-no-content': documentList.isEmpty() }"
+                [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
                 [loading]="isLoading"
                 [node]="paging"
                 [sorting]="[ 'modifiedAt', 'desc' ]"
