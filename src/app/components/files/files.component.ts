@@ -182,8 +182,18 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             );
     }
 
-    private updateCurrentNode(node) {
+    private updateCurrentNode(node: MinimalNodeEntryEntity) {
         this.node = node;
+
+        if (node.path && node.path.elements) {
+            const elements = node.path.elements;
+
+            // todo: review this approach once 5.2.3 is out
+            if (elements.length > 1 && elements[1].name === 'User Homes') {
+                elements.splice(0, 2);
+            }
+        }
+
         this.browsingFilesService.onChangeParent.next(node);
     }
 
