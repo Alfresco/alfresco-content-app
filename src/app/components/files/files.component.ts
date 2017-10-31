@@ -18,7 +18,7 @@
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import { UploadService, FileUploadEvent, NodesApiService, AlfrescoContentService } from 'ng2-alfresco-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
@@ -34,6 +34,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private routeData: any = {};
     isValidPath = true;
 
+    private nodePath: PathElement[];
     private onCopyNode: Subscription;
     private onRemoveItem: Subscription;
     private onCreateFolder: Subscription;
@@ -144,6 +145,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     onBreadcrumbNavigate(route: PathElementEntity) {
+        // todo: review this approach once 5.2.3 is out
+        if (this.nodePath && this.nodePath.length > 0) {
+            if (this.nodePath[1].name === 'Sites' && this.nodePath[2].id === route.id) {
+                return this.navigate(this.nodePath[3].id);
+            }
+        }
         this.navigate(route.id);
     }
 
@@ -182,19 +189,46 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             );
     }
 
+    // todo: review this approach once 5.2.3 is out
     private updateCurrentNode(node: MinimalNodeEntryEntity) {
-        this.node = node;
+        this.nodePath = null;
 
-        if (node.path && node.path.elements) {
+        if (node && node.path && node.path.elements) {
             const elements = node.path.elements;
 
-            // todo: review this approach once 5.2.3 is out
-            if (elements.length > 1 && elements[1].name === 'User Homes') {
-                elements.splice(0, 2);
+            this.nodePath = elements.map(pathElement => {
+                return Object.assign({}, pathElement);
+            });
+
+            if (elements.length > 1) {
+                if (elements[1].name === 'User Homes') {
+                    elements.splice(0, 2);
+                } else if (elements[1].name === 'Sites') {
+                    this.normalizeSitePath(node);
+                }
             }
         }
 
+        this.node = node;
         this.browsingFilesService.onChangeParent.next(node);
+    }
+
+    // todo: review this approach once 5.2.3 is out
+    private normalizeSitePath(node: MinimalNodeEntryEntity): void {
+        const elements = node.path.elements;
+
+        // remove 'Sites'
+        elements.splice(1, 1);
+
+        if (node.name === 'documentLibrary') {
+            node.name = elements[1].name;
+            elements.splice(1, 1);
+        } else {
+            const docLib = elements.findIndex(el => el.name === 'documentLibrary');
+            if (docLib > -1) {
+                elements.splice(docLib, 1);
+            }
+        }
     }
 
     private isRootNode(nodeId: string): boolean {
