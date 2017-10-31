@@ -146,7 +146,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     onBreadcrumbNavigate(route: PathElementEntity) {
         // todo: review this approach once 5.2.3 is out
-        if (this.nodePath && this.nodePath.length > 0) {
+        if (this.nodePath && this.nodePath.length > 2) {
             if (this.nodePath[1].name === 'Sites' && this.nodePath[2].id === route.id) {
                 return this.navigate(this.nodePath[3].id);
             }
