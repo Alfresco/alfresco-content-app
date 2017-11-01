@@ -83,7 +83,7 @@
     </div>
 
     <div [attr.class]="!isValidPath ? 'content--hide' : 'inner-layout__content'">
-        <alfresco-upload-drag-area
+        <adf-upload-drag-area
             [rootFolderId]="node?.id"
             [disabled]="!canCreateContent(node)"
             [showNotificationBar]="false">
@@ -149,6 +149,6 @@
                     (change)="load(true, $event)">
                 </adf-pagination>
             </ng-container>
-        </alfresco-upload-drag-area>
+        </adf-upload-drag-area>
     </div>
 </div>

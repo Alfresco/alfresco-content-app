@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { TranslationService, AlfrescoApiService, NotificationService } from 'ng2-alfresco-core';
-import { MinimalNodeEntity, DeletedNodeEntry, PathInfoEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity, DeletedNodeEntry, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
 
 @Directive({
     selector: '[app-restore-node]'
@@ -69,7 +69,7 @@ export class NodeRestoreDirective {
             })
             .flatMap(() => this.getDeletedNodes())
             .subscribe(
-                (deletedNodesList: any) => {
+                (deletedNodesList: DeletedNodesPaging) => {
                     const { entries: nodelist } = deletedNodesList.list;
                     const { fail: restoreErrorNodes } = this.restoreProcessStatus;
                     const selectedNodes = this.diff(restoreErrorNodes, selection, false);
@@ -93,7 +93,7 @@ export class NodeRestoreDirective {
         return selection.filter((node) => node.entry.path);
     }
 
-    private getDeletedNodes(): Observable<DeletedNodeEntry> {
+    private getDeletedNodes(): Observable<DeletedNodesPaging> {
         const promise = this.alfrescoApiService.getInstance()
             .core.nodesApi.getDeletedNodes({ include: [ 'path' ] });
 

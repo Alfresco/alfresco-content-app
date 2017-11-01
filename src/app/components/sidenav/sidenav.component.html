@@ -20,7 +20,7 @@
                 <span>{{ 'APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER' | translate }}</span>
             </button>
 
-            <alfresco-upload-button
+            <adf-upload-button
                 [showNotificationBar]="false"
                 tooltip="{{
                     (canCreateContent(node)
@@ -32,9 +32,9 @@
                 [multipleFiles]="true"
                 [uploadFolders]="false"
                 [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE' | translate">
-            </alfresco-upload-button>
+            </adf-upload-button>
 
-            <alfresco-upload-button
+            <adf-upload-button
                 [showNotificationBar]="false"
                 tooltip="{{
                     (canCreateContent(node)
@@ -46,7 +46,7 @@
                 [multipleFiles]="true"
                 [uploadFolders]="true"
                 [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER' | translate">
-            </alfresco-upload-button>
+            </adf-upload-button>
         </mat-menu>
     </div>
 
