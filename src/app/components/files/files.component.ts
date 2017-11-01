@@ -64,7 +64,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         const { data } = route.snapshot;
 
         this.routeData = data;
-        this.title = data.i18nTitle;
 
         route.params.subscribe(({ id }: Params) => {
             const nodeId = id || data.defaultNodeId;
