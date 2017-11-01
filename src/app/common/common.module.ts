@@ -35,8 +35,6 @@ import { NodeRestoreDirective } from './directives/node-restore.directive';
 import { NodePermanentDeleteDirective } from './directives/node-permanent-delete.directive';
 import { NodeFavoriteDirective } from './directives/node-favorite.directive';
 
-import { NodeNameTooltipPipe } from './pipes/node-name-tooltip.pipe';
-
 import { ContentManagementService } from './services/content-management.service';
 import { BrowsingFilesService } from './services/browsing-files.service';
 import { NodeActionsService } from './services/node-actions.service';
@@ -63,9 +61,7 @@ export function declarations() {
         DownloadFileDirective,
         NodeRestoreDirective,
         NodePermanentDeleteDirective,
-        NodeFavoriteDirective,
-
-        NodeNameTooltipPipe
+        NodeFavoriteDirective
     ];
 }
 
