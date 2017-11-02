@@ -116,6 +116,82 @@ describe('NodeCopyDirective', () => {
             );
         });
 
+        it('notifies partially copy of one node out of a multiple selection of nodes', () => {
+            spyOn(service, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            component.selection = [
+                { entry: { id: 'node-to-copy-1', name: 'name1' } },
+                { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+            const createdItems = [
+                { entry: { id: 'copy-of-node-1', name: 'name1' } }];
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            service.contentCopied.next(<any>createdItems);
+
+            expect(service.copyNodes).toHaveBeenCalled();
+            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
+                'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR', 'Undo', 10000
+            );
+        });
+
+        it('notifies partially copy of more nodes out of a multiple selection of nodes', () => {
+            spyOn(service, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            component.selection = [
+                { entry: { id: 'node-to-copy-0', name: 'name0' } },
+                { entry: { id: 'node-to-copy-1', name: 'name1' } },
+                { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+            const createdItems = [
+                { entry: { id: 'copy-of-node-0', name: 'name0' } },
+                { entry: { id: 'copy-of-node-1', name: 'name1' } }];
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            service.contentCopied.next(<any>createdItems);
+
+            expect(service.copyNodes).toHaveBeenCalled();
+            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
+                'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL', 'Undo', 10000
+            );
+        });
+
+        it('notifies of failed copy of multiple nodes', () => {
+            spyOn(service, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            component.selection = [
+                { entry: { id: 'node-to-copy-0', name: 'name0' } },
+                { entry: { id: 'node-to-copy-1', name: 'name1' } },
+                { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+            const createdItems = [];
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            service.contentCopied.next(<any>createdItems);
+
+            expect(service.copyNodes).toHaveBeenCalled();
+            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
+                'APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL', '', 3000
+            );
+        });
+
+        it('notifies of failed copy of one node', () => {
+            spyOn(service, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            component.selection = [
+                { entry: { id: 'node-to-copy', name: 'name' } }];
+            const createdItems = [];
+
+            fixture.detectChanges();
+            element.triggerEventHandler('click', null);
+            service.contentCopied.next(<any>createdItems);
+
+            expect(service.copyNodes).toHaveBeenCalled();
+            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
+                'APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR', '', 3000
+            );
+        });
+
         it('notifies error if success message was not emitted', () => {
             spyOn(service, 'copyNodes').and.returnValue(Observable.of(''));
 

@@ -206,8 +206,10 @@
                 "NODE_COPY": {
                     "SINGULAR": "Copied {{ success }} item",
                     "PLURAL": "Copied {{ success }} items",
-                    "PARTIAL_SINGULAR": "Copied {{ success }} item, {{ failed }} couldn't be copied",
-                    "PARTIAL_PLURAL": "Copied {{ success }} items, {{ failed }} couldn't be copied"
+                    "PARTIAL_SINGULAR": "Copied {{ success }} item, {{ failed }} couldn't be copied.",
+                    "PARTIAL_PLURAL": "Copied {{ success }} items, {{ failed }} couldn't be copied.",
+                    "FAIL_SINGULAR": "{{ failed }} item couldn't be copied.",
+                    "FAIL_PLURAL": "{{ failed }} items couldn't be copied."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Moved {{ success }} item.",

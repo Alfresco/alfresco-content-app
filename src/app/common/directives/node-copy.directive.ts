@@ -70,7 +70,12 @@ export class NodeCopyDirective {
                 let i18MessageSuffix;
 
                 if (failedItems) {
-                    i18MessageSuffix = ( failedItems === 1 ) ? 'PARTIAL_SINGULAR' : 'PARTIAL_PLURAL';
+                    if (numberOfCopiedItems) {
+                        i18MessageSuffix = ( numberOfCopiedItems === 1 ) ? 'PARTIAL_SINGULAR' : 'PARTIAL_PLURAL';
+
+                    } else {
+                        i18MessageSuffix = ( failedItems === 1 ) ? 'FAIL_SINGULAR' : 'FAIL_PLURAL';
+                    }
 
                 } else {
                     i18MessageSuffix = ( numberOfCopiedItems === 1 ) ? 'SINGULAR' : 'PLURAL';
