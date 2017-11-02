@@ -5,6 +5,7 @@
     &.adf-toolbar {
         .mat-toolbar {
             background-color: #00bcd4;
+            font-family: inherit;
             min-height: $app-menu-height;
             height: $app-menu-height;
 
