@@ -184,8 +184,8 @@
           "PARTIAL_PLURAL": "{{ success }} items verwijderd, kan {{ failed }} niet verwijderen"
         },
         "NODE_COPY": {
-          "SINGULAR": "{{ number }} item gekopieerd",
-          "PLURAL": "{{ number }} items gekopieerd"
+          "SINGULAR": "{{ success }} item gekopieerd",
+          "PLURAL": "{{ success }} items gekopieerd"
         },
         "NODE_MOVE": {
           "SINGULAR": "{{ success }} item verplaatst.",

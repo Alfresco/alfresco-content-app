@@ -60,14 +60,22 @@ export class NodeCopyDirective {
     }
 
     private toastMessage(info: any, newItems?: MinimalNodeEntity[]) {
-        const numberOfCopiedItems = newItems ? newItems.length : '';
+        const numberOfCopiedItems = newItems ? newItems.length : 0;
+        const failedItems = this.selection.length - numberOfCopiedItems;
 
         let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
 
         if (typeof info === 'string') {
             if (info.toLowerCase().indexOf('succes') !== -1) {
+                let i18MessageSuffix;
 
-                const i18MessageSuffix = ( numberOfCopiedItems === 1 ) ? 'SINGULAR' : 'PLURAL';
+                if (failedItems) {
+                    i18MessageSuffix = ( failedItems === 1 ) ? 'PARTIAL_SINGULAR' : 'PARTIAL_PLURAL';
+
+                } else {
+                    i18MessageSuffix = ( numberOfCopiedItems === 1 ) ? 'SINGULAR' : 'PLURAL';
+                }
+
                 i18nMessageString = `APP.MESSAGES.INFO.NODE_COPY.${i18MessageSuffix}`;
             }
 
@@ -86,7 +94,7 @@ export class NodeCopyDirective {
         const undo = (numberOfCopiedItems > 0) ? 'Undo' : '';
         const withUndo = (numberOfCopiedItems > 0) ? '_WITH_UNDO' : '';
 
-        this.translation.get(i18nMessageString, { number: numberOfCopiedItems }).subscribe(message => {
+        this.translation.get(i18nMessageString, { success: numberOfCopiedItems, failed: failedItems }).subscribe(message => {
             this.notification.openSnackMessageAction(message, undo, NodeActionsService[`SNACK_MESSAGE_DURATION${withUndo}`])
                 .onAction()
                 .subscribe(() => this.deleteCopy(newItems));

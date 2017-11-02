@@ -184,8 +184,8 @@
           "PARTIAL_PLURAL": "已删除 {{ success }} 项目，{{ failed }} 无法删除"
         },
         "NODE_COPY": {
-          "SINGULAR": "已复制 {{ number }} 个项目",
-          "PLURAL": "已复制 {{ number }} 个项目"
+          "SINGULAR": "已复制 {{ success }} 个项目",
+          "PLURAL": "已复制 {{ success }} 个项目"
         },
         "NODE_MOVE": {
           "SINGULAR": "已移动 {{ success }} 项目。",
