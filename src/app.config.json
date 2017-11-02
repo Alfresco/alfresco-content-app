@@ -4,6 +4,7 @@
         "name": "Alfresco Example Content Application",
         "build": "1234"
     },
+    "languagePicker": false,
     "document-list": {
         "supportedPageSizes": [
             25,
@@ -18,5 +19,47 @@
             "thumbs.db",
             ".git"
         ]
-    }
+    },
+    "languages": [
+        {
+            "key": "de",
+            "label": "German"
+        },
+        {
+            "key": "en",
+            "label": "English"
+        },
+        {
+            "key": "es",
+            "label": "Spanish"
+        },
+        {
+            "key": "fr",
+            "label": "French"
+        },
+        {
+            "key": "it",
+            "label": "Italian"
+        },
+        {
+            "key": "ja",
+            "label": "Japanese"
+        },
+        {
+            "key": "nb",
+            "label": "Norwegian"
+        },
+        {
+            "key": "nl",
+            "label": "Dutch"
+        },
+        {
+            "key": "pt-BR",
+            "label": "Brazilian Portuguese"
+        },
+        {
+            "key": "ru",
+            "label": "Russian"
+        }
+    ]
 }

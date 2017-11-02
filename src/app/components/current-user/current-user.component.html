@@ -11,8 +11,17 @@
     </div>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+        <button *ngIf="showLanguagePicker"
+            mat-menu-item [matMenuTriggerFor]="langMenu">
+            {{ 'APP.LANGUAGE' | translate }}
+        </button>
+
         <button mat-menu-item adf-logout>
             {{ 'APP.SIGN_OUT' | translate }}
         </button>
+    </mat-menu>
+
+    <mat-menu #langMenu="matMenu">
+        <adf-language-menu></adf-language-menu>
     </mat-menu>
 </div>
