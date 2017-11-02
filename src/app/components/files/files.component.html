@@ -83,7 +83,7 @@
     </div>
 
     <div [attr.class]="!isValidPath ? 'content--hide' : 'inner-layout__content'">
-        <alfresco-upload-drag-area
+        <adf-upload-drag-area
             [rootFolderId]="node?.id"
             [disabled]="!canCreateContent(node)"
             [showNotificationBar]="false">
@@ -116,7 +116,7 @@
                         class="app-name-column"
                         title="APP.DOCUMENT_LIST.COLUMNS.NAME">
                         <ng-template let-value="value" let-context>
-                            <span title="{{ context?.row?.obj | nodeNameTooltip }}">{{ value }}</span>
+                            <span title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
                         </ng-template>
                     </data-column>
 
@@ -149,6 +149,6 @@
                     (change)="load(true, $event)">
                 </adf-pagination>
             </ng-container>
-        </alfresco-upload-drag-area>
+        </adf-upload-drag-area>
     </div>
 </div>

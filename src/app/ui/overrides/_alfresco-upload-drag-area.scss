@@ -6,9 +6,9 @@
     margin-left: 0 !important;
 }
 
-alfresco-upload-drag-area:first-child {
+adf-upload-drag-area:first-child {
     & > div {
-        alfresco-upload-drag-area {
+        adf-upload-drag-area {
             .file-draggable__input-focus {
                 @include file-draggable__input-focus;
             }
@@ -25,7 +25,7 @@ alfresco-upload-drag-area:first-child {
         border: none !important;
         margin-left: 0 !important;
 
-        alfresco-upload-drag-area {
+        adf-upload-drag-area {
             & > div {
                 @include file-draggable__input-focus;
             }
@@ -33,7 +33,7 @@ alfresco-upload-drag-area:first-child {
     }
 }
 
-alfresco-upload-drag-area {
+adf-upload-drag-area {
     height: 100%;
 
     & > div {
@@ -43,10 +43,10 @@ alfresco-upload-drag-area {
     }
 
     .file-draggable__input-focus {
-        alfresco-document-list {
+        adf-document-list {
             background: $alfresco-app-color--hue-1;
 
-            alfresco-datatable > table {
+            adf-datatable > table {
                 background: inherit;
             }
         }

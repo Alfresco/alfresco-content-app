@@ -1,125 +1,202 @@
 {
-    "APP": {
-        "SIGN_IN": "russian Sign in",
-        "SIGN_OUT": "russian Sign out",
-        "NEW_MENU": {
-            "TITLE": "russian New",
-            "MENU_ITEMS": {
-                "UPLOAD_FILE": "russian Upload file",
-                "UPLOAD_FOLDER": "russian Upload folder"
-            }
-        },
-        "BROWSE": {
-            "PERSONAL": {
-                "TITLE": "Личные файлы",
-                "SIDENAV_LINK": {
-                    "LABEL": "Личные файлы",
-                    "TOOLTIP": "russian personal tooltip"
-                }
-            },
-            "LIBRARIES": {
-                "TITLE": "russian libraries title",
-                "SIDENAV_LINK": {
-                    "LABEL": "russian libraries label",
-                    "TOOLTIP": "russian libraries tooltip"
-                }
-            },
-            "SHARED": {
-                "TITLE": "russian shared title",
-                "SIDENAV_LINK": {
-                    "LABEL": "russian shared label",
-                    "TOOLTIP": "russian shared tooltip"
-                }
-            },
-            "RECENT": {
-                "TITLE": "Недавние файлы",
-                "SIDENAV_LINK": {
-                    "LABEL": "Недавние файлы",
-                    "TOOLTIP": "russian recent tooltip"
-                }
-            },
-            "FAVORITES": {
-                "TITLE": "russian favorites title",
-                "SIDENAV_LINK": {
-                    "LABEL": "russian favorites label",
-                    "TOOLTIP": "russian favorites tooltip"
-                }
-            },
-            "TRASHCAN": {
-                "TITLE": "russian trashcan title",
-                "SIDENAV_LINK": {
-                    "LABEL": "russian trashcan label",
-                    "TOOLTIP": "russian trashcan tooltip"
-                }
-            }
-        },
-        "ACTIONS": {
-            "VIEW": "Просмотр",
-            "SHARE": "Поделиться",
-            "DOWNLOAD": "Скачать",
-            "COPY": "Копировать",
-            "MOVE": "Переместить",
-            "DELETE": "Удалить",
-            "MORE": "russian More actions"
-        },
-        "DOCUMENT_LIST": {
-            "COLUMNS": {
-                "NAME": "russian Name",
-                "SIZE": "russian Size",
-                "MODIFIED_ON": "russian Modified",
-                "MODIFIED_BY": "russian Modified by",
-                "STATUS": "russian Status",
-                "TITLE": "russian Title",
-                "LOCATION": "russian Location",
-                "SHARED_BY": "russian Shared by",
-                "DELETED_ON": "russian Deleted",
-                "DELETED_BY": "russian Deleted by"
-            }
-        },
-        "DIALOG": {
-            "MINIMIZE": "russian Minimize",
-            "MAXIMIZE": "russian Maximize",
-            "CLOSE": "russian Close",
-            "UPLOAD": {
-                "IN_PROGRESS": "russian Uploading {{ completed }} / {{ length }}",
-                "CANCELED": "russian Upload canceled",
-                "CANCEL_UPLOAD": "russian Cancel upload",
-                "CANCEL_ALL": "russian Cancel uploads",
-                "REMOVE_UPLOADED": "russian Remove uploaded file",
-                "CANCELED_STATUS": "russian Canceled"
-            }
-        },
-        "PAGINATION": {
-            "ITEMS_PER_PAGE": "russian Items per page",
-            "CURRENT_PAGE": "russian Page",
-            "OF": "russian of",
-            "SHOW_RANGE": "russian Showing {{ range }} of {{ total }} items"
-        },
-        "PIPES": {
-            "DATE": {
-                "NOW": "russian just now",
-                "1_MINUTE_AGO": "russian 1 minute ago",
-                "MINUTES_AGO": "russian {{minutes }} minutes ago",
-                "1_HOUR_AGO": "russian 1 hour ago",
-                "HOURS_AGO": "russian {{ hours }} hours ago",
-                "1_DAY_AGO": "russian 1 day ago",
-                "DAYS_AGO": "russian {{ days }} days ago"
-            },
-            "SIZE": {
-                "UNITS": {
-                    "BYTE": "russian B",
-                    "KILOBYTE": "russian kB",
-                    "MEGABYTE": "russian MB",
-                    "GIGABYTE": "russian GB",
-                    "TERABYTE": "russian TB"
-                },
-                "BYTES": "{{ bytes }} russian bytes"
-            }
-        },
-        "SITES_VISIBILITY": {
-            "PUBLIC": "russian Public",
-            "MODERATED": "russian Moderated",
-            "PRIVATE": "russian Private"
+  "APP": {
+    "SIGN_IN": "Войти",
+    "SIGN_OUT": "Выйти",
+    "NEW_MENU": {
+      "LABEL": "Создать",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "Создать папку",
+        "UPLOAD_FILE": "Загрузить файл",
+        "UPLOAD_FOLDER": "Загрузить папку"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "Создать новую папку",
+        "CREATE_FOLDER_NOT_ALLOWED": "Вы не можете создать папку здесь. Возможно, у вас нет необходимых прав. Обратитесь в IT-отдел.",
+        "UPLOAD_FILES": "Выберите файлы, которые необходимо загрузить",
+        "UPLOAD_FILES_NOT_ALLOWED": "У вас должны быть права на загрузку сюда. Обратитесь в IT-отдел.",
+        "UPLOAD_FOLDERS": "Выберите папки, которые необходимо загрузить",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "У вас должны быть права на загрузку сюда. Обратитесь в IT-отдел."
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Личные файлы",
+        "SIDENAV_LINK": {
+          "LABEL": "Личные файлы",
+          "TOOLTIP": "Посмотреть свои личные файлы"
         }
+      },
+      "LIBRARIES": {
+        "TITLE": "Библиотеки файлов",
+        "SIDENAV_LINK": {
+          "LABEL": "Библиотеки файлов",
+          "TOOLTIP": "Получить доступ к библиотекам файлов"
+        }
+      },
+      "SHARED": {
+        "TITLE": "Общие файлы",
+        "SIDENAV_LINK": {
+          "LABEL": "Общие",
+          "TOOLTIP": "Посмотреть файлы, к которым предоставлен общий доступ"
+        }
+      },
+      "RECENT": {
+        "TITLE": "Недавние файлы",
+        "SIDENAV_LINK": {
+          "LABEL": "Недавние файлы",
+          "TOOLTIP": "Посмотреть недавно отредактированные вами файлы"
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "Избранное",
+        "SIDENAV_LINK": {
+          "LABEL": "Избранное",
+          "TOOLTIP": "Посмотреть ваши избранные файлы и папки"
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "Корзина",
+        "SIDENAV_LINK": {
+          "LABEL": "Корзина",
+          "TOOLTIP": "Посмотреть удаленные файлы в корзине"
+        }
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "Посмотреть",
+      "SHARE": "Открыть доступ",
+      "EDIT": "Редактировать",
+      "DOWNLOAD": "Скачать",
+      "COPY": "Копировать",
+      "MOVE": "Переместить",
+      "DELETE": "Удалить",
+      "MORE": "Больше действий",
+      "UNDO": "Отменить",
+      "RESTORE": "Восстановить",
+      "FAVORITE": "Избранное"
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "NAME": "Имя",
+        "SIZE": "Размер",
+        "MODIFIED_ON": "Изменено",
+        "MODIFIED_BY": "Изменено пользователем",
+        "STATUS": "Статус",
+        "TITLE": "Название",
+        "LOCATION": "Местоположение",
+        "SHARED_BY": "Доступ открыт пользователем",
+        "DELETED_ON": "Удаленные",
+        "DELETED_BY": "Удалено пользователем"
+      }
+    },
+    "DIALOG": {
+      "MINIMIZE": "Свернуть",
+      "MAXIMIZE": "Развернуть",
+      "CLOSE": "Закрыть",
+      "UPLOAD": {
+        "IN_PROGRESS": "Загрузка {{ completed }} / {{ length }}",
+        "COMPLETE": "Загружено {{ completed }} / {{ length }}",
+        "CANCELED": "Загрузка отменена",
+        "CANCEL_UPLOAD": "Отменить загрузку",
+        "CANCEL_ALL": "Отменить загрузки",
+        "REMOVE_UPLOADED": "Удалить загруженный файл",
+        "CANCELED_STATUS": "Oтменено",
+        "ERRORS": "ошибка (ошибки)"
+      }
+    },
+    "FOLDER_DIALOG": {
+      "CREATE_FOLDER_TITLE": "Создать новую папку",
+      "EDIT_FOLDER_TITLE": "Редактировать папку",
+      "FOLDER_NAME": {
+        "LABEL": "Имя",
+        "ERRORS": {
+          "REQUIRED": "Имя папки является обязательным",
+          "SPECIAL_CHARACTERS": "Имя папки не может содержать следующие символы * \" < > \\ / ? : |",
+          "ENDING_DOT": "Имя папки не может заканчиваться точкой .",
+          "ONLY_SPACES": "Имя папки не может состоять только из пробелов"
+        }
+      },
+      "FOLDER_DESCRIPTION": {
+        "LABEL": "Описание"
+      },
+      "CREATE_BUTTON": {
+        "LABEL": "Создать"
+      },
+      "UPDATE_BUTTON": {
+        "LABEL": "Обновить"
+      },
+      "CANCEL_BUTTON": {
+        "LABEL": "Отмена"
+      }
+    },
+    "PAGINATION": {
+      "ITEMS_PER_PAGE": "Элементов на странице",
+      "CURRENT_PAGE": "Страница",
+      "OF": "из",
+      "SHOW_RANGE": "Отображается элементов: {{ range }} из {{ total }}"
+    },
+    "SITES_VISIBILITY": {
+      "PUBLIC": "Общедоступный",
+      "MODERATED": "Модерируемый",
+      "PRIVATE": "Частный"
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "GENERIC": "Действие не выполнено. Повторите попытку или обратитесь к IT-специалистам.",
+        "CONFLICT": "Это имя уже используется, попробуйте другое.",
+        "NODE_MOVE": "Перемещение не выполнено, файл с таким же именем уже существует.",
+        "EXISTENT_FOLDER": "Папка с таким же именем уже существует. Используйте другое имя.",
+        "NODE_DELETION": "Не удалось удалить {{ name }}",
+        "NODE_DELETION_PLURAL": "Не удалось удалить элементов: {{ number }}",
+        "NODE_RESTORE": "Не удалось восстановить {{ name }}",
+        "NODE_RESTORE_PLURAL": "Не удалось восстановить элементов: {{ number }}",
+        "PERMISSION": "У вас нет прав для этого действия",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "Не удалось удалить элементов: {{ number }}",
+            "SINGULAR": "Не удалось удалить элемент {{ name }}"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "Из-за проблем с местоположением восстановления не восстановлено элементов: {{ number }}",
+            "NODE_EXISTS": "Невозможно восстановить, элемент {{ name }} уже существует",
+            "LOCATION_MISSING": "Невозможно восстановить элемент {{ name }}, исходное местоположение больше не существует",
+            "GENERIC": "Возникла проблема с восстановлением элемента {{ name }}"
+          }
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "Удалено элементов: {{ number }}",
+            "SINGULAR": "Элемент {{ name }} удален",
+            "PARTIAL_SINGULAR": "Элемент {{ name }} удален, не удалось удалить: {{ failed }}",
+            "PARTIAL_PLURAL": "Элементов удалено: {{ number }}, не удалось удалить: {{ failed }}"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "Восстановлено",
+            "SINGULAR": "Элемент {{ name }} восстановлен"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "{{ name }} удален",
+          "PLURAL": "Удалено элементов: {{ number }}",
+          "PARTIAL_SINGULAR": "Удален {{ success }} элемент, не удалось удалить: {{ failed }}",
+          "PARTIAL_PLURAL": "Удалено элементов: {{ success }}, не удалось удалить: {{ failed }}"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "Скопирован {{ number }} элемент",
+          "PLURAL": "Скопировано элементов: {{ number }}"
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "Перемещен {{ success }} элемент.",
+          "PLURAL": "Перемещено элементов {{ success }}.",
+          "PARTIAL": {
+            "SINGULAR": "Частично перемещен {{ partially }} элемент.",
+            "PLURAL": "Частично перемещено элементов: {{ partially }}.",
+            "FAIL": "Не удалось переместить: {{ failed }}."
+          }
+        }
+      }
     }
+  }
 }

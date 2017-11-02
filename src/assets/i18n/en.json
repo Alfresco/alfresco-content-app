@@ -174,13 +174,13 @@
                 "TRASH": {
                     "NODES_PURGE": {
                         "PLURAL": "{{ number }} items couldn't be deleted",
-                        "SINGULAR": "{{ name }} item couldn't be deleted"
+                        "SINGULAR": "{{ name }} couldn't be deleted"
                     },
                     "NODES_RESTORE": {
                         "PARTIAL_PLURAL": "{{ number }} items not restored because of issues with the restore location",
-                        "NODE_EXISTS": "Can't restore, {{ name }} item already exists",
-                        "LOCATION_MISSING": "Can't restore {{ name }} item, the original location no longer exists",
-                        "GENERIC": "There was a problem restoring {{ name }} item"
+                        "NODE_EXISTS": "Can't restore, {{ name }} already exists",
+                        "LOCATION_MISSING": "Can't restore {{ name }}, the original location no longer exists",
+                        "GENERIC": "There was a problem restoring {{ name }}"
                     }
                 }
             },
@@ -188,13 +188,13 @@
                 "TRASH": {
                     "NODES_PURGE": {
                         "PLURAL": "{{ number }} items deleted",
-                        "SINGULAR": "{{ name }} item deleted",
-                        "PARTIAL_SINGULAR": "{{ name }} item deleted, {{ failed }} couldn't be deleted",
+                        "SINGULAR": "{{ name }} deleted",
+                        "PARTIAL_SINGULAR": "{{ name }} deleted, {{ failed }} couldn't be deleted",
                         "PARTIAL_PLURAL": "{{ number }} items deleted, {{ failed }} couldn't be deleted"
                     },
                     "NODES_RESTORE": {
                         "PLURAL": "Restore successful",
-                        "SINGULAR": "{{ name }} item restored"
+                        "SINGULAR": "{{ name }} restored"
                     }
                 },
                 "NODE_DELETION": {

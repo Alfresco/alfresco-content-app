@@ -3,8 +3,8 @@
 
 
 "@angular-devkit/build-optimizer@~0.0.23":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.0.29.tgz#ce5b76016bb06978b3da39e601a269578bbb671a"
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.0.31.tgz#511bc00e18c787a6cd4efe37b8cdb9f1bc6d4472"
   dependencies:
     loader-utils "^1.1.0"
     source-map "^0.5.6"
@@ -124,6 +124,12 @@
   dependencies:
     tslib "^1.7.1"
 
+"@angular/flex-layout@2.0.0-beta.9":
+  version "2.0.0-beta.9"
+  resolved "https://registry.yarnpkg.com/@angular/flex-layout/-/flex-layout-2.0.0-beta.9.tgz#3e54f898e805d0b1426d15e6139db415d04ee75f"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/forms@4.4.5":
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-4.4.5.tgz#e9552086232aab2ce1d08ef198b62204ea13c43b"
@@ -188,14 +194,14 @@
   resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-7.0.0.tgz#5b6f63bd4042164d44cd85f68703af96e9392e7d"
 
 "@schematics/angular@~0.0.38":
-  version "0.0.48"
-  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.0.48.tgz#6fa1bfb2676ba34c243811d2083173821d3cf07c"
+  version "0.0.49"
+  resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-0.0.49.tgz#c00ca573756d6a79ee518b05eab5fe6e7b73f341"
   dependencies:
     "@angular-devkit/core" "0.0.20"
 
 "@types/jasmine@*":
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.6.0.tgz#997b41a27752b4850af2683bc4a8d8222c25bd02"
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.6.2.tgz#6e6d4cb183cd55c7a1ad6270bced10fdd5367a3c"
 
 "@types/jasmine@~2.5.53":
   version "2.5.54"
@@ -255,8 +261,8 @@ acorn@^4.0.3:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.13.tgz#105495ae5361d697bd195c825192e1ad7f253787"
 
 acorn@^5.0.0:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.1.2.tgz#911cb53e036807cf0fa778dc5d370fbd864246d7"
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.2.1.tgz#317ac7821826c22c702d66189ab8359675f135d7"
 
 adm-zip@0.4.4:
   version "0.4.4"
@@ -278,8 +284,8 @@ agent-base@2:
     semver "~5.0.1"
 
 ajv-keywords@^2.0.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-2.1.0.tgz#a296e17f7bfae7c1ce4f7e0de53d29cb32162df0"
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-2.1.1.tgz#617997fc5f60576894c435f940d819e135b80762"
 
 ajv@^4.9.1:
   version "4.11.8"
@@ -289,20 +295,20 @@ ajv@^4.9.1:
     json-stable-stringify "^1.0.1"
 
 ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5:
-  version "5.2.4"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.2.4.tgz#3daf9a8b67221299fdae8d82d117ed8e6c80244b"
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.3.0.tgz#4414ff74a50879c208ee5fdc826e32c303549eda"
   dependencies:
     co "^4.6.0"
     fast-deep-equal "^1.0.0"
+    fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
-    json-stable-stringify "^1.0.1"
 
-alfresco-js-api@1.10.0-beta3:
-  version "1.10.0-beta3"
-  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-1.10.0-beta3.tgz#2cc0ccb5c798b5f274e4d824679cf753bc3a04c8"
+alfresco-js-api@1.10.0-beta5:
+  version "1.10.0-beta5"
+  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-1.10.0-beta5.tgz#6b3b111b1774b6b81a51f0ad0e5f7c24e5e234da"
   dependencies:
     event-emitter "0.3.4"
-    superagent "3.4.1"
+    superagent "3.7.0"
 
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"
@@ -436,8 +442,8 @@ asap@~2.0.3:
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
 
 asn1.js@^4.0.0:
-  version "4.9.1"
-  resolved "https://registry.yarnpkg.com/asn1.js/-/asn1.js-4.9.1.tgz#48ba240b45a9280e94748990ba597d216617fd40"
+  version "4.9.2"
+  resolved "https://registry.yarnpkg.com/asn1.js/-/asn1.js-4.9.2.tgz#8117ef4f7ed87cd8f89044b5bff97ac243a16c9a"
   dependencies:
     bn.js "^4.0.0"
     inherits "^2.0.1"
@@ -469,15 +475,11 @@ async-foreach@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/async-foreach/-/async-foreach-0.1.3.tgz#36121f845c0578172de419a97dbeb1d16ec34542"
 
-async@^0.9.0:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/async/-/async-0.9.2.tgz#aea74d5e61c1f899613bf64bda66d4c78f2fd17d"
-
 async@^1.4.0, async@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
 
-async@^2.1.2, async@^2.1.4, async@^2.1.5, async@^2.4.1:
+async@^2.1.2, async@^2.1.4, async@^2.1.5, async@^2.4.1, async@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/async/-/async-2.5.0.tgz#843190fd6b7357a0b9e1c956edddd5ec8462b54d"
   dependencies:
@@ -885,8 +887,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000749"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000749.tgz#556773aa3aa704f581d748fa63b46ca087aac67d"
+  version "1.0.30000756"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000756.tgz#e938a6b991630f30d2263dd3458beb65d362268b"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -924,8 +926,8 @@ chalk@^1.1.1, chalk@^1.1.3:
     supports-color "^2.0.0"
 
 chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.2.0.tgz#477b3bf2f9b8fd5ca9e429747e37f724ee7af240"
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.3.0.tgz#b5ea48efc9c1793dccc9b4767c93914d3f2d52ba"
   dependencies:
     ansi-styles "^3.1.0"
     escape-string-regexp "^1.0.5"
@@ -1021,8 +1023,8 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
 codelyzer@~3.2.0:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/codelyzer/-/codelyzer-3.2.1.tgz#5b1ac75f7e0eb04647842ee29a322bf2167e7229"
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/codelyzer/-/codelyzer-3.2.2.tgz#abbd4e5956c435677740846e5858c915f89679c3"
   dependencies:
     app-root-path "^2.0.1"
     css-selector-tokenizer "^0.7.0"
@@ -1184,7 +1186,7 @@ cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
 
-cookiejar@^2.0.6:
+cookiejar@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.1.tgz#41ad57b1b555951ec171412a81942b1e8200d34a"
 
@@ -2013,6 +2015,10 @@ fast-deep-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-1.0.0.tgz#96256a3bc975595eb36d82e9929d060d893439ff"
 
+fast-json-stable-stringify@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
+
 fast-safe-stringify@1.1.x:
   version "1.1.13"
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-1.1.13.tgz#a01e9cd9c9e491715c98a75a42d5f0bbd107ff76"
@@ -2131,7 +2137,7 @@ forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
 
-form-data@^2.1.1, form-data@~2.3.1:
+form-data@^2.3.1, form-data@~2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.3.1.tgz#6fb94fbd71885306d73d15cc497fe4cc4ecd44bf"
   dependencies:
@@ -2147,7 +2153,7 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
-formidable@^1.0.17:
+formidable@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.1.1.tgz#96b8886f7c3c3508b932d6bd70c4d3a88f35f1a9"
 
@@ -2171,6 +2177,16 @@ fs-extra@^0.23.1:
   dependencies:
     graceful-fs "^4.1.2"
     jsonfile "^2.1.0"
+    path-is-absolute "^1.0.0"
+    rimraf "^2.2.8"
+
+fs-extra@^0.26.5:
+  version "0.26.7"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-0.26.7.tgz#9ae1fdd94897798edab76d0918cf42d0c3184fa9"
+  dependencies:
+    graceful-fs "^4.1.2"
+    jsonfile "^2.1.0"
+    klaw "^1.0.0"
     path-is-absolute "^1.0.0"
     rimraf "^2.2.8"
 
@@ -2344,7 +2360,7 @@ good@7.3.0:
     oppsy "1.x.x"
     pumpify "1.3.x"
 
-graceful-fs@^4.1.2, graceful-fs@^4.1.6:
+graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
@@ -2776,8 +2792,8 @@ is-binary-path@^1.0.0:
     binary-extensions "^1.0.0"
 
 is-buffer@^1.0.2, is-buffer@^1.1.5, is-buffer@~1.1.1:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.5.tgz#1f3b26ef613b214b88cbca23cc6c01d87961eecc"
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/is-buffer/-/is-buffer-1.1.6.tgz#efaa2ea9daa0d7ab2ea13a97b2b8ad51fefbe8be"
 
 is-builtin-module@^1.0.0:
   version "1.0.0"
@@ -3035,11 +3051,26 @@ jasmine-core@~2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.8.0.tgz#bcc979ae1f9fd05701e45e52e65d3a5d63f1a24e"
 
+jasmine-reporters@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/jasmine-reporters/-/jasmine-reporters-2.2.1.tgz#de9a9201367846269e7ca8adff5b44221671fcbd"
+  dependencies:
+    mkdirp "^0.5.1"
+    xmldom "^0.1.22"
+
 jasmine-spec-reporter@~4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/jasmine-spec-reporter/-/jasmine-spec-reporter-4.1.1.tgz#5a6d58ab5d61bea7309fbc279239511756b1b588"
   dependencies:
     colors "1.1.2"
+
+jasmine2-protractor-utils@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/jasmine2-protractor-utils/-/jasmine2-protractor-utils-1.3.0.tgz#94046aabbc74ad0a4b746bcd4dc30507587b67e3"
+  dependencies:
+    fs-extra "^0.26.5"
+    mkdirp "^0.5.1"
+    q "^1.4.1"
 
 jasmine@^2.5.3:
   version "2.8.0"
@@ -3246,6 +3277,12 @@ kind-of@^4.0.0:
   dependencies:
     is-buffer "^1.1.5"
 
+klaw@^1.0.0:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/klaw/-/klaw-1.3.1.tgz#4088433b46b3b1ba259d78785d8e96f73ba02439"
+  optionalDependencies:
+    graceful-fs "^4.1.9"
+
 lazy-cache@^0.2.3:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-0.2.7.tgz#7feddf2dcb6edb77d11ef1d117ab5ffdf0ab1b65"
@@ -3269,8 +3306,8 @@ less-loader@^4.0.5:
     pify "^2.3.0"
 
 less@^2.7.2:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/less/-/less-2.7.2.tgz#368d6cc73e1fb03981183280918743c5dcf9b3df"
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/less/-/less-2.7.3.tgz#cc1260f51c900a9ec0d91fb6998139e02507b63b"
   optionalDependencies:
     errno "^0.1.1"
     graceful-fs "^4.1.2"
@@ -3278,7 +3315,7 @@ less@^2.7.2:
     mime "^1.2.11"
     mkdirp "^0.5.0"
     promise "^7.1.1"
-    request "^2.72.0"
+    request "2.81.0"
     source-map "^0.5.3"
 
 license-webpack-plugin@^1.0.0:
@@ -3519,7 +3556,11 @@ miller-rabin@^4.0.0:
     bn.js "^4.0.0"
     brorand "^1.0.1"
 
-mime-db@1.x.x, "mime-db@>= 1.30.0 < 2", mime-db@~1.30.0:
+mime-db@1.x.x, "mime-db@>= 1.30.0 < 2":
+  version "1.31.0"
+  resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.31.0.tgz#a49cd8f3ebf3ed1a482b60561d9105ad40ca74cb"
+
+mime-db@~1.30.0:
   version "1.30.0"
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.30.0.tgz#74c643da2dd9d6a45399963465b26d5ca7d71f01"
 
@@ -3583,11 +3624,7 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   dependencies:
     minimist "0.0.8"
 
-moment@2.15.1:
-  version "2.15.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.15.1.tgz#e979c2a29e22888e60f396f2220a6118f85cd94c"
-
-moment@2.15.x:
+moment@2.15.2, moment@2.15.x:
   version "2.15.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.15.2.tgz#1bfdedf6a6e345f322fe956d5df5bd08a8ce84dc"
 
@@ -3632,9 +3669,9 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
-ng2-alfresco-core@1.10.0-beta3:
-  version "1.10.0-beta3"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-core/-/ng2-alfresco-core-1.10.0-beta3.tgz#fa6a6bf414b86203c6f4fd106bfd8367595019cf"
+ng2-alfresco-core@1.10.0-beta5:
+  version "1.10.0-beta5"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-core/-/ng2-alfresco-core-1.10.0-beta5.tgz#d641754b9440014a5b747811b82520c449f2694e"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3649,18 +3686,18 @@ ng2-alfresco-core@1.10.0-beta3:
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
     "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta3"
+    alfresco-js-api "1.10.0-beta5"
     core-js "2.4.1"
     hammerjs "2.0.8"
-    moment "2.15.1"
+    moment "2.15.2"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-datatable@1.10.0-beta3:
-  version "1.10.0-beta3"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-datatable/-/ng2-alfresco-datatable-1.10.0-beta3.tgz#507d6838e2b737ccc0753111843f66137341bee8"
+ng2-alfresco-datatable@1.10.0-beta5:
+  version "1.10.0-beta5"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-datatable/-/ng2-alfresco-datatable-1.10.0-beta5.tgz#a63feac548ee5aac5ec677a923c84fbaecb3ba3c"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3674,24 +3711,25 @@ ng2-alfresco-datatable@1.10.0-beta3:
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
     "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta3"
+    alfresco-js-api "1.10.0-beta5"
     core-js "2.4.1"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta3"
+    ng2-alfresco-core "1.10.0-beta5"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-documentlist@1.10.0-beta3:
-  version "1.10.0-beta3"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-documentlist/-/ng2-alfresco-documentlist-1.10.0-beta3.tgz#94a45b5ba6d35d5dc3e0923fceb08af6a5015bfc"
+ng2-alfresco-documentlist@1.10.0-beta5:
+  version "1.10.0-beta5"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-documentlist/-/ng2-alfresco-documentlist-1.10.0-beta5.tgz#c63d5cb769c4ed5995179b883acf460c7bfb13a5"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
     "@angular/common" "4.4.5"
     "@angular/compiler" "4.4.5"
     "@angular/core" "4.4.5"
+    "@angular/flex-layout" "2.0.0-beta.9"
     "@angular/forms" "4.4.5"
     "@angular/http" "4.4.5"
     "@angular/material" "2.0.0-beta.12"
@@ -3699,19 +3737,20 @@ ng2-alfresco-documentlist@1.10.0-beta3:
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
     "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta3"
+    alfresco-js-api "1.10.0-beta5"
     core-js "2.4.1"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta3"
-    ng2-alfresco-datatable "1.10.0-beta3"
+    ng2-alfresco-core "1.10.0-beta5"
+    ng2-alfresco-datatable "1.10.0-beta5"
+    ng2-alfresco-upload "1.10.0-beta5"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-login@1.10.0-beta3:
-  version "1.10.0-beta3"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-login/-/ng2-alfresco-login-1.10.0-beta3.tgz#8946e4010b584b000721e9a71736fdb548e87513"
+ng2-alfresco-login@1.10.0-beta5:
+  version "1.10.0-beta5"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-login/-/ng2-alfresco-login-1.10.0-beta5.tgz#fc54c6e6eb32774bb47e29654432209413993fe0"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3725,17 +3764,17 @@ ng2-alfresco-login@1.10.0-beta3:
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
     "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta3"
+    alfresco-js-api "1.10.0-beta5"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta3"
+    ng2-alfresco-core "1.10.0-beta5"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-search@1.10.0-beta3:
-  version "1.10.0-beta3"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-search/-/ng2-alfresco-search-1.10.0-beta3.tgz#bb665188feb0aa7f211f4864488f746b216224f5"
+ng2-alfresco-search@1.10.0-beta5:
+  version "1.10.0-beta5"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-search/-/ng2-alfresco-search-1.10.0-beta5.tgz#6a2c83c0bc9b3696908a53c3bf042cd1c7736127"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3749,20 +3788,20 @@ ng2-alfresco-search@1.10.0-beta3:
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
     "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta3"
+    alfresco-js-api "1.10.0-beta5"
     core-js "2.4.1"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta3"
-    ng2-alfresco-datatable "1.10.0-beta3"
-    ng2-alfresco-documentlist "1.10.0-beta3"
+    ng2-alfresco-core "1.10.0-beta5"
+    ng2-alfresco-datatable "1.10.0-beta5"
+    ng2-alfresco-documentlist "1.10.0-beta5"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-upload@1.10.0-beta3:
-  version "1.10.0-beta3"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-upload/-/ng2-alfresco-upload-1.10.0-beta3.tgz#a92b3056fa383d41fe2077137e21fdf0f401f5d9"
+ng2-alfresco-upload@1.10.0-beta5:
+  version "1.10.0-beta5"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-upload/-/ng2-alfresco-upload-1.10.0-beta5.tgz#6d61b0777c6dd7703993ae04921dd44b78eb5bab"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3776,19 +3815,19 @@ ng2-alfresco-upload@1.10.0-beta3:
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
     "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta3"
+    alfresco-js-api "1.10.0-beta5"
     core-js "2.4.1"
     hammerjs "2.0.8"
     minimatch "3.0.4"
-    ng2-alfresco-core "1.10.0-beta3"
+    ng2-alfresco-core "1.10.0-beta5"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-viewer@1.10.0-beta3:
-  version "1.10.0-beta3"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-viewer/-/ng2-alfresco-viewer-1.10.0-beta3.tgz#4562e76f5bc3bd2ea141648ada820daca418f42c"
+ng2-alfresco-viewer@1.10.0-beta5:
+  version "1.10.0-beta5"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-viewer/-/ng2-alfresco-viewer-1.10.0-beta5.tgz#b52a7afc89c6816ebe8def703aa8d879a38d3eb6"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3802,10 +3841,10 @@ ng2-alfresco-viewer@1.10.0-beta3:
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
     "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta3"
+    alfresco-js-api "1.10.0-beta5"
     core-js "2.4.1"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta3"
+    ng2-alfresco-core "1.10.0-beta5"
     pdfjs-dist "1.5.404"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
@@ -4729,7 +4768,7 @@ qjobs@^1.1.4:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/qjobs/-/qjobs-1.1.5.tgz#659de9f2cf8dcc27a1481276f205377272382e73"
 
-qs@6.5.1, qs@^6.1.0, qs@^6.4.0, qs@~6.5.1:
+qs@6.5.1, qs@^6.4.0, qs@^6.5.1, qs@~6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
@@ -4959,7 +4998,7 @@ repeating@^2.0.0:
   dependencies:
     is-finite "^1.0.0"
 
-request@2, request@^2.72.0, request@^2.78.0, request@^2.79.0:
+request@2, request@^2.78.0, request@^2.79.0:
   version "2.83.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.83.0.tgz#ca0b65da02ed62935887808e6f510381034e3356"
   dependencies:
@@ -5030,8 +5069,8 @@ requires-port@1.0.x, requires-port@1.x.x:
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
 
 resolve@^1.1.6, resolve@^1.1.7, resolve@^1.3.2:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.4.0.tgz#a75be01c53da25d934a98ebd0e4c4a7312f92a86"
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.5.0.tgz#1f09acce796c9a762579f31b2c1cc4c3cddf9f36"
   dependencies:
     path-parse "^1.0.5"
 
@@ -5061,8 +5100,8 @@ rxjs@5.1.0:
     symbol-observable "^1.0.1"
 
 rxjs@^5.4.2:
-  version "5.5.0"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.0.tgz#26d8f3866eb700e247e0728a147c3d628993d812"
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.2.tgz#28d403f0071121967f18ad665563255d54236ac3"
   dependencies:
     symbol-observable "^1.0.1"
 
@@ -5284,8 +5323,8 @@ sntp@1.x.x:
     hoek "2.x.x"
 
 sntp@2.x.x:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/sntp/-/sntp-2.0.2.tgz#5064110f0af85f7cfdb7d6b67a40028ce52b4b2b"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/sntp/-/sntp-2.1.0.tgz#2c6cec14fedc2222739caf9b5c3d85d1cc5a2cc8"
   dependencies:
     hoek "4.x.x"
 
@@ -5362,12 +5401,12 @@ source-list-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-2.0.0.tgz#aaa47403f7b245a92fbc97ea08f250d6087ed085"
 
 source-map-loader@^0.2.0:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/source-map-loader/-/source-map-loader-0.2.2.tgz#1249348ff6a66ea64a2957fc98f74cb6bba67505"
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/source-map-loader/-/source-map-loader-0.2.3.tgz#d4b0c8cd47d54edce3e6bfa0f523f452b5b0e521"
   dependencies:
-    async "^0.9.0"
+    async "^2.5.0"
     loader-utils "~0.2.2"
-    source-map "~0.1.33"
+    source-map "~0.6.1"
 
 source-map-support@^0.4.0, source-map-support@^0.4.1, source-map-support@^0.4.2, source-map-support@~0.4.0:
   version "0.4.18"
@@ -5375,7 +5414,7 @@ source-map-support@^0.4.0, source-map-support@^0.4.1, source-map-support@^0.4.2,
   dependencies:
     source-map "^0.5.6"
 
-source-map@0.1.x, source-map@~0.1.33, source-map@~0.1.7:
+source-map@0.1.x, source-map@~0.1.7:
   version "0.1.43"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.1.43.tgz#c24bc146ca517c1471f5dacbe2571b2b7f9e3346"
   dependencies:
@@ -5608,19 +5647,19 @@ subtext@^5.0.0:
     pez "2.x.x"
     wreck "12.x.x"
 
-superagent@3.4.1:
-  version "3.4.1"
-  resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.4.1.tgz#4bd12741224d0ece6d9f757f1c3becbe7f24c115"
+superagent@3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.7.0.tgz#bd58bfde2cbc5305adb9ccbb6dacba18408629d6"
   dependencies:
     component-emitter "^1.2.0"
-    cookiejar "^2.0.6"
-    debug "^2.2.0"
+    cookiejar "^2.1.0"
+    debug "^3.1.0"
     extend "^3.0.0"
-    form-data "^2.1.1"
-    formidable "^1.0.17"
+    form-data "^2.3.1"
+    formidable "^1.1.1"
     methods "^1.1.1"
-    mime "^1.3.4"
-    qs "^6.1.0"
+    mime "^1.4.1"
+    qs "^6.5.1"
     readable-stream "^2.0.5"
 
 supports-color@^2.0.0:
@@ -5666,8 +5705,8 @@ tapable@^0.2.7:
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-0.2.8.tgz#99372a5c999bf2df160afc0d74bed4f47948cd22"
 
 tar-pack@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/tar-pack/-/tar-pack-3.4.0.tgz#23be2d7f671a8339376cbdb0b8fe3fdebf317984"
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/tar-pack/-/tar-pack-3.4.1.tgz#e1dbc03a9b9d3ba07e896ad027317eb679a10a1f"
   dependencies:
     debug "^2.2.0"
     fstream "^1.0.10"
@@ -5850,17 +5889,21 @@ type-is@~1.6.15:
     media-typer "0.3.0"
     mime-types "~2.1.15"
 
-"typescript@>=2.0.0 <2.6.0", typescript@^2.3.3:
+"typescript@>=2.0.0 <2.6.0":
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.5.3.tgz#df3dcdc38f3beb800d4bc322646b04a3f6ca7f0d"
+
+typescript@^2.3.3:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.1.tgz#ef39cdea27abac0b500242d6726ab90e0c846631"
 
 typescript@~2.3.3:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.4.tgz#3d38321828231e434f287514959c37a82b629f42"
 
 uglify-js@3.1.x:
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.1.5.tgz#4c1a6d53b2fe77e4710dd94631853effd3ff5143"
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.1.6.tgz#918832602036e95d2318e11f27ee8461a8592c5d"
   dependencies:
     commander "~2.11.0"
     source-map "~0.6.1"
@@ -6302,7 +6345,7 @@ xmlbuilder@>=1.0.0, xmlbuilder@~9.0.1:
   version "9.0.4"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.4.tgz#519cb4ca686d005a8420d3496f3f0caeecca580f"
 
-xmldom@^0.1.19:
+xmldom@^0.1.19, xmldom@^0.1.22:
   version "0.1.27"
   resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.27.tgz#d501f97b3bdb403af8ef9ecc20573187aadac0e9"
 

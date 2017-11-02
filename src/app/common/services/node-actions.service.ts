@@ -21,10 +21,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 
 import { AlfrescoApiService, AlfrescoContentService, NodesApiService } from 'ng2-alfresco-core';
 import { DataColumn } from 'ng2-alfresco-datatable';
-import {
-    DocumentListService, ContentNodeSelectorComponent,
-    ContentNodeSelectorComponentData, ShareDataRow
-} from 'ng2-alfresco-documentlist';
+import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from 'ng2-alfresco-documentlist';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Injectable()
@@ -405,7 +402,7 @@ export class NodeActionsService {
         const matchedNodes: Subject<any> = new Subject<any>();
 
         this.getNodeChildren(parentId).subscribe(
-            (childrenNodes) => {
+            (childrenNodes: any) => {
                 const result = childrenNodes.list.entries.find(node => (node.entry.name === name));
 
                 if (result) {
@@ -428,12 +425,14 @@ export class NodeActionsService {
         return this.contentService.hasPermission(node, permission);
     }
 
-    private rowFilter(row: ShareDataRow): boolean {
+    // todo: review once 1.10-beta6 is out
+    private rowFilter(row: /*ShareDataRow*/ any): boolean {
         const node: MinimalNodeEntryEntity = row.node.entry;
         return (!node.isFile);
     }
 
-    private imageResolver(row: ShareDataRow, col: DataColumn): string | null {
+    // todo: review once 1.10-beta6 is out
+    private imageResolver(row: /*ShareDataRow*/ any, col: DataColumn): string | null {
         const entry: MinimalNodeEntryEntity = row.node.entry;
         if (!this.contentService.hasPermission(entry, 'update')) {
             return this.documentListService.getMimeTypeIcon('disable/folder');

@@ -18,8 +18,8 @@
 import { Observable, Subscription } from 'rxjs/Rx';
 import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging } from 'alfresco-js-api';
-import { UploadService, FileUploadEvent, NodesApiService, AlfrescoContentService } from 'ng2-alfresco-core';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
+import { UploadService, FileUploadEvent, NodesApiService, AlfrescoContentService, AlfrescoApiService } from 'ng2-alfresco-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -34,6 +34,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private routeData: any = {};
     isValidPath = true;
 
+    private nodePath: PathElement[];
     private onCopyNode: Subscription;
     private onRemoveItem: Subscription;
     private onCreateFolder: Subscription;
@@ -53,7 +54,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         private uploadService: UploadService,
         private contentManagementService: ContentManagementService,
         private browsingFilesService: BrowsingFilesService,
-        private contentService: AlfrescoContentService) {
+        private contentService: AlfrescoContentService,
+        private apiService: AlfrescoApiService) {
         super();
     }
 
@@ -144,6 +146,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     onBreadcrumbNavigate(route: PathElementEntity) {
+        // todo: review this approach once 5.2.3 is out
+        if (this.nodePath && this.nodePath.length > 2) {
+            if (this.nodePath[1].name === 'Sites' && this.nodePath[2].id === route.id) {
+                return this.navigate(this.nodePath[3].id);
+            }
+        }
         this.navigate(route.id);
     }
 
@@ -182,12 +190,67 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             );
     }
 
-    private updateCurrentNode(node) {
+    // todo: review this approach once 5.2.3 is out
+    private async updateCurrentNode(node: MinimalNodeEntryEntity) {
+        this.nodePath = null;
+
+        if (node && node.path && node.path.elements) {
+            const elements = node.path.elements;
+
+            this.nodePath = elements.map(pathElement => {
+                return Object.assign({}, pathElement);
+            });
+
+            if (elements.length > 1) {
+                if (elements[1].name === 'User Homes') {
+                    elements.splice(0, 2);
+                } else if (elements[1].name === 'Sites') {
+                    await this.normalizeSitePath(node);
+                }
+            }
+        }
+
         this.node = node;
         this.browsingFilesService.onChangeParent.next(node);
     }
 
-    private isRootNode(nodeId: string): boolean {
+    // todo: review this approach once 5.2.3 is out
+    private async normalizeSitePath(node: MinimalNodeEntryEntity) {
+        const elements = node.path.elements;
+
+        // remove 'Sites'
+        elements.splice(1, 1);
+
+        if (this.isSiteContainer(node)) {
+            // rename 'documentLibrary' entry to the target site display name
+            // clicking on the breadcrumb entry loads the site content
+            const parentNode = await this.apiService.nodesApi.getNodeInfo(node.parentId);
+            node.name = parentNode.properties['cm:title'] || parentNode.name;
+
+            // remove the site entry
+            elements.splice(1, 1);
+        } else {
+            // remove 'documentLibrary' in the middle of the path
+            const docLib = elements.findIndex(el => el.name === 'documentLibrary');
+            if (docLib > -1) {
+                const siteFragment = elements[docLib - 1];
+                const siteNode = await this.apiService.nodesApi.getNodeInfo(siteFragment.id);
+
+                // apply Site Name to the parent fragment
+                siteFragment.name = siteNode.properties['cm:title'] || siteNode.name;
+                elements.splice(docLib, 1);
+            }
+        }
+    }
+
+    isSiteContainer(node: MinimalNodeEntryEntity): boolean {
+        if (node && node.aspectNames && node.aspectNames.length > 0) {
+            return node.aspectNames.indexOf('st:siteContainer') >= 0;
+        }
+        return false;
+    }
+
+    isRootNode(nodeId: string): boolean {
         if (this.node && this.node.path && this.node.path.elements && this.node.path.elements.length > 0) {
             return this.node.path.elements[0].id === nodeId;
         }
