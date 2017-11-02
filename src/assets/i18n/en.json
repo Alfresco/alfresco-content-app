@@ -90,6 +90,7 @@
             "COPY": "Copy",
             "MOVE": "Move",
             "DELETE": "Delete",
+            "DELETE_PERMANENT": "Permanently delete",
             "MORE": "More actions",
             "UNDO": "Undo",
             "RESTORE": "Restore",
