@@ -184,8 +184,8 @@
           "PARTIAL_PLURAL": "Slettet {{ success }} elementer, {{ failed }} kunne ikke slettes"
         },
         "NODE_COPY": {
-          "SINGULAR": "Kopierte {{ number }} element",
-          "PLURAL": "Kopierte {{ number }} elementer"
+          "SINGULAR": "Kopierte {{ success }} element",
+          "PLURAL": "Kopierte {{ success }} elementer"
         },
         "NODE_MOVE": {
           "SINGULAR": "Flyttet {{ success }} element.",

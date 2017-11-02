@@ -369,8 +369,8 @@ describe('NodeActionsService', () => {
             spyOnSuccess.calls.reset();
             spyOnError.calls.reset();
             copyObservable.toPromise().then(
-                () => {
-                    spyOnSuccess();
+                (response) => {
+                    spyOnSuccess(response);
                 },
                 () => {
                     spyOnError();
@@ -382,8 +382,9 @@ describe('NodeActionsService', () => {
                         { targetParentId: folderDestination.entry.id, name: undefined }
                     );
                 }).then(() => {
-                    expect(spyOnSuccess.calls.count()).toEqual(0);
-                    expect(spyOnError.calls.count()).toEqual(1);
+                    expect(spyOnSuccess.calls.count()).toEqual(1);
+                    expect(spyOnSuccess).toHaveBeenCalledWith(permissionError);
+                    expect(spyOnError.calls.count()).toEqual(0);
                 });
         }));
 
@@ -401,16 +402,16 @@ describe('NodeActionsService', () => {
             spyOnError.calls.reset();
             copyObservable.toPromise()
                 .then(
-                    () => {
-                        spyOnSuccess();
+                    (response) => {
+                        spyOnSuccess(response);
                     },
                     () => {
                         spyOnError();
                     })
                 .then(
                     () => {
-                        expect(spyOnSuccess).not.toHaveBeenCalled();
-                        expect(spyOnError).toHaveBeenCalled();
+                        expect(spyOnSuccess).toHaveBeenCalledWith(permissionError);
+                        expect(spyOnError).not.toHaveBeenCalled();
 
                         expect(spyContentAction).toHaveBeenCalled();
                         expect(spyFolderAction).not.toHaveBeenCalled();
@@ -694,7 +695,7 @@ describe('NodeActionsService', () => {
                     });
             }));
 
-            it('should throw permission error in case it occurs', async(() => {
+            it('should not throw permission error, to be able to show message in case of partial move of files', async(() => {
                 spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and
                     .returnValue(Observable.throw(permissionError));
 
@@ -711,8 +712,8 @@ describe('NodeActionsService', () => {
                     .then(() => {
                         expect(spyOnDocumentListServiceAction).toHaveBeenCalled();
 
-                        expect(spyOnSuccess).not.toHaveBeenCalledWith(permissionError);
-                        expect(spyOnError).toHaveBeenCalledWith(permissionError);
+                        expect(spyOnSuccess).toHaveBeenCalledWith(permissionError);
+                        expect(spyOnError).not.toHaveBeenCalledWith(permissionError);
                     });
             }));
 
@@ -750,15 +751,15 @@ describe('NodeActionsService', () => {
                 spyOnError.calls.reset();
             });
 
-            it('should throw permission error in case it occurs on folder move', async(() => {
+            it('should not throw permission error in case it occurs on folder move', async(() => {
                 spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and
                     .returnValue(Observable.throw(permissionError));
 
                 const moveFolderActionObservable = service.moveFolderAction(folderToMove.entry, folderDestinationId);
                 moveFolderActionObservable.toPromise()
                     .then(
-                        () => {
-                            spyOnSuccess();
+                        (value) => {
+                            spyOnSuccess(value);
                         },
                         (error) => {
                             spyOnError(error);
@@ -766,8 +767,8 @@ describe('NodeActionsService', () => {
                     .then(() => {
                         expect(spyOnDocumentListServiceAction).toHaveBeenCalled();
 
-                        expect(spyOnSuccess).not.toHaveBeenCalled();
-                        expect(spyOnError).toHaveBeenCalledWith(permissionError);
+                        expect(spyOnSuccess).toHaveBeenCalledWith(permissionError);
+                        expect(spyOnError).not.toHaveBeenCalled();
                     });
             }));
 

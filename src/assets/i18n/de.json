@@ -184,8 +184,8 @@
           "PARTIAL_PLURAL": "{{ success }} Elemente gelöscht, {{ failed }} konnte(n) nicht gelöscht werden"
         },
         "NODE_COPY": {
-          "SINGULAR": "{{ number }} Element kopiert.",
-          "PLURAL": "{{ number }} Elemente kopiert."
+          "SINGULAR": "{{ success }} Element kopiert.",
+          "PLURAL": "{{ success }} Elemente kopiert."
         },
         "NODE_MOVE": {
           "SINGULAR": "{{ success }} Element verschoben.",
