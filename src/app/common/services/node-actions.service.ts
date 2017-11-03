@@ -103,11 +103,11 @@ export class NodeActionsService {
                         (newContent) => {
                             observable.next(`OPERATION.SUCCES.${type.toUpperCase()}.${action.toUpperCase()}`);
 
+                            const processedData = this.processResponse(newContent);
                             if (action === 'copy') {
-                                this.contentCopied.next(newContent);
+                                this.contentCopied.next(processedData.succeeded);
 
                             } else if (action === 'move') {
-                                const processedData = this.processResponse(newContent);
                                 this.contentMoved.next(processedData);
                             }
 
@@ -219,7 +219,8 @@ export class NodeActionsService {
                 if (errStatusCode && errStatusCode === 409) {
                     return this.copyContentAction(contentEntry, selectionId, this.getNewNameFrom(_oldName, contentEntry.name));
                 } else {
-                    return Observable.throw(err || 'Server error');
+                    // do not throw error, to be able to show message in case of partial copy of files
+                    return Observable.of(err || 'Server error');
                 }
             });
     }
@@ -268,7 +269,8 @@ export class NodeActionsService {
                         });
 
                 } else {
-                    return Observable.throw(err || 'Server error');
+                    // do not throw error, to be able to show message in case of partial copy of files
+                    return Observable.of(err || 'Server error');
                 }
             });
     }
@@ -367,7 +369,8 @@ export class NodeActionsService {
                             return Observable.zip(...batch);
                         });
                 } else {
-                    return Observable.throw(err);
+                    // do not throw error, to be able to show message in case of partial move of files
+                    return Observable.of(err);
                 }
             });
     }
@@ -382,19 +385,8 @@ export class NodeActionsService {
                 return { itemMoved, initialParentId };
             })
             .catch((err) => {
-                let errStatusCode;
-                try {
-                    const {error: {statusCode}} = JSON.parse(err.message);
-                    errStatusCode = statusCode;
-                } catch (e) { //
-                }
-
-                if (errStatusCode && errStatusCode === 409) {
-                    // do not throw error, to be able to show message in case of partial move of files
-                    return Observable.of(err);
-                } else {
-                    return Observable.throw(err);
-                }
+                // do not throw error, to be able to show message in case of partial move of files
+                return Observable.of(err);
             });
     }
 
@@ -413,7 +405,7 @@ export class NodeActionsService {
                 }
             },
             (err) => {
-                return Observable.throw(err || 'Server error');
+                return Observable.of(err || 'Server error');
             });
         return matchedNodes;
     }

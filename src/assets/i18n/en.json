@@ -1,5 +1,6 @@
 {
     "APP": {
+        "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
         "NEW_MENU": {
@@ -90,6 +91,7 @@
             "COPY": "Copy",
             "MOVE": "Move",
             "DELETE": "Delete",
+            "DELETE_PERMANENT": "Permanently delete",
             "MORE": "More actions",
             "UNDO": "Undo",
             "RESTORE": "Restore",
@@ -204,8 +206,12 @@
                     "PARTIAL_PLURAL": "Deleted {{ success }} items, {{ failed }} couldn't be deleted"
                 },
                 "NODE_COPY": {
-                    "SINGULAR": "Copied {{ number }} item",
-                    "PLURAL": "Copied {{ number }} items"
+                    "SINGULAR": "Copied {{ success }} item",
+                    "PLURAL": "Copied {{ success }} items",
+                    "PARTIAL_SINGULAR": "Copied {{ success }} item, {{ failed }} couldn't be copied.",
+                    "PARTIAL_PLURAL": "Copied {{ success }} items, {{ failed }} couldn't be copied.",
+                    "FAIL_SINGULAR": "{{ failed }} item couldn't be copied.",
+                    "FAIL_PLURAL": "{{ failed }} items couldn't be copied."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Moved {{ success }} item.",

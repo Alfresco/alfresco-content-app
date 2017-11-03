@@ -184,8 +184,8 @@
           "PARTIAL_PLURAL": "Удалено элементов: {{ success }}, не удалось удалить: {{ failed }}"
         },
         "NODE_COPY": {
-          "SINGULAR": "Скопирован {{ number }} элемент",
-          "PLURAL": "Скопировано элементов: {{ number }}"
+          "SINGULAR": "Скопирован {{ success }} элемент",
+          "PLURAL": "Скопировано элементов: {{ success }}"
         },
         "NODE_MOVE": {
           "SINGULAR": "Перемещен {{ success }} элемент.",

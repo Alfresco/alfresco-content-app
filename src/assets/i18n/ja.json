@@ -184,8 +184,8 @@
           "PARTIAL_PLURAL": "{{ success }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
         },
         "NODE_COPY": {
-          "SINGULAR": "{{ number }} 件のアイテムをコピーしました",
-          "PLURAL": "{{ number }} 件のアイテムをコピーしました"
+          "SINGULAR": "{{ success }} 件のアイテムをコピーしました",
+          "PLURAL": "{{ success }} 件のアイテムをコピーしました"
         },
         "NODE_MOVE": {
           "SINGULAR": "{{ success }} 件のアイテムを移動しました。",

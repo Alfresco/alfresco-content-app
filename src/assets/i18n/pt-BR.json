@@ -184,8 +184,8 @@
           "PARTIAL_PLURAL": "Itens {{ success }} excluídos, não foi possível excluir {{ failed }}"
         },
         "NODE_COPY": {
-          "SINGULAR": "Item {{ number }} copiado",
-          "PLURAL": "Itens {{ number }} copiados"
+          "SINGULAR": "Item {{ success }} copiado",
+          "PLURAL": "Itens {{ success }} copiados"
         },
         "NODE_MOVE": {
           "SINGULAR": "Item {{ success }} movido.",
