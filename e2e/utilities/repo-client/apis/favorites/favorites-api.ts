@@ -23,14 +23,10 @@ import { RepoClient } from './../../repo-client';
 export class FavoritesApi extends RepoApi {
 
     addFavorite(api: RepoClient, nodeType: string, name: string): Promise<any> {
-        let data = [];
-
         return api.nodes.getNodeByPath(name)
-            .then((response: any): string => {
-                return response.data.entry.id;
-            })
-            .then((id: string) => {
-                data = data.concat([{
+            .then((response) => {
+                const { id } = response.data.entry;
+                return ([{
                     target: {
                         [nodeType]: {
                             guid: id
@@ -38,7 +34,7 @@ export class FavoritesApi extends RepoApi {
                     }
                 }]);
             })
-            .then(() => {
+            .then((data) => {
                 return this.post(`/people/-me-/favorites`, { data });
             })
             .catch(this.handleError);
@@ -46,8 +42,8 @@ export class FavoritesApi extends RepoApi {
 
     getFavorite(api: RepoClient, name: string): Promise<any> {
         return api.nodes.getNodeByPath(name)
-            .then((resp: any) => {
-                const { id } = resp.data.entry;
+            .then((response) => {
+                const { id } = response.data.entry;
                 return this.get(`/people/-me-/favorites/${id}`);
             })
             .catch((response) => Promise.resolve(response));
@@ -55,10 +51,8 @@ export class FavoritesApi extends RepoApi {
 
     removeFavorite(api: RepoClient, nodeType: string, name: string): Promise<any> {
         return api.nodes.getNodeByPath(name)
-            .then((response: any): string => {
-                return response.data.entry.id;
-            })
-            .then((id: string) => {
+            .then((response) => {
+                const { id } = response.data.entry;
                 return this.delete(`/people/-me-/favorites/${id}`);
             })
             .catch(this.handleError);
