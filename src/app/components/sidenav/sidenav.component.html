@@ -8,8 +8,8 @@
         <mat-menu #menu="matMenu" [overlapTrigger]="false">
             <button
                 mat-menu-item
-                [app-create-folder]="node?.id"
                 [disabled]="!canCreateContent(node)"
+                [adf-create-folder]="node?.id"
                 title="{{
                     ( canCreateContent(node)
                         ? 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER'

@@ -20,12 +20,13 @@ import { RepoClientAuth, RepoClientConfig } from './repo-client-models';
 import { PeopleApi } from './apis/people/people-api';
 import { NodesApi } from './apis/nodes/nodes-api';
 import { SitesApi } from './apis/sites/sites-api';
+import { FavoritesApi } from './apis/favorites/favorites-api';
 
 export class RepoClient {
     public people: PeopleApi = new PeopleApi(this.auth, this.config);
     public nodes: NodesApi = new NodesApi(this.auth, this.config);
     public sites: SitesApi = new SitesApi(this.auth, this.config);
-    // public favorites: FavoritesApi = new FavoritesApi(this.auth, this.config);
+    public favorites: FavoritesApi = new FavoritesApi(this.auth, this.config);
     // public shared: SharedLinksApi = new SharedLinksApi(this.auth, this.config);
 
     constructor(
