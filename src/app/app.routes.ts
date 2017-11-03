@@ -112,8 +112,7 @@ export const APP_ROUTES: Routes = [
                 data: {
                     i18nTitle: 'APP.BROWSE.TRASHCAN.TITLE'
                 }
-            }
-            ,
+            },
             {
                 path: '**',
                 component: GenericErrorComponent
