@@ -3,8 +3,8 @@
 
 
 "@angular-devkit/build-optimizer@~0.0.23":
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.0.31.tgz#511bc00e18c787a6cd4efe37b8cdb9f1bc6d4472"
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/build-optimizer/-/build-optimizer-0.0.32.tgz#1bf32332d8a7c84043059e3d265a52f9d11726fd"
   dependencies:
     loader-utils "^1.1.0"
     source-map "^0.5.6"
@@ -18,13 +18,13 @@
     source-map "^0.5.6"
 
 "@angular-devkit/schematics@~0.0.25":
-  version "0.0.34"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-0.0.34.tgz#c3ef61b0e49e585d9982f2828e9a67b3879a6b1b"
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-0.0.35.tgz#23dbe2c8dd430114a903a7995d6eefcf1f0f648d"
   dependencies:
     "@angular-devkit/core" "0.0.20"
     "@ngtools/json-schema" "^1.1.0"
     minimist "^1.2.0"
-    rxjs "^5.4.2"
+    rxjs "^5.5.2"
 
 "@angular/animations@4.4.5":
   version "4.4.5"
@@ -189,9 +189,9 @@
     magic-string "^0.22.3"
     source-map "^0.5.6"
 
-"@ngx-translate/core@7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-7.0.0.tgz#5b6f63bd4042164d44cd85f68703af96e9392e7d"
+"@ngx-translate/core@8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-8.0.0.tgz#751fd6b512d80f3a748d2de8dfc96dfefa29afe0"
 
 "@schematics/angular@~0.0.38":
   version "0.0.49"
@@ -303,9 +303,9 @@ ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-alfresco-js-api@1.10.0-beta5:
-  version "1.10.0-beta5"
-  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-1.10.0-beta5.tgz#6b3b111b1774b6b81a51f0ad0e5f7c24e5e234da"
+alfresco-js-api@1.10.0-beta6:
+  version "1.10.0-beta6"
+  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-1.10.0-beta6.tgz#c988a46f81ce17c70edd053d03b95d61ce5447f5"
   dependencies:
     event-emitter "0.3.4"
     superagent "3.7.0"
@@ -887,8 +887,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000756"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000756.tgz#e938a6b991630f30d2263dd3458beb65d362268b"
+  version "1.0.30000758"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000758.tgz#a235627b1922e878b63164942c991b84de92c810"
 
 caseless@~0.12.0:
   version "0.12.0"
@@ -925,7 +925,7 @@ chalk@^1.1.1, chalk@^1.1.3:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
-chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0:
+chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.3.0.tgz#b5ea48efc9c1793dccc9b4767c93914d3f2d52ba"
   dependencies:
@@ -1292,8 +1292,8 @@ cryptiles@3.x.x, cryptiles@^3.1.2:
     boom "5.x.x"
 
 crypto-browserify@^3.11.0:
-  version "3.11.1"
-  resolved "https://registry.yarnpkg.com/crypto-browserify/-/crypto-browserify-3.11.1.tgz#948945efc6757a400d6e5e5af47194d10064279f"
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/crypto-browserify/-/crypto-browserify-3.12.0.tgz#396cf9f3137f03e4b8e532c58f698254e00f80ec"
   dependencies:
     browserify-cipher "^1.0.0"
     browserify-sign "^4.0.0"
@@ -1305,6 +1305,7 @@ crypto-browserify@^3.11.0:
     pbkdf2 "^3.0.3"
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
+    randomfill "^1.0.3"
 
 css-color-names@0.0.4:
   version "0.0.4"
@@ -1541,6 +1542,10 @@ detect-indent@^4.0.0:
   resolved "https://registry.yarnpkg.com/detect-indent/-/detect-indent-4.0.0.tgz#f76d064352cdf43a1cb6ce619c4ee3a9475de208"
   dependencies:
     repeating "^2.0.0"
+
+detect-libc@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.2.tgz#71ad5d204bf17a6a6ca8f450c61454066ef461e1"
 
 detect-node@^2.0.3:
   version "2.0.3"
@@ -3669,9 +3674,9 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
-ng2-alfresco-core@1.10.0-beta5:
-  version "1.10.0-beta5"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-core/-/ng2-alfresco-core-1.10.0-beta5.tgz#d641754b9440014a5b747811b82520c449f2694e"
+ng2-alfresco-core@1.10.0-beta6:
+  version "1.10.0-beta6"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-core/-/ng2-alfresco-core-1.10.0-beta6.tgz#d1ed5028f3bb4e9c063e338290dfba9a9cb44992"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3685,8 +3690,8 @@ ng2-alfresco-core@1.10.0-beta5:
     "@angular/platform-browser" "4.4.5"
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
-    "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta5"
+    "@ngx-translate/core" "8.0.0"
+    alfresco-js-api "1.10.0-beta6"
     core-js "2.4.1"
     hammerjs "2.0.8"
     moment "2.15.2"
@@ -3695,9 +3700,9 @@ ng2-alfresco-core@1.10.0-beta5:
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-datatable@1.10.0-beta5:
-  version "1.10.0-beta5"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-datatable/-/ng2-alfresco-datatable-1.10.0-beta5.tgz#a63feac548ee5aac5ec677a923c84fbaecb3ba3c"
+ng2-alfresco-datatable@1.10.0-beta6:
+  version "1.10.0-beta6"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-datatable/-/ng2-alfresco-datatable-1.10.0-beta6.tgz#37312c3be022b7eb893e4fa278c0177c77b9130f"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3710,19 +3715,19 @@ ng2-alfresco-datatable@1.10.0-beta5:
     "@angular/platform-browser" "4.4.5"
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
-    "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta5"
+    "@ngx-translate/core" "8.0.0"
+    alfresco-js-api "1.10.0-beta6"
     core-js "2.4.1"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta5"
+    ng2-alfresco-core "1.10.0-beta6"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-documentlist@1.10.0-beta5:
-  version "1.10.0-beta5"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-documentlist/-/ng2-alfresco-documentlist-1.10.0-beta5.tgz#c63d5cb769c4ed5995179b883acf460c7bfb13a5"
+ng2-alfresco-documentlist@1.10.0-beta6:
+  version "1.10.0-beta6"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-documentlist/-/ng2-alfresco-documentlist-1.10.0-beta6.tgz#512dd75fbef9df43949fa74665ccb831c3346b23"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3736,21 +3741,21 @@ ng2-alfresco-documentlist@1.10.0-beta5:
     "@angular/platform-browser" "4.4.5"
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
-    "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta5"
+    "@ngx-translate/core" "8.0.0"
+    alfresco-js-api "1.10.0-beta6"
     core-js "2.4.1"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta5"
-    ng2-alfresco-datatable "1.10.0-beta5"
-    ng2-alfresco-upload "1.10.0-beta5"
+    ng2-alfresco-core "1.10.0-beta6"
+    ng2-alfresco-datatable "1.10.0-beta6"
+    ng2-alfresco-upload "1.10.0-beta6"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-login@1.10.0-beta5:
-  version "1.10.0-beta5"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-login/-/ng2-alfresco-login-1.10.0-beta5.tgz#fc54c6e6eb32774bb47e29654432209413993fe0"
+ng2-alfresco-login@1.10.0-beta6:
+  version "1.10.0-beta6"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-login/-/ng2-alfresco-login-1.10.0-beta6.tgz#db18061d219362cf8533a49099b8aafa17c648d8"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3763,18 +3768,18 @@ ng2-alfresco-login@1.10.0-beta5:
     "@angular/platform-browser" "4.4.5"
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
-    "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta5"
+    "@ngx-translate/core" "8.0.0"
+    alfresco-js-api "1.10.0-beta6"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta5"
+    ng2-alfresco-core "1.10.0-beta6"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-search@1.10.0-beta5:
-  version "1.10.0-beta5"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-search/-/ng2-alfresco-search-1.10.0-beta5.tgz#6a2c83c0bc9b3696908a53c3bf042cd1c7736127"
+ng2-alfresco-search@1.10.0-beta6:
+  version "1.10.0-beta6"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-search/-/ng2-alfresco-search-1.10.0-beta6.tgz#6257100b8f52e5d812d4b8dae065b84124b636bb"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3787,21 +3792,21 @@ ng2-alfresco-search@1.10.0-beta5:
     "@angular/platform-browser" "4.4.5"
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
-    "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta5"
+    "@ngx-translate/core" "8.0.0"
+    alfresco-js-api "1.10.0-beta6"
     core-js "2.4.1"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta5"
-    ng2-alfresco-datatable "1.10.0-beta5"
-    ng2-alfresco-documentlist "1.10.0-beta5"
+    ng2-alfresco-core "1.10.0-beta6"
+    ng2-alfresco-datatable "1.10.0-beta6"
+    ng2-alfresco-documentlist "1.10.0-beta6"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-upload@1.10.0-beta5:
-  version "1.10.0-beta5"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-upload/-/ng2-alfresco-upload-1.10.0-beta5.tgz#6d61b0777c6dd7703993ae04921dd44b78eb5bab"
+ng2-alfresco-upload@1.10.0-beta6:
+  version "1.10.0-beta6"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-upload/-/ng2-alfresco-upload-1.10.0-beta6.tgz#7da94739cee61125dae4a4aa9c23573a414aa23e"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3814,20 +3819,20 @@ ng2-alfresco-upload@1.10.0-beta5:
     "@angular/platform-browser" "4.4.5"
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
-    "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta5"
+    "@ngx-translate/core" "8.0.0"
+    alfresco-js-api "1.10.0-beta6"
     core-js "2.4.1"
     hammerjs "2.0.8"
     minimatch "3.0.4"
-    ng2-alfresco-core "1.10.0-beta5"
+    ng2-alfresco-core "1.10.0-beta6"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
     systemjs "0.19.27"
     zone.js "0.8.12"
 
-ng2-alfresco-viewer@1.10.0-beta5:
-  version "1.10.0-beta5"
-  resolved "https://registry.yarnpkg.com/ng2-alfresco-viewer/-/ng2-alfresco-viewer-1.10.0-beta5.tgz#b52a7afc89c6816ebe8def703aa8d879a38d3eb6"
+ng2-alfresco-viewer@1.10.0-beta6:
+  version "1.10.0-beta6"
+  resolved "https://registry.yarnpkg.com/ng2-alfresco-viewer/-/ng2-alfresco-viewer-1.10.0-beta6.tgz#04f9c400869e9e603acc47fc88b3ab3f5db2657b"
   dependencies:
     "@angular/animations" "4.4.5"
     "@angular/cdk" "2.0.0-beta.12"
@@ -3840,11 +3845,11 @@ ng2-alfresco-viewer@1.10.0-beta5:
     "@angular/platform-browser" "4.4.5"
     "@angular/platform-browser-dynamic" "4.4.5"
     "@angular/router" "4.4.5"
-    "@ngx-translate/core" "7.0.0"
-    alfresco-js-api "1.10.0-beta5"
+    "@ngx-translate/core" "8.0.0"
+    alfresco-js-api "1.10.0-beta6"
     core-js "2.4.1"
     hammerjs "2.0.8"
-    ng2-alfresco-core "1.10.0-beta5"
+    ng2-alfresco-core "1.10.0-beta6"
     pdfjs-dist "1.5.404"
     reflect-metadata "0.1.10"
     rxjs "5.1.0"
@@ -3929,9 +3934,10 @@ node-modules-path@^1.0.0:
   resolved "https://registry.yarnpkg.com/node-modules-path/-/node-modules-path-1.0.1.tgz#40096b08ce7ad0ea14680863af449c7c75a5d1c8"
 
 node-pre-gyp@^0.6.36:
-  version "0.6.38"
-  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.38.tgz#e92a20f83416415bb4086f6d1fb78b3da73d113d"
+  version "0.6.39"
+  resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.39.tgz#c00e96860b23c0e1420ac7befc5044e1d78d8649"
   dependencies:
+    detect-libc "^1.0.2"
     hawk "3.1.3"
     mkdirp "^0.5.1"
     nopt "^4.0.1"
@@ -4524,8 +4530,8 @@ postcss-minify-selectors@^2.0.4:
     postcss-selector-parser "^2.0.0"
 
 postcss-modules-extract-imports@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/postcss-modules-extract-imports/-/postcss-modules-extract-imports-1.2.0.tgz#66140ecece38ef06bf0d3e355d69bf59d141ea85"
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-modules-extract-imports/-/postcss-modules-extract-imports-1.1.0.tgz#b614c9720be6816eaee35fb3a5faa1dba6a05ddb"
   dependencies:
     postcss "^6.0.1"
 
@@ -4652,10 +4658,10 @@ postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.
     supports-color "^3.2.3"
 
 postcss@^6.0.1:
-  version "6.0.13"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.13.tgz#b9ecab4ee00c89db3ec931145bd9590bbf3f125f"
+  version "6.0.14"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.14.tgz#5534c72114739e75d0afcf017db853099f562885"
   dependencies:
-    chalk "^2.1.0"
+    chalk "^2.3.0"
     source-map "^0.6.1"
     supports-color "^4.4.0"
 
@@ -4806,10 +4812,17 @@ randomatic@^1.1.3:
     is-number "^3.0.0"
     kind-of "^4.0.0"
 
-randombytes@^2.0.0, randombytes@^2.0.1:
+randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.0.5.tgz#dc009a246b8d09a177b4b7a0ae77bc570f4b1b79"
   dependencies:
+    safe-buffer "^5.1.0"
+
+randomfill@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/randomfill/-/randomfill-1.0.3.tgz#b96b7df587f01dd91726c418f30553b1418e3d62"
+  dependencies:
+    randombytes "^2.0.5"
     safe-buffer "^5.1.0"
 
 range-parser@^1.0.3, range-parser@^1.2.0, range-parser@~1.2.0:
@@ -5064,7 +5077,7 @@ require-main-filename@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/require-main-filename/-/require-main-filename-1.0.1.tgz#97f717b69d48784f5f526a6c5aa8ffdda055a4d1"
 
-requires-port@1.0.x, requires-port@1.x.x:
+requires-port@1.0.x, requires-port@1.x.x, requires-port@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
 
@@ -5099,7 +5112,7 @@ rxjs@5.1.0:
   dependencies:
     symbol-observable "^1.0.1"
 
-rxjs@^5.4.2:
+rxjs@^5.4.2, rxjs@^5.5.2:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.2.tgz#28d403f0071121967f18ad665563255d54236ac3"
   dependencies:
@@ -5863,8 +5876,8 @@ tslint@~5.7.0:
     tsutils "^2.8.1"
 
 tsutils@^2.8.1:
-  version "2.12.1"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.12.1.tgz#f4d95ce3391c8971e46e54c4cf0edb0a21dd5b24"
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.12.2.tgz#ad58a4865d17ec3ddb6631b6ca53be14a5656ff3"
   dependencies:
     tslib "^1.7.1"
 
@@ -5987,11 +6000,11 @@ url-parse@1.0.x:
     requires-port "1.0.x"
 
 url-parse@^1.1.8:
-  version "1.1.9"
-  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.1.9.tgz#c67f1d775d51f0a18911dd7b3ffad27bb9e5bd19"
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.2.0.tgz#3a19e8aaa6d023ddd27dcc44cb4fc8f7fec23986"
   dependencies:
     querystringify "~1.0.0"
-    requires-port "1.0.x"
+    requires-port "~1.0.0"
 
 url@^0.11.0:
   version "0.11.0"
@@ -6169,8 +6182,8 @@ webpack-dev-server@~2.7.1:
     yargs "^6.0.0"
 
 webpack-merge@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.1.0.tgz#6ad72223b3e0b837e531e4597c199f909361511e"
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.1.1.tgz#f1197a0a973e69c6fbeeb6d658219aa8c0c13555"
   dependencies:
     lodash "^4.17.4"
 
