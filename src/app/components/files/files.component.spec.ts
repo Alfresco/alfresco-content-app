@@ -170,13 +170,13 @@ describe('FilesComponent', () => {
         });
 
         it('calls refresh onCreateFolder event', () => {
-            contentManagementService.createFolder.next();
+            alfrescoContentService.folderCreate.next();
 
             expect(component.load).toHaveBeenCalled();
         });
 
         it('calls refresh editFolder event', () => {
-            contentManagementService.editFolder.next();
+            alfrescoContentService.folderEdit.next();
 
             expect(component.load).toHaveBeenCalled();
         });
