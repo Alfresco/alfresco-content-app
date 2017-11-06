@@ -1,0 +1,8 @@
+version: '3.1'
+
+services:
+    app:
+        image: 'alfresco/content-app'
+        build: '.'
+        ports:
+            - 3000:80
