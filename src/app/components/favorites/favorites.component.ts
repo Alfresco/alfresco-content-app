@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { MinimalNodeEntryEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
-import { NodesApiService } from 'ng2-alfresco-core';
+import { AlfrescoContentService, NodesApiService } from 'ng2-alfresco-core';
 import { DocumentListComponent } from 'ng2-alfresco-documentlist';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -41,12 +41,13 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
     constructor(
         private router: Router,
         private nodesApi: NodesApiService,
+        private contentService: AlfrescoContentService,
         private content: ContentManagementService) {
         super();
     }
 
     ngOnInit() {
-        this.onEditFolder = this.content.editFolder.subscribe(() => this.refresh());
+        this.onEditFolder = this.contentService.folderEdit.subscribe(() => this.refresh());
         this.onMoveNode = this.content.moveNode.subscribe(() => this.refresh());
         this.onToggleFavorite = this.content.toggleFavorite
             .debounceTime(300).subscribe(() => this.refresh());

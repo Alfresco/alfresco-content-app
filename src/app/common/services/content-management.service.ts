@@ -18,12 +18,8 @@
 import { Subject } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-
 @Injectable()
 export class ContentManagementService {
-    createFolder = new Subject<MinimalNodeEntryEntity>();
-    editFolder = new Subject<MinimalNodeEntryEntity>();
     deleteNode = new Subject<string>();
     moveNode = new Subject<string>();
     restoreNode = new Subject<string>();
