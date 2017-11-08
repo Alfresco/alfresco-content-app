@@ -20,7 +20,7 @@ import { protractor, browser, by, ElementFinder } from 'protractor';
 import { APP_ROUTES, BROWSER_WAIT_TIMEOUT, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
-import { LocalStorageUtility } from '../../utilities/local-storage';
+import { Utils } from '../../utilities/utils';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
 describe('Create folder', () => {
@@ -86,7 +86,7 @@ describe('Create folder', () => {
                     nameWithSpaces.trim()
                 ]),
                 logoutPage.load()
-                    .then(() => LocalStorageUtility.clear())
+                    .then(() => Utils.clearLocalStorage())
             ])
             .then(done);
     });

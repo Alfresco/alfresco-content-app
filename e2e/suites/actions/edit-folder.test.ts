@@ -20,7 +20,7 @@ import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { APP_ROUTES, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
-import { LocalStorageUtility } from '../../utilities/local-storage';
+import { Utils } from '../../utilities/utils';
 
 describe('Edit folder', () => {
     const username = 'jane.doe';
@@ -82,7 +82,7 @@ describe('Edit folder', () => {
                 apis.admin.sites.deleteSite(siteName, true),
                 apis.user.nodes.deleteNodes([ folderName, folderNameEdited, duplicateFolderName ]),
                 logoutPage.load()
-                    .then(() => LocalStorageUtility.clear())
+                    .then(() => Utils.clearLocalStorage())
             ])
             .then(done);
     });

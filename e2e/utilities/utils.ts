@@ -17,18 +17,14 @@
 
 import { browser, promise } from 'protractor';
 
-declare var window;
-
-export class LocalStorageUtility {
-    static clear(): promise.Promise<any> {
-        return browser.executeScript(() => {
-            return window.localStorage.clear();
-        });
+export class Utils {
+    // generate a random value
+    static random(): string {
+    return Math.random().toString(36).substring(3, 10);
     }
 
-    static getTicket(): promise.Promise<any> {
-        return browser.executeScript(() => {
-            return window.localStorage.getItem('ticket-ECM');
-        });
+    // local storage
+    static clearLocalStorage(): promise.Promise<any> {
+        return browser.executeScript('window.localStorage.clear();');
     }
 }

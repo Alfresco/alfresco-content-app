@@ -19,7 +19,7 @@ import { browser } from 'protractor';
 
 import { APP_ROUTES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { LocalStorageUtility } from '../../utilities/local-storage';
+import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Login', () => {
@@ -63,7 +63,7 @@ describe('Login', () => {
 
     afterEach(done => {
         logoutPage.load()
-            .then(() => LocalStorageUtility.clear())
+            .then(() => Utils.clearLocalStorage())
             .then(done);
     });
 

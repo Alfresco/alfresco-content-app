@@ -19,7 +19,7 @@ import { browser } from 'protractor';
 
 import { APP_ROUTES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { LocalStorageUtility } from '../../utilities/local-storage';
+import { Utils } from '../../utilities/utils';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
 describe('Personal Files', () => {
@@ -81,7 +81,7 @@ describe('Personal Files', () => {
 
         afterAll(done => {
             logoutPage.load()
-                .then(() => LocalStorageUtility.clear())
+                .then(() => Utils.clearLocalStorage())
                 .then(done);
         });
 
@@ -109,7 +109,7 @@ describe('Personal Files', () => {
 
         afterAll(done => {
             logoutPage.load()
-                .then(() => LocalStorageUtility.clear())
+                .then(() => Utils.clearLocalStorage())
                 .then(done);
         });
 
