@@ -17,7 +17,7 @@
 
 import { protractor, browser, by, ElementFinder } from 'protractor';
 
-import { APP_ROUTES, BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { APP_ROUTES, BROWSER_WAIT_TIMEOUT, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { LocalStorageUtility } from '../../utilities/local-storage';
@@ -31,7 +31,9 @@ describe('Create folder', () => {
     const folderName2 = 'my-folder2';
     const folderDescription = 'description of my folder';
     const duplicateFolderName = 'duplicate-folder-name';
-    const nameWithSpaces = ' folder name ';
+    const nameWithSpaces = ' folder-name ';
+
+    const siteName = 'site-private';
 
     const apis = {
         admin: new RepoClient(),
@@ -55,6 +57,9 @@ describe('Create folder', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser(username, password)
+            .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE))
+            .then(() => apis.admin.nodes.createFolders([ folderName1 ], `Sites/${siteName}/documentLibrary`))
+            .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
             .then(() => apis.user.nodes.createFolders([ duplicateFolderName ]))
             .then(() => loginPage.load())
             .then(() => loginPage.loginWith(username, password))
@@ -143,11 +148,12 @@ describe('Create folder', () => {
     });
 
     it('option is disabled when not enough permissions', () => {
-        // refactor after implementing Breadcrumb automation component
-        const breadcrumbRoot: ElementFinder = protractor.element(by.css('.adf-breadcrumb-item[title="User Homes"]'));
+        const fileLibrariesPage = new BrowsingPage(APP_ROUTES.FILE_LIBRARIES);
 
-        browser.actions().mouseMove(breadcrumbRoot).click().perform()
-            .then(() => personalFilesPage.sidenav.openNewMenu())
+        fileLibrariesPage.sidenav.navigateToLinkByLabel('File Libraries')
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(siteName))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(folderName1))
+            .then(() => fileLibrariesPage.sidenav.openNewMenu())
             .then(menu => {
                 const isEnabled = menu.getItemByLabel('Create folder').getWebElement().isEnabled();
                 expect(isEnabled).toBe(false, 'Create folder is not disabled');
@@ -155,11 +161,12 @@ describe('Create folder', () => {
     });
 
     it('disabled option tooltip', () => {
-        // refactor after implementing Breadcrumb automation component
-        const breadcrumbRoot: ElementFinder = protractor.element(by.css('.adf-breadcrumb-item[title="User Homes"]'));
+        const fileLibrariesPage = new BrowsingPage(APP_ROUTES.FILE_LIBRARIES);
 
-        browser.actions().mouseMove(breadcrumbRoot).click().perform()
-            .then(() => personalFilesPage.sidenav.openNewMenu())
+        fileLibrariesPage.sidenav.navigateToLinkByLabel('File Libraries')
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(siteName))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(folderName1))
+            .then(() => fileLibrariesPage.sidenav.openNewMenu())
             .then(menu => {
                 const action = browser.actions().mouseMove(menu.getItemByLabel('Create folder'));
                 action.perform()
