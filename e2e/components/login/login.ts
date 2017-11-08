@@ -19,7 +19,7 @@ import { by, ElementFinder, promise } from 'protractor';
 import { Component } from '../component';
 
 export class LoginComponent extends Component {
-    static selector = 'alfresco-login';
+    static selector = 'adf-login';
 
     private locators = {
         usernameInput: by.css('input#username'),
