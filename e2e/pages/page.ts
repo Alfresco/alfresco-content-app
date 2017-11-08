@@ -18,7 +18,7 @@
 import { browser, element, by, ElementFinder, promise } from 'protractor';
 
 export abstract class Page {
-    private static USE_HASH_STRATEGY = true;
+    private static USE_HASH_STRATEGY = false;
 
     private locators = {
         app: by.css('app-root'),
