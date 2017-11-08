@@ -44,7 +44,7 @@ describe('Edit folder', () => {
 
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
-    const personalFilesPage = new BrowsingPage();
+    const personalFilesPage = new BrowsingPage(APP_ROUTES.PERSONAL_FILES);
     const editDialog = new CreateOrEditFolderDialog();
     const dataTable = personalFilesPage.dataTable;
     const editButton = personalFilesPage.toolbar.actions.getButtonByTitleAttribute('Edit');
@@ -130,7 +130,7 @@ describe('Edit folder', () => {
     });
 
     it('button is not displayed when not enough permissions', () => {
-        const fileLibrariesPage = new BrowsingPage();
+        const fileLibrariesPage = new BrowsingPage(APP_ROUTES.FILE_LIBRARIES);
 
         fileLibrariesPage.sidenav.navigateToLinkByLabel('File Libraries')
             .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(siteName))

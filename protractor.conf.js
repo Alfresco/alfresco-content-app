@@ -8,49 +8,54 @@ const jasmineReporters = require('jasmine-reporters');
 const projectRoot = path.resolve(__dirname);
 
 exports.config = {
-  allScriptsTimeout: 11000,
-  specs: [
-    './e2e/**/*.test.ts'
-  ],
-  capabilities: {
-    'browserName': 'chrome',
-    chromeOptions: {
-        prefs: {
-            'credentials_enable_service': false
+    allScriptsTimeout: 11000,
+    specs: [
+        './e2e/suites/authentication/*.test.ts',
+        './e2e/suites/list-views/*.test.ts',
+        './e2e/suites/application/page-titles.test.ts',
+        './e2e/suites/navigation/side-navigation.test.ts',
+        './e2e/suites/pagination/pagination.test.ts',
+        './e2e/suites/actions/*.test.ts'
+    ],
+    capabilities: {
+        'browserName': 'chrome',
+        chromeOptions: {
+            prefs: {
+                'credentials_enable_service': false
+            }
         }
-    }
-  },
-  directConnect: true,
-  baseUrl: 'http://localhost:3000',
-  framework: 'jasmine',
-  jasmineNodeOpts: {
-    showColors: true,
-    defaultTimeoutInterval: 30000,
-    print: function() {}
-  },
-  plugins: [{
-      package: 'jasmine2-protractor-utils',
-      disableHTMLReport: false,
-      disableScreenshot: false,
-      screenshotOnExpectFailure: true,
-      screenshotOnSpecFailure: false,
-      clearFoldersBeforeTest: true,
-      htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
-      screenshotPath: `${projectRoot}/e2e-output/screenshots/`
-  }],
-  onPrepare() {
-    require('ts-node').register({
-      project: 'e2e/tsconfig.e2e.json'
-    });
-    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+    },
+    directConnect: true,
+    baseUrl: 'http://localhost:3000',
+    framework: 'jasmine2',
+    jasmineNodeOpts: {
+        showColors: true,
+        defaultTimeoutInterval: 30000,
+        print: function() {}
+    },
+    plugins: [{
+        package: 'jasmine2-protractor-utils',
+        disableHTMLReport: false,
+        disableScreenshot: false,
+        screenshotOnExpectFailure: true,
+        screenshotOnSpecFailure: false,
+        clearFoldersBeforeTest: true,
+        htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
+        screenshotPath: `${projectRoot}/e2e-output/screenshots/`
+    }],
+    onPrepare() {
+        require('ts-node').register({
+            project: 'e2e/tsconfig.e2e.json'
+        });
+        jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
 
-    jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
-        consolidateAll: true,
-        savePath: `${projectRoot}/e2e-output/junit-report`,
-        filePrefix: 'results.xml',
-        useDotNotation: false,
-        useFullTestName: false,
-        reportFailedUrl: true
-    }));
-  }
+        jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
+            consolidateAll: true,
+            savePath: `${projectRoot}/e2e-output/junit-report`,
+            filePrefix: 'results.xml',
+            useDotNotation: false,
+            useFullTestName: false,
+            reportFailedUrl: true
+        }));
+    }
 };
