@@ -22,7 +22,7 @@ import { APP_ROUTES } from '../configs';
 export class LogoutPage extends Page {
     /** @override */
     constructor() {
-        super(APP_ROUTES.LOGOUT);
+        super(APP_ROUTES.LOGIN);
     }
 
     /** @override */

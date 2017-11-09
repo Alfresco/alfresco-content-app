@@ -40,7 +40,10 @@ export class LoginPage extends Page {
             const { submitButton } = this.login;
             const hasSumbitButton = EC.presenceOf(submitButton);
 
-            return browser.wait(hasSumbitButton, BROWSER_WAIT_TIMEOUT);
+            return browser.wait(hasSumbitButton, BROWSER_WAIT_TIMEOUT)
+                .then(() => browser.executeScript('window.localStorage.clear();'))
+                .then(() => browser.executeScript('window.sessionStorage.clear();'))
+                .then(() => browser.driver.manage().deleteAllCookies());
         });
     }
 
