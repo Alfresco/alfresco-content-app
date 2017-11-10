@@ -14,14 +14,18 @@ adf-document-list {
     }
 }
 
-adf-document-list .adf-data-table {
+.adf-data-table {
     border: none !important;
 
     .sr-only {
         display: none;
     }
 
-    tr, td {
+    th, td {
+        color: $alfresco-secondary-text-color;
+    }
+
+    th, tr, td {
         &:focus {
             outline: none !important;
         }
@@ -72,6 +76,15 @@ adf-document-list .adf-data-table {
                 max-width: 45vw;
                 text-overflow: ellipsis;
                 overflow: hidden;
+            }
+        }
+    }
+
+    .adf-data-table__header--sorted-asc,
+    .adf-data-table__header--sorted-desc {
+        &:hover {
+            &:before {
+                color: inherit !important;
             }
         }
     }

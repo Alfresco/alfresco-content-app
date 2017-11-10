@@ -4,14 +4,15 @@
   "license": "Apache-2.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open",
-    "build": "ng build",
-    "build:prod": "ng build --prod",
-    "build:dev": "ng build && node postbuild-dev.js",
+    "start": "npm run server-versions && ng serve --open",
+    "build": "npm run server-versions && ng build",
+    "build:prod": "npm run server-versions && ng build --prod",
+    "build:dev": "npm run server-versions && ng build && node postbuild-dev.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start:dist": "wsrv"
+    "start:dist": "wsrv",
+    "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0"
   },
   "private": true,
   "dependencies": {
@@ -62,6 +63,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "node-rest-client": "^3.1.0",
     "protractor": "^5.1.2",
+    "rimraf": "2.6.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "typescript": "~2.3.3"

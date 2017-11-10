@@ -44,6 +44,10 @@ $app-inner-layout--footer-height: 48px;
     flex: 1;
     flex-direction: column;
 
+    &--scroll {
+        overflow: auto;
+    }
+
     &__header,
     &__footer {
         display: flex;
@@ -63,6 +67,10 @@ $app-inner-layout--footer-height: 48px;
         flex-direction: column;
         flex: 1;
         overflow: hidden;
+    }
+
+    &__content--scroll {
+        overflow: auto;
     }
 
     &__footer {

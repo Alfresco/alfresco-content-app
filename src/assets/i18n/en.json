@@ -3,6 +3,9 @@
         "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
+        "PREVIEW": {
+            "TITLE": "Preview"
+        },
         "NEW_MENU": {
             "LABEL": "New",
             "MENU_ITEMS": {
@@ -82,6 +85,9 @@
                     "FIRST_TEXT": "Items you delete are moved to the Trash.",
                     "SECOND_TEXT": "Empty Trash to permanently delete items."
                 }
+            },
+            "ABOUT": {
+                "TITLE": "About"
             }
         },
         "ACTIONS": {

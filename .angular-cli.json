@@ -11,6 +11,7 @@
         "assets",
         "favicon-96x96.png",
         "app.config.json",
+        "versions.json",
 
         { "glob": "**/*", "input": "../node_modules/ng2-alfresco-core/bundles/assets", "output": "./assets/" },
         { "glob": "**/*", "input": "../node_modules/ng2-alfresco-datatable/bundles/assets", "output": "./assets/" },
