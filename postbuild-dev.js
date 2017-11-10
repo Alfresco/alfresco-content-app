@@ -15,20 +15,12 @@
  * limitations under the License.
  */
 
-import { browser, promise } from 'protractor';
+var fs = require('fs');
+var config = require('./dist/app.config.json');
 
-declare var window;
+config.ecmHost = 'http://localhost:8080';
 
-export class LocalStorageUtility {
-    static clear(): promise.Promise<any> {
-        return browser.executeScript(() => {
-            return window.localStorage.clear();
-        });
-    }
-
-    static getTicket(): promise.Promise<any> {
-        return browser.executeScript(() => {
-            return window.localStorage.getItem('ticket-ECM');
-        });
-    }
-}
+fs.writeFileSync(
+    './dist/app.config.json',
+    JSON.stringify(config, null, 4)
+);

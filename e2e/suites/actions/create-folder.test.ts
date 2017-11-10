@@ -17,21 +17,24 @@
 
 import { protractor, browser, by, ElementFinder } from 'protractor';
 
-import { APP_ROUTES, BROWSER_WAIT_TIMEOUT } from '../../configs';
+import { APP_ROUTES, BROWSER_WAIT_TIMEOUT, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
-import { LocalStorageUtility } from '../../utilities/local-storage';
+import { Utils } from '../../utilities/utils';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
 describe('Create folder', () => {
     const username = 'jane.doe';
     const password = 'jane.doe';
 
+    const parent = 'parent-folder';
     const folderName1 = 'my-folder1';
     const folderName2 = 'my-folder2';
     const folderDescription = 'description of my folder';
     const duplicateFolderName = 'duplicate-folder-name';
-    const nameWithSpaces = ' folder name ';
+    const nameWithSpaces = ' folder-name ';
+
+    const siteName = 'site-private';
 
     const apis = {
         admin: new RepoClient(),
@@ -55,7 +58,10 @@ describe('Create folder', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser(username, password)
-            .then(() => apis.user.nodes.createFolders([ duplicateFolderName ]))
+            .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE))
+            .then(() => apis.admin.nodes.createFolders([ folderName1 ], `Sites/${siteName}/documentLibrary`))
+            .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
+            .then(() => apis.user.nodes.createFolders([ duplicateFolderName ], parent))
             .then(() => loginPage.load())
             .then(() => loginPage.loginWith(username, password))
             .then(done);
@@ -74,80 +80,84 @@ describe('Create folder', () => {
     afterAll(done => {
         Promise
             .all([
-                apis.user.nodes.deleteNodes([
-                    folderName1,
-                    folderName2,
-                    duplicateFolderName,
-                    nameWithSpaces.trim()
-                ]),
+                apis.user.nodes.deleteNodes([ parent ]),
                 logoutPage.load()
-                    .then(() => LocalStorageUtility.clear())
+                    .then(() => Utils.clearLocalStorage())
             ])
             .then(done);
     });
 
     it('option is enabled when having enough permissions', () => {
-        personalFilesPage.sidenav.openNewMenu()
-            .then((menu) => {
-                const isEnabled = menu.getItemByLabel('Create folder').getWebElement().isEnabled();
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => personalFilesPage.sidenav.openNewMenu()
+                .then((menu) => {
+                    const isEnabled = menu.getItemByLabel('Create folder').getWebElement().isEnabled();
 
-                expect(isEnabled).toBe(true, 'Create folder is not enabled');
-            });
+                    expect(isEnabled).toBe(true, 'Create folder is not enabled');
+                })
+            );
     });
 
     it('creates new folder with name', () => {
-        openCreateDialog()
-            .then(() => createDialog.enterName(folderName1).clickCreate())
-            .then(() => createDialog.waitForDialogToClose())
-            .then(() => dataTable.waitForHeader())
-            .then(() => {
-                const isPresent = dataTable.getRowByContainingText(folderName1).isPresent();
-                expect(isPresent).toBe(true, 'Folder not displayed in list view');
-            });
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog()
+                .then(() => createDialog.enterName(folderName1).clickCreate())
+                .then(() => createDialog.waitForDialogToClose())
+                .then(() => dataTable.waitForHeader())
+                .then(() => {
+                    const isPresent = dataTable.getRowByContainingText(folderName1).isPresent();
+                    expect(isPresent).toBe(true, 'Folder not displayed in list view');
+                })
+            );
     });
 
     it('creates new folder with name and description', () => {
-        openCreateDialog()
-            .then(() => {
-                createDialog
-                    .enterName(folderName2)
-                    .enterDescription(folderDescription)
-                    .clickCreate();
-            })
-            .then(() => createDialog.waitForDialogToClose())
-            .then(() => dataTable.waitForHeader())
-            .then(() => {
-                const isPresent = dataTable.getRowByContainingText(folderName2).isPresent();
-                expect(isPresent).toBe(true, 'Folder not displayed in list view');
-            })
-            .then(() => {
-                apis.user.nodes.getNodeDescription(folderName2)
-                    .then((description) => {
-                        expect(description).toEqual(folderDescription, 'Description is not correct');
-                    });
-            });
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog()
+                .then(() => {
+                    createDialog
+                        .enterName(folderName2)
+                        .enterDescription(folderDescription)
+                        .clickCreate();
+                })
+                .then(() => createDialog.waitForDialogToClose())
+                .then(() => dataTable.waitForHeader())
+                .then(() => {
+                    const isPresent = dataTable.getRowByContainingText(folderName2).isPresent();
+                    expect(isPresent).toBe(true, 'Folder not displayed in list view');
+                })
+                .then(() => {
+                    apis.user.nodes.getNodeDescription(folderName2)
+                        .then((description) => {
+                            expect(description).toEqual(folderDescription, 'Description is not correct');
+                        });
+                })
+            );
     });
 
     it('enabled option tooltip', () => {
-        personalFilesPage.sidenav.openNewMenu()
-            .then(menu => {
-                const action = browser.actions().mouseMove(menu.getItemByLabel('Create folder'));
-                action.perform();
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => personalFilesPage.sidenav.openNewMenu()
+                .then(menu => {
+                    const action = browser.actions().mouseMove(menu.getItemByLabel('Create folder'));
+                    action.perform();
 
-                return menu;
-            })
-            .then((menu) => {
-                const tooltip = menu.getItemTooltip('Create folder');
-                expect(tooltip).toContain('Create new folder');
-            });
+                    return menu;
+                })
+                .then((menu) => {
+                    const tooltip = menu.getItemTooltip('Create folder');
+                    expect(tooltip).toContain('Create new folder');
+                })
+            );
     });
 
     it('option is disabled when not enough permissions', () => {
-        // refactor after implementing Breadcrumb automation component
-        const breadcrumbRoot: ElementFinder = protractor.element(by.css('.adf-breadcrumb-item[title="User Homes"]'));
+        const fileLibrariesPage = new BrowsingPage(APP_ROUTES.FILE_LIBRARIES);
 
-        browser.actions().mouseMove(breadcrumbRoot).click().perform()
-            .then(() => personalFilesPage.sidenav.openNewMenu())
+        fileLibrariesPage.sidenav.navigateToLinkByLabel('File Libraries')
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(siteName))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(folderName1))
+            .then(() => fileLibrariesPage.sidenav.openNewMenu())
             .then(menu => {
                 const isEnabled = menu.getItemByLabel('Create folder').getWebElement().isEnabled();
                 expect(isEnabled).toBe(false, 'Create folder is not disabled');
@@ -155,11 +165,12 @@ describe('Create folder', () => {
     });
 
     it('disabled option tooltip', () => {
-        // refactor after implementing Breadcrumb automation component
-        const breadcrumbRoot: ElementFinder = protractor.element(by.css('.adf-breadcrumb-item[title="User Homes"]'));
+        const fileLibrariesPage = new BrowsingPage(APP_ROUTES.FILE_LIBRARIES);
 
-        browser.actions().mouseMove(breadcrumbRoot).click().perform()
-            .then(() => personalFilesPage.sidenav.openNewMenu())
+        fileLibrariesPage.sidenav.navigateToLinkByLabel('File Libraries')
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(siteName))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(folderName1))
+            .then(() => fileLibrariesPage.sidenav.openNewMenu())
             .then(menu => {
                 const action = browser.actions().mouseMove(menu.getItemByLabel('Create folder'));
                 action.perform()
@@ -171,107 +182,123 @@ describe('Create folder', () => {
     });
 
     it('dialog UI elements', () => {
-        openCreateDialog().then(() => {
-            const dialogTitle = createDialog.getTitle();
-            const isFolderNameDisplayed = createDialog.nameInput.getWebElement().isDisplayed();
-            const isDescriptionDisplayed = createDialog.descriptionTextArea.getWebElement().isDisplayed();
-            const isCreateEnabled = createDialog.createButton.getWebElement().isEnabled();
-            const isCancelEnabled = createDialog.cancelButton.getWebElement().isEnabled();
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog().then(() => {
+                const dialogTitle = createDialog.getTitle();
+                const isFolderNameDisplayed = createDialog.nameInput.getWebElement().isDisplayed();
+                const isDescriptionDisplayed = createDialog.descriptionTextArea.getWebElement().isDisplayed();
+                const isCreateEnabled = createDialog.createButton.getWebElement().isEnabled();
+                const isCancelEnabled = createDialog.cancelButton.getWebElement().isEnabled();
 
-            expect(dialogTitle).toBe('Create new folder');
-            expect(isFolderNameDisplayed).toBe(true, 'Name input is not displayed');
-            expect(isDescriptionDisplayed).toBe(true, 'Description field is not displayed');
-            expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
-            expect(isCancelEnabled).toBe(true, 'Cancel button is not enabled');
-        });
+                expect(dialogTitle).toBe('Create new folder');
+                expect(isFolderNameDisplayed).toBe(true, 'Name input is not displayed');
+                expect(isDescriptionDisplayed).toBe(true, 'Description field is not displayed');
+                expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
+                expect(isCancelEnabled).toBe(true, 'Cancel button is not enabled');
+            })
+        );
     });
 
     it('with empty folder name', () => {
-        openCreateDialog()
-            .then(() => {
-                createDialog.deleteNameWithBackspace();
-            })
-            .then(() => {
-                const isCreateEnabled = createDialog.createButton.getWebElement().isEnabled();
-                const validationMessage = createDialog.getValidationMessage();
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog()
+                .then(() => {
+                    createDialog.deleteNameWithBackspace();
+                })
+                .then(() => {
+                    const isCreateEnabled = createDialog.createButton.getWebElement().isEnabled();
+                    const validationMessage = createDialog.getValidationMessage();
 
-                expect(isCreateEnabled).toBe(false, 'Create button is enabled');
-                expect(validationMessage).toMatch('Folder name is required');
-            });
+                    expect(isCreateEnabled).toBe(false, 'Create button is enabled');
+                    expect(validationMessage).toMatch('Folder name is required');
+                })
+            );
     });
 
     it('with folder name ending with a dot "."', () => {
-        openCreateDialog()
-            .then(() => createDialog.enterName('folder-name.'))
-            .then((dialog) => {
-                const isCreateEnabled = dialog.createButton.getWebElement().isEnabled();
-                const validationMessage = dialog.getValidationMessage();
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog()
+                .then(() => createDialog.enterName('folder-name.'))
+                .then((dialog) => {
+                    const isCreateEnabled = dialog.createButton.getWebElement().isEnabled();
+                    const validationMessage = dialog.getValidationMessage();
 
-                expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
-                expect(validationMessage).toMatch(`Folder name can't end with a period .`);
-            });
+                    expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
+                    expect(validationMessage).toMatch(`Folder name can't end with a period .`);
+                })
+            );
     });
 
     it('with folder name containing special characters', () => {
         const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-        openCreateDialog()
-            .then(() => {
-                namesWithSpecialChars.forEach(name => {
-                    createDialog.enterName(name);
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog()
+                .then(() => {
+                    namesWithSpecialChars.forEach(name => {
+                        createDialog.enterName(name);
 
-                    const isCreateEnabled = createDialog.createButton.getWebElement().isEnabled();
-                    const validationMessage = createDialog.getValidationMessage();
+                        const isCreateEnabled = createDialog.createButton.getWebElement().isEnabled();
+                        const validationMessage = createDialog.getValidationMessage();
 
-                    expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
-                    expect(validationMessage).toContain(`Folder name can't contain these characters`);
-                });
-            });
+                        expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
+                        expect(validationMessage).toContain(`Folder name can't contain these characters`);
+                    });
+                })
+            );
     });
 
     it('with folder name containing only spaces', () => {
-        openCreateDialog()
-            .then(() => createDialog.enterName('    '))
-            .then((dialog) => {
-                const isCreateEnabled = dialog.createButton.getWebElement().isEnabled();
-                const validationMessage = dialog.getValidationMessage();
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog()
+                .then(() => createDialog.enterName('    '))
+                .then((dialog) => {
+                    const isCreateEnabled = dialog.createButton.getWebElement().isEnabled();
+                    const validationMessage = dialog.getValidationMessage();
 
-                expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
-                expect(validationMessage).toMatch(`Folder name can't contain only spaces`);
-            });
+                    expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
+                    expect(validationMessage).toMatch(`Folder name can't contain only spaces`);
+                })
+            );
     });
 
     it('cancel folder creation', () => {
-        openCreateDialog()
-            .then(() => {
-                createDialog
-                    .enterName('test')
-                    .enterDescription('test description')
-                    .clickCancel();
-            })
-            .then(() => expect(createDialog.component.isPresent()).not.toBe(true, 'dialog is not closed'));
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog()
+                .then(() => {
+                    createDialog
+                        .enterName('test')
+                        .enterDescription('test description')
+                        .clickCancel();
+                })
+                .then(() => expect(createDialog.component.isPresent()).not.toBe(true, 'dialog is not closed'))
+            );
     });
 
     it('duplicate folder name', () => {
-        openCreateDialog()
-            .then(() => createDialog.enterName(duplicateFolderName).clickCreate())
-            .then(() => {
-                personalFilesPage.getSnackBarMessage()
-                    .then(message => {
-                        expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
-                        expect(createDialog.component.isPresent()).toBe(true, 'dialog is not present');
-                    });
-            });
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog()
+                .then(() => createDialog.enterName(duplicateFolderName).clickCreate())
+                .then(() => {
+                    personalFilesPage.getSnackBarMessage()
+                        .then(message => {
+                            expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
+                            expect(createDialog.component.isPresent()).toBe(true, 'dialog is not present');
+                        });
+                })
+            );
     });
 
     it('trim ending spaces from folder name', () => {
-        openCreateDialog()
-            .then(() => createDialog.enterName(nameWithSpaces).clickCreate())
-            .then(() => createDialog.waitForDialogToClose())
-            .then(() => dataTable.waitForHeader())
-            .then(() => {
-                const isPresent = dataTable.getRowByContainingText(nameWithSpaces.trim()).isPresent();
-                expect(isPresent).toBe(true, 'Folder not displayed in list view');
-            });
+        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+            .then(() => openCreateDialog()
+                .then(() => createDialog.enterName(nameWithSpaces).clickCreate())
+                .then(() => createDialog.waitForDialogToClose())
+                .then(() => dataTable.waitForHeader())
+                .then(() => {
+                    const isPresent = dataTable.getRowByContainingText(nameWithSpaces.trim()).isPresent();
+                    expect(isPresent).toBe(true, 'Folder not displayed in list view');
+                })
+            );
     });
 });

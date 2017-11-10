@@ -16,7 +16,7 @@
  */
 
 import { Observable, Subscription } from 'rxjs/Rx';
-import { Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import { UploadService, FileUploadEvent, NodesApiService, AlfrescoContentService, AlfrescoApiService } from 'ng2-alfresco-core';
@@ -60,7 +60,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        const { route, contentManagementService, nodeActionsService, uploadService } = this;
+        const { route, contentManagementService, contentService, nodeActionsService, uploadService } = this;
         const { data } = route.snapshot;
 
         this.routeData = data;
@@ -87,8 +87,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
         this.onCopyNode = nodeActionsService.contentCopied
             .subscribe((nodes) => this.onContentCopied(nodes));
-        this.onCreateFolder = contentManagementService.createFolder.subscribe(() => this.load());
-        this.onEditFolder = contentManagementService.editFolder.subscribe(() => this.load());
+        this.onCreateFolder = contentService.folderCreate.subscribe(() => this.load());
+        this.onEditFolder = contentService.folderEdit.subscribe(() => this.load());
         this.onDeleteNode = contentManagementService.deleteNode.subscribe(() => this.load());
         this.onMoveNode = contentManagementService.moveNode.subscribe(() => this.load());
         this.onRestoreNode = contentManagementService.restoreNode.subscribe(() => this.load());

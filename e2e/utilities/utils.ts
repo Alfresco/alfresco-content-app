@@ -15,18 +15,16 @@
  * limitations under the License.
  */
 
-import { promise } from 'protractor';
-import { Page } from './page';
-import { APP_ROUTES } from '../configs';
+import { browser, promise } from 'protractor';
 
-export class LogoutPage extends Page {
-    /** @override */
-    constructor() {
-        super(APP_ROUTES.LOGIN);
+export class Utils {
+    // generate a random value
+    static random(): string {
+    return Math.random().toString(36).substring(3, 10);
     }
 
-    /** @override */
-    load(): promise.Promise<any> {
-        return super.load();
+    // local storage
+    static clearLocalStorage(): promise.Promise<any> {
+        return browser.executeScript('window.localStorage.clear();');
     }
 }

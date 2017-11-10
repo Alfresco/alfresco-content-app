@@ -20,7 +20,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 
-import { CoreModule, NodesApiService, AlfrescoApiService } from 'ng2-alfresco-core';
+import { CoreModule, NodesApiService, AlfrescoApiService, AlfrescoContentService } from 'ng2-alfresco-core';
 import { CommonModule } from '../../common/common.module';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -32,6 +32,7 @@ describe('Favorites Routed Component', () => {
     let component: FavoritesComponent;
     let nodesApi: NodesApiService;
     let alfrescoApi: AlfrescoApiService;
+    let alfrescoContentService: AlfrescoContentService;
     let contentService: ContentManagementService;
     let router: Router;
     let page;
@@ -80,6 +81,7 @@ describe('Favorites Routed Component', () => {
 
             nodesApi = TestBed.get(NodesApiService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoContentService = TestBed.get(AlfrescoContentService);
             contentService = TestBed.get(ContentManagementService);
             router = TestBed.get(Router);
         });
@@ -94,7 +96,7 @@ describe('Favorites Routed Component', () => {
             spyOn(component, 'refresh');
             fixture.detectChanges();
 
-            contentService.editFolder.next(null);
+            alfrescoContentService.folderEdit.next(null);
 
             expect(component.refresh).toHaveBeenCalled();
         });

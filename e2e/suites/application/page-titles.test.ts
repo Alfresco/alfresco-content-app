@@ -19,7 +19,7 @@ import { browser } from 'protractor';
 
 import { SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { LocalStorageUtility } from '../../utilities/local-storage';
+import { Utils } from '../../utilities/utils';
 
 describe('Page titles', () => {
     const loginPage = new LoginPage();
@@ -65,7 +65,7 @@ describe('Page titles', () => {
 
         afterAll(done => {
             logoutPage.load()
-                .then(() => LocalStorageUtility.clear())
+                .then(() => Utils.clearLocalStorage())
                 .then(done);
         });
 

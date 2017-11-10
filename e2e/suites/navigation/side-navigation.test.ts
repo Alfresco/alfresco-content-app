@@ -19,7 +19,7 @@ import { browser } from 'protractor';
 
 import { APP_ROUTES, SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { LocalStorageUtility } from '../../utilities/local-storage';
+import { Utils } from '../../utilities/utils';
 
 describe('Side navigation', () => {
     const loginPage = new LoginPage();
@@ -38,7 +38,7 @@ describe('Side navigation', () => {
 
     afterAll(done => {
         logoutPage.load()
-            .then(() => LocalStorageUtility.clear())
+            .then(() => Utils.clearLocalStorage())
             .then(done);
     });
 

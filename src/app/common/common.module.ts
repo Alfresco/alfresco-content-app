@@ -23,10 +23,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdfModule } from '../adf.module';
 import { MaterialModule } from './material.module';
 
-import { FolderDialogComponent } from './dialogs/folder-dialog.component';
-
-import { FolderCreateDirective } from './directives/folder-create.directive';
-import { FolderEditDirective } from './directives/folder-edit.directive';
 import { NodeCopyDirective } from './directives/node-copy.directive';
 import { NodeDeleteDirective } from './directives/node-delete.directive';
 import { NodeMoveDirective } from './directives/node-move.directive';
@@ -51,10 +47,6 @@ export function modules() {
 
 export function declarations() {
     return [
-        FolderDialogComponent,
-
-        FolderCreateDirective,
-        FolderEditDirective,
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,
@@ -77,9 +69,7 @@ export function providers() {
 @NgModule({
     imports: modules(),
     declarations: declarations(),
-    entryComponents: [
-        FolderDialogComponent
-    ],
+    entryComponents: [],
     providers: providers(),
     exports: [
         ...modules(),
