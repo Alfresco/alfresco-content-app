@@ -23,8 +23,8 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
 describe('Personal Files', () => {
-    const username = 'jane.doe';
-    const password = 'jane.doe';
+    const username = `user-${Utils.random()}`;
+    const password = username;
 
     const apis = {
         admin: new RepoClient(),
@@ -36,30 +36,27 @@ describe('Personal Files', () => {
     const personalFilesPage = new BrowsingPage(APP_ROUTES.PERSONAL_FILES);
     const dataTable = personalFilesPage.dataTable;
 
-    const adminContent: NodeContentTree = {
-        name: 'admin-folder'
-    };
+    const adminFolder = `admin-folder-${Utils.random()}`;
 
-    const userContent: NodeContentTree = {
-        name: 'user-folder',
-        files: [ 'user-file.txt' ]
-    };
+    const userFolder = `user-folder-${Utils.random()}`;
+    const userFile = `file-${Utils.random()}.txt`;
 
     beforeAll(done => {
         Promise
             .all([
                 apis.admin.people.createUser(username, password),
-                apis.admin.nodes.createContent(adminContent)
+                apis.admin.nodes.createFolders([ adminFolder ])
             ])
-            .then(() => apis.user.nodes.createContent(userContent))
+            .then(() => apis.user.nodes.createFolders([ userFolder ]))
+            .then(() => apis.user.nodes.createFiles([ userFile ], userFolder))
             .then(done);
     });
 
     afterAll(done => {
         Promise
             .all([
-                apis.admin.nodes.deleteNodes([ adminContent.name ]),
-                apis.user.nodes.deleteNodes([ userContent.name ])
+                apis.admin.nodes.deleteNodes([ adminFolder ]),
+                apis.user.nodes.deleteNodes([ userFolder ])
             ])
             .then(done);
     });
@@ -81,7 +78,6 @@ describe('Personal Files', () => {
 
         afterAll(done => {
             logoutPage.load()
-                .then(() => Utils.clearLocalStorage())
                 .then(done);
         });
 
@@ -109,7 +105,6 @@ describe('Personal Files', () => {
 
         afterAll(done => {
             logoutPage.load()
-                .then(() => Utils.clearLocalStorage())
                 .then(done);
         });
 
@@ -131,17 +126,17 @@ describe('Personal Files', () => {
         });
 
         it('has user created content', () => {
-            expect(dataTable.getRowByContainingText('user-folder').isPresent())
+            expect(dataTable.getRowByContainingText(userFolder).isPresent())
                 .toBe(true);
         });
 
         it('navigates to folder', () => {
             const getNodeIdPromise = apis.user.nodes
-                .getNodeByPath('/user-folder')
+                .getNodeByPath(`/${userFolder}`)
                 .then(response => response.data.entry.id);
 
             const navigatePromise = dataTable
-                .doubleClickOnRowByContainingText('user-folder')
+                .doubleClickOnRowByContainingText(userFolder)
                 .then(() => dataTable.waitForHeader());
 
             Promise
@@ -153,8 +148,8 @@ describe('Personal Files', () => {
                     expect(browser.getCurrentUrl())
                         .toContain(nodeId, 'Node ID is not in the URL');
 
-                    expect(dataTable.getRowByContainingText('user-file.txt').isPresent())
-                        .toBe(true, '"user-file.txt" is missing');
+                    expect(dataTable.getRowByContainingText(userFile).isPresent())
+                        .toBe(true, 'user file is missing');
                 });
         });
 
@@ -165,7 +160,7 @@ describe('Personal Files', () => {
                 const { actions } = personalFilesPage.toolbar;
 
                 dataTable
-                    .clickOnRowByContainingText('user-folder')
+                    .clickOnRowByContainingText(userFolder)
                     .then(() => {
                         expect(actions.isEmpty()).toBe(false, 'Toolbar to be present');
                     })
