@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
-    "build": "ng build --prod",
-    "build:nts": "ng build",
+    "build": "ng build",
+    "build:prod": "ng build --prod",
     "build:dev": "ng build && node postbuild-dev.js",
     "test": "ng test",
     "lint": "ng lint",
