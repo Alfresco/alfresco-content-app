@@ -23,6 +23,7 @@ import { AlfrescoApiService } from 'ng2-alfresco-core';
 
 import { CommonModule } from '../../common/common.module';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { LocationLinkComponent } from '../location-link/location-link.component';
 import { SharedFilesComponent } from './shared-files.component';
 
 describe('SharedFilesComponent', () => {
@@ -51,6 +52,7 @@ describe('SharedFilesComponent', () => {
                     CommonModule
                 ],
                 declarations: [
+                    LocationLinkComponent,
                     SharedFilesComponent
                 ]
             })

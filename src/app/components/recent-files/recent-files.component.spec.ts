@@ -24,6 +24,7 @@ import { CoreModule, AlfrescoApiService } from 'ng2-alfresco-core';
 
 import { CommonModule } from '../../common/common.module';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { LocationLinkComponent } from '../location-link/location-link.component';
 import { RecentFilesComponent } from './recent-files.component';
 
 describe('RecentFiles Routed Component', () => {
@@ -54,6 +55,7 @@ describe('RecentFiles Routed Component', () => {
                     CommonModule
                 ],
                 declarations: [
+                    LocationLinkComponent,
                     RecentFilesComponent
                 ]
         })
