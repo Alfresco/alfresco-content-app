@@ -15,18 +15,21 @@
  * limitations under the License.
  */
 
-import { browser, element, by, ElementFinder, promise } from 'protractor';
+import { browser, element, by, ElementFinder, promise, ExpectedConditions as EC } from 'protractor';
+import { BROWSER_WAIT_TIMEOUT } from './../configs';
 
 export abstract class Page {
     private static USE_HASH_STRATEGY = false;
 
     private locators = {
         app: by.css('app-root'),
+        layout: by.css('app-layout'),
         overlay: by.css('.cdk-overlay-container'),
         snackBar: by.css('simple-snack-bar')
     };
 
     public app: ElementFinder = element(this.locators.app);
+    public layout: ElementFinder = element(this.locators.layout);
     public overlay: ElementFinder = element(this.locators.overlay);
     public snackBar: ElementFinder = element(this.locators.snackBar);
 
@@ -41,6 +44,10 @@ export abstract class Page {
         const path = `${hash}${this.url}${relativeUrl}`;
 
         return browser.get(path);
+    }
+
+    waitForApp() {
+        return browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
     }
 
     refresh(): promise.Promise<void> {

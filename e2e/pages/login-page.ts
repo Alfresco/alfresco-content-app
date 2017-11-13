@@ -49,7 +49,10 @@ export class LoginPage extends Page {
 
     loginWith(username: string, password?: string): promise.Promise<void> {
         const pass = password || username;
-        return this.login.enterCredentials(username, pass).submit();
+        return this.login.enterCredentials(username, pass).submit()
+            .then(() => {
+                super.waitForApp();
+            });
     }
 
     loginWithAdmin(): promise.Promise<any> {
