@@ -58,4 +58,12 @@ export class LoginPage extends Page {
     loginWithAdmin(): promise.Promise<any> {
         return this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
+
+    tryLoginWith(username: string, password?: string): promise.Promise<void> {
+        const pass = password || username;
+        return this.login.enterCredentials(username, pass).submit()
+            .then(() => {
+                browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
+            });
+    }
 }
