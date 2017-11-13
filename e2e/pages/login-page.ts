@@ -18,6 +18,7 @@
 import { browser, ExpectedConditions as EC, promise } from 'protractor';
 import { LoginComponent } from '../components/components';
 import { Page } from './page';
+import { Utils } from '../utilities/utils';
 
 import {
     ADMIN_USERNAME,
@@ -38,17 +39,17 @@ export class LoginPage extends Page {
     load(): promise.Promise<any> {
         return super.load().then(() => {
             const { submitButton } = this.login;
-            const hasSumbitButton = EC.presenceOf(submitButton);
+            const hasSubmitButton = EC.presenceOf(submitButton);
 
-            return browser.wait(hasSumbitButton, BROWSER_WAIT_TIMEOUT)
-                .then(() => browser.executeScript('window.localStorage.clear();'))
-                .then(() => browser.executeScript('window.sessionStorage.clear();'))
-                .then(() => browser.driver.manage().deleteAllCookies());
+            return browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT)
+                .then(() => Utils.clearLocalStorage())
+                .then(() => browser.manage().deleteAllCookies());
         });
     }
 
-    loginWith(username: string, password: string): promise.Promise<void> {
-        return this.login.enterCredentials(username, password).submit();
+    loginWith(username: string, password?: string): promise.Promise<void> {
+        const pass = password || username;
+        return this.login.enterCredentials(username, pass).submit();
     }
 
     loginWithAdmin(): promise.Promise<any> {

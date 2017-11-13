@@ -24,21 +24,20 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
 describe('Create folder', () => {
-    const username = 'jane.doe';
-    const password = 'jane.doe';
+    const username = `user-${Utils.random()}`;
 
-    const parent = 'parent-folder';
-    const folderName1 = 'my-folder1';
-    const folderName2 = 'my-folder2';
+    const parent = `parent-${Utils.random()}`;
+    const folderName1 = `folder-${Utils.random()}`;
+    const folderName2 = `folder-${Utils.random()}`;
     const folderDescription = 'description of my folder';
-    const duplicateFolderName = 'duplicate-folder-name';
-    const nameWithSpaces = ' folder-name ';
+    const duplicateFolderName = `folder-${Utils.random()}`;
+    const nameWithSpaces = ` folder-${Utils.random()} `;
 
-    const siteName = 'site-private';
+    const siteName = `site-private-${Utils.random()}`;
 
     const apis = {
         admin: new RepoClient(),
-        user: new RepoClient(username, password)
+        user: new RepoClient(username, username)
     };
 
     const loginPage = new LoginPage();
@@ -57,14 +56,14 @@ describe('Create folder', () => {
     }
 
     beforeAll(done => {
-        apis.admin.people.createUser(username, password)
+        apis.admin.people.createUser(username)
             .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE))
             .then(() => apis.admin.nodes.createFolders([ folderName1 ], `Sites/${siteName}/documentLibrary`))
             .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
             .then(() => apis.user.nodes.createFolders([ duplicateFolderName ], parent))
-            .then(() => loginPage.load())
-            .then(() => loginPage.loginWith(username, password))
-            .then(done);
+            .then(() => loginPage.load()
+                .then(() => loginPage.loginWith(username))
+                .then(done));
     });
 
     beforeEach(done => {
@@ -80,9 +79,9 @@ describe('Create folder', () => {
     afterAll(done => {
         Promise
             .all([
+                apis.admin.sites.deleteSite(siteName, true),
                 apis.user.nodes.deleteNodes([ parent ]),
                 logoutPage.load()
-                    .then(() => Utils.clearLocalStorage())
             ])
             .then(done);
     });
@@ -128,9 +127,7 @@ describe('Create folder', () => {
                 })
                 .then(() => {
                     apis.user.nodes.getNodeDescription(folderName2)
-                        .then((description) => {
-                            expect(description).toEqual(folderDescription, 'Description is not correct');
-                        });
+                        .then((description) => expect(description).toEqual(folderDescription));
                 })
             );
     });

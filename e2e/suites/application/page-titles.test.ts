@@ -65,7 +65,6 @@ describe('Page titles', () => {
 
         afterAll(done => {
             logoutPage.load()
-                .then(() => Utils.clearLocalStorage())
                 .then(done);
         });
 

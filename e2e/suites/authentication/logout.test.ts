@@ -29,20 +29,17 @@ describe('Logout', () => {
 
     const peopleApi = new RepoClient().people;
 
-    const johnDoe = {
-        username: 'john.doe',
-        password: 'john.doe'
-    };
+    const johnDoe = `user-${Utils.random()}`;
 
     beforeAll((done) => {
         peopleApi
-            .createUser(johnDoe.username, johnDoe.password)
+            .createUser(johnDoe)
             .then(done);
     });
 
     beforeEach((done) => {
         loginPage.load()
-            .then(() => loginPage.loginWith(johnDoe.username, johnDoe.password))
+            .then(() => loginPage.loginWith(johnDoe))
             .then(done);
     });
 
@@ -54,13 +51,6 @@ describe('Logout', () => {
 
     it('redirects to Login page, on sign out', () => {
         page.signOut()
-            .then(() => {
-                expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
-            });
-    });
-
-    xit('redirects to Login page when logging out by URL', () => {
-        browser.get(APP_ROUTES.LOGOUT)
             .then(() => {
                 expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
             });

@@ -27,4 +27,10 @@ export class Utils {
     static clearLocalStorage(): promise.Promise<any> {
         return browser.executeScript('window.localStorage.clear();');
     }
+
+    // session storage
+    static clearSessionStorage(): promise.Promise<any> {
+        return browser.executeScript('window.sessionStorage.clear();');
+    }
+
 }
