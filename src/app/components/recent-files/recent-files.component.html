@@ -109,9 +109,10 @@
 
                 <data-column
                     key="path"
-                    title="APP.DOCUMENT_LIST.COLUMNS.LOCATION"
-                    type="location"
-                    format="/personal-files">
+                    title="APP.DOCUMENT_LIST.COLUMNS.LOCATION">
+                    <ng-template let-context>
+                        <app-location-link [context]="context"></app-location-link>
+                    </ng-template>
                 </data-column>
 
                 <data-column
