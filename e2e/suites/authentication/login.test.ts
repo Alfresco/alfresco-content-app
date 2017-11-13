@@ -150,7 +150,7 @@ describe('Login', () => {
 
         it('shows error when entering nonexistent user', () => {
             loginPage
-                .loginWith('nonexistent-user', 'any-password')
+                .tryLoginWith('nonexistent-user', 'any-password')
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
                     expect(errorMessage.isDisplayed()).toBe(true);
@@ -161,7 +161,7 @@ describe('Login', () => {
             const { username } = johnDoe;
 
             loginPage
-                .loginWith(username, 'incorrect-password')
+                .tryLoginWith(username, 'incorrect-password')
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
                     expect(errorMessage.isDisplayed()).toBe(true);
