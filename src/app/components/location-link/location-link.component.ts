@@ -104,7 +104,9 @@ export class LocationLinkComponent implements OnInit {
         const elements = path.elements.map(e => Object.assign({}, e));
 
         if (elements[0].name === 'Company Home') {
-            if (elements[1].name === 'Sites') {
+            if (elements.length === 1) {
+                elements[0].name = 'Personal Files';
+            } else if (elements[1].name === 'Sites') {
                 const fragment = elements[2];
 
                 return new Observable<string>(observer => {
@@ -128,10 +130,7 @@ export class LocationLinkComponent implements OnInit {
                         }
                     );
                 });
-
-
-            }
-            if (elements[1].name === 'User Homes') {
+            } else if (elements[1].name === 'User Homes') {
                 elements.splice(0, 3);
                 elements.unshift({ id: null, name: 'Personal Files'});
             }
