@@ -104,35 +104,39 @@ export class LocationLinkComponent implements OnInit {
         const elements = path.elements.map(e => Object.assign({}, e));
 
         if (elements[0].name === 'Company Home') {
-            if (elements.length === 1) {
-                elements[0].name = 'Personal Files';
-            } else if (elements[1].name === 'Sites') {
-                const fragment = elements[2];
+            elements[0].name = 'Personal Files';
 
-                return new Observable<string>(observer => {
-                    this.apiService.nodesApi.getNodeInfo(fragment.id).then(
-                        (node) => {
-                            elements.splice(0, 2);
-                            elements[0].name = node.properties['cm:title'] || node.name || fragment.name;
-                            elements.splice(1, 1);
-                            elements.unshift({ id: null, name: 'File Libraries' });
+            if (elements.length > 1) {
+                if (elements[1].name === 'Sites') {
+                    const fragment = elements[2];
 
-                            observer.next(elements.map(e => e.name).join('/'));
-                            observer.complete();
-                        },
-                        (err) => {
-                            elements.splice(0, 2);
-                            elements.unshift({ id: null, name: 'File Libraries' });
-                            elements.splice(2, 1);
+                    return new Observable<string>(observer => {
+                        this.apiService.nodesApi.getNodeInfo(fragment.id).then(
+                            (node) => {
+                                elements.splice(0, 2);
+                                elements[0].name = node.properties['cm:title'] || node.name || fragment.name;
+                                elements.splice(1, 1);
+                                elements.unshift({ id: null, name: 'File Libraries' });
 
-                            observer.next(elements.map(e => e.name).join('/'));
-                            observer.complete();
-                        }
-                    );
-                });
-            } else if (elements[1].name === 'User Homes') {
-                elements.splice(0, 3);
-                elements.unshift({ id: null, name: 'Personal Files'});
+                                observer.next(elements.map(e => e.name).join('/'));
+                                observer.complete();
+                            },
+                            (err) => {
+                                elements.splice(0, 2);
+                                elements.unshift({ id: null, name: 'File Libraries' });
+                                elements.splice(2, 1);
+
+                                observer.next(elements.map(e => e.name).join('/'));
+                                observer.complete();
+                            }
+                        );
+                    });
+                }
+
+                if (elements[1].name === 'User Homes') {
+                    elements.splice(0, 3);
+                    elements.unshift({ id: null, name: 'Personal Files'});
+                }
             }
         }
 
