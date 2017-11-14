@@ -19,6 +19,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { CoreModule, AlfrescoApiService } from 'ng2-alfresco-core';
 import { TrashcanComponent } from './trashcan.component';
 import { CommonModule } from '../../common/common.module';
+import { LocationLinkComponent } from '../location-link/location-link.component';
 
 describe('TrashcanComponent', () => {
     let fixture;
@@ -42,6 +43,7 @@ describe('TrashcanComponent', () => {
                 CommonModule
             ],
             declarations: [
+                LocationLinkComponent,
                 TrashcanComponent
             ]
         })

@@ -66,27 +66,24 @@
                 </data-column>
 
                 <data-column
-                    key="path.name"
+                    key="path"
                     title="APP.DOCUMENT_LIST.COLUMNS.LOCATION">
-                    <ng-template let-value="value">
-                        <span title="{{ value }}">{{ (value || '').split('/').pop() }}</span>
+                    <ng-template let-context>
+                        <app-location-link [context]="context"></app-location-link>
                     </ng-template>
                 </data-column>
 
                 <data-column
                     key="content.sizeInBytes"
-                    title="APP.DOCUMENT_LIST.COLUMNS.SIZE">
-                    <ng-template let-value="value">
-                        <span title="{{ value }} bytes">{{ value | adfFileSize }}</span>
-                    </ng-template>
+                    title="APP.DOCUMENT_LIST.COLUMNS.SIZE"
+                    type="fileSize">
                 </data-column>
 
                 <data-column
                     key="archivedAt"
-                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON">
-                    <ng-template let-value="value">
-                        <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
-                    </ng-template>
+                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON"
+                    type="date"
+                    format="timeAgo">
                 </data-column>
 
                 <data-column

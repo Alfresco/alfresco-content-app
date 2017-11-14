@@ -42,6 +42,7 @@ import { CurrentUserComponent } from './components/current-user/current-user.com
 import { SearchComponent } from './components/search/search.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
+import { LocationLinkComponent } from './components/location-link/location-link.component';
 
 @NgModule({
     imports: [
@@ -69,7 +70,8 @@ import { AboutComponent } from './components/about/about.component';
         SharedFilesComponent,
         TrashcanComponent,
         PreviewComponent,
-        AboutComponent
+        AboutComponent,
+        LocationLinkComponent
     ],
     providers: [
         {
