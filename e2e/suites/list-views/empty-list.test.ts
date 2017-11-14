@@ -22,7 +22,7 @@ import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
-fdescribe('Empty list views', () => {
+describe('Empty list views', () => {
     const username = `user-${Utils.random()}`;
     const password = username;
 
@@ -38,9 +38,13 @@ fdescribe('Empty list views', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser(username)
-            .then(() => loginPage.load()
-                .then(() => loginPage.loginWith(username))
-                .then(done));
+            .then(() => loginPage.load())
+            .then(() => loginPage.loginWith(username))
+            .then(done);
+    });
+
+    afterAll(done => {
+        logoutPage.load().then(done);
     });
 
     it('empty Personal Files', () => {
