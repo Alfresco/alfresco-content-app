@@ -108,13 +108,11 @@ describe('Personal Files', () => {
                 .then(done);
         });
 
-        it('has the right column count', () => {
-            expect(dataTable.getColumnHeaders().count()).toBe(5);
-        });
-
-        it('has the right columns', () => {
+        it('has the correct columns', () => {
             const labels = [ 'Name', 'Size', 'Modified', 'Modified by' ];
             const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+
+            expect(dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
 
             elements.forEach((element, index) => {
                 expect(element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
