@@ -94,6 +94,11 @@ adf-document-list {
         a {
             text-decoration: none;
             color: $alfresco-primary-text-color;
+
+            &:hover {
+                color: $alfresco-primary-accent--default;
+                text-decoration: underline;
+            }
         }
     }
 
