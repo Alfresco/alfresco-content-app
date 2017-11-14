@@ -31,11 +31,21 @@ export class DataTable extends Component {
         `,
 
         body: 'table > tbody',
-        row: 'tr'
+        row: 'tr',
+
+        emptyListContainer: 'td.adf-no-content-container',
+        emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
+
+        emptyListTitle: 'div .empty-list__title',
+        emptyListText: 'div .empty-list__text'
     };
 
-    private head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
-    private body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
+    head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
+    body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
+    emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
+    emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
+    emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
+    emptyListText: ElementArrayFinder = this.component.all(by.css(DataTable.selectors.emptyListText));
 
     constructor(ancestor?: ElementFinder) {
         super(DataTable.selectors.root, ancestor);
@@ -46,7 +56,9 @@ export class DataTable extends Component {
         return browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT);
     }
 
-    // waitForEmptyState() {}
+    waitForEmptyState() {
+        return browser.wait(EC.presenceOf(this.emptyList), BROWSER_WAIT_TIMEOUT);
+    }
 
     // Header/Column methods
     getColumnHeaders(): ElementArrayFinder {
@@ -106,5 +118,38 @@ export class DataTable extends Component {
         const click = browser.actions().mouseMove(row).click();
 
         return click.perform();
+    }
+
+    // empty state methods
+    isEmptyList(): promise.Promise<boolean> {
+        return this.emptyList.isPresent();
+    }
+
+    isEmptyWithDragAndDrop(): promise.Promise<boolean> {
+        return this.emptyFolderDragAndDrop.isDisplayed();
+    }
+
+    getEmptyDragAndDropText(): promise.Promise<string> {
+        return this.isEmptyWithDragAndDrop()
+            .then(() => {
+                return this.emptyFolderDragAndDrop.getText();
+            })
+            .catch(() => '');
+    }
+
+    getEmptyStateTitle(): promise.Promise<string> {
+        return this.isEmptyList()
+            .then(() => {
+                return this.emptyListTitle.getText();
+            })
+            .catch(() => '');
+    }
+
+    getEmptyStateText(): promise.Promise<string> {
+        return this.isEmptyList()
+            .then(() => {
+                return this.emptyListText.getText();
+            })
+            .catch(() => '');
     }
 }
