@@ -40,6 +40,18 @@ export class FavoritesApi extends RepoApi {
             .catch(this.handleError);
     }
 
+    addFavoriteById(nodeType: string, id: string): Promise<any> {
+        const data = [{
+            target: {
+                [nodeType]: {
+                    guid: id
+                }
+            }
+        }];
+        return this.post(`/people/-me-/favorites`, { data })
+            .catch(this.handleError);
+    }
+
     getFavorite(api: RepoClient, name: string): Promise<any> {
         return api.nodes.getNodeByPath(name)
             .then((response) => {

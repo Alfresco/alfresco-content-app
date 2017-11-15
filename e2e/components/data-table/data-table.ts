@@ -32,6 +32,7 @@ export class DataTable extends Component {
 
         body: 'table > tbody',
         row: 'tr',
+        cell: 'td',
 
         emptyListContainer: 'td.adf-no-content-container',
         emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
@@ -42,6 +43,7 @@ export class DataTable extends Component {
 
     head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
     body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
+    cell = by.css(DataTable.selectors.cell);
     emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
     emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
     emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
