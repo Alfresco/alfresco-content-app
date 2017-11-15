@@ -23,6 +23,25 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
+## Running documentation locally
+
+For development purposes you can run and test documentation locally.
+This is useful when working in different branches instead of a `master` one.
+
+Run the following command once to install the lightweight development server:
+
+```sh
+npm install -g wsrv
+```
+
+Run the following command to serve the documentation folder and open in the default browser:
+
+```sh
+wsrv docs/ -s -l -o
+```
+
+The browser page is going to automatically reload upon changes.
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
