@@ -11,7 +11,6 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "start:dist": "wsrv",
     "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0"
   },
   "private": true,
@@ -40,7 +39,6 @@
     "ng2-alfresco-viewer": "1.10.0-beta6",
     "pdfjs-dist": "1.8.557",
     "rxjs": "5.1.0",
-    "wsrv": "0.2.2",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
