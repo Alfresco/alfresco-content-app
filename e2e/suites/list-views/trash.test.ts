@@ -96,7 +96,7 @@ describe('Trash', () => {
             });
         });
 
-        it('displays the files deleted by everyone', () => {
+        it('displays the files and folders deleted by everyone', () => {
             expect(dataTable.countRows()).toEqual(5, 'Incorrect number of deleted items displayed');
 
             expect(dataTable.getRowByContainingText(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
@@ -131,7 +131,7 @@ describe('Trash', () => {
             });
         });
 
-        it('displays the files deleted by the user', () => {
+        it('displays the files and folders deleted by the user', () => {
             expect(dataTable.countRows()).toEqual(3, 'Incorrect number of deleted items displayed');
 
             expect(dataTable.getRowByContainingText(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
