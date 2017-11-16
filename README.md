@@ -27,16 +27,16 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 ## Running documentation locally
 
-For development purposes you can run and test documentation locally.
-This is useful when working in different branches instead of a `master` one.
+For development purposes, you can run and test documentation locally.
+That is useful when working in different branches instead of a `master` one.
 
-Run the following command once to install the lightweight development server:
+Run the following command to install the lightweight development server [wsrv](https://denysvuika.gitlab.io/wsrv/#/):
 
 ```sh
 npm install -g wsrv
 ```
 
-Run the following command to serve the documentation folder and open in the default browser:
+Now you can use the next command to serve the documentation folder in the browser:
 
 ```sh
 wsrv docs/ -s -l -o
