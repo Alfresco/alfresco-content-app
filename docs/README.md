@@ -1,28 +1,10 @@
 # Alfresco Content App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.7.
+## Building and running locally
 
-## Development server
+Please refer to the [developer docs](https://github.com/Alfresco/alfresco-content-app/blob/master/README.md) to get more details on building and running application on your local machine.
 
-Run `ng start` for a dev server. Navigate to `http://localhost:3000/` (opens by default).
-The app will automatically reload if you change any of the source files.
+## Using with Docker
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+The Content App provides a "Dockerfile" and "docker-compose" files to aid in running application in a container.
+Please refer to the "[Using with Docker](/docker)" article for more details.
