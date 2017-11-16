@@ -1,5 +1,5 @@
 {
-    "ecmHost": "http://{hostname}:{port}",
+    "ecmHost": "http://{hostname}{:port}",
     "application": {
         "name": "Alfresco Example Content Application",
         "build": "1234"

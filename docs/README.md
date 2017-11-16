@@ -1,5 +1,9 @@
 # Alfresco Content App
 
+## Prerequisites
+
+- Alfresco Content Services (Community) or Alfresco Content Services 5.2.2 (Enterprise)
+
 ## Building and running locally
 
 Please refer to the [developer docs](https://github.com/Alfresco/alfresco-content-app/blob/master/README.md) to get more details on building and running application on your local machine.
