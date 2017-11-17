@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs/Rx';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { AlfrescoContentService } from 'ng2-alfresco-core';
+import { AlfrescoContentService, AppConfigService } from 'ng2-alfresco-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 
@@ -32,60 +32,18 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 export class SidenavComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity = null;
     onChangeParentSubscription: Subscription;
-
-    navigation = [
-        [
-            {
-                icon: 'folder',
-                label: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL',
-                title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP',
-                disabled: false,
-                route: { url: '/personal-files' }
-            },
-            {
-                icon: 'group_work',
-                label: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL',
-                title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP',
-                disabled: false,
-                route: { url: '/libraries' }
-            }
-        ],
-        [
-            {
-                icon: 'people',
-                label: 'APP.BROWSE.SHARED.SIDENAV_LINK.LABEL',
-                title: 'APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP',
-                disabled: false,
-                route: { url: '/shared' }
-            },
-            {
-                icon: 'schedule',
-                label: 'APP.BROWSE.RECENT.SIDENAV_LINK.LABEL',
-                title: 'APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP',
-                disabled: false,
-                route: { url: '/recent-files' }
-            },
-            {
-                icon: 'star',
-                label: 'APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL',
-                title: 'APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP',
-                disabled: false,
-                route: { url: '/favorites' }
-            },
-            {
-                icon: 'delete',
-                label: 'APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL',
-                title: 'APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP',
-                disabled: false,
-                route: { url: '/trashcan' }
-            }
-        ]
-    ];
+    navigation = [];
 
     constructor(
         private browsingFilesService: BrowsingFilesService,
-        private contentService: AlfrescoContentService
-    ) {}
+        private contentService: AlfrescoContentService,
+        private appConfig: AppConfigService
+    ) {
+        this.navigation = this.navigation.concat([
+            this.appConfig.get('navigation.main'),
+            this.appConfig.get('navigation.secondary')
+        ]);
+    }
 
     ngOnInit() {
         this.onChangeParentSubscription = this.browsingFilesService.onChangeParent
