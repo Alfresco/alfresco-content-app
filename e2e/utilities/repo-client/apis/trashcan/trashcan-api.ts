@@ -15,21 +15,12 @@
  * limitations under the License.
  */
 
-import { promise } from 'protractor';
-import { Page } from './page';
-import { APP_ROUTES } from '../configs';
-import { Utils } from '../utilities/utils';
+import { RepoApi } from '../repo-api';
 
-export class LogoutPage extends Page {
-    /** @override */
-    constructor() {
-        super(APP_ROUTES.LOGIN);
-    }
-
-    /** @override */
-    load(): promise.Promise<any> {
-        return Utils.clearLocalStorage()
-            .then(() => Utils.clearSessionStorage())
-            .then(() => super.load());
+export class TrashcanApi extends RepoApi {
+    permanentlyDelete(id: string): Promise<any> {
+        return this
+            .delete(`/deleted-nodes/${id}`)
+            .catch(this.handleError);
     }
 }

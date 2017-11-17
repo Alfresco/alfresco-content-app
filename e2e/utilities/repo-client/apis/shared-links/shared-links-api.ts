@@ -15,21 +15,22 @@
  * limitations under the License.
  */
 
-import { promise } from 'protractor';
-import { Page } from './page';
-import { APP_ROUTES } from '../configs';
-import { Utils } from '../utilities/utils';
+import { RepoApi } from '../repo-api';
+import { NodesApi } from '../nodes/nodes-api';
+import { RepoClient } from './../../repo-client';
 
-export class LogoutPage extends Page {
-    /** @override */
-    constructor() {
-        super(APP_ROUTES.LOGIN);
+export class SharedLinksApi extends RepoApi {
+
+    shareFileById(id: string): Promise<any> {
+        const data = [{ nodeId: id }];
+
+        return this.post(`/shared-links`, { data })
+            .catch(this.handleError);
     }
 
-    /** @override */
-    load(): promise.Promise<any> {
-        return Utils.clearLocalStorage()
-            .then(() => Utils.clearSessionStorage())
-            .then(() => super.load());
+    getSharedLinks(): Promise<any> {
+        return this.get(`/shared-links`)
+            .catch(this.handleError);
     }
+
 }
