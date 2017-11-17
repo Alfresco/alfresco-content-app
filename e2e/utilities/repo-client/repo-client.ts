@@ -21,6 +21,7 @@ import { PeopleApi } from './apis/people/people-api';
 import { NodesApi } from './apis/nodes/nodes-api';
 import { SitesApi } from './apis/sites/sites-api';
 import { FavoritesApi } from './apis/favorites/favorites-api';
+import { TrashcanApi } from './apis/trashcan/trashcan-api';
 
 export class RepoClient {
     public people: PeopleApi = new PeopleApi(this.auth, this.config);
@@ -28,6 +29,7 @@ export class RepoClient {
     public sites: SitesApi = new SitesApi(this.auth, this.config);
     public favorites: FavoritesApi = new FavoritesApi(this.auth, this.config);
     // public shared: SharedLinksApi = new SharedLinksApi(this.auth, this.config);
+    public trashcan: TrashcanApi = new TrashcanApi(this.auth, this.config);
 
     constructor(
         private username: string = RepoClientAuth.DEFAULT_USERNAME,
