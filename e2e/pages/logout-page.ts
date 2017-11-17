@@ -28,8 +28,8 @@ export class LogoutPage extends Page {
 
     /** @override */
     load(): promise.Promise<any> {
-        return super.load()
-            .then(() => Utils.clearLocalStorage())
-            .then(() => Utils.clearSessionStorage());
+        return Utils.clearLocalStorage()
+            .then(() => Utils.clearSessionStorage())
+            .then(() => super.load());
     }
 }
