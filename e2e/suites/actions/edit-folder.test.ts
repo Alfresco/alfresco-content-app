@@ -86,15 +86,6 @@ describe('Edit folder', () => {
             .then(done);
     });
 
-    it('button is enabled when having permissions', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderName)
-                .then(() => {
-                    expect(editButton.isEnabled()).toBe(true);
-                })
-            );
-    });
-
     it('dialog UI defaults', () => {
         personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
             .then(() => dataTable.clickOnRowByContainingText(folderName)
@@ -132,17 +123,6 @@ describe('Edit folder', () => {
                         });
                 })
             );
-    });
-
-    it('button is not displayed when not enough permissions', () => {
-        const fileLibrariesPage = new BrowsingPage(APP_ROUTES.FILE_LIBRARIES);
-
-        fileLibrariesPage.sidenav.navigateToLinkByLabel('File Libraries')
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(siteName))
-            .then(() => fileLibrariesPage.dataTable.clickOnRowByContainingText(folderName))
-            .then(() => {
-                expect(editButton.isPresent()).not.toBe(true, 'edit button is displayed');
-            });
     });
 
     it('with empty folder name', () => {
