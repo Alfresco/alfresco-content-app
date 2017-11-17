@@ -1,8 +1,8 @@
 <div class="inner-layout inner-layout--scroll">
     <div class="inner-layout__content inner-layout__content--scroll">
         <article *ngIf="ecmVersion" class="padding">
-            <header class="header padding-left">Product Version</header>
-            <p class="padding-left"> {{ ecmVersion.edition }} {{ ecmVersion.version.display }} </p>
+            <header class="header padding-left">Alfresco Content Services</header>
+            <p class="padding-left"> version: {{ ecmVersion.edition }} {{ ecmVersion.version.display }} </p>
         </article>
 
         <article class="padding-top-bottom">
@@ -18,6 +18,11 @@
         <article class="padding-top-bottom">
             <header class="header padding-left-right">Modules</header>
             <adf-datatable [data]="modules"></adf-datatable>
+        </article>
+
+        <article class="padding">
+            <header class="header padding-left">Alfresco Content Application</header>
+            <p class="padding-left"> version: 1.0 </p>
         </article>
 
         <article *ngIf="githubUrlCommitAlpha" class="padding">
