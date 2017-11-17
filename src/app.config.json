@@ -20,6 +20,66 @@
             ".git"
         ]
     },
+    "navigation": {
+        "main": [
+            {
+                "icon": "folder",
+                "label": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
+                "disabled": false,
+                "route": {
+                    "url": "/personal-files"
+                }
+            },
+            {
+                "icon": "group_work",
+                "label": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
+                "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "disabled": false,
+                "route": {
+                    "url": "/libraries"
+                }
+            }
+        ],
+        "secondary": [
+            {
+                "icon": "people",
+                "label": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
+                "title": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
+                "disabled": false,
+                "route": {
+                    "url": "/shared"
+                }
+            },
+            {
+                "icon": "schedule",
+                "label": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+                "title": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+                "disabled": false,
+                "route": {
+                    "url": "/recent-files"
+                }
+            },
+            {
+                "icon": "star",
+                "label": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
+                "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
+                "disabled": false,
+                "route": {
+                    "url": "/favorites"
+                }
+            },
+            {
+                "icon": "delete",
+                "label": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
+                "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
+                "disabled": false,
+                "route": {
+                    "url": "/trashcan"
+                }
+            }
+        ]
+    },
     "languages": [
         {
             "key": "de",
