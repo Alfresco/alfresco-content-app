@@ -59,6 +59,8 @@ describe('Toolbar actions - single selection : ', () => {
             .then(() => apis.user.nodes.createFolders([ folderForDelete ]).then((resp) => { folderForDeleteId = resp.data.entry.id; }))
             .then(() => apis.user.nodes.createFolders([ folderUser ]).then(resp => { folderUserId = resp.data.entry.id; }))
             .then(() => apis.user.shared.shareFileById(fileUserId))
+            .then(() => apis.user.favorites.addFavoriteById('file', fileUserId))
+            .then(() => apis.user.favorites.addFavoriteById('folder', folderUserId))
             .then(done);
     });
 
@@ -84,10 +86,6 @@ describe('Toolbar actions - single selection : ', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(done);
-        });
-
-        afterEach(done => {
-            browser.$('body').click().then(done);
         });
 
         afterAll(done => {
@@ -127,7 +125,8 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-            });
+                })
+                .then(() => browser.$('body').click());
         });
 
         it('correct actions appear when a folder is selected', () => {
@@ -145,7 +144,8 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
-                });
+                })
+                .then(() => browser.$('body').click());
         });
     });
 
@@ -166,10 +166,6 @@ describe('Toolbar actions - single selection : ', () => {
                 .then(() => dataTable.doubleClickOnRowByContainingText(siteName))
                 .then(() => dataTable.waitForHeader())
                 .then(done);
-        });
-
-        afterEach(done => {
-            browser.$('body').click().then(done);
         });
 
         xit('');
@@ -218,7 +214,8 @@ describe('Toolbar actions - single selection : ', () => {
                         expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileAdmin}`);
                         expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileAdmin}`);
                         expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileAdmin}`);
-                });
+                    })
+                    .then(() => browser.$('body').click());
             });
 
             it('correct actions appear when a folder is selected', () => {
@@ -236,7 +233,8 @@ describe('Toolbar actions - single selection : ', () => {
                         expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderAdmin}`);
                         expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderAdmin}`);
                         expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderAdmin}`);
-                    });
+                    })
+                    .then(() => browser.$('body').click());
             });
         });
 
@@ -284,7 +282,8 @@ describe('Toolbar actions - single selection : ', () => {
                         expect(menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${fileAdmin}`);
                         expect(menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${fileAdmin}`);
                         expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileAdmin}`);
-                });
+                    })
+                    .then(() => browser.$('body').click());
             });
 
             it('correct actions appear when a folder is selected', () => {
@@ -302,7 +301,8 @@ describe('Toolbar actions - single selection : ', () => {
                         expect(menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${folderAdmin}`);
                         expect(menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${folderAdmin}`);
                         expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderAdmin}`);
-                    });
+                    })
+                    .then(() => browser.$('body').click());
             });
         });
     });
@@ -320,10 +320,6 @@ describe('Toolbar actions - single selection : ', () => {
                 .then(done);
         });
 
-        afterEach(done => {
-            browser.$('body').click().then(done);
-        });
-
         afterAll(done => {
             logoutPage.load().then(done);
         });
@@ -354,7 +350,8 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-            });
+                })
+                .then(() => browser.$('body').click());
         });
     });
 
@@ -371,10 +368,6 @@ describe('Toolbar actions - single selection : ', () => {
                 .then(done);
         });
 
-        afterEach(done => {
-            browser.$('body').click().then(done);
-        });
-
         afterAll(done => {
             logoutPage.load().then(done);
         });
@@ -405,29 +398,22 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-            });
+                })
+                .then(() => browser.$('body').click());
         });
     });
 
     describe('Favorites', () => {
         beforeAll(done => {
-            Promise.all([
-                apis.user.favorites.addFavoriteById('file', fileUserId),
-                apis.user.favorites.addFavoriteById('folder', folderUserId),
-                loginPage.load()
-            ])
-            .then(() => loginPage.loginWith(username))
-            .then(done);
+            loginPage.load()
+                .then(() => loginPage.loginWith(username))
+                .then(done);
         });
 
         beforeEach(done => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
                 .then(() => dataTable.waitForHeader())
                 .then(done);
-        });
-
-        afterEach(done => {
-            browser.$('body').click().then(done);
         });
 
         afterAll(done => {
@@ -467,7 +453,8 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-            });
+                })
+                .then(() => browser.$('body').click());
         });
 
         it('correct actions appear when a folder is selected', () => {
@@ -485,7 +472,8 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
-                });
+                })
+                .then(() => browser.$('body').click());
         });
     });
 
