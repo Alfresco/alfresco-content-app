@@ -25,10 +25,16 @@ import { AppConfigService } from 'ng2-alfresco-core';
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
+    static ASSETS_PATH = '/assets/images/';
+    static DEFAULT_LOGO = 'alfresco-logo-white.svg';
 
     constructor(private appConfig: AppConfigService) {}
 
     get appName(): string {
         return <string>this.appConfig.get('application.name');
+    }
+
+    get logo() {
+        return `${HeaderComponent.ASSETS_PATH}${this.appConfig.get('logo', HeaderComponent.DEFAULT_LOGO)}`;
     }
 }

@@ -31,21 +31,14 @@
     .app-menu__title {
         width: 100px;
         height: $app-menu-height;
+        margin-left: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
 
-        line-height: 54px;
-        text-decoration: none;
-        text-indent: -9999px;
-
-        color: inherit;
-
-        background: url('/assets/images/alfresco-logo-white.svg') no-repeat 0 50%;
-        background-size: 100% auto;
-
-        display: block;
-        position: relative;
-        font-size: 20px;
-        line-height: 1;
-        letter-spacing: .02em;
-        font-weight: 400;
+        &> img {
+            width: 100%;
+            object-fit: contain;
+        }
     }
 }

@@ -1,9 +1,10 @@
 <adf-toolbar class="app-menu">
     <adf-toolbar-title>
-        <a
-            class="app-menu__title"
+        <a class="app-menu__title"
             title="{{ appName }}"
-            [routerLink]="[ '/' ]">{{ appName }}</a>
+            [routerLink]="[ '/' ]">
+            <img [src]="logo" alt="{{ appName }}" />
+        </a>
     </adf-toolbar-title>
 
     <app-search></app-search>

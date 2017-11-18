@@ -4,6 +4,7 @@
         "name": "Alfresco Example Content Application",
         "build": "1234"
     },
+    "logo": "alfresco-logo-white.svg",
     "languagePicker": false,
     "document-list": {
         "supportedPageSizes": [
