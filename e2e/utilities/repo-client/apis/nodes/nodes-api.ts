@@ -50,7 +50,7 @@ export class NodesApi extends RepoApi {
     getNodeDescription(name: string): Promise<string> {
         return this.getNodeByPath(name)
             .then(response => response.data.entry.properties['cm:description'])
-            .catch(() => '');
+            .catch(() => Promise.resolve(''));
     }
 
     deleteNodes(names: string[], relativePath: string = '', permanent: boolean = true): Promise<any> {
