@@ -26,8 +26,6 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 })
 export class SearchComponent {
 
-    searchTerm = '';
-
     constructor(
         private router: Router) {
     }
