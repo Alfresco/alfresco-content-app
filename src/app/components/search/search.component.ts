@@ -32,7 +32,7 @@ export class SearchComponent {
         private router: Router) {
     }
 
-    onNodeClicked(node: MinimalNodeEntity) {
+    onItemClicked(node: MinimalNodeEntity) {
         if (node && node.entry) {
             if (node.entry.isFile) {
                 this.router.navigate(['/preview', node.entry.id]);
