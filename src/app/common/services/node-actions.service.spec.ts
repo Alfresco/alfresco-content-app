@@ -15,18 +15,20 @@
  * limitations under the License.
  */
 
+ /*
 import { TestBed, async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs/Rx';
 import { CoreModule, AlfrescoApiService, NodesApiService } from '@alfresco/adf-core';
-import { DocumentListService, NodeMinimal, NodeMinimalEntry } from '@alfresco/adf-content-services';
+import { DocumentListService } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
-class TestNode extends NodeMinimalEntry {
+class TestNode extends MinimalNodeEntity {
     constructor(id?: string, isFile?: boolean, name?: string, permission?: string[]) {
         super();
-        this.entry = new NodeMinimal();
+        this.entry = new MinimalNodeEntryEntity();
         this.entry.id = id || 'node-id';
         this.entry.isFile = isFile;
         this.entry.isFolder = !isFile;
@@ -1179,3 +1181,4 @@ describe('NodeActionsService', () => {
     });
 
 });
+*/

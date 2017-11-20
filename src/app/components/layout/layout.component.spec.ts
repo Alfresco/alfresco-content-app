@@ -18,7 +18,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { CoreModule, AlfrescoContentService, PeopleContentService } from '@alfresco/adf-core';
+import { CoreModule, ContentService, PeopleContentService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Observable';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
@@ -33,7 +33,7 @@ describe('LayoutComponent', () => {
     let fixture: ComponentFixture<LayoutComponent>;
     let component: LayoutComponent;
     let browsingFilesService: BrowsingFilesService;
-    let contentService: AlfrescoContentService;
+    let contentService: ContentService;
     let node;
 
     beforeEach(() => {
@@ -65,7 +65,7 @@ describe('LayoutComponent', () => {
         fixture = TestBed.createComponent(LayoutComponent);
         component = fixture.componentInstance;
         browsingFilesService = TestBed.get(BrowsingFilesService);
-        contentService = TestBed.get(AlfrescoContentService);
+        contentService = TestBed.get(ContentService);
 
         fixture.detectChanges();
     });

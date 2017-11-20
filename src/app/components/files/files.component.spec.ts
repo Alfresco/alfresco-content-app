@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
 import { UploadService, NodesApiService, FileUploadCompleteEvent,
-        FileUploadDeleteEvent, FileModel, AlfrescoContentService } from '@alfresco/adf-core';
+        FileUploadDeleteEvent, FileModel, ContentService } from '@alfresco/adf-core';
 
 import { CommonModule } from '../../common/common.module';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -35,7 +35,7 @@ describe('FilesComponent', () => {
     let fixture;
     let component: FilesComponent;
     let contentManagementService: ContentManagementService;
-    let alfrescoContentService: AlfrescoContentService;
+    let alfrescoContentService: ContentService;
     let uploadService: UploadService;
     let nodesApi: NodesApiService;
     let router: Router;
@@ -62,7 +62,7 @@ describe('FilesComponent', () => {
             uploadService = TestBed.get(UploadService);
             nodesApi = TestBed.get(NodesApiService);
             router = TestBed.get(Router);
-            alfrescoContentService = TestBed.get(AlfrescoContentService);
+            alfrescoContentService = TestBed.get(ContentService);
             browsingFilesService = TestBed.get(BrowsingFilesService);
             nodeActionsService = TestBed.get(NodeActionsService);
         });

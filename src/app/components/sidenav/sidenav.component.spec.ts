@@ -17,7 +17,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AlfrescoContentService } from '@alfresco/adf-core';
+import { ContentService } from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 
@@ -27,7 +27,7 @@ import { CommonModule } from './../../common/common.module';
 describe('SidenavComponent', () => {
     let fixture;
     let component: SidenavComponent;
-    let contentService: AlfrescoContentService;
+    let contentService: ContentService;
     let browsingService: BrowsingFilesService;
 
     beforeEach(async(() => {
@@ -42,7 +42,7 @@ describe('SidenavComponent', () => {
         })
         .compileComponents()
         .then(() => {
-            contentService = TestBed.get(AlfrescoContentService);
+            contentService = TestBed.get(ContentService);
             browsingService = TestBed.get(BrowsingFilesService);
 
             fixture = TestBed.createComponent(SidenavComponent);
