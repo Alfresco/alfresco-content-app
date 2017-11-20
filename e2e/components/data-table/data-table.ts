@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { ElementFinder, ElementArrayFinder, promise, by, browser, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, ElementArrayFinder, promise, by, browser, ExpectedConditions as EC, protractor } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
@@ -32,6 +32,7 @@ export class DataTable extends Component {
 
         body: 'table > tbody',
         row: 'tr',
+        selectedRow: 'tr.is-selected',
         cell: 'td',
 
         emptyListContainer: 'td.adf-no-content-container',
@@ -94,6 +95,10 @@ export class DataTable extends Component {
         return this.body.all(by.css(DataTable.selectors.row));
     }
 
+    getSelectedRows(): ElementArrayFinder {
+        return this.body.all(by.css(DataTable.selectors.selectedRow));
+    }
+
     getNthRow(nth: number): ElementFinder {
         return this.getRows().get(nth - 1);
     }
@@ -120,6 +125,23 @@ export class DataTable extends Component {
         const click = browser.actions().mouseMove(row).click();
 
         return click.perform();
+    }
+
+    selectMultipleItems(names: string[]): promise.Promise<void> {
+        return browser.actions().sendKeys(protractor.Key.COMMAND).perform()
+            .then(() => {
+                names.forEach(name => {
+                    this.getRowByContainingText(name).click();
+                });
+            })
+            .then(() => browser.actions().sendKeys(protractor.Key.NULL).perform());
+    }
+
+    clearSelection() {
+        this.getSelectedRows().count()
+            .then(count => {
+                if (count !== 0) { browser.refresh().then(() => this.waitForHeader()); }
+            });
     }
 
     // empty state methods

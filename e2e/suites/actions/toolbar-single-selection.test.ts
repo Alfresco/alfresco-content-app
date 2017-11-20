@@ -116,9 +116,7 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-                });
-
-            dataTable.clickOnRowByContainingText(fileUser)
+                })
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
@@ -135,9 +133,7 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
                     expect(toolbar.actions.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
-                });
-
-            dataTable.clickOnRowByContainingText(folderUser)
+                })
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
@@ -166,6 +162,10 @@ describe('Toolbar actions - single selection : ', () => {
                 .then(() => dataTable.doubleClickOnRowByContainingText(siteName))
                 .then(() => dataTable.waitForHeader())
                 .then(done);
+        });
+
+        afterAll(done => {
+            apis.admin.sites.deleteSite(siteName).then(done);
         });
 
         xit('');
@@ -205,9 +205,7 @@ describe('Toolbar actions - single selection : ', () => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileAdmin}`);
-                    });
-
-                dataTable.clickOnRowByContainingText(fileAdmin)
+                    })
                     .then(() => toolbar.actions.openMoreMenu())
                     .then(menu => {
                         expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileAdmin}`);
@@ -224,9 +222,7 @@ describe('Toolbar actions - single selection : ', () => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderAdmin}`);
-                    });
-
-                dataTable.clickOnRowByContainingText(folderAdmin)
+                    })
                     .then(() => toolbar.actions.openMoreMenu())
                     .then(menu => {
                         expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderAdmin}`);
@@ -273,9 +269,7 @@ describe('Toolbar actions - single selection : ', () => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileAdmin}`);
-                    });
-
-                dataTable.clickOnRowByContainingText(fileAdmin)
+                    })
                     .then(() => toolbar.actions.openMoreMenu())
                     .then(menu => {
                         expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileAdmin}`);
@@ -292,9 +286,7 @@ describe('Toolbar actions - single selection : ', () => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${folderAdmin}`);
-                    });
-
-                dataTable.clickOnRowByContainingText(folderAdmin)
+                    })
                     .then(() => toolbar.actions.openMoreMenu())
                     .then(menu => {
                         expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderAdmin}`);
@@ -341,9 +333,7 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-                });
-
-            dataTable.clickOnRowByContainingText(fileUser)
+                })
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
@@ -389,9 +379,7 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-                });
-
-            dataTable.clickOnRowByContainingText(fileUser)
+                })
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
@@ -444,9 +432,7 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-                });
-
-            dataTable.clickOnRowByContainingText(fileUser)
+                })
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
@@ -463,9 +449,7 @@ describe('Toolbar actions - single selection : ', () => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
                     expect(toolbar.actions.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
-                });
-
-            dataTable.clickOnRowByContainingText(folderUser)
+                })
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
