@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs/Rx';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { DocumentListComponent } from 'ng2-alfresco-documentlist';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';

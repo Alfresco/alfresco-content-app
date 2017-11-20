@@ -17,11 +17,10 @@
 
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CoreModule, TranslationService, NodesApiService } from 'ng2-alfresco-core';
+import { AlfrescoApiService, CoreModule, TranslationService, NodesApiService } from '@alfresco/adf-core';
 import { Component, DebugElement } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { AlfrescoApiService } from 'ng2-alfresco-core';
 import { ContentManagementService } from '../services/content-management.service';
 import { NodeFavoriteDirective } from './node-favorite.directive';
 

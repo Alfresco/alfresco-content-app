@@ -21,7 +21,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, AlfrescoApiService, TranslationService, NotificationService } from 'ng2-alfresco-core';
+import { CoreModule, AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
 
 import { NodeRestoreDirective } from './node-restore.directive';
 

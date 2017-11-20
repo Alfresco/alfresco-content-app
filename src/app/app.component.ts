@@ -17,7 +17,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { TranslationService, PageTitleService } from 'ng2-alfresco-core';
+import { TranslationService, PageTitleService } from '@alfresco/adf-core';
 
 @Component({
     selector: 'app-root',

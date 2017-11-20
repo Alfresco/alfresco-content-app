@@ -16,7 +16,7 @@
  */
 
 import { TestBed, async } from '@angular/core/testing';
-import { CoreModule, AppConfigService } from 'ng2-alfresco-core';
+import { CoreModule, AppConfigService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 

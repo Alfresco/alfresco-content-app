@@ -16,7 +16,7 @@
  */
 
 import { Routes } from '@angular/router';
-import { AuthGuardEcm } from 'ng2-alfresco-core';
+import { AuthGuardEcm } from '@alfresco/adf-core';
 
 import { LayoutComponent } from './components/layout/layout.component';
 

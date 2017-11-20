@@ -17,7 +17,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AlfrescoContentService } from 'ng2-alfresco-core';
+import { AlfrescoContentService } from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 

@@ -16,7 +16,7 @@
  */
 
 import { Component, ViewEncapsulation } from '@angular/core';
-import { AppConfigService } from 'ng2-alfresco-core';
+import { AppConfigService } from '@alfresco/adf-core';
 
 @Component({
     selector: 'app-header',

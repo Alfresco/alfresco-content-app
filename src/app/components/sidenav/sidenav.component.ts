@@ -20,7 +20,7 @@ import { Subscription } from 'rxjs/Rx';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { AlfrescoContentService, AppConfigService } from 'ng2-alfresco-core';
+import { ContentService, AppConfigService } from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 
@@ -36,7 +36,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     constructor(
         private browsingFilesService: BrowsingFilesService,
-        private contentService: AlfrescoContentService,
+        private contentService: ContentService,
         private appConfig: AppConfigService
     ) {
         this.navigation = this.navigation.concat([

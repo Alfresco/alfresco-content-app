@@ -19,8 +19,8 @@ import { TestBed, async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, AlfrescoApiService, NodesApiService } from 'ng2-alfresco-core';
-import { DocumentListService, NodeMinimal, NodeMinimalEntry } from 'ng2-alfresco-documentlist';
+import { CoreModule, AlfrescoApiService, NodesApiService } from '@alfresco/adf-core';
+import { DocumentListService, NodeMinimal, NodeMinimalEntry } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
 
 class TestNode extends NodeMinimalEntry {

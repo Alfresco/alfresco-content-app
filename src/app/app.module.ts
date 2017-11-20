@@ -18,7 +18,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TRANSLATION_PROVIDER } from 'ng2-alfresco-core';
+import { TRANSLATION_PROVIDER } from '@alfresco/adf-core';
 
 import { AdfModule } from './adf.module';
 import { CommonModule } from './common/common.module';

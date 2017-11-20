@@ -19,7 +19,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs/Rx';
 import { MaterialModule } from '../../common/material.module';
-import { CoreModule, PeopleContentService } from 'ng2-alfresco-core';
+import { CoreModule, PeopleContentService } from '@alfresco/adf-core';
 
 import { CurrentUserComponent } from './current-user.component';
 

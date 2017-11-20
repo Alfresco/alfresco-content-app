@@ -17,8 +17,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { DiscoveryApiService, EcmProductVersionModel  } from 'ng2-alfresco-core';
-import { ObjectDataTableAdapter } from 'ng2-alfresco-datatable';
+import { DiscoveryApiService } from '@alfresco/adf-core';
+import { EcmProductVersionModel, ObjectDataTableAdapter  } from '@alfresco/adf-content-services';
 
 @Component({
     selector: 'app-about',

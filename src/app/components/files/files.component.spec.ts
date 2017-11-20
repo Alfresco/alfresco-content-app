@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
 import { UploadService, NodesApiService, FileUploadCompleteEvent,
-        FileUploadDeleteEvent, FileModel, AlfrescoContentService } from 'ng2-alfresco-core';
+        FileUploadDeleteEvent, FileModel, AlfrescoContentService } from '@alfresco/adf-core';
 
 import { CommonModule } from '../../common/common.module';
 import { ContentManagementService } from '../../common/services/content-management.service';

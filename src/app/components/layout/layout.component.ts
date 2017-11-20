@@ -18,7 +18,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { AlfrescoContentService } from 'ng2-alfresco-core';
+import { ContentService } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 
 @Component({
@@ -32,7 +32,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     browsingFilesSubscription: Subscription;
 
     constructor(
-        private contentService: AlfrescoContentService,
+        private contentService: ContentService,
         private browsingFilesService: BrowsingFilesService) {}
 
     ngOnInit() {

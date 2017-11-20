@@ -19,8 +19,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, AuthenticationService, UserPreferencesService } from 'ng2-alfresco-core';
-import { LoginModule } from 'ng2-alfresco-login';
+import { CoreModule, AuthenticationService, UserPreferencesService, LoginModule } from '@alfresco/adf-core';
 
 import { LoginComponent } from './login.component';
 

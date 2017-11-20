@@ -18,7 +18,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { CoreModule, AlfrescoContentService, PeopleContentService } from 'ng2-alfresco-core';
+import { CoreModule, AlfrescoContentService, PeopleContentService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Observable';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';

@@ -19,10 +19,10 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, Pagination } fro
 
 export abstract class PageComponent {
 
-    title: string = 'Page';
+    title = 'Page';
 
-    isLoading: boolean = false;
-    isEmpty: boolean = true;
+    isLoading = false;
+    isEmpty = true;
 
     paging: NodePaging;
     pagination: Pagination;
@@ -70,7 +70,7 @@ export abstract class PageComponent {
 
     isFileSelected(selection: Array<MinimalNodeEntity>): boolean {
         if (selection && selection.length === 1) {
-            let entry = selection[0].entry;
+            const entry = selection[0].entry;
 
             if (entry && entry.isFile) {
                 return true;
@@ -81,7 +81,7 @@ export abstract class PageComponent {
 
     canEditFolder(selection: Array<MinimalNodeEntity>): boolean {
         if (selection && selection.length === 1) {
-            let entry = selection[0].entry;
+            const entry = selection[0].entry;
 
             if (entry && entry.isFolder) {
                 return this.nodeHasPermission(entry, 'update');

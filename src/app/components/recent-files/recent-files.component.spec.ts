@@ -20,7 +20,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 
-import { CoreModule, AlfrescoApiService } from 'ng2-alfresco-core';
+import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 
 import { CommonModule } from '../../common/common.module';
 import { ContentManagementService } from '../../common/services/content-management.service';
