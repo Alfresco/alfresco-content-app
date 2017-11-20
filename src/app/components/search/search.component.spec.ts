@@ -49,12 +49,12 @@ describe('SearchComponent', () => {
         });
     }));
 
-    describe('onNodeClicked()', () => {
+    describe('onItemClicked()', () => {
         it('opens preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
             const node = { entry: { isFile: true, id: 'node-id' } };
 
-            component.onNodeClicked(node);
+            component.onItemClicked(node);
 
             expect(router.navigate).toHaveBeenCalledWith(['/preview', node.entry.id]);
         });
@@ -63,7 +63,7 @@ describe('SearchComponent', () => {
             const node = { entry: { isFolder: true } };
             spyOn(router, 'navigate');
 
-            component.onNodeClicked(node);
+            component.onItemClicked(node);
 
             expect(router.navigate).toHaveBeenCalled();
         });
