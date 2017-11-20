@@ -18,7 +18,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { DiscoveryApiService } from '@alfresco/adf-core';
-import { EcmProductVersionModel, ObjectDataTableAdapter  } from '@alfresco/adf-content-services';
+import { EcmProductVersionModel, ObjectDataTableAdapter  } from '@alfresco/adf-core';
 
 @Component({
     selector: 'app-about',
@@ -72,7 +72,7 @@ export class AboutComponent implements OnInit {
         });
 
         this.http.get('/versions.json').subscribe(response => {
-            const regexp = new RegExp('^(ng2-alfresco|alfresco-)');
+            const regexp = new RegExp('^(@alfresco|alfresco-)');
 
             const alfrescoPackagesTableRepresentation = Object.keys(response.json().dependencies)
                 .filter((val) => regexp.test(val))
