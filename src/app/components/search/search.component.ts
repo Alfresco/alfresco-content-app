@@ -17,7 +17,6 @@
 
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 @Component({
@@ -27,13 +26,11 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 })
 export class SearchComponent {
 
-    searchTerm: string = '';
-
     constructor(
         private router: Router) {
     }
 
-    onNodeClicked(node: MinimalNodeEntity) {
+    onItemClicked(node: MinimalNodeEntity) {
         if (node && node.entry) {
             if (node.entry.isFile) {
                 this.router.navigate(['/preview', node.entry.id]);

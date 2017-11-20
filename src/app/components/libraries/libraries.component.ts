@@ -17,10 +17,10 @@
 
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NodesApiService } from 'ng2-alfresco-core';
+import { NodesApiService } from '@alfresco/adf-core';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { PageComponent } from '../page.component';
-import { DocumentListComponent } from 'ng2-alfresco-documentlist';
 
 @Component({
     templateUrl: './libraries.component.html'

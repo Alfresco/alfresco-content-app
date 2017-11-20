@@ -16,7 +16,7 @@
  */
 
 import { TestBed, async } from '@angular/core/testing';
-import { CoreModule, AppConfigService } from 'ng2-alfresco-core';
+import { CoreModule, AppConfigService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -49,12 +49,12 @@ describe('SearchComponent', () => {
         });
     }));
 
-    describe('onNodeClicked()', () => {
+    describe('onItemClicked()', () => {
         it('opens preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
             const node = { entry: { isFile: true, id: 'node-id' } };
 
-            component.onNodeClicked(node);
+            component.onItemClicked(node);
 
             expect(router.navigate).toHaveBeenCalledWith(['/preview', node.entry.id]);
         });
@@ -63,7 +63,7 @@ describe('SearchComponent', () => {
             const node = { entry: { isFolder: true } };
             spyOn(router, 'navigate');
 
-            component.onNodeClicked(node);
+            component.onItemClicked(node);
 
             expect(router.navigate).toHaveBeenCalled();
         });

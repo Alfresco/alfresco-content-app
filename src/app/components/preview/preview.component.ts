@@ -17,13 +17,14 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlfrescoApiService } from 'ng2-alfresco-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
     styleUrls: ['preview.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    // tslint:disable-next-line:use-host-property-decorator
     host: { 'class': 'app-preview' }
 })
 export class PreviewComponent implements OnInit {

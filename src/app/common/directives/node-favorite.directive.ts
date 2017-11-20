@@ -16,7 +16,7 @@
  */
 
 import { Directive, HostListener, Input, OnChanges } from '@angular/core';
-import { AlfrescoApiService } from 'ng2-alfresco-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 
 import { MinimalNodeEntity, FavoriteBody } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';

@@ -16,7 +16,7 @@
  */
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PeopleContentService, AppConfigService } from 'ng2-alfresco-core';
+import { PeopleContentService, AppConfigService } from '@alfresco/adf-core';
 import { Subscription } from 'rxjs/Rx';
 
 @Component({

@@ -19,9 +19,8 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { AlfrescoApiService, AlfrescoContentService, NodesApiService } from 'ng2-alfresco-core';
-import { DataColumn } from 'ng2-alfresco-datatable';
-import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from 'ng2-alfresco-documentlist';
+import { AlfrescoApiService, ContentService, NodesApiService, DataColumn } from '@alfresco/adf-core';
+import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Injectable()
@@ -33,7 +32,7 @@ export class NodeActionsService {
     contentMoved: Subject<any> = new Subject<any>();
     moveDeletedEntries: any[] = [];
 
-    constructor(private contentService: AlfrescoContentService,
+    constructor(private contentService: ContentService,
                 private dialog: MatDialog,
                 private documentListService: DocumentListService,
                 private apiService: AlfrescoApiService,

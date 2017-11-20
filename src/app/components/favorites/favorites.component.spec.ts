@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, NodesApiService, AlfrescoApiService, AlfrescoContentService } from 'ng2-alfresco-core';
+import { CoreModule, NodesApiService, AlfrescoApiService, ContentService } from '@alfresco/adf-core';
 
 import { CommonModule } from '../../common/common.module';
 import { LocationLinkComponent } from '../location-link/location-link.component';
@@ -32,7 +32,7 @@ describe('Favorites Routed Component', () => {
     let component: FavoritesComponent;
     let nodesApi: NodesApiService;
     let alfrescoApi: AlfrescoApiService;
-    let alfrescoContentService: AlfrescoContentService;
+    let alfrescoContentService: ContentService;
     let contentService: ContentManagementService;
     let router: Router;
     let page;
@@ -82,7 +82,7 @@ describe('Favorites Routed Component', () => {
 
             nodesApi = TestBed.get(NodesApiService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
-            alfrescoContentService = TestBed.get(AlfrescoContentService);
+            alfrescoContentService = TestBed.get(ContentService);
             contentService = TestBed.get(ContentManagementService);
             router = TestBed.get(Router);
         });

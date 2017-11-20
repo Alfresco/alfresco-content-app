@@ -17,7 +17,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CoreModule, AppConfigService, PeopleContentService } from 'ng2-alfresco-core';
+import { CoreModule, AppConfigService, PeopleContentService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Rx';
 import { CommonModule } from './../../common/common.module';
 

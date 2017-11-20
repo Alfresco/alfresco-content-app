@@ -17,11 +17,12 @@
 
 import { TestBed, ComponentFixture, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CoreModule, TranslationService, NodesApiService, NotificationService } from 'ng2-alfresco-core';
+import { CoreModule, TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
 import { Component, DebugElement } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+
 import { NodeDeleteDirective } from './node-delete.directive';
 import { ContentManagementService } from '../services/content-management.service';
-import { Observable } from 'rxjs/Rx';
 
 @Component({
     template: '<div [app-delete-node]="selection"></div>'

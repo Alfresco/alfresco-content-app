@@ -24,7 +24,7 @@ describe('BrowsingFilesService', () => {
         service = new BrowsingFilesService();
     });
 
-    it('subscribs to event', () => {
+    it('subscribes to event', () => {
         const value: any = 'test-value';
 
         service.onChangeParent.subscribe((result) => {

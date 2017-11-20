@@ -19,8 +19,8 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { MinimalNodeEntity } from 'alfresco-js-api';
-import { AlfrescoApiService } from 'ng2-alfresco-core';
-import { DocumentListComponent } from 'ng2-alfresco-documentlist';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';

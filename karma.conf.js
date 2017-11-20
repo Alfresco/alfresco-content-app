@@ -15,15 +15,13 @@ module.exports = function (config) {
     files: [
         { pattern: './node_modules/hammerjs/hammer.js', watched: false },
         { pattern: './node_modules/@angular/material/prebuilt-themes/indigo-pink.css', watched: false },
-        { pattern: './node_modules/ng2-alfresco-*/bundles/assets/ng2-alfresco-*/i18n/en.json', watched: false, served: true, included: false },
+        { pattern: './node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json', watched: false, served: true, included: false },
+        { pattern: './node_modules/@alfresco/adf-content-services/bundles/assets/adf-content-services/i18n/en.json', watched: false, served: true, included: false }
+
     ],
     proxies: {
-        '/assets/ng2-alfresco-core/i18n/en.json': '/base/node_modules/ng2-alfresco-core/bundles/assets/ng2-alfresco-core/i18n/en.json',
-        '/assets/ng2-alfresco-datatable/i18n/en.json': '/base/node_modules/ng2-alfresco-datatable/bundles/assets/ng2-alfresco-datatable/i18n/en.json',
-        '/assets/ng2-alfresco-documentlist/i18n/en.json': '/base/node_modules/ng2-alfresco-documentlist/bundles/assets/ng2-alfresco-documentlist/i18n/en.json',
-        '/assets/ng2-alfresco-login/i18n/en.json': '/base/node_modules/ng2-alfresco-login/bundles/assets/ng2-alfresco-login/i18n/en.json',
-        '/assets/ng2-alfresco-upload/i18n/en.json': '/base/node_modules/ng2-alfresco-upload/bundles/assets/ng2-alfresco-upload/i18n/en.json',
-        '/assets/ng2-alfresco-search/i18n/en.json': '/base/node_modules/ng2-alfresco-search/bundles/assets/ng2-alfresco-search/i18n/en.json'
+        '/assets/adf-core/i18n/en.json': '/base/node_modules/@alfresco/adf-core/bundles/assets/adf-core/i18n/en.json',
+        '/assets/adf-content-services/i18n/en.json': '/base/node_modules/@alfresco/adf-content-services/bundles/assets/adf-content-services/i18n/en.json'
     },
     client:{
       clearContext: false // leave Jasmine Spec Runner output visible in browser

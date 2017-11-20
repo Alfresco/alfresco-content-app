@@ -18,8 +18,7 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Validators } from '@angular/forms';
-
-import { AlfrescoAuthenticationService, UserPreferencesService } from 'ng2-alfresco-core';
+import { AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
 
 const skipRedirectUrls: string[] = [
     '/logout',
@@ -36,7 +35,7 @@ export class LoginComponent {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private auth: AlfrescoAuthenticationService,
+        private auth: AuthenticationService,
         private userPreferences: UserPreferencesService
     ) {
         if (auth.isEcmLoggedIn()) {

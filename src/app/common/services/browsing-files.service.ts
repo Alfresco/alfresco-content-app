@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';

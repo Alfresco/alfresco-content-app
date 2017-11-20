@@ -1,6 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation } from '@angular/core';
-import { DataColumn, DataRow, DataTableAdapter } from 'ng2-alfresco-datatable';
-import { AlfrescoApiService } from 'ng2-alfresco-core';
+import { AlfrescoApiService, DataColumn, DataRow, DataTableAdapter } from '@alfresco/adf-core';
 import { PathInfoEntity, AlfrescoApi } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 

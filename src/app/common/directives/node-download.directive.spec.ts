@@ -17,7 +17,7 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CoreModule, AlfrescoApiService } from 'ng2-alfresco-core';
+import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 import { MatDialog } from '@angular/material';
 import { Component, DebugElement } from '@angular/core';
 import { DownloadFileDirective } from './node-download.directive';

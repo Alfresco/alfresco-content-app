@@ -21,8 +21,8 @@ import { By } from '@angular/platform-browser';
 
 import { Observable } from 'rxjs/Rx';
 
-import { CoreModule, TranslationService, NodesApiService, NotificationService } from 'ng2-alfresco-core';
-import { DocumentListModule } from 'ng2-alfresco-documentlist';
+import { CoreModule, TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { DocumentListModule } from '@alfresco/adf-content-services';
 
 import { NodeActionsService } from '../services/node-actions.service';
 import { ContentManagementService } from '../services/content-management.service';

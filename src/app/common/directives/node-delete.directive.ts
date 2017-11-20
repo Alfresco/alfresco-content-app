@@ -17,7 +17,7 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 
-import { TranslationService, NodesApiService, NotificationService } from 'ng2-alfresco-core';
+import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 
