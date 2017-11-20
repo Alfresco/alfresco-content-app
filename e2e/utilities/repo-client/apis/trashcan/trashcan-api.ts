@@ -15,22 +15,12 @@
  * limitations under the License.
  */
 
-import { browser, promise } from 'protractor';
+import { RepoApi } from '../repo-api';
 
-export class Utils {
-    // generate a random value
-    static random(): string {
-    return Math.random().toString(36).substring(3, 10);
+export class TrashcanApi extends RepoApi {
+    permanentlyDelete(id: string): Promise<any> {
+        return this
+            .delete(`/deleted-nodes/${id}`)
+            .catch(this.handleError);
     }
-
-    // local storage
-    static clearLocalStorage(): promise.Promise<any> {
-        return browser.executeScript('window.localStorage.clear();');
-    }
-
-    // session storage
-    static clearSessionStorage(): promise.Promise<any> {
-        return browser.executeScript('window.sessionStorage.clear();');
-    }
-
 }

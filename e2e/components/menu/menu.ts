@@ -54,4 +54,8 @@ export class Menu extends Component {
     clickMenuItem(label: string): promise.Promise<void> {
         return this.getItemByLabel(label).click();
     }
+
+    isMenuItemPresent(title: string): promise.Promise<boolean> {
+        return this.component.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
+    }
 }

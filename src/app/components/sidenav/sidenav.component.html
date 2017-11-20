@@ -56,7 +56,7 @@
                 <a
                     class="sidenav-menu__item-link"
                     routerLinkActive="sidenav-menu__item-link--active"
-                    [routerLink]="item.route.url"
+                    [routerLink]="item.disabled? null : item.route.url"
                     [ngClass]="{ 'disabled': item.disabled }"
                     title="{{ item.title || '' | translate }}">
                     <mat-icon>{{ item.icon }}</mat-icon>

@@ -15,22 +15,22 @@
  * limitations under the License.
  */
 
-import { browser, promise } from 'protractor';
+import { RepoApi } from '../repo-api';
+import { NodesApi } from '../nodes/nodes-api';
+import { RepoClient } from './../../repo-client';
 
-export class Utils {
-    // generate a random value
-    static random(): string {
-    return Math.random().toString(36).substring(3, 10);
+export class SharedLinksApi extends RepoApi {
+
+    shareFileById(id: string): Promise<any> {
+        const data = [{ nodeId: id }];
+
+        return this.post(`/shared-links`, { data })
+            .catch(this.handleError);
     }
 
-    // local storage
-    static clearLocalStorage(): promise.Promise<any> {
-        return browser.executeScript('window.localStorage.clear();');
-    }
-
-    // session storage
-    static clearSessionStorage(): promise.Promise<any> {
-        return browser.executeScript('window.sessionStorage.clear();');
+    getSharedLinks(): Promise<any> {
+        return this.get(`/shared-links`)
+            .catch(this.handleError);
     }
 
 }

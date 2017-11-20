@@ -41,6 +41,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { SearchComponent } from './components/search/search.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { AboutComponent } from './components/about/about.component';
+import { LocationLinkComponent } from './components/location-link/location-link.component';
 
 @NgModule({
     imports: [
@@ -67,7 +69,9 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
         RecentFilesComponent,
         SharedFilesComponent,
         TrashcanComponent,
-        PreviewComponent
+        PreviewComponent,
+        AboutComponent,
+        LocationLinkComponent
     ],
     providers: [
         {

@@ -26,6 +26,7 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
+import { AboutComponent } from './components/about/about.component';
 
 import { LoginComponent } from './components/login/login.component';
 import { PreviewComponent } from './components/preview/preview.component';
@@ -34,13 +35,16 @@ import { GenericErrorComponent } from './components/generic-error/generic-error.
 export const APP_ROUTES: Routes = [
     {
         path: 'preview/:nodeId',
-        component: PreviewComponent
+        component: PreviewComponent,
+        data: {
+            i18nTitle: 'APP.PREVIEW.TITLE'
+        }
     },
     {
         path: 'login',
         component: LoginComponent,
         data: {
-            title: 'Sign in'
+            i18nTitle: 'APP.SIGN_IN'
         }
     },
     {
@@ -111,6 +115,13 @@ export const APP_ROUTES: Routes = [
                 component: TrashcanComponent,
                 data: {
                     i18nTitle: 'APP.BROWSE.TRASHCAN.TITLE'
+                }
+            },
+            {
+                path: 'about',
+                component: AboutComponent,
+                data: {
+                    i18nTitle: 'APP.BROWSE.ABOUT.TITLE'
                 }
             },
             {

@@ -33,17 +33,17 @@ export class NodesApi extends RepoApi {
             .catch(this.handleError);
     }
 
-    deleteNodeById(id: string): Promise<any> {
+    deleteNodeById(id: string, permanent: boolean = true): Promise<any> {
         return this
-            .delete(`/nodes/${id}`)
+            .delete(`/nodes/${id}?permanent=${permanent}`)
             .catch(this.handleError);
     }
 
-    deleteNodeByPath(path: string): Promise<any> {
+    deleteNodeByPath(path: string, permanent: boolean = true): Promise<any> {
         return this
             .getNodeByPath(path)
             .then((response: any): string => response.data.entry.id)
-            .then((id: string): any => this.deleteNodeById(id))
+            .then((id: string): any => this.deleteNodeById(id, permanent))
             .catch(this.handleError);
     }
 
@@ -56,10 +56,10 @@ export class NodesApi extends RepoApi {
             .catch(this.handleError);
     }
 
-    deleteNodes(names: string[], relativePath: string = ''): Promise<any> {
+    deleteNodes(names: string[], relativePath: string = '', permanent: boolean = true): Promise<any> {
         const deletions = names
             .map((name: string): any => {
-                return this.deleteNodeByPath(`${relativePath}/${name}`);
+                return this.deleteNodeByPath(`${relativePath}/${name}`, permanent);
             });
 
         return Promise.all(deletions);

@@ -14,14 +14,18 @@ adf-document-list {
     }
 }
 
-adf-document-list .adf-data-table {
+.adf-data-table {
     border: none !important;
 
     .sr-only {
         display: none;
     }
 
-    tr, td {
+    th, td {
+        color: $alfresco-secondary-text-color;
+    }
+
+    th, tr, td {
         &:focus {
             outline: none !important;
         }
@@ -76,10 +80,25 @@ adf-document-list .adf-data-table {
         }
     }
 
+    .adf-data-table__header--sorted-asc,
+    .adf-data-table__header--sorted-desc {
+        &:hover {
+            &:before {
+                color: inherit !important;
+            }
+        }
+    }
+
+    .app-location-link,
     .adf-location-cell {
         a {
             text-decoration: none;
             color: $alfresco-primary-text-color;
+
+            &:hover {
+                color: $alfresco-app-color--default;
+                text-decoration: underline;
+            }
         }
     }
 

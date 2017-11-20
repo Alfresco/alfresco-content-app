@@ -36,6 +36,10 @@ export class ToolbarActions extends Component {
         return this.buttons.count().then(count => (count === 0));
     }
 
+    isButtonPresent(title: string): promise.Promise<boolean> {
+        return this.component.element(by.css(`${ToolbarActions.selectors.button}[title="${title}"]`)).isPresent();
+    }
+
     getButtonByLabel(label: string): ElementFinder {
         return this.component.element(by.cssContainingText(ToolbarActions.selectors.button, label));
     }

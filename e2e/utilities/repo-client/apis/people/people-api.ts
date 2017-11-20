@@ -35,7 +35,7 @@ export class PeopleApi extends RepoApi {
             .catch(this.handleError);
     }
 
-    createUser(username: string, password: string, details?: Person): Promise<any> {
+    createUser(username: string, password?: string, details?: Person): Promise<any> {
         const person: Person = new Person(username, password, details);
         const onSuccess = (response) => response;
         const onError = (response) => {

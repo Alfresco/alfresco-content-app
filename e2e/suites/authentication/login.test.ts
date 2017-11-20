@@ -27,19 +27,16 @@ describe('Login', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
 
-    const testUser = {
-        username: 'test.user@alfness',
-        password: 'test.user'
-    };
+    const testUser = `user-${Utils.random()}@alfness`;
 
     const russianUser = {
-        username: 'пользователь',
+        username: `пользвате${Utils.random()}`,
         password: '密碼中國'
     };
 
     const johnDoe = {
-        username: 'john.doe',
-        password: 'john.doe',
+        username: `user-${Utils.random()}`,
+        get password() { return this.username; },
         firstName: 'John',
         lastName: 'Doe'
     };
@@ -47,7 +44,7 @@ describe('Login', () => {
     beforeAll(done => {
         Promise
             .all([
-                peopleApi.createUser(testUser.username, testUser.password),
+                peopleApi.createUser(testUser),
                 peopleApi.createUser(russianUser.username, russianUser.password),
                 peopleApi.createUser(johnDoe.username, johnDoe.password, {
                     firstName: johnDoe.firstName,
@@ -71,10 +68,9 @@ describe('Login', () => {
 
     describe('with valid credentials', () => {
         it('navigate to "Personal Files"', () => {
-            const { username, password } = johnDoe;
+            const { username } = johnDoe;
 
-            loginPage
-                .loginWith(username, password)
+            loginPage.loginWith(username)
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
                 });
@@ -82,20 +78,17 @@ describe('Login', () => {
 
         it(`displays user's name in header`, () => {
             const { userInfo } = new BrowsingPage(APP_ROUTES.PERSONAL_FILES).header;
-            const { username, password, firstName, lastName } = johnDoe;
+            const { username, firstName, lastName } = johnDoe;
 
-            loginPage
-                .loginWith(username, password)
+            loginPage.loginWith(username)
                 .then(() => {
                     expect(userInfo.name).toEqual(`${firstName} ${lastName}`);
                 });
         });
 
         it(`logs in with user having username containing "@"`, () => {
-            const { username, password } = testUser;
-
             loginPage
-                .loginWith(username, password)
+                .loginWith(testUser)
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
                 });
@@ -112,10 +105,10 @@ describe('Login', () => {
         });
 
         it('redirects to Home Page when navigating to the Login page while already logged in', () => {
-            const { username, password } = johnDoe;
+            const { username } = johnDoe;
 
             loginPage
-                .loginWith(username, password)
+                .loginWith(username)
                 .then(() => browser.get(APP_ROUTES.LOGIN)
                     .then(() => {
                         expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
@@ -124,10 +117,10 @@ describe('Login', () => {
         });
 
         it('redirects to Personal Files when pressing browser Back while already logged in ', () => {
-            const { username, password } = johnDoe;
+            const { username } = johnDoe;
 
             loginPage
-                .loginWith(username, password)
+                .loginWith(username)
                 .then(() => browser.driver.navigate().back())
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
@@ -157,7 +150,7 @@ describe('Login', () => {
 
         it('shows error when entering nonexistent user', () => {
             loginPage
-                .loginWith('nonexistent-user', 'any-password')
+                .tryLoginWith('nonexistent-user', 'any-password')
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
                     expect(errorMessage.isDisplayed()).toBe(true);
@@ -168,7 +161,7 @@ describe('Login', () => {
             const { username } = johnDoe;
 
             loginPage
-                .loginWith(username, 'incorrect-password')
+                .tryLoginWith(username, 'incorrect-password')
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
                     expect(errorMessage.isDisplayed()).toBe(true);

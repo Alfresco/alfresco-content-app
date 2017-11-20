@@ -23,24 +23,23 @@ import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-fo
 import { Utils } from '../../utilities/utils';
 
 describe('Edit folder', () => {
-    const username = 'john.doe';
-    const password = 'john.doe';
+    const username = `user-${Utils.random()}`;
 
-    const parent = 'parent-folder';
-    const folderName = 'my-folder';
+    const parent = `parent-${Utils.random()}`;
+    const folderName = `folder-${Utils.random()}`;
     const folderDescription = 'my folder description';
 
-    const folderNameToEdit = 'folder-to-be-edited';
-    const duplicateFolderName = 'duplicate-folder-name';
+    const folderNameToEdit = `folder-${Utils.random()}`;
+    const duplicateFolderName = `folder-${Utils.random()}`;
 
-    const folderNameEdited = 'edited-folder';
+    const folderNameEdited = `folder-${Utils.random()}`;
     const folderDescriptionEdited = 'my folder description edited';
 
-    const siteName = 'site-private';
+    const siteName = `site-private-${Utils.random()}`;
 
     const apis = {
         admin: new RepoClient(),
-        user: new RepoClient(username, password)
+        user: new RepoClient(username, username)
     };
 
     const loginPage = new LoginPage();
@@ -53,18 +52,18 @@ describe('Edit folder', () => {
     beforeAll(done => {
         Promise
             .all([
-                apis.admin.people.createUser(username, password),
+                apis.admin.people.createUser(username),
                 apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE)
                     .then(() => apis.admin.nodes.createFolders([ folderName ], `Sites/${siteName}/documentLibrary`))
             ])
             .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
             .then(() => Promise.all([
                 apis.user.nodes.createNodeWithProperties( folderName, '', folderDescription, parent ),
-                apis.user.nodes.createFolders([ folderNameToEdit, duplicateFolderName ], parent),
-                loginPage.load()
+                apis.user.nodes.createFolders([ folderNameToEdit, duplicateFolderName ], parent)
             ]))
-            .then(() => loginPage.loginWith(username, password))
-            .then(done);
+            .then(() => loginPage.load()
+                .then(() => loginPage.loginWith(username))
+                .then(done));
     });
 
     beforeEach(done => {
@@ -83,18 +82,8 @@ describe('Edit folder', () => {
                 apis.admin.sites.deleteSite(siteName, true),
                 apis.user.nodes.deleteNodes([ parent ]),
                 logoutPage.load()
-                    .then(() => Utils.clearLocalStorage())
             ])
             .then(done);
-    });
-
-    it('button is enabled when having permissions', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderName)
-                .then(() => {
-                    expect(editButton.isEnabled()).toBe(true);
-                })
-            );
     });
 
     it('dialog UI defaults', () => {
@@ -111,7 +100,7 @@ describe('Edit folder', () => {
             );
     });
 
-    it('folder properties are modified when pressing OK', () => {
+    it('properties are modified when pressing OK', () => {
         personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
             .then(() => dataTable.clickOnRowByContainingText(folderNameToEdit)
                 .then(() => editButton.click())
@@ -134,17 +123,6 @@ describe('Edit folder', () => {
                         });
                 })
             );
-    });
-
-    it('button is not displayed when not enough permissions', () => {
-        const fileLibrariesPage = new BrowsingPage(APP_ROUTES.FILE_LIBRARIES);
-
-        fileLibrariesPage.sidenav.navigateToLinkByLabel('File Libraries')
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(siteName))
-            .then(() => fileLibrariesPage.dataTable.clickOnRowByContainingText(folderName))
-            .then(() => {
-                expect(editButton.isPresent()).not.toBe(true, 'edit button is displayed');
-            });
     });
 
     it('with empty folder name', () => {

@@ -1,0 +1,21 @@
+# Cross Origin Resource Sharing (CORS)
+
+## Chrome Workaround
+
+For the Chrome you can use the following plugin that allows you toggle CORS:
+[Allow-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi)
+
+## Firefox Workaround
+
+FireFox users can try the following plugin: [CORS Everywhere](https://addons.mozilla.org/en-Gb/firefox/addon/cors-everywhere/)
+
+## Safari Workaround
+
+If you are developing or testing with Safari then you can use the "Develop" menu to toggle the CORS mode.
+Please note that page must be reloaded every time you change CORS settings.
+
+![](images/safari-develop-menu.png)
+
+## See also
+
+- [Using CORS](https://www.html5rocks.com/en/tutorials/cors/)

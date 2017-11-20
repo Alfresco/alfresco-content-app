@@ -18,6 +18,7 @@
 import { promise } from 'protractor';
 import { Page } from './page';
 import { APP_ROUTES } from '../configs';
+import { Utils } from '../utilities/utils';
 
 export class LogoutPage extends Page {
     /** @override */
@@ -27,6 +28,8 @@ export class LogoutPage extends Page {
 
     /** @override */
     load(): promise.Promise<any> {
-        return super.load();
+        return Utils.clearLocalStorage()
+            .then(() => Utils.clearSessionStorage())
+            .then(() => super.load());
     }
 }

@@ -19,10 +19,10 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-
 import { CoreModule, NodesApiService, AlfrescoApiService, AlfrescoContentService } from 'ng2-alfresco-core';
-import { CommonModule } from '../../common/common.module';
 
+import { CommonModule } from '../../common/common.module';
+import { LocationLinkComponent } from '../location-link/location-link.component';
 import { ContentManagementService } from '../../common/services/content-management.service';
 
 import { FavoritesComponent } from './favorites.component';
@@ -72,6 +72,7 @@ describe('Favorites Routed Component', () => {
                     RouterTestingModule
                 ],
                 declarations: [
+                    LocationLinkComponent,
                     FavoritesComponent
                 ]
         })

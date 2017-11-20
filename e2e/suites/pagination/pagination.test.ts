@@ -23,12 +23,11 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
 describe('Pagination', () => {
-    const username = 'jane.doe';
-    const password = 'jane.doe';
+    const username = `user-${Utils.random()}`;
 
     const apis = {
         admin: new RepoClient(),
-        user: new RepoClient(username, password)
+        user: new RepoClient(username, username)
     };
 
     const loginPage = new LoginPage();
@@ -36,7 +35,7 @@ describe('Pagination', () => {
 
     beforeAll(done => {
         apis.admin.people
-            .createUser(username, password)
+            .createUser(username)
             .then(done);
     });
 
@@ -48,7 +47,7 @@ describe('Pagination', () => {
 
         // Generate files
         const content: NodeContentTree = {
-            name: 'user-folder',
+            name: `user-folder-${Utils.random()}`,
             files: Array(101)
                 .fill('file')
                 .map((name, index): string => `${name}-${index + 1}.txt`)
@@ -58,14 +57,13 @@ describe('Pagination', () => {
 
         beforeAll(done => {
             nodesApi.createContent(content)
-                .then(() => loginPage.load())
-                .then(() => loginPage.loginWith(username, password))
-                .then(done);
+                .then(() => loginPage.load()
+                    .then(() => loginPage.loginWith(username))
+                    .then(done));
         });
 
         beforeEach(done => {
-            personalFilesPage
-                .load()
+            personalFilesPage.load()
                 .then(() => dataTable.waitForHeader())
                 .then(() => dataTable.doubleClickOnRowByContainingText(content.name))
                 .then(() => dataTable.sortByColumn('Name'))
@@ -73,9 +71,7 @@ describe('Pagination', () => {
         });
 
         afterAll(done => {
-            logoutPage
-                .load()
-                .then(() => Utils.clearLocalStorage())
+            logoutPage.load()
                 .then(() => nodesApi.deleteNodes([ content.name ]))
                 .then(done);
         });
