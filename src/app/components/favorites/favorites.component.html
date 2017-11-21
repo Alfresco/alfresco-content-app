@@ -58,7 +58,6 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canMove(documentList.selection)"
                     [app-move-node]="documentList.selection">
                     <mat-icon>library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -66,7 +65,6 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canDelete(documentList.selection)"
                     [app-delete-node]="documentList.selection">
                     <mat-icon>delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
