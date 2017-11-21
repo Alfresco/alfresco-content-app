@@ -236,7 +236,7 @@ export class NodeRestoreDirective {
 
     private restoreNotification(): void {
         const status = Object.assign({}, this.restoreProcessStatus);
-        const action = (status.oneSucceeded && !status.someFailed) ? 'View' : '';
+        const action = (status.oneSucceeded && !status.someFailed) ? this.translation.translate.instant('APP.ACTIONS.VIEW') : '';
 
         this.getRestoreMessage()
             .subscribe((message) => {
