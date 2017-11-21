@@ -41,7 +41,7 @@ export class LocationLinkComponent implements OnInit {
             const row: DataRow = this.context.row;
             const value: PathInfoEntity = data.getValue(row, col);
 
-            if (value.name && value.elements) {
+            if (value && value.name && value.elements) {
                 const isLibraryPath = this.isLibraryContent(value);
 
                 this.displayText = this.getDisplayText(value);
