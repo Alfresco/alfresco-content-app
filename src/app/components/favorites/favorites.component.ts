@@ -34,7 +34,7 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
 
-    private subscriptions: any = [];
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private router: Router,

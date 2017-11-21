@@ -32,10 +32,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
 
-    private onDeleteNode: Subscription;
-    private onMoveNode: Subscription;
-    private onRestoreNode: Subscription;
-    private onToggleFavorite: Subscription;
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private router: Router,
@@ -44,17 +41,16 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
     }
 
     ngOnInit() {
-        this.onDeleteNode = this.content.deleteNode.subscribe(() => this.refresh());
-        this.onMoveNode = this.content.moveNode.subscribe(() => this.refresh());
-        this.onRestoreNode = this.content.restoreNode.subscribe(() => this.refresh());
-        this.onToggleFavorite = this.content.toggleFavorite.subscribe(() => this.refresh());
+        this.subscriptions = this.subscriptions.concat([
+            this.content.deleteNode.subscribe(() => this.refresh()),
+            this.content.moveNode.subscribe(() => this.refresh()),
+            this.content.restoreNode.subscribe(() => this.refresh()),
+            this.content.toggleFavorite.subscribe(() => this.refresh())
+        ]);
     }
 
     ngOnDestroy() {
-        this.onDeleteNode.unsubscribe();
-        this.onMoveNode.unsubscribe();
-        this.onRestoreNode.unsubscribe();
-        this.onToggleFavorite.unsubscribe();
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     onNodeDoubleClick(node: MinimalNodeEntryEntity) {

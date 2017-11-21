@@ -31,8 +31,9 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 })
 export class SidenavComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity = null;
-    onChangeParentSubscription: Subscription;
     navigation = [];
+
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private browsingFilesService: BrowsingFilesService,
@@ -46,14 +47,14 @@ export class SidenavComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.onChangeParentSubscription = this.browsingFilesService.onChangeParent
-            .subscribe((node: MinimalNodeEntryEntity) => {
-                this.node = node;
-            });
+        this.subscriptions.concat([
+            this.browsingFilesService.onChangeParent
+                .subscribe((node: MinimalNodeEntryEntity) => this.node = node)
+        ]);
     }
 
     ngOnDestroy() {
-        this.onChangeParentSubscription.unsubscribe();
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     canCreateContent(parentNode: MinimalNodeEntryEntity): boolean {
