@@ -84,7 +84,7 @@ describe('NodeDeleteDirective', () => {
             element.triggerEventHandler('click', null);
 
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -113,7 +113,7 @@ describe('NodeDeleteDirective', () => {
             element.triggerEventHandler('click', null);
 
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_DELETION.PLURAL', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_DELETION.PLURAL', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -151,7 +151,7 @@ describe('NodeDeleteDirective', () => {
             element.triggerEventHandler('click', null);
 
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -180,7 +180,7 @@ describe('NodeDeleteDirective', () => {
             element.triggerEventHandler('click', null);
 
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL', 'APP.ACTIONS.UNDO', 10000
             );
         });
     });
