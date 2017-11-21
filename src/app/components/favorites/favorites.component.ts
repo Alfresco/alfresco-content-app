@@ -34,9 +34,7 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
 
-    private onEditFolder: Subscription;
-    private onMoveNode: Subscription;
-    private onToggleFavorite: Subscription;
+    private subscriptions: any = [];
 
     constructor(
         private router: Router,
@@ -47,16 +45,17 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
     }
 
     ngOnInit() {
-        this.onEditFolder = this.contentService.folderEdit.subscribe(() => this.refresh());
-        this.onMoveNode = this.content.moveNode.subscribe(() => this.refresh());
-        this.onToggleFavorite = this.content.toggleFavorite
-            .debounceTime(300).subscribe(() => this.refresh());
+        this.subscriptions = this.subscriptions.concat([
+            this.content.deleteNode.subscribe(() => this.refresh()),
+            this.content.restoreNode.subscribe(() => this.refresh()),
+            this.contentService.folderEdit.subscribe(() => this.refresh()),
+            this.content.moveNode.subscribe(() => this.refresh()),
+            this.content.toggleFavorite.debounceTime(300).subscribe(() => this.refresh())
+        ]);
     }
 
     ngOnDestroy() {
-        this.onEditFolder.unsubscribe();
-        this.onMoveNode.unsubscribe();
-        this.onToggleFavorite.unsubscribe();
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     fetchNodes(): void {
