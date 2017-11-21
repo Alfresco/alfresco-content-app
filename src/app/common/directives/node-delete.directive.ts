@@ -59,7 +59,7 @@ export class NodeDeleteDirective {
 
                     this.getDeleteMesssage(processedData)
                         .subscribe((message) => {
-                            const withUndo = processedData.someSucceeded ? 'Undo' : '';
+                            const withUndo = processedData.someSucceeded ? this.translation.translate.instant('APP.ACTIONS.UNDO') : '';
 
                             this.notification.openSnackMessageAction(message, withUndo, NodeDeleteDirective.DELETE_MESSAGE_DURATION)
                                 .onAction()
