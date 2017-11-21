@@ -45,9 +45,11 @@ export class LibrariesComponent extends PageComponent {
 
     makeLibraryTitle(library: any): string {
         const { title, id } = library;
+        const { entries } = this.documentList.data.page.list;
         let isDuplicate = false;
-        if (this.documentList.node) {
-            isDuplicate = this.documentList.node.list.entries
+
+        if (entries) {
+            isDuplicate = entries
                 .some(({ entry }: any) => {
                     return (entry.id !== id && entry.title === title);
                 });
