@@ -101,9 +101,11 @@ describe('Libraries Routed Component', () => {
         it('sets title with id when duplicate nodes title exists in list', () => {
             node.title = 'title';
 
-            component.documentList.node = {
-                list: {
-                    entries: [<any>{ entry: { id: 'some-id', title: 'title' } }]
+            component.documentList.data = {
+                page: {
+                    list: {
+                        entries: [<any>{ entry: { id: 'some-id', title: 'title' } }]
+                    }
                 }
             };
 
@@ -115,9 +117,11 @@ describe('Libraries Routed Component', () => {
         it('sets title when no duplicate nodes title exists in list', () => {
             node.title = 'title';
 
-            component.paging = {
-                list: {
-                    entries: [<any>{ entry: { id: 'some-id', title: 'title-some-id' } }]
+            component.documentList.data = {
+                page: {
+                    list: {
+                        entries: [<any>{ entry: { id: 'some-id', title: 'title-some-id' } }]
+                    }
                 }
             };
 
