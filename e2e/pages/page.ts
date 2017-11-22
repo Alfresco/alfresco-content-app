@@ -25,7 +25,8 @@ export abstract class Page {
         app: by.css('app-root'),
         layout: by.css('app-layout'),
         overlay: by.css('.cdk-overlay-container'),
-        snackBar: by.css('simple-snack-bar')
+        snackBar: by.css('simple-snack-bar'),
+        snackBarAction: by.css('.mat-simple-snackbar-action')
     };
 
     public app: ElementFinder = element(this.locators.app);
@@ -62,5 +63,9 @@ export abstract class Page {
         return this.isSnackBarDisplayed()
             .then(() => this.snackBar.getText())
             .catch(() => '');
+    }
+
+    getSnackBarAction(): ElementFinder {
+        return this.snackBar.element(this.locators.snackBarAction);
     }
 }
