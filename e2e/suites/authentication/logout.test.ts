@@ -58,7 +58,7 @@ describe('Logout', () => {
 
     it('redirects to Login page when pressing browser Back after logout', () => {
         page.signOut()
-            .then(() => browser.driver.navigate().back())
+            .then(() => browser.navigate().back())
             .then(() => {
                 expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
             });

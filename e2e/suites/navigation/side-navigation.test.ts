@@ -36,8 +36,7 @@ describe('Side navigation', () => {
     });
 
     afterAll(done => {
-        logoutPage.load()
-            .then(done);
+        logoutPage.load().then(done);
     });
 
     it('has "Personal Files" as default', () => {

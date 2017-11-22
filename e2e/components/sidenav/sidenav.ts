@@ -46,10 +46,7 @@ export class Sidenav extends Component {
     }
 
     isActiveByLabel(label: string): promise.Promise<boolean> {
-        return this
-            .getLinkByLabel(label)
-            .getWebElement()
-            .then(element => element.getAttribute('class'))
+        return this.getLinkByLabel(label).getAttribute('class')
             .then(className => className.includes(Sidenav.selectors.activeLink.replace('.', '')));
     }
 

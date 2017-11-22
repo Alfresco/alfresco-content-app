@@ -24,18 +24,24 @@ import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-cl
 
 describe('Trash', () => {
     const username = `user-${Utils.random()}`;
-    const password = username;
 
     const siteName = `site-${Utils.random()}`;
-    const folderAdmin = `folder-${Utils.random()}`;
-    const folderUser = `folder-${Utils.random()}`;
-    const fileAdmin = `file-${Utils.random()}.txt`;
-    const fileUser = `file-${Utils.random()}.txt`;
     const fileSite = `file-${Utils.random()}.txt`;
+    let fileSiteId;
+
+    const folderAdmin = `folder-${Utils.random()}`;
+    let folderAdminId;
+    const fileAdmin = `file-${Utils.random()}.txt`;
+    let fileAdminId;
+
+    const folderUser = `folder-${Utils.random()}`;
+    let folderUserId;
+    const fileUser = `file-${Utils.random()}.txt`;
+    let fileUserId;
 
     const apis = {
         admin: new RepoClient(),
-        user: new RepoClient(username, password)
+        user: new RepoClient(username, username)
     };
 
     const loginPage = new LoginPage();
@@ -45,29 +51,38 @@ describe('Trash', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser(username)
-            // admin: create file -> delete file
             .then(() => apis.admin.nodes.createFiles([ fileAdmin ])
-                .then((resp) => apis.admin.nodes.deleteNodeById(resp.data.entry.id, false)))
-            // admin: create folder -> delete folder
+                .then(resp => fileAdminId = resp.data.entry.id))
             .then(() => apis.admin.nodes.createFolders([ folderAdmin ])
-                .then((resp) => apis.admin.nodes.deleteNodeById(resp.data.entry.id, false)))
-            // admin: create site, add user to site, create file
+                .then(resp => folderAdminId = resp.data.entry.id))
             .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
             .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER))
             .then(() => apis.admin.nodes.createFiles([ fileSite ], `Sites/${siteName}/documentLibrary`)
-                // user: delete file from site
-                .then(resp => apis.user.nodes.deleteNodeById(resp.data.entry.id, false)))
-            // user: create file -> delete file
+                .then(resp => fileSiteId = resp.data.entry.id))
             .then(() => apis.user.nodes.createFiles([ fileUser ])
-                .then((resp) => apis.user.nodes.deleteNodeById(resp.data.entry.id, false)))
-            // user: create folder -> delete folder
+                .then(resp => fileUserId = resp.data.entry.id))
             .then(() => apis.user.nodes.createFolders([ folderUser ])
-                .then((resp) => apis.user.nodes.deleteNodeById(resp.data.entry.id, false)))
+                .then(resp => folderUserId = resp.data.entry.id))
+
+            .then(() => apis.admin.nodes.deleteNodeById(fileAdminId, false))
+            .then(() => apis.admin.nodes.deleteNodeById(folderAdminId, false))
+            .then(() => apis.user.nodes.deleteNodeById(fileSiteId, false))
+            .then(() => apis.user.nodes.deleteNodeById(fileUserId, false))
+            .then(() => apis.user.nodes.deleteNodeById(folderUserId, false))
+
             .then(done);
     });
 
     afterAll(done => {
-        apis.admin.sites.deleteSite(siteName).then(done);
+        Promise.all([
+            apis.admin.sites.deleteSite(siteName),
+            apis.admin.trashcan.permanentlyDelete(fileAdminId),
+            apis.admin.trashcan.permanentlyDelete(folderAdminId),
+            apis.admin.trashcan.permanentlyDelete(fileSiteId),
+            apis.user.trashcan.permanentlyDelete(fileUserId),
+            apis.user.trashcan.permanentlyDelete(folderUserId)
+        ])
+        .then(done);
     });
 
     xit('');

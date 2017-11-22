@@ -121,7 +121,7 @@ describe('Login', () => {
 
             loginPage
                 .loginWith(username)
-                .then(() => browser.driver.navigate().back())
+                .then(() => browser.navigate().back())
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
                 });

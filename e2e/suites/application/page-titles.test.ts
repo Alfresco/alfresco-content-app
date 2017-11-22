@@ -49,7 +49,7 @@ describe('Page titles', () => {
             loginPage.load()
                 .then(() => loginPage.loginWithAdmin())
                 .then(() => page.signOut())
-                .then(() => browser.driver.navigate().back())
+                .then(() => browser.navigate().back())
                 .then(() => {
                     expect(browser.getTitle()).toContain('Sign in');
                 });
