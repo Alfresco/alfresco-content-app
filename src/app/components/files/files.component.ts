@@ -35,15 +35,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     isValidPath = true;
 
     private nodePath: PathElement[];
-    private onCopyNode: Subscription;
-    private onRemoveItem: Subscription;
-    private onCreateFolder: Subscription;
-    private onEditFolder: Subscription;
-    private onDeleteNode: Subscription;
-    private onMoveNode: Subscription;
-    private onRestoreNode: Subscription;
-    private onFileUploadComplete: Subscription;
-    private onToggleFavorite: Subscription;
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private router: Router,
@@ -85,30 +77,21 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 );
         });
 
-        this.onCopyNode = nodeActionsService.contentCopied
-            .subscribe((nodes) => this.onContentCopied(nodes));
-        this.onCreateFolder = contentService.folderCreate.subscribe(() => this.load());
-        this.onEditFolder = contentService.folderEdit.subscribe(() => this.load());
-        this.onDeleteNode = contentManagementService.deleteNode.subscribe(() => this.load());
-        this.onMoveNode = contentManagementService.moveNode.subscribe(() => this.load());
-        this.onRestoreNode = contentManagementService.restoreNode.subscribe(() => this.load());
-        this.onToggleFavorite = contentManagementService.toggleFavorite.subscribe(() => this.load());
-        this.onFileUploadComplete = uploadService.fileUploadComplete
-            .subscribe(file => this.onFileUploadedEvent(file));
-        this.onRemoveItem = uploadService.fileUploadDeleted
-            .subscribe((file) => this.onFileUploadedEvent(file));
+        this.subscriptions = this.subscriptions.concat([
+            nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
+            contentService.folderCreate.subscribe(() => this.load()),
+            contentService.folderEdit.subscribe(() => this.load()),
+            contentManagementService.deleteNode.subscribe(() => this.load()),
+            contentManagementService.moveNode.subscribe(() => this.load()),
+            contentManagementService.restoreNode.subscribe(() => this.load()),
+            contentManagementService.toggleFavorite.subscribe(() => this.load()),
+            uploadService.fileUploadComplete.subscribe(file => this.onFileUploadedEvent(file)),
+            uploadService.fileUploadDeleted.subscribe((file) => this.onFileUploadedEvent(file))
+        ]);
     }
 
     ngOnDestroy() {
-        this.onCopyNode.unsubscribe();
-        this.onRemoveItem.unsubscribe();
-        this.onCreateFolder.unsubscribe();
-        this.onEditFolder.unsubscribe();
-        this.onDeleteNode.unsubscribe();
-        this.onMoveNode.unsubscribe();
-        this.onRestoreNode.unsubscribe();
-        this.onFileUploadComplete.unsubscribe();
-        this.onToggleFavorite.unsubscribe();
+        this.subscriptions.forEach(s => s.unsubscribe());
 
         this.browsingFilesService.onChangeParent.next(null);
     }

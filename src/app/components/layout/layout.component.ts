@@ -29,19 +29,20 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 export class LayoutComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity;
 
-    browsingFilesSubscription: Subscription;
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private contentService: ContentService,
         private browsingFilesService: BrowsingFilesService) {}
 
     ngOnInit() {
-        this.browsingFilesSubscription = this.browsingFilesService.onChangeParent
-            .subscribe((node: MinimalNodeEntryEntity) => this.node = node);
+        this.subscriptions.concat([
+            this.browsingFilesService.onChangeParent.subscribe((node: MinimalNodeEntryEntity) => this.node = node)
+        ]);
     }
 
     ngOnDestroy() {
-        this.browsingFilesSubscription.unsubscribe();
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     canCreateContent(node: MinimalNodeEntryEntity): boolean {

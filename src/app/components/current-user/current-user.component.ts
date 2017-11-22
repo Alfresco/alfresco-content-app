@@ -25,7 +25,7 @@ import { Subscription } from 'rxjs/Rx';
     styleUrls: [ './current-user.component.scss' ]
 })
 export class CurrentUserComponent implements OnInit, OnDestroy {
-    private personSubscription: Subscription;
+    private subscriptions: Subscription[] = [];
 
     user: any = null;
 
@@ -35,14 +35,13 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.personSubscription = this.peopleApi.getCurrentPerson()
-            .subscribe((person: any) => {
-                this.user = person.entry;
-        });
+        this.subscriptions = this.subscriptions.concat([
+            this.peopleApi.getCurrentPerson().subscribe((person: any) => this.user = person.entry)
+        ]);
     }
 
     ngOnDestroy() {
-        this.personSubscription.unsubscribe();
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     get userFirstName(): string {
