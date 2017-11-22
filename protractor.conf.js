@@ -9,6 +9,7 @@ const projectRoot = path.resolve(__dirname);
 
 exports.config = {
     allScriptsTimeout: 11000,
+
     specs: [
         './e2e/suites/authentication/*.test.ts',
         './e2e/suites/list-views/*.test.ts',
@@ -17,6 +18,7 @@ exports.config = {
         './e2e/suites/pagination/pagination.test.ts',
         './e2e/suites/actions/*.test.ts'
     ],
+
     capabilities: {
         'browserName': 'chrome',
         chromeOptions: {
@@ -25,14 +27,18 @@ exports.config = {
             }
         }
     },
+
     directConnect: true,
+
     baseUrl: 'http://localhost:3000',
+
     framework: 'jasmine2',
     jasmineNodeOpts: {
         showColors: true,
         defaultTimeoutInterval: 30000,
         print: function() {}
     },
+
     plugins: [{
         package: 'jasmine2-protractor-utils',
         disableHTMLReport: false,
@@ -43,10 +49,12 @@ exports.config = {
         htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
         screenshotPath: `${projectRoot}/e2e-output/screenshots/`
     }],
+
     onPrepare() {
         require('ts-node').register({
             project: 'e2e/tsconfig.e2e.json'
         });
+
         jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
 
         jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
@@ -57,5 +65,23 @@ exports.config = {
             useFullTestName: false,
             reportFailedUrl: true
         }));
+
+        return browser.driver.executeScript(disableCSSAnimation);
+
+        function disableCSSAnimation() {
+            var css = '* {' +
+                '-webkit-transition-duration: 0s !important;' +
+                'transition-duration: 0s !important;' +
+                '-webkit-animation-duration: 0s !important;' +
+                'animation-duration: 0s !important;' +
+                '}',
+            head = document.head || document.getElementsByTagName('head')[0],
+            style = document.createElement('style');
+
+            style.type = 'text/css';
+            style.appendChild(document.createTextNode(css));
+            head.appendChild(style);
+        }
+
     }
 };
