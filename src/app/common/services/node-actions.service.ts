@@ -170,7 +170,7 @@ export class NodeActionsService {
 
         let nodeEntryName = '';
         if (contentEntities.length === 1 && contentEntities[0].entry.name) {
-            nodeEntryName =  `${contentEntities[0].entry.name} `;
+            nodeEntryName =  `'${contentEntities[0].entry.name}' `;
         }
 
         const data: ContentNodeSelectorComponentData = {
