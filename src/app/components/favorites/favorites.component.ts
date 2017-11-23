@@ -19,7 +19,7 @@ import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { MinimalNodeEntryEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity, MinimalNodeEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
 import { ContentService, NodesApiService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
@@ -90,6 +90,10 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
                 this.router.navigate(['/preview', node.id]);
             }
         }
+    }
+
+    showEditOption(selection: MinimalNodeEntity[]) {
+        return selection && selection.length === 1 && selection[0].entry.isFolder;
     }
 
     refresh(): void {
