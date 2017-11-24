@@ -179,6 +179,56 @@ describe('Favorites Routed Component', () => {
         });
     });
 
+    describe('edit option', () => {
+        it('should return false if a file node is selected', () => {
+            const selection = [
+                {
+                    entry: {
+                        isFolder: false,
+                        isFile: true
+                    }
+                }
+            ];
+
+            const result = component.showEditOption(selection);
+            expect(result).toBe(false);
+        });
+
+        it('should return false if multiple nodes are selected', () => {
+            const selection = [
+                {
+                    entry: {
+                        isFolder: true,
+                        isFile: false
+                    }
+                },
+                {
+                    entry: {
+                        isFolder: true,
+                        isFile: false
+                    }
+                }
+            ];
+
+            const result = component.showEditOption(selection);
+            expect(result).toBe(false);
+        });
+
+        it('should return true if selected node is a folder', () => {
+            const selection = [
+                {
+                    entry: {
+                        isFolder: true,
+                        isFile: false
+                    }
+                }
+            ];
+
+            const result = component.showEditOption(selection);
+            expect(result).toBe(true);
+        });
+    });
+
     describe('refresh', () => {
         it('should call document list reload', () => {
             spyOn(component.documentList, 'reload');

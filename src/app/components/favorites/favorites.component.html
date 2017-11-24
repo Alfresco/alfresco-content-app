@@ -23,6 +23,7 @@
 
             <button
                 mat-icon-button
+                *ngIf="showEditOption(documentList.selection)"
                 title="{{ 'APP.ACTIONS.EDIT' | translate }}"
                 [adf-edit-folder]="documentList.selection[0]?.entry">
                 <mat-icon>create</mat-icon>
@@ -128,9 +129,10 @@
 
                 <data-column
                     key="modifiedAt"
-                    title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON"
-                    type="date"
-                    format="timeAgo">
+                    title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON">
+                    <ng-template let-value="value">
+                        <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
+                    </ng-template>
                 </data-column>
 
                 <data-column
