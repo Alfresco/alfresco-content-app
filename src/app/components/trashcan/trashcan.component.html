@@ -81,9 +81,10 @@
 
                 <data-column
                     key="archivedAt"
-                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON"
-                    type="date"
-                    format="timeAgo">
+                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON">
+                    <ng-template let-value="value">
+                        <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
+                    </ng-template>
                 </data-column>
 
                 <data-column
