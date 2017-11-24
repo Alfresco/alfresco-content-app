@@ -23,6 +23,7 @@
 
             <button
                 mat-icon-button
+                *ngIf="showEditOption(documentList.selection)"
                 title="{{ 'APP.ACTIONS.EDIT' | translate }}"
                 [adf-edit-folder]="documentList.selection[0]?.entry">
                 <mat-icon>create</mat-icon>
