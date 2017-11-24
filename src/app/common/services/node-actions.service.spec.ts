@@ -342,7 +342,7 @@ describe('NodeActionsService', () => {
 
             expect(spyOnBatchOperation).toHaveBeenCalled();
             expect(testContentNodeSelectorComponentData).toBeDefined();
-            expect(testContentNodeSelectorComponentData.data.title).toBe('copy entry-name to ...');
+            expect(testContentNodeSelectorComponentData.data.title).toBe('copy \'entry-name\' to ...');
         });
 
         it('should use the ContentNodeSelectorComponentData object without file name in title, if no name exists', () => {
