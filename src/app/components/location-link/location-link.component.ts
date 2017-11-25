@@ -110,7 +110,7 @@ export class LocationLinkComponent implements OnInit {
         if (elements[0].name === 'Company Home') {
             elements[0].name = 'Personal Files';
 
-            if (elements.length > 1) {
+            if (elements.length > 2) {
                 if (elements[1].name === 'Sites') {
                     const fragment = elements[2];
 
