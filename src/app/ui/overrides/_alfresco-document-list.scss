@@ -25,6 +25,10 @@ adf-document-list {
         color: $alfresco-secondary-text-color;
     }
 
+    th.adf-data-table-cell--text:nth-child(n+3) {
+        text-align: center;
+    }
+
     th, tr, td {
         &:focus {
             outline: none !important;
