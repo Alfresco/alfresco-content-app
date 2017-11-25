@@ -50,7 +50,6 @@ export class LocationLinkComponent implements OnInit {
                 const parent = value.elements[value.elements.length - 1];
                 const area = isLibraryPath ? '/libraries' : '/personal-files';
 
-
                 if (!isLibraryPath) {
                     this.link = [ area, parent.id ];
                 } else {
@@ -113,12 +112,12 @@ export class LocationLinkComponent implements OnInit {
 
             if (elements.length > 1) {
                 if (elements[1].name === 'Sites') {
-                    const fragment = elements[1];
+                    const fragment = elements[2];
 
                     return new Observable<string>(observer => {
                         this.apiService.nodesApi.getNodeInfo(fragment.id).then(
                             (node) => {
-                                elements.splice(0, 1);
+                                elements.splice(0, 2);
                                 elements[0].name = node.properties['cm:title'] || node.name || fragment.name;
                                 elements.splice(1, 1);
                                 elements.unshift({ id: null, name: 'File Libraries' });
