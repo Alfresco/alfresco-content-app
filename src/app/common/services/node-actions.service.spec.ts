@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
- /*
 import { TestBed, async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -23,16 +22,17 @@ import { Observable } from 'rxjs/Rx';
 import { CoreModule, AlfrescoApiService, NodesApiService } from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
-class TestNode extends MinimalNodeEntity {
-    constructor(id?: string, isFile?: boolean, name?: string, permission?: string[]) {
-        super();
-        this.entry = new MinimalNodeEntryEntity();
+class TestNode {
+    entry?: MinimalNodeEntryEntity;
+
+    constructor(id?: string, isFile?: boolean, name?: string, permission?: string[], nodeType?: string) {
+        this.entry = {};
         this.entry.id = id || 'node-id';
         this.entry.isFile = isFile;
         this.entry.isFolder = !isFile;
-        this.entry.nodeType = isFile ? 'content' : 'folder';
+        this.entry.nodeType = nodeType ? nodeType : (isFile ? 'content' : 'folder');
         this.entry.name = name;
         if (permission) {
             this.entry['allowableOperations'] = permission;
@@ -241,6 +241,42 @@ describe('NodeActionsService', () => {
         });
     });
 
+    describe('rowFilter', () => {
+        let fileToCopy;
+        let folderToCopy;
+        let testContentNodeSelectorComponentData;
+
+        beforeEach(() => {
+            fileToCopy = new TestNode(fileId, isFile, 'file-name');
+            folderToCopy = new TestNode();
+
+            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+
+            const dialog = TestBed.get(MatDialog);
+            spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
+                testContentNodeSelectorComponentData = data;
+                return {};
+            });
+
+            service.copyNodes([fileToCopy, folderToCopy]);
+        });
+
+        it('should filter destination nodes and not show files', () => {
+            const file = new TestNode('a-file', isFile);
+            expect(testContentNodeSelectorComponentData.data.rowFilter({node: file})).toBe(false);
+        });
+
+        it('should filter destination nodes and not show the symlinks', () => {
+            const symlinkDestinationFolder = new TestNode('symlink-id', !isFile, 'symlink-name', [], 'app:folderlink');
+            expect(testContentNodeSelectorComponentData.data.rowFilter({node: symlinkDestinationFolder})).toBe(false);
+        });
+
+        it('should filter destination nodes and show folders', () => {
+            const destinationFolder = new TestNode(folderDestinationId);
+            expect(testContentNodeSelectorComponentData.data.rowFilter({node: destinationFolder})).toBe(true);
+        });
+    });
+
     describe('copyNodes', () => {
         let fileToCopy;
         let folderToCopy;
@@ -306,7 +342,7 @@ describe('NodeActionsService', () => {
 
             expect(spyOnBatchOperation).toHaveBeenCalled();
             expect(testContentNodeSelectorComponentData).toBeDefined();
-            expect(testContentNodeSelectorComponentData.data.title).toBe('copy entry-name to ...');
+            expect(testContentNodeSelectorComponentData.data.title).toBe('copy \'entry-name\' to ...');
         });
 
         it('should use the ContentNodeSelectorComponentData object without file name in title, if no name exists', () => {
@@ -1181,4 +1217,3 @@ describe('NodeActionsService', () => {
     });
 
 });
-*/

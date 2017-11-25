@@ -419,7 +419,7 @@ export class NodeActionsService {
     // todo: review once 1.10-beta6 is out
     private rowFilter(row: /*ShareDataRow*/ any): boolean {
         const node: MinimalNodeEntryEntity = row.node.entry;
-        return (!node.isFile);
+        return (!node.isFile && (node.nodeType !== 'app:folderlink'));
     }
 
     // todo: review once 1.10-beta6 is out
