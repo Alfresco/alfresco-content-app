@@ -15,17 +15,32 @@
  * limitations under the License.
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
+
 import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { ContentManagementService } from '../../common/services/content-management.service';
 
 @Component({
     templateUrl: './trashcan.component.html'
 })
-export class TrashcanComponent {
+export class TrashcanComponent implements OnInit, OnDestroy {
+    private subscriptions: Subscription[] = [];
+
     @ViewChild(DocumentListComponent) documentList;
+
+    constructor(private contentManagementService: ContentManagementService) {}
+
+    ngOnInit() {
+        this.subscriptions.push(this.contentManagementService.restoreNode.subscribe(() => this.refresh()));
+    }
 
     refresh(): void {
         this.documentList.loadTrashcan();
         this.documentList.resetSelection();
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 }
