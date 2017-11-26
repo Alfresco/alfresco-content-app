@@ -62,6 +62,12 @@ export class NodesApi extends RepoApi {
         return Promise.all(deletions);
     }
 
+    deleteNodesById(ids: string[], permanent: boolean = true): Promise<any[]> {
+        return ids.reduce((previous, current) => (
+            previous.then(() => this.deleteNodeById(current, permanent))
+        ), Promise.resolve());
+    }
+
     // children
     getNodeChildren(nodeId: string): Promise<any> {
         return this
