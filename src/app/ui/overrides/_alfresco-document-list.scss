@@ -97,10 +97,10 @@ adf-document-list {
     .adf-location-cell {
         a {
             text-decoration: none;
-            color: #2196F3;
+            color: $alfresco-primary-text-color;
 
             &:hover {
-                color: $alfresco-app-color--default;
+                color: #2196F3;
                 text-decoration: underline;
             }
         }
