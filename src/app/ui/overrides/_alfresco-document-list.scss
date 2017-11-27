@@ -1,4 +1,4 @@
-@import '../_variables.scss';
+@import '../variables';
 
 adf-document-list {
     display: flex;
@@ -97,7 +97,7 @@ adf-document-list {
     .adf-location-cell {
         a {
             text-decoration: none;
-            color: $alfresco-primary-text-color;
+            color: #2196F3;
 
             &:hover {
                 color: $alfresco-app-color--default;
