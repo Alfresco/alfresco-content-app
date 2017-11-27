@@ -48,6 +48,7 @@ import { LocationLinkComponent } from './components/location-link/location-link.
     imports: [
         BrowserModule,
         RouterModule.forRoot(APP_ROUTES, {
+            useHash: true,
             enableTracing: false // enable for debug only
         }),
         AdfModule,
