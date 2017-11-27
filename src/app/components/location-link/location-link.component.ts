@@ -50,7 +50,12 @@ export class LocationLinkComponent implements OnInit {
                 const parent = value.elements[value.elements.length - 1];
                 const area = isLibraryPath ? '/libraries' : '/personal-files';
 
-                this.link = [ area, parent.id ];
+                if (!isLibraryPath) {
+                    this.link = [ area, parent.id ];
+                } else {
+                    // parent.id could be 'Site' folder or child as 'documentLibrary'
+                    this.link = [ area, (parent.name === 'Sites' ? {} : parent.id) ];
+                }
             }
         }
     }
@@ -105,7 +110,7 @@ export class LocationLinkComponent implements OnInit {
         if (elements[0].name === 'Company Home') {
             elements[0].name = 'Personal Files';
 
-            if (elements.length > 1) {
+            if (elements.length > 2) {
                 if (elements[1].name === 'Sites') {
                     const fragment = elements[2];
 
