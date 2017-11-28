@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@alfresco/adf-content-services@2.0.0-beta2":
-  version "2.0.0-beta2"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.0.0-beta2.tgz#7b587278b7bef852f6d543e1b667f9be5eaf3308"
+"@alfresco/adf-content-services@2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad":
+  version "2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad.tgz#4d189cf2df9ff155c439805ad9ccea92181dc5b1"
   dependencies:
-    "@alfresco/adf-core" "2.0.0-beta2"
+    "@alfresco/adf-core" "2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad"
     "@angular/animations" "5.0.0"
     "@angular/cdk" "5.0.0-rc0"
     "@angular/common" "5.0.0"
@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic" "5.0.0"
     "@angular/router" "5.0.0"
     "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.0.0-beta1"
+    alfresco-js-api "2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -35,9 +35,9 @@
     systemjs "0.19.27"
     zone.js "0.8.14"
 
-"@alfresco/adf-core@2.0.0-beta2":
-  version "2.0.0-beta2"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.0.0-beta2.tgz#3b38b8fa9339d94bde48d8866e797bb0e4d5cc24"
+"@alfresco/adf-core@2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad":
+  version "2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad.tgz#bbf289ed254049f7db0406efd94276fa53a9fbf0"
   dependencies:
     "@angular/animations" "5.0.0"
     "@angular/cdk" "5.0.0-rc0"
@@ -53,7 +53,7 @@
     "@angular/platform-browser-dynamic" "5.0.0"
     "@angular/router" "5.0.0"
     "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.0.0-beta1"
+    alfresco-js-api "2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -363,6 +363,13 @@ ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5:
     fast-deep-equal "^1.0.0"
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
+
+alfresco-js-api@2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2:
+  version "2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2"
+  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2.tgz#9b4cafb16eef618ed449c2d69055cb032cbe9087"
+  dependencies:
+    event-emitter "0.3.4"
+    superagent "3.7.0"
 
 alfresco-js-api@2.0.0-beta1:
   version "2.0.0-beta1"
@@ -3797,13 +3804,19 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   dependencies:
     minimist "0.0.8"
 
+moment-es6@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/moment-es6/-/moment-es6-1.0.0.tgz#552fcf405d62565b0a1fe84e6c1e697ac79332df"
+  dependencies:
+    moment "*"
+
+moment@*, moment@^2.10.6:
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.2.tgz#8a7f774c95a64550b4c7ebd496683908f9419dbe"
+
 moment@2.15.2:
   version "2.15.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.15.2.tgz#1bfdedf6a6e345f322fe956d5df5bd08a8ce84dc"
-
-moment@^2.10.6:
-  version "2.19.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.2.tgz#8a7f774c95a64550b4c7ebd496683908f9419dbe"
 
 moment@~2.18.0:
   version "2.18.1"
