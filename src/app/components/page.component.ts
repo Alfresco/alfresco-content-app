@@ -16,6 +16,7 @@
  */
 
 import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
+import { UserPreferencesService } from '@alfresco/adf-core';
 
 export abstract class PageComponent {
 
@@ -30,6 +31,9 @@ export abstract class PageComponent {
     node: MinimalNodeEntryEntity;
 
     abstract fetchNodes(parentNodeId?: string, options?: any): void;
+
+    constructor(private preferences: UserPreferencesService) {
+    }
 
     onFetchError(error: any) {
         this.isLoading = false;
@@ -120,5 +124,9 @@ export abstract class PageComponent {
         }
 
         return false;
+    }
+
+    onChangePageSize(event: Pagination): void {
+        this.preferences.paginationSize = event.maxItems;
     }
 }

@@ -94,6 +94,9 @@
             </data-columns>
 
         </adf-document-list>
-        <adf-pagination [target]="documentList"></adf-pagination>
+        <adf-pagination
+            [target]="documentList"
+            (changePageSize)="onChangePageSize($event)">
+        </adf-pagination>
     </div>
 </div>

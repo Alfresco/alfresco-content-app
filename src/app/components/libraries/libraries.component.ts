@@ -17,7 +17,7 @@
 
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NodesApiService } from '@alfresco/adf-core';
+import { NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
 
 import { PageComponent } from '../page.component';
@@ -33,8 +33,9 @@ export class LibrariesComponent extends PageComponent {
     constructor(
         private nodesApi: NodesApiService,
         private route: ActivatedRoute,
-        private router: Router) {
-        super();
+        private router: Router,
+        preferences: UserPreferencesService) {
+        super(preferences);
     }
 
     makeLibraryTooltip(library: any): string {
