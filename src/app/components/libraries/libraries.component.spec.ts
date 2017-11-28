@@ -21,11 +21,12 @@ import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 
 import { CoreModule , NodesApiService, AlfrescoApiService} from '@alfresco/adf-core';
+import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 
 import { CommonModule } from '../../common/common.module';
 import { LibrariesComponent } from './libraries.component';
 
-describe('Libraries Routed Component', () => {
+fdescribe('Libraries Routed Component', () => {
     let fixture;
     let component: LibrariesComponent;
     let nodesApi: NodesApiService;
@@ -101,30 +102,22 @@ describe('Libraries Routed Component', () => {
         it('sets title with id when duplicate nodes title exists in list', () => {
             node.title = 'title';
 
-            component.documentList.data = {
-                page: {
-                    list: {
-                        entries: [<any>{ entry: { id: 'some-id', title: 'title' } }]
-                    }
-                }
-            };
+            const data = new ShareDataTableAdapter(null);
+            data.setRows([<any>{ node: { entry: { id: 'some-id', title: 'title' } } }]);
+
+            component.documentList.data = data;
 
             const title = component.makeLibraryTitle(node);
-
             expect(title).toContain('nodeId');
         });
 
         it('sets title when no duplicate nodes title exists in list', () => {
             node.title = 'title';
 
-            component.documentList.data = {
-                page: {
-                    list: {
-                        entries: [<any>{ entry: { id: 'some-id', title: 'title-some-id' } }]
-                    }
-                }
-            };
+            const data = new ShareDataTableAdapter(null);
+            data.setRows([<any>{ node: { entry: { id: 'some-id', title: 'title-some-id' } } }]);
 
+            component.documentList.data = data;
             const title = component.makeLibraryTitle(node);
 
             expect(title).toBe('title');
