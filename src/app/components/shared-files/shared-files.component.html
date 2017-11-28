@@ -73,7 +73,6 @@
             currentFolderId="-sharedlinks-"
             selectionMode="multiple"
             [sorting]="[ 'modifiedAt', 'desc' ]"
-            [pageSize]="25"
             [contextMenuActions]="true"
             [contentActions]="false"
             (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
@@ -139,5 +138,6 @@
 
             </data-columns>
         </adf-document-list>
+        <adf-pagination [target]="documentList"></adf-pagination>
     </div>
 </div>

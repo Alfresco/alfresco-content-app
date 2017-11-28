@@ -32,7 +32,6 @@
             selectionMode="multiple"
             [navigate]="false"
             [sorting]="[ 'archivedAt', 'desc' ]"
-            [pageSize]="25"
             [contextMenuActions]="true"
             [contentActions]="false">
 
@@ -95,5 +94,6 @@
             </data-columns>
 
         </adf-document-list>
+        <adf-pagination [target]="documentList"></adf-pagination>
     </div>
 </div>
