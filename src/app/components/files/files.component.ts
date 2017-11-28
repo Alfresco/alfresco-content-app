@@ -79,12 +79,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
         this.subscriptions = this.subscriptions.concat([
             nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-            contentService.folderCreate.subscribe(() => this.load()),
-            contentService.folderEdit.subscribe(() => this.load()),
-            contentManagementService.deleteNode.subscribe(() => this.load()),
-            contentManagementService.moveNode.subscribe(() => this.load()),
-            contentManagementService.restoreNode.subscribe(() => this.load()),
-            contentManagementService.toggleFavorite.subscribe(() => this.load()),
+            contentService.folderCreate.subscribe(() => this.load(false, this.pagination)),
+            contentService.folderEdit.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.deleteNode.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.moveNode.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.restoreNode.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.toggleFavorite.subscribe(() => this.load(false, this.pagination)),
             uploadService.fileUploadComplete.subscribe(file => this.onFileUploadedEvent(file)),
             uploadService.fileUploadDeleted.subscribe((file) => this.onFileUploadedEvent(file))
         ]);
@@ -140,7 +140,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     onFileUploadedEvent(event: FileUploadEvent) {
         if (event && event.file.options.parentId === this.getParentNodeId()) {
-            this.load();
+            this.load(false, this.pagination);
         }
     }
 
@@ -150,7 +150,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 return node && node.entry && node.entry.parentId === this.getParentNodeId();
             });
         if (newNode) {
-            this.load();
+            this.load(false, this.pagination);
         }
     }
 
@@ -167,10 +167,34 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
         this.fetchNodes(this.getParentNodeId(), pagination)
             .subscribe(
-                (page) => this.onPageLoaded(page),
+                (page) => {
+                    if (this.isCurrentPageEmpty(page) && this.isNotFirstPage(page)) {
+                        const newSkipCount = pagination.skipCount - pagination.maxItems;
+
+                        this.fetchNodes(this.getParentNodeId(), {skipCount: newSkipCount, maxItems: pagination.maxItems})
+                            .subscribe(
+                                (previousPage) => this.onPageLoaded(previousPage),
+                                error => this.onFetchError(error)
+                            );
+                    } else {
+                        this.onPageLoaded(page);
+                    }
+                },
                 error => this.onFetchError(error),
                 () => this.changeDetector.detectChanges()
             );
+    }
+
+    isCurrentPageEmpty(page): boolean {
+        return !this.hasPageEntries(page);
+    }
+
+    hasPageEntries(page): boolean {
+        return page && page.list && page.list.entries && page.list.entries.length > 0;
+    }
+
+    isNotFirstPage(page): boolean {
+        return (page.list.pagination.skipCount >= page.list.pagination.maxItems);
     }
 
     // todo: review this approach once 5.2.3 is out
