@@ -80,11 +80,8 @@ describe('Permanently delete from Trash', () => {
     });
 
     it('delete file', () => {
-        dataTable.clickOnRowByContainingText(file1)
-            .then(() => {
-                const button = toolbar.actions.getButtonByTitleAttribute('Permanently delete');
-                button.click();
-            })
+        dataTable.clickOnItemName(file1)
+            .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
                 expect(text).toBe(`${file1} deleted`);
@@ -93,11 +90,8 @@ describe('Permanently delete from Trash', () => {
     });
 
     it('delete folder', () => {
-        dataTable.clickOnRowByContainingText(folder1)
-            .then(() => {
-                const button = toolbar.actions.getButtonByTitleAttribute('Permanently delete');
-                button.click();
-            })
+        dataTable.clickOnItemName(folder1)
+            .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
                 expect(text).toBe(`${folder1} deleted`);
@@ -107,10 +101,7 @@ describe('Permanently delete from Trash', () => {
 
     it('delete multiple items', () => {
         dataTable.selectMultipleItems([ file2, folder2 ])
-            .then(() => {
-                const button = toolbar.actions.getButtonByTitleAttribute('Permanently delete');
-                button.click();
-            })
+            .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
                 expect(text).toBe(`2 items deleted`);

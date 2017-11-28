@@ -86,7 +86,7 @@ describe('Restore from Trash', () => {
     });
 
     it('restore file', () => {
-        dataTable.clickOnRowByContainingText(file1)
+        dataTable.clickOnItemName(file1)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
@@ -102,7 +102,7 @@ describe('Restore from Trash', () => {
     });
 
     it('restore folder', () => {
-        dataTable.clickOnRowByContainingText(folder1)
+        dataTable.clickOnItemName(folder1)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
@@ -136,7 +136,7 @@ describe('Restore from Trash', () => {
     });
 
     it('View from notification', () => {
-        dataTable.clickOnRowByContainingText(file3)
+        dataTable.clickOnItemName(file3)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
             .then(() => trashPage.getSnackBarAction().click())
             .then(() => personalFilesPage.dataTable.waitForHeader())
