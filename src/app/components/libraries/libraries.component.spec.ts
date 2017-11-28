@@ -26,7 +26,7 @@ import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 import { CommonModule } from '../../common/common.module';
 import { LibrariesComponent } from './libraries.component';
 
-fdescribe('Libraries Routed Component', () => {
+describe('Libraries Routed Component', () => {
     let fixture;
     let component: LibrariesComponent;
     let nodesApi: NodesApiService;
