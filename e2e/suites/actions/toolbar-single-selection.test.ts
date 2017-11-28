@@ -49,15 +49,18 @@ describe('Toolbar actions - single selection : ', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
-    const { dataTable } = page;
-    const { toolbar } = page;
+    const { dataTable, toolbar } = page;
 
     beforeAll(done => {
         apis.admin.people.createUser(username)
-            .then(() => apis.user.nodes.createFiles([ fileUser ]).then(resp => { fileUserId = resp.data.entry.id; }))
-            .then(() => apis.user.nodes.createFiles([ fileForDelete ]).then(resp => { fileForDeleteId = resp.data.entry.id; }))
-            .then(() => apis.user.nodes.createFolders([ folderForDelete ]).then((resp) => { folderForDeleteId = resp.data.entry.id; }))
-            .then(() => apis.user.nodes.createFolders([ folderUser ]).then(resp => { folderUserId = resp.data.entry.id; }))
+            .then(() => apis.user.nodes.createFiles([ fileUser ]))
+            .then(resp => fileUserId = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFiles([ fileForDelete ]))
+            .then(resp => fileForDeleteId = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFolders([ folderForDelete ]))
+            .then(resp => folderForDeleteId = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFolders([ folderUser ]))
+            .then(resp => folderUserId = resp.data.entry.id)
             .then(() => apis.user.shared.shareFileById(fileUserId))
             .then(() => apis.user.favorites.addFavoriteById('file', fileUserId))
             .then(() => apis.user.favorites.addFavoriteById('folder', folderUserId))

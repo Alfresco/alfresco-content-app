@@ -25,14 +25,12 @@ describe('Permanently delete from Trash', () => {
     const username = `user-${Utils.random()}`;
 
     const file1 = `file-${Utils.random()}.txt`;
-    let file1Id;
     const file2 = `file-${Utils.random()}.txt`;
-    let file2Id;
+    let filesIds;
 
     const folder1 = `folder-${Utils.random()}`;
-    let folder1Id;
     const folder2 = `folder-${Utils.random()}`;
-    let folder2Id;
+    let foldersIds;
 
     const apis = {
         admin: new RepoClient(),
@@ -47,15 +45,13 @@ describe('Permanently delete from Trash', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser(username)
-            .then(() => apis.user.nodes.createFiles([ file1 ]).then(resp => file1Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFiles([ file2 ]).then(resp => file2Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folder1 ]).then(resp => folder1Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folder2 ]).then(resp => folder2Id = resp.data.entry.id))
+            .then(() => apis.user.nodes.createFiles([ file1, file2 ]))
+            .then(resp => filesIds = resp.data.list.entries.map(entries => entries.entry.id))
+            .then(() => apis.user.nodes.createFolders([ folder1, folder2 ]))
+            .then(resp => foldersIds = resp.data.list.entries.map(entries => entries.entry.id))
 
-            .then(() => apis.user.nodes.deleteNodeById(file1Id, false))
-            .then(() => apis.user.nodes.deleteNodeById(file2Id, false))
-            .then(() => apis.user.nodes.deleteNodeById(folder1Id, false))
-            .then(() => apis.user.nodes.deleteNodeById(folder2Id, false))
+            .then(() => apis.user.nodes.deleteNodesById(filesIds, false))
+            .then(() => apis.user.nodes.deleteNodesById(foldersIds, false))
 
             .then(() => loginPage.load())
             .then(() => loginPage.loginWith(username))
@@ -70,10 +66,7 @@ describe('Permanently delete from Trash', () => {
 
     afterAll(done => {
         Promise.all([
-            apis.user.trashcan.permanentlyDelete(file1Id),
-            apis.user.trashcan.permanentlyDelete(file2Id),
-            apis.user.trashcan.permanentlyDelete(folder1Id),
-            apis.user.trashcan.permanentlyDelete(folder2Id),
+            apis.user.trashcan.emptyTrash(),
             logoutPage.load()
         ])
         .then(done);

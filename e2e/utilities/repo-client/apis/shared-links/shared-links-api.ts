@@ -28,6 +28,12 @@ export class SharedLinksApi extends RepoApi {
             .catch(this.handleError);
     }
 
+    shareFilesByIds(ids: string[]): Promise<any[]> {
+        return ids.reduce((previous, current) => (
+            previous.then(() => this.shareFileById(current))
+        ), Promise.resolve());
+    }
+
     getSharedLinks(): Promise<any> {
         return this.get(`/shared-links`)
             .catch(this.handleError);
