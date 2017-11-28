@@ -23,7 +23,7 @@ class TestClass extends PageComponent {
     node: any;
 
     constructor() {
-        super();
+        super(null);
     }
 
     fetchNodes(parentNodeId?: string, options?: any) {
