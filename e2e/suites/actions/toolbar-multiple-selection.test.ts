@@ -189,7 +189,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         beforeEach(done => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
                 .then(() => dataTable.waitForHeader())
-                .then(() => dataTable.doubleClickOnRowByContainingText(siteName))
+                .then(() => dataTable.doubleClickOnItemName(siteName))
                 .then(() => dataTable.waitForHeader())
                 .then(done);
         });

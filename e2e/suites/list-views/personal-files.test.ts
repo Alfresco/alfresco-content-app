@@ -134,7 +134,7 @@ describe('Personal Files', () => {
                 .then(response => response.data.entry.id);
 
             const navigatePromise = dataTable
-                .doubleClickOnRowByContainingText(userFolder)
+                .doubleClickOnItemName(userFolder)
                 .then(() => dataTable.waitForHeader());
 
             Promise
@@ -158,7 +158,7 @@ describe('Personal Files', () => {
                 const { actions } = personalFilesPage.toolbar;
 
                 dataTable
-                    .clickOnRowByContainingText(userFolder)
+                    .clickOnItemName(userFolder)
                     .then(() => {
                         expect(actions.isEmpty()).toBe(false, 'Toolbar to be present');
                     })

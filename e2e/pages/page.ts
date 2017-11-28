@@ -19,7 +19,7 @@ import { browser, element, by, ElementFinder, promise, ExpectedConditions as EC 
 import { BROWSER_WAIT_TIMEOUT } from './../configs';
 
 export abstract class Page {
-    private static USE_HASH_STRATEGY = false;
+    private static USE_HASH_STRATEGY = true;
 
     private locators = {
         app: by.css('app-root'),

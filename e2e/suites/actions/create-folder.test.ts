@@ -87,7 +87,7 @@ describe('Create folder', () => {
     });
 
     it('option is enabled when having enough permissions', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => personalFilesPage.sidenav.openNewMenu()
                 .then((menu) => {
                     const isEnabled = menu.getItemByLabel('Create folder').getWebElement().isEnabled();
@@ -98,7 +98,7 @@ describe('Create folder', () => {
     });
 
     it('creates new folder with name', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog()
                 .then(() => createDialog.enterName(folderName1).clickCreate())
                 .then(() => createDialog.waitForDialogToClose())
@@ -111,7 +111,7 @@ describe('Create folder', () => {
     });
 
     it('creates new folder with name and description', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog()
                 .then(() => {
                     createDialog
@@ -133,7 +133,7 @@ describe('Create folder', () => {
     });
 
     it('enabled option tooltip', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => personalFilesPage.sidenav.openNewMenu()
                 .then(menu => {
                     const action = browser.actions().mouseMove(menu.getItemByLabel('Create folder'));
@@ -152,8 +152,8 @@ describe('Create folder', () => {
         const fileLibrariesPage = new BrowsingPage(APP_ROUTES.FILE_LIBRARIES);
 
         fileLibrariesPage.sidenav.navigateToLinkByLabel('File Libraries')
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(siteName))
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(folderName1))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnItemName(siteName))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnItemName(folderName1))
             .then(() => fileLibrariesPage.sidenav.openNewMenu())
             .then(menu => {
                 const isEnabled = menu.getItemByLabel('Create folder').getWebElement().isEnabled();
@@ -165,8 +165,8 @@ describe('Create folder', () => {
         const fileLibrariesPage = new BrowsingPage(APP_ROUTES.FILE_LIBRARIES);
 
         fileLibrariesPage.sidenav.navigateToLinkByLabel('File Libraries')
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(siteName))
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByContainingText(folderName1))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnItemName(siteName))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnItemName(folderName1))
             .then(() => fileLibrariesPage.sidenav.openNewMenu())
             .then(menu => {
                 const action = browser.actions().mouseMove(menu.getItemByLabel('Create folder'));
@@ -179,7 +179,7 @@ describe('Create folder', () => {
     });
 
     it('dialog UI elements', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog().then(() => {
                 const dialogTitle = createDialog.getTitle();
                 const isFolderNameDisplayed = createDialog.nameInput.getWebElement().isDisplayed();
@@ -197,7 +197,7 @@ describe('Create folder', () => {
     });
 
     it('with empty folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog()
                 .then(() => {
                     createDialog.deleteNameWithBackspace();
@@ -213,7 +213,7 @@ describe('Create folder', () => {
     });
 
     it('with folder name ending with a dot "."', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog()
                 .then(() => createDialog.enterName('folder-name.'))
                 .then((dialog) => {
@@ -229,7 +229,7 @@ describe('Create folder', () => {
     it('with folder name containing special characters', () => {
         const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog()
                 .then(() => {
                     namesWithSpecialChars.forEach(name => {
@@ -246,7 +246,7 @@ describe('Create folder', () => {
     });
 
     it('with folder name containing only spaces', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog()
                 .then(() => createDialog.enterName('    '))
                 .then((dialog) => {
@@ -260,7 +260,7 @@ describe('Create folder', () => {
     });
 
     it('cancel folder creation', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog()
                 .then(() => {
                     createDialog
@@ -273,7 +273,7 @@ describe('Create folder', () => {
     });
 
     it('duplicate folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog()
                 .then(() => createDialog.enterName(duplicateFolderName).clickCreate())
                 .then(() => {
@@ -287,7 +287,7 @@ describe('Create folder', () => {
     });
 
     it('trim ending spaces from folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
             .then(() => openCreateDialog()
                 .then(() => createDialog.enterName(nameWithSpaces).clickCreate())
                 .then(() => createDialog.waitForDialogToClose())

@@ -35,7 +35,7 @@ export class SitesApi extends RepoApi {
             .catch(this.handleError);
     }
 
-    createSite(title: string, visibility: string, details?: Site): Promise<any> {
+    createOrUpdateSite(title: string, visibility: string, details?: Site): Promise<any> {
         const site: Site = new Site(title, visibility, details);
         const onSuccess = (response) => response;
         const onError = (response) => {
@@ -50,10 +50,29 @@ export class SitesApi extends RepoApi {
             .catch(this.handleError);
     }
 
+    createSite(title: string, visibility: string, details?: Site): Promise<any> {
+        const site: Site = new Site(title, visibility, details);
+        return this
+            .post(`/sites`, { data: site })
+            .catch(this.handleError);
+    }
+
+    createSites(titles: string[], visibility: string): Promise<any[]> {
+        return titles.reduce((previous, current) => (
+            previous.then(() => this.createSite(current, visibility))
+        ), Promise.resolve());
+    }
+
     deleteSite(id: string, permanent: boolean = true): Promise<any> {
         return this
             .delete(`/sites/${id}?permanent=${permanent}`)
             .catch(this.handleError);
+    }
+
+    deleteSites(ids: string[], permanent: boolean = true): Promise<any[]> {
+        return ids.reduce((previous, current) => (
+            previous.then(() => this.deleteSite(current))
+        ), Promise.resolve());
     }
 
     updateSiteMember(siteId: string, userId: string, role: string): Promise<any> {

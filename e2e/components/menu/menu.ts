@@ -47,7 +47,11 @@ export class Menu extends Component {
         return this.getItemByLabel(label).getAttribute('title');
     }
 
-    clicktNthItem(nth: number): promise.Promise<void> {
+    getItemsCount(): promise.Promise<number> {
+        return this.items.count();
+    }
+
+    clickNthItem(nth: number): promise.Promise<void> {
         return this.getNthItem(nth).click();
     }
 

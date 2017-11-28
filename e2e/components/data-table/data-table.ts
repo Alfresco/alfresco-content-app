@@ -34,6 +34,7 @@ export class DataTable extends Component {
         row: 'tr',
         selectedRow: 'tr.is-selected',
         cell: 'td',
+        nameCell: 'td.app-name-column',
 
         emptyListContainer: 'td.adf-no-content-container',
         emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
@@ -44,7 +45,6 @@ export class DataTable extends Component {
 
     head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
     body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
-    cell = by.css(DataTable.selectors.cell);
     emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
     emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
     emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
@@ -113,18 +113,16 @@ export class DataTable extends Component {
     }
 
     // Navigation/selection methods
-    doubleClickOnRowByContainingText(text: string): promise.Promise<void> {
-        const row = this.getRowByContainingText(text);
-        const dblClick = browser.actions().mouseMove(row).click().click();
+    doubleClickOnItemName(name: string): promise.Promise<void> {
+        const locator = by.cssContainingText(DataTable.selectors.nameCell, name);
+        const dblClick = browser.actions().mouseMove(this.body.element(locator)).click().click();
 
         return dblClick.perform();
     }
 
-    clickOnRowByContainingText(text: string): promise.Promise<void> {
-        const row = this.getRowByContainingText(text);
-        const click = browser.actions().mouseMove(row).click();
-
-        return click.perform();
+    clickOnItemName(name: string): promise.Promise<void> {
+        const locator = by.cssContainingText(DataTable.selectors.nameCell, name);
+        return this.body.element(locator).click();
     }
 
     selectMultipleItems(names: string[]): promise.Promise<void> {
