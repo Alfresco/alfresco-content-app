@@ -40,6 +40,10 @@ $app-inner-layout--footer-height: 48px;
 }
 
 .inner-layout {
+    .no-border {
+        border: unset
+    }
+
     display: flex;
     flex: 1;
     flex-direction: column;

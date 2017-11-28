@@ -40,10 +40,9 @@ $sidenav-menu-item--icon-size: 24px;
             list-style-type: none;
 
             &__item {
+                padding: $sidenav-menu-item--v-padding 0;
+
                 &-link {
-                    padding:
-                        $sidenav-menu-item--v-padding
-                        $sidenav-menu-item--h-padding;
 
                     padding-left: $sidenav-menu-item--h-padding + 16px + 24px;
                     position: relative;
