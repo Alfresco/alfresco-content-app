@@ -17,7 +17,8 @@
 
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
-
+import { Pagination } from 'alfresco-js-api';
+import { UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 
@@ -29,7 +30,9 @@ export class TrashcanComponent implements OnInit, OnDestroy {
 
     @ViewChild(DocumentListComponent) documentList;
 
-    constructor(private contentManagementService: ContentManagementService) {}
+    constructor(
+        private contentManagementService: ContentManagementService,
+        private preferences: UserPreferencesService) {}
 
     ngOnInit() {
         this.subscriptions.push(this.contentManagementService.restoreNode.subscribe(() => this.refresh()));
@@ -42,5 +45,9 @@ export class TrashcanComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
+    }
+
+    onChangePageSize(event: Pagination): void {
+        this.preferences.paginationSize = event.maxItems;
     }
 }

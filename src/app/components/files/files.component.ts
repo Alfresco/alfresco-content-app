@@ -19,7 +19,10 @@ import { Observable, Subscription } from 'rxjs/Rx';
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
-import { UploadService, FileUploadEvent, NodesApiService, ContentService, AlfrescoApiService } from '@alfresco/adf-core';
+import {
+    UploadService, FileUploadEvent, NodesApiService,
+    ContentService, AlfrescoApiService, UserPreferencesService
+} from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -47,8 +50,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         private contentManagementService: ContentManagementService,
         private browsingFilesService: BrowsingFilesService,
         private contentService: ContentService,
-        private apiService: AlfrescoApiService) {
-        super();
+        private apiService: AlfrescoApiService,
+        preferences: UserPreferencesService) {
+        super(preferences);
     }
 
     ngOnInit() {

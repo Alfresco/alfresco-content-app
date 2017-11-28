@@ -143,8 +143,10 @@
 
             <ng-container *ngIf="!isEmpty">
                 <adf-pagination
+                    [supportedPageSizes]="documentList.supportedPageSizes"
                     [pagination]="pagination"
-                    (change)="load(true, $event)">
+                    (change)="load(true, $event)"
+                    (changePageSize)="onChangePageSize($event)">
                 </adf-pagination>
             </ng-container>
         </adf-upload-drag-area>
