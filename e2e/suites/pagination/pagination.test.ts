@@ -65,14 +65,16 @@ describe('Pagination', () => {
         beforeEach(done => {
             personalFilesPage.load()
                 .then(() => dataTable.waitForHeader())
-                .then(() => dataTable.doubleClickOnRowByContainingText(content.name))
+                .then(() => dataTable.doubleClickOnItemName(content.name))
                 .then(() => dataTable.sortByColumn('Name'))
                 .then(done);
         });
 
         afterAll(done => {
             logoutPage.load()
-                .then(() => nodesApi.deleteNodes([ content.name ]))
+                .then(() => {
+                    nodesApi.deleteNodes([ content.name ]);
+                })
                 .then(done);
         });
 
@@ -116,7 +118,7 @@ describe('Pagination', () => {
 
         it('changes the current page from menu', () => {
             pagination.openCurrentPageMenu()
-                .then(menu => menu.clicktNthItem(3))
+                .then(menu => menu.clickNthItem(3))
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
                     expect(pagination.range.getText()).toContain('51-75 of 101', 'Range');
@@ -140,7 +142,7 @@ describe('Pagination', () => {
 
         it('navigates to previous page', () => {
             pagination.openCurrentPageMenu()
-                .then(menu => menu.clicktNthItem(2))
+                .then(menu => menu.clickNthItem(2))
                 .then(() => dataTable.waitForHeader())
                 .then(() => pagination.previousButton.click())
                 .then(() => dataTable.waitForHeader())
@@ -153,7 +155,7 @@ describe('Pagination', () => {
 
         it('has one item on the last page', () => {
             pagination.openCurrentPageMenu()
-                .then(menu => menu.clicktNthItem(5))
+                .then(menu => menu.clickNthItem(5))
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
                     expect(dataTable.countRows()).toBe(1, 'Single item on the last page');
