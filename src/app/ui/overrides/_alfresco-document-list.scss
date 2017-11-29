@@ -7,80 +7,28 @@ adf-document-list {
     overflow: auto;
 
     & > adf-datatable {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        overflow: auto;
+        height: 100%;
     }
 }
+
 
 .adf-data-table {
     border: none !important;
 
-    .sr-only {
-        display: none;
-    }
-
-    th, td {
-        color: $alfresco-secondary-text-color;
-    }
-
-    th.adf-data-table-cell--text:nth-child(n+3) {
-        text-align: center;
-    }
-
     th, tr, td {
+        color: $alfresco-secondary-text-color;
         &:focus {
             outline: none !important;
         }
     }
 
-    // TODO: Remove tr background-color once it gets to ADF
     tbody tr {
         &:hover, &:focus {
             background-color: $alfresco-app-color--hue-1;
         }
-    }
 
-    tr {
-        &.is-selected {
+        &.is-selected, &.is-selected:hover {
             background-color: $alfresco-app-color--hue-1;
-
-            &:hover {
-                background-color: $alfresco-app-color--hue-1;
-            }
-
-            .image-table-cell {
-                position: relative;
-
-                &:before {
-                    content: "\E876"; /* "done" */
-                    font-family: "Material Icons";
-                    font-size: 24px;
-                    line-height: 32px;
-                    text-align: center;
-                    color: white;
-                    position: absolute;
-                    width: 32px;
-                    height: 32px;
-                    top: 50%;
-                    left: 50%;
-                    margin-top: -16px;
-                    margin-left: -14px;
-                    border-radius: 100%;
-                    background: #00bcd4;
-                }
-            }
-        }
-
-        .app-name-column {
-            width: 100%;
-
-            .cell-container {
-                max-width: 45vw;
-                text-overflow: ellipsis;
-                overflow: hidden;
-            }
         }
     }
 
@@ -108,6 +56,31 @@ adf-document-list {
 
     .adf-no-content-container {
         border: none !important;
+    }
+
+
+    .adf-data-table-cell--ellipsis {
+        width: 100%;
+    }
+
+    .adf-data-table-cell--ellipsis__name {
+        width: 85%;
+    }
+
+    .adf-data-table-cell--ellipsis .cell-value,
+    .adf-data-table-cell--ellipsis__name .cell-value {
+        display: flex;
+        align-items: center;
+    }
+
+    .adf-data-table-cell--ellipsis .adf-datatable-cell,
+    .adf-data-table-cell--ellipsis__name .adf-datatable-cell {
+        white-space: nowrap;
+        display: block;
+        position: absolute;
+        max-width: calc(100% - 2em);
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 

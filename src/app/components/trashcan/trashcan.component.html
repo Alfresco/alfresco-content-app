@@ -56,12 +56,9 @@
                 </data-column>
 
                 <data-column
+                    class="adf-data-table-cell--ellipsis__name"
                     key="name"
-                    class="app-name-column"
                     title="APP.DOCUMENT_LIST.COLUMNS.NAME">
-                    <ng-template let-value="value" let-context>
-                        <span title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
-                    </ng-template>
                 </data-column>
 
                 <data-column
@@ -87,6 +84,7 @@
                 </data-column>
 
                 <data-column
+                    class="adf-data-table-cell--ellipsis"
                     key="archivedByUser.displayName"
                     title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">
                 </data-column>
@@ -94,7 +92,7 @@
             </data-columns>
 
         </adf-document-list>
-        <adf-pagination
+        <adf-pagination [ngClass]="{ 'no-border' : documentList.isEmpty()}"
             [target]="documentList"
             (changePageSize)="onChangePageSize($event)">
         </adf-pagination>

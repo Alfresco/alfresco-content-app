@@ -110,12 +110,9 @@
                     </data-column>
 
                     <data-column
+                        class="adf-data-table-cell--ellipsis__name"
                         key="name"
-                        class="app-name-column"
                         title="APP.DOCUMENT_LIST.COLUMNS.NAME">
-                        <ng-template let-value="value" let-context>
-                            <span title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
-                        </ng-template>
                     </data-column>
 
                     <data-column
@@ -135,6 +132,7 @@
                     </data-column>
 
                     <data-column
+                        class="adf-data-table-cell--ellipsis"
                         key="modifiedByUser.displayName"
                         title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY">
                     </data-column>

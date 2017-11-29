@@ -37,14 +37,9 @@
                 </data-column>
 
                 <data-column
+                    class="adf-data-table-cell--ellipsis__name"
                     key="title"
-                    title="APP.DOCUMENT_LIST.COLUMNS.TITLE"
-                    class="app-name-column">
-                    <ng-template let-context>
-                        <span title="{{ makeLibraryTooltip(context.row.obj.entry) }}">
-                            {{ makeLibraryTitle(context.row.obj.entry) }}
-                        </span>
-                    </ng-template>
+                    title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
                 </data-column>
 
                 <data-column
@@ -64,7 +59,8 @@
                 </data-column>
             </data-columns>
         </adf-document-list>
-        <adf-pagination
+
+        <adf-pagination [ngClass]="{ 'no-border' : documentList.isEmpty()}"
             [target]="documentList"
             (changePageSize)="onChangePageSize($event)">
         </adf-pagination>
