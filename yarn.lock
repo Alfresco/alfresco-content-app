@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@alfresco/adf-content-services@2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad":
-  version "2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad.tgz#4d189cf2df9ff155c439805ad9ccea92181dc5b1"
+"@alfresco/adf-content-services@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.0.0.tgz#9e9b14549f1c4b9fda47441442f0f90a5763408c"
   dependencies:
-    "@alfresco/adf-core" "2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad"
+    "@alfresco/adf-core" "2.0.0"
     "@angular/animations" "5.0.0"
     "@angular/cdk" "5.0.0-rc0"
     "@angular/common" "5.0.0"
@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic" "5.0.0"
     "@angular/router" "5.0.0"
     "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2"
+    alfresco-js-api "2.0.0"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -35,9 +35,9 @@
     systemjs "0.19.27"
     zone.js "0.8.14"
 
-"@alfresco/adf-core@2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad":
-  version "2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.0.0-c968fbcdacb90946dc00bca3d7b663de94d5a9ad.tgz#bbf289ed254049f7db0406efd94276fa53a9fbf0"
+"@alfresco/adf-core@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.0.0.tgz#7ad6c756cd5f8f44b0a1f31e6f8114d7c8f67101"
   dependencies:
     "@angular/animations" "5.0.0"
     "@angular/cdk" "5.0.0-rc0"
@@ -53,7 +53,7 @@
     "@angular/platform-browser-dynamic" "5.0.0"
     "@angular/router" "5.0.0"
     "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2"
+    alfresco-js-api "2.0.0"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -364,19 +364,12 @@ ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-alfresco-js-api@2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2:
-  version "2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2"
-  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.0.0-2e4554a3d3a1265d058795c924d55d570dd46de2.tgz#9b4cafb16eef618ed449c2d69055cb032cbe9087"
+alfresco-js-api@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.0.0.tgz#a019b01d48200c36f8a0ea229c416260365eed49"
   dependencies:
     event-emitter "0.3.4"
-    superagent "3.7.0"
-
-alfresco-js-api@2.0.0-beta1:
-  version "2.0.0-beta1"
-  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.0.0-beta1.tgz#f52f8dfb82e3516efd71868f06cf91c62e4fa71e"
-  dependencies:
-    event-emitter "0.3.4"
-    superagent "3.7.0"
+    superagent "3.4.1"
 
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"
@@ -949,8 +942,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000772"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000772.tgz#51aae891768286eade4a3d8319ea76d6a01b512b"
+  version "1.0.30000775"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000775.tgz#04bccdd0214edf25b97f61a096609f7ad6904333"
 
 caseless@~0.11.0:
   version "0.11.0"
@@ -1177,8 +1170,8 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
     delayed-stream "~1.0.0"
 
 commander@2.12.x, commander@^2.9.0, commander@~2.12.1:
-  version "2.12.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.12.1.tgz#468635c4168d06145b9323356d1da84d14ac4a7a"
+  version "2.12.2"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.12.2.tgz#0f5946c427ed9ec0d91a46bb9def53e54650e555"
 
 common-tags@^1.3.1:
   version "1.5.1"
@@ -1283,7 +1276,7 @@ cookie@0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
 
-cookiejar@^2.1.0:
+cookiejar@^2.0.6:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.1.1.tgz#41ad57b1b555951ec171412a81942b1e8200d34a"
 
@@ -2098,7 +2091,7 @@ exports-loader@^0.6.3:
     loader-utils "^1.0.2"
     source-map "0.5.x"
 
-express@^4.13.3:
+express@^4.16.2:
   version "4.16.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.16.2.tgz#e35c6dfe2d64b7dca0a5cd4f21781be3299e076c"
   dependencies:
@@ -2298,7 +2291,7 @@ forever-agent@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
 
-form-data@^2.3.1, form-data@~2.3.1:
+form-data@^2.1.1, form-data@~2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.3.1.tgz#6fb94fbd71885306d73d15cc497fe4cc4ecd44bf"
   dependencies:
@@ -2314,7 +2307,7 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
-formidable@^1.1.1:
+formidable@^1.0.17:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.1.1.tgz#96b8886f7c3c3508b932d6bd70c4d3a88f35f1a9"
 
@@ -2897,8 +2890,8 @@ internal-ip@1.2.0:
     meow "^3.3.0"
 
 interpret@^1.0.0:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.4.tgz#820cdd588b868ffb191a809506d6c9c8f212b1b0"
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.1.0.tgz#7ed1b1410c6a0e0f78cf95d3b8440c63f78b8614"
 
 invariant@^2.2.2:
   version "2.2.2"
@@ -3742,7 +3735,7 @@ mime@1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.4.1.tgz#121f9ebc49e3766f311a76e1fa1c8003c4b03aa6"
 
-mime@^1.2.11, mime@^1.3.4, mime@^1.4.1:
+mime@^1.2.11, mime@^1.3.4, mime@^1.4.1, mime@^1.5.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
 
@@ -3811,8 +3804,8 @@ moment-es6@1.0.0:
     moment "*"
 
 moment@*, moment@^2.10.6:
-  version "2.19.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.2.tgz#8a7f774c95a64550b4c7ebd496683908f9419dbe"
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
 
 moment@2.15.2:
   version "2.15.2"
@@ -4772,7 +4765,7 @@ qjobs@^1.1.4:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/qjobs/-/qjobs-1.1.5.tgz#659de9f2cf8dcc27a1481276f205377272382e73"
 
-qs@6.5.1, qs@^6.5.1, qs@~6.5.1:
+qs@6.5.1, qs@^6.1.0, qs@~6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
@@ -5688,19 +5681,19 @@ stylus@^0.54.5:
     sax "0.5.x"
     source-map "0.1.x"
 
-superagent@3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.7.0.tgz#bd58bfde2cbc5305adb9ccbb6dacba18408629d6"
+superagent@3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.4.1.tgz#4bd12741224d0ece6d9f757f1c3becbe7f24c115"
   dependencies:
     component-emitter "^1.2.0"
-    cookiejar "^2.1.0"
-    debug "^3.1.0"
+    cookiejar "^2.0.6"
+    debug "^2.2.0"
     extend "^3.0.0"
-    form-data "^2.3.1"
-    formidable "^1.1.1"
+    form-data "^2.1.1"
+    formidable "^1.0.17"
     methods "^1.1.1"
-    mime "^1.4.1"
-    qs "^6.5.1"
+    mime "^1.3.4"
+    qs "^6.1.0"
     readable-stream "^2.0.5"
 
 supports-color@^2.0.0:
@@ -5732,8 +5725,8 @@ svgo@^0.7.0:
     whet.extend "~0.9.9"
 
 symbol-observable@^1.0.1:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.1.0.tgz#5c68fd8d54115d9dfb72a84720549222e8db9b32"
 
 systemjs@0.19.27:
   version "0.19.27"
@@ -5904,8 +5897,8 @@ tslint@~5.7.0:
     tsutils "^2.8.1"
 
 tsutils@^2.8.1:
-  version "2.12.2"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.12.2.tgz#ad58a4865d17ec3ddb6631b6ca53be14a5656ff3"
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.13.0.tgz#0f52b6aabbc4216e72796b66db028c6cf173e144"
   dependencies:
     tslib "^1.7.1"
 
@@ -5939,8 +5932,8 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
 typescript@^2.3.3:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.1.tgz#ef39cdea27abac0b500242d6726ab90e0c846631"
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.6.2.tgz#3c5b6fd7f6de0914269027f03c0946758f7673a4"
 
 typescript@~2.4.2:
   version "2.4.2"
@@ -6212,18 +6205,18 @@ webpack-core@^0.6.8:
     source-map "~0.4.1"
 
 webpack-dev-middleware@^1.11.0, webpack-dev-middleware@~1.12.0:
-  version "1.12.1"
-  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-1.12.1.tgz#338be3ca930973be1c2ce07d84d275e997e1a25a"
+  version "1.12.2"
+  resolved "https://registry.yarnpkg.com/webpack-dev-middleware/-/webpack-dev-middleware-1.12.2.tgz#f8fc1120ce3b4fc5680ceecb43d777966b21105e"
   dependencies:
     memory-fs "~0.4.1"
-    mime "^1.4.1"
+    mime "^1.5.0"
     path-is-absolute "^1.0.0"
     range-parser "^1.0.3"
     time-stamp "^2.0.0"
 
 webpack-dev-server@~2.9.3:
-  version "2.9.4"
-  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-2.9.4.tgz#7883e61759c6a4b33e9b19ec4037bd4ab61428d1"
+  version "2.9.5"
+  resolved "https://registry.yarnpkg.com/webpack-dev-server/-/webpack-dev-server-2.9.5.tgz#79336fba0087a66ae491f4869f6545775b18daa8"
   dependencies:
     ansi-html "0.0.7"
     array-includes "^3.0.3"
@@ -6233,7 +6226,7 @@ webpack-dev-server@~2.9.3:
     connect-history-api-fallback "^1.3.0"
     debug "^3.1.0"
     del "^3.0.0"
-    express "^4.13.3"
+    express "^4.16.2"
     html-entities "^1.2.0"
     http-proxy-middleware "~0.17.4"
     import-local "^0.1.1"
