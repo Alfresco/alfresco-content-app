@@ -23,4 +23,24 @@ export class TrashcanApi extends RepoApi {
             .delete(`/deleted-nodes/${id}`)
             .catch(this.handleError);
     }
+
+    getDeletedNodes(): Promise<any> {
+        return this
+            .get(`/deleted-nodes?maxItems=1000`)
+            .catch(this.handleError);
+    }
+
+    emptyTrash(): Promise<any> {
+        return this.getDeletedNodes()
+            .then(resp => {
+                return resp.data.list.entries.map(entries => entries.entry.id);
+            })
+            .then(ids => {
+                return ids.reduce((previous, current) => (
+                    previous.then(() => this.permanentlyDelete(current))
+                ), Promise.resolve());
+            })
+            .catch(this.handleError);
+    }
+
 }

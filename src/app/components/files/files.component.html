@@ -84,9 +84,8 @@
 
     <div [attr.class]="!isValidPath ? 'content--hide' : 'inner-layout__content'">
         <adf-upload-drag-area
-            [rootFolderId]="node?.id"
-            [disabled]="!canCreateContent(node)"
-            [showNotificationBar]="false">
+            [parentId]="node?.id"
+            [disabled]="!canCreateContent(node)">
 
             <adf-document-list #documentList
                 [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
@@ -98,7 +97,6 @@
                 [contextMenuActions]="true"
                 [contentActions]="false"
                 [navigate]="false"
-                [enablePagination]="false"
                 [selectionMode]="'multiple'"
 
                 (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
@@ -145,8 +143,10 @@
 
             <ng-container *ngIf="!isEmpty">
                 <adf-pagination
+                    [supportedPageSizes]="documentList.supportedPageSizes"
                     [pagination]="pagination"
-                    (change)="load(true, $event)">
+                    (change)="load(true, $event)"
+                    (changePageSize)="onChangePageSize($event)">
                 </adf-pagination>
             </ng-container>
         </adf-upload-drag-area>

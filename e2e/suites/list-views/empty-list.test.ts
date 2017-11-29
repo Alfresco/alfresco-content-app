@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-import { browser, by } from 'protractor';
-
 import { APP_ROUTES, SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';

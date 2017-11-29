@@ -33,6 +33,12 @@ export class NodesApi extends RepoApi {
             .catch(this.handleError);
     }
 
+    getNodeDescription(name: string): Promise<string> {
+        return this.getNodeByPath(name)
+            .then(response => response.data.entry.properties['cm:description'])
+            .catch(() => Promise.resolve(''));
+    }
+
     deleteNodeById(id: string, permanent: boolean = true): Promise<any> {
         return this
             .delete(`/nodes/${id}?permanent=${permanent}`)
@@ -47,19 +53,16 @@ export class NodesApi extends RepoApi {
             .catch(this.handleError);
     }
 
-    getNodeDescription(name: string): Promise<string> {
-        return this.getNodeByPath(name)
-            .then(response => response.data.entry.properties['cm:description'])
-            .catch(() => Promise.resolve(''));
+    deleteNodes(names: string[], relativePath: string = '', permanent: boolean = true): Promise<any[]> {
+        return names.reduce((previous, current) => (
+            previous.then(() => this.deleteNodeByPath(`${relativePath}/${current}`, permanent))
+        ), Promise.resolve());
     }
 
-    deleteNodes(names: string[], relativePath: string = '', permanent: boolean = true): Promise<any> {
-        const deletions = names
-            .map((name: string): any => {
-                return this.deleteNodeByPath(`${relativePath}/${name}`, permanent);
-            });
-
-        return Promise.all(deletions);
+    deleteNodesById(ids: string[], permanent: boolean = true): Promise<any[]> {
+        return ids.reduce((previous, current) => (
+            previous.then(() => this.deleteNodeById(current, permanent))
+        ), Promise.resolve());
     }
 
     // children

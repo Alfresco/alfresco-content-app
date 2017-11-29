@@ -19,7 +19,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { MinimalNodeEntity } from 'alfresco-js-api';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -38,8 +38,9 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
     constructor(
         private router: Router,
         private content: ContentManagementService,
-        private apiService: AlfrescoApiService) {
-        super();
+        private apiService: AlfrescoApiService,
+        preferences: UserPreferencesService) {
+        super(preferences);
     }
 
     ngOnInit() {

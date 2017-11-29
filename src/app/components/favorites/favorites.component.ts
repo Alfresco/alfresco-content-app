@@ -19,8 +19,8 @@ import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
-import { MinimalNodeEntryEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
-import { ContentService, NodesApiService } from '@alfresco/adf-core';
+import { MinimalNodeEntryEntity, MinimalNodeEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
+import { ContentService, NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -40,8 +40,9 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
         private router: Router,
         private nodesApi: NodesApiService,
         private contentService: ContentService,
-        private content: ContentManagementService) {
-        super();
+        private content: ContentManagementService,
+        preferences: UserPreferencesService) {
+        super(preferences);
     }
 
     ngOnInit() {
@@ -90,6 +91,10 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
                 this.router.navigate(['/preview', node.id]);
             }
         }
+    }
+
+    showEditOption(selection: MinimalNodeEntity[]) {
+        return selection && selection.length === 1 && selection[0].entry.isFolder;
     }
 
     refresh(): void {

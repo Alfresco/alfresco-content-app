@@ -25,16 +25,13 @@ describe('Restore from Trash', () => {
     const username = `user-${Utils.random()}`;
 
     const file1 = `file-${Utils.random()}.txt`;
-    let file1Id;
     const file2 = `file-${Utils.random()}.txt`;
-    let file2Id;
     const file3 = `file-${Utils.random()}.txt`;
-    let file3Id;
+    let filesIds;
 
     const folder1 = `folder-${Utils.random()}`;
-    let folder1Id;
     const folder2 = `folder-${Utils.random()}`;
-    let folder2Id;
+    let foldersIds;
 
     const apis = {
         admin: new RepoClient(),
@@ -50,17 +47,13 @@ describe('Restore from Trash', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser(username)
-            .then(() => apis.user.nodes.createFiles([ file1 ]).then(resp => file1Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFiles([ file2 ]).then(resp => file2Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFiles([ file3 ]).then(resp => file3Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folder1 ]).then(resp => folder1Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folder2 ]).then(resp => folder2Id = resp.data.entry.id))
+            .then(() => apis.user.nodes.createFiles([ file1, file2, file3 ]))
+            .then(resp => filesIds = resp.data.list.entries.map(entries => entries.entry.id))
+            .then(() => apis.user.nodes.createFolders([ folder1, folder2 ]))
+            .then(resp => foldersIds = resp.data.list.entries.map(entries => entries.entry.id))
 
-            .then(() => apis.user.nodes.deleteNodeById(file1Id, false))
-            .then(() => apis.user.nodes.deleteNodeById(file2Id, false))
-            .then(() => apis.user.nodes.deleteNodeById(file3Id, false))
-            .then(() => apis.user.nodes.deleteNodeById(folder1Id, false))
-            .then(() => apis.user.nodes.deleteNodeById(folder2Id, false))
+            .then(() => apis.user.nodes.deleteNodesById(filesIds, false))
+            .then(() => apis.user.nodes.deleteNodesById(foldersIds, false))
 
             .then(() => loginPage.load())
             .then(() => loginPage.loginWith(username))
@@ -75,18 +68,16 @@ describe('Restore from Trash', () => {
 
     afterAll(done => {
         Promise.all([
-            apis.user.nodes.deleteNodeById(file1Id),
-            apis.user.nodes.deleteNodeById(file2Id),
-            apis.user.nodes.deleteNodeById(file3Id),
-            apis.user.nodes.deleteNodeById(folder1Id),
-            apis.user.nodes.deleteNodeById(folder2Id),
+            apis.user.nodes.deleteNodesById(filesIds),
+            apis.user.nodes.deleteNodesById(foldersIds),
+            apis.user.trashcan.emptyTrash(),
             logoutPage.load()
         ])
         .then(done);
     });
 
     it('restore file', () => {
-        dataTable.clickOnRowByContainingText(file1)
+        dataTable.clickOnItemName(file1)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
@@ -102,7 +93,7 @@ describe('Restore from Trash', () => {
     });
 
     it('restore folder', () => {
-        dataTable.clickOnRowByContainingText(folder1)
+        dataTable.clickOnItemName(folder1)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
@@ -136,7 +127,7 @@ describe('Restore from Trash', () => {
     });
 
     it('View from notification', () => {
-        dataTable.clickOnRowByContainingText(file3)
+        dataTable.clickOnItemName(file3)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
             .then(() => trashPage.getSnackBarAction().click())
             .then(() => personalFilesPage.dataTable.waitForHeader())

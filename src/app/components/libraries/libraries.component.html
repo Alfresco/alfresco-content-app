@@ -14,7 +14,6 @@
             selectionMode="none"
             [navigate]="false"
             [sorting]="[ 'name', 'asc' ]"
-            [pageSize]="25"
             [contextMenuActions]="true"
             [contentActions]="false"
             (node-dblclick)="onNodeDoubleClick($event)">
@@ -65,5 +64,9 @@
                 </data-column>
             </data-columns>
         </adf-document-list>
+        <adf-pagination
+            [target]="documentList"
+            (changePageSize)="onChangePageSize($event)">
+        </adf-pagination>
     </div>
 </div>

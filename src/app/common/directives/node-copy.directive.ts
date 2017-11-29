@@ -96,7 +96,7 @@ export class NodeCopyDirective {
             } catch (err) { /* Do nothing, keep the original message */ }
         }
 
-        const undo = (numberOfCopiedItems > 0) ? 'Undo' : '';
+        const undo = (numberOfCopiedItems > 0) ? this.translation.translate.instant('APP.ACTIONS.UNDO') : '';
         const withUndo = (numberOfCopiedItems > 0) ? '_WITH_UNDO' : '';
 
         this.translation.get(i18nMessageString, { success: numberOfCopiedItems, failed: failedItems }).subscribe(message => {

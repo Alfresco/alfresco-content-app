@@ -87,8 +87,8 @@ describe('Edit folder', () => {
     });
 
     it('dialog UI defaults', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderName)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+            .then(() => dataTable.clickOnItemName(folderName)
                 .then(() => editButton.click())
                 .then(() => {
                     expect(editDialog.getTitle()).toBe('Edit folder');
@@ -101,8 +101,8 @@ describe('Edit folder', () => {
     });
 
     it('properties are modified when pressing OK', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderNameToEdit)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+            .then(() => dataTable.clickOnItemName(folderNameToEdit)
                 .then(() => editButton.click())
                 .then(() => {
                     editDialog
@@ -126,8 +126,8 @@ describe('Edit folder', () => {
     });
 
     it('with empty folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderName)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+            .then(() => dataTable.clickOnItemName(folderName)
                 .then(() => editButton.click())
                 .then(() => {
                     editDialog.deleteNameWithBackspace();
@@ -142,8 +142,8 @@ describe('Edit folder', () => {
     it('with name with special characters', () => {
         const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderName)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+            .then(() => dataTable.clickOnItemName(folderName)
                 .then(() => editButton.click())
                 .then(() => {
                     namesWithSpecialChars.forEach(name => {
@@ -157,8 +157,8 @@ describe('Edit folder', () => {
     });
 
     it('with name ending with a dot', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderName)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+            .then(() => dataTable.clickOnItemName(folderName)
                 .then(() => editButton.click())
                 .then(() => editDialog.nameInput.sendKeys('.'))
                 .then(() => {
@@ -169,8 +169,8 @@ describe('Edit folder', () => {
     });
 
     it('Cancel button', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderName)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+            .then(() => dataTable.clickOnItemName(folderName)
                 .then(() => editButton.click())
                 .then(() => editDialog.clickCancel())
                 .then(() => {
@@ -180,8 +180,8 @@ describe('Edit folder', () => {
     });
 
     it('with duplicate folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderName)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+            .then(() => dataTable.clickOnItemName(folderName)
                 .then(() => editButton.click())
                 .then(() => editDialog.enterName(duplicateFolderName).clickUpdate())
                 .then(() => {
@@ -195,8 +195,8 @@ describe('Edit folder', () => {
     });
 
     it('trim ending spaces', () => {
-        personalFilesPage.dataTable.doubleClickOnRowByContainingText(parent)
-            .then(() => dataTable.clickOnRowByContainingText(folderName)
+        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+            .then(() => dataTable.clickOnItemName(folderName)
                 .then(() => editButton.click())
                 .then(() => editDialog.nameInput.sendKeys('   '))
                 .then(() => editDialog.clickUpdate())

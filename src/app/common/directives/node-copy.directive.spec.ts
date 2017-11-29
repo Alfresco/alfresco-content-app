@@ -92,7 +92,7 @@ describe('NodeCopyDirective', () => {
 
             expect(service.copyNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -112,7 +112,7 @@ describe('NodeCopyDirective', () => {
 
             expect(service.copyNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.PLURAL', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_COPY.PLURAL', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -131,7 +131,7 @@ describe('NodeCopyDirective', () => {
 
             expect(service.copyNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -152,7 +152,7 @@ describe('NodeCopyDirective', () => {
 
             expect(service.copyNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -255,7 +255,7 @@ describe('NodeCopyDirective', () => {
 
             expect(service.copyNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000
             );
 
             expect(nodesApiService.deleteNode).toHaveBeenCalledWith(createdItems[0].entry.id, { permanent: true });
@@ -279,7 +279,7 @@ describe('NodeCopyDirective', () => {
 
             expect(service.copyNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.PLURAL', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_COPY.PLURAL', 'APP.ACTIONS.UNDO', 10000
             );
 
             expect(spyOnDeleteNode).toHaveBeenCalled();
@@ -300,7 +300,7 @@ describe('NodeCopyDirective', () => {
             expect(service.copyNodes).toHaveBeenCalled();
             expect(nodesApiService.deleteNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction['calls'].allArgs())
-            .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'Undo', 10000],
+            .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000],
                 ['APP.MESSAGES.ERRORS.GENERIC', '', 3000]]);
         });
 
@@ -317,7 +317,7 @@ describe('NodeCopyDirective', () => {
             expect(service.copyNodes).toHaveBeenCalled();
             expect(nodesApiService.deleteNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction['calls'].allArgs())
-            .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'Undo', 10000],
+            .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000],
                 ['APP.MESSAGES.ERRORS.GENERIC', '', 3000]]);
         });
 
@@ -334,7 +334,7 @@ describe('NodeCopyDirective', () => {
             expect(service.copyNodes).toHaveBeenCalled();
             expect(nodesApiService.deleteNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction['calls'].allArgs())
-            .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'Undo', 10000],
+            .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000],
                 ['APP.MESSAGES.ERRORS.PERMISSION', '', 3000]]);
         });
     });

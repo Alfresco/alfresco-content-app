@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs/Rx';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -36,8 +37,9 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
 
     constructor(
         private router: Router,
-        private content: ContentManagementService) {
-        super();
+        private content: ContentManagementService,
+        preferences: UserPreferencesService) {
+        super(preferences);
     }
 
     ngOnInit() {

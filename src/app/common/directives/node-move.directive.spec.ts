@@ -107,7 +107,7 @@ describe('NodeMoveDirective', () => {
 
             expect(service.moveNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -132,7 +132,7 @@ describe('NodeMoveDirective', () => {
 
             expect(service.moveNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.PLURAL', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_MOVE.PLURAL', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -155,7 +155,7 @@ describe('NodeMoveDirective', () => {
 
             expect(service.moveNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -180,7 +180,7 @@ describe('NodeMoveDirective', () => {
 
             expect(service.moveNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -204,7 +204,7 @@ describe('NodeMoveDirective', () => {
 
             expect(service.moveNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -228,7 +228,7 @@ describe('NodeMoveDirective', () => {
 
             expect(service.moveNodes).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR', 'Undo', 10000
+                'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR', 'APP.ACTIONS.UNDO', 10000
             );
         });
 
@@ -348,7 +348,7 @@ describe('NodeMoveDirective', () => {
             expect(service.moveNodeAction)
                 .toHaveBeenCalledWith(movedItems.succeeded[0].itemMoved.entry, movedItems.succeeded[0].initialParentId);
             expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
         });
 
         it('should move node back to initial parent, after succeeded move of a single file', () => {
@@ -370,7 +370,7 @@ describe('NodeMoveDirective', () => {
 
             expect(service.moveNodeAction).toHaveBeenCalledWith(node.entry, initialParent);
             expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
         });
 
         it('should restore deleted folder back to initial parent, after succeeded moving all its files', () => {
@@ -396,7 +396,7 @@ describe('NodeMoveDirective', () => {
 
             expect(nodesApiService.restoreNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
         });
 
         it('should notify when error occurs on Undo Move action', () => {
@@ -422,7 +422,7 @@ describe('NodeMoveDirective', () => {
 
             expect(nodesApiService.restoreNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
             expect(notificationService.openSnackMessage)
                 .toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC', 3000);
         });
@@ -449,7 +449,7 @@ describe('NodeMoveDirective', () => {
 
             expect(nodesApiService.restoreNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
             expect(notificationService.openSnackMessage)
                 .toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC', 3000);
         });
@@ -477,7 +477,7 @@ describe('NodeMoveDirective', () => {
             expect(service.moveNodes).toHaveBeenCalled();
             expect(nodesApiService.restoreNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'Undo', 10000);
+                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
             expect(notificationService.openSnackMessage)
                 .toHaveBeenCalledWith('APP.MESSAGES.ERRORS.PERMISSION', 3000);
         });

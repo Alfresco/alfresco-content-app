@@ -7,6 +7,9 @@ const jasmineReporters = require('jasmine-reporters');
 
 const projectRoot = path.resolve(__dirname);
 
+const width = 1366;
+const height = 768;
+
 exports.config = {
     allScriptsTimeout: 11000,
 
@@ -54,6 +57,8 @@ exports.config = {
         require('ts-node').register({
             project: 'e2e/tsconfig.e2e.json'
         });
+
+        browser.manage().window().setSize(width, height);
 
         jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
 

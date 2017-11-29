@@ -1,4 +1,4 @@
-@import '../_variables.scss';
+@import '../variables';
 
 adf-document-list {
     display: flex;
@@ -23,6 +23,10 @@ adf-document-list {
 
     th, td {
         color: $alfresco-secondary-text-color;
+    }
+
+    th.adf-data-table-cell--text:nth-child(n+3) {
+        text-align: center;
     }
 
     th, tr, td {
@@ -96,7 +100,7 @@ adf-document-list {
             color: $alfresco-primary-text-color;
 
             &:hover {
-                color: $alfresco-app-color--default;
+                color: #2196F3;
                 text-decoration: underline;
             }
         }

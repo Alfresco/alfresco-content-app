@@ -17,8 +17,8 @@
 
 import { Component, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NodesApiService } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
+import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
 
 import { PageComponent } from '../page.component';
 
@@ -33,8 +33,9 @@ export class LibrariesComponent extends PageComponent {
     constructor(
         private nodesApi: NodesApiService,
         private route: ActivatedRoute,
-        private router: Router) {
-        super();
+        private router: Router,
+        preferences: UserPreferencesService) {
+        super(preferences);
     }
 
     makeLibraryTooltip(library: any): string {
@@ -44,13 +45,15 @@ export class LibrariesComponent extends PageComponent {
     }
 
     makeLibraryTitle(library: any): string {
+        const rows = this.documentList.data.getRows();
+        const entries  = rows.map((r: ShareDataRow) => r.node.entry);
         const { title, id } = library;
-        const { entries } = this.documentList.data.page.list;
+
         let isDuplicate = false;
 
         if (entries) {
             isDuplicate = entries
-                .some(({ entry }: any) => {
+                .some((entry: any) => {
                     return (entry.id !== id && entry.title === title);
                 });
         }

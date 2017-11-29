@@ -52,6 +52,12 @@ export class FavoritesApi extends RepoApi {
             .catch(this.handleError);
     }
 
+    addFavoritesByIds(nodeType: string, ids: string[]): Promise<any[]> {
+        return ids.reduce((previous, current) => (
+            previous.then(() => this.addFavoriteById(nodeType, current))
+        ), Promise.resolve());
+    }
+
     getFavorite(api: RepoClient, name: string): Promise<any> {
         return api.nodes.getNodeByPath(name)
             .then((response) => {

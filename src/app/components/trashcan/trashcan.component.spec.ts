@@ -20,11 +20,13 @@ import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 import { TrashcanComponent } from './trashcan.component';
 import { CommonModule } from '../../common/common.module';
 import { LocationLinkComponent } from '../location-link/location-link.component';
+import { ContentManagementService } from '../../common/services/content-management.service';
 
 describe('TrashcanComponent', () => {
     let fixture;
     let component;
     let alfrescoApi: AlfrescoApiService;
+    let contentService: ContentManagementService;
     let page;
 
     beforeEach(() => {
@@ -45,6 +47,9 @@ describe('TrashcanComponent', () => {
             declarations: [
                 LocationLinkComponent,
                 TrashcanComponent
+            ],
+            providers: [
+                ContentManagementService
             ]
         })
         .compileComponents()
@@ -53,6 +58,7 @@ describe('TrashcanComponent', () => {
             component = fixture.componentInstance;
 
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            contentService = TestBed.get(ContentManagementService);
 
             component.documentList = {
                 loadTrashcan:  jasmine.createSpy('loadTrashcan'),
@@ -63,6 +69,17 @@ describe('TrashcanComponent', () => {
 
     beforeEach(() => {
         spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve(page));
+    });
+
+    describe('onRestoreNode()', () => {
+        it('should call refresh()', () => {
+            spyOn(component, 'refresh');
+            fixture.detectChanges();
+
+            contentService.restoreNode.next();
+
+            expect(component.refresh).toHaveBeenCalled();
+        });
     });
 
     describe('refresh()', () => {
