@@ -1,7 +1,11 @@
 {
   "APP": {
+    "LANGUAGE": "Idioma",
     "SIGN_IN": "Iniciar sesión",
     "SIGN_OUT": "Cerrar sesión",
+    "PREVIEW": {
+      "TITLE": "Vista previa"
+    },
     "NEW_MENU": {
       "LABEL": "Nuevo",
       "MENU_ITEMS": {
@@ -31,6 +35,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Bibliotecas de ficheros",
           "TOOLTIP": "Acceder a las bibliotecas de ficheros"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "No es miembro de ninguna biblioteca de ficheros todavía",
+          "TEXT": "Únase a los sitios para cargar, ver y compartir ficheros."
         }
       },
       "SHARED": {
@@ -38,6 +46,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Compartido",
           "TOOLTIP": "Ver ficheros que se hayan compartido"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "No hay carpetas ni ficheros compartidos",
+          "TEXT": "Los elementos que comparta con la opción Compartir se muestran aquí."
         }
       },
       "RECENT": {
@@ -45,6 +57,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Ficheros recientes",
           "TOOLTIP": "Ver ficheros que ha editado recientemente"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "No hay ficheros recientes",
+          "TEXT": "Los elementos que cargue o edite en los últimos 30 días se muestran aquí."
         }
       },
       "FAVORITES": {
@@ -52,6 +68,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Favoritos",
           "TOOLTIP": "Ver sus ficheros y carpetas favoritos"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "No hay ficheros ni carpetas favoritos",
+          "TEXT": "Lo elementos favoritos que quiera encontrar fácilmente después."
         }
       },
       "TRASHCAN": {
@@ -59,17 +79,25 @@
         "SIDENAV_LINK": {
           "LABEL": "Papelera",
           "TOOLTIP": "Ver ficheros eliminados en la papelera"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "La papelera está vacía",
+          "FIRST_TEXT": "Los elementos que elimine se mueven a la papelera.",
+          "SECOND_TEXT": "Vacíe la papelera para eliminar los elementos permanentemente."
         }
+      },
+      "ABOUT": {
+        "TITLE": "Acerca de"
       }
     },
     "ACTIONS": {
       "VIEW": "Ver",
-      "SHARE": "Compartir",
       "EDIT": "Editar",
       "DOWNLOAD": "Descargar",
       "COPY": "Copiar",
       "MOVE": "Mover",
       "DELETE": "Eliminar",
+      "DELETE_PERMANENT": "Eliminar permanentemente",
       "MORE": "Más acciones",
       "UNDO": "Deshacer",
       "RESTORE": "Restaurar",
@@ -154,13 +182,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementos no se han podido eliminar",
-            "SINGULAR": "El elemento {{ name }} no se ha podido eliminar"
+            "SINGULAR": "{{ name }} no se ha podido eliminar"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} elementos no se han restaurado debido a problemas con la ubicación de restauración",
-            "NODE_EXISTS": "Error en la restauración, el elemento {{ name }} ya existe",
-            "LOCATION_MISSING": "No se ha podido restaurar el elemento {{ name }}, la ubicación original ya no existe",
-            "GENERIC": "Error al restaurar el elemento {{ name }}"
+            "NODE_EXISTS": "Error en la restauración, {{ name }} ya existe",
+            "LOCATION_MISSING": "No se ha podido restaurar {{ name }}, la ubicación original ya no existe",
+            "GENERIC": "Error al restaurar {{ name }}"
           }
         }
       },
@@ -168,13 +196,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementos eliminados",
-            "SINGULAR": "Elemento {{ name }} eliminado",
-            "PARTIAL_SINGULAR": "Elemento {{ name }} eliminado, {{ failed }} no se ha podido eliminar",
+            "SINGULAR": "{{ name }} eliminado",
+            "PARTIAL_SINGULAR": "{{ name }} eliminado, {{ failed }} no se ha podido eliminar",
             "PARTIAL_PLURAL": "{{ number }} elementos eliminados, {{ failed }} no se ha podido eliminar"
           },
           "NODES_RESTORE": {
             "PLURAL": "Restauración satisfactoria",
-            "SINGULAR": "Elemento {{ name }} restaurado"
+            "SINGULAR": "{{ name }} restaurado"
           }
         },
         "NODE_DELETION": {
@@ -184,8 +212,12 @@
           "PARTIAL_PLURAL": "Se han eliminado {{ success }} elementos, {{ failed }} no se han podido eliminar"
         },
         "NODE_COPY": {
-          "SINGULAR": "Se ha copiado {{ success }} elemento",
-          "PLURAL": "Se han copiado {{ success }} elementos"
+          "SINGULAR": "Se ha copiado el elemento {{ success }}",
+          "PLURAL": "Se han copiado los elementos {{ success }}",
+          "PARTIAL_SINGULAR": "Se ha copiado el elemento {{ success }}, {{ failed }} no se ha podido copiar.",
+          "PARTIAL_PLURAL": "Se han copiado los elementos {{ success }}, {{ failed }} no se han podido copiar.",
+          "FAIL_SINGULAR": "El elemento {{ failed }} no se ha podido copiar.",
+          "FAIL_PLURAL": "Los elementos {{ failed }} no se han podido copiar."
         },
         "NODE_MOVE": {
           "SINGULAR": "Se ha movido {{ success }} elemento.",
