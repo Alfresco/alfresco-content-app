@@ -78,7 +78,7 @@ describe('Permanently delete from Trash', () => {
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
                 expect(text).toBe(`${file1} deleted`);
-                expect(dataTable.getRowByContainingText(file1).isPresent()).toBe(false, 'Item was not deleted');
+                expect(dataTable.getRowByName(file1).isPresent()).toBe(false, 'Item was not deleted');
             });
     });
 
@@ -88,7 +88,7 @@ describe('Permanently delete from Trash', () => {
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
                 expect(text).toBe(`${folder1} deleted`);
-                expect(dataTable.getRowByContainingText(folder1).isPresent()).toBe(false, 'Item was not deleted');
+                expect(dataTable.getRowByName(folder1).isPresent()).toBe(false, 'Item was not deleted');
             });
     });
 
@@ -98,8 +98,8 @@ describe('Permanently delete from Trash', () => {
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
                 expect(text).toBe(`2 items deleted`);
-                expect(dataTable.getRowByContainingText(file2).isPresent()).toBe(false, 'Item was not deleted');
-                expect(dataTable.getRowByContainingText(folder2).isPresent()).toBe(false, 'Item was not deleted');
+                expect(dataTable.getRowByName(file2).isPresent()).toBe(false, 'Item was not deleted');
+                expect(dataTable.getRowByName(folder2).isPresent()).toBe(false, 'Item was not deleted');
             });
     });
 });

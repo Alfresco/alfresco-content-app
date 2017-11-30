@@ -84,9 +84,9 @@ describe('Favorites', () => {
 
     it('displays the favorite files and folders', () => {
         expect(dataTable.countRows()).toEqual(3, 'Incorrect number of items displayed');
-        expect(dataTable.getRowByContainingText(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
-        expect(dataTable.getRowByContainingText(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
-        expect(dataTable.getRowByContainingText(folderName).isPresent()).toBe(true, `${folderName} not displayed`);
+        expect(dataTable.getRowByName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
+        expect(dataTable.getRowByName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
+        expect(dataTable.getRowByName(folderName).isPresent()).toBe(true, `${folderName} not displayed`);
     });
 
     it('Location column displays the parent folder of the files', () => {

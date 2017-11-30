@@ -34,7 +34,6 @@ export class DataTable extends Component {
         row: 'tr',
         selectedRow: 'tr.is-selected',
         cell: 'td',
-        nameCell: 'td.app-name-column',
 
         emptyListContainer: 'td.adf-no-content-container',
         emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
@@ -104,9 +103,8 @@ export class DataTable extends Component {
         return this.getRows().get(nth - 1);
     }
 
-    getRowByContainingText(text: string): ElementFinder {
-        const locator = by.cssContainingText(DataTable.selectors.row, text);
-        return this.body.element(locator);
+    getRowByName(name: string): ElementFinder {
+        return this.body.element(by.css(`adf-datatable-cell [title="${name}"]`));
     }
 
     countRows(): promise.Promise<number> {
@@ -115,22 +113,23 @@ export class DataTable extends Component {
 
     // Navigation/selection methods
     doubleClickOnItemName(name: string): promise.Promise<void> {
-        const locator = by.cssContainingText(DataTable.selectors.nameCell, name);
-        const dblClick = browser.actions().mouseMove(this.body.element(locator)).click().click();
+        const dblClick = browser.actions()
+            .mouseMove(this.getRowByName(name))
+            .click()
+            .click();
 
         return dblClick.perform();
     }
 
     clickOnItemName(name: string): promise.Promise<void> {
-        const locator = by.cssContainingText(DataTable.selectors.nameCell, name);
-        return this.body.element(locator).click();
+        return this.getRowByName(name).click();
     }
 
     selectMultipleItems(names: string[]): promise.Promise<void> {
         return browser.actions().sendKeys(protractor.Key.COMMAND).perform()
             .then(() => {
                 names.forEach(name => {
-                    this.getRowByContainingText(name).click();
+                    this.clickOnItemName(name);
                 });
             })
             .then(() => browser.actions().sendKeys(protractor.Key.NULL).perform());
