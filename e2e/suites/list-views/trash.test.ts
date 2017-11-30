@@ -114,11 +114,11 @@ describe('Trash', () => {
         it('displays the files and folders deleted by everyone', () => {
             expect(dataTable.countRows()).toEqual(5, 'Incorrect number of deleted items displayed');
 
-            expect(dataTable.getRowByContainingText(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
-            expect(dataTable.getRowByContainingText(folderAdmin).isPresent()).toBe(true, `${folderAdmin} not displayed`);
-            expect(dataTable.getRowByContainingText(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
-            expect(dataTable.getRowByContainingText(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
-            expect(dataTable.getRowByContainingText(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
+            expect(dataTable.getRowByName(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
+            expect(dataTable.getRowByName(folderAdmin).isPresent()).toBe(true, `${folderAdmin} not displayed`);
+            expect(dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
+            expect(dataTable.getRowByName(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
+            expect(dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
         });
     });
 
@@ -149,9 +149,9 @@ describe('Trash', () => {
         it('displays the files and folders deleted by the user', () => {
             expect(dataTable.countRows()).toEqual(3, 'Incorrect number of deleted items displayed');
 
-            expect(dataTable.getRowByContainingText(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
-            expect(dataTable.getRowByContainingText(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
-            expect(dataTable.getRowByContainingText(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
+            expect(dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
+            expect(dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
+            expect(dataTable.getRowByName(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
         });
     });
 });

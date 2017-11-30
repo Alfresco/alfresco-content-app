@@ -97,7 +97,7 @@ describe('File Libraries', () => {
         };
 
         expect(sitesCount).toEqual(3, 'Incorrect number of sites displayed');
-        expect(dataTable.getRowByContainingText(adminSite).isPresent()).toBe(false, 'Incorrect site appears in list');
+        expect(dataTable.getRowByName(adminSite).isPresent()).toBe(false, 'Incorrect site appears in list');
 
         dataTable.getRows()
             .map((row) => {

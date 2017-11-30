@@ -11,14 +11,14 @@ const width = 1366;
 const height = 768;
 
 exports.config = {
-    allScriptsTimeout: 11000,
+    allScriptsTimeout: 30000,
 
     specs: [
         './e2e/suites/authentication/*.test.ts',
         './e2e/suites/list-views/*.test.ts',
         './e2e/suites/application/page-titles.test.ts',
         './e2e/suites/navigation/side-navigation.test.ts',
-        './e2e/suites/pagination/pagination.test.ts',
+        './e2e/suites/pagination/*.test.ts',
         './e2e/suites/actions/*.test.ts'
     ],
 
@@ -38,7 +38,7 @@ exports.config = {
     framework: 'jasmine2',
     jasmineNodeOpts: {
         showColors: true,
-        defaultTimeoutInterval: 30000,
+        defaultTimeoutInterval: 50000,
         print: function() {}
     },
 

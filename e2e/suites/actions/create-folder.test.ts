@@ -104,7 +104,7 @@ describe('Create folder', () => {
                 .then(() => createDialog.waitForDialogToClose())
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
-                    const isPresent = dataTable.getRowByContainingText(folderName1).isPresent();
+                    const isPresent = dataTable.getRowByName(folderName1).isPresent();
                     expect(isPresent).toBe(true, 'Folder not displayed in list view');
                 })
             );
@@ -122,7 +122,7 @@ describe('Create folder', () => {
                 .then(() => createDialog.waitForDialogToClose())
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
-                    const isPresent = dataTable.getRowByContainingText(folderName2).isPresent();
+                    const isPresent = dataTable.getRowByName(folderName2).isPresent();
                     expect(isPresent).toBe(true, 'Folder not displayed in list view');
                 })
                 .then(() => {
@@ -293,7 +293,7 @@ describe('Create folder', () => {
                 .then(() => createDialog.waitForDialogToClose())
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
-                    const isPresent = dataTable.getRowByContainingText(nameWithSpaces.trim()).isPresent();
+                    const isPresent = dataTable.getRowByName(nameWithSpaces.trim()).isPresent();
                     expect(isPresent).toBe(true, 'Folder not displayed in list view');
                 })
             );

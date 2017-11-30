@@ -1,7 +1,7 @@
 export const BROWSER_RESOLUTION_WIDTH = 1200;
 export const BROWSER_RESOLUTION_HEIGHT = 800;
 
-export const BROWSER_WAIT_TIMEOUT = 10000;
+export const BROWSER_WAIT_TIMEOUT = 20000;
 
 // Application configs
 export const APP_HOST = 'http://localhost:3000';

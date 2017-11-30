@@ -113,7 +113,7 @@ describe('Edit folder', () => {
                 .then(() => editDialog.waitForDialogToClose())
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
-                    const isPresent = dataTable.getRowByContainingText(folderNameEdited).isPresent();
+                    const isPresent = dataTable.getRowByName(folderNameEdited).isPresent();
                     expect(isPresent).toBe(true, 'Folder not displayed in list view');
                 })
                 .then(() => {
@@ -203,7 +203,7 @@ describe('Edit folder', () => {
                 .then(() => editDialog.waitForDialogToClose())
                 .then(() => {
                     expect(personalFilesPage.snackBar.isPresent()).not.toBe(true, 'notification appears');
-                    expect(dataTable.getRowByContainingText(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
+                    expect(dataTable.getRowByName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
                 })
             );
     });
