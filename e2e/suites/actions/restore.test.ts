@@ -83,12 +83,12 @@ describe('Restore from Trash', () => {
             .then(text => {
                 expect(text).toContain(`${file1} restored`);
                 expect(text).toContain(`View`);
-                expect(dataTable.getRowByContainingText(file1).isPresent()).toBe(false, 'Item was not removed from list');
+                expect(dataTable.getRowByName(file1).isPresent()).toBe(false, 'Item was not removed from list');
             })
             .then(() => personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
             .then(() => personalFilesPage.dataTable.waitForHeader())
             .then(() => {
-                expect(personalFilesPage.dataTable.getRowByContainingText(file1).isPresent()).toBe(true, 'Item not displayed in list');
+                expect(personalFilesPage.dataTable.getRowByName(file1).isPresent()).toBe(true, 'Item not displayed in list');
             });
     });
 
@@ -99,12 +99,12 @@ describe('Restore from Trash', () => {
             .then(text => {
                 expect(text).toContain(`${folder1} restored`);
                 expect(text).toContain(`View`);
-                expect(dataTable.getRowByContainingText(folder1).isPresent()).toBe(false, 'Item was not removed from list');
+                expect(dataTable.getRowByName(folder1).isPresent()).toBe(false, 'Item was not removed from list');
             })
             .then(() => personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
             .then(() => personalFilesPage.dataTable.waitForHeader())
             .then(() => {
-                expect(personalFilesPage.dataTable.getRowByContainingText(folder1).isPresent()).toBe(true, 'Item not displayed in list');
+                expect(personalFilesPage.dataTable.getRowByName(folder1).isPresent()).toBe(true, 'Item not displayed in list');
             });
     });
 
@@ -115,14 +115,14 @@ describe('Restore from Trash', () => {
             .then(text => {
                 expect(text).toContain(`Restore successful`);
                 expect(text).not.toContain(`View`);
-                expect(dataTable.getRowByContainingText(file2).isPresent()).toBe(false, 'Item was not removed from list');
-                expect(dataTable.getRowByContainingText(folder2).isPresent()).toBe(false, 'Item was not removed from list');
+                expect(dataTable.getRowByName(file2).isPresent()).toBe(false, 'Item was not removed from list');
+                expect(dataTable.getRowByName(folder2).isPresent()).toBe(false, 'Item was not removed from list');
             })
             .then(() => personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
             .then(() => personalFilesPage.dataTable.waitForHeader())
             .then(() => {
-                expect(personalFilesPage.dataTable.getRowByContainingText(file2).isPresent()).toBe(true, 'Item not displayed in list');
-                expect(personalFilesPage.dataTable.getRowByContainingText(folder2).isPresent()).toBe(true, 'Item not displayed in list');
+                expect(personalFilesPage.dataTable.getRowByName(file2).isPresent()).toBe(true, 'Item not displayed in list');
+                expect(personalFilesPage.dataTable.getRowByName(folder2).isPresent()).toBe(true, 'Item not displayed in list');
             });
     });
 

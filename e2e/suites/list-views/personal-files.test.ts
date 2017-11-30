@@ -82,11 +82,11 @@ describe('Personal Files', () => {
         });
 
         it('has "Data Dictionary" folder', () => {
-            expect(dataTable.getRowByContainingText('Data Dictionary').isPresent()).toBe(true);
+            expect(dataTable.getRowByName('Data Dictionary').isPresent()).toBe(true);
         });
 
         it('has created content', () => {
-            expect(dataTable.getRowByContainingText('admin-folder').isPresent()).toBe(true);
+            expect(dataTable.getRowByName(adminFolder).isPresent()).toBe(true);
         });
     });
 
@@ -124,7 +124,7 @@ describe('Personal Files', () => {
         });
 
         it('has user created content', () => {
-            expect(dataTable.getRowByContainingText(userFolder).isPresent())
+            expect(dataTable.getRowByName(userFolder).isPresent())
                 .toBe(true);
         });
 
@@ -146,7 +146,7 @@ describe('Personal Files', () => {
                     expect(browser.getCurrentUrl())
                         .toContain(nodeId, 'Node ID is not in the URL');
 
-                    expect(dataTable.getRowByContainingText(userFile).isPresent())
+                    expect(dataTable.getRowByName(userFile).isPresent())
                         .toBe(true, 'user file is missing');
                 });
         });
