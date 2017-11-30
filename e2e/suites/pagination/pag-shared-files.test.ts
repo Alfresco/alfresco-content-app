@@ -70,7 +70,7 @@ describe('Pagination on Shared Files', () => {
             .then(() => dataTable.isEmptyList())
             .then(empty => {
                 if (empty) {
-                    browser.sleep(3000);
+                    browser.sleep(4000);
                     page.refresh();
                 }
             })
