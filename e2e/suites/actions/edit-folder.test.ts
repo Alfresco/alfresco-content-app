@@ -17,7 +17,7 @@
 
 import { protractor, element, browser, by, ElementFinder, promise } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { APP_ROUTES, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import { SIDEBAR_LABELS, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { Utils } from '../../utilities/utils';
@@ -44,42 +44,40 @@ describe('Edit folder', () => {
 
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
-    const personalFilesPage = new BrowsingPage(APP_ROUTES.PERSONAL_FILES);
+    const personalFilesPage = new BrowsingPage();
     const editDialog = new CreateOrEditFolderDialog();
-    const dataTable = personalFilesPage.dataTable;
+    const { dataTable } = personalFilesPage;
     const editButton = personalFilesPage.toolbar.actions.getButtonByTitleAttribute('Edit');
 
     beforeAll(done => {
-        Promise
-            .all([
-                apis.admin.people.createUser(username),
-                apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE)
-                    .then(() => apis.admin.nodes.createFolders([ folderName ], `Sites/${siteName}/documentLibrary`))
-            ])
+        apis.admin.people.createUser(username)
+            .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE))
+            .then(() => apis.admin.nodes.createFolders([ folderName ], `Sites/${siteName}/documentLibrary`))
             .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
-            .then(() => Promise.all([
-                apis.user.nodes.createNodeWithProperties( folderName, '', folderDescription, parent ),
-                apis.user.nodes.createFolders([ folderNameToEdit, duplicateFolderName ], parent)
-            ]))
-            .then(() => loginPage.load()
-                .then(() => loginPage.loginWith(username))
-                .then(done));
+
+            .then(() => apis.user.nodes.createNodeWithProperties( folderName, '', folderDescription, parent ))
+            .then(() => apis.user.nodes.createFolders([ folderNameToEdit, duplicateFolderName ], parent))
+            .then(() => loginPage.load())
+            .then(() => loginPage.loginWith(username))
+            .then(done);
     });
 
     beforeEach(done => {
-        personalFilesPage.load()
+        personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
+            .then(() => dataTable.waitForHeader())
+            .then(() => dataTable.doubleClickOnItemName(parent))
             .then(() => dataTable.waitForHeader())
             .then(done);
     });
 
     afterEach(done => {
-        browser.$('body').sendKeys(protractor.Key.ESCAPE).then(done);
+        browser.actions().sendKeys(protractor.Key.ESCAPE).perform().then(done);
     });
 
     afterAll(done => {
         Promise
             .all([
-                apis.admin.sites.deleteSite(siteName, true),
+                apis.admin.sites.deleteSite(siteName),
                 apis.user.nodes.deleteNodes([ parent ]),
                 logoutPage.load()
             ])
@@ -87,124 +85,98 @@ describe('Edit folder', () => {
     });
 
     it('dialog UI defaults', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
-            .then(() => dataTable.clickOnItemName(folderName)
-                .then(() => editButton.click())
-                .then(() => {
-                    expect(editDialog.getTitle()).toBe('Edit folder');
-                    expect(editDialog.nameInput.getWebElement().getAttribute('value')).toBe(folderName);
-                    expect(editDialog.descriptionTextArea.getWebElement().getAttribute('value')).toBe(folderDescription);
-                    expect(editDialog.updateButton.getWebElement().isEnabled()).toBe(true, 'upload button is not enabled');
-                    expect(editDialog.cancelButton.getWebElement().isEnabled()).toBe(true, 'cancel button is not enabled');
-                })
-            );
+        dataTable.clickOnItemName(folderName)
+            .then(() => editButton.click())
+            .then(() => {
+                expect(editDialog.getTitle()).toEqual('Edit folder');
+                expect(editDialog.nameInput.getAttribute('value')).toBe(folderName);
+                expect(editDialog.descriptionTextArea.getAttribute('value')).toBe(folderDescription);
+                expect(editDialog.updateButton.isEnabled()).toBe(true, 'upload button is not enabled');
+                expect(editDialog.cancelButton.isEnabled()).toBe(true, 'cancel button is not enabled');
+            });
     });
 
     it('properties are modified when pressing OK', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
-            .then(() => dataTable.clickOnItemName(folderNameToEdit)
-                .then(() => editButton.click())
-                .then(() => {
-                    editDialog
-                        .enterName(folderNameEdited)
-                        .enterDescription(folderDescriptionEdited)
-                        .clickUpdate();
-                })
-                .then(() => editDialog.waitForDialogToClose())
-                .then(() => dataTable.waitForHeader())
-                .then(() => {
-                    const isPresent = dataTable.getRowByName(folderNameEdited).isPresent();
-                    expect(isPresent).toBe(true, 'Folder not displayed in list view');
-                })
-                .then(() => {
-                    apis.user.nodes.getNodeDescription(folderNameEdited)
-                        .then((description) => {
-                            expect(description).toEqual(folderDescriptionEdited);
-                        });
-                })
-            );
+        dataTable.clickOnItemName(folderNameToEdit)
+            .then(() => editButton.click())
+            .then(() => editDialog.waitForDialogToOpen())
+            .then(() => editDialog.enterName(folderNameEdited))
+            .then(() => editDialog.enterDescription(folderDescriptionEdited))
+            .then(() => editDialog.clickUpdate())
+            .then(() => editDialog.waitForDialogToClose())
+            .then(() => dataTable.waitForHeader())
+            .then(() => {
+                const isPresent = dataTable.getRowByName(folderNameEdited).isPresent();
+                expect(isPresent).toBe(true, 'Folder not displayed in list view');
+            })
+            .then(() => {
+                expect(apis.user.nodes.getNodeDescription(folderNameEdited)).toEqual(folderDescriptionEdited);
+            });
     });
 
     it('with empty folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
-            .then(() => dataTable.clickOnItemName(folderName)
-                .then(() => editButton.click())
-                .then(() => {
-                    editDialog.deleteNameWithBackspace();
-                })
-                .then(() => {
-                    expect(editDialog.updateButton.getWebElement().isEnabled()).toBe(false, 'upload button is not enabled');
-                    expect(editDialog.getValidationMessage()).toMatch('Folder name is required');
-                })
-            );
+        dataTable.clickOnItemName(folderName)
+            .then(() => editButton.click())
+            .then(() => editDialog.deleteNameWithBackspace())
+            .then(() => {
+                expect(editDialog.updateButton.isEnabled()).toBe(false, 'upload button is not enabled');
+                expect(editDialog.getValidationMessage()).toMatch('Folder name is required');
+            });
     });
 
     it('with name with special characters', () => {
         const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
-            .then(() => dataTable.clickOnItemName(folderName)
-                .then(() => editButton.click())
-                .then(() => {
-                    namesWithSpecialChars.forEach(name => {
-                        editDialog.enterName(name);
+        dataTable.clickOnItemName(folderName)
+            .then(() => editButton.click())
+            .then(() => namesWithSpecialChars.forEach(name => {
+                editDialog.enterName(name);
 
-                        expect(editDialog.updateButton.getWebElement().isEnabled()).toBe(false, 'upload button is not disabled');
-                        expect(editDialog.getValidationMessage()).toContain(`Folder name can't contain these characters`);
-                    });
-                })
-            );
+                expect(editDialog.updateButton.isEnabled()).toBe(false, 'upload button is not disabled');
+                expect(editDialog.getValidationMessage()).toContain(`Folder name can't contain these characters`);
+            }));
     });
 
     it('with name ending with a dot', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
-            .then(() => dataTable.clickOnItemName(folderName)
-                .then(() => editButton.click())
-                .then(() => editDialog.nameInput.sendKeys('.'))
-                .then(() => {
-                    expect(editDialog.updateButton.getWebElement().isEnabled()).toBe(false, 'upload button is not enabled');
-                    expect(editDialog.getValidationMessage()).toMatch(`Folder name can't end with a period .`);
-                })
-            );
+        dataTable.clickOnItemName(folderName)
+            .then(() => editButton.click())
+            .then(() => editDialog.nameInput.sendKeys('.'))
+            .then(() => {
+                expect(editDialog.updateButton.isEnabled()).toBe(false, 'upload button is not enabled');
+                expect(editDialog.getValidationMessage()).toMatch(`Folder name can't end with a period .`);
+            });
     });
 
     it('Cancel button', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
-            .then(() => dataTable.clickOnItemName(folderName)
-                .then(() => editButton.click())
-                .then(() => editDialog.clickCancel())
-                .then(() => {
-                    expect(editDialog.component.isPresent()).not.toBe(true, 'dialog is not closed');
-                })
-            );
+        dataTable.clickOnItemName(folderName)
+            .then(() => editButton.click())
+            .then(() => editDialog.clickCancel())
+            .then(() => {
+                expect(editDialog.component.isPresent()).not.toBe(true, 'dialog is not closed');
+            });
     });
 
     it('with duplicate folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
-            .then(() => dataTable.clickOnItemName(folderName)
-                .then(() => editButton.click())
-                .then(() => editDialog.enterName(duplicateFolderName).clickUpdate())
-                .then(() => {
-                    personalFilesPage.getSnackBarMessage()
-                        .then(message => {
-                            expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
-                            expect(editDialog.component.isPresent()).toBe(true, 'dialog is not present');
-                        });
-                })
-            );
+        dataTable.clickOnItemName(folderName)
+            .then(() => editButton.click())
+            .then(() => editDialog.enterName(duplicateFolderName))
+            .then(() => editDialog.clickUpdate())
+            .then(() => personalFilesPage.getSnackBarMessage())
+            .then(message => {
+                expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
+                expect(editDialog.component.isPresent()).toBe(true, 'dialog is not present');
+            });
     });
 
     it('trim ending spaces', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
-            .then(() => dataTable.clickOnItemName(folderName)
-                .then(() => editButton.click())
-                .then(() => editDialog.nameInput.sendKeys('   '))
-                .then(() => editDialog.clickUpdate())
-                .then(() => editDialog.waitForDialogToClose())
-                .then(() => {
-                    expect(personalFilesPage.snackBar.isPresent()).not.toBe(true, 'notification appears');
-                    expect(dataTable.getRowByName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
-                })
-            );
+        dataTable.clickOnItemName(folderName)
+            .then(() => editButton.click())
+            .then(() => editDialog.nameInput.sendKeys('   '))
+            .then(() => editDialog.clickUpdate())
+            .then(() => editDialog.waitForDialogToClose())
+            .then(() => {
+                expect(personalFilesPage.snackBar.isPresent()).not.toBe(true, 'notification appears');
+                expect(dataTable.getRowByName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
+            });
     });
 });

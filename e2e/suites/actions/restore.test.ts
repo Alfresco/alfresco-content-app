@@ -70,7 +70,7 @@ describe('Restore from Trash', () => {
         Promise.all([
             apis.user.nodes.deleteNodesById(filesIds),
             apis.user.nodes.deleteNodesById(foldersIds),
-            apis.user.trashcan.emptyTrash(),
+            apis.admin.trashcan.emptyTrash(),
             logoutPage.load()
         ])
         .then(done);
