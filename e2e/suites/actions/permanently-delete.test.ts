@@ -66,7 +66,7 @@ describe('Permanently delete from Trash', () => {
 
     afterAll(done => {
         Promise.all([
-            apis.user.trashcan.emptyTrash(),
+            apis.admin.trashcan.emptyTrash(),
             logoutPage.load()
         ])
         .then(done);

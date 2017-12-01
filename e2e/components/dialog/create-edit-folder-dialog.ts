@@ -21,11 +21,11 @@ import { Component } from '../component';
 
 export class CreateOrEditFolderDialog extends Component {
     private static selectors = {
-        root: '.mat-dialog-container',
+        root: 'adf-folder-dialog',
 
         title: '.mat-dialog-title',
-        nameInput: '.mat-dialog-container .mat-input-element[placeholder="Name"]',
-        descriptionTextArea: '.mat-dialog-container .mat-input-element[placeholder="Description"]',
+        nameInput: 'input',
+        descriptionTextArea: 'textarea',
         button: '.mat-dialog-actions button',
         validationMessage: '.mat-hint span'
     };
@@ -64,31 +64,25 @@ export class CreateOrEditFolderDialog extends Component {
             .catch(() => '');
     }
 
-    enterName(name: string): CreateOrEditFolderDialog {
-        const { nameInput } = this;
+    enterName(name: string): promise.Promise<CreateOrEditFolderDialog> {
+        return this.nameInput.clear()
+            .then(() => this.nameInput.sendKeys(name))
+            .then(() => this);
+    }
 
-        nameInput.clear();
-        nameInput.sendKeys(name);
-
-        return this;
+    enterDescription(description: string): promise.Promise<CreateOrEditFolderDialog> {
+        return this.descriptionTextArea.clear()
+            .then(() => {
+                browser.actions().click(this.descriptionTextArea).sendKeys(description).perform();
+            })
+            .then(() => this);
     }
 
     deleteNameWithBackspace(): promise.Promise<void> {
-        const { nameInput } = this;
-
-        return nameInput.clear()
+        return this.nameInput.clear()
             .then(() => {
-                return nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
+                return this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
             });
-    }
-
-    enterDescription(description: string): CreateOrEditFolderDialog {
-        const { descriptionTextArea } = this;
-
-        descriptionTextArea.clear();
-        descriptionTextArea.sendKeys(description);
-
-        return this;
     }
 
     clickCreate() {
