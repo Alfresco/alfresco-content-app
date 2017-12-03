@@ -146,7 +146,7 @@ export class DataTable extends Component {
 
     getItemLocation(name: string) {
         const rowLocator = by.cssContainingText(DataTable.selectors.row, name);
-        return this.body.element(rowLocator).element(by.css(DataTable.selectors.locationLink));
+        return this.body.element(rowLocator).element(this.locationLink);
     }
 
     clickItemLocation(name: string) {
