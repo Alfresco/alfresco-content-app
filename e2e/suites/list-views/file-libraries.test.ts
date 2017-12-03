@@ -54,6 +54,7 @@ describe('File Libraries', () => {
             .then(() => apis.admin.sites.addSiteMember(sitePublic, username, SITE_ROLES.SITE_CONSUMER))
             .then(() => apis.admin.sites.addSiteMember(siteModerated, username, SITE_ROLES.SITE_MANAGER))
             .then(() => apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONTRIBUTOR))
+
             .then(() => loginPage.load())
             .then(() => loginPage.loginWith(username))
             .then(done);
@@ -67,10 +68,10 @@ describe('File Libraries', () => {
 
     afterAll(done => {
         Promise.all([
-            apis.admin.sites.deleteSite(sitePublic, true),
-            apis.admin.sites.deleteSite(siteModerated, true),
-            apis.admin.sites.deleteSite(sitePrivate, true),
-            apis.admin.sites.deleteSite(adminSite, true),
+            apis.admin.sites.deleteSite(sitePublic),
+            apis.admin.sites.deleteSite(siteModerated),
+            apis.admin.sites.deleteSite(sitePrivate),
+            apis.admin.sites.deleteSite(adminSite),
             logoutPage.load()
         ])
         .then(done);

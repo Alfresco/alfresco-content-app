@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { ElementFinder, ElementArrayFinder, by } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, promise } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
@@ -33,5 +33,23 @@ export class ToolbarBreadcrumb extends Component {
 
     getNthItem(nth: number): ElementFinder {
         return this.items.get(nth - 1);
+    }
+
+    getItemsCount(): promise.Promise<number> {
+        return this.items.count();
+    }
+
+    getFirstItemName(): promise.Promise<string> {
+        return this.items.get(0).getAttribute('title');
+    }
+
+    getCurrentItem(): promise.Promise<ElementFinder> {
+        return this.getItemsCount()
+            .then(count => this.getNthItem(count));
+    }
+
+    getCurrentItemName(): promise.Promise<string> {
+        return this.getCurrentItem()
+            .then(node => node.getAttribute('title'));
     }
 }
