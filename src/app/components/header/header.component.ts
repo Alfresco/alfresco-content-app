@@ -25,8 +25,7 @@ import { AppConfigService } from '@alfresco/adf-core';
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
-    static ASSETS_PATH = '/assets/images/';
-    static DEFAULT_LOGO = 'alfresco-logo-white.svg';
+    private defaultPath = '/assets/images/alfresco-logo-white.svg';
 
     constructor(private appConfig: AppConfigService) {}
 
@@ -35,6 +34,6 @@ export class HeaderComponent {
     }
 
     get logo() {
-        return `${HeaderComponent.ASSETS_PATH}${this.appConfig.get('logo', HeaderComponent.DEFAULT_LOGO)}`;
+        return this.appConfig.get('logo', this.defaultPath);
     }
 }
