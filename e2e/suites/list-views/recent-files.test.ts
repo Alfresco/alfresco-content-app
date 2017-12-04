@@ -22,14 +22,16 @@ import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
-describe('Favorites', () => {
+describe('Recent Files', () => {
     const username = `user-${Utils.random()}`;
     const password = username;
 
-    const siteName = `site-${Utils.random()}`;
     const folderName = `folder-${Utils.random()}`;
+    let folderId;
     const fileName1 = `file-${Utils.random()}.txt`;
+
     const fileName2 = `file-${Utils.random()}.txt`;
+    let file2Id;
 
     const apis = {
         admin: new RepoClient(),
@@ -38,63 +40,66 @@ describe('Favorites', () => {
 
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
-    const favoritesPage = new BrowsingPage();
-    const { dataTable } = favoritesPage;
-    const { breadcrumb } = favoritesPage.toolbar;
+    const recentFilesPage = new BrowsingPage();
+    const { dataTable } = recentFilesPage;
+    const { breadcrumb } = recentFilesPage.toolbar;
 
     beforeAll(done => {
         apis.admin.people.createUser(username)
-            .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
-            .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER))
-            .then(() => apis.admin.nodes.createFiles([ fileName1 ], `Sites/${siteName}/documentLibrary`)
-                .then(resp => apis.user.favorites.addFavoriteById('file', resp.data.entry.id)))
-            .then(() => apis.user.nodes.createFolders([ folderName ])
-                .then(resp => apis.user.favorites.addFavoriteById('folder', resp.data.entry.id)))
-            .then(() => apis.user.nodes.createFiles([ fileName2 ], folderName)
-                .then(resp => apis.user.favorites.addFavoriteById('file', resp.data.entry.id)))
+            .then(() => apis.user.nodes.createFolders([ folderName ]))
+            .then(resp => folderId = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFiles([ fileName1 ], folderName))
+
+            .then(() => apis.user.nodes.createFiles([ fileName2 ]))
+            .then(resp => file2Id = resp.data.entry.id)
+
             .then(() => loginPage.load())
             .then(() => loginPage.loginWith(username))
             .then(done);
     });
 
     beforeEach(done => {
-        favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
+        recentFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
+            .then(() => dataTable.isEmptyList())
+            .then(empty => {
+                if (empty) {
+                    browser.sleep(3000);
+                    recentFilesPage.refresh();
+                }
+            })
             .then(() => dataTable.waitForHeader())
             .then(done);
     });
 
     afterAll(done => {
         Promise.all([
-            apis.admin.sites.deleteSite(siteName),
-            apis.user.nodes.deleteNodes([ folderName ]),
+            apis.user.nodes.deleteNodesById([ folderId, file2Id ]),
             logoutPage.load()
         ])
         .then(done);
     });
 
     it('has the correct columns', () => {
-        const labels = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
+        const labels = [ 'Name', 'Location', 'Size', 'Modified' ];
         const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
-        expect(dataTable.getColumnHeaders().count()).toBe(5 + 1, 'Incorrect number of columns');
+        expect(dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
 
         elements.forEach((element, index) => {
             expect(element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
         });
     });
 
-    it('displays the favorite files and folders', () => {
-        expect(dataTable.countRows()).toEqual(3, 'Incorrect number of items displayed');
+    it('displays the files added by the current user in the last 30 days', () => {
+        expect(dataTable.countRows()).toEqual(2, 'Incorrect number of sites displayed');
         expect(dataTable.getRowByName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
         expect(dataTable.getRowByName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
-        expect(dataTable.getRowByName(folderName).isPresent()).toBe(true, `${folderName} not displayed`);
     });
 
-    it('Location column displays the parent folder of the files', () => {
+    it('Location column displays the parent folder of the file', () => {
         const itemsLocations = {
-            [fileName1]: siteName,
-            [fileName2]: folderName,
-            [folderName]: 'Personal Files'
+            [fileName2]: 'Personal Files',
+            [fileName1]: folderName
         };
 
         dataTable.getRows()
@@ -107,23 +112,15 @@ describe('Favorites', () => {
                     return acc;
                 }, {});
             })
-            .then((favoritesList) => {
+            .then((recentList) => {
                 Object.keys(itemsLocations).forEach((item) => {
-                    expect(favoritesList[item]).toEqual(itemsLocations[item]);
+                    expect(recentList[item]).toEqual(itemsLocations[item]);
                 });
             });
     });
 
-    it('Location column redirect - item in user Home', () => {
-        dataTable.clickItemLocation(folderName)
-            .then(() => breadcrumb.getCurrentItemName())
-            .then(name => {
-                expect(name).toBe('Personal Files');
-            });
-    });
-
-    it('Location column redirect - file in folder', () => {
-        dataTable.clickItemLocation(fileName2)
+    it('Location column redirect - file in user Home', () => {
+        dataTable.clickItemLocation(fileName1)
             .then(() => breadcrumb.getCurrentItemName())
             .then(name => {
                 expect(name).toBe(folderName);
@@ -134,16 +131,11 @@ describe('Favorites', () => {
             });
     });
 
-    it('Location column redirect - file in site', () => {
-        dataTable.clickItemLocation(fileName1)
+    it('Location column redirect - file in folder', () => {
+        dataTable.clickItemLocation(fileName2)
             .then(() => breadcrumb.getCurrentItemName())
             .then(name => {
-                expect(name).toBe(siteName);
-            })
-            .then(() => breadcrumb.getFirstItemName())
-            .then(name => {
-                expect(name).toBe('File Libraries');
+                expect(name).toBe('Personal Files');
             });
     });
-
 });

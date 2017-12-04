@@ -34,6 +34,7 @@ export class DataTable extends Component {
         row: 'tr',
         selectedRow: 'tr.is-selected',
         cell: 'td',
+        locationLink: 'app-location-link',
 
         emptyListContainer: 'td.adf-no-content-container',
         emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
@@ -45,6 +46,7 @@ export class DataTable extends Component {
     head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
     body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
     cell = by.css(DataTable.selectors.cell);
+    locationLink = by.css(DataTable.selectors.locationLink);
     emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
     emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
     emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
@@ -140,6 +142,15 @@ export class DataTable extends Component {
             .then(count => {
                 if (count !== 0) { browser.refresh().then(() => this.waitForHeader()); }
             });
+    }
+
+    getItemLocation(name: string) {
+        const rowLocator = by.cssContainingText(DataTable.selectors.row, name);
+        return this.body.element(rowLocator).element(this.locationLink);
+    }
+
+    clickItemLocation(name: string) {
+        return this.getItemLocation(name).click();
     }
 
     // empty state methods

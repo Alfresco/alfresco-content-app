@@ -48,6 +48,7 @@ describe('Trash', () => {
     const logoutPage = new LogoutPage();
     const trashPage = new BrowsingPage();
     const { dataTable } = trashPage;
+    const { breadcrumb } = trashPage.toolbar;
 
     beforeAll(done => {
         apis.admin.people.createUser(username)
@@ -64,11 +65,8 @@ describe('Trash', () => {
             .then(() => apis.user.nodes.createFolders([ folderUser ])
                 .then(resp => folderUserId = resp.data.entry.id))
 
-            .then(() => apis.admin.nodes.deleteNodeById(fileAdminId, false))
-            .then(() => apis.admin.nodes.deleteNodeById(folderAdminId, false))
-            .then(() => apis.user.nodes.deleteNodeById(fileSiteId, false))
-            .then(() => apis.user.nodes.deleteNodeById(fileUserId, false))
-            .then(() => apis.user.nodes.deleteNodeById(folderUserId, false))
+            .then(() => apis.admin.nodes.deleteNodesById([ fileAdminId, folderAdminId ], false))
+            .then(() => apis.user.nodes.deleteNodesById([ fileSiteId, fileUserId, folderUserId ], false))
 
             .then(done);
     });
@@ -76,11 +74,7 @@ describe('Trash', () => {
     afterAll(done => {
         Promise.all([
             apis.admin.sites.deleteSite(siteName),
-            apis.admin.trashcan.permanentlyDelete(fileAdminId),
-            apis.admin.trashcan.permanentlyDelete(folderAdminId),
-            apis.admin.trashcan.permanentlyDelete(fileSiteId),
-            apis.user.trashcan.permanentlyDelete(fileUserId),
-            apis.user.trashcan.permanentlyDelete(folderUserId)
+            apis.admin.trashcan.emptyTrash()
         ])
         .then(done);
     });
@@ -91,7 +85,11 @@ describe('Trash', () => {
         beforeAll(done => {
             loginPage.load()
                 .then(() => loginPage.loginWithAdmin())
-                .then(() => trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
+                .then(done);
+        });
+
+        beforeEach(done => {
+            trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
                 .then(() => dataTable.waitForHeader())
                 .then(done);
         });
@@ -126,7 +124,11 @@ describe('Trash', () => {
         beforeAll(done => {
             loginPage.load()
                 .then(() => loginPage.loginWith(username))
-                .then(() => trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
+                .then(done);
+        });
+
+        beforeEach(done => {
+            trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
                 .then(() => dataTable.waitForHeader())
                 .then(done);
         });
@@ -152,6 +154,27 @@ describe('Trash', () => {
             expect(dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
             expect(dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
             expect(dataTable.getRowByName(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
+            expect(dataTable.getRowByName(fileAdmin).isPresent()).toBe(false, `${fileAdmin} is displayed`);
+        });
+
+        it('Location column redirect - file in user Home', () => {
+            dataTable.clickItemLocation(fileUser)
+                .then(() => breadcrumb.getCurrentItemName())
+                .then(name => {
+                    expect(name).toBe('Personal Files');
+                });
+        });
+
+        it('Location column redirect - file in site', () => {
+            dataTable.clickItemLocation(fileSite)
+                .then(() => breadcrumb.getCurrentItemName())
+                .then(name => {
+                    expect(name).toBe(siteName);
+                })
+                .then(() => breadcrumb.getFirstItemName())
+                .then(name => {
+                    expect(name).toBe('File Libraries');
+                });
         });
     });
 });

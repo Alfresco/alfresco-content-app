@@ -22,14 +22,15 @@ import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
 
-describe('Favorites', () => {
+describe('Shared Files', () => {
     const username = `user-${Utils.random()}`;
     const password = username;
 
     const siteName = `site-${Utils.random()}`;
-    const folderName = `folder-${Utils.random()}`;
-    const fileName1 = `file-${Utils.random()}.txt`;
-    const fileName2 = `file-${Utils.random()}.txt`;
+    const fileAdmin = `file-${Utils.random()}.txt`;
+
+    const folderUser = `folder-${Utils.random()}`;
+    const fileUser = `file-${Utils.random()}.txt`;
 
     const apis = {
         admin: new RepoClient(),
@@ -38,27 +39,35 @@ describe('Favorites', () => {
 
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
-    const favoritesPage = new BrowsingPage();
-    const { dataTable } = favoritesPage;
-    const { breadcrumb } = favoritesPage.toolbar;
+    const sharedFilesPage = new BrowsingPage();
+    const { dataTable } = sharedFilesPage;
+    const { breadcrumb } = sharedFilesPage.toolbar;
 
     beforeAll(done => {
         apis.admin.people.createUser(username)
             .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
-            .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER))
-            .then(() => apis.admin.nodes.createFiles([ fileName1 ], `Sites/${siteName}/documentLibrary`)
-                .then(resp => apis.user.favorites.addFavoriteById('file', resp.data.entry.id)))
-            .then(() => apis.user.nodes.createFolders([ folderName ])
-                .then(resp => apis.user.favorites.addFavoriteById('folder', resp.data.entry.id)))
-            .then(() => apis.user.nodes.createFiles([ fileName2 ], folderName)
-                .then(resp => apis.user.favorites.addFavoriteById('file', resp.data.entry.id)))
+            .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
+            .then(() => apis.admin.nodes.createFiles([ fileAdmin ], `Sites/${siteName}/documentLibrary`))
+            .then(resp => apis.admin.shared.shareFileById(resp.data.entry.id))
+
+            .then(() => apis.user.nodes.createFolders([ folderUser ]))
+            .then(() => apis.user.nodes.createFiles([ fileUser ], folderUser))
+            .then(resp => apis.user.shared.shareFileById(resp.data.entry.id))
+
             .then(() => loginPage.load())
             .then(() => loginPage.loginWith(username))
             .then(done);
     });
 
     beforeEach(done => {
-        favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
+        sharedFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
+            .then(() => dataTable.isEmptyList())
+            .then(empty => {
+                if (empty) {
+                    browser.sleep(5000);
+                    sharedFilesPage.refresh();
+                }
+            })
             .then(() => dataTable.waitForHeader())
             .then(done);
     });
@@ -66,35 +75,33 @@ describe('Favorites', () => {
     afterAll(done => {
         Promise.all([
             apis.admin.sites.deleteSite(siteName),
-            apis.user.nodes.deleteNodes([ folderName ]),
+            apis.user.nodes.deleteNodes([ folderUser ]),
             logoutPage.load()
         ])
         .then(done);
     });
 
     it('has the correct columns', () => {
-        const labels = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
+        const labels = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
         const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
-        expect(dataTable.getColumnHeaders().count()).toBe(5 + 1, 'Incorrect number of columns');
+        expect(dataTable.getColumnHeaders().count()).toBe(6 + 1, 'Incorrect number of columns');
 
         elements.forEach((element, index) => {
             expect(element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
         });
     });
 
-    it('displays the favorite files and folders', () => {
-        expect(dataTable.countRows()).toEqual(3, 'Incorrect number of items displayed');
-        expect(dataTable.getRowByName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
-        expect(dataTable.getRowByName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
-        expect(dataTable.getRowByName(folderName).isPresent()).toBe(true, `${folderName} not displayed`);
+    it('displays the files shared by everyone', () => {
+        expect(dataTable.countRows()).toEqual(2, 'Incorrect number of items displayed');
+        expect(dataTable.getRowByName(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
+        expect(dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
     });
 
-    it('Location column displays the parent folder of the files', () => {
+    it('Location column displays the parent folder of the file', () => {
         const itemsLocations = {
-            [fileName1]: siteName,
-            [fileName2]: folderName,
-            [folderName]: 'Personal Files'
+            [fileAdmin]: siteName,
+            [fileUser]: folderUser
         };
 
         dataTable.getRows()
@@ -107,26 +114,18 @@ describe('Favorites', () => {
                     return acc;
                 }, {});
             })
-            .then((favoritesList) => {
+            .then((recentList) => {
                 Object.keys(itemsLocations).forEach((item) => {
-                    expect(favoritesList[item]).toEqual(itemsLocations[item]);
+                    expect(recentList[item]).toEqual(itemsLocations[item]);
                 });
             });
     });
 
-    it('Location column redirect - item in user Home', () => {
-        dataTable.clickItemLocation(folderName)
+    it('Location column redirect - file in user Home', () => {
+        dataTable.clickItemLocation(fileUser)
             .then(() => breadcrumb.getCurrentItemName())
             .then(name => {
-                expect(name).toBe('Personal Files');
-            });
-    });
-
-    it('Location column redirect - file in folder', () => {
-        dataTable.clickItemLocation(fileName2)
-            .then(() => breadcrumb.getCurrentItemName())
-            .then(name => {
-                expect(name).toBe(folderName);
+                expect(name).toBe(folderUser);
             })
             .then(() => breadcrumb.getFirstItemName())
             .then(name => {
@@ -135,7 +134,7 @@ describe('Favorites', () => {
     });
 
     it('Location column redirect - file in site', () => {
-        dataTable.clickItemLocation(fileName1)
+        dataTable.clickItemLocation(fileAdmin)
             .then(() => breadcrumb.getCurrentItemName())
             .then(name => {
                 expect(name).toBe(siteName);
@@ -145,5 +144,4 @@ describe('Favorites', () => {
                 expect(name).toBe('File Libraries');
             });
     });
-
 });

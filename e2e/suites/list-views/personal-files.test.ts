@@ -17,24 +17,23 @@
 
 import { browser } from 'protractor';
 
-import { APP_ROUTES } from '../../configs';
+import { SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
-import { RepoClient, NodeContentTree } from '../../utilities/repo-client/repo-client';
+import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Personal Files', () => {
     const username = `user-${Utils.random()}`;
-    const password = username;
 
     const apis = {
         admin: new RepoClient(),
-        user: new RepoClient(username, password)
+        user: new RepoClient(username, username)
     };
 
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
-    const personalFilesPage = new BrowsingPage(APP_ROUTES.PERSONAL_FILES);
-    const dataTable = personalFilesPage.dataTable;
+    const personalFilesPage = new BrowsingPage();
+    const { dataTable } = personalFilesPage;
 
     const adminFolder = `admin-folder-${Utils.random()}`;
 
@@ -44,7 +43,7 @@ describe('Personal Files', () => {
     beforeAll(done => {
         Promise
             .all([
-                apis.admin.people.createUser(username, password),
+                apis.admin.people.createUser(username),
                 apis.admin.nodes.createFolders([ adminFolder ])
             ])
             .then(() => apis.user.nodes.createFolders([ userFolder ]))
@@ -71,14 +70,13 @@ describe('Personal Files', () => {
         });
 
         beforeEach(done => {
-            personalFilesPage.load()
+            personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(done);
         });
 
         afterAll(done => {
-            logoutPage.load()
-                .then(done);
+            logoutPage.load().then(done);
         });
 
         it('has "Data Dictionary" folder', () => {
@@ -93,19 +91,18 @@ describe('Personal Files', () => {
     describe(`Regular user's personal files`, () => {
         beforeAll(done => {
             loginPage.load()
-                .then(() => loginPage.loginWith(username, password))
+                .then(() => loginPage.loginWith(username))
                 .then(done);
         });
 
         beforeEach(done => {
-            personalFilesPage.load()
+            personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(done);
         });
 
         afterAll(done => {
-            logoutPage.load()
-                .then(done);
+            logoutPage.load().then(done);
         });
 
         it('has the correct columns', () => {
@@ -149,25 +146,6 @@ describe('Personal Files', () => {
                     expect(dataTable.getRowByName(userFile).isPresent())
                         .toBe(true, 'user file is missing');
                 });
-        });
-
-        // Some tests regarding selection, breadcrumb and toolbar
-        // probably they can be move to a different suite
-        describe('Item selection', () => {
-            it('has toolbar when selected', done => {
-                const { actions } = personalFilesPage.toolbar;
-
-                dataTable
-                    .clickOnItemName(userFolder)
-                    .then(() => {
-                        expect(actions.isEmpty()).toBe(false, 'Toolbar to be present');
-                    })
-                    .then(() => actions.openMoreMenu())
-                    .then(menu => {
-                        expect(menu.items.count()).toBeGreaterThan(0, 'More actions has items');
-                    })
-                    .then(done);
-            });
         });
     });
 });
