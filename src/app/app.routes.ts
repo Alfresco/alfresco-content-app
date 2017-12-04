@@ -129,9 +129,8 @@ export const APP_ROUTES: Routes = [
                 component: GenericErrorComponent
             }
         ],
-        canActivate: [
-            AuthGuardEcm
-        ]
+        canActivateChild: [ AuthGuardEcm ],
+        canActivate: [ AuthGuardEcm ]
     }
 ];
 
