@@ -2,6 +2,13 @@
 
 The Content App is based on [Angular CLI](https://cli.angular.io), and you can use all the commands, generators and blueprints supported by the CLI.
 
+## Prerequisites
+
+- [Node.js](https://nodejs.org/en/) 8.9.1 or later LTS version
+- [Angular CLI](https://cli.angular.io/)
+
+## Cloning and running
+
 Use the following commands to clone a copy of the project, install dependencies and run it.
 
 ```sh
