@@ -16,53 +16,25 @@
  */
 
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
-
-const skipRedirectUrls: string[] = [
-    '/logout',
-    '/personal-files'
-];
 
 @Component({
     templateUrl: './login.component.html'
 })
 export class LoginComponent {
 
-    private redirectUrl = '';
-
     constructor(
         private router: Router,
-        private route: ActivatedRoute,
         private auth: AuthenticationService,
         private userPreferences: UserPreferencesService
-    ) {
-        if (auth.isEcmLoggedIn()) {
-            this.redirect();
-        }
-
-        route.params.subscribe((params: any) => {
-            if (skipRedirectUrls.indexOf(params.redirect) > -1) {
-                const remainingParams = Object.assign({}, params);
-
-                delete remainingParams.redirect;
-
-                router.navigate(['/login', remainingParams]);
-            }
-
-            this.redirectUrl = params.redirect;
-        });
-    }
-
-    redirect() {
-        this.router.navigateByUrl(this.redirectUrl || '');
-    }
+    ) {}
 
     onLoginSuccess(data) {
         if (data && data.username) {
             this.userPreferences.setStoragePrefix(data.username);
         }
-        this.redirect();
+
+        this.router.navigateByUrl(this.auth.getRedirectUrl());
     }
 }
