@@ -16,13 +16,14 @@
  */
 
 import { Observable, Subscription } from 'rxjs/Rx';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import {
     UploadService, FileUploadEvent, NodesApiService,
     ContentService, AlfrescoApiService, UserPreferencesService
 } from '@alfresco/adf-core';
+import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -34,6 +35,9 @@ import { PageComponent } from '../page.component';
     templateUrl: './files.component.html'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
+    @ViewChild(DocumentListComponent)
+    documentList: DocumentListComponent;
+
     private routeData: any = {};
     isValidPath = true;
 
@@ -105,7 +109,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     fetchNodes(parentNodeId?: string, options: any = {}): Observable<NodePaging> {
-        return this.nodesApi.getNodeChildren(parentNodeId, options);
+        const defaults = {
+            include: [ 'isLocked' ]
+        };
+
+        const queryOptions = Object.assign(defaults, options);
+
+        return this.nodesApi.getNodeChildren(parentNodeId, queryOptions);
     }
 
     navigate(nodeId: string = null) {
@@ -120,14 +130,50 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    onNodeDoubleClick(node: MinimalNodeEntryEntity) {
-        if (node) {
-            if (node.isFolder) {
-                this.navigate(node.id);
+    onNodeDoubleClick(event) {
+        if (!!event.detail && !!event.detail.node) {
+
+            const node: MinimalNodeEntryEntity = event.detail.node.entry;
+            if (node) {
+
+                if (node.isFolder) {
+                    this.navigate(node.id);
+                }
+
+                if (node.isLocked) {
+                    event.preventDefault();
+
+                } else if (node.isFile) {
+                    this.router.navigate(['/preview', node.id]);
+                }
             }
 
-            if (node.isFile) {
-                this.router.navigate(['/preview', node.id]);
+        }
+    }
+
+    onNodeSelect(event) {
+        if (!!event.detail && !!event.detail.node) {
+
+            const node: MinimalNodeEntryEntity = event.detail.node.entry;
+            if (node && node.isLocked) {
+                this.unSelectLockedNodes();
+            }
+        }
+    }
+
+    unSelectLockedNodes() {
+        this.documentList.selection = this.documentList.selection.filter(item => !item.entry.isLocked);
+
+        const dataTable = this.documentList.dataTable;
+        if (dataTable && dataTable.data) {
+            const rows = dataTable.data.getRows();
+
+            if (rows && rows.length > 0) {
+                rows.forEach(r => {
+                    if (r.getValue('isLocked')) {
+                        r.isSelected = false;
+                    }
+                });
             }
         }
     }
@@ -266,5 +312,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             return this.node.path.elements[0].id === nodeId;
         }
         return false;
+    }
+
+    private imageResolver(row: ShareDataRow): string | null {
+        const entry: MinimalNodeEntryEntity = row.node.entry;
+
+        if (entry.isLocked) {
+            return '/assets/images/ic_lock_black_24dp_1x.png';
+        }
+        return null;
     }
 }

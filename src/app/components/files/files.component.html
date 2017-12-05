@@ -98,8 +98,10 @@
                 [contentActions]="false"
                 [navigate]="false"
                 [selectionMode]="'multiple'"
+                [imageResolver]="imageResolver"
 
-                (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
+                (node-dblclick)="onNodeDoubleClick($event)"
+                (node-select)="onNodeSelect($event)">
 
                 <data-columns>
                     <data-column
