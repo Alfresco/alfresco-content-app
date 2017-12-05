@@ -40,6 +40,11 @@
                     class="adf-data-table-cell--ellipsis__name"
                     key="title"
                     title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
+                    <ng-template let-context>
+                        <span title="{{ makeLibraryTooltip(context.row.obj.entry) }}">
+                            {{ makeLibraryTitle(context.row.obj.entry) }}
+                        </span>
+                    </ng-template>
                 </data-column>
 
                 <data-column
