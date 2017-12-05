@@ -35,6 +35,7 @@ export class DataTable extends Component {
         selectedRow: 'tr.is-selected',
         cell: 'td',
         locationLink: 'app-location-link',
+        nameCell: '.adf-data-table-cell--ellipsis__name',
 
         emptyListContainer: 'td.adf-no-content-container',
         emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
@@ -106,7 +107,7 @@ export class DataTable extends Component {
     }
 
     getRowByName(name: string): ElementFinder {
-        return this.body.element(by.css(`adf-datatable-cell [title="${name}"]`));
+        return this.body.element(by.cssContainingText(DataTable.selectors.nameCell, name));
     }
 
     countRows(): promise.Promise<number> {
