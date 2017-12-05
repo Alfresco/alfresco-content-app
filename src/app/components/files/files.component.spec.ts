@@ -262,7 +262,7 @@ describe('FilesComponent', () => {
         it('calls getNode api with node id', () => {
             component.fetchNodes('nodeId');
 
-            expect(nodesApi.getNodeChildren).toHaveBeenCalledWith('nodeId', {});
+            expect(nodesApi.getNodeChildren).toHaveBeenCalledWith('nodeId', jasmine.any(Object));
         });
     });
 
@@ -303,7 +303,14 @@ describe('FilesComponent', () => {
             spyOn(router, 'navigate').and.stub();
             node.isFile = true;
 
-            component.onNodeDoubleClick(<any> node);
+            const event: any = {
+                detail: {
+                    node: {
+                        entry: node
+                    }
+                }
+            };
+            component.onNodeDoubleClick(event);
 
             expect(router.navigate).toHaveBeenCalledWith(['/preview', node.id]);
         });
@@ -312,9 +319,17 @@ describe('FilesComponent', () => {
             spyOn(component, 'navigate').and.stub();
             node.isFolder = true;
 
-            component.onNodeDoubleClick(<any> node);
 
-            expect(component.navigate).toHaveBeenCalled();
+            const event: any = {
+                detail: {
+                    node: {
+                        entry: node
+                    }
+                }
+            };
+            component.onNodeDoubleClick(event);
+
+            expect(component.navigate).toHaveBeenCalledWith(node.id);
         });
     });
 
