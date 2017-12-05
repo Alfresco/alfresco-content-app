@@ -99,6 +99,9 @@
                     class="adf-data-table-cell--ellipsis__name"
                     key="name"
                     title="APP.DOCUMENT_LIST.COLUMNS.NAME">
+                    <ng-template let-value="value" let-context>
+                        <span class="adf-datatable-cell" title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
+                    </ng-template>
                 </data-column>
 
                 <data-column
