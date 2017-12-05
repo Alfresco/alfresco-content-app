@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import { DomSanitizer  } from '@angular/platform-browser';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { AppConfigService } from '@alfresco/adf-core';
 
@@ -26,8 +27,12 @@ import { AppConfigService } from '@alfresco/adf-core';
 })
 export class HeaderComponent {
     private defaultPath = '/assets/images/alfresco-logo-white.svg';
+    private defaultHeaderColor = '#2196F3';
 
-    constructor(private appConfig: AppConfigService) {}
+    constructor(
+        private appConfig: AppConfigService,
+        private sanitizer: DomSanitizer
+    ) {}
 
     get appName(): string {
         return <string>this.appConfig.get('application.name');
@@ -35,5 +40,11 @@ export class HeaderComponent {
 
     get logo() {
         return this.appConfig.get('logo', this.defaultPath);
+    }
+
+    get style() {
+        const color = this.appConfig.get('headerColor', this.defaultHeaderColor);
+        const style = `background-color: ${color}`;
+        return this.sanitizer.bypassSecurityTrustStyle(style);
     }
 }
