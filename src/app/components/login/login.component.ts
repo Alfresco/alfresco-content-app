@@ -15,26 +15,31 @@
  * limitations under the License.
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
 
 @Component({
     templateUrl: './login.component.html'
 })
-export class LoginComponent {
-
+export class LoginComponent implements OnInit {
     constructor(
         private router: Router,
         private auth: AuthenticationService,
         private userPreferences: UserPreferencesService
     ) {}
 
+    ngOnInit() {
+        if (this.auth.isEcmLoggedIn()) {
+            this.router.navigateByUrl(this.auth.getRedirectUrl() || '');
+        }
+    }
+
     onLoginSuccess(data) {
         if (data && data.username) {
             this.userPreferences.setStoragePrefix(data.username);
         }
 
-        this.router.navigateByUrl(this.auth.getRedirectUrl());
+        this.router.navigateByUrl('/personal-files');
     }
 }

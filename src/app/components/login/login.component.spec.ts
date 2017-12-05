@@ -46,26 +46,43 @@ describe('LoginComponent', () => {
         router = TestBed.get(Router);
         auth = TestBed.get(AuthenticationService);
         userPreference = TestBed.get(UserPreferencesService);
-
-        fixture.detectChanges();
     }));
 
     beforeEach(() => {
         spyOn(userPreference, 'setStoragePrefix');
         spyOn(router, 'navigateByUrl');
-        spyOn(auth, 'getRedirectUrl').and.returnValue('some-url');
+        spyOn(auth, 'getRedirectUrl').and.returnValue('/some-url');
+    });
+
+    describe('OnInit()', () => {
+        it('should perform normal login when user is not logged in', () => {
+            spyOn(auth, 'isEcmLoggedIn').and.returnValue(false);
+            fixture.detectChanges();
+
+            expect(router.navigateByUrl).not.toHaveBeenCalled();
+        });
+
+        it('should redirect when user is logged in', () => {
+            spyOn(auth, 'isEcmLoggedIn').and.returnValue(true);
+            fixture.detectChanges();
+
+            expect(router.navigateByUrl).toHaveBeenCalledWith('/some-url');
+        });
     });
 
     describe('onLoginSuccess()', () => {
+        beforeEach(() => {
+            spyOn(auth, 'isEcmLoggedIn').and.returnValue(false);
+            fixture.detectChanges();
+        });
 
         it('should redirect on success', () => {
             component.onLoginSuccess();
 
-            expect(router.navigateByUrl).toHaveBeenCalledWith('some-url');
+            expect(router.navigateByUrl).toHaveBeenCalledWith('/personal-files');
         });
 
         it('should set user preference store prefix', () => {
-
             component.onLoginSuccess({ username: 'bogus' });
 
             expect(userPreference.setStoragePrefix).toHaveBeenCalledWith('bogus');
