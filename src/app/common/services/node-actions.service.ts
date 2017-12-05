@@ -176,12 +176,17 @@ export class NodeActionsService {
         const data: ContentNodeSelectorComponentData = {
             title: `${action} ${nodeEntryName}to ...`,
             currentFolderId: currentParentFolderId,
+            actionName: action,
+            dropdownHideMyFiles: true,
+            dropdownSiteList: [
+                {title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL', guid: '-my-'},
+                {title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL', guid: '-mysites-'}],
             rowFilter: this.rowFilter.bind(this),
             imageResolver: this.imageResolver.bind(this),
             select: new EventEmitter<MinimalNodeEntryEntity[]>()
         };
 
-        this.dialog.open(ContentNodeSelectorComponent, {
+        this.dialog.open(ContentNodeSelectorComponent, <any>{
             data,
             panelClass: 'adf-content-node-selector-dialog',
             width: '630px'
