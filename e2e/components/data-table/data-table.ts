@@ -106,7 +106,7 @@ export class DataTable extends Component {
     }
 
     getRowByName(name: string): ElementFinder {
-        return this.body.element(by.css(`adf-datatable-cell [title="${name}"]`));
+        return this.body.element(by.cssContainingText(`.adf-data-table-cell`, name));
     }
 
     countRows(): promise.Promise<number> {
@@ -114,7 +114,7 @@ export class DataTable extends Component {
     }
 
     // Navigation/selection methods
-    doubleClickOnItemName(name: string): promise.Promise<void> {
+    doubleClickOnItemName(name: string): promise.Promise<any> {
         const dblClick = browser.actions()
             .mouseMove(this.getRowByName(name))
             .click()
@@ -123,7 +123,7 @@ export class DataTable extends Component {
         return dblClick.perform();
     }
 
-    clickOnItemName(name: string): promise.Promise<void> {
+    clickOnItemName(name: string): promise.Promise<any> {
         return this.getRowByName(name).click();
     }
 

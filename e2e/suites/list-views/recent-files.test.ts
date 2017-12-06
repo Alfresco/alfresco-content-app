@@ -63,7 +63,7 @@ describe('Recent Files', () => {
             .then(() => dataTable.isEmptyList())
             .then(empty => {
                 if (empty) {
-                    browser.sleep(3000);
+                    browser.sleep(5000);
                     recentFilesPage.refresh();
                 }
             })

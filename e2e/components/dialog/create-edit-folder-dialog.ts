@@ -24,8 +24,8 @@ export class CreateOrEditFolderDialog extends Component {
         root: 'adf-folder-dialog',
 
         title: '.mat-dialog-title',
-        nameInput: 'input',
-        descriptionTextArea: 'textarea',
+        nameInput: '.mat-input-element[placeholder="Name"]',
+        descriptionTextArea: '.mat-input-element[placeholder="Description"]',
         button: '.mat-dialog-actions button',
         validationMessage: '.mat-hint span'
     };

@@ -54,7 +54,7 @@ export class Sidenav extends Component {
         return this.component.element(by.cssContainingText(Sidenav.selectors.link, label));
     }
 
-    navigateToLinkByLabel(label: string): promise.Promise<void> {
+    navigateToLinkByLabel(label: string): promise.Promise<any> {
         return this.getLinkByLabel(label).click();
     }
 }
