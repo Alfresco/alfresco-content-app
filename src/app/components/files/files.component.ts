@@ -314,7 +314,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         return false;
     }
 
-    private imageResolver(row: ShareDataRow): string | null {
+    imageResolver(row: ShareDataRow): string | null {
         const entry: MinimalNodeEntryEntity = row.node.entry;
 
         if (entry.isLocked) {
