@@ -110,10 +110,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     fetchNodes(parentNodeId?: string, options: any = {}): Observable<NodePaging> {
         const defaults = {
-            include: [ 'isLocked' ]
+            include: [ 'isLocked', 'path', 'properties', 'allowableOperations' ]
         };
 
-        const queryOptions = Object.assign(defaults, options);
+        const queryOptions = Object.assign({}, defaults, options);
 
         return this.nodesApi.getNodeChildren(parentNodeId, queryOptions);
     }
