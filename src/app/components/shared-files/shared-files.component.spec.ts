@@ -94,14 +94,6 @@ describe('SharedFilesComponent', () => {
             expect(component.refresh).toHaveBeenCalled();
         });
 
-        it('should refresh on favorite toggle event', () => {
-            fixture.detectChanges();
-
-            contentService.toggleFavorite.next();
-
-            expect(component.refresh).toHaveBeenCalled();
-        });
-
         it('should reload on move node event', () => {
             fixture.detectChanges();
 

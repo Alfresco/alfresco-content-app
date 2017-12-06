@@ -47,8 +47,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
         this.subscriptions = this.subscriptions.concat([
             this.content.deleteNode.subscribe(() => this.refresh()),
             this.content.moveNode.subscribe(() => this.refresh()),
-            this.content.restoreNode.subscribe(() => this.refresh()),
-            this.content.toggleFavorite.subscribe(() => this.refresh())
+            this.content.restoreNode.subscribe(() => this.refresh())
         ]);
     }
 
