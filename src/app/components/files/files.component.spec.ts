@@ -137,12 +137,6 @@ describe('FilesComponent', () => {
             fixture.detectChanges();
         });
 
-        it('reset favorites colection  onToggleFavorite event', () => {
-            contentManagementService.toggleFavorite.next(null);
-
-            expect(component.load).toHaveBeenCalled();
-        });
-
         it('calls refresh onContentCopied event if parent is the same', () => {
             const nodes = [
                 {  entry: { parentId: '1' } },

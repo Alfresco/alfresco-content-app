@@ -23,5 +23,4 @@ export class ContentManagementService {
     deleteNode = new Subject<string>();
     moveNode = new Subject<string>();
     restoreNode = new Subject<string>();
-    toggleFavorite = new Subject<null>();
 }

@@ -98,14 +98,6 @@ describe('RecentFiles Routed Component', () => {
             expect(component.refresh).toHaveBeenCalled();
         });
 
-        it('should reload on toggleFavorite event', () => {
-            fixture.detectChanges();
-
-            contentService.toggleFavorite.next();
-
-            expect(component.refresh).toHaveBeenCalled();
-        });
-
         it('should reload on move node event', () => {
             fixture.detectChanges();
 

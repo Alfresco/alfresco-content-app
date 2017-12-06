@@ -110,15 +110,6 @@ describe('Favorites Routed Component', () => {
 
             expect(component.refresh).toHaveBeenCalled();
         });
-
-        it('should fetch nodes on favorite toggle', () => {
-            spyOn(component, 'refresh');
-            fixture.detectChanges();
-
-            contentService.toggleFavorite.next(null);
-
-            expect(component.refresh).toHaveBeenCalled();
-        });
     });
 
     describe('Node navigation', () => {

@@ -50,8 +50,7 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
             this.content.deleteNode.subscribe(() => this.refresh()),
             this.content.restoreNode.subscribe(() => this.refresh()),
             this.contentService.folderEdit.subscribe(() => this.refresh()),
-            this.content.moveNode.subscribe(() => this.refresh()),
-            this.content.toggleFavorite.debounceTime(300).subscribe(() => this.refresh())
+            this.content.moveNode.subscribe(() => this.refresh())
         ]);
     }
 

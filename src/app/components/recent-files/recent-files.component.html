@@ -33,10 +33,10 @@
                 class="secondary-options">
                 <button
                     mat-menu-item
-                    #favorite="favorite"
-                    [app-favorite-node]="documentList.selection">
-                    <mat-icon [ngClass]="{ 'icon-highlight': favorite.hasFavorites() }">
-                        {{ favorite.hasFavorites() ? 'star' :'star_border' }}
+                    #selection="adfFavorite"
+                    [adf-node-favorite]="documentList.selection">
+                    <mat-icon [ngClass]="{ 'icon-highlight': selection.hasFavorites() }">
+                        {{ selection.hasFavorites() ? 'star' :'star_border' }}
                     </mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
                 </button>
