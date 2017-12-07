@@ -16,7 +16,7 @@
  */
 
 import { Observable, Subscription } from 'rxjs/Rx';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import {
@@ -46,9 +46,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     constructor(
         private router: Router,
+        private zone: NgZone,
         private route: ActivatedRoute,
         private nodesApi: NodesApiService,
-        private changeDetector: ChangeDetectorRef,
         private nodeActionsService: NodeActionsService,
         private uploadService: UploadService,
         private contentManagementService: ContentManagementService,
@@ -215,22 +215,18 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         this.isLoading = showIndicator;
 
         this.fetchNodes(this.getParentNodeId(), pagination)
-            .subscribe(
-                (page) => {
-                    if (this.isCurrentPageEmpty(page) && this.isNotFirstPage(page)) {
-                        const newSkipCount = pagination.skipCount - pagination.maxItems;
+            .flatMap((page) => {
+                if (this.isCurrentPageEmpty(page) && this.isNotFirstPage(page)) {
+                    const newSkipCount = pagination.skipCount - pagination.maxItems;
 
-                        this.fetchNodes(this.getParentNodeId(), {skipCount: newSkipCount, maxItems: pagination.maxItems})
-                            .subscribe(
-                                (previousPage) => this.onPageLoaded(previousPage),
-                                error => this.onFetchError(error)
-                            );
-                    } else {
-                        this.onPageLoaded(page);
-                    }
-                },
-                error => this.onFetchError(error),
-                () => this.changeDetector.detectChanges()
+                    return this.fetchNodes(this.getParentNodeId(), {skipCount: newSkipCount, maxItems: pagination.maxItems});
+                }
+
+                return Observable.of(page);
+            })
+            .subscribe(
+                (page) => this.zone.run(() => this.onPageLoaded(page)),
+                error => this.onFetchError(error)
             );
     }
 
