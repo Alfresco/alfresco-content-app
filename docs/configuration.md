@@ -1,6 +1,6 @@
 # Application Configuration
 
-The Content Application provides support for a global settings file `app.config.json` that you can use to customise the behaviour of ACA and ADF components.
+The Content Application provides support for a global settings file `app.config.json` that you can use to customize the behavior of ACA and ADF components.
 
 ## Server settings
 
@@ -29,7 +29,7 @@ Optionally it can also use the value of the original port if present, for exampl
 
 ### Static address
 
-Alternatively, you can provide a static address for the ACS services if necessary:
+Alternatively, you can provide a static address for the ACS server if necessary:
 
 ```json
 {
@@ -40,7 +40,7 @@ Alternatively, you can provide a static address for the ACS services if necessar
 
 ## Application settings
 
-The are many settings you can change to alter the default behaviour of the application.
+The are many settings you can change to alter the default behavior of the application.
 
 ### Application Name
 
@@ -104,7 +104,7 @@ You can change the default settings of the pagination that gets applied to all t
 
 ## Your custom settings
 
-You can store any information in the application configuration file, and access it at runtime by utilising the `AppConfigService` service provided by the ADF framework.
+You can store any information in the application configuration file, and access it at runtime by using the `AppConfigService` service provided by ADF.
 
 <p class="tip">
 Please refer to the [AppConfigService](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/app-config.service.md) documentation to get more details on Application Configuration features and API available.
