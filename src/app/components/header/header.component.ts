@@ -39,7 +39,7 @@ export class HeaderComponent {
     }
 
     get logo() {
-        return this.appConfig.get('logo', this.defaultPath);
+        return this.appConfig.get('application.logo', this.defaultPath);
     }
 
     get backgroundColor() {
