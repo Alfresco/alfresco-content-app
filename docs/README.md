@@ -1,9 +1,32 @@
-# Alfresco Content App
+# Alfresco Example Content Application
 
-## Prerequisites
+## Introduction
 
-- Alfresco Content Services (Community) or Alfresco Content Services 5.2.2 (Enterprise)
-- [node.js](https://nodejs.org/en/) 8.9.1 or later
+The Alfresco Content Application is an example application built using
+[Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components.
+
+### Who is this example application for
+
+This example application demonstrates to Angular software engineers
+how to construct a content application using the Alfresco ADF.
+
+This example application represents a meaningful composition of ADF components that provide end users
+with a simple and easy to use interface for working with files stored in the Alfresco Content Services repository.
+
+### Prerequisites
+
+This application utilises the latest releases from Alfresco:
+
+- [Alfresco ADF version 2.0](https://community.alfresco.com/community/application-development-framework/pages/get-started)
+- [Alfresco Content Services version 5.2.2](https://www.alfresco.com/platform/content-services-ecm)
+- [Alfresco Community Edition 201707](https://www.alfresco.com/products/community/download)
+
+<p class="warning">
+You also need [node.js](https://nodejs.org/en/) (8.9.1 or later) installed to build it locally from source code.
+</p>
+
+The latest version of the Alfresco Content platform is required
+due to the application utilising the latest [REST APIs](https://docs.alfresco.com/5.2/pra/1/topics/pra-welcome.html) developments.
 
 ## Where to get help
 
