@@ -2,7 +2,7 @@
 
 ## Chrome Workaround
 
-For the Chrome you can use the following plugin that allows you toggle CORS:
+For the Chrome browser you can use the following plugin that allows you toggle CORS:
 [Allow-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi)
 
 ## Firefox Workaround

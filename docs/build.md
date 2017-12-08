@@ -9,7 +9,7 @@ The Content App is based on [Angular CLI](https://cli.angular.io), and you can u
 
 ## Cloning and running
 
-Use the following commands to clone a copy of the project, install dependencies and run it.
+Use the following commands to clone the project, install dependencies and run it.
 
 ```sh
 git clone https://github.com/Alfresco/alfresco-content-app.git
@@ -18,18 +18,18 @@ npm install
 npm start
 ```
 
-The application run at port 3000 by default, and should automatically open in the default browser once project compilation finishes.
+The application runs at port 3000 by default, and should automatically open in the default browser once project compilation finishes.
 
 ## Proxy settings
 
 The Content App provides a proxy configuration for local development server
-that allows you to address specific scenarios with CORS and native authentication dialogue.
+that allows you to address specific scenarios with CORS and native authentication dialog.
 
 You can find settings in the "proxy.conf.js" file in the project root directory.
 
 <p class="warning">
 The proxy settings get automatically applied every time you run the application with "npm start" script.
-You must restart the application every time you change the setting values.
+You must restart the application every time you change the settings values.
 </p>
 
 ## Running documentation locally
