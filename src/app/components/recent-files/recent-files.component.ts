@@ -55,7 +55,10 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
     }
 
     onNodeDoubleClick(node: MinimalNodeEntryEntity) {
-        if (node && node.isFile) {
+        if (node && PageComponent.isLockedNode(node)) {
+            event.preventDefault();
+
+        } else if (node && node.isFile) {
             this.router.navigate(['/preview', node.id]);
         }
     }

@@ -17,6 +17,7 @@
 
 import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
+import { ShareDataRow } from '@alfresco/adf-content-services';
 
 export abstract class PageComponent {
 
@@ -29,6 +30,10 @@ export abstract class PageComponent {
     pagination: Pagination;
 
     node: MinimalNodeEntryEntity;
+
+    static isLockedNode(node) {
+        return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
+    }
 
     abstract fetchNodes(parentNodeId?: string, options?: any): void;
 
@@ -129,4 +134,46 @@ export abstract class PageComponent {
     onChangePageSize(event: Pagination): void {
         this.preferences.paginationSize = event.maxItems;
     }
+
+    onNodeSelect(event, documentList) {
+        if (!!event.detail && !!event.detail.node) {
+
+            const node: MinimalNodeEntryEntity = event.detail.node.entry;
+            if (node && PageComponent.isLockedNode(node)) {
+                this.unSelectLockedNodes(documentList);
+            }
+        }
+    }
+
+    unSelectLockedNodes(documentList) {
+        documentList.selection = documentList.selection.filter(item => !PageComponent.isLockedNode(item.entry));
+
+        const dataTable = documentList.dataTable;
+        if (dataTable && dataTable.data) {
+            const rows = dataTable.data.getRows();
+
+            if (rows && rows.length > 0) {
+                rows.forEach(r => {
+                    if (this.isLockedRow(r)) {
+                        r.isSelected = false;
+                    }
+                });
+            }
+        }
+    }
+
+    isLockedRow(row) {
+        return row.getValue('isLocked') ||
+            (row.getValue('properties') && row.getValue('properties')['cm:lockType'] === 'READ_ONLY_LOCK');
+    }
+
+    imageResolver(row: ShareDataRow): string | null {
+        const entry: MinimalNodeEntryEntity = row.node.entry;
+
+        if (PageComponent.isLockedNode(entry)) {
+            return '/assets/images/ic_lock_black_24dp_1x.png';
+        }
+        return null;
+    }
+
 }
