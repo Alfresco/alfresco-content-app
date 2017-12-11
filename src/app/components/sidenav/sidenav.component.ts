@@ -39,14 +39,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
         private browsingFilesService: BrowsingFilesService,
         private contentService: ContentService,
         private appConfig: AppConfigService
-    ) {
-        this.navigation = this.navigation.concat([
-            this.appConfig.get('navigation.main'),
-            this.appConfig.get('navigation.secondary')
-        ]);
-    }
+    ) {}
 
     ngOnInit() {
+        this.navigation = this.buildMenu();
+
         this.subscriptions.concat([
             this.browsingFilesService.onChangeParent
                 .subscribe((node: MinimalNodeEntryEntity) => this.node = node)
@@ -62,5 +59,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
             return this.contentService.hasPermission(parentNode, 'create');
         }
         return false;
+    }
+
+    private buildMenu() {
+        const schema = this.appConfig.get('navigation');
+        const data = Array.isArray(schema) ? { main: schema } : schema;
+
+        return Object.keys(data).map((key) => data[key]);
     }
 }
