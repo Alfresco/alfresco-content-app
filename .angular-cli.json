@@ -13,13 +13,21 @@
         "app.config.json",
         "versions.json",
 
-        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-core/bundles/assets", "output": "./assets/" },
-        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-datatable/bundles/assets", "output": "./assets/" },
-        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-viewer/bundles/assets", "output": "./assets/" },
-        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-documentlist/bundles/assets", "output": "./assets/" },
-        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-login/bundles/assets", "output": "./assets/" },
-        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-upload/bundles/assets", "output": "./assets/" },
-        { "glob": "**/*", "input": "../node_modules/ng2-alfresco-search/bundles/assets", "output": "./assets/" },
+        {
+            "glob": "**/*",
+            "input": "../node_modules/@alfresco/adf-core/prebuilt-themes",
+            "output": "./assets/prebuilt-themes"
+        },
+        {
+            "glob": "**/*",
+            "input": "../node_modules/@alfresco/adf-core/bundles/assets",
+            "output": "./assets/"
+        },
+        {
+            "glob": "**/*",
+            "input": "../node_modules/@alfresco/adf-content-services/bundles/assets",
+            "output": "./assets/"
+        },
 
         { "glob": "pdf.worker.js", "input": "../node_modules/pdfjs-dist/build", "output": "./" }
       ],
@@ -31,6 +39,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "./assets/fonts/material-icons/material-icons.css",
+        "./assets/fonts/muli/muli.css",
         "styles.scss"
       ],
       "scripts": [
@@ -79,7 +89,8 @@
     "component": {},
     "serve": {
       "proxyConfig": "proxy.conf.js",
-      "port": 3000
+      "port": 3000,
+      "host": "0.0.0.0"
     }
   }
 }

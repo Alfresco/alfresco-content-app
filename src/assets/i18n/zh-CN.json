@@ -1,7 +1,11 @@
 {
   "APP": {
+    "LANGUAGE": "语言",
     "SIGN_IN": "登录",
     "SIGN_OUT": "退出",
+    "PREVIEW": {
+      "TITLE": "预览"
+    },
     "NEW_MENU": {
       "LABEL": "新建",
       "MENU_ITEMS": {
@@ -31,6 +35,10 @@
         "SIDENAV_LINK": {
           "LABEL": "文件库",
           "TOOLTIP": "访问文件库"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "您还不是任何文件库的成员",
+          "TEXT": "加入站点以上传、查看和共享文件。"
         }
       },
       "SHARED": {
@@ -38,6 +46,10 @@
         "SIDENAV_LINK": {
           "LABEL": "已共享",
           "TOOLTIP": "查看已共享的文件"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "无共享文件或文件夹",
+          "TEXT": "此处显示了您使用“共享”选项所共享的项目。"
         }
       },
       "RECENT": {
@@ -45,6 +57,10 @@
         "SIDENAV_LINK": {
           "LABEL": "最近的文件",
           "TOOLTIP": "查看最近编辑的文件"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "无最近的文件",
+          "TEXT": "此处显示了您过去 30 天上传或编辑的项目。"
         }
       },
       "FAVORITES": {
@@ -52,6 +68,10 @@
         "SIDENAV_LINK": {
           "LABEL": "收藏夹",
           "TOOLTIP": "查看您收藏的文件和文件夹"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "无收藏夹文件或文件夹",
+          "TEXT": "您想要在以后轻松查找的收藏夹项目。"
         }
       },
       "TRASHCAN": {
@@ -59,17 +79,25 @@
         "SIDENAV_LINK": {
           "LABEL": "回收站",
           "TOOLTIP": "查看回收站中的已删除文件"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "回收站为空",
+          "FIRST_TEXT": "您删除的项目已移至回收站。",
+          "SECOND_TEXT": "清空回收站以永久删除项目。"
         }
+      },
+      "ABOUT": {
+        "TITLE": "关于"
       }
     },
     "ACTIONS": {
       "VIEW": "查看",
-      "SHARE": "共享",
       "EDIT": "编辑",
       "DOWNLOAD": "下载",
       "COPY": "复制",
       "MOVE": "移动",
       "DELETE": "删除",
+      "DELETE_PERMANENT": "永久删除",
       "MORE": "更多操作",
       "UNDO": "撤消",
       "RESTORE": "恢复",
@@ -154,13 +182,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 个项目无法删除",
-            "SINGULAR": "{{ name }} 项目无法删除"
+            "SINGULAR": "{{ name }} 无法删除"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} 个项目无法恢复，因为恢复位置存在问题",
-            "NODE_EXISTS": "无法恢复，{{ name }} 项目已存在",
-            "LOCATION_MISSING": "无法恢复 {{ name }} 项目，原位置不存在",
-            "GENERIC": "恢复 {{ name }} 项目时出现问题"
+            "NODE_EXISTS": "无法恢复，{{ name }} 已存在",
+            "LOCATION_MISSING": "无法恢复 {{ name }}，原位置不复存在",
+            "GENERIC": "恢复 {{ name }} 时出现问题"
           }
         }
       },
@@ -168,13 +196,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 个项目已删除",
-            "SINGULAR": "{{ name }} 项目已删除",
-            "PARTIAL_SINGULAR": "{{ name }} 项目已删除，{{ failed }} 无法删除",
+            "SINGULAR": "{{ name }} 已删除",
+            "PARTIAL_SINGULAR": "{{ name }} 已删除，{{ failed }} 无法删除",
             "PARTIAL_PLURAL": "{{ number }} 个项目已删除，{{ failed }} 无法删除"
           },
           "NODES_RESTORE": {
             "PLURAL": "成功恢复",
-            "SINGULAR": "{{ name }} 项目已恢复"
+            "SINGULAR": "{{ name }} 已恢复"
           }
         },
         "NODE_DELETION": {
@@ -184,8 +212,12 @@
           "PARTIAL_PLURAL": "已删除 {{ success }} 项目，{{ failed }} 无法删除"
         },
         "NODE_COPY": {
-          "SINGULAR": "已复制 {{ success }} 个项目",
-          "PLURAL": "已复制 {{ success }} 个项目"
+          "SINGULAR": "已复制 {{ success }} 项目",
+          "PLURAL": "已复制 {{ success }} 个项目",
+          "PARTIAL_SINGULAR": "已复制 {{ success }} 项目，{{ failed }} 无法复制。",
+          "PARTIAL_PLURAL": "已复制 {{ success }} 个项目，{{ failed }} 无法复制。",
+          "FAIL_SINGULAR": "{{ failed }} 项目无法复制。",
+          "FAIL_PLURAL": "{{ failed }} 个项目无法复制。"
         },
         "NODE_MOVE": {
           "SINGULAR": "已移动 {{ success }} 项目。",

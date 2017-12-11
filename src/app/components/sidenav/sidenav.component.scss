@@ -14,6 +14,10 @@ $sidenav-menu-item--icon-size: 24px;
         flex: 1;
         flex-direction: column;
 
+        &__section:last-child {
+            border-bottom: 0;
+        }
+
         &__section {
             padding:
                 $sidenav-section--v-padding
@@ -40,10 +44,9 @@ $sidenav-menu-item--icon-size: 24px;
             list-style-type: none;
 
             &__item {
+                padding: $sidenav-menu-item--v-padding 0;
+
                 &-link {
-                    padding:
-                        $sidenav-menu-item--v-padding
-                        $sidenav-menu-item--h-padding;
 
                     padding-left: $sidenav-menu-item--h-padding + 16px + 24px;
                     position: relative;
@@ -70,6 +73,10 @@ $sidenav-menu-item--icon-size: 24px;
                         cursor: default !important;
                         color: $alfresco-secondary-text-color !important;
                         opacity: .25;
+                    }
+
+                    &--noicon {
+                        padding-left: 26px;
                     }
                 }
             }

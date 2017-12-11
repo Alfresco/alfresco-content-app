@@ -23,7 +23,7 @@
 
             <button
                 mat-icon-button
-                *ngIf="canEditFolder(documentList.selection)"
+                *ngIf="showEditOption(documentList.selection)"
                 title="{{ 'APP.ACTIONS.EDIT' | translate }}"
                 [adf-edit-folder]="documentList.selection[0]?.entry">
                 <mat-icon>create</mat-icon>
@@ -41,10 +41,10 @@
                 class="secondary-options">
                 <button
                     mat-menu-item
-                    #favorite="favorite"
-                    [app-favorite-node]="documentList.selection">
-                    <mat-icon [ngClass]="{ 'icon-highlight': favorite.hasFavorites() }">
-                        {{ favorite.hasFavorites() ? 'star' :'star_border' }}
+                    #selection="adfFavorite"
+                    [adf-node-favorite]="documentList.selection">
+                    <mat-icon [ngClass]="{ 'icon-highlight': selection.hasFavorites() }">
+                        {{ selection.hasFavorites() ? 'star' :'star_border' }}
                     </mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
                 </button>
@@ -58,7 +58,6 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canMove(documentList.selection)"
                     [app-move-node]="documentList.selection">
                     <mat-icon>library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -66,7 +65,6 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canDelete(documentList.selection)"
                     [app-delete-node]="documentList.selection">
                     <mat-icon>delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -82,7 +80,6 @@
             selectionMode="multiple"
             [navigate]="false"
             [sorting]="[ 'modifiedAt', 'desc' ]"
-            [pageSize]="25"
             [contextMenuActions]="true"
             [contentActions]="false"
             (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
@@ -107,11 +104,11 @@
                 </data-column>
 
                 <data-column
+                    class="adf-data-table-cell--ellipsis__name"
                     key="name"
-                    class="app-name-column"
                     title="APP.DOCUMENT_LIST.COLUMNS.NAME">
                     <ng-template let-value="value" let-context>
-                        <span title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
+                        <span class="adf-datatable-cell" title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
                     </ng-template>
                 </data-column>
 
@@ -131,17 +128,23 @@
 
                 <data-column
                     key="modifiedAt"
-                    title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON"
-                    type="date"
-                    format="timeAgo">
+                    title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON">
+                    <ng-template let-value="value">
+                        <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
+                    </ng-template>
                 </data-column>
 
                 <data-column
+                    class="adf-data-table-cell--ellipsis"
                     key="modifiedByUser.displayName"
                     title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY">
                 </data-column>
 
             </data-columns>
         </adf-document-list>
+        <adf-pagination [ngClass]="{ 'no-border' : documentList.isEmpty()}"
+            [target]="documentList"
+            (changePageSize)="onChangePageSize($event)">
+        </adf-pagination>
     </div>
 </div>

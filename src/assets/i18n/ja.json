@@ -1,7 +1,11 @@
 {
   "APP": {
+    "LANGUAGE": "言語",
     "SIGN_IN": "サインイン",
     "SIGN_OUT": "サインアウト",
+    "PREVIEW": {
+      "TITLE": "プレビュー"
+    },
     "NEW_MENU": {
       "LABEL": "新規",
       "MENU_ITEMS": {
@@ -31,6 +35,10 @@
         "SIDENAV_LINK": {
           "LABEL": "ファイルライブラリ",
           "TOOLTIP": "ファイルライブラリにアクセスします"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "あなたはまだファイルライブラリのメンバーではありません",
+          "TEXT": "ファイルをアップロード、表示、共有するサイトに参加してください。"
         }
       },
       "SHARED": {
@@ -38,6 +46,10 @@
         "SIDENAV_LINK": {
           "LABEL": "共有",
           "TOOLTIP": "共有されているファイルを表示します"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "共有しているファイルまたはフォルダはありません",
+          "TEXT": "Share オプションを使って共有しているアイテムがここに表示されます。"
         }
       },
       "RECENT": {
@@ -45,6 +57,10 @@
         "SIDENAV_LINK": {
           "LABEL": "最近使用したファイル",
           "TOOLTIP": "最近編集したファイルを表示します"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "最近使ったファイルはありません",
+          "TEXT": "過去 30 日間にアップロードまたは編集したアイテムがここに表示されます。"
         }
       },
       "FAVORITES": {
@@ -52,6 +68,10 @@
         "SIDENAV_LINK": {
           "LABEL": "お気に入り",
           "TOOLTIP": "お気に入りのファイルやフォルダを表示します"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "お気に入りのファイルまたはフォルダはありません",
+          "TEXT": "後で簡単に見つけたいお気に入りのアイテム。"
         }
       },
       "TRASHCAN": {
@@ -59,17 +79,25 @@
         "SIDENAV_LINK": {
           "LABEL": "ごみ箱",
           "TOOLTIP": "ごみ箱にある削除済みのファイルを表示します"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "ごみ箱は空です",
+          "FIRST_TEXT": "削除したアイテムはごみ箱に移動されます。",
+          "SECOND_TEXT": "アイテムを完全に削除するには、ごみ箱を空にします。"
         }
+      },
+      "ABOUT": {
+        "TITLE": "バージョン情報"
       }
     },
     "ACTIONS": {
       "VIEW": "表示",
-      "SHARE": "共有",
       "EDIT": "編集",
       "DOWNLOAD": "ダウンロード",
       "COPY": "コピー",
       "MOVE": "移動",
       "DELETE": "削除",
+      "DELETE_PERMANENT": "完全に削除する",
       "MORE": "その他の処理",
       "UNDO": "元に戻す",
       "RESTORE": "復元",
@@ -154,13 +182,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
-            "SINGULAR": "''{{ name }}'' アイテムを削除できませんでした"
+            "SINGULAR": "{{ name }} を削除できませんでした"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} 件のアイテムが復元されませんでした。復元先の場所に問題があります。",
-            "NODE_EXISTS": "復元できません。''{{ name }}'' アイテムは既に存在します。",
-            "LOCATION_MISSING": "''{{ name }}'' アイテムを復元できません。アイテムの元の場所が削除されています。",
-            "GENERIC": "''{{ name }}'' アイテムの復元中に問題が発生しました"
+            "NODE_EXISTS": "復元できません。{{ name }} は既に存在します。",
+            "LOCATION_MISSING": "{{ name }} を復元できません。元の場所が削除されています。",
+            "GENERIC": "{{ name }} の復元中に問題が発生しました"
           }
         }
       },
@@ -168,13 +196,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 件のアイテムを削除しました",
-            "SINGULAR": "''{{ name }}'' アイテムを削除しました",
-            "PARTIAL_SINGULAR": "''{{ name }}'' アイテムを削除しましたが、{{ failed }} 件は削除できませんでした。",
+            "SINGULAR": "{{ name }} を削除しました",
+            "PARTIAL_SINGULAR": "{{ name }} を削除しましたが、{{ failed }} 件は削除できませんでした",
             "PARTIAL_PLURAL": "{{ number }} 件のアイテムを削除しましたが、{{ failed }} 件は削除できませんでした"
           },
           "NODES_RESTORE": {
             "PLURAL": "正常に復元されました",
-            "SINGULAR": "''{{ name }}'' アイテムを復元しました"
+            "SINGULAR": "{{ name }} を復元しました"
           }
         },
         "NODE_DELETION": {
@@ -185,7 +213,11 @@
         },
         "NODE_COPY": {
           "SINGULAR": "{{ success }} 件のアイテムをコピーしました",
-          "PLURAL": "{{ success }} 件のアイテムをコピーしました"
+          "PLURAL": "{{ success }} 件のアイテムをコピーしました",
+          "PARTIAL_SINGULAR": "{{ success }} 件のアイテムをコピーしましたが、{{ failed }} 件はコピーできませんでした。",
+          "PARTIAL_PLURAL": "{{ success }} 件のアイテムをコピーしましたが、{{ failed }} 件はコピーできませんでした。",
+          "FAIL_SINGULAR": "{{ failed }} 件のアイテムをコピーできませんでした。",
+          "FAIL_PLURAL": "{{ failed }} 件のアイテムをコピーできませんでした。"
         },
         "NODE_MOVE": {
           "SINGULAR": "{{ success }} 件のアイテムを移動しました。",

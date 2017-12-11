@@ -1,27 +1,34 @@
 /*!
  * @license
- * Copyright 2017 Alfresco Software, Ltd.
+ * Alfresco Example Content Application
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (C) 2005 - 2017 Alfresco Software Limited
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { AlfrescoApiService, AlfrescoContentService, NodesApiService } from 'ng2-alfresco-core';
-import { DataColumn } from 'ng2-alfresco-datatable';
-import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from 'ng2-alfresco-documentlist';
+import { AlfrescoApiService, ContentService, NodesApiService, DataColumn } from '@alfresco/adf-core';
+import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Injectable()
@@ -33,7 +40,7 @@ export class NodeActionsService {
     contentMoved: Subject<any> = new Subject<any>();
     moveDeletedEntries: any[] = [];
 
-    constructor(private contentService: AlfrescoContentService,
+    constructor(private contentService: ContentService,
                 private dialog: MatDialog,
                 private documentListService: DocumentListService,
                 private apiService: AlfrescoApiService,
@@ -171,18 +178,23 @@ export class NodeActionsService {
 
         let nodeEntryName = '';
         if (contentEntities.length === 1 && contentEntities[0].entry.name) {
-            nodeEntryName =  `${contentEntities[0].entry.name} `;
+            nodeEntryName =  `'${contentEntities[0].entry.name}' `;
         }
 
         const data: ContentNodeSelectorComponentData = {
             title: `${action} ${nodeEntryName}to ...`,
             currentFolderId: currentParentFolderId,
+            actionName: action,
+            dropdownHideMyFiles: true,
+            dropdownSiteList: [
+                {title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL', guid: '-my-'},
+                {title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL', guid: '-mysites-'}],
             rowFilter: this.rowFilter.bind(this),
             imageResolver: this.imageResolver.bind(this),
             select: new EventEmitter<MinimalNodeEntryEntity[]>()
         };
 
-        this.dialog.open(ContentNodeSelectorComponent, {
+        this.dialog.open(ContentNodeSelectorComponent, <any>{
             data,
             panelClass: 'adf-content-node-selector-dialog',
             width: '630px'
@@ -420,7 +432,7 @@ export class NodeActionsService {
     // todo: review once 1.10-beta6 is out
     private rowFilter(row: /*ShareDataRow*/ any): boolean {
         const node: MinimalNodeEntryEntity = row.node.entry;
-        return (!node.isFile);
+        return (!node.isFile && (node.nodeType !== 'app:folderlink'));
     }
 
     // todo: review once 1.10-beta6 is out

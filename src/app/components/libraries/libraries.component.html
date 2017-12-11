@@ -14,7 +14,6 @@
             selectionMode="none"
             [navigate]="false"
             [sorting]="[ 'name', 'asc' ]"
-            [pageSize]="25"
             [contextMenuActions]="true"
             [contentActions]="false"
             (node-dblclick)="onNodeDoubleClick($event)">
@@ -38,11 +37,11 @@
                 </data-column>
 
                 <data-column
+                    class="adf-data-table-cell--ellipsis__name"
                     key="title"
-                    title="APP.DOCUMENT_LIST.COLUMNS.TITLE"
-                    class="app-name-column">
+                    title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
                     <ng-template let-context>
-                        <span title="{{ makeLibraryTooltip(context.row.obj.entry) }}">
+                        <span class="adf-datatable-cell" title="{{ makeLibraryTooltip(context.row.obj.entry) }}">
                             {{ makeLibraryTitle(context.row.obj.entry) }}
                         </span>
                     </ng-template>
@@ -65,5 +64,10 @@
                 </data-column>
             </data-columns>
         </adf-document-list>
+
+        <adf-pagination [ngClass]="{ 'no-border' : documentList.isEmpty()}"
+            [target]="documentList"
+            (changePageSize)="onChangePageSize($event)">
+        </adf-pagination>
     </div>
 </div>

@@ -1,6 +1,30 @@
+/*!
+ * @license
+ * Alfresco Example Content Application
+ *
+ * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation } from '@angular/core';
-import { DataColumn, DataRow, DataTableAdapter } from 'ng2-alfresco-datatable';
-import { AlfrescoApiService } from 'ng2-alfresco-core';
+import { AlfrescoApiService, DataColumn, DataRow, DataTableAdapter } from '@alfresco/adf-core';
 import { PathInfoEntity, AlfrescoApi } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 
@@ -42,7 +66,7 @@ export class LocationLinkComponent implements OnInit {
             const row: DataRow = this.context.row;
             const value: PathInfoEntity = data.getValue(row, col);
 
-            if (value.name && value.elements) {
+            if (value && value.name && value.elements) {
                 const isLibraryPath = this.isLibraryContent(value);
 
                 this.displayText = this.getDisplayText(value);
@@ -51,7 +75,12 @@ export class LocationLinkComponent implements OnInit {
                 const parent = value.elements[value.elements.length - 1];
                 const area = isLibraryPath ? '/libraries' : '/personal-files';
 
-                this.link = [ area, parent.id ];
+                if (!isLibraryPath) {
+                    this.link = [ area, parent.id ];
+                } else {
+                    // parent.id could be 'Site' folder or child as 'documentLibrary'
+                    this.link = [ area, (parent.name === 'Sites' ? {} : parent.id) ];
+                }
             }
         }
     }
@@ -106,7 +135,7 @@ export class LocationLinkComponent implements OnInit {
         if (elements[0].name === 'Company Home') {
             elements[0].name = 'Personal Files';
 
-            if (elements.length > 1) {
+            if (elements.length > 2) {
                 if (elements[1].name === 'Sites') {
                     const fragment = elements[2];
 

@@ -33,4 +33,17 @@ $am-avatar-dark-bg: rgba(black, .15);
             background: $am-avatar-dark-bg;
         }
     }
+
+    .current-user__full-name {
+        width: 100px;
+        text-align: right;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display:inline-block;
+        height: 20px;
+        font-size: 14px;
+        line-height: 1.43;
+        letter-spacing: -0.2px;
+    }
 }

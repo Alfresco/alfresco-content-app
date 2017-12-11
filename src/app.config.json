@@ -2,9 +2,9 @@
     "ecmHost": "http://{hostname}{:port}",
     "application": {
         "name": "Alfresco Example Content Application",
-        "build": "1234"
+        "logo": "/assets/images/alfresco-logo-white.svg"
     },
-    "logo": "alfresco-logo-white.svg",
+    "headerColor": "#2196F3",
     "languagePicker": false,
     "document-list": {
         "supportedPageSizes": [
@@ -121,6 +121,10 @@
         {
             "key": "ru",
             "label": "Russian"
+        },
+        {
+            "key": "zh-CN",
+            "label": "Simplified Chinese"
         }
     ]
 }

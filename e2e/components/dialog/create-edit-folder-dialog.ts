@@ -1,18 +1,26 @@
 /*!
  * @license
- * Copyright 2017 Alfresco Software, Ltd.
+ * Alfresco Example Content Application
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (C) 2005 - 2017 Alfresco Software Limited
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { ElementFinder, by, browser, protractor, ExpectedConditions as EC, promise } from 'protractor';
@@ -21,11 +29,11 @@ import { Component } from '../component';
 
 export class CreateOrEditFolderDialog extends Component {
     private static selectors = {
-        root: '.mat-dialog-container',
+        root: 'adf-folder-dialog',
 
         title: '.mat-dialog-title',
-        nameInput: '.mat-dialog-container .mat-input-element[placeholder="Name"]',
-        descriptionTextArea: '.mat-dialog-container .mat-input-element[placeholder="Description"]',
+        nameInput: '.mat-input-element[placeholder="Name" i]',
+        descriptionTextArea: '.mat-input-element[placeholder="Description" i]',
         button: '.mat-dialog-actions button',
         validationMessage: '.mat-hint span'
     };
@@ -64,31 +72,25 @@ export class CreateOrEditFolderDialog extends Component {
             .catch(() => '');
     }
 
-    enterName(name: string): CreateOrEditFolderDialog {
-        const { nameInput } = this;
+    enterName(name: string): promise.Promise<CreateOrEditFolderDialog> {
+        return this.nameInput.clear()
+            .then(() => this.nameInput.sendKeys(name))
+            .then(() => this);
+    }
 
-        nameInput.clear();
-        nameInput.sendKeys(name);
-
-        return this;
+    enterDescription(description: string): promise.Promise<CreateOrEditFolderDialog> {
+        return this.descriptionTextArea.clear()
+            .then(() => {
+                browser.actions().click(this.descriptionTextArea).sendKeys(description).perform();
+            })
+            .then(() => this);
     }
 
     deleteNameWithBackspace(): promise.Promise<void> {
-        const { nameInput } = this;
-
-        return nameInput.clear()
+        return this.nameInput.clear()
             .then(() => {
-                return nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
+                return this.nameInput.sendKeys(' ', protractor.Key.CONTROL, 'a', protractor.Key.NULL, protractor.Key.BACK_SPACE);
             });
-    }
-
-    enterDescription(description: string): CreateOrEditFolderDialog {
-        const { descriptionTextArea } = this;
-
-        descriptionTextArea.clear();
-        descriptionTextArea.sendKeys(description);
-
-        return this;
     }
 
     clickCreate() {

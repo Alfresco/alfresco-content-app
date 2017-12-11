@@ -33,10 +33,10 @@
                 class="secondary-options">
                 <button
                     mat-menu-item
-                    #favorite="favorite"
-                    [app-favorite-node]="documentList.selection">
-                    <mat-icon [ngClass]="{ 'icon-highlight': favorite.hasFavorites() }">
-                        {{ favorite.hasFavorites() ? 'star' :'star_border' }}
+                    #selection="adfFavorite"
+                    [adf-node-favorite]="documentList.selection">
+                    <mat-icon [ngClass]="{ 'icon-highlight': selection.hasFavorites() }">
+                        {{ selection.hasFavorites() ? 'star' :'star_border' }}
                     </mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
                 </button>
@@ -75,10 +75,11 @@
             selectionMode="multiple"
             [navigate]="false"
             [sorting]="[ 'modifiedAt', 'desc' ]"
-            [pageSize]="25"
             [contextMenuActions]="true"
             [contentActions]="false"
-            (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
+            [imageResolver]="imageResolver"
+            (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
+            (node-select)="onNodeSelect($event, documentList)">
 
             <empty-folder-content>
                 <ng-template>
@@ -99,11 +100,11 @@
                 </data-column>
 
                 <data-column
+                    class="adf-data-table-cell--ellipsis__name"
                     key="name"
-                    class="app-name-column"
                     title="APP.DOCUMENT_LIST.COLUMNS.NAME">
                     <ng-template let-value="value" let-context>
-                        <span title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
+                        <span class="adf-datatable-cell" title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
                     </ng-template>
                 </data-column>
 
@@ -123,12 +124,17 @@
 
                 <data-column
                     key="modifiedAt"
-                    type="date"
-                    format="timeAgo"
                     title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON">
+                    <ng-template let-value="value">
+                        <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
+                    </ng-template>
                 </data-column>
             </data-columns>
 
         </adf-document-list>
+        <adf-pagination [ngClass]="{'no-border' : documentList.isEmpty()}"
+            [target]="documentList"
+            (changePageSize)="onChangePageSize($event)">
+        </adf-pagination>
     </div>
 </div>

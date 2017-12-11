@@ -1,36 +1,46 @@
 /*!
  * @license
- * Copyright 2017 Alfresco Software, Ltd.
+ * Alfresco Example Content Application
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (C) 2005 - 2017 Alfresco Software Limited
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { TestBed, async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, AlfrescoApiService, NodesApiService } from 'ng2-alfresco-core';
-import { DocumentListService, NodeMinimal, NodeMinimalEntry } from 'ng2-alfresco-documentlist';
+import { CoreModule, AlfrescoApiService, NodesApiService } from '@alfresco/adf-core';
+import { DocumentListService } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
+import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
-class TestNode extends NodeMinimalEntry {
-    constructor(id?: string, isFile?: boolean, name?: string, permission?: string[]) {
-        super();
-        this.entry = new NodeMinimal();
+class TestNode {
+    entry?: MinimalNodeEntryEntity;
+
+    constructor(id?: string, isFile?: boolean, name?: string, permission?: string[], nodeType?: string) {
+        this.entry = {};
         this.entry.id = id || 'node-id';
         this.entry.isFile = isFile;
         this.entry.isFolder = !isFile;
-        this.entry.nodeType = isFile ? 'content' : 'folder';
+        this.entry.nodeType = nodeType ? nodeType : (isFile ? 'content' : 'folder');
         this.entry.name = name;
         if (permission) {
             this.entry['allowableOperations'] = permission;
@@ -239,6 +249,42 @@ describe('NodeActionsService', () => {
         });
     });
 
+    describe('rowFilter', () => {
+        let fileToCopy;
+        let folderToCopy;
+        let testContentNodeSelectorComponentData;
+
+        beforeEach(() => {
+            fileToCopy = new TestNode(fileId, isFile, 'file-name');
+            folderToCopy = new TestNode();
+
+            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+
+            const dialog = TestBed.get(MatDialog);
+            spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
+                testContentNodeSelectorComponentData = data;
+                return {};
+            });
+
+            service.copyNodes([fileToCopy, folderToCopy]);
+        });
+
+        it('should filter destination nodes and not show files', () => {
+            const file = new TestNode('a-file', isFile);
+            expect(testContentNodeSelectorComponentData.data.rowFilter({node: file})).toBe(false);
+        });
+
+        it('should filter destination nodes and not show the symlinks', () => {
+            const symlinkDestinationFolder = new TestNode('symlink-id', !isFile, 'symlink-name', [], 'app:folderlink');
+            expect(testContentNodeSelectorComponentData.data.rowFilter({node: symlinkDestinationFolder})).toBe(false);
+        });
+
+        it('should filter destination nodes and show folders', () => {
+            const destinationFolder = new TestNode(folderDestinationId);
+            expect(testContentNodeSelectorComponentData.data.rowFilter({node: destinationFolder})).toBe(true);
+        });
+    });
+
     describe('copyNodes', () => {
         let fileToCopy;
         let folderToCopy;
@@ -304,7 +350,7 @@ describe('NodeActionsService', () => {
 
             expect(spyOnBatchOperation).toHaveBeenCalled();
             expect(testContentNodeSelectorComponentData).toBeDefined();
-            expect(testContentNodeSelectorComponentData.data.title).toBe('copy entry-name to ...');
+            expect(testContentNodeSelectorComponentData.data.title).toBe('copy \'entry-name\' to ...');
         });
 
         it('should use the ContentNodeSelectorComponentData object without file name in title, if no name exists', () => {

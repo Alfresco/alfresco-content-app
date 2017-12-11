@@ -1,25 +1,36 @@
 /*!
  * @license
- * Copyright 2017 Alfresco Software, Ltd.
+ * Alfresco Example Content Application
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (C) 2005 - 2017 Alfresco Software Limited
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { Observable, Subscription } from 'rxjs/Rx';
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
-import { UploadService, FileUploadEvent, NodesApiService, AlfrescoContentService, AlfrescoApiService } from 'ng2-alfresco-core';
+import {
+    UploadService, FileUploadEvent, NodesApiService,
+    ContentService, AlfrescoApiService, UserPreferencesService
+} from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -31,32 +42,26 @@ import { PageComponent } from '../page.component';
     templateUrl: './files.component.html'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
+
     private routeData: any = {};
     isValidPath = true;
 
     private nodePath: PathElement[];
-    private onCopyNode: Subscription;
-    private onRemoveItem: Subscription;
-    private onCreateFolder: Subscription;
-    private onEditFolder: Subscription;
-    private onDeleteNode: Subscription;
-    private onMoveNode: Subscription;
-    private onRestoreNode: Subscription;
-    private onFileUploadComplete: Subscription;
-    private onToggleFavorite: Subscription;
+    private subscriptions: Subscription[] = [];
 
     constructor(
         private router: Router,
+        private zone: NgZone,
         private route: ActivatedRoute,
         private nodesApi: NodesApiService,
-        private changeDetector: ChangeDetectorRef,
         private nodeActionsService: NodeActionsService,
         private uploadService: UploadService,
         private contentManagementService: ContentManagementService,
         private browsingFilesService: BrowsingFilesService,
-        private contentService: AlfrescoContentService,
-        private apiService: AlfrescoApiService) {
-        super();
+        private contentService: ContentService,
+        private apiService: AlfrescoApiService,
+        preferences: UserPreferencesService) {
+        super(preferences);
     }
 
     ngOnInit() {
@@ -85,30 +90,20 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 );
         });
 
-        this.onCopyNode = nodeActionsService.contentCopied
-            .subscribe((nodes) => this.onContentCopied(nodes));
-        this.onCreateFolder = contentService.folderCreate.subscribe(() => this.load());
-        this.onEditFolder = contentService.folderEdit.subscribe(() => this.load());
-        this.onDeleteNode = contentManagementService.deleteNode.subscribe(() => this.load());
-        this.onMoveNode = contentManagementService.moveNode.subscribe(() => this.load());
-        this.onRestoreNode = contentManagementService.restoreNode.subscribe(() => this.load());
-        this.onToggleFavorite = contentManagementService.toggleFavorite.subscribe(() => this.load());
-        this.onFileUploadComplete = uploadService.fileUploadComplete
-            .subscribe(file => this.onFileUploadedEvent(file));
-        this.onRemoveItem = uploadService.fileUploadDeleted
-            .subscribe((file) => this.onFileUploadedEvent(file));
+        this.subscriptions = this.subscriptions.concat([
+            nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
+            contentService.folderCreate.subscribe(() => this.load(false, this.pagination)),
+            contentService.folderEdit.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.deleteNode.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.moveNode.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.restoreNode.subscribe(() => this.load(false, this.pagination)),
+            uploadService.fileUploadComplete.subscribe(file => this.onFileUploadedEvent(file)),
+            uploadService.fileUploadDeleted.subscribe((file) => this.onFileUploadedEvent(file))
+        ]);
     }
 
     ngOnDestroy() {
-        this.onCopyNode.unsubscribe();
-        this.onRemoveItem.unsubscribe();
-        this.onCreateFolder.unsubscribe();
-        this.onEditFolder.unsubscribe();
-        this.onDeleteNode.unsubscribe();
-        this.onMoveNode.unsubscribe();
-        this.onRestoreNode.unsubscribe();
-        this.onFileUploadComplete.unsubscribe();
-        this.onToggleFavorite.unsubscribe();
+        this.subscriptions.forEach(s => s.unsubscribe());
 
         this.browsingFilesService.onChangeParent.next(null);
     }
@@ -118,7 +113,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     fetchNodes(parentNodeId?: string, options: any = {}): Observable<NodePaging> {
-        return this.nodesApi.getNodeChildren(parentNodeId, options);
+        const defaults = {
+            include: [ 'isLocked', 'path', 'properties', 'allowableOperations' ]
+        };
+
+        const queryOptions = Object.assign({}, defaults, options);
+
+        return this.nodesApi.getNodeChildren(parentNodeId, queryOptions);
     }
 
     navigate(nodeId: string = null) {
@@ -133,15 +134,24 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    onNodeDoubleClick(node: MinimalNodeEntryEntity) {
-        if (node) {
-            if (node.isFolder) {
-                this.navigate(node.id);
+    onNodeDoubleClick(event) {
+        if (!!event.detail && !!event.detail.node) {
+
+            const node: MinimalNodeEntryEntity = event.detail.node.entry;
+            if (node) {
+
+                if (node.isFolder) {
+                    this.navigate(node.id);
+                }
+
+                if (PageComponent.isLockedNode(node)) {
+                    event.preventDefault();
+
+                } else if (node.isFile) {
+                    this.router.navigate(['/preview', node.id]);
+                }
             }
 
-            if (node.isFile) {
-                this.router.navigate(['/preview', node.id]);
-            }
         }
     }
 
@@ -157,7 +167,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     onFileUploadedEvent(event: FileUploadEvent) {
         if (event && event.file.options.parentId === this.getParentNodeId()) {
-            this.load();
+            this.load(false, this.pagination);
         }
     }
 
@@ -167,7 +177,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 return node && node.entry && node.entry.parentId === this.getParentNodeId();
             });
         if (newNode) {
-            this.load();
+            this.load(false, this.pagination);
         }
     }
 
@@ -183,11 +193,31 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         this.isLoading = showIndicator;
 
         this.fetchNodes(this.getParentNodeId(), pagination)
+            .flatMap((page) => {
+                if (this.isCurrentPageEmpty(page) && this.isNotFirstPage(page)) {
+                    const newSkipCount = pagination.skipCount - pagination.maxItems;
+
+                    return this.fetchNodes(this.getParentNodeId(), {skipCount: newSkipCount, maxItems: pagination.maxItems});
+                }
+
+                return Observable.of(page);
+            })
             .subscribe(
-                (page) => this.onPageLoaded(page),
-                error => this.onFetchError(error),
-                () => this.changeDetector.detectChanges()
+                (page) => this.zone.run(() => this.onPageLoaded(page)),
+                error => this.onFetchError(error)
             );
+    }
+
+    isCurrentPageEmpty(page): boolean {
+        return !this.hasPageEntries(page);
+    }
+
+    hasPageEntries(page): boolean {
+        return page && page.list && page.list.entries && page.list.entries.length > 0;
+    }
+
+    isNotFirstPage(page): boolean {
+        return (page.list.pagination.skipCount >= page.list.pagination.maxItems);
     }
 
     // todo: review this approach once 5.2.3 is out

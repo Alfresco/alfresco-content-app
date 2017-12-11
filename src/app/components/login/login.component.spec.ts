@@ -1,136 +1,99 @@
 /*!
  * @license
- * Copyright 2017 Alfresco Software, Ltd.
+ * Alfresco Example Content Application
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (C) 2005 - 2017 Alfresco Software Limited
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { RouterTestingModule } from '@angular/router/testing';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
-import { CoreModule, AuthenticationService, UserPreferencesService } from 'ng2-alfresco-core';
-import { LoginModule } from 'ng2-alfresco-login';
+import { CoreModule, AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
 
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
+    let component;
+    let fixture;
+    let router;
+    let userPreference;
+    let auth;
 
-    class TestConfig {
-        private testBed;
-        private componentInstance;
-        private fixture;
-
-        constructor(config: any = {}) {
-            const routerProvider = {
-                provide: Router,
-                useValue: {
-                    navigateByUrl: jasmine.createSpy('navigateByUrl'),
-                    navigate: jasmine.createSpy('navigate')
-                }
-            };
-
-            const authProvider = {
-                provide: AuthenticationService,
-                useValue: {
-                    isEcmLoggedIn: jasmine.createSpy('navigateByUrl')
-                        .and.returnValue(config.isEcmLoggedIn || false)
-                }
-            };
-
-            this.testBed = TestBed.configureTestingModule({
-                imports: [
-                    RouterTestingModule,
-                    CoreModule,
-                    LoginModule
-                ],
-                declarations: [
-                    LoginComponent
-                ],
-                providers: [
-                    routerProvider,
-                    authProvider,
-                    {
-                        provide: ActivatedRoute,
-                        useValue: {
-                            params: Observable.of({ redirect: config.redirect })
-                        }
-                    }
-                ]
-            });
-
-            this.fixture = TestBed.createComponent(LoginComponent);
-            this.componentInstance = this.fixture.componentInstance;
-            this.fixture.detectChanges();
-        }
-
-        get userPrefService() {
-            return TestBed.get(UserPreferencesService);
-        }
-
-        get authService() {
-            return TestBed.get(AuthenticationService);
-        }
-
-        get routerService() {
-            return TestBed.get(Router);
-        }
-
-        get component() {
-            return this.componentInstance;
-        }
-    }
-
-    it('load app when user is already logged in', () => {
-        const testConfig = new TestConfig({
-            isEcmLoggedIn: true
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            imports: [
+                RouterTestingModule,
+                CoreModule
+            ],
+            declarations: [
+                LoginComponent
+            ]
         });
 
-        expect(testConfig.routerService.navigateByUrl).toHaveBeenCalled();
+        fixture = TestBed.createComponent(LoginComponent);
+        component = fixture.componentInstance;
+
+        router = TestBed.get(Router);
+        auth = TestBed.get(AuthenticationService);
+        userPreference = TestBed.get(UserPreferencesService);
+    }));
+
+    beforeEach(() => {
+        spyOn(userPreference, 'setStoragePrefix');
+        spyOn(router, 'navigateByUrl');
+        spyOn(auth, 'getRedirectUrl').and.returnValue('/some-url');
     });
 
-    it('requires user to be logged in', () => {
-        const testConfig = new TestConfig({
-            isEcmLoggedIn: false,
-            redirect: '/personal-files'
+    describe('OnInit()', () => {
+        it('should perform normal login when user is not logged in', () => {
+            spyOn(auth, 'isEcmLoggedIn').and.returnValue(false);
+            fixture.detectChanges();
+
+            expect(router.navigateByUrl).not.toHaveBeenCalled();
         });
 
-        expect(testConfig.routerService.navigate).toHaveBeenCalledWith(['/login', {}]);
+        it('should redirect when user is logged in', () => {
+            spyOn(auth, 'isEcmLoggedIn').and.returnValue(true);
+            fixture.detectChanges();
+
+            expect(router.navigateByUrl).toHaveBeenCalledWith('/some-url');
+        });
     });
 
     describe('onLoginSuccess()', () => {
-        let testConfig;
-
         beforeEach(() => {
-            testConfig = new TestConfig({
-                isEcmLoggedIn: false,
-                redirect: 'somewhere-over-the-rainbow'
-            });
+            spyOn(auth, 'isEcmLoggedIn').and.returnValue(false);
+            fixture.detectChanges();
         });
 
-        it('redirects on success', () => {
-            testConfig.component.onLoginSuccess();
+        it('should redirect on success', () => {
+            component.onLoginSuccess();
 
-            expect(testConfig.routerService.navigateByUrl).toHaveBeenCalledWith('somewhere-over-the-rainbow');
+            expect(router.navigateByUrl).toHaveBeenCalledWith('/personal-files');
         });
 
-        it('sets user preference store prefix', () => {
-            const service = testConfig.userPrefService;
-            spyOn(service, 'setStoragePrefix').and.stub();
+        it('should set user preference store prefix', () => {
+            component.onLoginSuccess({ username: 'bogus' });
 
-            testConfig.component.onLoginSuccess({ username: 'bogus' });
-
-            expect(service.setStoragePrefix).toHaveBeenCalledWith('bogus');
+            expect(userPreference.setStoragePrefix).toHaveBeenCalledWith('bogus');
         });
     });
 });

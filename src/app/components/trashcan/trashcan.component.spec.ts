@@ -1,30 +1,40 @@
 /*!
  * @license
- * Copyright 2017 Alfresco Software, Ltd.
+ * Alfresco Example Content Application
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Copyright (C) 2005 - 2017 Alfresco Software Limited
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { TestBed, async } from '@angular/core/testing';
-import { CoreModule, AlfrescoApiService } from 'ng2-alfresco-core';
+import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 import { TrashcanComponent } from './trashcan.component';
 import { CommonModule } from '../../common/common.module';
 import { LocationLinkComponent } from '../location-link/location-link.component';
+import { ContentManagementService } from '../../common/services/content-management.service';
 
 describe('TrashcanComponent', () => {
     let fixture;
     let component;
     let alfrescoApi: AlfrescoApiService;
+    let contentService: ContentManagementService;
     let page;
 
     beforeEach(() => {
@@ -45,6 +55,9 @@ describe('TrashcanComponent', () => {
             declarations: [
                 LocationLinkComponent,
                 TrashcanComponent
+            ],
+            providers: [
+                ContentManagementService
             ]
         })
         .compileComponents()
@@ -53,6 +66,7 @@ describe('TrashcanComponent', () => {
             component = fixture.componentInstance;
 
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            contentService = TestBed.get(ContentManagementService);
 
             component.documentList = {
                 loadTrashcan:  jasmine.createSpy('loadTrashcan'),
@@ -63,6 +77,17 @@ describe('TrashcanComponent', () => {
 
     beforeEach(() => {
         spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve(page));
+    });
+
+    describe('onRestoreNode()', () => {
+        it('should call refresh()', () => {
+            spyOn(component, 'refresh');
+            fixture.detectChanges();
+
+            contentService.restoreNode.next();
+
+            expect(component.refresh).toHaveBeenCalled();
+        });
     });
 
     describe('refresh()', () => {

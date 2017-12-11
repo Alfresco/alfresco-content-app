@@ -1,8 +1,7 @@
 <div class="layout">
     <adf-upload-drag-area
-        [rootFolderId]="node?.id"
-        [disabled]="!canCreateContent(node)"
-        [showNotificationBar]="false">
+        [parentId]="node?.id"
+        [disabled]="!canCreateContent(node)">
         <app-header></app-header>
 
         <div class="layout__content">

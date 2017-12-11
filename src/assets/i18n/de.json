@@ -1,7 +1,11 @@
 {
   "APP": {
+    "LANGUAGE": "Sprache",
     "SIGN_IN": "Anmelden",
     "SIGN_OUT": "Abmelden",
+    "PREVIEW": {
+      "TITLE": "Vorschau"
+    },
     "NEW_MENU": {
       "LABEL": "Neu",
       "MENU_ITEMS": {
@@ -31,6 +35,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Dateibibliotheken",
           "TOOLTIP": "Auf Dateibibliotheken zugreifen"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Sie sind noch kein Mitglied von Dateibibliotheken",
+          "TEXT": "Treten Sie Sites bei, um Dateien hochladen, anzeigen und freigeben zu können."
         }
       },
       "SHARED": {
@@ -38,6 +46,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Freigegeben",
           "TOOLTIP": "Dateien anzeigen, die freigegeben wurden"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Keine freigegebenen Dateien oder Ordner",
+          "TEXT": "Elemente, die Sie mit der Freigabeoption freigeben, werden hier angezeigt."
         }
       },
       "RECENT": {
@@ -45,6 +57,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Kürzlich bearbeitete Dateien",
           "TOOLTIP": "Dateien anzeigen, die Sie kürzlich bearbeitet haben"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Keine aktuellen Dateien",
+          "TEXT": "Elemente, die Sie in den letzten 30 Tagen hochgeladen oder bearbeitet haben, werden hier angezeigt."
         }
       },
       "FAVORITES": {
@@ -52,6 +68,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Favoriten",
           "TOOLTIP": "Dateien und Ordner anzeigen, die Sie zu Ihren Favoriten hinzugefügt haben"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Keine Dateien oder Ordner als Favoriten markiert",
+          "TEXT": "Sie können Elemente als Favoriten markieren, um sie später leichter wiederzufinden."
         }
       },
       "TRASHCAN": {
@@ -59,17 +79,25 @@
         "SIDENAV_LINK": {
           "LABEL": "Papierkorb",
           "TOOLTIP": "Gelöschte Dateien im Papierkorb anzeigen"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Papierkorb ist leer",
+          "FIRST_TEXT": "Elemente, die Sie löschen, werden in den Papierkorb verschoben.",
+          "SECOND_TEXT": "Leeren Sie den Papierkorb, um Elemente dauerhaft zu löschen."
         }
+      },
+      "ABOUT": {
+        "TITLE": "Info"
       }
     },
     "ACTIONS": {
       "VIEW": "Anzeigen",
-      "SHARE": "Freigeben",
       "EDIT": "Bearbeiten",
       "DOWNLOAD": "Herunterladen",
       "COPY": "Kopieren",
       "MOVE": "Verschieben",
       "DELETE": "Löschen",
+      "DELETE_PERMANENT": "Dauerhaft löschen",
       "MORE": "Weitere Aktionen",
       "UNDO": "Rückgängig machen",
       "RESTORE": "Wiederherstellen",
@@ -154,13 +182,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} Elemente konnten nicht gelöscht werden",
-            "SINGULAR": "Element '{{ name }}' konnte nicht gelöscht werden"
+            "SINGULAR": "{{ name }} konnte nicht gelöscht werden"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} Elemente wurden nicht wiederhergestellt, weil es Probleme mit dem Speicherort für die Wiederherstellung gab",
-            "NODE_EXISTS": "Wiederherstellung nicht möglich, Element '{{ name }}' gibt es bereits",
-            "LOCATION_MISSING": "Element '{{ name }}' kann nicht wiederhergestellt werden, weil es den ursprünglichen Speicherort nicht mehr gibt",
-            "GENERIC": "Beim Wiederherstellen des Elements '{{ name }}' ist ein Problem aufgetreten"
+            "NODE_EXISTS": "Wiederherstellung nicht möglich, {{ name }} gibt es bereits",
+            "LOCATION_MISSING": "{{ name }} kann nicht wiederhergestellt werden, weil es den ursprünglichen Speicherort nicht mehr gibt",
+            "GENERIC": "Beim Wiederherstellen von {{ name }} ist ein Problem aufgetreten"
           }
         }
       },
@@ -168,13 +196,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} Elemente gelöscht",
-            "SINGULAR": "Element '{{ name }}' gelöscht",
-            "PARTIAL_SINGULAR": "Element '{{ name }}' gelöscht, '{{ failed }}' konnte nicht gelöscht werden",
+            "SINGULAR": "{{ name }} gelöscht",
+            "PARTIAL_SINGULAR": "{{ name }} gelöscht, {{ failed }} konnte nicht gelöscht werden",
             "PARTIAL_PLURAL": "{{ number }} Elemente gelöscht, {{ failed }} konnte(n) nicht gelöscht werden"
           },
           "NODES_RESTORE": {
             "PLURAL": "Wiederherstellung erfolgreich",
-            "SINGULAR": "Element '{{ name }}' wiederhergestellt"
+            "SINGULAR": "{{ name }} wiederhergestellt"
           }
         },
         "NODE_DELETION": {
@@ -184,8 +212,12 @@
           "PARTIAL_PLURAL": "{{ success }} Elemente gelöscht, {{ failed }} konnte(n) nicht gelöscht werden"
         },
         "NODE_COPY": {
-          "SINGULAR": "{{ success }} Element kopiert.",
-          "PLURAL": "{{ success }} Elemente kopiert."
+          "SINGULAR": "{{ success }} Element kopiert",
+          "PLURAL": "{{ success }} Elemente kopiert",
+          "PARTIAL_SINGULAR": "{{ success }} Element kopiert, {{ failed }} konnte(n) nicht kopiert werden.",
+          "PARTIAL_PLURAL": "{{ success }} Elemente kopiert, {{ failed }} konnte(n) nicht kopiert werden.",
+          "FAIL_SINGULAR": "{{ failed }} konnte nicht kopiert werden.",
+          "FAIL_PLURAL": "{{ failed }} Elemente konnten nicht kopiert werden."
         },
         "NODE_MOVE": {
           "SINGULAR": "{{ success }} Element verschoben.",

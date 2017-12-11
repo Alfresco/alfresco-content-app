@@ -4,7 +4,7 @@
 
     &.adf-toolbar {
         .mat-toolbar {
-            background-color: #00bcd4;
+            background-color: inherit;
             font-family: inherit;
             min-height: $app-menu-height;
             height: $app-menu-height;
@@ -30,7 +30,7 @@
 
     .app-menu__title {
         width: 100px;
-        height: $app-menu-height;
+        height: 50px;
         margin-left: 5px;
         display: flex;
         justify-content: center;

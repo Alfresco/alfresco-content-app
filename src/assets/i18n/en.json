@@ -59,7 +59,7 @@
                     "TOOLTIP": "View files you recently edited"
                 },
                 "EMPTY_STATE": {
-                    "TITLE": "No recent files or folders",
+                    "TITLE": "No recent files",
                     "TEXT": "Items you upload or edit in the last 30 days are shown here."
                 }
             },

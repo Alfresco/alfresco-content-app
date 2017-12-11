@@ -32,7 +32,6 @@
             selectionMode="multiple"
             [navigate]="false"
             [sorting]="[ 'archivedAt', 'desc' ]"
-            [pageSize]="25"
             [contextMenuActions]="true"
             [contentActions]="false">
 
@@ -57,11 +56,11 @@
                 </data-column>
 
                 <data-column
+                    class="adf-data-table-cell--ellipsis__name"
                     key="name"
-                    class="app-name-column"
                     title="APP.DOCUMENT_LIST.COLUMNS.NAME">
                     <ng-template let-value="value" let-context>
-                        <span title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
+                        <span class="adf-datatable-cell" title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
                     </ng-template>
                 </data-column>
 
@@ -81,12 +80,14 @@
 
                 <data-column
                     key="archivedAt"
-                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON"
-                    type="date"
-                    format="timeAgo">
+                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON">
+                    <ng-template let-value="value">
+                        <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
+                    </ng-template>
                 </data-column>
 
                 <data-column
+                    class="adf-data-table-cell--ellipsis"
                     key="archivedByUser.displayName"
                     title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">
                 </data-column>
@@ -94,5 +95,9 @@
             </data-columns>
 
         </adf-document-list>
+        <adf-pagination [ngClass]="{ 'no-border' : documentList.isEmpty()}"
+            [target]="documentList"
+            (changePageSize)="onChangePageSize($event)">
+        </adf-pagination>
     </div>
 </div>
