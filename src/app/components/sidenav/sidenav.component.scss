@@ -14,6 +14,10 @@ $sidenav-menu-item--icon-size: 24px;
         flex: 1;
         flex-direction: column;
 
+        &__section:last-child {
+            border-bottom: 0;
+        }
+
         &__section {
             padding:
                 $sidenav-section--v-padding
@@ -69,6 +73,10 @@ $sidenav-menu-item--icon-size: 24px;
                         cursor: default !important;
                         color: $alfresco-secondary-text-color !important;
                         opacity: .25;
+                    }
+
+                    &--noicon {
+                        padding-left: 26px;
                     }
                 }
             }

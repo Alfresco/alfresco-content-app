@@ -53,11 +53,12 @@
             <li class="sidenav-menu__item" *ngFor="let item of list">
                 <a
                     class="sidenav-menu__item-link"
+                    [ngClass]="{ 'sidenav-menu__item-link--noicon' : !item.icon }"
                     routerLinkActive="sidenav-menu__item-link--active"
                     [routerLink]="item.disabled? null : item.route.url"
                     [ngClass]="{ 'disabled': item.disabled }"
                     title="{{ item.title || '' | translate }}">
-                    <mat-icon>{{ item.icon }}</mat-icon>
+                    <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
                     {{ item.label | translate }}
                 </a>
             </li>

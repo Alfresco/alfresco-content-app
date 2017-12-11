@@ -17,8 +17,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ContentService } from '@alfresco/adf-core';
-
+import { ContentService, AppConfigService } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 
 import { SidenavComponent } from './sidenav.component';
@@ -29,6 +28,15 @@ describe('SidenavComponent', () => {
     let component: SidenavComponent;
     let contentService: ContentService;
     let browsingService: BrowsingFilesService;
+    let appConfig: AppConfigService;
+    let appConfigSpy;
+
+    const navItem = {
+        label: 'some-label',
+        route: {
+            url: '/some-url'
+        }
+    };
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -44,15 +52,17 @@ describe('SidenavComponent', () => {
         .then(() => {
             contentService = TestBed.get(ContentService);
             browsingService = TestBed.get(BrowsingFilesService);
+            appConfig = TestBed.get(AppConfigService);
 
             fixture = TestBed.createComponent(SidenavComponent);
             component = fixture.componentInstance;
 
-            fixture.detectChanges();
+            appConfigSpy = spyOn(appConfig, 'get').and.returnValue([navItem]);
         });
     }));
 
-    it('updates node on change', () => {
+    it('should update node on change', () => {
+        fixture.detectChanges();
         const node: any = { entry: { id: 'someNodeId' } };
 
         browsingService.onChangeParent.next(<any>node);
@@ -60,7 +70,8 @@ describe('SidenavComponent', () => {
         expect(component.node).toBe(node);
     });
 
-    it('can create content', () => {
+    it('should have permission to create content', () => {
+        fixture.detectChanges();
         spyOn(contentService, 'hasPermission').and.returnValue(true);
         const node: any = {};
 
@@ -68,18 +79,36 @@ describe('SidenavComponent', () => {
         expect(contentService.hasPermission).toHaveBeenCalledWith(node, 'create');
     });
 
-    it('cannot create content for missing node', () => {
+    it('should not have permission to create content for missing node', () => {
+        fixture.detectChanges();
         spyOn(contentService, 'hasPermission').and.returnValue(true);
 
         expect(component.canCreateContent(null)).toBe(false);
         expect(contentService.hasPermission).not.toHaveBeenCalled();
     });
 
-    it('cannot create content based on permission', () => {
+    it('should not have permission to create content based on node permission', () => {
+        fixture.detectChanges();
         spyOn(contentService, 'hasPermission').and.returnValue(false);
         const node: any = {};
 
         expect(component.canCreateContent(node)).toBe(false);
         expect(contentService.hasPermission).toHaveBeenCalledWith(node, 'create');
+    });
+
+    describe('menu', () => {
+        it('should build menu from array', () => {
+            appConfigSpy.and.returnValue([navItem, navItem]);
+            fixture.detectChanges();
+
+            expect(component.navigation).toEqual([[navItem, navItem]]);
+        });
+
+        it('should build menu from object', () => {
+            appConfigSpy.and.returnValue({ a: [navItem, navItem], b: [navItem, navItem] });
+            fixture.detectChanges();
+
+            expect(component.navigation).toEqual([[navItem, navItem], [navItem, navItem]]);
+        });
     });
 });
