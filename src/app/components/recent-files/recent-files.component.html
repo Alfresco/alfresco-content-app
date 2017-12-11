@@ -77,7 +77,9 @@
             [sorting]="[ 'modifiedAt', 'desc' ]"
             [contextMenuActions]="true"
             [contentActions]="false"
-            (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
+            [imageResolver]="imageResolver"
+            (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
+            (node-select)="onNodeSelect($event, documentList)">
 
             <empty-folder-content>
                 <ng-template>
