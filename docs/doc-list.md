@@ -2,10 +2,10 @@
 
 The main area of the application is composed from a number of individual ADF components:
 
-- [Breadcrumb](https://alfresco.github.io/adf-component-catalog/components/BreadcrumbComponent.html)
-- [Toolbar](https://alfresco.github.io/adf-component-catalog/components/ToolbarComponent.html)
-- [Document List](https://alfresco.github.io/adf-component-catalog/components/DocumentListComponent.html)
-- [Pagination](https://alfresco.github.io/adf-component-catalog/components/PaginationComponent.html)
+- (1) [Breadcrumb](https://alfresco.github.io/adf-component-catalog/components/BreadcrumbComponent.html)
+- (2) [Toolbar](https://alfresco.github.io/adf-component-catalog/components/ToolbarComponent.html)
+- (3) [Document List](https://alfresco.github.io/adf-component-catalog/components/DocumentListComponent.html)
+- (4) [Pagination](https://alfresco.github.io/adf-component-catalog/components/PaginationComponent.html)
 
 ![](images/doclist.png)
 
