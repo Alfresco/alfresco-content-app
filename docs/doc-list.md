@@ -1,4 +1,4 @@
-### (3) Document List Layout
+### Document List Layout
 
 The main area of the application is composed from a number of individual ADF components:
 
