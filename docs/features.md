@@ -1,5 +1,5 @@
 # Features
-
+## Introduction
 The concept of this example is a simple user interface which makes accessing files in the Alfresco Content Services repository easy.
 
 Often Content Management systems provide more capabilities out of the box than most users need;
