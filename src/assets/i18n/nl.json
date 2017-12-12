@@ -117,52 +117,6 @@
         "DELETED_BY": "Verwijderd door"
       }
     },
-    "DIALOG": {
-      "MINIMIZE": "Minimaliseren",
-      "MAXIMIZE": "Maximaliseren",
-      "CLOSE": "Sluiten",
-      "UPLOAD": {
-        "IN_PROGRESS": "{{ completed }} / {{ length }} uploaden",
-        "COMPLETE": "{{ completed }} / {{ length }} geüpload",
-        "CANCELED": "Uploaden geannuleerd",
-        "CANCEL_UPLOAD": "Uploaden annuleren",
-        "CANCEL_ALL": "Uploads annuleren",
-        "REMOVE_UPLOADED": "Geüpload bestand verwijderen",
-        "CANCELED_STATUS": "Geannuleerd",
-        "ERRORS": "fout(en)"
-      }
-    },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Nieuwe map maken",
-      "EDIT_FOLDER_TITLE": "Map bewerken",
-      "FOLDER_NAME": {
-        "LABEL": "Naam",
-        "ERRORS": {
-          "REQUIRED": "Mapnaam is vereist",
-          "SPECIAL_CHARACTERS": "Mapnaam mag de volgende tekens niet bevatten: * \" < > \\ / ? : |",
-          "ENDING_DOT": "Mapnaam mag niet eindigen met een punt .",
-          "ONLY_SPACES": "Mapnaam mag niet alleen uit spaties bestaan"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Beschrijving"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Maken"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Bijwerken"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Annuleren"
-      }
-    },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "Items per pagina",
-      "CURRENT_PAGE": "Pagina",
-      "OF": "van",
-      "SHOW_RANGE": "{{ range }} van {{ total }} items wordt weergegeven"
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "Openbaar",
       "MODERATED": "Onder toezicht",
