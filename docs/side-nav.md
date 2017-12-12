@@ -3,6 +3,8 @@
 The application [side navigation](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/sidenav) has two features;
 a button menu and navigation links.
 
+![](images/side-nav.png)
+
 #### New button
 
 The New button displays a menu which provides three actions:
