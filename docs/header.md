@@ -14,6 +14,8 @@ The applicaton [Search](https://github.com/Alfresco/alfresco-content-app/tree/ma
 utilizes the [ADF Search Component](https://github.com/Alfresco/alfresco-ng2-components/tree/master/lib/content-services/search)
 the app provides a 'live' search feature, where users can open files and folders directly from the Search API results.
 
+![](images/search.png)
+
 ### (3) Current User
 [Current User](https://github.com/Alfresco/alfresco-content-app/tree/development/src/app/components/current-user) -
 displays the user's name, and a menu where users can logout.
