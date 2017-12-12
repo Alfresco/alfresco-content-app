@@ -13,3 +13,7 @@ using the Alfresco Application Development Framework to easily and quickly creat
 ## User Interface - layout
 
 ![](images/features-01.png)
+
+- [(1) Header] (/?id=header)
+- [(2) Side Navigation] (/?id=side-nav)
+- [(3) Document List] (/?id=doc-list)
