@@ -23,3 +23,4 @@ and uploads can be canceled which will stop uploads in progress or permanently d
 The navigation links are configurable via the [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json).
 Default configuration creates two sections.
 See [How to work with the side navigation](/) for more information about configuring the side navigation.
+
