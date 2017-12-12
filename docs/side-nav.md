@@ -1,4 +1,4 @@
-### (2) Side Nav
+### Side Nav
 
 The application [side navigation](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/sidenav) has two features;
 a button menu and navigation links.
