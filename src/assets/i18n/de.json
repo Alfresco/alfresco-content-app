@@ -132,31 +132,6 @@
         "ERRORS": "Fehler"
       }
     },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Neuen Ordner erstellen",
-      "EDIT_FOLDER_TITLE": "Ordner bearbeiten",
-      "FOLDER_NAME": {
-        "LABEL": "Name",
-        "ERRORS": {
-          "REQUIRED": "Ordnername ist erforderlich",
-          "SPECIAL_CHARACTERS": "Ordnername darf die folgenden Zeichen nicht enthalten: * \" < > \\ / ? : |",
-          "ENDING_DOT": "Ordnername darf nicht mit einem Punkt enden.",
-          "ONLY_SPACES": "Ordnername darf nicht nur aus Leerzeichen bestehen."
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Beschreibung"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Erstellen"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Aktualisieren"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Abbrechen"
-      }
-    },
     "PAGINATION": {
       "ITEMS_PER_PAGE": "Elemente pro Seite",
       "CURRENT_PAGE": "Seite",

@@ -132,31 +132,6 @@
         "ERRORS": "feil"
       }
     },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Opprett ny mappe",
-      "EDIT_FOLDER_TITLE": "Rediger mappe",
-      "FOLDER_NAME": {
-        "LABEL": "Navn",
-        "ERRORS": {
-          "REQUIRED": "Mappenavn påkrevd",
-          "SPECIAL_CHARACTERS": "Mappenavn kan ikke inneholde disse tegnene * \" < > \\ / ? : |",
-          "ENDING_DOT": "Mappenavn kan ikke slutte med punktum .",
-          "ONLY_SPACES": "Mappenavn kan ikke inneholde bare mellomrom"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Beskrivelse"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Opprett"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Oppdater"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Avbryt"
-      }
-    },
     "PAGINATION": {
       "ITEMS_PER_PAGE": "Elementer per side",
       "CURRENT_PAGE": "Side",

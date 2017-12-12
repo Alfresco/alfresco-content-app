@@ -132,31 +132,6 @@
         "ERRORS": "errore/i"
       }
     },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Crea nuova cartella",
-      "EDIT_FOLDER_TITLE": "Modifica cartella",
-      "FOLDER_NAME": {
-        "LABEL": "Nome",
-        "ERRORS": {
-          "REQUIRED": "Nome cartella obbligatorio",
-          "SPECIAL_CHARACTERS": "Il nome della cartella non può contenere questi caratteri * \" < > \\ / ? : |",
-          "ENDING_DOT": "Il nome della cartella non può terminare con un punto.",
-          "ONLY_SPACES": "Il nome della cartella non può contenere solo spazi"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Descrizione"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Crea"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Aggiorna"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Annulla"
-      }
-    },
     "PAGINATION": {
       "ITEMS_PER_PAGE": "Elementi per pagina",
       "CURRENT_PAGE": "Pagina",

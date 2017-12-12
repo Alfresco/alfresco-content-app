@@ -132,31 +132,6 @@
         "ERRORS": "ошибка (ошибки)"
       }
     },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Создать новую папку",
-      "EDIT_FOLDER_TITLE": "Редактировать папку",
-      "FOLDER_NAME": {
-        "LABEL": "Имя",
-        "ERRORS": {
-          "REQUIRED": "Имя папки является обязательным",
-          "SPECIAL_CHARACTERS": "Имя папки не может содержать следующие символы * \" < > \\ / ? : |",
-          "ENDING_DOT": "Имя папки не может заканчиваться точкой .",
-          "ONLY_SPACES": "Имя папки не может состоять только из пробелов"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Описание"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Создать"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Обновить"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Отмена"
-      }
-    },
     "PAGINATION": {
       "ITEMS_PER_PAGE": "Элементов на странице",
       "CURRENT_PAGE": "Страница",

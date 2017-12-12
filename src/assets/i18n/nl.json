@@ -132,31 +132,6 @@
         "ERRORS": "fout(en)"
       }
     },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Nieuwe map maken",
-      "EDIT_FOLDER_TITLE": "Map bewerken",
-      "FOLDER_NAME": {
-        "LABEL": "Naam",
-        "ERRORS": {
-          "REQUIRED": "Mapnaam is vereist",
-          "SPECIAL_CHARACTERS": "Mapnaam mag de volgende tekens niet bevatten: * \" < > \\ / ? : |",
-          "ENDING_DOT": "Mapnaam mag niet eindigen met een punt .",
-          "ONLY_SPACES": "Mapnaam mag niet alleen uit spaties bestaan"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Beschrijving"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Maken"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Bijwerken"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Annuleren"
-      }
-    },
     "PAGINATION": {
       "ITEMS_PER_PAGE": "Items per pagina",
       "CURRENT_PAGE": "Pagina",

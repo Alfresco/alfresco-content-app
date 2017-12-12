@@ -132,31 +132,6 @@
                 "ERRORS": "error(s)"
             }
         },
-        "FOLDER_DIALOG": {
-            "CREATE_FOLDER_TITLE": "Create new folder",
-            "EDIT_FOLDER_TITLE": "Edit folder",
-            "FOLDER_NAME": {
-                "LABEL": "Name",
-                "ERRORS": {
-                    "REQUIRED": "Folder name is required",
-                    "SPECIAL_CHARACTERS": "Folder name can't contain these characters * \" < > \\ / ? : |",
-                    "ENDING_DOT": "Folder name can't end with a period .",
-                    "ONLY_SPACES": "Folder name can't contain only spaces"
-                }
-            },
-            "FOLDER_DESCRIPTION": {
-                "LABEL": "Description"
-            },
-            "CREATE_BUTTON": {
-                "LABEL": "Create"
-            },
-            "UPDATE_BUTTON": {
-                "LABEL": "Update"
-            },
-            "CANCEL_BUTTON": {
-                "LABEL": "Cancel"
-            }
-        },
         "PAGINATION": {
             "ITEMS_PER_PAGE": "Items per page",
             "CURRENT_PAGE": "Page",

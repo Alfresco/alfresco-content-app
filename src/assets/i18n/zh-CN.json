@@ -132,31 +132,6 @@
         "ERRORS": "错误"
       }
     },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "新建文件夹",
-      "EDIT_FOLDER_TITLE": "编辑文件夹",
-      "FOLDER_NAME": {
-        "LABEL": "名称",
-        "ERRORS": {
-          "REQUIRED": "需要文件夹名称",
-          "SPECIAL_CHARACTERS": "文件夹名称不能包含 * \" < > \\ / ? : | 字符",
-          "ENDING_DOT": "文件夹名称不能以句点结尾。",
-          "ONLY_SPACES": "文件夹名称不能只包含空格"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "说明"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "创建"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "更新"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "取消"
-      }
-    },
     "PAGINATION": {
       "ITEMS_PER_PAGE": "每页的项目",
       "CURRENT_PAGE": "页数",
