@@ -255,7 +255,7 @@ describe('NodeActionsService', () => {
             const dialog = TestBed.get(MatDialog);
             spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
                 testContentNodeSelectorComponentData = data;
-                return {};
+                return {componentInstance: {}};
             });
 
             service.copyNodes([fileToCopy, folderToCopy]);
@@ -308,7 +308,7 @@ describe('NodeActionsService', () => {
             const dialog = TestBed.get(MatDialog);
             const spyOnDialog = spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
                 testContentNodeSelectorComponentData = data;
-                return {};
+                return {componentInstance: {}};
             });
 
             service.copyNodes([fileToCopy, folderToCopy]);
@@ -335,7 +335,7 @@ describe('NodeActionsService', () => {
             const dialog = TestBed.get(MatDialog);
             spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
                 testContentNodeSelectorComponentData = data;
-                return {};
+                return {componentInstance: {}};
             });
 
             service.copyNodes([{entry: {id: 'entry-id', name: 'entry-name'}}]);
@@ -354,7 +354,7 @@ describe('NodeActionsService', () => {
             const dialog = TestBed.get(MatDialog);
             spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
                 testContentNodeSelectorComponentData = data;
-                return {};
+                return {componentInstance: {}};
             });
 
             service.copyNodes([{entry: {id: 'entry-id'}}]);
