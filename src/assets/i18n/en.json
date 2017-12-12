@@ -132,12 +132,6 @@
                 "ERRORS": "error(s)"
             }
         },
-        "PAGINATION": {
-            "ITEMS_PER_PAGE": "Items per page",
-            "CURRENT_PAGE": "Page",
-            "OF": "of",
-            "SHOW_RANGE": "Showing {{ range }} of {{ total }} items"
-        },
         "SITES_VISIBILITY": {
             "PUBLIC": "Public",
             "MODERATED": "Moderated",

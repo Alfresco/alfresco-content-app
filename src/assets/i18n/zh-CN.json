@@ -132,12 +132,6 @@
         "ERRORS": "错误"
       }
     },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "每页的项目",
-      "CURRENT_PAGE": "页数",
-      "OF": "/",
-      "SHOW_RANGE": "正在显示 {{ range }} / {{ range }} 项目"
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "公共",
       "MODERATED": "适中",

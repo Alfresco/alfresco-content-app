@@ -132,12 +132,6 @@
         "ERRORS": "エラー"
       }
     },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "ページ当たりのアイテム数",
-      "CURRENT_PAGE": "ページ:",
-      "OF": "/",
-      "SHOW_RANGE": "表示アイテム数: {{ range }} / {{ total }} 件"
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "公開",
       "MODERATED": "条件付き公開",

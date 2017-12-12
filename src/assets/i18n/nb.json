@@ -132,12 +132,6 @@
         "ERRORS": "feil"
       }
     },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "Elementer per side",
-      "CURRENT_PAGE": "Side",
-      "OF": "av",
-      "SHOW_RANGE": "Viser {{ range }} av {{ total }} elementer"
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "Offentlig",
       "MODERATED": "Moderert",

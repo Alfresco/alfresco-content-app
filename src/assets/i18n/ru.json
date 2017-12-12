@@ -132,12 +132,6 @@
         "ERRORS": "ошибка (ошибки)"
       }
     },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "Элементов на странице",
-      "CURRENT_PAGE": "Страница",
-      "OF": "из",
-      "SHOW_RANGE": "Отображается элементов: {{ range }} из {{ total }}"
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "Общедоступный",
       "MODERATED": "Модерируемый",

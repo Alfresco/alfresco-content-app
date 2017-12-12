@@ -132,12 +132,6 @@
         "ERRORS": "fout(en)"
       }
     },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "Items per pagina",
-      "CURRENT_PAGE": "Pagina",
-      "OF": "van",
-      "SHOW_RANGE": "{{ range }} van {{ total }} items wordt weergegeven"
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "Openbaar",
       "MODERATED": "Onder toezicht",
