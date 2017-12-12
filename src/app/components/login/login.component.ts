@@ -24,6 +24,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
 
@@ -33,13 +34,14 @@ import { AuthenticationService, UserPreferencesService } from '@alfresco/adf-cor
 export class LoginComponent implements OnInit {
     constructor(
         private router: Router,
+        private location: Location,
         private auth: AuthenticationService,
         private userPreferences: UserPreferencesService
     ) {}
 
     ngOnInit() {
         if (this.auth.isEcmLoggedIn()) {
-            this.router.navigateByUrl(this.auth.getRedirectUrl() || '');
+            this.location.forward();
         }
     }
 

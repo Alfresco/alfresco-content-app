@@ -25,6 +25,7 @@
 
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { TestBed, async } from '@angular/core/testing';
 import { CoreModule, AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
 
@@ -36,6 +37,7 @@ describe('LoginComponent', () => {
     let router;
     let userPreference;
     let auth;
+    let location;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -45,6 +47,9 @@ describe('LoginComponent', () => {
             ],
             declarations: [
                 LoginComponent
+            ],
+            providers: [
+                Location
             ]
         });
 
@@ -52,6 +57,7 @@ describe('LoginComponent', () => {
         component = fixture.componentInstance;
 
         router = TestBed.get(Router);
+        location = TestBed.get(Location);
         auth = TestBed.get(AuthenticationService);
         userPreference = TestBed.get(UserPreferencesService);
     }));
@@ -60,6 +66,7 @@ describe('LoginComponent', () => {
         spyOn(userPreference, 'setStoragePrefix');
         spyOn(router, 'navigateByUrl');
         spyOn(auth, 'getRedirectUrl').and.returnValue('/some-url');
+        spyOn(location, 'forward');
     });
 
     describe('OnInit()', () => {
@@ -67,14 +74,14 @@ describe('LoginComponent', () => {
             spyOn(auth, 'isEcmLoggedIn').and.returnValue(false);
             fixture.detectChanges();
 
-            expect(router.navigateByUrl).not.toHaveBeenCalled();
+            expect(location.forward).not.toHaveBeenCalled();
         });
 
         it('should redirect when user is logged in', () => {
             spyOn(auth, 'isEcmLoggedIn').and.returnValue(true);
             fixture.detectChanges();
 
-            expect(router.navigateByUrl).toHaveBeenCalledWith('/some-url');
+            expect(location.forward).toHaveBeenCalled();
         });
     });
 
