@@ -27,7 +27,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { AlfrescoApiService, ContentService, NodesApiService, DataColumn } from '@alfresco/adf-core';
+import { AlfrescoApiService, ContentService, NodesApiService, DataColumn, DataSorting } from '@alfresco/adf-core';
 import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
@@ -194,11 +194,23 @@ export class NodeActionsService {
             select: new EventEmitter<MinimalNodeEntryEntity[]>()
         };
 
-        this.dialog.open(ContentNodeSelectorComponent, <any>{
+        const matDialogRef = this.dialog.open(ContentNodeSelectorComponent, <any>{
             data,
             panelClass: 'adf-content-node-selector-dialog',
             width: '630px'
         });
+        const destinationPicker = matDialogRef.componentInstance;
+        const initialSiteChanged = destinationPicker.siteChanged;
+
+        destinationPicker.siteChanged = (chosenSite) => {
+            initialSiteChanged.call(destinationPicker, chosenSite);
+
+            if (chosenSite.guid === '-mysites-') {
+                destinationPicker.documentList.data.setSorting(new DataSorting('title', 'asc'));
+            } else {
+                destinationPicker.documentList.data.setSorting(new DataSorting('name', 'asc'));
+            }
+        };
 
         return data.select;
     }

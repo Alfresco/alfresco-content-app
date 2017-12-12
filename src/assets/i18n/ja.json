@@ -117,52 +117,6 @@
         "DELETED_BY": "削除者"
       }
     },
-    "DIALOG": {
-      "MINIMIZE": "最小化",
-      "MAXIMIZE": "最大化",
-      "CLOSE": "閉じる",
-      "UPLOAD": {
-        "IN_PROGRESS": "{{ completed }} / {{ length }} 件をアップロードしています",
-        "COMPLETE": "{{ completed }} / {{ length }} 個をアップロードしました",
-        "CANCELED": "アップロードがキャンセルされました",
-        "CANCEL_UPLOAD": "アップロードのキャンセル",
-        "CANCEL_ALL": "アップロードのキャンセル",
-        "REMOVE_UPLOADED": "アップロードしたファイルを削除",
-        "CANCELED_STATUS": "キャンセル",
-        "ERRORS": "エラー"
-      }
-    },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "新しいフォルダの作成",
-      "EDIT_FOLDER_TITLE": "フォルダの編集",
-      "FOLDER_NAME": {
-        "LABEL": "名前",
-        "ERRORS": {
-          "REQUIRED": "フォルダ名を指定してください",
-          "SPECIAL_CHARACTERS": "名前に次の文字を含めることはできません。 * \" < > \\ / ? : |",
-          "ENDING_DOT": "フォルダ名の最後にピリオド (.) を付けることはできません。",
-          "ONLY_SPACES": "フォルダ名にスペースだけを含めることはできません"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "説明"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "作成"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "更新"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "キャンセル"
-      }
-    },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "ページ当たりのアイテム数",
-      "CURRENT_PAGE": "ページ:",
-      "OF": "/",
-      "SHOW_RANGE": "表示アイテム数: {{ range }} / {{ total }} 件"
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "公開",
       "MODERATED": "条件付き公開",
