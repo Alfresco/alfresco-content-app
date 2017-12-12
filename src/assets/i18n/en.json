@@ -117,21 +117,6 @@
                 "DELETED_BY": "Deleted by"
             }
         },
-        "DIALOG": {
-            "MINIMIZE": "Minimize",
-            "MAXIMIZE": "Maximize",
-            "CLOSE": "Close",
-            "UPLOAD": {
-                "IN_PROGRESS": "Uploading {{ completed }} / {{ length }}",
-                "COMPLETE": "Uploaded {{ completed }} / {{ length }}",
-                "CANCELED": "Upload canceled",
-                "CANCEL_UPLOAD": "Cancel upload",
-                "CANCEL_ALL": "Cancel uploads",
-                "REMOVE_UPLOADED": "Remove uploaded file",
-                "CANCELED_STATUS": "Canceled",
-                "ERRORS": "error(s)"
-            }
-        },
         "SITES_VISIBILITY": {
             "PUBLIC": "Public",
             "MODERATED": "Moderated",

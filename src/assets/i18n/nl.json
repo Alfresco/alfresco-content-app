@@ -117,21 +117,6 @@
         "DELETED_BY": "Verwijderd door"
       }
     },
-    "DIALOG": {
-      "MINIMIZE": "Minimaliseren",
-      "MAXIMIZE": "Maximaliseren",
-      "CLOSE": "Sluiten",
-      "UPLOAD": {
-        "IN_PROGRESS": "{{ completed }} / {{ length }} uploaden",
-        "COMPLETE": "{{ completed }} / {{ length }} geüpload",
-        "CANCELED": "Uploaden geannuleerd",
-        "CANCEL_UPLOAD": "Uploaden annuleren",
-        "CANCEL_ALL": "Uploads annuleren",
-        "REMOVE_UPLOADED": "Geüpload bestand verwijderen",
-        "CANCELED_STATUS": "Geannuleerd",
-        "ERRORS": "fout(en)"
-      }
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "Openbaar",
       "MODERATED": "Onder toezicht",

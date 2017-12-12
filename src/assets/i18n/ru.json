@@ -117,21 +117,6 @@
         "DELETED_BY": "Удалено пользователем"
       }
     },
-    "DIALOG": {
-      "MINIMIZE": "Свернуть",
-      "MAXIMIZE": "Развернуть",
-      "CLOSE": "Закрыть",
-      "UPLOAD": {
-        "IN_PROGRESS": "Загрузка {{ completed }} / {{ length }}",
-        "COMPLETE": "Загружено {{ completed }} / {{ length }}",
-        "CANCELED": "Загрузка отменена",
-        "CANCEL_UPLOAD": "Отменить загрузку",
-        "CANCEL_ALL": "Отменить загрузки",
-        "REMOVE_UPLOADED": "Удалить загруженный файл",
-        "CANCELED_STATUS": "Oтменено",
-        "ERRORS": "ошибка (ошибки)"
-      }
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "Общедоступный",
       "MODERATED": "Модерируемый",

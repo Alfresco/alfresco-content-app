@@ -117,21 +117,6 @@
         "DELETED_BY": "Excluído por"
       }
     },
-    "DIALOG": {
-      "MINIMIZE": "Minimizar",
-      "MAXIMIZE": "Maximizar",
-      "CLOSE": "Fechar",
-      "UPLOAD": {
-        "IN_PROGRESS": "Carregando {{ completed }} / {{ length }}",
-        "COMPLETE": "Carregado {{ completed }} / {{ length }}",
-        "CANCELED": "Upload cancelado",
-        "CANCEL_UPLOAD": "Cancelar upload",
-        "CANCEL_ALL": "Cancelar uploads",
-        "REMOVE_UPLOADED": "Remover arquivo carregado",
-        "CANCELED_STATUS": "Cancelado",
-        "ERRORS": "erro(s)"
-      }
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "Público",
       "MODERATED": "Moderado",

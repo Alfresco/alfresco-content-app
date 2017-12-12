@@ -117,21 +117,6 @@
         "DELETED_BY": "Gelöscht von"
       }
     },
-    "DIALOG": {
-      "MINIMIZE": "Minimieren",
-      "MAXIMIZE": "Maximieren",
-      "CLOSE": "Schließen",
-      "UPLOAD": {
-        "IN_PROGRESS": "Hochladen: {{ completed }} / {{ length }}",
-        "COMPLETE": "Hochgeladen: {{ completed }} / {{ length }}",
-        "CANCELED": "Hochladen abgebrochen",
-        "CANCEL_UPLOAD": "Upload abbrechen",
-        "CANCEL_ALL": "Hochladen abbrechen",
-        "REMOVE_UPLOADED": "Hochgeladene Datei entfernen",
-        "CANCELED_STATUS": "Abgebrochen",
-        "ERRORS": "Fehler"
-      }
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "Öffentlich",
       "MODERATED": "Moderiert",

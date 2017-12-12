@@ -117,21 +117,6 @@
         "DELETED_BY": "Slettet av"
       }
     },
-    "DIALOG": {
-      "MINIMIZE": "Minimer",
-      "MAXIMIZE": "Maksimer",
-      "CLOSE": "Lukk",
-      "UPLOAD": {
-        "IN_PROGRESS": "Opplasting {{ completed }} / {{ length }}",
-        "COMPLETE": "Opplastet {{ completed }} / {{ length }}",
-        "CANCELED": "Opplasting avbrutt",
-        "CANCEL_UPLOAD": "Avbryt opplasting",
-        "CANCEL_ALL": "Avbryt opplastinger",
-        "REMOVE_UPLOADED": "Fjern opplastet fil",
-        "CANCELED_STATUS": "Avbrutt",
-        "ERRORS": "feil"
-      }
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "Offentlig",
       "MODERATED": "Moderert",
