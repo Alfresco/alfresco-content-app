@@ -12,8 +12,8 @@ using the Alfresco Application Development Framework to easily and quickly creat
 
 ## User Interface - layout
 There are three main areas of the application controlled by the [Layout component](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/layout):
-- [(1) Application Header](/?id=header)
-- [(2) Side Navigation](/?id=side-nav)
-- [(3) Document List](/?id=doc-list)
+- [(1) Application Header](/header)
+- [(2) Side Navigation](/side-nav)
+- [(3) Document List](/doc-list)
 
 ![](images/features-01.png)
