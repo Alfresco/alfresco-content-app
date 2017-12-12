@@ -8,7 +8,7 @@ Logo & app primary color - logo and color are configurable by updating the
 see [How to change the logo and color](/) and [Application Configuration](/configuration) for more information
 
 ### Search
-The applicaiton [Search](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/search) -
+The applicaton [Search](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/search) -
 utilizes the [ADF Search Component](https://github.com/Alfresco/alfresco-ng2-components/tree/master/lib/content-services/search)
 the app provides a 'live' search feature, where users can open files and folders directly from the Search API results.
 
