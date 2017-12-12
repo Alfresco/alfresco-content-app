@@ -21,3 +21,5 @@ the app provides a 'live' search feature, where users can open files and folders
 displays the user's name, and a menu where users can logout.
 Optionally through updating the [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json)
 a language switching menu can be displayed.
+
+![](images/current-user.png)
