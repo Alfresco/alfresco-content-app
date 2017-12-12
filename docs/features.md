@@ -11,9 +11,9 @@ This application demonstrates how the complexity of Content Management can be si
 using the Alfresco Application Development Framework to easily and quickly create custom solutions for specific user cases.
 
 ## User Interface - layout
-
-![](images/features-01.png)
-
+There are three main areas of the application controlled by the [Layout component](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/layout):
 - [(1) Header](/?id=header)
 - [(2) Side Navigation](/?id=side-nav)
 - [(3) Document List](/?id=doc-list)
+
+![](images/features-01.png)
