@@ -14,7 +14,7 @@ using the Alfresco Application Development Framework to easily and quickly creat
 
 ![](images/features-01.png)
 
-### Header (1)
+### (1) Header
 
 The application [header](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/header) has three main elements.
 
@@ -31,7 +31,7 @@ displays the user's name, and a menu where users can logout.
 Optionally through updating the [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json)
 a language switching menu can be displayed.
 
-### Side Nav (2)
+### (2) Side Nav
 
 The application [side navigation](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/sidenav) has two features;
 a button menu and navigation links.
@@ -55,7 +55,7 @@ The navigation links are configurable via the [app.config.json](https://github.c
 Default configuration creates two sections.
 See [How to work with the side navigation](/) for more information about configuring the side navigation.
 
-### Document List Layout (3)
+### (3) Document List Layout
 
 The main area of the application is composed from a number of individual ADF components:
 
@@ -64,7 +64,7 @@ The main area of the application is composed from a number of individual ADF com
 - [Document List](https://alfresco.github.io/adf-component-catalog/components/DocumentListComponent.html)
 - [Pagination](https://alfresco.github.io/adf-component-catalog/components/PaginationComponent.html)
 
-The application has six different Document List views which contain subtle differences depending on the content being loaded.
+The application has six different Document List views which share commonalities between each view and also subtle differences depending on the content being loaded which are explained below.
 
 #### Personal Files
 
