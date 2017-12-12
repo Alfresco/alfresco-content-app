@@ -1,4 +1,4 @@
-## (1) Header
+## Header
 
 The application [header](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/header) has three main elements.
 
