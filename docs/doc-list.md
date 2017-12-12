@@ -7,6 +7,8 @@ The main area of the application is composed from a number of individual ADF com
 - [Document List](https://alfresco.github.io/adf-component-catalog/components/DocumentListComponent.html)
 - [Pagination](https://alfresco.github.io/adf-component-catalog/components/PaginationComponent.html)
 
+![](images/doclist.png)
+
 The application has six different Document List views which share commonalities between each view and also subtle differences depending on the content being loaded which are explained below.
 
 #### Personal Files
