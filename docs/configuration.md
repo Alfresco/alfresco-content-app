@@ -61,9 +61,9 @@ for example: "Personal Files - Alfresco Example Content Application".
 
 ### Application Logo
 
-The default logo displayed in the top left corner of the Alfresco Content Application can be changed with the one you want:
+The default logo displayed in the top left corner of the Alfresco Content Application can be easily changed:
 
-1. Place the custom logo image file in the [app-name]/src/assets/images folder. The displayed image will be resized to fit the design, but please be aware that an image with extreme width/height might not look good after resizing.
+1. Place your custom logo image file in the [app-name]/src/assets/images folder. The displayed image will resize automatically, an image with extreme width/height might not retain its dimensions.
 
 2. In the app.config.json file, set the value of the application.logo to contain the name of the custom logo image: "logo": "/assets/images/[image-name].[extension]"
 
@@ -79,7 +79,7 @@ The default logo displayed in the top left corner of the Alfresco Content Applic
 
 ### Header Background color
 
-You can change the header background color by specifying the wanted color code for the "headerColor" key:
+You can change the header background color by specifying color code for the "headerColor" key:
  
 
 ```json
