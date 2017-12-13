@@ -4,8 +4,8 @@
 
 Log any issues in the  ['ACA' JIRA project](https://issues.alfresco.com/jira/projects/ACA),
 please include a clear description, steps to reproduce and screenshots where appropriate.
-All issues will be reviewed; bugs will be categorised if reproducible and enhancement/feature suggestions
-will be considered against existing priorities if the use case serves a general purpose need.
+All issues will be reviewed; bugs will be categorized if reproducible and enhancement/feature suggestions
+will be considered against existing priorities if the use case serves a general-purpose need.
 
 ## Does Alfresco provide customer support for the example content application?
 
@@ -30,4 +30,4 @@ Please refer to the ['ACA' JIRA project](https://issues.alfresco.com/jira/projec
 
 ## How often will this project be updated?
 
-This project will continue evolve as the Alfresco ADF evolves, with Alfresco and community developers contributing to its progress.
+This project will continue to evolve as the Alfresco ADF evolves, with Alfresco and community developers contributing to its progress.

@@ -43,7 +43,7 @@ Navigate to "http://localhost" to access the running application.
 ## Docker Compose file
 
 You can also use the "docker-compose" file for local development and testing.
-To build and run container run the following command in the root project folder:
+To build and run a container run the following command in the root project folder:
 
 ```sh
 docker-compose up
@@ -72,7 +72,7 @@ npm run build:dev
 The command above updates the "dist/app.config.json" file to point the Content App to "http://localhost:8080" upon startup.
 Alternatively, you can change the configuration file manually before generating an image.
 
-So the development workflow, in this case, is going to be:
+So, the development workflow, in this case, is going to be:
 
 ```sh
 npm run build:dev
@@ -122,7 +122,7 @@ docker push myaccount/content-app:1.0
 
 ## Running from Docker Hub
 
-In order to quickly test the published image, or run it on another machine, use the following command:
+To quickly test the published image, or run it on another machine, use the following command:
 
 ```sh
 docker container run -p 80:80 --rm myaccount/content-app:1.0

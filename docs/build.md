@@ -35,7 +35,7 @@ You must restart the application every time you change the settings values.
 ## Running documentation locally
 
 For development purposes, you can run and test documentation locally.
-That is useful when working in different branches instead of a `master` one.
+This is useful when working in different branches instead of a `master` one.
 
 Run the following command to install the lightweight development server [wsrv](https://denysvuika.gitlab.io/wsrv/#/):
 

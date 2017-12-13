@@ -40,7 +40,7 @@ Alternatively, you can provide a static address for the ACS server if necessary:
 
 ## Application settings
 
-The are many settings you can change to alter the default behavior of the application.
+There are many settings you can change to alter the default behavior of the application.
 
 ### Application Name
 
