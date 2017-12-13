@@ -1,6 +1,6 @@
-### (2) Side Nav
+### Side Nav
 
-The application [side navigation](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/sidenav) has two features;
+The application [side navigation](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/sidenav) has two features:
 a button menu and navigation links.
 
 ![](images/side-nav.png)
@@ -11,12 +11,14 @@ The New button displays a menu which provides three actions:
 
 - Create a new folder - provides a dialog which allows the creation of a new folder, the folder name is mandatory and the description is optional.
 - Upload a file - invokes the operating system file browser and allows a user to select file(s) to upload into their current location in the content repository.
-- Upload a folder - invokes the operating system folder browser and allows a user to select folder(s) to upload to their current location in the content repository.
+- Upload a folder - invokes the operating system folder browser and allows a user to select a folder to upload to their current location in the content repository.
 
 When an upload starts the [upload component](https://github.com/Alfresco/alfresco-ng2-components/tree/master/lib/content-services/upload)
 is displayed which shows the user the progress of the uploads they have started.
-The upload dialog persists on the screen and can be minimised; users are able to continue using the application whilst uploads are in progress
+The upload dialog persists on the screen and can be minimized; users are able to continue using the application whilst uploads are in progress
 and uploads can be canceled which will stop uploads in progress or permanently delete already completed uploads.
+
+![](images/uploader.png)
 
 #### Navigation
 

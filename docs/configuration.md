@@ -40,7 +40,7 @@ Alternatively, you can provide a static address for the ACS server if necessary:
 
 ## Application settings
 
-The are many settings you can change to alter the default behavior of the application.
+There are many settings you can change to alter the default behavior of the application.
 
 ### Application Name
 
@@ -58,6 +58,37 @@ The following block allows you to change the name of the application.
 The value of the `application.name` key gets appended to every browser tab title at runtime
 with the format `[page title] - [application name]`,
 for example: "Personal Files - Alfresco Example Content Application".
+
+### Application Logo
+
+The default logo displayed in the top left corner of the Alfresco Content Application can be changed with the one you want:
+
+1. Place the custom logo image file in the [app-name]/src/assets/images folder. The displayed image will be resized to fit the design, but please be aware that an image with extreme width/height might not look good after resizing.
+
+2. In the app.config.json file, set the value of the application.logo to contain the name of the custom logo image: "logo": "/assets/images/[image-name].[extension]"
+
+
+```json
+{
+    ...,
+    "application": {
+        "logo": "/assets/images/alfresco-logo-white.svg"
+    }
+}
+```
+
+### Header Background color
+
+You can change the header background color by specifying the wanted color code for the "headerColor" key:
+ 
+
+```json
+{
+    ...,
+    "headerColor": "#2196F3"
+}
+```
+
 
 ### Restricted content
 

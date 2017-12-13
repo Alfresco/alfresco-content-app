@@ -212,6 +212,16 @@ export class NodeActionsService {
             }
         };
 
+        const initialGetNextPageOfSearch = destinationPicker.getNextPageOfSearch;
+        destinationPicker.getNextPageOfSearch = (event) => {
+            destinationPicker.infiniteScroll = true;
+            destinationPicker.skipCount = event.skipCount;
+
+            if (destinationPicker.searchTerm.length > 0) {
+                initialGetNextPageOfSearch.call(destinationPicker, event);
+            }
+        };
+
         return data.select;
     }
 
