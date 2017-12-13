@@ -6,8 +6,8 @@ The application [header](https://github.com/Alfresco/alfresco-content-app/tree/m
 
 ### (1) Logo and Color
 Logo & app primary color - logo and color are configurable by updating the
-[app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json) file in the root folder of the project;
-see [Application Configuration](/configuration?id=application-logo) for more information on how to change the logo and color.
+[app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json) file in the root folder of the project.
+Please refer to the [Application Configuration](https://github.com/Alfresco/alfresco-content-app/blob/master/docs/configuration.md#application-logo) documentation for more information on how to change the logo and color.
 
 ### (2) Search
 The application [Search](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/search) -
