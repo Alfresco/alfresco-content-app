@@ -3,4 +3,8 @@
 .adf-breadcrumb {
     color: $alfresco-secondary-text-color;
     width: 0;
+
+    &-item:first-child:nth-last-child(1) {
+           opacity: 1;
+    }
 }
