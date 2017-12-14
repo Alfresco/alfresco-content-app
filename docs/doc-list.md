@@ -84,7 +84,7 @@ actions are automatically hidden when the user does not have permission.
     <tr>
         <td>View</td>
         <td>
-            Opens the selected file using the [Preview](https://github.com/Alfresco/alfresco-content-app/tree/development/src/app/components/preview) component,
+            Opens the selected file using the <a href="https://github.com/Alfresco/alfresco-content-app/tree/development/src/app/components/preview" target="_blank">Preview</a> component,
             where the file cannot be displayed natively in a browser a PDF rendition is obtained from the repository.
         </td>
         <td>Not applicable</td>
@@ -110,7 +110,7 @@ actions are automatically hidden when the user does not have permission.
         <td>Copy</td>
         <td colspan="2">
             Files and folders can be copied to another location in the content repository using the
-            [content-node-selector](https://alfresco.github.io/adf-component-catalog/components/ContentNodeSelectorComponent.html) component;
+            <a href="https://alfresco.github.io/adf-component-catalog/components/ContentNodeSelectorComponent.html" target="_blank">content-node-selector</a> component;
             once the copy action has completed the user is notified and can undo the action (which permanently deletes the created copies).
         </td>
     </tr>
@@ -118,7 +118,7 @@ actions are automatically hidden when the user does not have permission.
         <td>Move</td>
         <td colspan="2">
             Files and folders can be moved to another location in the content repository using the
-            [content-node-selector](https://alfresco.github.io/adf-component-catalog/components/ContentNodeSelectorComponent.html) component;
+            <a href="https://alfresco.github.io/adf-component-catalog/components/ContentNodeSelectorComponent.html" target="_blank">content-node-selector</a> component;
             once the move action has completed the user is notified and can undo the action (which moves the items back to the original location).
         </td>
     </tr>

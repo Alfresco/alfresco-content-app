@@ -22,7 +22,7 @@ This application uses the latest releases from Alfresco:
 - [Alfresco Community Edition 201707](https://www.alfresco.com/products/community/download)
 
 <p class="warning">
-You also need [node.js](https://nodejs.org/en/) (8.9.1 or later) installed to build it locally from source code.
+You also need <a href="https://nodejs.org/en/" target="_blank">node.js</a> (8.9.1 or later) installed to build it locally from source code.
 </p>
 
 The latest version of the Alfresco Content platform is required
