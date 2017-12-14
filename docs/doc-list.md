@@ -32,8 +32,7 @@ using the [Nodes API](https://api-explorer.alfresco.com/api-explorer/#/nodes) is
 #### Shared Files
 
 The Shared Files view aggregates all files that have been shared using the QuickShare feature in the content repository.
-The [Shared Files component](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/shared-files)
-uses the [shared-links API](https://api-explorer.alfresco.com/api-explorer/#/shared-links)
+The [Shared Files](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/shared-files) component uses the [shared-links API](https://api-explorer.alfresco.com/api-explorer/#/shared-links)
 and includes extra columns to display where the file is
 [located](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/location-link)
 in the content repository and who created the shared link.
