@@ -14,12 +14,6 @@ exports.config = {
     allScriptsTimeout: 30000,
 
     specs: [
-        './e2e/suites/authentication/*.test.ts',
-        './e2e/suites/list-views/*.test.ts',
-        './e2e/suites/application/page-titles.test.ts',
-        './e2e/suites/navigation/side-navigation.test.ts',
-        './e2e/suites/pagination/*.test.ts',
-        './e2e/suites/actions/*.test.ts'
     ],
 
     capabilities: {
