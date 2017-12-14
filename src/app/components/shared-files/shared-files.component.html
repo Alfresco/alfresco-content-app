@@ -9,7 +9,7 @@
                 mat-icon-button
                 *ngIf="canPreviewFile(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
-                (click)="showPreview(documentList.selection[0]?.entry?.nodeId)">
+                (click)="onNodeDoubleClick(documentList.selection[0]?.entry)">
                 <mat-icon>open_in_browser</mat-icon>
             </button>
 

@@ -155,6 +155,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         }
     }
 
+    showPreview(node: MinimalNodeEntryEntity) {
+        if (node) {
+            if (node.isFile) {
+                this.router.navigate(['/preview', node.id]);
+            }
+        }
+    }
+
     onBreadcrumbNavigate(route: PathElementEntity) {
         // todo: review this approach once 5.2.3 is out
         if (this.nodePath && this.nodePath.length > 2) {
