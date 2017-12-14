@@ -61,7 +61,7 @@ To change the `title` and `label` of navigation links edit the values under `BRO
 ```json
 "APP" : {
   ...
-  BROWSE: {
+  "BROWSE": {
     "PERSONAL": {
     "TITLE": "Personal Files",
     "SIDENAV_LINK": {
@@ -80,21 +80,19 @@ For more information about internationalization see [Internationalization (i18n)
 
 To add custom navigation link for the application, first we need to create a component.
 
-```src/app/components/custom-page/custom-page.component.ts```
+`src/app/components/custom-page/custom-page.component.ts`
 
-```javascript
+```js
+import { Component } from '@angular/core';
 
-  import { Component } from '@angular/core';
-
-  @Component({
-    template: `
-      <h4>{{ title }}</h4>
+@Component({
+template: `
+    <h4>{{ title }}</h4>
     `
-  })
-  export class CustomPage {
+})
+export class CustomPage {
     title = 'My Custom Page'
-  }
-
+}
 ```
 
 Register the component in ```app.module.ts```
@@ -107,9 +105,9 @@ Register the component in ```app.module.ts```
   @NgModule({
     ...
     declarations: [
-    ...,
-    CustomPage
-    ]
+        ...,
+        CustomPage
+    ],
     ...
 })
 
@@ -118,12 +116,11 @@ Register the component in ```app.module.ts```
 In the `app.config.json` define a link entry which will point to the custom page
 
 ```json
-
 {
   ...,
   "navigation": [
       "main": [ ... ],
-      "secondary: [ ... ],
+      "secondary": [ ... ],
       "custom": [
         {
           "icon": "work",
@@ -141,7 +138,7 @@ In the `app.config.json` define a link entry which will point to the custom page
 
 Map the `/custom-route` in `app.routes.ts` as a child of `LayoutComponent` definition.
 
-```json
+```js
 
   import { CustomPage } from './components/custom-page/custom-page.component.ts';
 

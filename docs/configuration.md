@@ -111,7 +111,7 @@ By default, the application ships with the following rules already predefined:
 ```
 
 <p class="tip">
-You can get more details on the supported rules in the following article: [Upload Service](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/upload.service.md).
+You can get more details on the supported rules in the following article: <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/upload.service.md" target="_blank">Upload Service</a>.
 </p>
 
 ### Pagination settings
@@ -137,5 +137,5 @@ You can change the default settings of the pagination that gets applied to all t
 You can store any information in the application configuration file, and access it at runtime by using the `AppConfigService` service provided by ADF.
 
 <p class="tip">
-Please refer to the [AppConfigService](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/app-config.service.md) documentation to get more details on Application Configuration features and API available.
+Please refer to the <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/app-config.service.md" target="_blank">AppConfigService</a> documentation to get more details on Application Configuration features and API available.
 </p>
