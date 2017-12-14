@@ -37,7 +37,7 @@ import { SidenavComponent } from '../sidenav/sidenav.component';
 import { SearchComponent } from '../search/search.component';
 import { CurrentUserComponent } from '../current-user/current-user.component';
 
-fdescribe('LayoutComponent', () => {
+describe('LayoutComponent', () => {
     let fixture: ComponentFixture<LayoutComponent>;
     let component: LayoutComponent;
     let browsingFilesService: BrowsingFilesService;
