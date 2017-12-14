@@ -74,7 +74,7 @@ To change the `title` and `label` of navigation links edit the values under `BRO
 }
 ```
 
-For more information about internalization see [Internationalization (i18n)](/i18n) section.
+For more information about internationalization see [Internationalization (i18n)](/i18n) section.
 
 ## User-defined navigation
 
