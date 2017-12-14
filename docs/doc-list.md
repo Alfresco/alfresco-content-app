@@ -13,7 +13,7 @@ The application has six different Document List views which share commonalities 
 
 #### Personal Files
 
-Personal Files retrieves all content from the logged in user's home area (`/User Homes/<username>/` in the repository);
+Personal Files retrieves all content from the logged in user's home area (`/User Homes/<username>/`) in the repository;
 if the user is ‘admin’ who does not have a home folder then the repository root folder is shown.
 
 Personal Files is the [Files component](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/files),
