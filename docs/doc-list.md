@@ -16,17 +16,17 @@ The application has six different Document List views which share commonalities 
 Personal Files retrieves all content from the logged in user's home area (`/User Homes/<username>/`) in the repository;
 if the user is ‘admin’ who does not have a home folder then the repository root folder is shown.
 
-Personal Files is the [Files component](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/files),
+Personal Files is the [Files](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/files) component,
 using the [Nodes API](https://api-explorer.alfresco.com/api-explorer/#/nodes).
 
 #### File Libraries
 
 File Libraries retrieves all the sites that the user is a member of including what type of site it is: public, moderated or private.
-File Libraries is the [Libraries component](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/libraries),
+File Libraries is the [Libraries](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/libraries) component,
 using the [Sites API](https://api-explorer.alfresco.com/api-explorer/#/sites).
 
 When a user opens one of their sites then the content for the site's document library is shown.
-To display the files and folders from a site (`/Sites/<siteid>/Document Library/`) the [Files component](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/files),
+To display the files and folders from a site (`/Sites/<siteid>/Document Library/`) the [Files](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/files) component,
 using the [Nodes API](https://api-explorer.alfresco.com/api-explorer/#/nodes) is used.
 
 #### Shared Files
