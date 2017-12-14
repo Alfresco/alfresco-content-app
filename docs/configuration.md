@@ -80,7 +80,6 @@ The default logo displayed in the top left corner of the Alfresco Content Applic
 ### Header Background color
 
 You can change the header background color by specifying color code for the "headerColor" key:
- 
 
 ```json
 {
