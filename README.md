@@ -1,5 +1,9 @@
 # Alfresco Example Content Application
 
+<p align="center">
+    <img title="Alfresco" width="250px" src="alfresco.png" alt="Alfresco">
+</p>
+
 ## Introduction
 
 The Alfresco Content Application is an example application built using
