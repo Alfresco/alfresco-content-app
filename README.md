@@ -1,4 +1,4 @@
-# Alfresco Content App
+# Alfresco Example Content App
 
 [Public documentation](https://alfresco.github.io/alfresco-content-app/)
 
