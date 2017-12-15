@@ -26,7 +26,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { CoreModule, ContentService, PeopleContentService } from '@alfresco/adf-core';
+import { CoreModule, ContentService, PeopleContentService, AppConfigService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Observable';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
@@ -43,6 +43,12 @@ describe('LayoutComponent', () => {
     let browsingFilesService: BrowsingFilesService;
     let contentService: ContentService;
     let node;
+    const navItem = {
+        label: 'some-label',
+        route: {
+            url: '/some-url'
+        }
+    };
 
     beforeEach(() => {
         node = { id: 'node-id' };
@@ -61,6 +67,7 @@ describe('LayoutComponent', () => {
                 CurrentUserComponent
             ],
             providers: [
+                AppConfigService,
                 {
                     provide: PeopleContentService,
                     useValue: {
@@ -74,6 +81,9 @@ describe('LayoutComponent', () => {
         component = fixture.componentInstance;
         browsingFilesService = TestBed.get(BrowsingFilesService);
         contentService = TestBed.get(ContentService);
+
+        const appConfig = TestBed.get(AppConfigService);
+        spyOn(appConfig, 'get').and.returnValue([navItem]);
 
         fixture.detectChanges();
     });
