@@ -1,8 +1,19 @@
-# Alfresco Example Content App
+# Alfresco Example Content Application
+
+## Introduction
+
+The Alfresco Content Application is an example application built using
+[Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components and was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.7.
+
+### Who is this example application for
+
+This example application demonstrates to Angular software engineers
+how to construct a content application using the Alfresco ADF.
+
+This example application represents a meaningful composition of ADF components that provide end users
+with a simple and easy to use interface for working with files stored in the Alfresco Content Services repository.
 
 [Public documentation](https://alfresco.github.io/alfresco-content-app/)
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.7.
 
 ## Development server
 
