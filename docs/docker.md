@@ -35,10 +35,10 @@ docker image build -t content-app .
 To run the image locally, you can use the following command:
 
 ```sh
-docker container run -p 80:80 --rm content-app
+docker container run -p 8888:80 --rm content-app
 ```
 
-Navigate to "http://localhost" to access the running application.
+Navigate to "http://localhost:8888" to access the running application.
 
 ## Docker Compose file
 
