@@ -9,7 +9,7 @@
     "build:prod": "npm run server-versions && ng build --prod",
     "build:dev": "npm run server-versions && ng build && node postbuild-dev.js",
     "build:tomcat": "npm run server-versions && ng build --base-href ./",
-    "test": "ng test",
+    "test": "ng test --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0"
