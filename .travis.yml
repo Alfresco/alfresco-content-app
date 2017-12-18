@@ -31,6 +31,6 @@ after_success:
   - export TAG=`if [ "$BRANCH" == "master" ]; then echo "latest"; else echo $BRANCH ; fi`
   - docker build -t $DOCKER_REPO:$TAG .
   # Publish extra image based on Travis build number
-  #- docker tag $DOCKER_REPO:$TAG $DOCKER_REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker tag $DOCKER_REPO:$TAG $DOCKER_REPO:travis-$TRAVIS_BUILD_NUMBER
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
   - docker push $DOCKER_REPO
