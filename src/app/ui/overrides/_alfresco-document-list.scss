@@ -63,7 +63,8 @@ adf-document-list {
         border: none !important;
     }
 
-    td:first-of-type, th:first-of-type {
+    th:first-of-type, th.adf-data-table-cell--image,
+    td:first-of-type, td.adf-data-table-cell--image {
         padding-left: 24px;
         padding-right: 0;
         width: 10px;
