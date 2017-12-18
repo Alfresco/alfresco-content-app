@@ -76,7 +76,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             this.isLoading = true;
 
             this.fetchNode(nodeId)
-                .do((node) => this.updateCurrentNode(node))
+                .do((node) => {
+                    if (node.isFolder) {
+                        this.updateCurrentNode(node);
+                    } else {
+                        this.router.navigate(['/personal-files', node.parentId]);
+                    }
+                })
                 .flatMap((node) => this.fetchNodes(node.id))
                 .subscribe(
                     (page) => {
