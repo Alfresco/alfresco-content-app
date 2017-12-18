@@ -77,7 +77,7 @@ describe('FilesComponent', () => {
     }));
 
     beforeEach(() => {
-        node = { id: 'node-id' };
+        node = { id: 'node-id', isFolder: true };
         page = {
             list: {
                 entries: ['a', 'b', 'c'],
@@ -133,6 +133,17 @@ describe('FilesComponent', () => {
             fixture.detectChanges();
 
             expect(component.onFetchError).toHaveBeenCalled();
+        });
+
+        it('if should navigate to parent if node is not a folder', () => {
+            node.isFolder = false;
+            node.parentId = 'parent-id';
+            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(router, 'navigate');
+
+            fixture.detectChanges();
+
+            expect(router.navigate).toHaveBeenCalledWith([ '/personal-files', 'parent-id' ]);
         });
     });
 
