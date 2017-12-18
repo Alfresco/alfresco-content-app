@@ -20,4 +20,7 @@ install:
 
 script:
   - xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
-  #- xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+
+# Send coverage data to codecov
+after_success:
+  bash <(curl -s https://codecov.io/bash) -X gcov
