@@ -20,7 +20,7 @@ install:
   - npm install
 
 script:
-  - npm run build:dev
+  - npm run build
   - npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
 
 # Send coverage data to codecov
