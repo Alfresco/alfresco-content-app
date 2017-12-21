@@ -12,16 +12,12 @@ cache:
 services:
   - docker
 
-before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-
 install:
   - npm install
 
 script:
   - npm run build
-  - npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
+  - npm run test -- --single-run --no-progress
 
 # Send coverage data to codecov
 after_success:
