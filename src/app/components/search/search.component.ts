@@ -41,7 +41,7 @@ export class SearchComponent {
     onItemClicked(node: MinimalNodeEntity) {
         if (node && node.entry) {
             if (node.entry.isFile) {
-                this.router.navigate(['/preview', node.entry.id]);
+                this.router.navigate([`/personal-files/${node.entry.parentId}/preview/`, node.entry.id]);
             } else if (node.entry.isFolder) {
                 this.router.navigate([ '/personal-files',  node.entry.id ]);
             }

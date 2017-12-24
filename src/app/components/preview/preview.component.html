@@ -1,3 +1,7 @@
 <ng-container *ngIf="nodeId">
-    <adf-viewer [fileNodeId]="nodeId"></adf-viewer>
+    <adf-viewer
+        [fileNodeId]="nodeId"
+        [overlayMode]="true"
+        (showViewerChange)="onShowChange($event)">
+    </adf-viewer>
 </ng-container>
