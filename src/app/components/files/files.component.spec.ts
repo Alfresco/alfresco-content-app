@@ -143,7 +143,7 @@ describe('FilesComponent', () => {
 
             fixture.detectChanges();
 
-            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['/personal-files', 'parent-id']);
+            expect(router.navigate).toHaveBeenCalledWith([ '/personal-files', 'parent-id' ]);
         });
     });
 
@@ -315,7 +315,6 @@ describe('FilesComponent', () => {
         it('opens preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
             node.isFile = true;
-            node.isFolder = false;
 
             const event: any = {
                 detail: {
@@ -326,7 +325,7 @@ describe('FilesComponent', () => {
             };
             component.onNodeDoubleClick(event);
 
-            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.id]);
+            expect(router.navigate).toHaveBeenCalledWith(['/preview', node.id]);
         });
 
         it('navigate if node is folder', () => {

@@ -80,10 +80,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                     if (node.isFolder) {
                         this.updateCurrentNode(node);
                     } else {
-                        this.router.navigate(['/personal-files', node.parentId], { replaceUrl: true });
+                        this.router.navigate(['/personal-files', node.parentId]);
                     }
                 })
-                .skipWhile(node => !node.isFolder)
                 .flatMap((node) => this.fetchNodes(node.id))
                 .subscribe(
                     (page) => {
@@ -155,7 +154,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                     event.preventDefault();
 
                 } else if (node.isFile) {
-                    this.router.navigate(['./preview', node.id], { relativeTo: this.route });
+                    this.router.navigate(['/preview', node.id]);
                 }
             }
 
@@ -165,7 +164,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     showPreview(node: MinimalNodeEntryEntity) {
         if (node) {
             if (node.isFile) {
-                this.router.navigate(['./preview', node.id], { relativeTo: this.route });
+                this.router.navigate(['/preview', node.id]);
             }
         }
     }

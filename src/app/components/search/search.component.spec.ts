@@ -60,12 +60,11 @@ describe('SearchComponent', () => {
     describe('onItemClicked()', () => {
         it('opens preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
-            const node = { entry: { isFile: true, id: 'node-id', parentId: 'parent-id' } };
+            const node = { entry: { isFile: true, id: 'node-id' } };
 
             component.onItemClicked(node);
 
-            expect(router.navigate['calls'].argsFor(0)[0])
-                .toEqual([`/personal-files/${node.entry.parentId}/preview/`, node.entry.id]);
+            expect(router.navigate).toHaveBeenCalledWith(['/preview', node.entry.id]);
         });
 
         it('navigates if node is folder', () => {
