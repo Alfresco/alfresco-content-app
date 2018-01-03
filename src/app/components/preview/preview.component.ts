@@ -26,6 +26,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlfrescoApiService } from '@alfresco/adf-core';
+import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Component({
     selector: 'app-preview',
@@ -37,12 +38,17 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 })
 export class PreviewComponent implements OnInit {
 
+    private node: MinimalNodeEntryEntity;
+    private previewLocation: string = null;
+    private routesSkipNavigation = [ '/shared', '/recent-files', '/favorites' ];
     nodeId: string = null;
 
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private apiService: AlfrescoApiService) {}
+        private apiService: AlfrescoApiService) {
+            this.previewLocation = this.router.url.substr(0, this.router.url.indexOf('/', 1));
+        }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
@@ -50,16 +56,29 @@ export class PreviewComponent implements OnInit {
             if (id) {
                 this.apiService.getInstance().nodes.getNodeInfo(id).then(
                     (node) => {
+                        this.node = node;
+
                         if (node && node.isFile) {
                             this.nodeId = id;
                             return;
                         }
-                        this.router.navigate(['/personal-files', id]);
+                        this.router.navigate([this.previewLocation, id]);
                     },
-                    () => this.router.navigate(['/personal-files', id])
+                    () => this.router.navigate([this.previewLocation, id])
                 );
             }
         });
     }
 
+    onShowChange(isVisible) {
+        const shouldSkipNavigation = this.routesSkipNavigation.includes(this.previewLocation);
+
+        if (!isVisible) {
+            if ( !shouldSkipNavigation ) {
+                this.router.navigate([this.previewLocation, this.node.parentId ]);
+            } else {
+                this.router.navigate([this.previewLocation]);
+            }
+        }
+    }
 }

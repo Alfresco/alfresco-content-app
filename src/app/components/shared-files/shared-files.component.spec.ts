@@ -126,7 +126,7 @@ describe('SharedFilesComponent', () => {
             component.onNodeDoubleClick(link);
             tick();
 
-            expect(router.navigate).toHaveBeenCalledWith(['/preview', node.entry.id]);
+            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.entry.id]);
         }));
 
         it('does nothing if node is folder', fakeAsync(() => {

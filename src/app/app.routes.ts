@@ -42,13 +42,6 @@ import { GenericErrorComponent } from './components/generic-error/generic-error.
 
 export const APP_ROUTES: Routes = [
     {
-        path: 'preview/:nodeId',
-        component: PreviewComponent,
-        data: {
-            i18nTitle: 'APP.PREVIEW.TITLE'
-        }
-    },
-    {
         path: 'login',
         component: LoginComponent,
         data: {
@@ -66,10 +59,22 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'favorites',
-                component: FavoritesComponent,
-                data: {
-                    i18nTitle: 'APP.BROWSE.FAVORITES.TITLE'
-                }
+                children: [
+                    {
+                        path: '',
+                        component: FavoritesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.FAVORITES.TITLE'
+                        }
+                    },
+                    {
+                        path: 'preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE'
+                        }
+                    }
+                ]
             },
             {
                 path: 'libraries',
@@ -85,7 +90,15 @@ export const APP_ROUTES: Routes = [
                     data: {
                         i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE'
                     }
-                }]
+                },
+                {
+                    path: ':id/preview/:nodeId',
+                    component: PreviewComponent,
+                    data: {
+                        i18nTitle: 'APP.PREVIEW.TITLE'
+                    }
+                }
+                ]
             },
             {
                 path: 'personal-files',
@@ -102,21 +115,52 @@ export const APP_ROUTES: Routes = [
                     data: {
                         i18nTitle: 'APP.BROWSE.PERSONAL.TITLE'
                     }
+                },
+                {
+                    path: ':id/preview/:nodeId',
+                    component: PreviewComponent,
+                    data: {
+                        i18nTitle: 'APP.PREVIEW.TITLE'
+                    }
                 }]
             },
             {
                 path: 'recent-files',
-                component: RecentFilesComponent,
-                data: {
-                    i18nTitle: 'APP.BROWSE.RECENT.TITLE'
-                }
+                children: [
+                    {
+                        path: '',
+                        component: RecentFilesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.RECENT.TITLE'
+                        }
+                    },
+                    {
+                        path: 'preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE'
+                        }
+                    }
+                ]
             },
             {
                 path: 'shared',
-                component: SharedFilesComponent,
-                data: {
-                    i18nTitle: 'APP.BROWSE.SHARED.TITLE'
-                }
+                children: [
+                    {
+                        path: '',
+                        component: SharedFilesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.SHARED.TITLE'
+                        }
+                    },
+                    {
+                        path: 'preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE'
+                        }
+                    }
+                ]
             },
             {
                 path: 'trashcan',
