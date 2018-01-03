@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
@@ -45,7 +45,6 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute,
         private content: ContentManagementService,
         private apiService: AlfrescoApiService,
         preferences: UserPreferencesService) {
@@ -69,7 +68,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
             this.apiService.nodesApi.getNode(link.nodeId).then(
                 (node: MinimalNodeEntity) => {
                     if (node && node.entry && node.entry.isFile) {
-                        this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
+                        this.router.navigate(['/preview', node.entry.id]);
                     }
                 }
             );

@@ -122,12 +122,12 @@ describe('RecentFiles Routed Component', () => {
 
         it('open preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
-            const node: any = { id: 'node-id', isFile: true };
+            const node: any = { isFile: true };
 
             component.onNodeDoubleClick(node);
             fixture.detectChanges();
 
-            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.id]);
+            expect(router.navigate).toHaveBeenCalledWith(['/preview', node.id]);
         });
 
         it('does not open preview if node is folder', () => {
