@@ -32,6 +32,11 @@ adf-document-list {
         }
     }
 
+    td, th {
+        width: 100%;
+        text-align: left;
+    }
+
     .adf-data-table__header--sorted-asc,
     .adf-data-table__header--sorted-desc {
         &:hover {
@@ -58,13 +63,11 @@ adf-document-list {
         border: none !important;
     }
 
-
-    .adf-data-table-cell--ellipsis {
-        width: 100%;
-    }
-
-    .adf-data-table-cell--ellipsis__name {
-        width: 85%;
+    th:first-of-type, th.adf-data-table-cell--image,
+    td:first-of-type, td.adf-data-table-cell--image {
+        padding-left: 24px;
+        padding-right: 0;
+        width: 10px;
     }
 
     .adf-data-table-cell--ellipsis .cell-value,
@@ -77,10 +80,17 @@ adf-document-list {
     .adf-data-table-cell--ellipsis__name .adf-datatable-cell {
         white-space: nowrap;
         display: block;
-        position: absolute;
-        max-width: calc(100% - 2em);
         overflow: hidden;
         text-overflow: ellipsis;
+    }
+
+    .adf-data-table-cell--ellipsis .adf-datatable-cell {
+        max-width: 7vw;
+    }
+
+    .adf-data-table-cell--ellipsis__name .adf-datatable-cell {
+        position: absolute;
+        max-width: calc(100% - 2em);
     }
 }
 
