@@ -102,27 +102,37 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'personal-files',
-                children: [{
-                    path: '',
-                    component: FilesComponent,
-                    data: {
-                        i18nTitle: 'APP.BROWSE.PERSONAL.TITLE',
-                        defaultNodeId: '-my-'
+                children: [
+                    {
+                        path: '',
+                        component: FilesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.PERSONAL.TITLE',
+                            defaultNodeId: '-my-'
+                        }
+                    },
+                    {
+                        path: ':id',
+                        component: FilesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.PERSONAL.TITLE'
+                        }
+                    },
+                    {
+                        path: 'preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE'
+                        }
+                    },
+                    {
+                        path: ':id/preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE'
+                        }
                     }
-                }, {
-                    path: ':id',
-                    component: FilesComponent,
-                    data: {
-                        i18nTitle: 'APP.BROWSE.PERSONAL.TITLE'
-                    }
-                },
-                {
-                    path: ':id/preview/:nodeId',
-                    component: PreviewComponent,
-                    data: {
-                        i18nTitle: 'APP.PREVIEW.TITLE'
-                    }
-                }]
+                ]
             },
             {
                 path: 'recent-files',
