@@ -24,7 +24,7 @@
  */
 
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { MinimalNodeEntryEntity, MinimalNodeEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
@@ -46,6 +46,7 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
 
     constructor(
         private router: Router,
+        private route: ActivatedRoute,
         private nodesApi: NodesApiService,
         private contentService: ContentService,
         private content: ContentManagementService,
@@ -95,7 +96,7 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
             }
 
             if (node.isFile) {
-                this.router.navigate(['/preview', node.id]);
+                this.router.navigate(['./preview', node.id], { relativeTo: this.route });
             }
         }
     }

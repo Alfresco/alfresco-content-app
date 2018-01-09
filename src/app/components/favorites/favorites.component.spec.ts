@@ -174,7 +174,7 @@ describe('Favorites Routed Component', () => {
 
             component.onNodeDoubleClick(node);
 
-            expect(router.navigate).toHaveBeenCalledWith(['/preview', node.id]);
+            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', 'folder-node']);
         });
     });
 
