@@ -23,13 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { AlfrescoApiService, ContentService, NodesApiService, DataColumn, DataSorting } from '@alfresco/adf-core';
+import { AlfrescoApiService, ContentService, NodesApiService, DataColumn } from '@alfresco/adf-core';
 import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from '@alfresco/adf-content-services';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging } from 'alfresco-js-api';
 
 @Injectable()
 export class NodeActionsService {
@@ -121,7 +121,6 @@ export class NodeActionsService {
                         },
                         observable.error.bind(observable)
                     );
-                this.dialog.closeAll();
             });
 
         } else {
@@ -173,7 +172,7 @@ export class NodeActionsService {
         return entryParentId;
     }
 
-    getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): EventEmitter<MinimalNodeEntryEntity[]> {
+    getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
         const currentParentFolderId = this.getFirstParentId(contentEntities);
 
         let nodeEntryName = '';
@@ -181,17 +180,34 @@ export class NodeActionsService {
             nodeEntryName =  `'${contentEntities[0].entry.name}' `;
         }
 
+        const customDropdown: SitePaging = {
+            list: {
+                entries: [
+                    {
+                        entry: {
+                            guid: '-my-',
+                            title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL'
+                        }
+                    },
+                    {
+                        entry: {
+                            guid: '-mysites-',
+                            title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL'
+                        }
+                    }
+                ]
+            }
+        };
+
         const data: ContentNodeSelectorComponentData = {
             title: `${action} ${nodeEntryName}to ...`,
             currentFolderId: currentParentFolderId,
             actionName: action,
             dropdownHideMyFiles: true,
-            dropdownSiteList: [
-                {title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL', guid: '-my-'},
-                {title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL', guid: '-mysites-'}],
+            dropdownSiteList: customDropdown,
             rowFilter: this.rowFilter.bind(this),
             imageResolver: this.imageResolver.bind(this),
-            select: new EventEmitter<MinimalNodeEntryEntity[]>()
+            select: new Subject<MinimalNodeEntryEntity[]>()
         };
 
         const matDialogRef = this.dialog.open(ContentNodeSelectorComponent, <any>{
@@ -199,7 +215,9 @@ export class NodeActionsService {
             panelClass: 'adf-content-node-selector-dialog',
             width: '630px'
         });
-        const destinationPicker = matDialogRef.componentInstance;
+
+        // todo: add back the fix for [ACA-1054]:
+        /*  const destinationPicker = matDialogRef.componentInstance;
         const initialSiteChanged = destinationPicker.siteChanged;
 
         destinationPicker.siteChanged = (chosenSite) => {
@@ -210,19 +228,17 @@ export class NodeActionsService {
             } else {
                 destinationPicker.documentList.data.setSorting(new DataSorting('name', 'asc'));
             }
-        };
+        };*/
 
-        const initialGetNextPageOfSearch = destinationPicker.getNextPageOfSearch;
-        destinationPicker.getNextPageOfSearch = (event) => {
-            destinationPicker.infiniteScroll = true;
-            destinationPicker.skipCount = event.skipCount;
-
-            if (destinationPicker.searchTerm.length > 0) {
-                initialGetNextPageOfSearch.call(destinationPicker, event);
-            }
-        };
+        data.select.subscribe({
+            complete: this.close.bind(this)
+        });
 
         return data.select;
+    }
+
+    close() {
+        this.dialog.closeAll();
     }
 
     copyNodeAction(nodeEntry, selectionId): Observable<any> {
