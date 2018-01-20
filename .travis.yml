@@ -18,6 +18,7 @@ install:
 script:
   - npm run build
   - npm run test -- --single-run --no-progress
+  - ./node_modules/.bin/codacy-coverage .
 
 # Send coverage data to codecov
 after_success:
