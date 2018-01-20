@@ -41,12 +41,14 @@
     "zone.js": "0.8.14"
   },
   "devDependencies": {
+    "@angular-devkit/core": "^0.0.28",
     "@angular/cli": "1.5.0",
     "@angular/compiler-cli": "5.1.1",
     "@angular/language-service": "4.4.5",
     "@types/jasmine": "^2.5.53",
     "@types/jasminewd2": "^2.0.2",
     "@types/node": "~6.0.60",
+    "codacy-coverage": "^2.0.3",
     "codelyzer": "~3.2.0",
     "jasmine-core": "^2.6.2",
     "jasmine-reporters": "^2.2.1",
