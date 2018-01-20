@@ -17,8 +17,7 @@ install:
 
 script:
   - npm run build
-  - npm run test -- --single-run --no-progress
-  - ./node_modules/.bin/codacy-coverage .
+  - npm run test -- --single-run --no-progress && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage
 
 # Send coverage data to codecov
 after_success:
