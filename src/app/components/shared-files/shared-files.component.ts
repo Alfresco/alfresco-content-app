@@ -87,6 +87,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
 
     refresh(): void {
         if (this.documentList) {
+            this.documentList.resetSelection();
             this.documentList.reload();
         }
     }

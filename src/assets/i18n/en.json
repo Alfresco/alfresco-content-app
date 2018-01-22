@@ -101,7 +101,8 @@
             "MORE": "More actions",
             "UNDO": "Undo",
             "RESTORE": "Restore",
-            "FAVORITE": "Favorite"
+            "FAVORITE": "Favorite",
+            "UNSHARE": "Unshare"
         },
         "DOCUMENT_LIST": {
             "COLUMNS": {
