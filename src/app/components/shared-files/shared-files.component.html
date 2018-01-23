@@ -50,11 +50,27 @@
 
                 <button
                     mat-menu-item
+                    *ngIf="canMove(documentList.selection)"
+                    [app-move-node]="documentList.selection">
+                    <mat-icon>library_books</mat-icon>
+                    <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
+                </button>
+
+                <button
+                    mat-menu-item
                     *ngIf="canDelete(documentList.selection)"
                     [appUnshareNode]="documentList.selection"
                     (links-unshared)="refresh()">
-                    <mat-icon>delete</mat-icon>
+                    <mat-icon>stop_screen_share</mat-icon>
                     <span>{{ 'APP.ACTIONS.UNSHARE' | translate }}</span>
+                </button>
+
+                <button
+                    mat-menu-item
+                    *ngIf="canDelete(documentList.selection)"
+                    [app-delete-node]="documentList.selection">
+                    <mat-icon>delete</mat-icon>
+                    <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
                 </button>
             </mat-menu>
         </adf-toolbar>
