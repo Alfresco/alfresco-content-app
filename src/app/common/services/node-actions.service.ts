@@ -207,6 +207,7 @@ export class NodeActionsService {
             dropdownSiteList: customDropdown,
             rowFilter: this.rowFilter.bind(this),
             imageResolver: this.imageResolver.bind(this),
+            isSelectionValid: this.hasEntityCreatePermission.bind(this),
             select: new Subject<MinimalNodeEntryEntity[]>()
         };
 
@@ -235,6 +236,10 @@ export class NodeActionsService {
         });
 
         return data.select;
+    }
+
+    private hasEntityCreatePermission(entry: MinimalNodeEntryEntity): boolean {
+        return this.contentService.hasPermission(entry, 'create');
     }
 
     close() {
