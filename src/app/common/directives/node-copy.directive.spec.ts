@@ -33,7 +33,6 @@ import { TranslationService, NodesApiService, NotificationService } from '@alfre
 
 import { CommonModule } from '../common.module';
 import { NodeActionsService } from '../services/node-actions.service';
-import { ContentManagementService } from '../services/content-management.service';
 import { NodeCopyDirective } from './node-copy.directive';
 
 @Component({

@@ -696,9 +696,7 @@ describe('NodeActionsService', () => {
         });
 
         it('should call the documentListService moveNode directly for moving a file that has permission to be moved', () => {
-            const spyOnDestinationPicker =
-                spyOn(service, 'getContentNodeSelection')
-                    .and.returnValue(Observable.of([destinationFolder.entry]));
+            spyOn(service, 'getContentNodeSelection').and.returnValue(Observable.of([destinationFolder.entry]));
             fileToMove.entry['allowableOperations'] = [permissionToMove];
             spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(Observable.of([fileToMove]));
             spyOn(service, 'moveNodeAction');

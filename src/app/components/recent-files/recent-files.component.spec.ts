@@ -26,7 +26,6 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
 
 import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 

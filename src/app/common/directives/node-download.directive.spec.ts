@@ -25,7 +25,7 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { MatDialog } from '@angular/material';
 import { Component, DebugElement } from '@angular/core';
 

@@ -28,7 +28,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
-import { CoreModule, TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
 
 import { CommonModule } from '../common.module';
 import { NodeActionsService } from '../services/node-actions.service';
