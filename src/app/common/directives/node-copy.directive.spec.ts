@@ -29,9 +29,9 @@ import { By } from '@angular/platform-browser';
 
 import { Observable } from 'rxjs/Rx';
 
-import { CoreModule, TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
-import { DocumentListModule } from '@alfresco/adf-content-services';
+import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
 
+import { CommonModule } from '../common.module';
 import { NodeActionsService } from '../services/node-actions.service';
 import { ContentManagementService } from '../services/content-management.service';
 import { NodeCopyDirective } from './node-copy.directive';
@@ -55,16 +55,10 @@ describe('NodeCopyDirective', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
-                DocumentListModule
+                CommonModule
             ],
             declarations: [
-                TestComponent,
-                NodeCopyDirective
-            ],
-            providers: [
-                ContentManagementService,
-                NodeActionsService
+                TestComponent
             ]
         });
 

@@ -29,7 +29,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
+
+import { CommonModule } from '../common.module';
+import { AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
 
 import { NodeRestoreDirective } from './node-restore.directive';
 
@@ -55,12 +57,11 @@ describe('NodeRestoreDirective', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
+                CommonModule,
                 RouterTestingModule
             ],
             declarations: [
-                TestComponent,
-                NodeRestoreDirective
+                TestComponent
             ]
         })
         .compileComponents()

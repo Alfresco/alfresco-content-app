@@ -28,6 +28,8 @@ import { By } from '@angular/platform-browser';
 import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 import { MatDialog } from '@angular/material';
 import { Component, DebugElement } from '@angular/core';
+
+import { CommonModule } from '../common.module';
 import { DownloadFileDirective } from './node-download.directive';
 
 @Component({
@@ -49,14 +51,10 @@ describe('DownloadFileDirective', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule
+                CommonModule
             ],
             declarations: [
-                TestComponent,
-                DownloadFileDirective
-            ],
-            providers: [
-                AlfrescoApiService
+                TestComponent
             ]
         });
 
