@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
-import { MinimalNodeEntity, DeletedNodeEntry, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
+import { MinimalNodeEntity, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
 
 @Directive({
     selector: '[app-restore-node]'
