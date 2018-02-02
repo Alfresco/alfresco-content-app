@@ -25,6 +25,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { TRANSLATION_PROVIDER } from '@alfresco/adf-core';
 
@@ -55,6 +56,7 @@ import { LocationLinkComponent } from './components/location-link/location-link.
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         RouterModule.forRoot(APP_ROUTES, {
             useHash: true,
             enableTracing: false // enable for debug only

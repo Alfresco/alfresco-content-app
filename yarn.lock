@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@alfresco/adf-content-services@2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.1.0.tgz#eb5d65dd585415b17dce5bc712ec349cfb6e4f30"
+"@alfresco/adf-content-services@2.2.0-beta1":
+  version "2.2.0-beta1"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.2.0-beta1.tgz#d578df1294cd6f9d9df34857b799838307dd905f"
   dependencies:
-    "@alfresco/adf-core" "2.1.0"
+    "@alfresco/adf-core" "2.2.0-beta1"
     "@angular/animations" "5.1.1"
     "@angular/cdk" "5.0.1"
     "@angular/common" "5.1.1"
@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic" "5.1.1"
     "@angular/router" "5.1.1"
     "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.1.0"
+    alfresco-js-api "2.2.0-beta1"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -35,9 +35,9 @@
     systemjs "0.19.27"
     zone.js "0.8.14"
 
-"@alfresco/adf-core@2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.1.0.tgz#3311d3e3f34af8763dd157820418e7fdadf54be4"
+"@alfresco/adf-core@2.2.0-beta1":
+  version "2.2.0-beta1"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.2.0-beta1.tgz#e79ded6bee985146ff325c9256e8a70968ea2eb8"
   dependencies:
     "@angular/animations" "5.1.1"
     "@angular/cdk" "5.0.1"
@@ -53,7 +53,7 @@
     "@angular/platform-browser-dynamic" "5.1.1"
     "@angular/router" "5.1.1"
     "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.1.0"
+    alfresco-js-api "2.2.0-beta1"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -352,8 +352,8 @@ acorn@^4.0.3:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.13.tgz#105495ae5361d697bd195c825192e1ad7f253787"
 
 acorn@^5.0.0, acorn@^5.2.1:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.3.0.tgz#7446d39459c54fb49a80e6ee6478149b940ec822"
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.4.1.tgz#fdc58d9d17f4a4e98d102ded826a9b9759125102"
 
 addressparser@1.0.1:
   version "1.0.1"
@@ -398,9 +398,9 @@ ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5, ajv@~5.5.1:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-alfresco-js-api@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.1.0.tgz#1754c332de254bc58dbaa98b63a85f1c880edfaf"
+alfresco-js-api@2.2.0-beta1:
+  version "2.2.0-beta1"
+  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.2.0-beta1.tgz#3a380fcc437f51276b96d0a6dd1bf439622d68a6"
   dependencies:
     event-emitter "0.3.4"
     superagent "3.8.2"
@@ -1219,8 +1219,8 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000799"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000799.tgz#0904953de93f3f492647e58c1a1bda7a73a0cb0b"
+  version "1.0.30000800"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000800.tgz#a86e6bc23bd9a707d5df42f33e64d0495cfda218"
 
 caniuse-lite@^1.0.30000791, caniuse-lite@^1.0.30000792:
   version "1.0.30000792"
@@ -2210,8 +2210,8 @@ ejs@^2.5.7:
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.5.7.tgz#cc872c168880ae3c7189762fd5ffc00896c9518a"
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.30:
-  version "1.3.31"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.31.tgz#00d832cba9fe2358652b0c48a8816c8e3a037e9f"
+  version "1.3.32"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.32.tgz#11d0684c0840e003c4be8928f8ac5f35dbc2b4e6"
 
 elliptic@^6.0.0:
   version "6.4.0"
@@ -4552,8 +4552,8 @@ mime@^1.2.11, mime@^1.3.4, mime@^1.4.1, mime@^1.5.0:
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
 
 mimic-fn@^1.0.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.1.0.tgz#e667783d92e89dbd342818b5230b9d62a672ad18"
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
 
 minimalistic-assert@^1.0.0:
   version "1.0.0"
@@ -5441,13 +5441,13 @@ postcss-load-plugins@^2.3.0:
     object-assign "^4.1.0"
 
 postcss-loader@^2.0.10:
-  version "2.0.10"
-  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-2.0.10.tgz#090db0540140bd56a7a7f717c41bc29aeef4c674"
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-2.1.0.tgz#038c2d6d59753fef4667827fd3ae03f5dc5e6a7a"
   dependencies:
     loader-utils "^1.1.0"
     postcss "^6.0.0"
     postcss-load-config "^1.2.0"
-    schema-utils "^0.3.0"
+    schema-utils "^0.4.0"
 
 postcss-merge-idents@^2.1.5:
   version "2.1.7"
@@ -5637,8 +5637,8 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     supports-color "^3.2.3"
 
 postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.16:
-  version "6.0.16"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.16.tgz#112e2fe2a6d2109be0957687243170ea5589e146"
+  version "6.0.17"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.17.tgz#e259a051ca513f81e9afd0c21f7f82eda50c65c5"
   dependencies:
     chalk "^2.3.0"
     source-map "^0.6.1"
@@ -5864,8 +5864,8 @@ raw-loader@^0.5.1:
   resolved "https://registry.yarnpkg.com/raw-loader/-/raw-loader-0.5.1.tgz#0c3d0beaed8a01c966d9787bf778281252a979aa"
 
 rc@^1.1.7:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.4.tgz#a0f606caae2a3b862bbd0ef85482c0125b315fa3"
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.5.tgz#275cd687f6e3b36cc756baa26dfee80a790301fd"
   dependencies:
     deep-extend "~0.4.0"
     ini "~1.3.0"
@@ -6330,7 +6330,7 @@ schema-utils@^0.3.0:
   dependencies:
     ajv "^5.0.0"
 
-schema-utils@^0.4.2:
+schema-utils@^0.4.0, schema-utils@^0.4.2:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.4.3.tgz#e2a594d3395834d5e15da22b48be13517859458e"
   dependencies:
@@ -7257,8 +7257,8 @@ tsscmp@~1.0.0:
   resolved "https://registry.yarnpkg.com/tsscmp/-/tsscmp-1.0.5.tgz#7dc4a33af71581ab4337da91d85ca5427ebd9a97"
 
 tsutils@^2.12.1:
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.19.1.tgz#76d7ebdea9d7a7bf4a05f50ead3701b0168708d7"
+  version "2.21.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.21.0.tgz#43466a2283a0abce64e2209bc732ad72f8a04fab"
   dependencies:
     tslib "^1.8.1"
 
