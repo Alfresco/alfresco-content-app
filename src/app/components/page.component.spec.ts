@@ -23,8 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed } from '@angular/core/testing';
-
 import { PageComponent } from './page.component';
 
 class TestClass extends PageComponent {

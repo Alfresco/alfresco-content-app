@@ -27,8 +27,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { TestBed, async } from '@angular/core/testing';
-import { CoreModule, AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
+import { AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
 
+import { CommonModule } from '../../common/common.module';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
@@ -43,7 +44,7 @@ describe('LoginComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule,
-                CoreModule
+                CommonModule
             ],
             declarations: [
                 LoginComponent

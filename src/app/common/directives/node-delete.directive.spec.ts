@@ -23,12 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture, fakeAsync } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CoreModule, TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
 import { Component, DebugElement } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
+import { CommonModule } from '../common.module';
 import { NodeDeleteDirective } from './node-delete.directive';
 import { ContentManagementService } from '../services/content-management.service';
 
@@ -52,14 +53,10 @@ describe('NodeDeleteDirective', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule
+                CommonModule
             ],
             declarations: [
-                TestComponent,
-                 NodeDeleteDirective
-            ],
-            providers: [
-                ContentManagementService
+                TestComponent
             ]
         });
 
@@ -96,7 +93,7 @@ describe('NodeDeleteDirective', () => {
             );
         });
 
-        it('notifies faild file deletion', () => {
+        it('notifies failed file deletion', () => {
             spyOn(nodeApiService, 'deleteNode').and.returnValue(Observable.throw(null));
 
             component.selection = [{ entry: { id: '1', name: 'name1' } }];
@@ -125,7 +122,7 @@ describe('NodeDeleteDirective', () => {
             );
         });
 
-        it('notifies faild files deletion', () => {
+        it('notifies failed files deletion', () => {
             spyOn(nodeApiService, 'deleteNode').and.returnValue(Observable.throw(null));
 
             component.selection = [
@@ -202,7 +199,7 @@ describe('NodeDeleteDirective', () => {
             });
         });
 
-        it('notifies faild file on on restore', () => {
+        it('notifies failed file on on restore', () => {
             spyOn(nodeApiService, 'restoreNode').and.returnValue(Observable.throw(null));
 
             component.selection = [
@@ -216,7 +213,7 @@ describe('NodeDeleteDirective', () => {
                 .toEqual((['APP.MESSAGES.ERRORS.NODE_RESTORE', '', 3000]));
         });
 
-        it('notifies faild files on on restore', () => {
+        it('notifies failed files on on restore', () => {
             spyOn(nodeApiService, 'restoreNode').and.returnValue(Observable.throw(null));
 
             component.selection = [

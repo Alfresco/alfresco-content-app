@@ -27,6 +27,7 @@ import { NgModule } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AdfModule } from '../adf.module';
 import { MaterialModule } from './material.module';
@@ -45,6 +46,7 @@ import { NodeActionsService } from './services/node-actions.service';
 
 export function modules() {
     return [
+        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
@@ -61,7 +63,7 @@ export function declarations() {
         DownloadFileDirective,
         NodeRestoreDirective,
         NodePermanentDeleteDirective,
-        NodeUnshareDirective 
+        NodeUnshareDirective
     ];
 }
 

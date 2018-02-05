@@ -41,7 +41,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        const { router, pageTitle, route, translateService } = this;
+        const { router, pageTitle, route } = this;
 
         router
             .events

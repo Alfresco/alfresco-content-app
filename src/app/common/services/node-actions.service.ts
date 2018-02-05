@@ -211,7 +211,7 @@ export class NodeActionsService {
             select: new Subject<MinimalNodeEntryEntity[]>()
         };
 
-        const matDialogRef = this.dialog.open(ContentNodeSelectorComponent, <any>{
+        /*const matDialogRef =*/ this.dialog.open(ContentNodeSelectorComponent, <any>{
             data,
             panelClass: 'adf-content-node-selector-dialog',
             width: '630px'

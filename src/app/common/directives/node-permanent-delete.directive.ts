@@ -27,7 +27,7 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
-import { MinimalNodeEntity, DeletedNodeEntry, PathInfoEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
 @Directive({
     selector: '[app-permanent-delete-node]'

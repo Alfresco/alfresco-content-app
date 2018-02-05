@@ -27,8 +27,10 @@ import { TestBed, async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, AlfrescoApiService, NodesApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, NodesApiService } from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
+
+import { CommonModule } from '../common.module';
 import { NodeActionsService } from './node-actions.service';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
@@ -102,15 +104,9 @@ describe('NodeActionsService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
+                CommonModule,
                 OverlayModule
-            ],
-            providers: [
-                MatDialog,
-                DocumentListService,
-                AlfrescoApiService,
-                NodesApiService,
-                NodeActionsService]
+            ]
         });
 
         service = TestBed.get(NodeActionsService);
@@ -700,9 +696,7 @@ describe('NodeActionsService', () => {
         });
 
         it('should call the documentListService moveNode directly for moving a file that has permission to be moved', () => {
-            const spyOnDestinationPicker =
-                spyOn(service, 'getContentNodeSelection')
-                    .and.returnValue(Observable.of([destinationFolder.entry]));
+            spyOn(service, 'getContentNodeSelection').and.returnValue(Observable.of([destinationFolder.entry]));
             fileToMove.entry['allowableOperations'] = [permissionToMove];
             spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(Observable.of([fileToMove]));
             spyOn(service, 'moveNodeAction');
