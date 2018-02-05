@@ -41,33 +41,49 @@ export class PreviewComponent implements OnInit {
     private node: MinimalNodeEntryEntity;
     private previewLocation: string = null;
     private routesSkipNavigation = [ '/shared', '/recent-files', '/favorites' ];
+
     nodeId: string = null;
+    previousNodeId: string;
+    nextNodeId: string;
+    previewMultiple = false;
 
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private apiService: AlfrescoApiService) {
-            this.previewLocation = this.router.url.substr(0, this.router.url.indexOf('/', 1));
+        this.previewLocation = this.router.url.substr(0, this.router.url.indexOf('/', 1));
+
+        if (this.route.snapshot.data.previewMultiple) {
+            this.previewMultiple = true;
         }
+    }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
             const id = params.nodeId;
             if (id) {
-                this.apiService.getInstance().nodes.getNodeInfo(id).then(
-                    (node) => {
-                        this.node = node;
-
-                        if (node && node.isFile) {
-                            this.nodeId = id;
-                            return;
-                        }
-                        this.router.navigate([this.previewLocation, id]);
-                    },
-                    () => this.router.navigate([this.previewLocation, id])
-                );
+                this.displayNode(id);
             }
         });
+    }
+
+    private async displayNode(id: string) {
+        if (id) {
+            try {
+                this.node = await this.apiService.nodesApi.getNodeInfo(id);
+                if (this.node && this.node.isFile) {
+                    const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
+
+                    this.previousNodeId = nearest.left;
+                    this.nextNodeId = nearest.right;
+                    this.nodeId = this.node.id;
+                    return;
+                }
+                this.router.navigate([this.previewLocation, id]);
+            } catch {
+                this.router.navigate([this.previewLocation, id]);
+            }
+        }
     }
 
     onShowChange(isVisible) {
@@ -79,6 +95,41 @@ export class PreviewComponent implements OnInit {
             } else {
                 this.router.navigate([this.previewLocation]);
             }
+        }
+    }
+
+    async onNavigateBefore() {
+        if (this.previousNodeId) {
+            this.router.navigate([this.previewLocation, this.node.parentId, 'preview', this.previousNodeId]);
+        }
+    }
+
+    async onNavigateNext() {
+        if (this.nextNodeId) {
+            this.router.navigate([this.previewLocation, this.node.parentId, 'preview', this.nextNodeId]);
+        }
+    }
+
+    private async getNearestNodes(nodeId: string, folderId: string) {
+        const empty = {
+            left: null,
+            right: null
+        };
+        if (nodeId && folderId) {
+            const siblings = await this.apiService.nodesApi.getNodeChildren(folderId, {
+                orderBy: 'modifiedAt DESC',
+                fields: ['id'],
+                where: '(isFile=true)',
+            });
+            const ids = siblings.list.entries.map(obj => obj.entry.id);
+            const idx = ids.indexOf(nodeId);
+
+            return {
+                left: ids[idx - 1],
+                right: ids[idx + 1]
+            };
+        } else {
+            return empty;
         }
     }
 }

@@ -122,14 +122,16 @@ export const APP_ROUTES: Routes = [
                         path: 'preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE'
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            previewMultiple: true
                         }
                     },
                     {
                         path: ':id/preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE'
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            previewMultiple: true
                         }
                     }
                 ]
