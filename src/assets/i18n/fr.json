@@ -184,12 +184,5 @@
         }
       }
     }
-  },
-    "NODE_SELECTOR": {
-        "COPY_ITEM": "Copier '{{ name }}' à ...",
-        "COPY_ITEMS": "Copier à ...",
-        "MOVE_ITEM": "Déplacer '{{ name }}' à ...",
-        "MOVE_ITEMS": "Déplacer à ...",
-        "SEARCH": "Chercher"
-    }
+  }
 }

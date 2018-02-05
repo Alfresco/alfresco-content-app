@@ -176,11 +176,6 @@ export class NodeActionsService {
     getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
         const currentParentFolderId = this.getFirstParentId(contentEntities);
 
-        let nodeEntryName = '';
-        if (contentEntities.length === 1 && contentEntities[0].entry.name) {
-            nodeEntryName =  contentEntities[0].entry.name;
-        }
-
         const customDropdown: SitePaging = {
             list: {
                 entries: [
@@ -200,7 +195,7 @@ export class NodeActionsService {
             }
         };
 
-        const title = this.getTitleTranslation(action, nodeEntryName);
+        const title = this.getTitleTranslation(action, contentEntities);
 
         const data: ContentNodeSelectorComponentData = {
             title: title,
@@ -241,9 +236,12 @@ export class NodeActionsService {
         return data.select;
     }
 
-    getTitleTranslation(action: string, name: string): string {
+    getTitleTranslation(action: string, nodes: MinimalNodeEntity[] = []): string {
         let keyPrefix = 'ITEMS';
-        if (name) {
+        let name = '';
+
+        if (nodes.length === 1 && nodes[0].entry.name) {
+            name = nodes[0].entry.name;
             keyPrefix = 'ITEM';
         }
         return this.translation.instant(`NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`, {name});
