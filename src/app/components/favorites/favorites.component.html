@@ -80,9 +80,10 @@
             currentFolderId="-favorites-"
             selectionMode="multiple"
             [navigate]="false"
-            [sorting]="[ 'modifiedAt', 'desc' ]"
+            [sorting]="sorting"
             [contextMenuActions]="true"
             [contentActions]="false"
+            (sorting-changed)="onSortingChanged($event)"
             (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
 
             <empty-folder-content>

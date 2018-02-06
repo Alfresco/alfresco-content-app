@@ -45,7 +45,7 @@ export abstract class PageComponent {
 
     abstract fetchNodes(parentNodeId?: string, options?: any): void;
 
-    constructor(private preferences: UserPreferencesService) {
+    constructor(protected preferences: UserPreferencesService) {
     }
 
     onFetchError(error: any) {

@@ -38,12 +38,18 @@ export class LibrariesComponent extends PageComponent {
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
 
-    constructor(
-        private nodesApi: NodesApiService,
-        private route: ActivatedRoute,
-        private router: Router,
-        preferences: UserPreferencesService) {
+    sorting = [ 'title', 'asc' ];
+
+    constructor(private nodesApi: NodesApiService,
+                private route: ActivatedRoute,
+                private router: Router,
+                preferences: UserPreferencesService) {
         super(preferences);
+
+        const sortingKey = preferences.get('libraries.sorting.key') || 'title';
+        const sortingDirection = preferences.get('libraries.sorting.direction') || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
     }
 
     makeLibraryTooltip(library: any): string {
@@ -89,5 +95,10 @@ export class LibrariesComponent extends PageComponent {
 
     fetchNodes(): void {
         // todo: remove once all views migrate to native data source
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set('libraries.sorting.key', event.detail.key || 'modifiedAt');
+        this.preferences.set('libraries.sorting.direction', event.detail.direction || 'desc');
     }
 }

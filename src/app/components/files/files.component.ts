@@ -49,19 +49,25 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private nodePath: PathElement[];
     private subscriptions: Subscription[] = [];
 
-    constructor(
-        private router: Router,
-        private zone: NgZone,
-        private route: ActivatedRoute,
-        private nodesApi: NodesApiService,
-        private nodeActionsService: NodeActionsService,
-        private uploadService: UploadService,
-        private contentManagementService: ContentManagementService,
-        private browsingFilesService: BrowsingFilesService,
-        private contentService: ContentService,
-        private apiService: AlfrescoApiService,
-        preferences: UserPreferencesService) {
+    sorting = [ 'modifiedAt', 'desc' ];
+
+    constructor(private router: Router,
+                private zone: NgZone,
+                private route: ActivatedRoute,
+                private nodesApi: NodesApiService,
+                private nodeActionsService: NodeActionsService,
+                private uploadService: UploadService,
+                private contentManagementService: ContentManagementService,
+                private browsingFilesService: BrowsingFilesService,
+                private contentService: ContentService,
+                private apiService: AlfrescoApiService,
+                preferences: UserPreferencesService) {
         super(preferences);
+
+        const sortingKey = preferences.get('personal-files.sorting.key') || 'modifiedAt';
+        const sortingDirection = preferences.get('personal-files.sorting.direction') || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
     }
 
     ngOnInit() {
@@ -300,5 +306,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             return this.node.path.elements[0].id === nodeId;
         }
         return false;
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set('personal-files.sorting.key', event.detail.key || 'modifiedAt');
+        this.preferences.set('personal-files.sorting.direction', event.detail.direction || 'desc');
     }
 }
