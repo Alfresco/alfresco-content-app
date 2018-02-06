@@ -41,25 +41,37 @@ export class PreviewComponent implements OnInit {
     private node: MinimalNodeEntryEntity;
     private previewLocation: string = null;
     private routesSkipNavigation = [ '/shared', '/recent-files', '/favorites' ];
+    private navigateSource: string = null;
+    private navigationSources = ['favorites', 'libraries', 'personal-files', 'recent-files', 'shared'];
+    private folderId: string = null;
 
     nodeId: string = null;
     previousNodeId: string;
     nextNodeId: string;
-    previewMultiple = false;
+    navigateMultiple = false;
 
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private apiService: AlfrescoApiService) {
+    constructor(private router: Router,
+                private route: ActivatedRoute,
+                private apiService: AlfrescoApiService) {
         this.previewLocation = this.router.url.substr(0, this.router.url.indexOf('/', 1));
 
-        if (this.route.snapshot.data.previewMultiple) {
-            this.previewMultiple = true;
+        const routeData = this.route.snapshot.data;
+
+        if (routeData.navigateMultiple) {
+            this.navigateMultiple = true;
+        }
+
+        if (routeData.navigateSource) {
+            const source = routeData.navigateSource.toLowerCase();
+            if (this.navigationSources.includes(source)) {
+                this.navigateSource = routeData.navigateSource;
+            }
         }
     }
 
     ngOnInit() {
         this.route.params.subscribe(params => {
+            this.folderId = params.folderId;
             const id = params.nodeId;
             if (id) {
                 this.displayNode(id);
@@ -90,25 +102,46 @@ export class PreviewComponent implements OnInit {
         const shouldSkipNavigation = this.routesSkipNavigation.includes(this.previewLocation);
 
         if (!isVisible) {
-            if ( !shouldSkipNavigation ) {
-                this.router.navigate([this.previewLocation, this.node.parentId ]);
-            } else {
-                this.router.navigate([this.previewLocation]);
+            const route = [this.previewLocation];
+
+            if ( !shouldSkipNavigation && this.folderId ) {
+                route.push(this.folderId);
             }
+
+            this.router.navigate(route);
         }
     }
 
-    async onNavigateBefore() {
+    onNavigateBefore() {
         if (this.previousNodeId) {
-            this.router.navigate([this.previewLocation, this.node.parentId, 'preview', this.previousNodeId]);
+            this.router.navigate(
+                this.getPreviewPath(this.folderId, this.previousNodeId)
+            );
         }
     }
 
-    async onNavigateNext() {
+    onNavigateNext() {
         if (this.nextNodeId) {
-            this.router.navigate([this.previewLocation, this.node.parentId, 'preview', this.nextNodeId]);
+            this.router.navigate(
+                this.getPreviewPath(this.folderId, this.nextNodeId)
+            );
         }
     }
+
+    getPreviewPath(folderId: string, nodeId: string): any[] {
+        const route = [this.previewLocation];
+
+        if (folderId) {
+            route.push(folderId);
+        }
+
+        if (nodeId) {
+            route.push('preview', nodeId);
+        }
+
+        return route;
+    }
+
 
     private async getNearestNodes(nodeId: string, folderId: string) {
         const empty = {
@@ -116,12 +149,7 @@ export class PreviewComponent implements OnInit {
             right: null
         };
         if (nodeId && folderId) {
-            const siblings = await this.apiService.nodesApi.getNodeChildren(folderId, {
-                orderBy: 'modifiedAt DESC',
-                fields: ['id'],
-                where: '(isFile=true)',
-            });
-            const ids = siblings.list.entries.map(obj => obj.entry.id);
+            const ids = await this.getFileIds(this.navigateSource, folderId);
             const idx = ids.indexOf(nodeId);
 
             return {
@@ -131,5 +159,61 @@ export class PreviewComponent implements OnInit {
         } else {
             return empty;
         }
+    }
+
+    private async getFileIds(source: string, folderId: string): Promise<string[]> {
+        // TODO: sorting
+        if (source === 'personal-files' || source === 'libraries') {
+            const nodes = await this.apiService.nodesApi.getNodeChildren(folderId, {
+                orderBy: 'modifiedAt DESC',
+                fields: ['id'],
+                where: '(isFile=true)'
+            });
+            return nodes.list.entries.map(obj => obj.entry.id);
+        }
+
+        // TODO: sorting
+        if (source === 'favorites') {
+            const nodes = await this.apiService.favoritesApi.getFavorites('-me-', {
+                where: '(EXISTS(target/file))',
+                fields: ['target']
+            });
+            return nodes.list.entries.map(obj => obj.entry.target.file.id);
+        }
+
+        // TODO: sorting
+        if (source === 'shared') {
+            const nodes = await this.apiService.sharedLinksApi.findSharedLinks({
+                fields: ['nodeId']
+            });
+            return nodes.list.entries.map(obj => obj.entry.nodeId);
+        }
+
+        // TODO: ADF needs to provide an API for that, for now it's hidden inside DocumentList
+        // TODO: sorting
+        if (source === 'recent-files') {
+            const person = await this.apiService.peopleApi.getPerson('-me-');
+            const username = person.entry.id;
+            const nodes = await this.apiService.searchApi.search({
+                query: {
+                    query: '*',
+                    language: 'afts'
+                },
+                filterQueries: [
+                    { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
+                    { query: `cm:modifier:${username} OR cm:creator:${username}` },
+                    { query: `TYPE:"content" AND -TYPE:"app:filelink" AND -TYPE:"fm:post"` }
+                ],
+                fields: ['id'],
+                sort: [{
+                    type: 'FIELD',
+                    field: 'cm:modified',
+                    ascending: false
+                }]
+            });
+            return nodes.list.entries.map(obj => obj.entry.id);
+        }
+
+        return [];
     }
 }
