@@ -27,7 +27,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { AlfrescoApiService, ContentService, NodesApiService, DataColumn } from '@alfresco/adf-core';
+import { AlfrescoApiService, ContentService, NodesApiService, DataColumn, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging } from 'alfresco-js-api';
 
@@ -44,7 +44,8 @@ export class NodeActionsService {
                 private dialog: MatDialog,
                 private documentListService: DocumentListService,
                 private apiService: AlfrescoApiService,
-                private nodesApi: NodesApiService) {}
+                private nodesApi: NodesApiService,
+                private translation: TranslationService) {}
 
     /**
      * Copy node list
@@ -175,11 +176,6 @@ export class NodeActionsService {
     getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
         const currentParentFolderId = this.getFirstParentId(contentEntities);
 
-        let nodeEntryName = '';
-        if (contentEntities.length === 1 && contentEntities[0].entry.name) {
-            nodeEntryName =  `'${contentEntities[0].entry.name}' `;
-        }
-
         const customDropdown: SitePaging = {
             list: {
                 entries: [
@@ -199,8 +195,10 @@ export class NodeActionsService {
             }
         };
 
+        const title = this.getTitleTranslation(action, contentEntities);
+
         const data: ContentNodeSelectorComponentData = {
-            title: `${action} ${nodeEntryName}to ...`,
+            title: title,
             currentFolderId: currentParentFolderId,
             actionName: action,
             dropdownHideMyFiles: true,
@@ -236,6 +234,17 @@ export class NodeActionsService {
         });
 
         return data.select;
+    }
+
+    getTitleTranslation(action: string, nodes: MinimalNodeEntity[] = []): string {
+        let keyPrefix = 'ITEMS';
+        let name = '';
+
+        if (nodes.length === 1 && nodes[0].entry.name) {
+            name = nodes[0].entry.name;
+            keyPrefix = 'ITEM';
+        }
+        return this.translation.instant(`NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`, {name});
     }
 
     private hasEntityCreatePermission(entry: MinimalNodeEntryEntity): boolean {

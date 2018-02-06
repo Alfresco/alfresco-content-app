@@ -27,7 +27,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs/Rx';
-import { AlfrescoApiService, NodesApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, NodesApiService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
 
 import { CommonModule } from '../common.module';
@@ -285,12 +285,17 @@ describe('NodeActionsService', () => {
         let fileToCopy;
         let folderToCopy;
         let destinationFolder;
+        let translationService: TranslationService;
 
         beforeEach(() => {
             fileToCopy = new TestNode(fileId, isFile, 'file-name');
             folderToCopy = new TestNode();
             destinationFolder = new TestNode(folderDestinationId);
+            translationService = TestBed.get(TranslationService);
 
+            spyOn(translationService, 'instant').and.callFake(key => {
+                return key;
+            });
         });
 
         it('should be called', () => {
@@ -324,7 +329,8 @@ describe('NodeActionsService', () => {
             expect(testContentNodeSelectorComponentData).toBeDefined();
             expect(testContentNodeSelectorComponentData.data.rowFilter({node: destinationFolder})).toBeDefined();
             expect(testContentNodeSelectorComponentData.data.imageResolver({node: destinationFolder})).toBeDefined();
-            expect(testContentNodeSelectorComponentData.data.title).toBe('copy to ...');
+            expect(testContentNodeSelectorComponentData.data.title).toBe('NODE_SELECTOR.COPY_ITEMS');
+            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEMS', {name: ''});
 
             destinationFolder.entry['allowableOperations'] = ['update'];
             expect(testContentNodeSelectorComponentData.data.imageResolver({node: destinationFolder})).toBeDefined();
@@ -346,7 +352,8 @@ describe('NodeActionsService', () => {
 
             expect(spyOnBatchOperation).toHaveBeenCalled();
             expect(testContentNodeSelectorComponentData).toBeDefined();
-            expect(testContentNodeSelectorComponentData.data.title).toBe('copy \'entry-name\' to ...');
+            expect(testContentNodeSelectorComponentData.data.title).toBe('NODE_SELECTOR.COPY_ITEM');
+            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEM', {name: 'entry-name'});
         });
 
         it('should use the ContentNodeSelectorComponentData object without file name in title, if no name exists', () => {
@@ -365,7 +372,8 @@ describe('NodeActionsService', () => {
 
             expect(spyOnBatchOperation).toHaveBeenCalled();
             expect(testContentNodeSelectorComponentData).toBeDefined();
-            expect(testContentNodeSelectorComponentData.data.title).toBe('copy to ...');
+            expect(testContentNodeSelectorComponentData.data.title).toBe('NODE_SELECTOR.COPY_ITEMS');
+            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEMS', {name: ''});
         });
 
     });
