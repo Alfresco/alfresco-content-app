@@ -25,7 +25,7 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Component({
@@ -52,7 +52,8 @@ export class PreviewComponent implements OnInit {
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
-                private apiService: AlfrescoApiService) {
+                private apiService: AlfrescoApiService,
+                private preferences: UserPreferencesService) {
         this.previewLocation = this.router.url.substr(0, this.router.url.indexOf('/', 1));
 
         const routeData = this.route.snapshot.data;
@@ -162,38 +163,52 @@ export class PreviewComponent implements OnInit {
     }
 
     private async getFileIds(source: string, folderId: string): Promise<string[]> {
-        // TODO: sorting
         if (source === 'personal-files' || source === 'libraries') {
+            const sortKey = this.preferences.get('personal-files.sorting.key') || 'modifiedAt';
+            const sortDirection = this.preferences.get('personal-files.sorting.direction') || 'desc';
             const nodes = await this.apiService.nodesApi.getNodeChildren(folderId, {
-                orderBy: 'modifiedAt DESC',
-                fields: ['id'],
+                orderBy: `${sortKey} ${sortDirection}`,
+                fields: ['id', this.getRootField(sortKey)],
                 where: '(isFile=true)'
             });
+
             return nodes.list.entries.map(obj => obj.entry.id);
         }
 
-        // TODO: sorting
         if (source === 'favorites') {
             const nodes = await this.apiService.favoritesApi.getFavorites('-me-', {
                 where: '(EXISTS(target/file))',
                 fields: ['target']
             });
-            return nodes.list.entries.map(obj => obj.entry.target.file.id);
+
+            const sortKey = this.preferences.get('favorites.sorting.key') || 'modifiedAt';
+            const sortDirection = this.preferences.get('favorites.sorting.direction') || 'desc';
+            const files = nodes.list.entries.map(obj => obj.entry.target.file);
+            this.sort(files, sortKey, sortDirection);
+
+            return files.map(f => f.id);
         }
 
-        // TODO: sorting
         if (source === 'shared') {
+            const sortingKey = this.preferences.get('shared-files.sorting.key') || 'modifiedAt';
+            const sortingDirection = this.preferences.get('shared-files.sorting.direction') || 'desc';
+
             const nodes = await this.apiService.sharedLinksApi.findSharedLinks({
-                fields: ['nodeId']
+                fields: ['nodeId', this.getRootField(sortingKey)]
             });
-            return nodes.list.entries.map(obj => obj.entry.nodeId);
+
+            const entries = nodes.list.entries.map(obj => obj.entry);
+            this.sort(entries, sortingKey, sortingDirection);
+
+            return entries.map(obj => obj.nodeId);
         }
 
-        // TODO: ADF needs to provide an API for that, for now it's hidden inside DocumentList
-        // TODO: sorting
         if (source === 'recent-files') {
             const person = await this.apiService.peopleApi.getPerson('-me-');
             const username = person.entry.id;
+            const sortingKey = this.preferences.get('recent-files.sorting.key') || 'modifiedAt';
+            const sortingDirection = this.preferences.get('recent-files.sorting.direction') || 'desc';
+
             const nodes = await this.apiService.searchApi.search({
                 query: {
                     query: '*',
@@ -204,16 +219,52 @@ export class PreviewComponent implements OnInit {
                     { query: `cm:modifier:${username} OR cm:creator:${username}` },
                     { query: `TYPE:"content" AND -TYPE:"app:filelink" AND -TYPE:"fm:post"` }
                 ],
-                fields: ['id'],
+                fields: ['id', this.getRootField(sortingKey)],
                 sort: [{
                     type: 'FIELD',
                     field: 'cm:modified',
                     ascending: false
                 }]
             });
-            return nodes.list.entries.map(obj => obj.entry.id);
+
+            const entries = nodes.list.entries.map(obj => obj.entry);
+            this.sort(entries, sortingKey, sortingDirection);
+
+            return entries.map(obj => obj.id);
         }
 
         return [];
+    }
+
+    private sort(items: any[], key: string, direction: string) {
+        items.sort((a: any, b: any) => {
+            let left = ObjectUtils.getValue(a, key);
+            if (left) {
+                left = (left instanceof Date) ? left.valueOf().toString() : left.toString();
+            } else {
+                left = '';
+            }
+
+            let right = ObjectUtils.getValue(b, key);
+            if (right) {
+                right = (right instanceof Date) ? right.valueOf().toString() : right.toString();
+            } else {
+                right = '';
+            }
+
+            return direction === 'asc'
+                ? left.localeCompare(right)
+                : right.localeCompare(left);
+        });
+    }
+
+    private getRootField(path: string) {
+        if (path) {
+           const fragments = path.split('.');
+           if (fragments.length > 0) {
+               return fragments[0];
+           }
+        }
+        return path;
     }
 }
