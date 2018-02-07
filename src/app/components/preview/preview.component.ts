@@ -167,12 +167,15 @@ export class PreviewComponent implements OnInit {
             const sortKey = this.preferences.get('personal-files.sorting.key') || 'modifiedAt';
             const sortDirection = this.preferences.get('personal-files.sorting.direction') || 'desc';
             const nodes = await this.apiService.nodesApi.getNodeChildren(folderId, {
-                orderBy: `${sortKey} ${sortDirection}`,
+                // orderBy: `${sortKey} ${sortDirection}`,
                 fields: ['id', this.getRootField(sortKey)],
                 where: '(isFile=true)'
             });
 
-            return nodes.list.entries.map(obj => obj.entry.id);
+            const entries = nodes.list.entries.map(obj => obj.entry);
+            this.sort(entries, sortKey, sortDirection);
+
+            return entries.map(obj => obj.id);
         }
 
         if (source === 'favorites') {
@@ -237,6 +240,12 @@ export class PreviewComponent implements OnInit {
     }
 
     private sort(items: any[], key: string, direction: string) {
+        const options: Intl.CollatorOptions = {};
+
+        if (key.includes('sizeInBytes') || key === 'name') {
+            options.numeric = true;
+        }
+
         items.sort((a: any, b: any) => {
             let left = ObjectUtils.getValue(a, key);
             if (left) {
@@ -253,8 +262,8 @@ export class PreviewComponent implements OnInit {
             }
 
             return direction === 'asc'
-                ? left.localeCompare(right)
-                : right.localeCompare(left);
+                ? left.localeCompare(right, undefined, options)
+                : right.localeCompare(left, undefined, options);
         });
     }
 
