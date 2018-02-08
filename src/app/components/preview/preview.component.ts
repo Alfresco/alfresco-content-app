@@ -38,13 +38,13 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 })
 export class PreviewComponent implements OnInit {
 
-    private node: MinimalNodeEntryEntity;
-    private previewLocation: string = null;
-    private routesSkipNavigation = [ '/shared', '/recent-files', '/favorites' ];
-    private navigateSource: string = null;
-    private navigationSources = ['favorites', 'libraries', 'personal-files', 'recent-files', 'shared'];
-    private folderId: string = null;
+    node: MinimalNodeEntryEntity;
+    previewLocation: string = null;
+    routesSkipNavigation = [ 'shared', 'recent-files', 'favorites' ];
+    navigateSource: string = null;
+    navigationSources = ['favorites', 'libraries', 'personal-files', 'recent-files', 'shared'];
 
+    folderId: string = null;
     nodeId: string = null;
     previousNodeId: string;
     nextNodeId: string;
@@ -54,7 +54,12 @@ export class PreviewComponent implements OnInit {
                 private route: ActivatedRoute,
                 private apiService: AlfrescoApiService,
                 private preferences: UserPreferencesService) {
-        this.previewLocation = this.router.url.substr(0, this.router.url.indexOf('/', 1));
+    }
+
+    ngOnInit() {
+        this.previewLocation = this.router.url
+            .substr(0, this.router.url.indexOf('/', 1))
+            .replace(/\//g, '');
 
         const routeData = this.route.snapshot.data;
 
@@ -68,9 +73,7 @@ export class PreviewComponent implements OnInit {
                 this.navigateSource = routeData.navigateSource;
             }
         }
-    }
 
-    ngOnInit() {
         this.route.params.subscribe(params => {
             this.folderId = params.folderId;
             const id = params.nodeId;
@@ -80,7 +83,11 @@ export class PreviewComponent implements OnInit {
         });
     }
 
-    private async displayNode(id: string) {
+    /**
+     * Loads the particular node into the Viewer
+     * @param id Unique identifier for the Node to display
+     */
+    async displayNode(id: string) {
         if (id) {
             try {
                 this.node = await this.apiService.nodesApi.getNodeInfo(id);
@@ -99,7 +106,11 @@ export class PreviewComponent implements OnInit {
         }
     }
 
-    onShowChange(isVisible) {
+    /**
+     * Handles the visibility change of the Viewer component.
+     * @param isVisible Indicator whether Viewer is visible or hidden.
+     */
+    onVisibilityChanged(isVisible: boolean): void {
         const shouldSkipNavigation = this.routesSkipNavigation.includes(this.previewLocation);
 
         if (!isVisible) {
@@ -113,7 +124,8 @@ export class PreviewComponent implements OnInit {
         }
     }
 
-    onNavigateBefore() {
+    /** Handles navigation to a previous document */
+    onNavigateBefore(): void {
         if (this.previousNodeId) {
             this.router.navigate(
                 this.getPreviewPath(this.folderId, this.previousNodeId)
@@ -121,7 +133,8 @@ export class PreviewComponent implements OnInit {
         }
     }
 
-    onNavigateNext() {
+    /** Handles navigation to a next document */
+    onNavigateNext(): void {
         if (this.nextNodeId) {
             this.router.navigate(
                 this.getPreviewPath(this.folderId, this.nextNodeId)
@@ -129,6 +142,11 @@ export class PreviewComponent implements OnInit {
         }
     }
 
+    /**
+     * Generates a node preview route based on folder and node IDs.
+     * @param folderId Folder ID
+     * @param nodeId Node ID
+     */
     getPreviewPath(folderId: string, nodeId: string): any[] {
         const route = [this.previewLocation];
 
@@ -144,26 +162,45 @@ export class PreviewComponent implements OnInit {
     }
 
 
-    private async getNearestNodes(nodeId: string, folderId: string) {
+    /**
+     * Retrieves nearest node information for the given node and folder.
+     * @param nodeId Unique identifier of the document node
+     * @param folderId Unique identifier of the containing folder node.
+     */
+    async getNearestNodes(nodeId: string, folderId: string): Promise<{ left: string, right: string }> {
         const empty = {
             left: null,
             right: null
         };
-        if (nodeId && folderId) {
-            const ids = await this.getFileIds(this.navigateSource, folderId);
-            const idx = ids.indexOf(nodeId);
 
-            return {
-                left: ids[idx - 1],
-                right: ids[idx + 1]
-            };
+        if (nodeId && folderId) {
+            try {
+                const ids = await this.getFileIds(this.navigateSource, folderId);
+                const idx = ids.indexOf(nodeId);
+
+                if (idx >= 0) {
+                    return {
+                        left: ids[idx - 1] || null,
+                        right: ids[idx + 1] || null
+                    };
+                } else {
+                    return empty;
+                }
+            } catch {
+                return empty;
+            }
         } else {
             return empty;
         }
     }
 
-    private async getFileIds(source: string, folderId: string): Promise<string[]> {
-        if (source === 'personal-files' || source === 'libraries') {
+    /**
+     * Retrieves a list of node identifiers for the folder and data source.
+     * @param source Data source name. Allowed values are: personal-files, libraries, favorites, shared, recent-files.
+     * @param folderId Containing folder node identifier for 'personal-files' and 'libraries' sources.
+     */
+    async getFileIds(source: string, folderId?: string): Promise<string[]> {
+        if ((source === 'personal-files' || source === 'libraries') && folderId) {
             const sortKey = this.preferences.get('personal-files.sorting.key') || 'modifiedAt';
             const sortDirection = this.preferences.get('personal-files.sorting.direction') || 'desc';
             const nodes = await this.apiService.nodesApi.getNodeChildren(folderId, {
@@ -193,8 +230,8 @@ export class PreviewComponent implements OnInit {
         }
 
         if (source === 'shared') {
-            const sortingKey = this.preferences.get('shared-files.sorting.key') || 'modifiedAt';
-            const sortingDirection = this.preferences.get('shared-files.sorting.direction') || 'desc';
+            const sortingKey = this.preferences.get('shared.sorting.key') || 'modifiedAt';
+            const sortingDirection = this.preferences.get('shared.sorting.direction') || 'desc';
 
             const nodes = await this.apiService.sharedLinksApi.findSharedLinks({
                 fields: ['nodeId', this.getRootField(sortingKey)]
@@ -267,12 +304,14 @@ export class PreviewComponent implements OnInit {
         });
     }
 
-    private getRootField(path: string) {
+    /**
+     * Get the root field name from the property path.
+     * Example: 'property1.some.child.property' => 'property1'
+     * @param path Property path
+     */
+    getRootField(path: string) {
         if (path) {
-           const fragments = path.split('.');
-           if (fragments.length > 0) {
-               return fragments[0];
-           }
+           return path.split('.')[0];
         }
         return path;
     }
