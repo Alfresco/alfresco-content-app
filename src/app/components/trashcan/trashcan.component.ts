@@ -38,9 +38,14 @@ export class TrashcanComponent implements OnInit, OnDestroy {
 
     @ViewChild(DocumentListComponent) documentList;
 
-    constructor(
-        private contentManagementService: ContentManagementService,
-        private preferences: UserPreferencesService) {}
+    sorting = [ 'archivedAt', 'desc' ];
+
+    constructor(private contentManagementService: ContentManagementService,
+                private preferences: UserPreferencesService) {
+        const sortingKey = preferences.get('trashcan.sorting.key') || 'archivedAt';
+        const sortingDirection = preferences.get('trashcan.sorting.direction') || 'desc';
+        this.sorting = [sortingKey, sortingDirection];
+    }
 
     ngOnInit() {
         this.subscriptions.push(this.contentManagementService.restoreNode.subscribe(() => this.refresh()));
@@ -57,5 +62,10 @@ export class TrashcanComponent implements OnInit, OnDestroy {
 
     onChangePageSize(event: Pagination): void {
         this.preferences.paginationSize = event.maxItems;
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set('trashcan.sorting.key', event.detail.key || 'archivedAt');
+        this.preferences.set('trashcan.sorting.direction', event.detail.direction || 'desc');
     }
 }

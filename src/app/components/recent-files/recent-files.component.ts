@@ -43,12 +43,19 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
 
     private subscriptions: Subscription[] = [];
 
+    sorting = [ 'modifiedAt', 'desc' ];
+
     constructor(
         private router: Router,
         private route: ActivatedRoute,
         private content: ContentManagementService,
         preferences: UserPreferencesService) {
         super(preferences);
+
+        const sortingKey = preferences.get('recent-files.sorting.key') || 'modifiedAt';
+        const sortingDirection = preferences.get('recent-files.sorting.direction') || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
     }
 
     ngOnInit() {
@@ -80,5 +87,10 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
         if (this.documentList) {
             this.documentList.reload();
         }
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set('recent-files.sorting.key', event.detail.key || 'modifiedAt');
+        this.preferences.set('recent-files.sorting.direction', event.detail.direction || 'desc');
     }
 }

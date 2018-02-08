@@ -43,13 +43,19 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
 
     private subscriptions: Subscription[] = [];
 
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private content: ContentManagementService,
-        private apiService: AlfrescoApiService,
-        preferences: UserPreferencesService) {
+    sorting = [ 'modifiedAt', 'desc' ];
+
+    constructor(private router: Router,
+                private route: ActivatedRoute,
+                private content: ContentManagementService,
+                private apiService: AlfrescoApiService,
+                preferences: UserPreferencesService) {
         super(preferences);
+
+        const sortingKey = preferences.get('shared.sorting.key') || 'modifiedAt';
+        const sortingDirection = preferences.get('shared.sorting.direction') || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
     }
 
     ngOnInit() {
@@ -90,5 +96,10 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
             this.documentList.resetSelection();
             this.documentList.reload();
         }
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set('shared-files.sorting.key', event.detail.key || 'modifiedAt');
+        this.preferences.set('shared-files.sorting.direction', event.detail.direction || 'desc');
     }
 }

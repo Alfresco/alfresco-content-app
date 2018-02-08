@@ -1,7 +1,12 @@
 <ng-container *ngIf="nodeId">
     <adf-viewer
         [fileNodeId]="nodeId"
+        [allowNavigate]="navigateMultiple"
+        [canNavigateBefore]="previousNodeId"
+        [canNavigateNext]="nextNodeId"
         [overlayMode]="true"
-        (showViewerChange)="onShowChange($event)">
+        (showViewerChange)="onVisibilityChanged($event)"
+        (navigateBefore)="onNavigateBefore()"
+        (navigateNext)="onNavigateNext()">
     </adf-viewer>
 </ng-container>

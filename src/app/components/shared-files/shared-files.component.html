@@ -81,9 +81,10 @@
             [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
             currentFolderId="-sharedlinks-"
             selectionMode="multiple"
-            [sorting]="[ 'modifiedAt', 'desc' ]"
+            [sorting]="sorting"
             [contextMenuActions]="true"
             [contentActions]="false"
+            (sorting-changed)="onSortingChanged($event)"
             (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
 
             <empty-folder-content>

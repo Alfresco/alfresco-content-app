@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@alfresco/adf-content-services@2.2.0-beta1":
-  version "2.2.0-beta1"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.2.0-beta1.tgz#d578df1294cd6f9d9df34857b799838307dd905f"
+"@alfresco/adf-content-services@2.2.0-0e512083331b094a1593e9b1f081ff441db01786":
+  version "2.2.0-0e512083331b094a1593e9b1f081ff441db01786"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.2.0-0e512083331b094a1593e9b1f081ff441db01786.tgz#694bbb7bdca67c3afd3a011c6d8717f5da287311"
   dependencies:
-    "@alfresco/adf-core" "2.2.0-beta1"
+    "@alfresco/adf-core" "2.2.0-0e512083331b094a1593e9b1f081ff441db01786"
     "@angular/animations" "5.1.1"
     "@angular/cdk" "5.0.1"
     "@angular/common" "5.1.1"
@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic" "5.1.1"
     "@angular/router" "5.1.1"
     "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.2.0-beta1"
+    alfresco-js-api "2.1.0-4c702fe0041642c09f12fb939014cf70671d8ed8"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -35,9 +35,9 @@
     systemjs "0.19.27"
     zone.js "0.8.14"
 
-"@alfresco/adf-core@2.2.0-beta1":
-  version "2.2.0-beta1"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.2.0-beta1.tgz#e79ded6bee985146ff325c9256e8a70968ea2eb8"
+"@alfresco/adf-core@2.2.0-0e512083331b094a1593e9b1f081ff441db01786":
+  version "2.2.0-0e512083331b094a1593e9b1f081ff441db01786"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.2.0-0e512083331b094a1593e9b1f081ff441db01786.tgz#d48d80cf9928946cc611d6ebb37312a3c140a3a9"
   dependencies:
     "@angular/animations" "5.1.1"
     "@angular/cdk" "5.0.1"
@@ -53,7 +53,7 @@
     "@angular/platform-browser-dynamic" "5.1.1"
     "@angular/router" "5.1.1"
     "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.2.0-beta1"
+    alfresco-js-api "2.1.0-4c702fe0041642c09f12fb939014cf70671d8ed8"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -398,6 +398,13 @@ ajv@^5.0.0, ajv@^5.1.0, ajv@^5.1.5, ajv@~5.5.1:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
+alfresco-js-api@2.1.0-4c702fe0041642c09f12fb939014cf70671d8ed8:
+  version "2.1.0-4c702fe0041642c09f12fb939014cf70671d8ed8"
+  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.1.0-4c702fe0041642c09f12fb939014cf70671d8ed8.tgz#1d9add0f5d80ff98ec9d24bc719cd489eb048ff5"
+  dependencies:
+    event-emitter "0.3.4"
+    superagent "3.8.2"
+
 alfresco-js-api@2.2.0-beta1:
   version "2.2.0-beta1"
   resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.2.0-beta1.tgz#3a380fcc437f51276b96d0a6dd1bf439622d68a6"
@@ -702,8 +709,8 @@ babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
     js-tokens "^3.0.2"
 
 babel-generator@^6.18.0:
-  version "6.26.0"
-  resolved "https://registry.yarnpkg.com/babel-generator/-/babel-generator-6.26.0.tgz#ac1ae20070b79f6e3ca1d3269613053774f20dc5"
+  version "6.26.1"
+  resolved "https://registry.yarnpkg.com/babel-generator/-/babel-generator-6.26.1.tgz#1844408d3b8f0d35a404ea7ac180f087a601bd90"
   dependencies:
     babel-messages "^6.23.0"
     babel-runtime "^6.26.0"
@@ -711,7 +718,7 @@ babel-generator@^6.18.0:
     detect-indent "^4.0.0"
     jsesc "^1.3.0"
     lodash "^4.17.4"
-    source-map "^0.5.6"
+    source-map "^0.5.7"
     trim-right "^1.0.1"
 
 babel-messages@^6.23.0:
@@ -1219,12 +1226,12 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000800"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000800.tgz#a86e6bc23bd9a707d5df42f33e64d0495cfda218"
+  version "1.0.30000803"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000803.tgz#3e8d2baf56c2fd5a59c82e227928a0dc2c26702d"
 
 caniuse-lite@^1.0.30000791, caniuse-lite@^1.0.30000792:
-  version "1.0.30000792"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000792.tgz#d0cea981f8118f3961471afbb43c9a1e5bbf0332"
+  version "1.0.30000803"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000803.tgz#9939c37149d38d5f4540430490d240c03106a0f5"
 
 caseless@~0.11.0:
   version "0.11.0"
@@ -1521,7 +1528,11 @@ commander@2.12.x:
   version "2.12.2"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.12.2.tgz#0f5946c427ed9ec0d91a46bb9def53e54650e555"
 
-commander@^2.12.1, commander@^2.9.0, commander@^2.x, commander@~2.13.0:
+commander@^2.12.1, commander@^2.9.0, commander@^2.x:
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.14.0.tgz#7b25325963e6aace20d3a9285b09379b0c2208b5"
+
+commander@~2.13.0:
   version "2.13.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.13.0.tgz#6964bca67685df7c1f1430c584f07d7597885b9c"
 
@@ -3324,8 +3335,8 @@ http-errors@1.6.2, http-errors@~1.6.2:
     statuses ">= 1.3.1 < 2"
 
 http-parser-js@>=0.4.0:
-  version "0.4.9"
-  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.4.9.tgz#ea1a04fb64adff0242e9974f297dd4c3cad271e1"
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/http-parser-js/-/http-parser-js-0.4.10.tgz#92c9c1374c35085f75db359ec56cc257cbb93fa4"
 
 http-proxy-agent@1:
   version "1.0.0"
@@ -3884,9 +3895,9 @@ jasmine-core@~2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.8.0.tgz#bcc979ae1f9fd05701e45e52e65d3a5d63f1a24e"
 
-jasmine-core@~2.9.0:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.9.1.tgz#b6bbc1d8e65250d56f5888461705ebeeeb88f22f"
+jasmine-core@~2.99.0:
+  version "2.99.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.99.0.tgz#c105ab5222da45f1b0a10580383f5adbbff56d2c"
 
 jasmine-reporters@^2.2.1:
   version "2.3.0"
@@ -3910,12 +3921,12 @@ jasmine2-protractor-utils@^1.3.0:
     q "^1.4.1"
 
 jasmine@^2.5.3:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-2.9.0.tgz#76571f925c8783409e7c6153572e5a6341cf93eb"
+  version "2.99.0"
+  resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-2.99.0.tgz#8ca72d102e639b867c6489856e0e18a9c7aa42b7"
   dependencies:
     exit "^0.1.2"
     glob "^7.0.6"
-    jasmine-core "~2.9.0"
+    jasmine-core "~2.99.0"
 
 jasminewd2@^2.1.0:
   version "2.2.0"
@@ -4294,8 +4305,8 @@ lodash.memoize@~3.0.3:
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-3.0.4.tgz#2dcbd2c287cbc0a55cc42328bd0c736150d53e3f"
 
 lodash.mergewith@^4.6.0:
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.0.tgz#150cf0a16791f5903b8891eab154609274bdea55"
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.1.tgz#639057e726c3afbdb3e7d42741caa8d6e4335927"
 
 lodash.tail@^4.1.1:
   version "4.1.1"
@@ -4310,8 +4321,8 @@ lodash@^3.10.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
 lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.3.0, lodash@^4.5.0, lodash@~4.17.4:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+  version "4.17.5"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
 
 log-driver@^1.x:
   version "1.2.5"
@@ -4418,8 +4429,8 @@ make-dir@^1.0.0:
     pify "^3.0.0"
 
 make-error@^1.1.1:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/make-error/-/make-error-1.3.2.tgz#8762ffad2444dd8ff1f7c819629fa28e24fea1c4"
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/make-error/-/make-error-1.3.3.tgz#a97ae14ffd98b05f543e83ddc395e1b2b6e4cc6a"
 
 map-cache@^0.2.2:
   version "0.2.2"
@@ -6725,7 +6736,7 @@ source-map@0.1.x:
   dependencies:
     amdefine ">=0.0.4"
 
-source-map@0.5.x, source-map@^0.5.3, source-map@^0.5.6, source-map@~0.5.1, source-map@~0.5.3, source-map@~0.5.6:
+source-map@0.5.x, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.1, source-map@~0.5.3, source-map@~0.5.6:
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
 

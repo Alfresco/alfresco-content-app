@@ -31,9 +31,10 @@
             currentFolderId="-trashcan-"
             selectionMode="multiple"
             [navigate]="false"
-            [sorting]="[ 'archivedAt', 'desc' ]"
+            [sorting]="sorting"
             [contextMenuActions]="true"
-            [contentActions]="false">
+            [contentActions]="false"
+            (sorting-changed)="onSortingChanged($event)">
 
             <empty-folder-content>
                 <ng-template>

@@ -44,14 +44,20 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
 
     private subscriptions: Subscription[] = [];
 
-    constructor(
-        private router: Router,
-        private route: ActivatedRoute,
-        private nodesApi: NodesApiService,
-        private contentService: ContentService,
-        private content: ContentManagementService,
-        preferences: UserPreferencesService) {
+    sorting = [ 'modifiedAt', 'desc' ];
+
+    constructor(private router: Router,
+                private route: ActivatedRoute,
+                private nodesApi: NodesApiService,
+                private contentService: ContentService,
+                private content: ContentManagementService,
+                preferences: UserPreferencesService) {
         super(preferences);
+
+        const sortingKey = preferences.get('favorites.sorting.key') || 'modifiedAt';
+        const sortingDirection = preferences.get('favorites.sorting.direction') || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
     }
 
     ngOnInit() {
@@ -109,5 +115,10 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
         if (this.documentList) {
             this.documentList.reload();
         }
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set('favorites.sorting.key', event.detail.key || 'modifiedAt');
+        this.preferences.set('favorites.sorting.direction', event.detail.direction || 'desc');
     }
 }

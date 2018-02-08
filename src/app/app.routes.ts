@@ -71,7 +71,9 @@ export const APP_ROUTES: Routes = [
                         path: 'preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE'
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'favorites'
                         }
                     }
                 ]
@@ -85,17 +87,19 @@ export const APP_ROUTES: Routes = [
                         i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE'
                     }
                 }, {
-                    path: ':id',
+                    path: ':folderId',
                     component: FilesComponent,
                     data: {
                         i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE'
                     }
                 },
                 {
-                    path: ':id/preview/:nodeId',
+                    path: ':folderId/preview/:nodeId',
                     component: PreviewComponent,
                     data: {
-                        i18nTitle: 'APP.PREVIEW.TITLE'
+                        i18nTitle: 'APP.PREVIEW.TITLE',
+                        navigateMultiple: true,
+                        navigateSource: 'libraries'
                     }
                 }
                 ]
@@ -112,7 +116,7 @@ export const APP_ROUTES: Routes = [
                         }
                     },
                     {
-                        path: ':id',
+                        path: ':folderId',
                         component: FilesComponent,
                         data: {
                             i18nTitle: 'APP.BROWSE.PERSONAL.TITLE'
@@ -122,14 +126,18 @@ export const APP_ROUTES: Routes = [
                         path: 'preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE'
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'personal-files'
                         }
                     },
                     {
-                        path: ':id/preview/:nodeId',
+                        path: ':folderId/preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE'
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'personal-files'
                         }
                     }
                 ]
@@ -148,7 +156,9 @@ export const APP_ROUTES: Routes = [
                         path: 'preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE'
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'recent-files'
                         }
                     }
                 ]
@@ -167,7 +177,9 @@ export const APP_ROUTES: Routes = [
                         path: 'preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE'
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'shared'
                         }
                     }
                 ]

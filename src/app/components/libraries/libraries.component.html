@@ -13,9 +13,10 @@
             currentFolderId="-mysites-"
             selectionMode="none"
             [navigate]="false"
-            [sorting]="[ 'name', 'asc' ]"
+            [sorting]="sorting"
             [contextMenuActions]="true"
             [contentActions]="false"
+            (sorting-changed)="onSortingChanged($event)"
             (node-dblclick)="onNodeDoubleClick($event)">
 
             <empty-folder-content>
