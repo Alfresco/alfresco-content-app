@@ -17,7 +17,7 @@
                 mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                [app-download-node]="documentList.selection">
+                [adfNodeDownload]="documentList.selection">
                 <mat-icon>get_app</mat-icon>
             </button>
 

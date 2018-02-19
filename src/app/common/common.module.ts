@@ -35,7 +35,6 @@ import { MaterialModule } from './material.module';
 import { NodeCopyDirective } from './directives/node-copy.directive';
 import { NodeDeleteDirective } from './directives/node-delete.directive';
 import { NodeMoveDirective } from './directives/node-move.directive';
-import { DownloadFileDirective } from './directives/node-download.directive';
 import { NodeRestoreDirective } from './directives/node-restore.directive';
 import { NodePermanentDeleteDirective } from './directives/node-permanent-delete.directive';
 import { NodeUnshareDirective } from './directives/node-unshare.directive';
@@ -60,7 +59,6 @@ export function declarations() {
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,
-        DownloadFileDirective,
         NodeRestoreDirective,
         NodePermanentDeleteDirective,
         NodeUnshareDirective
