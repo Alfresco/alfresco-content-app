@@ -23,13 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ContentService, AppConfigService } from '@alfresco/adf-core';
+
+import { CoreModule, ContentService, AppConfigService } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 
 import { SidenavComponent } from './sidenav.component';
-import { CommonModule } from './../../common/common.module';
 
 describe('SidenavComponent', () => {
     let fixture;
@@ -50,11 +51,15 @@ describe('SidenavComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 RouterTestingModule,
-                CommonModule
+                CoreModule
             ],
             declarations: [
                 SidenavComponent
-            ]
+            ],
+            providers: [
+                BrowsingFilesService
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents()
         .then(() => {
