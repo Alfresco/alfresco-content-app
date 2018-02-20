@@ -52,8 +52,8 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
                 preferences: UserPreferencesService) {
         super(preferences);
 
-        const sortingKey = preferences.get('shared.sorting.key') || 'modifiedAt';
-        const sortingDirection = preferences.get('shared.sorting.direction') || 'desc';
+        const sortingKey = preferences.get('shared-files.sorting.key') || 'modifiedAt';
+        const sortingDirection = preferences.get('shared-files.sorting.direction') || 'desc';
 
         this.sorting = [sortingKey, sortingDirection];
     }
