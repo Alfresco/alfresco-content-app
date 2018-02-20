@@ -74,7 +74,7 @@ export class NodeDeleteDirective {
                                 .subscribe(() => this.restore(processedData.success));
 
                             if (processedData.someSucceeded) {
-                                this.content.deleteNode.next(null);
+                                this.content.nodeDeleted.next(null);
                             }
                         });
                 }
@@ -103,7 +103,7 @@ export class NodeDeleteDirective {
                     }
 
                     if (processedData.someSucceeded) {
-                        this.content.restoreNode.next(null);
+                        this.content.nodeRestored.next(null);
                     }
                 }
             );

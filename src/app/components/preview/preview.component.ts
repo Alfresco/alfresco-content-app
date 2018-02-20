@@ -342,7 +342,7 @@ export class PreviewComponent implements OnInit {
                         this.restoreFile();
                     });
 
-                this.content.deleteNode.next(this.node.id);
+                this.content.nodeDeleted.next(this.node.id);
                 this.onVisibilityChanged(false);
             } catch {
                 this.notification.openSnackMessage(
@@ -357,7 +357,7 @@ export class PreviewComponent implements OnInit {
         if (this.node) {
             try {
                 await this.apiService.nodesApi.restoreNode(this.node.id);
-                this.content.restoreNode.next(this.node.id);
+                this.content.nodeRestored.next(this.node.id);
             } catch {
                 this.notification.openSnackMessage(
                     this.translate.instant('APP.MESSAGES.ERRORS.NODE_RESTORE', { name: this.node.name }),

@@ -28,7 +28,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ContentManagementService {
-    deleteNode = new Subject<string>();
-    moveNode = new Subject<string>();
-    restoreNode = new Subject<string>();
+    nodeDeleted = new Subject<string>();
+    nodeMoved = new Subject<string>();
+    nodeRestored = new Subject<string>();
 }

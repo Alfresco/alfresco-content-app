@@ -64,7 +64,7 @@ export class NodeMoveDirective {
                 const [ operationResult, moveResponse ] = result;
                 this.toastMessage(operationResult, moveResponse);
 
-                this.content.moveNode.next(null);
+                this.content.nodeMoved.next(null);
             },
             (error) => {
                 this.toastMessage(error);
@@ -190,7 +190,7 @@ export class NodeMoveDirective {
             })
             .subscribe(
                 () => {
-                    this.content.moveNode.next(null);
+                    this.content.nodeMoved.next(null);
                 },
                 (error) => {
 
