@@ -25,7 +25,7 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlfrescoApiService, UserPreferencesService, ObjectUtils, TranslationService, NotificationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ContentManagementService } from '../../common/services/content-management.service';
 
@@ -55,8 +55,6 @@ export class PreviewComponent implements OnInit {
                 private route: ActivatedRoute,
                 private apiService: AlfrescoApiService,
                 private preferences: UserPreferencesService,
-                private translate: TranslationService,
-                private notification: NotificationService,
                 private content: ContentManagementService) {
     }
 
@@ -323,59 +321,14 @@ export class PreviewComponent implements OnInit {
     }
 
     canDeleteFile(): boolean {
-        return this.nodeHasPermission(this.node, 'delete');
+        return this.content.canDeleteNode(this.node);
     }
 
     async deleteFile() {
-        if (this.canDeleteFile()) {
-            try {
-                await this.apiService.nodesApi.deleteNode(this.node.id);
-
-                this.notification
-                    .openSnackMessageAction(
-                        this.translate.instant('APP.MESSAGES.INFO.NODE_DELETION.SINGULAR', { name: this.node.name }),
-                        this.translate.translate.instant('APP.ACTIONS.UNDO'),
-                        10000
-                    )
-                    .onAction()
-                    .subscribe(() => {
-                        this.restoreFile();
-                    });
-
-                this.content.nodeDeleted.next(this.node.id);
-                this.onVisibilityChanged(false);
-            } catch {
-                this.notification.openSnackMessage(
-                    this.translate.instant('APP.MESSAGES.ERRORS.NODE_DELETION', { name: this.node.name }),
-                    10000
-                );
-            }
+        try {
+            await this.content.deleteNode(this.node);
+            this.onVisibilityChanged(false);
+        } catch {
         }
-    }
-
-    async restoreFile() {
-        if (this.node) {
-            try {
-                await this.apiService.nodesApi.restoreNode(this.node.id);
-                this.content.nodeRestored.next(this.node.id);
-            } catch {
-                this.notification.openSnackMessage(
-                    this.translate.instant('APP.MESSAGES.ERRORS.NODE_RESTORE', { name: this.node.name }),
-                    3000
-                );
-            }
-        }
-    }
-
-    nodeHasPermission(node: MinimalNodeEntryEntity, permission: string) {
-        if (node && permission) {
-            const { allowableOperations = [] } = <any>(node || {});
-
-            if (allowableOperations.indexOf(permission) > -1) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }
