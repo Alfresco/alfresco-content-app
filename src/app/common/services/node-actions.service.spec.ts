@@ -24,15 +24,21 @@
  */
 
 import { TestBed, async } from '@angular/core/testing';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogModule, MatIconModule } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs/Rx';
-import { AlfrescoApiService, NodesApiService, TranslationService } from '@alfresco/adf-core';
+import {
+    TranslationMock, AlfrescoApiService, NodesApiService,
+    TranslationService, ContentService, AuthenticationService,
+    UserPreferencesService, AppConfigService, StorageService,
+    CookieService, LogService, ThumbnailService
+} from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
 
-import { CommonModule } from '../common.module';
 import { NodeActionsService } from './node-actions.service';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientModule } from '@angular/common/http';
 
 class TestNode {
     entry?: MinimalNodeEntryEntity;
@@ -104,8 +110,26 @@ describe('NodeActionsService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CommonModule,
+                MatDialogModule,
+                MatIconModule,
+                HttpClientModule,
+                TranslateModule.forRoot(),
                 OverlayModule
+            ],
+            providers: [
+                AlfrescoApiService,
+                NodesApiService,
+                { provide: TranslationService, useClass: TranslationMock },
+                AuthenticationService,
+                UserPreferencesService,
+                AppConfigService,
+                CookieService,
+                LogService,
+                ThumbnailService,
+                StorageService,
+                ContentService,
+                DocumentListService,
+                NodeActionsService
             ]
         });
 
