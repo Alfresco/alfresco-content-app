@@ -15,14 +15,14 @@ adf-document-list {
 .adf-data-table {
     border: none !important;
 
-    th, tr, td {
+    .adf-datatable-header, .adf-datatable-row, .adf-data-table-cell {
         color: $alfresco-secondary-text-color;
         &:focus {
             outline: none !important;
         }
     }
 
-    tbody tr {
+    .adf-datatable-body .adf-datatable-row {
         &:hover, &:focus {
             background-color: $alfresco-app-color--hue-1;
         }
@@ -32,7 +32,7 @@ adf-document-list {
         }
     }
 
-    td, th {
+    .adf-data-table-cell, .adf-datatable-header {
         width: 100%;
         text-align: left;
     }
@@ -63,8 +63,8 @@ adf-document-list {
         border: none !important;
     }
 
-    th:first-of-type, th.adf-data-table-cell--image,
-    td:first-of-type, td.adf-data-table-cell--image {
+    .adf-datatable-header:first-of-type, .adf-datatable-header.adf-data-table-cell--image,
+    .adf-data-table-cell:first-of-type, .adf-data-table-cell.adf-data-table-cell--image {
         padding-left: 24px;
         padding-right: 0;
         width: 10px;
@@ -98,7 +98,7 @@ adf-document-list {
     .adf-data-table {
         height: 100%;
 
-        tr:hover, tr:focus {
+        .adf-datatable-row:hover, .adf-datatable-row:focus {
             background-color: unset;
             cursor: default;
         }

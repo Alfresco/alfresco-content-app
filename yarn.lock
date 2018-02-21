@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@alfresco/adf-content-services@2.2.0-beta3":
-  version "2.2.0-beta3"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.2.0-beta3.tgz#26151b855326f85870ae16636e35ac1df75f9432"
+"@alfresco/adf-content-services@2.2.0-ec3b208b846713143f0ce2786ace108bd37a752e":
+  version "2.2.0-ec3b208b846713143f0ce2786ace108bd37a752e"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.2.0-ec3b208b846713143f0ce2786ace108bd37a752e.tgz#18619e3d1b4552c9229fc36c7e467ef004c71d0c"
   dependencies:
-    "@alfresco/adf-core" "2.2.0-beta3"
+    "@alfresco/adf-core" "2.2.0-ec3b208b846713143f0ce2786ace108bd37a752e"
     "@angular/animations" "5.1.1"
     "@angular/cdk" "5.0.1"
     "@angular/common" "5.1.1"
@@ -20,8 +20,8 @@
     "@angular/platform-browser" "5.1.1"
     "@angular/platform-browser-dynamic" "5.1.1"
     "@angular/router" "5.1.1"
-    "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.2.0-beta3"
+    "@ngx-translate/core" "9.1.1"
+    alfresco-js-api "2.2.0-c8f6736c571c52038c46b490892f96616b31662c"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -36,9 +36,9 @@
     tslib "^1.7.1"
     zone.js "0.8.14"
 
-"@alfresco/adf-core@2.2.0-beta3":
-  version "2.2.0-beta3"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.2.0-beta3.tgz#c529e1f49e4ed0701da0ad7b7c61288aaea485cf"
+"@alfresco/adf-core@2.2.0-ec3b208b846713143f0ce2786ace108bd37a752e":
+  version "2.2.0-ec3b208b846713143f0ce2786ace108bd37a752e"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.2.0-ec3b208b846713143f0ce2786ace108bd37a752e.tgz#6beed6b05d485d50b25e92ad477a263ec747a464"
   dependencies:
     "@angular/animations" "5.1.1"
     "@angular/cdk" "5.0.1"
@@ -53,8 +53,8 @@
     "@angular/platform-browser" "5.1.1"
     "@angular/platform-browser-dynamic" "5.1.1"
     "@angular/router" "5.1.1"
-    "@ngx-translate/core" "8.0.0"
-    alfresco-js-api "2.2.0-beta3"
+    "@ngx-translate/core" "9.1.1"
+    alfresco-js-api "2.2.0-c8f6736c571c52038c46b490892f96616b31662c"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -274,9 +274,9 @@
     tree-kill "^1.0.0"
     webpack-sources "^1.1.0"
 
-"@ngx-translate/core@8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-8.0.0.tgz#751fd6b512d80f3a748d2de8dfc96dfefa29afe0"
+"@ngx-translate/core@9.1.1":
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-9.1.1.tgz#ae103928836b8a9e069fd2e2e76fa2198cc7e628"
 
 "@schematics/angular@~0.1.17":
   version "0.1.17"
@@ -415,6 +415,13 @@ ajv@^6.1.0:
 alfresco-js-api@2.2.0-beta3:
   version "2.2.0-beta3"
   resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.2.0-beta3.tgz#1bdc0a6df4482b5470553eef4743a1615f9da11d"
+  dependencies:
+    event-emitter "0.3.4"
+    superagent "3.8.2"
+
+alfresco-js-api@2.2.0-c8f6736c571c52038c46b490892f96616b31662c:
+  version "2.2.0-c8f6736c571c52038c46b490892f96616b31662c"
+  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.2.0-c8f6736c571c52038c46b490892f96616b31662c.tgz#0f395db73ff2d2b41e5c24617e9defa8c52760f5"
   dependencies:
     event-emitter "0.3.4"
     superagent "3.8.2"
