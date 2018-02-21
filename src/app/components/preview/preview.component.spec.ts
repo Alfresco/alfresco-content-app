@@ -27,11 +27,17 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { CoreModule, AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
+import {
+    AlfrescoApiService, UserPreferencesService, TranslationService, TranslationMock,
+    AppConfigService, StorageService, CookieService, NotificationService
+} from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { PreviewComponent } from './preview.component';
 import { Observable } from 'rxjs/Rx';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { MatSnackBarModule } from '@angular/material';
 
 describe('PreviewComponent', () => {
 
@@ -45,10 +51,19 @@ describe('PreviewComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
                 imports: [
+                    HttpClientModule,
                     RouterTestingModule,
-                    CoreModule
+                    TranslateModule.forRoot(),
+                    MatSnackBarModule
                 ],
                 providers: [
+                    { provide: TranslationService, useClass: TranslationMock },
+                    AlfrescoApiService,
+                    AppConfigService,
+                    StorageService,
+                    CookieService,
+                    NotificationService,
+                    UserPreferencesService,
                     ContentManagementService
                 ],
                 declarations: [
