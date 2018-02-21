@@ -27,6 +27,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { ContentManagementService } from '../../common/services/content-management.service';
 
 @Component({
     selector: 'app-preview',
@@ -53,7 +54,8 @@ export class PreviewComponent implements OnInit {
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 private apiService: AlfrescoApiService,
-                private preferences: UserPreferencesService) {
+                private preferences: UserPreferencesService,
+                private content: ContentManagementService) {
     }
 
     ngOnInit() {
@@ -90,7 +92,9 @@ export class PreviewComponent implements OnInit {
     async displayNode(id: string) {
         if (id) {
             try {
-                this.node = await this.apiService.nodesApi.getNodeInfo(id);
+                this.node = await this.apiService.nodesApi.getNodeInfo(id, {
+                    include: [ 'allowableOperations']
+                });
                 if (this.node && this.node.isFile) {
                     const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
 
@@ -314,5 +318,17 @@ export class PreviewComponent implements OnInit {
            return path.split('.')[0];
         }
         return path;
+    }
+
+    canDeleteFile(): boolean {
+        return this.content.canDeleteNode(this.node);
+    }
+
+    async deleteFile() {
+        try {
+            await this.content.deleteNode(this.node);
+            this.onVisibilityChanged(false);
+        } catch {
+        }
     }
 }

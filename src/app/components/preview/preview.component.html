@@ -8,5 +8,14 @@
         (showViewerChange)="onVisibilityChanged($event)"
         (navigateBefore)="onNavigateBefore()"
         (navigateNext)="onNavigateNext()">
+
+        <adf-viewer-more-actions>
+            <button mat-menu-item
+                [disabled]="!canDeleteFile()"
+                (click)="deleteFile()">
+                <mat-icon>delete</mat-icon>
+                <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
+            </button>
+        </adf-viewer-more-actions>
     </adf-viewer>
 </ng-container>

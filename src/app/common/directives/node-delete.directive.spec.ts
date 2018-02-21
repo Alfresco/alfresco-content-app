@@ -229,7 +229,7 @@ describe('NodeDeleteDirective', () => {
         });
 
         it('signals files restored', () => {
-            spyOn(contentService.restoreNode, 'next');
+            spyOn(contentService.nodeRestored, 'next');
             spyOn(nodeApiService, 'restoreNode').and.callFake((id) => {
                 if (id === '1') {
                     return Observable.of(null);
@@ -246,7 +246,7 @@ describe('NodeDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
 
-            expect(contentService.restoreNode.next).toHaveBeenCalled();
+            expect(contentService.nodeRestored.next).toHaveBeenCalled();
         });
     });
 });

@@ -62,10 +62,10 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            this.content.deleteNode.subscribe(() => this.refresh()),
-            this.content.restoreNode.subscribe(() => this.refresh()),
+            this.content.nodeDeleted.subscribe(() => this.refresh()),
+            this.content.nodeRestored.subscribe(() => this.refresh()),
             this.contentService.folderEdit.subscribe(() => this.refresh()),
-            this.content.moveNode.subscribe(() => this.refresh())
+            this.content.nodeMoved.subscribe(() => this.refresh())
         ]);
     }
 

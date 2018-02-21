@@ -89,7 +89,7 @@ describe('SharedFilesComponent', () => {
         it('should refresh on deleteNode event', () => {
             fixture.detectChanges();
 
-            contentService.deleteNode.next();
+            contentService.nodeDeleted.next();
 
             expect(component.refresh).toHaveBeenCalled();
         });
@@ -97,7 +97,7 @@ describe('SharedFilesComponent', () => {
         it('should refresh on restoreNode event', () => {
             fixture.detectChanges();
 
-            contentService.restoreNode.next();
+            contentService.nodeRestored.next();
 
             expect(component.refresh).toHaveBeenCalled();
         });
@@ -105,7 +105,7 @@ describe('SharedFilesComponent', () => {
         it('should reload on move node event', () => {
             fixture.detectChanges();
 
-            contentService.moveNode.next();
+            contentService.nodeMoved.next();
 
             expect(component.refresh).toHaveBeenCalled();
         });

@@ -48,7 +48,7 @@ export class TrashcanComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.subscriptions.push(this.contentManagementService.restoreNode.subscribe(() => this.refresh()));
+        this.subscriptions.push(this.contentManagementService.nodeRestored.subscribe(() => this.refresh()));
     }
 
     refresh(): void {

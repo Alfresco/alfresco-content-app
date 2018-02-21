@@ -114,7 +114,7 @@ describe('Favorites Routed Component', () => {
             spyOn(component, 'refresh');
             fixture.detectChanges();
 
-            contentService.moveNode.next(null);
+            contentService.nodeMoved.next(null);
 
             expect(component.refresh).toHaveBeenCalled();
         });
