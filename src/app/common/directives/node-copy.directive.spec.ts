@@ -29,11 +29,20 @@ import { By } from '@angular/platform-browser';
 
 import { Observable } from 'rxjs/Rx';
 
-import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import {
+    TranslationService, NodesApiService, NotificationService, AlfrescoApiService, TranslationMock,
+    AppConfigService, StorageService, CookieService, ContentService, AuthenticationService,
+    UserPreferencesService, LogService, ThumbnailService
+} from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientModule } from '@angular/common/http';
 
-import { CommonModule } from '../common.module';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeCopyDirective } from './node-copy.directive';
+import { ContentManagementService } from '../services/content-management.service';
+import { MatSnackBarModule, MatDialogModule, MatIconModule } from '@angular/material';
+import { DocumentListService } from '@alfresco/adf-content-services';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
     template: '<div [app-copy-node]="selection"></div>'
@@ -54,10 +63,33 @@ describe('NodeCopyDirective', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CommonModule
+                NoopAnimationsModule,
+                HttpClientModule,
+                TranslateModule.forRoot(),
+                MatSnackBarModule,
+                MatDialogModule,
+                MatIconModule
             ],
             declarations: [
-                TestComponent
+                TestComponent,
+                NodeCopyDirective
+            ],
+            providers: [
+                AlfrescoApiService,
+                AuthenticationService,
+                AppConfigService,
+                StorageService,
+                ContentService,
+                UserPreferencesService,
+                LogService,
+                CookieService,
+                NotificationService,
+                NodesApiService,
+                NodeActionsService,
+                { provide: TranslationService, useClass: TranslationMock },
+                ContentManagementService,
+                DocumentListService,
+                ThumbnailService
             ]
         });
 
