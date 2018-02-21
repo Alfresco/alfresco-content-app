@@ -23,14 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
+import { CoreModule, AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
 
-import { CommonModule } from '../../common/common.module';
 import { PreviewComponent } from './preview.component';
 import { Observable } from 'rxjs/Rx';
+import { ContentManagementService } from '../../common/services/content-management.service';
 
 describe('PreviewComponent', () => {
 
@@ -45,11 +46,15 @@ describe('PreviewComponent', () => {
         TestBed.configureTestingModule({
                 imports: [
                     RouterTestingModule,
-                    CommonModule
+                    CoreModule
+                ],
+                providers: [
+                    ContentManagementService
                 ],
                 declarations: [
                     PreviewComponent
-                ]
+                ],
+                schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents().then(() => {
             fixture = TestBed.createComponent(PreviewComponent);
