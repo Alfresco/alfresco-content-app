@@ -64,8 +64,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 preferences: UserPreferencesService) {
         super(preferences);
 
-        const sortingKey = preferences.get('personal-files.sorting.key') || 'modifiedAt';
-        const sortingDirection = preferences.get('personal-files.sorting.direction') || 'desc';
+        const sortingKey = this.preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
+        const sortingDirection = this.preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
 
         this.sorting = [sortingKey, sortingDirection];
     }
@@ -309,7 +309,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     onSortingChanged(event: CustomEvent) {
-        this.preferences.set('personal-files.sorting.key', event.detail.key || 'modifiedAt');
-        this.preferences.set('personal-files.sorting.direction', event.detail.direction || 'desc');
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }

@@ -22,7 +22,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
 import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 import { TrashcanComponent } from './trashcan.component';
@@ -49,6 +49,7 @@ describe('TrashcanComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
+                RouterTestingModule,
                 CoreModule,
                 CommonModule
             ],

@@ -24,6 +24,7 @@
  */
 
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
@@ -41,9 +42,12 @@ export class TrashcanComponent implements OnInit, OnDestroy {
     sorting = [ 'archivedAt', 'desc' ];
 
     constructor(private contentManagementService: ContentManagementService,
-                private preferences: UserPreferencesService) {
-        const sortingKey = preferences.get('trashcan.sorting.key') || 'archivedAt';
-        const sortingDirection = preferences.get('trashcan.sorting.direction') || 'desc';
+                private preferences: UserPreferencesService,
+                private route: ActivatedRoute) {
+
+        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'archivedAt';
+        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
+
         this.sorting = [sortingKey, sortingDirection];
     }
 
@@ -65,7 +69,11 @@ export class TrashcanComponent implements OnInit, OnDestroy {
     }
 
     onSortingChanged(event: CustomEvent) {
-        this.preferences.set('trashcan.sorting.key', event.detail.key || 'archivedAt');
-        this.preferences.set('trashcan.sorting.direction', event.detail.direction || 'desc');
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'archivedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }

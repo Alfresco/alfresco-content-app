@@ -59,6 +59,9 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'favorites',
+                data: {
+                    preferencePrefix: 'favorites'
+                },
                 children: [
                     {
                         path: '',
@@ -80,6 +83,9 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'libraries',
+                data: {
+                    preferencePrefix: 'libraries'
+                },
                 children: [{
                     path: '',
                     component: LibrariesComponent,
@@ -90,7 +96,8 @@ export const APP_ROUTES: Routes = [
                     path: ':folderId',
                     component: FilesComponent,
                     data: {
-                        i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE'
+                        i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE',
+                        preferencePrefix: 'libraries-files'
                     }
                 },
                 {
@@ -106,6 +113,9 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'personal-files',
+                data: {
+                    preferencePrefix: 'personal-files'
+                },
                 children: [
                     {
                         path: '',
@@ -144,6 +154,9 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'recent-files',
+                data: {
+                    preferencePrefix: 'recent-files'
+                },
                 children: [
                     {
                         path: '',
@@ -165,6 +178,9 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'shared',
+                data: {
+                    preferencePrefix: 'shared-files'
+                },
                 children: [
                     {
                         path: '',
@@ -188,7 +204,8 @@ export const APP_ROUTES: Routes = [
                 path: 'trashcan',
                 component: TrashcanComponent,
                 data: {
-                    i18nTitle: 'APP.BROWSE.TRASHCAN.TITLE'
+                    i18nTitle: 'APP.BROWSE.TRASHCAN.TITLE',
+                    preferencePrefix: 'trashcan'
                 }
             },
             {

@@ -52,8 +52,8 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
         preferences: UserPreferencesService) {
         super(preferences);
 
-        const sortingKey = preferences.get('recent-files.sorting.key') || 'modifiedAt';
-        const sortingDirection = preferences.get('recent-files.sorting.direction') || 'desc';
+        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
+        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
 
         this.sorting = [sortingKey, sortingDirection];
     }
@@ -90,7 +90,11 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
     }
 
     onSortingChanged(event: CustomEvent) {
-        this.preferences.set('recent-files.sorting.key', event.detail.key || 'modifiedAt');
-        this.preferences.set('recent-files.sorting.direction', event.detail.direction || 'desc');
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }

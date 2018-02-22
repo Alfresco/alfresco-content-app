@@ -54,8 +54,8 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
                 preferences: UserPreferencesService) {
         super(preferences);
 
-        const sortingKey = preferences.get('favorites.sorting.key') || 'modifiedAt';
-        const sortingDirection = preferences.get('favorites.sorting.direction') || 'desc';
+        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
+        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
 
         this.sorting = [sortingKey, sortingDirection];
     }
@@ -118,7 +118,11 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
     }
 
     onSortingChanged(event: CustomEvent) {
-        this.preferences.set('favorites.sorting.key', event.detail.key || 'modifiedAt');
-        this.preferences.set('favorites.sorting.direction', event.detail.direction || 'desc');
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }
