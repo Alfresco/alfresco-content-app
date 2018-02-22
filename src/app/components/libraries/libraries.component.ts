@@ -46,8 +46,8 @@ export class LibrariesComponent extends PageComponent {
                 preferences: UserPreferencesService) {
         super(preferences);
 
-        const sortingKey = preferences.get('libraries.sorting.key') || 'title';
-        const sortingDirection = preferences.get('libraries.sorting.direction') || 'desc';
+        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'title';
+        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
 
         this.sorting = [sortingKey, sortingDirection];
     }
@@ -98,7 +98,11 @@ export class LibrariesComponent extends PageComponent {
     }
 
     onSortingChanged(event: CustomEvent) {
-        this.preferences.set('libraries.sorting.key', event.detail.key || 'modifiedAt');
-        this.preferences.set('libraries.sorting.direction', event.detail.direction || 'desc');
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }
