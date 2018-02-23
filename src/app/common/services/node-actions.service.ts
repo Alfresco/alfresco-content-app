@@ -205,7 +205,7 @@ export class NodeActionsService {
             dropdownSiteList: customDropdown,
             rowFilter: this.rowFilter.bind(this),
             imageResolver: this.imageResolver.bind(this),
-            isSelectionValid: this.hasEntityCreatePermission.bind(this),
+            isSelectionValid: this.canCopyMoveInsideIt.bind(this),
             select: new Subject<MinimalNodeEntryEntity[]>()
         };
 
@@ -247,8 +247,16 @@ export class NodeActionsService {
         return this.translation.instant(`NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`, {name});
     }
 
+    private canCopyMoveInsideIt(entry: MinimalNodeEntryEntity): boolean {
+        return this.hasEntityCreatePermission(entry) && !this.isSite(entry);
+    }
+
     private hasEntityCreatePermission(entry: MinimalNodeEntryEntity): boolean {
         return this.contentService.hasPermission(entry, 'create');
+    }
+
+    private isSite(entry) {
+        return !!entry.guid || entry.nodeType === 'st:site' || entry.nodeType === 'st:sites';
     }
 
     close() {
