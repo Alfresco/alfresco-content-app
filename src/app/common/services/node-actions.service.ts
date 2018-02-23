@@ -206,6 +206,7 @@ export class NodeActionsService {
             rowFilter: this.rowFilter.bind(this),
             imageResolver: this.imageResolver.bind(this),
             isSelectionValid: this.canCopyMoveInsideIt.bind(this),
+            breadcrumbTransform: this.customizeBreadcrumb.bind(this),
             select: new Subject<MinimalNodeEntryEntity[]>()
         };
 
@@ -261,6 +262,73 @@ export class NodeActionsService {
 
     close() {
         this.dialog.closeAll();
+    }
+
+    // todo: review this approach once 5.2.3 is out
+    private customizeBreadcrumb(node: MinimalNodeEntryEntity) {
+
+        if (node && node.path && node.path.elements) {
+            const elements = node.path.elements;
+
+            if (elements.length > 1) {
+                if (elements[1].name === 'User Homes') {
+                    elements.splice(0, 2);
+
+                    // make sure first item is 'Personal Files'
+                    if (elements[0]) {
+                        elements[0].name = this.translation.instant('APP.BROWSE.PERSONAL.TITLE');
+                        elements[0].id = '-my-';
+                    } else {
+                        node.name = this.translation.instant('APP.BROWSE.PERSONAL.TITLE');
+                    }
+
+                } else if (elements[1].name === 'Sites') {
+                    this.normalizeSitePath(node);
+                }
+
+            } else if (elements.length === 1) {
+                if (node.name === 'Sites') {
+                    node.name = this.translation.instant('APP.BROWSE.LIBRARIES.TITLE');
+                    elements.splice(0, 1);
+                }
+            }
+        }
+
+        return node;
+    }
+
+    // todo: review this approach once 5.2.3 is out
+    private normalizeSitePath(node: MinimalNodeEntryEntity) {
+        const elements = node.path.elements;
+
+        // remove 'Company Home'
+        elements.splice(0, 1);
+
+        // replace first item with 'File Libraries'
+        elements[0].name = this.translation.instant('APP.BROWSE.LIBRARIES.TITLE');
+        // elements[0].id = '-mysites-'; // commented this until navigation on custom sources is enabled on document-list
+
+        if (this.isSiteContainer(node)) {
+            // rename 'documentLibrary' entry to the target site display name
+            // clicking on the breadcrumb entry loads the site content
+            node.name = elements[1].name;
+
+            // remove the site entry
+            elements.splice(1, 1);
+        } else {
+            // remove 'documentLibrary' in the middle of the path
+            const docLib = elements.findIndex(el => el.name === 'documentLibrary');
+            if (docLib > -1) {
+                elements.splice(docLib, 1);
+            }
+        }
+    }
+
+    isSiteContainer(node: MinimalNodeEntryEntity): boolean {
+        if (node && node.aspectNames && node.aspectNames.length > 0) {
+            return node.aspectNames.indexOf('st:siteContainer') >= 0;
+        }
+        return false;
     }
 
     copyNodeAction(nodeEntry, selectionId): Observable<any> {
