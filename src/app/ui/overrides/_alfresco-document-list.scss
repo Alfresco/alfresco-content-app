@@ -22,6 +22,10 @@ adf-document-list {
         }
     }
 
+    .adf-datatable-table-cell-header:focus {
+        outline: none !important;
+    }
+
     .adf-datatable-body .adf-datatable-row {
         &:hover, &:focus {
             background-color: $alfresco-app-color--hue-1;
@@ -35,15 +39,6 @@ adf-document-list {
     .adf-data-table-cell, .adf-datatable-header {
         width: 100%;
         text-align: left;
-    }
-
-    .adf-data-table__header--sorted-asc,
-    .adf-data-table__header--sorted-desc {
-        &:hover {
-            &:before {
-                color: inherit !important;
-            }
-        }
     }
 
     .app-location-link,
