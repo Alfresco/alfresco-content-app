@@ -23,13 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 import { TestBed, async } from '@angular/core/testing';
-import { AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
+import {
+    AuthenticationService, UserPreferencesService, TranslationService,
+    TranslationMock, AppConfigService, StorageService, AlfrescoApiService,
+    CookieService, LogService
+} from '@alfresco/adf-core';
 
-import { CommonModule } from '../../common/common.module';
 import { LoginComponent } from './login.component';
 
 describe('LoginComponent', () => {
@@ -43,15 +49,25 @@ describe('LoginComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                RouterTestingModule,
-                CommonModule
+                HttpClientModule,
+                TranslateModule.forRoot(),
+                RouterTestingModule
             ],
             declarations: [
                 LoginComponent
             ],
             providers: [
-                Location
-            ]
+                { provide: TranslationService, useClass: TranslationMock },
+                Location,
+                CookieService,
+                LogService,
+                StorageService,
+                AlfrescoApiService,
+                AppConfigService,
+                AuthenticationService,
+                UserPreferencesService
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         });
 
         fixture = TestBed.createComponent(LoginComponent);

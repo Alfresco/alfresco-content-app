@@ -26,8 +26,14 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { CoreModule, ContentService, AppConfigService } from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatMenuModule } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
+import {
+    ContentService, AppConfigService, AuthenticationService,
+    UserPreferencesService, StorageService, AlfrescoApiService,
+    CookieService, LogService
+} from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 
 import { SidenavComponent } from './sidenav.component';
@@ -50,13 +56,23 @@ describe('SidenavComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                RouterTestingModule,
-                CoreModule
+                HttpClientModule,
+                MatMenuModule,
+                TranslateModule.forRoot(),
+                RouterTestingModule
             ],
             declarations: [
                 SidenavComponent
             ],
             providers: [
+                LogService,
+                CookieService,
+                AlfrescoApiService,
+                StorageService,
+                UserPreferencesService,
+                AuthenticationService,
+                ContentService,
+                AppConfigService,
                 BrowsingFilesService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]

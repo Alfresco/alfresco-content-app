@@ -23,15 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CoreModule, AppConfigService, PeopleContentService } from '@alfresco/adf-core';
+import { AppConfigService, PeopleContentService } from '@alfresco/adf-core';
+import { HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
-import { CommonModule } from './../../common/common.module';
 
 import { HeaderComponent } from './header.component';
-import { SearchComponent } from '../search/search.component';
-import { CurrentUserComponent } from '../current-user/current-user.component';
 
 describe('HeaderComponent', () => {
     let fixture;
@@ -41,15 +40,17 @@ describe('HeaderComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
-                RouterTestingModule,
-                CommonModule
+                HttpClientModule,
+                RouterTestingModule
             ],
             declarations: [
-                HeaderComponent,
-                SearchComponent,
-                CurrentUserComponent
-            ]
+                HeaderComponent
+            ],
+            providers: [
+                AppConfigService,
+                PeopleContentService
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         })
         .overrideProvider(PeopleContentService, {
             useValue: {
@@ -65,16 +66,24 @@ describe('HeaderComponent', () => {
             if (val === 'application.name') {
                 return 'app-name';
             }
+
+            if (val === 'headerColor') {
+                return 'some-color';
+            }
+
+            if (val === 'application.logo') {
+                return '';
+            }
         });
 
         fixture.detectChanges();
     });
 
-    it('should get application name from configuration file', () => {
-        expect(appConfigService.get).toHaveBeenCalledWith('application.name');
-    });
-
     it('it should set application name', () => {
         expect(component.appName).toBe('app-name');
+    });
+
+    it('it should set header background color', () => {
+        expect(component.backgroundColor).toBe('some-color');
     });
 });

@@ -120,6 +120,7 @@ describe('Libraries Routed Component', () => {
 
     beforeEach(() => {
         spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue((Promise.resolve(page)));
+        spyOn(alfrescoApi.peopleApi, 'getSiteMembership').and.returnValue((Promise.resolve({})));
     });
 
     describe('makeLibraryTooltip()', () => {

@@ -23,13 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
-import { CoreModule } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { SearchComponent } from './search.component';
-import { CommonModule } from './../../common/common.module';
 
 describe('SearchComponent', () => {
     let fixture;
@@ -39,13 +38,12 @@ describe('SearchComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
-                RouterTestingModule,
-                CommonModule
+                RouterTestingModule
             ],
             declarations: [
                 SearchComponent
-            ]
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents()
         .then(() => {
