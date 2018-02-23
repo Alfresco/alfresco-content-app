@@ -23,15 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-
-import { CoreModule , NodesApiService, AlfrescoApiService} from '@alfresco/adf-core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import {
+    NotificationService, TranslationService, TranslationMock,
+    NodesApiService, AlfrescoApiService, ContentService,
+    UserPreferencesService, LogService, AppConfigService,
+    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent
+} from '@alfresco/adf-core';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { TranslateModule } from '@ngx-translate/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
+import { DocumentListService } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 
-import { CommonModule } from '../../common/common.module';
 import { LibrariesComponent } from './libraries.component';
 
 describe('Libraries Routed Component', () => {
@@ -40,6 +51,7 @@ describe('Libraries Routed Component', () => {
     let nodesApi: NodesApiService;
     let alfrescoApi: AlfrescoApiService;
     let router: Router;
+    let preferenceService: UserPreferencesService;
     let page;
     let node;
 
@@ -62,13 +74,38 @@ describe('Libraries Routed Component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    CoreModule,
+                    MatMenuModule,
+                    NoopAnimationsModule,
+                    HttpClientModule,
+                    TranslateModule.forRoot(),
                     RouterTestingModule,
-                    CommonModule
+                    MatSnackBarModule, MatIconModule
                 ],
                 declarations: [
+                    DataTableComponent,
+                    TimeAgoPipe,
+                    NodeNameTooltipPipe,
+                    NodeFavoriteDirective,
+                    DocumentListComponent,
                     LibrariesComponent
-                ]
+                ],
+                providers: [
+                    { provide: ActivatedRoute, useValue: {
+                        snapshot: { data: { preferencePrefix: 'prefix' } }
+                    } } ,
+                    { provide: TranslationService, useClass: TranslationMock },
+                    AuthenticationService,
+                    UserPreferencesService,
+                    AppConfigService, StorageService, CookieService,
+                    AlfrescoApiService,
+                    LogService,
+                    NotificationService,
+                    ContentService,
+                    NodesApiService,
+                    DocumentListService,
+                    ThumbnailService
+                ],
+                schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents().then(() => {
             fixture = TestBed.createComponent(LibrariesComponent);
@@ -77,6 +114,7 @@ describe('Libraries Routed Component', () => {
             nodesApi = TestBed.get(NodesApiService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
             router = TestBed.get(Router);
+            preferenceService = TestBed.get(UserPreferencesService);
         });
     }));
 
@@ -189,6 +227,37 @@ describe('Libraries Routed Component', () => {
             component.onNodeDoubleClick(event);
 
             expect(component.navigate).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('onSortingChanged', () => {
+        it('should save sorting input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {
+                    key: 'some-name',
+                    direction: 'some-direction'
+                }
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
+        });
+
+        it('should save default sorting when no input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {}
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 });

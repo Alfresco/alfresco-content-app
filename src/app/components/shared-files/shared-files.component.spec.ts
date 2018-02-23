@@ -23,15 +23,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Router } from '@angular/router';
 import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { AlfrescoApiService } from '@alfresco/adf-core';
-
-import { CommonModule } from '../../common/common.module';
+import { HttpClientModule } from '@angular/common/http';
+import {
+    NotificationService, TranslationService, TranslationMock,
+    NodesApiService, AlfrescoApiService, ContentService,
+    UserPreferencesService, LogService, AppConfigService,
+    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective,DataTableComponent
+} from '@alfresco/adf-core';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { TranslateModule } from '@ngx-translate/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
+import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { LocationLinkComponent } from '../location-link/location-link.component';
+
 import { SharedFilesComponent } from './shared-files.component';
 
 describe('SharedFilesComponent', () => {
@@ -40,6 +50,7 @@ describe('SharedFilesComponent', () => {
     let contentService: ContentManagementService;
     let nodeService;
     let alfrescoApi: AlfrescoApiService;
+    let preferenceService: UserPreferencesService;
     let router: Router;
     let page;
 
@@ -56,13 +67,39 @@ describe('SharedFilesComponent', () => {
         TestBed
             .configureTestingModule({
                 imports: [
+                    MatMenuModule,
+                    NoopAnimationsModule,
+                    HttpClientModule,
+                    TranslateModule.forRoot(),
                     RouterTestingModule,
-                    CommonModule
+                    MatSnackBarModule, MatIconModule
                 ],
                 declarations: [
-                    LocationLinkComponent,
+                    DataTableComponent,
+                    TimeAgoPipe,
+                    NodeNameTooltipPipe,
+                    NodeFavoriteDirective,
+                    DocumentListComponent,
                     SharedFilesComponent
-                ]
+                ],
+                providers: [
+                    { provide: ActivatedRoute, useValue: {
+                        snapshot: { data: { preferencePrefix: 'prefix' } }
+                    } } ,
+                    { provide: TranslationService, useClass: TranslationMock },
+                    AuthenticationService,
+                    UserPreferencesService,
+                    AppConfigService, StorageService, CookieService,
+                    AlfrescoApiService,
+                    LogService,
+                    NotificationService,
+                    ContentManagementService,
+                    ContentService,
+                    NodesApiService,
+                    DocumentListService,
+                    ThumbnailService
+                ],
+                schemas: [ NO_ERRORS_SCHEMA ]
             })
             .compileComponents()
             .then(() => {
@@ -72,6 +109,7 @@ describe('SharedFilesComponent', () => {
                 contentService = TestBed.get(ContentManagementService);
                 alfrescoApi = TestBed.get(AlfrescoApiService);
                 nodeService = alfrescoApi.getInstance().nodes;
+                preferenceService = TestBed.get(UserPreferencesService);
                 router = TestBed.get(Router);
             });
 
@@ -158,6 +196,37 @@ describe('SharedFilesComponent', () => {
             component.refresh();
 
             expect(component.documentList.reload).toHaveBeenCalled();
+        });
+    });
+
+    describe('onSortingChanged', () => {
+        it('should save sorting input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {
+                    key: 'some-name',
+                    direction: 'some-direction'
+                }
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
+        });
+
+        it('should save default sorting when no input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {}
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 });
