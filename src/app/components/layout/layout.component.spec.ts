@@ -23,19 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { CoreModule, ContentService, PeopleContentService, AppConfigService } from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientModule } from '@angular/common/http';
+import {
+    ContentService, PeopleContentService, AppConfigService,
+    AuthenticationService, UserPreferencesService, TranslationService,
+    TranslationMock, StorageService, AlfrescoApiService, CookieService,
+    LogService
+} from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Observable';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { LayoutComponent } from './layout.component';
-import { CommonModule } from './../../common/common.module';
-import { HeaderComponent } from '../header/header.component';
-import { SidenavComponent } from '../sidenav/sidenav.component';
-import { SearchComponent } from '../search/search.component';
-import { CurrentUserComponent } from '../current-user/current-user.component';
 
 describe('LayoutComponent', () => {
     let fixture: ComponentFixture<LayoutComponent>;
@@ -55,26 +58,32 @@ describe('LayoutComponent', () => {
 
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
-                RouterTestingModule,
-                CommonModule
+                HttpClientModule,
+                TranslateModule.forRoot(),
+                RouterTestingModule
             ],
             declarations: [
-                LayoutComponent,
-                HeaderComponent,
-                SidenavComponent,
-                SearchComponent,
-                CurrentUserComponent
+                LayoutComponent
             ],
             providers: [
+                { provide: TranslationService, useClass: TranslationMock },
+                AlfrescoApiService,
+                StorageService,
+                CookieService,
+                LogService,
+                UserPreferencesService,
+                AuthenticationService,
+                ContentService,
                 AppConfigService,
+                BrowsingFilesService,
                 {
                     provide: PeopleContentService,
                     useValue: {
                         getCurrentPerson: () => Observable.of({ entry: {} })
                     }
                 }
-            ]
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         });
 
         fixture = TestBed.createComponent(LayoutComponent);
