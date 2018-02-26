@@ -2,11 +2,11 @@
 # yarn lockfile v1
 
 
-"@alfresco/adf-content-services@2.2.0-ad3dbd4d0b52ff814b90dc5e13136e2ae893fe66":
-  version "2.2.0-ad3dbd4d0b52ff814b90dc5e13136e2ae893fe66"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.2.0-ad3dbd4d0b52ff814b90dc5e13136e2ae893fe66.tgz#df3f2c96d50993fb1b001e8579ff152949ff248e"
+"@alfresco/adf-content-services@2.2.0-273e0a3900fa5862de2cfb4ed5f9422c047f878a":
+  version "2.2.0-273e0a3900fa5862de2cfb4ed5f9422c047f878a"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-content-services/-/adf-content-services-2.2.0-273e0a3900fa5862de2cfb4ed5f9422c047f878a.tgz#0bf4dce220ebb3d6f3bb3815f09be0547bc92d4d"
   dependencies:
-    "@alfresco/adf-core" "2.2.0-ad3dbd4d0b52ff814b90dc5e13136e2ae893fe66"
+    "@alfresco/adf-core" "2.2.0-273e0a3900fa5862de2cfb4ed5f9422c047f878a"
     "@angular/animations" "5.1.1"
     "@angular/cdk" "5.0.1"
     "@angular/common" "5.1.1"
@@ -21,7 +21,7 @@
     "@angular/platform-browser-dynamic" "5.1.1"
     "@angular/router" "5.1.1"
     "@ngx-translate/core" "9.1.1"
-    alfresco-js-api "2.2.0-c8f6736c571c52038c46b490892f96616b31662c"
+    alfresco-js-api "2.2.0-8a2c1fb6ee2bda69d7fba46f9498586e81a3f652"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -36,9 +36,9 @@
     tslib "^1.7.1"
     zone.js "0.8.14"
 
-"@alfresco/adf-core@2.2.0-ad3dbd4d0b52ff814b90dc5e13136e2ae893fe66":
-  version "2.2.0-ad3dbd4d0b52ff814b90dc5e13136e2ae893fe66"
-  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.2.0-ad3dbd4d0b52ff814b90dc5e13136e2ae893fe66.tgz#580f75587cf103c784507ee84e28a17072184f6f"
+"@alfresco/adf-core@2.2.0-273e0a3900fa5862de2cfb4ed5f9422c047f878a":
+  version "2.2.0-273e0a3900fa5862de2cfb4ed5f9422c047f878a"
+  resolved "https://registry.yarnpkg.com/@alfresco/adf-core/-/adf-core-2.2.0-273e0a3900fa5862de2cfb4ed5f9422c047f878a.tgz#56a0a9334057ad7dfb37c494b5c4d23b29267af8"
   dependencies:
     "@angular/animations" "5.1.1"
     "@angular/cdk" "5.0.1"
@@ -54,7 +54,7 @@
     "@angular/platform-browser-dynamic" "5.1.1"
     "@angular/router" "5.1.1"
     "@ngx-translate/core" "9.1.1"
-    alfresco-js-api "2.2.0-c8f6736c571c52038c46b490892f96616b31662c"
+    alfresco-js-api "2.2.0-8a2c1fb6ee2bda69d7fba46f9498586e81a3f652"
     chart.js "2.5.0"
     core-js "2.4.1"
     hammerjs "2.0.8"
@@ -412,9 +412,9 @@ ajv@^6.1.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-alfresco-js-api@2.2.0-c8f6736c571c52038c46b490892f96616b31662c:
-  version "2.2.0-c8f6736c571c52038c46b490892f96616b31662c"
-  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.2.0-c8f6736c571c52038c46b490892f96616b31662c.tgz#0f395db73ff2d2b41e5c24617e9defa8c52760f5"
+alfresco-js-api@2.2.0-8a2c1fb6ee2bda69d7fba46f9498586e81a3f652:
+  version "2.2.0-8a2c1fb6ee2bda69d7fba46f9498586e81a3f652"
+  resolved "https://registry.yarnpkg.com/alfresco-js-api/-/alfresco-js-api-2.2.0-8a2c1fb6ee2bda69d7fba46f9498586e81a3f652.tgz#b6fd32ac4468b183cd053a8c9f2fd3f245e3c440"
   dependencies:
     event-emitter "0.3.4"
     superagent "3.8.2"

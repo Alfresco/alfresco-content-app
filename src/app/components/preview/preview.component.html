@@ -9,13 +9,15 @@
         (navigateBefore)="onNavigateBefore()"
         (navigateNext)="onNavigateNext()">
 
-        <adf-viewer-more-actions>
-            <button mat-menu-item
+        <adf-viewer-toolbar-actions>
+
+            <button mat-icon-button
                 [disabled]="!canDeleteFile()"
-                (click)="deleteFile()">
+                (click)="deleteFile()"
+                title="{{ 'APP.ACTIONS.DELETE' | translate }}">
                 <mat-icon>delete</mat-icon>
-                <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
             </button>
-        </adf-viewer-more-actions>
+
+        </adf-viewer-toolbar-actions>
     </adf-viewer>
 </ng-container>
