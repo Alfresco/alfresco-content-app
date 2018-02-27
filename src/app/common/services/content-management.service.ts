@@ -57,6 +57,14 @@ export class ContentManagementService {
         return this.nodeHasPermission(node, 'delete');
     }
 
+    canMoveNode(node: Node): boolean {
+        return this.nodeHasPermission(node, 'delete');
+    }
+
+    canCopyNode(node: Node): boolean {
+        return true;
+    }
+
     async deleteNode(node: Node) {
         if (this.canDeleteNode(node)) {
             try {

@@ -21,8 +21,25 @@
                 </mat-icon>
             </button>
 
-            <button mat-icon-button
-                [disabled]="!canDeleteFile()"
+            <button
+                mat-icon-button
+                *ngIf="canCopyFile()"
+                [app-copy-node]="selectedEntities"
+                matTooltip="{{ 'APP.ACTIONS.COPY' | translate }}">
+                <mat-icon>content_copy</mat-icon>
+            </button>
+
+            <button
+                mat-icon-button
+                *ngIf="canMoveFile()"
+                [app-move-node]="selectedEntities"
+                matTooltip="{{ 'APP.ACTIONS.MOVE' | translate }}">
+                <mat-icon>library_books</mat-icon>
+            </button>
+
+            <button
+                mat-icon-button
+                *ngIf="canDeleteFile()"
                 (click)="deleteFile()"
                 matTooltip="{{ 'APP.ACTIONS.DELETE' | translate }}">
                 <mat-icon>delete</mat-icon>

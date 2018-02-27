@@ -335,4 +335,12 @@ export class PreviewComponent implements OnInit {
         } catch {
         }
     }
+
+    canMoveFile(): boolean {
+        return this.content.canMoveNode(this.node);
+    }
+
+    canCopyFile(): boolean {
+        return this.content.canCopyNode(this.node);
+    }
 }
