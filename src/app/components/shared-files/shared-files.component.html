@@ -89,11 +89,11 @@
 
             <empty-folder-content>
                 <ng-template>
-                    <div class="empty-list__block">
-                        <mat-icon>people</mat-icon>
-                        <p class="empty-list__title">{{ 'APP.BROWSE.SHARED.EMPTY_STATE.TITLE' | translate }}</p>
-                        <p class="empty-list__text">{{ 'APP.BROWSE.SHARED.EMPTY_STATE.TEXT' | translate }}</p>
-                    </div>
+                    <app-empty-folder
+                        icon="people"
+                        title="APP.BROWSE.SHARED.EMPTY_STATE.TITLE"
+                        subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT">
+                    </app-empty-folder>
                 </ng-template>
             </empty-folder-content>
 

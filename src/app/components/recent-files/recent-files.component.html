@@ -84,11 +84,11 @@
 
             <empty-folder-content>
                 <ng-template>
-                    <div class="empty-list__block">
-                        <mat-icon>access_time</mat-icon>
-                        <p class="empty-list__title">{{ 'APP.BROWSE.RECENT.EMPTY_STATE.TITLE' | translate }}</p>
-                        <p class="empty-list__text">{{ 'APP.BROWSE.RECENT.EMPTY_STATE.TEXT' | translate }}</p>
-                    </div>
+                    <app-empty-folder
+                        icon="access_time"
+                        title="APP.BROWSE.RECENT.EMPTY_STATE.TITLE"
+                        subtitle="APP.BROWSE.RECENT.EMPTY_STATE.TEXT">
+                    </app-empty-folder>
                 </ng-template>
             </empty-folder-content>
 

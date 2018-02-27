@@ -88,11 +88,11 @@
 
             <empty-folder-content>
                 <ng-template>
-                    <div class="empty-list__block">
-                        <mat-icon>star_rate</mat-icon>
-                        <p class="empty-list__title">{{ 'APP.BROWSE.FAVORITES.EMPTY_STATE.TITLE' | translate }}</p>
-                        <p class="empty-list__text">{{ 'APP.BROWSE.FAVORITES.EMPTY_STATE.TEXT' | translate }}</p>
-                    </div>
+                    <app-empty-folder
+                        icon="star_rate"
+                        title="APP.BROWSE.FAVORITES.EMPTY_STATE.TITLE"
+                        subtitle="APP.BROWSE.FAVORITES.EMPTY_STATE.TEXT">
+                    </app-empty-folder>
                 </ng-template>
             </empty-folder-content>
 
