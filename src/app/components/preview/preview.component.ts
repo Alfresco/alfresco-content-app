@@ -26,7 +26,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { ContentManagementService } from '../../common/services/content-management.service';
 
 @Component({
@@ -39,7 +39,7 @@ import { ContentManagementService } from '../../common/services/content-manageme
 })
 export class PreviewComponent implements OnInit {
 
-    node: MinimalNodeEntryEntity;
+    node: Node;
     previewLocation: string = null;
     routesSkipNavigation = [ 'shared', 'recent-files', 'favorites' ];
     navigateSource: string = null;
@@ -50,6 +50,8 @@ export class PreviewComponent implements OnInit {
     previousNodeId: string;
     nextNodeId: string;
     navigateMultiple = false;
+
+    selectedEntities: MinimalNodeEntity[] = [];
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -93,8 +95,10 @@ export class PreviewComponent implements OnInit {
         if (id) {
             try {
                 this.node = await this.apiService.nodesApi.getNodeInfo(id, {
-                    include: [ 'allowableOperations']
+                    include: ['allowableOperations']
                 });
+                this.selectedEntities = [{ entry: this.node }];
+
                 if (this.node && this.node.isFile) {
                     const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
 

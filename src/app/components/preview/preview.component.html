@@ -11,10 +11,20 @@
 
         <adf-viewer-toolbar-actions>
 
+            <button
+                mat-icon-button
+                #selection="adfFavorite"
+                [adf-node-favorite]="selectedEntities"
+                matTooltip="{{ 'APP.ACTIONS.FAVORITE' | translate }}">
+                <mat-icon [ngClass]="{ 'icon-highlight': selection.hasFavorites() }">
+                    {{ selection.hasFavorites() ? 'star' :'star_border' }}
+                </mat-icon>
+            </button>
+
             <button mat-icon-button
                 [disabled]="!canDeleteFile()"
                 (click)="deleteFile()"
-                title="{{ 'APP.ACTIONS.DELETE' | translate }}">
+                matTooltip="{{ 'APP.ACTIONS.DELETE' | translate }}">
                 <mat-icon>delete</mat-icon>
             </button>
 
