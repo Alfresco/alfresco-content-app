@@ -98,31 +98,4 @@ adf-document-list {
             cursor: default;
         }
     }
-
-    &__block {
-        color: $alfresco-secondary-text-color;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        p {
-            line-height: 0;
-        }
-    }
-
-    &__title {
-        font-size: 18px;
-        font-weight: 600;
-    }
-
-    &__subtitle {
-        font-size: 14px;
-        font-weight: 300;
-    }
-
-    &__block > mat-icon {
-        font-size: 52px;
-        height: 52px;
-        width: 52px;
-    }
 }
