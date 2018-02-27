@@ -29,7 +29,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
     AlfrescoApiService, UserPreferencesService, TranslationService, TranslationMock,
-    AppConfigService, StorageService, CookieService, NotificationService
+    AppConfigService, StorageService, CookieService, NotificationService, NodeFavoriteDirective
 } from '@alfresco/adf-core';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -67,7 +67,8 @@ describe('PreviewComponent', () => {
                     ContentManagementService
                 ],
                 declarations: [
-                    PreviewComponent
+                    PreviewComponent,
+                    NodeFavoriteDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         })
