@@ -83,6 +83,10 @@ adf-document-list {
         position: absolute;
         max-width: calc(100% - 2em);
     }
+
+    .adf-datatable-row:last-child .adf-datatable-table-cell {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    }
 }
 
 .empty-list {
