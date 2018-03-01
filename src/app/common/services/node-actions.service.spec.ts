@@ -223,36 +223,6 @@ describe('NodeActionsService', () => {
         }));
     });
 
-    describe('getFirstParentId', () => {
-        it('should give the parentId, if that exists on the node entry', () => {
-            const parentID = 'parent-id';
-            const contentEntities = [ {entry: {nodeId: '1234', parentId: parentID}} ];
-
-            expect(service.getFirstParentId(contentEntities)).toBe(parentID);
-        });
-
-        it('should give the last element in path property, if parentId is missing and path exists on the node entry', () => {
-            const firstParentId = 'parent-0-id';
-            const contentEntities = [ {entry: {nodeId: '1234', path: {elements: [ {id: 'parent-1-id'}, { id: firstParentId} ]} }} ];
-
-            expect(service.getFirstParentId(contentEntities)).toBe(firstParentId);
-        });
-
-        it('should give the id of the first node entry, if none of nodes has either parentId, or path properties', () => {
-            const nodeID = '1234';
-            const contentEntities = [ {entry: {id: nodeID}}, {entry: {id: `${nodeID}-2`}} ];
-
-            expect(service.getFirstParentId(contentEntities)).toBe(nodeID);
-        });
-
-        it('should give the nodeId of the first node entry, if none of nodes has either parentId, or path properties', () => {
-            const nodeID = '1234';
-            const contentEntities = [ {entry: {nodeId: nodeID}}, {entry: {id: `${nodeID}-2`}}  ];
-
-            expect(service.getFirstParentId(contentEntities)).toBe(nodeID);
-        });
-    });
-
     describe('getEntryParentId', () => {
         it('should return the parentId, if that exists on the node entry', () => {
             const parentID = 'parent-id';
@@ -278,7 +248,7 @@ describe('NodeActionsService', () => {
             fileToCopy = new TestNode(fileId, isFile, 'file-name');
             folderToCopy = new TestNode();
 
-            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+            spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
             const dialog = TestBed.get(MatDialog);
             spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
@@ -335,7 +305,7 @@ describe('NodeActionsService', () => {
         it('should use the custom data object with custom rowFilter & imageResolver & title with destination picker', () => {
             const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
             const spyOnDestinationPicker = spyOn(service, 'getContentNodeSelection').and.callThrough();
-            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+            spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
             let testContentNodeSelectorComponentData;
             const dialog = TestBed.get(MatDialog);
@@ -363,7 +333,7 @@ describe('NodeActionsService', () => {
         it('should use the ContentNodeSelectorComponentData object with file name in title', () => {
             const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
             spyOn(service, 'getContentNodeSelection').and.callThrough();
-            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+            spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
             let testContentNodeSelectorComponentData;
             const dialog = TestBed.get(MatDialog);
@@ -383,7 +353,7 @@ describe('NodeActionsService', () => {
         it('should use the ContentNodeSelectorComponentData object without file name in title, if no name exists', () => {
             const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
             spyOn(service, 'getContentNodeSelection').and.callThrough();
-            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+            spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
             let testContentNodeSelectorComponentData;
             const dialog = TestBed.get(MatDialog);

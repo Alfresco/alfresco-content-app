@@ -144,22 +144,6 @@ export class NodeActionsService {
         return !notAllowedNode;
     }
 
-    getFirstParentId(nodeEntities: any[]): string {
-        for (let i = 0; i < nodeEntities.length; i++) {
-            const nodeEntry = nodeEntities[i].entry;
-
-            if (nodeEntry.parentId) {
-                return nodeEntry.parentId;
-
-            } else if (nodeEntry.path && nodeEntry.path.elements && nodeEntry.path.elements.length) {
-                return nodeEntry.path.elements[nodeEntry.path.elements.length - 1].id;
-            }
-        }
-
-        // if no parent data is found, return the id of first item / the nodeId in case of Shared Files
-        return nodeEntities[0].entry.nodeId || nodeEntities[0].entry.id;
-    }
-
     getEntryParentId(nodeEntry: any) {
         let entryParentId = '';
 
@@ -174,7 +158,7 @@ export class NodeActionsService {
     }
 
     getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
-        const currentParentFolderId = this.getFirstParentId(contentEntities);
+        const currentParentFolderId = this.getEntryParentId(contentEntities[0]);
 
         const customDropdown: SitePaging = {
             list: {
