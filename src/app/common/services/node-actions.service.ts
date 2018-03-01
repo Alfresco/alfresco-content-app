@@ -229,7 +229,9 @@ export class NodeActionsService {
             name = nodes[0].entry.name;
             keyPrefix = 'ITEM';
         }
-        return this.translation.instant(`NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`, {name});
+
+        const number = nodes.length;
+        return this.translation.instant(`NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`, {name, number});
     }
 
     private canCopyMoveInsideIt(entry: MinimalNodeEntryEntity): boolean {
