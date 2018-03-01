@@ -102,6 +102,13 @@ The commands above are going to produce a fresh build that is stored in the `dis
 At this point, you can make modifications to the final code in the `dist` folder if needed.
 For example you may want to change the `app.config.json` file content.
 
+If you want to set the ACS port to a custom value,
+you can do that prior to creating a package like in the following example:
+
+```sh
+sed -i '' 's/{:port}/:8080/1' dist/app.config.json
+```
+
 Now you can build your first version of the image:
 
 ```sh
