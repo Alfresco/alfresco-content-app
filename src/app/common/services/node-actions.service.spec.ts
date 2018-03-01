@@ -324,7 +324,7 @@ describe('NodeActionsService', () => {
             expect(testContentNodeSelectorComponentData.data.rowFilter({node: destinationFolder})).toBeDefined();
             expect(testContentNodeSelectorComponentData.data.imageResolver({node: destinationFolder})).toBeDefined();
             expect(testContentNodeSelectorComponentData.data.title).toBe('NODE_SELECTOR.COPY_ITEMS');
-            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEMS', {name: ''});
+            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEMS', {name: '', number: 2});
 
             destinationFolder.entry['allowableOperations'] = ['update'];
             expect(testContentNodeSelectorComponentData.data.imageResolver({node: destinationFolder})).toBeDefined();
@@ -347,7 +347,7 @@ describe('NodeActionsService', () => {
             expect(spyOnBatchOperation).toHaveBeenCalled();
             expect(testContentNodeSelectorComponentData).toBeDefined();
             expect(testContentNodeSelectorComponentData.data.title).toBe('NODE_SELECTOR.COPY_ITEM');
-            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEM', {name: 'entry-name'});
+            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEM', {name: 'entry-name', number: 1});
         });
 
         it('should use the ContentNodeSelectorComponentData object without file name in title, if no name exists', () => {
@@ -367,7 +367,7 @@ describe('NodeActionsService', () => {
             expect(spyOnBatchOperation).toHaveBeenCalled();
             expect(testContentNodeSelectorComponentData).toBeDefined();
             expect(testContentNodeSelectorComponentData.data.title).toBe('NODE_SELECTOR.COPY_ITEMS');
-            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEMS', {name: ''});
+            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEMS', {name: '', number: 1});
         });
 
     });
