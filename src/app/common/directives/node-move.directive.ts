@@ -125,7 +125,7 @@ export class NodeMoveDirective {
         const beforePartialSuccessMessage = (successMessage && partialSuccessMessage) ? ' ' : '';
         const beforeFailedMessage = ((successMessage || partialSuccessMessage) && failedMessage) ? ' ' : '';
 
-        const initialParentId = this.nodeActionsService.getFirstParentId(this.selection);
+        const initialParentId = this.nodeActionsService.getEntryParentId(this.selection[0]);
 
         this.translation.get(
             [successMessage, partialSuccessMessage, failedMessage],
