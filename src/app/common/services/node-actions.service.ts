@@ -39,6 +39,7 @@ export class NodeActionsService {
     contentCopied: Subject<MinimalNodeEntity[]> = new Subject<MinimalNodeEntity[]>();
     contentMoved: Subject<any> = new Subject<any>();
     moveDeletedEntries: any[] = [];
+    isSitesDestinationAvailable = false;
 
     constructor(private contentService: ContentService,
                 private dialog: MatDialog,
@@ -181,6 +182,7 @@ export class NodeActionsService {
 
         const title = this.getTitleTranslation(action, contentEntities);
 
+        this.isSitesDestinationAvailable = false;
         const data: ContentNodeSelectorComponentData = {
             title: title,
             currentFolderId: currentParentFolderId,
@@ -278,6 +280,11 @@ export class NodeActionsService {
                     elements.splice(0, 1);
                 }
             }
+        } else if (node === null && this.isSitesDestinationAvailable) {
+            node = {
+                name: this.translation.instant('APP.BROWSE.LIBRARIES.TITLE'),
+                path: { elements: [] }
+            };
         }
 
         return node;
@@ -546,6 +553,8 @@ export class NodeActionsService {
     // todo: review once 1.10-beta6 is out
     private rowFilter(row: /*ShareDataRow*/ any): boolean {
         const node: MinimalNodeEntryEntity = row.node.entry;
+
+        this.isSitesDestinationAvailable = !!node['guid'];
         return (!node.isFile && (node.nodeType !== 'app:folderlink'));
     }
 
