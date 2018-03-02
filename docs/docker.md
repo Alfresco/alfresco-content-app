@@ -6,6 +6,28 @@ This article assumes you are familiar with Docker and know how to create images 
 
 You can create a Docker image to run Alfresco Content App in the container.
 
+## Using public Docker images
+
+You can find all latest images for ACA in the [alfresco-content-app]( https://hub.docker.com/r/alfresco/alfresco-content-app/) DockerHub repository.
+
+### Tags
+
+- `latest`: latest stable release (`master` branch), available with 1.1 release or later
+- `development`: most recent code (`development` branch)
+
+In addition, there are images for feature branches, pull requests and Travis CI builds.
+
+### Example
+
+You can run latest `development` build locally with the following command:
+
+```sh
+docker run -p 3000:80 alfresco/alfresco-content-app:development
+```
+
+The default image expects an ACS 5.2.2 or later running at port `8080`.
+You may also need CORS settings to be applied for your ACS installation or image.
+
 ## Building from source code
 
 You need to run the following commands to build the project from the source code:
