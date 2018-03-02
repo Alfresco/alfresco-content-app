@@ -145,7 +145,7 @@ export class NodeActionsService {
         return !notAllowedNode;
     }
 
-    getEntryParentId(nodeEntry: any) {
+    getEntryParentId(nodeEntry: MinimalNodeEntryEntity) {
         let entryParentId = '';
 
         if (nodeEntry.parentId) {
@@ -159,7 +159,7 @@ export class NodeActionsService {
     }
 
     getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
-        const currentParentFolderId = this.getEntryParentId(contentEntities[0]);
+        const currentParentFolderId = this.getEntryParentId(contentEntities[0].entry);
 
         const customDropdown: SitePaging = {
             list: {
