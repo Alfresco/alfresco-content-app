@@ -101,7 +101,8 @@
       "MORE": "Meer acties",
       "UNDO": "Ongedaan maken",
       "RESTORE": "Herstellen",
-      "FAVORITE": "Favoriet"
+      "FAVORITE": "Favoriet",
+      "UNSHARE": "Delen ongedaan maken"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -184,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "'{{ name }}' kopiëren naar...",
+    "COPY_ITEMS": "{{ number }} items kopiëren naar...",
+    "MOVE_ITEM": "'{{ name }}' verplaatsen naar...",
+    "MOVE_ITEMS": "{{ number }} items verplaatsen naar...",
+    "SEARCH": "Zoeken"
   }
 }

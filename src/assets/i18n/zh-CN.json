@@ -19,7 +19,7 @@
         "UPLOAD_FILES": "选择要上传的文件",
         "UPLOAD_FILES_NOT_ALLOWED": "您需要在此上传的权限，请与您的 IT 团队联系。",
         "UPLOAD_FOLDERS": "选择要上传的文件夹",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "您需要在此上传的权限，请与您的 IT 团队联系。."
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "您需要在此上传的权限，请与您的 IT 团队联系。"
       }
     },
     "BROWSE": {
@@ -101,7 +101,8 @@
       "MORE": "更多操作",
       "UNDO": "撤消",
       "RESTORE": "恢复",
-      "FAVORITE": "收藏"
+      "FAVORITE": "收藏",
+      "UNSHARE": "取消共享"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -124,8 +125,8 @@
     },
     "MESSAGES": {
       "ERRORS": {
-        "GENERIC": "此操作未成功，请重试或联系您的 IT 团队.",
-        "CONFLICT": "此名称已使用，请尝试其他名称.",
+        "GENERIC": "此操作未成功，请重试或联系您的 IT 团队。",
+        "CONFLICT": "此名称已使用，请尝试其他名称。",
         "NODE_MOVE": "未成功移动，存在有相同名称的文件。",
         "EXISTENT_FOLDER": "存在使用此名称的文件夹。请尝试使用其他名称。",
         "NODE_DELETION": "{{ name }} 无法删除",
@@ -184,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "将 '{{ name }}' 复制到...",
+    "COPY_ITEMS": "将 {{ number }} 项复制到...",
+    "MOVE_ITEM": "将 '{{ name }}' 移动到...",
+    "MOVE_ITEMS": "将 {{ number }} 项移动到...",
+    "SEARCH": "搜索"
   }
 }
