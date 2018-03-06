@@ -101,7 +101,8 @@
       "MORE": "Flere handlinger",
       "UNDO": "Angre",
       "RESTORE": "Gjenopprett",
-      "FAVORITE": "Favoritt"
+      "FAVORITE": "Favoritt",
+      "UNSHARE": "Opphev deling"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -184,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "Kopier {{ name }} til...",
+    "COPY_ITEMS": "Kopier {{ number }} elementer til...",
+    "MOVE_ITEM": "Flytt {{ name }}'til...",
+    "MOVE_ITEMS": "Flytt {{ number }} elementer til...",
+    "SEARCH": "Søk"
   }
 }

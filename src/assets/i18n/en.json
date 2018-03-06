@@ -187,10 +187,10 @@
         }
     },
     "NODE_SELECTOR": {
-        "COPY_ITEM": "Copy '{{ name }}' to ...",
-        "COPY_ITEMS": "Copy {{ number }} items to ...",
-        "MOVE_ITEM": "Move '{{ name }}' to ...",
-        "MOVE_ITEMS": "Move {{ number }} items to ...",
+        "COPY_ITEM": "Copy '{{ name }}' to...",
+        "COPY_ITEMS": "Copy {{ number }} items to...",
+        "MOVE_ITEM": "Move '{{ name }}' to...",
+        "MOVE_ITEMS": "Move {{ number }} items to...",
         "SEARCH": "Search"
     }
 }
