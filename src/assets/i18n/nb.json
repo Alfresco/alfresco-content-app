@@ -1,7 +1,11 @@
 {
   "APP": {
+    "LANGUAGE": "Språk",
     "SIGN_IN": "Logg på",
     "SIGN_OUT": "Logg ut",
+    "PREVIEW": {
+      "TITLE": "Forhåndsvis"
+    },
     "NEW_MENU": {
       "LABEL": "Ny",
       "MENU_ITEMS": {
@@ -31,6 +35,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Filbiblioteker",
           "TOOLTIP": "Gå til filbiblioteker"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Du er ikke medlem av noen filbiblioteker ennå",
+          "TEXT": "Bli med i områder for å laste opp, vise og dele filer."
         }
       },
       "SHARED": {
@@ -38,6 +46,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Delt",
           "TOOLTIP": "Vis filer som er blitt delt"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Ingen delte filer eller mapper",
+          "TEXT": "Elementer du deler via Del-alternativet, vises her."
         }
       },
       "RECENT": {
@@ -45,6 +57,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Nyere filer",
           "TOOLTIP": "Vis filer som nylig er redigert"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Ingen nylige filer",
+          "TEXT": "Elementer du har lastet opp eller redigert i løpet av de siste 30 dagene, vises her."
         }
       },
       "FAVORITES": {
@@ -52,6 +68,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Favoritter",
           "TOOLTIP": "Vis dine favorittfiler og mapper"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Ingen favorittfiler eller -mapper",
+          "TEXT": "Merk elementer som du enkelt ønsker å finne senere, som favorittelementer."
         }
       },
       "TRASHCAN": {
@@ -59,21 +79,30 @@
         "SIDENAV_LINK": {
           "LABEL": "Søppel",
           "TOOLTIP": "Vis slettede filer i søppelen"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Søppel er tomt",
+          "FIRST_TEXT": "Elementer du sletter, flyttes til Søppel.",
+          "SECOND_TEXT": "Tøm Søppel for å slette elementer permanent."
         }
+      },
+      "ABOUT": {
+        "TITLE": "Om"
       }
     },
     "ACTIONS": {
       "VIEW": "Vis",
-      "SHARE": "Del",
       "EDIT": "Rediger",
       "DOWNLOAD": "Last ned",
       "COPY": "Kopier",
       "MOVE": "Flytt",
       "DELETE": "Slett",
+      "DELETE_PERMANENT": "Slett permanent",
       "MORE": "Flere handlinger",
       "UNDO": "Angre",
       "RESTORE": "Gjenopprett",
-      "FAVORITE": "Favoritt"
+      "FAVORITE": "Favoritt",
+      "UNSHARE": "Opphev deling"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -88,52 +117,6 @@
         "DELETED_ON": "Slettet",
         "DELETED_BY": "Slettet av"
       }
-    },
-    "DIALOG": {
-      "MINIMIZE": "Minimer",
-      "MAXIMIZE": "Maksimer",
-      "CLOSE": "Lukk",
-      "UPLOAD": {
-        "IN_PROGRESS": "Opplasting {{ completed }} / {{ length }}",
-        "COMPLETE": "Opplastet {{ completed }} / {{ length }}",
-        "CANCELED": "Opplasting avbrutt",
-        "CANCEL_UPLOAD": "Avbryt opplasting",
-        "CANCEL_ALL": "Avbryt opplastinger",
-        "REMOVE_UPLOADED": "Fjern opplastet fil",
-        "CANCELED_STATUS": "Avbrutt",
-        "ERRORS": "feil"
-      }
-    },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Opprett ny mappe",
-      "EDIT_FOLDER_TITLE": "Rediger mappe",
-      "FOLDER_NAME": {
-        "LABEL": "Navn",
-        "ERRORS": {
-          "REQUIRED": "Mappenavn påkrevd",
-          "SPECIAL_CHARACTERS": "Mappenavn kan ikke inneholde disse tegnene * \" < > \\ / ? : |",
-          "ENDING_DOT": "Mappenavn kan ikke slutte med punktum .",
-          "ONLY_SPACES": "Mappenavn kan ikke inneholde bare mellomrom"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Beskrivelse"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Opprett"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Oppdater"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Avbryt"
-      }
-    },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "Elementer per side",
-      "CURRENT_PAGE": "Side",
-      "OF": "av",
-      "SHOW_RANGE": "Viser {{ range }} av {{ total }} elementer"
     },
     "SITES_VISIBILITY": {
       "PUBLIC": "Offentlig",
@@ -154,13 +137,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementer kan ikke slettes",
-            "SINGULAR": "Elementet {{ name }} kan ikke slettes"
+            "SINGULAR": "{{ name }} kunne ikke slettes"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} elementer kan ikke gjenopprettes fordi det finnes problemer med gjenoppretingsstedet",
-            "NODE_EXISTS": "Kan ikke gjenopprette, {{ name }} item already exists",
-            "LOCATION_MISSING": "Kan ikke gjenopprette elementet {{ name }}, det opprinnelige stedet finnes ikke lenger",
-            "GENERIC": "Problem med å gjenopprette elementet {{ name }}"
+            "NODE_EXISTS": "Kan ikke gjenopprette, {{ name }} finnes allerede",
+            "LOCATION_MISSING": "Kan ikke gjenopprette {{ name }}, det opprinnelige stedet finnes ikke lenger",
+            "GENERIC": "Problem med å gjenopprette {{ name }}"
           }
         }
       },
@@ -168,13 +151,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementer slettet",
-            "SINGULAR": "Elementet {{ name }} slettet",
-            "PARTIAL_SINGULAR": "Elementet {{ name }} slettet, {{ failed }} kan ikke slettes",
+            "SINGULAR": "{{ name }} slettet",
+            "PARTIAL_SINGULAR": "{{ name }} slettet, {{ failed }} kunne ikke slettes",
             "PARTIAL_PLURAL": "{{ number }} elementer slettet, {{ failed }} kan ikke slettes"
           },
           "NODES_RESTORE": {
             "PLURAL": "Er nå gjenopprettet",
-            "SINGULAR": "Elementet {{ name }} gjenopprettet"
+            "SINGULAR": "{{ name }} gjenopprettet"
           }
         },
         "NODE_DELETION": {
@@ -184,8 +167,12 @@
           "PARTIAL_PLURAL": "Slettet {{ success }} elementer, {{ failed }} kunne ikke slettes"
         },
         "NODE_COPY": {
-          "SINGULAR": "Kopierte {{ number }} element",
-          "PLURAL": "Kopierte {{ number }} elementer"
+          "SINGULAR": "Kopierte {{ success }} element",
+          "PLURAL": "Kopierte {{ success }} elementer",
+          "PARTIAL_SINGULAR": "Kopierte {{ success }} element, {{ failed }} kunne ikke kopieres.",
+          "PARTIAL_PLURAL": "Kopierte {{ success }} elementer, {{ failed }} kunne ikke kopieres.",
+          "FAIL_SINGULAR": "{{ failed }} element  kunne ikke kopieres.",
+          "FAIL_PLURAL": "{{ failed }} elementer kunne ikke kopieres."
         },
         "NODE_MOVE": {
           "SINGULAR": "Flyttet {{ success }} element.",
@@ -198,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "Kopier {{ name }} til...",
+    "COPY_ITEMS": "Kopier {{ number }} elementer til...",
+    "MOVE_ITEM": "Flytt {{ name }}'til...",
+    "MOVE_ITEMS": "Flytt {{ number }} elementer til...",
+    "SEARCH": "Søk"
   }
 }

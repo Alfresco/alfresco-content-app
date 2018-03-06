@@ -1,7 +1,11 @@
 {
   "APP": {
+    "LANGUAGE": "Lingua",
     "SIGN_IN": "Accedi",
     "SIGN_OUT": "Disconnetti",
+    "PREVIEW": {
+      "TITLE": "Anteprima"
+    },
     "NEW_MENU": {
       "LABEL": "Nuovo",
       "MENU_ITEMS": {
@@ -31,6 +35,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Raccolte file",
           "TOOLTIP": "Accedi alle raccolte file"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "L'utente non è ancora membro di alcuna Raccolta file",
+          "TEXT": "Iscriversi ai siti per caricare, visualizzare e condividere file."
         }
       },
       "SHARED": {
@@ -38,6 +46,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Condiviso",
           "TOOLTIP": "Visualizza file condivisi"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Nessun file o cartella condivisi",
+          "TEXT": "Gli elementi condivisi con l'opzione Condividi vengono mostrati qui."
         }
       },
       "RECENT": {
@@ -45,6 +57,10 @@
         "SIDENAV_LINK": {
           "LABEL": "File recenti",
           "TOOLTIP": "Visualizza i file modificati di recente"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Nessun file recente",
+          "TEXT": "Gli elementi caricati o modificati negli ultimi 30 giorni vengono mostrati qui."
         }
       },
       "FAVORITES": {
@@ -52,6 +68,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Preferiti",
           "TOOLTIP": "Visualizza file e cartelle preferite"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Nessun file o cartella preferiti",
+          "TEXT": "Elementi preferiti da recuperare facilmente in un altro momento."
         }
       },
       "TRASHCAN": {
@@ -59,21 +79,30 @@
         "SIDENAV_LINK": {
           "LABEL": "Cestino",
           "TOOLTIP": "Visualizza i file eliminati nel cestino"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Il cestino è vuoto",
+          "FIRST_TEXT": "Gli elementi eliminati vengono spostati nel cestino.",
+          "SECOND_TEXT": "Svuotare il cestino per eliminare definitivamente gli elementi."
         }
+      },
+      "ABOUT": {
+        "TITLE": "Informazioni su"
       }
     },
     "ACTIONS": {
       "VIEW": "Visualizza",
-      "SHARE": "Condividi",
       "EDIT": "Modifica",
       "DOWNLOAD": "Scarica",
       "COPY": "Copia",
       "MOVE": "Sposta",
       "DELETE": "Elimina",
+      "DELETE_PERMANENT": "Elimina definitivamente",
       "MORE": "Altre azioni",
       "UNDO": "Annulla",
       "RESTORE": "Ripristina",
-      "FAVORITE": "Preferito"
+      "FAVORITE": "Preferito",
+      "UNSHARE": "Rimuovi condivisione"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -88,52 +117,6 @@
         "DELETED_ON": "Eliminato",
         "DELETED_BY": "Eliminato da"
       }
-    },
-    "DIALOG": {
-      "MINIMIZE": "Minimizzare",
-      "MAXIMIZE": "Massimizzare",
-      "CLOSE": "Chiudi",
-      "UPLOAD": {
-        "IN_PROGRESS": "Caricamento {{ completed }} / {{ length }}",
-        "COMPLETE": "Caricato {{ completed }} / {{ length }}",
-        "CANCELED": "Caricamento annullato",
-        "CANCEL_UPLOAD": "Annulla caricamento",
-        "CANCEL_ALL": "Annulla i caricamenti",
-        "REMOVE_UPLOADED": "Rimuovere file caricato",
-        "CANCELED_STATUS": "Annullato",
-        "ERRORS": "errore/i"
-      }
-    },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Crea nuova cartella",
-      "EDIT_FOLDER_TITLE": "Modifica cartella",
-      "FOLDER_NAME": {
-        "LABEL": "Nome",
-        "ERRORS": {
-          "REQUIRED": "Nome cartella obbligatorio",
-          "SPECIAL_CHARACTERS": "Il nome della cartella non può contenere questi caratteri * \" < > \\ / ? : |",
-          "ENDING_DOT": "Il nome della cartella non può terminare con un punto.",
-          "ONLY_SPACES": "Il nome della cartella non può contenere solo spazi"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Descrizione"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Crea"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Aggiorna"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Annulla"
-      }
-    },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "Elementi per pagina",
-      "CURRENT_PAGE": "Pagina",
-      "OF": "di",
-      "SHOW_RANGE": "{{ range }} elementi su {{ total }} visualizzati"
     },
     "SITES_VISIBILITY": {
       "PUBLIC": "Pubblico",
@@ -154,13 +137,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "Impossibile eliminare {{ number }} elementi",
-            "SINGULAR": "Impossibile eliminare l'elemento {{ name }}"
+            "SINGULAR": "Impossibile eliminare {{ name }}"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} elementi non ripristinati a causa dei problemi con il percorso di ripristino",
-            "NODE_EXISTS": "Impossibile ripristinare, elemento {{ name }} già esistente",
-            "LOCATION_MISSING": "Impossibile ripristinare l'elemento {{ name }}, il percorso originale non esiste più",
-            "GENERIC": "Si è verificato un problema nel ripristino dell'elemento {{ name }}"
+            "NODE_EXISTS": "Impossibile eseguire il ripristino. {{ name }} è già esistente.",
+            "LOCATION_MISSING": "Impossibile ripristinare {{ name }}. Il percorso originale non esiste più.",
+            "GENERIC": "Si è verificato un problema durante il ripristino di {{ name }}"
           }
         }
       },
@@ -169,7 +152,7 @@
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementi eliminati",
             "SINGULAR": "Elemento {{ name }} eliminato",
-            "PARTIAL_SINGULAR": "Elemento {{ name }} eliminato, impossibile eliminare {{ failed }}",
+            "PARTIAL_SINGULAR": "Elemento {{ name }} eliminato. Impossibile eliminare l'elemento {{ failed }}.",
             "PARTIAL_PLURAL": "{{ number }} elementi eliminati, impossibile eliminare {{ failed }}"
           },
           "NODES_RESTORE": {
@@ -184,8 +167,12 @@
           "PARTIAL_PLURAL": "Elementi {{ success }} eliminati, impossibile eliminare {{ failed }}"
         },
         "NODE_COPY": {
-          "SINGULAR": "Copiato {{ number }} elemento",
-          "PLURAL": "Copiati {{ number }} elementi"
+          "SINGULAR": "Elemento {{ success }} copiato",
+          "PLURAL": "Elementi {{ success }} copiati",
+          "PARTIAL_SINGULAR": "Elemento {{ success }} copiato. Impossibile copiare l'elemento {{ failed }}.",
+          "PARTIAL_PLURAL": "Elementi {{ success }} copiati. Impossibile copiare {{ failed }}.",
+          "FAIL_SINGULAR": "Impossibile copiare l'elemento {{ failed }}.",
+          "FAIL_PLURAL": "Impossibile copiare gli elementi {{ failed }}."
         },
         "NODE_MOVE": {
           "SINGULAR": "Spostato {{ success }} elemento.",
@@ -198,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "Copia '{{ name }}' in...",
+    "COPY_ITEMS": "Copia {{ number }} elementi in...",
+    "MOVE_ITEM": "Sposta '{{ name }}' in...",
+    "MOVE_ITEMS": "Sposta {{ number }} elementi in...",
+    "SEARCH": "Cerca"
   }
 }

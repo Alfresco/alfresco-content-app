@@ -1,7 +1,11 @@
 {
     "APP": {
+        "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
+        "PREVIEW": {
+            "TITLE": "Preview"
+        },
         "NEW_MENU": {
             "LABEL": "New",
             "MENU_ITEMS": {
@@ -55,7 +59,7 @@
                     "TOOLTIP": "View files you recently edited"
                 },
                 "EMPTY_STATE": {
-                    "TITLE": "No recent files or folders",
+                    "TITLE": "No recent files",
                     "TEXT": "Items you upload or edit in the last 30 days are shown here."
                 }
             },
@@ -81,6 +85,9 @@
                     "FIRST_TEXT": "Items you delete are moved to the Trash.",
                     "SECOND_TEXT": "Empty Trash to permanently delete items."
                 }
+            },
+            "ABOUT": {
+                "TITLE": "About"
             }
         },
         "ACTIONS": {
@@ -90,10 +97,12 @@
             "COPY": "Copy",
             "MOVE": "Move",
             "DELETE": "Delete",
+            "DELETE_PERMANENT": "Permanently delete",
             "MORE": "More actions",
             "UNDO": "Undo",
             "RESTORE": "Restore",
-            "FAVORITE": "Favorite"
+            "FAVORITE": "Favorite",
+            "UNSHARE": "Unshare"
         },
         "DOCUMENT_LIST": {
             "COLUMNS": {
@@ -108,52 +117,6 @@
                 "DELETED_ON": "Deleted",
                 "DELETED_BY": "Deleted by"
             }
-        },
-        "DIALOG": {
-            "MINIMIZE": "Minimize",
-            "MAXIMIZE": "Maximize",
-            "CLOSE": "Close",
-            "UPLOAD": {
-                "IN_PROGRESS": "Uploading {{ completed }} / {{ length }}",
-                "COMPLETE": "Uploaded {{ completed }} / {{ length }}",
-                "CANCELED": "Upload canceled",
-                "CANCEL_UPLOAD": "Cancel upload",
-                "CANCEL_ALL": "Cancel uploads",
-                "REMOVE_UPLOADED": "Remove uploaded file",
-                "CANCELED_STATUS": "Canceled",
-                "ERRORS": "error(s)"
-            }
-        },
-        "FOLDER_DIALOG": {
-            "CREATE_FOLDER_TITLE": "Create new folder",
-            "EDIT_FOLDER_TITLE": "Edit folder",
-            "FOLDER_NAME": {
-                "LABEL": "Name",
-                "ERRORS": {
-                    "REQUIRED": "Folder name is required",
-                    "SPECIAL_CHARACTERS": "Folder name can't contain these characters * \" < > \\ / ? : |",
-                    "ENDING_DOT": "Folder name can't end with a period .",
-                    "ONLY_SPACES": "Folder name can't contain only spaces"
-                }
-            },
-            "FOLDER_DESCRIPTION": {
-                "LABEL": "Description"
-            },
-            "CREATE_BUTTON": {
-                "LABEL": "Create"
-            },
-            "UPDATE_BUTTON": {
-                "LABEL": "Update"
-            },
-            "CANCEL_BUTTON": {
-                "LABEL": "Cancel"
-            }
-        },
-        "PAGINATION": {
-            "ITEMS_PER_PAGE": "Items per page",
-            "CURRENT_PAGE": "Page",
-            "OF": "of",
-            "SHOW_RANGE": "Showing {{ range }} of {{ total }} items"
         },
         "SITES_VISIBILITY": {
             "PUBLIC": "Public",
@@ -174,13 +137,13 @@
                 "TRASH": {
                     "NODES_PURGE": {
                         "PLURAL": "{{ number }} items couldn't be deleted",
-                        "SINGULAR": "{{ name }} item couldn't be deleted"
+                        "SINGULAR": "{{ name }} couldn't be deleted"
                     },
                     "NODES_RESTORE": {
                         "PARTIAL_PLURAL": "{{ number }} items not restored because of issues with the restore location",
-                        "NODE_EXISTS": "Can't restore, {{ name }} item already exists",
-                        "LOCATION_MISSING": "Can't restore {{ name }} item, the original location no longer exists",
-                        "GENERIC": "There was a problem restoring {{ name }} item"
+                        "NODE_EXISTS": "Can't restore, {{ name }} already exists",
+                        "LOCATION_MISSING": "Can't restore {{ name }}, the original location no longer exists",
+                        "GENERIC": "There was a problem restoring {{ name }}"
                     }
                 }
             },
@@ -188,13 +151,13 @@
                 "TRASH": {
                     "NODES_PURGE": {
                         "PLURAL": "{{ number }} items deleted",
-                        "SINGULAR": "{{ name }} item deleted",
-                        "PARTIAL_SINGULAR": "{{ name }} item deleted, {{ failed }} couldn't be deleted",
+                        "SINGULAR": "{{ name }} deleted",
+                        "PARTIAL_SINGULAR": "{{ name }} deleted, {{ failed }} couldn't be deleted",
                         "PARTIAL_PLURAL": "{{ number }} items deleted, {{ failed }} couldn't be deleted"
                     },
                     "NODES_RESTORE": {
                         "PLURAL": "Restore successful",
-                        "SINGULAR": "{{ name }} item restored"
+                        "SINGULAR": "{{ name }} restored"
                     }
                 },
                 "NODE_DELETION": {
@@ -204,8 +167,12 @@
                     "PARTIAL_PLURAL": "Deleted {{ success }} items, {{ failed }} couldn't be deleted"
                 },
                 "NODE_COPY": {
-                    "SINGULAR": "Copied {{ number }} item",
-                    "PLURAL": "Copied {{ number }} items"
+                    "SINGULAR": "Copied {{ success }} item",
+                    "PLURAL": "Copied {{ success }} items",
+                    "PARTIAL_SINGULAR": "Copied {{ success }} item, {{ failed }} couldn't be copied.",
+                    "PARTIAL_PLURAL": "Copied {{ success }} items, {{ failed }} couldn't be copied.",
+                    "FAIL_SINGULAR": "{{ failed }} item couldn't be copied.",
+                    "FAIL_PLURAL": "{{ failed }} items couldn't be copied."
                 },
                 "NODE_MOVE": {
                     "SINGULAR": "Moved {{ success }} item.",
@@ -218,5 +185,12 @@
                 }
             }
         }
+    },
+    "NODE_SELECTOR": {
+        "COPY_ITEM": "Copy '{{ name }}' to...",
+        "COPY_ITEMS": "Copy {{ number }} items to...",
+        "MOVE_ITEM": "Move '{{ name }}' to...",
+        "MOVE_ITEMS": "Move {{ number }} items to...",
+        "SEARCH": "Search"
     }
 }

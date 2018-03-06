@@ -1,7 +1,11 @@
 {
   "APP": {
+    "LANGUAGE": "Langue",
     "SIGN_IN": "Connexion",
     "SIGN_OUT": "Déconnexion",
+    "PREVIEW": {
+      "TITLE": "Aperçu"
+    },
     "NEW_MENU": {
       "LABEL": "Nouveau",
       "MENU_ITEMS": {
@@ -31,6 +35,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Bibliothèques de fichiers",
           "TOOLTIP": "Accéder aux bibliothèques de fichiers"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Vous n'êtes actuellement membre d'aucune Bibliothèque de fichiers",
+          "TEXT": "Rejoignez des sites pour importer, consulter et partager des fichiers."
         }
       },
       "SHARED": {
@@ -38,6 +46,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Partagé",
           "TOOLTIP": "Afficher les fichiers qui ont été partagés"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Aucun fichier ou dossier partagé",
+          "TEXT": "Les éléments que vous partagez avec l'option Partager s'affichent ici."
         }
       },
       "RECENT": {
@@ -45,6 +57,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Fichiers récents",
           "TOOLTIP": "Afficher les fichiers modifiés récemment"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Aucun fichier récent",
+          "TEXT": "Les éléments importés ou modifiés au cours des 30 derniers jours s'affichent ici."
         }
       },
       "FAVORITES": {
@@ -52,6 +68,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Favoris",
           "TOOLTIP": "Afficher vos fichiers et dossiers favoris"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Aucun fichier ou dossier favori",
+          "TEXT": "Eléments favoris que vous souhaitez retrouver facilement par la suite."
         }
       },
       "TRASHCAN": {
@@ -59,21 +79,30 @@
         "SIDENAV_LINK": {
           "LABEL": "Corbeille",
           "TOOLTIP": "Afficher les fichiers placés dans la corbeille"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "La corbeille est vide",
+          "FIRST_TEXT": "Les éléments que vous supprimez sont placés dans la corbeille.",
+          "SECOND_TEXT": "Videz la corbeille pour supprimer définitivement les éléments qu'elle contient."
         }
+      },
+      "ABOUT": {
+        "TITLE": "A propos de"
       }
     },
     "ACTIONS": {
       "VIEW": "Afficher",
-      "SHARE": "Partager",
       "EDIT": "Modifier",
       "DOWNLOAD": "Télécharger",
       "COPY": "Copier",
       "MOVE": "Déplacer",
       "DELETE": "Supprimer",
+      "DELETE_PERMANENT": "Supprimer définitivement",
       "MORE": "Plus d'actions",
       "UNDO": "Annuler",
       "RESTORE": "Restaurer",
-      "FAVORITE": "Favori"
+      "FAVORITE": "Favori",
+      "UNSHARE": "Ne pas partager"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -88,52 +117,6 @@
         "DELETED_ON": "Supprimé",
         "DELETED_BY": "Supprimé(s) par"
       }
-    },
-    "DIALOG": {
-      "MINIMIZE": "Réduire",
-      "MAXIMIZE": "Maximiser",
-      "CLOSE": "Fermer",
-      "UPLOAD": {
-        "IN_PROGRESS": "Importation de {{ completed }} / {{ length }}",
-        "COMPLETE": "{{ completed }} / {{ length }} importé(s)",
-        "CANCELED": "Importation annulée",
-        "CANCEL_UPLOAD": "Annuler l'importation",
-        "CANCEL_ALL": "Annuler l'importation",
-        "REMOVE_UPLOADED": "Supprimer le fichier importé",
-        "CANCELED_STATUS": "Annulé",
-        "ERRORS": "erreur(s)"
-      }
-    },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Créer un nouveau filtre",
-      "EDIT_FOLDER_TITLE": "Modifier le dossier",
-      "FOLDER_NAME": {
-        "LABEL": "Nom",
-        "ERRORS": {
-          "REQUIRED": "Nom de dossier requis",
-          "SPECIAL_CHARACTERS": "Un nom de dossier ne peut pas contenir les caractères * \" < > \\ / ? : |",
-          "ENDING_DOT": "Un nom de dossier ne peut pas se terminer par un point .",
-          "ONLY_SPACES": "Un nom de dossier ne peut pas contenir uniquement des espaces"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Description"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Créer"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Mis à jour"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Annuler"
-      }
-    },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "Eléments par page",
-      "CURRENT_PAGE": "Page",
-      "OF": "sur",
-      "SHOW_RANGE": "Affichage de {{ range }} sur {{ total }} éléments"
     },
     "SITES_VISIBILITY": {
       "PUBLIC": "Public",
@@ -154,13 +137,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} éléments n'ont pas pu être supprimés",
-            "SINGULAR": "L'élément {{ name }} n'a pas pu être supprimé"
+            "SINGULAR": "{{ name }} n'a pas pu être supprimé"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} éléments n'ont pas été restaurés en raison de problèmes avec l'emplacement de restauration",
-            "NODE_EXISTS": "Restauration impossible, l'élément {{ name }} existe déjà",
-            "LOCATION_MISSING": "Impossible de restaurer l'élément {{ name }}, l'emplacement d'origine n'existe plus",
-            "GENERIC": "Un problème est survenu pendant la restauration de l'élément {{ name }}"
+            "NODE_EXISTS": "Restauration impossible, {{ name }} existe déjà",
+            "LOCATION_MISSING": "Impossible de restaurer {{ name }}, l'emplacement d'origine n'existe plus",
+            "GENERIC": "Un problème est survenu pendant la restauration de {{ name }}"
           }
         }
       },
@@ -168,13 +151,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} éléments supprimés",
-            "SINGULAR": "Elément {{ name }} supprimé",
-            "PARTIAL_SINGULAR": "Elément {{ name }} supprimé, {{ failed }} n'a/n'ont pas pu être supprimé(s)",
+            "SINGULAR": "{{ name }} supprimé",
+            "PARTIAL_SINGULAR": "{{ name }} supprimé, {{ failed }} n'a/n'ont pas pu être supprimé(s)",
             "PARTIAL_PLURAL": "{{ number }} éléments supprimés, {{ failed }} n'a/n'ont pas pu être supprimé(s)"
           },
           "NODES_RESTORE": {
             "PLURAL": "Restauration réussie",
-            "SINGULAR": "Elément {{ name }} restauré"
+            "SINGULAR": "{{ name }} restauré"
           }
         },
         "NODE_DELETION": {
@@ -184,8 +167,12 @@
           "PARTIAL_PLURAL": "{{ success }} éléments supprimés, {{ failed }} n'a/n'ont pas pu être supprimé(s)"
         },
         "NODE_COPY": {
-          "SINGULAR": "{{ number }} élément copié",
-          "PLURAL": "{{ number }} éléments copiés"
+          "SINGULAR": "{{ success }} élément copié",
+          "PLURAL": "{{ success }} éléments copiés",
+          "PARTIAL_SINGULAR": "{{ success }} élément copié, {{ failed }} n'a/n'ont pas pu être copié(s).",
+          "PARTIAL_PLURAL": "{{ success }} éléments copiés, {{ failed }} n'a/n'ont pas pu être copié(s).",
+          "FAIL_SINGULAR": "{{ failed }} élément n'a pas pu être copié.",
+          "FAIL_PLURAL": "{{ failed }} éléments n'ont pas pu être copiés."
         },
         "NODE_MOVE": {
           "SINGULAR": "{{ success }} élément déplacé.",
@@ -198,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "Copier '{{ name }}' dans...",
+    "COPY_ITEMS": "Copier {{ number }} éléments vers...",
+    "MOVE_ITEM": "Déplacer '{{ name }}' vers...",
+    "MOVE_ITEMS": "Déplacer {{ number }} éléments vers...",
+    "SEARCH": "Rechercher"
   }
 }

@@ -1,7 +1,11 @@
 {
   "APP": {
+    "LANGUAGE": "语言",
     "SIGN_IN": "登录",
     "SIGN_OUT": "退出",
+    "PREVIEW": {
+      "TITLE": "预览"
+    },
     "NEW_MENU": {
       "LABEL": "新建",
       "MENU_ITEMS": {
@@ -15,7 +19,7 @@
         "UPLOAD_FILES": "选择要上传的文件",
         "UPLOAD_FILES_NOT_ALLOWED": "您需要在此上传的权限，请与您的 IT 团队联系。",
         "UPLOAD_FOLDERS": "选择要上传的文件夹",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "您需要在此上传的权限，请与您的 IT 团队联系。."
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "您需要在此上传的权限，请与您的 IT 团队联系。"
       }
     },
     "BROWSE": {
@@ -31,6 +35,10 @@
         "SIDENAV_LINK": {
           "LABEL": "文件库",
           "TOOLTIP": "访问文件库"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "您还不是任何文件库的成员",
+          "TEXT": "加入站点以上传、查看和共享文件。"
         }
       },
       "SHARED": {
@@ -38,6 +46,10 @@
         "SIDENAV_LINK": {
           "LABEL": "已共享",
           "TOOLTIP": "查看已共享的文件"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "无共享文件或文件夹",
+          "TEXT": "此处显示了您使用“共享”选项所共享的项目。"
         }
       },
       "RECENT": {
@@ -45,6 +57,10 @@
         "SIDENAV_LINK": {
           "LABEL": "最近的文件",
           "TOOLTIP": "查看最近编辑的文件"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "无最近的文件",
+          "TEXT": "此处显示了您过去 30 天上传或编辑的项目。"
         }
       },
       "FAVORITES": {
@@ -52,6 +68,10 @@
         "SIDENAV_LINK": {
           "LABEL": "收藏夹",
           "TOOLTIP": "查看您收藏的文件和文件夹"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "无收藏夹文件或文件夹",
+          "TEXT": "您想要在以后轻松查找的收藏夹项目。"
         }
       },
       "TRASHCAN": {
@@ -59,21 +79,30 @@
         "SIDENAV_LINK": {
           "LABEL": "回收站",
           "TOOLTIP": "查看回收站中的已删除文件"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "回收站为空",
+          "FIRST_TEXT": "您删除的项目已移至回收站。",
+          "SECOND_TEXT": "清空回收站以永久删除项目。"
         }
+      },
+      "ABOUT": {
+        "TITLE": "关于"
       }
     },
     "ACTIONS": {
       "VIEW": "查看",
-      "SHARE": "共享",
       "EDIT": "编辑",
       "DOWNLOAD": "下载",
       "COPY": "复制",
       "MOVE": "移动",
       "DELETE": "删除",
+      "DELETE_PERMANENT": "永久删除",
       "MORE": "更多操作",
       "UNDO": "撤消",
       "RESTORE": "恢复",
-      "FAVORITE": "收藏"
+      "FAVORITE": "收藏",
+      "UNSHARE": "取消共享"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -89,52 +118,6 @@
         "DELETED_BY": "删除人"
       }
     },
-    "DIALOG": {
-      "MINIMIZE": "最小化(&M)",
-      "MAXIMIZE": "最大化",
-      "CLOSE": "关闭",
-      "UPLOAD": {
-        "IN_PROGRESS": "正在上传 {{ completed }} / {{ length }}",
-        "COMPLETE": "已上传 {{ completed }} / {{ length }}",
-        "CANCELED": "取消上传",
-        "CANCEL_UPLOAD": "取消上传",
-        "CANCEL_ALL": "取消上传",
-        "REMOVE_UPLOADED": "移除已上传文件",
-        "CANCELED_STATUS": "已取消",
-        "ERRORS": "错误"
-      }
-    },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "新建文件夹",
-      "EDIT_FOLDER_TITLE": "编辑文件夹",
-      "FOLDER_NAME": {
-        "LABEL": "名称",
-        "ERRORS": {
-          "REQUIRED": "需要文件夹名称",
-          "SPECIAL_CHARACTERS": "文件夹名称不能包含 * \" < > \\ / ? : | 字符",
-          "ENDING_DOT": "文件夹名称不能以句点结尾。",
-          "ONLY_SPACES": "文件夹名称不能只包含空格"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "说明"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "创建"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "更新"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "取消"
-      }
-    },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "每页的项目",
-      "CURRENT_PAGE": "页数",
-      "OF": "/",
-      "SHOW_RANGE": "正在显示 {{ range }} / {{ range }} 项目"
-    },
     "SITES_VISIBILITY": {
       "PUBLIC": "公共",
       "MODERATED": "适中",
@@ -142,8 +125,8 @@
     },
     "MESSAGES": {
       "ERRORS": {
-        "GENERIC": "此操作未成功，请重试或联系您的 IT 团队.",
-        "CONFLICT": "此名称已使用，请尝试其他名称.",
+        "GENERIC": "此操作未成功，请重试或联系您的 IT 团队。",
+        "CONFLICT": "此名称已使用，请尝试其他名称。",
         "NODE_MOVE": "未成功移动，存在有相同名称的文件。",
         "EXISTENT_FOLDER": "存在使用此名称的文件夹。请尝试使用其他名称。",
         "NODE_DELETION": "{{ name }} 无法删除",
@@ -154,13 +137,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 个项目无法删除",
-            "SINGULAR": "{{ name }} 项目无法删除"
+            "SINGULAR": "{{ name }} 无法删除"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} 个项目无法恢复，因为恢复位置存在问题",
-            "NODE_EXISTS": "无法恢复，{{ name }} 项目已存在",
-            "LOCATION_MISSING": "无法恢复 {{ name }} 项目，原位置不存在",
-            "GENERIC": "恢复 {{ name }} 项目时出现问题"
+            "NODE_EXISTS": "无法恢复，{{ name }} 已存在",
+            "LOCATION_MISSING": "无法恢复 {{ name }}，原位置不复存在",
+            "GENERIC": "恢复 {{ name }} 时出现问题"
           }
         }
       },
@@ -168,13 +151,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 个项目已删除",
-            "SINGULAR": "{{ name }} 项目已删除",
-            "PARTIAL_SINGULAR": "{{ name }} 项目已删除，{{ failed }} 无法删除",
+            "SINGULAR": "{{ name }} 已删除",
+            "PARTIAL_SINGULAR": "{{ name }} 已删除，{{ failed }} 无法删除",
             "PARTIAL_PLURAL": "{{ number }} 个项目已删除，{{ failed }} 无法删除"
           },
           "NODES_RESTORE": {
             "PLURAL": "成功恢复",
-            "SINGULAR": "{{ name }} 项目已恢复"
+            "SINGULAR": "{{ name }} 已恢复"
           }
         },
         "NODE_DELETION": {
@@ -184,8 +167,12 @@
           "PARTIAL_PLURAL": "已删除 {{ success }} 项目，{{ failed }} 无法删除"
         },
         "NODE_COPY": {
-          "SINGULAR": "已复制 {{ number }} 个项目",
-          "PLURAL": "已复制 {{ number }} 个项目"
+          "SINGULAR": "已复制 {{ success }} 项目",
+          "PLURAL": "已复制 {{ success }} 个项目",
+          "PARTIAL_SINGULAR": "已复制 {{ success }} 项目，{{ failed }} 无法复制。",
+          "PARTIAL_PLURAL": "已复制 {{ success }} 个项目，{{ failed }} 无法复制。",
+          "FAIL_SINGULAR": "{{ failed }} 项目无法复制。",
+          "FAIL_PLURAL": "{{ failed }} 个项目无法复制。"
         },
         "NODE_MOVE": {
           "SINGULAR": "已移动 {{ success }} 项目。",
@@ -198,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "将 '{{ name }}' 复制到...",
+    "COPY_ITEMS": "将 {{ number }} 项复制到...",
+    "MOVE_ITEM": "将 '{{ name }}' 移动到...",
+    "MOVE_ITEMS": "将 {{ number }} 项移动到...",
+    "SEARCH": "搜索"
   }
 }

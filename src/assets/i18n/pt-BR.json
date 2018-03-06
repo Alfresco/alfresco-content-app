@@ -1,7 +1,11 @@
 {
   "APP": {
+    "LANGUAGE": "Idioma",
     "SIGN_IN": "Entrar",
     "SIGN_OUT": "Sair",
+    "PREVIEW": {
+      "TITLE": "Visualizar"
+    },
     "NEW_MENU": {
       "LABEL": "Novo",
       "MENU_ITEMS": {
@@ -31,6 +35,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Bibliotecas de arquivos",
           "TOOLTIP": "Acessar bibliotecas de arquivos"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Você ainda não é membro de nenhuma biblioteca de arquivos",
+          "TEXT": "Entre em sites para carregar, visualizar e compartilhar arquivos."
         }
       },
       "SHARED": {
@@ -38,6 +46,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Compartilhado",
           "TOOLTIP": "Visualize arquivos que foram compartilhados"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Não há nenhum arquivo ou pasta compartilhados",
+          "TEXT": "Os itens que você compartilhar usando a opção Compartilhar são exibidos aqui."
         }
       },
       "RECENT": {
@@ -45,6 +57,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Arquivos recentes",
           "TOOLTIP": "Visualize arquivos que você editou recentemente"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Não há nenhum arquivo recente",
+          "TEXT": "Os itens que você carregar ou editar nos últimos 30 dias são exibidos aqui."
         }
       },
       "FAVORITES": {
@@ -52,6 +68,10 @@
         "SIDENAV_LINK": {
           "LABEL": "Favoritos",
           "TOOLTIP": "Visualize seus arquivos e pastas favoritos"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Não há nenhum arquivo ou pasta favoritos",
+          "TEXT": "Itens favoritos que você queira encontrar facilmente depois."
         }
       },
       "TRASHCAN": {
@@ -59,21 +79,30 @@
         "SIDENAV_LINK": {
           "LABEL": "Lixeira",
           "TOOLTIP": "Visualize arquivos excluídos na lixeira"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "A lixeira está vazia",
+          "FIRST_TEXT": "Os itens que você excluir são movidos para a lixeira.",
+          "SECOND_TEXT": "Esvazie a lixeira para excluir itens permanentemente."
         }
+      },
+      "ABOUT": {
+        "TITLE": "Sobre"
       }
     },
     "ACTIONS": {
       "VIEW": "Visualizar",
-      "SHARE": "Compartilhar",
       "EDIT": "Editar",
       "DOWNLOAD": "Download",
       "COPY": "Copiar",
       "MOVE": "Mover",
       "DELETE": "Excluir",
+      "DELETE_PERMANENT": "Excluir permanentemente",
       "MORE": "Mais ações",
       "UNDO": "Desfazer",
       "RESTORE": "Restaurar",
-      "FAVORITE": "Favoritos"
+      "FAVORITE": "Favoritos",
+      "UNSHARE": "Descompartilhar"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -88,52 +117,6 @@
         "DELETED_ON": "Excluído",
         "DELETED_BY": "Excluído por"
       }
-    },
-    "DIALOG": {
-      "MINIMIZE": "Minimizar",
-      "MAXIMIZE": "Maximizar",
-      "CLOSE": "Fechar",
-      "UPLOAD": {
-        "IN_PROGRESS": "Carregando {{ completed }} / {{ length }}",
-        "COMPLETE": "Carregado {{ completed }} / {{ length }}",
-        "CANCELED": "Upload cancelado",
-        "CANCEL_UPLOAD": "Cancelar upload",
-        "CANCEL_ALL": "Cancelar uploads",
-        "REMOVE_UPLOADED": "Remover arquivo carregado",
-        "CANCELED_STATUS": "Cancelado",
-        "ERRORS": "erro(s)"
-      }
-    },
-    "FOLDER_DIALOG": {
-      "CREATE_FOLDER_TITLE": "Criar nova pasta",
-      "EDIT_FOLDER_TITLE": "Editar pasta",
-      "FOLDER_NAME": {
-        "LABEL": "Nome",
-        "ERRORS": {
-          "REQUIRED": "O nome da pasta é obrigatório",
-          "SPECIAL_CHARACTERS": "O nome da pasta não pode conter estes caracteres * \" < > \\ / ? : |",
-          "ENDING_DOT": "O nome da pasta não pode terminar com ponto final .",
-          "ONLY_SPACES": "O nome da pasta não pode conter somente espaços"
-        }
-      },
-      "FOLDER_DESCRIPTION": {
-        "LABEL": "Descrição"
-      },
-      "CREATE_BUTTON": {
-        "LABEL": "Criar"
-      },
-      "UPDATE_BUTTON": {
-        "LABEL": "Atualizar"
-      },
-      "CANCEL_BUTTON": {
-        "LABEL": "Cancelar"
-      }
-    },
-    "PAGINATION": {
-      "ITEMS_PER_PAGE": "Itens por página",
-      "CURRENT_PAGE": "Página",
-      "OF": "de",
-      "SHOW_RANGE": "Exibindo {{ range }} de {{ total }} itens"
     },
     "SITES_VISIBILITY": {
       "PUBLIC": "Público",
@@ -154,13 +137,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "Não foi possível excluir {{ number }} itens",
-            "SINGULAR": "Não foi possível excluir o item {{ name }}"
+            "SINGULAR": "Não foi possível excluir {{ name }}"
           },
           "NODES_RESTORE": {
             "PARTIAL_PLURAL": "{{ number }} itens não restaurados devido a problemas com o local da restauração",
-            "NODE_EXISTS": "Não foi possível restaurar, o item {{ name }} já existe",
-            "LOCATION_MISSING": "Não foi possível restaurar o item {{ name }}, o local original não existe mais",
-            "GENERIC": "Houve um problema ao restaurar o item {{ name }}"
+            "NODE_EXISTS": "Não foi possível restaurar, {{ name }} já existe",
+            "LOCATION_MISSING": "Não foi possível restaurar {{ name }}, o local original não existe mais",
+            "GENERIC": "Houve um problema ao restaurar {{ name }}"
           }
         }
       },
@@ -168,13 +151,13 @@
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} itens excluídos",
-            "SINGULAR": "Item {{ name }} excluído",
-            "PARTIAL_SINGULAR": "Item {{ name }} excluído, não foi possível excluir {{ failed }}",
+            "SINGULAR": "{{ name }} excluído",
+            "PARTIAL_SINGULAR": "{{ name }} excluído, não foi possível excluir {{ failed }}",
             "PARTIAL_PLURAL": "{{ number }} itens excluídos, não foi possível excluir {{ failed }}"
           },
           "NODES_RESTORE": {
             "PLURAL": "Restauração bem-sucedida",
-            "SINGULAR": "Item {{ name }} restaurado"
+            "SINGULAR": "{{ name }} restaurado"
           }
         },
         "NODE_DELETION": {
@@ -184,8 +167,12 @@
           "PARTIAL_PLURAL": "Itens {{ success }} excluídos, não foi possível excluir {{ failed }}"
         },
         "NODE_COPY": {
-          "SINGULAR": "Item {{ number }} copiado",
-          "PLURAL": "Itens {{ number }} copiados"
+          "SINGULAR": "Item {{ success }} copiado",
+          "PLURAL": "Itens {{ success }} copiados",
+          "PARTIAL_SINGULAR": "Item {{ success }} copiado, não foi possível copiar {{ failed }}.",
+          "PARTIAL_PLURAL": "Itens {{ success }} copiados, não foi possível copiar {{ failed }}.",
+          "FAIL_SINGULAR": "Não foi possível copiar o item {{ failed }}.",
+          "FAIL_PLURAL": "Não foi possível copiar os itens {{ failed }}."
         },
         "NODE_MOVE": {
           "SINGULAR": "Item {{ success }} movido.",
@@ -198,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "Copiar '{{ name }}' para...",
+    "COPY_ITEMS": "Copiar {{ number }} itens para...",
+    "MOVE_ITEM": "Mover '{{ name }}' para...",
+    "MOVE_ITEMS": "Mover {{ number }} itens para...",
+    "SEARCH": "Pesquisar"
   }
 }
