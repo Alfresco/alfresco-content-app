@@ -298,4 +298,52 @@ describe('PageComponent', () => {
             expect(component.nodeHasPermission(node, 'some-operation')).toBe(false);
         });
     });
+
+    describe('canDeleteShared()', () => {
+        it('should return true if shared node can be deleted', () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['delete']
+            } } ];
+
+            expect(component.canDeleteShared(selection)).toBe(true);
+        });
+
+        it(`should return false if shared node doesn't have permission`, () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['something']
+             } } ];
+
+            expect(component.canDeleteShared(selection)).toBe(false);
+        });
+
+        it(`should return false if shared node doesn't have permissions property`, () => {
+            const selection = [ { entry: { } } ];
+
+            expect(component.canDeleteShared(selection)).toBe(false);
+        });
+    });
+
+    describe('canMoveShared()', () => {
+        it('should return true if shared node can be moved', () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['delete']
+            } } ];
+
+            expect(component.canMoveShared(selection)).toBe(true);
+        });
+
+        it(`should return false if shared node doesn't have permission`, () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['something']
+             } } ];
+
+            expect(component.canMoveShared(selection)).toBe(false);
+        });
+
+        it(`should return false if shared node doesn't have permissions property`, () => {
+            const selection = [ { entry: { } } ];
+
+            expect(component.canMoveShared(selection)).toBe(false);
+        });
+    });
 });

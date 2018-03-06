@@ -111,8 +111,16 @@ export abstract class PageComponent {
         return selection.every(node => node.entry && this.nodeHasPermission(node.entry, 'delete'));
     }
 
+    canDeleteShared(selection: Array<MinimalNodeEntity> = []): boolean {
+        return selection.every(node => node.entry && this.nodeSharedHasPermission(node.entry, 'delete'));
+    }
+
     canMove(selection: Array<MinimalNodeEntity>): boolean {
         return this.canDelete(selection);
+    }
+
+    canMoveShared(selection: Array<MinimalNodeEntity> = []): boolean {
+        return selection.every(node => node.entry && this.nodeSharedHasPermission(node.entry, 'delete'));
     }
 
     canPreviewFile(selection: Array<MinimalNodeEntity>): boolean {
@@ -127,11 +135,23 @@ export abstract class PageComponent {
         return this.isFileSelected(selection);
     }
 
-    nodeHasPermission(node: MinimalNodeEntryEntity, permission: string) {
+    nodeHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
         if (node && permission) {
             const { allowableOperations = [] } = <any>(node || {});
 
             if (allowableOperations.indexOf(permission) > -1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    nodeSharedHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
+        if (node && permission) {
+            const { allowableOperationsOnTarget } = <any>(node || {});
+
+            if (allowableOperationsOnTarget && allowableOperationsOnTarget.indexOf(permission) > -1) {
                 return true;
             }
         }
