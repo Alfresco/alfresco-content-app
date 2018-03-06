@@ -25,7 +25,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { TranslationService, PageTitleService } from '@alfresco/adf-core';
+import { TranslationService, PageTitleService, UserPreferencesService, AppConfigService } from '@alfresco/adf-core';
 
 @Component({
     selector: 'app-root',
@@ -37,7 +37,11 @@ export class AppComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private pageTitle: PageTitleService,
-        private translateService: TranslationService) {
+        private translateService: TranslationService,
+        preferences: UserPreferencesService,
+        config: AppConfigService) {
+        // TODO: remove once ADF 2.3.0 is out (needs bug fixes)
+        preferences.defaults.supportedPageSizes = config.get('pagination.supportedPageSizes');
     }
 
     ngOnInit() {
