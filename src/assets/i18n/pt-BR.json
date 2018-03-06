@@ -101,7 +101,8 @@
       "MORE": "Mais ações",
       "UNDO": "Desfazer",
       "RESTORE": "Restaurar",
-      "FAVORITE": "Favoritos"
+      "FAVORITE": "Favoritos",
+      "UNSHARE": "Descompartilhar"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -184,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "Copiar '{{ name }}' para...",
+    "COPY_ITEMS": "Copiar {{ number }} itens para...",
+    "MOVE_ITEM": "Mover '{{ name }}' para...",
+    "MOVE_ITEMS": "Mover {{ number }} itens para...",
+    "SEARCH": "Pesquisar"
   }
 }
