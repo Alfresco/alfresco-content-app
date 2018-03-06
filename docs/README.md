@@ -32,15 +32,6 @@ due to the application using the latest [REST APIs](https://docs.alfresco.com/5.
 
 There are several ways to get help with building applications using the Alfresco Application Development Framework:
 
-### Alfresco DevCon 2018
-
-DevCon 2018 is an international developer conference entirely dedicated to Alfresco technology.
-With the support of our community, customers, and partners, DevCon will increase your technical know-how,
-connect you with other Alfresco developers, and let you collaborate with our team and each other.
-
-Register now to avoid disappointment, places are limited:
-http://devcon.alfresco.com/
-
 ### Alfresco Community
 
 Visit the Alfresco Community space where you can find many resources to help you get started building your application,
