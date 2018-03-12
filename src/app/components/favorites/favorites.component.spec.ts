@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,14 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, NodesApiService, AlfrescoApiService, ContentService } from '@alfresco/adf-core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { TestBed, async } from '@angular/core/testing';
+import {
+    NotificationService, TranslationService, TranslationMock,
+    NodesApiService, AlfrescoApiService, ContentService,
+    UserPreferencesService, LogService, AppConfigService,
+    StorageService, CookieService, ThumbnailService,
+    AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
+    NodeFavoriteDirective, DataTableComponent
+} from '@alfresco/adf-core';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
-import { CommonModule } from '../../common/common.module';
-import { LocationLinkComponent } from '../location-link/location-link.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
+import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 
 import { FavoritesComponent } from './favorites.component';
@@ -42,6 +54,7 @@ describe('Favorites Routed Component', () => {
     let alfrescoApi: AlfrescoApiService;
     let alfrescoContentService: ContentService;
     let contentService: ContentManagementService;
+    let preferenceService: UserPreferencesService;
     let router: Router;
     let page;
     let node;
@@ -75,14 +88,39 @@ describe('Favorites Routed Component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    CoreModule,
-                    CommonModule,
-                    RouterTestingModule
+                    MatMenuModule,
+                    NoopAnimationsModule,
+                    HttpClientModule,
+                    TranslateModule.forRoot(),
+                    RouterTestingModule,
+                    MatSnackBarModule, MatIconModule
                 ],
                 declarations: [
-                    LocationLinkComponent,
+                    DataTableComponent,
+                    TimeAgoPipe,
+                    NodeNameTooltipPipe,
+                    NodeFavoriteDirective,
+                    DocumentListComponent,
                     FavoritesComponent
-                ]
+                ],
+                providers: [
+                    { provide: ActivatedRoute, useValue: {
+                        snapshot: { data: { preferencePrefix: 'prefix' } }
+                    } } ,
+                    { provide: TranslationService, useClass: TranslationMock },
+                    AuthenticationService,
+                    UserPreferencesService,
+                    AppConfigService, StorageService, CookieService,
+                    AlfrescoApiService,
+                    LogService,
+                    NotificationService,
+                    ContentManagementService,
+                    ContentService,
+                    NodesApiService,
+                    DocumentListService,
+                    ThumbnailService
+                ],
+                schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents().then(() => {
             fixture = TestBed.createComponent(FavoritesComponent);
@@ -92,6 +130,7 @@ describe('Favorites Routed Component', () => {
             alfrescoApi = TestBed.get(AlfrescoApiService);
             alfrescoContentService = TestBed.get(ContentService);
             contentService = TestBed.get(ContentManagementService);
+            preferenceService = TestBed.get(UserPreferencesService);
             router = TestBed.get(Router);
         });
     }));
@@ -101,20 +140,31 @@ describe('Favorites Routed Component', () => {
     });
 
     describe('Events', () => {
-        it('should refresh on editing folder event', () => {
+        beforeEach(() => {
             spyOn(component, 'refresh');
             fixture.detectChanges();
+        });
 
+        it('should refresh on editing folder event', () => {
             alfrescoContentService.folderEdit.next(null);
 
             expect(component.refresh).toHaveBeenCalled();
         });
 
         it('should refresh on move node event', () => {
-            spyOn(component, 'refresh');
-            fixture.detectChanges();
+            contentService.nodeMoved.next(null);
 
-            contentService.moveNode.next(null);
+            expect(component.refresh).toHaveBeenCalled();
+        });
+
+        it('should refresh on node deleted event', () => {
+            contentService.nodeDeleted.next(null);
+
+            expect(component.refresh).toHaveBeenCalled();
+        });
+
+        it('should refresh on node restore event', () => {
+            contentService.nodeRestored.next(null);
 
             expect(component.refresh).toHaveBeenCalled();
         });
@@ -174,7 +224,7 @@ describe('Favorites Routed Component', () => {
 
             component.onNodeDoubleClick(node);
 
-            expect(router.navigate).toHaveBeenCalledWith(['/preview', node.id]);
+            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', 'folder-node']);
         });
     });
 
@@ -236,6 +286,37 @@ describe('Favorites Routed Component', () => {
             component.refresh();
 
             expect(component.documentList.reload).toHaveBeenCalled();
+        });
+    });
+
+    describe('onSortingChanged', () => {
+        it('should save sorting input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {
+                    key: 'some-name',
+                    direction: 'some-direction'
+                }
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
+        });
+
+        it('should save default sorting when no input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {}
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 });

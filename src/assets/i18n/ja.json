@@ -101,7 +101,8 @@
       "MORE": "その他の処理",
       "UNDO": "元に戻す",
       "RESTORE": "復元",
-      "FAVORITE": "お気に入り"
+      "FAVORITE": "お気に入り",
+      "UNSHARE": "共有の解除"
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -184,5 +185,12 @@
         }
       }
     }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "'{{ name }}' のコピー先...",
+    "COPY_ITEMS": "{{ number }} 件のアイテムのコピー先...",
+    "MOVE_ITEM": "'{{ name }}' の移動先...",
+    "MOVE_ITEMS": "{{ number }} 件のアイテムの移動先...",
+    "SEARCH": "検索"
   }
 }

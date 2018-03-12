@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -29,12 +29,20 @@ import { By } from '@angular/platform-browser';
 
 import { Observable } from 'rxjs/Rx';
 
-import { CoreModule, TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
-import { DocumentListModule } from '@alfresco/adf-content-services';
+import {
+    TranslationService, NodesApiService, NotificationService, AlfrescoApiService, TranslationMock,
+    AppConfigService, StorageService, CookieService, ContentService, AuthenticationService,
+    UserPreferencesService, LogService, ThumbnailService
+} from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { NodeActionsService } from '../services/node-actions.service';
-import { ContentManagementService } from '../services/content-management.service';
 import { NodeCopyDirective } from './node-copy.directive';
+import { ContentManagementService } from '../services/content-management.service';
+import { MatSnackBarModule, MatDialogModule, MatIconModule } from '@angular/material';
+import { DocumentListService } from '@alfresco/adf-content-services';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
     template: '<div [app-copy-node]="selection"></div>'
@@ -55,16 +63,33 @@ describe('NodeCopyDirective', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
-                DocumentListModule
+                NoopAnimationsModule,
+                HttpClientModule,
+                TranslateModule.forRoot(),
+                MatSnackBarModule,
+                MatDialogModule,
+                MatIconModule
             ],
             declarations: [
                 TestComponent,
                 NodeCopyDirective
             ],
             providers: [
+                AlfrescoApiService,
+                AuthenticationService,
+                AppConfigService,
+                StorageService,
+                ContentService,
+                UserPreferencesService,
+                LogService,
+                CookieService,
+                NotificationService,
+                NodesApiService,
+                NodeActionsService,
+                { provide: TranslationService, useClass: TranslationMock },
                 ContentManagementService,
-                NodeActionsService
+                DocumentListService,
+                ThumbnailService
             ]
         });
 

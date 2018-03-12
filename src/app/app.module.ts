@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -51,6 +51,7 @@ import { SearchComponent } from './components/search/search.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
+import { EmptyFolderComponent } from './components/empty-folder/empty-folder.component';
 
 @NgModule({
     imports: [
@@ -80,7 +81,8 @@ import { LocationLinkComponent } from './components/location-link/location-link.
         TrashcanComponent,
         PreviewComponent,
         AboutComponent,
-        LocationLinkComponent
+        LocationLinkComponent,
+        EmptyFolderComponent
     ],
     providers: [
         {

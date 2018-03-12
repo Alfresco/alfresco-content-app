@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -41,7 +41,7 @@ export class SearchComponent {
     onItemClicked(node: MinimalNodeEntity) {
         if (node && node.entry) {
             if (node.entry.isFile) {
-                this.router.navigate(['/preview', node.entry.id]);
+                this.router.navigate([`/personal-files/${node.entry.parentId}/preview/`, node.entry.id]);
             } else if (node.entry.isFolder) {
                 this.router.navigate([ '/personal-files',  node.entry.id ]);
             }

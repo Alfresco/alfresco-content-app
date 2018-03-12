@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,11 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 import { TestBed, async } from '@angular/core/testing';
-import { CoreModule, AuthenticationService, UserPreferencesService } from '@alfresco/adf-core';
+import {
+    AuthenticationService, UserPreferencesService, TranslationService,
+    TranslationMock, AppConfigService, StorageService, AlfrescoApiService,
+    CookieService, LogService
+} from '@alfresco/adf-core';
 
 import { LoginComponent } from './login.component';
 
@@ -42,15 +49,25 @@ describe('LoginComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                RouterTestingModule,
-                CoreModule
+                HttpClientModule,
+                TranslateModule.forRoot(),
+                RouterTestingModule
             ],
             declarations: [
                 LoginComponent
             ],
             providers: [
-                Location
-            ]
+                { provide: TranslationService, useClass: TranslationMock },
+                Location,
+                CookieService,
+                LogService,
+                StorageService,
+                AlfrescoApiService,
+                AppConfigService,
+                AuthenticationService,
+                UserPreferencesService
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         });
 
         fixture = TestBed.createComponent(LoginComponent);

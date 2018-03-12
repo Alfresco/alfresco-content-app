@@ -31,18 +31,19 @@
             currentFolderId="-trashcan-"
             selectionMode="multiple"
             [navigate]="false"
-            [sorting]="[ 'archivedAt', 'desc' ]"
+            [sorting]="sorting"
             [contextMenuActions]="true"
-            [contentActions]="false">
+            [contentActions]="false"
+            (sorting-changed)="onSortingChanged($event)">
 
             <empty-folder-content>
                 <ng-template>
-                    <div class="empty-list__block">
-                        <mat-icon>delete</mat-icon>
-                        <p class="empty-list__title">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE' | translate }}</p>
-                        <p class="empty-list__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.FIRST_TEXT' | translate }}</p>
-                        <p class="empty-list__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.SECOND_TEXT' | translate }}</p>
-                    </div>
+                    <app-empty-folder
+                        icon="delete"
+                        title="APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE">
+                        <p class="app-empty-folder__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.FIRST_TEXT' | translate }}</p>
+                        <p class="app-empty-folder__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.SECOND_TEXT' | translate }}</p>
+                    </app-empty-folder>
                 </ng-template>
             </empty-folder-content>
 

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -74,7 +74,7 @@ export class NodeDeleteDirective {
                                 .subscribe(() => this.restore(processedData.success));
 
                             if (processedData.someSucceeded) {
-                                this.content.deleteNode.next(null);
+                                this.content.nodeDeleted.next(null);
                             }
                         });
                 }
@@ -103,7 +103,7 @@ export class NodeDeleteDirective {
                     }
 
                     if (processedData.someSucceeded) {
-                        this.content.restoreNode.next(null);
+                        this.content.nodeRestored.next(null);
                     }
                 }
             );

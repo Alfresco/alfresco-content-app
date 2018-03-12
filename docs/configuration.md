@@ -121,7 +121,7 @@ You can change the default settings of the pagination that gets applied to all t
 ```json
 {
     ...,
-    "document-list": {
+    "pagination": {
         "supportedPageSizes": [
             25,
             50,

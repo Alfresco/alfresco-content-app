@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,11 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs/Rx';
-import { MaterialModule } from '../../common/material.module';
-import { CoreModule, PeopleContentService } from '@alfresco/adf-core';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material';
+import {
+    TranslationService, TranslationMock, AlfrescoApiService,
+    AppConfigService, StorageService, PeopleContentService
+ } from '@alfresco/adf-core';
 
 import { CurrentUserComponent } from './current-user.component';
 
@@ -44,13 +51,23 @@ describe('CurrentUserComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                MaterialModule,
-                CoreModule,
+                HttpClientModule,
+                TranslateModule.forRoot(),
+                NoopAnimationsModule,
+                MatMenuModule,
                 RouterTestingModule
             ],
             declarations: [
                 CurrentUserComponent
-            ]
+            ],
+            providers: [
+                { provide: TranslationService, useClass: TranslationMock },
+                AlfrescoApiService,
+                AppConfigService,
+                StorageService,
+                PeopleContentService
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents()
         .then(() => {

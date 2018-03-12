@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,13 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
-import { CoreModule, AppConfigService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { SearchComponent } from './search.component';
-import { CommonModule } from './../../common/common.module';
 
 describe('SearchComponent', () => {
     let fixture;
@@ -39,13 +38,12 @@ describe('SearchComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
-                RouterTestingModule,
-                CommonModule
+                RouterTestingModule
             ],
             declarations: [
                 SearchComponent
-            ]
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents()
         .then(() => {
@@ -60,11 +58,12 @@ describe('SearchComponent', () => {
     describe('onItemClicked()', () => {
         it('opens preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
-            const node = { entry: { isFile: true, id: 'node-id' } };
+            const node = { entry: { isFile: true, id: 'node-id', parentId: 'parent-id' } };
 
             component.onItemClicked(node);
 
-            expect(router.navigate).toHaveBeenCalledWith(['/preview', node.entry.id]);
+            expect(router.navigate['calls'].argsFor(0)[0])
+                .toEqual([`/personal-files/${node.entry.parentId}/preview/`, node.entry.id]);
         });
 
         it('navigates if node is folder', () => {

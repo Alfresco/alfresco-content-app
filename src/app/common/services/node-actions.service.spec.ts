@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,13 +24,21 @@
  */
 
 import { TestBed, async } from '@angular/core/testing';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogModule, MatIconModule } from '@angular/material';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, AlfrescoApiService, NodesApiService } from '@alfresco/adf-core';
+import {
+    TranslationMock, AlfrescoApiService, NodesApiService,
+    TranslationService, ContentService, AuthenticationService,
+    UserPreferencesService, AppConfigService, StorageService,
+    CookieService, LogService, ThumbnailService
+} from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
+
 import { NodeActionsService } from './node-actions.service';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { TranslateModule } from '@ngx-translate/core';
+import { HttpClientModule } from '@angular/common/http';
 
 class TestNode {
     entry?: MinimalNodeEntryEntity;
@@ -102,15 +110,27 @@ describe('NodeActionsService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
+                MatDialogModule,
+                MatIconModule,
+                HttpClientModule,
+                TranslateModule.forRoot(),
                 OverlayModule
             ],
             providers: [
-                MatDialog,
-                DocumentListService,
                 AlfrescoApiService,
                 NodesApiService,
-                NodeActionsService]
+                { provide: TranslationService, useClass: TranslationMock },
+                AuthenticationService,
+                UserPreferencesService,
+                AppConfigService,
+                CookieService,
+                LogService,
+                ThumbnailService,
+                StorageService,
+                ContentService,
+                DocumentListService,
+                NodeActionsService
+            ]
         });
 
         service = TestBed.get(NodeActionsService);
@@ -203,36 +223,6 @@ describe('NodeActionsService', () => {
         }));
     });
 
-    describe('getFirstParentId', () => {
-        it('should give the parentId, if that exists on the node entry', () => {
-            const parentID = 'parent-id';
-            const contentEntities = [ {entry: {nodeId: '1234', parentId: parentID}} ];
-
-            expect(service.getFirstParentId(contentEntities)).toBe(parentID);
-        });
-
-        it('should give the last element in path property, if parentId is missing and path exists on the node entry', () => {
-            const firstParentId = 'parent-0-id';
-            const contentEntities = [ {entry: {nodeId: '1234', path: {elements: [ {id: 'parent-1-id'}, { id: firstParentId} ]} }} ];
-
-            expect(service.getFirstParentId(contentEntities)).toBe(firstParentId);
-        });
-
-        it('should give the id of the first node entry, if none of nodes has either parentId, or path properties', () => {
-            const nodeID = '1234';
-            const contentEntities = [ {entry: {id: nodeID}}, {entry: {id: `${nodeID}-2`}} ];
-
-            expect(service.getFirstParentId(contentEntities)).toBe(nodeID);
-        });
-
-        it('should give the nodeId of the first node entry, if none of nodes has either parentId, or path properties', () => {
-            const nodeID = '1234';
-            const contentEntities = [ {entry: {nodeId: nodeID}}, {entry: {id: `${nodeID}-2`}}  ];
-
-            expect(service.getFirstParentId(contentEntities)).toBe(nodeID);
-        });
-    });
-
     describe('getEntryParentId', () => {
         it('should return the parentId, if that exists on the node entry', () => {
             const parentID = 'parent-id';
@@ -258,7 +248,7 @@ describe('NodeActionsService', () => {
             fileToCopy = new TestNode(fileId, isFile, 'file-name');
             folderToCopy = new TestNode();
 
-            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+            spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
             const dialog = TestBed.get(MatDialog);
             spyOn(dialog, 'open').and.callFake((contentNodeSelectorComponent: any, data: any) => {
@@ -289,12 +279,17 @@ describe('NodeActionsService', () => {
         let fileToCopy;
         let folderToCopy;
         let destinationFolder;
+        let translationService: TranslationService;
 
         beforeEach(() => {
             fileToCopy = new TestNode(fileId, isFile, 'file-name');
             folderToCopy = new TestNode();
             destinationFolder = new TestNode(folderDestinationId);
+            translationService = TestBed.get(TranslationService);
 
+            spyOn(translationService, 'instant').and.callFake(key => {
+                return key;
+            });
         });
 
         it('should be called', () => {
@@ -310,7 +305,7 @@ describe('NodeActionsService', () => {
         it('should use the custom data object with custom rowFilter & imageResolver & title with destination picker', () => {
             const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
             const spyOnDestinationPicker = spyOn(service, 'getContentNodeSelection').and.callThrough();
-            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+            spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
             let testContentNodeSelectorComponentData;
             const dialog = TestBed.get(MatDialog);
@@ -328,7 +323,8 @@ describe('NodeActionsService', () => {
             expect(testContentNodeSelectorComponentData).toBeDefined();
             expect(testContentNodeSelectorComponentData.data.rowFilter({node: destinationFolder})).toBeDefined();
             expect(testContentNodeSelectorComponentData.data.imageResolver({node: destinationFolder})).toBeDefined();
-            expect(testContentNodeSelectorComponentData.data.title).toBe('copy to ...');
+            expect(testContentNodeSelectorComponentData.data.title).toBe('NODE_SELECTOR.COPY_ITEMS');
+            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEMS', {name: '', number: 2});
 
             destinationFolder.entry['allowableOperations'] = ['update'];
             expect(testContentNodeSelectorComponentData.data.imageResolver({node: destinationFolder})).toBeDefined();
@@ -337,7 +333,7 @@ describe('NodeActionsService', () => {
         it('should use the ContentNodeSelectorComponentData object with file name in title', () => {
             const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
             spyOn(service, 'getContentNodeSelection').and.callThrough();
-            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+            spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
             let testContentNodeSelectorComponentData;
             const dialog = TestBed.get(MatDialog);
@@ -350,13 +346,14 @@ describe('NodeActionsService', () => {
 
             expect(spyOnBatchOperation).toHaveBeenCalled();
             expect(testContentNodeSelectorComponentData).toBeDefined();
-            expect(testContentNodeSelectorComponentData.data.title).toBe('copy \'entry-name\' to ...');
+            expect(testContentNodeSelectorComponentData.data.title).toBe('NODE_SELECTOR.COPY_ITEM');
+            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEM', {name: 'entry-name', number: 1});
         });
 
         it('should use the ContentNodeSelectorComponentData object without file name in title, if no name exists', () => {
             const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
             spyOn(service, 'getContentNodeSelection').and.callThrough();
-            spyOn(service, 'getFirstParentId').and.returnValue('parent-id');
+            spyOn(service, 'getEntryParentId').and.returnValue('parent-id');
 
             let testContentNodeSelectorComponentData;
             const dialog = TestBed.get(MatDialog);
@@ -369,7 +366,8 @@ describe('NodeActionsService', () => {
 
             expect(spyOnBatchOperation).toHaveBeenCalled();
             expect(testContentNodeSelectorComponentData).toBeDefined();
-            expect(testContentNodeSelectorComponentData.data.title).toBe('copy to ...');
+            expect(testContentNodeSelectorComponentData.data.title).toBe('NODE_SELECTOR.COPY_ITEMS');
+            expect(translationService.instant).toHaveBeenCalledWith('NODE_SELECTOR.COPY_ITEMS', {name: '', number: 1});
         });
 
     });
@@ -700,9 +698,7 @@ describe('NodeActionsService', () => {
         });
 
         it('should call the documentListService moveNode directly for moving a file that has permission to be moved', () => {
-            const spyOnDestinationPicker =
-                spyOn(service, 'getContentNodeSelection')
-                    .and.returnValue(Observable.of([destinationFolder.entry]));
+            spyOn(service, 'getContentNodeSelection').and.returnValue(Observable.of([destinationFolder.entry]));
             fileToMove.entry['allowableOperations'] = [permissionToMove];
             spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(Observable.of([fileToMove]));
             spyOn(service, 'moveNodeAction');

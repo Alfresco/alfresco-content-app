@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -29,7 +29,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { CoreModule, AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
+
+import { CommonModule } from '../common.module';
+import { AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
 
 import { NodeRestoreDirective } from './node-restore.directive';
 
@@ -55,12 +57,11 @@ describe('NodeRestoreDirective', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
+                CommonModule,
                 RouterTestingModule
             ],
             declarations: [
-                TestComponent,
-                NodeRestoreDirective
+                TestComponent
             ]
         })
         .compileComponents()

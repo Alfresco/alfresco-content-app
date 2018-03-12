@@ -19,6 +19,14 @@ with a simple and easy to use interface for working with files stored in the Alf
 
 [Public documentation](https://alfresco.github.io/alfresco-content-app/)
 
+### Raising issues and feature requests
+
+Log any issues in the ['ACA' JIRA project](https://issues.alfresco.com/jira/projects/ACA),
+please include a clear description, steps to reproduce and screenshots where appropriate.
+
+All issues will be reviewed; bugs will be categorized if reproducible and enhancement/feature suggestions
+will be considered against existing priorities if the use case serves a general-purpose need.
+
 ## Development server
 
 Run `npm start` for a dev server. Navigate to `http://localhost:3000/` (opens by default).

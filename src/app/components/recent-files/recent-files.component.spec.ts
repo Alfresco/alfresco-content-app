@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,16 +23,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
-
-import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
-
-import { CommonModule } from '../../common/common.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import {
+    NotificationService, TranslationService, TranslationMock,
+    NodesApiService, AlfrescoApiService, ContentService,
+    UserPreferencesService, LogService, AppConfigService,
+    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent
+} from '@alfresco/adf-core';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { TranslateModule } from '@ngx-translate/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
+import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { LocationLinkComponent } from '../location-link/location-link.component';
+
 import { RecentFilesComponent } from './recent-files.component';
 
 describe('RecentFiles Routed Component', () => {
@@ -41,6 +50,7 @@ describe('RecentFiles Routed Component', () => {
     let router: Router;
     let alfrescoApi: AlfrescoApiService;
     let contentService: ContentManagementService;
+    let preferenceService: UserPreferencesService;
     let page;
     let person;
 
@@ -58,14 +68,39 @@ describe('RecentFiles Routed Component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    CoreModule,
+                    MatMenuModule,
+                    NoopAnimationsModule,
+                    HttpClientModule,
+                    TranslateModule.forRoot(),
                     RouterTestingModule,
-                    CommonModule
+                    MatSnackBarModule, MatIconModule
                 ],
                 declarations: [
-                    LocationLinkComponent,
+                    DataTableComponent,
+                    TimeAgoPipe,
+                    NodeNameTooltipPipe,
+                    NodeFavoriteDirective,
+                    DocumentListComponent,
                     RecentFilesComponent
-                ]
+                ],
+                providers: [
+                    { provide: ActivatedRoute, useValue: {
+                        snapshot: { data: { preferencePrefix: 'prefix' } }
+                    } } ,
+                    { provide: TranslationService, useClass: TranslationMock },
+                    AuthenticationService,
+                    UserPreferencesService,
+                    AppConfigService, StorageService, CookieService,
+                    AlfrescoApiService,
+                    LogService,
+                    NotificationService,
+                    ContentManagementService,
+                    ContentService,
+                    NodesApiService,
+                    DocumentListService,
+                    ThumbnailService
+                ],
+                schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents().then(() => {
             fixture = TestBed.createComponent(RecentFilesComponent);
@@ -73,6 +108,7 @@ describe('RecentFiles Routed Component', () => {
 
             router = TestBed.get(Router);
             contentService = TestBed.get(ContentManagementService);
+            preferenceService = TestBed.get(UserPreferencesService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
         });
     }));
@@ -93,7 +129,7 @@ describe('RecentFiles Routed Component', () => {
         it('should reload nodes on onDeleteNode event', () => {
             fixture.detectChanges();
 
-            contentService.deleteNode.next();
+            contentService.nodeDeleted.next();
 
             expect(component.refresh).toHaveBeenCalled();
         });
@@ -101,7 +137,7 @@ describe('RecentFiles Routed Component', () => {
         it('should reload on onRestoreNode event', () => {
             fixture.detectChanges();
 
-            contentService.restoreNode.next();
+            contentService.nodeRestored.next();
 
             expect(component.refresh).toHaveBeenCalled();
         });
@@ -109,7 +145,7 @@ describe('RecentFiles Routed Component', () => {
         it('should reload on move node event', () => {
             fixture.detectChanges();
 
-            contentService.moveNode.next();
+            contentService.nodeMoved.next();
 
             expect(component.refresh).toHaveBeenCalled();
         });
@@ -122,12 +158,12 @@ describe('RecentFiles Routed Component', () => {
 
         it('open preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
-            const node: any = { isFile: true };
+            const node: any = { id: 'node-id', isFile: true };
 
             component.onNodeDoubleClick(node);
             fixture.detectChanges();
 
-            expect(router.navigate).toHaveBeenCalledWith(['/preview', node.id]);
+            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.id]);
         });
 
         it('does not open preview if node is folder', () => {
@@ -149,6 +185,37 @@ describe('RecentFiles Routed Component', () => {
             component.refresh();
 
             expect(component.documentList.reload).toHaveBeenCalled();
+        });
+    });
+
+    describe('onSortingChanged', () => {
+        it('should save sorting input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {
+                    key: 'some-name',
+                    direction: 'some-direction'
+                }
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
+        });
+
+        it('should save default sorting when no input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {}
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 });

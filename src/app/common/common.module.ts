@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -27,6 +27,7 @@ import { NgModule } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AdfModule } from '../adf.module';
 import { MaterialModule } from './material.module';
@@ -34,9 +35,9 @@ import { MaterialModule } from './material.module';
 import { NodeCopyDirective } from './directives/node-copy.directive';
 import { NodeDeleteDirective } from './directives/node-delete.directive';
 import { NodeMoveDirective } from './directives/node-move.directive';
-import { DownloadFileDirective } from './directives/node-download.directive';
 import { NodeRestoreDirective } from './directives/node-restore.directive';
 import { NodePermanentDeleteDirective } from './directives/node-permanent-delete.directive';
+import { NodeUnshareDirective } from './directives/node-unshare.directive';
 
 import { ContentManagementService } from './services/content-management.service';
 import { BrowsingFilesService } from './services/browsing-files.service';
@@ -44,6 +45,7 @@ import { NodeActionsService } from './services/node-actions.service';
 
 export function modules() {
     return [
+        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
         MaterialModule,
@@ -57,9 +59,9 @@ export function declarations() {
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,
-        DownloadFileDirective,
         NodeRestoreDirective,
-        NodePermanentDeleteDirective
+        NodePermanentDeleteDirective,
+        NodeUnshareDirective
     ];
 }
 

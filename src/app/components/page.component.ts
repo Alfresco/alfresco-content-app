@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -45,7 +45,7 @@ export abstract class PageComponent {
 
     abstract fetchNodes(parentNodeId?: string, options?: any): void;
 
-    constructor(private preferences: UserPreferencesService) {
+    constructor(protected preferences: UserPreferencesService) {
     }
 
     onFetchError(error: any) {
@@ -111,8 +111,16 @@ export abstract class PageComponent {
         return selection.every(node => node.entry && this.nodeHasPermission(node.entry, 'delete'));
     }
 
+    canDeleteShared(selection: Array<MinimalNodeEntity> = []): boolean {
+        return selection.every(node => node.entry && this.nodeSharedHasPermission(node.entry, 'delete'));
+    }
+
     canMove(selection: Array<MinimalNodeEntity>): boolean {
         return this.canDelete(selection);
+    }
+
+    canMoveShared(selection: Array<MinimalNodeEntity> = []): boolean {
+        return selection.every(node => node.entry && this.nodeSharedHasPermission(node.entry, 'delete'));
     }
 
     canPreviewFile(selection: Array<MinimalNodeEntity>): boolean {
@@ -127,11 +135,23 @@ export abstract class PageComponent {
         return this.isFileSelected(selection);
     }
 
-    nodeHasPermission(node: MinimalNodeEntryEntity, permission: string) {
+    nodeHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
         if (node && permission) {
             const { allowableOperations = [] } = <any>(node || {});
 
             if (allowableOperations.indexOf(permission) > -1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    nodeSharedHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
+        if (node && permission) {
+            const { allowableOperationsOnTarget } = <any>(node || {});
+
+            if (allowableOperationsOnTarget && allowableOperationsOnTarget.indexOf(permission) > -1) {
                 return true;
             }
         }

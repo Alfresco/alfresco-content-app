@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,7 +25,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { TranslationService, PageTitleService } from '@alfresco/adf-core';
+import { TranslationService, PageTitleService, UserPreferencesService, AppConfigService } from '@alfresco/adf-core';
 
 @Component({
     selector: 'app-root',
@@ -37,11 +37,15 @@ export class AppComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private pageTitle: PageTitleService,
-        private translateService: TranslationService) {
+        private translateService: TranslationService,
+        preferences: UserPreferencesService,
+        config: AppConfigService) {
+        // TODO: remove once ADF 2.3.0 is out (needs bug fixes)
+        preferences.defaults.supportedPageSizes = config.get('pagination.supportedPageSizes');
     }
 
     ngOnInit() {
-        const { router, pageTitle, route, translateService } = this;
+        const { router, pageTitle, route } = this;
 
         router
             .events

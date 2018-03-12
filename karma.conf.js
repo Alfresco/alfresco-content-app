@@ -38,11 +38,16 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     customLaunchers: {
-      ChromeNoSandbox: {
+      ChromeHeadless: {
         base: 'Chrome',
-        flags: ['--no-sandbox']
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          '--remote-debugging-port=9222'
+        ]
       }
     },
     singleRun: false,
@@ -50,6 +55,9 @@ module.exports = function (config) {
     captureTimeout: 180000,
     browserDisconnectTimeout: 180000,
     browserDisconnectTolerance: 3,
-    browserNoActivityTimeout: 300000
+    browserNoActivityTimeout: 300000,
+
+    // workaround for alfresco-js-api builds
+    webpack: { node: { fs: 'empty', } }
   });
 };

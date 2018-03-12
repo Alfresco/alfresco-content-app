@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,7 +25,7 @@
 
 import { Subscription } from 'rxjs/Rx';
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
@@ -43,18 +43,26 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
 
     private subscriptions: Subscription[] = [];
 
+    sorting = [ 'modifiedAt', 'desc' ];
+
     constructor(
         private router: Router,
+        private route: ActivatedRoute,
         private content: ContentManagementService,
         preferences: UserPreferencesService) {
         super(preferences);
+
+        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
+        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
     }
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            this.content.deleteNode.subscribe(() => this.refresh()),
-            this.content.moveNode.subscribe(() => this.refresh()),
-            this.content.restoreNode.subscribe(() => this.refresh())
+            this.content.nodeDeleted.subscribe(() => this.refresh()),
+            this.content.nodeMoved.subscribe(() => this.refresh()),
+            this.content.nodeRestored.subscribe(() => this.refresh())
         ]);
     }
 
@@ -67,7 +75,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
             event.preventDefault();
 
         } else if (node && node.isFile) {
-            this.router.navigate(['/preview', node.id]);
+            this.router.navigate(['./preview', node.id], { relativeTo: this.route });
         }
     }
 
@@ -79,5 +87,14 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
         if (this.documentList) {
             this.documentList.reload();
         }
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }

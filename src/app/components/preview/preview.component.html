@@ -1,3 +1,50 @@
 <ng-container *ngIf="nodeId">
-    <adf-viewer [fileNodeId]="nodeId"></adf-viewer>
+    <adf-viewer
+        [fileNodeId]="nodeId"
+        [allowNavigate]="navigateMultiple"
+        [canNavigateBefore]="previousNodeId"
+        [canNavigateNext]="nextNodeId"
+        [overlayMode]="true"
+        (showViewerChange)="onVisibilityChanged($event)"
+        (navigateBefore)="onNavigateBefore()"
+        (navigateNext)="onNavigateNext()">
+
+        <adf-viewer-more-actions>
+
+            <button
+                mat-menu-item
+                #selection="adfFavorite"
+                [adf-node-favorite]="selectedEntities">
+                <mat-icon [ngClass]="{ 'icon-highlight': selection.hasFavorites() }">
+                    {{ selection.hasFavorites() ? 'star' :'star_border' }}
+                </mat-icon>
+                <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
+            </button>
+
+            <button
+                mat-menu-item
+                *ngIf="canCopyFile()"
+                [app-copy-node]="selectedEntities">
+                <mat-icon>content_copy</mat-icon>
+                <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
+            </button>
+
+            <button
+                mat-menu-item
+                *ngIf="canMoveFile()"
+                [app-move-node]="selectedEntities">
+                <mat-icon>library_books</mat-icon>
+                <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
+            </button>
+
+            <button
+                mat-menu-item
+                *ngIf="canDeleteFile()"
+                (click)="deleteFile()">
+                <mat-icon>delete</mat-icon>
+                <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
+            </button>
+
+        </adf-viewer-more-actions>
+    </adf-viewer>
 </ng-container>

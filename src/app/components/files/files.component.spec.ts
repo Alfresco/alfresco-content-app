@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,17 +24,28 @@
  */
 
 import { Observable } from 'rxjs/Rx';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async } from '@angular/core/testing';
-import { UploadService, NodesApiService, FileUploadCompleteEvent,
-        FileUploadDeleteEvent, FileModel, ContentService } from '@alfresco/adf-core';
-
-import { CommonModule } from '../../common/common.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule } from '@ngx-translate/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+    NotificationService, TranslationService, TranslationMock,
+    NodesApiService, AlfrescoApiService, ContentService,
+    UserPreferencesService, LogService, AppConfigService,
+    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    TimeAgoPipe, NodeNameTooltipPipe, FileSizePipe, NodeFavoriteDirective,
+    DataTableComponent, UploadService
+} from '@alfresco/adf-core';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { MatMenuModule, MatSnackBarModule, MatIconModule, MatDialogModule } from '@angular/material';
+import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
-import { GenericErrorComponent } from '../generic-error/generic-error.component';
+
 import { FilesComponent } from './files.component';
 
 describe('FilesComponent', () => {
@@ -49,17 +60,50 @@ describe('FilesComponent', () => {
     let router: Router;
     let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
+    let preferenceService: UserPreferencesService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
+                MatMenuModule,
+                NoopAnimationsModule,
+                HttpClientModule,
+                TranslateModule.forRoot(),
                 RouterTestingModule,
-                CommonModule
+                MatSnackBarModule, MatIconModule,
+                MatDialogModule
             ],
             declarations: [
                 FilesComponent,
-                GenericErrorComponent
-            ]
+                DataTableComponent,
+                TimeAgoPipe,
+                NodeNameTooltipPipe,
+                NodeFavoriteDirective,
+                DocumentListComponent,
+                FileSizePipe
+            ],
+            providers: [
+                { provide: ActivatedRoute, useValue: {
+                    params: Observable.of({ folderId: 'someId' }),
+                    snapshot: { data: { preferencePrefix: 'prefix' } }
+                } } ,
+                { provide: TranslationService, useClass: TranslationMock },
+                AuthenticationService,
+                UserPreferencesService,
+                AppConfigService, StorageService, CookieService,
+                AlfrescoApiService,
+                LogService,
+                NotificationService,
+                ContentManagementService,
+                ContentService,
+                NodesApiService,
+                DocumentListService,
+                ThumbnailService,
+                NodeActionsService,
+                UploadService,
+                BrowsingFilesService
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         }).compileComponents()
         .then(() => {
 
@@ -73,11 +117,12 @@ describe('FilesComponent', () => {
             alfrescoContentService = TestBed.get(ContentService);
             browsingFilesService = TestBed.get(BrowsingFilesService);
             nodeActionsService = TestBed.get(NodeActionsService);
+            preferenceService = TestBed.get(UserPreferencesService);
         });
     }));
 
     beforeEach(() => {
-        node = { id: 'node-id' };
+        node = { id: 'node-id', isFolder: true };
         page = {
             list: {
                 entries: ['a', 'b', 'c'],
@@ -134,6 +179,17 @@ describe('FilesComponent', () => {
 
             expect(component.onFetchError).toHaveBeenCalled();
         });
+
+        it('if should navigate to parent if node is not a folder', () => {
+            node.isFolder = false;
+            node.parentId = 'parent-id';
+            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(router, 'navigate');
+
+            fixture.detectChanges();
+
+            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['/personal-files', 'parent-id']);
+        });
     });
 
     describe('refresh on events', () => {
@@ -184,19 +240,19 @@ describe('FilesComponent', () => {
         });
 
         it('calls refresh deleteNode event', () => {
-            contentManagementService.deleteNode.next();
+            contentManagementService.nodeDeleted.next();
 
             expect(component.load).toHaveBeenCalled();
         });
 
         it('calls refresh moveNode event', () => {
-            contentManagementService.moveNode.next();
+            contentManagementService.nodeMoved.next();
 
             expect(component.load).toHaveBeenCalled();
         });
 
         it('calls refresh restoreNode event', () => {
-            contentManagementService.restoreNode.next();
+            contentManagementService.nodeRestored.next();
 
             expect(component.load).toHaveBeenCalled();
         });
@@ -304,6 +360,7 @@ describe('FilesComponent', () => {
         it('opens preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
             node.isFile = true;
+            node.isFolder = false;
 
             const event: any = {
                 detail: {
@@ -314,7 +371,7 @@ describe('FilesComponent', () => {
             };
             component.onNodeDoubleClick(event);
 
-            expect(router.navigate).toHaveBeenCalledWith(['/preview', node.id]);
+            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.id]);
         });
 
         it('navigate if node is folder', () => {
@@ -441,6 +498,57 @@ describe('FilesComponent', () => {
             component.navigate(node.id);
 
             expect(router.navigate).toHaveBeenCalledWith(['./'], jasmine.any(Object));
+        });
+    });
+
+    describe('isSiteContainer', () => {
+        it('should return false if node has no aspectNames', () => {
+            const mock  = { aspectNames: [] };
+
+            expect(component.isSiteContainer(mock)).toBe(false);
+        });
+
+        it('should return false if node is not site container', () => {
+            const mock  = { aspectNames: ['something-else'] };
+
+            expect(component.isSiteContainer(mock)).toBe(false);
+        });
+
+        it('should return true if node is a site container', () => {
+            const mock  = { aspectNames: [ 'st:siteContainer' ] };
+
+            expect(component.isSiteContainer(mock)).toBe(true);
+        });
+    });
+
+    describe('onSortingChanged', () => {
+        it('should save sorting input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {
+                    key: 'some-name',
+                    direction: 'some-direction'
+                }
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
+        });
+
+        it('should save default sorting when no input', () => {
+            spyOn(preferenceService, 'set');
+
+            const event = <any>{
+                detail: {}
+             };
+
+            component.onSortingChanged(event);
+
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
+            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 });

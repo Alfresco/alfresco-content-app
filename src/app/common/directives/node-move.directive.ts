@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -64,7 +64,7 @@ export class NodeMoveDirective {
                 const [ operationResult, moveResponse ] = result;
                 this.toastMessage(operationResult, moveResponse);
 
-                this.content.moveNode.next(null);
+                this.content.nodeMoved.next(null);
             },
             (error) => {
                 this.toastMessage(error);
@@ -125,7 +125,7 @@ export class NodeMoveDirective {
         const beforePartialSuccessMessage = (successMessage && partialSuccessMessage) ? ' ' : '';
         const beforeFailedMessage = ((successMessage || partialSuccessMessage) && failedMessage) ? ' ' : '';
 
-        const initialParentId = this.nodeActionsService.getFirstParentId(this.selection);
+        const initialParentId = this.nodeActionsService.getEntryParentId(this.selection[0].entry);
 
         this.translation.get(
             [successMessage, partialSuccessMessage, failedMessage],
@@ -190,7 +190,7 @@ export class NodeMoveDirective {
             })
             .subscribe(
                 () => {
-                    this.content.moveNode.next(null);
+                    this.content.nodeMoved.next(null);
                 },
                 (error) => {
 

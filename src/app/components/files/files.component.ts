@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -49,19 +49,25 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private nodePath: PathElement[];
     private subscriptions: Subscription[] = [];
 
-    constructor(
-        private router: Router,
-        private zone: NgZone,
-        private route: ActivatedRoute,
-        private nodesApi: NodesApiService,
-        private nodeActionsService: NodeActionsService,
-        private uploadService: UploadService,
-        private contentManagementService: ContentManagementService,
-        private browsingFilesService: BrowsingFilesService,
-        private contentService: ContentService,
-        private apiService: AlfrescoApiService,
-        preferences: UserPreferencesService) {
+    sorting = [ 'modifiedAt', 'desc' ];
+
+    constructor(private router: Router,
+                private zone: NgZone,
+                private route: ActivatedRoute,
+                private nodesApi: NodesApiService,
+                private nodeActionsService: NodeActionsService,
+                private uploadService: UploadService,
+                private contentManagementService: ContentManagementService,
+                private browsingFilesService: BrowsingFilesService,
+                private contentService: ContentService,
+                private apiService: AlfrescoApiService,
+                preferences: UserPreferencesService) {
         super(preferences);
+
+        const sortingKey = this.preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
+        const sortingDirection = this.preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
     }
 
     ngOnInit() {
@@ -71,12 +77,19 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         this.routeData = data;
         this.title = data.i18nTitle;
 
-        route.params.subscribe(({ id }: Params) => {
-            const nodeId = id || data.defaultNodeId;
+        route.params.subscribe(({ folderId }: Params) => {
+            const nodeId = folderId || data.defaultNodeId;
             this.isLoading = true;
 
             this.fetchNode(nodeId)
-                .do((node) => this.updateCurrentNode(node))
+                .do((node) => {
+                    if (node.isFolder) {
+                        this.updateCurrentNode(node);
+                    } else {
+                        this.router.navigate(['/personal-files', node.parentId], { replaceUrl: true });
+                    }
+                })
+                .skipWhile(node => !node.isFolder)
                 .flatMap((node) => this.fetchNodes(node.id))
                 .subscribe(
                     (page) => {
@@ -94,9 +107,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
             contentService.folderCreate.subscribe(() => this.load(false, this.pagination)),
             contentService.folderEdit.subscribe(() => this.load(false, this.pagination)),
-            contentManagementService.deleteNode.subscribe(() => this.load(false, this.pagination)),
-            contentManagementService.moveNode.subscribe(() => this.load(false, this.pagination)),
-            contentManagementService.restoreNode.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.nodeDeleted.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.nodeMoved.subscribe(() => this.load(false, this.pagination)),
+            contentManagementService.nodeRestored.subscribe(() => this.load(false, this.pagination)),
             uploadService.fileUploadComplete.subscribe(file => this.onFileUploadedEvent(file)),
             uploadService.fileUploadDeleted.subscribe((file) => this.onFileUploadedEvent(file))
         ]);
@@ -148,7 +161,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                     event.preventDefault();
 
                 } else if (node.isFile) {
-                    this.router.navigate(['/preview', node.id]);
+                    this.router.navigate(['./preview', node.id], { relativeTo: this.route });
                 }
             }
 
@@ -158,7 +171,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     showPreview(node: MinimalNodeEntryEntity) {
         if (node) {
             if (node.isFile) {
-                this.router.navigate(['/preview', node.id]);
+                this.router.navigate(['./preview', node.id], { relativeTo: this.route });
             }
         }
     }
@@ -293,5 +306,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             return this.node.path.elements[0].id === nodeId;
         }
         return false;
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }

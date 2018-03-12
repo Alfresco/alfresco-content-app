@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -104,7 +104,7 @@ export class NodeCopyDirective {
             } catch (err) { /* Do nothing, keep the original message */ }
         }
 
-        const undo = (numberOfCopiedItems > 0) ? this.translation.translate.instant('APP.ACTIONS.UNDO') : '';
+        const undo = (numberOfCopiedItems > 0) ? this.translation.instant('APP.ACTIONS.UNDO') : '';
         const withUndo = (numberOfCopiedItems > 0) ? '_WITH_UNDO' : '';
 
         this.translation.get(i18nMessageString, { success: numberOfCopiedItems, failed: failedItems }).subscribe(message => {
@@ -122,7 +122,7 @@ export class NodeCopyDirective {
         Observable.forkJoin(...batch)
             .subscribe(
                 () => {
-                    this.content.deleteNode.next(null);
+                    this.content.nodeDeleted.next(null);
                 },
                 (error) => {
                     let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -22,8 +22,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-
-import { TestBed } from '@angular/core/testing';
 
 import { PageComponent } from './page.component';
 
@@ -298,6 +296,54 @@ describe('PageComponent', () => {
             const node = { allowableOperations: ['other-operation'] };
 
             expect(component.nodeHasPermission(node, 'some-operation')).toBe(false);
+        });
+    });
+
+    describe('canDeleteShared()', () => {
+        it('should return true if shared node can be deleted', () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['delete']
+            } } ];
+
+            expect(component.canDeleteShared(selection)).toBe(true);
+        });
+
+        it(`should return false if shared node doesn't have permission`, () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['something']
+             } } ];
+
+            expect(component.canDeleteShared(selection)).toBe(false);
+        });
+
+        it(`should return false if shared node doesn't have permissions property`, () => {
+            const selection = [ { entry: { } } ];
+
+            expect(component.canDeleteShared(selection)).toBe(false);
+        });
+    });
+
+    describe('canMoveShared()', () => {
+        it('should return true if shared node can be moved', () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['delete']
+            } } ];
+
+            expect(component.canMoveShared(selection)).toBe(true);
+        });
+
+        it(`should return false if shared node doesn't have permission`, () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['something']
+             } } ];
+
+            expect(component.canMoveShared(selection)).toBe(false);
+        });
+
+        it(`should return false if shared node doesn't have permissions property`, () => {
+            const selection = [ { entry: { } } ];
+
+            expect(component.canMoveShared(selection)).toBe(false);
         });
     });
 });

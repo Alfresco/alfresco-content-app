@@ -19,7 +19,7 @@
                 mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                [app-download-node]="documentList.selection">
+                [adfNodeDownload]="documentList.selection">
                 <mat-icon>get_app</mat-icon>
             </button>
 
@@ -91,7 +91,7 @@
                 [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
                 [loading]="isLoading"
                 [node]="paging"
-                [sorting]="[ 'modifiedAt', 'desc' ]"
+                [sorting]="sorting"
                 [allowDropFiles]="true"
 
                 [contextMenuActions]="true"
@@ -100,6 +100,7 @@
                 [selectionMode]="'multiple'"
                 [imageResolver]="imageResolver"
 
+                (sorting-changed)="onSortingChanged($event)"
                 (node-dblclick)="onNodeDoubleClick($event)"
                 (node-select)="onNodeSelect($event, documentList)">
 

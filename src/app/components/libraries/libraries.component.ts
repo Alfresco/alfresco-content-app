@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -38,12 +38,18 @@ export class LibrariesComponent extends PageComponent {
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
 
-    constructor(
-        private nodesApi: NodesApiService,
-        private route: ActivatedRoute,
-        private router: Router,
-        preferences: UserPreferencesService) {
+    sorting = [ 'title', 'asc' ];
+
+    constructor(private nodesApi: NodesApiService,
+                private route: ActivatedRoute,
+                private router: Router,
+                preferences: UserPreferencesService) {
         super(preferences);
+
+        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'title';
+        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
     }
 
     makeLibraryTooltip(library: any): string {
@@ -89,5 +95,14 @@ export class LibrariesComponent extends PageComponent {
 
     fetchNodes(): void {
         // todo: remove once all views migrate to native data source
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }

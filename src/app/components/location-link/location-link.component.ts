@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,7 +25,7 @@
 
 import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AlfrescoApiService, DataColumn, DataRow, DataTableAdapter } from '@alfresco/adf-core';
-import { PathInfoEntity, AlfrescoApi } from 'alfresco-js-api';
+import { PathInfoEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 
 @Component({

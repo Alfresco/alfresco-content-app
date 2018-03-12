@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,7 +24,7 @@
  */
 
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { MinimalNodeEntryEntity, MinimalNodeEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
@@ -44,21 +44,28 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
 
     private subscriptions: Subscription[] = [];
 
-    constructor(
-        private router: Router,
-        private nodesApi: NodesApiService,
-        private contentService: ContentService,
-        private content: ContentManagementService,
-        preferences: UserPreferencesService) {
+    sorting = [ 'modifiedAt', 'desc' ];
+
+    constructor(private router: Router,
+                private route: ActivatedRoute,
+                private nodesApi: NodesApiService,
+                private contentService: ContentService,
+                private content: ContentManagementService,
+                preferences: UserPreferencesService) {
         super(preferences);
+
+        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
+        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
     }
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            this.content.deleteNode.subscribe(() => this.refresh()),
-            this.content.restoreNode.subscribe(() => this.refresh()),
+            this.content.nodeDeleted.subscribe(() => this.refresh()),
+            this.content.nodeRestored.subscribe(() => this.refresh()),
             this.contentService.folderEdit.subscribe(() => this.refresh()),
-            this.content.moveNode.subscribe(() => this.refresh())
+            this.content.nodeMoved.subscribe(() => this.refresh())
         ]);
     }
 
@@ -95,7 +102,7 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
             }
 
             if (node.isFile) {
-                this.router.navigate(['/preview', node.id]);
+                this.router.navigate(['./preview', node.id], { relativeTo: this.route });
             }
         }
     }
@@ -108,5 +115,14 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
         if (this.documentList) {
             this.documentList.reload();
         }
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }

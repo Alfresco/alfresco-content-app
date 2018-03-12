@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,13 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { AlfrescoApiService, ContentService, NodesApiService, DataColumn, DataSorting } from '@alfresco/adf-core';
+import { AlfrescoApiService, ContentService, NodesApiService, DataColumn, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from '@alfresco/adf-content-services';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging } from 'alfresco-js-api';
 
 @Injectable()
 export class NodeActionsService {
@@ -39,12 +39,14 @@ export class NodeActionsService {
     contentCopied: Subject<MinimalNodeEntity[]> = new Subject<MinimalNodeEntity[]>();
     contentMoved: Subject<any> = new Subject<any>();
     moveDeletedEntries: any[] = [];
+    isSitesDestinationAvailable = false;
 
     constructor(private contentService: ContentService,
                 private dialog: MatDialog,
                 private documentListService: DocumentListService,
                 private apiService: AlfrescoApiService,
-                private nodesApi: NodesApiService) {}
+                private nodesApi: NodesApiService,
+                private translation: TranslationService) {}
 
     /**
      * Copy node list
@@ -121,7 +123,6 @@ export class NodeActionsService {
                         },
                         observable.error.bind(observable)
                     );
-                this.dialog.closeAll();
             });
 
         } else {
@@ -144,23 +145,7 @@ export class NodeActionsService {
         return !notAllowedNode;
     }
 
-    getFirstParentId(nodeEntities: any[]): string {
-        for (let i = 0; i < nodeEntities.length; i++) {
-            const nodeEntry = nodeEntities[i].entry;
-
-            if (nodeEntry.parentId) {
-                return nodeEntry.parentId;
-
-            } else if (nodeEntry.path && nodeEntry.path.elements && nodeEntry.path.elements.length) {
-                return nodeEntry.path.elements[nodeEntry.path.elements.length - 1].id;
-            }
-        }
-
-        // if no parent data is found, return the id of first item / the nodeId in case of Shared Files
-        return nodeEntities[0].entry.nodeId || nodeEntities[0].entry.id;
-    }
-
-    getEntryParentId(nodeEntry: any) {
+    getEntryParentId(nodeEntry: MinimalNodeEntryEntity) {
         let entryParentId = '';
 
         if (nodeEntry.parentId) {
@@ -173,33 +158,52 @@ export class NodeActionsService {
         return entryParentId;
     }
 
-    getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): EventEmitter<MinimalNodeEntryEntity[]> {
-        const currentParentFolderId = this.getFirstParentId(contentEntities);
+    getContentNodeSelection(action: string, contentEntities: MinimalNodeEntity[]): Subject<MinimalNodeEntryEntity[]> {
+        const currentParentFolderId = this.getEntryParentId(contentEntities[0].entry);
 
-        let nodeEntryName = '';
-        if (contentEntities.length === 1 && contentEntities[0].entry.name) {
-            nodeEntryName =  `'${contentEntities[0].entry.name}' `;
-        }
+        const customDropdown: SitePaging = {
+            list: {
+                entries: [
+                    {
+                        entry: {
+                            guid: '-my-',
+                            title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL'
+                        }
+                    },
+                    {
+                        entry: {
+                            guid: '-mysites-',
+                            title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL'
+                        }
+                    }
+                ]
+            }
+        };
 
+        const title = this.getTitleTranslation(action, contentEntities);
+
+        this.isSitesDestinationAvailable = false;
         const data: ContentNodeSelectorComponentData = {
-            title: `${action} ${nodeEntryName}to ...`,
+            title: title,
             currentFolderId: currentParentFolderId,
             actionName: action,
             dropdownHideMyFiles: true,
-            dropdownSiteList: [
-                {title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL', guid: '-my-'},
-                {title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL', guid: '-mysites-'}],
+            dropdownSiteList: customDropdown,
             rowFilter: this.rowFilter.bind(this),
             imageResolver: this.imageResolver.bind(this),
-            select: new EventEmitter<MinimalNodeEntryEntity[]>()
+            isSelectionValid: this.canCopyMoveInsideIt.bind(this),
+            breadcrumbTransform: this.customizeBreadcrumb.bind(this),
+            select: new Subject<MinimalNodeEntryEntity[]>()
         };
 
-        const matDialogRef = this.dialog.open(ContentNodeSelectorComponent, <any>{
+        /*const matDialogRef =*/ this.dialog.open(ContentNodeSelectorComponent, <any>{
             data,
             panelClass: 'adf-content-node-selector-dialog',
             width: '630px'
         });
-        const destinationPicker = matDialogRef.componentInstance;
+
+        // todo: add back the fix for [ACA-1054]:
+        /*  const destinationPicker = matDialogRef.componentInstance;
         const initialSiteChanged = destinationPicker.siteChanged;
 
         destinationPicker.siteChanged = (chosenSite) => {
@@ -210,19 +214,114 @@ export class NodeActionsService {
             } else {
                 destinationPicker.documentList.data.setSorting(new DataSorting('name', 'asc'));
             }
-        };
+        };*/
 
-        const initialGetNextPageOfSearch = destinationPicker.getNextPageOfSearch;
-        destinationPicker.getNextPageOfSearch = (event) => {
-            destinationPicker.infiniteScroll = true;
-            destinationPicker.skipCount = event.skipCount;
-
-            if (destinationPicker.searchTerm.length > 0) {
-                initialGetNextPageOfSearch.call(destinationPicker, event);
-            }
-        };
+        data.select.subscribe({
+            complete: this.close.bind(this)
+        });
 
         return data.select;
+    }
+
+    getTitleTranslation(action: string, nodes: MinimalNodeEntity[] = []): string {
+        let keyPrefix = 'ITEMS';
+        let name = '';
+
+        if (nodes.length === 1 && nodes[0].entry.name) {
+            name = nodes[0].entry.name;
+            keyPrefix = 'ITEM';
+        }
+
+        const number = nodes.length;
+        return this.translation.instant(`NODE_SELECTOR.${action.toUpperCase()}_${keyPrefix}`, {name, number});
+    }
+
+    private canCopyMoveInsideIt(entry: MinimalNodeEntryEntity): boolean {
+        return this.hasEntityCreatePermission(entry) && !this.isSite(entry);
+    }
+
+    private hasEntityCreatePermission(entry: MinimalNodeEntryEntity): boolean {
+        return this.contentService.hasPermission(entry, 'create');
+    }
+
+    private isSite(entry) {
+        return !!entry.guid || entry.nodeType === 'st:site' || entry.nodeType === 'st:sites';
+    }
+
+    close() {
+        this.dialog.closeAll();
+    }
+
+    // todo: review this approach once 5.2.3 is out
+    private customizeBreadcrumb(node: MinimalNodeEntryEntity) {
+
+        if (node && node.path && node.path.elements) {
+            const elements = node.path.elements;
+
+            if (elements.length > 1) {
+                if (elements[1].name === 'User Homes') {
+                    elements.splice(0, 2);
+
+                    // make sure first item is 'Personal Files'
+                    if (elements[0]) {
+                        elements[0].name = this.translation.instant('APP.BROWSE.PERSONAL.TITLE');
+                        elements[0].id = '-my-';
+                    } else {
+                        node.name = this.translation.instant('APP.BROWSE.PERSONAL.TITLE');
+                    }
+
+                } else if (elements[1].name === 'Sites') {
+                    this.normalizeSitePath(node);
+                }
+
+            } else if (elements.length === 1) {
+                if (node.name === 'Sites') {
+                    node.name = this.translation.instant('APP.BROWSE.LIBRARIES.TITLE');
+                    elements.splice(0, 1);
+                }
+            }
+        } else if (node === null && this.isSitesDestinationAvailable) {
+            node = {
+                name: this.translation.instant('APP.BROWSE.LIBRARIES.TITLE'),
+                path: { elements: [] }
+            };
+        }
+
+        return node;
+    }
+
+    // todo: review this approach once 5.2.3 is out
+    private normalizeSitePath(node: MinimalNodeEntryEntity) {
+        const elements = node.path.elements;
+
+        // remove 'Company Home'
+        elements.splice(0, 1);
+
+        // replace first item with 'File Libraries'
+        elements[0].name = this.translation.instant('APP.BROWSE.LIBRARIES.TITLE');
+        // elements[0].id = '-mysites-'; // commented this until navigation on custom sources is enabled on document-list
+
+        if (this.isSiteContainer(node)) {
+            // rename 'documentLibrary' entry to the target site display name
+            // clicking on the breadcrumb entry loads the site content
+            node.name = elements[1].name;
+
+            // remove the site entry
+            elements.splice(1, 1);
+        } else {
+            // remove 'documentLibrary' in the middle of the path
+            const docLib = elements.findIndex(el => el.name === 'documentLibrary');
+            if (docLib > -1) {
+                elements.splice(docLib, 1);
+            }
+        }
+    }
+
+    isSiteContainer(node: MinimalNodeEntryEntity): boolean {
+        if (node && node.aspectNames && node.aspectNames.length > 0) {
+            return node.aspectNames.indexOf('st:siteContainer') >= 0;
+        }
+        return false;
     }
 
     copyNodeAction(nodeEntry, selectionId): Observable<any> {
@@ -454,6 +553,8 @@ export class NodeActionsService {
     // todo: review once 1.10-beta6 is out
     private rowFilter(row: /*ShareDataRow*/ any): boolean {
         const node: MinimalNodeEntryEntity = row.node.entry;
+
+        this.isSitesDestinationAvailable = !!node['guid'];
         return (!node.isFile && (node.nodeType !== 'app:folderlink'));
     }
 

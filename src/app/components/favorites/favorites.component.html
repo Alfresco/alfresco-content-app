@@ -17,7 +17,7 @@
                 mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                [app-download-node]="documentList.selection">
+                [adfNodeDownload]="documentList.selection">
                 <mat-icon>get_app</mat-icon>
             </button>
 
@@ -42,6 +42,7 @@
                 <button
                     mat-menu-item
                     #selection="adfFavorite"
+                    (toggle)="refresh()"
                     [adf-node-favorite]="documentList.selection">
                     <mat-icon [ngClass]="{ 'icon-highlight': selection.hasFavorites() }">
                         {{ selection.hasFavorites() ? 'star' :'star_border' }}
@@ -79,18 +80,19 @@
             currentFolderId="-favorites-"
             selectionMode="multiple"
             [navigate]="false"
-            [sorting]="[ 'modifiedAt', 'desc' ]"
+            [sorting]="sorting"
             [contextMenuActions]="true"
             [contentActions]="false"
+            (sorting-changed)="onSortingChanged($event)"
             (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
 
             <empty-folder-content>
                 <ng-template>
-                    <div class="empty-list__block">
-                        <mat-icon>star_rate</mat-icon>
-                        <p class="empty-list__title">{{ 'APP.BROWSE.FAVORITES.EMPTY_STATE.TITLE' | translate }}</p>
-                        <p class="empty-list__text">{{ 'APP.BROWSE.FAVORITES.EMPTY_STATE.TEXT' | translate }}</p>
-                    </div>
+                    <app-empty-folder
+                        icon="star_rate"
+                        title="APP.BROWSE.FAVORITES.EMPTY_STATE.TITLE"
+                        subtitle="APP.BROWSE.FAVORITES.EMPTY_STATE.TEXT">
+                    </app-empty-folder>
                 </ng-template>
             </empty-folder-content>
 

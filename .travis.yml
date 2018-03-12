@@ -1,5 +1,5 @@
 dist: trusty
-sudo: false
+sudo: required
 
 language: node_js
 node_js:
@@ -9,15 +9,25 @@ cache:
   directories:
     - ./node_modules
 
-
-before_install:
-  - export CHROME_BIN=chromium-browser
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+services:
+  - docker
 
 install:
   - npm install
 
 script:
-  - xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
-  #- xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
+  - npm run build
+  - npm run test -- --single-run --no-progress && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage
+
+# Send coverage data to codecov
+after_success:
+  - bash <(curl -s https://codecov.io/bash) -X gcov
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
+  - export TAG=`if [ "$BRANCH" == "master" ]; then echo "latest"; else echo $BRANCH ; fi`
+  - sed -i 's/{:port}/:8080/1' ./dist/app.config.json
+  - docker build -t $DOCKER_REPO:$TAG .
+  # Publish extra image based on Travis build number
+  - docker tag $DOCKER_REPO:$TAG $DOCKER_REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+  - docker push $DOCKER_REPO

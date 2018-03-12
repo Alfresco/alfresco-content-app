@@ -17,7 +17,7 @@
                 mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                [app-download-node]="documentList.selection">
+                [adfNodeDownload]="documentList.selection">
                 <mat-icon>get_app</mat-icon>
             </button>
 
@@ -50,7 +50,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canMove(documentList.selection)"
+                    *ngIf="canMoveShared(documentList.selection)"
                     [app-move-node]="documentList.selection">
                     <mat-icon>library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -59,6 +59,15 @@
                 <button
                     mat-menu-item
                     *ngIf="canDelete(documentList.selection)"
+                    [appUnshareNode]="documentList.selection"
+                    (links-unshared)="refresh()">
+                    <mat-icon>stop_screen_share</mat-icon>
+                    <span>{{ 'APP.ACTIONS.UNSHARE' | translate }}</span>
+                </button>
+
+                <button
+                    mat-menu-item
+                    *ngIf="canDeleteShared(documentList.selection)"
                     [app-delete-node]="documentList.selection">
                     <mat-icon>delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -72,18 +81,19 @@
             [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
             currentFolderId="-sharedlinks-"
             selectionMode="multiple"
-            [sorting]="[ 'modifiedAt', 'desc' ]"
+            [sorting]="sorting"
             [contextMenuActions]="true"
             [contentActions]="false"
+            (sorting-changed)="onSortingChanged($event)"
             (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
 
             <empty-folder-content>
                 <ng-template>
-                    <div class="empty-list__block">
-                        <mat-icon>people</mat-icon>
-                        <p class="empty-list__title">{{ 'APP.BROWSE.SHARED.EMPTY_STATE.TITLE' | translate }}</p>
-                        <p class="empty-list__text">{{ 'APP.BROWSE.SHARED.EMPTY_STATE.TEXT' | translate }}</p>
-                    </div>
+                    <app-empty-folder
+                        icon="people"
+                        title="APP.BROWSE.SHARED.EMPTY_STATE.TITLE"
+                        subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT">
+                    </app-empty-folder>
                 </ng-template>
             </empty-folder-content>
 

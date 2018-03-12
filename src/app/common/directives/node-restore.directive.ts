@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -28,7 +28,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
-import { MinimalNodeEntity, DeletedNodeEntry, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
+import { MinimalNodeEntity, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
 
 @Directive({
     selector: '[app-restore-node]'

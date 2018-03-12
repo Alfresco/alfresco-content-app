@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,13 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ContentService, AppConfigService } from '@alfresco/adf-core';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatMenuModule } from '@angular/material';
+import { HttpClientModule } from '@angular/common/http';
+import {
+    ContentService, AppConfigService, AuthenticationService,
+    UserPreferencesService, StorageService, AlfrescoApiService,
+    CookieService, LogService
+} from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 
 import { SidenavComponent } from './sidenav.component';
-import { CommonModule } from './../../common/common.module';
 
 describe('SidenavComponent', () => {
     let fixture;
@@ -49,12 +56,26 @@ describe('SidenavComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                RouterTestingModule,
-                CommonModule
+                HttpClientModule,
+                MatMenuModule,
+                TranslateModule.forRoot(),
+                RouterTestingModule
             ],
             declarations: [
                 SidenavComponent
-            ]
+            ],
+            providers: [
+                LogService,
+                CookieService,
+                AlfrescoApiService,
+                StorageService,
+                UserPreferencesService,
+                AuthenticationService,
+                ContentService,
+                AppConfigService,
+                BrowsingFilesService
+            ],
+            schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents()
         .then(() => {

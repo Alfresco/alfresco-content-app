@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,6 +24,7 @@
  */
 
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
@@ -38,12 +39,20 @@ export class TrashcanComponent implements OnInit, OnDestroy {
 
     @ViewChild(DocumentListComponent) documentList;
 
-    constructor(
-        private contentManagementService: ContentManagementService,
-        private preferences: UserPreferencesService) {}
+    sorting = [ 'archivedAt', 'desc' ];
+
+    constructor(private contentManagementService: ContentManagementService,
+                private preferences: UserPreferencesService,
+                private route: ActivatedRoute) {
+
+        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'archivedAt';
+        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
+
+        this.sorting = [sortingKey, sortingDirection];
+    }
 
     ngOnInit() {
-        this.subscriptions.push(this.contentManagementService.restoreNode.subscribe(() => this.refresh()));
+        this.subscriptions.push(this.contentManagementService.nodeRestored.subscribe(() => this.refresh()));
     }
 
     refresh(): void {
@@ -57,5 +66,14 @@ export class TrashcanComponent implements OnInit, OnDestroy {
 
     onChangePageSize(event: Pagination): void {
         this.preferences.paginationSize = event.maxItems;
+    }
+
+    onSortingChanged(event: CustomEvent) {
+        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'archivedAt');
+        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    private get prefix() {
+        return this.route.snapshot.data.preferencePrefix;
     }
 }

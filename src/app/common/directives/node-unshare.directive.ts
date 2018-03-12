@@ -23,11 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
+import { Directive, HostListener, Input, ElementRef } from '@angular/core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
-export const environment = {
-  production: false
-};
+@Directive({
+    selector: '[appUnshareNode]'
+})
+export class NodeUnshareDirective {
+
+    // tslint:disable-next-line:no-input-rename
+    @Input('appUnshareNode')
+    selection: MinimalNodeEntity[];
+
+    constructor(
+        private apiService: AlfrescoApiService,
+        private el: ElementRef) {
+    }
+
+    @HostListener('click')
+    onClick() {
+        if (this.selection.length > 0) {
+            this.unshareLinks(this.selection);
+        }
+    }
+
+    private async unshareLinks(links: MinimalNodeEntity[]) {
+        const promises = links.map(link => this.apiService.sharedLinksApi.deleteSharedLink(link.entry.id));
+        await Promise.all(promises);
+        this.emitDone();
+    }
+
+    private emitDone() {
+        const e = new CustomEvent('links-unshared', { bubbles: true });
+        this.el.nativeElement.dispatchEvent(e);
+    }
+
+}

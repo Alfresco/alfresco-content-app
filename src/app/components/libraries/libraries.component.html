@@ -13,18 +13,19 @@
             currentFolderId="-mysites-"
             selectionMode="none"
             [navigate]="false"
-            [sorting]="[ 'name', 'asc' ]"
+            [sorting]="sorting"
             [contextMenuActions]="true"
             [contentActions]="false"
+            (sorting-changed)="onSortingChanged($event)"
             (node-dblclick)="onNodeDoubleClick($event)">
 
             <empty-folder-content>
                 <ng-template>
-                    <div class="empty-list__block">
-                        <mat-icon>group_work</mat-icon>
-                        <p class="empty-list__title">{{ 'APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE' | translate }}</p>
-                        <p class="empty-list__text">{{ 'APP.BROWSE.LIBRARIES.EMPTY_STATE.TEXT' | translate }}</p>
-                    </div>
+                    <app-empty-folder
+                        icon="group_work"
+                        title="APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE"
+                        subtitle="APP.BROWSE.LIBRARIES.EMPTY_STATE.TEXT">
+                    </app-empty-folder>
                 </ng-template>
             </empty-folder-content>
 

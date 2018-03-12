@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2017 Alfresco Software Limited
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -42,13 +42,6 @@ import { GenericErrorComponent } from './components/generic-error/generic-error.
 
 export const APP_ROUTES: Routes = [
     {
-        path: 'preview/:nodeId',
-        component: PreviewComponent,
-        data: {
-            i18nTitle: 'APP.PREVIEW.TITLE'
-        }
-    },
-    {
         path: 'login',
         component: LoginComponent,
         data: {
@@ -66,13 +59,33 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'favorites',
-                component: FavoritesComponent,
                 data: {
-                    i18nTitle: 'APP.BROWSE.FAVORITES.TITLE'
-                }
+                    preferencePrefix: 'favorites'
+                },
+                children: [
+                    {
+                        path: '',
+                        component: FavoritesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.FAVORITES.TITLE'
+                        }
+                    },
+                    {
+                        path: 'preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'favorites'
+                        }
+                    }
+                ]
             },
             {
                 path: 'libraries',
+                data: {
+                    preferencePrefix: 'libraries'
+                },
                 children: [{
                     path: '',
                     component: LibrariesComponent,
@@ -80,49 +93,119 @@ export const APP_ROUTES: Routes = [
                         i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE'
                     }
                 }, {
-                    path: ':id',
+                    path: ':folderId',
                     component: FilesComponent,
                     data: {
-                        i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE'
+                        i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE',
+                        preferencePrefix: 'libraries-files'
                     }
-                }]
+                },
+                {
+                    path: ':folderId/preview/:nodeId',
+                    component: PreviewComponent,
+                    data: {
+                        i18nTitle: 'APP.PREVIEW.TITLE',
+                        navigateMultiple: true,
+                        navigateSource: 'libraries'
+                    }
+                }
+                ]
             },
             {
                 path: 'personal-files',
-                children: [{
-                    path: '',
-                    component: FilesComponent,
-                    data: {
-                        i18nTitle: 'APP.BROWSE.PERSONAL.TITLE',
-                        defaultNodeId: '-my-'
+                data: {
+                    preferencePrefix: 'personal-files'
+                },
+                children: [
+                    {
+                        path: '',
+                        component: FilesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.PERSONAL.TITLE',
+                            defaultNodeId: '-my-'
+                        }
+                    },
+                    {
+                        path: ':folderId',
+                        component: FilesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.PERSONAL.TITLE'
+                        }
+                    },
+                    {
+                        path: 'preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'personal-files'
+                        }
+                    },
+                    {
+                        path: ':folderId/preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'personal-files'
+                        }
                     }
-                }, {
-                    path: ':id',
-                    component: FilesComponent,
-                    data: {
-                        i18nTitle: 'APP.BROWSE.PERSONAL.TITLE'
-                    }
-                }]
+                ]
             },
             {
                 path: 'recent-files',
-                component: RecentFilesComponent,
                 data: {
-                    i18nTitle: 'APP.BROWSE.RECENT.TITLE'
-                }
+                    preferencePrefix: 'recent-files'
+                },
+                children: [
+                    {
+                        path: '',
+                        component: RecentFilesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.RECENT.TITLE'
+                        }
+                    },
+                    {
+                        path: 'preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'recent-files'
+                        }
+                    }
+                ]
             },
             {
                 path: 'shared',
-                component: SharedFilesComponent,
                 data: {
-                    i18nTitle: 'APP.BROWSE.SHARED.TITLE'
-                }
+                    preferencePrefix: 'shared-files'
+                },
+                children: [
+                    {
+                        path: '',
+                        component: SharedFilesComponent,
+                        data: {
+                            i18nTitle: 'APP.BROWSE.SHARED.TITLE'
+                        }
+                    },
+                    {
+                        path: 'preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'shared'
+                        }
+                    }
+                ]
             },
             {
                 path: 'trashcan',
                 component: TrashcanComponent,
                 data: {
-                    i18nTitle: 'APP.BROWSE.TRASHCAN.TITLE'
+                    i18nTitle: 'APP.BROWSE.TRASHCAN.TITLE',
+                    preferencePrefix: 'trashcan'
                 }
             },
             {
