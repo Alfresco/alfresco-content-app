@@ -299,7 +299,7 @@ export class NodeActionsService {
 
         // replace first item with 'File Libraries'
         elements[0].name = this.translation.instant('APP.BROWSE.LIBRARIES.TITLE');
-        // elements[0].id = '-mysites-'; // commented this until navigation on custom sources is enabled on document-list
+        elements[0].id = '-mysites-';
 
         if (this.isSiteContainer(node)) {
             // rename 'documentLibrary' entry to the target site display name
