@@ -79,27 +79,24 @@ export class AboutComponent implements OnInit {
             ]);
         });
 
-
-        this.http.get('https://api.github.com/repos/Alfresco/alfresco-content-app/releases/latest')
+        this.http.get('/versions.json')
             .map(response => response.json())
-            .subscribe(data => {
-                this.releaseVersion = data.name;
+            .subscribe(response => {
+                const regexp = new RegExp('^(@alfresco|alfresco-)');
+
+                const alfrescoPackagesTableRepresentation = Object.keys(response.dependencies)
+                    .filter((val) => regexp.test(val))
+                    .map((val) => ({
+                        name: val,
+                        version: response.dependencies[val].version
+                    }));
+
+                this.data = new ObjectDataTableAdapter(alfrescoPackagesTableRepresentation, [
+                    {type: 'text', key: 'name', title: 'Name', sortable: true},
+                    {type: 'text', key: 'version', title: 'Version', sortable: true}
+                ]);
+
+                this.releaseVersion = response.version;
             });
-
-        this.http.get('/versions.json').subscribe(response => {
-            const regexp = new RegExp('^(@alfresco|alfresco-)');
-
-            const alfrescoPackagesTableRepresentation = Object.keys(response.json().dependencies)
-                .filter((val) => regexp.test(val))
-                .map((val) => ({
-                    name: val,
-                    version: response.json().dependencies[val].version
-                }));
-
-            this.data = new ObjectDataTableAdapter(alfrescoPackagesTableRepresentation, [
-                {type: 'text', key: 'name', title: 'Name', sortable: true},
-                {type: 'text', key: 'version', title: 'Version', sortable: true}
-            ]);
-        });
     }
 }
