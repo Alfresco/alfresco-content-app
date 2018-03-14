@@ -91,7 +91,6 @@ update_component_js_version(){
    sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \".*\"/\"${PACKAGETOCHANGE}\": \"${1}\"/g"  $DIR/../package.json
    sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \"~.*\"/\"${PACKAGETOCHANGE}\": \"${1}\"/g"  $DIR/../package.json
    sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \"^.*\"/\"${PACKAGETOCHANGE}\": \"${1}\"/g"  $DIR/../package.json
-
 }
 
 while [[ $1  == -* ]]; do
