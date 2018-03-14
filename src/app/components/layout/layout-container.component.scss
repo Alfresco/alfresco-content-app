@@ -1,0 +1,40 @@
+@mixin transition($property) {
+    transition-property: $property !important;
+    transition-duration: 0.4s !important;
+    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+ng-content {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.mat-sidenav-container {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.mat-sidenav {
+    background: #fafafa;
+    border-right: 1px solid rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+}
+
+.mat-sidenav-content {
+    @include transition('margin-left');
+}
+
+.mat-drawer-transition .mat-drawer-content {
+    @include transition('margin-left');
+}

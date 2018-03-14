@@ -1,4 +1,4 @@
-@import './_variables.scss';
+@import 'variables';
 
 $app-layout--header-height: 65px;
 $app-layout--side-width: 320px;
@@ -25,12 +25,6 @@ $app-inner-layout--footer-height: 48px;
         & > * {
             display: flex;
             flex: 1;
-        }
-
-        &-side {
-            flex: 0 0 $app-layout--side-width;
-            background: $alfresco-gray-background;
-            border-right: 1px solid $alfresco-divider-color;
         }
     }
 
@@ -71,6 +65,7 @@ $app-inner-layout--footer-height: 48px;
         flex-direction: column;
         flex: 1;
         overflow: hidden;
+        background: #fff;
     }
 
     &__content--scroll {
