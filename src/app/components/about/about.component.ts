@@ -40,7 +40,7 @@ export class AboutComponent implements OnInit {
     license: ObjectDataTableAdapter;
     modules: ObjectDataTableAdapter;
     githubUrlCommitAlpha = 'https://github.com/Alfresco/alfresco-content-app/commits';
-
+    releaseVersion = '';
 
     constructor(
         private discovery: DiscoveryApiService,
@@ -78,6 +78,13 @@ export class AboutComponent implements OnInit {
                 {type: 'text', key: 'isCryptodocEnabled', title: 'Cryptodoc Enable', sortable: true}
             ]);
         });
+
+
+        this.http.get('https://api.github.com/repos/Alfresco/alfresco-content-app/releases/latest')
+            .map(response => response.json())
+            .subscribe(data => {
+                this.releaseVersion = data.name;
+            });
 
         this.http.get('/versions.json').subscribe(response => {
             const regexp = new RegExp('^(@alfresco|alfresco-)');
