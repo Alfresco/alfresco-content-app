@@ -85,12 +85,12 @@ update_component_dependency_version(){
 }
 
 update_component_js_version(){
-   echo "====== UPDATE DEPENDENCY VERSION of alfresco-js-api in ${1} to ${2} ======"
+   echo "====== UPDATE DEPENDENCY VERSION of alfresco-js-api in ${1} ======"
    PACKAGETOCHANGE="alfresco-js-api"
 
-   sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \".*\"/\"${PACKAGETOCHANGE}\": \"${2}\"/g"  $DIR/../package.json
-   sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \"~.*\"/\"${PACKAGETOCHANGE}\": \"${2}\"/g"  $DIR/../package.json
-   sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \"^.*\"/\"${PACKAGETOCHANGE}\": \"${2}\"/g"  $DIR/../package.json
+   sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \".*\"/\"${PACKAGETOCHANGE}\": \"${1}\"/g"  $DIR/../package.json
+   sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \"~.*\"/\"${PACKAGETOCHANGE}\": \"${1}\"/g"  $DIR/../package.json
+   sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \"^.*\"/\"${PACKAGETOCHANGE}\": \"${1}\"/g"  $DIR/../package.json
 
 }
 
@@ -130,9 +130,9 @@ if $EXEC_COMPONENT == true; then
      if $JS_API == true; then
 
       if $DIFFERENT_JS_API == true; then
-          update_component_js_version ${projects[$i]} ${VERSION_JS_API}
+          update_component_js_version ${VERSION_JS_API}
       else
-          update_component_js_version ${projects[$i]} ${VERSION}
+          update_component_js_version ${VERSION}
       fi
 
      fi
