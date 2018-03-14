@@ -1,4 +1,8 @@
-@import '../_variables.scss';
+@import 'variables';
+
+.upload-dialog {
+    z-index: 999;
+}
 
 .adf-file-uploading-row {
     &__status {

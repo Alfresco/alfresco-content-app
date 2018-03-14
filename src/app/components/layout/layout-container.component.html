@@ -1,0 +1,12 @@
+<mat-sidenav-container>
+    <mat-sidenav
+        [@miniSidenavAnimation]="sidenavAnimationState"
+        [opened]="!mobileQuery.matches"
+        [mode]="mobileQuery.matches ? 'over' : 'side'">
+        <ng-content sidenav select="[app-layout-navigation]"></ng-content>
+    </mat-sidenav>
+
+    <mat-sidenav-content [style.marginLeft.px]="sidenavAnimationState.params.width">
+        <ng-content select="[app-layout-content]"></ng-content>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,5 +1,9 @@
 <adf-toolbar class="app-menu" [style.background-color]="backgroundColor">
     <adf-toolbar-title>
+        <button mat-icon-button (click)="toggleMenu()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
         <a class="app-menu__title"
             title="{{ appName }}"
             [routerLink]="[ '/' ]">
