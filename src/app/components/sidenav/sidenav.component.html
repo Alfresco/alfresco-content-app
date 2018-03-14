@@ -1,8 +1,15 @@
 <div class="sidenav">
-    <div class="sidenav__section sidenav__section--new">
-        <button class="sidenav__section--new__button" mat-button [matMenuTriggerFor]="menu">
+    <div class="sidenav__section sidenav__section--new" [ngClass]="{ 'section--new--mini': !showLabel }">
+        <button *ngIf="showLabel"
+            class="sidenav__section--new__button" mat-button [matMenuTriggerFor]="menu">
             <span>{{ 'APP.NEW_MENU.LABEL' | translate }}</span>
             <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+
+        <button
+            class="new__button--mini"
+            *ngIf="!showLabel" mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>add_box</mat-icon>
         </button>
 
         <mat-menu #menu="matMenu" [overlapTrigger]="false">
@@ -52,14 +59,14 @@
         <ul class="sidenav-menu">
             <li class="sidenav-menu__item" *ngFor="let item of list">
                 <a
-                    class="sidenav-menu__item-link"
+                    class="sidenav-link"
                     [ngClass]="{ 'sidenav-menu__item-link--noicon' : !item.icon }"
-                    routerLinkActive="sidenav-menu__item-link--active"
+                    routerLinkActive="sidenav-link--active"
                     [routerLink]="item.disabled? null : item.route.url"
                     [ngClass]="{ 'disabled': item.disabled }"
                     title="{{ item.title || '' | translate }}">
-                    <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
-                    {{ item.label | translate }}
+                    <mat-icon class="sidenav-link__icon">{{ item.icon }}</mat-icon>
+                    <span class="sidenav-link__label" *ngIf="showLabel">{{ item.label | translate }}</span>
                 </a>
             </li>
         </ul>

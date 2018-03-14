@@ -1,6 +1,7 @@
 @import 'variables';
 
 .app-menu {
+    height: $app-menu-height;
 
     &.adf-toolbar {
         .mat-toolbar {
@@ -26,12 +27,20 @@
                 background-color: $alfresco-white !important;
             }
         }
+
+        .adf-toolbar-title {
+            color:  $alfresco-white;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
     .app-menu__title {
         width: 100px;
         height: 50px;
-        margin-left: 5px;
+        margin-left: 40px;
         display: flex;
         justify-content: center;
         align-items: stretch;

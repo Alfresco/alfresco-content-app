@@ -24,9 +24,7 @@
  */
 
 import { Subscription } from 'rxjs/Rx';
-
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ContentService, AppConfigService } from '@alfresco/adf-core';
 
@@ -38,6 +36,8 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
     styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit, OnDestroy {
+    @Input() showLabel: boolean;
+
     node: MinimalNodeEntryEntity = null;
     navigation = [];
 

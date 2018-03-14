@@ -45,6 +45,7 @@ import { RecentFilesComponent } from './components/recent-files/recent-files.com
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { LayoutContainerComponent } from './components/layout/layout-container.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { SearchComponent } from './components/search/search.component';
@@ -69,6 +70,7 @@ import { EmptyFolderComponent } from './components/empty-folder/empty-folder.com
         GenericErrorComponent,
         LoginComponent,
         LayoutComponent,
+        LayoutContainerComponent,
         HeaderComponent,
         CurrentUserComponent,
         SearchComponent,
