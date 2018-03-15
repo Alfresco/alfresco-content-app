@@ -3,23 +3,23 @@
         [parentId]="node?.id"
         [disabled]="!canCreateContent(node)">
 
-            <app-header (menu)="container.toggleMenu()"></app-header>
+        <app-header (menu)="container.toggleMenu()"></app-header>
 
-            <app-layout-container #container
-                sidenavMin="70"
-                sidenavMax="320"
-                [stepOver]="600"
-                [hideSidenav]="isPreview"
-                class="layout__content">
+        <app-layout-container #container
+            sidenavMin="70"
+            sidenavMax="320"
+            [stepOver]="600"
+            [hideSidenav]="isPreview"
+            class="layout__content">
 
-                <app-sidenav
-                    app-layout-navigation
-                    [showLabel]="!container.isMenuMinimized">
-                </app-sidenav>
+            <app-sidenav
+                app-layout-navigation
+                [showLabel]="!container.isMenuMinimized">
+            </app-sidenav>
 
-                <router-outlet app-layout-content></router-outlet>
-            </app-layout-container>
+            <router-outlet app-layout-content></router-outlet>
+        </app-layout-container>
 
-    <adf-file-uploading-dialog position="left"></adf-file-uploading-dialog>
+        <adf-file-uploading-dialog position="left"></adf-file-uploading-dialog>
     </adf-upload-drag-area>
 </div>
