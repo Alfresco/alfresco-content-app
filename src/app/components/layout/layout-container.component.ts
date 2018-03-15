@@ -37,12 +37,11 @@ import { miniSidenavAnimation } from './animations';
 })
 export class LayoutContainerComponent implements OnInit, OnDestroy {
     static STEP_OVER = 600;
-    static COMPACT = true;
 
     @Input() sidenavMin: number;
     @Input() sidenavMax: number;
-    @Input() sidenavCompact: boolean = LayoutContainerComponent.COMPACT;
     @Input() stepOver: number;
+    @Input() hideSidenav: boolean = false;
 
     @ViewChild(MatSidenav) sidenav: MatSidenav;
 
@@ -56,7 +55,6 @@ export class LayoutContainerComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const stepOver = this.stepOver || LayoutContainerComponent.STEP_OVER;
-
         this.mobileQuery = this.mediaMatcher.matchMedia(`(max-width: ${stepOver}px)`);
         this.mobileQuery.addListener(this.mobileQueryListener);
         this.sidenavAnimationState = { value: 'expanded', params: { width: this.sidenavMax } };
@@ -68,13 +66,13 @@ export class LayoutContainerComponent implements OnInit, OnDestroy {
 
     toggleMenu(): void {
 
-        if (!this.mobileQuery.matches && this.sidenavCompact) {
+        if (!this.mobileQuery.matches) {
             this.isMenuMinimized = !this.isMenuMinimized;
 
             this.sidenavAnimationState =
-            this.sidenavAnimationState.value === 'expanded'
-                ? { value: 'compact', params: {width: this.sidenavMin } }
-                : { value: 'expanded', params: { width: this.sidenavMax } };
+                this.sidenavAnimationState.value === 'expanded'
+                    ? { value: 'compact', params: {width: this.sidenavMin } }
+                    : { value: 'expanded', params: { width: this.sidenavMax } };
 
         } else {
             this.isMenuMinimized = false;

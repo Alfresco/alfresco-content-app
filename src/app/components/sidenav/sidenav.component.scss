@@ -13,6 +13,9 @@ $sidenav-menu-item--icon-size: 24px;
         display: flex;
         flex: 1;
         flex-direction: column;
+        background: #fafafa;
+        border-right: 1px solid rgba(0, 0, 0, 0.07);
+        height: 100%;
 
         &__section:last-child {
             border-bottom: 0;
