@@ -1,5 +1,6 @@
 <mat-sidenav-container>
     <mat-sidenav
+        [ngClass]="{ 'sidenav--hide': hideSidenav }"
         [@miniSidenavAnimation]="sidenavAnimationState"
         [opened]="!mobileQuery.matches"
         [mode]="mobileQuery.matches ? 'over' : 'side'">

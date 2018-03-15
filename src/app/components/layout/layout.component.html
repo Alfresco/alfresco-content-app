@@ -9,6 +9,7 @@
             sidenavMin="70"
             sidenavMax="320"
             [stepOver]="600"
+            [hideSidenav]="isPreview"
             class="layout__content">
 
             <app-sidenav
@@ -16,9 +17,9 @@
                 [showLabel]="!container.isMenuMinimized">
             </app-sidenav>
 
-             <router-outlet app-layout-content></router-outlet>
+            <router-outlet app-layout-content></router-outlet>
         </app-layout-container>
 
-    <adf-file-uploading-dialog position="left"></adf-file-uploading-dialog>
+        <adf-file-uploading-dialog position="left"></adf-file-uploading-dialog>
     </adf-upload-drag-area>
 </div>

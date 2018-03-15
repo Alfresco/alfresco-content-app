@@ -18,6 +18,10 @@ ng-content {
     overflow: hidden;
 }
 
+.sidenav--hide {
+    visibility: hidden !important;
+}
+
 .mat-sidenav-container {
     display: block;
     width: 100%;
@@ -26,8 +30,6 @@ ng-content {
 }
 
 .mat-sidenav {
-    background: #fafafa;
-    border-right: 1px solid rgba(0, 0, 0, 0.07);
     overflow: hidden;
 }
 
