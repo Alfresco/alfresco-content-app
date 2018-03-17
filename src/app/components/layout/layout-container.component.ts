@@ -26,14 +26,13 @@
 import { Component, Input, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import {MediaMatcher} from '@angular/cdk/layout';
-
-import { miniSidenavAnimation } from './animations';
+import { sidenavAnimation, contentAnimation } from './animations';
 
 @Component({
     selector: 'app-layout-container',
     templateUrl: './layout-container.component.html',
     styleUrls: ['./layout-container.component.scss'],
-    animations: [ miniSidenavAnimation ]
+    animations: [ sidenavAnimation, contentAnimation ]
 })
 export class LayoutContainerComponent implements OnInit, OnDestroy {
     static STEP_OVER = 600;
@@ -46,6 +45,7 @@ export class LayoutContainerComponent implements OnInit, OnDestroy {
     @ViewChild(MatSidenav) sidenav: MatSidenav;
 
     sidenavAnimationState: any;
+    contentAnimationState: any;
     isMenuMinimized = false;
     mobileQuery: MediaQueryList;
 
@@ -55,9 +55,11 @@ export class LayoutContainerComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         const stepOver = this.stepOver || LayoutContainerComponent.STEP_OVER;
+
         this.mobileQuery = this.mediaMatcher.matchMedia(`(max-width: ${stepOver}px)`);
         this.mobileQuery.addListener(this.mobileQueryListener);
         this.sidenavAnimationState = { value: 'expanded', params: { width: this.sidenavMax } };
+        this.contentAnimationState = { value: 'compact', params: {marginLeft: this.sidenavMax } };
     }
 
     ngOnDestroy(): void {
@@ -65,23 +67,39 @@ export class LayoutContainerComponent implements OnInit, OnDestroy {
     }
 
     toggleMenu(): void {
-
         if (!this.mobileQuery.matches) {
             this.isMenuMinimized = !this.isMenuMinimized;
-
-            this.sidenavAnimationState =
-                this.sidenavAnimationState.value === 'expanded'
-                    ? { value: 'compact', params: {width: this.sidenavMin } }
-                    : { value: 'expanded', params: { width: this.sidenavMax } };
-
+            this.sidenavAnimationState = this.sidenavAnimation();
+            this.contentAnimationState = this.contentAnimation();
         } else {
             this.isMenuMinimized = false;
             this.sidenav.toggle();
         }
     }
 
+    sidenavAnimation() {
+        return this.sidenavAnimationState.value === 'expanded'
+            ? { value: 'compact', params: {width: this.sidenavMin } }
+            : { value: 'expanded', params: { width: this.sidenavMax } };
+    }
+
+    contentAnimation() {
+        if (this.mobileQuery.matches) {
+            return { value: 'expanded', params: { marginLeft: 0 } };
+        }
+
+        if (this.sidenavAnimationState.value === 'expanded') {
+            return { value: 'compact', params: { marginLeft: this.sidenavMax } };
+        }
+
+        if (this.sidenavAnimationState.value === 'compact') {
+            return { value: 'expanded', params: { marginLeft: this.sidenavMin } };
+        }
+    }
+
     private mobileQueryListener() {
         this.isMenuMinimized = false;
         this.sidenavAnimationState = { value: 'expanded', params: { width: this.sidenavMax } };
+        this.contentAnimationState = this.contentAnimation();
     }
 }
