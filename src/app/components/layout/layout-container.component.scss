@@ -1,9 +1,3 @@
-@mixin transition($property) {
-    transition-property: $property !important;
-    transition-duration: 0.4s !important;
-    transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1) !important;
-}
-
 :host {
     display: block;
     width: 100%;
@@ -18,8 +12,11 @@ ng-content {
     overflow: hidden;
 }
 
-.sidenav--hide {
+.sidenav--hidden {
     visibility: hidden !important;
+    width: 0 !important;
+    transform: unset !important;
+    opacity: 0 !important;
 }
 
 .mat-sidenav-container {
@@ -33,10 +30,10 @@ ng-content {
     overflow: hidden;
 }
 
-.mat-sidenav-content {
-    @include transition('margin-left');
-}
-
+.mat-sidenav-content,
 .mat-drawer-transition .mat-drawer-content {
-    @include transition('margin-left');
+    transform: unset !important;
+    transition-property: unset !important;
+    transition-duration: unset !important;
+    transition-timing-function: unset !important;
 }
