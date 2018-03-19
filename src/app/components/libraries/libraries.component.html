@@ -7,68 +7,69 @@
     </div>
 
     <div class="inner-layout__content">
+        <div class="inner-layout__panel">
+            <adf-document-list #documentList
+                [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
+                currentFolderId="-mysites-"
+                selectionMode="none"
+                [navigate]="false"
+                [sorting]="sorting"
+                [contextMenuActions]="true"
+                [contentActions]="false"
+                (sorting-changed)="onSortingChanged($event)"
+                (node-dblclick)="onNodeDoubleClick($event)">
 
-        <adf-document-list #documentList
-            [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
-            currentFolderId="-mysites-"
-            selectionMode="none"
-            [navigate]="false"
-            [sorting]="sorting"
-            [contextMenuActions]="true"
-            [contentActions]="false"
-            (sorting-changed)="onSortingChanged($event)"
-            (node-dblclick)="onNodeDoubleClick($event)">
-
-            <empty-folder-content>
-                <ng-template>
-                    <app-empty-folder
-                        icon="group_work"
-                        title="APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE"
-                        subtitle="APP.BROWSE.LIBRARIES.EMPTY_STATE.TEXT">
-                    </app-empty-folder>
-                </ng-template>
-            </empty-folder-content>
-
-            <data-columns>
-                <data-column
-                    key="$thumbnail"
-                    type="image"
-                    [sortable]="false"
-                    class="image-table-cell">
-                </data-column>
-
-                <data-column
-                    class="adf-data-table-cell--ellipsis__name"
-                    key="title"
-                    title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
-                    <ng-template let-context>
-                        <span class="adf-datatable-cell" title="{{ makeLibraryTooltip(context.row.obj.entry) }}">
-                            {{ makeLibraryTitle(context.row.obj.entry) }}
-                        </span>
+                <empty-folder-content>
+                    <ng-template>
+                        <app-empty-folder
+                            icon="group_work"
+                            title="APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE"
+                            subtitle="APP.BROWSE.LIBRARIES.EMPTY_STATE.TEXT">
+                        </app-empty-folder>
                     </ng-template>
-                </data-column>
+                </empty-folder-content>
 
-                <data-column
-                    key="visibility"
-                    title="APP.DOCUMENT_LIST.COLUMNS.STATUS">
-                    <ng-template let-value="value">
-                        <span *ngIf="(value == 'PUBLIC')" title="{{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}">
-                            {{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}
-                        </span>
-                        <span *ngIf="(value == 'PRIVATE')" title="{{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}">
-                            {{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}
-                        </span>
-                        <span *ngIf="(value == 'MODERATED')" title="{{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}">
-                            {{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}
-                        </span>
-                    </ng-template>
-                </data-column>
-            </data-columns>
-        </adf-document-list>
+                <data-columns>
+                    <data-column
+                        key="$thumbnail"
+                        type="image"
+                        [sortable]="false"
+                        class="image-table-cell">
+                    </data-column>
 
-        <adf-pagination [ngClass]="{ 'no-border' : documentList.isEmpty()}"
-            [target]="documentList"
-            (changePageSize)="onChangePageSize($event)">
-        </adf-pagination>
+                    <data-column
+                        class="adf-data-table-cell--ellipsis__name"
+                        key="title"
+                        title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
+                        <ng-template let-context>
+                            <span class="adf-datatable-cell" title="{{ makeLibraryTooltip(context.row.obj.entry) }}">
+                                {{ makeLibraryTitle(context.row.obj.entry) }}
+                            </span>
+                        </ng-template>
+                    </data-column>
+
+                    <data-column
+                        key="visibility"
+                        title="APP.DOCUMENT_LIST.COLUMNS.STATUS">
+                        <ng-template let-value="value">
+                            <span *ngIf="(value == 'PUBLIC')" title="{{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}">
+                                {{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}
+                            </span>
+                            <span *ngIf="(value == 'PRIVATE')" title="{{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}">
+                                {{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}
+                            </span>
+                            <span *ngIf="(value == 'MODERATED')" title="{{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}">
+                                {{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}
+                            </span>
+                        </ng-template>
+                    </data-column>
+                </data-columns>
+            </adf-document-list>
+
+            <adf-pagination [ngClass]="{ 'no-border' : documentList.isEmpty()}"
+                [target]="documentList"
+                (changePageSize)="onChangePageSize($event)">
+            </adf-pagination>
+        </div>
     </div>
 </div>

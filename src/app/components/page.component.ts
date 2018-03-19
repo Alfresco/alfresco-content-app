@@ -33,6 +33,7 @@ export abstract class PageComponent {
 
     isLoading = false;
     isEmpty = true;
+    infoDrawerOpened = false;
 
     paging: NodePaging;
     pagination: Pagination;
@@ -204,4 +205,11 @@ export abstract class PageComponent {
         return null;
     }
 
+    toggleSidebar(event) {
+        if (event) {
+            return;
+        }
+
+        this.infoDrawerOpened = !this.infoDrawerOpened;
+    }
 }

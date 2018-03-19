@@ -45,6 +45,7 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
+import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 
 import { FilesComponent } from './files.component';
 
@@ -79,6 +80,7 @@ describe('FilesComponent', () => {
                 TimeAgoPipe,
                 NodeNameTooltipPipe,
                 NodeFavoriteDirective,
+                NodeInfoDirective,
                 DocumentListComponent,
                 FileSizePipe
             ],

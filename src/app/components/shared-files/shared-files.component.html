@@ -21,6 +21,13 @@
                 <mat-icon>get_app</mat-icon>
             </button>
 
+            <button mat-icon-button
+                [color]="infoDrawerOpened ? 'primary' : 'accent'"
+                *ngIf="documentList.selection.length"
+                (click)="toggleSidebar()">
+                <mat-icon>info_outline</mat-icon>
+            </button>
+
             <button
                 mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
@@ -77,82 +84,97 @@
     </div>
 
     <div class="inner-layout__content">
-        <adf-document-list #documentList
-            [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
-            currentFolderId="-sharedlinks-"
-            selectionMode="multiple"
-            [sorting]="sorting"
-            [contextMenuActions]="true"
-            [contentActions]="false"
-            (sorting-changed)="onSortingChanged($event)"
-            (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
+        <div class="inner-layout__panel">
+            <adf-document-list #documentList
+                [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
+                currentFolderId="-sharedlinks-"
+                selectionMode="multiple"
+                [sorting]="sorting"
+                [contextMenuActions]="true"
+                [contentActions]="false"
+                (sorting-changed)="onSortingChanged($event)"
+                (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
 
-            <empty-folder-content>
-                <ng-template>
-                    <app-empty-folder
-                        icon="people"
-                        title="APP.BROWSE.SHARED.EMPTY_STATE.TITLE"
-                        subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT">
-                    </app-empty-folder>
-                </ng-template>
-            </empty-folder-content>
-
-            <data-columns>
-                <data-column
-                    key="$thumbnail"
-                    type="image"
-                    [sortable]="false"
-                    class="image-table-cell">
-                </data-column>
-
-                <data-column
-                    class="adf-data-table-cell--ellipsis__name"
-                    key="name"
-                    title="APP.DOCUMENT_LIST.COLUMNS.NAME">
-                    <ng-template let-value="value" let-context>
-                        <span class="adf-datatable-cell" title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
+                <empty-folder-content>
+                    <ng-template>
+                        <app-empty-folder
+                            icon="people"
+                            title="APP.BROWSE.SHARED.EMPTY_STATE.TITLE"
+                            subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT">
+                        </app-empty-folder>
                     </ng-template>
-                </data-column>
+                </empty-folder-content>
 
-                <data-column
-                    key="path"
-                    title="APP.DOCUMENT_LIST.COLUMNS.LOCATION">
-                    <ng-template let-context>
-                        <app-location-link [context]="context"></app-location-link>
-                    </ng-template>
-                </data-column>
+                <data-columns>
+                    <data-column
+                        key="$thumbnail"
+                        type="image"
+                        [sortable]="false"
+                        class="image-table-cell">
+                    </data-column>
 
-                <data-column
-                    key="content.sizeInBytes"
-                    title="APP.DOCUMENT_LIST.COLUMNS.SIZE"
-                    type="fileSize">
-                </data-column>
+                    <data-column
+                        class="adf-data-table-cell--ellipsis__name"
+                        key="name"
+                        title="APP.DOCUMENT_LIST.COLUMNS.NAME">
+                        <ng-template let-value="value" let-context>
+                            <span class="adf-datatable-cell" title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
+                        </ng-template>
+                    </data-column>
 
-                <data-column
-                    key="modifiedAt"
-                    title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON">
-                    <ng-template let-value="value">
-                        <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
-                    </ng-template>
-                </data-column>
+                    <data-column
+                        key="path"
+                        title="APP.DOCUMENT_LIST.COLUMNS.LOCATION">
+                        <ng-template let-context>
+                            <app-location-link [context]="context"></app-location-link>
+                        </ng-template>
+                    </data-column>
 
-                <data-column
-                    class="adf-data-table-cell--ellipsis"
-                    key="modifiedByUser.displayName"
-                    title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY">
-                </data-column>
+                    <data-column
+                        key="content.sizeInBytes"
+                        title="APP.DOCUMENT_LIST.COLUMNS.SIZE"
+                        type="fileSize">
+                    </data-column>
 
-                <data-column
-                    class="adf-data-table-cell--ellipsis"
-                    key="sharedByUser.displayName"
-                    title="APP.DOCUMENT_LIST.COLUMNS.SHARED_BY">
-                </data-column>
+                    <data-column
+                        key="modifiedAt"
+                        title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON">
+                        <ng-template let-value="value">
+                            <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
+                        </ng-template>
+                    </data-column>
 
-            </data-columns>
-        </adf-document-list>
-        <adf-pagination [ngClass]="{ 'no-border' :documentList.isEmpty()}"
-            [target]="documentList"
-            (changePageSize)="onChangePageSize($event)">
-        </adf-pagination>
+                    <data-column
+                        class="adf-data-table-cell--ellipsis"
+                        key="modifiedByUser.displayName"
+                        title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY">
+                    </data-column>
+
+                    <data-column
+                        class="adf-data-table-cell--ellipsis"
+                        key="sharedByUser.displayName"
+                        title="APP.DOCUMENT_LIST.COLUMNS.SHARED_BY">
+                    </data-column>
+
+                </data-columns>
+            </adf-document-list>
+            <adf-pagination [ngClass]="{ 'no-border' :documentList.isEmpty()}"
+                [target]="documentList"
+                (changePageSize)="onChangePageSize($event)">
+            </adf-pagination>
+        </div>
+
+        <div class="inner-layout__side-panel"
+            *ngIf="infoDrawerOpened"
+            [app-node-info]="documentList.selection"
+            (changed)="toggleSidebar($event)"
+            #infoInstance=nodeInfo>
+
+            <adf-info-drawer title="Details">
+                <adf-info-drawer-tab label="Properties">
+                    <adf-content-metadata-card [node]="infoInstance.node"></adf-content-metadata-card>
+                </adf-info-drawer-tab>
+            </adf-info-drawer>
+        </div>
     </div>
 </div>

@@ -29,18 +29,24 @@ $app-inner-layout--footer-height: 48px;
     }
 
     .content--hide {
-        display: none;
+        display: none !important;
     }
 }
 
 .inner-layout {
-    .no-border {
-        border: unset
-    }
-
     display: flex;
     flex: 1;
     flex-direction: column;
+
+    .adf-info-drawer {
+        width: 350px;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .no-border {
+        border: unset
+    }
 
     &--scroll {
         overflow: auto;
@@ -62,10 +68,25 @@ $app-inner-layout--footer-height: 48px;
 
     &__content {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         flex: 1;
         overflow: hidden;
         background: #fff;
+    }
+
+    &__panel {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex:1;
+        flex-direction: column;
+        border-right: 1px solid rgba(0, 0, 0, 0.07);
+    }
+
+    &__side-panel {
+        display: flex;
+        width: 350px;
+        height: 100%;
     }
 
     &__content--scroll {

@@ -41,6 +41,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 
 import { SharedFilesComponent } from './shared-files.component';
 
@@ -79,6 +80,7 @@ describe('SharedFilesComponent', () => {
                     TimeAgoPipe,
                     NodeNameTooltipPipe,
                     NodeFavoriteDirective,
+                    NodeInfoDirective,
                     DocumentListComponent,
                     SharedFilesComponent
                 ],
