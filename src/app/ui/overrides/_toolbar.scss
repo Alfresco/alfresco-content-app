@@ -4,8 +4,7 @@
     // TODO: review and remove once ADF 2.0.0 is out
     &.inline {
         .mat-toolbar {
-            border-left: none !important;
-            border-right: none !important;
+            border: none !important;
             background: $alfresco-gray-background;
             padding: 0;
             height: 48px;
