@@ -42,12 +42,12 @@ export class NodeInfoDirective {
 
     @HostListener('document:click', ['$event'])
     onClick(event) {
-        this.nodeInfo();
+        this.getNodeInfo();
     }
 
     constructor(private apiService: AlfrescoApiService) {}
 
-    nodeInfo() {
+    getNodeInfo() {
         if (!this.selection.length) {
             this.node = null;
             this.loading = false;
