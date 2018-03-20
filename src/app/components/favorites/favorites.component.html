@@ -32,6 +32,7 @@
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'primary' : 'accent'"
                 *ngIf="documentList.selection.length"
+                title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
             </button>
