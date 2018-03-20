@@ -185,6 +185,9 @@
                     }
                 }
             }
+        },
+        "CONTENT_METADATA": {
+            "EXIF_GROUP_TITLE": "Image EXIF"
         }
     },
     "NODE_SELECTOR": {

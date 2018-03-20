@@ -55,8 +55,6 @@ describe('NodeInfoDirective', () => {
         component = fixture.componentInstance;
         apiService = TestBed.get(AlfrescoApiService);
         nodeService = apiService.getInstance().nodes;
-
-        fixture.detectChanges();
     }));
 
     beforeEach(() => {
@@ -65,19 +63,37 @@ describe('NodeInfoDirective', () => {
         }));
     });
 
-    it('should not get node info when selection is empty', () => {
+    it('should not get node info onInit when selection is empty', () => {
         component.selection = [];
 
         fixture.detectChanges();
+
+        expect(nodeService.getNodeInfo).not.toHaveBeenCalled();
+    });
+
+    it('should get node info onInit when selection is not empty', () => {
+        component.selection = [{ entry: { id: 'id' } }];
+
+        fixture.detectChanges();
+
+        expect(nodeService.getNodeInfo).toHaveBeenCalled();
+    });
+
+    it('should not get node info on event when selection is empty', () => {
+        component.selection = [];
+
+        fixture.detectChanges();
+
         document.dispatchEvent(new CustomEvent('click'));
 
         expect(nodeService.getNodeInfo).not.toHaveBeenCalled();
     });
 
-    it('should get node info from selection', () => {
+    it('should get node info on event from selection', () => {
         component.selection = [{ entry: { id: 'id' } }];
 
         fixture.detectChanges();
+
         document.dispatchEvent(new CustomEvent('click'));
 
         expect(nodeService.getNodeInfo).toHaveBeenCalledWith('id');

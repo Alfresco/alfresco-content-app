@@ -23,29 +23,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import { Directive, HostListener, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, Node } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Directive({
     selector: '[app-node-info]',
     exportAs: 'nodeInfo'
 })
 
-export class NodeInfoDirective {
+export class NodeInfoDirective implements OnInit {
     @Input('app-node-info') selection: MinimalNodeEntity[];
-    @Output() changed: EventEmitter<null|Node> = new EventEmitter<null|Node>();
+    @Output() changed: EventEmitter<null|MinimalNodeEntryEntity> = new EventEmitter<null|MinimalNodeEntryEntity>();
     @Output() error: EventEmitter<null> = new EventEmitter<null>();
 
-    node: Node;
+    node: MinimalNodeEntryEntity;
     loading: boolean = null;
 
-    @HostListener('document:click', ['$event'])
+    @HostListener('document:node-click', ['$event'])
     onClick(event) {
         this.getNodeInfo();
     }
 
     constructor(private apiService: AlfrescoApiService) {}
+
+    ngOnInit() {
+        this.getNodeInfo();
+    }
 
     getNodeInfo() {
         if (!this.selection.length) {

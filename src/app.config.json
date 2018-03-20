@@ -126,5 +126,33 @@
             "key": "zh-CN",
             "label": "Simplified Chinese"
         }
-    ]
+    ],
+    "content-metadata": {
+        "presets": {
+            "custom": [
+                {
+                    "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
+                    "items": [
+                        {
+                            "aspect": "exif:exif",
+                            "properties": [
+                                "exif:pixelXDimension",
+                                "exif:pixelYDimension",
+                                "exif:dateTimeOriginal",
+                                "exif:exposureTime",
+                                "exif:fNumber",
+                                "exif:flash",
+                                "exif:focalLength",
+                                "exif:isoSpeedRatings",
+                                "exif:orientation",
+                                "exif:manufacturer",
+                                "exif:model",
+                                "exif:software"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
 }
