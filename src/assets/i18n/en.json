@@ -102,7 +102,8 @@
             "UNDO": "Undo",
             "RESTORE": "Restore",
             "FAVORITE": "Favorite",
-            "UNSHARE": "Unshare"
+            "UNSHARE": "Unshare",
+            "DETAILS": "View details"
         },
         "DOCUMENT_LIST": {
             "COLUMNS": {
