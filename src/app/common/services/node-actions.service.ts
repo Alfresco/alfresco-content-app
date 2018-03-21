@@ -196,25 +196,11 @@ export class NodeActionsService {
             select: new Subject<MinimalNodeEntryEntity[]>()
         };
 
-        /*const matDialogRef =*/ this.dialog.open(ContentNodeSelectorComponent, <any>{
+        this.dialog.open(ContentNodeSelectorComponent, <any>{
             data,
             panelClass: 'adf-content-node-selector-dialog',
             width: '630px'
         });
-
-        // todo: add back the fix for [ACA-1054]:
-        /*  const destinationPicker = matDialogRef.componentInstance;
-        const initialSiteChanged = destinationPicker.siteChanged;
-
-        destinationPicker.siteChanged = (chosenSite) => {
-            initialSiteChanged.call(destinationPicker, chosenSite);
-
-            if (chosenSite.guid === '-mysites-') {
-                destinationPicker.documentList.data.setSorting(new DataSorting('title', 'asc'));
-            } else {
-                destinationPicker.documentList.data.setSorting(new DataSorting('name', 'asc'));
-            }
-        };*/
 
         data.select.subscribe({
             complete: this.close.bind(this)
