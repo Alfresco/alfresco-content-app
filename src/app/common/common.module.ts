@@ -39,10 +39,12 @@ import { NodeRestoreDirective } from './directives/node-restore.directive';
 import { NodePermanentDeleteDirective } from './directives/node-permanent-delete.directive';
 import { NodeUnshareDirective } from './directives/node-unshare.directive';
 import { NodeInfoDirective} from './directives/node-info.directive';
+import { NodeVersionsDirective} from './directives/node-versions.directive';
 
 import { ContentManagementService } from './services/content-management.service';
 import { BrowsingFilesService } from './services/browsing-files.service';
 import { NodeActionsService } from './services/node-actions.service';
+import { VersionManagerDialogAdapterComponent } from '../components/versions-dialog/version-manager-dialog-adapter.component';
 
 export function modules() {
     return [
@@ -63,7 +65,9 @@ export function declarations() {
         NodeRestoreDirective,
         NodePermanentDeleteDirective,
         NodeUnshareDirective,
-        NodeInfoDirective
+        NodeInfoDirective,
+        NodeVersionsDirective,
+        VersionManagerDialogAdapterComponent
     ];
 }
 
@@ -79,7 +83,9 @@ export function providers() {
 @NgModule({
     imports: modules(),
     declarations: declarations(),
-    entryComponents: [],
+    entryComponents: [
+        VersionManagerDialogAdapterComponent
+    ],
     providers: providers(),
     exports: [
         ...modules(),

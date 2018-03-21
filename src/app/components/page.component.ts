@@ -136,6 +136,15 @@ export abstract class PageComponent {
         return this.isFileSelected(selection);
     }
 
+    canManageVersions(selection: Array<MinimalNodeEntity>): boolean {
+        const lastItem = selection.length && selection[selection.length - 1].entry;
+        return lastItem && lastItem.isFile && this.userHasPermissionToManageVersions(lastItem);
+    }
+
+    userHasPermissionToManageVersions(nodeEntry): boolean {
+        return this.nodeHasPermission(nodeEntry, 'update');
+    }
+
     nodeHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
         if (node && permission) {
             const { allowableOperations = [] } = <any>(node || {});

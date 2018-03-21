@@ -103,7 +103,8 @@
             "RESTORE": "Restore",
             "FAVORITE": "Favorite",
             "UNSHARE": "Unshare",
-            "DETAILS": "View details"
+            "DETAILS": "View details",
+            "VERSIONS": "Manage Versions"
         },
         "DOCUMENT_LIST": {
             "COLUMNS": {
@@ -196,5 +197,11 @@
         "MOVE_ITEM": "Move '{{ name }}' to...",
         "MOVE_ITEMS": "Move {{ number }} items to...",
         "SEARCH": "Search"
+    },
+    "VERSION": {
+        "DIALOG": {
+            "TITLE": "Manage Versions",
+            "CLOSE": "Close"
+        }
     }
 }

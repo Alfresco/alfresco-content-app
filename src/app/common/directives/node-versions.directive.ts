@@ -1,0 +1,66 @@
+/*!
+ * @license
+ * Alfresco Example Content Application
+ *
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import { Directive, HostListener, Input } from '@angular/core';
+
+import { ContentService, TranslationService, NotificationService } from '@alfresco/adf-core';
+import { MinimalNodeEntity } from 'alfresco-js-api';
+
+import { VersionManagerDialogAdapterComponent } from '../../components/versions-dialog/version-manager-dialog-adapter.component';
+import { MatDialog } from '@angular/material';
+
+@Directive({
+    selector: '[app-node-versions]'
+})
+export class NodeVersionsDirective {
+
+    @Input('app-node-versions')
+    selection: MinimalNodeEntity[];
+
+    @HostListener('click')
+    onClick() {
+        this.onManageVersions();
+    }
+
+    constructor(
+        private contentService: ContentService,
+        private dialog: MatDialog,
+        private notification: NotificationService,
+        private translation: TranslationService
+    ) {}
+
+    onManageVersions() {
+        const contentEntry = this.selection[this.selection.length - 1].entry;
+
+        if (this.contentService.hasPermission(contentEntry, 'update')) {
+            this.dialog.open(
+                VersionManagerDialogAdapterComponent,
+                <any>{ data: { contentEntry }, panelClass: 'adf-version-manager-dialog', width: '630px' });
+        } else {
+            const translatedErrorMessage: any = this.translation.get('APP.MESSAGES.ERRORS.PERMISSION');
+            this.notification.openSnackMessage(translatedErrorMessage.value, 4000);
+        }
+    }
+}
