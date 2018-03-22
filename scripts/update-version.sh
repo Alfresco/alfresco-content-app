@@ -9,12 +9,13 @@ eval AUTO=false
 
 eval libs=( "core"
     "content-services"
-    "process-services"
-    "insights" )
+    #"process-services"
+    #"insights"
+)
 
-cd `dirname $0`
+cd `dirname $0`/..
 
-prefix="@alfresco\/adf-"
+prefix="@alfresco/adf-"
 
 show_help() {
     echo "Usage: update-version.sh"
@@ -73,24 +74,19 @@ version_js_change() {
 }
 
 update_component_dependency_version(){
-   for (( j=0; j<${libslength}; j++ ));
+    for (( j=0; j<${libslength}; j++ ));
     do
-       echo "====== UPDATE DEPENDENCY VERSION of ${prefix}${libs[$j]} to ~${VERSION}======"
-
-       sed "${sedi[@]}" "s/\"${prefix}${libs[$j]}\": \".*\"/\"${prefix}${libs[$j]}\": \"${VERSION}\"/g"  $DIR/../package.json
-       sed "${sedi[@]}" "s/\"${prefix}${libs[$j]}\": \"~.*\"/\"${prefix}${libs[$j]}\": \"~${VERSION}\"/g"  $DIR/../package.json
-       sed "${sedi[@]}" "s/\"${prefix}${libs[$j]}\": \"^.*\"/\"${prefix}${libs[$j]}\": \"^${VERSION}\"/g"  $DIR/../package.json
-
+        echo "====== UPDATE ${prefix}${libs[$j]} to ${VERSION}======"
+        EXACT_VERSION="${prefix}${libs[$j]}@${VERSION}"
+        npm install -E ${EXACT_VERSION}
     done
 }
 
 update_component_js_version(){
-   echo "====== UPDATE DEPENDENCY VERSION of alfresco-js-api in ${1} ======"
-   PACKAGETOCHANGE="alfresco-js-api"
-
-   sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \".*\"/\"${PACKAGETOCHANGE}\": \"${1}\"/g"  $DIR/../package.json
-   sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \"~.*\"/\"${PACKAGETOCHANGE}\": \"${1}\"/g"  $DIR/../package.json
-   sed "${sedi[@]}" "s/\"${PACKAGETOCHANGE}\": \"^.*\"/\"${PACKAGETOCHANGE}\": \"${1}\"/g"  $DIR/../package.json
+    echo "====== UPDATE alfresco-js-api to ${1} ======"
+    PACKAGETOCHANGE="alfresco-js-api"
+    EXACT_VERSION="${PACKAGETOCHANGE}@${1}"
+    npm install -E ${EXACT_VERSION}
 }
 
 while [[ $1  == -* ]]; do
