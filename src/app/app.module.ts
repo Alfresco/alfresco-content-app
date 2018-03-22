@@ -53,6 +53,10 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
 import { EmptyFolderComponent } from './components/empty-folder/empty-folder.component';
+import { SidenavLayoutComponent } from './components/layout/sidenav-layout.component';
+import { AppLayoutHeaderDirective } from './components/layout/app-layout-header.directive';
+import { AppLayoutNavigationDirective } from './components/layout/app-layout-navigation.directive';
+import { AppLayoutContentDirective } from './components/layout/app-layout-content.directive';
 
 @NgModule({
     imports: [
@@ -71,6 +75,10 @@ import { EmptyFolderComponent } from './components/empty-folder/empty-folder.com
         LoginComponent,
         LayoutComponent,
         LayoutContainerComponent,
+        SidenavLayoutComponent,
+        AppLayoutHeaderDirective,
+        AppLayoutNavigationDirective,
+        AppLayoutContentDirective,
         HeaderComponent,
         CurrentUserComponent,
         SearchComponent,

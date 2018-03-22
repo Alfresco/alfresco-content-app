@@ -3,22 +3,20 @@
         [parentId]="node?.id"
         [disabled]="!canCreateContent(node)">
 
-        <app-header (menu)="container.toggleMenu()"></app-header>
-
-        <app-layout-container #container
-            sidenavMin="70"
-            sidenavMax="320"
+        <app-sidenav-layout
+            [sidenavMin]="70"
+            [sidenavMax]="320"
             [stepOver]="600"
-            [hideSidenav]="isPreview"
-            class="layout__content">
+            [hideSidenav]="isPreview">
 
-            <app-sidenav
-                app-layout-navigation
-                [showLabel]="!container.isMenuMinimized">
-            </app-sidenav>
+            <ng-template appLayoutHeader let-toggleMenu="toggleMenu">
+                <app-header (menu)="toggleMenu()"></app-header>
+            </ng-template>
 
-            <router-outlet app-layout-content></router-outlet>
-        </app-layout-container>
+            <ng-template appLayoutNavigation let-isMenuMinimized="isMenuMinimized">
+                <app-sidenav [showLabel]="!isMenuMinimized()"></app-sidenav>
+            </ng-template>
+        </app-sidenav-layout>
 
         <adf-file-uploading-dialog position="left"></adf-file-uploading-dialog>
     </adf-upload-drag-area>

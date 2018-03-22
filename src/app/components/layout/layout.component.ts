@@ -37,7 +37,7 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 })
 export class LayoutComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity;
-    isPreview: boolean = false;
+    isPreview = false;
 
     private subscriptions: Subscription[] = [];
 

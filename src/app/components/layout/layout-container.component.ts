@@ -25,7 +25,6 @@
 
 import { Component, Input, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { MatSidenav } from '@angular/material';
-import {MediaMatcher} from '@angular/cdk/layout';
 import { sidenavAnimation, contentAnimation } from './animations';
 
 @Component({
@@ -35,71 +34,73 @@ import { sidenavAnimation, contentAnimation } from './animations';
     animations: [ sidenavAnimation, contentAnimation ]
 })
 export class LayoutContainerComponent implements OnInit, OnDestroy {
-    static STEP_OVER = 600;
-
     @Input() sidenavMin: number;
     @Input() sidenavMax: number;
-    @Input() stepOver: number;
-    @Input() hideSidenav: boolean = false;
+    @Input() mediaQueryList: MediaQueryList;
+    @Input() hideSidenav = false;
 
     @ViewChild(MatSidenav) sidenav: MatSidenav;
 
     sidenavAnimationState: any;
     contentAnimationState: any;
-    isMenuMinimized = false;
-    mobileQuery: MediaQueryList;
 
-    constructor(private mediaMatcher: MediaMatcher) {
-        this.mobileQueryListener = this.mobileQueryListener.bind(this);
+    SIDENAV_STATES = { EXPANDED: {}, COMPACT: {} };
+    CONTENT_STATES = { MOBILE: {}, EXPANDED: {}, COMPACT: {} };
+
+    constructor() {
+        this.onMediaQueryChange = this.onMediaQueryChange.bind(this);
     }
 
     ngOnInit() {
-        const stepOver = this.stepOver || LayoutContainerComponent.STEP_OVER;
+        this.SIDENAV_STATES.EXPANDED = { value: 'expanded', params: { width: this.sidenavMax } };
+        this.SIDENAV_STATES.COMPACT = { value: 'compact', params: {width: this.sidenavMin } };
+        this.CONTENT_STATES.MOBILE = { value: 'expanded', params: { marginLeft: 0 } };
+        this.CONTENT_STATES.EXPANDED = { value: 'expanded', params: { marginLeft: this.sidenavMin } };
+        this.CONTENT_STATES.COMPACT = { value: 'compact', params: { marginLeft: this.sidenavMax } };
 
-        this.mobileQuery = this.mediaMatcher.matchMedia(`(max-width: ${stepOver}px)`);
-        this.mobileQuery.addListener(this.mobileQueryListener);
-        this.sidenavAnimationState = { value: 'expanded', params: { width: this.sidenavMax } };
-        this.contentAnimationState = { value: 'compact', params: {marginLeft: this.sidenavMax } };
+        this.mediaQueryList.addListener(this.onMediaQueryChange);
+
+        this.sidenavAnimationState = this.SIDENAV_STATES.EXPANDED;
+        this.contentAnimationState = this.CONTENT_STATES.COMPACT;
     }
 
     ngOnDestroy(): void {
-        this.mobileQuery.removeListener(this.mobileQueryListener);
+        this.mediaQueryList.removeListener(this.onMediaQueryChange);
     }
 
     toggleMenu(): void {
-        if (!this.mobileQuery.matches) {
-            this.isMenuMinimized = !this.isMenuMinimized;
-            this.sidenavAnimationState = this.sidenavAnimation();
-            this.contentAnimationState = this.contentAnimation();
-        } else {
-            this.isMenuMinimized = false;
+        if (this.isMobileScreenSize) {
             this.sidenav.toggle();
+        } else {
+            this.sidenavAnimationState = this.toggledSidenavAnimation;
+            this.contentAnimationState = this.toggledContentAnimation;
         }
     }
 
-    sidenavAnimation() {
-        return this.sidenavAnimationState.value === 'expanded'
-            ? { value: 'compact', params: {width: this.sidenavMin } }
-            : { value: 'expanded', params: { width: this.sidenavMax } };
+    private get toggledSidenavAnimation() {
+        return this.sidenavAnimationState === this.SIDENAV_STATES.EXPANDED
+            ? this.SIDENAV_STATES.COMPACT
+            : this.SIDENAV_STATES.EXPANDED;
     }
 
-    contentAnimation() {
-        if (this.mobileQuery.matches) {
-            return { value: 'expanded', params: { marginLeft: 0 } };
+    private get toggledContentAnimation() {
+        if (this.isMobileScreenSize) {
+            return this.CONTENT_STATES.MOBILE;
         }
 
-        if (this.sidenavAnimationState.value === 'expanded') {
-            return { value: 'compact', params: { marginLeft: this.sidenavMax } };
-        }
-
-        if (this.sidenavAnimationState.value === 'compact') {
-            return { value: 'expanded', params: { marginLeft: this.sidenavMin } };
+        if (this.sidenavAnimationState === this.SIDENAV_STATES.EXPANDED) {
+            return this.CONTENT_STATES.COMPACT;
+        } else {
+            return this.CONTENT_STATES.EXPANDED;
         }
     }
 
-    private mobileQueryListener() {
-        this.isMenuMinimized = false;
-        this.sidenavAnimationState = { value: 'expanded', params: { width: this.sidenavMax } };
-        this.contentAnimationState = this.contentAnimation();
+    private get isMobileScreenSize(): boolean {
+        return this.mediaQueryList.matches;
+    }
+
+    private onMediaQueryChange() {
+        this.sidenavAnimationState = this.SIDENAV_STATES.EXPANDED;
+        this.contentAnimationState = this.toggledContentAnimation;
     }
 }
