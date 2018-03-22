@@ -82,6 +82,14 @@
                     <mat-icon>delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
                 </button>
+
+                <button
+                    mat-menu-item
+                    *ngIf="canManageVersions(documentList.selection)"
+                    [app-node-versions]="documentList.selection">
+                    <mat-icon>storage</mat-icon>
+                    <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
+                </button>
             </mat-menu>
         </adf-toolbar>
     </div>
