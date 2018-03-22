@@ -25,8 +25,8 @@
 
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, async, fakeAsync, tick } from '@angular/core/testing';
-import { AlfrescoApiService } from '@alfresco/adf-core';
-import { CommonModule } from '../common.module';
+import { AlfrescoApiService, CoreModule } from '@alfresco/adf-core';
+import { NodeInfoDirective } from './node-info.directive';
 
 @Component({
     template: '<div [app-node-info]="selection"></div>'
@@ -44,10 +44,11 @@ describe('NodeInfoDirective', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                CommonModule
+                CoreModule
             ],
             declarations: [
-                TestComponent
+                TestComponent,
+                NodeInfoDirective
             ]
         });
 
