@@ -25,7 +25,7 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 
-import { ContentService, TranslationService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 import { VersionManagerDialogAdapterComponent } from '../../components/versions-dialog/version-manager-dialog-adapter.component';
@@ -45,7 +45,6 @@ export class NodeVersionsDirective {
     }
 
     constructor(
-        private contentService: ContentService,
         private dialog: MatDialog,
         private notification: NotificationService,
         private translation: TranslationService
@@ -54,7 +53,7 @@ export class NodeVersionsDirective {
     onManageVersions() {
         const contentEntry = this.selection[this.selection.length - 1].entry;
 
-        if (this.contentService.hasPermission(contentEntry, 'update')) {
+        if (contentEntry.isFile) {
             this.dialog.open(
                 VersionManagerDialogAdapterComponent,
                 <any>{ data: { contentEntry }, panelClass: 'adf-version-manager-dialog', width: '630px' });
