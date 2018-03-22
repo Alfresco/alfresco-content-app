@@ -61,7 +61,7 @@ export class LayoutContainerComponent implements OnInit, OnDestroy {
         this.mediaQueryList.addListener(this.onMediaQueryChange);
 
         this.sidenavAnimationState = this.SIDENAV_STATES.EXPANDED;
-        this.contentAnimationState = this.CONTENT_STATES.COMPACT;
+        this.contentAnimationState = this.isMobileScreenSize ? this.CONTENT_STATES.MOBILE : this.CONTENT_STATES.COMPACT;
     }
 
     ngOnDestroy(): void {

@@ -16,6 +16,10 @@
             <ng-template appLayoutNavigation let-isMenuMinimized="isMenuMinimized">
                 <app-sidenav [showLabel]="!isMenuMinimized()"></app-sidenav>
             </ng-template>
+
+            <ng-template appLayoutContent>
+                <router-outlet></router-outlet>
+            </ng-template>
         </app-sidenav-layout>
 
         <adf-file-uploading-dialog position="left"></adf-file-uploading-dialog>

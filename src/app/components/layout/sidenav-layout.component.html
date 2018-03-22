@@ -16,7 +16,7 @@
             <ng-container *ngIf="isHeaderInside">
                 <ng-container *ngTemplateOutlet="headerTemplate; context:templateContext"></ng-container>
             </ng-container>
-            <router-outlet></router-outlet>
+            <ng-container *ngTemplateOutlet="contentTemplate; context:templateContext"></ng-container>
         </ng-container>
     </app-layout-container>
 </div>

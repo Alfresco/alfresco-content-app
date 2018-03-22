@@ -27,6 +27,7 @@ import { Component, ContentChild, Input, OnInit, TemplateRef, AfterViewInit, Vie
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AppLayoutHeaderDirective } from './app-layout-header.directive';
 import { AppLayoutNavigationDirective } from './app-layout-navigation.directive';
+import { AppLayoutContentDirective } from './app-layout-content.directive';
 
 @Component({
     selector: 'app-sidenav-layout',
@@ -44,6 +45,7 @@ export class SidenavLayoutComponent implements OnInit, AfterViewInit, OnDestroy 
 
     @ContentChild(AppLayoutHeaderDirective, {read: TemplateRef}) headerTemplate: TemplateRef<any>;
     @ContentChild(AppLayoutNavigationDirective, {read: TemplateRef}) navigationTemplate: TemplateRef<any>;
+    @ContentChild(AppLayoutContentDirective, {read: TemplateRef}) contentTemplate: TemplateRef<any>;
 
     @ViewChild('container') container: any;
 
