@@ -28,10 +28,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER } from '@alfresco/adf-core';
-
-import { AdfModule } from './adf.module';
-import { MaterialModule } from './common/material.module';
+import { TRANSLATION_PROVIDER, CoreModule } from '@alfresco/adf-core';
+import { ContentModule } from '@alfresco/adf-content-services';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
@@ -66,7 +64,7 @@ import { VersionManagerDialogAdapterComponent } from './components/versions-dial
 import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
-
+import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 
 @NgModule({
     imports: [
@@ -78,8 +76,13 @@ import { NodeActionsService } from './common/services/node-actions.service';
             useHash: true,
             enableTracing: false // enable for debug only
         }),
-        AdfModule,
-        MaterialModule
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatInputModule,
+        CoreModule,
+        ContentModule
     ],
     declarations: [
         AppComponent,
