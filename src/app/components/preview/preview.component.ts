@@ -343,4 +343,9 @@ export class PreviewComponent implements OnInit {
     canCopyFile(): boolean {
         return this.content.canCopyNode(this.node);
     }
+
+    canManageVersions(): boolean {
+        return this.node.isFile && this.content.nodeHasPermission(this.node, 'update');
+    }
+
 }

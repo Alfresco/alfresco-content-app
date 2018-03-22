@@ -45,6 +45,13 @@
                 <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
             </button>
 
+            <button
+                mat-menu-item
+                *ngIf="canManageVersions()"
+                [app-node-versions]="selectedEntities">
+                <mat-icon>storage</mat-icon>
+                <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
+            </button>
         </adf-viewer-more-actions>
     </adf-viewer>
 </ng-container>
