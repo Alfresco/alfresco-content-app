@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
@@ -38,6 +38,9 @@ export class NodeVersionsDirective {
 
     @Input('app-node-versions')
     selection: MinimalNodeEntity[];
+
+    @Output()
+    nodeVersionError: EventEmitter<any> = new EventEmitter();
 
     @HostListener('click')
     onClick() {
@@ -60,6 +63,8 @@ export class NodeVersionsDirective {
         } else {
             const translatedErrorMessage: any = this.translation.get('APP.MESSAGES.ERRORS.PERMISSION');
             this.notification.openSnackMessage(translatedErrorMessage.value, 4000);
+
+            this.nodeVersionError.emit();
         }
     }
 }
