@@ -27,12 +27,13 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
+import { TranslationService, NodesApiService, NotificationService, CoreModule } from '@alfresco/adf-core';
+import { DocumentListService } from '@alfresco/adf-content-services';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
-
-import { CommonModule } from '../common.module';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeMoveDirective } from './node-move.directive';
+import { ContentManagementService } from '../services/content-management.service';
 
 @Component({
     template: '<div [app-move-node]="selection"></div>'
@@ -53,10 +54,17 @@ describe('NodeMoveDirective', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CommonModule
+                BrowserAnimationsModule,
+                CoreModule
             ],
             declarations: [
+                NodeMoveDirective,
                 TestComponent
+            ],
+            providers: [
+                DocumentListService,
+                ContentManagementService,
+                NodeActionsService
             ]
         });
 
