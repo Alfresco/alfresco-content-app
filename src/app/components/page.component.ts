@@ -136,13 +136,12 @@ export abstract class PageComponent {
         return this.isFileSelected(selection);
     }
 
-    canManageVersions(selection: Array<MinimalNodeEntity>): boolean {
-        const lastItem = selection.length && selection[selection.length - 1].entry;
-        return lastItem && lastItem.isFile && this.userHasPermissionToManageVersions(lastItem);
+    canUpdateFile(selection: Array<MinimalNodeEntity>): boolean {
+        return this.isFileSelected(selection) && this.nodeHasPermission(selection[0].entry, 'update');
     }
 
-    userHasPermissionToManageVersions(nodeEntry): boolean {
-        return this.nodeHasPermission(nodeEntry, 'update');
+    canManageVersions(selection: Array<MinimalNodeEntity>): boolean {
+        return this.canUpdateFile(selection);
     }
 
     nodeHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {

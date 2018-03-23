@@ -54,7 +54,7 @@ export class NodeVersionsDirective {
     ) {}
 
     onManageVersions() {
-        const contentEntry = this.selection[this.selection.length - 1].entry;
+        const contentEntry = this.selection[0].entry;
 
         if (contentEntry.isFile) {
             this.dialog.open(
