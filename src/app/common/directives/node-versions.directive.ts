@@ -25,7 +25,7 @@
 
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
-import { TranslationService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NotificationService, AlfrescoApiService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 import { VersionManagerDialogAdapterComponent } from '../../components/versions-dialog/version-manager-dialog-adapter.component';
@@ -48,6 +48,7 @@ export class NodeVersionsDirective {
     }
 
     constructor(
+        private apiService: AlfrescoApiService,
         private dialog: MatDialog,
         private notification: NotificationService,
         private translation: TranslationService
@@ -55,7 +56,19 @@ export class NodeVersionsDirective {
 
     onManageVersions() {
         const contentEntry = this.selection[0].entry;
+        const nodeId = (<any>contentEntry).nodeId;
 
+        if (nodeId) {
+            // get the node entry that was shared:
+            this.apiService.getInstance().nodes.getNodeInfo(nodeId).then(entry => this.openVersionManagerDialog(entry));
+
+        } else {
+            this.openVersionManagerDialog(contentEntry);
+        }
+
+    }
+
+    openVersionManagerDialog(contentEntry) {
         if (contentEntry.isFile) {
             this.dialog.open(
                 VersionManagerDialogAdapterComponent,

@@ -140,8 +140,16 @@ export abstract class PageComponent {
         return this.isFileSelected(selection) && this.nodeHasPermission(selection[0].entry, 'update');
     }
 
+    canUpdateFileShared(selection: Array<MinimalNodeEntity>): boolean {
+        return this.isFileSelected(selection) && this.nodeSharedHasPermission(selection[0].entry, 'update');
+    }
+
     canManageVersions(selection: Array<MinimalNodeEntity>): boolean {
         return this.canUpdateFile(selection);
+    }
+
+    canManageVersionsOfShared(selection: Array<MinimalNodeEntity>): boolean {
+        return this.canUpdateFileShared(selection);
     }
 
     nodeHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
