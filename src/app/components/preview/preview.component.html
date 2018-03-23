@@ -23,6 +23,13 @@
 
             <button
                 mat-menu-item
+                [app-version-node]="selectedEntities">
+                <mat-icon>history</mat-icon>
+                <span>{{ 'APP.ACTIONS.VERSION' | translate }}</span>
+            </button>
+
+            <button
+                mat-menu-item
                 *ngIf="canCopyFile()"
                 [app-copy-node]="selectedEntities">
                 <mat-icon>content_copy</mat-icon>

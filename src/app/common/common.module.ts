@@ -32,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdfModule } from '../adf.module';
 import { MaterialModule } from './material.module';
 
+import { NodeVersionDirective } from './directives/node-version.directive';
 import { NodeCopyDirective } from './directives/node-copy.directive';
 import { NodeDeleteDirective } from './directives/node-delete.directive';
 import { NodeMoveDirective } from './directives/node-move.directive';
@@ -56,6 +57,7 @@ export function modules() {
 
 export function declarations() {
     return [
+        NodeVersionDirective,
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,

@@ -1,0 +1,7 @@
+<header mat-dialog-title>{{'APP.VERSION.DIALOG.TITLE' | translate}}</header>
+<section mat-dialog-content>
+    <adf-version-manager [node]="nodeEntry"></adf-version-manager>
+</section>
+<footer mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button (click)="close()">{{'APP.VERSION.DIALOG.CLOSE' | translate}}</button>
+</footer>
