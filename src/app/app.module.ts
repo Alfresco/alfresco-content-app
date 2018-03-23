@@ -53,6 +53,8 @@ import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
 import { EmptyFolderComponent } from './components/empty-folder/empty-folder.component';
 
+import { VersionManagerDialogComponent } from './components/versions/version-manager-dialog.component';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -82,7 +84,8 @@ import { EmptyFolderComponent } from './components/empty-folder/empty-folder.com
         PreviewComponent,
         AboutComponent,
         LocationLinkComponent,
-        EmptyFolderComponent
+        EmptyFolderComponent,
+        VersionManagerDialogComponent
     ],
     providers: [
         {
@@ -94,6 +97,7 @@ import { EmptyFolderComponent } from './components/empty-folder/empty-folder.com
             }
         }
     ],
+    entryComponents: [ VersionManagerDialogComponent ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

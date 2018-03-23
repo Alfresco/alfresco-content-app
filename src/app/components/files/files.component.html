@@ -54,6 +54,13 @@
 
                 <button
                     mat-menu-item
+                    [app-version-node]="documentList.selection">
+                    <mat-icon>history</mat-icon>
+                    <span>{{ 'APP.ACTIONS.VERSION' | translate }}</span>
+                </button>                
+
+                <button
+                    mat-menu-item
                     [app-copy-node]="documentList.selection">
                     <mat-icon>content_copy</mat-icon>
                     <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
