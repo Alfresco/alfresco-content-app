@@ -25,13 +25,15 @@
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NodesApiService, NotificationService, CoreModule } from '@alfresco/adf-core';
 import { Component, DebugElement } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { CommonModule } from '../common.module';
 import { NodeDeleteDirective } from './node-delete.directive';
 import { ContentManagementService } from '../services/content-management.service';
+import { MatSnackBarModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
     template: '<div [app-delete-node]="selection"></div>'
@@ -53,10 +55,18 @@ describe('NodeDeleteDirective', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CommonModule
+                BrowserAnimationsModule,
+                FormsModule,
+                ReactiveFormsModule,
+                CoreModule,
+                MatSnackBarModule
             ],
             declarations: [
+                NodeDeleteDirective,
                 TestComponent
+            ],
+            providers: [
+                ContentManagementService
             ]
         });
 
