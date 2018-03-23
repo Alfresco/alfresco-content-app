@@ -1,14 +1,20 @@
 <div class="sidenav">
     <div class="sidenav__section sidenav__section--new" [ngClass]="{ 'section--new--mini': !showLabel }">
         <button *ngIf="showLabel"
-            class="sidenav__section--new__button" mat-button [matMenuTriggerFor]="menu">
+            [matMenuTriggerFor]="menu"
+            class="sidenav__section--new__button"
+            [disableRipple]="true"
+            mat-raised-button
+            color="accent">
+
             <span>{{ 'APP.NEW_MENU.LABEL' | translate }}</span>
             <mat-icon>arrow_drop_down</mat-icon>
         </button>
 
-        <button
-            class="new__button--mini"
-            *ngIf="!showLabel" mat-icon-button [matMenuTriggerFor]="menu">
+        <button [matMenuTriggerFor]="menu"
+            *ngIf="!showLabel"
+            color="accent"
+            mat-icon-button>
             <mat-icon>add_box</mat-icon>
         </button>
 
@@ -55,19 +61,32 @@
         </mat-menu>
     </div>
 
-    <div class="sidenav__section" *ngFor="let list of navigation">
+    <div class="sidenav__section sidenav__section--menu" *ngFor="let list of navigation">
         <ul class="sidenav-menu">
-            <li class="sidenav-menu__item" *ngFor="let item of list">
-                <a
-                    class="sidenav-link"
-                    [ngClass]="{ 'sidenav-menu__item-link--noicon' : !item.icon }"
-                    routerLinkActive="sidenav-link--active"
-                    [routerLink]="item.disabled? null : item.route.url"
-                    [ngClass]="{ 'disabled': item.disabled }"
-                    title="{{ item.title || '' | translate }}">
-                    <mat-icon class="sidenav-link__icon">{{ item.icon }}</mat-icon>
-                    <span class="sidenav-link__label" *ngIf="showLabel">{{ item.label | translate }}</span>
-                </a>
+            <li *ngFor="let item of list" class="sidenav-menu__item"
+                routerLinkActive
+                #rla="routerLinkActive"
+                title="{{ item.title || '' | translate }}">
+
+                <button [routerLink]="item.route.url"
+                    [color]="rla.isActive ? 'accent': 'primary'"
+                    mat-icon-button
+                    mat-ripple
+                    [matRippleColor]="primary"
+                    [matRippleTrigger]="rippleTrigger"
+                    [matRippleCentered]="true">
+
+                    <mat-icon>{{ item.icon }}</mat-icon>
+                </button>
+
+                <span #rippleTrigger
+                    class="menu__item--label"
+                    [routerLink]="item.route.url"
+                    [hidden]="!showLabel"
+                    [ngClass]="{
+                        'menu__item--active': rla.isActive,
+                        'menu__item--default': !rla.isActive
+                    }">{{ item.label | translate }}</span>
             </li>
         </ul>
     </div>

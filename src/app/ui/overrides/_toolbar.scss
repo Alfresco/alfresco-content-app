@@ -1,6 +1,10 @@
 @import 'variables.scss';
 
 .adf-toolbar {
+    .mat-toolbar-single-row {
+        padding: 0 14px;
+    }
+
     // TODO: review and remove once ADF 2.0.0 is out
     &.inline {
         .mat-toolbar {
