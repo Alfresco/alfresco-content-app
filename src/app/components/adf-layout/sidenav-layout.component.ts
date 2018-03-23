@@ -88,7 +88,7 @@ export class SidenavLayoutComponent implements OnInit, AfterViewInit, OnDestroy 
         return this.mediaQueryList.matches;
     }
 
-    private onMediaQueryChange() {
+    onMediaQueryChange() {
         this.isMenuMinimized = false;
     }
 }
