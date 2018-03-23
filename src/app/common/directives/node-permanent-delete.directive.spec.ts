@@ -27,9 +27,8 @@ import { Component, DebugElement } from '@angular/core';
 import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, TranslationService, NotificationService, CoreModule } from '@alfresco/adf-core';
 
-import { CommonModule } from '../common.module';
 import { NodePermanentDeleteDirective } from './node-permanent-delete.directive';
 
 @Component({
@@ -52,9 +51,10 @@ describe('NodePermanentDeleteDirective', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                CommonModule
+                CoreModule
             ],
             declarations: [
+                NodePermanentDeleteDirective,
                 TestComponent
             ]
         })

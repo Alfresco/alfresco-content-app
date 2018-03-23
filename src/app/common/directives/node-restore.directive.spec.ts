@@ -30,10 +30,10 @@ import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
-import { CommonModule } from '../common.module';
-import { AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, TranslationService, NotificationService, CoreModule } from '@alfresco/adf-core';
 
 import { NodeRestoreDirective } from './node-restore.directive';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
     template: `<div [app-restore-node]="selection"></div>`
@@ -57,10 +57,12 @@ describe('NodeRestoreDirective', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                CommonModule,
-                RouterTestingModule
+                BrowserAnimationsModule,
+                RouterTestingModule,
+                CoreModule
             ],
             declarations: [
+                NodeRestoreDirective,
                 TestComponent
             ]
         })
