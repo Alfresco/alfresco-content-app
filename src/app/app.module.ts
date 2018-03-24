@@ -44,7 +44,6 @@ import { RecentFilesComponent } from './components/recent-files/recent-files.com
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { LayoutComponent } from './components/layout/layout.component';
-import { LayoutContainerComponent } from './components/layout/layout-container.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { SearchComponent } from './components/search/search.component';
@@ -65,6 +64,12 @@ import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
 import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
+
+import { LayoutContainerComponent } from './components/adf-layout/layout-container.component';
+import { SidenavLayoutComponent } from './components/adf-layout/sidenav-layout.component';
+import { AppLayoutHeaderDirective } from './components/adf-layout/app-layout-header.directive';
+import { AppLayoutNavigationDirective } from './components/adf-layout/app-layout-navigation.directive';
+import { AppLayoutContentDirective } from './components/adf-layout/app-layout-content.directive';
 
 @NgModule({
     imports: [
@@ -90,6 +95,10 @@ import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInpu
         LoginComponent,
         LayoutComponent,
         LayoutContainerComponent,
+        SidenavLayoutComponent,
+        AppLayoutHeaderDirective,
+        AppLayoutNavigationDirective,
+        AppLayoutContentDirective,
         HeaderComponent,
         CurrentUserComponent,
         SearchComponent,
