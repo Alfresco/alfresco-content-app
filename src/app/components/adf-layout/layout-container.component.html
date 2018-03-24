@@ -2,8 +2,8 @@
     <mat-sidenav
         [ngClass]="{ 'sidenav--hidden': hideSidenav }"
         [@sidenavAnimation]="sidenavAnimationState"
-        [opened]="!mobileQuery.matches"
-        [mode]="mobileQuery.matches ? 'over' : 'side'">
+        [opened]="!isMobileScreenSize"
+        [mode]="isMobileScreenSize ? 'over' : 'side'">
         <ng-content sidenav select="[app-layout-navigation]"></ng-content>
     </mat-sidenav>
 
