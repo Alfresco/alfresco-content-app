@@ -4,8 +4,8 @@
         </adf-breadcrumb>
 
         <adf-toolbar class="inline">
-
             <button
+                color="primary"
                 mat-icon-button
                 *ngIf="canPreviewFile(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
@@ -14,6 +14,7 @@
             </button>
 
             <button
+                color="primary"
                 mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
@@ -22,7 +23,7 @@
             </button>
 
             <button mat-icon-button
-                [color]="infoDrawerOpened ? 'primary' : 'accent'"
+                [color]="infoDrawerOpened ? 'accent' : 'primary'"
                 *ngIf="documentList.selection.length"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
@@ -30,12 +31,14 @@
             </button>
 
             <button
+                color="primary"
                 mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.MORE' | translate }}"
                 [matMenuTriggerFor]="actionsMenu">
                 <mat-icon>more_vert</mat-icon>
             </button>
+
             <mat-menu #actionsMenu="matMenu"
                 [overlapTrigger]="false"
                 class="secondary-options">
@@ -43,7 +46,10 @@
                     mat-menu-item
                     #selection="adfFavorite"
                     [adf-node-favorite]="documentList.selection">
-                    <mat-icon [ngClass]="{ 'icon-highlight': selection.hasFavorites() }">
+                    <mat-icon [ngClass]="{
+                        'toolbar__option--active': selection.hasFavorites(),
+                        'toolbar__option--default': !selection.hasFavorites()
+                    }">
                         {{ selection.hasFavorites() ? 'star' :'star_border' }}
                     </mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
@@ -52,7 +58,7 @@
                 <button
                     mat-menu-item
                     [app-copy-node]="documentList.selection">
-                    <mat-icon>content_copy</mat-icon>
+                    <mat-icon color="primary">content_copy</mat-icon>
                     <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
                 </button>
 
@@ -60,7 +66,7 @@
                     mat-menu-item
                     *ngIf="canMoveShared(documentList.selection)"
                     [app-move-node]="documentList.selection">
-                    <mat-icon>library_books</mat-icon>
+                    <mat-icon color="primary">library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
                 </button>
 
@@ -69,7 +75,7 @@
                     *ngIf="canDelete(documentList.selection)"
                     [appUnshareNode]="documentList.selection"
                     (links-unshared)="refresh()">
-                    <mat-icon>stop_screen_share</mat-icon>
+                    <mat-icon color="primary">stop_screen_share</mat-icon>
                     <span>{{ 'APP.ACTIONS.UNSHARE' | translate }}</span>
                 </button>
 
@@ -77,7 +83,7 @@
                     mat-menu-item
                     *ngIf="canDeleteShared(documentList.selection)"
                     [app-delete-node]="documentList.selection">
-                    <mat-icon>delete</mat-icon>
+                    <mat-icon color="primary">delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
                 </button>
 
@@ -85,7 +91,7 @@
                     mat-menu-item
                     *ngIf="canManageVersionsOfShared(documentList.selection)"
                     [app-node-versions]="documentList.selection">
-                    <mat-icon>storage</mat-icon>
+                    <mat-icon color="primary">storage</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
             </mat-menu>

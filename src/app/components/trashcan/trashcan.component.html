@@ -5,6 +5,7 @@
 
         <adf-toolbar class="inline">
             <button
+                color="primary"
                 mat-icon-button
                 [app-permanent-delete-node]="documentList.selection"
                 (selection-node-deleted)="refresh()"
@@ -14,6 +15,7 @@
             </button>
 
             <button
+                color="primary"
                 mat-icon-button
                 (selection-node-restored)="refresh()"
                 [app-restore-node]="documentList.selection"

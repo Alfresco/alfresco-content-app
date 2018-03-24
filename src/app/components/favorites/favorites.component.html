@@ -7,6 +7,7 @@
 
             <button
                 mat-icon-button
+                color="primary"
                 *ngIf="canPreviewFile(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="onNodeDoubleClick(documentList.selection[0]?.entry)">
@@ -15,6 +16,7 @@
 
             <button
                 mat-icon-button
+                color="primary"
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
                 [adfNodeDownload]="documentList.selection">
@@ -23,6 +25,7 @@
 
             <button
                 mat-icon-button
+                color="primary"
                 *ngIf="showEditOption(documentList.selection)"
                 title="{{ 'APP.ACTIONS.EDIT' | translate }}"
                 [adf-edit-folder]="documentList.selection[0]?.entry">
@@ -30,7 +33,7 @@
             </button>
 
             <button mat-icon-button
-                [color]="infoDrawerOpened ? 'primary' : 'accent'"
+                [color]="infoDrawerOpened ? 'accent' : 'primary'"
                 *ngIf="documentList.selection.length"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
@@ -38,6 +41,7 @@
             </button>
 
             <button
+                color="primary"
                 mat-icon-button
                 *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.MORE' | translate }}"
@@ -52,7 +56,10 @@
                     #selection="adfFavorite"
                     (toggle)="refresh()"
                     [adf-node-favorite]="documentList.selection">
-                    <mat-icon [ngClass]="{ 'icon-highlight': selection.hasFavorites() }">
+                    <mat-icon [ngClass]="{
+                        'toolbar__option--active': selection.hasFavorites(),
+                        'toolbar__option--default': !selection.hasFavorites()
+                    }">
                         {{ selection.hasFavorites() ? 'star' :'star_border' }}
                     </mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
@@ -61,21 +68,21 @@
                 <button
                     mat-menu-item
                     [app-copy-node]="documentList.selection">
-                    <mat-icon>content_copy</mat-icon>
+                    <mat-icon color="primary">content_copy</mat-icon>
                     <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
                     [app-move-node]="documentList.selection">
-                    <mat-icon>library_books</mat-icon>
+                    <mat-icon color="primary">library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
                     [app-delete-node]="documentList.selection">
-                    <mat-icon>delete</mat-icon>
+                    <mat-icon color="primary">delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
                 </button>
 
@@ -83,7 +90,7 @@
                     mat-menu-item
                     *ngIf="isFileSelected(documentList.selection)"
                     [app-node-versions]="documentList.selection">
-                    <mat-icon>storage</mat-icon>
+                    <mat-icon color="primary">storage</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
             </mat-menu>
