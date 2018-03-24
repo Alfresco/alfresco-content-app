@@ -38,16 +38,29 @@ export class SidenavLayoutComponent implements OnInit, AfterViewInit, OnDestroy 
 
     static STEP_OVER = 600;
 
-    @Input() sidenavMin: number;
-    @Input() sidenavMax: number;
-    @Input() stepOver: number;
-    @Input() hideSidenav = false;
+    @Input()
+    sidenavMin: number;
 
-    @ContentChild(AppLayoutHeaderDirective, {read: TemplateRef}) headerTemplate: TemplateRef<any>;
-    @ContentChild(AppLayoutNavigationDirective, {read: TemplateRef}) navigationTemplate: TemplateRef<any>;
-    @ContentChild(AppLayoutContentDirective, {read: TemplateRef}) contentTemplate: TemplateRef<any>;
+    @Input()
+    sidenavMax: number;
 
-    @ViewChild('container') container: any;
+    @Input()
+    stepOver: number;
+
+    @Input()
+    hideSidenav = false;
+
+    @ContentChild(AppLayoutHeaderDirective, {read: TemplateRef})
+    headerTemplate: TemplateRef<any>;
+
+    @ContentChild(AppLayoutNavigationDirective, {read: TemplateRef})
+    navigationTemplate: TemplateRef<any>;
+
+    @ContentChild(AppLayoutContentDirective, {read: TemplateRef})
+    contentTemplate: TemplateRef<any>;
+
+    @ViewChild('container')
+    container: any;
 
     mediaQueryList: MediaQueryList;
     isMenuMinimized = false;

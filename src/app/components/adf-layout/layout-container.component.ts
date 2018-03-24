@@ -34,10 +34,17 @@ import { sidenavAnimation, contentAnimation } from './animations';
     animations: [ sidenavAnimation, contentAnimation ]
 })
 export class LayoutContainerComponent implements OnInit, OnDestroy {
-    @Input() sidenavMin: number;
-    @Input() sidenavMax: number;
-    @Input() mediaQueryList: MediaQueryList;
-    @Input() hideSidenav = false;
+    @Input()
+    sidenavMin: number;
+
+    @Input()
+    sidenavMax: number;
+
+    @Input()
+    mediaQueryList: MediaQueryList;
+
+    @Input()
+    hideSidenav = false;
 
     @ViewChild(MatSidenav) sidenav: MatSidenav;
 
@@ -95,7 +102,7 @@ export class LayoutContainerComponent implements OnInit, OnDestroy {
         }
     }
 
-    private get isMobileScreenSize(): boolean {
+    get isMobileScreenSize(): boolean {
         return this.mediaQueryList.matches;
     }
 
