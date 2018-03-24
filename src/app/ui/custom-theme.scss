@@ -2,6 +2,7 @@
 @import '~@alfresco/adf-content-services/theming';
 
 @import '../components/sidenav/sidenav.component.theme';
+@import './overrides/toolbar';
 
 $grey-scale: (
     50 : #e0e0e0,
@@ -45,4 +46,5 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
 
 @mixin custom-theme($theme) {
     @include sidenav-component-theme($custom-theme);
+    @include toolbar-component-theme($custom-theme);
 }
