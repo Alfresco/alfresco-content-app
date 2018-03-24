@@ -23,7 +23,6 @@ import { SidenavLayoutComponent } from './sidenav-layout.component';
 import { Component, Input } from '@angular/core';
 import { LayoutModule, MediaMatcher } from '@angular/cdk/layout';
 import { PlatformModule } from '@angular/cdk/platform';
-import { MaterialModule } from '../../common/material.module';
 import { AppLayoutNavigationDirective } from './app-layout-navigation.directive';
 import { AppLayoutHeaderDirective } from './app-layout-header.directive';
 import { AppLayoutContentDirective } from './app-layout-content.directive';
@@ -54,8 +53,7 @@ describe('SidenavLayoutComponent', () => {
             imports: [
                 CommonModule,
                 PlatformModule,
-                LayoutModule,
-                MaterialModule
+                LayoutModule
             ],
             declarations: [
                 DummyLayoutContainerComponent,
@@ -206,7 +204,7 @@ describe('SidenavLayoutComponent', () => {
             fixture.detectChanges();
         });
 
-        it('should pass through input paramters', () => {
+        it('should pass through input parameters', () => {
             component.sidenavMin = 1;
             component.sidenavMax = 2;
             component.hideSidenav = true;
