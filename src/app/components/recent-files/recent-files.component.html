@@ -91,9 +91,9 @@
     </div>
 
     <div class="inner-layout__content">
-        <div class="inner-layout__panel">
+        <div class="inner-layout__panel" [ngClass]="{'adf-document-list--loading': documentList.isEmpty()}">
             <adf-document-list #documentList
-                [attr.class]="documentList.isEmpty() ? 'empty-list' : ''"
+                [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
                 currentFolderId="-recent-"
                 selectionMode="multiple"
                 [navigate]="false"
@@ -156,10 +156,13 @@
                 </data-columns>
 
             </adf-document-list>
-            <adf-pagination [ngClass]="{'no-border' : documentList.isEmpty()}"
-                [target]="documentList"
-                (changePageSize)="onChangePageSize($event)">
-            </adf-pagination>
+
+            <ng-container *ngIf="!documentList.isEmpty()">
+                <adf-pagination
+                    [target]="documentList"
+                    (changePageSize)="onChangePageSize($event)">
+                </adf-pagination>
+            </ng-container>
         </div>
 
         <div class="inner-layout__side-panel"

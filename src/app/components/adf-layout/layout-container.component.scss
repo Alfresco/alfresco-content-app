@@ -1,15 +1,11 @@
+@import 'mixins';
+
 :host {
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    @include flex-column;
 }
 
 ng-content {
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    @include flex-column;
 }
 
 .sidenav--hidden {
@@ -20,10 +16,7 @@ ng-content {
 }
 
 .mat-sidenav-container {
-    display: block;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    @include flex-column;
 }
 
 .mat-sidenav {

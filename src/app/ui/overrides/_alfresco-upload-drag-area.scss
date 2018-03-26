@@ -1,9 +1,21 @@
-@import '../_variables.scss';
+@import 'mixins';
+@import 'variables.scss';
 
 @mixin file-draggable__input-focus {
     color: $alfresco-secondary-text-color !important;
     border: 1px solid $alfresco-app-color--default !important;
     margin-left: 0 !important;
+}
+
+adf-upload-drag-area {
+    @include flex-column;
+
+    .upload-border {
+        @include flex-column;
+
+        vertical-align: unset;
+        text-align: unset;
+    }
 }
 
 adf-upload-drag-area:first-child {
@@ -34,15 +46,6 @@ adf-upload-drag-area:first-child {
 }
 
 adf-upload-drag-area {
-    height: 100%;
-    width: 100%;
-
-    & > div {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
     .file-draggable__input-focus {
         adf-document-list {
             background: $alfresco-app-color--hue-1;

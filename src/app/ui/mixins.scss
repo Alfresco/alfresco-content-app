@@ -1,0 +1,15 @@
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+}
+
+@mixin flex-row {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    height: 100%;
+    overflow: hidden;
+}

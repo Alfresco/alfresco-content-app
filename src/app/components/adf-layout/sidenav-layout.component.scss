@@ -1,9 +1,10 @@
+@import 'mixins';
+
 :host {
-    display: flex;
-    flex: 1;
+    @include flex-column;
 
     .sidenav-layout {
-        width: 100%;
+        @include flex-column;
     }
 
     router-outlet {
