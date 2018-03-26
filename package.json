@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run server-versions && ng serve --open",
+    "start:prod": "npm run server-versions && ng serve --prod --open",
     "build": "npm run server-versions && ng build",
     "build:prod": "npm run server-versions && ng build --prod",
     "build:dev": "npm run server-versions && ng build && node postbuild-dev.js",
