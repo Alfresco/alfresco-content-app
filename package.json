@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run server-versions && ng serve --open",
+    "start:prod": "npm run server-versions && ng serve --prod --open",
     "build": "npm run server-versions && ng build",
     "build:prod": "npm run server-versions && ng build --prod",
     "build:dev": "npm run server-versions && ng build && node postbuild-dev.js",
@@ -16,8 +17,8 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "2.3.0-10d437b30b1fa6fe5e37ba1bd920de4728d90527",
-    "@alfresco/adf-core": "2.3.0-10d437b30b1fa6fe5e37ba1bd920de4728d90527",
+    "@alfresco/adf-content-services": "2.3.0-396d9104ee7b09aae5c63e60e4b4da0844a000f8",
+    "@alfresco/adf-core": "2.3.0-396d9104ee7b09aae5c63e60e4b4da0844a000f8",
     "@angular/animations": "5.1.1",
     "@angular/cdk": "5.0.1",
     "@angular/common": "5.1.1",
