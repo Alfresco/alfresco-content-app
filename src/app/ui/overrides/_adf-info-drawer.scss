@@ -1,3 +1,16 @@
 .adf-info-drawer-layout {
     height: 100%;
 }
+
+.adf-manage-versions-empty,
+.adf-manage-versions-no-permission {
+    margin: 24px;
+    color: rgba(0, 0, 0, 0.54);
+    text-align: justify;
+
+    & &-icon {
+        display: block;
+        font-size: 48px;
+        margin: 0 auto 32px auto;
+    }
+}
