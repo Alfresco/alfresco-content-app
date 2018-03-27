@@ -192,6 +192,20 @@
                         [node]="infoInstance.node">
                     </adf-content-metadata-card>
                 </adf-info-drawer-tab>
+
+                <adf-info-drawer-tab label="Versions">
+                    <ng-container *ngIf="isFileSelected(documentList.selection);else choose_document_template">
+                        <adf-version-manager *ngIf="infoInstance.node"
+                                             [node]="infoInstance.node">
+                        </adf-version-manager>
+                    </ng-container>
+                    <ng-template #choose_document_template>
+                        <div class="adf-manage-versions-empty">
+                            <mat-icon class="adf-manage-versions-empty-icon">face</mat-icon>
+                            {{ 'VERSION.SELECTION.EMPTY' | translate }}
+                        </div>
+                    </ng-template>
+                </adf-info-drawer-tab>
             </adf-info-drawer>
         </div>
     </div>
