@@ -1,3 +1,23 @@
+$icon-size: 48px;
+
 .adf-info-drawer-layout {
     height: 100%;
+
+    .adf-info-drawer-layout-content .adf-info-drawer-tabs .mat-tab-body-content {
+        .adf-manage-versions-empty,
+        .adf-manage-versions-no-permission {
+            margin: 24px;
+            color: rgba(0, 0, 0, 0.54);
+            text-align: justify;
+            display: flex;
+            flex-direction: column;
+
+            &-icon {
+                width: $icon-size;
+                height: $icon-size;
+                font-size: $icon-size;
+                margin: auto;
+            }
+        }
+    }
 }

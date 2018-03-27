@@ -124,6 +124,14 @@ export abstract class PageComponent {
         return selection.every(node => node.entry && this.nodeSharedHasPermission(node.entry, 'delete'));
     }
 
+    canUpdate(selection: Array<MinimalNodeEntity> = []): boolean {
+        return selection.every(node => node.entry && this.nodeHasPermission(node.entry, 'update'));
+    }
+
+    canUpdateShared(selection: Array<MinimalNodeEntity> = []): boolean {
+        return selection.every(node => node.entry && this.nodeSharedHasPermission(node.entry, 'update'));
+    }
+
     canPreviewFile(selection: Array<MinimalNodeEntity>): boolean {
         return this.isFileSelected(selection);
     }
