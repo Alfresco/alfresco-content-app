@@ -346,4 +346,40 @@ describe('PageComponent', () => {
             expect(component.canMoveShared(selection)).toBe(false);
         });
     });
+
+    describe('canUpdate()', () => {
+        it('should return true if node can be edited', () => {
+            const selection = [ { entry: {
+                allowableOperations: ['update']
+            } } ];
+
+            expect(component.canUpdate(selection)).toBe(true);
+        });
+
+        it(`should return false if node cannot be edited`, () => {
+            const selection = [ { entry: {
+                allowableOperations: ['other-permission']
+             } } ];
+
+            expect(component.canUpdate(selection)).toBe(false);
+        });
+    });
+
+    describe('canUpdateShared()', () => {
+        it('should return true if shared node can be edited', () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['update']
+            } } ];
+
+            expect(component.canUpdateShared(selection)).toBe(true);
+        });
+
+        it(`should return false if shared node cannot be edited`, () => {
+            const selection = [ { entry: {
+                allowableOperationsOnTarget: ['other-permission']
+             } } ];
+
+            expect(component.canUpdateShared(selection)).toBe(false);
+        });
+    });
 });
