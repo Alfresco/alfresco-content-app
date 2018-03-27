@@ -106,7 +106,8 @@ adf-datatable {
         align-items: center;
     }
 
-    .adf-datatable-row:hover, .adf-datatable-row:focus {
+    .adf-data-table .adf-datatable-row:hover,
+    .adf-data-table .adf-datatable-row:focus {
         background-color: unset;
         cursor: default;
     }
