@@ -187,7 +187,12 @@
 
             <adf-info-drawer title="Details">
                 <adf-info-drawer-tab label="Properties">
+                    <div *ngIf="infoInstance.loading">
+                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                    </div>
+
                     <adf-content-metadata-card
+                        [readOnly]="!canUpdateShared(documentList.selection)"
                         [displayEmpty]="true"
                         [preset]="'custom'"
                         [node]="infoInstance.node">
