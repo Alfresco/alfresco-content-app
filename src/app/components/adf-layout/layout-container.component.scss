@@ -19,6 +19,11 @@ ng-content {
     @include flex-column;
 }
 
+.mat-sidenav-content {
+    @include flex-column;
+    overflow: auto;
+}
+
 .mat-sidenav {
     overflow: hidden;
 }
