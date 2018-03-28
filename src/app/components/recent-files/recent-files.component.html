@@ -179,7 +179,7 @@
 
                     <adf-content-metadata-card
                         [readOnly]="!canUpdate(documentList.selection)"
-                        [displayEmpty]="true"
+                        [displayEmpty]="canUpdate(documentList.selection)"
                         [preset]="'custom'"
                         [node]="infoInstance.node">
                     </adf-content-metadata-card>
