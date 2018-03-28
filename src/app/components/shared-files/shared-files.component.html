@@ -196,7 +196,7 @@
 
                     <adf-content-metadata-card
                         [readOnly]="!canUpdateShared(documentList.selection)"
-                        [displayEmpty]="true"
+                        [displayEmpty]="canUpdateShared(documentList.selection)"
                         [preset]="'custom'"
                         [node]="infoInstance.node">
                     </adf-content-metadata-card>
