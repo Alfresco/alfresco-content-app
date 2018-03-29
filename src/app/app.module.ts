@@ -64,6 +64,7 @@ import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
 import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
     imports: [
@@ -110,7 +111,8 @@ import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInpu
         NodeUnshareDirective,
         NodeInfoDirective,
         NodeVersionsDirective,
-        VersionManagerDialogAdapterComponent
+        VersionManagerDialogAdapterComponent,
+        SearchComponent
     ],
     providers: [
         {

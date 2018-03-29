@@ -39,6 +39,7 @@ import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
 import { PreviewComponent } from './components/preview/preview.component';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
+import { SearchComponent } from './components/search/search.component';
 
 export const APP_ROUTES: Routes = [
     {
@@ -214,6 +215,10 @@ export const APP_ROUTES: Routes = [
                 data: {
                     i18nTitle: 'APP.BROWSE.ABOUT.TITLE'
                 }
+            },
+            {
+                path: 'search',
+                component: SearchComponent
             },
             {
                 path: '**',
