@@ -113,6 +113,7 @@ describe('Libraries Routed Component', () => {
 
             nodesApi = TestBed.get(NodesApiService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
             router = TestBed.get(Router);
             preferenceService = TestBed.get(UserPreferencesService);
         });
