@@ -28,9 +28,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { SearchComponent } from './search.component';
+import { SearchInputComponent } from './search-input.component';
 
-describe('SearchComponent', () => {
+describe('SearchInputComponent', () => {
     let fixture;
     let component;
     let router: Router;
@@ -41,13 +41,13 @@ describe('SearchComponent', () => {
                 RouterTestingModule
             ],
             declarations: [
-                SearchComponent
+                SearchInputComponent
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents()
         .then(() => {
-            fixture = TestBed.createComponent(SearchComponent);
+            fixture = TestBed.createComponent(SearchInputComponent);
             component = fixture.componentInstance;
             router = TestBed.get(Router);
 

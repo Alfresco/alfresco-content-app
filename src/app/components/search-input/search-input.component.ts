@@ -28,11 +28,11 @@ import { Router } from '@angular/router';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 @Component({
-    selector: 'app-search',
-    templateUrl: 'search.component.html',
-    styleUrls: ['search.component.scss']
+    selector: 'app-search-input',
+    templateUrl: 'search-input.component.html',
+    styleUrls: ['search-input.component.scss']
 })
-export class SearchComponent {
+export class SearchInputComponent {
 
     constructor(
         private router: Router) {
@@ -46,5 +46,17 @@ export class SearchComponent {
                 this.router.navigate([ '/personal-files',  node.entry.id ]);
             }
         }
+    }
+
+    /**
+     * Called when the user submits the search, e.g. hits enter or clicks submit
+     *
+     * @param event Parameters relating to the search
+     */
+    onSearchSubmit(event: KeyboardEvent) {
+        const value = (event.target as HTMLInputElement).value;
+        this.router.navigate(['/search', {
+            q: value
+        }]);
     }
 }
