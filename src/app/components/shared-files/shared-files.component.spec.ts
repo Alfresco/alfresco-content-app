@@ -110,6 +110,7 @@ describe('SharedFilesComponent', () => {
 
                 contentService = TestBed.get(ContentManagementService);
                 alfrescoApi = TestBed.get(AlfrescoApiService);
+                alfrescoApi.reset();
                 nodeService = alfrescoApi.getInstance().nodes;
                 preferenceService = TestBed.get(UserPreferencesService);
                 router = TestBed.get(Router);

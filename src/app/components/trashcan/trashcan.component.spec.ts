@@ -106,6 +106,7 @@ describe('TrashcanComponent', () => {
             component = fixture.componentInstance;
 
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
             contentService = TestBed.get(ContentManagementService);
             preferenceService = TestBed.get(UserPreferencesService);
 

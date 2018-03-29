@@ -55,10 +55,11 @@ describe('NodeInfoDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         apiService = TestBed.get(AlfrescoApiService);
-        nodeService = apiService.getInstance().nodes;
     }));
 
     beforeEach(() => {
+        nodeService = apiService.getInstance().nodes;
+
         spyOn(nodeService, 'getNodeInfo').and.returnValue(Promise.resolve({
             entry: { name: 'borg' }
         }));

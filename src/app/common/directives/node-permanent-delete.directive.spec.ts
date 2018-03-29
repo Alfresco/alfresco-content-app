@@ -66,13 +66,14 @@ describe('NodePermanentDeleteDirective', () => {
             directiveInstance = element.injector.get(NodePermanentDeleteDirective);
 
             alfrescoService = TestBed.get(AlfrescoApiService);
-            nodesService = alfrescoService.getInstance().nodes;
             translation = TestBed.get(TranslationService);
             notificationService = TestBed.get(NotificationService);
         });
     }));
 
     beforeEach(() => {
+        nodesService = alfrescoService.getInstance().nodes;
+
         spyOn(translation, 'get').and.returnValue(Observable.of('message'));
         spyOn(notificationService, 'openSnackMessage').and.returnValue({});
     });
