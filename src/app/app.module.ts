@@ -65,12 +65,6 @@ import { ContentManagementService } from './common/services/content-management.s
 import { NodeActionsService } from './common/services/node-actions.service';
 import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 
-import { LayoutContainerComponent } from './components/adf-layout/layout-container.component';
-import { SidenavLayoutComponent } from './components/adf-layout/sidenav-layout.component';
-import { AppLayoutHeaderDirective } from './components/adf-layout/app-layout-header.directive';
-import { AppLayoutNavigationDirective } from './components/adf-layout/app-layout-navigation.directive';
-import { AppLayoutContentDirective } from './components/adf-layout/app-layout-content.directive';
-
 @NgModule({
     imports: [
         BrowserModule,
@@ -94,11 +88,6 @@ import { AppLayoutContentDirective } from './components/adf-layout/app-layout-co
         GenericErrorComponent,
         LoginComponent,
         LayoutComponent,
-        LayoutContainerComponent,
-        SidenavLayoutComponent,
-        AppLayoutHeaderDirective,
-        AppLayoutNavigationDirective,
-        AppLayoutContentDirective,
         HeaderComponent,
         CurrentUserComponent,
         SearchComponent,
