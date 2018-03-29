@@ -189,6 +189,12 @@
         },
         "CONTENT_METADATA": {
             "EXIF_GROUP_TITLE": "Image EXIF"
+        },
+        "INFO_DRAWER": {
+            "TITLE": "Details",
+            "TABS": {
+                "PROPERTIES": "Properties"
+            }
         }
     },
     "NODE_SELECTOR": {
