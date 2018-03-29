@@ -112,6 +112,7 @@ describe('RecentFiles Routed Component', () => {
             contentService = TestBed.get(ContentManagementService);
             preferenceService = TestBed.get(UserPreferencesService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
         });
     }));
 

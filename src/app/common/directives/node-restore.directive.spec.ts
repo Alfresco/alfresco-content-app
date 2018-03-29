@@ -74,8 +74,6 @@ describe('NodeRestoreDirective', () => {
             directiveInstance = element.injector.get(NodeRestoreDirective);
 
             alfrescoService = TestBed.get(AlfrescoApiService);
-            nodesService = alfrescoService.getInstance().nodes;
-            coreApi = alfrescoService.getInstance().core;
             translation = TestBed.get(TranslationService);
             notificationService = TestBed.get(NotificationService);
             router = TestBed.get(Router);
@@ -83,6 +81,9 @@ describe('NodeRestoreDirective', () => {
     }));
 
     beforeEach(() => {
+        nodesService = alfrescoService.getInstance().nodes;
+        coreApi = alfrescoService.getInstance().core;
+
         spyOn(translation, 'get').and.returnValue(Observable.of('message'));
     });
 

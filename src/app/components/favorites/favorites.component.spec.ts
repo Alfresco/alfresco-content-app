@@ -130,6 +130,7 @@ describe('Favorites Routed Component', () => {
 
             nodesApi = TestBed.get(NodesApiService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
             alfrescoContentService = TestBed.get(ContentService);
             contentService = TestBed.get(ContentManagementService);
             preferenceService = TestBed.get(UserPreferencesService);

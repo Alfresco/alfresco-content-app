@@ -79,6 +79,7 @@ describe('PreviewComponent', () => {
             router = TestBed.get(Router);
             route = TestBed.get(ActivatedRoute);
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
             preferences = TestBed.get(UserPreferencesService);
         });
     }));
