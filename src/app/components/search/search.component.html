@@ -1,3 +1,30 @@
-<p>
-  search works!
-</p>
+<adf-search
+    #search
+    [searchTerm]="searchedWord"
+    [maxResults]="maxItems"
+    [skipResults]="skipCount"
+    (resultLoaded)="onSearchResultLoaded($event)">
+</adf-search>
+
+<div class="adf-search-results__facets">
+    <adf-search-chip-list
+        [searchFilter]="searchFilter">
+    </adf-search-chip-list>
+</div>
+
+<div class="adf-search-results">
+    <adf-search-filter
+        #searchFilter>
+    </adf-search-filter>
+
+    <div class="adf-search-results__content">
+        <adf-document-list
+            #documentList
+            [node]="data">
+        </adf-document-list>
+        <adf-pagination
+            [target]="documentList"
+            (changePageSize)="onRefreshPagination($event)">
+        </adf-pagination>
+    </div>
+</div>

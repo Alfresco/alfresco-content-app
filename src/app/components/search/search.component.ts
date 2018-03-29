@@ -23,7 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional, ViewChild } from '@angular/core';
+import { NodePaging, Pagination } from 'alfresco-js-api';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
 
 @Component({
   selector: 'app-search',
@@ -32,9 +35,40 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchComponent implements OnInit {
 
-  constructor() { }
+    @ViewChild('search')
+    search: AdfSearchComponent;
 
-  ngOnInit() {
-  }
+    queryParamName = 'q';
+    searchedWord = '';
+    data: NodePaging;
+    maxItems = 5;
+    skipCount = 0;
+    // pagination: Pagination;
 
+    constructor(
+        public router: Router,
+        private queryBuilder: SearchQueryBuilderService,
+        @Optional() private route: ActivatedRoute) {
+    }
+
+    ngOnInit() {
+        if (this.route) {
+            this.route.params.forEach((params: Params) => {
+                this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
+                this.queryBuilder.queryFragments['queryName'] = `cm:name:'${this.searchedWord}'`;
+                this.queryBuilder.update();
+            });
+        }
+    }
+
+    onSearchResultLoaded(nodePaging: NodePaging) {
+        this.data = nodePaging;
+        // this.pagination = nodePaging.list.pagination;
+        // console.log(nodePaging);
+    }
+
+    onRefreshPagination(pagination: Pagination) {
+        this.maxItems = pagination.maxItems;
+        this.skipCount = pagination.skipCount;
+    }
 }

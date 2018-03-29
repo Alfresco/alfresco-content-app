@@ -1,0 +1,17 @@
+.adf-search-results {
+    display: flex;
+    margin-left: 5px;
+
+    .adf-search-settings {
+        width: 260px;
+        border: 1px solid #eee;
+    }
+
+    &__facets {
+        margin: 5px;
+    }
+
+    &__content {
+        flex: 1;
+    }
+}
