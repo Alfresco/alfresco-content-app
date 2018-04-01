@@ -1,8 +1,14 @@
 @import 'mixins';
 
 adf-sidenav-layout {
+    @include flex-column;
+
     .mat-drawer-content {
         @include flex-column;
         overflow: auto;
     }
+}
+
+.sidenav-layout {
+    @include flex-column;
 }
