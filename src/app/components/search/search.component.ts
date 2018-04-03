@@ -23,28 +23,59 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { Component, OnInit, Optional, ViewChild } from '@angular/core';
+import { NodePaging, Pagination } from 'alfresco-js-api';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
 
 @Component({
-    selector: 'app-search',
-    templateUrl: 'search.component.html',
-    styleUrls: ['search.component.scss']
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss']
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
+
+    @ViewChild('search')
+    search: AdfSearchComponent;
+
+    queryParamName = 'q';
+    searchedWord = '';
+    data: NodePaging;
+    maxItems = 5;
+    skipCount = 0;
 
     constructor(
-        private router: Router) {
+        public router: Router,
+        private queryBuilder: SearchQueryBuilderService,
+        @Optional() private route: ActivatedRoute) {
+        queryBuilder.paging = {
+            skipCount: 0,
+            maxItems: 25
+        };
     }
 
-    onItemClicked(node: MinimalNodeEntity) {
-        if (node && node.entry) {
-            if (node.entry.isFile) {
-                this.router.navigate([`/personal-files/${node.entry.parentId}/preview/`, node.entry.id]);
-            } else if (node.entry.isFolder) {
-                this.router.navigate([ '/personal-files',  node.entry.id ]);
-            }
+    ngOnInit() {
+        if (this.route) {
+            this.route.params.forEach((params: Params) => {
+                this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
+                this.queryBuilder.queryFragments['queryName'] = `cm:name:'${this.searchedWord}'`;
+                this.queryBuilder.update();
+            });
         }
+    }
+
+    onSearchResultLoaded(nodePaging: NodePaging) {
+        this.data = nodePaging;
+    }
+
+    onRefreshPagination(pagination: Pagination) {
+        this.maxItems = pagination.maxItems;
+        this.skipCount = pagination.skipCount;
+
+        this.queryBuilder.paging = {
+            maxItems: pagination.maxItems,
+            skipCount: pagination.skipCount
+        };
+        this.queryBuilder.update();
     }
 }

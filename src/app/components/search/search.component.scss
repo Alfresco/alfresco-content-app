@@ -1,10 +1,26 @@
-@import 'variables';
+@import 'mixins';
 
-// todo: remove once ADF 2.0 is out
-:host {
-    overflow: hidden;
-}
+.adf-search-results {
+    @include flex-row;
 
-adf-search-control {
-    color: $alfresco-white;
+    &__facets {
+        display: flex;
+        height: 35px;
+        flex-direction: column;
+        justify-content: center;
+        padding: 5px;
+        border-bottom: 1px solid #eee;
+    }
+
+    &__content {
+        @include flex-column;
+        border-left: 1px solid #eee;
+    }
+
+    .adf-search-filter {
+        min-width: 260px;
+        padding: 5px;
+        height: 100%;
+        overflow: scroll;
+    }
 }

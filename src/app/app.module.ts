@@ -46,7 +46,7 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
-import { SearchComponent } from './components/search/search.component';
+import { SearchInputComponent } from './components/search-input/search-input.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
@@ -64,6 +64,7 @@ import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
 import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
+import { SearchComponent } from './components/search/search.component';
 
 @NgModule({
     imports: [
@@ -90,7 +91,7 @@ import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInpu
         LayoutComponent,
         HeaderComponent,
         CurrentUserComponent,
-        SearchComponent,
+        SearchInputComponent,
         SidenavComponent,
         FilesComponent,
         FavoritesComponent,
@@ -110,7 +111,8 @@ import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInpu
         NodeUnshareDirective,
         NodeInfoDirective,
         NodeVersionsDirective,
-        VersionManagerDialogAdapterComponent
+        VersionManagerDialogAdapterComponent,
+        SearchComponent
     ],
     providers: [
         {

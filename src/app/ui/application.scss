@@ -13,6 +13,7 @@ html, body {
 app-root,
 app-layout,
 adf-layout-container,
+app-search,
 ng-component {
     @include flex-column;
 }
