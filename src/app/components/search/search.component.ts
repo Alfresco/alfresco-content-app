@@ -48,6 +48,10 @@ export class SearchComponent implements OnInit {
         public router: Router,
         private queryBuilder: SearchQueryBuilderService,
         @Optional() private route: ActivatedRoute) {
+        queryBuilder.paging = {
+            skipCount: 0,
+            maxItems: 25
+        };
     }
 
     ngOnInit() {
