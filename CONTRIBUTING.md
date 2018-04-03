@@ -101,7 +101,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
   * Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
 
     ```shell
-    git rebase master -i
+    git rebase development -i
     git push -f
     ```
 
