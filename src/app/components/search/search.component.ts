@@ -43,7 +43,6 @@ export class SearchComponent implements OnInit {
     data: NodePaging;
     maxItems = 5;
     skipCount = 0;
-    // pagination: Pagination;
 
     constructor(
         public router: Router,
@@ -63,12 +62,16 @@ export class SearchComponent implements OnInit {
 
     onSearchResultLoaded(nodePaging: NodePaging) {
         this.data = nodePaging;
-        // this.pagination = nodePaging.list.pagination;
-        // console.log(nodePaging);
     }
 
     onRefreshPagination(pagination: Pagination) {
         this.maxItems = pagination.maxItems;
         this.skipCount = pagination.skipCount;
+
+        this.queryBuilder.paging = {
+            maxItems: pagination.maxItems,
+            skipCount: pagination.skipCount
+        };
+        this.queryBuilder.update();
     }
 }
