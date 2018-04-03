@@ -1,17 +1,26 @@
-.adf-search-results {
-    display: flex;
-    margin-left: 5px;
+@import 'mixins';
 
-    .adf-search-settings {
-        width: 260px;
-        border: 1px solid #eee;
-    }
+.adf-search-results {
+    @include flex-row;
 
     &__facets {
-        margin: 5px;
+        display: flex;
+        height: 35px;
+        flex-direction: column;
+        justify-content: center;
+        padding: 5px;
+        border-bottom: 1px solid #eee;
     }
 
     &__content {
-        flex: 1;
+        @include flex-column;
+        border-left: 1px solid #eee;
+    }
+
+    .adf-search-filter {
+        min-width: 260px;
+        padding: 5px;
+        height: 100%;
+        overflow: scroll;
     }
 }

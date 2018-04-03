@@ -20,9 +20,11 @@
     <div class="adf-search-results__content">
         <adf-document-list
             #documentList
+            [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
             [node]="data">
         </adf-document-list>
-        <adf-pagination
+
+        <adf-pagination *ngIf="!documentList.isEmpty()"
             [target]="documentList"
             (changePageSize)="onRefreshPagination($event)">
         </adf-pagination>
