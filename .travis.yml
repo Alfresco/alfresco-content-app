@@ -13,7 +13,8 @@ services:
   - docker
 
 install:
-  - npm install
+  - npm install -g npm@latest
+  - npm ci
 
 script:
   - npm run build
