@@ -27,7 +27,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 @Component({
     selector: 'app-preview',
@@ -54,10 +54,10 @@ export class PreviewComponent implements OnInit {
     selectedEntities: MinimalNodeEntity[] = [];
 
     constructor(private router: Router,
-                private route: ActivatedRoute,
-                private apiService: AlfrescoApiService,
-                private preferences: UserPreferencesService,
-                private content: ContentManagementService) {
+        private route: ActivatedRoute,
+        private apiService: AlfrescoApiService,
+        private preferences: UserPreferencesService,
+        public permission: NodePermissionService) {
     }
 
     ngOnInit() {
@@ -324,28 +324,11 @@ export class PreviewComponent implements OnInit {
         return path;
     }
 
-    canDeleteFile(): boolean {
-        return this.content.canDeleteNode(this.node);
-    }
-
     async deleteFile() {
         try {
-            await this.content.deleteNode(this.node);
+            await this.permission.check(this.node, ['delete']);
             this.onVisibilityChanged(false);
         } catch {
         }
     }
-
-    canMoveFile(): boolean {
-        return this.content.canMoveNode(this.node);
-    }
-
-    canCopyFile(): boolean {
-        return this.content.canCopyNode(this.node);
-    }
-
-    canManageVersions(): boolean {
-        return this.node.isFile && this.content.nodeHasPermission(this.node, 'update');
-    }
-
 }

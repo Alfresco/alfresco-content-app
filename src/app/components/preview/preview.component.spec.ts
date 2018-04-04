@@ -36,7 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { PreviewComponent } from './preview.component';
 import { Observable } from 'rxjs/Rx';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 import { MatSnackBarModule } from '@angular/material';
 
 describe('PreviewComponent', () => {
@@ -64,7 +64,7 @@ describe('PreviewComponent', () => {
                     CookieService,
                     NotificationService,
                     UserPreferencesService,
-                    ContentManagementService
+                    NodePermissionService
                 ],
                 declarations: [
                     PreviewComponent,
