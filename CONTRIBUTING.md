@@ -1,6 +1,7 @@
 # Contributing to Alfresco Content Application (ACA)
 
-We would love for you to contribute to Alfresco Content Application and help make it ever better!
+Alfresco actively encourages external contributions to this Content Application so that the project can move develop in such a way that benefits the wider community.
+
 As a contributor, here are the guidelines we would like you to follow:
 
 * [Code of Conduct](#coc)
@@ -18,12 +19,11 @@ Please read and follow our [Code of Conduct][coc].
 
 ## <a name="question"></a> Got a Question or Problem?
 
-Do not open issues for general support questions as we want to keep GitHub issues for bug reports and feature requests.
-You've got much better chances of getting your question answered on [Gitter][gitter].
+Please do not open issues for general support questions as we want to keep GitHub issues for bug reports and feature requests. 
 
-The ADF [Gitter][gitter] channel is a much better place to ask questions since:
+The ADF [Gitter][gitter] channel is a much better place to ask questions:
 
-* many people that can help
+* direct access to many experianced Angular and ADF developers
 * questions and answers stay available for public viewing so your question / answer might help someone else
 * all discussions are saved and indexed, you can search for previous answers
 
@@ -34,7 +34,7 @@ If you find a bug in the source code, you can help us by:
 * [submitting an issue](#submit-issue) to our [ACA JIRA project][jira]
 * [submitting an issue](#submit-issue) to our [GitHub Repository][github].
 
-Even better, you can [submit a Pull Request](#submit-pr) with a fix.
+Even better, [submit a Pull Request](#submit-pr) with a fix.
 
 ## <a name="feature"></a> Missing a Feature?
 
@@ -52,11 +52,12 @@ and help you to craft the change so that it is successfully accepted into the pr
 
 ## <a name="submit"></a> Submission Guidelines
 
-Before you submit an issue, please search the issue tracker, maybe an issue for your problem already exists
-and the discussion might inform you of workarounds readily available.
+Before you submit an issue, search the issue tracker, an issue for your problem may already exist
+and the discussion might inform you of potential workarounds.
 
 We want to fix all the issues as soon as possible, but before fixing a bug we need to reproduce and confirm it.
-In order to reproduce bugs, we will systematically ask you to provide a minimal reproduction scenario.
+In order to reproduce bugs, we require you to provide a description of the problem, steps to reproduce and other supporting information that will help us recreate the problem you experianced.
+
 Having a reproducible scenario gives us a wealth of important information without going back & forth to you with additional questions like:
 
 * version of node.js used
@@ -74,7 +75,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 1. Search [GitHub](https://github.com/Alfresco/alfresco-content-app/pulls) for an open or closed PR
   that relates to your submission. You don't want to duplicate effort.
-1. Please sign our [Contributor License Agreement (CLA)](#cla) before sending PRs.
+1. Sign the [Contributor License Agreement (CLA)](#cla) before sending PRs.
   We cannot accept code without this.
   Make sure you sign with the primary email address of the Git identity that has been granted access to the Angular repository.
 1. Fork the ACA repository.
@@ -116,11 +117,10 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
 ## <a name="cla"></a> Signing the CLA
 
-Please sign our [Contributor License Agreement (CLA)][cla] before sending pull requests.
+Sign the [Contributor License Agreement (CLA)][cla] before sending pull requests.
 In addition, you will get the CLA link automatically generated for your first pull request.
 
 For any code changes to be accepted, the CLA must be signed.
-It's a quick process, we promise!
 
 <hr>
 
