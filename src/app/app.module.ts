@@ -63,6 +63,7 @@ import { VersionManagerDialogAdapterComponent } from './components/versions-dial
 import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
+import { NodePermissionService } from './common/services/node-permission.service';
 import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 import { SearchComponent } from './components/search/search.component';
 
@@ -125,7 +126,8 @@ import { SearchComponent } from './components/search/search.component';
         },
         BrowsingFilesService,
         ContentManagementService,
-        NodeActionsService
+        NodeActionsService,
+        NodePermissionService
     ],
     entryComponents: [
         VersionManagerDialogAdapterComponent
