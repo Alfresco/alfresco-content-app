@@ -1,7 +1,7 @@
 <div class="layout">
     <adf-upload-drag-area
         [parentId]="node?.id"
-        [disabled]="!canCreateContent(node)">
+        [disabled]="!permission.check(node, ['create'])">
 
         <adf-sidenav-layout
             [sidenavMin]="70"
