@@ -23,7 +23,7 @@ Please do not open issues for general support questions as we want to keep GitHu
 
 The ADF [Gitter][gitter] channel is a much better place to ask questions:
 
-* direct access to many experianced Angular and ADF developers
+* direct access to many experienced Angular and ADF developers
 * questions and answers stay available for public viewing so your question / answer might help someone else
 * all discussions are saved and indexed, you can search for previous answers
 
