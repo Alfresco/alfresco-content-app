@@ -30,7 +30,7 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientModule } from '@angular/common/http';
 import {
-    ContentService, PeopleContentService, AppConfigService,
+    PeopleContentService, AppConfigService,
     AuthenticationService, UserPreferencesService, TranslationService,
     TranslationMock, StorageService, AlfrescoApiService, CookieService,
     LogService
@@ -38,14 +38,13 @@ import {
 import { Observable } from 'rxjs/Observable';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 import { LayoutComponent } from './layout.component';
 
 describe('LayoutComponent', () => {
     let fixture: ComponentFixture<LayoutComponent>;
     let component: LayoutComponent;
     let browsingFilesService: BrowsingFilesService;
-    let contentService: ContentService;
-    let node;
     const navItem = {
         label: 'some-label',
         route: {
@@ -54,8 +53,6 @@ describe('LayoutComponent', () => {
     };
 
     beforeEach(() => {
-        node = { id: 'node-id' };
-
         TestBed.configureTestingModule({
             imports: [
                 HttpClientModule,
@@ -73,8 +70,8 @@ describe('LayoutComponent', () => {
                 LogService,
                 UserPreferencesService,
                 AuthenticationService,
-                ContentService,
                 AppConfigService,
+                NodePermissionService,
                 BrowsingFilesService,
                 {
                     provide: PeopleContentService,
@@ -89,7 +86,6 @@ describe('LayoutComponent', () => {
         fixture = TestBed.createComponent(LayoutComponent);
         component = fixture.componentInstance;
         browsingFilesService = TestBed.get(BrowsingFilesService);
-        contentService = TestBed.get(ContentService);
 
         const appConfig = TestBed.get(AppConfigService);
         spyOn(appConfig, 'get').and.returnValue([navItem]);
@@ -103,29 +99,5 @@ describe('LayoutComponent', () => {
         browsingFilesService.onChangeParent.next(currentNode);
 
         expect(component.node).toEqual(currentNode);
-    });
-
-    describe('canCreateContent()', () => {
-        it('returns true if node has permission', () => {
-            spyOn(contentService, 'hasPermission').and.returnValue(true);
-
-            const permission = component.canCreateContent(<any>{});
-
-            expect(permission).toBe(true);
-        });
-
-        it('returns false if node does not have permission', () => {
-            spyOn(contentService, 'hasPermission').and.returnValue(false);
-
-            const permission = component.canCreateContent(<any>{});
-
-            expect(permission).toBe(false);
-        });
-
-        it('returns false if node is null', () => {
-            const permission = component.canCreateContent(null);
-
-            expect(permission).toBe(false);
-        });
     });
  });
