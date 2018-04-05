@@ -11,6 +11,7 @@
     "build:dev": "npm run server-versions && ng build && node postbuild-dev.js",
     "build:tomcat": "npm run server-versions && ng build --base-href ./",
     "test": "ng test --code-coverage",
+    "test:ci": "ng test --code-coverage --single-run --no-progress && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0"
