@@ -31,6 +31,7 @@ import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 import { PageComponent } from '../page.component';
 
 @Component({
@@ -49,6 +50,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
                 private route: ActivatedRoute,
                 private content: ContentManagementService,
                 private apiService: AlfrescoApiService,
+                public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
         super(preferences);
 

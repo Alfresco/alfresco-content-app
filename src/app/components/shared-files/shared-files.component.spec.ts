@@ -42,6 +42,7 @@ import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/materi
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { SharedFilesComponent } from './shared-files.component';
 
@@ -96,6 +97,7 @@ describe('SharedFilesComponent', () => {
                     LogService,
                     NotificationService,
                     ContentManagementService,
+                    NodePermissionService,
                     ContentService,
                     NodesApiService,
                     DocumentListService,

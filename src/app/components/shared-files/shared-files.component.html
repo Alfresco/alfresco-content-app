@@ -64,7 +64,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canMoveShared(documentList.selection)"
+                    *ngIf="permission.check(documentList.selection, ['delete'])"
                     [app-move-node]="documentList.selection">
                     <mat-icon color="primary">library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -72,7 +72,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canDelete(documentList.selection)"
+                    *ngIf="permission.check(documentList.selection, ['delete'])"
                     [appUnshareNode]="documentList.selection"
                     (links-unshared)="refresh()">
                     <mat-icon color="primary">stop_screen_share</mat-icon>
@@ -81,7 +81,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canDeleteShared(documentList.selection)"
+                    *ngIf="permission.check(documentList.selection, ['delete'])"
                     [app-delete-node]="documentList.selection">
                     <mat-icon color="primary">delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -89,7 +89,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canManageVersionsOfShared(documentList.selection)"
+                    *ngIf="permission.check(documentList.selection[0], ['update'])"
                     [app-node-versions]="documentList.selection">
                     <mat-icon color="primary">storage</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
@@ -195,8 +195,8 @@
                     </div>
 
                     <adf-content-metadata-card
-                        [readOnly]="!canUpdateShared(documentList.selection)"
-                        [displayEmpty]="canUpdateShared(documentList.selection)"
+                        [readOnly]="!permission.check(documentList.selection, ['update'])"
+                        [displayEmpty]="permission.check(documentList.selection, ['update'])"
                         [preset]="'custom'"
                         [node]="infoInstance.node">
                     </adf-content-metadata-card>
@@ -204,7 +204,7 @@
 
                 <adf-info-drawer-tab label="Versions">
                     <ng-container *ngIf="isFileSelected(documentList.selection);else choose_document_template">
-                        <ng-container *ngIf="canManageVersionsOfShared(documentList.selection); else no_permission_to_versions">
+                        <ng-container *ngIf="permission.check(documentList.selection[0], ['update']); else no_permission_to_versions">
                             <adf-version-manager *ngIf="infoInstance.node"
                                                  [node]="infoInstance.node">
                             </adf-version-manager>
