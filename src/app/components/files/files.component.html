@@ -109,7 +109,7 @@
         <div class="inner-layout__panel" [ngClass]="{'adf-document-list--loading': isLoading}">
             <adf-upload-drag-area
                 [parentId]="node?.id"
-                [disabled]="!canCreateContent(node)">
+                [disabled]="!permission.check(node, ['create'])">
 
                 <adf-document-list #documentList
                     [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
