@@ -13,7 +13,5 @@ jobs:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - "node_modules"
-      #- run: npm run build
-      - run: xvfb-run -a npm run test -- --single-run --no-progress && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage
-      #- run: xvfb-run -a npm run test -- --single-run --no-progress --browser=ChromeNoSandbox
+      - run: xvfb-run -a npm run test:ci
       #- run: xvfb-run -a npm run e2e -- --no-progress --config=protractor-ci.conf.js
