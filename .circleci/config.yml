@@ -1,6 +1,11 @@
 version: 2
 jobs:
   build:
+    branches:
+      only:
+        - master
+        - development
+        - /dev-*/
     working_directory: ~/alfresco-content-app
     docker:
       - image: circleci/node:8-browsers
