@@ -10,6 +10,19 @@
                     [node]="node">
                 </adf-content-metadata-card>
             </adf-info-drawer-tab>
+
+            <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
+                <ng-container *ngIf="permission.check(node, ['update']);else no_permission_to_versions">
+                    <adf-version-manager [node]="node"></adf-version-manager>
+                </ng-container>
+
+                <ng-template #no_permission_to_versions>
+                    <div class="adf-manage-versions-no-permission">
+                        <mat-icon class="adf-manage-versions-no-permission-icon">warning</mat-icon>
+                        {{ 'VERSION.SELECTION.NO_PERMISSION' | translate }}
+                    </div>
+                </ng-template>
+            </adf-info-drawer-tab>
         </adf-info-drawer>
     </ng-template>
 

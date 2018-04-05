@@ -171,8 +171,8 @@
             (changed)="toggleSidebar($event)"
             #infoInstance=nodeInfo>
 
-            <adf-info-drawer title="Details">
-                <adf-info-drawer-tab label="Properties">
+            <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
+                <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
                     <div *ngIf="infoInstance.loading">
                         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                     </div>
@@ -185,7 +185,7 @@
                     </adf-content-metadata-card>
                 </adf-info-drawer-tab>
 
-                <adf-info-drawer-tab label="Versions">
+                <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
                     <ng-container *ngIf="isFileSelected(documentList.selection);else choose_document_template">
                         <ng-container *ngIf="canManageVersions(documentList.selection); else no_permission_to_versions">
                             <adf-version-manager *ngIf="infoInstance.node"

@@ -193,7 +193,8 @@
         "INFO_DRAWER": {
             "TITLE": "Details",
             "TABS": {
-                "PROPERTIES": "Properties"
+                "PROPERTIES": "Properties",
+                "VERSIONS": "Versions"
             }
         }
     },
