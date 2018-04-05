@@ -38,14 +38,11 @@ ACA version: X.Y.Z
 <!-- Check whether this is still an issue in the most recent ACA version -->
 
 Browser:
-- [ ] Chrome (desktop) version XX
-- [ ] Chrome (Android) version XX
-- [ ] Chrome (iOS) version XX
+- [ ] Chrome version XX
 - [ ] Firefox version XX
-- [ ] Safari (desktop) version XX
-- [ ] Safari (iOS) version XX
-- [ ] IE version XX
+- [ ] Safari version XX
 - [ ] Edge version XX
+- [ ] IE11
  
 For Tooling issues:
 - Node version: XX  <!-- run `node --version` -->
