@@ -196,7 +196,7 @@
                     </adf-content-metadata-card>
                 </adf-info-drawer-tab>
 
-                <adf-info-drawer-tab label="Versions">
+                <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
                     <ng-container *ngIf="infoInstance.node?.isFile;else choose_document_template">
                         <ng-container *ngIf="permission.check(infoInstance.node, ['update']);else no_permission_to_versions">
                             <adf-version-manager [node]="infoInstance.node"></adf-version-manager>
