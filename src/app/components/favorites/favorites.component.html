@@ -182,30 +182,38 @@
             (changed)="toggleSidebar($event)"
             #infoInstance=nodeInfo>
 
-            <adf-info-drawer title="Details">
-                <adf-info-drawer-tab label="Properties">
+            <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
+                <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
                     <div *ngIf="infoInstance.loading">
                         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
                     </div>
 
                     <adf-content-metadata-card
-                        [readOnly]="!canUpdate(documentList.selection)"
-                        [displayEmpty]="canUpdate(documentList.selection)"
+                        [readOnly]="!permission.check(infoInstance.node, ['update'])"
+                        [displayEmpty]="permission.check(infoInstance.node, ['update'])"
                         [preset]="'custom'"
                         [node]="infoInstance.node">
                     </adf-content-metadata-card>
                 </adf-info-drawer-tab>
 
                 <adf-info-drawer-tab label="Versions">
-                    <ng-container *ngIf="isFileSelected(documentList.selection);else choose_document_template">
-                        <adf-version-manager *ngIf="infoInstance.node"
-                                             [node]="infoInstance.node">
-                        </adf-version-manager>
+                    <ng-container *ngIf="infoInstance.node?.isFile;else choose_document_template">
+                        <ng-container *ngIf="permission.check(infoInstance.node, ['update']);else no_permission_to_versions">
+                            <adf-version-manager [node]="infoInstance.node"></adf-version-manager>
+                        </ng-container>
                     </ng-container>
+
                     <ng-template #choose_document_template>
                         <div class="adf-manage-versions-empty">
                             <mat-icon class="adf-manage-versions-empty-icon">face</mat-icon>
                             {{ 'VERSION.SELECTION.EMPTY' | translate }}
+                        </div>
+                    </ng-template>
+
+                    <ng-template #no_permission_to_versions>
+                        <div class="adf-manage-versions-no-permission">
+                            <mat-icon class="adf-manage-versions-no-permission-icon">warning</mat-icon>
+                            {{ 'VERSION.SELECTION.NO_PERMISSION' | translate }}
                         </div>
                     </ng-template>
                 </adf-info-drawer-tab>
