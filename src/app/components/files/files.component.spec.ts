@@ -45,6 +45,7 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 
 import { FilesComponent } from './files.component';
@@ -102,6 +103,7 @@ describe('FilesComponent', () => {
                 DocumentListService,
                 ThumbnailService,
                 NodeActionsService,
+                NodePermissionService,
                 UploadService,
                 BrowsingFilesService
             ],
@@ -323,31 +325,6 @@ describe('FilesComponent', () => {
             component.fetchNodes('nodeId');
 
             expect(nodesApi.getNodeChildren).toHaveBeenCalledWith('nodeId', jasmine.any(Object));
-        });
-    });
-
-    describe('Create permission', () => {
-        beforeEach(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
-            spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
-
-            fixture.detectChanges();
-        });
-
-        it('returns false when node is not provided', () => {
-            expect(component.canCreateContent(null)).toBe(false);
-        });
-
-        it('returns false when node does not have permission', () => {
-            spyOn(alfrescoContentService, 'hasPermission').and.returnValue(false);
-
-            expect(component.canCreateContent(node)).toBe(false);
-        });
-
-        it('returns false when node has permission', () => {
-            spyOn(alfrescoContentService, 'hasPermission').and.returnValue(true);
-
-            expect(component.canCreateContent(node)).toBe(true);
         });
     });
 
