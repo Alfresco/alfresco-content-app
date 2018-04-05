@@ -35,6 +35,7 @@ import {
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { PageComponent } from '../page.component';
 
@@ -61,6 +62,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private browsingFilesService: BrowsingFilesService,
                 private contentService: ContentService,
                 private apiService: AlfrescoApiService,
+                public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
         super(preferences);
 
@@ -200,14 +202,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         if (newNode) {
             this.load(false, this.pagination);
         }
-    }
-
-    canCreateContent(parentNode: MinimalNodeEntryEntity): boolean {
-        if (parentNode) {
-            return this.contentService.hasPermission(parentNode, 'create');
-        }
-
-        return false;
     }
 
     load(showIndicator: boolean = false, pagination: any = {}) {
