@@ -32,6 +32,7 @@ import { ContentService, NodesApiService, UserPreferencesService } from '@alfres
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 import { PageComponent } from '../page.component';
 
 @Component({
@@ -51,6 +52,7 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
                 private nodesApi: NodesApiService,
                 private contentService: ContentService,
                 private content: ContentManagementService,
+                public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
         super(preferences);
 
