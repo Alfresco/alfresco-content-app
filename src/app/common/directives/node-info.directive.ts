@@ -65,7 +65,9 @@ export class NodeInfoDirective implements OnInit {
             this.loading = true;
 
             this.apiService.getInstance().nodes
-                .getNodeInfo((<any>node.entry).nodeId || node.entry.id)
+                .getNodeInfo((<any>node.entry).nodeId || node.entry.id, {
+                    include: ['allowableOperations']
+                })
                 .then((data: MinimalNodeEntryEntity) => {
                     this.node = data;
                     this.changed.emit(data);
