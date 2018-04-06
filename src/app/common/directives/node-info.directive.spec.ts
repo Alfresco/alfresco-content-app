@@ -98,7 +98,7 @@ describe('NodeInfoDirective', () => {
 
         document.dispatchEvent(new CustomEvent('click'));
 
-        expect(nodeService.getNodeInfo).toHaveBeenCalledWith('id');
+        expect(nodeService.getNodeInfo).toHaveBeenCalledWith('id', { include: [ 'allowableOperations' ] });
     });
 
 
@@ -116,6 +116,6 @@ describe('NodeInfoDirective', () => {
         fixture.detectChanges();
         tick();
 
-        expect(nodeService.getNodeInfo).toHaveBeenCalledWith('id3');
+        expect(nodeService.getNodeInfo).toHaveBeenCalledWith('id3', { include: [ 'allowableOperations' ] });
     }));
 });
