@@ -21,6 +21,11 @@
             ".git"
         ]
     },
+    "adf-version-manager": {
+        "allowComments": true,
+        "allowDownload": true,
+        "allowDelete": true
+    },
     "navigation": {
         "main": [
             {
