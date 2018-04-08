@@ -106,6 +106,12 @@
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions"
         },
+        "DIALOGS": {
+            "CONFIRM_PURGE": {
+                "TITLE": "Delete",
+                "MESSAGE": "Permanently delete item(s) from the trash?"
+            }
+        },
         "DOCUMENT_LIST": {
             "COLUMNS": {
                 "NAME": "Name",
