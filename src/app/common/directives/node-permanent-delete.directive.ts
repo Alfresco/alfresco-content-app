@@ -28,6 +28,8 @@ import { Observable } from 'rxjs/Rx';
 
 import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MatDialog } from '@angular/material';
+import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 
 @Directive({
     // tslint:disable-next-line:directive-selector
@@ -41,14 +43,27 @@ export class NodePermanentDeleteDirective {
 
     @HostListener('click')
     onClick() {
-        this.purge();
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+                title: 'APP.DIALOGS.CONFIRM_PURGE.TITLE',
+                message: 'APP.DIALOGS.CONFIRM_PURGE.MESSAGE'
+            },
+            minWidth: '250px'
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+                this.purge();
+            }
+        });
     }
 
     constructor(
         private alfrescoApiService: AlfrescoApiService,
         private translation: TranslationService,
         private notification: NotificationService,
-        private el: ElementRef
+        private el: ElementRef,
+        private dialog: MatDialog
     ) {}
 
     private purge()  {
