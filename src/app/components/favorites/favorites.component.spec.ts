@@ -37,7 +37,7 @@ import {
     AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
     NodeFavoriteDirective, DataTableComponent
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -115,6 +115,7 @@ describe('Favorites Routed Component', () => {
                     UserPreferencesService,
                     AppConfigService, StorageService, CookieService,
                     AlfrescoApiService,
+                    CustomResourcesService,
                     LogService,
                     NotificationService,
                     ContentManagementService,

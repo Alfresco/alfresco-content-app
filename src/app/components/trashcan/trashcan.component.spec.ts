@@ -35,7 +35,7 @@ import {
     AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
     NodeFavoriteDirective, DataTableComponent
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
@@ -96,7 +96,8 @@ describe('TrashcanComponent', () => {
                 ContentService,
                 NodesApiService,
                 DocumentListService,
-                ThumbnailService
+                ThumbnailService,
+                CustomResourcesService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })

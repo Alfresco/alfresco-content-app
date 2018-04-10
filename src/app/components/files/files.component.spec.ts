@@ -39,7 +39,7 @@ import {
     TimeAgoPipe, NodeNameTooltipPipe, FileSizePipe, NodeFavoriteDirective,
     DataTableComponent, UploadService
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { MatMenuModule, MatSnackBarModule, MatIconModule, MatDialogModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -105,7 +105,8 @@ describe('FilesComponent', () => {
                 NodeActionsService,
                 NodePermissionService,
                 UploadService,
-                BrowsingFilesService
+                BrowsingFilesService,
+                CustomResourcesService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         }).compileComponents()
