@@ -46,7 +46,9 @@ export class NodePermanentDeleteDirective {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             data: {
                 title: 'APP.DIALOGS.CONFIRM_PURGE.TITLE',
-                message: 'APP.DIALOGS.CONFIRM_PURGE.MESSAGE'
+                message: 'APP.DIALOGS.CONFIRM_PURGE.MESSAGE',
+                yesLabel: 'APP.DIALOGS.CONFIRM_PURGE.YES_LABEL',
+                noLabel: 'APP.DIALOGS.CONFIRM_PURGE.NO_LABEL'
             },
             minWidth: '250px'
         });
