@@ -29,7 +29,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import {
     UploadService, FileUploadEvent, NodesApiService,
-    ContentService, AlfrescoApiService, UserPreferencesService
+    ContentService, AlfrescoApiService, UserPreferencesService, NotificationService
 } from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
@@ -62,6 +62,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private browsingFilesService: BrowsingFilesService,
                 private contentService: ContentService,
                 private apiService: AlfrescoApiService,
+                private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
         super(preferences);
@@ -305,6 +306,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     onSortingChanged(event: CustomEvent) {
         this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
         this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    openSnackMessage(event: any) {
+        this.notificationService.openSnackMessage(
+            event,
+            4000
+        );
     }
 
     private get prefix() {

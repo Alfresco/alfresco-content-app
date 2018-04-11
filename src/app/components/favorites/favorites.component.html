@@ -28,6 +28,7 @@
                 color="primary"
                 *ngIf="showEditOption(documentList.selection)"
                 title="{{ 'APP.ACTIONS.EDIT' | translate }}"
+                (error)="openSnackMessage($event)"
                 [adf-edit-folder]="documentList.selection[0]?.entry">
                 <mat-icon>create</mat-icon>
             </button>
