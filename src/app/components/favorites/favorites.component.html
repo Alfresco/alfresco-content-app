@@ -171,6 +171,7 @@
 
             <ng-container *ngIf="!documentList.isEmpty()">
                 <adf-pagination
+                    [supportedPageSizes]="documentList.supportedPageSizes"
                     [target]="documentList"
                     (changePageSize)="onChangePageSize($event)">
                 </adf-pagination>
