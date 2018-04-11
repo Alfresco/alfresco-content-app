@@ -63,6 +63,7 @@ describe('FilesComponent', () => {
     let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
     let preferenceService: UserPreferencesService;
+    let notificationService: NotificationService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -121,6 +122,7 @@ describe('FilesComponent', () => {
             router = TestBed.get(Router);
             alfrescoContentService = TestBed.get(ContentService);
             browsingFilesService = TestBed.get(BrowsingFilesService);
+            notificationService = TestBed.get(NotificationService);
             nodeActionsService = TestBed.get(NodeActionsService);
             preferenceService = TestBed.get(UserPreferencesService);
         });
@@ -529,6 +531,18 @@ describe('FilesComponent', () => {
 
             expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
             expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
+        });
+    });
+
+    describe('openSnackMessage', () => {
+        it('should call notification service', () => {
+            const message = 'notification message';
+
+            spyOn(notificationService, 'openSnackMessage');
+
+            component.openSnackMessage(message);
+
+            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });
