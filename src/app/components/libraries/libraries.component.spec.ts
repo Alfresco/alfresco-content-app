@@ -193,8 +193,6 @@ describe('Libraries Routed Component', () => {
 
             component.navigate(node.id);
 
-            fixture.detectChanges();
-
             expect(routerSpy.calls.argsFor(0)[0]).toEqual(['./', document.id]);
         });
     });

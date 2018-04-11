@@ -112,7 +112,7 @@ describe('TrashcanComponent', () => {
             preferenceService = TestBed.get(UserPreferencesService);
 
             component.documentList = {
-                loadTrashcan:  jasmine.createSpy('loadTrashcan'),
+                reload:  jasmine.createSpy('reload'),
                 resetSelection: jasmine.createSpy('resetSelection')
             };
         });
@@ -136,7 +136,7 @@ describe('TrashcanComponent', () => {
     describe('refresh()', () => {
         it('calls child component to reload', () => {
             component.refresh();
-            expect(component.documentList.loadTrashcan).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('calls child component to reset selection', () => {
