@@ -22,6 +22,7 @@
             <button
                 mat-menu-item
                 [disabled]="!permission.check(node, ['create'])"
+                (error)="openSnackMessage($event)"
                 [adf-create-folder]="node?.id"
                 [title]="
                     ( permission.check(node, ['create'])
