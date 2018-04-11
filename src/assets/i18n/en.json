@@ -108,8 +108,10 @@
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
-                "TITLE": "Delete",
-                "MESSAGE": "Permanently delete item(s) from the trash?"
+                "TITLE": "Delete from trash?",
+                "MESSAGE": "This will permanently remove the selected item(s).",
+                "YES_LABEL": "Delete",
+                "NO_LABEL": "Keep"
             }
         },
         "DOCUMENT_LIST": {
