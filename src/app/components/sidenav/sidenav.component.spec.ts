@@ -27,12 +27,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material';
+import { MatMenuModule, MatSnackBarModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import {
     AppConfigService, AuthenticationService,
     UserPreferencesService, StorageService, AlfrescoApiService,
-    CookieService, LogService
+    CookieService, LogService, NotificationService
 } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -44,6 +44,7 @@ describe('SidenavComponent', () => {
     let component: SidenavComponent;
     let browsingService: BrowsingFilesService;
     let appConfig: AppConfigService;
+    let notificationService: NotificationService;
     let appConfigSpy;
 
     const navItem = {
@@ -58,6 +59,7 @@ describe('SidenavComponent', () => {
             imports: [
                 HttpClientModule,
                 MatMenuModule,
+                MatSnackBarModule,
                 TranslateModule.forRoot(),
                 RouterTestingModule
             ],
@@ -73,7 +75,8 @@ describe('SidenavComponent', () => {
                 AuthenticationService,
                 NodePermissionService,
                 AppConfigService,
-                BrowsingFilesService
+                BrowsingFilesService,
+                NotificationService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
@@ -81,6 +84,7 @@ describe('SidenavComponent', () => {
         .then(() => {
             browsingService = TestBed.get(BrowsingFilesService);
             appConfig = TestBed.get(AppConfigService);
+            notificationService = TestBed.get(NotificationService);
 
             fixture = TestBed.createComponent(SidenavComponent);
             component = fixture.componentInstance;
@@ -111,6 +115,18 @@ describe('SidenavComponent', () => {
             fixture.detectChanges();
 
             expect(component.navigation).toEqual([[navItem, navItem], [navItem, navItem]]);
+        });
+    });
+
+    describe('openSnackMessage', () => {
+        it('should call notification service', () => {
+            const message = 'notification message';
+
+            spyOn(notificationService, 'openSnackMessage');
+
+            component.openSnackMessage(message);
+
+            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });

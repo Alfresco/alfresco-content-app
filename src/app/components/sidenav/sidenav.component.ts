@@ -26,7 +26,8 @@
 import { Subscription } from 'rxjs/Rx';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { AppConfigService } from '@alfresco/adf-core';
+import { AppConfigService, NotificationService } from '@alfresco/adf-core';
+
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -45,6 +46,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     constructor(
+        private notificationService: NotificationService,
         private browsingFilesService: BrowsingFilesService,
         private appConfig: AppConfigService,
         public permission: NodePermissionService
@@ -57,6 +59,13 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.browsingFilesService.onChangeParent
                 .subscribe((node: MinimalNodeEntryEntity) => this.node = node)
         ]);
+    }
+
+    openSnackMessage(event: any) {
+        this.notificationService.openSnackMessage(
+            event,
+            4000
+        );
     }
 
     ngOnDestroy() {
