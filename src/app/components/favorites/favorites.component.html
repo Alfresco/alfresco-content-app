@@ -8,7 +8,7 @@
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="canPreviewFile(documentList.selection)"
+                [disabled]="!canPreviewFile(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="onNodeDoubleClick(documentList.selection[0]?.entry)">
                 <mat-icon>open_in_browser</mat-icon>
@@ -17,7 +17,7 @@
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="hasSelection(documentList.selection)"
+                [disabled]="!hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
                 [adfNodeDownload]="documentList.selection">
                 <mat-icon>get_app</mat-icon>
@@ -26,7 +26,7 @@
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="showEditOption(documentList.selection)"
+                [disabled]="!showEditOption(documentList.selection)"
                 title="{{ 'APP.ACTIONS.EDIT' | translate }}"
                 (error)="openSnackMessage($event)"
                 [adf-edit-folder]="documentList.selection[0]?.entry">
@@ -35,7 +35,7 @@
 
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="documentList.selection.length"
+                [disabled]="!documentList.selection.length"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
@@ -44,7 +44,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="hasSelection(documentList.selection)"
+                [disabled]="!hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.MORE' | translate }}"
                 [matMenuTriggerFor]="actionsMenu">
                 <mat-icon>more_vert</mat-icon>
@@ -89,7 +89,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="isFileSelected(documentList.selection)"
+                    [disabled]="!isFileSelected(documentList.selection)"
                     [app-node-versions]="documentList.selection">
                     <mat-icon color="primary">history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>

@@ -7,7 +7,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="canPreviewFile(documentList.selection)"
+                [disabled]="!canPreviewFile(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="onNodeDoubleClick(documentList.selection[0]?.entry)">
                 <mat-icon>open_in_browser</mat-icon>
@@ -16,7 +16,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="hasSelection(documentList.selection)"
+                [disabled]="!hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
                 [adfNodeDownload]="documentList.selection">
                 <mat-icon>get_app</mat-icon>
@@ -24,7 +24,7 @@
 
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="documentList.selection.length"
+                [disabled]="!documentList.selection.length"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
@@ -33,7 +33,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="hasSelection(documentList.selection)"
+                [disabled]="!hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.MORE' | translate }}"
                 [matMenuTriggerFor]="actionsMenu">
                 <mat-icon>more_vert</mat-icon>
@@ -64,7 +64,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="permission.check(documentList.selection, ['delete'], { target: 'allowableOperationsOnTarget' })"
+                    [disabled]="!permission.check(documentList.selection, ['delete'], { target: 'allowableOperationsOnTarget' })"
                     [app-move-node]="documentList.selection">
                     <mat-icon color="primary">library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -72,7 +72,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="permission.check(documentList.selection, ['delete'])"
+                    [disabled]="!permission.check(documentList.selection, ['delete'])"
                     [appUnshareNode]="documentList.selection"
                     (links-unshared)="refresh()">
                     <mat-icon color="primary">stop_screen_share</mat-icon>
@@ -81,7 +81,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="permission.check(documentList.selection, ['delete'], { target: 'allowableOperationsOnTarget' })"
+                    [disabled]="!permission.check(documentList.selection, ['delete'], { target: 'allowableOperationsOnTarget' })"
                     [app-delete-node]="documentList.selection">
                     <mat-icon color="primary">delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -89,7 +89,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="permission.check(documentList.selection[0], ['update'])"
+                    [disabled]="!permission.check(documentList.selection[0], ['update'])"
                     [app-node-versions]="documentList.selection">
                     <mat-icon color="primary">history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
