@@ -29,25 +29,32 @@ import { Injectable } from '@angular/core';
 export class NodePermissionService {
     static DEFAULT_OPERATION = 'OR';
 
-    check(source: any, permissions: string[], operation: string = NodePermissionService.DEFAULT_OPERATION): boolean {
+    private defaultOptions = {
+        operation: NodePermissionService.DEFAULT_OPERATION,
+        target: null
+    };
+
+    check(source: any, permissions: string[], options: any = {}): boolean {
+        const opts = Object.assign({}, this.defaultOptions, options);
+
         if (source) {
             if (Array.isArray(source) && source.length) {
                 const arr = this.sanitize(source);
 
-                return !!arr.length && source.every(node => this.hasPermission(node, permissions, operation));
+                return !!arr.length && source.every(node => this.hasPermission(node, permissions, opts));
             }
 
-            return this.hasPermission(source, permissions, operation);
+            return this.hasPermission(source, permissions, opts);
         }
 
         return false;
     }
 
-    private hasPermission(node, permissions, operation): boolean {
-        const allowableOperations = this.getAllowableOperations(node);
+    private hasPermission(node, permissions, options): boolean {
+        const allowableOperations = this.getAllowableOperations(node, options.target);
 
         if (allowableOperations.length) {
-            if (operation === NodePermissionService.DEFAULT_OPERATION) {
+            if (options.operation === NodePermissionService.DEFAULT_OPERATION) {
                 return permissions.some(permission => allowableOperations.includes(permission));
             } else {
                 return permissions.every(permission => allowableOperations.includes(permission));
@@ -57,15 +64,15 @@ export class NodePermissionService {
         return false;
     }
 
-    private getAllowableOperations(node): string[] {
+    private getAllowableOperations(node, target): string[] {
         const entry = node.entry || node;
 
-        if (entry.allowableOperationsOnTarget) {
-            return entry.allowableOperationsOnTarget;
+        if (!target && entry.allowableOperations) {
+            return entry.allowableOperations;
         }
 
-        if (entry.allowableOperations) {
-            return entry.allowableOperations;
+        if (target && entry[target]) {
+            return entry[target];
         }
 
         return [];
