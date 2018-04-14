@@ -9,7 +9,7 @@
                 mat-icon-button
                 [app-permanent-delete-node]="documentList.selection"
                 (selection-node-deleted)="refresh()"
-                *ngIf="documentList.selection.length"
+                [disabled]="!documentList.selection.length"
                 title="{{ 'APP.ACTIONS.DELETE_PERMANENT' | translate }}">
                 <mat-icon>delete_forever</mat-icon>
             </button>
@@ -19,7 +19,7 @@
                 mat-icon-button
                 (selection-node-restored)="refresh()"
                 [app-restore-node]="documentList.selection"
-                *ngIf="documentList.selection.length"
+                [disabled]="!documentList.selection.length"
                 title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
                 <mat-icon>restore</mat-icon>
            </button>

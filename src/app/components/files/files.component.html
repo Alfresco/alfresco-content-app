@@ -10,7 +10,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="canPreviewFile(documentList.selection)"
+                [disabled]="!canPreviewFile(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="showPreview(documentList.selection[0]?.entry)">
                 <mat-icon>open_in_browser</mat-icon>
@@ -19,7 +19,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="hasSelection(documentList.selection)"
+                [disabled]="!hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
                 [adfNodeDownload]="documentList.selection">
                 <mat-icon>get_app</mat-icon>
@@ -28,7 +28,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="canEditFolder(documentList.selection)"
+                [disabled]="!canEditFolder(documentList.selection)"
                 title="{{ 'APP.ACTIONS.EDIT' | translate }}"
                 (error)="openSnackMessage($event)"
                 [adf-edit-folder]="documentList.selection[0]?.entry">
@@ -37,7 +37,7 @@
 
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="documentList.selection.length"
+                [disabled]="!documentList.selection.length"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
@@ -46,7 +46,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="hasSelection(documentList.selection)"
+                [disabled]="!hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.MORE' | translate }}"
                 [matMenuTriggerFor]="actionsMenu">
                 <mat-icon>more_vert</mat-icon>
@@ -77,7 +77,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canMove(documentList.selection)"
+                    [disabled]="!canMove(documentList.selection)"
                     [app-move-node]="documentList.selection">
                     <mat-icon color="primary">library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -85,7 +85,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canDelete(documentList.selection)"
+                    [disabled]="!canDelete(documentList.selection)"
                     [app-delete-node]="documentList.selection">
                     <mat-icon color="primary">delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -93,7 +93,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canManageVersions(documentList.selection)"
+                    [disabled]="!canManageVersions(documentList.selection)"
                     [app-node-versions]="documentList.selection">
                     <mat-icon color="primary">history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
