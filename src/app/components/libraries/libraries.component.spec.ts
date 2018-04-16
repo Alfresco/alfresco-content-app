@@ -42,6 +42,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { LibrariesComponent } from './libraries.component';
 
@@ -87,7 +88,8 @@ describe('Libraries Routed Component', () => {
                     NodeNameTooltipPipe,
                     NodeFavoriteDirective,
                     DocumentListComponent,
-                    LibrariesComponent
+                    LibrariesComponent,
+                    AppConfigPipe
                 ],
                 providers: [
                     { provide: ActivatedRoute, useValue: {
