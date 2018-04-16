@@ -42,6 +42,7 @@ import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/materi
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { RecentFilesComponent } from './recent-files.component';
 
@@ -83,7 +84,8 @@ describe('RecentFiles Routed Component', () => {
                     NodeFavoriteDirective,
                     NodeInfoDirective,
                     DocumentListComponent,
-                    RecentFilesComponent
+                    RecentFilesComponent,
+                    AppConfigPipe
                 ],
                 providers: [
                     { provide: ActivatedRoute, useValue: {
