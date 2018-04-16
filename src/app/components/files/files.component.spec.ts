@@ -47,6 +47,7 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 import { NodeActionsService } from '../../common/services/node-actions.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { FilesComponent } from './files.component';
 
@@ -84,7 +85,8 @@ describe('FilesComponent', () => {
                 NodeFavoriteDirective,
                 NodeInfoDirective,
                 DocumentListComponent,
-                FileSizePipe
+                FileSizePipe,
+                AppConfigPipe
             ],
             providers: [
                 { provide: ActivatedRoute, useValue: {

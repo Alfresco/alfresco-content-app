@@ -43,6 +43,7 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 import { NodePermissionService } from '../../common/services/node-permission.service';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { SharedFilesComponent } from './shared-files.component';
 
@@ -83,7 +84,8 @@ describe('SharedFilesComponent', () => {
                     NodeFavoriteDirective,
                     NodeInfoDirective,
                     DocumentListComponent,
-                    SharedFilesComponent
+                    SharedFilesComponent,
+                    AppConfigPipe
                 ],
                 providers: [
                     { provide: ActivatedRoute, useValue: {

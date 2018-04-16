@@ -42,6 +42,7 @@ import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/materi
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { TrashcanComponent } from './trashcan.component';
 
@@ -79,7 +80,8 @@ describe('TrashcanComponent', () => {
                 NodeFavoriteDirective,
                 NodeInfoDirective,
                 DocumentListComponent,
-                TrashcanComponent
+                TrashcanComponent,
+                AppConfigPipe
             ],
             providers: [
                 { provide: ActivatedRoute, useValue: {

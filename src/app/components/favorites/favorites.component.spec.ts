@@ -46,6 +46,7 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 import { NodePermissionService } from '../../common/services/node-permission.service';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { FavoritesComponent } from './favorites.component';
 
@@ -105,7 +106,8 @@ describe('Favorites Routed Component', () => {
                     NodeFavoriteDirective,
                     NodeInfoDirective,
                     DocumentListComponent,
-                    FavoritesComponent
+                    FavoritesComponent,
+                    AppConfigPipe
                 ],
                 providers: [
                     { provide: ActivatedRoute, useValue: {
