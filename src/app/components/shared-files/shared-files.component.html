@@ -195,8 +195,8 @@
                     </div>
 
                     <adf-content-metadata-card
-                        [readOnly]="!permission.check(documentList.selection, ['update'])"
-                        [displayEmpty]="permission.check(documentList.selection, ['update'])"
+                        [readOnly]="!permission.check(documentList.selection, ['update'], { target: 'allowableOperationsOnTarget' })"
+                        [displayEmpty]="permission.check(documentList.selection, ['update'], { target: 'allowableOperationsOnTarget' })"
                         [preset]="'custom'"
                         [node]="infoInstance.node">
                     </adf-content-metadata-card>
