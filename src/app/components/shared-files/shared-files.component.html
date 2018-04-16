@@ -89,7 +89,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="permission.check(documentList.selection[0], ['update'])"
+                    *ngIf="permission.check(documentList.selection[0], ['update'], { target: 'allowableOperationsOnTarget' })"
                     [app-node-versions]="documentList.selection">
                     <mat-icon color="primary">history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
