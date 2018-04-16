@@ -2,6 +2,10 @@
 
     <ng-template #sidebarTemplate>
         <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
+            <adf-info-drawer-tab label="Comments">
+                <adf-comments [nodeId]="nodeId"></adf-comments>
+            </adf-info-drawer-tab>
+
             <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
                 <adf-content-metadata-card
                     [readOnly]="!permission.check(node, ['update'])"
