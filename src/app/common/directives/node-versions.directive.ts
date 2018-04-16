@@ -58,13 +58,9 @@ export class NodeVersionsDirective {
         const contentEntry = this.selection[0].entry;
         const nodeId = (<any>contentEntry).nodeId;
 
-        if (nodeId) {
-            // get the node entry that was shared:
-            this.apiService.getInstance().nodes.getNodeInfo(nodeId).then(entry => this.openVersionManagerDialog(entry));
-
-        } else {
-            this.openVersionManagerDialog(contentEntry);
-        }
+        this.apiService.getInstance().nodes.getNodeInfo(nodeId || contentEntry.id, {
+            include: ['allowableOperations']
+        }).then(entry => this.openVersionManagerDialog(entry));
 
     }
 
