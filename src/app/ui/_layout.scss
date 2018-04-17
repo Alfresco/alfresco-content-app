@@ -26,10 +26,6 @@ $app-inner-layout--footer-height: 48px;
         @include flex-row;
     }
 
-    &__content--scroll {
-        overflow: auto;
-    }
-
     &__content--hide {
         display: none !important;
     }
@@ -45,6 +41,10 @@ $app-inner-layout--footer-height: 48px;
         overflow-y: scroll;
         max-width: 320px;
     }
+}
+
+.content--scroll {
+    overflow: auto !important;
 }
 
 app-generic-error {

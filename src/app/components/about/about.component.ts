@@ -55,7 +55,7 @@ export class AboutComponent implements OnInit {
                 {type: 'text', key: 'id', title: 'ID', sortable: true},
                 {type: 'text', key: 'title', title: 'Title', sortable: true},
                 {type: 'text', key: 'version', title: 'Description', sortable: true},
-                {type: 'text', key: 'installDate', title: 'Install Date', sortable: true},
+                {type: 'date', key: 'installDate', title: 'Install Date', sortable: true},
                 {type: 'text', key: 'installState', title: 'Install State', sortable: true},
                 {type: 'text', key: 'versionMin', title: 'Version Minor', sortable: true},
                 {type: 'text', key: 'versionMax', title: 'Version Max', sortable: true}
@@ -69,8 +69,8 @@ export class AboutComponent implements OnInit {
             ]);
 
             this.license = new ObjectDataTableAdapter([this.ecmVersion.license], [
-                {type: 'text', key: 'issuedAt', title: 'Issued At', sortable: true},
-                {type: 'text', key: 'expiresAt', title: 'Expires At', sortable: true},
+                {type: 'date', key: 'issuedAt', title: 'Issued At', sortable: true},
+                {type: 'date', key: 'expiresAt', title: 'Expires At', sortable: true},
                 {type: 'text', key: 'remainingDays', title: 'Remaining Days', sortable: true},
                 {type: 'text', key: 'holder', title: 'Holder', sortable: true},
                 {type: 'text', key: 'mode', title: 'Type', sortable: true},
