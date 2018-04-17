@@ -18,8 +18,8 @@
   },
   "private": true,
   "dependencies": {
-    "@alfresco/adf-content-services": "2.3.0-eff3ea83b03603d77986d6080553f799025e3f90",
-    "@alfresco/adf-core": "2.3.0-eff3ea83b03603d77986d6080553f799025e3f90",
+    "@alfresco/adf-content-services": "2.3.0-0a8438954b0b3f7b0d1ba805e9fd030ba6b36e45",
+    "@alfresco/adf-core": "2.3.0-0a8438954b0b3f7b0d1ba805e9fd030ba6b36e45",
     "@angular/animations": "5.1.1",
     "@angular/cdk": "5.0.1",
     "@angular/common": "5.1.1",
