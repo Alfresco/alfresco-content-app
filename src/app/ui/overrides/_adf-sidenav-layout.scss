@@ -12,3 +12,7 @@ adf-sidenav-layout {
 .sidenav-layout {
     @include flex-column;
 }
+
+.mat-drawer-content>div, .mat-drawer-content>div>div {
+    @include flex-column;
+}
