@@ -2,6 +2,10 @@
 
     <ng-template #sidebarTemplate>
         <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
+            <adf-info-drawer-tab label="Comments">
+                <adf-comments [nodeId]="nodeId"></adf-comments>
+            </adf-info-drawer-tab>
+
             <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
                 <adf-content-metadata-card
                     [readOnly]="!permission.check(node, ['update'])"
@@ -9,12 +13,6 @@
                     [preset]="'custom'"
                     [node]="node">
                 </adf-content-metadata-card>
-            </adf-info-drawer-tab>
-
-            <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
-                <ng-container>
-                    <adf-version-manager [node]="node"></adf-version-manager>
-                </ng-container>
             </adf-info-drawer-tab>
         </adf-info-drawer>
     </ng-template>
