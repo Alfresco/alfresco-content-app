@@ -68,7 +68,7 @@ services:
             - 8983:8983 #Browser port
 
     content-app:
-        image: alfresco/alfresco-content-app:development
+        image: alfresco/alfresco-content-app:${ACA_TAG}
         depends_on:
             - alfresco
         networks:
