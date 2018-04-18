@@ -67,6 +67,7 @@ import { NodeActionsService } from './common/services/node-actions.service';
 import { NodePermissionService } from './common/services/node-permission.service';
 import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 import { SearchComponent } from './components/search/search.component';
+import { NodeDownloadDirective } from './common/directives/node-download.directive';
 
 @NgModule({
     imports: [
@@ -115,7 +116,9 @@ import { SearchComponent } from './components/search/search.component';
         NodeVersionsDirective,
         AppConfigPipe,
         VersionManagerDialogAdapterComponent,
-        SearchComponent
+        SearchComponent,
+        // Workarounds for ADF 2.3.0
+        NodeDownloadDirective
     ],
     providers: [
         {
