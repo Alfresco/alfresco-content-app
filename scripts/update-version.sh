@@ -13,7 +13,7 @@ eval libs=( "core"
     #"insights"
 )
 
-cd `dirname $0`/..
+cd ${DIR}/..
 
 prefix="@alfresco/adf-"
 
