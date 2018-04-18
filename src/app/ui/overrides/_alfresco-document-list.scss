@@ -4,6 +4,7 @@
 
 adf-document-list {
     @include flex-column;
+    background-color: white; // TODO: remove when ADF 2.4.0 is out.
 }
 
 .adf-document-list--loading {
