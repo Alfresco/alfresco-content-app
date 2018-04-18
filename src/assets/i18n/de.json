@@ -102,7 +102,17 @@
       "UNDO": "Rückgängig machen",
       "RESTORE": "Wiederherstellen",
       "FAVORITE": "Zu Favoriten",
-      "UNSHARE": "Freigabe aufheben"
+      "UNSHARE": "Freigabe aufheben",
+      "DETAILS": "Details anzeigen",
+      "VERSIONS": "Versionen verwalten"
+    },
+    "DIALOGS": {
+      "CONFIRM_PURGE": {
+        "TITLE": "Aus Papierkorb löschen?",
+        "MESSAGE": "Dadurch werden die ausgewählten Elemente dauerhaft gelöscht.",
+        "YES_LABEL": "Löschen",
+        "NO_LABEL": "Behalten"
+      }
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -184,6 +194,16 @@
           }
         }
       }
+    },
+    "CONTENT_METADATA": {
+      "EXIF_GROUP_TITLE": "Bild-EXIF"
+    },
+    "INFO_DRAWER": {
+      "TITLE": "Details",
+      "TABS": {
+        "PROPERTIES": "Eigenschaften",
+        "VERSIONS": "Versionen"
+      }
     }
   },
   "NODE_SELECTOR": {
@@ -192,5 +212,15 @@
     "MOVE_ITEM": "'{{ name }}' verschieben nach...",
     "MOVE_ITEMS": "{{ number }} Elemente verschieben nach...",
     "SEARCH": "Suchen"
+  },
+  "VERSION": {
+    "DIALOG": {
+      "TITLE": "Versionen verwalten",
+      "CLOSE": "Schließen"
+    },
+    "SELECTION": {
+      "EMPTY": "Wählen Sie ein Dokument aus, um die Versionen davon anzuzeigen.",
+      "NO_PERMISSION": "Sie verfügen nicht über die nötigen Benutzerrechte, um Versionen dieser Inhalte anzuzeigen."
+    }
   }
 }

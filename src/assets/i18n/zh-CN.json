@@ -102,7 +102,17 @@
       "UNDO": "撤消",
       "RESTORE": "恢复",
       "FAVORITE": "收藏",
-      "UNSHARE": "取消共享"
+      "UNSHARE": "取消共享",
+      "DETAILS": "查看详细信息",
+      "VERSIONS": "管理版本"
+    },
+    "DIALOGS": {
+      "CONFIRM_PURGE": {
+        "TITLE": "要从回收站删除吗？",
+        "MESSAGE": "所选定的项将会被永久删除。",
+        "YES_LABEL": "删除",
+        "NO_LABEL": "保留"
+      }
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -184,6 +194,16 @@
           }
         }
       }
+    },
+    "CONTENT_METADATA": {
+      "EXIF_GROUP_TITLE": "图像EXIF"
+    },
+    "INFO_DRAWER": {
+      "TITLE": "详细信息",
+      "TABS": {
+        "PROPERTIES": "属性",
+        "VERSIONS": "版本"
+      }
     }
   },
   "NODE_SELECTOR": {
@@ -192,5 +212,15 @@
     "MOVE_ITEM": "将 '{{ name }}' 移动到...",
     "MOVE_ITEMS": "将 {{ number }} 项移动到...",
     "SEARCH": "搜索"
+  },
+  "VERSION": {
+    "DIALOG": {
+      "TITLE": "管理版本",
+      "CLOSE": "关闭"
+    },
+    "SELECTION": {
+      "EMPTY": "请选定一个文件去看它的版本。",
+      "NO_PERMISSION": "你没有权限管理此内容的版本。"
+    }
   }
 }
