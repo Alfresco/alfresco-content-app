@@ -24,7 +24,7 @@
  */
 
 import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
-import { UserPreferencesService } from '@alfresco/adf-core';
+import { UserPreferencesService, DisplayMode } from '@alfresco/adf-core';
 import { ShareDataRow } from '@alfresco/adf-content-services';
 
 export abstract class PageComponent {
@@ -39,6 +39,8 @@ export abstract class PageComponent {
     pagination: Pagination;
 
     node: MinimalNodeEntryEntity;
+
+    displayMode = DisplayMode.List;
 
     static isLockedNode(node) {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
@@ -142,7 +144,7 @@ export abstract class PageComponent {
 
     nodeHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
         if (node && permission) {
-            const { allowableOperations = [] } = <any>(node || {});
+            const {allowableOperations = []} = <any>(node || {});
 
             if (allowableOperations.indexOf(permission) > -1) {
                 return true;
@@ -203,5 +205,13 @@ export abstract class PageComponent {
         }
 
         this.infoDrawerOpened = !this.infoDrawerOpened;
+    }
+
+    toogleGalleryView(): void {
+        if (this.displayMode === DisplayMode.List) {
+            this.displayMode = DisplayMode.Gallery;
+        } else {
+            this.displayMode = DisplayMode.List;
+        }
     }
 }

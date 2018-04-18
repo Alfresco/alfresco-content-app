@@ -5,6 +5,12 @@
 
         <adf-toolbar class="inline">
 
+            <button mat-menu-item
+                    (click)="toogleGalleryView()">
+                <mat-icon *ngIf="displayMode === 'list'">view_comfy</mat-icon>
+                <mat-icon *ngIf="displayMode === 'gallery'">list</mat-icon>
+            </button>
+
             <button
                 mat-icon-button
                 color="primary"
@@ -24,10 +30,10 @@
             </button>
 
             <button mat-icon-button
-                [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="documentList.selection.length"
-                title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
-                (click)="toggleSidebar()">
+                    [color]="infoDrawerOpened ? 'accent' : 'primary'"
+                    *ngIf="documentList.selection.length"
+                    title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
+                    (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
             </button>
 
@@ -41,8 +47,8 @@
             </button>
 
             <mat-menu #actionsMenu="matMenu"
-                [overlapTrigger]="false"
-                class="secondary-options">
+                      [overlapTrigger]="false"
+                      class="secondary-options">
                 <button
                     mat-menu-item
                     #selection="adfFavorite"
@@ -93,17 +99,18 @@
     <div class="inner-layout__content">
         <div class="inner-layout__panel" [ngClass]="{'adf-document-list--loading': documentList.isEmpty()}">
             <adf-document-list #documentList
-                [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
-                currentFolderId="-recent-"
-                selectionMode="multiple"
-                [navigate]="false"
-                [sorting]="sorting"
-                [contextMenuActions]="true"
-                [contentActions]="false"
-                [imageResolver]="imageResolver"
-                (sorting-changed)="onSortingChanged($event)"
-                (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
-                (node-select)="onNodeSelect($event, documentList)">
+                               [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
+                               currentFolderId="-recent-"
+                               selectionMode="multiple"
+                               [navigate]="false"
+                               [sorting]="sorting"
+                               [contextMenuActions]="true"
+                               [contentActions]="false"
+                               [imageResolver]="imageResolver"
+                               (sorting-changed)="onSortingChanged($event)"
+                               (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
+                               (node-select)="onNodeSelect($event, documentList)"
+                               [display]="displayMode">
 
                 <empty-folder-content>
                     <ng-template>
@@ -167,10 +174,10 @@
         </div>
 
         <div class="inner-layout__side-panel"
-            *ngIf="infoDrawerOpened"
-            [app-node-info]="documentList.selection"
-            (changed)="toggleSidebar($event)"
-            #infoInstance=nodeInfo>
+             *ngIf="infoDrawerOpened"
+             [app-node-info]="documentList.selection"
+             (changed)="toggleSidebar($event)"
+             #infoInstance=nodeInfo>
 
             <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
                 <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">

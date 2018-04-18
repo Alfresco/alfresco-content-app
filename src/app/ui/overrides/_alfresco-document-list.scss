@@ -1,5 +1,4 @@
 @import 'variables-color';
-
 @import 'mixins';
 
 adf-document-list {
@@ -21,6 +20,31 @@ adf-document-list {
 adf-datatable {
     @include flex-column;
     overflow-y: scroll;
+
+    .adf-data-table-card {
+        border: 0px !important;
+    }
+}
+
+.adf-data-table-card {
+    border: 0px !important;
+}
+
+.adf-datatable-row {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+@media (max-width: 600px) {
+
+    .adf-datatable-row {
+        margin: auto !important;
+    }
+
+    .adf-data-table-card .adf-datatable-body:after {
+        display: none !important;
+    }
 }
 
 .adf-data-table {
