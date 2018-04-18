@@ -4,6 +4,8 @@ $app-layout--header-height: 65px;
 $app-layout--side-width: 320px;
 $app-inner-layout--header-height: 48px;
 $app-inner-layout--footer-height: 48px;
+$alfresco-divider-color: rgba($alfresco-black, .07);
+$alfresco-gray-background: #fafafa;
 
 .layout {
     @include flex-column;

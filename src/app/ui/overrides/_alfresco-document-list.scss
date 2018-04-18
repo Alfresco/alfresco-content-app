@@ -1,5 +1,4 @@
-@import 'variables-color';
-
+@import 'variables';
 @import 'mixins';
 
 adf-document-list {
@@ -51,19 +50,6 @@ adf-datatable {
     .adf-data-table-cell, .adf-datatable-header {
         width: 100%;
         text-align: left;
-    }
-
-    .app-location-link,
-    .adf-location-cell {
-        a {
-            text-decoration: none;
-            color: $alfresco-primary-text-color;
-
-            &:hover {
-                color: #2196F3;
-                text-decoration: underline;
-            }
-        }
     }
 
     .adf-datatable-body .adf-data-table-cell--image {
