@@ -27,7 +27,7 @@ import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { Pagination } from 'alfresco-js-api';
-import { UserPreferencesService } from '@alfresco/adf-core';
+import { UserPreferencesService, DisplayMode } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 
@@ -39,7 +39,9 @@ export class TrashcanComponent implements OnInit, OnDestroy {
 
     @ViewChild(DocumentListComponent) documentList;
 
-    sorting = [ 'archivedAt', 'desc' ];
+    sorting = ['archivedAt', 'desc'];
+
+    displayMode = DisplayMode.List;
 
     constructor(private contentManagementService: ContentManagementService,
                 private preferences: UserPreferencesService,
@@ -71,6 +73,14 @@ export class TrashcanComponent implements OnInit, OnDestroy {
     onSortingChanged(event: CustomEvent) {
         this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'archivedAt');
         this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    toogleGalleryView(): void {
+        if (this.displayMode === DisplayMode.List) {
+            this.displayMode = DisplayMode.Gallery;
+        } else {
+            this.displayMode = DisplayMode.List;
+        }
     }
 
     private get prefix() {

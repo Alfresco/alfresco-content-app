@@ -7,6 +7,13 @@
         </adf-breadcrumb>
 
         <adf-toolbar class="inline">
+
+            <button mat-menu-item
+                    (click)="toogleGalleryView()">
+                <mat-icon *ngIf="displayMode === 'list'">view_comfy</mat-icon>
+                <mat-icon *ngIf="displayMode === 'gallery'">list</mat-icon>
+            </button>
+
             <button
                 color="primary"
                 mat-icon-button
@@ -36,10 +43,10 @@
             </button>
 
             <button mat-icon-button
-                [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="documentList.selection.length"
-                title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
-                (click)="toggleSidebar()">
+                    [color]="infoDrawerOpened ? 'accent' : 'primary'"
+                    *ngIf="documentList.selection.length"
+                    title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
+                    (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
             </button>
 
@@ -53,8 +60,8 @@
             </button>
 
             <mat-menu #actionsMenu="matMenu"
-                [overlapTrigger]="false"
-                class="secondary-options">
+                      [overlapTrigger]="false"
+                      class="secondary-options">
                 <button
                     mat-menu-item
                     #selection="adfFavorite"
@@ -113,21 +120,22 @@
                 [disabled]="!permission.check(node, ['create'])">
 
                 <adf-document-list #documentList
-                    [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
-                    [loading]="isLoading"
-                    [node]="paging"
-                    [sorting]="sorting"
-                    [allowDropFiles]="true"
+                                   [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
+                                   [loading]="isLoading"
+                                   [node]="paging"
+                                   [sorting]="sorting"
+                                   [allowDropFiles]="true"
+                                   [display]="displayMode"
 
-                    [contextMenuActions]="true"
-                    [contentActions]="false"
-                    [navigate]="false"
-                    [selectionMode]="'multiple'"
-                    [imageResolver]="imageResolver"
+                                   [contextMenuActions]="true"
+                                   [contentActions]="false"
+                                   [navigate]="false"
+                                   [selectionMode]="'multiple'"
+                                   [imageResolver]="imageResolver"
 
-                    (sorting-changed)="onSortingChanged($event)"
-                    (node-dblclick)="onNodeDoubleClick($event)"
-                    (node-select)="onNodeSelect($event, documentList)">
+                                   (sorting-changed)="onSortingChanged($event)"
+                                   (node-dblclick)="onNodeDoubleClick($event)"
+                                   (node-select)="onNodeSelect($event, documentList)">
 
                     <data-columns>
                         <data-column
@@ -182,10 +190,10 @@
         </div>
 
         <div class="inner-layout__side-panel"
-            *ngIf="infoDrawerOpened"
-            [app-node-info]="documentList.selection"
-            (changed)="toggleSidebar($event)"
-            #infoInstance=nodeInfo>
+             *ngIf="infoDrawerOpened"
+             [app-node-info]="documentList.selection"
+             (changed)="toggleSidebar($event)"
+             #infoInstance=nodeInfo>
 
             <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
                 <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
