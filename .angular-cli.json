@@ -89,7 +89,7 @@
     "component": {},
     "serve": {
       "proxyConfig": "proxy.conf.js",
-      "port": 3000,
+      "port": 4200,
       "host": "0.0.0.0"
     }
   }

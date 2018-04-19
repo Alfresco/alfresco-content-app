@@ -77,7 +77,7 @@ To perform a cleanup operation, use the next command:
 docker-compose down --rmi all
 ```
 
-Navigate to "http://localhost:3000" to access the running application.
+Navigate to "http://localhost:4200" to access the running application.
 
 <p class="warning">
 Please keep in mind that you should manually build the project every time you want to publish the image or run it locally with the container.
@@ -101,7 +101,7 @@ npm run build:dev
 docker-compose up
 ```
 
-Navigate to "http://localhost:3000" to access the running application.
+Navigate to "http://localhost:4200" to access the running application.
 
 To perform a cleanup operation, use the next command:
 

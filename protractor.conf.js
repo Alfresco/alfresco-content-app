@@ -28,7 +28,7 @@ exports.config = {
 
     directConnect: true,
 
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'http://localhost:4200',
 
     framework: 'jasmine2',
     jasmineNodeOpts: {
