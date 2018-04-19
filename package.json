@@ -6,7 +6,6 @@
     "ng": "ng",
     "start": "npm run server-versions && ng serve --open",
     "start:prod": "npm run server-versions && ng serve --prod --open",
-    "start:docker": "docker-compose up --build",
     "build": "npm run server-versions && ng build --prod",
     "build:prod": "npm run server-versions && ng build --prod",
     "build:dev": "npm run server-versions && ng build",
@@ -14,8 +13,13 @@
     "test": "ng test --code-coverage",
     "test:ci": "ng test --code-coverage --single-run --no-progress && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0"
+    "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0",
+    "_e2e": "ng e2e",
+    "wd:update": "webdriver-manager update",
+    "e2e": "npm run wd:update && protractor protractor.conf.js",
+    "start:docker": "docker-compose up -d && wait-on http://localhost:8080 && wait-on http://localhost:3000",
+    "stop:docker": "docker-compose stop",
+    "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker"
   },
   "private": true,
   "dependencies": {
@@ -65,10 +69,15 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "protractor": "~5.1.2",
+    "protractor": "^5.3.0",
     "rimraf": "2.6.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "typescript": "~2.7.2",
+    "@types/selenium-webdriver": "^3.0.8",
+    "jasminewd2": "^2.2.0",
+    "node-rest-client": "^3.1.0",
+    "selenium-webdriver": "3.6.0",
+    "wait-on": "2.1.0"
   }
 }
