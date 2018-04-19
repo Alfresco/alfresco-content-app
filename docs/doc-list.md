@@ -128,6 +128,14 @@ actions are automatically hidden when the user does not have permission.
             once the delete action has completed the user is notified and can undo the action (which restores the items from the trash).
         </td>
     </tr>
+    <tr>
+        <td>Manage Versions</td>
+        <td>
+            Versions of files can be viewed, uploaded, restored, downloaded and deleted by using the version manager dialog;
+            once each action has completed the list of versions is updated according to the change.
+        </td>
+        <td>Not applicable</td>
+    </tr>
 </tbody>
 </table>
 
