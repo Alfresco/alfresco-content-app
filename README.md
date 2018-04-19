@@ -35,7 +35,7 @@ and then check out one of our issues in the [Jira][jira] or [GitHub][github]
 
 ## Development server
 
-Run `npm start` for a dev server. Navigate to `http://localhost:3000/` (opens by default).
+Run `npm start` for a dev server. Navigate to `http://localhost:4200/` (opens by default).
 The app will automatically reload if you change any of the source files.
 
 ## Build
