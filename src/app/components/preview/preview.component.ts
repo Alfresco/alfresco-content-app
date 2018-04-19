@@ -28,6 +28,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
+import { ContentManagementService } from '../../common/services/content-management.service';
 
 @Component({
     selector: 'app-preview',
@@ -57,6 +58,7 @@ export class PreviewComponent implements OnInit {
         private route: ActivatedRoute,
         private apiService: AlfrescoApiService,
         private preferences: UserPreferencesService,
+        private content: ContentManagementService,
         public permission: NodePermissionService) {
     }
 
@@ -326,7 +328,7 @@ export class PreviewComponent implements OnInit {
 
     async deleteFile() {
         try {
-            await this.permission.check(this.node, ['delete']);
+            await this.content.deleteNode(this.node);
             this.onVisibilityChanged(false);
         } catch {
         }
