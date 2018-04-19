@@ -203,7 +203,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         }
     }
 
-    load(showIndicator: boolean = false, options: { maxItems?: number, skipCount?: number }) {
+    load(showIndicator: boolean = false, options: { maxItems?: number, skipCount?: number } = {}) {
         this.isLoading = showIndicator;
 
         this.fetchNodes(this.getParentNodeId(), options)
