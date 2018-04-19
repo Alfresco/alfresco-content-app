@@ -14,4 +14,4 @@ install:
 
 script:
   #- npm run test:ci
-  - npm run e2e:docker
+  - npm run build && npm run e2e:docker
