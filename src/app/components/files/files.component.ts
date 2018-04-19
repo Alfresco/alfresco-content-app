@@ -44,7 +44,6 @@ import { PageComponent } from '../page.component';
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
-    private routeData: any = {};
     isValidPath = true;
 
     private nodePath: PathElement[];
@@ -77,7 +76,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         const { route, contentManagementService, contentService, nodeActionsService, uploadService } = this;
         const { data } = route.snapshot;
 
-        this.routeData = data;
         this.title = data.i18nTitle;
 
         route.params.subscribe(({ folderId }: Params) => {
@@ -128,7 +126,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         return this.nodesApi.getNode(nodeId);
     }
 
-    fetchNodes(parentNodeId?: string, options: any = {}): Observable<NodePaging> {
+    fetchNodes(parentNodeId?: string, options: { maxItems?: number, skipCount?: number } = {}): Observable<NodePaging> {
         const defaults = {
             include: [ 'isLocked', 'path', 'properties', 'allowableOperations' ]
         };
@@ -205,15 +203,17 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         }
     }
 
-    load(showIndicator: boolean = false, pagination: any = {}) {
+    load(showIndicator: boolean = false, options: { maxItems?: number, skipCount?: number }) {
         this.isLoading = showIndicator;
 
-        this.fetchNodes(this.getParentNodeId(), pagination)
+        this.fetchNodes(this.getParentNodeId(), options)
             .flatMap((page) => {
                 if (this.isCurrentPageEmpty(page) && this.isNotFirstPage(page)) {
-                    const newSkipCount = pagination.skipCount - pagination.maxItems;
+                    const newSkipCount = options.skipCount - options.maxItems;
 
-                    return this.fetchNodes(this.getParentNodeId(), {skipCount: newSkipCount, maxItems: pagination.maxItems});
+                    return this.fetchNodes(this.getParentNodeId(), {
+                        skipCount: newSkipCount, maxItems: options.maxItems
+                    });
                 }
 
                 return Observable.of(page);

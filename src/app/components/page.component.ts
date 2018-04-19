@@ -64,7 +64,8 @@ export abstract class PageComponent {
     onPageLoaded(page: NodePaging) {
         this.isLoading = false;
         this.paging = page;
-        this.pagination = page.list.pagination;
+        // TODO: review after ADF-2768 is fixed
+        this.pagination = this.pagination || page.list.pagination;
         this.isEmpty = !(page.list.entries && page.list.entries.length > 0);
     }
 
