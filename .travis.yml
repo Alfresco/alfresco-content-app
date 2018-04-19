@@ -13,5 +13,5 @@ install:
   - npm ci
 
 script:
-  #- npm run test:ci
+  - docker-compose stop
   - npm run build && npm run e2e:docker
