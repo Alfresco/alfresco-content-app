@@ -18,7 +18,7 @@ npm install
 npm start
 ```
 
-The application runs at port 3000 by default, and should automatically open in the default browser once project compilation finishes.
+The application runs at port 4200 by default, and should automatically open in the default browser once project compilation finishes.
 
 ## Proxy settings
 
