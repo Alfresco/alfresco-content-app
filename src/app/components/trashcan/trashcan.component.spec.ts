@@ -35,12 +35,14 @@ import {
     AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
     NodeFavoriteDirective, DataTableComponent
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodeInfoDirective } from '../../common/directives/node-info.directive';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { TrashcanComponent } from './trashcan.component';
 
@@ -76,8 +78,10 @@ describe('TrashcanComponent', () => {
                 TimeAgoPipe,
                 NodeNameTooltipPipe,
                 NodeFavoriteDirective,
+                NodeInfoDirective,
                 DocumentListComponent,
-                TrashcanComponent
+                TrashcanComponent,
+                AppConfigPipe
             ],
             providers: [
                 { provide: ActivatedRoute, useValue: {
@@ -94,7 +98,8 @@ describe('TrashcanComponent', () => {
                 ContentService,
                 NodesApiService,
                 DocumentListService,
-                ThumbnailService
+                ThumbnailService,
+                CustomResourcesService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
@@ -104,11 +109,12 @@ describe('TrashcanComponent', () => {
             component = fixture.componentInstance;
 
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
             contentService = TestBed.get(ContentManagementService);
             preferenceService = TestBed.get(UserPreferencesService);
 
             component.documentList = {
-                loadTrashcan:  jasmine.createSpy('loadTrashcan'),
+                reload:  jasmine.createSpy('reload'),
                 resetSelection: jasmine.createSpy('resetSelection')
             };
         });
@@ -132,7 +138,7 @@ describe('TrashcanComponent', () => {
     describe('refresh()', () => {
         it('calls child component to reload', () => {
             component.refresh();
-            expect(component.documentList.loadTrashcan).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('calls child component to reset selection', () => {

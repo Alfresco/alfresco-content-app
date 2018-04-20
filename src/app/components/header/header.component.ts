@@ -24,7 +24,7 @@
  */
 
 import { DomSanitizer } from '@angular/platform-browser';
-import { Component, ViewEncapsulation, SecurityContext } from '@angular/core';
+import { Component, Output, EventEmitter, ViewEncapsulation, SecurityContext } from '@angular/core';
 import { AppConfigService } from '@alfresco/adf-core';
 
 @Component({
@@ -34,6 +34,8 @@ import { AppConfigService } from '@alfresco/adf-core';
     encapsulation: ViewEncapsulation.None
 })
 export class HeaderComponent {
+    @Output() menu: EventEmitter<any> = new EventEmitter<any>();
+
     private defaultPath = '/assets/images/alfresco-logo-white.svg';
     private defaultBackgroundColor = '#2196F3';
 
@@ -41,6 +43,10 @@ export class HeaderComponent {
         private appConfig: AppConfigService,
         private sanitizer: DomSanitizer
     ) {}
+
+    toggleMenu() {
+        this.menu.emit();
+    }
 
     get appName(): string {
         return <string>this.appConfig.get('application.name');

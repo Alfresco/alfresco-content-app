@@ -102,7 +102,17 @@
       "UNDO": "Angre",
       "RESTORE": "Gjenopprett",
       "FAVORITE": "Favoritt",
-      "UNSHARE": "Opphev deling"
+      "UNSHARE": "Opphev deling",
+      "DETAILS": "Visningsdetaljer",
+      "VERSIONS": "Administrer versjoner"
+    },
+    "DIALOGS": {
+      "CONFIRM_PURGE": {
+        "TITLE": "Slette fra søppelkurv?",
+        "MESSAGE": "Dette vil slette valgte elementer for godt.",
+        "YES_LABEL": "Slett",
+        "NO_LABEL": "Behold"
+      }
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -184,6 +194,16 @@
           }
         }
       }
+    },
+    "CONTENT_METADATA": {
+      "EXIF_GROUP_TITLE": "Bilde-EXIF"
+    },
+    "INFO_DRAWER": {
+      "TITLE": "Detaljer",
+      "TABS": {
+        "PROPERTIES": "Egenskaper",
+        "VERSIONS": "Versjoner"
+      }
     }
   },
   "NODE_SELECTOR": {
@@ -192,5 +212,15 @@
     "MOVE_ITEM": "Flytt {{ name }}'til...",
     "MOVE_ITEMS": "Flytt {{ number }} elementer til...",
     "SEARCH": "Søk"
+  },
+  "VERSION": {
+    "DIALOG": {
+      "TITLE": "Administrer versjoner",
+      "CLOSE": "Lukk"
+    },
+    "SELECTION": {
+      "EMPTY": "Velg et dokument for å se versjonene av det.",
+      "NO_PERMISSION": "Du har ikke tillatelse til å administrere versjonene av dette innholdet."
+    }
   }
 }

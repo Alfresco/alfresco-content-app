@@ -1,85 +1,62 @@
-@import 'variables';
+.sidenav {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 100%;
 
-$sidenav-section--h-padding: 24px;
-$sidenav-section--v-padding: 8px;
+    &__section:last-child {
+        border-bottom: 0;
+    }
 
-$sidenav-menu-item--h-padding: 24px;
-$sidenav-menu-item--v-padding: 12px;
-
-$sidenav-menu-item--icon-size: 24px;
-
-:host {
-    .sidenav {
+    .section--new--mini  {
         display: flex;
-        flex: 1;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__section {
+        padding: 8px 14px;
+        position: relative;
+
+        &--new {
+            padding: 16px 24px;
+            height: 40px;
+        }
+
+        &--new__button {
+            width: 100%;
+        }
+
+        &--new__button.mat-raised-button {
+            box-shadow: none !important;
+        }
+    }
+
+    &-menu {
+        display: inline-flex;
         flex-direction: column;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
 
-        &__section:last-child {
-            border-bottom: 0;
-        }
+    &-menu__item {
+        padding: 12px 0;
+        flex-direction: row;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        text-decoration: none;
+        height: 24px;
+    }
 
-        &__section {
-            padding:
-                $sidenav-section--v-padding
-                $sidenav-section--h-padding;
+    .menu__item--label {
+        cursor: pointer;
+        width: 240px;
+        padding-left: 10px;
+    }
 
-            border-bottom: 1px solid $alfresco-divider-color;
-            position: relative;
-
-            &--new {
-                padding-top: 2 * $sidenav-section--v-padding;
-                padding-bottom: 2 * $sidenav-section--v-padding;
-            }
-
-            &--new__button {
-                width: 100%;
-                color: $alfresco-white;
-                background-color: $alfresco-primary-accent--default;
-            }
-        }
-
-        &-menu {
-            margin: 0 -1 * $sidenav-section--h-padding;
-            padding: 0;
-            list-style-type: none;
-
-            &__item {
-                padding: $sidenav-menu-item--v-padding 0;
-
-                &-link {
-
-                    padding-left: $sidenav-menu-item--h-padding + 16px + 24px;
-                    position: relative;
-                    display: block;
-                    color: $alfresco-secondary-text-color;
-                    text-decoration: none;
-
-                    & > .material-icons {
-                        position: absolute;
-                        top: 50%;
-                        left: $sidenav-menu-item--h-padding;
-                        margin-top: -14px;
-                    }
-
-                    &--active {
-                        color: $alfresco-primary-accent--default;
-                    }
-
-                    &:not(&--active):hover {
-                        color: $alfresco-primary-text-color;
-                    }
-
-                    &.disabled {
-                        cursor: default !important;
-                        color: $alfresco-secondary-text-color !important;
-                        opacity: .25;
-                    }
-
-                    &--noicon {
-                        padding-left: 26px;
-                    }
-                }
-            }
-        }
+    .menu__item--label:focus {
+        outline: none;
     }
 }

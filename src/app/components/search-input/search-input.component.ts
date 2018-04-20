@@ -23,21 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
-// ADF modules
-import { CoreModule } from '@alfresco/adf-core';
-import { ContentModule } from '@alfresco/adf-content-services';
-
-export function modules() {
-    return [
-        CoreModule,
-        ContentModule
-    ];
-}
-
-@NgModule({
-    imports: modules(),
-    exports: modules()
+@Component({
+    selector: 'app-search-input',
+    templateUrl: 'search-input.component.html',
+    styleUrls: ['search-input.component.scss']
 })
-export class AdfModule { }
+export class SearchInputComponent {
+
+    constructor(
+        private router: Router) {
+    }
+
+    onItemClicked(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            if (node.entry.isFile) {
+                this.router.navigate([`/personal-files/${node.entry.parentId}/preview/`, node.entry.id]);
+            } else if (node.entry.isFolder) {
+                this.router.navigate([ '/personal-files',  node.entry.id ]);
+            }
+        }
+    }
+
+    /**
+     * Called when the user submits the search, e.g. hits enter or clicks submit
+     *
+     * @param event Parameters relating to the search
+     */
+    onSearchSubmit(event: KeyboardEvent) {
+        const value = (event.target as HTMLInputElement).value;
+        this.router.navigate(['/search', {
+            q: value
+        }]);
+    }
+}

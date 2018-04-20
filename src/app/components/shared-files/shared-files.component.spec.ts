@@ -35,12 +35,15 @@ import {
     StorageService, CookieService, ThumbnailService, AuthenticationService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective,DataTableComponent
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodeInfoDirective } from '../../common/directives/node-info.directive';
+import { NodePermissionService } from '../../common/services/node-permission.service';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { SharedFilesComponent } from './shared-files.component';
 
@@ -79,8 +82,10 @@ describe('SharedFilesComponent', () => {
                     TimeAgoPipe,
                     NodeNameTooltipPipe,
                     NodeFavoriteDirective,
+                    NodeInfoDirective,
                     DocumentListComponent,
-                    SharedFilesComponent
+                    SharedFilesComponent,
+                    AppConfigPipe
                 ],
                 providers: [
                     { provide: ActivatedRoute, useValue: {
@@ -94,10 +99,12 @@ describe('SharedFilesComponent', () => {
                     LogService,
                     NotificationService,
                     ContentManagementService,
+                    NodePermissionService,
                     ContentService,
                     NodesApiService,
                     DocumentListService,
-                    ThumbnailService
+                    ThumbnailService,
+                    CustomResourcesService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
             })
@@ -108,6 +115,7 @@ describe('SharedFilesComponent', () => {
 
                 contentService = TestBed.get(ContentManagementService);
                 alfrescoApi = TestBed.get(AlfrescoApiService);
+                alfrescoApi.reset();
                 nodeService = alfrescoApi.getInstance().nodes;
                 preferenceService = TestBed.get(UserPreferencesService);
                 router = TestBed.get(Router);

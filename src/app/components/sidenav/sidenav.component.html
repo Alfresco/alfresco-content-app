@@ -1,32 +1,45 @@
 <div class="sidenav">
-    <div class="sidenav__section sidenav__section--new">
-        <button class="sidenav__section--new__button" mat-button [matMenuTriggerFor]="menu">
+    <div class="sidenav__section sidenav__section--new" [ngClass]="{ 'section--new--mini': !showLabel }">
+        <button *ngIf="showLabel"
+            [matMenuTriggerFor]="menu"
+            class="sidenav__section--new__button"
+            [disableRipple]="true"
+            mat-raised-button
+            color="accent">
+
             <span>{{ 'APP.NEW_MENU.LABEL' | translate }}</span>
             <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+
+        <button [matMenuTriggerFor]="menu"
+            *ngIf="!showLabel"
+            color="accent"
+            mat-icon-button>
+            <mat-icon>add_box</mat-icon>
         </button>
 
         <mat-menu #menu="matMenu" [overlapTrigger]="false">
             <button
                 mat-menu-item
-                [disabled]="!canCreateContent(node)"
+                [disabled]="!permission.check(node, ['create'])"
+                (error)="openSnackMessage($event)"
                 [adf-create-folder]="node?.id"
-                title="{{
-                    ( canCreateContent(node)
+                [title]="
+                    ( permission.check(node, ['create'])
                         ? 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER'
                         : 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED'
-                    ) | translate
-                }}">
+                    ) | translate">
                 <mat-icon>create_new_folder</mat-icon>
                 <span>{{ 'APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER' | translate }}</span>
             </button>
 
             <adf-upload-button
-                tooltip="{{
-                    (canCreateContent(node)
+                [tooltip]="
+                    (permission.check(node, ['create'])
                         ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES'
                         : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES_NOT_ALLOWED'
-                    ) | translate }}"
-                [disabled]="!canCreateContent(node)"
+                    ) | translate"
+                [disabled]="!permission.check(node, ['create'])"
                 [rootFolderId]="node?.id"
                 [multipleFiles]="true"
                 [uploadFolders]="false"
@@ -34,12 +47,12 @@
             </adf-upload-button>
 
             <adf-upload-button
-                tooltip="{{
-                    (canCreateContent(node)
+                [tooltip]="
+                    (permission.check(node, ['create'])
                         ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS'
                         : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED'
-                    ) | translate }}"
-                [disabled]="!canCreateContent(node)"
+                    ) | translate"
+                [disabled]="!permission.check(node, ['create'])"
                 [rootFolderId]="node?.id"
                 [multipleFiles]="true"
                 [uploadFolders]="true"
@@ -48,19 +61,32 @@
         </mat-menu>
     </div>
 
-    <div class="sidenav__section" *ngFor="let list of navigation">
+    <div class="sidenav__section sidenav__section--menu" *ngFor="let list of navigation">
         <ul class="sidenav-menu">
-            <li class="sidenav-menu__item" *ngFor="let item of list">
-                <a
-                    class="sidenav-menu__item-link"
-                    [ngClass]="{ 'sidenav-menu__item-link--noicon' : !item.icon }"
-                    routerLinkActive="sidenav-menu__item-link--active"
-                    [routerLink]="item.disabled? null : item.route.url"
-                    [ngClass]="{ 'disabled': item.disabled }"
-                    title="{{ item.title || '' | translate }}">
-                    <mat-icon *ngIf="item.icon">{{ item.icon }}</mat-icon>
-                    {{ item.label | translate }}
-                </a>
+            <li *ngFor="let item of list" class="sidenav-menu__item"
+                routerLinkActive
+                #rla="routerLinkActive"
+                title="{{ item.title || '' | translate }}">
+
+                <button [routerLink]="item.route.url"
+                    [color]="rla.isActive ? 'accent': 'primary'"
+                    mat-icon-button
+                    mat-ripple
+                    matRippleColor="primary"
+                    [matRippleTrigger]="rippleTrigger"
+                    [matRippleCentered]="true">
+
+                    <mat-icon>{{ item.icon }}</mat-icon>
+                </button>
+
+                <span #rippleTrigger
+                    class="menu__item--label"
+                    [routerLink]="item.route.url"
+                    [hidden]="!showLabel"
+                    [ngClass]="{
+                        'menu__item--active': rla.isActive,
+                        'menu__item--default': !rla.isActive
+                    }">{{ item.label | translate }}</span>
             </li>
         </ul>
     </div>

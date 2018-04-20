@@ -29,12 +29,13 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import {
     UploadService, FileUploadEvent, NodesApiService,
-    ContentService, AlfrescoApiService, UserPreferencesService
+    ContentService, AlfrescoApiService, UserPreferencesService, NotificationService
 } from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { PageComponent } from '../page.component';
 
@@ -43,7 +44,6 @@ import { PageComponent } from '../page.component';
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
-    private routeData: any = {};
     isValidPath = true;
 
     private nodePath: PathElement[];
@@ -61,6 +61,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private browsingFilesService: BrowsingFilesService,
                 private contentService: ContentService,
                 private apiService: AlfrescoApiService,
+                private notificationService: NotificationService,
+                public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
         super(preferences);
 
@@ -74,7 +76,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         const { route, contentManagementService, contentService, nodeActionsService, uploadService } = this;
         const { data } = route.snapshot;
 
-        this.routeData = data;
         this.title = data.i18nTitle;
 
         route.params.subscribe(({ folderId }: Params) => {
@@ -125,7 +126,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         return this.nodesApi.getNode(nodeId);
     }
 
-    fetchNodes(parentNodeId?: string, options: any = {}): Observable<NodePaging> {
+    fetchNodes(parentNodeId?: string, options: { maxItems?: number, skipCount?: number } = {}): Observable<NodePaging> {
         const defaults = {
             include: [ 'isLocked', 'path', 'properties', 'allowableOperations' ]
         };
@@ -202,23 +203,17 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         }
     }
 
-    canCreateContent(parentNode: MinimalNodeEntryEntity): boolean {
-        if (parentNode) {
-            return this.contentService.hasPermission(parentNode, 'create');
-        }
-
-        return false;
-    }
-
-    load(showIndicator: boolean = false, pagination: any = {}) {
+    load(showIndicator: boolean = false, options: { maxItems?: number, skipCount?: number } = {}) {
         this.isLoading = showIndicator;
 
-        this.fetchNodes(this.getParentNodeId(), pagination)
+        this.fetchNodes(this.getParentNodeId(), options)
             .flatMap((page) => {
                 if (this.isCurrentPageEmpty(page) && this.isNotFirstPage(page)) {
-                    const newSkipCount = pagination.skipCount - pagination.maxItems;
+                    const newSkipCount = options.skipCount - options.maxItems;
 
-                    return this.fetchNodes(this.getParentNodeId(), {skipCount: newSkipCount, maxItems: pagination.maxItems});
+                    return this.fetchNodes(this.getParentNodeId(), {
+                        skipCount: newSkipCount, maxItems: options.maxItems
+                    });
                 }
 
                 return Observable.of(page);
@@ -311,6 +306,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     onSortingChanged(event: CustomEvent) {
         this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
         this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    openSnackMessage(event: any) {
+        this.notificationService.openSnackMessage(
+            event,
+            4000
+        );
     }
 
     private get prefix() {

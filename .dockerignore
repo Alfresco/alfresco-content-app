@@ -1,0 +1,11 @@
+.circleci
+.git
+.github
+.vscode
+coverage
+docs
+e2e
+e2e-output
+node_modules
+scripts
+src

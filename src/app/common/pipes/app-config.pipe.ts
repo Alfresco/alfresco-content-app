@@ -23,27 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import {
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule
-} from '@angular/material';
+import { Pipe, PipeTransform } from '@angular/core';
+import { AppConfigService } from '@alfresco/adf-core';
 
-export function modules() {
-    return [
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatInputModule
-    ];
-}
-
-@NgModule({
-    imports: modules(),
-    exports: modules()
+@Pipe({
+    name: 'appConfig',
+    pure: true
 })
-export class MaterialModule {}
+export class AppConfigPipe implements PipeTransform {
+    constructor(private config: AppConfigService) {}
+
+    transform(value: string, fallback: any): any {
+        return this.config.get(value, fallback);
+    }
+}

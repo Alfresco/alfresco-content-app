@@ -1,0 +1,5 @@
+@import 'mixins';
+
+adf-login {
+    @include flex-column;
+}

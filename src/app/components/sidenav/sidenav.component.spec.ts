@@ -27,23 +27,24 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatMenuModule } from '@angular/material';
+import { MatMenuModule, MatSnackBarModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import {
-    ContentService, AppConfigService, AuthenticationService,
+    AppConfigService, AuthenticationService,
     UserPreferencesService, StorageService, AlfrescoApiService,
-    CookieService, LogService
+    CookieService, LogService, NotificationService
 } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { SidenavComponent } from './sidenav.component';
 
 describe('SidenavComponent', () => {
     let fixture;
     let component: SidenavComponent;
-    let contentService: ContentService;
     let browsingService: BrowsingFilesService;
     let appConfig: AppConfigService;
+    let notificationService: NotificationService;
     let appConfigSpy;
 
     const navItem = {
@@ -58,6 +59,7 @@ describe('SidenavComponent', () => {
             imports: [
                 HttpClientModule,
                 MatMenuModule,
+                MatSnackBarModule,
                 TranslateModule.forRoot(),
                 RouterTestingModule
             ],
@@ -71,17 +73,18 @@ describe('SidenavComponent', () => {
                 StorageService,
                 UserPreferencesService,
                 AuthenticationService,
-                ContentService,
+                NodePermissionService,
                 AppConfigService,
-                BrowsingFilesService
+                BrowsingFilesService,
+                NotificationService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
         .compileComponents()
         .then(() => {
-            contentService = TestBed.get(ContentService);
             browsingService = TestBed.get(BrowsingFilesService);
             appConfig = TestBed.get(AppConfigService);
+            notificationService = TestBed.get(NotificationService);
 
             fixture = TestBed.createComponent(SidenavComponent);
             component = fixture.componentInstance;
@@ -99,32 +102,6 @@ describe('SidenavComponent', () => {
         expect(component.node).toBe(node);
     });
 
-    it('should have permission to create content', () => {
-        fixture.detectChanges();
-        spyOn(contentService, 'hasPermission').and.returnValue(true);
-        const node: any = {};
-
-        expect(component.canCreateContent(node)).toBe(true);
-        expect(contentService.hasPermission).toHaveBeenCalledWith(node, 'create');
-    });
-
-    it('should not have permission to create content for missing node', () => {
-        fixture.detectChanges();
-        spyOn(contentService, 'hasPermission').and.returnValue(true);
-
-        expect(component.canCreateContent(null)).toBe(false);
-        expect(contentService.hasPermission).not.toHaveBeenCalled();
-    });
-
-    it('should not have permission to create content based on node permission', () => {
-        fixture.detectChanges();
-        spyOn(contentService, 'hasPermission').and.returnValue(false);
-        const node: any = {};
-
-        expect(component.canCreateContent(node)).toBe(false);
-        expect(contentService.hasPermission).toHaveBeenCalledWith(node, 'create');
-    });
-
     describe('menu', () => {
         it('should build menu from array', () => {
             appConfigSpy.and.returnValue([navItem, navItem]);
@@ -138,6 +115,18 @@ describe('SidenavComponent', () => {
             fixture.detectChanges();
 
             expect(component.navigation).toEqual([[navItem, navItem], [navItem, navItem]]);
+        });
+    });
+
+    describe('openSnackMessage', () => {
+        it('should call notification service', () => {
+            const message = 'notification message';
+
+            spyOn(notificationService, 'openSnackMessage');
+
+            component.openSnackMessage(message);
+
+            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });

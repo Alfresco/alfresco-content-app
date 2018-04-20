@@ -36,12 +36,13 @@ import {
     StorageService, CookieService, ThumbnailService, AuthenticationService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { LibrariesComponent } from './libraries.component';
 
@@ -87,7 +88,8 @@ describe('Libraries Routed Component', () => {
                     NodeNameTooltipPipe,
                     NodeFavoriteDirective,
                     DocumentListComponent,
-                    LibrariesComponent
+                    LibrariesComponent,
+                    AppConfigPipe
                 ],
                 providers: [
                     { provide: ActivatedRoute, useValue: {
@@ -103,7 +105,8 @@ describe('Libraries Routed Component', () => {
                     ContentService,
                     NodesApiService,
                     DocumentListService,
-                    ThumbnailService
+                    ThumbnailService,
+                    CustomResourcesService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         })
@@ -113,6 +116,7 @@ describe('Libraries Routed Component', () => {
 
             nodesApi = TestBed.get(NodesApiService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
             router = TestBed.get(Router);
             preferenceService = TestBed.get(UserPreferencesService);
         });
@@ -190,8 +194,6 @@ describe('Libraries Routed Component', () => {
             spyOn(nodesApi, 'getNode').and.returnValue(Observable.of(document));
 
             component.navigate(node.id);
-
-            fixture.detectChanges();
 
             expect(routerSpy.calls.argsFor(0)[0]).toEqual(['./', document.id]);
         });

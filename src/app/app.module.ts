@@ -26,11 +26,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TRANSLATION_PROVIDER } from '@alfresco/adf-core';
-
-import { AdfModule } from './adf.module';
-import { CommonModule } from './common/common.module';
-import { MaterialModule } from './common/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TRANSLATION_PROVIDER, CoreModule } from '@alfresco/adf-core';
+import { ContentModule } from '@alfresco/adf-content-services';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
@@ -47,22 +46,46 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
-import { SearchComponent } from './components/search/search.component';
+import { SearchInputComponent } from './components/search-input/search-input.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
 import { EmptyFolderComponent } from './components/empty-folder/empty-folder.component';
+import { NodeCopyDirective } from './common/directives/node-copy.directive';
+import { NodeDeleteDirective } from './common/directives/node-delete.directive';
+import { NodeMoveDirective } from './common/directives/node-move.directive';
+import { NodeRestoreDirective } from './common/directives/node-restore.directive';
+import { NodePermanentDeleteDirective } from './common/directives/node-permanent-delete.directive';
+import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
+import { NodeInfoDirective } from './common/directives/node-info.directive';
+import { NodeVersionsDirective } from './common/directives/node-versions.directive';
+import { AppConfigPipe } from './common/pipes/app-config.pipe';
+import { VersionManagerDialogAdapterComponent } from './components/versions-dialog/version-manager-dialog-adapter.component';
+import { BrowsingFilesService } from './common/services/browsing-files.service';
+import { ContentManagementService } from './common/services/content-management.service';
+import { NodeActionsService } from './common/services/node-actions.service';
+import { NodePermissionService } from './common/services/node-permission.service';
+import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
+import { SearchComponent } from './components/search/search.component';
+import { NodeDownloadDirective } from './common/directives/node-download.directive';
 
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
         RouterModule.forRoot(APP_ROUTES, {
             useHash: true,
             enableTracing: false // enable for debug only
         }),
-        AdfModule,
-        CommonModule,
-        MaterialModule
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatInputModule,
+        CoreModule,
+        ContentModule
     ],
     declarations: [
         AppComponent,
@@ -71,7 +94,7 @@ import { EmptyFolderComponent } from './components/empty-folder/empty-folder.com
         LayoutComponent,
         HeaderComponent,
         CurrentUserComponent,
-        SearchComponent,
+        SearchInputComponent,
         SidenavComponent,
         FilesComponent,
         FavoritesComponent,
@@ -82,7 +105,20 @@ import { EmptyFolderComponent } from './components/empty-folder/empty-folder.com
         PreviewComponent,
         AboutComponent,
         LocationLinkComponent,
-        EmptyFolderComponent
+        EmptyFolderComponent,
+        NodeCopyDirective,
+        NodeDeleteDirective,
+        NodeMoveDirective,
+        NodeRestoreDirective,
+        NodePermanentDeleteDirective,
+        NodeUnshareDirective,
+        NodeInfoDirective,
+        NodeVersionsDirective,
+        AppConfigPipe,
+        VersionManagerDialogAdapterComponent,
+        SearchComponent,
+        // Workarounds for ADF 2.3.0
+        NodeDownloadDirective
     ],
     providers: [
         {
@@ -92,7 +128,14 @@ import { EmptyFolderComponent } from './components/empty-folder/empty-folder.com
                 name: 'app',
                 source: 'assets'
             }
-        }
+        },
+        BrowsingFilesService,
+        ContentManagementService,
+        NodeActionsService,
+        NodePermissionService
+    ],
+    entryComponents: [
+        VersionManagerDialogAdapterComponent
     ],
     bootstrap: [AppComponent]
 })

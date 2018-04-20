@@ -24,10 +24,11 @@
  */
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { ContentService } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 @Component({
     selector: 'app-layout',
@@ -36,12 +37,20 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 })
 export class LayoutComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity;
+    isPreview = false;
 
     private subscriptions: Subscription[] = [];
 
     constructor(
-        private contentService: ContentService,
-        private browsingFilesService: BrowsingFilesService) {}
+        private router: Router,
+        private browsingFilesService: BrowsingFilesService,
+        public permission: NodePermissionService) {
+            this.router.events
+                .filter(event => event instanceof NavigationEnd)
+                .subscribe( (event: any ) => {
+                    this.isPreview = event.urlAfterRedirects.includes('preview');
+                });
+        }
 
     ngOnInit() {
         this.subscriptions.concat([
@@ -51,12 +60,5 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
-    }
-
-    canCreateContent(node: MinimalNodeEntryEntity): boolean {
-        if (node) {
-            return this.contentService.hasPermission(node, 'create');
-        }
-        return false;
     }
 }

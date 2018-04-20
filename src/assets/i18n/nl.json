@@ -102,7 +102,17 @@
       "UNDO": "Ongedaan maken",
       "RESTORE": "Herstellen",
       "FAVORITE": "Favoriet",
-      "UNSHARE": "Delen ongedaan maken"
+      "UNSHARE": "Delen ongedaan maken",
+      "DETAILS": "Details weergeven",
+      "VERSIONS": "Versies beheren"
+    },
+    "DIALOGS": {
+      "CONFIRM_PURGE": {
+        "TITLE": "Verwijderen uit prullenbak?",
+        "MESSAGE": "Hiermee worden de geselecteerde items permanent verwijderd.",
+        "YES_LABEL": "Verwijderen",
+        "NO_LABEL": "Bewaren"
+      }
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
@@ -184,6 +194,16 @@
           }
         }
       }
+    },
+    "CONTENT_METADATA": {
+      "EXIF_GROUP_TITLE": "EXIF afbeelding"
+    },
+    "INFO_DRAWER": {
+      "TITLE": "Details",
+      "TABS": {
+        "PROPERTIES": "Eigenschappen",
+        "VERSIONS": "Versies"
+      }
     }
   },
   "NODE_SELECTOR": {
@@ -192,5 +212,15 @@
     "MOVE_ITEM": "'{{ name }}' verplaatsen naar...",
     "MOVE_ITEMS": "{{ number }} items verplaatsen naar...",
     "SEARCH": "Zoeken"
+  },
+  "VERSION": {
+    "DIALOG": {
+      "TITLE": "Versies beheren",
+      "CLOSE": "Sluiten"
+    },
+    "SELECTION": {
+      "EMPTY": "Kies een document om de versies ervan weer te geven.",
+      "NO_PERMISSION": "U hebt geen rechten voor het beheren van de versies van deze content."
+    }
   }
 }

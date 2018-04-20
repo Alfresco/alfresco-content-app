@@ -35,12 +35,14 @@ import {
     StorageService, CookieService, ThumbnailService, AuthenticationService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodeInfoDirective } from '../../common/directives/node-info.directive';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { RecentFilesComponent } from './recent-files.component';
 
@@ -52,7 +54,6 @@ describe('RecentFiles Routed Component', () => {
     let contentService: ContentManagementService;
     let preferenceService: UserPreferencesService;
     let page;
-    let person;
 
     beforeEach(() => {
         page = {
@@ -61,8 +62,6 @@ describe('RecentFiles Routed Component', () => {
                 pagination: { data: 'data'}
             }
         };
-
-        person = { entry: { id: 'bogus' } };
     });
 
     beforeEach(async(() => {
@@ -80,8 +79,10 @@ describe('RecentFiles Routed Component', () => {
                     TimeAgoPipe,
                     NodeNameTooltipPipe,
                     NodeFavoriteDirective,
+                    NodeInfoDirective,
                     DocumentListComponent,
-                    RecentFilesComponent
+                    RecentFilesComponent,
+                    AppConfigPipe
                 ],
                 providers: [
                     { provide: ActivatedRoute, useValue: {
@@ -98,7 +99,8 @@ describe('RecentFiles Routed Component', () => {
                     ContentService,
                     NodesApiService,
                     DocumentListService,
-                    ThumbnailService
+                    ThumbnailService,
+                    CustomResourcesService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         })
@@ -110,6 +112,7 @@ describe('RecentFiles Routed Component', () => {
             contentService = TestBed.get(ContentManagementService);
             preferenceService = TestBed.get(UserPreferencesService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
         });
     }));
 

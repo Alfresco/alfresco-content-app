@@ -1,16 +1,27 @@
-@import '../variables';
+@import 'variables';
+@import 'mixins';
 
 adf-document-list {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: auto;
+    @include flex-column;
+    background-color: white; // TODO: remove when ADF 2.4.0 is out.
+}
 
-    & > adf-datatable {
-        height: 100%;
+.adf-document-list--loading {
+    .adf-data-table {
+        @include flex-column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .adf-datatable-table-cell {
+        border: none !important;
     }
 }
 
+adf-datatable {
+    @include flex-column;
+    overflow-y: scroll;
+}
 
 .adf-data-table {
     border: none !important;
@@ -41,21 +52,7 @@ adf-document-list {
         text-align: left;
     }
 
-    .app-location-link,
-    .adf-location-cell {
-        a {
-            text-decoration: none;
-            color: $alfresco-primary-text-color;
-
-            &:hover {
-                color: #2196F3;
-                text-decoration: underline;
-            }
-        }
-    }
-
-    .adf-datatable-header:first-of-type, .adf-datatable-header.adf-data-table-cell--image,
-    .adf-data-table-cell:first-of-type, .adf-data-table-cell.adf-data-table-cell--image {
+    .adf-datatable-body .adf-data-table-cell--image {
         padding-left: 24px;
         padding-right: 0;
         width: 10px;
@@ -89,13 +86,16 @@ adf-document-list {
     }
 }
 
-.empty-list {
+.adf-document-list--empty {
     .adf-data-table {
-        height: 100%;
+        @include flex-column;
+        justify-content: center;
+        align-items: center;
+    }
 
-        .adf-datatable-row:hover, .adf-datatable-row:focus {
-            background-color: unset;
-            cursor: default;
-        }
+    .adf-data-table .adf-datatable-row:hover,
+    .adf-data-table .adf-datatable-row:focus {
+        background-color: unset;
+        cursor: default;
     }
 }

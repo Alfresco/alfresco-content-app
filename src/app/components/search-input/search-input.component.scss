@@ -1,0 +1,10 @@
+@import 'variables';
+
+// todo: remove once ADF 2.0 is out
+:host {
+    overflow: hidden;
+}
+
+adf-search-control {
+    color: $alfresco-white;
+}

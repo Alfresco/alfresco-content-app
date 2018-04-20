@@ -21,11 +21,11 @@ The example below demonstrates the most common dynamic format for development en
 The configuration above assumes you are running ACS and Content App on the same server and port
 and allows deploying to different servers having the same unified configuration file.
 
-For example, a proxy server at `localhost:3000` hosting the Content App as the root application,
-and `localhost:3000/alfresco` for the ACS repository.
+For example, a proxy server at `localhost:4200` hosting the Content App as the root application,
+and `localhost:4200/alfresco` for the ACS repository.
 
 At runtime, the application is going to automatically substitute the "{hostname}" value with the original hostname.
-Optionally it can also use the value of the original port if present, for example, "3000" at local machines, or skip the value for port 80.
+Optionally it can also use the value of the original port if present, for example, "4200" at local machines, or skip the value for port 80.
 
 ### Static address
 
@@ -33,7 +33,7 @@ Alternatively, you can provide a static address for the ACS server if necessary:
 
 ```json
 {
-    "ecmHost": "http://localhost:3000",
+    "ecmHost": "http://localhost:4200",
     ...
 }
 ```

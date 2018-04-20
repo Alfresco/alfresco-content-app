@@ -24,13 +24,13 @@
  */
 
 import { Subscription } from 'rxjs/Rx';
-
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { ContentService, AppConfigService } from '@alfresco/adf-core';
+import { AppConfigService, NotificationService } from '@alfresco/adf-core';
+
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 @Component({
     selector: 'app-sidenav',
@@ -38,15 +38,18 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
     styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit, OnDestroy {
+    @Input() showLabel: boolean;
+
     node: MinimalNodeEntryEntity = null;
     navigation = [];
 
     private subscriptions: Subscription[] = [];
 
     constructor(
+        private notificationService: NotificationService,
         private browsingFilesService: BrowsingFilesService,
-        private contentService: ContentService,
-        private appConfig: AppConfigService
+        private appConfig: AppConfigService,
+        public permission: NodePermissionService
     ) {}
 
     ngOnInit() {
@@ -58,15 +61,15 @@ export class SidenavComponent implements OnInit, OnDestroy {
         ]);
     }
 
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
+    openSnackMessage(event: any) {
+        this.notificationService.openSnackMessage(
+            event,
+            4000
+        );
     }
 
-    canCreateContent(parentNode: MinimalNodeEntryEntity): boolean {
-        if (parentNode) {
-            return this.contentService.hasPermission(parentNode, 'create');
-        }
-        return false;
+    ngOnDestroy() {
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     private buildMenu() {

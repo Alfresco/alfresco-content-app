@@ -1,3 +1,13 @@
-@import './_variables-color.scss';
+// Primary color palette
+// - please note that Hue 2 and Enhanced Hue 1 and 2
+// are missing from specs
+$alfresco-app-color--default: #00bcd4;
+$alfresco-app-color--hue-1: #e0f7fa;
 
-$app-menu-height: 64px;
+// Grayscale
+$alfresco-white: #fff;
+$alfresco-black: #000;
+
+// Dark
+$alfresco-primary-text-color: rgba($alfresco-black, .87);
+$alfresco-secondary-text-color: rgba($alfresco-black, .54);

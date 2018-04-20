@@ -39,12 +39,15 @@ import {
     TimeAgoPipe, NodeNameTooltipPipe, FileSizePipe, NodeFavoriteDirective,
     DataTableComponent, UploadService
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { MatMenuModule, MatSnackBarModule, MatIconModule, MatDialogModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
+import { NodeInfoDirective } from '../../common/directives/node-info.directive';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { FilesComponent } from './files.component';
 
@@ -61,6 +64,7 @@ describe('FilesComponent', () => {
     let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
     let preferenceService: UserPreferencesService;
+    let notificationService: NotificationService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -79,8 +83,10 @@ describe('FilesComponent', () => {
                 TimeAgoPipe,
                 NodeNameTooltipPipe,
                 NodeFavoriteDirective,
+                NodeInfoDirective,
                 DocumentListComponent,
-                FileSizePipe
+                FileSizePipe,
+                AppConfigPipe
             ],
             providers: [
                 { provide: ActivatedRoute, useValue: {
@@ -100,8 +106,10 @@ describe('FilesComponent', () => {
                 DocumentListService,
                 ThumbnailService,
                 NodeActionsService,
+                NodePermissionService,
                 UploadService,
-                BrowsingFilesService
+                BrowsingFilesService,
+                CustomResourcesService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         }).compileComponents()
@@ -116,6 +124,7 @@ describe('FilesComponent', () => {
             router = TestBed.get(Router);
             alfrescoContentService = TestBed.get(ContentService);
             browsingFilesService = TestBed.get(BrowsingFilesService);
+            notificationService = TestBed.get(NotificationService);
             nodeActionsService = TestBed.get(NodeActionsService);
             preferenceService = TestBed.get(UserPreferencesService);
         });
@@ -324,31 +333,6 @@ describe('FilesComponent', () => {
         });
     });
 
-    describe('Create permission', () => {
-        beforeEach(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
-            spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
-
-            fixture.detectChanges();
-        });
-
-        it('returns false when node is not provided', () => {
-            expect(component.canCreateContent(null)).toBe(false);
-        });
-
-        it('returns false when node does not have permission', () => {
-            spyOn(alfrescoContentService, 'hasPermission').and.returnValue(false);
-
-            expect(component.canCreateContent(node)).toBe(false);
-        });
-
-        it('returns false when node has permission', () => {
-            spyOn(alfrescoContentService, 'hasPermission').and.returnValue(true);
-
-            expect(component.canCreateContent(node)).toBe(true);
-        });
-    });
-
     describe('onNodeDoubleClick()', () => {
         beforeEach(() => {
             spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
@@ -436,7 +420,7 @@ describe('FilesComponent', () => {
             component.load();
 
             expect(component.paging).toBe(page);
-            expect(component.pagination).toBe(page.list.pagination);
+            expect(component.pagination).toEqual(page.list.pagination);
         });
 
         it('raise error on fail', () => {
@@ -549,6 +533,18 @@ describe('FilesComponent', () => {
 
             expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
             expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
+        });
+    });
+
+    describe('openSnackMessage', () => {
+        it('should call notification service', () => {
+            const message = 'notification message';
+
+            spyOn(notificationService, 'openSnackMessage');
+
+            component.openSnackMessage(message);
+
+            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });

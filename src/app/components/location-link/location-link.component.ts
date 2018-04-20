@@ -39,7 +39,7 @@ import { Observable } from 'rxjs/Rx';
     encapsulation: ViewEncapsulation.None,
     // tslint:disable-next-line:use-host-property-decorator
     host: {
-        'class': 'app-location-link'
+        'class': 'app-location-link adf-location-cell'
     }
 })
 export class LocationLinkComponent implements OnInit {

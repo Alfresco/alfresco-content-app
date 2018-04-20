@@ -1,4 +1,12 @@
-@import '../_variables.scss';
+@import 'variables';
+
+$alfresco-primary-accent--hue-3: #ff6d00;
+$alfresco-warn-color--hue-3: #d50000;
+$alfresco-dark-color--hue-3: #546e7a;
+
+.upload-dialog {
+    z-index: 999;
+}
 
 .adf-file-uploading-row {
     &__status {

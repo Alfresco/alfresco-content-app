@@ -36,6 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { PreviewComponent } from './preview.component';
 import { Observable } from 'rxjs/Rx';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { MatSnackBarModule } from '@angular/material';
 
@@ -64,6 +65,7 @@ describe('PreviewComponent', () => {
                     CookieService,
                     NotificationService,
                     UserPreferencesService,
+                    NodePermissionService,
                     ContentManagementService
                 ],
                 declarations: [
@@ -79,6 +81,7 @@ describe('PreviewComponent', () => {
             router = TestBed.get(Router);
             route = TestBed.get(ActivatedRoute);
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
             preferences = TestBed.get(UserPreferencesService);
         });
     }));

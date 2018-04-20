@@ -1,28 +1,34 @@
+@import 'mixins';
 @import 'variables';
 @import 'theme';
 
 html, body {
-    display: flex;
+    @include flex-column;
     font-size: 14px;
     font-family: "Muli", sans-serif;
     color: $alfresco-primary-text-color;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
     margin: 0;
 }
 
-app-root > ng-component {
-    display: block;
-    width: 100%;
-    height: 100%;
+app-root,
+app-about,
+app-layout,
+adf-layout-container,
+app-search,
+ng-component {
+    @include flex-column;
 }
 
 @import 'layout';
 
+@import './overrides/adf-login';
+@import './overrides/adf-sidenav-layout';
+@import './overrides/adf-viewer';
 @import './overrides/alfresco-document-list';
 @import './overrides/alfresco-upload-drag-area';
 @import './overrides/alfresco-upload-button';
 @import './overrides/alfresco-upload-dialog';
 @import './overrides/toolbar';
+@import './overrides/adf-viewer-more-actions';
 @import './overrides/breadcrumb';
+@import './overrides/adf-info-drawer';

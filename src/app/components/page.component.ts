@@ -33,6 +33,7 @@ export abstract class PageComponent {
 
     isLoading = false;
     isEmpty = true;
+    infoDrawerOpened = false;
 
     paging: NodePaging;
     pagination: Pagination;
@@ -63,7 +64,7 @@ export abstract class PageComponent {
     onPageLoaded(page: NodePaging) {
         this.isLoading = false;
         this.paging = page;
-        this.pagination = page.list.pagination;
+        this.pagination = { ...page.list.pagination };
         this.isEmpty = !(page.list.entries && page.list.entries.length > 0);
     }
 
@@ -111,16 +112,12 @@ export abstract class PageComponent {
         return selection.every(node => node.entry && this.nodeHasPermission(node.entry, 'delete'));
     }
 
-    canDeleteShared(selection: Array<MinimalNodeEntity> = []): boolean {
-        return selection.every(node => node.entry && this.nodeSharedHasPermission(node.entry, 'delete'));
-    }
-
     canMove(selection: Array<MinimalNodeEntity>): boolean {
         return this.canDelete(selection);
     }
 
-    canMoveShared(selection: Array<MinimalNodeEntity> = []): boolean {
-        return selection.every(node => node.entry && this.nodeSharedHasPermission(node.entry, 'delete'));
+    canUpdate(selection: Array<MinimalNodeEntity> = []): boolean {
+        return selection.every(node => node.entry && this.nodeHasPermission(node.entry, 'update'));
     }
 
     canPreviewFile(selection: Array<MinimalNodeEntity>): boolean {
@@ -135,23 +132,19 @@ export abstract class PageComponent {
         return this.isFileSelected(selection);
     }
 
+    canUpdateFile(selection: Array<MinimalNodeEntity>): boolean {
+        return this.isFileSelected(selection) && this.nodeHasPermission(selection[0].entry, 'update');
+    }
+
+    canManageVersions(selection: Array<MinimalNodeEntity>): boolean {
+        return this.canUpdateFile(selection);
+    }
+
     nodeHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
         if (node && permission) {
             const { allowableOperations = [] } = <any>(node || {});
 
             if (allowableOperations.indexOf(permission) > -1) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    nodeSharedHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
-        if (node && permission) {
-            const { allowableOperationsOnTarget } = <any>(node || {});
-
-            if (allowableOperationsOnTarget && allowableOperationsOnTarget.indexOf(permission) > -1) {
                 return true;
             }
         }
@@ -204,4 +197,11 @@ export abstract class PageComponent {
         return null;
     }
 
+    toggleSidebar(event) {
+        if (event) {
+            return;
+        }
+
+        this.infoDrawerOpened = !this.infoDrawerOpened;
+    }
 }

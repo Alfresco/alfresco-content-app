@@ -27,10 +27,10 @@ import { Component, DebugElement } from '@angular/core';
 import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { AlfrescoApiService, TranslationService, NotificationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, TranslationService, NotificationService, CoreModule } from '@alfresco/adf-core';
 
-import { CommonModule } from '../common.module';
 import { NodePermanentDeleteDirective } from './node-permanent-delete.directive';
+import { MatDialogModule, MatDialog } from '@angular/material';
 
 @Component({
     template: `<div [app-permanent-delete-node]="selection"></div>`
@@ -48,13 +48,16 @@ describe('NodePermanentDeleteDirective', () => {
     let notificationService: NotificationService;
     let nodesService;
     let directiveInstance;
+    let dialog: MatDialog;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                CommonModule
+                CoreModule,
+                MatDialogModule
             ],
             declarations: [
+                NodePermanentDeleteDirective,
                 TestComponent
             ]
         })
@@ -65,16 +68,24 @@ describe('NodePermanentDeleteDirective', () => {
             element = fixture.debugElement.query(By.directive(NodePermanentDeleteDirective));
             directiveInstance = element.injector.get(NodePermanentDeleteDirective);
 
+            dialog = TestBed.get(MatDialog);
             alfrescoService = TestBed.get(AlfrescoApiService);
-            nodesService = alfrescoService.getInstance().nodes;
             translation = TestBed.get(TranslationService);
             notificationService = TestBed.get(NotificationService);
         });
     }));
 
     beforeEach(() => {
+        nodesService = alfrescoService.getInstance().nodes;
+
         spyOn(translation, 'get').and.returnValue(Observable.of('message'));
         spyOn(notificationService, 'openSnackMessage').and.returnValue({});
+
+        spyOn(dialog, 'open').and.returnValue({
+            afterClosed() {
+                return Observable.of(true)
+            }
+        });
     });
 
     it('does not purge nodes if no selection', () => {

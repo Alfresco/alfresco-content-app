@@ -1,0 +1,52 @@
+@import "~@angular/material/theming";
+@import '~@alfresco/adf-content-services/theming';
+
+@import '../components/sidenav/sidenav.component.theme';
+@import './overrides/toolbar';
+@import './overrides/adf-viewer-more-actions';
+
+$grey-scale: (
+    50 : #e0e0e0,
+    100 : #b3b3b3,
+    200 : #808080,
+    300 : #4d4d4d,
+    400 : #262626,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #a6a6a6,
+    A200 : #8c8c8c,
+    A400 : #737373,
+    A700 : #666666,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+@include mat-core();
+
+$custom-theme-primary: mat-palette($grey-scale, A400);
+$custom-theme-accent: mat-palette($alfresco-accent-orange);
+$custom-theme-warn: mat-palette($alfresco-warn);
+$custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
+
+@mixin custom-theme($theme) {
+    @include sidenav-component-theme($custom-theme);
+    @include toolbar-component-theme($custom-theme);
+    @include viewer-more-actions-component-theme($custom-theme);
+}

@@ -1,65 +1,23 @@
-@import './_variables.scss';
+@import 'mixins';
 
 $app-layout--header-height: 65px;
 $app-layout--side-width: 320px;
-
 $app-inner-layout--header-height: 48px;
 $app-inner-layout--footer-height: 48px;
+$alfresco-divider-color: rgba($alfresco-black, .07);
+$alfresco-gray-background: #fafafa;
 
 .layout {
-    display: flex;
-    flex-direction: column;
-    flex: 1 0;
-    overflow: hidden;
-
-    &__header {
-        flex: 0 0 $app-layout--header-height;
-    }
-
-    &__content {
-        display: flex;
-        flex: 1;
-        flex-direction: row;
-        overflow: hidden;
-
-        & > * {
-            display: flex;
-            flex: 1;
-        }
-
-        &-side {
-            flex: 0 0 $app-layout--side-width;
-            background: $alfresco-gray-background;
-            border-right: 1px solid $alfresco-divider-color;
-        }
-    }
-
-    .content--hide {
-        display: none;
-    }
+    @include flex-column;
 }
 
 .inner-layout {
-    .no-border {
-        border: unset
-    }
-
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-
-    &--scroll {
-        overflow: auto;
-    }
-
-    &__header,
-    &__footer {
-        display: flex;
-        flex: 0 0;
-        align-items: center;
-    }
+    @include flex-column;
 
     &__header {
+        display: flex;
+        align-items: center;
+        flex: 0 0 $app-layout--header-height;
         flex-basis: $app-inner-layout--header-height;
         background: $alfresco-gray-background;
         border-bottom: 1px solid $alfresco-divider-color;
@@ -67,22 +25,31 @@ $app-inner-layout--footer-height: 48px;
     }
 
     &__content {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        overflow: hidden;
+        @include flex-row;
     }
 
-    &__content--scroll {
-        overflow: auto;
+    &__content--hide {
+        display: none !important;
     }
 
-    &__footer {
-        flex-basis: $app-inner-layout--footer-height;
-        border-top: 1px solid $alfresco-divider-color;
+    &__panel {
+        @include flex-column;
+        border-right: 1px solid rgba(0, 0, 0, 0.07);
     }
 
-    app-generic-error {
+    &__side-panel {
+        display: block;
         height: 100%;
+        overflow-y: scroll;
+        max-width: 320px;
     }
+}
+
+.content--scroll {
+    overflow: auto !important;
+}
+
+app-generic-error {
+    height: 100%;
+    width: 100%;
 }

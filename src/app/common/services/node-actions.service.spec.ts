@@ -135,6 +135,7 @@ describe('NodeActionsService', () => {
 
         service = TestBed.get(NodeActionsService);
         apiService = TestBed.get(AlfrescoApiService);
+        apiService.reset();
         nodesApiService = TestBed.get(NodesApiService);
         nodesApi = apiService.getInstance().nodes;
     });

@@ -1,13 +1,36 @@
 <div class="layout">
     <adf-upload-drag-area
         [parentId]="node?.id"
-        [disabled]="!canCreateContent(node)">
-        <app-header></app-header>
+        [disabled]="!permission.check(node, ['create'])">
 
-        <div class="layout__content">
-            <app-sidenav class="layout__content-side"></app-sidenav>
-            <router-outlet></router-outlet>
-        </div>
+        <adf-sidenav-layout
+            [sidenavMin]="70"
+            [sidenavMax]="320"
+            [stepOver]="600"
+            [hideSidenav]="isPreview"
+            [expandedSidenav]="true">
+
+            <adf-sidenav-layout-header>
+                <ng-template let-toggleMenu="toggleMenu">
+
+                        <app-header (menu)="toggleMenu()"></app-header>
+
+                </ng-template>
+            </adf-sidenav-layout-header>
+
+            <adf-sidenav-layout-navigation>
+                <ng-template let-isMenuMinimized="isMenuMinimized">
+                    <app-sidenav [showLabel]="!isMenuMinimized()"></app-sidenav>
+                </ng-template>
+            </adf-sidenav-layout-navigation>
+
+            <adf-sidenav-layout-content>
+                <ng-template>
+                    <router-outlet></router-outlet>
+                </ng-template>
+            </adf-sidenav-layout-content>
+
+        </adf-sidenav-layout>
 
         <adf-file-uploading-dialog position="left"></adf-file-uploading-dialog>
     </adf-upload-drag-area>

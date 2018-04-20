@@ -37,13 +37,16 @@ import {
     AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
     NodeFavoriteDirective, DataTableComponent
 } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodeInfoDirective } from '../../common/directives/node-info.directive';
+import { NodePermissionService } from '../../common/services/node-permission.service';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { FavoritesComponent } from './favorites.component';
 
@@ -55,6 +58,7 @@ describe('Favorites Routed Component', () => {
     let alfrescoContentService: ContentService;
     let contentService: ContentManagementService;
     let preferenceService: UserPreferencesService;
+    let notificationService: NotificationService;
     let router: Router;
     let page;
     let node;
@@ -100,8 +104,10 @@ describe('Favorites Routed Component', () => {
                     TimeAgoPipe,
                     NodeNameTooltipPipe,
                     NodeFavoriteDirective,
+                    NodeInfoDirective,
                     DocumentListComponent,
-                    FavoritesComponent
+                    FavoritesComponent,
+                    AppConfigPipe
                 ],
                 providers: [
                     { provide: ActivatedRoute, useValue: {
@@ -112,11 +118,13 @@ describe('Favorites Routed Component', () => {
                     UserPreferencesService,
                     AppConfigService, StorageService, CookieService,
                     AlfrescoApiService,
+                    CustomResourcesService,
                     LogService,
                     NotificationService,
                     ContentManagementService,
                     ContentService,
                     NodesApiService,
+                    NodePermissionService,
                     DocumentListService,
                     ThumbnailService
                 ],
@@ -127,7 +135,9 @@ describe('Favorites Routed Component', () => {
             component = fixture.componentInstance;
 
             nodesApi = TestBed.get(NodesApiService);
+            notificationService = TestBed.get(NotificationService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
             alfrescoContentService = TestBed.get(ContentService);
             contentService = TestBed.get(ContentManagementService);
             preferenceService = TestBed.get(UserPreferencesService);
@@ -317,6 +327,18 @@ describe('Favorites Routed Component', () => {
 
             expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
             expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
+        });
+    });
+
+    describe('openSnackMessage', () => {
+        it('should call notification service', () => {
+            const message = 'notification message';
+
+            spyOn(notificationService, 'openSnackMessage');
+
+            component.openSnackMessage(message);
+
+            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });

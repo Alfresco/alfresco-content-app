@@ -56,7 +56,7 @@ export class TrashcanComponent implements OnInit, OnDestroy {
     }
 
     refresh(): void {
-        this.documentList.loadTrashcan();
+        this.documentList.reload();
         this.documentList.resetSelection();
     }
 

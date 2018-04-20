@@ -104,7 +104,7 @@ describe('PageComponent', () => {
         });
 
         it('sets component pagination data', () => {
-            expect(component.pagination).toBe(page.list.pagination);
+            expect(component.pagination).toEqual(page.list.pagination);
         });
 
         it('sets component isEmpty state', () => {
@@ -299,51 +299,21 @@ describe('PageComponent', () => {
         });
     });
 
-    describe('canDeleteShared()', () => {
-        it('should return true if shared node can be deleted', () => {
+    describe('canUpdate()', () => {
+        it('should return true if node can be edited', () => {
             const selection = [ { entry: {
-                allowableOperationsOnTarget: ['delete']
+                allowableOperations: ['update']
             } } ];
 
-            expect(component.canDeleteShared(selection)).toBe(true);
+            expect(component.canUpdate(selection)).toBe(true);
         });
 
-        it(`should return false if shared node doesn't have permission`, () => {
+        it(`should return false if node cannot be edited`, () => {
             const selection = [ { entry: {
-                allowableOperationsOnTarget: ['something']
+                allowableOperations: ['other-permission']
              } } ];
 
-            expect(component.canDeleteShared(selection)).toBe(false);
-        });
-
-        it(`should return false if shared node doesn't have permissions property`, () => {
-            const selection = [ { entry: { } } ];
-
-            expect(component.canDeleteShared(selection)).toBe(false);
-        });
-    });
-
-    describe('canMoveShared()', () => {
-        it('should return true if shared node can be moved', () => {
-            const selection = [ { entry: {
-                allowableOperationsOnTarget: ['delete']
-            } } ];
-
-            expect(component.canMoveShared(selection)).toBe(true);
-        });
-
-        it(`should return false if shared node doesn't have permission`, () => {
-            const selection = [ { entry: {
-                allowableOperationsOnTarget: ['something']
-             } } ];
-
-            expect(component.canMoveShared(selection)).toBe(false);
-        });
-
-        it(`should return false if shared node doesn't have permissions property`, () => {
-            const selection = [ { entry: { } } ];
-
-            expect(component.canMoveShared(selection)).toBe(false);
+            expect(component.canUpdate(selection)).toBe(false);
         });
     });
 });

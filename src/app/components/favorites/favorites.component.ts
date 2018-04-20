@@ -28,10 +28,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 
 import { MinimalNodeEntryEntity, MinimalNodeEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
-import { ContentService, NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
+import { ContentService, NodesApiService, UserPreferencesService, NotificationService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 import { PageComponent } from '../page.component';
 
 @Component({
@@ -51,6 +52,8 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
                 private nodesApi: NodesApiService,
                 private contentService: ContentService,
                 private content: ContentManagementService,
+                private notificationService: NotificationService,
+                public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
         super(preferences);
 
@@ -120,6 +123,13 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
     onSortingChanged(event: CustomEvent) {
         this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
         this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
+    }
+
+    openSnackMessage(event: any) {
+        this.notificationService.openSnackMessage(
+            event,
+            4000
+        );
     }
 
     private get prefix() {
