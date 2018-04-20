@@ -9,7 +9,7 @@ The Header & Toolbar section of the viewer contains a number of features that re
 - Close 'X' will return the user to the folder that contains the file.
 - The name and file type icon is shown in the middle.
 - Next and previous buttons will be displayed either side of the file name so that users can navigate to other files in the folder without navigating away from the viewer.
-- Finally, on the right hand side an actions toolbar provides users with the ability to download, favorite, move, copy and delete.
+- Finally, on the right hand side an actions toolbar provides users with the ability to download, favorite, move, copy, delete, manage versions and view info panel.
 
 #### Content (2)
 The File Viewer consists of four separate views that handle displaying the content based on four types of content, covering various [file/mime](https://alfresco.github.io/adf-component-catalog/components/ViewerComponent.html#supported-file-formats) types:
