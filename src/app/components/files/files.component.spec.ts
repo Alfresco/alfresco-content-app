@@ -420,7 +420,7 @@ describe('FilesComponent', () => {
             component.load();
 
             expect(component.paging).toBe(page);
-            expect(component.pagination).toBe(page.list.pagination);
+            expect(component.pagination).toEqual(page.list.pagination);
         });
 
         it('raise error on fail', () => {

@@ -54,7 +54,6 @@ describe('RecentFiles Routed Component', () => {
     let contentService: ContentManagementService;
     let preferenceService: UserPreferencesService;
     let page;
-    let person;
 
     beforeEach(() => {
         page = {
@@ -63,8 +62,6 @@ describe('RecentFiles Routed Component', () => {
                 pagination: { data: 'data'}
             }
         };
-
-        person = { entry: { id: 'bogus' } };
     });
 
     beforeEach(async(() => {

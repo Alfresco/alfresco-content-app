@@ -104,7 +104,7 @@ describe('PageComponent', () => {
         });
 
         it('sets component pagination data', () => {
-            expect(component.pagination).toBe(page.list.pagination);
+            expect(component.pagination).toEqual(page.list.pagination);
         });
 
         it('sets component isEmpty state', () => {
