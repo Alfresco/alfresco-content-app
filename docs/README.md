@@ -17,7 +17,7 @@ with a simple and easy to use interface for working with files stored in the Alf
 
 This application uses the latest releases from Alfresco:
 
-- [Alfresco ADF version 2.2](https://community.alfresco.com/community/application-development-framework/pages/get-started)
+- [Alfresco ADF version 2.3](https://community.alfresco.com/community/application-development-framework/pages/get-started)
 - [Alfresco Content Services version 5.2.3](https://www.alfresco.com/platform/content-services-ecm)
 - [Alfresco Community Edition 201802 EA](https://www.alfresco.com/products/community/download)
 
