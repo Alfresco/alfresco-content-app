@@ -222,5 +222,13 @@
             "EMPTY": "Please choose a document to see the versions of it.",
             "NO_PERMISSION": "You don't have permission to manage the versions of this content."
         }
+    },
+    "CORE": {
+        "METADATA": {
+            "ACTIONS": {
+                "SAVE": "Save changes",
+                "CANCEL": "Discard changes"
+            }
+        }
     }
 }
