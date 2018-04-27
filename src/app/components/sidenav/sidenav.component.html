@@ -24,7 +24,7 @@
                 [disabled]="!permission.check(node, ['create'])"
                 (error)="openSnackMessage($event)"
                 [adf-create-folder]="node?.id"
-                [title]="
+                [attr.title]="
                     ( permission.check(node, ['create'])
                         ? 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER'
                         : 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED'
