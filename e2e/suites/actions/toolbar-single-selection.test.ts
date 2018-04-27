@@ -544,6 +544,10 @@ describe('Toolbar actions - single selection : ', () => {
                 .then(done);
         });
 
+        afterEach(() => {
+            dataTable.clearSelection();
+        });
+
         afterAll(done => {
             logoutPage.load().then(done);
         });
@@ -586,6 +590,10 @@ describe('Toolbar actions - single selection : ', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(done);
+        });
+
+        afterEach(() => {
+            dataTable.clearSelection();
         });
 
         afterAll(done => {
