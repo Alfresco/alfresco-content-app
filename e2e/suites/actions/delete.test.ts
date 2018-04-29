@@ -465,7 +465,7 @@ describe('Delete content', () => {
             .then(done);
         });
 
-        it('delete a file and check notification', () => {
+        xit('delete a file and check notification', () => {
             dataTable.clickOnItemName(recentFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))

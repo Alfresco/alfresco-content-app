@@ -383,7 +383,7 @@ describe('Undo delete content', () => {
             .then(done);
         });
 
-        it('Successful delete notification shows Undo action', () => {
+        xit('Successful delete notification shows Undo action', () => {
             dataTable.clickOnItemName(recentFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
