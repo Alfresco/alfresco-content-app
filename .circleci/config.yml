@@ -9,7 +9,7 @@ jobs:
       - checkout
       - restore_cache:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm install
+      - run: npm install && npm run build
       - save_cache:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
@@ -19,6 +19,7 @@ jobs:
     docker:
       - image: circleci/node:8-browsers
     steps:
+      - checkout
       - run: xvfb-run -a npm run test:ci
 
 workflows:
