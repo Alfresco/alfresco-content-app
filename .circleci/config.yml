@@ -44,6 +44,10 @@ jobs:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
       - run: npm install
       - run: npm run build
+      - save_cache:
+          key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}-dist
+          paths:
+            - "dist"
   e2e:
     working_directory: ~/alfresco-content-app
     docker:
@@ -52,12 +56,17 @@ jobs:
       - checkout
       - restore_cache:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
-      - run: npm install && npm run build
+          key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}-dist
+      # - run: npm install && npm run build
+      - run: npm install
       - run:
           name: Install Docker Compose
           command: |
-            curl -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-            chmod +x /usr/local/bin/docker-compose
+            curl -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+            #curl -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+            #chmod +x /usr/local/bin/docker-compose
       - setup_remote_docker
       - run: npm run e2e:docker
 
