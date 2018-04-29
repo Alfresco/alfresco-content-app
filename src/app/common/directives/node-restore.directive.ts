@@ -31,12 +31,13 @@ import { TranslationService, AlfrescoApiService, NotificationService } from '@al
 import { MinimalNodeEntity, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
 
 @Directive({
-    selector: '[app-restore-node]'
+    selector: '[acaRestoreNode]'
 })
 export class NodeRestoreDirective {
     private restoreProcessStatus;
 
-    @Input('app-restore-node')
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaRestoreNode')
     selection: MinimalNodeEntity[];
 
     @HostListener('click')

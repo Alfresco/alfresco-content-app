@@ -82,7 +82,7 @@ export class FavoritesApi extends RepoApi {
 
     isFavorite(nodeId: string) {
         return this.getFavorites()
-            .then(resp => JSON.stringify(resp.data.list.entries).includes(nodeId))
+            .then(resp => JSON.stringify(resp.data.list.entries).includes(nodeId));
     }
 
     removeFavorite(api: RepoClient, nodeType: string, name: string): Promise<any> {

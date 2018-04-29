@@ -29,7 +29,7 @@ import { AlfrescoApiService, CoreModule } from '@alfresco/adf-core';
 import { NodeInfoDirective } from './node-info.directive';
 
 @Component({
-    template: '<div [app-node-info]="selection"></div>'
+    template: '<div [acaNodeInfo]="selection"></div>'
 })
 class TestComponent {
     selection;

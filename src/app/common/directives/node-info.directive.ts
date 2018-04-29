@@ -28,12 +28,13 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Directive({
-    selector: '[app-node-info]',
+    selector: '[acaNodeInfo]',
     exportAs: 'nodeInfo'
 })
 
 export class NodeInfoDirective implements OnInit {
-    @Input('app-node-info') selection: MinimalNodeEntity[];
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaNodeInfo') selection: MinimalNodeEntity[];
     @Output() changed: EventEmitter<null|MinimalNodeEntryEntity> = new EventEmitter<null|MinimalNodeEntryEntity>();
     @Output() error: EventEmitter<null> = new EventEmitter<null>();
 

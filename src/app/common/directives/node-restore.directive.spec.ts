@@ -36,7 +36,7 @@ import { NodeRestoreDirective } from './node-restore.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
-    template: `<div [app-restore-node]="selection"></div>`
+    template: `<div [acaRestoreNode]="selection"></div>`
 })
 class TestComponent {
     selection = [];

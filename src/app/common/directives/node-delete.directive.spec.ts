@@ -36,7 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-    template: '<div [app-delete-node]="selection"></div>'
+    template: '<div [acaDeleteNode]="selection"></div>'
 })
 class TestComponent {
     selection;

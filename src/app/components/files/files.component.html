@@ -70,7 +70,7 @@
 
                 <button
                     mat-menu-item
-                    [app-copy-node]="documentList.selection">
+                    [acaCopyNode]="documentList.selection">
                     <mat-icon color="primary">content_copy</mat-icon>
                     <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
                 </button>
@@ -78,7 +78,7 @@
                 <button
                     mat-menu-item
                     *ngIf="canMove(documentList.selection)"
-                    [app-move-node]="documentList.selection">
+                    [acaMoveNode]="documentList.selection">
                     <mat-icon color="primary">library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
                 </button>
@@ -86,7 +86,7 @@
                 <button
                     mat-menu-item
                     *ngIf="canDelete(documentList.selection)"
-                    [app-delete-node]="documentList.selection">
+                    [acaDeleteNode]="documentList.selection">
                     <mat-icon color="primary">delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
                 </button>
@@ -94,7 +94,7 @@
                 <button
                     mat-menu-item
                     *ngIf="canManageVersions(documentList.selection)"
-                    [app-node-versions]="documentList.selection">
+                    [acaNodeVersions]="documentList.selection">
                     <mat-icon color="primary">history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
@@ -183,7 +183,7 @@
 
         <div class="inner-layout__side-panel"
             *ngIf="infoDrawerOpened"
-            [app-node-info]="documentList.selection"
+            [acaNodeInfo]="documentList.selection"
             (changed)="toggleSidebar($event)"
             #infoInstance=nodeInfo>
 

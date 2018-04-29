@@ -83,7 +83,7 @@ describe('NodePermanentDeleteDirective', () => {
 
         spyOn(dialog, 'open').and.returnValue({
             afterClosed() {
-                return Observable.of(true)
+                return Observable.of(true);
             }
         });
     });
