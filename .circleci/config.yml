@@ -56,6 +56,7 @@ jobs:
       - checkout
       - restore_cache:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
+      - restore_cache:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}-dist
       # - run: npm install && npm run build
       - run: npm install
