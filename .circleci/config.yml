@@ -69,6 +69,7 @@ jobs:
             #curl -L https://github.com/docker/compose/releases/download/1.21.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
             #chmod +x /usr/local/bin/docker-compose
       - setup_remote_docker
+          # docker_layer_caching: true
       - run: npm run e2e:docker
 
 workflows:
@@ -85,8 +86,8 @@ workflows:
       - build:
           requires:
             - install
-      - e2e:
-          requires:
-            - lint
-            - test
-            - build
+      # - e2e:
+      #     requires:
+      #       - lint
+      #       - test
+      #       - build
