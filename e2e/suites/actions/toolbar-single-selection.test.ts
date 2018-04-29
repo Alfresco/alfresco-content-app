@@ -131,6 +131,9 @@ describe('Toolbar actions - single selection : ', () => {
                     .then(() => apis.user.shared.shareFileById(file1Id))
                     .then(() => apis.admin.shared.shareFileById(file2Id))
 
+                    .then(() => apis.user.shared.waitForApi({ expect: 1 }))
+                    .then(() => apis.admin.shared.waitForApi({ expect: 1 }))
+
                     .then(() => apis.user.favorites.addFavoritesByIds('file', [file1Id, file2Id]))
 
                     .then(() => loginPage.loginWith(username))
