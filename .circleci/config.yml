@@ -23,7 +23,7 @@ jobs:
       - restore_cache:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
       - run: npm install
-      - run: ng lint
+      - run: npm run lint
   test:
     working_directory: ~/alfresco-content-app
     docker:
