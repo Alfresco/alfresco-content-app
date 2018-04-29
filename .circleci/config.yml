@@ -1,4 +1,5 @@
 version: 2
+
 jobs:
   build:
     working_directory: ~/alfresco-content-app
@@ -13,4 +14,16 @@ jobs:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - "node_modules"
+  test:
+    working_directory: ~/alfresco-content-app
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
       - run: xvfb-run -a npm run test:ci
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test
