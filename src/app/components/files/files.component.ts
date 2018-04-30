@@ -24,13 +24,15 @@
  */
 
 import { Observable, Subscription } from 'rxjs/Rx';
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import {
     UploadService, FileUploadEvent, NodesApiService,
     ContentService, AlfrescoApiService, UserPreferencesService, NotificationService
 } from '@alfresco/adf-core';
+
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -43,6 +45,7 @@ import { PageComponent } from '../page.component';
     templateUrl: './files.component.html'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
+    @ViewChild(DocumentListComponent) documentList: DocumentListComponent;
 
     isValidPath = true;
 
@@ -52,7 +55,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     sorting = [ 'modifiedAt', 'desc' ];
 
     constructor(private router: Router,
-                private zone: NgZone,
                 private route: ActivatedRoute,
                 private nodesApi: NodesApiService,
                 private nodeActionsService: NodeActionsService,
@@ -80,7 +82,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
         route.params.subscribe(({ folderId }: Params) => {
             const nodeId = folderId || data.defaultNodeId;
-            this.isLoading = true;
 
             this.fetchNode(nodeId)
                 .do((node) => {
@@ -95,22 +96,20 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 .subscribe(
                     (page) => {
                         this.isValidPath = true;
-                        this.onPageLoaded(page);
                     },
                     error => {
                         this.isValidPath = false;
-                        this.onFetchError(error);
                     }
                 );
         });
 
         this.subscriptions = this.subscriptions.concat([
             nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-            contentService.folderCreate.subscribe(() => this.load(false, this.pagination)),
-            contentService.folderEdit.subscribe(() => this.load(false, this.pagination)),
-            contentManagementService.nodeDeleted.subscribe(() => this.load(false, this.pagination)),
-            contentManagementService.nodeMoved.subscribe(() => this.load(false, this.pagination)),
-            contentManagementService.nodeRestored.subscribe(() => this.load(false, this.pagination)),
+            contentService.folderCreate.subscribe(() => this.documentList.reload()),
+            contentService.folderEdit.subscribe(() => this.documentList.reload()),
+            contentManagementService.nodeDeleted.subscribe(() => this.documentList.reload()),
+            contentManagementService.nodeMoved.subscribe(() => this.documentList.reload()),
+            contentManagementService.nodeRestored.subscribe(() => this.documentList.reload()),
             uploadService.fileUploadComplete.subscribe(file => this.onFileUploadedEvent(file)),
             uploadService.fileUploadDeleted.subscribe((file) => this.onFileUploadedEvent(file))
         ]);
@@ -189,7 +188,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     onFileUploadedEvent(event: FileUploadEvent) {
         if (event && event.file.options.parentId === this.getParentNodeId()) {
-            this.load(false, this.pagination);
+            this.documentList.reload();
         }
     }
 
@@ -199,41 +198,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 return node && node.entry && node.entry.parentId === this.getParentNodeId();
             });
         if (newNode) {
-            this.load(false, this.pagination);
+            this.documentList.reload();
         }
-    }
-
-    load(showIndicator: boolean = false, options: { maxItems?: number, skipCount?: number } = {}) {
-        this.isLoading = showIndicator;
-
-        this.fetchNodes(this.getParentNodeId(), options)
-            .flatMap((page) => {
-                if (this.isCurrentPageEmpty(page) && this.isNotFirstPage(page)) {
-                    const newSkipCount = options.skipCount - options.maxItems;
-
-                    return this.fetchNodes(this.getParentNodeId(), {
-                        skipCount: newSkipCount, maxItems: options.maxItems
-                    });
-                }
-
-                return Observable.of(page);
-            })
-            .subscribe(
-                (page) => this.zone.run(() => this.onPageLoaded(page)),
-                error => this.onFetchError(error)
-            );
-    }
-
-    isCurrentPageEmpty(page): boolean {
-        return !this.hasPageEntries(page);
-    }
-
-    hasPageEntries(page): boolean {
-        return page && page.list && page.list.entries && page.list.entries.length > 0;
-    }
-
-    isNotFirstPage(page): boolean {
-        return (page.list.pagination.skipCount >= page.list.pagination.maxItems);
     }
 
     // todo: review this approach once 5.2.3 is out
