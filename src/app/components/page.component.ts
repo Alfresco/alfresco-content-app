@@ -23,21 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ShareDataRow } from '@alfresco/adf-content-services';
 
 export abstract class PageComponent {
-
     title = 'Page';
-
-    isLoading = false;
-    isEmpty = true;
     infoDrawerOpened = false;
-
-    paging: NodePaging;
-    pagination: Pagination;
-
     node: MinimalNodeEntryEntity;
 
     static isLockedNode(node) {
@@ -49,23 +41,8 @@ export abstract class PageComponent {
     constructor(protected preferences: UserPreferencesService) {
     }
 
-    onFetchError(error: any) {
-        this.isLoading = false;
-    }
-
     getParentNodeId(): string {
         return this.node ? this.node.id : null;
-    }
-
-    onPaginationChange(pagination: any) {
-        this.fetchNodes(this.getParentNodeId(), pagination);
-    }
-
-    onPageLoaded(page: NodePaging) {
-        this.isLoading = false;
-        this.paging = page;
-        this.pagination = { ...page.list.pagination };
-        this.isEmpty = !(page.list.entries && page.list.entries.length > 0);
     }
 
     hasSelection(selection: Array<MinimalNodeEntity>): boolean {

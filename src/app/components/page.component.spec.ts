@@ -58,60 +58,6 @@ describe('PageComponent', () => {
         });
     });
 
-    describe('onFetchError()', () => {
-        it('sets isLoading state to false', () => {
-            component.isLoading = true;
-
-            component.onFetchError();
-
-            expect(component.isLoading).toBe(false);
-        });
-    });
-
-    describe('onPaginationChange()', () => {
-        it('fetch children nodes for current node id', () => {
-            component.node = { id: 'node-id' };
-            spyOn(component, 'fetchNodes').and.stub();
-
-            component.onPaginationChange({pagination: 'pagination-data'});
-
-            expect(component.fetchNodes).toHaveBeenCalledWith('node-id', { pagination: 'pagination-data' });
-        });
-    });
-
-    describe('onPageLoaded()', () => {
-        let page;
-
-        beforeEach(() => {
-            page = {
-                list: {
-                    entries: ['a', 'b', 'c'],
-                    pagination: {}
-                }
-            };
-
-            component.isLoading = true;
-            component.isEmpty = true;
-            component.onPageLoaded(page);
-        });
-
-        it('sets isLoading state to false', () => {
-            expect(component.isLoading).toBe(false);
-        });
-
-        it('sets component paging data', () => {
-            expect(component.paging).toBe(page);
-        });
-
-        it('sets component pagination data', () => {
-            expect(component.pagination).toEqual(page.list.pagination);
-        });
-
-        it('sets component isEmpty state', () => {
-            expect(component.isEmpty).toBe(false);
-        });
-    });
-
     describe('hasSelection()', () => {
         it('returns true when it has nodes selected', () => {
             const hasSelection = component.hasSelection([ {}, {} ]);

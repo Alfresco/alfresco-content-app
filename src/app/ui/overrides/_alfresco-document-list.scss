@@ -6,18 +6,6 @@ adf-document-list {
     background-color: white; // TODO: remove when ADF 2.4.0 is out.
 }
 
-.adf-document-list--loading {
-    .adf-data-table {
-        @include flex-column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .adf-datatable-table-cell {
-        border: none !important;
-    }
-}
-
 adf-datatable {
     @include flex-column;
     overflow-y: scroll;
@@ -98,4 +86,8 @@ adf-datatable {
         background-color: unset;
         cursor: default;
     }
+}
+
+.adf-pagination__empty {
+    display: none;
 }

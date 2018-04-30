@@ -24,7 +24,7 @@
  */
 
 import { Observable } from 'rxjs/Rx';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -138,10 +138,36 @@ describe('FilesComponent', () => {
                 pagination: {}
             }
         };
+
+        spyOn(component.documentList, 'loadFolder').and.callFake(() => {});
+    });
+
+    describe('Current page is valid', () => {
+        it('should be a valid current page', fakeAsync(() => {
+            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(component, 'fetchNodes').and.returnValue(Observable.throw(null));
+
+            component.ngOnInit();
+            fixture.detectChanges();
+            tick();
+
+            expect(component.isValidPath).toBe(false);
+        }));
+
+        it('should set current page as invalid path', fakeAsync(() => {
+            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
+
+            component.ngOnInit();
+            tick();
+            fixture.detectChanges();
+
+            expect(component.isValidPath).toBe(true);
+        }));
     });
 
     describe('OnInit', () => {
-        it('set current node', () => {
+        it('should set current node', () => {
             spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
 
@@ -150,13 +176,13 @@ describe('FilesComponent', () => {
             expect(component.node).toBe(node);
         });
 
-        it('get current node children', () => {
+        it('should get current node children', () => {
             spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
 
             fixture.detectChanges();
 
-            expect(component.paging).toBe(page);
+            expect(component.fetchNodes).toHaveBeenCalled();
         });
 
         it('emits onChangeParent event', () => {
@@ -168,25 +194,6 @@ describe('FilesComponent', () => {
 
             expect(browsingFilesService.onChangeParent.next)
                 .toHaveBeenCalledWith(node);
-        });
-
-        it('raise error when fetchNode() fails', () => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.throw(null));
-            spyOn(component, 'onFetchError');
-
-            fixture.detectChanges();
-
-            expect(component.onFetchError).toHaveBeenCalled();
-        });
-
-        it('raise error when fetchNodes() fails', () => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
-            spyOn(component, 'fetchNodes').and.returnValue(Observable.throw(null));
-            spyOn(component, 'onFetchError');
-
-            fixture.detectChanges();
-
-            expect(component.onFetchError).toHaveBeenCalled();
         });
 
         it('if should navigate to parent if node is not a folder', () => {
@@ -205,12 +212,12 @@ describe('FilesComponent', () => {
         beforeEach(() => {
             spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
-            spyOn(component, 'load');
+            spyOn(component.documentList, 'reload');
 
             fixture.detectChanges();
         });
 
-        it('calls refresh onContentCopied event if parent is the same', () => {
+        it('should call refresh onContentCopied event if parent is the same', () => {
             const nodes = [
                 {  entry: { parentId: '1' } },
                 {  entry: { parentId: '2' } }
@@ -220,10 +227,10 @@ describe('FilesComponent', () => {
 
             nodeActionsService.contentCopied.next(<any>nodes);
 
-            expect(component.load).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('does not call refresh onContentCopied event when parent mismatch', () => {
+        it('should not call refresh onContentCopied event when parent mismatch', () => {
             const nodes = [
                 {  entry: { parentId: '1' } },
                 {  entry: { parentId: '2' } }
@@ -233,73 +240,73 @@ describe('FilesComponent', () => {
 
             nodeActionsService.contentCopied.next(<any>nodes);
 
-            expect(component.load).not.toHaveBeenCalled();
+            expect(component.documentList.reload).not.toHaveBeenCalled();
         });
 
-        it('calls refresh onCreateFolder event', () => {
+        it('should call refresh onCreateFolder event', () => {
             alfrescoContentService.folderCreate.next();
 
-            expect(component.load).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('calls refresh editFolder event', () => {
+        it('should call refresh editFolder event', () => {
             alfrescoContentService.folderEdit.next();
 
-            expect(component.load).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('calls refresh deleteNode event', () => {
+        it('should call refresh deleteNode event', () => {
             contentManagementService.nodeDeleted.next();
 
-            expect(component.load).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('calls refresh moveNode event', () => {
+        it('should call refresh moveNode event', () => {
             contentManagementService.nodeMoved.next();
 
-            expect(component.load).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('calls refresh restoreNode event', () => {
+        it('should call refresh restoreNode event', () => {
             contentManagementService.nodeRestored.next();
 
-            expect(component.load).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('calls refresh on fileUploadComplete event if parent node match', () => {
+        it('should call refresh on fileUploadComplete event if parent node match', () => {
             const file = { file: { options: { parentId: 'parentId' } } };
             component.node =  <any>{ id: 'parentId' };
 
             uploadService.fileUploadComplete.next(<any>file);
 
-            expect(component.load).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('does not call refresh on fileUploadComplete event if parent mismatch', () => {
+        it('should not call refresh on fileUploadComplete event if parent mismatch', () => {
             const file = { file: { options: { parentId: 'otherId' } } };
             component.node =  <any>{ id: 'parentId' };
 
             uploadService.fileUploadComplete.next(<any>file);
 
-            expect(component.load).not.toHaveBeenCalled();
+            expect(component.documentList.reload).not.toHaveBeenCalled();
         });
 
-        it('calls refresh on fileUploadDeleted event if parent node match', () => {
+        it('should call refresh on fileUploadDeleted event if parent node match', () => {
             const file = { file: { options: { parentId: 'parentId' } } };
             component.node =  <any>{ id: 'parentId' };
 
             uploadService.fileUploadDeleted.next(<any>file);
 
-            expect(component.load).toHaveBeenCalled();
+            expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('does not call refresh on fileUploadDeleted event if parent mismatch', () => {
+        it('should not call refresh on fileUploadDeleted event if parent mismatch', () => {
             const file = { file: { options: { parentId: 'otherId' } } };
             component.node =  <any>{ id: 'parentId' };
 
             uploadService.fileUploadDeleted.next(<any>file);
 
-            expect(component.load).not.toHaveBeenCalled();
+            expect(component.documentList.reload).not.toHaveBeenCalled();
         });
     });
 
@@ -311,7 +318,7 @@ describe('FilesComponent', () => {
             fixture.detectChanges();
         });
 
-        it('calls getNode api with node id', () => {
+        it('should call getNode api with node id', () => {
             component.fetchNode('nodeId');
 
             expect(nodesApi.getNode).toHaveBeenCalledWith('nodeId');
@@ -326,7 +333,7 @@ describe('FilesComponent', () => {
             fixture.detectChanges();
         });
 
-        it('calls getNode api with node id', () => {
+        it('should call getNode api with node id', () => {
             component.fetchNodes('nodeId');
 
             expect(nodesApi.getNodeChildren).toHaveBeenCalledWith('nodeId', jasmine.any(Object));
@@ -341,7 +348,7 @@ describe('FilesComponent', () => {
             fixture.detectChanges();
         });
 
-        it('opens preview if node is file', () => {
+        it('should open preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
             node.isFile = true;
             node.isFolder = false;
@@ -358,7 +365,7 @@ describe('FilesComponent', () => {
             expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.id]);
         });
 
-        it('navigate if node is folder', () => {
+        it('should navigate if node is folder', () => {
             spyOn(component, 'navigate').and.stub();
             node.isFolder = true;
 
@@ -376,63 +383,6 @@ describe('FilesComponent', () => {
         });
     });
 
-    describe('load()', () => {
-        let fetchNodesSpy;
-
-        beforeEach(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
-            fetchNodesSpy = spyOn(component, 'fetchNodes');
-
-            fetchNodesSpy.and.returnValue(Observable.of(page));
-
-            fixture.detectChanges();
-        });
-
-        afterEach(() => {
-            fetchNodesSpy.calls.reset();
-        });
-
-        it('shows load indicator', () => {
-            spyOn(component, 'onPageLoaded');
-            component.node = <any>{ id: 'currentNode' };
-
-            expect(component.isLoading).toBe(false);
-
-            component.load(true);
-
-            expect(component.isLoading).toBe(true);
-        });
-
-        it('does not show load indicator', () => {
-            spyOn(component, 'onPageLoaded');
-            component.node = <any>{ id: 'currentNode' };
-
-            expect(component.isLoading).toBe(false);
-
-            component.load();
-
-            expect(component.isLoading).toBe(false);
-        });
-
-        it('sets data on success', () => {
-            component.node = <any>{ id: 'currentNode' };
-
-            component.load();
-
-            expect(component.paging).toBe(page);
-            expect(component.pagination).toEqual(page.list.pagination);
-        });
-
-        it('raise error on fail', () => {
-            fetchNodesSpy.and.returnValue(Observable.throw(null));
-            spyOn(component, 'onFetchError');
-
-            component.load();
-
-            expect(component.onFetchError).toHaveBeenCalled();
-        });
-    });
-
     describe('onBreadcrumbNavigate()', () => {
         beforeEach(() => {
             spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
@@ -441,7 +391,7 @@ describe('FilesComponent', () => {
             fixture.detectChanges();
         });
 
-        it('navigates to node id', () => {
+        it('should navigates to node id', () => {
             const routeData = <any>{ id: 'some-where-over-the-rainbow' };
             spyOn(component, 'navigate');
 
@@ -460,19 +410,19 @@ describe('FilesComponent', () => {
             fixture.detectChanges();
         });
 
-        it('navigates to node when id provided', () => {
+        it('should navigates to node when id provided', () => {
             component.navigate(node.id);
 
             expect(router.navigate).toHaveBeenCalledWith(['./', node.id], jasmine.any(Object));
         });
 
-        it('navigates to home when id not provided', () => {
+        it('should navigates to home when id not provided', () => {
             component.navigate();
 
             expect(router.navigate).toHaveBeenCalledWith(['./'], jasmine.any(Object));
         });
 
-        it('it navigate home if node is root', () => {
+        it('should navigate home if node is root', () => {
             (<any>component).node = {
                 path: {
                     elements: [ {id: 'node-id'} ]
