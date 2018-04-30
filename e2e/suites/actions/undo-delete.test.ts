@@ -408,7 +408,7 @@ describe('Undo delete content', () => {
         // we cannot test that the restored file is displayed in the Recent Files list
         // without adding a very big browser.sleep followed by a page.refresh
         // so for the moment we're testing that the restored file is not displayed in the Trash
-        it('undo delete of multiple files', () => {
+        xit('undo delete of multiple files', () => {
             dataTable.selectMultipleItems([recentFile3, recentFile4])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
