@@ -480,7 +480,7 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(recentFile1Id));
         });
 
-        it('delete multiple files and check notification', () => {
+        xit('delete multiple files and check notification', () => {
             dataTable.selectMultipleItems([recentFile2, recentFile3])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
