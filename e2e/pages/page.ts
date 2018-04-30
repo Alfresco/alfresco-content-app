@@ -85,7 +85,7 @@ export abstract class Page {
     }
 
     getDialogActionByLabel(label) {
-        return element(by.cssContainingText('.mat-button-wrapper', label))
+        return element(by.cssContainingText('.mat-button-wrapper', label));
     }
 
     isSnackBarDisplayed(): promise.Promise<boolean> {

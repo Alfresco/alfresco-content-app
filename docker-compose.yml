@@ -81,11 +81,13 @@ services:
         #     - ./nginx.conf:/etc/nginx/conf.d/default.conf
 
     proxy:
-        image: nginx
+        #image: nginx
+        image: alfresco/alfresco-content-app-proxy
+        build: ./docker-compose/proxy
         depends_on:
             - content-app
-        volumes:
-            - ./docker-compose/nginx.conf:/etc/nginx/conf.d/default.conf
+        # volumes:
+        #     - ./docker-compose/nginx.conf:/etc/nginx/conf.d/default.conf
         networks:
             - internal
         ports:

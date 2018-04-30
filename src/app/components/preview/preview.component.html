@@ -48,7 +48,7 @@
 
             <button
                 mat-menu-item
-                [app-copy-node]="selectedEntities">
+                [acaCopyNode]="selectedEntities">
                 <mat-icon color="primary">content_copy</mat-icon>
                 <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
             </button>
@@ -56,7 +56,7 @@
             <button
                 mat-menu-item
                 *ngIf="permission.check(node, ['delete'])"
-                [app-move-node]="selectedEntities">
+                [acaMoveNode]="selectedEntities">
                 <mat-icon color="primary">library_books</mat-icon>
                 <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
             </button>
@@ -72,7 +72,7 @@
             <button
                 mat-menu-item
                 *ngIf="permission.check(node, ['update'])"
-                [app-node-versions]="selectedEntities">
+                [acaNodeVersions]="selectedEntities">
                 <mat-icon color="primary">history</mat-icon>
                 <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
             </button>

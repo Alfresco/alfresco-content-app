@@ -36,7 +36,7 @@ import { NodeMoveDirective } from './node-move.directive';
 import { ContentManagementService } from '../services/content-management.service';
 
 @Component({
-    template: '<div [app-move-node]="selection"></div>'
+    template: '<div [acaMoveNode]="selection"></div>'
 })
 class TestComponent {
     selection;

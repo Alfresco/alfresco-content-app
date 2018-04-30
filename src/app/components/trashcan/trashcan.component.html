@@ -18,7 +18,7 @@
                 color="primary"
                 mat-icon-button
                 (selection-node-restored)="refresh()"
-                [app-restore-node]="documentList.selection"
+                [acaRestoreNode]="documentList.selection"
                 *ngIf="documentList.selection.length"
                 title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
                 <mat-icon>restore</mat-icon>

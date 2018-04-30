@@ -32,11 +32,12 @@ import { VersionManagerDialogAdapterComponent } from '../../components/versions-
 import { MatDialog } from '@angular/material';
 
 @Directive({
-    selector: '[app-node-versions]'
+    selector: '[acaNodeVersions]'
 })
 export class NodeVersionsDirective {
 
-    @Input('app-node-versions')
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaNodeVersions')
     selection: MinimalNodeEntity[];
 
     @Output()

@@ -32,11 +32,12 @@ import { NodeActionsService } from '../services/node-actions.service';
 import { ContentManagementService } from '../services/content-management.service';
 
 @Directive({
-    selector: '[app-copy-node]'
+    selector: '[acaCopyNode]'
 })
 export class NodeCopyDirective {
 
-    @Input('app-copy-node')
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaCopyNode')
     selection: MinimalNodeEntity[];
 
     @HostListener('click')

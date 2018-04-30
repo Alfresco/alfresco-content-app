@@ -37,7 +37,7 @@
       "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
-      "prefix": "app",
+      "prefix": "aca",
       "styles": [
         "./assets/fonts/material-icons/material-icons.css",
         "./assets/fonts/muli/muli.css",

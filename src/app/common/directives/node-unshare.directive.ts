@@ -28,12 +28,12 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 @Directive({
-    selector: '[appUnshareNode]'
+    selector: '[acaUnshareNode]'
 })
 export class NodeUnshareDirective {
 
     // tslint:disable-next-line:no-input-rename
-    @Input('appUnshareNode')
+    @Input('acaUnshareNode')
     selection: MinimalNodeEntity[];
 
     constructor(

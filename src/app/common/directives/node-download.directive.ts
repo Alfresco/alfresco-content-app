@@ -23,13 +23,13 @@ import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
 
 /** @deprecated workaround for the ADF 2.3.0 regression. */
 @Directive({
-    selector: '[appNodeDownload]'
+    selector: '[acaNodeDownload]'
 })
 export class NodeDownloadDirective {
 
     /** Nodes to download. */
     // tslint:disable-next-line:no-input-rename
-    @Input('appNodeDownload')
+    @Input('acaNodeDownload')
     nodes: MinimalNodeEntity[];
 
     @HostListener('click')

@@ -33,11 +33,12 @@ import { NodeActionsService } from '../services/node-actions.service';
 import { Observable } from 'rxjs/Rx';
 
 @Directive({
-    selector: '[app-move-node]'
+    selector: '[acaMoveNode]'
 })
 
 export class NodeMoveDirective {
-    @Input('app-move-node')
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaMoveNode')
     selection: MinimalNodeEntity[];
 
     @HostListener('click')
@@ -86,7 +87,7 @@ export class NodeMoveDirective {
 
             // in case of success
             if (info.toLowerCase().indexOf('succes') !== -1) {
-                let i18nMessageString = 'APP.MESSAGES.INFO.NODE_MOVE.';
+                const i18nMessageString = 'APP.MESSAGES.INFO.NODE_MOVE.';
                 let i18MessageSuffix = '';
 
                 if (succeeded) {

@@ -33,7 +33,7 @@ import {
     NodesApiService, AlfrescoApiService, ContentService,
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService, AuthenticationService,
-    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective,DataTableComponent
+    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';

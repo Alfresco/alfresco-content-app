@@ -45,7 +45,7 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
-    template: '<div [app-copy-node]="selection"></div>'
+    template: '<div [acaCopyNode]="selection"></div>'
 })
 class TestComponent {
     selection;

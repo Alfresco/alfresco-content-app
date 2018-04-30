@@ -32,13 +32,14 @@ import { Observable } from 'rxjs/Rx';
 import { ContentManagementService } from '../services/content-management.service';
 
 @Directive({
-    selector: '[app-delete-node]'
+    selector: '[acaDeleteNode]'
 })
 export class NodeDeleteDirective {
-    static RESTORE_MESSAGE_DURATION: number = 3000;
-    static DELETE_MESSAGE_DURATION: number = 10000;
+    static RESTORE_MESSAGE_DURATION = 3000;
+    static DELETE_MESSAGE_DURATION = 10000;
 
-    @Input('app-delete-node')
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaDeleteNode')
     selection: MinimalNodeEntity[];
 
     @HostListener('click')

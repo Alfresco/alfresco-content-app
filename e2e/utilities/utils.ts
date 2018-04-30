@@ -43,20 +43,14 @@ export class Utils {
     }
 
     static retryCall(fn: () => Promise <any>, retry: number = 30, delay: number = 1000): Promise<any> {
-        const rerun = (retries, fn) => {
-            fn().catch(err => retries > 1
-                ? rerun(retries - 1, fn)
-                : Promise.reject(err));
-        };
-
         const pause = (duration) => new Promise(res => setTimeout(res, duration));
 
-        const run = (retries, fn, delay = 1000) =>
+        const run = (retries) =>
             fn().catch(err => retries > 1
-                ? pause(delay).then(() => run(retries - 1, fn, delay))
+                ? pause(delay).then(() => run(retries - 1))
                 : Promise.reject(err));
 
-        return run(retry, fn);
+        return run(retry);
     }
 
     static waitUntilElementClickable(element: ElementFinder) {

@@ -1,6 +1,7 @@
 version: 2
+
 jobs:
-  build:
+  install:
     working_directory: ~/alfresco-content-app
     docker:
       - image: circleci/node:8-browsers
@@ -13,4 +14,48 @@ jobs:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - "node_modules"
+  lint:
+    working_directory: ~/alfresco-content-app
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
+      - run: npm run lint
+  test:
+    working_directory: ~/alfresco-content-app
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
       - run: xvfb-run -a npm run test:ci
+  build:
+    working_directory: ~/alfresco-content-app
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
+      - run: npm run build
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - install
+      - lint:
+          requires:
+            - install
+      - test:
+          requires:
+            - install
+      - build:
+          requires:
+            - install
