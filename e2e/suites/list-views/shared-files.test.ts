@@ -67,6 +67,7 @@ describe('Shared Files', () => {
             .then(() => apis.user.shared.waitForApi({ expect: 4 }))
             .then(() => apis.user.nodes.deleteNodeById(file2Id))
             .then(() => apis.user.shared.unshareFile(file3User))
+            .then(() => apis.user.shared.waitForApi({ expect: 2 }))
 
             .then(() => loginPage.loginWith(username))
             .then(done);
@@ -116,7 +117,7 @@ describe('Shared Files', () => {
         expect(dataTable.getRowName(file2User).isPresent()).toBe(false, `${file2User} is displayed`);
     });
 
-    xit('unshared file is not displayed [C213118]', () => {
+    it('unshared file is not displayed [C213118]', () => {
         expect(dataTable.getRowName(file3User).isPresent()).toBe(false, `${file3User} is displayed`);
     });
 
