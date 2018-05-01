@@ -42,7 +42,7 @@ export class Utils {
         return browser.executeScript('window.sessionStorage.clear();');
     }
 
-    static retryCall(fn: () => Promise <any>, retry: number = 30, delay: number = 1000): Promise<any> {
+    static retryCall(fn: () => Promise <any>, retry: number = 30, delay: number = 5000): Promise<any> {
         const pause = (duration) => new Promise(res => setTimeout(res, duration));
 
         const run = (retries) =>
