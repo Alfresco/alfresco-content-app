@@ -66,10 +66,11 @@ export class SharedLinksApi extends RepoApi {
             return this.getSharedLinks()
                 .then(response => response.data.list.pagination.totalItems)
                 .then(totalItems => {
-                    if ( totalItems < data.expect) {
-                        return Promise.reject(totalItems);
-                    } else {
+                    console.log(`[SHARED NODES] ${totalItems}, expecting ${data.expect}`);
+                    if ( totalItems === data.expect) {
                         return Promise.resolve(totalItems);
+                    } else {
+                        return Promise.reject(totalItems);
                     }
                 });
         };

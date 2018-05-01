@@ -105,10 +105,11 @@ export class FavoritesApi extends RepoApi {
             return this.getFavorites()
                 .then(response => response.data.list.pagination.totalItems)
                 .then(totalItems => {
-                    if ( totalItems < data.expect) {
-                        return Promise.reject(totalItems);
-                    } else {
+                    console.log(`[FAVORITES NODES] ${totalItems}, expecting ${data.expect}`);
+                    if ( totalItems === data.expect) {
                         return Promise.resolve(totalItems);
+                    } else {
+                        return Promise.reject(totalItems);
                     }
                 });
         };
