@@ -184,7 +184,7 @@ describe('Toolbar actions - single selection : ', () => {
                         .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform());
                 });
 
-                it('on Shared Files', () => {
+                xit('on Shared Files', () => {
                     page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
                         .then(() => dataTable.waitForHeader())
                         .then(() => dataTable.clickOnItemName(file1))
