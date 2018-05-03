@@ -2,7 +2,8 @@
     "ecmHost": "http://{hostname}{:port}",
     "application": {
         "name": "Alfresco Example Content Application",
-        "logo": "assets/images/alfresco-logo-white.svg"
+        "logo": "assets/images/alfresco-logo-white.svg",
+        "copyright": "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
     },
     "headerColor": "#2196F3",
     "languagePicker": false,
