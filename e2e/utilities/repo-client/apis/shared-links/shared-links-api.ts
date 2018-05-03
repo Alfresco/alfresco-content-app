@@ -66,7 +66,6 @@ export class SharedLinksApi extends RepoApi {
             return this.getSharedLinks()
                 .then(response => response.data.list.pagination.totalItems)
                 .then(totalItems => {
-                    console.log(`[SHARED NODES] ${totalItems}, expecting ${data.expect}`);
                     if ( totalItems === data.expect) {
                         return Promise.resolve(totalItems);
                     } else {

@@ -58,7 +58,6 @@ export class SearchApi extends RepoApi {
             return this.queryRecentFiles(username)
                 .then(response => response.data.list.pagination.totalItems)
                 .then(totalItems => {
-                    console.log(`[RECENT NODES] ${totalItems}, expecting ${data.expect}`);
                     if ( totalItems === data.expect) {
                         return Promise.resolve(totalItems);
                     } else {

@@ -63,7 +63,6 @@ export class TrashcanApi extends RepoApi {
             return this.getDeletedNodes()
                 .then(response => response.data.list.pagination.totalItems)
                 .then(totalItems => {
-                    console.log(`[DELETED NODES] ${totalItems}, expecting ${data.expect}`);
                     if ( totalItems === data.expect) {
                         return Promise.resolve(totalItems);
                     } else {
