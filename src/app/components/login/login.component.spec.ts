@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 import { Location } from '@angular/common';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
     AuthenticationService, UserPreferencesService, TranslationService,
     TranslationMock, AppConfigService, StorageService, AlfrescoApiService,
@@ -37,14 +37,14 @@ import {
 } from '@alfresco/adf-core';
 
 import { LoginComponent } from './login.component';
+import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 describe('LoginComponent', () => {
-    let component;
-    let fixture;
-    let router;
-    let userPreference;
-    let auth;
-    let location;
+    let fixture: ComponentFixture<LoginComponent>;
+    let router: Router;
+    let userPreference: UserPreferencesService;
+    let auth: AuthenticationService;
+    let location: Location;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -54,7 +54,8 @@ describe('LoginComponent', () => {
                 RouterTestingModule
             ],
             declarations: [
-                LoginComponent
+                LoginComponent,
+                AppConfigPipe
             ],
             providers: [
                 { provide: TranslationService, useClass: TranslationMock },
@@ -71,7 +72,6 @@ describe('LoginComponent', () => {
         });
 
         fixture = TestBed.createComponent(LoginComponent);
-        component = fixture.componentInstance;
 
         router = TestBed.get(Router);
         location = TestBed.get(Location);
@@ -99,25 +99,6 @@ describe('LoginComponent', () => {
             fixture.detectChanges();
 
             expect(location.forward).toHaveBeenCalled();
-        });
-    });
-
-    describe('onLoginSuccess()', () => {
-        beforeEach(() => {
-            spyOn(auth, 'isEcmLoggedIn').and.returnValue(false);
-            fixture.detectChanges();
-        });
-
-        it('should redirect on success', () => {
-            component.onLoginSuccess();
-
-            expect(router.navigateByUrl).toHaveBeenCalledWith('/personal-files');
-        });
-
-        it('should set user preference store prefix', () => {
-            component.onLoginSuccess({ username: 'bogus' });
-
-            expect(userPreference.setStoragePrefix).toHaveBeenCalledWith('bogus');
         });
     });
 });

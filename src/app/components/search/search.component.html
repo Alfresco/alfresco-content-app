@@ -7,15 +7,11 @@
 </adf-search>
 
 <div class="adf-search-results__facets">
-    <adf-search-chip-list
-        [searchFilter]="searchFilter">
-    </adf-search-chip-list>
+    <adf-search-chip-list [searchFilter]="searchFilter"></adf-search-chip-list>
 </div>
 
 <div class="adf-search-results">
-    <adf-search-filter
-        #searchFilter>
-    </adf-search-filter>
+    <adf-search-filter #searchFilter></adf-search-filter>
 
     <div class="adf-search-results__content">
         <adf-document-list
@@ -26,7 +22,7 @@
 
         <adf-pagination *ngIf="!documentList.isEmpty()"
             [target]="documentList"
-            (changePageSize)="onRefreshPagination($event)">
+            (change)="onPaginationChanged($event)">
         </adf-pagination>
     </div>
 </div>
