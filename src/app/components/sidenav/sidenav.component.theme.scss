@@ -4,6 +4,8 @@
     $foreground: map-get($theme, foreground);
     $background: map-get($theme, background);
 
+    $menu-button-width: 272px;
+
     $border: 1px solid mat-color($foreground, divider, .07);
 
     .sidenav {
@@ -28,5 +30,9 @@
             color: mat-color($primary, .87);
         }
 
+    }
+
+    .mat-menu-panel {
+        min-width: $menu-button-width!important;
     }
   }
