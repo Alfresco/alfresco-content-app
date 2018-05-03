@@ -1,64 +1,53 @@
 <div class="sidenav">
     <div class="sidenav__section sidenav__section--new" [ngClass]="{ 'section--new--mini': !showLabel }">
-        <button *ngIf="showLabel"
-            [matMenuTriggerFor]="menu"
-            class="sidenav__section--new__button"
-            [disableRipple]="true"
-            mat-raised-button
-            color="accent">
+        <adf-sidebar-action-menu [expanded]="showLabel" title="{{'APP.NEW_MENU.LABEL' | translate }}">
+            <mat-icon sidebar-menu-title-icon >arrow_drop_down</mat-icon>
+            <div sidebar-menu-expand-icon>
+                    <mat-icon>queue</mat-icon>
+            </div>
+            <div sidebar-menu-options>
+                <button
+                    mat-menu-item
+                    [disabled]="!permission.check(node, ['create'])"
+                    (error)="openSnackMessage($event)"
+                    [adf-create-folder]="node?.id"
+                    [attr.title]="
+                        ( permission.check(node, ['create'])
+                            ? 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER'
+                            : 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED'
+                        ) | translate">
+                    <mat-icon>create_new_folder</mat-icon>
+                    <span>{{ 'APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER' | translate }}</span>
+                </button>
 
-            <span>{{ 'APP.NEW_MENU.LABEL' | translate }}</span>
-            <mat-icon>arrow_drop_down</mat-icon>
-        </button>
+                <adf-upload-button
+                    mat-ripple
+                    [tooltip]="
+                        (permission.check(node, ['create'])
+                            ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES'
+                            : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES_NOT_ALLOWED'
+                        ) | translate"
+                    [disabled]="!permission.check(node, ['create'])"
+                    [rootFolderId]="node?.id"
+                    [multipleFiles]="true"
+                    [uploadFolders]="false"
+                    [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE' | translate">
+                </adf-upload-button>
 
-        <button [matMenuTriggerFor]="menu"
-            *ngIf="!showLabel"
-            color="accent"
-            mat-icon-button>
-            <mat-icon>add_box</mat-icon>
-        </button>
-
-        <mat-menu #menu="matMenu" [overlapTrigger]="false">
-            <button
-                mat-menu-item
-                [disabled]="!permission.check(node, ['create'])"
-                (error)="openSnackMessage($event)"
-                [adf-create-folder]="node?.id"
-                [attr.title]="
-                    ( permission.check(node, ['create'])
-                        ? 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER'
-                        : 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED'
-                    ) | translate">
-                <mat-icon>create_new_folder</mat-icon>
-                <span>{{ 'APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER' | translate }}</span>
-            </button>
-
-            <adf-upload-button
-                [tooltip]="
-                    (permission.check(node, ['create'])
-                        ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES'
-                        : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES_NOT_ALLOWED'
-                    ) | translate"
-                [disabled]="!permission.check(node, ['create'])"
-                [rootFolderId]="node?.id"
-                [multipleFiles]="true"
-                [uploadFolders]="false"
-                [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE' | translate">
-            </adf-upload-button>
-
-            <adf-upload-button
-                [tooltip]="
-                    (permission.check(node, ['create'])
-                        ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS'
-                        : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED'
-                    ) | translate"
-                [disabled]="!permission.check(node, ['create'])"
-                [rootFolderId]="node?.id"
-                [multipleFiles]="true"
-                [uploadFolders]="true"
-                [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER' | translate">
-            </adf-upload-button>
-        </mat-menu>
+                <adf-upload-button
+                    [tooltip]="
+                        (permission.check(node, ['create'])
+                            ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS'
+                            : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED'
+                        ) | translate"
+                    [disabled]="!permission.check(node, ['create'])"
+                    [rootFolderId]="node?.id"
+                    [multipleFiles]="true"
+                    [uploadFolders]="true"
+                    [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER' | translate">
+                </adf-upload-button>
+            </div>
+        </adf-sidebar-action-menu>
     </div>
 
     <div class="sidenav__section sidenav__section--menu" *ngFor="let list of navigation">

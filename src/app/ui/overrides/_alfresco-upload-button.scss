@@ -38,7 +38,12 @@ adf-upload-button {
         font-size: 16px;
         font-weight: normal;
         text-align: left;
-        margin-left: 18px;
+        margin-left: 12px;
         color: $alfresco-primary-text-color;
+    }
+
+    &:hover label {
+        color: #ff9800;
+        opacity: inherit;
     }
 }

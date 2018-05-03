@@ -1,0 +1,14 @@
+.adf-sidebar-action-menu-options div .mat-menu-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.mat-menu-item[disabled],
+.mat-menu-item[disabled]:hover {
+    color: rgba(0, 0, 0, 0.38);
+}
+
+.adf-sidebar-action-menu-panel {
+    width: 270px;
+}
