@@ -26,7 +26,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
-import { Node, MinimalNodeEntity, SortDefinitionType } from 'alfresco-js-api';
+import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
 
@@ -271,7 +271,7 @@ export class PreviewComponent implements OnInit {
                 ],
                 fields: ['id', this.getRootField(sortingKey)],
                 sort: [{
-                    type: SortDefinitionType.FIELD,
+                    type: 'FIELD',
                     field: 'cm:modified',
                     ascending: false
                 }]
