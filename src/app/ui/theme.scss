@@ -5,7 +5,7 @@
 
 @import 'custom-theme';
 
-@include mat-core();
+@include mat-core($alfresco-typography);
 
 $primary: mat-palette($alfresco-accent-orange);
 $accent:  mat-palette($alfresco-ecm-blue);
