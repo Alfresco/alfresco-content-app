@@ -10,7 +10,10 @@
         @include angular-material-theme($theme);
 
         background-color: mat-color($background, background);
-        border-right: $border;
+
+        .adf-sidebar-action-menu-button {
+            background-color: mat-color($accent);
+        }
 
         &__section {
             border-bottom: $border;
