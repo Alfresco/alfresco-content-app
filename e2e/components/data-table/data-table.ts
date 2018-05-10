@@ -48,7 +48,7 @@ export class DataTable extends Component {
         selectedIcon: '.mat-icon',
 
         emptyListContainer: 'div.adf-no-content-container',
-        emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-content',
+        emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
 
         emptyListTitle: '.adf-empty-content__title',
         emptyListSubtitle: '.adf-empty-content__subtitle',
