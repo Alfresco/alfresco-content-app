@@ -82,7 +82,7 @@ describe('LoginComponent', () => {
     beforeEach(() => {
         spyOn(userPreference, 'setStoragePrefix');
         spyOn(router, 'navigateByUrl');
-        spyOn(auth, 'getRedirectUrl').and.returnValue('/some-url');
+        spyOn(auth, 'getRedirect').and.returnValue('/some-url');
         spyOn(location, 'forward');
     });
 
