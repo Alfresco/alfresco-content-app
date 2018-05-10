@@ -70,50 +70,6 @@ describe('PageComponent', () => {
         });
     });
 
-    describe('filesOnlySelected()', () => {
-        it('return true if only files are selected', () => {
-            const selected = [ { entry: { isFile: true } }, { entry: { isFile: true } } ];
-            expect(component.filesOnlySelected(selected)).toBe(true);
-        });
-
-        it('return false if selection contains others types', () => {
-            const selected = [ { entry: { isFile: true } }, { entry: { isFolder: true } } ];
-            expect(component.filesOnlySelected(selected)).toBe(false);
-        });
-
-        it('return false if selection contains no files', () => {
-            const selected = [ { entry: { isFolder: true } } ];
-            expect(component.filesOnlySelected(selected)).toBe(false);
-        });
-
-        it('return false no selection', () => {
-            const selected = [];
-            expect(component.filesOnlySelected(selected)).toBe(false);
-        });
-    });
-
-    describe('foldersOnlySelected()', () => {
-        it('return true if only folders are selected', () => {
-            const selected = [ { entry: { isFolder: true } }, { entry: { isFolder: true } } ];
-            expect(component.foldersOnlySelected(selected)).toBe(true);
-        });
-
-        it('return false if selection contains others types', () => {
-            const selected = [ { entry: { isFile: true } }, { entry: { isFolder: true } } ];
-            expect(component.foldersOnlySelected(selected)).toBe(false);
-        });
-
-        it('return false if selection contains no files', () => {
-            const selected = [ { entry: { isFile: true } } ];
-            expect(component.foldersOnlySelected(selected)).toBe(false);
-        });
-
-        it('return false no selection', () => {
-            const selected = [];
-            expect(component.foldersOnlySelected(selected)).toBe(false);
-        });
-    });
-
     describe('isFileSelected()', () => {
         it('returns true if selected node is file', () => {
             const selection = [ { entry: { isFile: true } } ];
@@ -131,135 +87,20 @@ describe('PageComponent', () => {
         });
     });
 
-    describe('canEditFolder()', () => {
+    describe('isFolderSelected()', () => {
         it('returns true if selected node is folder', () => {
             const selection = [ { entry: { isFolder: true } } ];
-            spyOn(component, 'nodeHasPermission').and.returnValue(true);
-
-            expect(component.canEditFolder(selection)).toBe(true);
+            expect(component.isFolderSelected(selection)).toBe(true);
         });
 
         it('returns false if selected node is file', () => {
             const selection = [ { entry: { isFile: true } } ];
-            expect(component.canEditFolder(selection)).toBe(false);
+            expect(component.isFolderSelected(selection)).toBe(false);
         });
 
         it('returns false if there are more than one selections', () => {
             const selection = [ { entry: { isFolder: true } }, { entry: { isFolder: true } } ];
-            expect(component.canEditFolder(selection)).toBe(false);
-        });
-
-        it('returns false folder dows not have edit permission', () => {
-            spyOn(component, 'nodeHasPermission').and.returnValue(false);
-            const selection = [ { entry: { isFolder: true } } ];
-
-            expect(component.canEditFolder(selection)).toBe(false);
-        });
-    });
-
-    describe('canDelete()', () => {
-        it('returns false if node has no delete permission', () => {
-            const selection = [ { entry: { } } ];
-            spyOn(component, 'nodeHasPermission').and.returnValue(false);
-
-            expect(component.canDelete(selection)).toBe(false);
-        });
-
-        it('returns true if node has delete permission', () => {
-            const selection = [ { entry: { } } ];
-            spyOn(component, 'nodeHasPermission').and.returnValue(true);
-
-            expect(component.canDelete(selection)).toBe(true);
-        });
-    });
-
-    describe('canMove()', () => {
-        it('returns true if node can be deleted', () => {
-            const selection = [ { entry: { } } ];
-            spyOn(component, 'canDelete').and.returnValue(true);
-
-            expect(component.canMove(selection)).toBe(true);
-        });
-
-        it('returns false if node can not be deleted', () => {
-            const selection = [ { entry: { } } ];
-            spyOn(component, 'canDelete').and.returnValue(false);
-
-            expect(component.canMove(selection)).toBe(false);
-        });
-    });
-
-    describe('canPreviewFile()', () => {
-        it('it returns true if node is file', () => {
-            const selection = [{ entry: { isFile: true }  }];
-
-            expect(component.canPreviewFile(selection)).toBe(true);
-        });
-
-        it('it returns false if node is folder', () => {
-            const selection = [{ entry: { isFolder: true }  }];
-
-            expect(component.canPreviewFile(selection)).toBe(false);
-        });
-    });
-
-    describe('canShareFile()', () => {
-        it('it returns true if node is file', () => {
-            const selection = [{ entry: { isFile: true }  }];
-
-            expect(component.canShareFile(selection)).toBe(true);
-        });
-
-        it('it returns false if node is folder', () => {
-            const selection = [{ entry: { isFolder: true }  }];
-
-            expect(component.canShareFile(selection)).toBe(false);
-        });
-    });
-
-    describe('canDownloadFile()', () => {
-        it('it returns true if node is file', () => {
-            const selection = [{ entry: { isFile: true }  }];
-
-            expect(component.canDownloadFile(selection)).toBe(true);
-        });
-
-        it('it returns false if node is folder', () => {
-            const selection = [{ entry: { isFolder: true }  }];
-
-            expect(component.canDownloadFile(selection)).toBe(false);
-        });
-    });
-
-    describe('nodeHasPermission()', () => {
-        it('returns true is has permission', () => {
-            const node = { allowableOperations: ['some-operation'] };
-
-            expect(component.nodeHasPermission(node, 'some-operation')).toBe(true);
-        });
-
-        it('returns true is has permission', () => {
-            const node = { allowableOperations: ['other-operation'] };
-
-            expect(component.nodeHasPermission(node, 'some-operation')).toBe(false);
-        });
-    });
-
-    describe('canUpdate()', () => {
-        it('should return true if node can be edited', () => {
-            const selection = [ { entry: {
-                allowableOperations: ['update']
-            } } ];
-
-            expect(component.canUpdate(selection)).toBe(true);
-        });
-
-        it(`should return false if node cannot be edited`, () => {
-            const selection = [ { entry: {
-                allowableOperations: ['other-permission']
-             } } ];
-
-            expect(component.canUpdate(selection)).toBe(false);
+            expect(component.isFolderSelected(selection)).toBe(false);
         });
     });
 });

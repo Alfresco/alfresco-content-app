@@ -32,6 +32,7 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 @Component({
     templateUrl: './recent-files.component.html'
@@ -49,6 +50,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
         private router: Router,
         private route: ActivatedRoute,
         private content: ContentManagementService,
+        public permission: NodePermissionService,
         preferences: UserPreferencesService) {
         super(preferences);
 

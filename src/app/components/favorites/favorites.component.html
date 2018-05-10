@@ -8,7 +8,7 @@
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="canPreviewFile(documentList.selection)"
+                *ngIf="isFileSelected(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="onNodeDoubleClick(documentList.selection[0]?.entry)">
                 <mat-icon>open_in_browser</mat-icon>
@@ -35,7 +35,7 @@
 
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="documentList.selection.length"
+                *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
