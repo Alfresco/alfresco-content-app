@@ -10,7 +10,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="canPreviewFile(documentList.selection)"
+                *ngIf="isFileSelected(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="showPreview(documentList.selection[0]?.entry)">
                 <mat-icon>open_in_browser</mat-icon>
@@ -28,7 +28,8 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="canEditFolder(documentList.selection)"
+                *ngIf="isFolderSelected(documentList.selection)
+                    && permission.check(documentList.selection, ['update'])"
                 [attr.title]="'APP.ACTIONS.EDIT' | translate"
                 (error)="openSnackMessage($event)"
                 [adf-edit-folder]="documentList.selection[0]?.entry">
@@ -37,7 +38,7 @@
 
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="documentList.selection.length"
+                *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
@@ -77,7 +78,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canMove(documentList.selection)"
+                    *ngIf="permission.check(documentList.selection, ['delete'])"
                     [acaMoveNode]="documentList.selection">
                     <mat-icon color="primary">library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -85,7 +86,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canDelete(documentList.selection)"
+                    *ngIf="permission.check(documentList.selection, ['delete'])"
                     [acaDeleteNode]="documentList.selection">
                     <mat-icon color="primary">delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -190,8 +191,8 @@
                     </div>
 
                     <adf-content-metadata-card
-                        [readOnly]="!canUpdate(documentList.selection)"
-                        [displayEmpty]="canUpdate(documentList.selection)"
+                        [readOnly]="!permission.check(nodeInfo.node, ['update'])"
+                        [displayEmpty]="permission.check(nodeInfo.node, ['update'])"
                         [preset]="'custom'"
                         [node]="infoInstance.node">
                     </adf-content-metadata-card>

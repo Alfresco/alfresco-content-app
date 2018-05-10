@@ -49,20 +49,6 @@ export abstract class PageComponent {
         return selection && selection.length > 0;
     }
 
-    filesOnlySelected(selection: Array<MinimalNodeEntity>): boolean {
-        if (this.hasSelection(selection)) {
-            return selection.every(entity => entity.entry && entity.entry.isFile);
-        }
-        return false;
-    }
-
-    foldersOnlySelected(selection: Array<MinimalNodeEntity>): boolean {
-        if (this.hasSelection(selection)) {
-            return selection.every(entity => entity.entry && entity.entry.isFolder);
-        }
-        return false;
-    }
-
     isFileSelected(selection: Array<MinimalNodeEntity>): boolean {
         if (selection && selection.length === 1) {
             const entry = selection[0].entry;
@@ -74,58 +60,14 @@ export abstract class PageComponent {
         return false;
     }
 
-    canEditFolder(selection: Array<MinimalNodeEntity>): boolean {
+    isFolderSelected(selection: Array<MinimalNodeEntity>): boolean {
         if (selection && selection.length === 1) {
             const entry = selection[0].entry;
 
             if (entry && entry.isFolder) {
-                return this.nodeHasPermission(entry, 'update');
-            }
-        }
-        return false;
-    }
-
-    canDelete(selection: Array<MinimalNodeEntity> = []): boolean {
-        return selection.every(node => node.entry && this.nodeHasPermission(node.entry, 'delete'));
-    }
-
-    canMove(selection: Array<MinimalNodeEntity>): boolean {
-        return this.canDelete(selection);
-    }
-
-    canUpdate(selection: Array<MinimalNodeEntity> = []): boolean {
-        return selection.every(node => node.entry && this.nodeHasPermission(node.entry, 'update'));
-    }
-
-    canPreviewFile(selection: Array<MinimalNodeEntity>): boolean {
-        return this.isFileSelected(selection);
-    }
-
-    canShareFile(selection: Array<MinimalNodeEntity>): boolean {
-        return this.isFileSelected(selection);
-    }
-
-    canDownloadFile(selection: Array<MinimalNodeEntity>): boolean {
-        return this.isFileSelected(selection);
-    }
-
-    canUpdateFile(selection: Array<MinimalNodeEntity>): boolean {
-        return this.isFileSelected(selection) && this.nodeHasPermission(selection[0].entry, 'update');
-    }
-
-    canManageVersions(selection: Array<MinimalNodeEntity>): boolean {
-        return this.canUpdateFile(selection);
-    }
-
-    nodeHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
-        if (node && permission) {
-            const { allowableOperations = [] } = <any>(node || {});
-
-            if (allowableOperations.indexOf(permission) > -1) {
                 return true;
             }
         }
-
         return false;
     }
 

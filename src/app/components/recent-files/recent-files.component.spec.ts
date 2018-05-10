@@ -43,6 +43,7 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { RecentFilesComponent } from './recent-files.component';
 
@@ -96,6 +97,7 @@ describe('RecentFiles Routed Component', () => {
                     LogService,
                     NotificationService,
                     ContentManagementService,
+                    NodePermissionService,
                     ContentService,
                     NodesApiService,
                     DocumentListService,
