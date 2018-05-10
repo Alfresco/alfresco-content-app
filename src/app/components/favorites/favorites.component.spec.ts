@@ -35,7 +35,7 @@ import {
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService,
     AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
-    NodeFavoriteDirective, DataTableComponent
+    NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 
@@ -46,7 +46,6 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 import { NodePermissionService } from '../../common/services/node-permission.service';
-import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { FavoritesComponent } from './favorites.component';
 

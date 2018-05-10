@@ -33,11 +33,10 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
     AuthenticationService, UserPreferencesService, TranslationService,
     TranslationMock, AppConfigService, StorageService, AlfrescoApiService,
-    CookieService, LogService
+    CookieService, LogService, AppConfigPipe
 } from '@alfresco/adf-core';
 
 import { LoginComponent } from './login.component';
-import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 describe('LoginComponent', () => {
     let fixture: ComponentFixture<LoginComponent>;
@@ -82,7 +81,7 @@ describe('LoginComponent', () => {
     beforeEach(() => {
         spyOn(userPreference, 'setStoragePrefix');
         spyOn(router, 'navigateByUrl');
-        spyOn(auth, 'getRedirectUrl').and.returnValue('/some-url');
+        spyOn(auth, 'getRedirect').and.returnValue('/some-url');
         spyOn(location, 'forward');
     });
 

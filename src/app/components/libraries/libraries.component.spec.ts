@@ -34,7 +34,7 @@ import {
     NodesApiService, AlfrescoApiService, ContentService,
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService, AuthenticationService,
-    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent
+    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';
@@ -42,7 +42,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
-import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { LibrariesComponent } from './libraries.component';
 

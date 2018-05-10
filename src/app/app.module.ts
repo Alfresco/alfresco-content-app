@@ -50,7 +50,6 @@ import { SearchInputComponent } from './components/search-input/search-input.com
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
-import { EmptyFolderComponent } from './components/empty-folder/empty-folder.component';
 import { NodeCopyDirective } from './common/directives/node-copy.directive';
 import { NodeDeleteDirective } from './common/directives/node-delete.directive';
 import { NodeMoveDirective } from './common/directives/node-move.directive';
@@ -59,7 +58,6 @@ import { NodePermanentDeleteDirective } from './common/directives/node-permanent
 import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
 import { NodeInfoDirective } from './common/directives/node-info.directive';
 import { NodeVersionsDirective } from './common/directives/node-versions.directive';
-import { AppConfigPipe } from './common/pipes/app-config.pipe';
 import { VersionManagerDialogAdapterComponent } from './components/versions-dialog/version-manager-dialog-adapter.component';
 import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
@@ -104,7 +102,6 @@ import { SearchComponent } from './components/search/search.component';
         PreviewComponent,
         AboutComponent,
         LocationLinkComponent,
-        EmptyFolderComponent,
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,
@@ -113,7 +110,6 @@ import { SearchComponent } from './components/search/search.component';
         NodeUnshareDirective,
         NodeInfoDirective,
         NodeVersionsDirective,
-        AppConfigPipe,
         VersionManagerDialogAdapterComponent,
         SearchComponent
     ],

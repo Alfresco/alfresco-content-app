@@ -112,11 +112,11 @@
 
                 <empty-folder-content>
                     <ng-template>
-                        <app-empty-folder
+                        <adf-empty-content
                             icon="people"
                             [title]="'APP.BROWSE.SHARED.EMPTY_STATE.TITLE'"
                             subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT">
-                        </app-empty-folder>
+                        </adf-empty-content>
                     </ng-template>
                 </empty-folder-content>
 
@@ -175,7 +175,7 @@
             </adf-document-list>
 
             <adf-pagination
-                [supportedPageSizes]="'pagination.supportedPageSizes' | appConfig"
+                [supportedPageSizes]="'pagination.supportedPageSizes' | adfAppConfig"
                 [target]="documentList"
                 (changePageSize)="onChangePageSize($event)">
             </adf-pagination>

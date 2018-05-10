@@ -62,10 +62,9 @@ export class AppComponent implements OnInit {
                 const data: any = snapshot.data || {};
 
                 if (data.i18nTitle) {
-                    this.translateService.translate
-                        .stream(data.i18nTitle)
-                        .subscribe((title) => pageTitle.setTitle(title));
-
+                    pageTitle.setTitle(
+                       this.translateService.instant(data.i18nTitle)
+                    );
                 } else {
                     pageTitle.setTitle(data.title || '');
                 }
