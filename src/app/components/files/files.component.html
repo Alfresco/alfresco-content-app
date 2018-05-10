@@ -93,7 +93,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="canManageVersions(documentList.selection)"
+                    *ngIf="isFileSelected(documentList.selection)"
                     [acaNodeVersions]="documentList.selection">
                     <mat-icon color="primary">history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
