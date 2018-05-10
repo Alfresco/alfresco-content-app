@@ -260,7 +260,8 @@
                 "component": {
                     "selector": "date-range",
                     "settings": {
-                        "field": "cm:created"
+                        "field": "cm:created",
+                        "dateFormat": "DD-MMM-YY"
                     }
                 }
             },
