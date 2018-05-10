@@ -33,11 +33,10 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
     AuthenticationService, UserPreferencesService, TranslationService,
     TranslationMock, AppConfigService, StorageService, AlfrescoApiService,
-    CookieService, LogService
+    CookieService, LogService, AppConfigPipe
 } from '@alfresco/adf-core';
 
 import { LoginComponent } from './login.component';
-import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 describe('LoginComponent', () => {
     let fixture: ComponentFixture<LoginComponent>;
