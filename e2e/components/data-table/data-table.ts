@@ -48,11 +48,11 @@ export class DataTable extends Component {
         selectedIcon: '.mat-icon',
 
         emptyListContainer: 'div.adf-no-content-container',
-        emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
+        emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-content',
 
-        emptyListTitle: '.app-empty-folder__title',
-        emptyListSubtitle: '.app-empty-folder__subtitle',
-        emptyListText: '.app-empty-folder__text'
+        emptyListTitle: '.adf-empty-content__title',
+        emptyListSubtitle: '.adf-empty-content__subtitle',
+        emptyListText: '.adf-empty-content__text'
     };
 
     head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
