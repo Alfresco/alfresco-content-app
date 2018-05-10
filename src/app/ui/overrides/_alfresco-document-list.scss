@@ -75,16 +75,9 @@ adf-datatable {
 }
 
 .adf-document-list--empty {
-    .adf-data-table {
-        @include flex-column;
-        justify-content: center;
-        align-items: center;
-    }
-
     .adf-data-table .adf-datatable-row:hover,
     .adf-data-table .adf-datatable-row:focus {
         background-color: unset;
-        cursor: default;
     }
 }
 

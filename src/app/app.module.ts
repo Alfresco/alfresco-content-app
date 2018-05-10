@@ -50,7 +50,6 @@ import { SearchInputComponent } from './components/search-input/search-input.com
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
-import { EmptyFolderComponent } from './components/empty-folder/empty-folder.component';
 import { NodeCopyDirective } from './common/directives/node-copy.directive';
 import { NodeDeleteDirective } from './common/directives/node-delete.directive';
 import { NodeMoveDirective } from './common/directives/node-move.directive';
@@ -104,7 +103,6 @@ import { SearchComponent } from './components/search/search.component';
         PreviewComponent,
         AboutComponent,
         LocationLinkComponent,
-        EmptyFolderComponent,
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,
