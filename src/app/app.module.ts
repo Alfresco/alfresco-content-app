@@ -58,7 +58,6 @@ import { NodePermanentDeleteDirective } from './common/directives/node-permanent
 import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
 import { NodeInfoDirective } from './common/directives/node-info.directive';
 import { NodeVersionsDirective } from './common/directives/node-versions.directive';
-import { AppConfigPipe } from './common/pipes/app-config.pipe';
 import { VersionManagerDialogAdapterComponent } from './components/versions-dialog/version-manager-dialog-adapter.component';
 import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
@@ -111,7 +110,6 @@ import { SearchComponent } from './components/search/search.component';
         NodeUnshareDirective,
         NodeInfoDirective,
         NodeVersionsDirective,
-        AppConfigPipe,
         VersionManagerDialogAdapterComponent,
         SearchComponent
     ],
