@@ -177,8 +177,8 @@
                     </div>
 
                     <adf-content-metadata-card
-                        [readOnly]="!permission.check(nodeInfo.node, ['update'])"
-                        [displayEmpty]="permission.check(nodeInfo.node, ['update'])"
+                        [readOnly]="!permission.check(infoInstance.node, ['update'])"
+                        [displayEmpty]="permission.check(infoInstance.node, ['update'])"
                         [preset]="'custom'"
                         [node]="infoInstance.node">
                     </adf-content-metadata-card>
