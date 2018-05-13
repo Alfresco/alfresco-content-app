@@ -38,6 +38,7 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { SidenavComponent } from './sidenav.component';
+import { ElectronModule } from '@ngstack/electron';
 
 describe('SidenavComponent', () => {
     let fixture;
@@ -61,7 +62,8 @@ describe('SidenavComponent', () => {
                 MatMenuModule,
                 MatSnackBarModule,
                 TranslateModule.forRoot(),
-                RouterTestingModule
+                RouterTestingModule,
+                ElectronModule
             ],
             declarations: [
                 SidenavComponent
