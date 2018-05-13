@@ -23,7 +23,7 @@
     "e2e:docker": "npm run start:docker && npm run cypress:ci && npm run e2e && npm run stop:docker",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "cypress:ci": "cypress run --config baseUrl=http://localhost:3000"
+    "cypress:ci": "cypress run --browser chrome --config baseUrl=http://localhost:3000"
   },
   "private": true,
   "dependencies": {
