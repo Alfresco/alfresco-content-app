@@ -50,6 +50,60 @@ export const APP_ROUTES: Routes = [
         }
     },
     {
+        path: 'personal-files/:folderId/preview/:nodeId',
+        component: PreviewComponent,
+        data: {
+            i18nTitle: 'APP.PREVIEW.TITLE',
+            navigateMultiple: true,
+            navigateSource: 'personal-files'
+        }
+    },
+    {
+        path: 'personal-files/preview/:nodeId',
+        component: PreviewComponent,
+        data: {
+            i18nTitle: 'APP.PREVIEW.TITLE',
+            navigateMultiple: true,
+            navigateSource: 'personal-files'
+        }
+    },
+    {
+        path: 'favorites/preview/:nodeId',
+        component: PreviewComponent,
+        data: {
+            i18nTitle: 'APP.PREVIEW.TITLE',
+            navigateMultiple: true,
+            navigateSource: 'favorites'
+        }
+    },
+    {
+        path: 'libraries/:folderId/preview/:nodeId',
+        component: PreviewComponent,
+        data: {
+            i18nTitle: 'APP.PREVIEW.TITLE',
+            navigateMultiple: true,
+            navigateSource: 'libraries'
+        }
+    },
+    {
+        path: 'recent-files/preview/:nodeId',
+        component: PreviewComponent,
+        data: {
+            i18nTitle: 'APP.PREVIEW.TITLE',
+            navigateMultiple: true,
+            navigateSource: 'recent-files'
+        }
+    },
+    {
+        path: 'shared/preview/:nodeId',
+        component: PreviewComponent,
+        data: {
+            i18nTitle: 'APP.PREVIEW.TITLE',
+            navigateMultiple: true,
+            navigateSource: 'shared'
+        }
+    },
+    {
         path: '',
         component: LayoutComponent,
         children: [
@@ -69,15 +123,6 @@ export const APP_ROUTES: Routes = [
                         component: FavoritesComponent,
                         data: {
                             i18nTitle: 'APP.BROWSE.FAVORITES.TITLE'
-                        }
-                    },
-                    {
-                        path: 'preview/:nodeId',
-                        component: PreviewComponent,
-                        data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
-                            navigateMultiple: true,
-                            navigateSource: 'favorites'
                         }
                     }
                 ]
@@ -99,15 +144,6 @@ export const APP_ROUTES: Routes = [
                     data: {
                         i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE',
                         preferencePrefix: 'libraries-files'
-                    }
-                },
-                {
-                    path: ':folderId/preview/:nodeId',
-                    component: PreviewComponent,
-                    data: {
-                        i18nTitle: 'APP.PREVIEW.TITLE',
-                        navigateMultiple: true,
-                        navigateSource: 'libraries'
                     }
                 }
                 ]
@@ -132,24 +168,6 @@ export const APP_ROUTES: Routes = [
                         data: {
                             i18nTitle: 'APP.BROWSE.PERSONAL.TITLE'
                         }
-                    },
-                    {
-                        path: 'preview/:nodeId',
-                        component: PreviewComponent,
-                        data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
-                            navigateMultiple: true,
-                            navigateSource: 'personal-files'
-                        }
-                    },
-                    {
-                        path: ':folderId/preview/:nodeId',
-                        component: PreviewComponent,
-                        data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
-                            navigateMultiple: true,
-                            navigateSource: 'personal-files'
-                        }
                     }
                 ]
             },
@@ -165,15 +183,6 @@ export const APP_ROUTES: Routes = [
                         data: {
                             i18nTitle: 'APP.BROWSE.RECENT.TITLE'
                         }
-                    },
-                    {
-                        path: 'preview/:nodeId',
-                        component: PreviewComponent,
-                        data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
-                            navigateMultiple: true,
-                            navigateSource: 'recent-files'
-                        }
                     }
                 ]
             },
@@ -188,15 +197,6 @@ export const APP_ROUTES: Routes = [
                         component: SharedFilesComponent,
                         data: {
                             i18nTitle: 'APP.BROWSE.SHARED.TITLE'
-                        }
-                    },
-                    {
-                        path: 'preview/:nodeId',
-                        component: PreviewComponent,
-                        data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
-                            navigateMultiple: true,
-                            navigateSource: 'shared'
                         }
                     }
                 ]
@@ -225,8 +225,8 @@ export const APP_ROUTES: Routes = [
                 component: GenericErrorComponent
             }
         ],
-        canActivateChild: [ AuthGuardEcm ],
-        canActivate: [ AuthGuardEcm ]
+        canActivateChild: [AuthGuardEcm],
+        canActivate: [AuthGuardEcm]
     }
 ];
 
