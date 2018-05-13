@@ -35,6 +35,7 @@
                 </adf-upload-button>
 
                 <adf-upload-button
+                    *ngIf="!isDesktopApp"
                     [tooltip]="
                         (permission.check(node, ['create'])
                             ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS'
@@ -46,6 +47,20 @@
                     [uploadFolders]="true"
                     [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER' | translate">
                 </adf-upload-button>
+
+                <button
+                    *ngIf="isDesktopApp"
+                    mat-menu-item
+                    [title]="
+                        (permission.check(node, ['create'])
+                            ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS'
+                            : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED'
+                        ) | translate"
+                    [disabled]="!permission.check(node, ['create'])"
+                    (click)="uploadFolderDesktop()">
+                    <mat-icon>file_upload</mat-icon>
+                    <span>{{ 'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER' | translate }}</span>
+                </button>
             </div>
         </adf-sidebar-action-menu>
     </div>

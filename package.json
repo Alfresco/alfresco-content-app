@@ -40,6 +40,7 @@
     "@angular/router": "5.1.1",
     "@mat-datetimepicker/core": "1.0.1",
     "@mat-datetimepicker/moment": "1.0.1",
+    "@ngstack/electron": "0.1.0",
     "@ngx-translate/core": "9.1.1",
     "alfresco-js-api": "2.4.0-31a7fc6e5d58dc8bf202ef9a80bc993c9f48fe18",
     "core-js": "2.5.3",
