@@ -1,7 +1,7 @@
 describe('Login', function() {
 
     it('logs in as an admin', () => {
-        cy.visit('http://localhost:4200/#/login');
+        cy.visit('/login');
         cy
             .get('#username')
             .type('admin')

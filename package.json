@@ -20,8 +20,9 @@
     "e2e": "npm run wd:update && protractor protractor.conf.js",
     "start:docker": "docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:3000",
     "stop:docker": "docker-compose stop",
-    "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",
-    "cypress:open": "cypress open"
+    "e2e:docker": "npm run start:docker && npm run cypress:run && npm run e2e && npm run stop:docker",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
