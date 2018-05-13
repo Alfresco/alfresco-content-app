@@ -20,7 +20,8 @@
     "e2e": "npm run wd:update && protractor protractor.conf.js",
     "start:docker": "docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:3000",
     "stop:docker": "docker-compose stop",
-    "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker"
+    "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",
+    "cypress:open": "cypress open"
   },
   "private": true,
   "dependencies": {
@@ -62,6 +63,7 @@
     "@types/selenium-webdriver": "^3.0.8",
     "codacy-coverage": "^2.0.3",
     "codelyzer": "^4.0.1",
+    "cypress": "^2.1.0",
     "jasmine-core": "~2.8.0",
     "jasmine-reporters": "^2.2.1",
     "jasmine-spec-reporter": "~4.2.1",
