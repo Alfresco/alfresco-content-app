@@ -28,7 +28,7 @@ exports.config = {
             prefs: {
                 'credentials_enable_service': false
             },
-            args: [ '--incognito', '--headless', '--no-sandbox' ]
+            args: [ '--incognito', '--headless' ]
         }
     },
 
