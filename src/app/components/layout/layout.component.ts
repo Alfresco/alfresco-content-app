@@ -27,6 +27,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { UserPreferencesService, AppConfigService } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
@@ -37,22 +38,27 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 })
 export class LayoutComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity;
-    isPreview = false;
-
+    hideSidenav: boolean;
+    expandedSidenav: boolean;
+    private hideConditions: string[] = ['preview'];
     private subscriptions: Subscription[] = [];
 
     constructor(
         private router: Router,
         private browsingFilesService: BrowsingFilesService,
+        private userPreferenceService: UserPreferencesService,
+        private appConfigService: AppConfigService,
         public permission: NodePermissionService) {
             this.router.events
                 .filter(event => event instanceof NavigationEnd)
                 .subscribe( (event: any ) => {
-                    this.isPreview = event.urlAfterRedirects.includes('preview');
+                    this.hideSidenav = this.hideConditions.some(el => event.urlAfterRedirects.includes(el));
                 });
         }
 
     ngOnInit() {
+        this.expandedSidenav = this.sidenavState;
+
         this.subscriptions.concat([
             this.browsingFilesService.onChangeParent.subscribe((node: MinimalNodeEntryEntity) => this.node = node)
         ]);
@@ -60,5 +66,22 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
+    }
+
+    get sidenavState(): boolean {
+        const expand = this.appConfigService.get<boolean>('sideNav.expandedSidenav', true);
+        const preserveState = this.appConfigService.get<boolean>('sideNav.preserveState', true);
+
+        if (preserveState)  {
+            return (this.userPreferenceService.get('expandedSidenav', expand.toString()) === 'true');
+        }
+
+        return expand;
+    }
+
+    setState(state) {
+        if (this.appConfigService.get('sideNav.preserveState')) {
+            this.userPreferenceService.set('expandedSidenav', state);
+        }
     }
 }
