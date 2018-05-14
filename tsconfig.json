@@ -10,9 +10,7 @@
         "noUnusedLocals": true,
         "target": "es5",
         "typeRoots": ["node_modules/@types"],
-        "lib": ["es2017", "dom"],
-        "allowJs": true,
-        "types": ["cypress"]
+        "lib": ["es2017", "dom"]
     },
     "exclude": ["node_modules"]
 }
