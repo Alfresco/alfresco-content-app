@@ -28,7 +28,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, CoreModule } from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, CoreModule, AppConfigService } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { ElectronModule } from '@ngstack/electron';
 
@@ -66,6 +66,8 @@ import { NodeActionsService } from './common/services/node-actions.service';
 import { NodePermissionService } from './common/services/node-permission.service';
 import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 import { SearchComponent } from './components/search/search.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { HybridAppConfigService } from './common/services/hybrid-app-config.service';
 
 @NgModule({
     imports: [
@@ -113,9 +115,11 @@ import { SearchComponent } from './components/search/search.component';
         NodeInfoDirective,
         NodeVersionsDirective,
         VersionManagerDialogAdapterComponent,
-        SearchComponent
+        SearchComponent,
+        SettingsComponent
     ],
     providers: [
+        { provide: AppConfigService, useClass: HybridAppConfigService },
         {
             provide: TRANSLATION_PROVIDER,
             multi: true,

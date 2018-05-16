@@ -40,6 +40,7 @@ import { LoginComponent } from './components/login/login.component';
 import { PreviewComponent } from './components/preview/preview.component';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { SearchComponent } from './components/search/search.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 export const APP_ROUTES: Routes = [
     {
@@ -47,6 +48,13 @@ export const APP_ROUTES: Routes = [
         component: LoginComponent,
         data: {
             i18nTitle: 'APP.SIGN_IN'
+        }
+    },
+    {
+        path: 'settings',
+        component: SettingsComponent,
+        data: {
+            i18nTitle: 'Settings'
         }
     },
     {
