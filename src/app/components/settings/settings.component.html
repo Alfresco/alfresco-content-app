@@ -1,0 +1,47 @@
+<adf-toolbar class="app-menu" [style.background-color]="backgroundColor">
+    <adf-toolbar-title>
+        <a class="app-menu__title"
+            title="{{ appName }}"
+            [routerLink]="[ '/' ]">
+            <img
+                [src]="logo"
+                alt="{{ appName }}" />
+        </a>
+    </adf-toolbar-title>
+</adf-toolbar>
+
+<form [formGroup]="form" novalidate (ngSubmit)="apply(form.value, form.valid)">
+    <mat-accordion multi="true" displayMode="flat">
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Repository Settings</mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div>
+                <mat-form-field class="settings-input">
+                    <input matInput
+                        formControlName="ecmHost"
+                        type="text"
+                        tabindex="2"
+                        placeholder="ACS Repository URL">
+                    <mat-error *ngIf="form.get('ecmHost').hasError('pattern')">
+                        Invalid value format
+                    </mat-error>
+                    <mat-error *ngIf="form.get('ecmHost').hasError('required')">
+                        This field is required
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="settings-buttons">
+                <button mat-button (click)="reset()">
+                    Reset
+                </button>
+                <button mat-button color="primary" type="submit" [disabled]="!form.valid">
+                    Apply
+                </button>
+            </div>
+
+        </mat-expansion-panel>
+    </mat-accordion>
+</form>

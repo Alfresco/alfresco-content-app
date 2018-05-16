@@ -23,12 +23,66 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation, SecurityContext, OnInit } from '@angular/core';
+import { AppConfigService, StorageService, SettingsService } from '@alfresco/adf-core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'app-settings',
-    template: `
-        <adf-host-settings></adf-host-settings>
-    `
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    // tslint:disable-next-line:use-host-property-decorator
+    host: { class: 'app-settings' }
 })
-export class SettingsComponent {}
+export class SettingsComponent implements OnInit {
+
+    private defaultPath = '/assets/images/alfresco-logo-white.svg';
+    private defaultBackgroundColor = '#2196F3';
+
+    form: FormGroup;
+
+    constructor(
+        private appConfig: AppConfigService,
+        private sanitizer: DomSanitizer,
+        private settingsService: SettingsService,
+        private storage: StorageService,
+        private fb: FormBuilder) {
+
+        }
+
+    get appName(): string {
+        return <string>this.appConfig.get('application.name');
+    }
+
+    get logo() {
+        return this.appConfig.get('application.logo', this.defaultPath);
+    }
+
+    get backgroundColor() {
+        const color = this.appConfig.get('headerColor', this.defaultBackgroundColor);
+        return this.sanitizer.sanitize(SecurityContext.STYLE, color);
+    }
+
+    ngOnInit() {
+        this.form = this.fb.group({
+            ecmHost: ['', [Validators.required, Validators.pattern('^(http|https):\/\/.*[^/]$')]]
+        });
+
+        this.reset();
+    }
+
+    apply(model: any, isValid: boolean) {
+        if (isValid) {
+            this.storage.setItem('ecmHost', model.ecmHost);
+            // window.location.reload(true);
+        }
+    }
+
+    reset() {
+        this.form.reset({
+            ecmHost: this.storage.getItem('ecmHost') || this.settingsService.ecmHost
+        });
+    }
+}
