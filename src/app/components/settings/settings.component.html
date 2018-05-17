@@ -1,11 +1,7 @@
 <adf-toolbar class="app-menu" [style.background-color]="backgroundColor">
     <adf-toolbar-title>
-        <a class="app-menu__title"
-            title="{{ appName }}"
-            [routerLink]="[ '/' ]">
-            <img
-                [src]="logo"
-                alt="{{ appName }}" />
+        <a class="app-menu__title" title="{{ appName }}" [routerLink]="[ '/' ]">
+            <img [src]="logo" alt="{{ appName }}" />
         </a>
     </adf-toolbar-title>
 </adf-toolbar>
@@ -14,7 +10,7 @@
     <mat-accordion multi="true" displayMode="flat">
         <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
-                <mat-panel-title>Repository Settings</mat-panel-title>
+                <mat-panel-title>{{ 'APP.SETTINGS.REPOSITORY-SETTINGS' | translate }}</mat-panel-title>
             </mat-expansion-panel-header>
 
             <div>
@@ -25,20 +21,20 @@
                         tabindex="2"
                         placeholder="ACS Repository URL">
                     <mat-error *ngIf="form.get('ecmHost').hasError('pattern')">
-                        Invalid value format
+                        {{ 'APP.SETTINGS.INVALID-VALUE-FORMAT' | translate }}
                     </mat-error>
                     <mat-error *ngIf="form.get('ecmHost').hasError('required')">
-                        This field is required
+                            {{ 'APP.SETTINGS.REQUIRED-FIELD' | translate }}
                     </mat-error>
                 </mat-form-field>
             </div>
 
             <div class="settings-buttons">
                 <button mat-button (click)="reset()">
-                    Reset
+                    {{ 'APP.SETTINGS.RESET' | translate }}
                 </button>
                 <button mat-button color="primary" type="submit" [disabled]="!form.valid">
-                    Apply
+                    {{ 'APP.SETTINGS.APPLY' | translate }}
                 </button>
             </div>
 
