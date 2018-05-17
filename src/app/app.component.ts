@@ -29,6 +29,7 @@ import {
     TranslationService, PageTitleService, UserPreferencesService, AppConfigService,
     FileModel, UploadService
 } from '@alfresco/adf-core';
+import { Observable } from 'rxjs/Observable';
 import { ElectronService } from '@ngstack/electron';
 
 @Component({
@@ -57,23 +58,29 @@ export class AppComponent implements OnInit {
         router
             .events
             .filter(event => event instanceof NavigationEnd)
-            .subscribe(() => {
-                let currentRoute = route.root;
+            .map(() => {
+                let currentRoute = route;
 
                 while (currentRoute.firstChild) {
                     currentRoute = currentRoute.firstChild;
                 }
 
-                const snapshot: any = currentRoute.snapshot || {};
-                const data: any = snapshot.data || {};
-
-                if (data.i18nTitle) {
-                    pageTitle.setTitle(
-                       this.translateService.instant(data.i18nTitle)
-                    );
-                } else {
-                    pageTitle.setTitle(data.title || '');
+                return currentRoute;
+            })
+            .mergeMap((currentRoute) => currentRoute.data)
+            .flatMap((data) => {
+                if (data && data.i18nTitle) {
+                    return this.translateService.translate.stream(data.i18nTitle);
                 }
+
+                if (data && data.title) {
+                   return Observable.of(data.title || '');
+                }
+
+                return Observable.of('');
+            })
+            .subscribe((title) => {
+                pageTitle.setTitle(title);
             });
 
         this.electronService.on('app:navigateRoute', (event: any, ...args: string[]) => {
