@@ -66,11 +66,7 @@ export class AppComponent implements OnInit {
                 const snapshot: any = currentRoute.snapshot || {};
                 const data: any = snapshot.data || {};
 
-                if (data.i18nTitle) {
-                    pageTitle.setTitle(data.i18nTitle);
-                } else {
-                    pageTitle.setTitle(data.title || '');
-                }
+                pageTitle.setTitle(data.title || '');
             });
 
         this.electronService.on('app:navigateRoute', (event: any, ...args: string[]) => {

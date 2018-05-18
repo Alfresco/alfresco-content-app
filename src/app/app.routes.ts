@@ -47,14 +47,14 @@ export const APP_ROUTES: Routes = [
         path: 'login',
         component: LoginComponent,
         data: {
-            i18nTitle: 'APP.SIGN_IN'
+            title: 'APP.SIGN_IN'
         }
     },
     {
         path: 'settings',
         component: SettingsComponent,
         data: {
-            i18nTitle: 'Settings'
+            title: 'Settings'
         }
     },
     {
@@ -76,14 +76,14 @@ export const APP_ROUTES: Routes = [
                         path: '',
                         component: FavoritesComponent,
                         data: {
-                            i18nTitle: 'APP.BROWSE.FAVORITES.TITLE'
+                            title: 'APP.BROWSE.FAVORITES.TITLE'
                         }
                     },
                     {
                         path: 'preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
                             navigateSource: 'favorites'
                         }
@@ -99,13 +99,13 @@ export const APP_ROUTES: Routes = [
                     path: '',
                     component: LibrariesComponent,
                     data: {
-                        i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE'
+                        title: 'APP.BROWSE.LIBRARIES.TITLE'
                     }
                 }, {
                     path: ':folderId',
                     component: FilesComponent,
                     data: {
-                        i18nTitle: 'APP.BROWSE.LIBRARIES.TITLE',
+                        title: 'APP.BROWSE.LIBRARIES.TITLE',
                         preferencePrefix: 'libraries-files'
                     }
                 },
@@ -113,7 +113,7 @@ export const APP_ROUTES: Routes = [
                     path: ':folderId/preview/:nodeId',
                     component: PreviewComponent,
                     data: {
-                        i18nTitle: 'APP.PREVIEW.TITLE',
+                        title: 'APP.PREVIEW.TITLE',
                         navigateMultiple: true,
                         navigateSource: 'libraries'
                     }
@@ -130,7 +130,7 @@ export const APP_ROUTES: Routes = [
                         path: '',
                         component: FilesComponent,
                         data: {
-                            i18nTitle: 'APP.BROWSE.PERSONAL.TITLE',
+                            title: 'APP.BROWSE.PERSONAL.TITLE',
                             defaultNodeId: '-my-'
                         }
                     },
@@ -138,14 +138,14 @@ export const APP_ROUTES: Routes = [
                         path: ':folderId',
                         component: FilesComponent,
                         data: {
-                            i18nTitle: 'APP.BROWSE.PERSONAL.TITLE'
+                            title: 'APP.BROWSE.PERSONAL.TITLE'
                         }
                     },
                     {
                         path: 'preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
                             navigateSource: 'personal-files'
                         }
@@ -154,7 +154,7 @@ export const APP_ROUTES: Routes = [
                         path: ':folderId/preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
                             navigateSource: 'personal-files'
                         }
@@ -171,14 +171,14 @@ export const APP_ROUTES: Routes = [
                         path: '',
                         component: RecentFilesComponent,
                         data: {
-                            i18nTitle: 'APP.BROWSE.RECENT.TITLE'
+                            title: 'APP.BROWSE.RECENT.TITLE'
                         }
                     },
                     {
                         path: 'preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
                             navigateSource: 'recent-files'
                         }
@@ -195,14 +195,14 @@ export const APP_ROUTES: Routes = [
                         path: '',
                         component: SharedFilesComponent,
                         data: {
-                            i18nTitle: 'APP.BROWSE.SHARED.TITLE'
+                            title: 'APP.BROWSE.SHARED.TITLE'
                         }
                     },
                     {
                         path: 'preview/:nodeId',
                         component: PreviewComponent,
                         data: {
-                            i18nTitle: 'APP.PREVIEW.TITLE',
+                            title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
                             navigateSource: 'shared'
                         }
@@ -213,7 +213,7 @@ export const APP_ROUTES: Routes = [
                 path: 'trashcan',
                 component: TrashcanComponent,
                 data: {
-                    i18nTitle: 'APP.BROWSE.TRASHCAN.TITLE',
+                    title: 'APP.BROWSE.TRASHCAN.TITLE',
                     preferencePrefix: 'trashcan'
                 }
             },
@@ -221,7 +221,7 @@ export const APP_ROUTES: Routes = [
                 path: 'about',
                 component: AboutComponent,
                 data: {
-                    i18nTitle: 'APP.BROWSE.ABOUT.TITLE'
+                    title: 'APP.BROWSE.ABOUT.TITLE'
                 }
             },
             {
