@@ -56,8 +56,6 @@ describe('Restore from Trash', () => {
         .then(done);
     });
 
-    xit('');
-
     describe('successful restore', () => {
         const file = `file-${Utils.random()}.txt`; let fileId;
         const folder = `folder-${Utils.random()}`; let folderId;

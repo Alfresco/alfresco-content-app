@@ -97,8 +97,6 @@ describe('Toolbar actions - multiple selection : ', () => {
         .then(done);
     });
 
-    xit('');
-
     describe('Personal Files', () => {
         beforeAll(done => {
             loginPage.loginWith(user1).then(done);
@@ -213,8 +211,6 @@ describe('Toolbar actions - multiple selection : ', () => {
         afterAll(done => {
             apis.admin.sites.deleteSite(siteName).then(done);
         });
-
-        xit('');
 
         describe('user is Manager', () => {
             beforeAll(done => {

@@ -33,8 +33,6 @@ describe('Page titles', () => {
     const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
 
-    xit('');
-
     describe('on Login / Logout pages', () => {
         it('on Login page', () => {
             loginPage.load()

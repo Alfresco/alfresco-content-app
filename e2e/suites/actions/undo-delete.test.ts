@@ -50,8 +50,6 @@ describe('Undo delete content', () => {
         apis.admin.trashcan.emptyTrash().then(done);
     });
 
-    xit('');
-
     describe('on Personal Files', () => {
         const file1 = `file1-${Utils.random()}.txt`; let file1Id;
         const file2 = `file2-${Utils.random()}.txt`; let file2Id;

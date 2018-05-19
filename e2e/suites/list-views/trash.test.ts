@@ -77,8 +77,6 @@ describe('Trash', () => {
         .then(done);
     });
 
-    xit('');
-
     describe('as admin', () => {
         beforeAll(done => {
             loginPage.loginWithAdmin().then(done);
