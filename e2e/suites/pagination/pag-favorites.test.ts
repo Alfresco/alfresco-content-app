@@ -55,8 +55,6 @@ describe('Pagination on Favorites', () => {
         apis.admin.people.createUser(username).then(done);
     });
 
-    xit('');
-
     describe('on empty page', () => {
         beforeAll(done => {
             loginPage.loginWith(username).then(done);

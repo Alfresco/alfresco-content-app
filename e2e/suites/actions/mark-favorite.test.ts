@@ -73,8 +73,6 @@ describe('Mark items as favorites', () => {
         .then(done);
     });
 
-    xit('');
-
     describe('on Personal Files', () => {
         beforeAll(done => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)

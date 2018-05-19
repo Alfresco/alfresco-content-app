@@ -44,8 +44,6 @@ describe('Special permissions', () => {
     const sharedPage = new BrowsingPage();
     const { dataTable } = recentFilesPage;
 
-    xit('');
-
     beforeAll(done => {
         apis.admin.people.createUser(username).then(done);
     });

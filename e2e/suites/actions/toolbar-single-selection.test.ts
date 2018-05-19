@@ -80,8 +80,6 @@ describe('Toolbar actions - single selection : ', () => {
         .then(done);
     });
 
-    xit('');
-
     describe('General tests', () => {
         const userSite = `site-${Utils.random()}`;
 
@@ -313,8 +311,6 @@ describe('Toolbar actions - single selection : ', () => {
                         .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform());
                 });
             });
-
-            xit('');
         });
     });
 
@@ -408,8 +404,6 @@ describe('Toolbar actions - single selection : ', () => {
         afterAll(done => {
             apis.admin.sites.deleteSite(siteName).then(done);
         });
-
-        xit('');
 
         describe('user is Manager', () => {
             beforeAll(done => {

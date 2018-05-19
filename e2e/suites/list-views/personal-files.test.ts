@@ -68,8 +68,6 @@ describe('Personal Files', () => {
             .then(done);
     });
 
-    xit('');
-
     describe(`Admin user's personal files`, () => {
         beforeAll(done => {
             loginPage.loginWithAdmin().then(done);

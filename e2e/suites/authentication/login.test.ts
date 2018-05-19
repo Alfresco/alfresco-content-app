@@ -77,8 +77,6 @@ describe('Login', () => {
             .then(done);
     });
 
-    xit('');
-
     describe('general tests', () => {
         beforeEach(done => {
             loginPage.load().then(done);
