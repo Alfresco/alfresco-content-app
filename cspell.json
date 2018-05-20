@@ -4,7 +4,6 @@
     "words": [
         "succes",
 
-
         "ngstack",
         "sidenav",
         "injectable",
@@ -15,6 +14,12 @@
         "classlist",
         "folderlink",
         "filelink",
+        "datatable",
+        "repo",
+        "snackbar",
+        "promisify",
+        "xdescribe",
+        "unfavorite",
 
         "unshare",
         "validators",
@@ -23,7 +28,11 @@
         "polyfills",
         "jsonp",
         "hammerjs",
-        "pdfjs"
+        "pdfjs",
+        "xpath",
+        "tooltip",
+        "tooltips",
+        "unindent"
     ],
     "dictionaries": [
         "html"

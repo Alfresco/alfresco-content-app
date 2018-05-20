@@ -87,7 +87,7 @@ describe('Mark items as favorites', () => {
             browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform().then(done);
         });
 
-        it('Favorite action has empty star icon for unfavorited item', () => {
+        it('Favorite action has empty star icon for an item not marked as favorite', () => {
             dataTable.clickOnItemName(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star_border'));
@@ -99,7 +99,7 @@ describe('Mark items as favorites', () => {
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star_border'));
         });
 
-        it('Favorite action has full star icon for favorited items', () => {
+        it('Favorite action has full star icon for items marked as favorite', () => {
             dataTable.clickOnItemName(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star'));

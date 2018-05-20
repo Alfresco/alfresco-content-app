@@ -25,7 +25,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "cypress:ci": "cypress run --browser chrome --config baseUrl=http://localhost:3000",
-    "spellcheck": "cspell 'src/**/*.ts'"
+    "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts'"
   },
   "private": true,
   "dependencies": {

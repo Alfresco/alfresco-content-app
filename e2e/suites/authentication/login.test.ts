@@ -35,9 +35,11 @@ describe('Login', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
 
+    /* cspell:disable-next-line */
     const testUser = `user-${Utils.random()}@alfness`;
 
     const russianUser = {
+        /* cspell:disable-next-line */
         username: `пользвате${Utils.random()}`,
         password: '密碼中國'
     };
