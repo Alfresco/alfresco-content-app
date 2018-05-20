@@ -33,7 +33,7 @@ jobs:
       - restore_cache:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
       - run: npm install
-      - run: npm run check:spelling
+      - run: npm run spellcheck
   test:
     working_directory: ~/alfresco-content-app
     docker:
