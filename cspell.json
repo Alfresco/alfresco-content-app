@@ -2,6 +2,9 @@
     "version": "0.1",
     "language": "en",
     "words": [
+        "succes",
+
+
         "ngstack",
         "sidenav",
         "injectable",
@@ -9,6 +12,9 @@
         "cryptodoc",
         "mysites",
         "afts",
+        "classlist",
+        "folderlink",
+        "filelink",
 
         "unshare",
         "validators",
