@@ -4,6 +4,22 @@
     "words": [
         "ngstack",
         "sidenav",
-        "unshare"
+        "injectable",
+        "truthy",
+        "cryptodoc",
+        "mysites",
+        "afts",
+
+        "unshare",
+        "validators",
+        "guid",
+        "polyfill",
+        "polyfills",
+        "jsonp",
+        "hammerjs",
+        "pdfjs"
+    ],
+    "dictionaries": [
+        "html"
     ]
 }
