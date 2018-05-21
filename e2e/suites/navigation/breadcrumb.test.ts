@@ -34,8 +34,8 @@ describe('Breadcrumb', () => {
     const username = `user-${Utils.random()}`;
 
     const parent = `parent-${Utils.random()}`; let parentId;
-    const subfolder1 = `subfolder1-${Utils.random()}`; let subfolder1Id;
-    const subfolder2 = `subfolder2-${Utils.random()}`; let subfolder2Id;
+    const subFolder1 = `subFolder1-${Utils.random()}`; let subFolder1Id;
+    const subFolder2 = `subFolder2-${Utils.random()}`; let subFolder2Id;
     const fileName1 = `file1-${Utils.random()}.txt`;
 
     const siteName = `site-${Utils.random()}`;
@@ -57,9 +57,9 @@ describe('Breadcrumb', () => {
     beforeAll(done => {
         apis.admin.people.createUser(username)
             .then(() => apis.user.nodes.createFolder(parent)).then(resp => parentId = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFolder(subfolder1, parentId)).then(resp => subfolder1Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFolder(subfolder2, subfolder1Id)).then(resp => subfolder2Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFile(fileName1, subfolder2Id))
+            .then(() => apis.user.nodes.createFolder(subFolder1, parentId)).then(resp => subFolder1Id = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then(resp => subFolder2Id = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFile(fileName1, subFolder2Id))
 
             .then(() => apis.user.nodes.createFolder(parent2)).then(resp => parent2Id = resp.data.entry.id)
             .then(() => apis.user.nodes.createFolder(folder1, parent2Id)).then(resp => folder1Id = resp.data.entry.id)
@@ -67,9 +67,9 @@ describe('Breadcrumb', () => {
             .then(() => apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
             .then(() => apis.user.sites.getDocLibId(siteName))
             .then(resp => apis.user.nodes.createFolder(parent, resp)).then(resp => parentId = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFolder(subfolder1, parentId)).then(resp => subfolder1Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFolder(subfolder2, subfolder1Id)).then(resp => subfolder2Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFile(fileName1, subfolder2Id))
+            .then(() => apis.user.nodes.createFolder(subFolder1, parentId)).then(resp => subFolder1Id = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then(resp => subFolder2Id = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFile(fileName1, subFolder2Id))
 
             .then(() => loginPage.loginWith(username))
             .then(done);
@@ -137,10 +137,10 @@ describe('Breadcrumb', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnItemName(parent))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder1))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder2))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder1))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder2))
             .then(() => {
-                const expectedBreadcrumb = [ 'Personal Files', parent, subfolder1, subfolder2 ];
+                const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1, subFolder2 ];
                 expect(breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
             });
     });
@@ -150,10 +150,10 @@ describe('Breadcrumb', () => {
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnItemName(siteName))
             .then(() => page.dataTable.doubleClickOnItemName(parent))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder1))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder2))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder1))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder2))
             .then(() => {
-                const expectedItems = [ 'File Libraries', siteName, parent, subfolder1, subfolder2 ];
+                const expectedItems = [ 'File Libraries', siteName, parent, subFolder1, subFolder2 ];
                 expect(breadcrumb.getAllItems()).toEqual(expectedItems);
             });
     });
@@ -162,11 +162,11 @@ describe('Breadcrumb', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnItemName(parent))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder1))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder2))
-            .then(() => breadcrumb.clickItem(subfolder1))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder1))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder2))
+            .then(() => breadcrumb.clickItem(subFolder1))
             .then(() => {
-                const expectedBreadcrumb = [ 'Personal Files', parent, subfolder1 ];
+                const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1 ];
                 expect(breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
             });
     });
@@ -175,10 +175,10 @@ describe('Breadcrumb', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnItemName(parent))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder1))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder2))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder1))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder2))
             .then(() => {
-                expect(breadcrumb.getNthItemTooltip(3)).toEqual(subfolder1);
+                expect(breadcrumb.getNthItemTooltip(3)).toEqual(subFolder1);
             });
     });
 
@@ -200,13 +200,13 @@ describe('Breadcrumb', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnItemName(parent))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder1))
-            .then(() => page.dataTable.doubleClickOnItemName(subfolder2))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder1))
+            .then(() => page.dataTable.doubleClickOnItemName(subFolder2))
             .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
             .then(() => page.dataTable.waitForEmptyState())
             .then(() => browser.navigate().back())
             .then(() => {
-                const expectedBreadcrumb = [ 'Personal Files', parent, subfolder1, subfolder2 ];
+                const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1, subFolder2 ];
                 expect(breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
             });
     });

@@ -1,0 +1,40 @@
+{
+    "version": "0.1",
+    "language": "en",
+    "words": [
+        "succes",
+
+        "ngstack",
+        "sidenav",
+        "injectable",
+        "truthy",
+        "cryptodoc",
+        "mysites",
+        "afts",
+        "classlist",
+        "folderlink",
+        "filelink",
+        "datatable",
+        "repo",
+        "snackbar",
+        "promisify",
+        "xdescribe",
+        "unfavorite",
+
+        "unshare",
+        "validators",
+        "guid",
+        "polyfill",
+        "polyfills",
+        "jsonp",
+        "hammerjs",
+        "pdfjs",
+        "xpath",
+        "tooltip",
+        "tooltips",
+        "unindent"
+    ],
+    "dictionaries": [
+        "html"
+    ]
+}

@@ -39,7 +39,7 @@ export const log = {
         return this;
     },
 
-    dedent() {
+    unindent() {
         this.i--;
         return this;
     },

@@ -66,7 +66,7 @@ export class NodeDeleteDirective {
                 (data) => {
                     const processedData = this.processStatus(data);
 
-                    this.getDeleteMesssage(processedData)
+                    this.getDeleteMessage(processedData)
                         .subscribe((message) => {
                             const withUndo = processedData.someSucceeded ? this.translation.translate.instant('APP.ACTIONS.UNDO') : '';
 
@@ -194,7 +194,7 @@ export class NodeDeleteDirective {
         }
     }
 
-    private getDeleteMesssage(status): Observable<string> {
+    private getDeleteMessage(status): Observable<string> {
         if (status.allFailed && !status.oneFailed) {
             return this.translation.get(
                 'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
