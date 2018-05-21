@@ -24,6 +24,16 @@ jobs:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
       - run: npm install
       - run: npm run lint
+  spellcheck:
+    working_directory: ~/alfresco-content-app
+    docker:
+      - image: circleci/node:8-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
+      - run: npm install
+      - run: npm run spellcheck
   test:
     working_directory: ~/alfresco-content-app
     docker:
@@ -51,6 +61,9 @@ workflows:
     jobs:
       - install
       - lint:
+          requires:
+            - install
+      - spellcheck:
           requires:
             - install
       - test:

@@ -21,4 +21,4 @@ install:
 
 script:
   # - docker-compose stop
-  - npm run build && npm run e2e:all
+  - npm run build && npm run e2e:docker

@@ -24,7 +24,8 @@
     "e2e:all": "npm run start:docker && npm run cypress:ci && npm run e2e && npm run stop:docker",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "cypress:ci": "cypress run --browser chrome --config baseUrl=http://localhost:3000"
+    "cypress:ci": "cypress run --browser chrome --config baseUrl=http://localhost:3000",
+    "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts'"
   },
   "private": true,
   "dependencies": {
@@ -49,6 +50,7 @@
     "@ngx-translate/core": "9.1.1",
     "alfresco-js-api": "2.4.0-31a7fc6e5d58dc8bf202ef9a80bc993c9f48fe18",
     "core-js": "2.5.3",
+    "cspell": "^2.1.12",
     "hammerjs": "2.0.8",
     "moment-es6": "1.0.0",
     "pdfjs-dist": "2.0.303",
