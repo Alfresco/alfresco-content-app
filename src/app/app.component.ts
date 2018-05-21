@@ -26,7 +26,7 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import {
-    TranslationService, PageTitleService, UserPreferencesService, AppConfigService,
+    PageTitleService, UserPreferencesService, AppConfigService,
     FileModel, UploadService
 } from '@alfresco/adf-core';
 import { ElectronService } from '@ngstack/electron';
@@ -41,7 +41,6 @@ export class AppComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private pageTitle: PageTitleService,
-        private translateService: TranslationService,
         preferences: UserPreferencesService,
         config: AppConfigService,
         private electronService: ElectronService,
@@ -67,13 +66,7 @@ export class AppComponent implements OnInit {
                 const snapshot: any = currentRoute.snapshot || {};
                 const data: any = snapshot.data || {};
 
-                if (data.i18nTitle) {
-                    pageTitle.setTitle(
-                       this.translateService.instant(data.i18nTitle)
-                    );
-                } else {
-                    pageTitle.setTitle(data.title || '');
-                }
+                pageTitle.setTitle(data.title || '');
             });
 
         this.electronService.on('app:navigateRoute', (event: any, ...args: string[]) => {
