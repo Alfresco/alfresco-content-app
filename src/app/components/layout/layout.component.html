@@ -4,12 +4,14 @@
         [disabled]="!permission.check(node, ['create'])">
 
         <adf-sidenav-layout
+            #sidenavManager="acaSidenavManager"
+            acaSidenavManager
             [sidenavMin]="70"
             [sidenavMax]="320"
             [stepOver]="600"
-            [hideSidenav]="hideSidenav"
+            [hideSidenav]="sidenavManager.hideSidenav"
             [expandedSidenav]="expandedSidenav"
-            (expanded)="setState($event)">
+            (expanded)="sidenavManager.setState($event)">
 
             <adf-sidenav-layout-header>
                 <ng-template let-toggleMenu="toggleMenu">
