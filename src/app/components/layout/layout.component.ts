@@ -23,13 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { UserPreferencesService, AppConfigService } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
+import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 
 @Component({
     selector: 'app-layout',
@@ -37,27 +36,25 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
     styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-    node: MinimalNodeEntryEntity;
-    hideSidenav: boolean;
+    @ViewChild(SidenavViewsManagerDirective) manager: SidenavViewsManagerDirective;
+
     expandedSidenav: boolean;
-    private hideConditions: string[] = ['preview'];
+    node: MinimalNodeEntryEntity;
+
     private subscriptions: Subscription[] = [];
 
     constructor(
-        private router: Router,
         private browsingFilesService: BrowsingFilesService,
-        private userPreferenceService: UserPreferencesService,
-        private appConfigService: AppConfigService,
-        public permission: NodePermissionService) {
-            this.router.events
-                .filter(event => event instanceof NavigationEnd)
-                .subscribe( (event: any ) => {
-                    this.hideSidenav = this.hideConditions.some(el => event.urlAfterRedirects.includes(el));
-                });
-        }
+        public permission: NodePermissionService) {}
 
     ngOnInit() {
-        this.expandedSidenav = this.sidenavState;
+        if (!this.manager.minimizeSidenav) {
+            this.expandedSidenav = this.manager.sidenavState;
+        } else {
+            this.expandedSidenav = false;
+        }
+
+        this.manager.run(true);
 
         this.subscriptions.concat([
             this.browsingFilesService.onChangeParent.subscribe((node: MinimalNodeEntryEntity) => this.node = node)
@@ -66,22 +63,5 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
-    }
-
-    get sidenavState(): boolean {
-        const expand = this.appConfigService.get<boolean>('sideNav.expandedSidenav', true);
-        const preserveState = this.appConfigService.get<boolean>('sideNav.preserveState', true);
-
-        if (preserveState)  {
-            return (this.userPreferenceService.get('expandedSidenav', expand.toString()) === 'true');
-        }
-
-        return expand;
-    }
-
-    setState(state) {
-        if (this.appConfigService.get('sideNav.preserveState')) {
-            this.userPreferenceService.set('expandedSidenav', state);
-        }
     }
 }

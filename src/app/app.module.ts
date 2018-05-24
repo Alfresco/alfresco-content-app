@@ -45,6 +45,7 @@ import { RecentFilesComponent } from './components/recent-files/recent-files.com
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { SidenavViewsManagerDirective } from './components/layout/sidenav-views-manager.directive';
 import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { SearchInputComponent } from './components/search-input/search-input.component';
@@ -93,6 +94,7 @@ import { HybridAppConfigService } from './common/services/hybrid-app-config.serv
         GenericErrorComponent,
         LoginComponent,
         LayoutComponent,
+        SidenavViewsManagerDirective,
         HeaderComponent,
         CurrentUserComponent,
         SearchInputComponent,

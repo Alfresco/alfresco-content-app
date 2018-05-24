@@ -40,6 +40,7 @@ import { Observable } from 'rxjs/Observable';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { LayoutComponent } from './layout.component';
+import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 
 describe('LayoutComponent', () => {
     let fixture: ComponentFixture<LayoutComponent>;
@@ -47,6 +48,7 @@ describe('LayoutComponent', () => {
     let browsingFilesService: BrowsingFilesService;
     let appConfig: AppConfigService;
     let userPreference: UserPreferencesService;
+
     const navItem = {
         label: 'some-label',
         route: {
@@ -62,7 +64,8 @@ describe('LayoutComponent', () => {
                 RouterTestingModule
             ],
             declarations: [
-                LayoutComponent
+                LayoutComponent,
+                SidenavViewsManagerDirective
             ],
             providers: [
                 { provide: TranslationService, useClass: TranslationMock },
@@ -164,38 +167,6 @@ describe('LayoutComponent', () => {
             fixture.detectChanges();
 
             expect(component.expandedSidenav).toBe(false);
-        });
-
-        it('should set expandedSidenav to true if configuration is true', () => {
-            spyOn(userPreference, 'set');
-
-            appConfig.config = {
-                sideNav: {
-                    expandedSidenav: false,
-                    preserveState: true
-                }
-            };
-
-            fixture.detectChanges();
-            component.setState(true);
-
-            expect(userPreference.set).toHaveBeenCalledWith( 'expandedSidenav', true);
-        });
-
-        it('should set expandedSidenav to false if configuration is true', () => {
-            spyOn(userPreference, 'set');
-
-            appConfig.config = {
-                sideNav: {
-                    expandedSidenav: false,
-                    preserveState: true
-                }
-            };
-
-            fixture.detectChanges();
-            component.setState(false);
-
-            expect(userPreference.set).toHaveBeenCalledWith( 'expandedSidenav', false);
         });
     });
  });
