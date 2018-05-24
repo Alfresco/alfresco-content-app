@@ -27,6 +27,7 @@ import { Component, OnInit, Optional, ViewChild } from '@angular/core';
 import { NodePaging, Pagination } from 'alfresco-js-api';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
+import { SearchConfigurationService } from '@alfresco/adf-core';
 
 @Component({
   selector: 'app-search',
@@ -43,10 +44,12 @@ export class SearchComponent implements OnInit {
     data: NodePaging;
     maxItems = 5;
     skipCount = 0;
+    sorting = ['name', 'asc'];
 
     constructor(
         public router: Router,
         private queryBuilder: SearchQueryBuilderService,
+        private searchConfiguration: SearchConfigurationService,
         @Optional() private route: ActivatedRoute) {
         queryBuilder.paging = {
             skipCount: 0,
@@ -55,11 +58,21 @@ export class SearchComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.sorting = this.getSorting();
+
+        this.queryBuilder.updated.subscribe(() => {
+            this.sorting = this.getSorting();
+        });
+
         if (this.route) {
             this.route.params.forEach((params: Params) => {
                 this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-                this.queryBuilder.queryFragments['queryName'] = `cm:name:'${this.searchedWord}'`;
-                this.queryBuilder.update();
+                if (this.searchedWord) {
+                    const queryBody = this.searchConfiguration.generateQueryBody(this.searchedWord, 0, 100);
+
+                    this.queryBuilder.userQuery = queryBody.query.query;
+                    this.queryBuilder.update();
+                }
             });
         }
     }
@@ -77,5 +90,15 @@ export class SearchComponent implements OnInit {
             skipCount: pagination.skipCount
         };
         this.queryBuilder.update();
+    }
+
+    private getSorting(): string[] {
+        const primary = this.queryBuilder.getPrimarySorting();
+
+        if (primary) {
+            return [primary.key, primary.ascending ? 'asc' : 'desc'];
+        }
+
+        return ['name', 'asc'];
     }
 }

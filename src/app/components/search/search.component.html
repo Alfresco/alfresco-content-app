@@ -14,8 +14,14 @@
     <adf-search-filter #searchFilter></adf-search-filter>
 
     <div class="adf-search-results__content">
+        <div class="adf-search-results__sorting">
+            <adf-search-sorting-picker></adf-search-sorting-picker>
+        </div>
         <adf-document-list
             #documentList
+            [showHeader]="false"
+            [sortingMode]="'server'"
+            [sorting]="sorting"
             [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
             [node]="data">
         </adf-document-list>
