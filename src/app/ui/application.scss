@@ -8,6 +8,10 @@ html, body {
     font-family: "Muli", sans-serif;
     color: $alfresco-primary-text-color;
     margin: 0;
+
+    & > main {
+        @include flex-column;
+    }
 }
 
 app-root,

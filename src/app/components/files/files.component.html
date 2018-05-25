@@ -54,25 +54,20 @@
             </button>
 
             <mat-menu #actionsMenu="matMenu"
-                [overlapTrigger]="false"
-                class="secondary-options">
+                [overlapTrigger]="false">
                 <button
                     mat-menu-item
                     #selection="adfFavorite"
                     [adf-node-favorite]="documentList.selection">
-                    <mat-icon [ngClass]="{
-                        'toolbar__option--active': selection.hasFavorites(),
-                        'toolbar__option--default': !selection.hasFavorites()
-                    }">
-                        {{ selection.hasFavorites() ? 'star' :'star_border' }}
-                    </mat-icon>
+                    <mat-icon color="primary" *ngIf="selection.hasFavorites()">star</mat-icon>
+                    <mat-icon *ngIf="!selection.hasFavorites()">star_border</mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
                     [acaCopyNode]="documentList.selection">
-                    <mat-icon color="primary">content_copy</mat-icon>
+                    <mat-icon>content_copy</mat-icon>
                     <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
                 </button>
 
@@ -80,7 +75,7 @@
                     mat-menu-item
                     *ngIf="permission.check(documentList.selection, ['delete'])"
                     [acaMoveNode]="documentList.selection">
-                    <mat-icon color="primary">library_books</mat-icon>
+                    <mat-icon>library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
                 </button>
 
@@ -88,7 +83,7 @@
                     mat-menu-item
                     *ngIf="permission.check(documentList.selection, ['delete'])"
                     [acaDeleteNode]="documentList.selection">
-                    <mat-icon color="primary">delete</mat-icon>
+                    <mat-icon>delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
                 </button>
 
@@ -96,7 +91,7 @@
                     mat-menu-item
                     *ngIf="isFileSelected(documentList.selection)"
                     [acaNodeVersions]="documentList.selection">
-                    <mat-icon color="primary">history</mat-icon>
+                    <mat-icon>history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
             </mat-menu>
