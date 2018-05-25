@@ -111,7 +111,8 @@
             "FAVORITE": "Favorite",
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
-            "VERSIONS": "Manage Versions"
+            "VERSIONS": "Manage Versions",
+            "TOGGLE-SIDENAV": "Toggle side navigation bar"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
