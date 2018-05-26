@@ -133,7 +133,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    xit('Personal Files breadcrumb for a folder hierarchy [C260965]', () => {
+    it('Personal Files breadcrumb for a folder hierarchy [C260965]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnItemName(parent))
@@ -145,7 +145,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    xit('File Libraries breadcrumb for a folder hierarchy [C260967]', () => {
+    it('File Libraries breadcrumb for a folder hierarchy [C260967]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnItemName(siteName))
@@ -171,7 +171,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    xit('Tooltip appears on hover on a step in breadcrumb [C213237]', () => {
+    it('Tooltip appears on hover on a step in breadcrumb [C213237]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnItemName(parent))
@@ -196,7 +196,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    xit('Browser back navigates to previous location regardless of breadcrumb steps [C213240]', () => {
+    it('Browser back navigates to previous location regardless of breadcrumb steps [C213240]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnItemName(parent))
