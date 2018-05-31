@@ -226,7 +226,24 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'search',
-                component: SearchComponent
+                children: [
+                    {
+                        path: '',
+                        component: SearchComponent,
+                        data: {
+                            title: 'APP.BROWSE.SEARCH.TITLE'
+                        }
+                    },
+                    {
+                        path: 'preview/:nodeId',
+                        component: PreviewComponent,
+                        data: {
+                            title: 'APP.PREVIEW.TITLE',
+                            navigateMultiple: true,
+                            navigateSource: 'search'
+                        }
+                    }
+                ]
             },
             {
                 path: '**',

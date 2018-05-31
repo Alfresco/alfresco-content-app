@@ -30,7 +30,8 @@
                     [sortingMode]="'server'"
                     [sorting]="sorting"
                     [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
-                    [node]="data">
+                    [node]="data"
+                    (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
                 </adf-document-list>
 
                 <adf-pagination *ngIf="!documentList.isEmpty()"
