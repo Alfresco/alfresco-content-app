@@ -10,7 +10,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="canPreviewFile(documentList.selection)"
+                *ngIf="isFileSelected(documentList.selection)"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="showPreview(documentList.selection[0]?.entry)">
                 <mat-icon>open_in_browser</mat-icon>
@@ -28,7 +28,8 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="canEditFolder(documentList.selection)"
+                *ngIf="isFolderSelected(documentList.selection)
+                    && permission.check(documentList.selection, ['update'])"
                 [attr.title]="'APP.ACTIONS.EDIT' | translate"
                 (error)="openSnackMessage($event)"
                 [adf-edit-folder]="documentList.selection[0]?.entry">
@@ -37,7 +38,7 @@
 
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="documentList.selection.length"
+                *ngIf="hasSelection(documentList.selection)"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
@@ -53,49 +54,44 @@
             </button>
 
             <mat-menu #actionsMenu="matMenu"
-                [overlapTrigger]="false"
-                class="secondary-options">
+                [overlapTrigger]="false">
                 <button
                     mat-menu-item
                     #selection="adfFavorite"
                     [adf-node-favorite]="documentList.selection">
-                    <mat-icon [ngClass]="{
-                        'toolbar__option--active': selection.hasFavorites(),
-                        'toolbar__option--default': !selection.hasFavorites()
-                    }">
-                        {{ selection.hasFavorites() ? 'star' :'star_border' }}
-                    </mat-icon>
+                    <mat-icon color="primary" *ngIf="selection.hasFavorites()">star</mat-icon>
+                    <mat-icon *ngIf="!selection.hasFavorites()">star_border</mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
                     [acaCopyNode]="documentList.selection">
-                    <mat-icon color="primary">content_copy</mat-icon>
+                    <mat-icon>content_copy</mat-icon>
                     <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
-                    *ngIf="canMove(documentList.selection)"
+                    *ngIf="permission.check(documentList.selection, ['delete'])"
                     [acaMoveNode]="documentList.selection">
-                    <mat-icon color="primary">library_books</mat-icon>
+                    <mat-icon>library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
-                    *ngIf="canDelete(documentList.selection)"
+                    *ngIf="permission.check(documentList.selection, ['delete'])"
                     [acaDeleteNode]="documentList.selection">
-                    <mat-icon color="primary">delete</mat-icon>
+                    <mat-icon>delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
-                    *ngIf="canManageVersions(documentList.selection)"
+                    *ngIf="isFileSelected(documentList.selection)"
                     [acaNodeVersions]="documentList.selection">
-                    <mat-icon color="primary">history</mat-icon>
+                    <mat-icon>history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
             </mat-menu>
@@ -170,7 +166,7 @@
                 </adf-document-list>
 
                 <adf-pagination
-                    [supportedPageSizes]="'pagination.supportedPageSizes' | appConfig"
+                    [supportedPageSizes]="'pagination.supportedPageSizes' | adfAppConfig"
                     [target]="documentList"
                     (changePageSize)="onChangePageSize($event)">
                 </adf-pagination>
@@ -190,8 +186,8 @@
                     </div>
 
                     <adf-content-metadata-card
-                        [readOnly]="!canUpdate(documentList.selection)"
-                        [displayEmpty]="canUpdate(documentList.selection)"
+                        [readOnly]="!permission.check(infoInstance.node, ['update'])"
+                        [displayEmpty]="permission.check(infoInstance.node, ['update'])"
                         [preset]="'custom'"
                         [node]="infoInstance.node">
                     </adf-content-metadata-card>

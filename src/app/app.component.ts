@@ -23,9 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { TranslationService, PageTitleService, UserPreferencesService, AppConfigService } from '@alfresco/adf-core';
+import {
+    PageTitleService, UserPreferencesService, AppConfigService,
+    FileModel, UploadService
+} from '@alfresco/adf-core';
+import { ElectronService } from '@ngstack/electron';
 
 @Component({
     selector: 'app-root',
@@ -37,9 +41,10 @@ export class AppComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private pageTitle: PageTitleService,
-        private translateService: TranslationService,
         preferences: UserPreferencesService,
-        config: AppConfigService) {
+        config: AppConfigService,
+        private electronService: ElectronService,
+        private uploadService: UploadService) {
         // TODO: remove once ADF 2.3.0 is out (needs bug fixes)
         preferences.defaults.supportedPageSizes = config.get('pagination.supportedPageSizes');
         preferences.defaults.paginationSize = config.get('pagination.size');
@@ -61,14 +66,27 @@ export class AppComponent implements OnInit {
                 const snapshot: any = currentRoute.snapshot || {};
                 const data: any = snapshot.data || {};
 
-                if (data.i18nTitle) {
-                    this.translateService.translate
-                        .stream(data.i18nTitle)
-                        .subscribe((title) => pageTitle.setTitle(title));
-
-                } else {
-                    pageTitle.setTitle(data.title || '');
-                }
+                pageTitle.setTitle(data.title || '');
             });
+
+        this.electronService.on('app:navigateRoute', (event: any, ...args: string[]) => {
+            this.router.navigate([...args]);
+        });
+
+        this.electronService.on('app:upload', (event: any, files: any[] = []) => {
+            const models = files.map(fileInfo => {
+                const file = new File([fileInfo.data], fileInfo.name);
+
+                return new FileModel(file, {
+                    path: fileInfo.path,
+                    parentId: fileInfo.parentId
+                });
+            });
+
+            if (models.length > 0) {
+                this.uploadService.addToQueue(...models);
+                this.uploadService.uploadFilesInTheQueue(new EventEmitter());
+            }
+        });
     }
 }

@@ -62,7 +62,7 @@ export const consoleReporter = {
     },
 
     suiteDone: (result) => {
-        log.dedent();
+        log.unindent();
     },
 
     jasmineDone: (result) => {

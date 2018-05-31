@@ -1,6 +1,9 @@
-<adf-toolbar class="app-menu" [style.background-color]="backgroundColor">
+<adf-toolbar class="app-menu" [style.background-color]="backgroundColor" role="heading" aria-level="1">
     <adf-toolbar-title>
-        <button mat-icon-button (click)="toggleMenu()">
+        <button
+            title="{{ 'APP.ACTIONS.TOGGLE-SIDENAV' | translate }}"
+            mat-icon-button
+            (click)="toggleMenu()">
             <mat-icon>menu</mat-icon>
         </button>
 
@@ -10,6 +13,8 @@
             <img [src]="logo" alt="{{ appName }}" />
         </a>
     </adf-toolbar-title>
+
+    <div class="adf-toolbar--spacer"></div>
 
     <app-search-input></app-search-input>
 

@@ -3,6 +3,13 @@
         "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
+        "SETTINGS": {
+            "REPOSITORY-SETTINGS": "Repository Settings",
+            "INVALID-VALUE-FORMAT": "Invalid value format",
+            "REQUIRED-FIELD": "This field is required",
+            "RESET": "Reset",
+            "APPLY": "Apply"
+        },
         "PREVIEW": {
             "TITLE": "Preview"
         },
@@ -104,7 +111,8 @@
             "FAVORITE": "Favorite",
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
-            "VERSIONS": "Manage Versions"
+            "VERSIONS": "Manage Versions",
+            "TOGGLE-SIDENAV": "Toggle side navigation bar"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {

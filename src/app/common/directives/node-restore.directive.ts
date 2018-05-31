@@ -79,10 +79,10 @@ export class NodeRestoreDirective {
             .flatMap(() => this.getDeletedNodes())
             .subscribe(
                 (deletedNodesList: DeletedNodesPaging) => {
-                    const { entries: nodelist } = deletedNodesList.list;
+                    const { entries: nodeList } = deletedNodesList.list;
                     const { fail: restoreErrorNodes } = this.restoreProcessStatus;
                     const selectedNodes = this.diff(restoreErrorNodes, selection, false);
-                    const remainingNodes = this.diff(selectedNodes, nodelist);
+                    const remainingNodes = this.diff(selectedNodes, nodeList);
 
                     if (!remainingNodes.length) {
                         this.restoreNotification();

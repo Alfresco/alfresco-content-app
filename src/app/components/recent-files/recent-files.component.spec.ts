@@ -33,7 +33,7 @@ import {
     NodesApiService, AlfrescoApiService, ContentService,
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService, AuthenticationService,
-    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent
+    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';
@@ -42,7 +42,7 @@ import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/materi
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
-import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
+import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { RecentFilesComponent } from './recent-files.component';
 
@@ -96,6 +96,7 @@ describe('RecentFiles Routed Component', () => {
                     LogService,
                     NotificationService,
                     ContentManagementService,
+                    NodePermissionService,
                     ContentService,
                     NodesApiService,
                     DocumentListService,

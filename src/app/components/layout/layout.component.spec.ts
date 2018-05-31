@@ -40,11 +40,15 @@ import { Observable } from 'rxjs/Observable';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { LayoutComponent } from './layout.component';
+import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 
 describe('LayoutComponent', () => {
     let fixture: ComponentFixture<LayoutComponent>;
     let component: LayoutComponent;
     let browsingFilesService: BrowsingFilesService;
+    let appConfig: AppConfigService;
+    let userPreference: UserPreferencesService;
+
     const navItem = {
         label: 'some-label',
         route: {
@@ -60,7 +64,8 @@ describe('LayoutComponent', () => {
                 RouterTestingModule
             ],
             declarations: [
-                LayoutComponent
+                LayoutComponent,
+                SidenavViewsManagerDirective
             ],
             providers: [
                 { provide: TranslationService, useClass: TranslationMock },
@@ -86,18 +91,82 @@ describe('LayoutComponent', () => {
         fixture = TestBed.createComponent(LayoutComponent);
         component = fixture.componentInstance;
         browsingFilesService = TestBed.get(BrowsingFilesService);
-
-        const appConfig = TestBed.get(AppConfigService);
-        spyOn(appConfig, 'get').and.returnValue([navItem]);
-
-        fixture.detectChanges();
+        appConfig = TestBed.get(AppConfigService);
+        userPreference = TestBed.get(UserPreferencesService);
     });
 
     it('sets current node', () => {
+        appConfig.config = {
+            navigation: [navItem]
+        };
+
         const currentNode = <MinimalNodeEntryEntity>{ id: 'someId' };
+
+        fixture.detectChanges();
 
         browsingFilesService.onChangeParent.next(currentNode);
 
         expect(component.node).toEqual(currentNode);
+    });
+
+    describe('sidenav state', () => {
+        it('should get state from configuration', () => {
+            appConfig.config = {
+                sideNav: {
+                    expandedSidenav: false,
+                    preserveState: false
+                }
+            };
+
+            fixture.detectChanges();
+
+            expect(component.expandedSidenav).toBe(false);
+        });
+
+        it('should resolve state to true is no configuration', () => {
+            appConfig.config = {};
+
+            fixture.detectChanges();
+
+            expect(component.expandedSidenav).toBe(true);
+        });
+
+        it('should get state from user settings as true', () => {
+            appConfig.config = {
+                sideNav: {
+                    expandedSidenav: false,
+                    preserveState: true
+                }
+            };
+
+            spyOn(userPreference, 'get').and.callFake(key => {
+                if (key === 'expandedSidenav') {
+                    return 'true';
+                }
+            });
+
+            fixture.detectChanges();
+
+            expect(component.expandedSidenav).toBe(true);
+        });
+
+        it('should get state from user settings as false', () => {
+            appConfig.config = {
+                sideNav: {
+                    expandedSidenav: false,
+                    preserveState: true
+                }
+            };
+
+            spyOn(userPreference, 'get').and.callFake(key => {
+                if (key === 'expandedSidenav') {
+                    return 'false';
+                }
+            });
+
+            fixture.detectChanges();
+
+            expect(component.expandedSidenav).toBe(false);
+        });
     });
  });

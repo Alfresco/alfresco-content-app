@@ -2,13 +2,10 @@ version: "3"
 
 services:
     alfresco:
-        image: alfresco/alfresco-content-repository-community:${ALFRESCO_TAG}
+        image: alfresco/alfresco-content-repository-community:6.0.5-ea
         depends_on:
             - postgres
         environment:
-            CATALINA_OPTS : "
-                -agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n
-                "
             JAVA_OPTS : "
                 -Ddb.driver=org.postgresql.Driver
                 -Ddb.username=alfresco
@@ -19,15 +16,15 @@ services:
                 -Dsolr.secureComms=none
                 -Dsolr.base.url=/solr
                 -Dindex.subsystem.name=solr6
+                -Ddeployment.method=DOCKER_COMPOSE
                 "
         networks:
             - internal
         ports:
             - 8080:8080 #Browser port
-            - 8000:8000 #Debug port
 
     share:
-        image: alfresco/alfresco-share:${SHARE_TAG}
+        image: alfresco/alfresco-share:6.0.a
         depends_on:
             - alfresco
         environment:
@@ -39,7 +36,7 @@ services:
             - 8081:8080
 
     postgres:
-        image: postgres:${POSTGRES_TAG}
+        image: postgres:10.1
         environment:
             - POSTGRES_PASSWORD=alfresco
             - POSTGRES_USER=alfresco
@@ -50,7 +47,7 @@ services:
             - 5432:5432
 
     solr6:
-        image: alfresco/alfresco-search-services:${SOLR6_TAG}
+        image: alfresco/alfresco-search-services:1.1.1
         depends_on:
             - alfresco
         environment:
@@ -68,7 +65,7 @@ services:
             - 8983:8983 #Browser port
 
     content-app:
-        image: alfresco/alfresco-content-app:${ACA_TAG}
+        image: alfresco/alfresco-content-app:latest
         build: .
         depends_on:
             - alfresco
@@ -81,17 +78,15 @@ services:
         #     - ./nginx.conf:/etc/nginx/conf.d/default.conf
 
     proxy:
-        #image: nginx
-        image: alfresco/alfresco-content-app-proxy
-        build: ./docker-compose/proxy
+        image: nginx
         depends_on:
-            - content-app
-        # volumes:
-        #     - ./docker-compose/nginx.conf:/etc/nginx/conf.d/default.conf
+          - content-app
+        volumes:
+          - ./docker-compose/nginx.conf:/etc/nginx/conf.d/default.conf
         networks:
-            - internal
+          - internal
         ports:
-            - 3000:80
+          - 3000:80
 
 networks:
     internal:

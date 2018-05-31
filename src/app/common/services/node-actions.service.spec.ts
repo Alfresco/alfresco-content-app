@@ -1069,21 +1069,21 @@ describe('NodeActionsService', () => {
                 baseName: 'withExtension.txt',
                 expected: 'withExtension-1.txt'
             }, {
-                name: 'with-lineStringSufix.txt',
-                baseName: 'with-lineStringSufix.txt',
-                expected: 'with-lineStringSufix-1.txt'
+                name: 'with-lineStringSuffix.txt',
+                baseName: 'with-lineStringSuffix.txt',
+                expected: 'with-lineStringSuffix-1.txt'
             }, {
                 name: 'noExtension-1',
                 baseName: 'noExtension-1',
                 expected: 'noExtension-1-1'
             }, {
-                name: 'with-lineNumberSufix-1.txt',
-                baseName: 'with-lineNumberSufix-1.txt',
-                expected: 'with-lineNumberSufix-1-1.txt'
+                name: 'with-lineNumberSuffix-1.txt',
+                baseName: 'with-lineNumberSuffix-1.txt',
+                expected: 'with-lineNumberSuffix-1-1.txt'
             }, {
-                name: 'with-lineNumberSufix.txt',
+                name: 'with-lineNumberSuffix.txt',
                 baseName: undefined,
-                expected: 'with-lineNumberSufix-1.txt'
+                expected: 'with-lineNumberSuffix-1.txt'
             }, {
                 name: 'noExtension-1',
                 baseName: 'noExtension',

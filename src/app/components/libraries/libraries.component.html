@@ -21,11 +21,11 @@
 
                 <empty-folder-content>
                     <ng-template>
-                        <app-empty-folder
+                        <adf-empty-content
                             icon="group_work"
-                            title="APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE"
+                            [title]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE'"
                             subtitle="APP.BROWSE.LIBRARIES.EMPTY_STATE.TEXT">
-                        </app-empty-folder>
+                        </adf-empty-content>
                     </ng-template>
                 </empty-folder-content>
 
@@ -67,7 +67,7 @@
             </adf-document-list>
 
             <adf-pagination
-                [supportedPageSizes]="'pagination.supportedPageSizes' | appConfig"
+                [supportedPageSizes]="'pagination.supportedPageSizes' | adfAppConfig"
                 [target]="documentList"
                 (changePageSize)="onChangePageSize($event)">
             </adf-pagination>

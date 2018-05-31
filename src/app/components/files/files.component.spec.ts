@@ -37,7 +37,7 @@ import {
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService, AuthenticationService,
     TimeAgoPipe, NodeNameTooltipPipe, FileSizePipe, NodeFavoriteDirective,
-    DataTableComponent, UploadService
+    DataTableComponent, UploadService, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { MatMenuModule, MatSnackBarModule, MatIconModule, MatDialogModule } from '@angular/material';
@@ -47,7 +47,6 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 import { NodeActionsService } from '../../common/services/node-actions.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { NodeInfoDirective } from '../../common/directives/node-info.directive';
-import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
 
 import { FilesComponent } from './files.component';
 

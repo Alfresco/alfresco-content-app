@@ -26,11 +26,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AppConfigService, PeopleContentService } from '@alfresco/adf-core';
+import { AppConfigService, PeopleContentService, TranslationService, TranslationMock } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 
 import { HeaderComponent } from './header.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('HeaderComponent', () => {
     let fixture;
@@ -41,14 +42,16 @@ describe('HeaderComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientModule,
-                RouterTestingModule
+                RouterTestingModule,
+                TranslateModule.forRoot(),
             ],
             declarations: [
                 HeaderComponent
             ],
             providers: [
                 AppConfigService,
-                PeopleContentService
+                PeopleContentService,
+                { provide: TranslationService, useClass: TranslationMock },
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
