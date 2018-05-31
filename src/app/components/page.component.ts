@@ -36,8 +36,6 @@ export abstract class PageComponent {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    abstract fetchNodes(parentNodeId?: string, options?: any): void;
-
     constructor(protected preferences: UserPreferencesService) {
     }
 

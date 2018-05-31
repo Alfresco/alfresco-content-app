@@ -84,10 +84,6 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
         }
     }
 
-    fetchNodes(parentNodeId?: string) {
-        // todo: remove once all views migrate to native data source
-    }
-
     /** @override */
     isFileSelected(selection: Array<MinimalNodeEntity>): boolean {
         return selection && selection.length === 1;

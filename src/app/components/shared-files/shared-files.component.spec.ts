@@ -158,7 +158,6 @@ describe('SharedFilesComponent', () => {
 
     describe('onNodeDoubleClick()', () => {
         beforeEach(() => {
-            spyOn(component, 'fetchNodes').and.callFake(val => val);
             fixture.detectChanges();
         });
 
