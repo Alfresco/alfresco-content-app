@@ -14,7 +14,7 @@
     <adf-search-filter #searchFilter></adf-search-filter>
 
     <div class="adf-search-results__content">
-        <div class="adf-search-results__sorting">
+        <div class="adf-search-results__sorting" *ngIf="data?.list.entries.length">
             <adf-search-sorting-picker></adf-search-sorting-picker>
         </div>
         <adf-document-list
@@ -24,6 +24,14 @@
             [sorting]="sorting"
             [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
             [node]="data">
+
+            <empty-folder-content>
+                <ng-template>
+                    <div class="empty-search__block">
+                        <p class="empty-search__text">Your search for <span class="text--bold">{{ searchedWord }}</span> returned 0 results</p>
+                    </div>
+                </ng-template>
+            </empty-folder-content>
         </adf-document-list>
 
         <adf-pagination *ngIf="!documentList.isEmpty()"
