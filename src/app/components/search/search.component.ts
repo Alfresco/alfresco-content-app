@@ -42,6 +42,7 @@ export class SearchComponent implements OnInit {
     queryParamName = 'q';
     searchedWord = '';
     data: NodePaging;
+    totalResults: number;
     maxItems = 5;
     skipCount = 0;
     sorting = ['name', 'asc'];
@@ -79,6 +80,7 @@ export class SearchComponent implements OnInit {
 
     onSearchResultLoaded(nodePaging: NodePaging) {
         this.data = nodePaging;
+        this.totalResults = this.getNumberOfResults();
     }
 
     getNumberOfResults() {
