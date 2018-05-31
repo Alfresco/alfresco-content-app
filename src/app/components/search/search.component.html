@@ -1,34 +1,42 @@
-<adf-search
-    #search
-    [searchTerm]="searchedWord"
-    [maxResults]="maxItems"
-    [skipResults]="skipCount"
-    (resultLoaded)="onSearchResultLoaded($event)">
-</adf-search>
+<div class="inner-layout">
+    <div class="inner-layout__header">
+        <adf-breadcrumb root="APP.BROWSE.SEARCH.TITLE">
+        </adf-breadcrumb>
+    </div>
+    <div class="inner-layout__content">
+        <adf-search
+            #search
+            [searchTerm]="searchedWord"
+            [maxResults]="maxItems"
+            [skipResults]="skipCount"
+            (resultLoaded)="onSearchResultLoaded($event)">
+        </adf-search>
 
-<div class="adf-search-results__facets">
-    <adf-search-chip-list [searchFilter]="searchFilter"></adf-search-chip-list>
-</div>
-
-<div class="adf-search-results">
-    <adf-search-filter #searchFilter></adf-search-filter>
-
-    <div class="adf-search-results__content">
-        <div class="adf-search-results__sorting">
-            <adf-search-sorting-picker></adf-search-sorting-picker>
+        <div class="adf-search-results__facets">
+            <adf-search-chip-list [searchFilter]="searchFilter"></adf-search-chip-list>
         </div>
-        <adf-document-list
-            #documentList
-            [showHeader]="false"
-            [sortingMode]="'server'"
-            [sorting]="sorting"
-            [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
-            [node]="data">
-        </adf-document-list>
 
-        <adf-pagination *ngIf="!documentList.isEmpty()"
-            [target]="documentList"
-            (change)="onPaginationChanged($event)">
-        </adf-pagination>
+        <div class="adf-search-results">
+            <adf-search-filter #searchFilter></adf-search-filter>
+
+            <div class="adf-search-results__content">
+                <div class="adf-search-results__sorting">
+                    <adf-search-sorting-picker></adf-search-sorting-picker>
+                </div>
+                <adf-document-list
+                    #documentList
+                    [showHeader]="false"
+                    [sortingMode]="'server'"
+                    [sorting]="sorting"
+                    [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
+                    [node]="data">
+                </adf-document-list>
+
+                <adf-pagination *ngIf="!documentList.isEmpty()"
+                    [target]="documentList"
+                    (change)="onPaginationChanged($event)">
+                </adf-pagination>
+            </div>
+        </div>
     </div>
 </div>

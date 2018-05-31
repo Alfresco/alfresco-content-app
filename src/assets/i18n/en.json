@@ -95,6 +95,9 @@
             },
             "ABOUT": {
                 "TITLE": "About"
+            },
+            "SEARCH": {
+                "TITLE": "Search Results"
             }
         },
         "ACTIONS": {
