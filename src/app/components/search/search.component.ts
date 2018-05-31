@@ -42,7 +42,7 @@ export class SearchComponent implements OnInit {
     queryParamName = 'q';
     searchedWord = '';
     data: NodePaging;
-    totalResults: number;
+    totalResults = 0;
     maxItems = 5;
     skipCount = 0;
     sorting = ['name', 'asc'];

@@ -21,6 +21,14 @@
         text-align: right;
     }
 
+    &__info {
+        padding: 10px;
+        font-weight: 600;
+        letter-spacing: -0.2px;
+        text-align: left;
+        opacity: 0.6;
+    }
+
     .adf-search-filter {
         min-width: 260px;
         padding: 5px;
