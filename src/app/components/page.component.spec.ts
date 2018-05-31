@@ -31,10 +31,6 @@ class TestClass extends PageComponent {
     constructor() {
         super(null);
     }
-
-    fetchNodes(parentNodeId?: string, options?: any) {
-        // abstract
-    }
 }
 
 describe('PageComponent', () => {

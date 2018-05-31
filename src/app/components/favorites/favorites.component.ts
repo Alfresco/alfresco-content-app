@@ -76,10 +76,6 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
         this.subscriptions.forEach(s => s.unsubscribe());
     }
 
-    fetchNodes(): void {
-        // todo: remove once all views migrate to native data source
-    }
-
     navigate(favorite: MinimalNodeEntryEntity) {
         const { isFolder, id } = favorite;
 

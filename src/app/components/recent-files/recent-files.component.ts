@@ -81,10 +81,6 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
         }
     }
 
-    fetchNodes(): void {
-        // todo: remove once all views migrate to native data source
-    }
-
     refresh(): void {
         if (this.documentList) {
             this.documentList.reload();

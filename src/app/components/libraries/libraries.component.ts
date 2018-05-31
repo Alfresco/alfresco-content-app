@@ -93,10 +93,6 @@ export class LibrariesComponent extends PageComponent {
         }
     }
 
-    fetchNodes(): void {
-        // todo: remove once all views migrate to native data source
-    }
-
     onSortingChanged(event: CustomEvent) {
         this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
         this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
