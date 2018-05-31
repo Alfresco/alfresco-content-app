@@ -97,7 +97,8 @@
                 "TITLE": "About"
             },
             "SEARCH": {
-                "TITLE": "Search Results"
+                "TITLE": "Search Results",
+                "SHOW_RESULTS_NUMBER": "Showing {{ number }} results"
             }
         },
         "ACTIONS": {

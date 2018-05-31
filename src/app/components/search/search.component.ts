@@ -81,6 +81,13 @@ export class SearchComponent implements OnInit {
         this.data = nodePaging;
     }
 
+    getNumberOfResults() {
+        if (this.data && this.data.list && this.data.list.pagination) {
+            return this.data.list.pagination.totalItems;
+        }
+        return 0;
+    }
+
     onPaginationChanged(pagination: Pagination) {
         this.maxItems = pagination.maxItems;
         this.skipCount = pagination.skipCount;
