@@ -195,135 +195,58 @@
         },
         "filterQueries": [
             { "query": "TYPE:'cm:folder' OR TYPE:'cm:content'" },
-            { "query": "NOT cm:creator:System" }
+            { "query": "NOT cm:creator:System" },
+            { "query": "-(SITE: _REPOSITORY_)" }
         ],
         "facetFields": [
-            { "field": "content.mimetype", "mincount": 1, "label": "Type" },
-            { "field": "content.size", "mincount": 1, "label": "Size" },
-            { "field": "creator", "mincount": 1, "label": "Creator" },
-            { "field": "modifier", "mincount": 1, "label": "Modifier" },
-            { "field": "created", "mincount": 1, "label": "Created" }
+            { "field": "content.mimetype", "mincount": 1, "label": "SEARCH.FACET_FIELDS.FILE_TYPE" },
+            { "field": "creator", "mincount": 1, "label": "SEARCH.FACET_FIELDS.CREATOR" },
+            { "field": "modifier", "mincount": 1, "label": "SEARCH.FACET_FIELDS.MODIFIER" },
+            { "field": "SITE", "mincount": 1, "label": "SEARCH.FACET_FIELDS.FILE_LIBRARY" }
         ],
-        "facetQueries": {
-            "label": "My facet queries",
-            "pageSize": 5,
-            "queries": [
-                { "query": "created:2018", "label": "Created This Year" },
-                { "query": "content.mimetype", "label": "Type" },
-                {
-                    "query": "content.size:[0 TO 10240]",
-                    "label": "Size: xtra small"
-                },
-                {
-                    "query": "content.size:[10240 TO 102400]",
-                    "label": "Size: small"
-                },
-                {
-                    "query": "content.size:[102400 TO 1048576]",
-                    "label": "Size: medium"
-                },
-                {
-                    "query": "content.size:[1048576 TO 16777216]",
-                    "label": "Size: large"
-                },
-                {
-                    "query": "content.size:[16777216 TO 134217728]",
-                    "label": "Size: xtra large"
-                },
-                {
-                    "query": "content.size:[134217728 TO MAX]",
-                    "label": "Size: XX large"
-                }
-            ]
-        },
         "categories": [
             {
-                "id": "queryName",
-                "name": "Name",
-                "enabled": true,
-                "expanded": true,
-                "component": {
-                    "selector": "text",
-                    "settings": {
-                        "pattern": "cm:name:'(.*?)'",
-                        "field": "cm:name",
-                        "placeholder": "Enter the name"
-                    }
-                }
-            },
-            {
-                "id": "checkList",
-                "name": "Check List",
+                "id": "modifiedDate",
+                "name": "SEARCH.CATEGORIES.MODIFIED_DATE",
                 "enabled": true,
                 "component": {
                     "selector": "check-list",
                     "settings": {
-                        "pageSize": 5,
-                        "operator": "OR",
                         "options": [
-                            { "name": "Folder", "value": "TYPE:'cm:folder'" },
-                            { "name": "Document", "value": "TYPE:'cm:content'" }
+                            { "name": "Today", "value": "cm:modified:[TODAY to TODAY]" },
+                            { "name": "This week", "value": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]" },
+                            { "name": "This month", "value": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"},
+                            { "name": "In last 6 months", "value": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"},
+                            { "name": "This year", "value": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"}
                         ]
                     }
                 }
             },
             {
-                "id": "contentSize",
-                "name": "Content Size",
+                "id": "size",
+                "name": "SEARCH.CATEGORIES.SIZE",
                 "enabled": true,
                 "component": {
-                    "selector": "slider",
+                    "selector": "check-list",
                     "settings": {
-                        "field": "cm:content.size",
-                        "min": 0,
-                        "max": 18,
-                        "step": 1,
-                        "thumbLabel": true
-                    }
-                }
-            },
-            {
-                "id": "contentSizeRange",
-                "name": "Content Size (range)",
-                "enabled": true,
-                "component": {
-                    "selector": "number-range",
-                    "settings": {
-                        "field": "cm:content.size",
-                        "format": "[{FROM} TO {TO}]"
+                        "options": [
+                            { "name": "Small", "value": "content.size:[0 TO 1000000]" },
+                            { "name": "Medium", "value": "content.size:[1000000 TO 50000000]" },
+                            { "name": "Large", "value": "content.size:[50000000 TO 500000000]"},
+                            { "name": "Huge", "value": "content.size:[500000000 TO MAX]"}
+                        ]
                     }
                 }
             },
             {
                 "id": "createdDateRange",
-                "name": "Created Date (range)",
+                "name": "SEARCH.CATEGORIES.CREATED_DATE",
                 "enabled": true,
                 "component": {
                     "selector": "date-range",
                     "settings": {
                         "field": "cm:created",
                         "dateFormat": "DD-MMM-YY"
-                    }
-                }
-            },
-            {
-                "id": "queryType",
-                "name": "Type",
-                "enabled": true,
-                "component": {
-                    "selector": "radio",
-                    "settings": {
-                        "field": null,
-                        "pageSize": 5,
-                        "options": [
-                            { "name": "None", "value": "", "default": true },
-                            {
-                                "name": "All",
-                                "value": "TYPE:'cm:folder' OR TYPE:'cm:content'"
-                            },
-                            { "name": "Folder", "value": "TYPE:'cm:folder'" },
-                            { "name": "Document", "value": "TYPE:'cm:content'" }
-                        ]
                     }
                 }
             }
