@@ -24,10 +24,11 @@
  */
 
 import { Component, OnInit, Optional, ViewChild } from '@angular/core';
-import { NodePaging, Pagination } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
 import { SearchConfigurationService } from '@alfresco/adf-core';
+import { PageComponent } from '../page.component';
 
 @Component({
   selector: 'app-search',
@@ -42,6 +43,7 @@ export class SearchComponent implements OnInit {
     queryParamName = 'q';
     searchedWord = '';
     data: NodePaging;
+    totalResults = 0;
     maxItems = 5;
     skipCount = 0;
     sorting = ['name', 'asc'];
@@ -79,6 +81,14 @@ export class SearchComponent implements OnInit {
 
     onSearchResultLoaded(nodePaging: NodePaging) {
         this.data = nodePaging;
+        this.totalResults = this.getNumberOfResults();
+    }
+
+    getNumberOfResults() {
+        if (this.data && this.data.list && this.data.list.pagination) {
+            return this.data.list.pagination.totalItems;
+        }
+        return 0;
     }
 
     onPaginationChanged(pagination: Pagination) {
@@ -100,5 +110,14 @@ export class SearchComponent implements OnInit {
         }
 
         return ['name', 'asc'];
+    }
+
+    onNodeDoubleClick(node: MinimalNodeEntryEntity) {
+        if (node && PageComponent.isLockedNode(node)) {
+            event.preventDefault();
+
+        } else if (node && node.isFile) {
+            this.router.navigate(['./preview', node.id], { relativeTo: this.route });
+        }
     }
 }

@@ -95,6 +95,10 @@
             },
             "ABOUT": {
                 "TITLE": "About"
+            },
+            "SEARCH": {
+                "TITLE": "Search Results",
+                "SHOW_RESULTS_NUMBER": "Showing {{ number }} results"
             }
         },
         "ACTIONS": {

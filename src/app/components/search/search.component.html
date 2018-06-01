@@ -1,41 +1,51 @@
-<adf-search
-    #search
-    [searchTerm]="searchedWord"
-    [maxResults]="maxItems"
-    [skipResults]="skipCount"
-    (resultLoaded)="onSearchResultLoaded($event)">
-</adf-search>
+<div class="inner-layout">
+    <div class="inner-layout__header">
+        <adf-breadcrumb root="APP.BROWSE.SEARCH.TITLE">
+        </adf-breadcrumb>
+    </div>
+    <div class="inner-layout__content">
+        <adf-search
+            #search
+            [searchTerm]="searchedWord"
+            [maxResults]="maxItems"
+            [skipResults]="skipCount"
+            (resultLoaded)="onSearchResultLoaded($event)">
+        </adf-search>
 
-<div class="adf-search-results__facets">
-    <adf-search-chip-list [searchFilter]="searchFilter"></adf-search-chip-list>
-</div>
-
-<div class="adf-search-results">
-    <adf-search-filter #searchFilter></adf-search-filter>
-
-    <div class="adf-search-results__content">
-        <div class="adf-search-results__sorting" *ngIf="data?.list.entries.length">
-            <adf-search-sorting-picker></adf-search-sorting-picker>
+        <div class="adf-search-results__facets">
+            <adf-search-chip-list [searchFilter]="searchFilter"></adf-search-chip-list>
         </div>
-        <adf-document-list
-            #documentList
-            [showHeader]="false"
-            [sortingMode]="'server'"
-            [sorting]="sorting"
-            [node]="data">
 
-            <empty-folder-content>
-                <ng-template>
-                    <div class="empty-search__block">
-                        <p class="empty-search__text">Your search for <span class="text--bold">{{ searchedWord }}</span> returned 0 results</p>
-                    </div>
-                </ng-template>
-            </empty-folder-content>
-        </adf-document-list>
+        <div class="adf-search-results">
+            <adf-search-filter #searchFilter></adf-search-filter>
 
-        <adf-pagination *ngIf="!documentList.isEmpty()"
-            [target]="documentList"
-            (change)="onPaginationChanged($event)">
-        </adf-pagination>
+            <div class="adf-search-results__content">
+                <div class="adf-search-results__sorting" *ngIf="data?.list.entries.length">
+                    <adf-search-sorting-picker></adf-search-sorting-picker>
+                </div>
+                <div class="adf-search-results__info">{{ 'APP.BROWSE.SEARCH.SHOW_RESULTS_NUMBER' | translate: { number: totalResults } }}</div>
+                <adf-document-list
+                    #documentList
+                    [showHeader]="false"
+                    [sortingMode]="'server'"
+                    [sorting]="sorting"
+                    [node]="data"
+                    (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
+
+                    <empty-folder-content>
+                        <ng-template>
+                            <div class="empty-search__block">
+                                <p class="empty-search__text">Your search for <span class="text--bold">{{ searchedWord }}</span> returned 0 results</p>
+                            </div>
+                        </ng-template>
+                    </empty-folder-content>
+                </adf-document-list>
+
+                <adf-pagination *ngIf="!documentList.isEmpty()"
+                    [target]="documentList"
+                    (change)="onPaginationChanged($event)">
+                </adf-pagination>
+            </div>
+        </div>
     </div>
 </div>
