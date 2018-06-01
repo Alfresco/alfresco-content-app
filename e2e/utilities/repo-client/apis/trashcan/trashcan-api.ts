@@ -63,10 +63,10 @@ export class TrashcanApi extends RepoApi {
             return this.getDeletedNodes()
                 .then(response => response.data.list.pagination.totalItems)
                 .then(totalItems => {
-                    if ( totalItems < data.expect) {
-                        return Promise.reject(totalItems);
-                    } else {
+                    if ( totalItems === data.expect) {
                         return Promise.resolve(totalItems);
+                    } else {
+                        return Promise.reject(totalItems);
                     }
                 });
         };
