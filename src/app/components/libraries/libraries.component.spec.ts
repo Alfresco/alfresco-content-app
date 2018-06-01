@@ -179,7 +179,6 @@ describe('Libraries Routed Component', () => {
 
         beforeEach(() => {
             routerSpy = spyOn(router, 'navigate');
-            spyOn(component, 'fetchNodes').and.callFake(val => val);
         });
 
         it('does not navigate when id is not passed', () => {

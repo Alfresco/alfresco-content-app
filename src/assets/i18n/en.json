@@ -235,6 +235,19 @@
             "NO_PERMISSION": "You don't have permission to manage the versions of this content."
         }
     },
+    "SEARCH": {
+        "FACET_FIELDS": {
+            "FILE_TYPE": "File Type",
+            "CREATOR": "Creator",
+            "MODIFIER": "Modifier",
+            "FILE_LIBRARY": "File Library"
+        },
+        "CATEGORIES": {
+            "MODIFIED_DATE": "Modified date",
+            "SIZE": "Size",
+            "CREATED_DATE": "Created Date"
+        }
+    },
     "CORE": {
         "METADATA": {
             "ACTIONS": {

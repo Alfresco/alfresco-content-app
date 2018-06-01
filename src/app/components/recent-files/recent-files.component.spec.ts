@@ -156,10 +156,6 @@ describe('RecentFiles Routed Component', () => {
     });
 
     describe('onNodeDoubleClick()', () => {
-        beforeEach(() => {
-            spyOn(component, 'fetchNodes').and.callFake(val => val);
-        });
-
         it('open preview if node is file', () => {
             spyOn(router, 'navigate').and.stub();
             const node: any = { id: 'node-id', isFile: true };

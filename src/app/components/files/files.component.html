@@ -109,7 +109,6 @@
                 [disabled]="!permission.check(node, ['create'])">
 
                 <adf-document-list #documentList
-                    [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
                     [currentFolderId]="node?.id"
                     [sorting]="sorting"
                     [allowDropFiles]="true"
