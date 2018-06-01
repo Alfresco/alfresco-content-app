@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
 import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -124,7 +124,7 @@ export class PreviewComponent implements OnInit {
         const shouldSkipNavigation = this.routesSkipNavigation.includes(this.previewLocation);
 
         if (!isVisible) {
-            const route = [this.previewLocation];
+            const route = this.getNavigationCommands(this.previewLocation);
 
             if ( !shouldSkipNavigation && this.folderId ) {
                 route.push(this.folderId);
@@ -332,5 +332,21 @@ export class PreviewComponent implements OnInit {
             this.onVisibilityChanged(false);
         } catch {
         }
+    }
+
+    private getNavigationCommands(url: string): any[] {
+        const urlTree: UrlTree = this.router.parseUrl(url);
+        const urlSegmentGroup: UrlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
+
+        if (!urlSegmentGroup) {
+            return [url];
+        }
+
+        const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
+
+        return urlSegments.reduce(function(acc, item) {
+            acc.push(item.path, item.parameters);
+            return acc;
+        }, []);
     }
 }
