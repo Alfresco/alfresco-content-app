@@ -17,16 +17,15 @@
         border-left: 1px solid #eee;
     }
 
-    &__sorting {
-        text-align: right;
+    &__content-header {
+        display: flex;
+        padding: 0 25px 0 25px;
+        flex-direction: row;
+        align-items: center;
     }
 
-    &__info {
-        padding: 10px;
-        font-weight: 600;
-        letter-spacing: -0.2px;
-        text-align: left;
-        opacity: 0.6;
+    &--info-text {
+        flex: 1;
     }
 
     .adf-search-filter {
