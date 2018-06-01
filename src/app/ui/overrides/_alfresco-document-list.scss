@@ -72,12 +72,12 @@ adf-datatable {
     .adf-datatable-row:last-child .adf-datatable-table-cell {
         border-bottom: 1px solid rgba(0, 0, 0, 0.07);
     }
-}
 
-.adf-document-list--empty {
-    .adf-data-table .adf-datatable-row:hover,
-    .adf-data-table .adf-datatable-row:focus {
-        background-color: unset;
+    &.adf-data-table--empty {
+        .adf-datatable-row:hover,
+        .adf-datatable-row:focus {
+            background-color: unset;
+        }
     }
 }
 
