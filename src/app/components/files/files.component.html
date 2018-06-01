@@ -109,14 +109,11 @@
                 [disabled]="!permission.check(node, ['create'])">
 
                 <adf-document-list #documentList
+                    selectionMode="multiple"
                     [currentFolderId]="node?.id"
                     [sorting]="sorting"
                     [allowDropFiles]="true"
-
-                    [contextMenuActions]="true"
-                    [contentActions]="false"
                     [navigate]="false"
-                    [selectionMode]="'multiple'"
                     [imageResolver]="imageResolver"
 
                     (sorting-changed)="onSortingChanged($event)"
