@@ -205,7 +205,7 @@ describe('PreviewComponent', () => {
         component.onVisibilityChanged(false);
 
         expect(router.navigate).toHaveBeenCalledWith(
-            ['libraries']
+            ['libraries', {}]
         );
     });
 
@@ -219,7 +219,7 @@ describe('PreviewComponent', () => {
         component.onVisibilityChanged(false);
 
         expect(router.navigate).toHaveBeenCalledWith(
-            ['libraries', 'site1']
+            ['libraries', {}, 'site1']
         );
     });
 
@@ -233,7 +233,7 @@ describe('PreviewComponent', () => {
         component.onVisibilityChanged(false);
 
         expect(router.navigate).toHaveBeenCalledWith(
-            ['shared']
+            ['shared', {}]
         );
     });
 
