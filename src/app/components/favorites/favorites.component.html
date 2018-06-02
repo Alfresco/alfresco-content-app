@@ -54,7 +54,7 @@
                 <button
                     mat-menu-item
                     #selection="adfFavorite"
-                    (toggle)="refresh()"
+                    (toggle)="reload()"
                     [adf-node-favorite]="documentList.selection">
                     <mat-icon color="primary" *ngIf="selection.hasFavorites()">star</mat-icon>
                     <mat-icon *ngIf="!selection.hasFavorites()">star_border</mat-icon>
