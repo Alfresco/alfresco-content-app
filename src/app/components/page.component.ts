@@ -140,7 +140,7 @@ export abstract class PageComponent implements OnDestroy {
         this.infoDrawerOpened = !this.infoDrawerOpened;
     }
 
-    protected reload(): void {
+    reload(): void {
         if (this.documentList) {
             this.documentList.resetSelection();
             this.documentList.reload();

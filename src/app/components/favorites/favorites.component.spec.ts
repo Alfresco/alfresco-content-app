@@ -145,32 +145,32 @@ describe('Favorites Routed Component', () => {
 
     describe('Events', () => {
         beforeEach(() => {
-            spyOn(component, 'refresh');
+            spyOn(component, 'reload');
             fixture.detectChanges();
         });
 
         it('should refresh on editing folder event', () => {
             alfrescoContentService.folderEdit.next(null);
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on move node event', () => {
             contentService.nodeMoved.next(null);
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node deleted event', () => {
             contentService.nodeDeleted.next(null);
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node restore event', () => {
             contentService.nodeRestored.next(null);
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
     });
 
@@ -287,7 +287,7 @@ describe('Favorites Routed Component', () => {
             spyOn(component.documentList, 'reload');
             fixture.detectChanges();
 
-            component.refresh();
+            component.reload();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
