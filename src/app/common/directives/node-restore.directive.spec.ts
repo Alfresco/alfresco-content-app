@@ -84,7 +84,7 @@ describe('NodeRestoreDirective', () => {
         nodesService = alfrescoService.getInstance().nodes;
         coreApi = alfrescoService.getInstance().core;
 
-        spyOn(translation, 'get').and.returnValue(Observable.of('message'));
+        spyOn(translation, 'instant').and.returnValue(Observable.of('message'));
     });
 
     it('does not restore nodes if no selection', () => {

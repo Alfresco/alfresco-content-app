@@ -78,7 +78,7 @@ describe('NodePermanentDeleteDirective', () => {
     beforeEach(() => {
         nodesService = alfrescoService.getInstance().nodes;
 
-        spyOn(translation, 'get').and.returnValue(Observable.of('message'));
+        spyOn(translation, 'instant').and.returnValue(Observable.of('message'));
         spyOn(notificationService, 'openSnackMessage').and.returnValue({});
 
         spyOn(dialog, 'open').and.returnValue({
