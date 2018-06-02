@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
+import { ShareDataRow } from '@alfresco/adf-content-services';
 
 import { PageComponent } from '../page.component';
 
@@ -34,9 +34,6 @@ import { PageComponent } from '../page.component';
     templateUrl: './libraries.component.html'
 })
 export class LibrariesComponent extends PageComponent {
-
-    @ViewChild(DocumentListComponent)
-    documentList: DocumentListComponent;
 
     constructor(private nodesApi: NodesApiService,
                 route: ActivatedRoute,

@@ -23,11 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
 
@@ -35,8 +34,6 @@ import { PageComponent } from '../page.component';
     templateUrl: './trashcan.component.html'
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
-
-    @ViewChild(DocumentListComponent) documentList;
 
     constructor(private contentManagementService: ContentManagementService,
                 preferences: UserPreferencesService,
@@ -46,13 +43,8 @@ export class TrashcanComponent extends PageComponent implements OnInit {
 
     ngOnInit() {
         this.subscriptions.push(
-            this.contentManagementService.nodeRestored.subscribe(() => this.refresh())
+            this.contentManagementService.nodeRestored.subscribe(() => this.reload())
         );
-    }
-
-    refresh(): void {
-        this.documentList.reload();
-        this.documentList.resetSelection();
     }
 
     onChangePageSize(event: Pagination): void {

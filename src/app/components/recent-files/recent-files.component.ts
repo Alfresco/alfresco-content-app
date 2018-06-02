@@ -23,11 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
@@ -37,9 +36,6 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
     templateUrl: './recent-files.component.html'
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
-
-    @ViewChild(DocumentListComponent)
-    documentList: DocumentListComponent;
 
     constructor(
         private router: Router,
@@ -52,9 +48,9 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            this.content.nodeDeleted.subscribe(() => this.refresh()),
-            this.content.nodeMoved.subscribe(() => this.refresh()),
-            this.content.nodeRestored.subscribe(() => this.refresh())
+            this.content.nodeDeleted.subscribe(() => this.reload()),
+            this.content.nodeMoved.subscribe(() => this.reload()),
+            this.content.nodeRestored.subscribe(() => this.reload())
         ]);
     }
 
@@ -64,12 +60,6 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
         } else if (node && node.isFile) {
             this.router.navigate(['./preview', node.id], { relativeTo: this.route });
-        }
-    }
-
-    refresh(): void {
-        if (this.documentList) {
-            this.documentList.reload();
         }
     }
 }

@@ -24,15 +24,13 @@
  */
 
 import { Observable } from 'rxjs/Rx';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import {
     UploadService, FileUploadEvent, NodesApiService,
     ContentService, AlfrescoApiService, UserPreferencesService, NotificationService
 } from '@alfresco/adf-core';
-
-import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -45,7 +43,6 @@ import { PageComponent } from '../page.component';
     templateUrl: './files.component.html'
 })
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
-    @ViewChild(DocumentListComponent) documentList: DocumentListComponent;
 
     isValidPath = true;
 

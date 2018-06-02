@@ -23,12 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { MinimalNodeEntryEntity, MinimalNodeEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
 import { ContentService, NodesApiService, UserPreferencesService, NotificationService } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -38,9 +36,6 @@ import { PageComponent } from '../page.component';
     templateUrl: './favorites.component.html'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
-
-    @ViewChild(DocumentListComponent)
-    documentList: DocumentListComponent;
 
     constructor(private router: Router,
                 route: ActivatedRoute,
@@ -55,10 +50,10 @@ export class FavoritesComponent extends PageComponent implements OnInit {
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            this.content.nodeDeleted.subscribe(() => this.refresh()),
-            this.content.nodeRestored.subscribe(() => this.refresh()),
-            this.contentService.folderEdit.subscribe(() => this.refresh()),
-            this.content.nodeMoved.subscribe(() => this.refresh())
+            this.content.nodeDeleted.subscribe(() => this.reload()),
+            this.content.nodeRestored.subscribe(() => this.reload()),
+            this.contentService.folderEdit.subscribe(() => this.reload()),
+            this.content.nodeMoved.subscribe(() => this.reload())
         ]);
     }
 
@@ -94,12 +89,6 @@ export class FavoritesComponent extends PageComponent implements OnInit {
 
     showEditOption(selection: MinimalNodeEntity[]) {
         return selection && selection.length === 1 && selection[0].entry.isFolder;
-    }
-
-    refresh(): void {
-        if (this.documentList) {
-            this.documentList.reload();
-        }
     }
 
     openSnackMessage(event: any) {

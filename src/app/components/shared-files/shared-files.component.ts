@@ -23,11 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -37,9 +36,6 @@ import { PageComponent } from '../page.component';
     templateUrl: './shared-files.component.html'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
-
-    @ViewChild(DocumentListComponent)
-    documentList: DocumentListComponent;
 
     constructor(private router: Router,
                 route: ActivatedRoute,
@@ -52,9 +48,9 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            this.content.nodeDeleted.subscribe(() => this.refresh()),
-            this.content.nodeMoved.subscribe(() => this.refresh()),
-            this.content.nodeRestored.subscribe(() => this.refresh())
+            this.content.nodeDeleted.subscribe(() => this.reload()),
+            this.content.nodeMoved.subscribe(() => this.reload()),
+            this.content.nodeRestored.subscribe(() => this.reload())
         ]);
     }
 
@@ -73,12 +69,5 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     /** @override */
     isFileSelected(selection: Array<MinimalNodeEntity>): boolean {
         return selection && selection.length === 1;
-    }
-
-    refresh(): void {
-        if (this.documentList) {
-            this.documentList.resetSelection();
-            this.documentList.reload();
-        }
     }
 }

@@ -25,12 +25,16 @@
 
 import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { ShareDataRow } from '@alfresco/adf-content-services';
+import { ShareDataRow, DocumentListComponent } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
 
 export abstract class PageComponent implements OnDestroy {
+
+    @ViewChild(DocumentListComponent)
+    documentList: DocumentListComponent;
+
     title = 'Page';
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
@@ -134,5 +138,12 @@ export abstract class PageComponent implements OnDestroy {
         }
 
         this.infoDrawerOpened = !this.infoDrawerOpened;
+    }
+
+    protected reload(): void {
+        if (this.documentList) {
+            this.documentList.resetSelection();
+            this.documentList.reload();
+        }
     }
 }
