@@ -88,6 +88,7 @@ describe('FilesComponent', () => {
             ],
             providers: [
                 { provide: ActivatedRoute, useValue: {
+                    snapshot: { data: { preferencePrefix: 'prefix' } },
                     params: Observable.of({ folderId: 'someId' })
                 } } ,
                 { provide: TranslationService, useClass: TranslationMock },
