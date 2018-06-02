@@ -106,7 +106,7 @@ describe('TrashcanComponent', () => {
             alfrescoApi.reset();
             contentService = TestBed.get(ContentManagementService);
 
-            component.documentList = {
+            component.documentList = <any> {
                 reload:  jasmine.createSpy('reload'),
                 resetSelection: jasmine.createSpy('resetSelection')
             };
@@ -119,23 +119,23 @@ describe('TrashcanComponent', () => {
 
     describe('onRestoreNode()', () => {
         it('should call refresh()', () => {
-            spyOn(component, 'refresh');
+            spyOn(component, 'reload');
             fixture.detectChanges();
 
             contentService.nodeRestored.next();
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
     });
 
     describe('refresh()', () => {
         it('calls child component to reload', () => {
-            component.refresh();
+            component.reload();
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('calls child component to reset selection', () => {
-            component.refresh();
+            component.reload();
             expect(component.documentList.resetSelection).toHaveBeenCalled();
         });
     });
