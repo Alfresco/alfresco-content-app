@@ -8,7 +8,7 @@
                 color="primary"
                 mat-icon-button
                 [app-permanent-delete-node]="documentList.selection"
-                (selection-node-deleted)="refresh()"
+                (selection-node-deleted)="reload()"
                 *ngIf="documentList.selection.length"
                 title="{{ 'APP.ACTIONS.DELETE_PERMANENT' | translate }}">
                 <mat-icon>delete_forever</mat-icon>
@@ -17,7 +17,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                (selection-node-restored)="refresh()"
+                (selection-node-restored)="reload()"
                 [acaRestoreNode]="documentList.selection"
                 *ngIf="documentList.selection.length"
                 title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
