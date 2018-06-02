@@ -23,8 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subscription } from 'rxjs/Rx';
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
@@ -37,12 +36,10 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 @Component({
     templateUrl: './recent-files.component.html'
 })
-export class RecentFilesComponent extends PageComponent implements OnInit, OnDestroy {
+export class RecentFilesComponent extends PageComponent implements OnInit {
 
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
-
-    private subscriptions: Subscription[] = [];
 
     constructor(
         private router: Router,
@@ -59,10 +56,6 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
             this.content.nodeMoved.subscribe(() => this.refresh()),
             this.content.nodeRestored.subscribe(() => this.refresh())
         ]);
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     onNodeDoubleClick(node: MinimalNodeEntryEntity) {

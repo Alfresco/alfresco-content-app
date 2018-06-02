@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Observable, Subscription } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
@@ -50,7 +50,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     isValidPath = true;
 
     private nodePath: PathElement[];
-    private subscriptions: Subscription[] = [];
 
     constructor(private router: Router,
                 route: ActivatedRoute,
@@ -109,8 +108,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
-
+        super.ngOnDestroy();
         this.browsingFilesService.onChangeParent.next(null);
     }
 

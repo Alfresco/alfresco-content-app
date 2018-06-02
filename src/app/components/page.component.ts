@@ -27,11 +27,15 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ShareDataRow } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
+import { OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
 
-export abstract class PageComponent {
+export abstract class PageComponent implements OnDestroy {
     title = 'Page';
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
+
+    protected subscriptions: Subscription[] = [];
 
     get sortingPreferenceKey(): string {
         return this.route.snapshot.data.sortingPreferenceKey;
@@ -42,6 +46,11 @@ export abstract class PageComponent {
     }
 
     constructor(protected preferences: UserPreferencesService, protected route: ActivatedRoute) {
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        this.subscriptions = [];
     }
 
     getParentNodeId(): string {

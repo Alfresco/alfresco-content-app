@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
 
 import { MinimalNodeEntryEntity, MinimalNodeEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
 import { ContentService, NodesApiService, UserPreferencesService, NotificationService } from '@alfresco/adf-core';
@@ -38,12 +37,10 @@ import { PageComponent } from '../page.component';
 @Component({
     templateUrl: './favorites.component.html'
 })
-export class FavoritesComponent extends PageComponent implements OnInit, OnDestroy {
+export class FavoritesComponent extends PageComponent implements OnInit {
 
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
-
-    private subscriptions: Subscription[] = [];
 
     constructor(private router: Router,
                 route: ActivatedRoute,
@@ -63,10 +60,6 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
             this.contentService.folderEdit.subscribe(() => this.refresh()),
             this.content.nodeMoved.subscribe(() => this.refresh())
         ]);
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     navigate(favorite: MinimalNodeEntryEntity) {

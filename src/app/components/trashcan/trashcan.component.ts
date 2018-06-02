@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
 import { Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
@@ -35,8 +34,7 @@ import { PageComponent } from '../page.component';
 @Component({
     templateUrl: './trashcan.component.html'
 })
-export class TrashcanComponent extends PageComponent implements OnInit, OnDestroy {
-    private subscriptions: Subscription[] = [];
+export class TrashcanComponent extends PageComponent implements OnInit {
 
     @ViewChild(DocumentListComponent) documentList;
 
@@ -55,10 +53,6 @@ export class TrashcanComponent extends PageComponent implements OnInit, OnDestro
     refresh(): void {
         this.documentList.reload();
         this.documentList.resetSelection();
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     onChangePageSize(event: Pagination): void {

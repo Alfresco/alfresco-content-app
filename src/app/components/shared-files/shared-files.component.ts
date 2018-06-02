@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
@@ -37,12 +36,10 @@ import { PageComponent } from '../page.component';
 @Component({
     templateUrl: './shared-files.component.html'
 })
-export class SharedFilesComponent extends PageComponent implements OnInit, OnDestroy {
+export class SharedFilesComponent extends PageComponent implements OnInit {
 
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
-
-    private subscriptions: Subscription[] = [];
 
     constructor(private router: Router,
                 route: ActivatedRoute,
@@ -59,10 +56,6 @@ export class SharedFilesComponent extends PageComponent implements OnInit, OnDes
             this.content.nodeMoved.subscribe(() => this.refresh()),
             this.content.nodeRestored.subscribe(() => this.refresh())
         ]);
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     onNodeDoubleClick(link: { nodeId?: string }) {
