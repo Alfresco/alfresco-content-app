@@ -190,11 +190,11 @@ export class NodeRestoreDirective {
         );
     }
 
-    private getRestoreMessage(): Observable<string|any> {
+    private getRestoreMessage(): string {
         const { restoreProcessStatus: status } = this;
 
         if (status.someFailed && !status.oneFailed) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL',
                 {
                     number: status.fail.length
@@ -204,14 +204,14 @@ export class NodeRestoreDirective {
 
         if (status.oneFailed && status.fail[0].statusCode) {
             if (status.fail[0].statusCode === 409) {
-                return this.translation.get(
+                return this.translation.instant(
                     'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS',
                     {
                         name: status.fail[0].entry.name
                     }
                 );
             } else {
-                return this.translation.get(
+                return this.translation.instant(
                     'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC',
                     {
                         name: status.fail[0].entry.name
@@ -221,7 +221,7 @@ export class NodeRestoreDirective {
         }
 
         if (status.oneFailed && !status.fail[0].statusCode) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.LOCATION_MISSING',
                 {
                     name: status.fail[0].entry.name
@@ -230,11 +230,11 @@ export class NodeRestoreDirective {
         }
 
         if (status.allSucceeded && !status.oneSucceeded) {
-            return this.translation.get('APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL');
+            return this.translation.instant('APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL');
         }
 
         if (status.allSucceeded && status.oneSucceeded) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.SINGULAR',
                 {
                     name: status.success[0].entry.name
@@ -246,13 +246,11 @@ export class NodeRestoreDirective {
     private restoreNotification(): void {
         const status = Object.assign({}, this.restoreProcessStatus);
         const action = (status.oneSucceeded && !status.someFailed) ? this.translation.translate.instant('APP.ACTIONS.VIEW') : '';
+        const message = this.getRestoreMessage();
 
-        this.getRestoreMessage()
-            .subscribe((message) => {
-                this.notification.openSnackMessageAction(message, action, 3000)
-                    .onAction()
-                    .subscribe(() => this.navigateLocation(status.success[0].entry.path));
-            });
+        this.notification.openSnackMessageAction(message, action, 3000)
+            .onAction()
+            .subscribe(() => this.navigateLocation(status.success[0].entry.path));
     }
 
     private refresh(): void {

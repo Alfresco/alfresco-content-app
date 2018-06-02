@@ -65,24 +65,21 @@ export class NodeDeleteDirective {
             .subscribe(
                 (data) => {
                     const processedData = this.processStatus(data);
+                    const message = this.getDeleteMessage(processedData);
+                    const withUndo = processedData.someSucceeded ? this.translation.instant('APP.ACTIONS.UNDO') : '';
 
-                    this.getDeleteMessage(processedData)
-                        .subscribe((message) => {
-                            const withUndo = processedData.someSucceeded ? this.translation.translate.instant('APP.ACTIONS.UNDO') : '';
+                    this.notification.openSnackMessageAction(message, withUndo, NodeDeleteDirective.DELETE_MESSAGE_DURATION)
+                        .onAction()
+                        .subscribe(() => this.restore(processedData.success));
 
-                            this.notification.openSnackMessageAction(message, withUndo, NodeDeleteDirective.DELETE_MESSAGE_DURATION)
-                                .onAction()
-                                .subscribe(() => this.restore(processedData.success));
-
-                            if (processedData.someSucceeded) {
-                                this.content.nodeDeleted.next(null);
-                            }
-                        });
+                    if (processedData.someSucceeded) {
+                        this.content.nodeDeleted.next(null);
+                    }
                 }
             );
     }
 
-    private restore(items): void {
+    private restore(items: any[]): void {
         const batch = [];
 
         items.forEach((item) => {
@@ -95,12 +92,10 @@ export class NodeDeleteDirective {
                     const processedData = this.processStatus(data);
 
                     if (processedData.failed.length) {
-                        this.getRestoreMessage(processedData)
-                            .subscribe((message) => {
-                                this.notification.openSnackMessageAction(
-                                    message, '' , NodeDeleteDirective.RESTORE_MESSAGE_DURATION
-                                );
-                            });
+                        const message = this.getRestoreMessage(processedData);
+                        this.notification.openSnackMessageAction(
+                            message, '' , NodeDeleteDirective.RESTORE_MESSAGE_DURATION
+                        );
                     }
 
                     if (processedData.someSucceeded) {
@@ -178,39 +173,39 @@ export class NodeDeleteDirective {
         );
     }
 
-    private getRestoreMessage(status): Observable<string> {
+    private getRestoreMessage(status): string {
         if (status.someFailed && !status.oneFailed) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL',
                 { number: status.failed.length }
             );
         }
 
         if (status.oneFailed) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_RESTORE',
                 { name: status.failed[0].name }
             );
         }
     }
 
-    private getDeleteMessage(status): Observable<string> {
+    private getDeleteMessage(status): string {
         if (status.allFailed && !status.oneFailed) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
                 { number: status.failed.length }
             );
         }
 
         if (status.allSucceeded && !status.oneSucceeded) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.INFO.NODE_DELETION.PLURAL',
                 { number: status.success.length  }
             );
         }
 
         if (status.someFailed && status.someSucceeded && !status.oneSucceeded) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL',
                 {
                     success: status.success.length,
@@ -220,7 +215,7 @@ export class NodeDeleteDirective {
         }
 
         if (status.someFailed && status.oneSucceeded) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR',
                 {
                     success: status.success.length,
@@ -230,14 +225,14 @@ export class NodeDeleteDirective {
         }
 
         if (status.oneFailed && !status.someSucceeded) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_DELETION',
                 { name: status.failed[0].name }
             );
         }
 
         if (status.oneSucceeded && !status.someFailed) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR',
                 { name: status.success[0].name }
             );
