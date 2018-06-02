@@ -123,7 +123,7 @@ describe('SharedFilesComponent', () => {
 
     describe('OnInit', () => {
         beforeEach(() => {
-            spyOn(component, 'refresh').and.callFake(val => val);
+            spyOn(component, 'reload').and.callFake(val => val);
         });
 
         it('should refresh on deleteNode event', () => {
@@ -131,7 +131,7 @@ describe('SharedFilesComponent', () => {
 
             contentService.nodeDeleted.next();
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on restoreNode event', () => {
@@ -139,7 +139,7 @@ describe('SharedFilesComponent', () => {
 
             contentService.nodeRestored.next();
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should reload on move node event', () => {
@@ -147,7 +147,7 @@ describe('SharedFilesComponent', () => {
 
             contentService.nodeMoved.next();
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
     });
 
@@ -194,7 +194,7 @@ describe('SharedFilesComponent', () => {
             spyOn(component.documentList, 'reload');
             fixture.detectChanges();
 
-            component.refresh();
+            component.reload();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
