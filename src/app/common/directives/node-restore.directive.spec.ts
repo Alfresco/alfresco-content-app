@@ -209,7 +209,7 @@ describe('NodeRestoreDirective', () => {
             element.triggerEventHandler('click', null);
             tick();
 
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL',
                 { number: 2 }
             );
@@ -229,7 +229,7 @@ describe('NodeRestoreDirective', () => {
             element.triggerEventHandler('click', null);
             tick();
 
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS',
                 { name: 'name1' }
             );
@@ -249,7 +249,7 @@ describe('NodeRestoreDirective', () => {
             element.triggerEventHandler('click', null);
             tick();
 
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC',
                 { name: 'name1' }
             );
@@ -269,7 +269,7 @@ describe('NodeRestoreDirective', () => {
             element.triggerEventHandler('click', null);
             tick();
 
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.LOCATION_MISSING',
                 { name: 'name1' }
             );
@@ -296,7 +296,7 @@ describe('NodeRestoreDirective', () => {
             element.triggerEventHandler('click', null);
             tick();
 
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL'
             );
         }));
@@ -313,7 +313,7 @@ describe('NodeRestoreDirective', () => {
             element.triggerEventHandler('click', null);
             tick();
 
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.SINGULAR',
                 { name: 'name1' }
             );

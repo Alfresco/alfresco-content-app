@@ -138,7 +138,7 @@ describe('NodePermanentDeleteDirective', () => {
             tick();
 
             expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR',
                 { name: 'name1', failed: 2 }
             );
@@ -175,7 +175,7 @@ describe('NodePermanentDeleteDirective', () => {
             tick();
 
             expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL',
                 { number: 2, failed: 2 }
             );
@@ -193,7 +193,7 @@ describe('NodePermanentDeleteDirective', () => {
             tick();
 
             expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR',
                 { name: 'name1' }
             );
@@ -211,7 +211,7 @@ describe('NodePermanentDeleteDirective', () => {
             tick();
 
             expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR',
                 { name: 'name1' }
             );
@@ -238,7 +238,7 @@ describe('NodePermanentDeleteDirective', () => {
             tick();
 
             expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL',
                 { number: 2 }
             );
@@ -265,7 +265,7 @@ describe('NodePermanentDeleteDirective', () => {
             tick();
 
             expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
+            expect(translation.instant).toHaveBeenCalledWith(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL',
                 { number: 2 }
             );

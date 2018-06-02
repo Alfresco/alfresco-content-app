@@ -108,11 +108,10 @@ export class NodeCopyDirective {
         const undo = (numberOfCopiedItems > 0) ? this.translation.instant('APP.ACTIONS.UNDO') : '';
         const withUndo = (numberOfCopiedItems > 0) ? '_WITH_UNDO' : '';
 
-        this.translation.get(i18nMessageString, { success: numberOfCopiedItems, failed: failedItems }).subscribe(message => {
-            this.notification.openSnackMessageAction(message, undo, NodeActionsService[`SNACK_MESSAGE_DURATION${withUndo}`])
-                .onAction()
-                .subscribe(() => this.deleteCopy(newItems));
-        });
+        const message = this.translation.instant(i18nMessageString, { success: numberOfCopiedItems, failed: failedItems });
+        this.notification.openSnackMessageAction(message, undo, NodeActionsService[`SNACK_MESSAGE_DURATION${withUndo}`])
+            .onAction()
+            .subscribe(() => this.deleteCopy(newItems));
     }
 
     private deleteCopy(nodes: MinimalNodeEntity[]) {
@@ -138,9 +137,8 @@ export class NodeCopyDirective {
                         i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
                     }
 
-                    this.translation.get(i18nMessageString).subscribe(message => {
-                        this.notification.openSnackMessageAction(message, '', NodeActionsService.SNACK_MESSAGE_DURATION);
-                    });
+                    const message = this.translation.instant(i18nMessageString);
+                    this.notification.openSnackMessageAction(message, '', NodeActionsService.SNACK_MESSAGE_DURATION);
                 }
             );
     }
