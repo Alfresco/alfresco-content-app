@@ -52,10 +52,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private nodePath: PathElement[];
     private subscriptions: Subscription[] = [];
 
-    sorting = [ 'modifiedAt', 'desc' ];
-
     constructor(private router: Router,
-                private route: ActivatedRoute,
+                route: ActivatedRoute,
                 private nodesApi: NodesApiService,
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
@@ -66,12 +64,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences);
-
-        const sortingKey = this.preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
-        const sortingDirection = this.preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
-
-        this.sorting = [sortingKey, sortingDirection];
+        super(preferences, route);
     }
 
     ngOnInit() {
@@ -269,19 +262,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         return false;
     }
 
-    onSortingChanged(event: CustomEvent) {
-        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
-        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
-    }
-
     openSnackMessage(event: any) {
         this.notificationService.openSnackMessage(
             event,
             4000
         );
-    }
-
-    private get prefix() {
-        return this.route.snapshot.data.preferencePrefix;
     }
 }

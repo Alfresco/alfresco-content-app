@@ -91,9 +91,9 @@
                 currentFolderId="-recent-"
                 selectionMode="multiple"
                 [navigate]="false"
-                [sorting]="sorting"
+                [sorting]="[ 'modifiedAt', 'desc' ]"
+                [acaSortingPreferenceKey]="sortingPreferenceKey"
                 [imageResolver]="imageResolver"
-                (sorting-changed)="onSortingChanged($event)"
                 (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
                 (node-select)="onNodeSelect($event, documentList)">
 

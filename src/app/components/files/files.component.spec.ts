@@ -62,7 +62,6 @@ describe('FilesComponent', () => {
     let router: Router;
     let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
-    let preferenceService: UserPreferencesService;
     let notificationService: NotificationService;
 
     beforeEach(async(() => {
@@ -89,8 +88,7 @@ describe('FilesComponent', () => {
             ],
             providers: [
                 { provide: ActivatedRoute, useValue: {
-                    params: Observable.of({ folderId: 'someId' }),
-                    snapshot: { data: { preferencePrefix: 'prefix' } }
+                    params: Observable.of({ folderId: 'someId' })
                 } } ,
                 { provide: TranslationService, useClass: TranslationMock },
                 AuthenticationService,
@@ -125,7 +123,6 @@ describe('FilesComponent', () => {
             browsingFilesService = TestBed.get(BrowsingFilesService);
             notificationService = TestBed.get(NotificationService);
             nodeActionsService = TestBed.get(NodeActionsService);
-            preferenceService = TestBed.get(UserPreferencesService);
         });
     }));
 
@@ -451,37 +448,6 @@ describe('FilesComponent', () => {
             const mock  = { aspectNames: [ 'st:siteContainer' ] };
 
             expect(component.isSiteContainer(mock)).toBe(true);
-        });
-    });
-
-    describe('onSortingChanged', () => {
-        it('should save sorting input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {
-                    key: 'some-name',
-                    direction: 'some-direction'
-                }
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
-        });
-
-        it('should save default sorting when no input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {}
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 

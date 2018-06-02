@@ -26,17 +26,22 @@
 import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ShareDataRow } from '@alfresco/adf-content-services';
+import { ActivatedRoute } from '@angular/router';
 
 export abstract class PageComponent {
     title = 'Page';
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
 
+    get sortingPreferenceKey(): string {
+        return this.route.snapshot.data.sortingPreferenceKey;
+    }
+
     static isLockedNode(node) {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected preferences: UserPreferencesService) {
+    constructor(protected preferences: UserPreferencesService, protected route: ActivatedRoute) {
     }
 
     getParentNodeId(): string {

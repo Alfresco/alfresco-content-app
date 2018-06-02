@@ -45,22 +45,15 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
 
     private subscriptions: Subscription[] = [];
 
-    sorting = [ 'modifiedAt', 'desc' ];
-
     constructor(private router: Router,
-                private route: ActivatedRoute,
+                route: ActivatedRoute,
                 private nodesApi: NodesApiService,
                 private contentService: ContentService,
                 private content: ContentManagementService,
                 private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences);
-
-        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
-        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
-
-        this.sorting = [sortingKey, sortingDirection];
+        super(preferences, route);
     }
 
     ngOnInit() {
@@ -116,19 +109,10 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
         }
     }
 
-    onSortingChanged(event: CustomEvent) {
-        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
-        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
-    }
-
     openSnackMessage(event: any) {
         this.notificationService.openSnackMessage(
             event,
             4000
         );
-    }
-
-    private get prefix() {
-        return this.route.snapshot.data.preferencePrefix;
     }
 }

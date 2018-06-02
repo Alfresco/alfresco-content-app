@@ -23,10 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
     NotificationService, TranslationService, TranslationMock,
     NodesApiService, AlfrescoApiService, ContentService,
@@ -46,11 +45,10 @@ import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 import { TrashcanComponent } from './trashcan.component';
 
 describe('TrashcanComponent', () => {
-    let fixture;
-    let component;
+    let fixture: ComponentFixture<TrashcanComponent>;
+    let component: TrashcanComponent;
     let alfrescoApi: AlfrescoApiService;
     let contentService: ContentManagementService;
-    let preferenceService: UserPreferencesService;
     let page;
 
     beforeEach(() => {
@@ -83,9 +81,6 @@ describe('TrashcanComponent', () => {
                 AppConfigPipe
             ],
             providers: [
-                { provide: ActivatedRoute, useValue: {
-                    snapshot: { data: { preferencePrefix: 'prefix' } }
-                } } ,
                 { provide: TranslationService, useClass: TranslationMock },
                 AuthenticationService,
                 UserPreferencesService,
@@ -110,7 +105,6 @@ describe('TrashcanComponent', () => {
             alfrescoApi = TestBed.get(AlfrescoApiService);
             alfrescoApi.reset();
             contentService = TestBed.get(ContentManagementService);
-            preferenceService = TestBed.get(UserPreferencesService);
 
             component.documentList = {
                 reload:  jasmine.createSpy('reload'),
@@ -143,37 +137,6 @@ describe('TrashcanComponent', () => {
         it('calls child component to reset selection', () => {
             component.refresh();
             expect(component.documentList.resetSelection).toHaveBeenCalled();
-        });
-    });
-
-    describe('onSortingChanged', () => {
-        it('should save sorting input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {
-                    key: 'some-name',
-                    direction: 'some-direction'
-                }
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
-        });
-
-        it('should save default sorting when no input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {}
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'archivedAt');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 });

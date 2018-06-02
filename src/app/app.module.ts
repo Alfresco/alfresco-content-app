@@ -69,6 +69,7 @@ import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInpu
 import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { HybridAppConfigService } from './common/services/hybrid-app-config.service';
+import { SortingPreferenceKeyDirective } from './directives/sorting-preference-key.directive';
 
 @NgModule({
     imports: [
@@ -118,7 +119,8 @@ import { HybridAppConfigService } from './common/services/hybrid-app-config.serv
         NodeVersionsDirective,
         VersionManagerDialogAdapterComponent,
         SearchComponent,
-        SettingsComponent
+        SettingsComponent,
+        SortingPreferenceKeyDirective
     ],
     providers: [
         { provide: AppConfigService, useClass: HybridAppConfigService },

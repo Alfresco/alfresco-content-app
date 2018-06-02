@@ -98,8 +98,8 @@
                 currentFolderId="-favorites-"
                 selectionMode="multiple"
                 [navigate]="false"
-                [sorting]="sorting"
-                (sorting-changed)="onSortingChanged($event)"
+                [sorting]="[ 'modifiedAt', 'desc' ]"
+                [acaSortingPreferenceKey]="sortingPreferenceKey"
                 (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
 
                 <empty-folder-content>

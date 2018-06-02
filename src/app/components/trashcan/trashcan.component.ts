@@ -30,29 +30,26 @@ import { Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { PageComponent } from '../page.component';
 
 @Component({
     templateUrl: './trashcan.component.html'
 })
-export class TrashcanComponent implements OnInit, OnDestroy {
+export class TrashcanComponent extends PageComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     @ViewChild(DocumentListComponent) documentList;
 
-    sorting = [ 'archivedAt', 'desc' ];
-
     constructor(private contentManagementService: ContentManagementService,
-                private preferences: UserPreferencesService,
-                private route: ActivatedRoute) {
-
-        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'archivedAt';
-        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
-
-        this.sorting = [sortingKey, sortingDirection];
+                preferences: UserPreferencesService,
+                route: ActivatedRoute) {
+        super(preferences, route);
     }
 
     ngOnInit() {
-        this.subscriptions.push(this.contentManagementService.nodeRestored.subscribe(() => this.refresh()));
+        this.subscriptions.push(
+            this.contentManagementService.nodeRestored.subscribe(() => this.refresh())
+        );
     }
 
     refresh(): void {
@@ -66,14 +63,5 @@ export class TrashcanComponent implements OnInit, OnDestroy {
 
     onChangePageSize(event: Pagination): void {
         this.preferences.paginationSize = event.maxItems;
-    }
-
-    onSortingChanged(event: CustomEvent) {
-        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'archivedAt');
-        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
-    }
-
-    private get prefix() {
-        return this.route.snapshot.data.preferencePrefix;
     }
 }

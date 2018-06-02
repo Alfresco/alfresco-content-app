@@ -32,8 +32,8 @@
                 currentFolderId="-trashcan-"
                 selectionMode="multiple"
                 [navigate]="false"
-                [sorting]="sorting"
-                (sorting-changed)="onSortingChanged($event)">
+                [sorting]="[ 'archivedAt', 'desc' ]"
+                [acaSortingPreferenceKey]="sortingPreferenceKey">
 
                 <empty-folder-content>
                     <ng-template>

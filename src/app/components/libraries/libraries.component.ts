@@ -38,18 +38,11 @@ export class LibrariesComponent extends PageComponent {
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
 
-    sorting = [ 'title', 'asc' ];
-
     constructor(private nodesApi: NodesApiService,
-                private route: ActivatedRoute,
+                route: ActivatedRoute,
                 private router: Router,
                 preferences: UserPreferencesService) {
-        super(preferences);
-
-        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'title';
-        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
-
-        this.sorting = [sortingKey, sortingDirection];
+        super(preferences, route);
     }
 
     makeLibraryTooltip(library: any): string {
@@ -91,14 +84,5 @@ export class LibrariesComponent extends PageComponent {
                     this.router.navigate([ './', documentLibrary.id ], { relativeTo: this.route });
                 });
         }
-    }
-
-    onSortingChanged(event: CustomEvent) {
-        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
-        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
-    }
-
-    private get prefix() {
-        return this.route.snapshot.data.preferencePrefix;
     }
 }
