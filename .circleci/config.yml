@@ -57,7 +57,6 @@ workflows:
       - spellcheck:
           requires:
             - test
-
       - build:
           requires:
             - test
