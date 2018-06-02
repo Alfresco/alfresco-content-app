@@ -46,7 +46,7 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 
 import { SharedFilesComponent } from './shared-files.component';
 
-fdescribe('SharedFilesComponent', () => {
+describe('SharedFilesComponent', () => {
     let fixture: ComponentFixture<SharedFilesComponent>;
     let component: SharedFilesComponent;
     let contentService: ContentManagementService;
