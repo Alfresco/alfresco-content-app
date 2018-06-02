@@ -12,8 +12,8 @@
                 currentFolderId="-mysites-"
                 selectionMode="none"
                 [navigate]="false"
-                [sorting]="sorting"
-                (sorting-changed)="onSortingChanged($event)"
+                [sorting]="[ 'title', 'asc' ]"
+                [acaSortingPreferenceKey]="sortingPreferenceKey"
                 (node-dblclick)="onNodeDoubleClick($event)">
 
                 <empty-folder-content>

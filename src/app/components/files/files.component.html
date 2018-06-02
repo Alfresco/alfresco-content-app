@@ -109,14 +109,13 @@
                 [disabled]="!permission.check(node, ['create'])">
 
                 <adf-document-list #documentList
+                    [sorting]="[ 'modifiedAt', 'desc' ]"
+                    [acaSortingPreferenceKey]="sortingPreferenceKey"
                     selectionMode="multiple"
                     [currentFolderId]="node?.id"
-                    [sorting]="sorting"
                     [allowDropFiles]="true"
                     [navigate]="false"
                     [imageResolver]="imageResolver"
-
-                    (sorting-changed)="onSortingChanged($event)"
                     (node-dblclick)="onNodeDoubleClick($event)"
                     (node-select)="onNodeSelect($event, documentList)">
 

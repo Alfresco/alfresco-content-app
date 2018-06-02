@@ -25,18 +25,36 @@
 
 import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { ShareDataRow } from '@alfresco/adf-content-services';
+import { ShareDataRow, DocumentListComponent } from '@alfresco/adf-content-services';
+import { ActivatedRoute } from '@angular/router';
+import { OnDestroy, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs/Rx';
 
-export abstract class PageComponent {
+export abstract class PageComponent implements OnDestroy {
+
+    @ViewChild(DocumentListComponent)
+    documentList: DocumentListComponent;
+
     title = 'Page';
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
+
+    protected subscriptions: Subscription[] = [];
+
+    get sortingPreferenceKey(): string {
+        return this.route.snapshot.data.sortingPreferenceKey;
+    }
 
     static isLockedNode(node) {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected preferences: UserPreferencesService) {
+    constructor(protected preferences: UserPreferencesService, protected route: ActivatedRoute) {
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        this.subscriptions = [];
     }
 
     getParentNodeId(): string {
@@ -120,5 +138,12 @@ export abstract class PageComponent {
         }
 
         this.infoDrawerOpened = !this.infoDrawerOpened;
+    }
+
+    reload(): void {
+        if (this.documentList) {
+            this.documentList.resetSelection();
+            this.documentList.reload();
+        }
     }
 }

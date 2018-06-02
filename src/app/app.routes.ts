@@ -69,7 +69,7 @@ export const APP_ROUTES: Routes = [
             {
                 path: 'favorites',
                 data: {
-                    preferencePrefix: 'favorites'
+                    sortingPreferenceKey: 'favorites'
                 },
                 children: [
                     {
@@ -93,7 +93,7 @@ export const APP_ROUTES: Routes = [
             {
                 path: 'libraries',
                 data: {
-                    preferencePrefix: 'libraries'
+                    sortingPreferenceKey: 'libraries'
                 },
                 children: [{
                     path: '',
@@ -106,7 +106,7 @@ export const APP_ROUTES: Routes = [
                     component: FilesComponent,
                     data: {
                         title: 'APP.BROWSE.LIBRARIES.TITLE',
-                        preferencePrefix: 'libraries-files'
+                        sortingPreferenceKey: 'libraries-files'
                     }
                 },
                 {
@@ -123,7 +123,7 @@ export const APP_ROUTES: Routes = [
             {
                 path: 'personal-files',
                 data: {
-                    preferencePrefix: 'personal-files'
+                    sortingPreferenceKey: 'personal-files'
                 },
                 children: [
                     {
@@ -164,7 +164,7 @@ export const APP_ROUTES: Routes = [
             {
                 path: 'recent-files',
                 data: {
-                    preferencePrefix: 'recent-files'
+                    sortingPreferenceKey: 'recent-files'
                 },
                 children: [
                     {
@@ -188,7 +188,7 @@ export const APP_ROUTES: Routes = [
             {
                 path: 'shared',
                 data: {
-                    preferencePrefix: 'shared-files'
+                    sortingPreferenceKey: 'shared-files'
                 },
                 children: [
                     {
@@ -214,7 +214,7 @@ export const APP_ROUTES: Routes = [
                 component: TrashcanComponent,
                 data: {
                     title: 'APP.BROWSE.TRASHCAN.TITLE',
-                    preferencePrefix: 'trashcan'
+                    sortingPreferenceKey: 'trashcan'
                 }
             },
             {

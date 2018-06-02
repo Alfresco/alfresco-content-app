@@ -25,10 +25,10 @@
 
 import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
     NotificationService, TranslationService, TranslationMock,
     NodesApiService, AlfrescoApiService, ContentService,
@@ -50,13 +50,12 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 import { FavoritesComponent } from './favorites.component';
 
 describe('Favorites Routed Component', () => {
-    let fixture;
+    let fixture: ComponentFixture<FavoritesComponent>;
     let component: FavoritesComponent;
     let nodesApi: NodesApiService;
     let alfrescoApi: AlfrescoApiService;
     let alfrescoContentService: ContentService;
     let contentService: ContentManagementService;
-    let preferenceService: UserPreferencesService;
     let notificationService: NotificationService;
     let router: Router;
     let page;
@@ -109,9 +108,6 @@ describe('Favorites Routed Component', () => {
                     AppConfigPipe
                 ],
                 providers: [
-                    { provide: ActivatedRoute, useValue: {
-                        snapshot: { data: { preferencePrefix: 'prefix' } }
-                    } } ,
                     { provide: TranslationService, useClass: TranslationMock },
                     AuthenticationService,
                     UserPreferencesService,
@@ -139,7 +135,6 @@ describe('Favorites Routed Component', () => {
             alfrescoApi.reset();
             alfrescoContentService = TestBed.get(ContentService);
             contentService = TestBed.get(ContentManagementService);
-            preferenceService = TestBed.get(UserPreferencesService);
             router = TestBed.get(Router);
         });
     }));
@@ -150,32 +145,32 @@ describe('Favorites Routed Component', () => {
 
     describe('Events', () => {
         beforeEach(() => {
-            spyOn(component, 'refresh');
+            spyOn(component, 'reload');
             fixture.detectChanges();
         });
 
         it('should refresh on editing folder event', () => {
             alfrescoContentService.folderEdit.next(null);
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on move node event', () => {
             contentService.nodeMoved.next(null);
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node deleted event', () => {
             contentService.nodeDeleted.next(null);
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node restore event', () => {
             contentService.nodeRestored.next(null);
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
     });
 
@@ -292,40 +287,9 @@ describe('Favorites Routed Component', () => {
             spyOn(component.documentList, 'reload');
             fixture.detectChanges();
 
-            component.refresh();
+            component.reload();
 
             expect(component.documentList.reload).toHaveBeenCalled();
-        });
-    });
-
-    describe('onSortingChanged', () => {
-        it('should save sorting input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {
-                    key: 'some-name',
-                    direction: 'some-direction'
-                }
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
-        });
-
-        it('should save default sorting when no input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {}
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 

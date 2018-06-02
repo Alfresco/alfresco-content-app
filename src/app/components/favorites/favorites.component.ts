@@ -23,13 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Rx';
-
 import { MinimalNodeEntryEntity, MinimalNodeEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
 import { ContentService, NodesApiService, UserPreferencesService, NotificationService } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -38,42 +35,26 @@ import { PageComponent } from '../page.component';
 @Component({
     templateUrl: './favorites.component.html'
 })
-export class FavoritesComponent extends PageComponent implements OnInit, OnDestroy {
-
-    @ViewChild(DocumentListComponent)
-    documentList: DocumentListComponent;
-
-    private subscriptions: Subscription[] = [];
-
-    sorting = [ 'modifiedAt', 'desc' ];
+export class FavoritesComponent extends PageComponent implements OnInit {
 
     constructor(private router: Router,
-                private route: ActivatedRoute,
+                route: ActivatedRoute,
                 private nodesApi: NodesApiService,
                 private contentService: ContentService,
                 private content: ContentManagementService,
                 private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences);
-
-        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
-        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
-
-        this.sorting = [sortingKey, sortingDirection];
+        super(preferences, route);
     }
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            this.content.nodeDeleted.subscribe(() => this.refresh()),
-            this.content.nodeRestored.subscribe(() => this.refresh()),
-            this.contentService.folderEdit.subscribe(() => this.refresh()),
-            this.content.nodeMoved.subscribe(() => this.refresh())
+            this.content.nodeDeleted.subscribe(() => this.reload()),
+            this.content.nodeRestored.subscribe(() => this.reload()),
+            this.contentService.folderEdit.subscribe(() => this.reload()),
+            this.content.nodeMoved.subscribe(() => this.reload())
         ]);
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     navigate(favorite: MinimalNodeEntryEntity) {
@@ -110,25 +91,10 @@ export class FavoritesComponent extends PageComponent implements OnInit, OnDestr
         return selection && selection.length === 1 && selection[0].entry.isFolder;
     }
 
-    refresh(): void {
-        if (this.documentList) {
-            this.documentList.reload();
-        }
-    }
-
-    onSortingChanged(event: CustomEvent) {
-        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
-        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
-    }
-
     openSnackMessage(event: any) {
         this.notificationService.openSnackMessage(
             event,
             4000
         );
-    }
-
-    private get prefix() {
-        return this.route.snapshot.data.preferencePrefix;
     }
 }

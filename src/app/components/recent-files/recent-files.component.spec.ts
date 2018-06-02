@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import {
@@ -47,12 +47,11 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 import { RecentFilesComponent } from './recent-files.component';
 
 describe('RecentFiles Routed Component', () => {
-    let fixture;
-    let component;
+    let fixture: ComponentFixture<RecentFilesComponent>;
+    let component: RecentFilesComponent;
     let router: Router;
     let alfrescoApi: AlfrescoApiService;
     let contentService: ContentManagementService;
-    let preferenceService: UserPreferencesService;
     let page;
 
     beforeEach(() => {
@@ -85,9 +84,6 @@ describe('RecentFiles Routed Component', () => {
                     AppConfigPipe
                 ],
                 providers: [
-                    { provide: ActivatedRoute, useValue: {
-                        snapshot: { data: { preferencePrefix: 'prefix' } }
-                    } } ,
                     { provide: TranslationService, useClass: TranslationMock },
                     AuthenticationService,
                     UserPreferencesService,
@@ -111,7 +107,6 @@ describe('RecentFiles Routed Component', () => {
 
             router = TestBed.get(Router);
             contentService = TestBed.get(ContentManagementService);
-            preferenceService = TestBed.get(UserPreferencesService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
             alfrescoApi.reset();
         });
@@ -127,7 +122,7 @@ describe('RecentFiles Routed Component', () => {
 
     describe('OnInit()', () => {
         beforeEach(() => {
-            spyOn(component, 'refresh').and.stub();
+            spyOn(component, 'reload').and.stub();
         });
 
         it('should reload nodes on onDeleteNode event', () => {
@@ -135,7 +130,7 @@ describe('RecentFiles Routed Component', () => {
 
             contentService.nodeDeleted.next();
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should reload on onRestoreNode event', () => {
@@ -143,7 +138,7 @@ describe('RecentFiles Routed Component', () => {
 
             contentService.nodeRestored.next();
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should reload on move node event', () => {
@@ -151,7 +146,7 @@ describe('RecentFiles Routed Component', () => {
 
             contentService.nodeMoved.next();
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
     });
 
@@ -182,40 +177,9 @@ describe('RecentFiles Routed Component', () => {
             spyOn(component.documentList, 'reload');
             fixture.detectChanges();
 
-            component.refresh();
+            component.reload();
 
             expect(component.documentList.reload).toHaveBeenCalled();
-        });
-    });
-
-    describe('onSortingChanged', () => {
-        it('should save sorting input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {
-                    key: 'some-name',
-                    direction: 'some-direction'
-                }
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
-        });
-
-        it('should save default sorting when no input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {}
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 });

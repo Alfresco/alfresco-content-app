@@ -23,12 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subscription } from 'rxjs/Rx';
-import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
@@ -37,39 +35,23 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 @Component({
     templateUrl: './recent-files.component.html'
 })
-export class RecentFilesComponent extends PageComponent implements OnInit, OnDestroy {
-
-    @ViewChild(DocumentListComponent)
-    documentList: DocumentListComponent;
-
-    private subscriptions: Subscription[] = [];
-
-    sorting = [ 'modifiedAt', 'desc' ];
+export class RecentFilesComponent extends PageComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private route: ActivatedRoute,
+        route: ActivatedRoute,
         private content: ContentManagementService,
         public permission: NodePermissionService,
         preferences: UserPreferencesService) {
-        super(preferences);
-
-        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
-        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
-
-        this.sorting = [sortingKey, sortingDirection];
+        super(preferences, route);
     }
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            this.content.nodeDeleted.subscribe(() => this.refresh()),
-            this.content.nodeMoved.subscribe(() => this.refresh()),
-            this.content.nodeRestored.subscribe(() => this.refresh())
+            this.content.nodeDeleted.subscribe(() => this.reload()),
+            this.content.nodeMoved.subscribe(() => this.reload()),
+            this.content.nodeRestored.subscribe(() => this.reload())
         ]);
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
     }
 
     onNodeDoubleClick(node: MinimalNodeEntryEntity) {
@@ -79,20 +61,5 @@ export class RecentFilesComponent extends PageComponent implements OnInit, OnDes
         } else if (node && node.isFile) {
             this.router.navigate(['./preview', node.id], { relativeTo: this.route });
         }
-    }
-
-    refresh(): void {
-        if (this.documentList) {
-            this.documentList.reload();
-        }
-    }
-
-    onSortingChanged(event: CustomEvent) {
-        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
-        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
-    }
-
-    private get prefix() {
-        return this.route.snapshot.data.preferencePrefix;
     }
 }
