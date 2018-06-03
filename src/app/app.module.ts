@@ -32,6 +32,10 @@ import { TRANSLATION_PROVIDER, CoreModule, AppConfigService } from '@alfresco/ad
 import { ContentModule } from '@alfresco/adf-content-services';
 import { ElectronModule } from '@ngstack/electron';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
 
@@ -71,6 +75,10 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { HybridAppConfigService } from './common/services/hybrid-app-config.service';
 import { SortingPreferenceKeyDirective } from './directives/sorting-preference-key.directive';
 
+import { INITIAL_STATE } from './store/states/app.state';
+import { appReducer } from './store/reducers/app.reducer';
+
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -88,7 +96,11 @@ import { SortingPreferenceKeyDirective } from './directives/sorting-preference-k
         MatInputModule,
         CoreModule,
         ContentModule,
-        ElectronModule
+        ElectronModule,
+
+        StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+        StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+        EffectsModule.forRoot([])
     ],
     declarations: [
         AppComponent,

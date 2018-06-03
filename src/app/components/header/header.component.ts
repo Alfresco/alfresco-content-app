@@ -23,9 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DomSanitizer } from '@angular/platform-browser';
-import { Component, Output, EventEmitter, ViewEncapsulation, SecurityContext } from '@angular/core';
-import { AppConfigService } from '@alfresco/adf-core';
+import { Component, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Rx';
+import { AcaState } from '../../store/states/app.state';
+import { selectHeaderColor, selectAppName, selectLogoPath } from '../../store/selectors/app.selectors';
 
 @Component({
     selector: 'app-header',
@@ -36,28 +38,17 @@ import { AppConfigService } from '@alfresco/adf-core';
 export class HeaderComponent {
     @Output() menu: EventEmitter<any> = new EventEmitter<any>();
 
-    private defaultPath = '/assets/images/alfresco-logo-white.svg';
-    private defaultBackgroundColor = '#2196F3';
+    appName$: Observable<string>;
+    headerColor$: Observable<string>;
+    logo$: Observable<string>;
 
-    constructor(
-        private appConfig: AppConfigService,
-        private sanitizer: DomSanitizer
-    ) {}
+    constructor(store: Store<AcaState>) {
+        this.headerColor$ = store.select(selectHeaderColor);
+        this.appName$ = store.select(selectAppName);
+        this.logo$ = store.select(selectLogoPath);
+    }
 
     toggleMenu() {
         this.menu.emit();
-    }
-
-    get appName(): string {
-        return <string>this.appConfig.get('application.name');
-    }
-
-    get logo() {
-        return this.appConfig.get('application.logo', this.defaultPath);
-    }
-
-    get backgroundColor() {
-        const color = this.appConfig.get('headerColor', this.defaultBackgroundColor);
-        return this.sanitizer.sanitize(SecurityContext.STYLE, color);
     }
 }

@@ -1,4 +1,4 @@
-<adf-toolbar class="app-menu" [style.background-color]="backgroundColor" role="heading" aria-level="1">
+<adf-toolbar class="app-menu" [style.background-color]="headerColor$ | async" role="heading" aria-level="1">
     <adf-toolbar-title>
         <button
             title="{{ 'APP.ACTIONS.TOGGLE-SIDENAV' | translate }}"
@@ -8,9 +8,9 @@
         </button>
 
         <a class="app-menu__title"
-            title="{{ appName }}"
+            title="{{ appName$ | async }}"
             [routerLink]="[ '/' ]">
-            <img [src]="logo" alt="{{ appName }}" />
+            <img [src]="logo$ | async" alt="{{ appName$ | async }}" />
         </a>
     </adf-toolbar-title>
 

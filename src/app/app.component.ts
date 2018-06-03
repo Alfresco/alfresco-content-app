@@ -30,6 +30,11 @@ import {
     FileModel, UploadService
 } from '@alfresco/adf-core';
 import { ElectronService } from '@ngstack/electron';
+import { Store } from '@ngrx/store';
+import { AcaState } from './store/states/app.state';
+import { SetHeaderColorAction } from './store/actions/header-color.action';
+import { SetAppNameAction } from './store/actions/app-name.action';
+import { SetLogoPathAction } from './store/actions/logo-path.action';
 
 @Component({
     selector: 'app-root',
@@ -42,7 +47,8 @@ export class AppComponent implements OnInit {
         private router: Router,
         private pageTitle: PageTitleService,
         preferences: UserPreferencesService,
-        config: AppConfigService,
+        private store: Store<AcaState>,
+        private config: AppConfigService,
         private electronService: ElectronService,
         private uploadService: UploadService) {
         // TODO: remove once ADF 2.3.0 is out (needs bug fixes)
@@ -51,6 +57,9 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        this.loadAppSettings();
+
         const { router, pageTitle, route } = this;
 
         router
@@ -88,5 +97,20 @@ export class AppComponent implements OnInit {
                 this.uploadService.uploadFilesInTheQueue(new EventEmitter());
             }
         });
+    }
+
+    private loadAppSettings() {
+        const headerColor = this.config.get<string>('headerColor');
+        if (headerColor) {
+            this.store.dispatch(new SetHeaderColorAction(headerColor));
+        }
+        const appName = this.config.get<string>('application.name');
+        if (appName) {
+            this.store.dispatch(new SetAppNameAction(appName));
+        }
+        const logoPath = this.config.get<string>('application.logo');
+        if (logoPath) {
+            this.store.dispatch(new SetLogoPathAction(logoPath));
+        }
     }
 }
