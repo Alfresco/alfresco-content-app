@@ -128,20 +128,21 @@ export class NodeMoveDirective {
 
         const initialParentId = this.nodeActionsService.getEntryParentId(this.selection[0].entry);
 
-        this.translation.get(
+        const messages = this.translation.instant(
             [successMessage, partialSuccessMessage, failedMessage],
-            { success: succeeded, failed: failures, partially: partiallySucceeded}).subscribe(messages => {
+            { success: succeeded, failed: failures, partially: partiallySucceeded}
+        );
 
-            this.notification.openSnackMessageAction(
-                messages[successMessage]
-                + beforePartialSuccessMessage + messages[partialSuccessMessage]
-                + beforeFailedMessage + messages[failedMessage],
-                undo,
-                NodeActionsService[`SNACK_MESSAGE_DURATION${withUndo}`]
-            )
-                .onAction()
-                .subscribe(() => this.revertMoving(moveResponse, initialParentId));
-        });
+        // TODO: review in terms of i18n
+        this.notification.openSnackMessageAction(
+            messages[successMessage]
+            + beforePartialSuccessMessage + messages[partialSuccessMessage]
+            + beforeFailedMessage + messages[failedMessage],
+            undo,
+            NodeActionsService[`SNACK_MESSAGE_DURATION${withUndo}`]
+        )
+        .onAction()
+        .subscribe(() => this.revertMoving(moveResponse, initialParentId));
     }
 
     getErrorMessage(errorObject): string {
@@ -207,10 +208,8 @@ export class NodeMoveDirective {
                         i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
                     }
 
-                    this.translation.get(i18nMessageString).subscribe(message => {
-                        this.notification.openSnackMessage(
-                            message, NodeActionsService.SNACK_MESSAGE_DURATION);
-                    });
+                    const message = this.translation.instant(i18nMessageString);
+                    this.notification.openSnackMessage(message, NodeActionsService.SNACK_MESSAGE_DURATION);
                 }
             );
     }

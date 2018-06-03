@@ -116,15 +116,13 @@ export class NodePermanentDeleteDirective {
     }
 
     private purgeNotification(status): void {
-        this.getPurgeMessage(status)
-            .subscribe((message) => {
-                this.notification.openSnackMessage(message, 3000);
-            });
+        const message = this.getPurgeMessage(status);
+        this.notification.openSnackMessage(message, 3000);
     }
 
-    private getPurgeMessage(status): Observable<string|any> {
+    private getPurgeMessage(status): string {
         if (status.oneSucceeded && status.someFailed && !status.oneFailed) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR',
                 {
                     name: status.success[0].name,
@@ -134,7 +132,7 @@ export class NodePermanentDeleteDirective {
         }
 
         if (status.someSucceeded && !status.oneSucceeded && status.someFailed) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL',
                 {
                     number: status.success.length,
@@ -144,28 +142,28 @@ export class NodePermanentDeleteDirective {
         }
 
         if (status.oneSucceeded) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR',
                 { name: status.success[0].name }
             );
         }
 
         if (status.oneFailed) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR',
                 { name: status.fail[0].name }
             );
         }
 
         if (status.allSucceeded) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL',
                 { number: status.success.length }
             );
         }
 
         if (status.allFailed) {
-            return this.translation.get(
+            return this.translation.instant(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL',
                 { number: status.fail.length }
             );

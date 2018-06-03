@@ -71,8 +71,8 @@ export class NodeVersionsDirective {
                 VersionManagerDialogAdapterComponent,
                 <any>{ data: { contentEntry }, panelClass: 'adf-version-manager-dialog', width: '630px' });
         } else {
-            const translatedErrorMessage: any = this.translation.get('APP.MESSAGES.ERRORS.PERMISSION');
-            this.notification.openSnackMessage(translatedErrorMessage.value, 4000);
+            const translatedErrorMessage = this.translation.instant('APP.MESSAGES.ERRORS.PERMISSION');
+            this.notification.openSnackMessage(translatedErrorMessage, 4000);
 
             this.nodeVersionError.emit();
         }
