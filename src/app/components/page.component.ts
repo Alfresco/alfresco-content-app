@@ -26,7 +26,7 @@
 import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ShareDataRow, DocumentListComponent } from '@alfresco/adf-content-services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { Subscription, Subject } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
@@ -62,6 +62,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     }
 
     constructor(protected preferences: UserPreferencesService,
+                protected router: Router,
                 protected route: ActivatedRoute,
                 protected store: Store<AcaState>) {
     }
@@ -93,6 +94,14 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
         if (!this.hasSelection) {
             this.infoDrawerOpened = false;
+        }
+    }
+
+    showPreview(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            if (node.entry.isFile) {
+                this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
+            }
         }
     }
 

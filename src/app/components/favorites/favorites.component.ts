@@ -25,7 +25,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MinimalNodeEntryEntity, MinimalNodeEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
 import { ContentService, NodesApiService, UserPreferencesService, NotificationService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -39,7 +39,7 @@ import { AcaState } from '../../store/states/app.state';
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
 
-    constructor(private router: Router,
+    constructor(router: Router,
                 route: ActivatedRoute,
                 store: Store<AcaState>,
                 private nodesApi: NodesApiService,
@@ -48,7 +48,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
                 private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, route, store);
+        super(preferences, router, route, store);
     }
 
     ngOnInit() {
@@ -90,10 +90,6 @@ export class FavoritesComponent extends PageComponent implements OnInit {
                 this.router.navigate(['./preview', node.id], { relativeTo: this.route });
             }
         }
-    }
-
-    showEditOption(selection: MinimalNodeEntity[]) {
-        return selection && selection.length === 1 && selection[0].entry.isFolder;
     }
 
     openSnackMessage(event: any) {

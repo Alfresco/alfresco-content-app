@@ -50,7 +50,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     private nodePath: PathElement[];
 
-    constructor(private router: Router,
+    constructor(router: Router,
                 route: ActivatedRoute,
                 store: Store<AcaState>,
                 private nodesApi: NodesApiService,
@@ -63,7 +63,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, route, store);
+        super(preferences, router, route, store);
     }
 
     ngOnInit() {
@@ -158,14 +158,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 }
             }
 
-        }
-    }
-
-    showPreview(node: MinimalNodeEntryEntity) {
-        if (node) {
-            if (node.isFile) {
-                this.router.navigate(['./preview', node.id], { relativeTo: this.route });
-            }
         }
     }
 

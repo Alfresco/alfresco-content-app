@@ -40,13 +40,13 @@ import { AcaState } from '../../store/states/app.state';
 export class RecentFilesComponent extends PageComponent implements OnInit {
 
     constructor(
-        private router: Router,
+        router: Router,
         route: ActivatedRoute,
         store: Store<AcaState>,
         private content: ContentManagementService,
         public permission: NodePermissionService,
         preferences: UserPreferencesService) {
-        super(preferences, route, store);
+        super(preferences, router, route, store);
     }
 
     ngOnInit() {

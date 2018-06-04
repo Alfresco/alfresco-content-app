@@ -39,14 +39,14 @@ import { AcaState } from '../../store/states/app.state';
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
 
-    constructor(private router: Router,
+    constructor(router: Router,
                 route: ActivatedRoute,
                 store: Store<AcaState>,
                 private content: ContentManagementService,
                 private apiService: AlfrescoApiService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, route, store);
+        super(preferences, router, route, store);
     }
 
     ngOnInit() {
