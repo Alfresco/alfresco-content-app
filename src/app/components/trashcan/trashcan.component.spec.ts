@@ -40,7 +40,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 
 import { TrashcanComponent } from './trashcan.component';
 import { StoreModule } from '@ngrx/store';
@@ -79,7 +78,6 @@ describe('TrashcanComponent', () => {
                 TimeAgoPipe,
                 NodeNameTooltipPipe,
                 NodeFavoriteDirective,
-                NodeInfoDirective,
                 DocumentListComponent,
                 TrashcanComponent,
                 AppConfigPipe

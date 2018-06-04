@@ -62,7 +62,6 @@ import { NodeMoveDirective } from './common/directives/node-move.directive';
 import { NodeRestoreDirective } from './common/directives/node-restore.directive';
 import { NodePermanentDeleteDirective } from './common/directives/node-permanent-delete.directive';
 import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
-import { NodeInfoDirective } from './common/directives/node-info.directive';
 import { NodeVersionsDirective } from './common/directives/node-versions.directive';
 import { VersionManagerDialogAdapterComponent } from './components/versions-dialog/version-manager-dialog-adapter.component';
 import { BrowsingFilesService } from './common/services/browsing-files.service';
@@ -128,7 +127,6 @@ import { InfoDrawerComponent } from './components/info-drawer/info-drawer.compon
         NodeRestoreDirective,
         NodePermanentDeleteDirective,
         NodeUnshareDirective,
-        NodeInfoDirective,
         NodeVersionsDirective,
         VersionManagerDialogAdapterComponent,
         SearchComponent,

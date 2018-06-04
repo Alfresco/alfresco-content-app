@@ -10,7 +10,7 @@
                 color="primary"
                 *ngIf="isFileSelected"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
-                (click)="showPreview(selectedNodes[0])">
+                (click)="showPreview(firstSelectedNode)">
                 <mat-icon>open_in_browser</mat-icon>
             </button>
 
@@ -29,7 +29,7 @@
                 *ngIf="isFolderSelected"
                 [attr.title]="'APP.ACTIONS.EDIT' | translate"
                 (error)="openSnackMessage($event)"
-                [adf-edit-folder]="selectedNodes[0]?.entry">
+                [adf-edit-folder]="firstSelectedNode?.entry">
                 <mat-icon>create</mat-icon>
             </button>
 
