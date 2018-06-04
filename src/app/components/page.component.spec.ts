@@ -24,9 +24,14 @@
  */
 
 import { PageComponent } from './page.component';
+import { MinimalNodeEntity } from '@alfresco/adf-core/node_modules/alfresco-js-api';
 
 class TestClass extends PageComponent {
     node: any;
+
+    setSelection(selection: MinimalNodeEntity[] = []) {
+        this.onSelectionChanged(selection);
+    }
 
     constructor() {
         super(null, null, null, null);
@@ -34,7 +39,7 @@ class TestClass extends PageComponent {
 }
 
 describe('PageComponent', () => {
-    let component;
+    let component: TestClass;
 
     beforeEach(() => {
         component = new TestClass();
@@ -56,47 +61,44 @@ describe('PageComponent', () => {
 
     describe('hasSelection()', () => {
         it('returns true when it has nodes selected', () => {
-            const hasSelection = component.hasSelection([ {}, {} ]);
-            expect(hasSelection).toBe(true);
+            component.setSelection([
+                { entry: { isFile: true }  },
+                { entry: { isFile: true }  }
+            ]);
+            expect(component.hasSelection).toBe(true);
         });
 
         it('returns false when it has no selections', () => {
-            const hasSelection = component.hasSelection([]);
-            expect(hasSelection).toBe(false);
+            component.setSelection([]);
+            expect(component.hasSelection).toBe(false);
         });
     });
 
     describe('isFileSelected()', () => {
         it('returns true if selected node is file', () => {
             const selection = [ { entry: { isFile: true } } ];
-            expect(component.isFileSelected(selection)).toBe(true);
+            component.setSelection(selection);
+            expect(component.isFileSelected).toBe(true);
         });
 
         it('returns false if selected node is folder', () => {
-            const selection = [ { entry: { isFolder: true } } ];
-            expect(component.isFileSelected(selection)).toBe(false);
-        });
-
-        it('returns false if there are more than one selections', () => {
-            const selection = [ { entry: { isFile: true } }, { entry: { isFile: true } } ];
-            expect(component.isFileSelected(selection)).toBe(false);
+            const selection = [ { entry: { isFile: false, isFolder: true } } ];
+            component.setSelection(selection);
+            expect(component.isFileSelected).toBe(false);
         });
     });
 
     describe('isFolderSelected()', () => {
         it('returns true if selected node is folder', () => {
-            const selection = [ { entry: { isFolder: true } } ];
-            expect(component.isFolderSelected(selection)).toBe(true);
+            const selection = [ { entry: { isFile: false, isFolder: true } } ];
+            component.setSelection(selection);
+            expect(component.isFolderSelected).toBe(true);
         });
 
         it('returns false if selected node is file', () => {
-            const selection = [ { entry: { isFile: true } } ];
-            expect(component.isFolderSelected(selection)).toBe(false);
-        });
-
-        it('returns false if there are more than one selections', () => {
-            const selection = [ { entry: { isFolder: true } }, { entry: { isFolder: true } } ];
-            expect(component.isFolderSelected(selection)).toBe(false);
+            const selection = [ { entry: { isFile: true, isFolder: false } } ];
+            component.setSelection(selection);
+            expect(component.isFolderSelected).toBe(false);
         });
     });
 });

@@ -82,7 +82,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         this.onDestroy$.complete();
     }
 
-    private onSelectionChanged(selection: MinimalNodeEntity[] = []) {
+    protected onSelectionChanged(selection: MinimalNodeEntity[] = []) {
         this.selectedNodes = selection;
         this.hasSelection = selection.length > 0;
         this.isFileSelected = false;
