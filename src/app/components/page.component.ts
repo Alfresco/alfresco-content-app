@@ -127,7 +127,7 @@ export abstract class PageComponent implements OnDestroy {
         const entry: MinimalNodeEntryEntity = row.node.entry;
 
         if (PageComponent.isLockedNode(entry)) {
-            return '/assets/images/ic_lock_black_24dp_1x.png';
+            return 'assets/images/ic_lock_black_24dp_1x.png';
         }
         return null;
     }

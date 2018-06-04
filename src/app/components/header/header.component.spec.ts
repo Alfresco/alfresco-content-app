@@ -24,7 +24,7 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppConfigService, PeopleContentService, TranslationService, TranslationMock } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
@@ -32,11 +32,17 @@ import { Observable } from 'rxjs/Rx';
 
 import { HeaderComponent } from './header.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { StoreModule, Store } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE, AcaState } from '../../store/states/app.state';
+import { SetAppNameAction } from '../../store/actions/app-name.action';
+import { SetHeaderColorAction } from '../../store/actions/header-color.action';
 
 describe('HeaderComponent', () => {
-    let fixture;
-    let component;
+    let fixture: ComponentFixture<HeaderComponent>;
+    let component: HeaderComponent;
     let appConfigService: AppConfigService;
+    let store: Store<AcaState>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -44,6 +50,7 @@ describe('HeaderComponent', () => {
                 HttpClientModule,
                 RouterTestingModule,
                 TranslateModule.forRoot(),
+                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
             ],
             declarations: [
                 HeaderComponent
@@ -60,6 +67,10 @@ describe('HeaderComponent', () => {
                 getCurrentPerson: () => Observable.of({ entry: {} })
             }
         });
+
+        store = TestBed.get(Store);
+        store.dispatch(new SetAppNameAction('app-name'));
+        store.dispatch(new SetHeaderColorAction('some-color'));
 
         fixture = TestBed.createComponent(HeaderComponent);
         component = fixture.componentInstance;
@@ -82,11 +93,17 @@ describe('HeaderComponent', () => {
         fixture.detectChanges();
     });
 
-    it('it should set application name', () => {
-        expect(component.appName).toBe('app-name');
+    it('it should set application name', done => {
+        component.appName$.subscribe(val => {
+            expect(val).toBe('app-name');
+            done();
+        });
     });
 
-    it('it should set header background color', () => {
-        expect(component.backgroundColor).toBe('some-color');
+    it('it should set header background color', done => {
+        component.headerColor$.subscribe(val => {
+            expect(val).toBe('some-color');
+            done();
+        });
     });
 });
