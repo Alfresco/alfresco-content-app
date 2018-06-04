@@ -27,13 +27,17 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ShareDataRow, DocumentListComponent } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
-import { OnDestroy, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs/Rx';
+import { OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { Subscription, Subject } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
 import { AcaState } from '../store/states/app.state';
 import { SetSelectedNodesAction } from '../store/actions/select-nodes.action';
+import { selectedNodes } from '../store/selectors/app.selectors';
+import { takeUntil } from 'rxjs/operators';
 
-export abstract class PageComponent implements OnDestroy {
+export abstract class PageComponent implements OnInit, OnDestroy {
+
+    onDestroy$: Subject<void> = new Subject<void>();
 
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
@@ -41,6 +45,11 @@ export abstract class PageComponent implements OnDestroy {
     title = 'Page';
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
+
+    isFileSelected = false;
+    isFolderSelected = false;
+    hasSelection = false;
+    selectedNodes: MinimalNodeEntity[];
 
     protected subscriptions: Subscription[] = [];
 
@@ -57,39 +66,34 @@ export abstract class PageComponent implements OnDestroy {
                 protected store: Store<AcaState>) {
     }
 
+    ngOnInit() {
+        this.store
+            .select(selectedNodes)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(selection => this.onSelectionChanged(selection));
+    }
+
     ngOnDestroy() {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
         this.subscriptions = [];
+        this.onDestroy$.complete();
+    }
+
+    private onSelectionChanged(selection: MinimalNodeEntity[] = []) {
+        this.selectedNodes = selection;
+        this.hasSelection = selection.length > 0;
+        this.isFileSelected = false;
+        this.isFolderSelected = false;
+
+        if (selection.length > 0) {
+            const firstNode = selection[0];
+            this.isFileSelected = firstNode.entry.isFile;
+            this.isFolderSelected = firstNode.entry.isFolder;
+        }
     }
 
     getParentNodeId(): string {
         return this.node ? this.node.id : null;
-    }
-
-    hasSelection(selection: Array<MinimalNodeEntity>): boolean {
-        return selection && selection.length > 0;
-    }
-
-    isFileSelected(selection: Array<MinimalNodeEntity>): boolean {
-        if (selection && selection.length === 1) {
-            const entry = selection[0].entry;
-
-            if (entry && entry.isFile) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    isFolderSelected(selection: Array<MinimalNodeEntity>): boolean {
-        if (selection && selection.length === 1) {
-            const entry = selection[0].entry;
-
-            if (entry && entry.isFolder) {
-                return true;
-            }
-        }
-        return false;
     }
 
     onChangePageSize(event: Pagination): void {

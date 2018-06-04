@@ -8,7 +8,7 @@
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="isFileSelected(documentList.selection)"
+                *ngIf="isFileSelected"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="onNodeDoubleClick(documentList.selection[0]?.entry)">
                 <mat-icon>open_in_browser</mat-icon>
@@ -17,7 +17,7 @@
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="hasSelection(documentList.selection)"
+                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
                 [adfNodeDownload]="documentList.selection">
                 <mat-icon>get_app</mat-icon>
@@ -35,7 +35,7 @@
 
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="hasSelection(documentList.selection)"
+                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
@@ -44,7 +44,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="hasSelection(documentList.selection)"
+                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.MORE' | translate }}"
                 [matMenuTriggerFor]="actionsMenu">
                 <mat-icon>more_vert</mat-icon>
@@ -84,7 +84,7 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="isFileSelected(documentList.selection)"
+                    *ngIf="isFileSelected"
                     [acaNodeVersions]="documentList.selection">
                     <mat-icon>history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>

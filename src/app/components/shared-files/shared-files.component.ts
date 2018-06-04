@@ -68,9 +68,4 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
             );
         }
     }
-
-    /** @override */
-    isFileSelected(selection: Array<MinimalNodeEntity>): boolean {
-        return selection && selection.length === 1;
-    }
 }

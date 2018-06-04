@@ -7,7 +7,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="isFileSelected(documentList.selection)"
+                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
                 (click)="onNodeDoubleClick(documentList.selection[0]?.entry)">
                 <mat-icon>open_in_browser</mat-icon>
@@ -16,7 +16,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="hasSelection(documentList.selection)"
+                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
                 [adfNodeDownload]="documentList.selection">
                 <mat-icon>get_app</mat-icon>
@@ -24,7 +24,7 @@
 
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="hasSelection(documentList.selection)"
+                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
@@ -33,7 +33,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="hasSelection(documentList.selection)"
+                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.MORE' | translate }}"
                 [matMenuTriggerFor]="actionsMenu">
                 <mat-icon>more_vert</mat-icon>
@@ -197,7 +197,7 @@
                 </adf-info-drawer-tab>
 
                 <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
-                    <ng-container *ngIf="isFileSelected(documentList.selection);else choose_document_template">
+                    <ng-container *ngIf="hasSelection;else choose_document_template">
                         <adf-version-manager
                             *ngIf="infoInstance.node"
                             [node]="infoInstance.node">

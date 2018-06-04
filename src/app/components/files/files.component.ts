@@ -67,6 +67,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         const { route, contentManagementService, contentService, nodeActionsService, uploadService } = this;
         const { data } = route.snapshot;
 
