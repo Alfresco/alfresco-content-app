@@ -50,6 +50,8 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.subscriptions = this.subscriptions.concat([
             this.content.nodeDeleted.subscribe(() => this.reload()),
             this.content.nodeMoved.subscribe(() => this.reload()),

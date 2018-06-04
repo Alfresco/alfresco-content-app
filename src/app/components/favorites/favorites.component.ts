@@ -52,6 +52,8 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.subscriptions = this.subscriptions.concat([
             this.content.nodeDeleted.subscribe(() => this.reload()),
             this.content.nodeRestored.subscribe(() => this.reload()),

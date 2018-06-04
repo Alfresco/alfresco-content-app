@@ -45,6 +45,8 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.subscriptions.push(
             this.contentManagementService.nodeRestored.subscribe(() => this.reload())
         );

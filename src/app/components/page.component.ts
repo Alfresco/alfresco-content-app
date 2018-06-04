@@ -90,6 +90,10 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             this.isFileSelected = firstNode.entry.isFile;
             this.isFolderSelected = firstNode.entry.isFolder;
         }
+
+        if (!this.hasSelection) {
+            this.infoDrawerOpened = false;
+        }
     }
 
     getParentNodeId(): string {
