@@ -45,6 +45,9 @@ import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { SharedFilesComponent } from './shared-files.component';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
 
 describe('SharedFilesComponent', () => {
     let fixture: ComponentFixture<SharedFilesComponent>;
@@ -73,7 +76,8 @@ describe('SharedFilesComponent', () => {
                     HttpClientModule,
                     TranslateModule.forRoot(),
                     RouterTestingModule,
-                    MatSnackBarModule, MatIconModule
+                    MatSnackBarModule, MatIconModule,
+                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
                 ],
                 declarations: [
                     DataTableComponent,

@@ -45,6 +45,9 @@ import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { RecentFilesComponent } from './recent-files.component';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
 
 describe('RecentFiles Routed Component', () => {
     let fixture: ComponentFixture<RecentFilesComponent>;
@@ -71,7 +74,8 @@ describe('RecentFiles Routed Component', () => {
                     HttpClientModule,
                     TranslateModule.forRoot(),
                     RouterTestingModule,
-                    MatSnackBarModule, MatIconModule
+                    MatSnackBarModule, MatIconModule,
+                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
                 ],
                 declarations: [
                     DataTableComponent,
