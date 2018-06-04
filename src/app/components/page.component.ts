@@ -49,6 +49,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     isFileSelected = false;
     isFolderSelected = false;
     hasSelection = false;
+
+    firstSelectedNode: MinimalNodeEntity;
     selectedNodes: MinimalNodeEntity[];
 
     protected subscriptions: Subscription[] = [];
@@ -88,11 +90,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
         if (selection.length > 0) {
             const firstNode = selection[0];
+            this.firstSelectedNode = firstNode;
             this.isFileSelected = firstNode.entry.isFile;
             this.isFolderSelected = firstNode.entry.isFolder;
-        }
-
-        if (!this.hasSelection) {
+        } else {
+            this.firstSelectedNode = null;
             this.infoDrawerOpened = false;
         }
     }
