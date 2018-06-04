@@ -172,29 +172,7 @@
         </div>
 
         <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened">
-            <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
-                <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
-                    <adf-content-metadata-card
-                        [readOnly]="!permission.check(firstSelectedNode.entry, ['update'])"
-                        [displayEmpty]="permission.check(firstSelectedNode.entry, ['update'])"
-                        [preset]="'custom'"
-                        [node]="firstSelectedNode.entry">
-                    </adf-content-metadata-card>
-                </adf-info-drawer-tab>
-
-                <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
-                    <ng-container *ngIf="isFileSelected;else choose_document_template">
-                        <adf-version-manager [node]="firstSelectedNode.entry"></adf-version-manager>
-                    </ng-container>
-
-                    <ng-template #choose_document_template>
-                        <div class="adf-manage-versions-empty">
-                            <mat-icon class="adf-manage-versions-empty-icon">face</mat-icon>
-                            {{ 'VERSION.SELECTION.EMPTY' | translate }}
-                        </div>
-                    </ng-template>
-                </adf-info-drawer-tab>
-            </adf-info-drawer>
+            <aca-info-drawer [node]="firstSelectedNode"></aca-info-drawer>
         </div>
     </div>
 </div>

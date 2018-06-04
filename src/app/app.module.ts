@@ -77,6 +77,7 @@ import { SortingPreferenceKeyDirective } from './directives/sorting-preference-k
 
 import { INITIAL_STATE } from './store/states/app.state';
 import { appReducer } from './store/reducers/app.reducer';
+import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 
 
 @NgModule({
@@ -132,7 +133,8 @@ import { appReducer } from './store/reducers/app.reducer';
         VersionManagerDialogAdapterComponent,
         SearchComponent,
         SettingsComponent,
-        SortingPreferenceKeyDirective
+        SortingPreferenceKeyDirective,
+        InfoDrawerComponent
     ],
     providers: [
         { provide: AppConfigService, useClass: HybridAppConfigService },

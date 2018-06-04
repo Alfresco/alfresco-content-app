@@ -176,40 +176,8 @@
             </adf-pagination>
         </div>
 
-        <div class="inner-layout__side-panel"
-            *ngIf="infoDrawerOpened"
-            [acaNodeInfo]="selectedNodes"
-            #infoInstance=nodeInfo>
-
-            <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
-                <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
-                    <div *ngIf="infoInstance.loading">
-                        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-                    </div>
-
-                    <adf-content-metadata-card
-                        [readOnly]="!permission.check(selectedNodes, ['update'], { target: 'allowableOperationsOnTarget' })"
-                        [displayEmpty]="permission.check(selectedNodes, ['update'], { target: 'allowableOperationsOnTarget' })"
-                        [preset]="'custom'"
-                        [node]="infoInstance.node">
-                    </adf-content-metadata-card>
-                </adf-info-drawer-tab>
-
-                <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
-                    <ng-container *ngIf="hasSelection;else choose_document_template">
-                        <adf-version-manager
-                            *ngIf="infoInstance.node"
-                            [node]="infoInstance.node">
-                        </adf-version-manager>
-                    </ng-container>
-                    <ng-template #choose_document_template>
-                        <div class="adf-manage-versions-empty">
-                            <mat-icon class="adf-manage-versions-empty-icon">face</mat-icon>
-                            {{ 'VERSION.SELECTION.EMPTY' | translate }}
-                        </div>
-                    </ng-template>
-                </adf-info-drawer-tab>
-            </adf-info-drawer>
+        <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened">
+            <aca-info-drawer [node]="firstSelectedNode"></aca-info-drawer>
         </div>
     </div>
 </div>
