@@ -31,6 +31,8 @@ import { ContentService, NodesApiService, UserPreferencesService, NotificationSe
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './favorites.component.html'
@@ -39,13 +41,14 @@ export class FavoritesComponent extends PageComponent implements OnInit {
 
     constructor(private router: Router,
                 route: ActivatedRoute,
+                store: Store<AcaState>,
                 private nodesApi: NodesApiService,
                 private contentService: ContentService,
                 private content: ContentManagementService,
                 private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, route);
+        super(preferences, route, store);
     }
 
     ngOnInit() {

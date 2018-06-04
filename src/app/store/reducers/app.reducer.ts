@@ -3,6 +3,7 @@ import { AppState, INITIAL_APP_STATE } from '../states/app.state';
 import { SET_HEADER_COLOR, SetHeaderColorAction } from '../actions/header-color.action';
 import { SET_APP_NAME, SetAppNameAction } from '../actions/app-name.action';
 import { SET_LOGO_PATH, SetLogoPathAction } from '../actions/logo-path.action';
+import { SET_SELECTED_NODES, SetSelectedNodesAction } from '../actions/select-nodes.action';
 
 
 export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action): AppState {
@@ -17,6 +18,9 @@ export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action):
             break;
         case SET_LOGO_PATH:
             newState = updateLogoPath(state, <SetLogoPathAction> action);
+            break;
+        case SET_SELECTED_NODES:
+            newState = updateSelectedNodes(state, <SetSelectedNodesAction> action);
             break;
         default:
             newState = Object.assign({}, state);
@@ -40,5 +44,11 @@ function updateAppName(state: AppState, action: SetAppNameAction): AppState {
 function updateLogoPath(state: AppState, action: SetLogoPathAction): AppState {
     const newState = Object.assign({}, state);
     newState.logoPath = action.payload;
+    return newState;
+}
+
+function updateSelectedNodes(state: AppState, action: SetSelectedNodesAction): AppState {
+    const newState = Object.assign({}, state);
+    newState.selectedNodes = [...action.payload];
     return newState;
 }

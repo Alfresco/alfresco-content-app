@@ -29,6 +29,8 @@ import { Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './trashcan.component.html'
@@ -37,8 +39,9 @@ export class TrashcanComponent extends PageComponent implements OnInit {
 
     constructor(private contentManagementService: ContentManagementService,
                 preferences: UserPreferencesService,
+                store: Store<AcaState>,
                 route: ActivatedRoute) {
-        super(preferences, route);
+        super(preferences, route, store);
     }
 
     ngOnInit() {

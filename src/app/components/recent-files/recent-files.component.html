@@ -95,7 +95,9 @@
                 [acaSortingPreferenceKey]="sortingPreferenceKey"
                 [imageResolver]="imageResolver"
                 (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
-                (node-select)="onNodeSelect($event, documentList)">
+                (ready)="onDocumentListReady($event, documentList)"
+                (node-select)="onNodeSelect($event, documentList)"
+                (node-unselect)="onNodeUnselect($event, documentList)">
 
                 <empty-folder-content>
                     <ng-template>

@@ -117,7 +117,9 @@
                     [navigate]="false"
                     [imageResolver]="imageResolver"
                     (node-dblclick)="onNodeDoubleClick($event)"
-                    (node-select)="onNodeSelect($event, documentList)">
+                    (ready)="onDocumentListReady($event, documentList)"
+                    (node-select)="onNodeSelect($event, documentList)"
+                    (node-unselect)="onNodeUnselect($event, documentList)">
 
                     <data-columns>
                         <data-column

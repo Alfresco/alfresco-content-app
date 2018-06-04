@@ -33,7 +33,10 @@
                 selectionMode="multiple"
                 [navigate]="false"
                 [sorting]="[ 'archivedAt', 'desc' ]"
-                [acaSortingPreferenceKey]="sortingPreferenceKey">
+                [acaSortingPreferenceKey]="sortingPreferenceKey"
+                (ready)="onDocumentListReady($event, documentList)"
+                (node-select)="onNodeSelect($event, documentList)"
+                (node-unselect)="onNodeUnselect($event, documentList)">
 
                 <empty-folder-content>
                     <ng-template>

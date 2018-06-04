@@ -29,6 +29,9 @@ import { ShareDataRow, DocumentListComponent } from '@alfresco/adf-content-servi
 import { ActivatedRoute } from '@angular/router';
 import { OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Rx';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../store/states/app.state';
+import { SetSelectedNodesAction } from '../store/actions/select-nodes.action';
 
 export abstract class PageComponent implements OnDestroy {
 
@@ -49,7 +52,9 @@ export abstract class PageComponent implements OnDestroy {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected preferences: UserPreferencesService, protected route: ActivatedRoute) {
+    constructor(protected preferences: UserPreferencesService,
+                protected route: ActivatedRoute,
+                protected store: Store<AcaState>) {
     }
 
     ngOnDestroy() {
@@ -91,17 +96,27 @@ export abstract class PageComponent implements OnDestroy {
         this.preferences.paginationSize = event.maxItems;
     }
 
-    onNodeSelect(event, documentList) {
+    onNodeSelect(event: CustomEvent, documentList: DocumentListComponent) {
         if (!!event.detail && !!event.detail.node) {
 
             const node: MinimalNodeEntryEntity = event.detail.node.entry;
             if (node && PageComponent.isLockedNode(node)) {
                 this.unSelectLockedNodes(documentList);
             }
+
+            this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
         }
     }
 
-    unSelectLockedNodes(documentList) {
+    onDocumentListReady(event: CustomEvent, documentList: DocumentListComponent) {
+        this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
+    }
+
+    onNodeUnselect(event: CustomEvent, documentList: DocumentListComponent) {
+        this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
+    }
+
+    unSelectLockedNodes(documentList: DocumentListComponent) {
         documentList.selection = documentList.selection.filter(item => !PageComponent.isLockedNode(item.entry));
 
         const dataTable = documentList.dataTable;
@@ -143,6 +158,7 @@ export abstract class PageComponent implements OnDestroy {
     reload(): void {
         if (this.documentList) {
             this.documentList.resetSelection();
+            this.store.dispatch(new SetSelectedNodesAction([]));
             this.documentList.reload();
         }
     }

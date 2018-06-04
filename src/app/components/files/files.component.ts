@@ -38,6 +38,8 @@ import { NodeActionsService } from '../../common/services/node-actions.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './files.component.html'
@@ -50,6 +52,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router,
                 route: ActivatedRoute,
+                store: Store<AcaState>,
                 private nodesApi: NodesApiService,
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
@@ -60,7 +63,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, route);
+        super(preferences, route, store);
     }
 
     ngOnInit() {

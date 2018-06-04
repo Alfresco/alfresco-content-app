@@ -31,6 +31,8 @@ import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './shared-files.component.html'
@@ -39,11 +41,12 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
     constructor(private router: Router,
                 route: ActivatedRoute,
+                store: Store<AcaState>,
                 private content: ContentManagementService,
                 private apiService: AlfrescoApiService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, route);
+        super(preferences, route, store);
     }
 
     ngOnInit() {
