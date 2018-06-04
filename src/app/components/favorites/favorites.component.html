@@ -174,7 +174,6 @@
         <div class="inner-layout__side-panel"
             *ngIf="infoDrawerOpened"
             [acaNodeInfo]="selectedNodes"
-            (changed)="toggleSidebar($event)"
             #infoInstance=nodeInfo>
 
             <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
