@@ -48,7 +48,7 @@
     "@ngrx/store-devtools": "^5.2.0",
     "@ngstack/electron": "0.1.0",
     "@ngx-translate/core": "9.1.1",
-    "alfresco-js-api": "^2.4.0-fed4e011ee70eb36b5e2015859e719153d70b6c2",
+    "alfresco-js-api": "2.4.0-fed4e011ee70eb36b5e2015859e719153d70b6c2",
     "core-js": "2.5.3",
     "cspell": "^2.1.12",
     "hammerjs": "2.0.8",
