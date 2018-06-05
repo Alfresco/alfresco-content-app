@@ -85,16 +85,16 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     protected onSelectionChanged(selection: MinimalNodeEntity[] = []) {
         this.selectedNodes = selection;
         this.hasSelection = selection.length > 0;
-        this.isFileSelected = false;
-        this.isFolderSelected = false;
 
         if (selection.length > 0) {
-            const firstNode = selection[0];
+            const firstNode = selection[selection.length - 1];
             this.firstSelectedNode = firstNode;
             this.isFileSelected = firstNode.entry.isFile;
             this.isFolderSelected = firstNode.entry.isFolder;
         } else {
             this.firstSelectedNode = null;
+            this.isFileSelected = false;
+            this.isFolderSelected = false;
             this.infoDrawerOpened = false;
         }
     }
