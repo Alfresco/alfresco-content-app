@@ -84,8 +84,8 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="permission.check(selectedNodes[0], ['update'], { target: 'allowableOperationsOnTarget' })"
-                    [acaNodeVersions]="selectedNodes">
+                    *ngIf="permission.check(selectedNodes, ['update'], { target: 'allowableOperationsOnTarget' })"
+                    [acaNodeVersions]="lastSelectedNode">
                     <mat-icon>history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
@@ -177,7 +177,7 @@
         </div>
 
         <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened">
-            <aca-info-drawer [node]="firstSelectedNode"></aca-info-drawer>
+            <aca-info-drawer [node]="lastSelectedNode"></aca-info-drawer>
         </div>
     </div>
 </div>

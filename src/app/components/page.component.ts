@@ -46,11 +46,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
 
-    isFileSelected = false;
-    isFolderSelected = false;
     hasSelection = false;
-
+    firstSelectedDocument: MinimalNodeEntity;
+    firstSelectedFolder: MinimalNodeEntity;
     firstSelectedNode: MinimalNodeEntity;
+    lastSelectedNode: MinimalNodeEntity;
     selectedNodes: MinimalNodeEntity[];
 
     protected subscriptions: Subscription[] = [];
@@ -82,19 +82,24 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         this.onDestroy$.complete();
     }
 
+    // Precalculates all the "static state" flags so that UI does not re-evaluate that on every tick
     protected onSelectionChanged(selection: MinimalNodeEntity[] = []) {
         this.selectedNodes = selection;
         this.hasSelection = selection.length > 0;
 
         if (selection.length > 0) {
             const firstNode = selection[0];
+            const lastNode = selection[selection.length - 1];
+
             this.firstSelectedNode = firstNode;
-            this.isFileSelected = firstNode.entry.isFile;
-            this.isFolderSelected = firstNode.entry.isFolder;
+            this.firstSelectedDocument = selection.find(entity => entity.entry.isFile);
+            this.firstSelectedFolder = selection.find(entity => entity.entry.isFolder);
+            this.lastSelectedNode = lastNode;
         } else {
             this.firstSelectedNode = null;
-            this.isFileSelected = false;
-            this.isFolderSelected = false;
+            this.firstSelectedDocument = null;
+            this.firstSelectedFolder = null;
+            this.lastSelectedNode = null;
             this.infoDrawerOpened = false;
         }
     }
