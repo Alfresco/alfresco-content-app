@@ -3,13 +3,12 @@
         <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE">
         </adf-breadcrumb>
 
-        <adf-toolbar class="inline">
+        <adf-toolbar class="inline" *ngIf="hasSelection">
             <button
                 color="primary"
                 mat-icon-button
                 [app-permanent-delete-node]="selectedNodes"
                 (selection-node-deleted)="reload()"
-                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.DELETE_PERMANENT' | translate }}">
                 <mat-icon>delete_forever</mat-icon>
             </button>
@@ -19,7 +18,6 @@
                 mat-icon-button
                 (selection-node-restored)="reload()"
                 [acaRestoreNode]="selectedNodes"
-                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
                 <mat-icon>restore</mat-icon>
            </button>

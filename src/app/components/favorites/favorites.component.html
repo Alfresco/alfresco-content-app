@@ -3,7 +3,7 @@
         <adf-breadcrumb root="APP.BROWSE.FAVORITES.TITLE">
         </adf-breadcrumb>
 
-        <adf-toolbar class="inline">
+        <adf-toolbar class="inline" *ngIf="hasSelection">
 
             <button
                 mat-icon-button
@@ -17,7 +17,6 @@
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
                 [adfNodeDownload]="selectedNodes">
                 <mat-icon>get_app</mat-icon>
@@ -35,7 +34,6 @@
 
             <button mat-icon-button
                 [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
                 (click)="toggleSidebar()">
                 <mat-icon>info_outline</mat-icon>
@@ -44,7 +42,6 @@
             <button
                 color="primary"
                 mat-icon-button
-                *ngIf="hasSelection"
                 title="{{ 'APP.ACTIONS.MORE' | translate }}"
                 [matMenuTriggerFor]="actionsMenu">
                 <mat-icon>more_vert</mat-icon>
