@@ -32,7 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {
     AppConfigService, AuthenticationService,
     UserPreferencesService, StorageService, AlfrescoApiService,
-    CookieService, LogService, NotificationService
+    CookieService, LogService, NotificationService, TranslationService, TranslationMock
 } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -69,6 +69,7 @@ describe('SidenavComponent', () => {
                 SidenavComponent
             ],
             providers: [
+                { provide: TranslationService, useClass: TranslationMock },
                 LogService,
                 CookieService,
                 AlfrescoApiService,
