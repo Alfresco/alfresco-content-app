@@ -46,9 +46,11 @@ import { ContentManagementService } from '../../common/services/content-manageme
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
-import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 
 import { FilesComponent } from './files.component';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
 
 describe('FilesComponent', () => {
     let node;
@@ -73,7 +75,8 @@ describe('FilesComponent', () => {
                 TranslateModule.forRoot(),
                 RouterTestingModule,
                 MatSnackBarModule, MatIconModule,
-                MatDialogModule
+                MatDialogModule,
+                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
             ],
             declarations: [
                 FilesComponent,
@@ -81,7 +84,6 @@ describe('FilesComponent', () => {
                 TimeAgoPipe,
                 NodeNameTooltipPipe,
                 NodeFavoriteDirective,
-                NodeInfoDirective,
                 DocumentListComponent,
                 FileSizePipe,
                 AppConfigPipe

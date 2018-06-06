@@ -62,7 +62,6 @@ import { NodeMoveDirective } from './common/directives/node-move.directive';
 import { NodeRestoreDirective } from './common/directives/node-restore.directive';
 import { NodePermanentDeleteDirective } from './common/directives/node-permanent-delete.directive';
 import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
-import { NodeInfoDirective } from './common/directives/node-info.directive';
 import { NodeVersionsDirective } from './common/directives/node-versions.directive';
 import { VersionManagerDialogAdapterComponent } from './components/versions-dialog/version-manager-dialog-adapter.component';
 import { BrowsingFilesService } from './common/services/browsing-files.service';
@@ -77,6 +76,7 @@ import { SortingPreferenceKeyDirective } from './directives/sorting-preference-k
 
 import { INITIAL_STATE } from './store/states/app.state';
 import { appReducer } from './store/reducers/app.reducer';
+import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 
 
 @NgModule({
@@ -127,12 +127,12 @@ import { appReducer } from './store/reducers/app.reducer';
         NodeRestoreDirective,
         NodePermanentDeleteDirective,
         NodeUnshareDirective,
-        NodeInfoDirective,
         NodeVersionsDirective,
         VersionManagerDialogAdapterComponent,
         SearchComponent,
         SettingsComponent,
-        SortingPreferenceKeyDirective
+        SortingPreferenceKeyDirective,
+        InfoDrawerComponent
     ],
     providers: [
         { provide: AppConfigService, useClass: HybridAppConfigService },

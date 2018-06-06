@@ -1,0 +1,28 @@
+<div *ngIf="isLoading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<ng-container *ngIf="node">
+    <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
+        <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
+            <adf-content-metadata-card
+                [readOnly]="!canUpdateNode()"
+                [displayEmpty]="canUpdateNode()"
+                [preset]="'custom'"
+                [node]="displayNode">
+            </adf-content-metadata-card>
+        </adf-info-drawer-tab>
+
+        <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
+            <ng-container *ngIf="isFileSelected;else empty">
+                <adf-version-manager [node]="displayNode"></adf-version-manager>
+            </ng-container>
+
+            <ng-template #empty>
+                <div class="adf-manage-versions-empty">
+                    <mat-icon class="adf-manage-versions-empty-icon">face</mat-icon>
+                    {{ 'VERSION.SELECTION.EMPTY' | translate }}
+                </div>
+            </ng-template>
+        </adf-info-drawer-tab>
+    </adf-info-drawer>
+</ng-container>

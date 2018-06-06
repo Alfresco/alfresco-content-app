@@ -50,7 +50,7 @@ describe('HeaderComponent', () => {
                 HttpClientModule,
                 RouterTestingModule,
                 TranslateModule.forRoot(),
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
             ],
             declarations: [
                 HeaderComponent

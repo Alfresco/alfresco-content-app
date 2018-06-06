@@ -44,10 +44,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { FavoritesComponent } from './favorites.component';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
 
 describe('Favorites Routed Component', () => {
     let fixture: ComponentFixture<FavoritesComponent>;
@@ -95,14 +97,14 @@ describe('Favorites Routed Component', () => {
                     HttpClientModule,
                     TranslateModule.forRoot(),
                     RouterTestingModule,
-                    MatSnackBarModule, MatIconModule
+                    MatSnackBarModule, MatIconModule,
+                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
                 ],
                 declarations: [
                     DataTableComponent,
                     TimeAgoPipe,
                     NodeNameTooltipPipe,
                     NodeFavoriteDirective,
-                    NodeInfoDirective,
                     DocumentListComponent,
                     FavoritesComponent,
                     AppConfigPipe
@@ -229,56 +231,6 @@ describe('Favorites Routed Component', () => {
             component.onNodeDoubleClick(node);
 
             expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', 'folder-node']);
-        });
-    });
-
-    describe('edit option', () => {
-        it('should return false if a file node is selected', () => {
-            const selection = [
-                {
-                    entry: {
-                        isFolder: false,
-                        isFile: true
-                    }
-                }
-            ];
-
-            const result = component.showEditOption(selection);
-            expect(result).toBe(false);
-        });
-
-        it('should return false if multiple nodes are selected', () => {
-            const selection = [
-                {
-                    entry: {
-                        isFolder: true,
-                        isFile: false
-                    }
-                },
-                {
-                    entry: {
-                        isFolder: true,
-                        isFile: false
-                    }
-                }
-            ];
-
-            const result = component.showEditOption(selection);
-            expect(result).toBe(false);
-        });
-
-        it('should return true if selected node is a folder', () => {
-            const selection = [
-                {
-                    entry: {
-                        isFolder: true,
-                        isFile: false
-                    }
-                }
-            ];
-
-            const result = component.showEditOption(selection);
-            expect(result).toBe(true);
         });
     });
 

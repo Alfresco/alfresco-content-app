@@ -26,11 +26,18 @@
 import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ShareDataRow, DocumentListComponent } from '@alfresco/adf-content-services';
-import { ActivatedRoute } from '@angular/router';
-import { OnDestroy, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs/Rx';
+import { ActivatedRoute, Router } from '@angular/router';
+import { OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { Subscription, Subject } from 'rxjs/Rx';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../store/states/app.state';
+import { SetSelectedNodesAction } from '../store/actions/select-nodes.action';
+import { selectedNodes } from '../store/selectors/app.selectors';
+import { takeUntil } from 'rxjs/operators';
 
-export abstract class PageComponent implements OnDestroy {
+export abstract class PageComponent implements OnInit, OnDestroy {
+
+    onDestroy$: Subject<void> = new Subject<void>();
 
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
@@ -38,6 +45,13 @@ export abstract class PageComponent implements OnDestroy {
     title = 'Page';
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
+
+    hasSelection = false;
+    firstSelectedDocument: MinimalNodeEntity;
+    firstSelectedFolder: MinimalNodeEntity;
+    firstSelectedNode: MinimalNodeEntity;
+    lastSelectedNode: MinimalNodeEntity;
+    selectedNodes: MinimalNodeEntity[];
 
     protected subscriptions: Subscription[] = [];
 
@@ -49,59 +63,82 @@ export abstract class PageComponent implements OnDestroy {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected preferences: UserPreferencesService, protected route: ActivatedRoute) {
+    constructor(protected preferences: UserPreferencesService,
+                protected router: Router,
+                protected route: ActivatedRoute,
+                protected store: Store<AcaState>) {
+    }
+
+    ngOnInit() {
+        this.store
+            .select(selectedNodes)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(selection => this.onSelectionChanged(selection));
     }
 
     ngOnDestroy() {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
         this.subscriptions = [];
+        this.onDestroy$.complete();
+    }
+
+    // Precalculates all the "static state" flags so that UI does not re-evaluate that on every tick
+    protected onSelectionChanged(selection: MinimalNodeEntity[] = []) {
+        this.selectedNodes = selection;
+        this.hasSelection = selection.length > 0;
+
+        if (selection.length > 0) {
+            const firstNode = selection[0];
+            this.firstSelectedNode = firstNode;
+            this.firstSelectedDocument = selection.find(entity => entity.entry.isFile);
+            this.firstSelectedFolder = selection.find(entity => entity.entry.isFolder);
+        } else {
+            this.firstSelectedNode = null;
+            this.firstSelectedDocument = null;
+            this.firstSelectedFolder = null;
+            this.lastSelectedNode = null;
+            this.infoDrawerOpened = false;
+        }
+    }
+
+    showPreview(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            if (node.entry.isFile) {
+                this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
+            }
+        }
     }
 
     getParentNodeId(): string {
         return this.node ? this.node.id : null;
     }
 
-    hasSelection(selection: Array<MinimalNodeEntity>): boolean {
-        return selection && selection.length > 0;
-    }
-
-    isFileSelected(selection: Array<MinimalNodeEntity>): boolean {
-        if (selection && selection.length === 1) {
-            const entry = selection[0].entry;
-
-            if (entry && entry.isFile) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    isFolderSelected(selection: Array<MinimalNodeEntity>): boolean {
-        if (selection && selection.length === 1) {
-            const entry = selection[0].entry;
-
-            if (entry && entry.isFolder) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     onChangePageSize(event: Pagination): void {
         this.preferences.paginationSize = event.maxItems;
     }
 
-    onNodeSelect(event, documentList) {
+    onNodeSelect(event: CustomEvent, documentList: DocumentListComponent) {
         if (!!event.detail && !!event.detail.node) {
 
             const node: MinimalNodeEntryEntity = event.detail.node.entry;
             if (node && PageComponent.isLockedNode(node)) {
                 this.unSelectLockedNodes(documentList);
             }
+
+            this.lastSelectedNode = event.detail.node;
+            this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
         }
     }
 
-    unSelectLockedNodes(documentList) {
+    onDocumentListReady(event: CustomEvent, documentList: DocumentListComponent) {
+        this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
+    }
+
+    onNodeUnselect(event: CustomEvent, documentList: DocumentListComponent) {
+        this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
+    }
+
+    unSelectLockedNodes(documentList: DocumentListComponent) {
         documentList.selection = documentList.selection.filter(item => !PageComponent.isLockedNode(item.entry));
 
         const dataTable = documentList.dataTable;
@@ -143,6 +180,7 @@ export abstract class PageComponent implements OnDestroy {
     reload(): void {
         if (this.documentList) {
             this.documentList.resetSelection();
+            this.store.dispatch(new SetSelectedNodesAction([]));
             this.documentList.reload();
         }
     }

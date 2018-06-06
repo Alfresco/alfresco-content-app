@@ -31,6 +31,8 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
 import { NodePermissionService } from '../../common/services/node-permission.service';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './recent-files.component.html'
@@ -38,15 +40,18 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 export class RecentFilesComponent extends PageComponent implements OnInit {
 
     constructor(
-        private router: Router,
+        router: Router,
         route: ActivatedRoute,
+        store: Store<AcaState>,
         private content: ContentManagementService,
         public permission: NodePermissionService,
         preferences: UserPreferencesService) {
-        super(preferences, route);
+        super(preferences, router, route, store);
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.subscriptions = this.subscriptions.concat([
             this.content.nodeDeleted.subscribe(() => this.reload()),
             this.content.nodeMoved.subscribe(() => this.reload()),

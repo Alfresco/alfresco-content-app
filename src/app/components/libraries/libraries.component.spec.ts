@@ -44,6 +44,9 @@ import { DocumentListService } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 
 import { LibrariesComponent } from './libraries.component';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
 
 describe('Libraries Routed Component', () => {
     let fixture: ComponentFixture<LibrariesComponent>;
@@ -78,7 +81,8 @@ describe('Libraries Routed Component', () => {
                     HttpClientModule,
                     TranslateModule.forRoot(),
                     RouterTestingModule,
-                    MatSnackBarModule, MatIconModule
+                    MatSnackBarModule, MatIconModule,
+                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
                 ],
                 declarations: [
                     DataTableComponent,

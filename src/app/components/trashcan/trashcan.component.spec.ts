@@ -40,9 +40,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodeInfoDirective } from '../../common/directives/node-info.directive';
 
 import { TrashcanComponent } from './trashcan.component';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
 
 describe('TrashcanComponent', () => {
     let fixture: ComponentFixture<TrashcanComponent>;
@@ -68,14 +70,14 @@ describe('TrashcanComponent', () => {
                 HttpClientModule,
                 TranslateModule.forRoot(),
                 RouterTestingModule,
-                MatSnackBarModule, MatIconModule
+                MatSnackBarModule, MatIconModule,
+                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
             ],
             declarations: [
                 DataTableComponent,
                 TimeAgoPipe,
                 NodeNameTooltipPipe,
                 NodeFavoriteDirective,
-                NodeInfoDirective,
                 DocumentListComponent,
                 TrashcanComponent,
                 AppConfigPipe

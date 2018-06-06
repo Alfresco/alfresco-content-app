@@ -31,22 +31,27 @@ import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './shared-files.component.html'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
 
-    constructor(private router: Router,
+    constructor(router: Router,
                 route: ActivatedRoute,
+                store: Store<AcaState>,
                 private content: ContentManagementService,
                 private apiService: AlfrescoApiService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, route);
+        super(preferences, router, route, store);
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.subscriptions = this.subscriptions.concat([
             this.content.nodeDeleted.subscribe(() => this.reload()),
             this.content.nodeMoved.subscribe(() => this.reload()),
@@ -64,10 +69,5 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
                 }
             );
         }
-    }
-
-    /** @override */
-    isFileSelected(selection: Array<MinimalNodeEntity>): boolean {
-        return selection && selection.length === 1;
     }
 }
