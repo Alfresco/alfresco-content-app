@@ -163,32 +163,53 @@
         "sorting": {
             "options": [
                 {
+                    "key": "score",
+                    "label": "SEARCH.SORT.RELEVANCE",
+                    "type": "FIELD",
+                    "field": "score",
+                    "ascending": true
+                },
+                {
                     "key": "name",
-                    "label": "Name",
+                    "label": "SEARCH.SORT.FILENAME",
                     "type": "FIELD",
                     "field": "cm:name",
                     "ascending": true
                 },
                 {
+                    "key": "title",
+                    "label": "SEARCH.SORT.TITLE",
+                    "type": "FIELD",
+                    "field": "cm:title",
+                    "ascending": true
+                },
+                {
+                    "key": "modified",
+                    "label": "SEARCH.SORT.MODIFIED_DATE",
+                    "type": "FIELD",
+                    "field": "cm:modified",
+                    "ascending": true
+                },
+                {
                     "key": "content.sizeInBytes",
-                    "label": "Size",
+                    "label": "SEARCH.SORT.SIZE",
                     "type": "FIELD",
                     "field": "content.size",
                     "ascending": true
                 },
                 {
-                    "key": "description",
-                    "label": "Description",
+                    "key": "content.mimetype",
+                    "label": "SEARCH.SORT.TYPE",
                     "type": "FIELD",
-                    "field": "cm:description",
+                    "field": "content.mimetype",
                     "ascending": true
                 }
             ],
             "defaults": [
                 {
-                    "key": "name",
+                    "key": "score",
                     "type": "FIELD",
-                    "field": "cm:name",
+                    "field": "score",
                     "ascending": true
                 }
             ]
