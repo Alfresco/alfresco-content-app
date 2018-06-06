@@ -24,7 +24,7 @@
  */
 
 import { PageComponent } from './page.component';
-import { MinimalNodeEntity } from '@alfresco/adf-core/node_modules/alfresco-js-api';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
 class TestClass extends PageComponent {
     node: any;
