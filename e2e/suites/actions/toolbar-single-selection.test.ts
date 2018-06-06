@@ -260,7 +260,7 @@ describe('Toolbar actions - single selection : ', () => {
                         .then(() => dataTable.waitForHeader())
                         .then(() => dataTable.selectMultipleItems([ file1, file2 ]))
                         .then(() => {
-                            expect(toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
+                            expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for selected files`);
                             expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
                             expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for selected files`);
                         })
