@@ -71,7 +71,10 @@ describe('NodePermanentDeleteDirective', () => {
             directiveInstance = element.injector.get(NodePermanentDeleteDirective);
 
             dialog = TestBed.get(MatDialog);
+
             alfrescoService = TestBed.get(AlfrescoApiService);
+            alfrescoService.reset();
+
             translation = TestBed.get(TranslationService);
             notificationService = TestBed.get(NotificationService);
         });

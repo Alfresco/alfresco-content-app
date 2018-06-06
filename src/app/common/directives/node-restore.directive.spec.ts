@@ -74,6 +74,8 @@ describe('NodeRestoreDirective', () => {
             directiveInstance = element.injector.get(NodeRestoreDirective);
 
             alfrescoService = TestBed.get(AlfrescoApiService);
+            alfrescoService.reset();
+
             translation = TestBed.get(TranslationService);
             notificationService = TestBed.get(NotificationService);
             router = TestBed.get(Router);
