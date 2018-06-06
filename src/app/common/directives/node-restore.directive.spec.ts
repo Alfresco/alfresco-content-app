@@ -33,7 +33,7 @@ import { Observable } from 'rxjs/Rx';
 import { AlfrescoApiService, TranslationService, NotificationService, CoreModule } from '@alfresco/adf-core';
 
 import { NodeRestoreDirective } from './node-restore.directive';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
     template: `<div [acaRestoreNode]="selection"></div>`
@@ -57,7 +57,7 @@ describe('NodeRestoreDirective', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                BrowserAnimationsModule,
+                NoopAnimationsModule,
                 RouterTestingModule,
                 CoreModule
             ],

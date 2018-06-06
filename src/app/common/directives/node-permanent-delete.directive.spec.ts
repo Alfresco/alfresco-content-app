@@ -31,6 +31,7 @@ import { AlfrescoApiService, TranslationService, NotificationService, CoreModule
 
 import { NodePermanentDeleteDirective } from './node-permanent-delete.directive';
 import { MatDialogModule, MatDialog } from '@angular/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
     template: `<div [app-permanent-delete-node]="selection"></div>`
@@ -53,6 +54,7 @@ describe('NodePermanentDeleteDirective', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
+                NoopAnimationsModule,
                 CoreModule,
                 MatDialogModule
             ],

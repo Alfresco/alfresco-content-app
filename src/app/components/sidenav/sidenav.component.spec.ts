@@ -39,6 +39,7 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 
 import { SidenavComponent } from './sidenav.component';
 import { ElectronModule } from '@ngstack/electron';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SidenavComponent', () => {
     let fixture;
@@ -58,6 +59,7 @@ describe('SidenavComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
+                NoopAnimationsModule,
                 HttpClientModule,
                 MatMenuModule,
                 MatSnackBarModule,
