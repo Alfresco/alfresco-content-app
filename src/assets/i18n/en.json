@@ -236,6 +236,14 @@
         }
     },
     "SEARCH": {
+        "SORT": {
+            "RELEVANCE": "Relevance",
+            "FILENAME": "Filename",
+            "TITLE": "Title",
+            "MODIFIED_DATE": "Modified Date",
+            "SIZE": "Size",
+            "TYPE": "Type"
+        },
         "FACET_FIELDS": {
             "FILE_TYPE": "File Type",
             "CREATOR": "Creator",
