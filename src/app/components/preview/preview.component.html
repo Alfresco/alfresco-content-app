@@ -68,7 +68,7 @@
             <button
                 mat-menu-item
                 *ngIf="permission.check(node, ['update'])"
-                [acaNodeVersions]="selectedEntities">
+                [acaNodeVersions]="node">
                 <mat-icon>history</mat-icon>
                 <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
             </button>

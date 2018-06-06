@@ -32,13 +32,14 @@ import { HttpClientModule } from '@angular/common/http';
 import {
     AppConfigService, AuthenticationService,
     UserPreferencesService, StorageService, AlfrescoApiService,
-    CookieService, LogService, NotificationService
+    CookieService, LogService, NotificationService, TranslationService, TranslationMock
 } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { SidenavComponent } from './sidenav.component';
 import { ElectronModule } from '@ngstack/electron';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('SidenavComponent', () => {
     let fixture;
@@ -58,6 +59,7 @@ describe('SidenavComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
+                NoopAnimationsModule,
                 HttpClientModule,
                 MatMenuModule,
                 MatSnackBarModule,
@@ -69,6 +71,7 @@ describe('SidenavComponent', () => {
                 SidenavComponent
             ],
             providers: [
+                { provide: TranslationService, useClass: TranslationMock },
                 LogService,
                 CookieService,
                 AlfrescoApiService,

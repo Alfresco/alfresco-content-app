@@ -24,11 +24,13 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './trashcan.component.html'
@@ -37,11 +39,15 @@ export class TrashcanComponent extends PageComponent implements OnInit {
 
     constructor(private contentManagementService: ContentManagementService,
                 preferences: UserPreferencesService,
+                store: Store<AcaState>,
+                router: Router,
                 route: ActivatedRoute) {
-        super(preferences, route);
+        super(preferences, router, route, store);
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.subscriptions.push(
             this.contentManagementService.nodeRestored.subscribe(() => this.reload())
         );

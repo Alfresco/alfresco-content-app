@@ -29,6 +29,8 @@ import { NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { ShareDataRow } from '@alfresco/adf-content-services';
 
 import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AcaState } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './libraries.component.html'
@@ -37,9 +39,10 @@ export class LibrariesComponent extends PageComponent {
 
     constructor(private nodesApi: NodesApiService,
                 route: ActivatedRoute,
-                private router: Router,
+                store: Store<AcaState>,
+                router: Router,
                 preferences: UserPreferencesService) {
-        super(preferences, route);
+        super(preferences, router, route, store);
     }
 
     makeLibraryTooltip(library: any): string {

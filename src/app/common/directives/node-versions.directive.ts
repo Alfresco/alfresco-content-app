@@ -26,7 +26,7 @@
 import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 import { TranslationService, NotificationService, AlfrescoApiService } from '@alfresco/adf-core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 import { VersionManagerDialogAdapterComponent } from '../../components/versions-dialog/version-manager-dialog-adapter.component';
 import { MatDialog } from '@angular/material';
@@ -38,7 +38,7 @@ export class NodeVersionsDirective {
 
     // tslint:disable-next-line:no-input-rename
     @Input('acaNodeVersions')
-    selection: MinimalNodeEntity[];
+    node: MinimalNodeEntity;
 
     @Output()
     nodeVersionError: EventEmitter<any> = new EventEmitter();
@@ -55,17 +55,23 @@ export class NodeVersionsDirective {
         private translation: TranslationService
     ) {}
 
-    onManageVersions() {
-        const contentEntry = this.selection[0].entry;
-        const nodeId = (<any>contentEntry).nodeId;
+    async onManageVersions() {
+        if (this.node && this.node.entry) {
+            let entry  = this.node.entry;
 
-        this.apiService.getInstance().nodes.getNodeInfo(nodeId || contentEntry.id, {
-            include: ['allowableOperations']
-        }).then(entry => this.openVersionManagerDialog(entry));
-
+            if (entry.nodeId) {
+                entry = await this.apiService.nodesApi.getNodeInfo(
+                    entry.nodeId,
+                    { include: ['allowableOperations'] }
+                );
+                this.openVersionManagerDialog(entry);
+            } else {
+                this.openVersionManagerDialog(entry);
+            }
+        }
     }
 
-    openVersionManagerDialog(contentEntry) {
+    openVersionManagerDialog(contentEntry: MinimalNodeEntryEntity) {
         if (contentEntry.isFile) {
             this.dialog.open(
                 VersionManagerDialogAdapterComponent,

@@ -14,6 +14,9 @@
                 [navigate]="false"
                 [sorting]="[ 'title', 'asc' ]"
                 [acaSortingPreferenceKey]="sortingPreferenceKey"
+                (ready)="onDocumentListReady($event, documentList)"
+                (node-select)="onNodeSelect($event, documentList)"
+                (node-unselect)="onNodeUnselect($event, documentList)"
                 (node-dblclick)="onNodeDoubleClick($event)">
 
                 <empty-folder-content>
