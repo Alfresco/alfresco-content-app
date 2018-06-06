@@ -89,12 +89,9 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
         if (selection.length > 0) {
             const firstNode = selection[0];
-            const lastNode = selection[selection.length - 1];
-
             this.firstSelectedNode = firstNode;
             this.firstSelectedDocument = selection.find(entity => entity.entry.isFile);
             this.firstSelectedFolder = selection.find(entity => entity.entry.isFolder);
-            this.lastSelectedNode = lastNode;
         } else {
             this.firstSelectedNode = null;
             this.firstSelectedDocument = null;
@@ -128,6 +125,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 this.unSelectLockedNodes(documentList);
             }
 
+            this.lastSelectedNode = event.detail.node;
             this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
         }
     }
