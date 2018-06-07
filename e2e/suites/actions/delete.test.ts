@@ -189,7 +189,8 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(file1Id));
         });
 
-        it('Notification on multiple items deletion - all items fail to delete', () => {
+        // TODO: needs to operate on two folders containing locked items
+        xit('Notification on multiple items deletion - all items fail to delete', () => {
             dataTable.selectMultipleItems([fileLocked1, folder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
