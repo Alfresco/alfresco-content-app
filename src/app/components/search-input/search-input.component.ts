@@ -34,6 +34,10 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 })
 export class SearchInputComponent {
 
+    hasOneChange = false;
+    hasNewChange = false;
+    navigationTimer: any;
+
     constructor(
         private router: Router) {
     }
@@ -58,5 +62,25 @@ export class SearchInputComponent {
         this.router.navigate(['/search', {
             q: value
         }]);
+    }
+
+    onSearchChange(event: string) {
+        if (this.hasOneChange) {
+            this.hasNewChange = true;
+        } else {
+            this.hasOneChange = true;
+        }
+
+        if (this.hasNewChange) {
+            clearTimeout(this.navigationTimer);
+            this.hasNewChange = false;
+        }
+
+        this.navigationTimer = setTimeout(() => {
+            if (event) {
+                this.router.navigate(['/search', {q: event}]);
+            }
+            this.hasOneChange = false;
+        }, 1000);
     }
 }
