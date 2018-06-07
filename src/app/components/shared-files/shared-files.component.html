@@ -93,6 +93,7 @@
         <div class="inner-layout__panel">
             <adf-document-list #documentList
                 currentFolderId="-sharedlinks-"
+                [includeFields]="['isFavorite']"
                 selectionMode="multiple"
                 [sorting]="[ 'modifiedAt', 'desc' ]"
                 [acaSortingPreferenceKey]="sortingPreferenceKey"
