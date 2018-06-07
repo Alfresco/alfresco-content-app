@@ -68,6 +68,8 @@ export class NodeVersionsDirective {
             } else {
                 this.openVersionManagerDialog(entry);
             }
+        } else if (this.node) {
+            this.openVersionManagerDialog(<MinimalNodeEntryEntity>this.node);
         }
     }
 
