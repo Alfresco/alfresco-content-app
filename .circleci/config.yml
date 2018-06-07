@@ -4,7 +4,7 @@ jobs:
   test:
     working_directory: ~/alfresco-content-app
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:10-browsers
     steps:
       - checkout
       - restore_cache:
@@ -18,7 +18,7 @@ jobs:
   lint:
     working_directory: ~/alfresco-content-app
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:10-browsers
     steps:
       - checkout
       - restore_cache:
@@ -28,7 +28,7 @@ jobs:
   spellcheck:
     working_directory: ~/alfresco-content-app
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:10-browsers
     steps:
       - checkout
       - restore_cache:
@@ -38,7 +38,7 @@ jobs:
   build:
     working_directory: ~/alfresco-content-app
     docker:
-      - image: circleci/node:8-browsers
+      - image: circleci/node:10-browsers
     steps:
       - checkout
       - restore_cache:
