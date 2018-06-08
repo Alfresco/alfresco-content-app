@@ -67,7 +67,7 @@ export class SearchInputComponent {
     onSearchChange(event: string) {
         const currentLocation = this.router.url;
 
-        if (currentLocation.indexOf('search') !== -1) {
+        if (currentLocation.indexOf('/search') === 0) {
 
             if (this.hasOneChange) {
                 this.hasNewChange = true;
