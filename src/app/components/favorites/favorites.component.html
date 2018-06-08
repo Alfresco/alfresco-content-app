@@ -8,9 +8,9 @@
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="firstSelectedDocument"
+                *ngIf="selectedFile"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
-                (click)="showPreview(firstSelectedDocument)">
+                (click)="showPreview(selectedFile)">
                 <mat-icon>open_in_browser</mat-icon>
             </button>
 
@@ -25,10 +25,10 @@
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="firstSelectedFolder"
+                *ngIf="selectedFolder"
                 [attr.title]="'APP.ACTIONS.EDIT' | translate"
                 (error)="openSnackMessage($event)"
-                [adf-edit-folder]="firstSelectedFolder?.entry">
+                [adf-edit-folder]="selectedFolder?.entry">
                 <mat-icon>create</mat-icon>
             </button>
 
@@ -81,8 +81,8 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="firstSelectedDocument"
-                    [acaNodeVersions]="firstSelectedDocument">
+                    *ngIf="selectedFile"
+                    [acaNodeVersions]="selectedFile">
                     <mat-icon>history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>

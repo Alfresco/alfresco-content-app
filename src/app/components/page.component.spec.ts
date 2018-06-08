@@ -74,31 +74,31 @@ describe('PageComponent', () => {
         });
     });
 
-    describe('firstSelectedDocument', () => {
+    describe('selectedFile', () => {
         it('returns true if selected node is file', () => {
             const selection = [ { entry: { isFile: true } } ];
             component.setSelection(selection);
-            expect(component.firstSelectedDocument).toBe(selection[0]);
+            expect(component.selectedFile).toBe(selection[0]);
         });
 
         it('returns false if selected node is folder', () => {
             const selection = [ { entry: { isFile: false, isFolder: true } } ];
             component.setSelection(selection);
-            expect(component.firstSelectedDocument).toBeFalsy();
+            expect(component.selectedFile).toBeFalsy();
         });
     });
 
-    describe('firstSelectedFolder', () => {
+    describe('selectedFolder', () => {
         it('returns true if selected node is folder', () => {
             const selection = [ { entry: { isFile: false, isFolder: true } } ];
             component.setSelection(selection);
-            expect(component.firstSelectedFolder).toBe(selection[0]);
+            expect(component.selectedFolder).toBe(selection[0]);
         });
 
         it('returns false if selected node is file', () => {
             const selection = [ { entry: { isFile: true, isFolder: false } } ];
             component.setSelection(selection);
-            expect(component.firstSelectedFolder).toBeFalsy();
+            expect(component.selectedFolder).toBeFalsy();
         });
     });
 });

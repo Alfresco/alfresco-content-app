@@ -46,10 +46,10 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
 
+    selectedFolder: MinimalNodeEntity;
+    selectedFile: MinimalNodeEntity;
+
     hasSelection = false;
-    firstSelectedDocument: MinimalNodeEntity;
-    firstSelectedFolder: MinimalNodeEntity;
-    firstSelectedNode: MinimalNodeEntity;
     lastSelectedNode: MinimalNodeEntity;
     selectedNodes: MinimalNodeEntity[];
 
@@ -86,16 +86,15 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     protected onSelectionChanged(selection: MinimalNodeEntity[] = []) {
         this.selectedNodes = selection;
         this.hasSelection = selection.length > 0;
+        this.selectedFolder = null;
+        this.selectedFile = null;
 
         if (selection.length > 0) {
-            const firstNode = selection[0];
-            this.firstSelectedNode = firstNode;
-            this.firstSelectedDocument = selection.find(entity => entity.entry.isFile);
-            this.firstSelectedFolder = selection.find(entity => entity.entry.isFolder);
+            if (selection.length === 1) {
+                this.selectedFile = selection.find(entity => entity.entry.isFile);
+                this.selectedFolder = selection.find(entity => entity.entry.isFolder);
+            }
         } else {
-            this.firstSelectedNode = null;
-            this.firstSelectedDocument = null;
-            this.firstSelectedFolder = null;
             this.lastSelectedNode = null;
             this.infoDrawerOpened = false;
         }
