@@ -65,22 +65,27 @@ export class SearchInputComponent {
     }
 
     onSearchChange(event: string) {
-        if (this.hasOneChange) {
-            this.hasNewChange = true;
-        } else {
-            this.hasOneChange = true;
-        }
+        const currentLocation = this.router.url;
 
-        if (this.hasNewChange) {
-            clearTimeout(this.navigationTimer);
-            this.hasNewChange = false;
-        }
+        if (currentLocation.indexOf('search') !== -1) {
 
-        this.navigationTimer = setTimeout(() => {
-            if (event) {
-                this.router.navigate(['/search', {q: event}]);
+            if (this.hasOneChange) {
+                this.hasNewChange = true;
+            } else {
+                this.hasOneChange = true;
             }
-            this.hasOneChange = false;
-        }, 1000);
+
+            if (this.hasNewChange) {
+                clearTimeout(this.navigationTimer);
+                this.hasNewChange = false;
+            }
+
+            this.navigationTimer = setTimeout(() => {
+                if (event) {
+                    this.router.navigate(['/search', {q: event}]);
+                }
+                this.hasOneChange = false;
+            }, 1000);
+        }
     }
 }
