@@ -50,7 +50,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     selectedFile: MinimalNodeEntity;
 
     hasSelection = false;
-    firstSelectedNode: MinimalNodeEntity;
     lastSelectedNode: MinimalNodeEntity;
     selectedNodes: MinimalNodeEntity[];
 
@@ -91,13 +90,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         this.selectedFile = null;
 
         if (selection.length > 0) {
-            this.firstSelectedNode = selection[0];
             if (selection.length === 1) {
                 this.selectedFile = selection.find(entity => entity.entry.isFile);
                 this.selectedFolder = selection.find(entity => entity.entry.isFolder);
             }
         } else {
-            this.firstSelectedNode = null;
             this.lastSelectedNode = null;
             this.infoDrawerOpened = false;
         }
