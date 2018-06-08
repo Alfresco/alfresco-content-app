@@ -161,8 +161,14 @@ describe('Toolbar actions - multiple selection : ', () => {
                 .then(() => dataTable.clearSelection());
         });
 
-        it('should display View action when at least one file selected', async () => {
+        it('should not display View action when multiple entries selected', async () => {
             await dataTable.selectMultipleItems([folder1, file1, folder2]);
+            expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'Action is displayed');
+        });
+
+
+        it('should display View action when one file is selected', async () => {
+            await dataTable.selectMultipleItems([file1]);
             expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'Action is not displayed');
         });
 
@@ -182,9 +188,14 @@ describe('Toolbar actions - multiple selection : ', () => {
             expect(toolbar.actions.isButtonPresent('Download')).toBe(false, 'Action is displayed');
         });
 
-        it('should display Edit action when at least one folder selected', async () => {
-            await dataTable.selectMultipleItems([folder1, file1, folder2]);
+        it('should display Edit action when single folder selected', async () => {
+            await dataTable.selectMultipleItems([folder1]);
             expect(toolbar.actions.isButtonPresent('Edit')).toBe(true, 'Action is not displayed');
+        });
+
+        it('should not display Edit action when multiple folders selected', async () => {
+            await dataTable.selectMultipleItems([folder1, file1, folder2]);
+            expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Action is displayed');
         });
 
         it('should not display Edit action if no folders selected', async () => {
@@ -244,7 +255,7 @@ describe('Toolbar actions - multiple selection : ', () => {
             it('correct actions appear when multiple files are selected', () => {
                 dataTable.selectMultipleItems([file1Admin, file2Admin])
                     .then(() => {
-                        expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'View not displayed for selected files');
+                        expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed for selected files');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
                         expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed for selected files');
                     })
@@ -265,7 +276,7 @@ describe('Toolbar actions - multiple selection : ', () => {
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
-                        expect(toolbar.actions.isButtonPresent('Edit')).toBe(true, 'Edit is not displayed');
+                        expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
                     })
                     .then(() => toolbar.actions.openMoreMenu())
                     .then(menu => {
@@ -282,9 +293,9 @@ describe('Toolbar actions - multiple selection : ', () => {
             it('correct actions appear when both files and folders are selected', () => {
                 dataTable.selectMultipleItems([file1Admin, file2Admin, folder1Admin, folder2Admin])
                     .then(() => {
-                        expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'View is not displayed');
+                        expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
-                        expect(toolbar.actions.isButtonPresent('Edit')).toBe(true, 'Edit is not displayed');
+                        expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
                     })
                     .then(() => toolbar.actions.openMoreMenu())
                     .then(menu => {
@@ -311,7 +322,7 @@ describe('Toolbar actions - multiple selection : ', () => {
             it('correct actions appear when multiple files are selected', () => {
                 dataTable.selectMultipleItems([file1Admin, file2Admin])
                     .then(() => {
-                        expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'View is not displayed for selected files');
+                        expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed for selected files');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
                         expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed for selected files');
                     })
@@ -349,7 +360,7 @@ describe('Toolbar actions - multiple selection : ', () => {
             it('correct actions appear when both files and folders are selected', () => {
                 dataTable.selectMultipleItems([file1Admin, file2Admin, folder1Admin, folder2Admin])
                     .then(() => {
-                        expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'View is not displayed');
+                        expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
                         expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
                     })
@@ -385,7 +396,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         it('correct actions appear when multiple files are selected', () => {
             dataTable.selectMultipleItems([file1, file2])
                 .then(() => {
-                    expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'View is not displayed');
+                    expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
                     expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed for selected files');
                 })
@@ -455,7 +466,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         it('correct actions appear when multiple files are selected', () => {
             dataTable.selectMultipleItems([file1, file2])
                 .then(() => {
-                    expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'View is not displayed');
+                    expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
                     expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
                 })
@@ -476,7 +487,7 @@ describe('Toolbar actions - multiple selection : ', () => {
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
-                    expect(toolbar.actions.isButtonPresent('Edit')).toBe(true, 'Edit is not displayed');
+                    expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
                 })
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
@@ -493,9 +504,9 @@ describe('Toolbar actions - multiple selection : ', () => {
         it('correct actions appear when both files and folders are selected', () => {
             dataTable.selectMultipleItems([file1, file2, folder1, folder2])
                 .then(() => {
-                    expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'View is not displayed');
+                    expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
-                    expect(toolbar.actions.isButtonPresent('Edit')).toBe(true, 'Edit is not displayed');
+                    expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
                 })
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
