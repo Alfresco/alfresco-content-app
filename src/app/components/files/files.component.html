@@ -29,8 +29,7 @@
                 mat-icon-button
                 *ngIf="selectedFolder && permission.check(selectedFolder, ['update'])"
                 [attr.title]="'APP.ACTIONS.EDIT' | translate"
-                (error)="openSnackMessage($event)"
-                [adf-edit-folder]="selectedFolder?.entry">
+                [acaEditFolder]="selectedFolder">
                 <mat-icon>create</mat-icon>
             </button>
 
