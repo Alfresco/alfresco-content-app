@@ -41,6 +41,8 @@ import {
     SnackbarErrorAction, SNACKBAR_ERROR, SNACKBAR_WARNING
 } from '../../store/actions';
 import { map } from 'rxjs/operators';
+import { NodeEffects } from '../../store/effects/node.effects';
+import { ContentManagementService } from '../services/content-management.service';
 
 @Component({
     template: `<div [acaPermanentDelete]="selection"></div>`
@@ -53,9 +55,7 @@ describe('NodePermanentDeleteDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let element: DebugElement;
     let component: TestComponent;
-    let alfrescoService: AlfrescoApiService;
-    let nodesService;
-    let directiveInstance;
+    let alfrescoApiService: AlfrescoApiService;
     let dialog: MatDialog;
 
     let actions$: Actions;
@@ -64,34 +64,35 @@ describe('NodePermanentDeleteDirective', () => {
         TestBed.configureTestingModule({
             imports: [
                 NoopAnimationsModule,
-                CoreModule,
+                CoreModule.forRoot(),
                 MatDialogModule,
                 StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
-                EffectsModule.forRoot([])
+                EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 NodePermanentDeleteDirective,
                 TestComponent
+            ],
+            providers: [
+                ContentManagementService
             ]
         })
         .compileComponents()
         .then(() => {
+            alfrescoApiService = TestBed.get(AlfrescoApiService);
+            alfrescoApiService.reset();
+
             actions$ = TestBed.get(Actions);
 
             fixture = TestBed.createComponent(TestComponent);
             component = fixture.componentInstance;
             element = fixture.debugElement.query(By.directive(NodePermanentDeleteDirective));
-            directiveInstance = element.injector.get(NodePermanentDeleteDirective);
 
             dialog = TestBed.get(MatDialog);
-
-            alfrescoService = TestBed.get(AlfrescoApiService);
-            alfrescoService.reset();
         });
     }));
 
     beforeEach(() => {
-        nodesService = alfrescoService.getInstance().nodes;
 
         spyOn(dialog, 'open').and.returnValue({
             afterClosed() {
@@ -101,18 +102,18 @@ describe('NodePermanentDeleteDirective', () => {
     });
 
     it('does not purge nodes if no selection', () => {
-        spyOn(nodesService, 'purgeDeletedNode');
+        spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode');
 
         component.selection = [];
 
         fixture.detectChanges();
         element.triggerEventHandler('click', null);
 
-        expect(nodesService.purgeDeletedNode).not.toHaveBeenCalled();
+        expect(alfrescoApiService.nodesApi.purgeDeletedNode).not.toHaveBeenCalled();
     });
 
     it('call purge nodes if selection is not empty', fakeAsync(() => {
-        spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.resolve());
+        spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.returnValue(Promise.resolve());
 
         component.selection = [ { entry: { id: '1' } } ];
 
@@ -120,7 +121,7 @@ describe('NodePermanentDeleteDirective', () => {
         element.triggerEventHandler('click', null);
         tick();
 
-        expect(nodesService.purgeDeletedNode).toHaveBeenCalled();
+        expect(alfrescoApiService.nodesApi.purgeDeletedNode).toHaveBeenCalled();
     }));
 
     describe('notification', () => {
@@ -132,7 +133,7 @@ describe('NodePermanentDeleteDirective', () => {
                 })
             );
 
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
+            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
                     return Promise.resolve();
                 }
@@ -165,7 +166,7 @@ describe('NodePermanentDeleteDirective', () => {
                 })
             );
 
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
+            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
                     return Promise.resolve();
                 }
@@ -203,7 +204,7 @@ describe('NodePermanentDeleteDirective', () => {
                 })
             );
 
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.resolve());
+            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.returnValue(Promise.resolve());
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } }
@@ -222,7 +223,7 @@ describe('NodePermanentDeleteDirective', () => {
                 })
             );
 
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.reject({}));
+            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.returnValue(Promise.reject({}));
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } }
@@ -240,7 +241,7 @@ describe('NodePermanentDeleteDirective', () => {
                     done();
                 })
             );
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
+            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
                     return Promise.resolve();
                 }
@@ -267,7 +268,7 @@ describe('NodePermanentDeleteDirective', () => {
                     done();
                 })
             );
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
+            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
                     return Promise.reject({});
                 }
@@ -285,90 +286,6 @@ describe('NodePermanentDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-        }));
-    });
-
-    describe('refresh()', () => {
-        it('resets selection on success', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.resolve());
-
-            component.selection = [
-                { entry: { id: '1', name: 'name1' } }
-            ];
-
-            fixture.detectChanges();
-            element.triggerEventHandler('click', null);
-            tick();
-
-            expect(directiveInstance.selection).toEqual([]);
-        }));
-
-        it('resets selection on error', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.reject({}));
-
-            component.selection = [
-                { entry: { id: '1', name: 'name1' } }
-            ];
-
-            fixture.detectChanges();
-            element.triggerEventHandler('click', null);
-            tick();
-
-            expect(directiveInstance.selection).toEqual([]);
-        }));
-
-        it('resets status', fakeAsync(() => {
-            const status = directiveInstance.processStatus([
-                { status: 0 },
-                { status: 1 }
-            ]);
-
-            expect(status.fail.length).toBe(1);
-            expect(status.success.length).toBe(1);
-
-            status.reset();
-
-            expect(status.fail.length).toBe(0);
-            expect(status.success.length).toBe(0);
-        }));
-
-        it('dispatch event on partial success', fakeAsync(() => {
-            spyOn(element.nativeElement, 'dispatchEvent');
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
-                if (id === '1') {
-                    return Promise.reject({});
-                }
-
-                if (id === '2') {
-                    return Promise.resolve();
-                }
-            });
-
-            component.selection = [
-                { entry: { id: '1', name: 'name1' } },
-                { entry: { id: '2', name: 'name2' } }
-            ];
-
-            fixture.detectChanges();
-            element.triggerEventHandler('click', null);
-            tick();
-
-            expect(element.nativeElement.dispatchEvent).toHaveBeenCalled();
-        }));
-
-        it('does not dispatch event on error', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.reject({}));
-            spyOn(element.nativeElement, 'dispatchEvent');
-
-            component.selection = [
-                { entry: { id: '1', name: 'name1' } }
-            ];
-
-            fixture.detectChanges();
-            element.triggerEventHandler('click', null);
-            tick();
-
-            expect(element.nativeElement.dispatchEvent).not.toHaveBeenCalled();
         }));
     });
 });
