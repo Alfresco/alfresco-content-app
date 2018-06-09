@@ -5,6 +5,7 @@
 
         <adf-toolbar class="inline" *ngIf="hasSelection">
             <button
+                *ngIf="selectedNodes.length === 1"
                 color="primary"
                 mat-icon-button
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
