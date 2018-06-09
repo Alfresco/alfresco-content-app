@@ -33,6 +33,8 @@ import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { Store, Action } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { SnackbarInfoAction, SnackbarWarningAction, SnackbarErrorAction } from '../../store/actions';
+import { DeleteStatus } from './delete-status.interface';
+import { DeletedNodeInfo } from './deleted-node-info.interface';
 
 @Directive({
     selector: '[acaPermanentDelete]'
@@ -74,7 +76,7 @@ export class NodePermanentDeleteDirective {
             return;
         }
 
-        const batch = this.getPurgedNodesBatch(this.selection);
+        const batch = this.selection.map(node => this.purgeDeletedNode(node));
 
         Observable.forkJoin(batch)
             .subscribe(
@@ -84,7 +86,9 @@ export class NodePermanentDeleteDirective {
                     this.purgeNotification(status);
 
                     if (status.success.length) {
-                        this.emitDone();
+                        this.el.nativeElement.dispatchEvent(
+                            new CustomEvent('selection-node-deleted', { bubbles: true })
+                        );
                     }
 
                     this.selection = [];
@@ -93,11 +97,7 @@ export class NodePermanentDeleteDirective {
             );
     }
 
-    private getPurgedNodesBatch(selection): Observable<MinimalNodeEntity[]> {
-        return selection.map((node: MinimalNodeEntity) => this.purgeDeletedNode(node));
-    }
-
-    private purgeDeletedNode(node: MinimalNodeEntity): Observable<any> {
+    private purgeDeletedNode(node: MinimalNodeEntity): Observable<DeletedNodeInfo> {
         const { id, name } = node.entry;
         const promise = this.alfrescoApiService.nodesApi.purgeDeletedNode(id);
 
@@ -116,14 +116,14 @@ export class NodePermanentDeleteDirective {
             });
     }
 
-    private purgeNotification(status): void {
+    private purgeNotification(status: DeleteStatus): void {
         const action = this.getPurgeMessage(status);
         if (action) {
             this.store.dispatch(action);
         }
     }
 
-    private getPurgeMessage(status): Action {
+    private getPurgeMessage(status: DeleteStatus): Action {
         if (status.oneSucceeded && status.someFailed && !status.oneFailed) {
             return new SnackbarWarningAction(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR',
@@ -175,7 +175,7 @@ export class NodePermanentDeleteDirective {
         return null;
     }
 
-    private processStatus(data = []): any {
+    private processStatus(data: DeletedNodeInfo[] = []): DeleteStatus {
         const status = {
             fail: [],
             success: [],
@@ -215,10 +215,5 @@ export class NodePermanentDeleteDirective {
             },
             status
         );
-    }
-
-    private emitDone() {
-        const e = new CustomEvent('selection-node-deleted', { bubbles: true });
-        this.el.nativeElement.dispatchEvent(e);
     }
 }

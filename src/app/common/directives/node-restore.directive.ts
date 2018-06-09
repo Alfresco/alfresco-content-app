@@ -29,6 +29,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
+import { DeletedNodeInfo } from './deleted-node-info.interface';
 
 @Directive({
     selector: '[acaRestoreNode]'
@@ -55,12 +56,12 @@ export class NodeRestoreDirective {
         this.restoreProcessStatus = this.processStatus();
     }
 
-    private restore(selection: any)  {
+    private restore(selection: MinimalNodeEntity[])  {
         if (!selection.length) {
             return;
         }
 
-        const nodesWithPath = this.getNodesWithPath(selection);
+        const nodesWithPath = selection.filter(node => node.entry.path);
 
         if (selection.length && !nodesWithPath.length) {
             this.restoreProcessStatus.fail.push(...selection);
@@ -69,7 +70,7 @@ export class NodeRestoreDirective {
             return;
         }
 
-        this.restoreNodesBatch(nodesWithPath)
+        Observable.forkJoin(nodesWithPath.map((node) => this.restoreNode(node)))
             .do((restoredNodes) => {
                 const status = this.processStatus(restoredNodes);
 
@@ -94,27 +95,18 @@ export class NodeRestoreDirective {
             );
     }
 
-    private restoreNodesBatch(batch: MinimalNodeEntity[]): Observable<MinimalNodeEntity[]> {
-        return Observable.forkJoin(batch.map((node) => this.restoreNode(node)));
-    }
-
-    private getNodesWithPath(selection): MinimalNodeEntity[] {
-        return selection.filter((node) => node.entry.path);
-    }
-
     private getDeletedNodes(): Observable<DeletedNodesPaging> {
-        const promise = this.alfrescoApiService.getInstance()
-            .core.nodesApi.getDeletedNodes({ include: [ 'path' ] });
-
-        return Observable.from(promise);
+        return Observable.from(
+            this.alfrescoApiService.nodesApi.getDeletedNodes({ include: [ 'path' ] })
+        );
     }
 
-    private restoreNode(node): Observable<any> {
+    private restoreNode(node: MinimalNodeEntity): Observable<any> {
         const { entry } = node;
 
-        const promise = this.alfrescoApiService.getInstance().nodes.restoreNode(entry.id);
-
-        return Observable.from(promise)
+        return Observable.from(
+                this.alfrescoApiService.nodesApi.restoreNode(entry.id)
+            )
             .map(() => ({
                 status: 1,
                 entry
@@ -130,7 +122,7 @@ export class NodeRestoreDirective {
             });
     }
 
-    private navigateLocation(path: PathInfoEntity) {
+    private navigateLocation(path: PathInfoEntity): void {
         const parent = path.elements[path.elements.length - 1];
 
         this.router.navigate([ '/personal-files',  parent.id ]);
@@ -148,7 +140,7 @@ export class NodeRestoreDirective {
         });
     }
 
-    private processStatus(data = []): any {
+    private processStatus(data: DeletedNodeInfo[] = []): any {
         const status = {
             fail: [],
             success: [],
@@ -256,11 +248,8 @@ export class NodeRestoreDirective {
     private refresh(): void {
         this.restoreProcessStatus.reset();
         this.selection = [];
-        this.emitDone();
-    }
-
-    private emitDone() {
-        const e = new CustomEvent('selection-node-restored', { bubbles: true });
-        this.el.nativeElement.dispatchEvent(e);
+        this.el.nativeElement.dispatchEvent(
+            new CustomEvent('selection-node-restored', { bubbles: true })
+        );
     }
 }

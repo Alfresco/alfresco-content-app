@@ -24,29 +24,13 @@
  */
 
 import { Directive, HostListener, Input } from '@angular/core';
-
 import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 
+import { DeletedNodeInfo } from './deleted-node-info.interface';
+import { DeleteStatus } from './delete-status.interface';
 import { ContentManagementService } from '../services/content-management.service';
-
-interface DeletedNodeInfo {
-    id: string;
-    name: string;
-    status: number;
-}
-
-interface DeleteStatus {
-    success: any[];
-    failed: any[];
-    someFailed: boolean;
-    someSucceeded: boolean;
-    oneFailed: boolean;
-    oneSucceeded: boolean;
-    allSucceeded: boolean;
-    allFailed: boolean;
-}
 
 @Directive({
     selector: '[acaDeleteNode]'
@@ -108,7 +92,7 @@ export class NodeDeleteDirective {
                 (data) => {
                     const processedData = this.processStatus(data);
 
-                    if (processedData.failed.length) {
+                    if (processedData.fail.length) {
                         const message = this.getRestoreMessage(processedData);
                         this.notification.openSnackMessageAction(
                             message, '' , NodeDeleteDirective.RESTORE_MESSAGE_DURATION
@@ -167,15 +151,15 @@ export class NodeDeleteDirective {
     private processStatus(data: DeletedNodeInfo[]): DeleteStatus {
         const deleteStatus = {
             success: [],
-            failed: [],
+            fail: [],
             get someFailed(): boolean {
-                return !!(this.failed.length);
+                return !!(this.fail.length);
             },
             get someSucceeded(): boolean {
                 return !!(this.success.length);
             },
             get oneFailed(): boolean {
-                return this.failed.length === 1;
+                return this.fail.length === 1;
             },
             get oneSucceeded(): boolean {
                 return this.success.length === 1;
@@ -185,6 +169,10 @@ export class NodeDeleteDirective {
             },
             get allFailed(): boolean {
                 return this.someFailed && !this.someSucceeded;
+            },
+            reset() {
+                this.fail = [];
+                this.success = [];
             }
         };
 
@@ -193,7 +181,7 @@ export class NodeDeleteDirective {
                 if (next.status === 1) {
                     acc.success.push(next);
                 } else {
-                    acc.failed.push(next);
+                    acc.fail.push(next);
                 }
 
                 return acc;
@@ -206,14 +194,14 @@ export class NodeDeleteDirective {
         if (status.someFailed && !status.oneFailed) {
             return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL',
-                { number: status.failed.length }
+                { number: status.fail.length }
             );
         }
 
         if (status.oneFailed) {
             return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_RESTORE',
-                { name: status.failed[0].name }
+                { name: status.fail[0].name }
             );
         }
     }
@@ -222,7 +210,7 @@ export class NodeDeleteDirective {
         if (status.allFailed && !status.oneFailed) {
             return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
-                { number: status.failed.length }
+                { number: status.fail.length }
             );
         }
 
@@ -238,7 +226,7 @@ export class NodeDeleteDirective {
                 'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL',
                 {
                     success: status.success.length,
-                    failed: status.failed.length
+                    failed: status.fail.length
                 }
             );
         }
@@ -248,7 +236,7 @@ export class NodeDeleteDirective {
                 'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR',
                 {
                     success: status.success.length,
-                    failed: status.failed.length
+                    failed: status.fail.length
                 }
             );
         }
@@ -256,7 +244,7 @@ export class NodeDeleteDirective {
         if (status.oneFailed && !status.someSucceeded) {
             return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_DELETION',
-                { name: status.failed[0].name }
+                { name: status.fail[0].name }
             );
         }
 
