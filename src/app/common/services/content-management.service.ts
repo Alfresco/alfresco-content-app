@@ -36,6 +36,9 @@ export class ContentManagementService {
     nodeMoved = new Subject<string>();
     nodeRestored = new Subject<string>();
 
+    nodesPurged = new Subject<any>();
+    nodesRestored = new Subject<any>();
+
     constructor(private api: AlfrescoApiService,
                 private notification: NotificationService,
                 private translation: TranslationService) {

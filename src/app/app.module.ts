@@ -35,6 +35,7 @@ import { ElectronModule } from '@ngstack/electron';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
@@ -79,6 +80,8 @@ import { appReducer } from './store/reducers/app.reducer';
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 import { EditFolderDirective } from './directives/edit-folder.directive';
 import { SnackbarEffects } from './store/effects/snackbar.effects';
+import { NodeEffects } from './store/effects/node.effects';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -102,7 +105,8 @@ import { SnackbarEffects } from './store/effects/snackbar.effects';
 
         StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-        EffectsModule.forRoot([SnackbarEffects])
+        EffectsModule.forRoot([SnackbarEffects, NodeEffects]),
+        !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
     ],
     declarations: [
         AppComponent,
