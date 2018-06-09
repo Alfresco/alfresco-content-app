@@ -26,7 +26,7 @@
 import { Component, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
-import { AcaState } from '../../store/states/app.state';
+import { AppStore } from '../../store/states/app.state';
 import { selectHeaderColor, selectAppName, selectLogoPath } from '../../store/selectors/app.selectors';
 
 @Component({
@@ -42,7 +42,7 @@ export class HeaderComponent {
     headerColor$: Observable<string>;
     logo$: Observable<string>;
 
-    constructor(store: Store<AcaState>) {
+    constructor(store: Store<AppStore>) {
         this.headerColor$ = store.select(selectHeaderColor);
         this.appName$ = store.select(selectAppName);
         this.logo$ = store.select(selectLogoPath);

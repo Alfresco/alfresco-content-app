@@ -32,7 +32,7 @@ import { ContentManagementService } from '../../common/services/content-manageme
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
-import { AcaState } from '../../store/states/app.state';
+import { AppStore } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './favorites.component.html'
@@ -41,7 +41,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
 
     constructor(router: Router,
                 route: ActivatedRoute,
-                store: Store<AcaState>,
+                store: Store<AppStore>,
                 private nodesApi: NodesApiService,
                 private contentService: ContentService,
                 private content: ContentManagementService,

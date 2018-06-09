@@ -14,10 +14,10 @@ export const INITIAL_APP_STATE: AppState = {
     selectedNodes: []
 };
 
-export interface AcaState {
+export interface AppStore {
     app: AppState;
 }
 
-export const INITIAL_STATE: AcaState = {
+export const INITIAL_STATE: AppStore = {
     app: INITIAL_APP_STATE
 };

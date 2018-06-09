@@ -30,7 +30,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { Subscription, Subject } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
-import { AcaState } from '../store/states/app.state';
+import { AppStore } from '../store/states/app.state';
 import { SetSelectedNodesAction } from '../store/actions/select-nodes.action';
 import { selectedNodes } from '../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
@@ -66,7 +66,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     constructor(protected preferences: UserPreferencesService,
                 protected router: Router,
                 protected route: ActivatedRoute,
-                protected store: Store<AcaState>) {
+                protected store: Store<AppStore>) {
     }
 
     ngOnInit() {

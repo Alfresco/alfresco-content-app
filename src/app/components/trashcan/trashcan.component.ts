@@ -30,7 +30,7 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
-import { AcaState } from '../../store/states/app.state';
+import { AppStore } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './trashcan.component.html'
@@ -39,7 +39,7 @@ export class TrashcanComponent extends PageComponent implements OnInit {
 
     constructor(private contentManagementService: ContentManagementService,
                 preferences: UserPreferencesService,
-                store: Store<AcaState>,
+                store: Store<AppStore>,
                 router: Router,
                 route: ActivatedRoute) {
         super(preferences, router, route, store);

@@ -30,7 +30,7 @@ import { ShareDataRow } from '@alfresco/adf-content-services';
 
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
-import { AcaState } from '../../store/states/app.state';
+import { AppStore } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './libraries.component.html'
@@ -39,7 +39,7 @@ export class LibrariesComponent extends PageComponent {
 
     constructor(private nodesApi: NodesApiService,
                 route: ActivatedRoute,
-                store: Store<AcaState>,
+                store: Store<AppStore>,
                 router: Router,
                 preferences: UserPreferencesService) {
         super(preferences, router, route, store);

@@ -34,7 +34,7 @@ import { HeaderComponent } from './header.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { StoreModule, Store } from '@ngrx/store';
 import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE, AcaState } from '../../store/states/app.state';
+import { INITIAL_STATE, AppStore } from '../../store/states/app.state';
 import { SetAppNameAction } from '../../store/actions/app-name.action';
 import { SetHeaderColorAction } from '../../store/actions/header-color.action';
 
@@ -42,7 +42,7 @@ describe('HeaderComponent', () => {
     let fixture: ComponentFixture<HeaderComponent>;
     let component: HeaderComponent;
     let appConfigService: AppConfigService;
-    let store: Store<AcaState>;
+    let store: Store<AppStore>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({

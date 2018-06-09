@@ -39,7 +39,7 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
-import { AcaState } from '../../store/states/app.state';
+import { AppStore } from '../../store/states/app.state';
 
 @Component({
     templateUrl: './files.component.html'
@@ -52,7 +52,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     constructor(router: Router,
                 route: ActivatedRoute,
-                store: Store<AcaState>,
+                store: Store<AppStore>,
                 private nodesApi: NodesApiService,
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,

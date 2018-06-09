@@ -31,7 +31,7 @@ import {
 } from '@alfresco/adf-core';
 import { ElectronService } from '@ngstack/electron';
 import { Store } from '@ngrx/store';
-import { AcaState } from './store/states/app.state';
+import { AppStore } from './store/states/app.state';
 import { SetHeaderColorAction } from './store/actions/header-color.action';
 import { SetAppNameAction } from './store/actions/app-name.action';
 import { SetLogoPathAction } from './store/actions/logo-path.action';
@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
         private router: Router,
         private pageTitle: PageTitleService,
         preferences: UserPreferencesService,
-        private store: Store<AcaState>,
+        private store: Store<AppStore>,
         private config: AppConfigService,
         private electronService: ElectronService,
         private uploadService: UploadService) {
