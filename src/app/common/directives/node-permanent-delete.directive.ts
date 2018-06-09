@@ -97,9 +97,9 @@ export class NodePermanentDeleteDirective {
         return selection.map((node: MinimalNodeEntity) => this.purgeDeletedNode(node));
     }
 
-    private purgeDeletedNode(node): Observable<any> {
+    private purgeDeletedNode(node: MinimalNodeEntity): Observable<any> {
         const { id, name } = node.entry;
-        const promise = this.alfrescoApiService.getInstance().nodes.purgeDeletedNode(id);
+        const promise = this.alfrescoApiService.nodesApi.purgeDeletedNode(id);
 
         return Observable.from(promise)
             .map(() => ({

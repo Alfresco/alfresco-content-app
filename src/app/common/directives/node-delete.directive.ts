@@ -31,6 +31,23 @@ import { Observable } from 'rxjs/Rx';
 
 import { ContentManagementService } from '../services/content-management.service';
 
+interface DeletedNodeInfo {
+    id: string;
+    name: string;
+    status: number;
+}
+
+interface DeleteStatus {
+    success: any[];
+    failed: any[];
+    someFailed: boolean;
+    someSucceeded: boolean;
+    oneFailed: boolean;
+    oneSucceeded: boolean;
+    allSucceeded: boolean;
+    allFailed: boolean;
+}
+
 @Directive({
     selector: '[acaDeleteNode]'
 })
@@ -55,15 +72,15 @@ export class NodeDeleteDirective {
     ) {}
 
     private deleteSelected(): void {
-        const batch = [];
+        const batch: Observable<DeletedNodeInfo>[] = [];
 
         this.selection.forEach((node) => {
-            batch.push(this.performAction('delete', node.entry));
+            batch.push(this.deleteNode(node));
         });
 
         Observable.forkJoin(...batch)
             .subscribe(
-                (data) => {
+                (data: DeletedNodeInfo[]) => {
                     const processedData = this.processStatus(data);
                     const message = this.getDeleteMessage(processedData);
                     const withUndo = processedData.someSucceeded ? this.translation.instant('APP.ACTIONS.UNDO') : '';
@@ -79,11 +96,11 @@ export class NodeDeleteDirective {
             );
     }
 
-    private restore(items: any[]): void {
-        const batch = [];
+    private restore(items: DeletedNodeInfo[]): void {
+        const batch: Observable<DeletedNodeInfo>[] = [];
 
-        items.forEach((item) => {
-            batch.push(this.performAction('restore', item));
+        items.forEach(item => {
+            batch.push(this.restoreNode(item));
         });
 
         Observable.forkJoin(...batch)
@@ -105,20 +122,12 @@ export class NodeDeleteDirective {
             );
     }
 
-    private performAction(action: string, item: any): Observable<any> {
-        const { name } = item;
+    private deleteNode(node: MinimalNodeEntity): Observable<DeletedNodeInfo> {
+        const { name } = node.entry;
         // Check if there's nodeId for Shared Files
-        const id = item.nodeId || item.id;
+        const id = node.entry.nodeId || node.entry.id;
 
-        let performedAction: any = null;
-
-        if (action === 'delete') {
-            performedAction = this.nodesApi.deleteNode(id);
-        } else {
-            performedAction = this.nodesApi.restoreNode(id);
-        }
-
-        return performedAction
+        return this.nodesApi.deleteNode(id)
             .map(() => {
                 return {
                     id,
@@ -135,26 +144,46 @@ export class NodeDeleteDirective {
             });
     }
 
-    private processStatus(data): any {
+    private restoreNode(item: DeletedNodeInfo): Observable<DeletedNodeInfo> {
+        const { id, name } = item;
+
+        return this.nodesApi.restoreNode(id)
+            .map(() => {
+                return {
+                    id,
+                    name,
+                    status: 1
+                };
+            })
+            .catch((error: any) => {
+                return Observable.of({
+                    id,
+                    name,
+                    status: 0
+                });
+            });
+    }
+
+    private processStatus(data: DeletedNodeInfo[]): DeleteStatus {
         const deleteStatus = {
             success: [],
             failed: [],
-            get someFailed() {
+            get someFailed(): boolean {
                 return !!(this.failed.length);
             },
-            get someSucceeded() {
+            get someSucceeded(): boolean {
                 return !!(this.success.length);
             },
-            get oneFailed() {
+            get oneFailed(): boolean {
                 return this.failed.length === 1;
             },
-            get oneSucceeded() {
+            get oneSucceeded(): boolean {
                 return this.success.length === 1;
             },
-            get allSucceeded() {
+            get allSucceeded(): boolean {
                 return this.someSucceeded && !this.someFailed;
             },
-            get allFailed() {
+            get allFailed(): boolean {
                 return this.someFailed && !this.someSucceeded;
             }
         };
@@ -173,7 +202,7 @@ export class NodeDeleteDirective {
         );
     }
 
-    private getRestoreMessage(status): string {
+    private getRestoreMessage(status: DeleteStatus): string {
         if (status.someFailed && !status.oneFailed) {
             return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL',
@@ -189,7 +218,7 @@ export class NodeDeleteDirective {
         }
     }
 
-    private getDeleteMessage(status): string {
+    private getDeleteMessage(status: DeleteStatus): string {
         if (status.allFailed && !status.oneFailed) {
             return this.translation.instant(
                 'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
