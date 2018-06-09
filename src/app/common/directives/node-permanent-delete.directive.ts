@@ -26,19 +26,21 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { MatDialog } from '@angular/material';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
+import { Store, Action } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { SnackbarInfoAction, SnackbarWarningAction, SnackbarErrorAction } from '../../store/actions';
 
 @Directive({
-    // tslint:disable-next-line:directive-selector
-    selector: '[app-permanent-delete-node]'
+    selector: '[acaPermanentDelete]'
 })
 export class NodePermanentDeleteDirective {
 
     // tslint:disable-next-line:no-input-rename
-    @Input('app-permanent-delete-node')
+    @Input('acaPermanentDelete')
     selection: MinimalNodeEntity[];
 
     @HostListener('click')
@@ -61,9 +63,8 @@ export class NodePermanentDeleteDirective {
     }
 
     constructor(
+        private store: Store<AppStore>,
         private alfrescoApiService: AlfrescoApiService,
-        private translation: TranslationService,
-        private notification: NotificationService,
         private el: ElementRef,
         private dialog: MatDialog
     ) {}
@@ -116,13 +117,15 @@ export class NodePermanentDeleteDirective {
     }
 
     private purgeNotification(status): void {
-        const message = this.getPurgeMessage(status);
-        this.notification.openSnackMessage(message, 3000);
+        const action = this.getPurgeMessage(status);
+        if (action) {
+            this.store.dispatch(action);
+        }
     }
 
-    private getPurgeMessage(status): string {
+    private getPurgeMessage(status): Action {
         if (status.oneSucceeded && status.someFailed && !status.oneFailed) {
-            return this.translation.instant(
+            return new SnackbarWarningAction(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR',
                 {
                     name: status.success[0].name,
@@ -132,7 +135,7 @@ export class NodePermanentDeleteDirective {
         }
 
         if (status.someSucceeded && !status.oneSucceeded && status.someFailed) {
-            return this.translation.instant(
+            return new SnackbarWarningAction(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL',
                 {
                     number: status.success.length,
@@ -142,32 +145,34 @@ export class NodePermanentDeleteDirective {
         }
 
         if (status.oneSucceeded) {
-            return this.translation.instant(
+            return new SnackbarInfoAction(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR',
                 { name: status.success[0].name }
             );
         }
 
         if (status.oneFailed) {
-            return this.translation.instant(
+            return new SnackbarErrorAction(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR',
                 { name: status.fail[0].name }
             );
         }
 
         if (status.allSucceeded) {
-            return this.translation.instant(
+            return new SnackbarInfoAction(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL',
                 { number: status.success.length }
             );
         }
 
         if (status.allFailed) {
-            return this.translation.instant(
+            return new SnackbarErrorAction(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL',
                 { number: status.fail.length }
             );
         }
+
+        return null;
     }
 
     private processStatus(data = []): any {

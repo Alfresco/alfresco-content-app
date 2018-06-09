@@ -1,16 +1,17 @@
 @mixin snackbar-theme($theme) {
     $warn: map-get($theme, warn);
     $accent: map-get($theme, accent);
+    $primary: map-get($theme, primary);
 
     .error-snackbar {
         background-color: mat-color($warn);
     }
 
     .warning-snackbar {
-        background-color: mat-color($warn, 300);
+        background-color: mat-color($accent);
     }
 
     .info-snackbar {
-        background-color: mat-color($accent);
+        background-color: mat-color($primary);
     }
 }

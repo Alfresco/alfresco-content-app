@@ -34,7 +34,7 @@ import { MatDialogModule, MatDialog } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
-    template: `<div [app-permanent-delete-node]="selection"></div>`
+    template: `<div [acaPermanentDelete]="selection"></div>`
 })
 class TestComponent {
     selection = [];

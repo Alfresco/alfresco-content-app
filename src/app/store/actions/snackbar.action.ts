@@ -6,15 +6,15 @@ export const SNACKBAR_ERROR = 'SNACKBAR_ERROR';
 
 export class SnackbarInfoAction implements Action {
     readonly type = SNACKBAR_INFO;
-    constructor(public payload: string) {}
+    constructor(public payload: string, public params?: Object) {}
 }
 
 export class SnackbarWarningAction implements Action {
     readonly type = SNACKBAR_WARNING;
-    constructor(public payload: string) {}
+    constructor(public payload: string, public params?: Object) {}
 }
 
 export class SnackbarErrorAction implements Action {
     readonly type = SNACKBAR_ERROR;
-    constructor(public payload: string) {}
+    constructor(public payload: string, public params?: Object) {}
 }

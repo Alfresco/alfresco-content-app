@@ -7,7 +7,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                [app-permanent-delete-node]="selectedNodes"
+                [acaPermanentDelete]="selectedNodes"
                 (selection-node-deleted)="reload()"
                 title="{{ 'APP.ACTIONS.DELETE_PERMANENT' | translate }}">
                 <mat-icon>delete_forever</mat-icon>

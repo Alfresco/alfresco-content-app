@@ -24,10 +24,14 @@ export class SnackbarEffects {
     infoEffect = this.actions$.pipe(
         ofType<SnackbarInfoAction>(SNACKBAR_INFO),
         map((action: SnackbarInfoAction) => {
-            this.snackBar.open(this.translate(action.payload), null, {
-                duration: 4000,
-                panelClass: 'info-snackbar'
-            });
+            this.snackBar.open(
+                this.translate(action.payload, action.params),
+                null,
+                {
+                    duration: 4000,
+                    panelClass: 'info-snackbar'
+                }
+            );
         })
     );
 
@@ -35,10 +39,14 @@ export class SnackbarEffects {
     warningEffect = this.actions$.pipe(
         ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
         map((action: SnackbarWarningAction) => {
-            this.snackBar.open(this.translate(action.payload), null, {
-                duration: 4000,
-                panelClass: 'warning-snackbar'
-            });
+            this.snackBar.open(
+                this.translate(action.payload, action.params),
+                null,
+                {
+                    duration: 4000,
+                    panelClass: 'warning-snackbar'
+                }
+            );
         })
     );
 
@@ -46,14 +54,18 @@ export class SnackbarEffects {
     errorEffect = this.actions$.pipe(
         ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
         map((action: SnackbarErrorAction) => {
-            this.snackBar.open(this.translate(action.payload), null, {
-                duration: 4000,
-                panelClass: 'warning-snackbar'
-            });
+            this.snackBar.open(
+                this.translate(action.payload, action.params),
+                null,
+                {
+                    duration: 4000,
+                    panelClass: 'warning-snackbar'
+                }
+            );
         })
     );
 
-    private translate(message: string): string {
-        return this.translationService.instant(message);
+    private translate(message: string, params: Object): string {
+        return this.translationService.instant(message, params);
     }
 }
