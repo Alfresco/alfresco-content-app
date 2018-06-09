@@ -78,6 +78,7 @@ import { INITIAL_STATE } from './store/states/app.state';
 import { appReducer } from './store/reducers/app.reducer';
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 import { EditFolderDirective } from './directives/edit-folder.directive';
+import { SnackbarEffects } from './store/effects/snackbar.effects';
 
 
 @NgModule({
@@ -101,7 +102,7 @@ import { EditFolderDirective } from './directives/edit-folder.directive';
 
         StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-        EffectsModule.forRoot([])
+        EffectsModule.forRoot([SnackbarEffects])
     ],
     declarations: [
         AppComponent,

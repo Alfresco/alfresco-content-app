@@ -58,7 +58,6 @@ describe('Favorites Routed Component', () => {
     let alfrescoApi: AlfrescoApiService;
     let alfrescoContentService: ContentService;
     let contentService: ContentManagementService;
-    let notificationService: NotificationService;
     let router: Router;
     let page;
     let node;
@@ -132,7 +131,6 @@ describe('Favorites Routed Component', () => {
             component = fixture.componentInstance;
 
             nodesApi = TestBed.get(NodesApiService);
-            notificationService = TestBed.get(NotificationService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
             alfrescoApi.reset();
             alfrescoContentService = TestBed.get(ContentService);
@@ -242,18 +240,6 @@ describe('Favorites Routed Component', () => {
             component.reload();
 
             expect(component.documentList.reload).toHaveBeenCalled();
-        });
-    });
-
-    describe('openSnackMessage', () => {
-        it('should call notification service', () => {
-            const message = 'notification message';
-
-            spyOn(notificationService, 'openSnackMessage');
-
-            component.openSnackMessage(message);
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });
