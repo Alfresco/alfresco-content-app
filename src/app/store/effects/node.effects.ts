@@ -82,7 +82,6 @@ export class NodeEffects {
             }
 
             if (processedData.someSucceeded) {
-                this.contentManagementService.nodeDeleted.next(null); // TODO: remove
                 this.contentManagementService.nodesDeleted.next();
             }
         });
@@ -178,7 +177,6 @@ export class NodeEffects {
             }
 
             if (processedData.someSucceeded) {
-                this.contentManagementService.nodeRestored.next(null);
                 this.contentManagementService.nodesRestored.next();
             }
         });

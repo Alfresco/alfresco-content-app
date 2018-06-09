@@ -156,19 +156,19 @@ describe('Favorites Routed Component', () => {
         });
 
         it('should refresh on move node event', () => {
-            contentService.nodeMoved.next(null);
+            contentService.nodesMoved.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node deleted event', () => {
-            contentService.nodeDeleted.next(null);
+            contentService.nodesDeleted.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node restore event', () => {
-            contentService.nodeRestored.next(null);
+            contentService.nodesRestored.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });

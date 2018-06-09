@@ -253,19 +253,19 @@ describe('FilesComponent', () => {
         });
 
         it('should call refresh deleteNode event', () => {
-            contentManagementService.nodeDeleted.next();
+            contentManagementService.nodesDeleted.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('should call refresh moveNode event', () => {
-            contentManagementService.nodeMoved.next();
+            contentManagementService.nodesMoved.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('should call refresh restoreNode event', () => {
-            contentManagementService.nodeRestored.next();
+            contentManagementService.nodesRestored.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });

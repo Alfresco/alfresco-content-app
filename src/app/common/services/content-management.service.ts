@@ -28,13 +28,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ContentManagementService {
-    /** @deprecated use nodesDeleted instead */
-    nodeDeleted = new Subject<string>();
-    /** @deprecated use nodesDeleted instead */
-    nodeMoved = new Subject<string>();
-    /** @deprecated use nodesRestored instead */
-    nodeRestored = new Subject<string>();
-
     nodesMoved = new Subject<any>();
     nodesDeleted = new Subject<any>();
     nodesPurged = new Subject<any>();
