@@ -431,7 +431,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         it('correct actions appear when multiple files are selected', () => {
             dataTable.selectMultipleItems([file1, file2])
                 .then(() => {
-                    expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'View is not displayed');
+                    expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
                     expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
                 })
