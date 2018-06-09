@@ -25,88 +25,18 @@
 
 import { Subject } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
-import { AlfrescoApiService, NotificationService, TranslationService } from '@alfresco/adf-core';
-import { Node } from 'alfresco-js-api';
-
 
 @Injectable()
 export class ContentManagementService {
-
+    /** @deprecated use nodesDeleted instead */
     nodeDeleted = new Subject<string>();
+    /** @deprecated use nodesDeleted instead */
     nodeMoved = new Subject<string>();
+    /** @deprecated use nodesRestored instead */
     nodeRestored = new Subject<string>();
 
+    nodesMoved = new Subject<any>();
     nodesDeleted = new Subject<any>();
     nodesPurged = new Subject<any>();
     nodesRestored = new Subject<any>();
-
-    constructor(private api: AlfrescoApiService,
-                private notification: NotificationService,
-                private translation: TranslationService) {
-    }
-
-    nodeHasPermission(node: Node, permission: string): boolean {
-        if (node && permission) {
-            const allowableOperations = node.allowableOperations || [];
-
-            if (allowableOperations.indexOf(permission) > -1) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    canDeleteNode(node: Node): boolean {
-        return this.nodeHasPermission(node, 'delete');
-    }
-
-    canMoveNode(node: Node): boolean {
-        return this.nodeHasPermission(node, 'delete');
-    }
-
-    canCopyNode(node: Node): boolean {
-        return true;
-    }
-
-    // TODO: DELETE
-    async deleteNode(node: Node) {
-        if (this.canDeleteNode(node)) {
-            try {
-                await this.api.nodesApi.deleteNode(node.id);
-
-                this.notification
-                    .openSnackMessageAction(
-                        this.translation.instant('APP.MESSAGES.INFO.NODE_DELETION.SINGULAR', { name: node.name }),
-                        this.translation.translate.instant('APP.ACTIONS.UNDO'),
-                        10000
-                    )
-                    .onAction()
-                    .subscribe(() => {
-                        this.restoreNode(node);
-                    });
-
-                this.nodeDeleted.next(node.id);
-            } catch {
-                this.notification.openSnackMessage(
-                    this.translation.instant('APP.MESSAGES.ERRORS.NODE_DELETION', { name: node.name }),
-                    10000
-                );
-            }
-        }
-    }
-
-    async restoreNode(node: Node) {
-        if (node) {
-            try {
-                await this.api.nodesApi.restoreNode(node.id);
-                this.nodeRestored.next(node.id);
-            } catch {
-                this.notification.openSnackMessage(
-                    this.translation.instant('APP.MESSAGES.ERRORS.NODE_RESTORE', { name: node.name }),
-                    3000
-                );
-            }
-        }
-    }
 }

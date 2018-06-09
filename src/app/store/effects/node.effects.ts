@@ -22,7 +22,6 @@ import { ContentManagementService } from '../../common/services/content-manageme
 import { Observable } from 'rxjs/Rx';
 import { DeletedNodeInfo } from '../../common/directives/deleted-node-info.interface';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
 
 @Injectable()
 export class NodeEffects {
@@ -61,7 +60,7 @@ export class NodeEffects {
         })
     );
 
-    private deleteNodes(items: MinimalNodeEntity[]): void {
+    private deleteNodes(items: NodeInfo[]): void {
         const batch: Observable<DeletedNodeInfo>[] = [];
 
         items.forEach(node => {
@@ -89,10 +88,8 @@ export class NodeEffects {
         });
     }
 
-    private deleteNode(node: MinimalNodeEntity): Observable<DeletedNodeInfo> {
-        const { name } = node.entry;
-        // Check if there's nodeId for Shared Files
-        const id = node.entry.nodeId || node.entry.id;
+    private deleteNode(node: NodeInfo): Observable<DeletedNodeInfo> {
+        const { id, name } = node;
 
         return Observable.fromPromise(
             this.alfrescoApiService.nodesApi.deleteNode(id)
@@ -181,7 +178,6 @@ export class NodeEffects {
             }
 
             if (processedData.someSucceeded) {
-                // TODO: remove
                 this.contentManagementService.nodeRestored.next(null);
                 this.contentManagementService.nodesRestored.next();
             }
@@ -191,7 +187,9 @@ export class NodeEffects {
     private undoDeleteNode(item: DeletedNodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = item;
 
-        return Observable.fromPromise(this.alfrescoApiService.nodesApi.restoreNode(id))
+        return Observable.fromPromise(
+            this.alfrescoApiService.nodesApi.restoreNode(id)
+        )
             .map(() => {
                 return {
                     id,

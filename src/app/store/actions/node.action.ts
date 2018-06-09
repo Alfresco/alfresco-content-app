@@ -18,7 +18,7 @@ export class SetSelectedNodesAction implements Action {
 
 export class DeleteNodesAction implements Action {
     readonly type = DELETE_NODES;
-    constructor(public payload: any[] = []) {}
+    constructor(public payload: NodeInfo[] = []) {}
 }
 
 export class UndoDeleteNodesAction implements Action {

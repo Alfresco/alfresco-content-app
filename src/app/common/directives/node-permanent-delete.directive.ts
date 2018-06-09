@@ -61,7 +61,9 @@ export class NodePermanentDeleteDirective {
         dialogRef.afterClosed().subscribe(result => {
             if (result === true) {
                 const nodesToDelete: NodeInfo[] = this.selection.map(node => {
-                    const { id, name } = node.entry;
+                    const { name } = node.entry;
+                    const id = node.entry.nodeId || node.entry.id;
+
                     return {
                         id,
                         name
