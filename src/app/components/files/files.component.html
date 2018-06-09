@@ -28,7 +28,7 @@
                 color="primary"
                 mat-icon-button
                 *ngIf="selectedFolder && permission.check(selectedFolder, ['update'])"
-                [attr.title]="'APP.ACTIONS.EDIT' | translate"
+                title="{{ 'APP.ACTIONS.EDIT' | translate }}"
                 [acaEditFolder]="selectedFolder">
                 <mat-icon>create</mat-icon>
             </button>

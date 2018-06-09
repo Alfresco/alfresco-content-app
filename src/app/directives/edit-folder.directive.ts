@@ -64,20 +64,20 @@ export class EditFolderDirective {
     }
 
     private openDialog(): void {
-        const dialogInstance = this.dialogRef.open(FolderDialogComponent, this.dialogConfig);
+        const dialog = this.dialogRef.open(FolderDialogComponent, this.dialogConfig);
 
-        dialogInstance.componentInstance.error.subscribe(message => {
+        dialog.componentInstance.error.subscribe(message => {
             this.notificationService.openSnackMessage(
                 message,
                 4000
             );
         });
 
-        // dialogInstance.componentInstance.success.subscribe((node: MinimalNodeEntryEntity) => {
+        // dialog.componentInstance.success.subscribe((node: MinimalNodeEntryEntity) => {
         //     this.success.emit(node);
         // });
 
-        dialogInstance.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
+        dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
             if (node) {
                 this.content.folderEdit.next(node);
             }
