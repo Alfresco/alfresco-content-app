@@ -36,6 +36,7 @@ export class ContentManagementService {
     nodeMoved = new Subject<string>();
     nodeRestored = new Subject<string>();
 
+    nodesDeleted = new Subject<any>();
     nodesPurged = new Subject<any>();
     nodesRestored = new Subject<any>();
 
@@ -68,6 +69,7 @@ export class ContentManagementService {
         return true;
     }
 
+    // TODO: DELETE
     async deleteNode(node: Node) {
         if (this.canDeleteNode(node)) {
             try {

@@ -2,7 +2,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { DeleteStatus } from '../../common/directives/delete-status.interface';
-import { Store, Action } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import {
     SnackbarWarningAction,
@@ -10,12 +10,19 @@ import {
     SnackbarErrorAction,
     PurgeDeletedNodesAction,
     PURGE_DELETED_NODES,
-    NodeInfo
+    NodeInfo,
+    DeleteNodesAction,
+    DELETE_NODES,
+    SnackbarUserAction,
+    SnackbarAction,
+    UndoDeleteNodesAction,
+    UNDO_DELETE_NODES
 } from '../actions';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { Observable } from 'rxjs/Rx';
 import { DeletedNodeInfo } from '../../common/directives/deleted-node-info.interface';
 import { AlfrescoApiService } from '@alfresco/adf-core';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
 @Injectable()
 export class NodeEffects {
@@ -23,7 +30,7 @@ export class NodeEffects {
         private store: Store<AppStore>,
         private actions$: Actions,
         private contentManagementService: ContentManagementService,
-        private alfrescoApiService: AlfrescoApiService,
+        private alfrescoApiService: AlfrescoApiService
     ) {}
 
     @Effect({ dispatch: false })
@@ -34,27 +41,208 @@ export class NodeEffects {
         })
     );
 
-    private purgeNodes(selection: NodeInfo[] = [])  {
+    @Effect({ dispatch: false })
+    deleteNodes$ = this.actions$.pipe(
+        ofType<DeleteNodesAction>(DELETE_NODES),
+        map(action => {
+            if (action.payload.length > 0) {
+                this.deleteNodes(action.payload);
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    undoDeleteNodes$ = this.actions$.pipe(
+        ofType<UndoDeleteNodesAction>(UNDO_DELETE_NODES),
+        map(action => {
+            if (action.payload.length > 0) {
+                this.undoDeleteNodes(action.payload);
+            }
+        })
+    );
+
+    private deleteNodes(items: MinimalNodeEntity[]): void {
+        const batch: Observable<DeletedNodeInfo>[] = [];
+
+        items.forEach(node => {
+            batch.push(this.deleteNode(node));
+        });
+
+        Observable.forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
+            const processedData = this.processStatus(data);
+            const message = this.getDeleteMessage(processedData);
+
+            if (message && processedData.someSucceeded) {
+                message.duration = 10000;
+                message.userAction = new SnackbarUserAction(
+                    'APP.ACTIONS.UNDO',
+                    new UndoDeleteNodesAction([...processedData.success])
+                );
+
+                this.store.dispatch(message);
+            }
+
+            if (processedData.someSucceeded) {
+                this.contentManagementService.nodeDeleted.next(null); // TODO: remove
+                this.contentManagementService.nodesDeleted.next();
+            }
+        });
+    }
+
+    private deleteNode(node: MinimalNodeEntity): Observable<DeletedNodeInfo> {
+        const { name } = node.entry;
+        // Check if there's nodeId for Shared Files
+        const id = node.entry.nodeId || node.entry.id;
+
+        return Observable.fromPromise(
+            this.alfrescoApiService.nodesApi.deleteNode(id)
+        )
+            .map(() => {
+                return {
+                    id,
+                    name,
+                    status: 1
+                };
+            })
+            .catch((error: any) => {
+                return Observable.of({
+                    id,
+                    name,
+                    status: 0
+                });
+            });
+    }
+
+    private getDeleteMessage(status: DeleteStatus): SnackbarAction {
+        if (status.allFailed && !status.oneFailed) {
+            return new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
+                { number: status.fail.length }
+            );
+        }
+
+        if (status.allSucceeded && !status.oneSucceeded) {
+            return new SnackbarInfoAction(
+                'APP.MESSAGES.INFO.NODE_DELETION.PLURAL',
+                { number: status.success.length }
+            );
+        }
+
+        if (status.someFailed && status.someSucceeded && !status.oneSucceeded) {
+            return new SnackbarWarningAction(
+                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL',
+                {
+                    success: status.success.length,
+                    failed: status.fail.length
+                }
+            );
+        }
+
+        if (status.someFailed && status.oneSucceeded) {
+            return new SnackbarWarningAction(
+                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR',
+                {
+                    success: status.success.length,
+                    failed: status.fail.length
+                }
+            );
+        }
+
+        if (status.oneFailed && !status.someSucceeded) {
+            return new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.NODE_DELETION',
+                { name: status.fail[0].name }
+            );
+        }
+
+        if (status.oneSucceeded && !status.someFailed) {
+            return new SnackbarInfoAction(
+                'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR',
+                { name: status.success[0].name }
+            );
+        }
+
+        return null;
+    }
+
+    private undoDeleteNodes(items: DeletedNodeInfo[]): void {
+        const batch: Observable<DeletedNodeInfo>[] = [];
+
+        items.forEach(item => {
+            batch.push(this.undoDeleteNode(item));
+        });
+
+        Observable.forkJoin(...batch).subscribe(data => {
+            const processedData = this.processStatus(data);
+
+            if (processedData.fail.length) {
+                const message = this.getUndoDeleteMessage(processedData);
+                this.store.dispatch(message);
+            }
+
+            if (processedData.someSucceeded) {
+                // TODO: remove
+                this.contentManagementService.nodeRestored.next(null);
+                this.contentManagementService.nodesRestored.next();
+            }
+        });
+    }
+
+    private undoDeleteNode(item: DeletedNodeInfo): Observable<DeletedNodeInfo> {
+        const { id, name } = item;
+
+        return Observable.fromPromise(this.alfrescoApiService.nodesApi.restoreNode(id))
+            .map(() => {
+                return {
+                    id,
+                    name,
+                    status: 1
+                };
+            })
+            .catch((error: any) => {
+                return Observable.of({
+                    id,
+                    name,
+                    status: 0
+                });
+            });
+    }
+
+    private getUndoDeleteMessage(status: DeleteStatus): SnackbarAction {
+        if (status.someFailed && !status.oneFailed) {
+            return new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL',
+                { number: status.fail.length }
+            );
+        }
+
+        if (status.oneFailed) {
+            return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_RESTORE', {
+                name: status.fail[0].name
+            });
+        }
+
+        return null;
+    }
+
+    private purgeNodes(selection: NodeInfo[] = []) {
         if (!selection.length) {
             return;
         }
 
         const batch = selection.map(node => this.purgeDeletedNode(node));
 
-        Observable.forkJoin(batch)
-            .subscribe(
-                purgedNodes => {
-                    const status = this.processStatus(purgedNodes);
+        Observable.forkJoin(batch).subscribe(purgedNodes => {
+            const status = this.processStatus(purgedNodes);
 
-                    if (status.success.length) {
-                        this.contentManagementService.nodesPurged.next();
-                    }
-                    const message = this.getPurgeMessage(status);
-                    if (message) {
-                        this.store.dispatch(message);
-                    }
-                }
-            );
+            if (status.success.length) {
+                this.contentManagementService.nodesPurged.next();
+            }
+            const message = this.getPurgeMessage(status);
+            if (message) {
+                this.store.dispatch(message);
+            }
+        });
     }
 
     private purgeDeletedNode(node: NodeInfo): Observable<DeletedNodeInfo> {
@@ -67,7 +255,7 @@ export class NodeEffects {
                 id,
                 name
             }))
-            .catch((error) => {
+            .catch(error => {
                 return Observable.of({
                     status: 0,
                     id,
@@ -81,10 +269,10 @@ export class NodeEffects {
             fail: [],
             success: [],
             get someFailed() {
-                return !!(this.fail.length);
+                return !!this.fail.length;
             },
             get someSucceeded() {
-                return !!(this.success.length);
+                return !!this.success.length;
             },
             get oneFailed() {
                 return this.fail.length === 1;
@@ -104,21 +292,18 @@ export class NodeEffects {
             }
         };
 
-        return data.reduce(
-            (acc, node) => {
-                if (node.status) {
-                    acc.success.push(node);
-                } else {
-                    acc.fail.push(node);
-                }
+        return data.reduce((acc, node) => {
+            if (node.status) {
+                acc.success.push(node);
+            } else {
+                acc.fail.push(node);
+            }
 
-                return acc;
-            },
-            status
-        );
+            return acc;
+        }, status);
     }
 
-    private getPurgeMessage(status: DeleteStatus): Action {
+    private getPurgeMessage(status: DeleteStatus): SnackbarAction {
         if (status.oneSucceeded && status.someFailed && !status.oneFailed) {
             return new SnackbarWarningAction(
                 'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR',

@@ -5,13 +5,25 @@
 
     .error-snackbar {
         background-color: mat-color($warn);
+
+        .mat-simple-snackbar-action {
+            color: white;
+        }
     }
 
     .warning-snackbar {
         background-color: mat-color($accent);
+
+        .mat-simple-snackbar-action {
+            color: white;
+        }
     }
 
     .info-snackbar {
         background-color: mat-color($primary);
+
+        .mat-simple-snackbar-action {
+            color: white;
+        }
     }
 }
