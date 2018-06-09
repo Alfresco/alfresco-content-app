@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
@@ -31,6 +31,7 @@ import { TranslationService, AlfrescoApiService, NotificationService } from '@al
 import { MinimalNodeEntity, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
 import { DeletedNodeInfo } from './deleted-node-info.interface';
 import { DeleteStatus } from './delete-status.interface';
+import { ContentManagementService } from '../services/content-management.service';
 
 @Directive({
     selector: '[acaRestoreNode]'
@@ -52,7 +53,7 @@ export class NodeRestoreDirective {
         private translation: TranslationService,
         private router: Router,
         private notification: NotificationService,
-        private el: ElementRef
+        private contentManagementService: ContentManagementService
     ) {
         this.status = this.processStatus();
     }
@@ -245,10 +246,6 @@ export class NodeRestoreDirective {
     }
 
     private refresh(): void {
-        this.status.reset();
-        this.selection = [];
-        this.el.nativeElement.dispatchEvent(
-            new CustomEvent('selection-node-restored', { bubbles: true })
-        );
+        this.contentManagementService.nodesRestored.next();
     }
 }
