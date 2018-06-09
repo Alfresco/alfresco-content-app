@@ -64,7 +64,6 @@ describe('FilesComponent', () => {
     let router: Router;
     let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
-    let notificationService: NotificationService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -124,7 +123,6 @@ describe('FilesComponent', () => {
             router = TestBed.get(Router);
             alfrescoContentService = TestBed.get(ContentService);
             browsingFilesService = TestBed.get(BrowsingFilesService);
-            notificationService = TestBed.get(NotificationService);
             nodeActionsService = TestBed.get(NodeActionsService);
         });
     }));
@@ -451,18 +449,6 @@ describe('FilesComponent', () => {
             const mock  = { aspectNames: [ 'st:siteContainer' ] };
 
             expect(component.isSiteContainer(mock)).toBe(true);
-        });
-    });
-
-    describe('openSnackMessage', () => {
-        it('should call notification service', () => {
-            const message = 'notification message';
-
-            spyOn(notificationService, 'openSnackMessage');
-
-            component.openSnackMessage(message);
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });
