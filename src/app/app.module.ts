@@ -83,6 +83,7 @@ import { SnackbarEffects } from './store/effects/snackbar.effects';
 import { NodeEffects } from './store/effects/node.effects';
 import { environment } from '../environments/environment';
 import { RouterEffects } from './store/effects/router.effects';
+import { CreateFolderDirective } from './directives/create-folder.directive';
 
 
 @NgModule({
@@ -140,7 +141,8 @@ import { RouterEffects } from './store/effects/router.effects';
         SettingsComponent,
         SortingPreferenceKeyDirective,
         InfoDrawerComponent,
-        EditFolderDirective
+        EditFolderDirective,
+        CreateFolderDirective
     ],
     providers: [
         { provide: AppConfigService, useClass: HybridAppConfigService },

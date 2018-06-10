@@ -26,27 +26,26 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule, MatSnackBarModule } from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
-import {
-    AppConfigService, AuthenticationService,
-    UserPreferencesService, StorageService, AlfrescoApiService,
-    CookieService, LogService, NotificationService, TranslationService, TranslationMock
-} from '@alfresco/adf-core';
+import { AppConfigService, TranslationService, TranslationMock, CoreModule } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { SidenavComponent } from './sidenav.component';
 import { ElectronModule } from '@ngstack/electron';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { NodeEffects } from '../../store/effects/node.effects';
+import { ContentManagementService } from '../../common/services/content-management.service';
 
 describe('SidenavComponent', () => {
     let fixture;
     let component: SidenavComponent;
     let browsingService: BrowsingFilesService;
     let appConfig: AppConfigService;
-    let notificationService: NotificationService;
     let appConfigSpy;
 
     const navItem = {
@@ -60,28 +59,22 @@ describe('SidenavComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 NoopAnimationsModule,
-                HttpClientModule,
+                CoreModule.forRoot(),
                 MatMenuModule,
                 MatSnackBarModule,
-                TranslateModule.forRoot(),
                 RouterTestingModule,
-                ElectronModule
+                ElectronModule,
+                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 SidenavComponent
             ],
             providers: [
                 { provide: TranslationService, useClass: TranslationMock },
-                LogService,
-                CookieService,
-                AlfrescoApiService,
-                StorageService,
-                UserPreferencesService,
-                AuthenticationService,
                 NodePermissionService,
-                AppConfigService,
                 BrowsingFilesService,
-                NotificationService
+                ContentManagementService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
@@ -89,7 +82,6 @@ describe('SidenavComponent', () => {
         .then(() => {
             browsingService = TestBed.get(BrowsingFilesService);
             appConfig = TestBed.get(AppConfigService);
-            notificationService = TestBed.get(NotificationService);
 
             fixture = TestBed.createComponent(SidenavComponent);
             component = fixture.componentInstance;
@@ -120,18 +112,6 @@ describe('SidenavComponent', () => {
             fixture.detectChanges();
 
             expect(component.navigation).toEqual([[navItem, navItem], [navItem, navItem]]);
-        });
-    });
-
-    describe('openSnackMessage', () => {
-        it('should call notification service', () => {
-            const message = 'notification message';
-
-            spyOn(notificationService, 'openSnackMessage');
-
-            component.openSnackMessage(message);
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });
