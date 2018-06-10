@@ -68,20 +68,20 @@ export class NodeEffects {
         });
 
         Observable.forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
-            const processedData = this.processStatus(data);
-            const message = this.getDeleteMessage(processedData);
+            const status = this.processStatus(data);
+            const message = this.getDeleteMessage(status);
 
-            if (message && processedData.someSucceeded) {
+            if (message && status.someSucceeded) {
                 message.duration = 10000;
                 message.userAction = new SnackbarUserAction(
                     'APP.ACTIONS.UNDO',
-                    new UndoDeleteNodesAction([...processedData.success])
+                    new UndoDeleteNodesAction([...status.success])
                 );
-
-                this.store.dispatch(message);
             }
 
-            if (processedData.someSucceeded) {
+            this.store.dispatch(message);
+
+            if (status.someSucceeded) {
                 this.contentManagementService.nodesDeleted.next();
             }
         });
