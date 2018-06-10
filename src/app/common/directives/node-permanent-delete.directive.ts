@@ -23,23 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-
-import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
+import { Directive, HostListener, Input } from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { MatDialog } from '@angular/material';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
+import { Store } from '@ngrx/store';
+
+import { AppStore } from '../../store/states/app.state';
+import { NodeInfo, PurgeDeletedNodesAction } from '../../store/actions';
 
 @Directive({
-    // tslint:disable-next-line:directive-selector
-    selector: '[app-permanent-delete-node]'
+    selector: '[acaPermanentDelete]'
 })
 export class NodePermanentDeleteDirective {
 
     // tslint:disable-next-line:no-input-rename
-    @Input('app-permanent-delete-node')
+    @Input('acaPermanentDelete')
     selection: MinimalNodeEntity[];
+
+    constructor(
+        private store: Store<AppStore>,
+        private dialog: MatDialog
+    ) {}
 
     @HostListener('click')
     onClick() {
@@ -55,165 +60,17 @@ export class NodePermanentDeleteDirective {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result === true) {
-                this.purge();
+                const nodesToDelete: NodeInfo[] = this.selection.map(node => {
+                    const { name } = node.entry;
+                    const id = node.entry.nodeId || node.entry.id;
+
+                    return {
+                        id,
+                        name
+                    };
+                });
+                this.store.dispatch(new PurgeDeletedNodesAction(nodesToDelete));
             }
         });
-    }
-
-    constructor(
-        private alfrescoApiService: AlfrescoApiService,
-        private translation: TranslationService,
-        private notification: NotificationService,
-        private el: ElementRef,
-        private dialog: MatDialog
-    ) {}
-
-    private purge()  {
-        if (!this.selection.length) {
-            return;
-        }
-
-        const batch = this.getPurgedNodesBatch(this.selection);
-
-        Observable.forkJoin(batch)
-            .subscribe(
-                (purgedNodes) => {
-                    const status = this.processStatus(purgedNodes);
-
-                    this.purgeNotification(status);
-
-                    if (status.success.length) {
-                        this.emitDone();
-                    }
-
-                    this.selection = [];
-                    status.reset();
-                }
-            );
-    }
-
-    private getPurgedNodesBatch(selection): Observable<MinimalNodeEntity[]> {
-        return selection.map((node: MinimalNodeEntity) => this.purgeDeletedNode(node));
-    }
-
-    private purgeDeletedNode(node): Observable<any> {
-        const { id, name } = node.entry;
-        const promise = this.alfrescoApiService.getInstance().nodes.purgeDeletedNode(id);
-
-        return Observable.from(promise)
-            .map(() => ({
-                status: 1,
-                id,
-                name
-            }))
-            .catch((error) => {
-                return Observable.of({
-                    status: 0,
-                    id,
-                    name
-                });
-            });
-    }
-
-    private purgeNotification(status): void {
-        const message = this.getPurgeMessage(status);
-        this.notification.openSnackMessage(message, 3000);
-    }
-
-    private getPurgeMessage(status): string {
-        if (status.oneSucceeded && status.someFailed && !status.oneFailed) {
-            return this.translation.instant(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR',
-                {
-                    name: status.success[0].name,
-                    failed: status.fail.length
-                }
-            );
-        }
-
-        if (status.someSucceeded && !status.oneSucceeded && status.someFailed) {
-            return this.translation.instant(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL',
-                {
-                    number: status.success.length,
-                    failed: status.fail.length
-                }
-            );
-        }
-
-        if (status.oneSucceeded) {
-            return this.translation.instant(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR',
-                { name: status.success[0].name }
-            );
-        }
-
-        if (status.oneFailed) {
-            return this.translation.instant(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR',
-                { name: status.fail[0].name }
-            );
-        }
-
-        if (status.allSucceeded) {
-            return this.translation.instant(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL',
-                { number: status.success.length }
-            );
-        }
-
-        if (status.allFailed) {
-            return this.translation.instant(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL',
-                { number: status.fail.length }
-            );
-        }
-    }
-
-    private processStatus(data = []): any {
-        const status = {
-            fail: [],
-            success: [],
-            get someFailed() {
-                return !!(this.fail.length);
-            },
-            get someSucceeded() {
-                return !!(this.success.length);
-            },
-            get oneFailed() {
-                return this.fail.length === 1;
-            },
-            get oneSucceeded() {
-                return this.success.length === 1;
-            },
-            get allSucceeded() {
-                return this.someSucceeded && !this.someFailed;
-            },
-            get allFailed() {
-                return this.someFailed && !this.someSucceeded;
-            },
-            reset() {
-                this.fail = [];
-                this.success = [];
-            }
-        };
-
-        return data.reduce(
-            (acc, node) => {
-                if (node.status) {
-                    acc.success.push(node);
-                } else {
-                    acc.fail.push(node);
-                }
-
-                return acc;
-            },
-            status
-        );
-    }
-
-    private emitDone() {
-        const e = new CustomEvent('selection-node-deleted', { bubbles: true });
-        this.el.nativeElement.dispatchEvent(e);
     }
 }

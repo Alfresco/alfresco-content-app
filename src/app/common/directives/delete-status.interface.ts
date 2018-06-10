@@ -23,13 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subject } from 'rxjs/Rx';
-import { Injectable } from '@angular/core';
-
-@Injectable()
-export class ContentManagementService {
-    nodesMoved = new Subject<any>();
-    nodesDeleted = new Subject<any>();
-    nodesPurged = new Subject<any>();
-    nodesRestored = new Subject<any>();
+export interface DeleteStatus {
+    success: any[];
+    fail: any[];
+    someFailed: boolean;
+    someSucceeded: boolean;
+    oneFailed: boolean;
+    oneSucceeded: boolean;
+    allSucceeded: boolean;
+    allFailed: boolean;
+    reset(): void;
 }

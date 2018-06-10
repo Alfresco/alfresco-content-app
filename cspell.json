@@ -21,6 +21,8 @@
         "promisify",
         "xdescribe",
         "unfavorite",
+        "Snackbar",
+        "devtools",
 
         "unshare",
         "validators",

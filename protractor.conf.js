@@ -29,7 +29,9 @@ exports.config = {
                 'credentials_enable_service': false
             },
             args: [ '--incognito', '--headless' ]
-        }
+        },
+        shardTestFiles: true,
+        maxInstances: 10
     },
 
     directConnect: true,

@@ -58,7 +58,6 @@ describe('Favorites Routed Component', () => {
     let alfrescoApi: AlfrescoApiService;
     let alfrescoContentService: ContentService;
     let contentService: ContentManagementService;
-    let notificationService: NotificationService;
     let router: Router;
     let page;
     let node;
@@ -132,7 +131,6 @@ describe('Favorites Routed Component', () => {
             component = fixture.componentInstance;
 
             nodesApi = TestBed.get(NodesApiService);
-            notificationService = TestBed.get(NotificationService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
             alfrescoApi.reset();
             alfrescoContentService = TestBed.get(ContentService);
@@ -158,19 +156,19 @@ describe('Favorites Routed Component', () => {
         });
 
         it('should refresh on move node event', () => {
-            contentService.nodeMoved.next(null);
+            contentService.nodesMoved.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node deleted event', () => {
-            contentService.nodeDeleted.next(null);
+            contentService.nodesDeleted.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node restore event', () => {
-            contentService.nodeRestored.next(null);
+            contentService.nodesRestored.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });
@@ -242,18 +240,6 @@ describe('Favorites Routed Component', () => {
             component.reload();
 
             expect(component.documentList.reload).toHaveBeenCalled();
-        });
-    });
-
-    describe('openSnackMessage', () => {
-        it('should call notification service', () => {
-            const message = 'notification message';
-
-            spyOn(notificationService, 'openSnackMessage');
-
-            component.openSnackMessage(message);
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });

@@ -124,7 +124,7 @@ describe('TrashcanComponent', () => {
             spyOn(component, 'reload');
             fixture.detectChanges();
 
-            contentService.nodeRestored.next();
+            contentService.nodesRestored.next();
 
             expect(component.reload).toHaveBeenCalled();
         });

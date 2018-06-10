@@ -23,18 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
 import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
+import { DeletedNodeInfo } from './deleted-node-info.interface';
+import { DeleteStatus } from './delete-status.interface';
+import { ContentManagementService } from '../services/content-management.service';
 
 @Directive({
     selector: '[acaRestoreNode]'
 })
 export class NodeRestoreDirective {
-    private restoreProcessStatus;
+    status: DeleteStatus;
 
     // tslint:disable-next-line:no-input-rename
     @Input('acaRestoreNode')
@@ -50,37 +53,37 @@ export class NodeRestoreDirective {
         private translation: TranslationService,
         private router: Router,
         private notification: NotificationService,
-        private el: ElementRef
+        private contentManagementService: ContentManagementService
     ) {
-        this.restoreProcessStatus = this.processStatus();
+        this.status = this.processStatus();
     }
 
-    private restore(selection: any)  {
+    private restore(selection: MinimalNodeEntity[])  {
         if (!selection.length) {
             return;
         }
 
-        const nodesWithPath = this.getNodesWithPath(selection);
+        const nodesWithPath = selection.filter(node => node.entry.path);
 
         if (selection.length && !nodesWithPath.length) {
-            this.restoreProcessStatus.fail.push(...selection);
+            this.status.fail.push(...selection);
             this.restoreNotification();
             this.refresh();
             return;
         }
 
-        this.restoreNodesBatch(nodesWithPath)
+        Observable.forkJoin(nodesWithPath.map((node) => this.restoreNode(node)))
             .do((restoredNodes) => {
                 const status = this.processStatus(restoredNodes);
 
-                this.restoreProcessStatus.fail.push(...status.fail);
-                this.restoreProcessStatus.success.push(...status.success);
+                this.status.fail.push(...status.fail);
+                this.status.success.push(...status.success);
             })
             .flatMap(() => this.getDeletedNodes())
             .subscribe(
                 (deletedNodesList: DeletedNodesPaging) => {
                     const { entries: nodeList } = deletedNodesList.list;
-                    const { fail: restoreErrorNodes } = this.restoreProcessStatus;
+                    const { fail: restoreErrorNodes } = this.status;
                     const selectedNodes = this.diff(restoreErrorNodes, selection, false);
                     const remainingNodes = this.diff(selectedNodes, nodeList);
 
@@ -94,27 +97,18 @@ export class NodeRestoreDirective {
             );
     }
 
-    private restoreNodesBatch(batch: MinimalNodeEntity[]): Observable<MinimalNodeEntity[]> {
-        return Observable.forkJoin(batch.map((node) => this.restoreNode(node)));
-    }
-
-    private getNodesWithPath(selection): MinimalNodeEntity[] {
-        return selection.filter((node) => node.entry.path);
-    }
-
     private getDeletedNodes(): Observable<DeletedNodesPaging> {
-        const promise = this.alfrescoApiService.getInstance()
-            .core.nodesApi.getDeletedNodes({ include: [ 'path' ] });
-
-        return Observable.from(promise);
+        return Observable.from(
+            this.alfrescoApiService.nodesApi.getDeletedNodes({ include: [ 'path' ] })
+        );
     }
 
-    private restoreNode(node): Observable<any> {
+    private restoreNode(node: MinimalNodeEntity): Observable<any> {
         const { entry } = node;
 
-        const promise = this.alfrescoApiService.getInstance().nodes.restoreNode(entry.id);
-
-        return Observable.from(promise)
+        return Observable.from(
+                this.alfrescoApiService.nodesApi.restoreNode(entry.id)
+            )
             .map(() => ({
                 status: 1,
                 entry
@@ -130,7 +124,7 @@ export class NodeRestoreDirective {
             });
     }
 
-    private navigateLocation(path: PathInfoEntity) {
+    private navigateLocation(path: PathInfoEntity): void {
         const parent = path.elements[path.elements.length - 1];
 
         this.router.navigate([ '/personal-files',  parent.id ]);
@@ -148,7 +142,7 @@ export class NodeRestoreDirective {
         });
     }
 
-    private processStatus(data = []): any {
+    private processStatus(data: DeletedNodeInfo[] = []): DeleteStatus {
         const status = {
             fail: [],
             success: [],
@@ -190,9 +184,7 @@ export class NodeRestoreDirective {
         );
     }
 
-    private getRestoreMessage(): string {
-        const { restoreProcessStatus: status } = this;
-
+    private getRestoreMessage(status: DeleteStatus): string {
         if (status.someFailed && !status.oneFailed) {
             return this.translation.instant(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL',
@@ -243,10 +235,10 @@ export class NodeRestoreDirective {
         }
     }
 
-    private restoreNotification(): void {
-        const status = Object.assign({}, this.restoreProcessStatus);
+    restoreNotification(): void {
+        const status = Object.assign({}, this.status);
         const action = (status.oneSucceeded && !status.someFailed) ? this.translation.translate.instant('APP.ACTIONS.VIEW') : '';
-        const message = this.getRestoreMessage();
+        const message = this.getRestoreMessage(this.status);
 
         this.notification.openSnackMessageAction(message, action, 3000)
             .onAction()
@@ -254,13 +246,6 @@ export class NodeRestoreDirective {
     }
 
     private refresh(): void {
-        this.restoreProcessStatus.reset();
-        this.selection = [];
-        this.emitDone();
-    }
-
-    private emitDone() {
-        const e = new CustomEvent('selection-node-restored', { bubbles: true });
-        this.el.nativeElement.dispatchEvent(e);
+        this.contentManagementService.nodesRestored.next();
     }
 }

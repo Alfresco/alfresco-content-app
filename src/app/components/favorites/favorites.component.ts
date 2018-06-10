@@ -26,7 +26,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MinimalNodeEntryEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
-import { ContentService, NodesApiService, UserPreferencesService, NotificationService } from '@alfresco/adf-core';
+import { ContentService, NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -45,7 +45,6 @@ export class FavoritesComponent extends PageComponent implements OnInit {
                 private nodesApi: NodesApiService,
                 private contentService: ContentService,
                 private content: ContentManagementService,
-                private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
         super(preferences, router, route, store);
@@ -55,10 +54,10 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         super.ngOnInit();
 
         this.subscriptions = this.subscriptions.concat([
-            this.content.nodeDeleted.subscribe(() => this.reload()),
-            this.content.nodeRestored.subscribe(() => this.reload()),
+            this.content.nodesDeleted.subscribe(() => this.reload()),
+            this.content.nodesRestored.subscribe(() => this.reload()),
             this.contentService.folderEdit.subscribe(() => this.reload()),
-            this.content.nodeMoved.subscribe(() => this.reload())
+            this.content.nodesMoved.subscribe(() => this.reload())
         ]);
     }
 
@@ -90,12 +89,5 @@ export class FavoritesComponent extends PageComponent implements OnInit {
                 this.router.navigate(['./preview', node.id], { relativeTo: this.route });
             }
         }
-    }
-
-    openSnackMessage(event: any) {
-        this.notificationService.openSnackMessage(
-            event,
-            4000
-        );
     }
 }

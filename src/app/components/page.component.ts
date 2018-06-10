@@ -31,7 +31,7 @@ import { OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { Subscription, Subject } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
-import { SetSelectedNodesAction } from '../store/actions/select-nodes.action';
+import { SetSelectedNodesAction } from '../store/actions/node.action';
 import { selectedNodes } from '../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
 

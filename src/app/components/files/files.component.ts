@@ -29,7 +29,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import {
     UploadService, FileUploadEvent, NodesApiService,
-    ContentService, AlfrescoApiService, UserPreferencesService, NotificationService
+    ContentService, AlfrescoApiService, UserPreferencesService
 } from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
@@ -60,7 +60,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private browsingFilesService: BrowsingFilesService,
                 private contentService: ContentService,
                 private apiService: AlfrescoApiService,
-                private notificationService: NotificationService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
         super(preferences, router, route, store);
@@ -101,9 +100,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
             contentService.folderCreate.subscribe(() => this.documentList.reload()),
             contentService.folderEdit.subscribe(() => this.documentList.reload()),
-            contentManagementService.nodeDeleted.subscribe(() => this.documentList.reload()),
-            contentManagementService.nodeMoved.subscribe(() => this.documentList.reload()),
-            contentManagementService.nodeRestored.subscribe(() => this.documentList.reload()),
+            contentManagementService.nodesDeleted.subscribe(() => this.documentList.reload()),
+            contentManagementService.nodesMoved.subscribe(() => this.documentList.reload()),
+            contentManagementService.nodesRestored.subscribe(() => this.documentList.reload()),
             uploadService.fileUploadComplete.subscribe(file => this.onFileUploadedEvent(file)),
             uploadService.fileUploadDeleted.subscribe((file) => this.onFileUploadedEvent(file))
         ]);
@@ -252,12 +251,5 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             return this.node.path.elements[0].id === nodeId;
         }
         return false;
-    }
-
-    openSnackMessage(event: any) {
-        this.notificationService.openSnackMessage(
-            event,
-            4000
-        );
     }
 }

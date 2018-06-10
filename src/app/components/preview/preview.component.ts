@@ -28,7 +28,9 @@ import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_O
 import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { DeleteNodesAction } from '../../store/actions';
 
 @Component({
     selector: 'app-preview',
@@ -54,11 +56,12 @@ export class PreviewComponent implements OnInit {
 
     selectedEntities: MinimalNodeEntity[] = [];
 
-    constructor(private router: Router,
+    constructor(
+        private store: Store<AppStore>,
+        private router: Router,
         private route: ActivatedRoute,
         private apiService: AlfrescoApiService,
         private preferences: UserPreferencesService,
-        private content: ContentManagementService,
         public permission: NodePermissionService) {
     }
 
@@ -326,12 +329,14 @@ export class PreviewComponent implements OnInit {
         return path;
     }
 
-    async deleteFile() {
-        try {
-            await this.content.deleteNode(this.node);
-            this.onVisibilityChanged(false);
-        } catch {
-        }
+    deleteFile() {
+        this.store.dispatch(new DeleteNodesAction([
+            {
+                id: this.node.nodeId || this.node.id,
+                name: this.node.name
+            }
+        ]));
+        this.onVisibilityChanged(false);
     }
 
     private getNavigationCommands(url: string): any[] {

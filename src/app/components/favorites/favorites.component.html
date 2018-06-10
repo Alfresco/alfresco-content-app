@@ -26,9 +26,8 @@
                 mat-icon-button
                 color="primary"
                 *ngIf="selectedFolder"
-                [attr.title]="'APP.ACTIONS.EDIT' | translate"
-                (error)="openSnackMessage($event)"
-                [adf-edit-folder]="selectedFolder?.entry">
+                title="{{ 'APP.ACTIONS.EDIT' | translate }}"
+                [acaEditFolder]="selectedFolder">
                 <mat-icon>create</mat-icon>
             </button>
 

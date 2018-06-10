@@ -23,17 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { TranslationService, NodesApiService, NotificationService, CoreModule } from '@alfresco/adf-core';
+import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
 import { Component, DebugElement } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
 
 import { NodeDeleteDirective } from './node-delete.directive';
 import { ContentManagementService } from '../services/content-management.service';
-import { MatSnackBarModule } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
+import { EffectsModule, Actions, ofType } from '@ngrx/effects';
+import { NodeEffects } from '../../store/effects/node.effects';
+import {
+    SnackbarInfoAction, SNACKBAR_INFO, SNACKBAR_ERROR,
+    SnackbarErrorAction, SnackbarWarningAction, SNACKBAR_WARNING
+} from '../../store/actions';
+import { map } from 'rxjs/operators';
 
 @Component({
     template: '<div [acaDeleteNode]="selection"></div>'
@@ -46,20 +52,15 @@ describe('NodeDeleteDirective', () => {
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
     let element: DebugElement;
-    let notificationService: NotificationService;
-    let translationService: TranslationService;
-    let contentService: ContentManagementService;
-    let nodeApiService: NodesApiService;
-    let spySnackBar;
+    let alfrescoApiService: AlfrescoApiService;
+    let actions$: Actions;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                BrowserAnimationsModule,
-                FormsModule,
-                ReactiveFormsModule,
                 CoreModule,
-                MatSnackBarModule
+                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 NodeDeleteDirective,
@@ -70,54 +71,62 @@ describe('NodeDeleteDirective', () => {
             ]
         });
 
+        alfrescoApiService = TestBed.get(AlfrescoApiService);
+        alfrescoApiService.reset();
+
+        actions$ = TestBed.get(Actions);
+
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(NodeDeleteDirective));
-        notificationService = TestBed.get(NotificationService);
-        translationService = TestBed.get(TranslationService);
-        nodeApiService = TestBed.get(NodesApiService);
-        contentService = TestBed.get(ContentManagementService);
-    });
-
-    beforeEach(() => {
-        spyOn(translationService, 'get').and.callFake((key) => {
-            return Observable.of(key);
-        });
     });
 
     describe('Delete action', () => {
-        beforeEach(() => {
-            spyOn(notificationService, 'openSnackMessageAction').and.callThrough();
-        });
+        it('should raise info message on successful single file deletion', fakeAsync(done => {
+            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.returnValue(Promise.resolve(null));
 
-        it('notifies file deletion', () => {
-            spyOn(nodeApiService, 'deleteNode').and.returnValue(Observable.of(null));
+            actions$.pipe(
+                ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+                map(action => {
+                    done();
+                })
+            );
 
             component.selection = [{ entry: { id: '1', name: 'name1' } }];
 
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
 
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR', 'APP.ACTIONS.UNDO', 10000
-            );
-        });
+            tick();
+        }));
 
-        it('notifies failed file deletion', () => {
-            spyOn(nodeApiService, 'deleteNode').and.returnValue(Observable.throw(null));
+        it('should raise error message on failed single file deletion', fakeAsync(done => {
+            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.returnValue(Promise.reject(null));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => {
+                    done();
+                })
+            );
 
             component.selection = [{ entry: { id: '1', name: 'name1' } }];
 
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
 
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.NODE_DELETION', '', 10000
-            );
-        });
+            tick();
+        }));
 
-        it('notifies files deletion', () => {
-            spyOn(nodeApiService, 'deleteNode').and.returnValue(Observable.of(null));
+        it('should raise info message on successful multiple files deletion', fakeAsync(done => {
+            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.returnValue(Promise.resolve(null));
+
+            actions$.pipe(
+                ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+                map(action => {
+                    done();
+                })
+            );
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } },
@@ -127,13 +136,18 @@ describe('NodeDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
 
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_DELETION.PLURAL', 'APP.ACTIONS.UNDO', 10000
-            );
-        });
+            tick();
+        }));
 
-        it('notifies failed files deletion', () => {
-            spyOn(nodeApiService, 'deleteNode').and.returnValue(Observable.throw(null));
+        it('should raise error message failed multiple files deletion', fakeAsync(done => {
+            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.returnValue(Promise.reject(null));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => {
+                    done();
+                })
+            );
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } },
@@ -143,20 +157,25 @@ describe('NodeDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
 
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL', '', 10000
-            );
-        });
+            tick();
+        }));
 
-        it('notifies partial deletion when only one file is successful', () => {
-            spyOn(nodeApiService, 'deleteNode').and.callFake((id) => {
+        it('should raise warning message when only one file is successful', fakeAsync(done => {
+            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Observable.throw(null);
+                    return Promise.reject(null);
                 } else {
-                    return Observable.of(null);
+                    return Promise.resolve(null);
                 }
             });
 
+            actions$.pipe(
+                ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+                map(action => {
+                    done();
+                })
+            );
+
             component.selection = [
                 { entry: { id: '1', name: 'name1' } },
                 { entry: { id: '2', name: 'name2' } }
@@ -165,25 +184,30 @@ describe('NodeDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
 
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR', 'APP.ACTIONS.UNDO', 10000
-            );
-        });
+            tick();
+        }));
 
-        it('notifies partial deletion when some files are successful', () => {
-            spyOn(nodeApiService, 'deleteNode').and.callFake((id) => {
+        it('should raise warning message when some files are successfully deleted', fakeAsync(done => {
+            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Observable.throw(null);
+                    return Promise.reject(null);
                 }
 
                 if (id === '2') {
-                    return Observable.of(null);
+                    return Promise.resolve(null);
                 }
 
                 if (id === '3') {
-                    return Observable.of(null);
+                    return Promise.resolve(null);
                 }
             });
+
+            actions$.pipe(
+                ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+                map(action => {
+                    done();
+                })
+            );
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } },
@@ -194,23 +218,18 @@ describe('NodeDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
 
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL', 'APP.ACTIONS.UNDO', 10000
-            );
-        });
+            tick();
+        }));
     });
 
+    /*
     describe('Restore action', () => {
         beforeEach(() => {
-            spyOn(nodeApiService, 'deleteNode').and.returnValue(Observable.of(null));
-
-            spySnackBar = spyOn(notificationService, 'openSnackMessageAction').and.returnValue({
-                onAction: () => Observable.of({})
-            });
+            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.returnValue(Promise.resolve(null));
         });
 
         it('notifies failed file on on restore', () => {
-            spyOn(nodeApiService, 'restoreNode').and.returnValue(Observable.throw(null));
+            spyOn(alfrescoApiService.nodesApi, 'restoreNode').and.returnValue(Promise.reject(null));
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } }
@@ -224,7 +243,7 @@ describe('NodeDeleteDirective', () => {
         });
 
         it('notifies failed files on on restore', () => {
-            spyOn(nodeApiService, 'restoreNode').and.returnValue(Observable.throw(null));
+            spyOn(alfrescoApiService.nodesApi, 'restoreNode').and.returnValue(Promise.reject(null));
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } },
@@ -240,11 +259,11 @@ describe('NodeDeleteDirective', () => {
 
         it('signals files restored', () => {
             spyOn(contentService.nodeRestored, 'next');
-            spyOn(nodeApiService, 'restoreNode').and.callFake((id) => {
+            spyOn(alfrescoApiService.nodesApi, 'restoreNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Observable.of(null);
+                    return Promise.resolve(null);
                 } else {
-                    return Observable.throw(null);
+                    return Promise.reject(null);
                 }
             });
 
@@ -259,4 +278,5 @@ describe('NodeDeleteDirective', () => {
             expect(contentService.nodeRestored.next).toHaveBeenCalled();
         });
     });
+    */
 });
