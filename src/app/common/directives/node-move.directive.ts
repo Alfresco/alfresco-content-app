@@ -31,6 +31,9 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 import { ContentManagementService } from '../services/content-management.service';
 import { NodeActionsService } from '../services/node-actions.service';
 import { Observable } from 'rxjs/Rx';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { SnackbarErrorAction } from '../../store/actions';
 
 @Directive({
     selector: '[acaMoveNode]'
@@ -47,6 +50,7 @@ export class NodeMoveDirective {
     }
 
     constructor(
+        private store: Store<AppStore>,
         private content: ContentManagementService,
         private notification: NotificationService,
         private nodeActionsService: NodeActionsService,
@@ -194,22 +198,19 @@ export class NodeMoveDirective {
                 () => {
                     this.content.nodesMoved.next(null);
                 },
-                (error) => {
-
-                    let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
+                error => {
+                    let message = 'APP.MESSAGES.ERRORS.GENERIC';
 
                     let errorJson = null;
                     try {
                         errorJson = JSON.parse(error.message);
-                    } catch (e) { //
-                    }
+                    } catch {}
 
                     if (errorJson && errorJson.error && errorJson.error.statusCode === 403) {
-                        i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
+                        message = 'APP.MESSAGES.ERRORS.PERMISSION';
                     }
 
-                    const message = this.translation.instant(i18nMessageString);
-                    this.notification.openSnackMessage(message, NodeActionsService.SNACK_MESSAGE_DURATION);
+                    this.store.dispatch(new SnackbarErrorAction(message));
                 }
             );
     }

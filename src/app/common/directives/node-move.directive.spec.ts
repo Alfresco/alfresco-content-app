@@ -24,7 +24,7 @@
  */
 
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 import { TranslationService, NodesApiService, NotificationService, CoreModule } from '@alfresco/adf-core';
@@ -34,6 +34,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeMoveDirective } from './node-move.directive';
 import { ContentManagementService } from '../services/content-management.service';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule, Actions, ofType } from '@ngrx/effects';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { NodeEffects } from '../../store/effects/node.effects';
+import { INITIAL_STATE } from '../../store/states/app.state';
+import { SnackbarErrorAction, SNACKBAR_ERROR } from '../../store/actions';
+import { map } from 'rxjs/operators';
 
 @Component({
     template: '<div [acaMoveNode]="selection"></div>'
@@ -50,12 +57,15 @@ describe('NodeMoveDirective', () => {
     let nodesApiService: NodesApiService;
     let service: NodeActionsService;
     let translationService: TranslationService;
+    let actions$: Actions;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
                 BrowserAnimationsModule,
-                CoreModule
+                CoreModule,
+                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 NodeMoveDirective,
@@ -68,6 +78,7 @@ describe('NodeMoveDirective', () => {
             ]
         });
 
+        actions$ = TestBed.get(Actions);
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(NodeMoveDirective));
@@ -407,8 +418,13 @@ describe('NodeMoveDirective', () => {
                 .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
         });
 
-        it('should notify when error occurs on Undo Move action', () => {
+        it('should notify when error occurs on Undo Move action', fakeAsync(done => {
             spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.throw(null));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
 
             const initialParent = 'parent-id-0';
             const node = { entry: { id: 'node-to-move-id', name: 'conflicting-name', parentId: initialParent } };
@@ -429,14 +445,15 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(<any>movedItems);
 
             expect(nodesApiService.restoreNode).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
-            expect(notificationService.openSnackMessage)
-                .toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC', 3000);
-        });
+        }));
 
-        it('should notify when some error of type Error occurs on Undo Move action', () => {
+        it('should notify when some error of type Error occurs on Undo Move action', fakeAsync(done => {
             spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.throw(new Error('oops!')));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
 
             const initialParent = 'parent-id-0';
             const node = { entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent } };
@@ -456,14 +473,15 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(<any>movedItems);
 
             expect(nodesApiService.restoreNode).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
-            expect(notificationService.openSnackMessage)
-                .toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC', 3000);
-        });
+        }));
 
-        it('should notify permission error when it occurs on Undo Move action', () => {
+        it('should notify permission error when it occurs on Undo Move action', fakeAsync(done => {
             spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
 
             const initialParent = 'parent-id-0';
             const node = { entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent } };
@@ -484,11 +502,7 @@ describe('NodeMoveDirective', () => {
 
             expect(service.moveNodes).toHaveBeenCalled();
             expect(nodesApiService.restoreNode).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
-            expect(notificationService.openSnackMessage)
-                .toHaveBeenCalledWith('APP.MESSAGES.ERRORS.PERMISSION', 3000);
-        });
+        }));
     });
 
 });
