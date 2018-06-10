@@ -58,7 +58,6 @@ describe('FilesComponent', () => {
     let fixture;
     let component: FilesComponent;
     let contentManagementService: ContentManagementService;
-    let alfrescoContentService: ContentService;
     let uploadService: UploadService;
     let nodesApi: NodesApiService;
     let router: Router;
@@ -121,7 +120,6 @@ describe('FilesComponent', () => {
             uploadService = TestBed.get(UploadService);
             nodesApi = TestBed.get(NodesApiService);
             router = TestBed.get(Router);
-            alfrescoContentService = TestBed.get(ContentService);
             browsingFilesService = TestBed.get(BrowsingFilesService);
             nodeActionsService = TestBed.get(NodeActionsService);
         });
@@ -241,13 +239,13 @@ describe('FilesComponent', () => {
         });
 
         it('should call refresh onCreateFolder event', () => {
-            alfrescoContentService.folderCreate.next();
+            contentManagementService.folderCreated.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('should call refresh editFolder event', () => {
-            alfrescoContentService.folderEdit.next();
+            contentManagementService.folderEdited.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });

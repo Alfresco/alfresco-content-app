@@ -26,7 +26,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MinimalNodeEntryEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
-import { ContentService, NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
+import { NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -43,7 +43,6 @@ export class FavoritesComponent extends PageComponent implements OnInit {
                 route: ActivatedRoute,
                 store: Store<AppStore>,
                 private nodesApi: NodesApiService,
-                private contentService: ContentService,
                 private content: ContentManagementService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
@@ -56,7 +55,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         this.subscriptions = this.subscriptions.concat([
             this.content.nodesDeleted.subscribe(() => this.reload()),
             this.content.nodesRestored.subscribe(() => this.reload()),
-            this.contentService.folderEdit.subscribe(() => this.reload()),
+            this.content.folderEdited.subscribe(() => this.reload()),
             this.content.nodesMoved.subscribe(() => this.reload())
         ]);
     }

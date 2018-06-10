@@ -32,4 +32,6 @@ export class ContentManagementService {
     nodesDeleted = new Subject<any>();
     nodesPurged = new Subject<any>();
     nodesRestored = new Subject<any>();
+    folderEdited = new Subject<any>();
+    folderCreated = new Subject<any>();
 }

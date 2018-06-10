@@ -56,7 +56,6 @@ describe('Favorites Routed Component', () => {
     let component: FavoritesComponent;
     let nodesApi: NodesApiService;
     let alfrescoApi: AlfrescoApiService;
-    let alfrescoContentService: ContentService;
     let contentService: ContentManagementService;
     let router: Router;
     let page;
@@ -133,7 +132,6 @@ describe('Favorites Routed Component', () => {
             nodesApi = TestBed.get(NodesApiService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
             alfrescoApi.reset();
-            alfrescoContentService = TestBed.get(ContentService);
             contentService = TestBed.get(ContentManagementService);
             router = TestBed.get(Router);
         });
@@ -150,7 +148,7 @@ describe('Favorites Routed Component', () => {
         });
 
         it('should refresh on editing folder event', () => {
-            alfrescoContentService.folderEdit.next(null);
+            contentService.folderEdited.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });

@@ -26,11 +26,11 @@
 import { Directive, Input, HostListener } from '@angular/core';
 import { MinimalNodeEntryEntity, MinimalNodeEntity } from 'alfresco-js-api';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { ContentService } from '@alfresco/adf-core';
 import { FolderDialogComponent } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
 import { SnackbarErrorAction } from '../store/actions';
+import { ContentManagementService } from '../common/services/content-management.service';
 
 @Directive({
     selector: '[acaEditFolder]'
@@ -54,7 +54,7 @@ export class EditFolderDirective {
     constructor(
         private store: Store<AppStore>,
         private dialogRef: MatDialog,
-        private content: ContentService
+        private content: ContentManagementService
     ) {}
 
     private get dialogConfig(): MatDialogConfig {
@@ -75,7 +75,7 @@ export class EditFolderDirective {
 
         dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
             if (node) {
-                this.content.folderEdit.next(node);
+                this.content.folderEdited.next(node);
             }
         });
     }

@@ -25,11 +25,11 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material';
-import { ContentService } from '@alfresco/adf-core';
 import { FolderDialogComponent } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
 import { SnackbarErrorAction } from '../store/actions';
+import { ContentManagementService } from '../common/services/content-management.service';
 
 @Directive({
     selector: '[acaCreateFolder]'
@@ -56,7 +56,7 @@ export class CreateFolderDirective {
     constructor(
         private store: Store<AppStore>,
         private dialogRef: MatDialog,
-        private content: ContentService
+        private content: ContentManagementService
     ) {}
 
     private get dialogConfig(): MatDialogConfig {
@@ -82,7 +82,7 @@ export class CreateFolderDirective {
 
         dialogInstance.afterClosed().subscribe(node => {
             if (node) {
-                this.content.folderCreate.next(node);
+                this.content.folderCreated.next(node);
             }
         });
     }
