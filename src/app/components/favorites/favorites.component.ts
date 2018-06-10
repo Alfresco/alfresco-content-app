@@ -25,7 +25,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MinimalNodeEntryEntity, PathElementEntity, PathInfo } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity, PathElementEntity, PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
 import { NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -78,15 +78,13 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         }
     }
 
-    onNodeDoubleClick(node: MinimalNodeEntryEntity) {
-        if (node) {
-            if (node.isFolder) {
-                this.navigate(node);
+    onNodeDoubleClick(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            if (node.entry.isFolder) {
+                this.navigate(node.entry);
             }
 
-            if (node.isFile) {
-                this.router.navigate(['./preview', node.id], { relativeTo: this.route });
-            }
+            this.showPreview(node);
         }
     }
 }

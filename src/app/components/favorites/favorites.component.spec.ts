@@ -51,7 +51,7 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../../store/reducers/app.reducer';
 import { INITIAL_STATE } from '../../store/states/app.state';
 
-describe('Favorites Routed Component', () => {
+describe('FavoritesComponent', () => {
     let fixture: ComponentFixture<FavoritesComponent>;
     let component: FavoritesComponent;
     let nodesApi: NodesApiService;
@@ -214,7 +214,7 @@ describe('Favorites Routed Component', () => {
             node.isFolder = true;
             spyOn(router, 'navigate');
 
-            component.onNodeDoubleClick(node);
+            component.onNodeDoubleClick({ entry: node });
 
             expect(router.navigate).toHaveBeenCalled();
         });
@@ -224,7 +224,7 @@ describe('Favorites Routed Component', () => {
             node.isFile = true;
             spyOn(router, 'navigate').and.stub();
 
-            component.onNodeDoubleClick(node);
+            component.onNodeDoubleClick({ entry: node });
 
             expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', 'folder-node']);
         });

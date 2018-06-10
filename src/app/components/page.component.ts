@@ -101,10 +101,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     }
 
     showPreview(node: MinimalNodeEntity) {
-        if (node && node.entry) {
-            if (node.entry.isFile) {
-                this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
-            }
+        if (node && node.entry && node.entry.isFile) {
+            this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
         }
     }
 
