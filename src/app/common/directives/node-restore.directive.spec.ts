@@ -50,7 +50,7 @@ class TestComponent {
     selection = [];
 }
 
-fdescribe('NodeRestoreDirective', () => {
+describe('NodeRestoreDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let element: DebugElement;
     let component: TestComponent;
