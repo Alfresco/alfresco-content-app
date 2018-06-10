@@ -25,8 +25,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MinimalNodeEntity } from 'alfresco-js-api';
-import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
+import { UserPreferencesService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -43,7 +42,6 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
                 route: ActivatedRoute,
                 store: Store<AppStore>,
                 private content: ContentManagementService,
-                private apiService: AlfrescoApiService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
         super(preferences, router, route, store);
@@ -61,13 +59,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
     onNodeDoubleClick(link: { nodeId?: string }) {
         if (link && link.nodeId) {
-            this.apiService.nodesApi.getNode(link.nodeId).then(
-                (node: MinimalNodeEntity) => {
-                    if (node && node.entry && node.entry.isFile) {
-                        this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
-                    }
-                }
-            );
+            this.router.navigate(['./preview', link.nodeId], { relativeTo: this.route });
         }
     }
 }
