@@ -82,6 +82,7 @@ import { EditFolderDirective } from './directives/edit-folder.directive';
 import { SnackbarEffects } from './store/effects/snackbar.effects';
 import { NodeEffects } from './store/effects/node.effects';
 import { environment } from '../environments/environment';
+import { RouterEffects } from './store/effects/router.effects';
 
 
 @NgModule({
@@ -105,7 +106,7 @@ import { environment } from '../environments/environment';
 
         StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-        EffectsModule.forRoot([SnackbarEffects, NodeEffects]),
+        EffectsModule.forRoot([SnackbarEffects, NodeEffects, RouterEffects]),
         !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
     ],
     declarations: [

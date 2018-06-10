@@ -24,24 +24,33 @@
  */
 
 import { Directive, HostListener, Input } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 
-import { TranslationService, AlfrescoApiService, NotificationService } from '@alfresco/adf-core';
-import { MinimalNodeEntity, PathInfoEntity, DeletedNodesPaging } from 'alfresco-js-api';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import {
+    MinimalNodeEntity,
+    PathInfoEntity,
+    DeletedNodesPaging
+} from 'alfresco-js-api';
 import { DeletedNodeInfo } from './deleted-node-info.interface';
 import { DeleteStatus } from './delete-status.interface';
 import { ContentManagementService } from '../services/content-management.service';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import {
+    NavigateRouteAction,
+    SnackbarAction,
+    SnackbarErrorAction,
+    SnackbarInfoAction,
+    SnackbarUserAction
+} from '../../store/actions';
 
 @Directive({
     selector: '[acaRestoreNode]'
 })
 export class NodeRestoreDirective {
-    status: DeleteStatus;
-
     // tslint:disable-next-line:no-input-rename
-    @Input('acaRestoreNode')
-    selection: MinimalNodeEntity[];
+    @Input('acaRestoreNode') selection: MinimalNodeEntity[];
 
     @HostListener('click')
     onClick() {
@@ -49,16 +58,12 @@ export class NodeRestoreDirective {
     }
 
     constructor(
+        private store: Store<AppStore>,
         private alfrescoApiService: AlfrescoApiService,
-        private translation: TranslationService,
-        private router: Router,
-        private notification: NotificationService,
         private contentManagementService: ContentManagementService
-    ) {
-        this.status = this.processStatus();
-    }
+    ) {}
 
-    private restore(selection: MinimalNodeEntity[])  {
+    private restore(selection: MinimalNodeEntity[] = []) {
         if (!selection.length) {
             return;
         }
@@ -66,40 +71,41 @@ export class NodeRestoreDirective {
         const nodesWithPath = selection.filter(node => node.entry.path);
 
         if (selection.length && !nodesWithPath.length) {
-            this.status.fail.push(...selection);
-            this.restoreNotification();
+            const failedStatus = this.processStatus([]);
+            failedStatus.fail.push(...selection);
+            this.restoreNotification(failedStatus);
             this.refresh();
             return;
         }
 
-        Observable.forkJoin(nodesWithPath.map((node) => this.restoreNode(node)))
-            .do((restoredNodes) => {
-                const status = this.processStatus(restoredNodes);
+        let status: DeleteStatus;
 
-                this.status.fail.push(...status.fail);
-                this.status.success.push(...status.success);
+        Observable.forkJoin(nodesWithPath.map(node => this.restoreNode(node)))
+            .do(restoredNodes => {
+                status = this.processStatus(restoredNodes);
             })
             .flatMap(() => this.getDeletedNodes())
-            .subscribe(
-                (deletedNodesList: DeletedNodesPaging) => {
-                    const { entries: nodeList } = deletedNodesList.list;
-                    const { fail: restoreErrorNodes } = this.status;
-                    const selectedNodes = this.diff(restoreErrorNodes, selection, false);
-                    const remainingNodes = this.diff(selectedNodes, nodeList);
+            .subscribe((nodes: DeletedNodesPaging) => {
+                const selectedNodes = this.diff(status.fail, selection, false);
+                const remainingNodes = this.diff(
+                    selectedNodes,
+                    nodes.list.entries
+                );
 
-                    if (!remainingNodes.length) {
-                        this.restoreNotification();
-                        this.refresh();
-                    } else {
-                        this.restore(remainingNodes);
-                    }
+                if (!remainingNodes.length) {
+                    this.restoreNotification(status);
+                    this.refresh();
+                } else {
+                    this.restore(remainingNodes);
                 }
-            );
+            });
     }
 
     private getDeletedNodes(): Observable<DeletedNodesPaging> {
         return Observable.from(
-            this.alfrescoApiService.nodesApi.getDeletedNodes({ include: [ 'path' ] })
+            this.alfrescoApiService.nodesApi.getDeletedNodes({
+                include: ['path']
+            })
         );
     }
 
@@ -107,14 +113,14 @@ export class NodeRestoreDirective {
         const { entry } = node;
 
         return Observable.from(
-                this.alfrescoApiService.nodesApi.restoreNode(entry.id)
-            )
+            this.alfrescoApiService.nodesApi.restoreNode(entry.id)
+        )
             .map(() => ({
                 status: 1,
                 entry
             }))
-            .catch((error) => {
-                const { statusCode } = (JSON.parse(error.message)).error;
+            .catch(error => {
+                const { statusCode } = JSON.parse(error.message).error;
 
                 return Observable.of({
                     status: 0,
@@ -124,13 +130,7 @@ export class NodeRestoreDirective {
             });
     }
 
-    private navigateLocation(path: PathInfoEntity): void {
-        const parent = path.elements[path.elements.length - 1];
-
-        this.router.navigate([ '/personal-files',  parent.id ]);
-    }
-
-    private diff(selection , list, fromList = true): any {
+    private diff(selection, list, fromList = true): any {
         const ids = selection.map(item => item.entry.id);
 
         return list.filter(item => {
@@ -147,10 +147,10 @@ export class NodeRestoreDirective {
             fail: [],
             success: [],
             get someFailed() {
-                return !!(this.fail.length);
+                return !!this.fail.length;
             },
             get someSucceeded() {
-                return !!(this.success.length);
+                return !!this.success.length;
             },
             get oneFailed() {
                 return this.fail.length === 1;
@@ -170,79 +170,82 @@ export class NodeRestoreDirective {
             }
         };
 
-        return data.reduce(
-            (acc, node) => {
-                if (node.status) {
-                    acc.success.push(node);
-                } else {
-                    acc.fail.push(node);
-                }
+        return data.reduce((acc, node) => {
+            if (node.status) {
+                acc.success.push(node);
+            } else {
+                acc.fail.push(node);
+            }
 
-                return acc;
-            },
-            status
-        );
+            return acc;
+        }, status);
     }
 
-    private getRestoreMessage(status: DeleteStatus): string {
+    private getRestoreMessage(status: DeleteStatus): SnackbarAction {
         if (status.someFailed && !status.oneFailed) {
-            return this.translation.instant(
+            return new SnackbarErrorAction(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL',
-                {
-                    number: status.fail.length
-                }
+                { number: status.fail.length }
             );
         }
 
         if (status.oneFailed && status.fail[0].statusCode) {
             if (status.fail[0].statusCode === 409) {
-                return this.translation.instant(
+                return new SnackbarErrorAction(
                     'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS',
-                    {
-                        name: status.fail[0].entry.name
-                    }
+                    { name: status.fail[0].entry.name }
                 );
             } else {
-                return this.translation.instant(
+                return new SnackbarErrorAction(
                     'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC',
-                    {
-                        name: status.fail[0].entry.name
-                    }
+                    { name: status.fail[0].entry.name }
                 );
             }
         }
 
         if (status.oneFailed && !status.fail[0].statusCode) {
-            return this.translation.instant(
+            return new SnackbarErrorAction(
                 'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.LOCATION_MISSING',
-                {
-                    name: status.fail[0].entry.name
-                }
+                { name: status.fail[0].entry.name }
             );
         }
 
         if (status.allSucceeded && !status.oneSucceeded) {
-            return this.translation.instant('APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL');
+            return new SnackbarInfoAction(
+                'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL'
+            );
         }
 
         if (status.allSucceeded && status.oneSucceeded) {
-            return this.translation.instant(
+            return new SnackbarInfoAction(
                 'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.SINGULAR',
-                {
-                    name: status.success[0].entry.name
-                }
+                { name: status.success[0].entry.name }
             );
         }
+
+        return null;
     }
 
-    restoreNotification(): void {
-        const status = Object.assign({}, this.status);
-        const action = (status.oneSucceeded && !status.someFailed) ? this.translation.translate.instant('APP.ACTIONS.VIEW') : '';
-        const message = this.getRestoreMessage(this.status);
+    restoreNotification(status: DeleteStatus): void {
+        const message = this.getRestoreMessage(status);
 
-        this.notification.openSnackMessageAction(message, action, 3000)
-            .onAction()
-            .subscribe(() => this.navigateLocation(status.success[0].entry.path));
+        if (message) {
+            if (status.oneSucceeded && !status.someFailed) {
+                const path: PathInfoEntity = status.success[0].entry.path;
+                const parent = path.elements[path.elements.length - 1];
+                const navigate = new NavigateRouteAction([
+                    '/personal-files',
+                    parent.id
+                ]);
+
+                message.userAction = new SnackbarUserAction(
+                    'APP.ACTIONS.VIEW',
+                    navigate
+                );
+            }
+
+            this.store.dispatch(message);
+        }
     }
 
     private refresh(): void {
