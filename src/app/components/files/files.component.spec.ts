@@ -58,13 +58,11 @@ describe('FilesComponent', () => {
     let fixture;
     let component: FilesComponent;
     let contentManagementService: ContentManagementService;
-    let alfrescoContentService: ContentService;
     let uploadService: UploadService;
     let nodesApi: NodesApiService;
     let router: Router;
     let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
-    let notificationService: NotificationService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -122,9 +120,7 @@ describe('FilesComponent', () => {
             uploadService = TestBed.get(UploadService);
             nodesApi = TestBed.get(NodesApiService);
             router = TestBed.get(Router);
-            alfrescoContentService = TestBed.get(ContentService);
             browsingFilesService = TestBed.get(BrowsingFilesService);
-            notificationService = TestBed.get(NotificationService);
             nodeActionsService = TestBed.get(NodeActionsService);
         });
     }));
@@ -243,31 +239,31 @@ describe('FilesComponent', () => {
         });
 
         it('should call refresh onCreateFolder event', () => {
-            alfrescoContentService.folderCreate.next();
+            contentManagementService.folderCreated.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('should call refresh editFolder event', () => {
-            alfrescoContentService.folderEdit.next();
+            contentManagementService.folderEdited.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('should call refresh deleteNode event', () => {
-            contentManagementService.nodeDeleted.next();
+            contentManagementService.nodesDeleted.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('should call refresh moveNode event', () => {
-            contentManagementService.nodeMoved.next();
+            contentManagementService.nodesMoved.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
         it('should call refresh restoreNode event', () => {
-            contentManagementService.nodeRestored.next();
+            contentManagementService.nodesRestored.next();
 
             expect(component.documentList.reload).toHaveBeenCalled();
         });
@@ -451,18 +447,6 @@ describe('FilesComponent', () => {
             const mock  = { aspectNames: [ 'st:siteContainer' ] };
 
             expect(component.isSiteContainer(mock)).toBe(true);
-        });
-    });
-
-    describe('openSnackMessage', () => {
-        it('should call notification service', () => {
-            const message = 'notification message';
-
-            spyOn(notificationService, 'openSnackMessage');
-
-            component.openSnackMessage(message);
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });

@@ -31,7 +31,7 @@ import { OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { Subscription, Subject } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
-import { SetSelectedNodesAction } from '../store/actions/select-nodes.action';
+import { SetSelectedNodesAction } from '../store/actions/node.action';
 import { selectedNodes } from '../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
 
@@ -101,10 +101,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     }
 
     showPreview(node: MinimalNodeEntity) {
-        if (node && node.entry) {
-            if (node.entry.isFile) {
-                this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
-            }
+        if (node && node.entry && node.entry.isFile) {
+            this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
         }
     }
 

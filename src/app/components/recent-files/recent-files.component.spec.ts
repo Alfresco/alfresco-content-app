@@ -130,7 +130,7 @@ describe('RecentFiles Routed Component', () => {
         it('should reload nodes on onDeleteNode event', () => {
             fixture.detectChanges();
 
-            contentService.nodeDeleted.next();
+            contentService.nodesDeleted.next();
 
             expect(component.reload).toHaveBeenCalled();
         });
@@ -138,7 +138,7 @@ describe('RecentFiles Routed Component', () => {
         it('should reload on onRestoreNode event', () => {
             fixture.detectChanges();
 
-            contentService.nodeRestored.next();
+            contentService.nodesRestored.next();
 
             expect(component.reload).toHaveBeenCalled();
         });
@@ -146,7 +146,7 @@ describe('RecentFiles Routed Component', () => {
         it('should reload on move node event', () => {
             fixture.detectChanges();
 
-            contentService.nodeMoved.next();
+            contentService.nodesMoved.next();
 
             expect(component.reload).toHaveBeenCalled();
         });

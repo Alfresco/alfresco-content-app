@@ -23,36 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input } from '@angular/core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { DeleteNodesAction, NodeInfo } from '../../store/actions';
-
-@Directive({
-    selector: '[acaDeleteNode]'
-})
-export class NodeDeleteDirective {
-
-    // tslint:disable-next-line:no-input-rename
-    @Input('acaDeleteNode')
-    selection: MinimalNodeEntity[];
-
-    constructor(private store: Store<AppStore>) {}
-
-    @HostListener('click')
-    onClick() {
-        if (this.selection && this.selection.length > 0) {
-            const toDelete: NodeInfo[] = this.selection.map(node => {
-                const { name } = node.entry;
-                const id = node.entry.nodeId || node.entry.id;
-
-                return {
-                    id,
-                    name
-                };
-            });
-            this.store.dispatch(new DeleteNodesAction(toDelete));
-        }
-    }
+export interface DeleteStatus {
+    success: any[];
+    fail: any[];
+    someFailed: boolean;
+    someSucceeded: boolean;
+    oneFailed: boolean;
+    oneSucceeded: boolean;
+    allSucceeded: boolean;
+    allFailed: boolean;
+    reset(): void;
 }

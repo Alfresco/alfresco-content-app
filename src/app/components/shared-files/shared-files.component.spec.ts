@@ -131,7 +131,7 @@ describe('SharedFilesComponent', () => {
         it('should refresh on deleteNode event', () => {
             fixture.detectChanges();
 
-            contentService.nodeDeleted.next();
+            contentService.nodesDeleted.next();
 
             expect(component.reload).toHaveBeenCalled();
         });
@@ -139,7 +139,7 @@ describe('SharedFilesComponent', () => {
         it('should refresh on restoreNode event', () => {
             fixture.detectChanges();
 
-            contentService.nodeRestored.next();
+            contentService.nodesRestored.next();
 
             expect(component.reload).toHaveBeenCalled();
         });
@@ -147,7 +147,7 @@ describe('SharedFilesComponent', () => {
         it('should reload on move node event', () => {
             fixture.detectChanges();
 
-            contentService.nodeMoved.next();
+            contentService.nodesMoved.next();
 
             expect(component.reload).toHaveBeenCalled();
         });
@@ -168,17 +168,6 @@ describe('SharedFilesComponent', () => {
             tick();
 
             expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.entry.id]);
-        }));
-
-        it('does nothing if node is folder', fakeAsync(() => {
-            spyOn(router, 'navigate').and.stub();
-            spyOn(nodeService, 'getNode').and.returnValue(Promise.resolve({ entry: { isFile: false } }));
-            const link = { nodeId: 'nodeId' };
-
-            component.onNodeDoubleClick(link);
-            tick();
-
-            expect(router.navigate).not.toHaveBeenCalled();
         }));
 
         it('does nothing if link data is not passed', () => {

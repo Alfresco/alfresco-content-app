@@ -35,6 +35,7 @@ import { ElectronModule } from '@ngstack/electron';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
@@ -77,6 +78,12 @@ import { SortingPreferenceKeyDirective } from './directives/sorting-preference-k
 import { INITIAL_STATE } from './store/states/app.state';
 import { appReducer } from './store/reducers/app.reducer';
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
+import { EditFolderDirective } from './directives/edit-folder.directive';
+import { SnackbarEffects } from './store/effects/snackbar.effects';
+import { NodeEffects } from './store/effects/node.effects';
+import { environment } from '../environments/environment';
+import { RouterEffects } from './store/effects/router.effects';
+import { CreateFolderDirective } from './directives/create-folder.directive';
 
 
 @NgModule({
@@ -100,7 +107,8 @@ import { InfoDrawerComponent } from './components/info-drawer/info-drawer.compon
 
         StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-        EffectsModule.forRoot([])
+        EffectsModule.forRoot([SnackbarEffects, NodeEffects, RouterEffects]),
+        !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
     ],
     declarations: [
         AppComponent,
@@ -132,7 +140,9 @@ import { InfoDrawerComponent } from './components/info-drawer/info-drawer.compon
         SearchComponent,
         SettingsComponent,
         SortingPreferenceKeyDirective,
-        InfoDrawerComponent
+        InfoDrawerComponent,
+        EditFolderDirective,
+        CreateFolderDirective
     ],
     providers: [
         { provide: AppConfigService, useClass: HybridAppConfigService },

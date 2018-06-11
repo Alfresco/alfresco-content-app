@@ -28,17 +28,20 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
-    AlfrescoApiService, UserPreferencesService, TranslationService, TranslationMock,
-    AppConfigService, StorageService, CookieService, NotificationService, NodeFavoriteDirective
+    AlfrescoApiService, UserPreferencesService,
+    TranslationService, TranslationMock,
+    CoreModule
 } from '@alfresco/adf-core';
-import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
 
 import { PreviewComponent } from './preview.component';
 import { Observable } from 'rxjs/Rx';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { MatSnackBarModule } from '@angular/material';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { NodeEffects } from '../../store/effects/node.effects';
 
 describe('PreviewComponent', () => {
 
@@ -52,25 +55,19 @@ describe('PreviewComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    HttpClientModule,
                     RouterTestingModule,
-                    TranslateModule.forRoot(),
-                    MatSnackBarModule
+                    CoreModule.forRoot(),
+                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                    EffectsModule.forRoot([NodeEffects])
                 ],
                 providers: [
                     { provide: TranslationService, useClass: TranslationMock },
-                    AlfrescoApiService,
-                    AppConfigService,
-                    StorageService,
-                    CookieService,
-                    NotificationService,
-                    UserPreferencesService,
                     NodePermissionService,
                     ContentManagementService
                 ],
                 declarations: [
                     PreviewComponent,
-                    NodeFavoriteDirective
+                    // NodeFavoriteDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         })

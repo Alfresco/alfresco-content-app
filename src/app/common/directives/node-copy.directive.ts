@@ -122,7 +122,7 @@ export class NodeCopyDirective {
         Observable.forkJoin(...batch)
             .subscribe(
                 () => {
-                    this.content.nodeDeleted.next(null);
+                    this.content.nodesDeleted.next(null);
                 },
                 (error) => {
                     let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';

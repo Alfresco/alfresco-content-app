@@ -3,7 +3,7 @@ import { AppState, INITIAL_APP_STATE } from '../states/app.state';
 import { SET_HEADER_COLOR, SetHeaderColorAction } from '../actions/header-color.action';
 import { SET_APP_NAME, SetAppNameAction } from '../actions/app-name.action';
 import { SET_LOGO_PATH, SetLogoPathAction } from '../actions/logo-path.action';
-import { SET_SELECTED_NODES, SetSelectedNodesAction } from '../actions/select-nodes.action';
+import { SET_SELECTED_NODES, SetSelectedNodesAction } from '../actions/node.action';
 
 
 export function appReducer(state: AppState = INITIAL_APP_STATE, action: Action): AppState {

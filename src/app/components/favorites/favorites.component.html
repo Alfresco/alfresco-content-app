@@ -26,9 +26,8 @@
                 mat-icon-button
                 color="primary"
                 *ngIf="selectedFolder"
-                [attr.title]="'APP.ACTIONS.EDIT' | translate"
-                (error)="openSnackMessage($event)"
-                [adf-edit-folder]="selectedFolder?.entry">
+                title="{{ 'APP.ACTIONS.EDIT' | translate }}"
+                [acaEditFolder]="selectedFolder">
                 <mat-icon>create</mat-icon>
             </button>
 
@@ -98,7 +97,7 @@
                 [navigate]="false"
                 [sorting]="[ 'modifiedAt', 'desc' ]"
                 [acaSortingPreferenceKey]="sortingPreferenceKey"
-                (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
+                (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
                 (ready)="onDocumentListReady($event, documentList)"
                 (node-select)="onNodeSelect($event, documentList)"
                 (node-unselect)="onNodeUnselect($event, documentList)">

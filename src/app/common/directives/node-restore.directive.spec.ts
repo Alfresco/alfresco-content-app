@@ -24,16 +24,24 @@
  */
 
 import { Component, DebugElement } from '@angular/core';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
 
-import { AlfrescoApiService, TranslationService, NotificationService, CoreModule } from '@alfresco/adf-core';
+import { AlfrescoApiService, TranslationService, CoreModule } from '@alfresco/adf-core';
 
 import { NodeRestoreDirective } from './node-restore.directive';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ContentManagementService } from '../services/content-management.service';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule, Actions, ofType } from '@ngrx/effects';
+import { appReducer } from '../../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../../store/states/app.state';
+import { SnackbarErrorAction,
+    SNACKBAR_ERROR, SnackbarInfoAction, SNACKBAR_INFO,
+    NavigateRouteAction, NAVIGATE_ROUTE } from '../../store/actions';
+import { map } from 'rxjs/operators';
 
 @Component({
     template: `<div [acaRestoreNode]="selection"></div>`
@@ -48,73 +56,70 @@ describe('NodeRestoreDirective', () => {
     let component: TestComponent;
     let alfrescoService: AlfrescoApiService;
     let translation: TranslationService;
-    let notificationService: NotificationService;
-    let router: Router;
-    let nodesService;
-    let coreApi;
-    let directiveInstance;
+    let directiveInstance: NodeRestoreDirective;
+    let contentManagementService: ContentManagementService;
+    let actions$: Actions;
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
                 NoopAnimationsModule,
                 RouterTestingModule,
-                CoreModule
+                CoreModule.forRoot(),
+                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                EffectsModule.forRoot([])
             ],
             declarations: [
                 NodeRestoreDirective,
                 TestComponent
+            ],
+            providers: [
+                ContentManagementService
             ]
-        })
-        .compileComponents()
-        .then(() => {
-            fixture = TestBed.createComponent(TestComponent);
-            component = fixture.componentInstance;
-            element = fixture.debugElement.query(By.directive(NodeRestoreDirective));
-            directiveInstance = element.injector.get(NodeRestoreDirective);
-
-            alfrescoService = TestBed.get(AlfrescoApiService);
-            alfrescoService.reset();
-
-            translation = TestBed.get(TranslationService);
-            notificationService = TestBed.get(NotificationService);
-            router = TestBed.get(Router);
         });
-    }));
 
-    beforeEach(() => {
-        nodesService = alfrescoService.getInstance().nodes;
-        coreApi = alfrescoService.getInstance().core;
+        actions$ = TestBed.get(Actions);
 
+        alfrescoService = TestBed.get(AlfrescoApiService);
+        alfrescoService.reset();
+
+        fixture = TestBed.createComponent(TestComponent);
+        component = fixture.componentInstance;
+        element = fixture.debugElement.query(By.directive(NodeRestoreDirective));
+        directiveInstance = element.injector.get(NodeRestoreDirective);
+
+        translation = TestBed.get(TranslationService);
         spyOn(translation, 'instant').and.returnValue(Observable.of('message'));
+
+        contentManagementService = TestBed.get(ContentManagementService);
     });
 
     it('does not restore nodes if no selection', () => {
-        spyOn(nodesService, 'restoreNode');
+        spyOn(alfrescoService.nodesApi, 'restoreNode');
 
         component.selection = [];
 
         fixture.detectChanges();
         element.triggerEventHandler('click', null);
 
-        expect(nodesService.restoreNode).not.toHaveBeenCalled();
+        expect(alfrescoService.nodesApi.restoreNode).not.toHaveBeenCalled();
     });
 
     it('does not restore nodes if selection has nodes without path', () => {
-        spyOn(nodesService, 'restoreNode');
+        spyOn(alfrescoService.nodesApi, 'restoreNode');
 
         component.selection = [ { entry: { id: '1' } } ];
 
         fixture.detectChanges();
         element.triggerEventHandler('click', null);
 
-        expect(nodesService.restoreNode).not.toHaveBeenCalled();
+        expect(alfrescoService.nodesApi.restoreNode).not.toHaveBeenCalled();
     });
 
     it('call restore nodes if selection has nodes with path', fakeAsync(() => {
         spyOn(directiveInstance, 'restoreNotification').and.callFake(() => null);
-        spyOn(nodesService, 'restoreNode').and.returnValue(Promise.resolve());
-        spyOn(coreApi.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
+        spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.resolve());
+        spyOn(alfrescoService.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
             list: { entries: [] }
         }));
 
@@ -124,46 +129,16 @@ describe('NodeRestoreDirective', () => {
         element.triggerEventHandler('click', null);
         tick();
 
-        expect(nodesService.restoreNode).toHaveBeenCalled();
+        expect(alfrescoService.nodesApi.restoreNode).toHaveBeenCalled();
     }));
 
     describe('refresh()', () => {
-        it('reset selection', fakeAsync(() => {
+        it('dispatch event on finish', fakeAsync(done => {
             spyOn(directiveInstance, 'restoreNotification').and.callFake(() => null);
-            spyOn(nodesService, 'restoreNode').and.returnValue(Promise.resolve());
-            spyOn(coreApi.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
+            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.resolve());
+            spyOn(alfrescoService.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
                 list: { entries: [] }
             }));
-
-            component.selection = [{ entry: { id: '1', path: ['somewhere-over-the-rainbow'] } }];
-
-            fixture.detectChanges();
-
-            expect(directiveInstance.selection.length).toBe(1);
-
-            element.triggerEventHandler('click', null);
-            tick();
-
-            expect(directiveInstance.selection.length).toBe(0);
-        }));
-
-        it('reset status', fakeAsync(() => {
-            directiveInstance.restoreProcessStatus.fail = [{}];
-            directiveInstance.restoreProcessStatus.success = [{}];
-
-            directiveInstance.restoreProcessStatus.reset();
-
-            expect(directiveInstance.restoreProcessStatus.fail).toEqual([]);
-            expect(directiveInstance.restoreProcessStatus.success).toEqual([]);
-        }));
-
-        it('dispatch event on finish', fakeAsync(() => {
-            spyOn(directiveInstance, 'restoreNotification').and.callFake(() => null);
-            spyOn(nodesService, 'restoreNode').and.returnValue(Promise.resolve());
-            spyOn(coreApi.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
-                list: { entries: [] }
-            }));
-            spyOn(element.nativeElement, 'dispatchEvent');
 
             component.selection = [{ entry: { id: '1', path: ['somewhere-over-the-rainbow'] } }];
 
@@ -171,23 +146,26 @@ describe('NodeRestoreDirective', () => {
             element.triggerEventHandler('click', null);
             tick();
 
-            expect(element.nativeElement.dispatchEvent).toHaveBeenCalled();
+            contentManagementService.nodesRestored.subscribe(() => done());
         }));
     });
 
     describe('notification', () => {
         beforeEach(() => {
-            spyOn(coreApi.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
+            spyOn(alfrescoService.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
                 list: { entries: [] }
             }));
         });
 
-        it('notifies on partial multiple fail ', fakeAsync(() => {
+        it('should raise error message on partial multiple fail ', fakeAsync(done => {
             const error = { message: '{ "error": {} }' };
 
-            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({ onAction: () => Observable.throw(null) });
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
 
-            spyOn(nodesService, 'restoreNode').and.callFake((id) => {
+            spyOn(alfrescoService.nodesApi, 'restoreNode').and.callFake((id) => {
                 if (id === '1') {
                     return Promise.resolve();
                 }
@@ -210,18 +188,16 @@ describe('NodeRestoreDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(translation.instant).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL',
-                { number: 2 }
-            );
         }));
 
-        it('notifies fail when restored node exist, error 409', fakeAsync(() => {
+        it('should raise error message when restored node exist, error 409', fakeAsync(done => {
             const error = { message: '{ "error": { "statusCode": 409 } }' };
+            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.reject(error));
 
-            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({ onAction: () => Observable.throw(null) });
-            spyOn(nodesService, 'restoreNode').and.returnValue(Promise.reject(error));
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
 
             component.selection = [
                 { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } }
@@ -230,18 +206,17 @@ describe('NodeRestoreDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(translation.instant).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS',
-                { name: 'name1' }
-            );
         }));
 
-        it('notifies fail when restored node returns different statusCode', fakeAsync(() => {
+        it('should raise error message when restored node returns different statusCode', fakeAsync(done => {
             const error = { message: '{ "error": { "statusCode": 404 } }' };
 
-            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({ onAction: () => Observable.throw(null) });
-            spyOn(nodesService, 'restoreNode').and.returnValue(Promise.reject(error));
+            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.reject(error));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
 
             component.selection = [
                 { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } }
@@ -250,18 +225,17 @@ describe('NodeRestoreDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(translation.instant).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC',
-                { name: 'name1' }
-            );
         }));
 
-        it('notifies fail when restored node location is missing', fakeAsync(() => {
+        it('should raise error message when restored node location is missing', fakeAsync(done => {
             const error = { message: '{ "error": { } }' };
 
-            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({ onAction: () => Observable.throw(null) });
-            spyOn(nodesService, 'restoreNode').and.returnValue(Promise.reject(error));
+            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.reject(error));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
 
             component.selection = [
                 { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } }
@@ -270,16 +244,10 @@ describe('NodeRestoreDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(translation.instant).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.LOCATION_MISSING',
-                { name: 'name1' }
-            );
         }));
 
-        it('notifies success when restore multiple nodes', fakeAsync(() => {
-            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({ onAction: () => Observable.throw(null) });
-            spyOn(nodesService, 'restoreNode').and.callFake((id) => {
+        it('should raise info message when restore multiple nodes', fakeAsync(done => {
+            spyOn(alfrescoService.nodesApi, 'restoreNode').and.callFake((id) => {
                 if (id === '1') {
                     return Promise.resolve();
                 }
@@ -289,6 +257,11 @@ describe('NodeRestoreDirective', () => {
                 }
             });
 
+            actions$.pipe(
+                ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+                map(action => done())
+            );
+
             component.selection = [
                 { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } },
                 { entry: { id: '2', name: 'name2', path: ['somewhere-over-the-rainbow'] } }
@@ -297,15 +270,15 @@ describe('NodeRestoreDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(translation.instant).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL'
-            );
         }));
 
-        it('notifies success when restore selected node', fakeAsync(() => {
-            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({ onAction: () => Observable.throw(null) });
-            spyOn(nodesService, 'restoreNode').and.returnValue(Promise.resolve());
+        xit('should raise info message when restore selected node', fakeAsync(done => {
+            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.resolve());
+
+            actions$.pipe(
+                ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+                map(action => done())
+            );
 
             component.selection = [
                 { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } }
@@ -314,17 +287,15 @@ describe('NodeRestoreDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(translation.instant).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.SINGULAR',
-                { name: 'name1' }
-            );
         }));
 
-        it('navigate to restore selected node location onAction', fakeAsync(() => {
-            spyOn(router, 'navigate');
-            spyOn(nodesService, 'restoreNode').and.returnValue(Promise.resolve());
-            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({ onAction: () => Observable.of({}) });
+        it('navigate to restore selected node location onAction', fakeAsync(done => {
+            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.resolve());
+
+            actions$.pipe(
+                ofType<NavigateRouteAction>(NAVIGATE_ROUTE),
+                map(action => done())
+            );
 
             component.selection = [
                 {
@@ -341,8 +312,6 @@ describe('NodeRestoreDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(router.navigate).toHaveBeenCalled();
         }));
     });
 });

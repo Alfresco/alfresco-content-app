@@ -51,14 +51,12 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../../store/reducers/app.reducer';
 import { INITIAL_STATE } from '../../store/states/app.state';
 
-describe('Favorites Routed Component', () => {
+describe('FavoritesComponent', () => {
     let fixture: ComponentFixture<FavoritesComponent>;
     let component: FavoritesComponent;
     let nodesApi: NodesApiService;
     let alfrescoApi: AlfrescoApiService;
-    let alfrescoContentService: ContentService;
     let contentService: ContentManagementService;
-    let notificationService: NotificationService;
     let router: Router;
     let page;
     let node;
@@ -132,10 +130,8 @@ describe('Favorites Routed Component', () => {
             component = fixture.componentInstance;
 
             nodesApi = TestBed.get(NodesApiService);
-            notificationService = TestBed.get(NotificationService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
             alfrescoApi.reset();
-            alfrescoContentService = TestBed.get(ContentService);
             contentService = TestBed.get(ContentManagementService);
             router = TestBed.get(Router);
         });
@@ -152,25 +148,25 @@ describe('Favorites Routed Component', () => {
         });
 
         it('should refresh on editing folder event', () => {
-            alfrescoContentService.folderEdit.next(null);
+            contentService.folderEdited.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on move node event', () => {
-            contentService.nodeMoved.next(null);
+            contentService.nodesMoved.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node deleted event', () => {
-            contentService.nodeDeleted.next(null);
+            contentService.nodesDeleted.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on node restore event', () => {
-            contentService.nodeRestored.next(null);
+            contentService.nodesRestored.next(null);
 
             expect(component.reload).toHaveBeenCalled();
         });
@@ -218,7 +214,7 @@ describe('Favorites Routed Component', () => {
             node.isFolder = true;
             spyOn(router, 'navigate');
 
-            component.onNodeDoubleClick(node);
+            component.onNodeDoubleClick({ entry: node });
 
             expect(router.navigate).toHaveBeenCalled();
         });
@@ -228,7 +224,7 @@ describe('Favorites Routed Component', () => {
             node.isFile = true;
             spyOn(router, 'navigate').and.stub();
 
-            component.onNodeDoubleClick(node);
+            component.onNodeDoubleClick({ entry: node });
 
             expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', 'folder-node']);
         });
@@ -242,18 +238,6 @@ describe('Favorites Routed Component', () => {
             component.reload();
 
             expect(component.documentList.reload).toHaveBeenCalled();
-        });
-    });
-
-    describe('openSnackMessage', () => {
-        it('should call notification service', () => {
-            const message = 'notification message';
-
-            spyOn(notificationService, 'openSnackMessage');
-
-            component.openSnackMessage(message);
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });

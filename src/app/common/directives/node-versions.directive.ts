@@ -23,13 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Directive, HostListener, Input } from '@angular/core';
 
-import { TranslationService, NotificationService, AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 import { VersionManagerDialogAdapterComponent } from '../../components/versions-dialog/version-manager-dialog-adapter.component';
 import { MatDialog } from '@angular/material';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { SnackbarErrorAction } from '../../store/actions';
 
 @Directive({
     selector: '[acaNodeVersions]'
@@ -40,19 +43,15 @@ export class NodeVersionsDirective {
     @Input('acaNodeVersions')
     node: MinimalNodeEntity;
 
-    @Output()
-    nodeVersionError: EventEmitter<any> = new EventEmitter();
-
     @HostListener('click')
     onClick() {
         this.onManageVersions();
     }
 
     constructor(
+        private store: Store<AppStore>,
         private apiService: AlfrescoApiService,
-        private dialog: MatDialog,
-        private notification: NotificationService,
-        private translation: TranslationService
+        private dialog: MatDialog
     ) {}
 
     async onManageVersions() {
@@ -79,10 +78,7 @@ export class NodeVersionsDirective {
                 VersionManagerDialogAdapterComponent,
                 <any>{ data: { contentEntry }, panelClass: 'adf-version-manager-dialog', width: '630px' });
         } else {
-            const translatedErrorMessage = this.translation.instant('APP.MESSAGES.ERRORS.PERMISSION');
-            this.notification.openSnackMessage(translatedErrorMessage, 4000);
-
-            this.nodeVersionError.emit();
+            this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
         }
     }
 }
