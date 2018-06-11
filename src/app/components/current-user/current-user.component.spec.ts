@@ -33,7 +33,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material';
 import {
     TranslationService, TranslationMock, AlfrescoApiService,
-    AppConfigService, StorageService, PeopleContentService
+    AppConfigService, StorageService, PeopleContentService, UserPreferencesService
  } from '@alfresco/adf-core';
 
 import { CurrentUserComponent } from './current-user.component';
@@ -65,7 +65,8 @@ describe('CurrentUserComponent', () => {
                 AlfrescoApiService,
                 AppConfigService,
                 StorageService,
-                PeopleContentService
+                PeopleContentService,
+                UserPreferencesService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
