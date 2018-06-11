@@ -170,17 +170,6 @@ describe('SharedFilesComponent', () => {
             expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.entry.id]);
         }));
 
-        it('does nothing if node is folder', fakeAsync(() => {
-            spyOn(router, 'navigate').and.stub();
-            spyOn(nodeService, 'getNode').and.returnValue(Promise.resolve({ entry: { isFile: false } }));
-            const link = { nodeId: 'nodeId' };
-
-            component.onNodeDoubleClick(link);
-            tick();
-
-            expect(router.navigate).not.toHaveBeenCalled();
-        }));
-
         it('does nothing if link data is not passed', () => {
             spyOn(router, 'navigate').and.stub();
             spyOn(nodeService, 'getNode').and.returnValue(Promise.resolve({ entry: { isFile: true } }));
