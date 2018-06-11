@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PeopleContentService, AppConfigService } from '@alfresco/adf-core';
+import { PeopleContentService } from '@alfresco/adf-core';
 import { Subscription } from 'rxjs/Rx';
 
 @Component({
@@ -38,8 +38,7 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
     user: any = null;
 
     constructor(
-        private peopleApi: PeopleContentService,
-        private appConfig: AppConfigService
+        private peopleApi: PeopleContentService
     ) {}
 
     ngOnInit() {
@@ -70,9 +69,5 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
     get userInitials(): string {
         const { userFirstName: first, userLastName: last } = this;
         return [ first[0], last[0] ].join('');
-    }
-
-    get showLanguagePicker() {
-        return this.appConfig.get('languagePicker') || false;
     }
 }
