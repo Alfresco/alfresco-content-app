@@ -151,7 +151,7 @@ describe('Libraries Routed Component', () => {
         it('sets title with id when duplicate nodes title exists in list', () => {
             node.title = 'title';
 
-            const data = new ShareDataTableAdapter(null);
+            const data = new ShareDataTableAdapter(null, null);
             data.setRows([<any>{ node: { entry: { id: 'some-id', title: 'title' } } }]);
 
             component.documentList.data = data;
@@ -163,7 +163,7 @@ describe('Libraries Routed Component', () => {
         it('sets title when no duplicate nodes title exists in list', () => {
             node.title = 'title';
 
-            const data = new ShareDataTableAdapter(null);
+            const data = new ShareDataTableAdapter(null, null);
             data.setRows([<any>{ node: { entry: { id: 'some-id', title: 'title-some-id' } } }]);
 
             component.documentList.data = data;
