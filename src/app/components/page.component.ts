@@ -24,7 +24,7 @@
  */
 
 import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
-import { UserPreferencesService } from '@alfresco/adf-core';
+import { UserPreferencesService, FileUploadErrorEvent } from '@alfresco/adf-core';
 import { ShareDataRow, DocumentListComponent } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OnDestroy, ViewChild, OnInit } from '@angular/core';
@@ -34,6 +34,8 @@ import { AppStore } from '../store/states/app.state';
 import { SetSelectedNodesAction } from '../store/actions/node.action';
 import { selectedNodes } from '../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
+import { SnackbarInfoAction } from '../store/actions';
+
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
@@ -180,5 +182,15 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             this.store.dispatch(new SetSelectedNodesAction([]));
             this.documentList.reload();
         }
+    }
+
+    onFileUploadedError(error: FileUploadErrorEvent) {
+        let message = null;
+
+        if (error.error.status === 409) {
+           message =  new SnackbarInfoAction('VERSION.MESSAGE.ERROR.CONFLICT');
+        }
+
+        this.store.dispatch(message);
     }
 }
