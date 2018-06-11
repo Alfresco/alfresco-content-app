@@ -1,6 +1,8 @@
 <adf-search-control
     [highlight]="true"
     (optionClicked)="onItemClicked($event)"
+    [expandable]="!onSearchResults"
+    [liveSearchEnabled]="!onSearchResults"
     (submit)="onSearchSubmit($event)"
     (searchChange)="onSearchChange($event)">
 </adf-search-control>
