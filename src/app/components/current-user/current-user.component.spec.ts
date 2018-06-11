@@ -38,7 +38,7 @@ import {
 
 import { CurrentUserComponent } from './current-user.component';
 
-fdescribe('CurrentUserComponent', () => {
+describe('CurrentUserComponent', () => {
     let fixture;
     let component;
     let peopleApi: PeopleContentService;
