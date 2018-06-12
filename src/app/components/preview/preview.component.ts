@@ -25,13 +25,13 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
-import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
+import { AlfrescoApiService, UserPreferencesService, ObjectUtils, UploadService } from '@alfresco/adf-core';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { DeleteNodesAction } from '../../store/actions';
-
+import { PageComponent } from '../page.component';
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
@@ -40,7 +40,7 @@ import { DeleteNodesAction } from '../../store/actions';
     // tslint:disable-next-line:use-host-property-decorator
     host: { 'class': 'app-preview' }
 })
-export class PreviewComponent implements OnInit {
+export class PreviewComponent extends PageComponent implements OnInit {
 
     node: Node;
     previewLocation: string = null;
@@ -57,12 +57,15 @@ export class PreviewComponent implements OnInit {
     selectedEntities: MinimalNodeEntity[] = [];
 
     constructor(
-        private store: Store<AppStore>,
-        private router: Router,
-        private route: ActivatedRoute,
+        private uploadService: UploadService,
         private apiService: AlfrescoApiService,
-        private preferences: UserPreferencesService,
+        preferences: UserPreferencesService,
+        route: ActivatedRoute,
+        router: Router,
+        store: Store<AppStore>,
         public permission: NodePermissionService) {
+
+        super(preferences, router, route, store);
     }
 
     ngOnInit() {
@@ -90,6 +93,10 @@ export class PreviewComponent implements OnInit {
                 this.displayNode(id);
             }
         });
+
+        this.subscriptions = this.subscriptions.concat([
+            this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
+        ]);
     }
 
     /**

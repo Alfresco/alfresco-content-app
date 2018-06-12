@@ -26,7 +26,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { UserPreferencesService } from '@alfresco/adf-core';
+import { UserPreferencesService, UploadService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
@@ -43,6 +43,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
         router: Router,
         route: ActivatedRoute,
         store: Store<AppStore>,
+        private uploadService: UploadService,
         private content: ContentManagementService,
         public permission: NodePermissionService,
         preferences: UserPreferencesService) {
@@ -55,7 +56,8 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
         this.subscriptions = this.subscriptions.concat([
             this.content.nodesDeleted.subscribe(() => this.reload()),
             this.content.nodesMoved.subscribe(() => this.reload()),
-            this.content.nodesRestored.subscribe(() => this.reload())
+            this.content.nodesRestored.subscribe(() => this.reload()),
+            this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
     }
 

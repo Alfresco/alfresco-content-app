@@ -30,7 +30,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import {
     NotificationService, TranslationService, TranslationMock,
-    NodesApiService, AlfrescoApiService, ContentService,
+    NodesApiService, AlfrescoApiService, ContentService, UploadService,
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService, AuthenticationService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
@@ -99,7 +99,8 @@ describe('RecentFiles Routed Component', () => {
                     NodesApiService,
                     DocumentListService,
                     ThumbnailService,
-                    CustomResourcesService
+                    CustomResourcesService,
+                    UploadService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         })

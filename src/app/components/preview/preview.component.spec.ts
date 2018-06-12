@@ -30,7 +30,7 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
     AlfrescoApiService, UserPreferencesService,
     TranslationService, TranslationMock,
-    CoreModule
+    CoreModule, UploadService
 } from '@alfresco/adf-core';
 
 import { PreviewComponent } from './preview.component';
@@ -63,7 +63,8 @@ describe('PreviewComponent', () => {
                 providers: [
                     { provide: TranslationService, useClass: TranslationMock },
                     NodePermissionService,
-                    ContentManagementService
+                    ContentManagementService,
+                    UploadService
                 ],
                 declarations: [
                     PreviewComponent,
