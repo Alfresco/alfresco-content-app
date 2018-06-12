@@ -3,6 +3,14 @@
     $accent: map-get($theme, accent);
     $primary: map-get($theme, primary);
 
+    .adf-sidebar-action-menu {
+        .adf-sidebar-action-menu-button {
+            font-size: 12.7px;
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+    }
+
     .mat-menu-panel.adf-sidebar-action-menu-panel {
         max-width: 290px !important;
     }
