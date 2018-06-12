@@ -98,7 +98,7 @@
             },
             "SEARCH": {
                 "TITLE": "Search Results",
-                "SHOW_RESULTS_NUMBER": "Showing {{ number }} results"
+                "FOUND_RESULTS": "{{ number }} results found"
             }
         },
         "ACTIONS": {
@@ -226,6 +226,11 @@
         "SEARCH": "Search"
     },
     "VERSION": {
+        "MESSAGE": {
+            "ERROR": {
+                "CONFLICT": "New version not uploaded, another file with the same name already exists"
+            }
+        },
         "DIALOG": {
             "TITLE": "Manage Versions",
             "CLOSE": "Close"

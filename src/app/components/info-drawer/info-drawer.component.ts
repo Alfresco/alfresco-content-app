@@ -55,7 +55,12 @@ export class InfoDrawerComponent implements OnChanges {
 
     get isFileSelected(): boolean {
         if (this.node && this.node.entry) {
-            return this.node.entry.isFile;
+            // workaround for shared files type.
+            if (this.node.entry.nodeId) {
+                return true;
+            } else {
+                return this.node.entry.isFile;
+            }
         }
         return false;
     }
