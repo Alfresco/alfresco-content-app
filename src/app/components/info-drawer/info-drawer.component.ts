@@ -75,6 +75,9 @@ export class InfoDrawerComponent implements OnChanges {
             const entry = this.node.entry;
             if (entry.nodeId) {
                 this.loadNodeInfo(entry.nodeId);
+            } else if ((<any>entry).guid) {
+                // workaround for Favorite files
+                this.loadNodeInfo(entry.id);
             } else {
                 this.displayNode = this.node.entry;
             }
