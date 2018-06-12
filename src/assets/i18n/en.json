@@ -98,7 +98,7 @@
             },
             "SEARCH": {
                 "TITLE": "Search Results",
-                "SHOW_RESULTS_NUMBER": "Showing {{ number }} results"
+                "FOUND_RESULTS": "{{ number }} results found"
             }
         },
         "ACTIONS": {
