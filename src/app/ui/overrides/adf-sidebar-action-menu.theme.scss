@@ -1,0 +1,25 @@
+@mixin adf-sidebar-action-menu-theme($theme) {
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    $primary: map-get($theme, primary);
+
+    .adf-sidebar-action-menu-options {
+        width: 100% !important;
+
+        .mat-menu-item {
+            font-size: 14px;
+            color: mat-color($foreground, text, 0.54);
+            line-height: 48px;
+            box-shadow: none;
+            transform: none;
+            transition: unset;
+            font-weight: normal;
+            text-transform: capitalize;
+            color: mat-color($primary);
+
+            &:hover {
+                color: mat-color($accent);
+            }
+        }
+    }
+}
