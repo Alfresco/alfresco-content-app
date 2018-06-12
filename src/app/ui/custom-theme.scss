@@ -3,6 +3,8 @@
 
 @import '../components/sidenav/sidenav.component.theme';
 @import './overrides/toolbar';
+@import './overrides/adf-search-filter.theme';
+@import './overrides/adf-info-drawer.theme';
 @import 'snackbar';
 
 $grey-scale: (
@@ -49,4 +51,6 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include sidenav-component-theme($custom-theme);
     @include toolbar-component-theme($custom-theme);
     @include snackbar-theme($custom-theme);
+    @include adf-search-filter-theme($custom-theme);
+    @include adf-info-drawer-theme($custom-theme);
 }
