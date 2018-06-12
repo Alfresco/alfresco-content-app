@@ -49,7 +49,7 @@ import { appReducer } from '../../store/reducers/app.reducer';
 import { INITIAL_STATE } from '../../store/states/app.state';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
-fdescribe('FavoritesComponent', () => {
+describe('FavoritesComponent', () => {
     let fixture: ComponentFixture<FavoritesComponent>;
     let component: FavoritesComponent;
     let nodesApi: NodesApiService;
