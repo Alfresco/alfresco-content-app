@@ -34,7 +34,7 @@ import { AppStore } from '../store/states/app.state';
 import { SetSelectedNodesAction } from '../store/actions/node.action';
 import { selectedNodes } from '../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
-import { SnackbarInfoAction } from '../store/actions';
+import { SnackbarErrorAction } from '../store/actions';
 
 
 export abstract class PageComponent implements OnInit, OnDestroy {
@@ -188,7 +188,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         let message = null;
 
         if (error.error.status === 409) {
-           message =  new SnackbarInfoAction('VERSION.MESSAGE.ERROR.CONFLICT');
+           message =  new SnackbarErrorAction('VERSION.MESSAGE.ERROR.CONFLICT');
         }
 
         this.store.dispatch(message);
