@@ -25,18 +25,19 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs/Rx';
-import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material';
 import {
-    TranslationService, TranslationMock, AlfrescoApiService,
-    AppConfigService, StorageService, PeopleContentService, UserPreferencesService
+    AlfrescoApiService,
+    AppConfigService,
+    StorageService,
+    PeopleContentService,
+    UserPreferencesService,
+    AppConfigPipe
  } from '@alfresco/adf-core';
 
 import { CurrentUserComponent } from './current-user.component';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('CurrentUserComponent', () => {
     let fixture;
@@ -51,17 +52,14 @@ describe('CurrentUserComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpClientModule,
-                TranslateModule.forRoot(),
-                NoopAnimationsModule,
-                MatMenuModule,
-                RouterTestingModule
+                AppTestingModule,
+                MatMenuModule
             ],
             declarations: [
-                CurrentUserComponent
+                CurrentUserComponent,
+                AppConfigPipe
             ],
             providers: [
-                { provide: TranslationService, useClass: TranslationMock },
                 AlfrescoApiService,
                 AppConfigService,
                 StorageService,

@@ -9,7 +9,7 @@
     </div>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-        <button *ngIf="showLanguagePicker"
+        <button *ngIf="'languagePicker' | adfAppConfig"
             mat-menu-item [matMenuTriggerFor]="langMenu">
             {{ 'APP.LANGUAGE' | translate }}
         </button>
