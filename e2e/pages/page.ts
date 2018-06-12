@@ -35,7 +35,7 @@ export abstract class Page {
         overlay: by.css('.cdk-overlay-container'),
         dialogContainer: by.css('.mat-dialog-container'),
         snackBarContainer: '.cdk-overlay-pane snack-bar-container.mat-snack-bar-container',
-        snackBar: 'simple-snack-bar',
+        snackBar: 'mat-simple-snackbar',
         snackBarAction: 'button.mat-simple-snackbar-action'
     };
 
