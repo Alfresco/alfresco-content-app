@@ -27,10 +27,9 @@ import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
-    NotificationService, TranslationService, TranslationMock,
+    // NotificationService,
     NodesApiService, AlfrescoApiService, ContentService,
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService,
@@ -39,8 +38,6 @@ import {
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -50,8 +47,9 @@ import { FavoritesComponent } from './favorites.component';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../../store/reducers/app.reducer';
 import { INITIAL_STATE } from '../../store/states/app.state';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
-describe('FavoritesComponent', () => {
+fdescribe('FavoritesComponent', () => {
     let fixture: ComponentFixture<FavoritesComponent>;
     let component: FavoritesComponent;
     let nodesApi: NodesApiService;
@@ -90,10 +88,8 @@ describe('FavoritesComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
                 imports: [
+                    AppTestingModule,
                     MatMenuModule,
-                    NoopAnimationsModule,
-                    HttpClientModule,
-                    TranslateModule.forRoot(),
                     RouterTestingModule,
                     MatSnackBarModule, MatIconModule,
                     StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
@@ -108,14 +104,13 @@ describe('FavoritesComponent', () => {
                     AppConfigPipe
                 ],
                 providers: [
-                    { provide: TranslationService, useClass: TranslationMock },
                     AuthenticationService,
                     UserPreferencesService,
                     AppConfigService, StorageService, CookieService,
                     AlfrescoApiService,
                     CustomResourcesService,
                     LogService,
-                    NotificationService,
+                    // NotificationService,
                     ContentManagementService,
                     ContentService,
                     NodesApiService,
