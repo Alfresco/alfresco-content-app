@@ -28,7 +28,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, CoreModule, AppConfigService } from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, PageTitleService } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { ElectronModule } from '@ngstack/electron';
 
@@ -74,6 +74,7 @@ import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { HybridAppConfigService } from './common/services/hybrid-app-config.service';
 import { SortingPreferenceKeyDirective } from './directives/sorting-preference-key.directive';
+import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
 
 import { INITIAL_STATE } from './store/states/app.state';
 import { appReducer } from './store/reducers/app.reducer';
@@ -145,6 +146,7 @@ import { CreateFolderDirective } from './directives/create-folder.directive';
         CreateFolderDirective
     ],
     providers: [
+        { provide: PageTitleService, useClass: AcaPageTitleService },
         { provide: AppConfigService, useClass: HybridAppConfigService },
         {
             provide: TRANSLATION_PROVIDER,
