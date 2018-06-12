@@ -31,7 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {
     NotificationService, TranslationService, TranslationMock,
     NodesApiService, AlfrescoApiService, ContentService,
-    UserPreferencesService, LogService, AppConfigService,
+    UserPreferencesService, LogService, AppConfigService, UploadService,
     StorageService, CookieService, ThumbnailService, AuthenticationService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
@@ -101,7 +101,8 @@ describe('SharedFilesComponent', () => {
                     NodesApiService,
                     DocumentListService,
                     ThumbnailService,
-                    CustomResourcesService
+                    CustomResourcesService,
+                    UploadService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
             })
