@@ -41,7 +41,6 @@ export class SearchComponent implements OnInit {
     search: AdfSearchComponent;
 
     queryParamName = 'q';
-    searchedWord = '';
     data: NodePaging;
     totalResults = 0;
     maxItems = 5;
@@ -68,9 +67,9 @@ export class SearchComponent implements OnInit {
 
         if (this.route) {
             this.route.params.forEach((params: Params) => {
-                this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-                if (this.searchedWord) {
-                    const queryBody = this.searchConfiguration.generateQueryBody(this.searchedWord, 0, 100);
+                const searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
+                if (searchedWord) {
+                    const queryBody = this.searchConfiguration.generateQueryBody(searchedWord, 0, 100);
 
                     this.queryBuilder.userQuery = queryBody.query.query;
                     this.queryBuilder.update();
