@@ -2,9 +2,11 @@
 @import '~@alfresco/adf-content-services/theming';
 
 @import '../components/sidenav/sidenav.component.theme';
-@import './overrides/toolbar';
+@import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
 @import './overrides/adf-info-drawer.theme';
+@import './overrides/adf-upload-button.theme';
+@import './overrides/adf-sidebar-action-menu.theme';
 @import 'snackbar';
 
 $grey-scale: (
@@ -49,8 +51,10 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
 
 @mixin custom-theme($theme) {
     @include sidenav-component-theme($custom-theme);
-    @include toolbar-component-theme($custom-theme);
+    @include adf-toolbar-theme($custom-theme);
     @include snackbar-theme($custom-theme);
     @include adf-search-filter-theme($custom-theme);
     @include adf-info-drawer-theme($custom-theme);
+    @include adf-upload-button-theme($custom-theme);
+    @include adf-sidebar-action-menu-theme($custom-theme);
 }

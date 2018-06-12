@@ -1,4 +1,4 @@
-@mixin toolbar-component-theme($theme) {
+@mixin adf-toolbar-theme($theme) {
 
     .adf-toolbar {
         @include angular-material-theme($theme);
