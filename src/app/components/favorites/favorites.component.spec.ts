@@ -26,10 +26,8 @@
 import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import {
-    // NotificationService,
     NodesApiService, AlfrescoApiService, ContentService,
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService,
@@ -44,9 +42,6 @@ import { ContentManagementService } from '../../common/services/content-manageme
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { FavoritesComponent } from './favorites.component';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('FavoritesComponent', () => {
@@ -90,9 +85,7 @@ describe('FavoritesComponent', () => {
                 imports: [
                     AppTestingModule,
                     MatMenuModule,
-                    RouterTestingModule,
                     MatSnackBarModule, MatIconModule,
-                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
                 ],
                 declarations: [
                     DataTableComponent,
@@ -110,7 +103,6 @@ describe('FavoritesComponent', () => {
                     AlfrescoApiService,
                     CustomResourcesService,
                     LogService,
-                    // NotificationService,
                     ContentManagementService,
                     ContentService,
                     NodesApiService,

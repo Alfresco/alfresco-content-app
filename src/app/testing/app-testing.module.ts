@@ -30,11 +30,17 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslationService, TranslationMock } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateServiceMock } from './translation.service';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from '../store/reducers/app.reducer';
+import { INITIAL_STATE } from '../store/states/app.state';
+import { RouterTestingModule } from '@angular/router/testing';
 
 @NgModule({
     imports: [
         NoopAnimationsModule,
-        HttpClientModule
+        HttpClientModule,
+        RouterTestingModule,
+        StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
     ],
     declarations: [
         TranslatePipeMock
