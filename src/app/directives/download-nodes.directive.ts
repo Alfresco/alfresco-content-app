@@ -26,7 +26,7 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
-import { MinimalNodeEntity } from '@alfresco/adf-core/node_modules/alfresco-js-api';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 import { DownloadNodesAction } from '../store/actions';
 
 @Directive({
