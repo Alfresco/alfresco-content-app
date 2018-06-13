@@ -5,10 +5,9 @@
 
     &__facets {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 5px;
-        border-bottom: 1px solid #eee;
+        flex-direction: row;
+        margin-top: 5px;
+        margin-bottom: 5px;
     }
 
     &__content {
@@ -21,6 +20,7 @@
         padding: 0 25px 0 25px;
         flex-direction: row;
         align-items: center;
+        border-bottom: 1px solid #eee;
     }
 
     &--info-text {
@@ -38,5 +38,19 @@
 
     .text--bold {
         font-weight: 600;
+    }
+
+    .content {
+        @include flex-row;
+        flex: unset;
+        height: unset;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        flex-wrap: wrap;
+
+        &__side--left {
+            @include flex-column;
+            height: unset;
+        }
     }
 }
