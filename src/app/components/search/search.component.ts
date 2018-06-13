@@ -23,23 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, Optional, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
-import { SearchConfigurationService } from '@alfresco/adf-core';
+import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
+import { SearchConfigurationService, UserPreferencesService, SearchService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import {  NavigateToLocationAction } from '../../store/actions';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  providers: [SearchService]
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent extends PageComponent implements OnInit {
 
     @ViewChild('search')
     search: AdfSearchComponent;
 
+    searchedWord: string;
     queryParamName = 'q';
     data: NodePaging;
     totalResults = 0;
@@ -48,10 +53,15 @@ export class SearchComponent implements OnInit {
     sorting = ['name', 'asc'];
 
     constructor(
-        public router: Router,
+        public permission: NodePermissionService,
         private queryBuilder: SearchQueryBuilderService,
         private searchConfiguration: SearchConfigurationService,
-        @Optional() private route: ActivatedRoute) {
+        store: Store<AppStore>,
+        router: Router,
+        preferences: UserPreferencesService,
+        route: ActivatedRoute) {
+        super(preferences, router, route, store);
+
         queryBuilder.paging = {
             skipCount: 0,
             maxItems: 25
@@ -59,6 +69,8 @@ export class SearchComponent implements OnInit {
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.sorting = this.getSorting();
 
         this.queryBuilder.updated.subscribe(() => {
@@ -67,9 +79,9 @@ export class SearchComponent implements OnInit {
 
         if (this.route) {
             this.route.params.forEach((params: Params) => {
-                const searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-                if (searchedWord) {
-                    const queryBody = this.searchConfiguration.generateQueryBody(searchedWord, 0, 100);
+                this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
+                if (this.searchedWord) {
+                    const queryBody = this.searchConfiguration.generateQueryBody(this.searchedWord, 0, 100);
 
                     this.queryBuilder.userQuery = queryBody.query.query;
                     this.queryBuilder.update();
@@ -112,6 +124,10 @@ export class SearchComponent implements OnInit {
     }
 
     onNodeDoubleClick(node: MinimalNodeEntryEntity) {
+        if (node && node.isFolder) {
+            this.store.dispatch(new NavigateToLocationAction(node));
+        }
+
         if (node && PageComponent.isLockedNode(node)) {
             event.preventDefault();
 

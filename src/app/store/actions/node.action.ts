@@ -5,10 +5,13 @@ export const DELETE_NODES = 'DELETE_NODES';
 export const UNDO_DELETE_NODES = 'UNDO_DELETE_NODES';
 export const RESTORE_DELETED_NODES = 'RESTORE_DELETED_NODES';
 export const PURGE_DELETED_NODES = 'PURGE_DELETED_NODES';
+export const DOWNLOAD_NODES = 'DOWNLOAD_NODES';
 
 export interface NodeInfo {
     id: string;
     name: string;
+    isFile?: boolean;
+    isFolder?: boolean;
 }
 
 export class SetSelectedNodesAction implements Action {
@@ -33,5 +36,10 @@ export class RestoreDeletedNodesAction implements Action {
 
 export class PurgeDeletedNodesAction implements Action {
     readonly type = PURGE_DELETED_NODES;
+    constructor(public payload: NodeInfo[] = []) {}
+}
+
+export class DownloadNodesAction implements Action {
+    readonly type = DOWNLOAD_NODES;
     constructor(public payload: NodeInfo[] = []) {}
 }

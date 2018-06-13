@@ -139,7 +139,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    onNodeDoubleClick(event) {
+    onNodeDoubleClick(event: CustomEvent) {
         if (!!event.detail && !!event.detail.node) {
 
             const node: MinimalNodeEntryEntity = event.detail.node.entry;

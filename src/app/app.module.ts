@@ -85,6 +85,8 @@ import { NodeEffects } from './store/effects/node.effects';
 import { environment } from '../environments/environment';
 import { RouterEffects } from './store/effects/router.effects';
 import { CreateFolderDirective } from './directives/create-folder.directive';
+import { DownloadEffects } from './store/effects/download.effects';
+import { DownloadNodesDirective } from './directives/download-nodes.directive';
 
 
 @NgModule({
@@ -108,7 +110,7 @@ import { CreateFolderDirective } from './directives/create-folder.directive';
 
         StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-        EffectsModule.forRoot([SnackbarEffects, NodeEffects, RouterEffects]),
+        EffectsModule.forRoot([SnackbarEffects, NodeEffects, RouterEffects, DownloadEffects]),
         !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
     ],
     declarations: [
@@ -143,7 +145,8 @@ import { CreateFolderDirective } from './directives/create-folder.directive';
         SortingPreferenceKeyDirective,
         InfoDrawerComponent,
         EditFolderDirective,
-        CreateFolderDirective
+        CreateFolderDirective,
+        DownloadNodesDirective
     ],
     providers: [
         { provide: PageTitleService, useClass: AcaPageTitleService },
