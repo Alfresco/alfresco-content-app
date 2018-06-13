@@ -27,8 +27,7 @@
                 <mat-icon>more_vert</mat-icon>
             </button>
 
-            <mat-menu #actionsMenu="matMenu"
-                [overlapTrigger]="false">
+            <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
                 <button
                     mat-menu-item
                     #selection="adfFavorite"
@@ -36,6 +35,21 @@
                     <mat-icon color="primary" *ngIf="selection.hasFavorites()">star</mat-icon>
                     <mat-icon *ngIf="!selection.hasFavorites()">star_border</mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
+                </button>
+
+                <button
+                    mat-menu-item
+                    [acaCopyNode]="selectedNodes">
+                    <mat-icon>content_copy</mat-icon>
+                    <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
+                </button>
+
+                <button
+                    mat-menu-item
+                    *ngIf="selectedFile"
+                    [acaNodeVersions]="selectedFile">
+                    <mat-icon>history</mat-icon>
+                    <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
             </mat-menu>
         </adf-toolbar>
