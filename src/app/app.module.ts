@@ -86,6 +86,7 @@ import { environment } from '../environments/environment';
 import { RouterEffects } from './store/effects/router.effects';
 import { CreateFolderDirective } from './directives/create-folder.directive';
 import { DownloadEffects } from './store/effects/download.effects';
+import { DownloadNodesDirective } from './directives/download-nodes.directive';
 
 
 @NgModule({
@@ -144,7 +145,8 @@ import { DownloadEffects } from './store/effects/download.effects';
         SortingPreferenceKeyDirective,
         InfoDrawerComponent,
         EditFolderDirective,
-        CreateFolderDirective
+        CreateFolderDirective,
+        DownloadNodesDirective
     ],
     providers: [
         { provide: PageTitleService, useClass: AcaPageTitleService },

@@ -2,11 +2,20 @@
     <div class="inner-layout__header">
         <adf-breadcrumb root="APP.BROWSE.SEARCH.TITLE">
         </adf-breadcrumb>
-        <adf-toolbar class="inline" *ngIf="documentList.selection.length">
+        <adf-toolbar class="inline" *ngIf="hasSelection">
+            <button
+                color="primary"
+                mat-icon-button
+                *ngIf="selectedFile"
+                title="{{ 'APP.ACTIONS.VIEW' | translate }}"
+                (click)="showPreview(selectedFile)">
+                <mat-icon>open_in_browser</mat-icon>
+            </button>
+
             <button
                 mat-icon-button
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                (click)="downloadNodes($event, documentList.selection)">
+                [acaDownloadNodes]="selectedNodes">
                 <mat-icon>get_app</mat-icon>
             </button>
         </adf-toolbar>

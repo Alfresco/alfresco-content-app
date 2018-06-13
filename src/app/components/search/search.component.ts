@@ -24,14 +24,13 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MinimalNodeEntryEntity, NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
+import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
 import { SearchConfigurationService, UserPreferencesService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { DownloadNodesAction } from '../../store/actions';
 
 @Component({
   selector: 'app-search',
@@ -51,6 +50,7 @@ export class SearchComponent extends PageComponent implements OnInit {
     sorting = ['name', 'asc'];
 
     constructor(
+        public permission: NodePermissionService,
         private queryBuilder: SearchQueryBuilderService,
         private searchConfiguration: SearchConfigurationService,
         store: Store<AppStore>,
@@ -127,22 +127,5 @@ export class SearchComponent extends PageComponent implements OnInit {
         } else if (node && node.isFile) {
             this.router.navigate(['./preview', node.id], { relativeTo: this.route });
         }
-    }
-
-    downloadNodes(event: Event, nodes: Array<MinimalNodeEntity>) {
-        event.stopPropagation();
-
-        const toDownload = nodes.map(node => {
-            const { id, nodeId, name, isFile, isFolder } = node.entry;
-
-            return {
-                id: nodeId || id,
-                name,
-                isFile,
-                isFolder
-            };
-        });
-
-        this.store.dispatch(new DownloadNodesAction(toDownload));
     }
 }
