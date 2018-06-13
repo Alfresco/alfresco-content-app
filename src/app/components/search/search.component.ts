@@ -31,7 +31,7 @@ import { SearchConfigurationService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { DownloadNodesAction, NodeInfo } from '../../store/actions';
+import { DownloadNodesAction } from '../../store/actions';
 
 @Component({
   selector: 'app-search',
@@ -125,17 +125,23 @@ export class SearchComponent implements OnInit {
     }
 
     downloadNode(event: Event, node: MinimalNodeEntity) {
+        this.downloadNodes(event, [node]);
+    }
+
+    downloadNodes(event: Event, nodes: Array<MinimalNodeEntity>) {
         event.stopPropagation();
 
-        const { id, nodeId, name, isFile, isFolder } = node.entry;
+        const toDownload = nodes.map(node => {
+            const { id, nodeId, name, isFile, isFolder } = node.entry;
 
-        const toDownload: NodeInfo = {
-            id: nodeId || id,
-            name,
-            isFile,
-            isFolder
-        };
+            return {
+                id: nodeId || id,
+                name,
+                isFile,
+                isFolder
+            };
+        });
 
-        this.store.dispatch(new DownloadNodesAction([toDownload]));
+        this.store.dispatch(new DownloadNodesAction(toDownload));
     }
 }
