@@ -58,9 +58,9 @@ export class NodeVersionsDirective {
         if (this.node && this.node.entry) {
             let entry  = this.node.entry;
 
-            if (entry.nodeId) {
+            if (entry.nodeId || (<any>entry).guid) {
                 entry = await this.apiService.nodesApi.getNodeInfo(
-                    entry.nodeId,
+                    entry.nodeId || (<any>entry).id,
                     { include: ['allowableOperations'] }
                 );
                 this.openVersionManagerDialog(entry);
