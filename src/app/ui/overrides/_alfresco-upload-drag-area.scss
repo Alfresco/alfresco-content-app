@@ -1,7 +1,9 @@
 @import 'mixins';
-@import 'variables.scss';
+
+$alfresco-app-color--default: #00bcd4;
 
 @mixin file-draggable__input-focus {
+
     color: $alfresco-secondary-text-color !important;
     border: 1px solid $alfresco-app-color--default !important;
     margin-left: 0 !important;
@@ -48,7 +50,7 @@ adf-upload-drag-area:first-child {
 adf-upload-drag-area {
     .file-draggable__input-focus {
         adf-document-list {
-            background: $alfresco-app-color--hue-1;
+            background: #e0f7fa;
 
             adf-datatable > table {
                 background: inherit;
@@ -57,7 +59,7 @@ adf-upload-drag-area {
     }
 
     .adf-upload__dragging {
-        background: $alfresco-app-color--hue-1;
+        background: #e0f7fa;
         color: $alfresco-secondary-text-color !important;
     }
 
