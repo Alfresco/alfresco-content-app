@@ -1,0 +1,31 @@
+@mixin adf-upload-dialog-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+
+    .upload-dialog {
+        z-index: 999;
+    }
+
+    .adf-file-uploading-row {
+        &__status {
+            &--done {
+                color: mat-color($accent);
+            }
+
+            &--error {
+                color: mat-color($warn);
+            }
+        }
+
+        &__action {
+            &--cancel {
+                color: mat-color($warn);
+            }
+
+            &--remove {
+                color: mat-color($warn);
+            }
+        }
+    }
+}
