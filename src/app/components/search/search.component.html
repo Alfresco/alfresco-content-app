@@ -35,8 +35,8 @@
 
                 <adf-document-list
                     #documentList
-                    [multiselect]="true"
-                    [showHeader]="true"
+                    [showHeader]="false"
+                    [selectionMode]="'multiple'"
                     [sortingMode]="'server'"
                     [sorting]="sorting"
                     [node]="data"
@@ -74,19 +74,6 @@
                             [type]="'text'"
                             [title]="'ADF-DOCUMENT-LIST.LAYOUT.MODIFIED_BY'"
                             [sortable]="false">
-                        </data-column>
-                        <data-column
-                            [key]="'id'"
-                            [sortable]="false"
-                            [type]="'actions'">
-                            <ng-template let-entry>
-                                <button
-                                    mat-icon-button
-                                    title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                                    (click)="downloadNode($event, entry.row.node)">
-                                    <mat-icon>get_app</mat-icon>
-                                </button>
-                            </ng-template>
                         </data-column>
                     </data-columns>
 

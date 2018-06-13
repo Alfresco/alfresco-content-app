@@ -124,10 +124,6 @@ export class SearchComponent implements OnInit {
         }
     }
 
-    downloadNode(event: Event, node: MinimalNodeEntity) {
-        this.downloadNodes(event, [node]);
-    }
-
     downloadNodes(event: Event, nodes: Array<MinimalNodeEntity>) {
         event.stopPropagation();
 
