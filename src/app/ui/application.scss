@@ -2,11 +2,13 @@
 @import 'variables';
 @import 'theme';
 
+$foreground: map-get($theme, foreground);
+
 html, body {
     @include flex-column;
     font-size: 14px;
     font-family: "Muli", sans-serif;
-    color: $alfresco-primary-text-color;
+    color: mat-color($foreground, text, 0.87);
     margin: 0;
 
     & > main {
