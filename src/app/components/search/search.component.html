@@ -13,10 +13,18 @@
             </button>
 
             <button
+                color="primary"
                 mat-icon-button
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
                 [acaDownloadNodes]="selectedNodes">
                 <mat-icon>get_app</mat-icon>
+            </button>
+
+            <button mat-icon-button
+                [color]="infoDrawerOpened ? 'accent' : 'primary'"
+                title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
+                (click)="toggleSidebar()">
+                <mat-icon>info_outline</mat-icon>
             </button>
 
             <button
@@ -68,76 +76,81 @@
             (resultLoaded)="onSearchResultLoaded($event)">
         </adf-search>
 
-        <div class="adf-search-results">
-            <adf-search-filter #searchFilter></adf-search-filter>
+        <div class="inner-layout__panel">
+            <div class="adf-search-results">
+                <adf-search-filter #searchFilter></adf-search-filter>
 
-            <div class="adf-search-results__content">
-                <div class="adf-search-results__content-header" *ngIf="data?.list.entries.length">
-                    <div class="adf-search-results--info-text">{{ 'APP.BROWSE.SEARCH.FOUND_RESULTS' | translate: { number: totalResults } }}</div>
-                    <adf-search-sorting-picker></adf-search-sorting-picker>
+                <div class="adf-search-results__content">
+                    <div class="adf-search-results__content-header" *ngIf="data?.list.entries.length">
+                        <div class="adf-search-results--info-text">{{ 'APP.BROWSE.SEARCH.FOUND_RESULTS' | translate: { number: totalResults } }}</div>
+                        <adf-search-sorting-picker></adf-search-sorting-picker>
+                    </div>
+
+                    <adf-document-list
+                        #documentList
+                        [showHeader]="false"
+                        [selectionMode]="'multiple'"
+                        [sortingMode]="'server'"
+                        [sorting]="sorting"
+                        [node]="data"
+                        (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
+                        (ready)="onDocumentListReady($event, documentList)"
+                        (node-select)="onNodeSelect($event, documentList)"
+                        (node-unselect)="onNodeUnselect($event, documentList)">
+
+                        <data-columns>
+                            <data-column
+                                [key]="'$thumbnail'"
+                                [type]="'image'"
+                                [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'"
+                                [sortable]="false">
+                            </data-column>
+                            <data-column
+                                [key]="'name'"
+                                [type]="'text'"
+                                [title]="'ADF-DOCUMENT-LIST.LAYOUT.NAME'"
+                                [class]="'full-width ellipsis-cell'"
+                                [sortable]="false">
+                            </data-column>
+                            <data-column
+                                [key]="'content.sizeInBytes'"
+                                [type]="'fileSize'"
+                                [title]="'ADF-DOCUMENT-LIST.LAYOUT.SIZE'"
+                                [sortable]="false">
+                            </data-column>
+                            <data-column
+                                [key]="'modifiedAt'"
+                                [type]="'date'"
+                                [title]="'ADF-DOCUMENT-LIST.LAYOUT.MODIFIED_ON'"
+                                [format]="'timeAgo'"
+                                [sortable]="false">
+                            </data-column>
+                            <data-column
+                                [key]="'modifiedByUser.displayName'"
+                                [type]="'text'"
+                                [title]="'ADF-DOCUMENT-LIST.LAYOUT.MODIFIED_BY'"
+                                [sortable]="false">
+                            </data-column>
+                        </data-columns>
+
+                        <empty-folder-content>
+                            <ng-template>
+                                <div class="empty-search__block">
+                                    <p class="empty-search__text">Your search returned 0 results</p>
+                                </div>
+                            </ng-template>
+                        </empty-folder-content>
+                    </adf-document-list>
+
+                    <adf-pagination *ngIf="!documentList.isEmpty()"
+                        [target]="documentList"
+                        (change)="onPaginationChanged($event)">
+                    </adf-pagination>
                 </div>
-
-                <adf-document-list
-                    #documentList
-                    [showHeader]="false"
-                    [selectionMode]="'multiple'"
-                    [sortingMode]="'server'"
-                    [sorting]="sorting"
-                    [node]="data"
-                    (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
-                    (ready)="onDocumentListReady($event, documentList)"
-                    (node-select)="onNodeSelect($event, documentList)"
-                    (node-unselect)="onNodeUnselect($event, documentList)">
-
-                    <data-columns>
-                        <data-column
-                            [key]="'$thumbnail'"
-                            [type]="'image'"
-                            [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'"
-                            [sortable]="false">
-                        </data-column>
-                        <data-column
-                            [key]="'name'"
-                            [type]="'text'"
-                            [title]="'ADF-DOCUMENT-LIST.LAYOUT.NAME'"
-                            [class]="'full-width ellipsis-cell'"
-                            [sortable]="false">
-                        </data-column>
-                        <data-column
-                            [key]="'content.sizeInBytes'"
-                            [type]="'fileSize'"
-                            [title]="'ADF-DOCUMENT-LIST.LAYOUT.SIZE'"
-                            [sortable]="false">
-                        </data-column>
-                        <data-column
-                            [key]="'modifiedAt'"
-                            [type]="'date'"
-                            [title]="'ADF-DOCUMENT-LIST.LAYOUT.MODIFIED_ON'"
-                            [format]="'timeAgo'"
-                            [sortable]="false">
-                        </data-column>
-                        <data-column
-                            [key]="'modifiedByUser.displayName'"
-                            [type]="'text'"
-                            [title]="'ADF-DOCUMENT-LIST.LAYOUT.MODIFIED_BY'"
-                            [sortable]="false">
-                        </data-column>
-                    </data-columns>
-
-                    <empty-folder-content>
-                        <ng-template>
-                            <div class="empty-search__block">
-                                <p class="empty-search__text">Your search returned 0 results</p>
-                            </div>
-                        </ng-template>
-                    </empty-folder-content>
-                </adf-document-list>
-
-                <adf-pagination *ngIf="!documentList.isEmpty()"
-                    [target]="documentList"
-                    (change)="onPaginationChanged($event)">
-                </adf-pagination>
             </div>
+        </div>
+        <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened">
+            <aca-info-drawer [node]="lastSelectedNode"></aca-info-drawer>
         </div>
     </div>
 </div>
