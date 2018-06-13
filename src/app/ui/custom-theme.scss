@@ -10,6 +10,7 @@
 @import './overrides/adf-sidebar-action-menu.theme';
 @import './overrides/adf-upload-dialog.theme';
 @import './overrides/adf-pagination.theme';
+@import './overrides/adf-sidenav-layout.theme';
 @import 'snackbar';
 
 $grey-scale: (
@@ -59,6 +60,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include adf-upload-button-theme($custom-theme);
     @include adf-sidebar-action-menu-theme($custom-theme);
     @include adf-pagination-theme($custom-theme);
+    @include adf-sidenav-layout-theme($custom-theme);
 
     @include snackbar-theme($custom-theme);
     @include sidenav-component-theme($custom-theme);
