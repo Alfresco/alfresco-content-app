@@ -12,6 +12,7 @@
 @import './overrides/adf-pagination.theme';
 @import './overrides/adf-sidenav-layout.theme';
 @import './overrides/adf-document-list.theme';
+@import './overrides/adf-upload-drag-area.theme';
 
 @import 'snackbar';
 
@@ -64,6 +65,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include adf-pagination-theme($custom-theme);
     @include adf-sidenav-layout-theme($custom-theme);
     @include adf-document-list-theme($custom-theme);
+    @include adf-upload-drag-area-theme($custom-theme);
 
     @include snackbar-theme($custom-theme);
     @include sidenav-component-theme($custom-theme);
