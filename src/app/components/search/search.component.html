@@ -2,6 +2,14 @@
     <div class="inner-layout__header">
         <adf-breadcrumb root="APP.BROWSE.SEARCH.TITLE">
         </adf-breadcrumb>
+        <adf-toolbar class="inline" *ngIf="documentList.selection.length">
+            <button
+                mat-icon-button
+                title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
+                (click)="downloadNodes($event, documentList.selection)">
+                <mat-icon>get_app</mat-icon>
+            </button>
+        </adf-toolbar>
     </div>
 
     <div class="adf-search-results__facets">
@@ -23,14 +31,6 @@
                 <div class="adf-search-results__content-header" *ngIf="data?.list.entries.length">
                     <div class="adf-search-results--info-text">{{ 'APP.BROWSE.SEARCH.FOUND_RESULTS' | translate: { number: totalResults } }}</div>
                     <adf-search-sorting-picker></adf-search-sorting-picker>
-                    <ng-container *ngIf="documentList.selection.length">
-                        <button
-                            mat-icon-button
-                            title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                            (click)="downloadNodes($event, documentList.selection)">
-                            <mat-icon>get_app</mat-icon>
-                        </button>
-                    </ng-container>
                 </div>
 
                 <adf-document-list
@@ -40,7 +40,10 @@
                     [sortingMode]="'server'"
                     [sorting]="sorting"
                     [node]="data"
-                    (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)">
+                    (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
+                    (ready)="onDocumentListReady($event, documentList)"
+                    (node-select)="onNodeSelect($event, documentList)"
+                    (node-unselect)="onNodeUnselect($event, documentList)">
 
                     <data-columns>
                         <data-column

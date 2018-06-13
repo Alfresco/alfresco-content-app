@@ -23,11 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, Optional, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MinimalNodeEntryEntity, NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
-import { SearchConfigurationService } from '@alfresco/adf-core';
+import { SearchConfigurationService, UserPreferencesService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -38,7 +38,7 @@ import { DownloadNodesAction } from '../../store/actions';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent extends PageComponent implements OnInit {
 
     @ViewChild('search')
     search: AdfSearchComponent;
@@ -51,11 +51,14 @@ export class SearchComponent implements OnInit {
     sorting = ['name', 'asc'];
 
     constructor(
-        private store: Store<AppStore>,
-        public router: Router,
         private queryBuilder: SearchQueryBuilderService,
         private searchConfiguration: SearchConfigurationService,
-        @Optional() private route: ActivatedRoute) {
+        store: Store<AppStore>,
+        router: Router,
+        preferences: UserPreferencesService,
+        route: ActivatedRoute) {
+        super(preferences, router, route, store);
+
         queryBuilder.paging = {
             skipCount: 0,
             maxItems: 25
@@ -63,6 +66,8 @@ export class SearchComponent implements OnInit {
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.sorting = this.getSorting();
 
         this.queryBuilder.updated.subscribe(() => {
