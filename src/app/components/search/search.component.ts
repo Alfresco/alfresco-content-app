@@ -31,6 +31,7 @@ import { SearchConfigurationService, UserPreferencesService, SearchService } fro
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
+import {  NavigateToLocationAction } from '../../store/actions';
 
 @Component({
   selector: 'app-search',
@@ -123,6 +124,10 @@ export class SearchComponent extends PageComponent implements OnInit {
     }
 
     onNodeDoubleClick(node: MinimalNodeEntryEntity) {
+        if (node && node.isFolder) {
+            this.store.dispatch(new NavigateToLocationAction(node));
+        }
+
         if (node && PageComponent.isLockedNode(node)) {
             event.preventDefault();
 
