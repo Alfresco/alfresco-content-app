@@ -1,0 +1,83 @@
+@import 'mixins';
+
+$alfresco-app-color--default: #00bcd4;
+
+@mixin file-draggable__input-focus($theme) {
+    $foreground: map-get($theme, foreground);
+
+    color: mat-color($foreground, text, 0.54);
+    border: 1px solid $alfresco-app-color--default !important;
+    margin-left: 0 !important;
+}
+
+@mixin adf-upload-drag-area-theme($theme) {
+    $foreground: map-get($theme, foreground);
+
+    adf-upload-drag-area {
+        @include flex-column;
+
+        .upload-border {
+            @include flex-column;
+
+            vertical-align: unset;
+            text-align: unset;
+        }
+    }
+
+    adf-upload-drag-area:first-child {
+        & > div {
+            adf-upload-drag-area {
+                .file-draggable__input-focus {
+                    @include file-draggable__input-focus($theme);
+                }
+            }
+        }
+
+        .upload-border {
+            vertical-align: inherit !important;
+            text-align: inherit !important;
+        }
+
+        .file-draggable__input-focus {
+            color: none !important;
+            border: none !important;
+            margin-left: 0 !important;
+
+            adf-upload-drag-area {
+                & > div {
+                    @include file-draggable__input-focus($theme);
+                }
+            }
+        }
+    }
+
+    adf-upload-drag-area {
+        .file-draggable__input-focus {
+            adf-document-list {
+                background: #e0f7fa;
+
+                adf-datatable > table {
+                    background: inherit;
+                }
+            }
+        }
+
+        .adf-upload__dragging {
+            background: #e0f7fa;
+            color: mat-color($foreground, text, 0.54);
+        }
+
+        .adf-upload__dragging td {
+            border-top: 1px solid $alfresco-app-color--default !important;
+            border-bottom: 1px solid $alfresco-app-color--default !important;
+
+            &:first-child {
+                border-left: 1px solid $alfresco-app-color--default !important;
+            }
+
+            &:last-child {
+                border-right: 1px solid $alfresco-app-color--default !important;
+            }
+        }
+    }
+}

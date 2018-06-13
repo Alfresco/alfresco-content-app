@@ -2,11 +2,13 @@
 @import 'variables';
 @import 'theme';
 
+$foreground: map-get($theme, foreground);
+
 html, body {
     @include flex-column;
     font-size: 14px;
     font-family: "Muli", sans-serif;
-    color: $alfresco-primary-text-color;
+    color: mat-color($foreground, text, 0.87);
     margin: 0;
 
     & > main {
@@ -24,8 +26,3 @@ ng-component {
 }
 
 @import 'layout';
-
-@import './overrides/adf-sidenav-layout';
-@import './overrides/alfresco-document-list';
-@import './overrides/alfresco-upload-drag-area';
-@import './overrides/alfresco-upload-dialog';
