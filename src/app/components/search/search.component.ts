@@ -27,7 +27,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
-import { SearchConfigurationService, UserPreferencesService } from '@alfresco/adf-core';
+import { SearchConfigurationService, UserPreferencesService, SearchService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -35,13 +35,15 @@ import { AppStore } from '../../store/states/app.state';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  providers: [SearchService]
 })
 export class SearchComponent extends PageComponent implements OnInit {
 
     @ViewChild('search')
     search: AdfSearchComponent;
 
+    searchedWord: string;
     queryParamName = 'q';
     data: NodePaging;
     totalResults = 0;
@@ -76,9 +78,9 @@ export class SearchComponent extends PageComponent implements OnInit {
 
         if (this.route) {
             this.route.params.forEach((params: Params) => {
-                const searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-                if (searchedWord) {
-                    const queryBody = this.searchConfiguration.generateQueryBody(searchedWord, 0, 100);
+                this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
+                if (this.searchedWord) {
+                    const queryBody = this.searchConfiguration.generateQueryBody(this.searchedWord, 0, 100);
 
                     this.queryBuilder.userQuery = queryBody.query.query;
                     this.queryBuilder.update();
