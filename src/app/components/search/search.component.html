@@ -18,6 +18,26 @@
                 [acaDownloadNodes]="selectedNodes">
                 <mat-icon>get_app</mat-icon>
             </button>
+
+            <button
+                color="primary"
+                mat-icon-button
+                title="{{ 'APP.ACTIONS.MORE' | translate }}"
+                [matMenuTriggerFor]="actionsMenu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #actionsMenu="matMenu"
+                [overlapTrigger]="false">
+                <button
+                    mat-menu-item
+                    #selection="adfFavorite"
+                    [adf-node-favorite]="selectedNodes">
+                    <mat-icon color="primary" *ngIf="selection.hasFavorites()">star</mat-icon>
+                    <mat-icon *ngIf="!selection.hasFavorites()">star_border</mat-icon>
+                    <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
+                </button>
+            </mat-menu>
         </adf-toolbar>
     </div>
 
