@@ -25,7 +25,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 import { UserPreferencesService, UploadService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -61,12 +61,14 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
         ]);
     }
 
-    onNodeDoubleClick(node: MinimalNodeEntryEntity) {
-        if (node && PageComponent.isLockedNode(node)) {
-            event.preventDefault();
+    onNodeDoubleClick(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            if (PageComponent.isLockedNode(node.entry)) {
+                event.preventDefault();
+                return;
+            }
 
-        } else if (node && node.isFile) {
-            this.router.navigate(['./preview', node.id], { relativeTo: this.route });
+            this.showPreview(node);
         }
     }
 }

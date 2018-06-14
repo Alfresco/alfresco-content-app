@@ -58,10 +58,4 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
             this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
     }
-
-    onNodeDoubleClick(link: { nodeId?: string }) {
-        if (link && link.nodeId) {
-            this.router.navigate(['./preview', link.nodeId], { relativeTo: this.route });
-        }
-    }
 }

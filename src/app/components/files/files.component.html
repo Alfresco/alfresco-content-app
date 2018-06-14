@@ -112,7 +112,7 @@
                     [allowDropFiles]="true"
                     [navigate]="false"
                     [imageResolver]="imageResolver"
-                    (node-dblclick)="onNodeDoubleClick($event)"
+                    (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
                     (ready)="onDocumentListReady($event, documentList)"
                     (node-select)="onNodeSelect($event, documentList)"
                     (node-unselect)="onNodeUnselect($event, documentList)">

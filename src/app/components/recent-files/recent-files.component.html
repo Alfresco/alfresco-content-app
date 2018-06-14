@@ -92,7 +92,7 @@
                 [sorting]="[ 'modifiedAt', 'desc' ]"
                 [acaSortingPreferenceKey]="sortingPreferenceKey"
                 [imageResolver]="imageResolver"
-                (node-dblclick)="onNodeDoubleClick($event.detail?.node?.entry)"
+                (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
                 (ready)="onDocumentListReady($event, documentList)"
                 (node-select)="onNodeSelect($event, documentList)"
                 (node-unselect)="onNodeUnselect($event, documentList)">

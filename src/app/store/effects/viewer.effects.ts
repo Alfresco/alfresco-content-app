@@ -13,24 +13,25 @@ export class ViewerEffects {
         ofType<ViewNodeAction>(VIEW_NODE),
         map(action => {
             const node = action.payload;
-
-            if (node && node.isFile) {
-                let previewLocation = this.router.url;
-                if (previewLocation.lastIndexOf('/') > 0) {
-                    previewLocation = previewLocation.substr(
-                        0,
-                        this.router.url.indexOf('/', 1)
-                    );
-                }
-                previewLocation = previewLocation.replace(/\//g, '');
-
-                const path = [previewLocation];
-                if (node.parentId) {
-                    path.push(node.parentId);
-                }
-                path.push('preview', node.id);
-                this.router.navigate(path);
+            if (!node) {
+                return;
             }
+
+            let previewLocation = this.router.url;
+            if (previewLocation.lastIndexOf('/') > 0) {
+                previewLocation = previewLocation.substr(
+                    0,
+                    this.router.url.indexOf('/', 1)
+                );
+            }
+            previewLocation = previewLocation.replace(/\//g, '');
+
+            const path = [previewLocation];
+            if (node.parentId) {
+                path.push(node.parentId);
+            }
+            path.push('preview', node.id);
+            this.router.navigate(path);
         })
     );
 }
