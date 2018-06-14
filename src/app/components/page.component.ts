@@ -35,6 +35,7 @@ import { SetSelectedNodesAction } from '../store/actions/node.action';
 import { selectedNodes } from '../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { SnackbarErrorAction } from '../store/actions';
+import { ViewNodeAction } from '../store/actions/viewer.action';
 
 
 export abstract class PageComponent implements OnInit, OnDestroy {
@@ -103,8 +104,17 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     }
 
     showPreview(node: MinimalNodeEntity) {
-        if (node && node.entry && node.entry.isFile) {
-            this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
+        if (node && node.entry) {
+            const { id, name, isFile, isFolder } = node.entry;
+            const parentId = this.node ? this.node.id : null;
+
+            this.store.dispatch(new ViewNodeAction({
+                parentId,
+                id,
+                name,
+                isFile,
+                isFolder
+            }));
         }
     }
 

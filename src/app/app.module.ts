@@ -87,6 +87,7 @@ import { RouterEffects } from './store/effects/router.effects';
 import { CreateFolderDirective } from './directives/create-folder.directive';
 import { DownloadEffects } from './store/effects/download.effects';
 import { DownloadNodesDirective } from './directives/download-nodes.directive';
+import { ViewerEffects } from './store/effects/viewer.effects';
 
 
 @NgModule({
@@ -110,7 +111,13 @@ import { DownloadNodesDirective } from './directives/download-nodes.directive';
 
         StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-        EffectsModule.forRoot([SnackbarEffects, NodeEffects, RouterEffects, DownloadEffects]),
+        EffectsModule.forRoot([
+            SnackbarEffects,
+            NodeEffects,
+            RouterEffects,
+            DownloadEffects,
+            ViewerEffects
+        ]),
         !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
     ],
     declarations: [

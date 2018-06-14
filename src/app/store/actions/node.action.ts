@@ -8,6 +8,7 @@ export const PURGE_DELETED_NODES = 'PURGE_DELETED_NODES';
 export const DOWNLOAD_NODES = 'DOWNLOAD_NODES';
 
 export interface NodeInfo {
+    parentId?: string;
     id: string;
     name: string;
     isFile?: boolean;
