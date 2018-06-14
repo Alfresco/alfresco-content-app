@@ -23,23 +23,62 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+    NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent, UrlSegment, UrlSegmentGroup,
+    UrlTree
+} from '@angular/router';
 import { MinimalNodeEntity } from 'alfresco-js-api';
+import { SearchControlComponent } from '@alfresco/adf-content-services';
 
 @Component({
     selector: 'app-search-input',
     templateUrl: 'search-input.component.html',
     styleUrls: ['search-input.component.scss']
 })
-export class SearchInputComponent {
+export class SearchInputComponent implements OnInit {
 
     hasOneChange = false;
     hasNewChange = false;
     navigationTimer: any;
 
-    constructor(
-        private router: Router) {
+    @ViewChild('searchControl')
+    searchControl: SearchControlComponent;
+
+    constructor(private router: Router) {
+        this.router.events.filter(e => e instanceof RouterEvent).subscribe(event => {
+            if (event instanceof NavigationEnd) {
+                this.showInputValue();
+            }
+        });
+    }
+
+    ngOnInit() {
+        this.showInputValue();
+    }
+
+    showInputValue() {
+        if (this.onSearchResults) {
+
+            let searchedWord = null;
+            const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+            const urlSegmentGroup: UrlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
+
+            if (urlSegmentGroup) {
+                const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
+                searchedWord = urlSegments[0].parameters['q'];
+            }
+
+            this.searchControl.searchTerm = searchedWord;
+            this.searchControl.subscriptAnimationState = 'no-animation';
+
+        } else {
+            if (this.searchControl.subscriptAnimationState === 'no-animation') {
+                this.searchControl.subscriptAnimationState = 'active';
+                this.searchControl.searchTerm = '';
+                this.searchControl.toggleSearchBar();
+            }
+        }
     }
 
     onItemClicked(node: MinimalNodeEntity) {
