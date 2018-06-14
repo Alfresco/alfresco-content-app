@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, async, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import {
@@ -52,9 +51,7 @@ describe('SharedFilesComponent', () => {
     let fixture: ComponentFixture<SharedFilesComponent>;
     let component: SharedFilesComponent;
     let contentService: ContentManagementService;
-    let nodeService;
     let alfrescoApi: AlfrescoApiService;
-    let router: Router;
     let page;
 
     beforeEach(() => {
@@ -114,8 +111,6 @@ describe('SharedFilesComponent', () => {
                 contentService = TestBed.get(ContentManagementService);
                 alfrescoApi = TestBed.get(AlfrescoApiService);
                 alfrescoApi.reset();
-                nodeService = alfrescoApi.getInstance().nodes;
-                router = TestBed.get(Router);
             });
 
     }));
@@ -151,33 +146,6 @@ describe('SharedFilesComponent', () => {
             contentService.nodesMoved.next();
 
             expect(component.reload).toHaveBeenCalled();
-        });
-    });
-
-    describe('onNodeDoubleClick()', () => {
-        beforeEach(() => {
-            fixture.detectChanges();
-        });
-
-        it('opens viewer if node is file', fakeAsync(() => {
-            spyOn(router, 'navigate').and.stub();
-            const link = { nodeId: 'nodeId' };
-            const node = { entry: { isFile: true, id: 'nodeId' } };
-
-            spyOn(nodeService, 'getNode').and.returnValue(Promise.resolve(node));
-            component.onNodeDoubleClick(link);
-            tick();
-
-            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.entry.id]);
-        }));
-
-        it('does nothing if link data is not passed', () => {
-            spyOn(router, 'navigate').and.stub();
-            spyOn(nodeService, 'getNode').and.returnValue(Promise.resolve({ entry: { isFile: true } }));
-
-            component.onNodeDoubleClick(null);
-
-            expect(router.navigate).not.toHaveBeenCalled();
         });
     });
 

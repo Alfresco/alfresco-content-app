@@ -25,7 +25,6 @@
 
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import {
@@ -51,7 +50,6 @@ import { INITIAL_STATE } from '../../store/states/app.state';
 describe('RecentFiles Routed Component', () => {
     let fixture: ComponentFixture<RecentFilesComponent>;
     let component: RecentFilesComponent;
-    let router: Router;
     let alfrescoApi: AlfrescoApiService;
     let contentService: ContentManagementService;
     let page;
@@ -108,7 +106,6 @@ describe('RecentFiles Routed Component', () => {
             fixture = TestBed.createComponent(RecentFilesComponent);
             component = fixture.componentInstance;
 
-            router = TestBed.get(Router);
             contentService = TestBed.get(ContentManagementService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
             alfrescoApi.reset();
@@ -150,28 +147,6 @@ describe('RecentFiles Routed Component', () => {
             contentService.nodesMoved.next();
 
             expect(component.reload).toHaveBeenCalled();
-        });
-    });
-
-    describe('onNodeDoubleClick()', () => {
-        it('open preview if node is file', () => {
-            spyOn(router, 'navigate').and.stub();
-            const node: any = { id: 'node-id', isFile: true };
-
-            component.onNodeDoubleClick(node);
-            fixture.detectChanges();
-
-            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.id]);
-        });
-
-        it('does not open preview if node is folder', () => {
-            spyOn(router, 'navigate').and.stub();
-            const node: any = { isFolder: true };
-
-            component.onNodeDoubleClick(node);
-            fixture.detectChanges();
-
-            expect(router.navigate).not.toHaveBeenCalled();
         });
     });
 

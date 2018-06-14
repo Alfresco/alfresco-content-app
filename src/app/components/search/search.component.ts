@@ -128,12 +128,13 @@ export class SearchComponent extends PageComponent implements OnInit {
                 this.store.dispatch(new NavigateToLocationAction(node));
                 return;
             }
-        }
-        if (node && PageComponent.isLockedNode(node.entry)) {
-            event.preventDefault();
-            return;
-        }
 
-        this.showPreview(node);
+            if (PageComponent.isLockedNode(node.entry)) {
+                event.preventDefault();
+                return;
+            }
+
+            this.showPreview(node);
+        }
     }
 }

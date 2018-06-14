@@ -34,7 +34,7 @@ class TestClass extends PageComponent {
     }
 
     constructor() {
-        super(null, null, null, null);
+        super(null, null, null);
     }
 }
 

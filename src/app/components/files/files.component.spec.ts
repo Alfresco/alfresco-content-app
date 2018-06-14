@@ -335,49 +335,6 @@ describe('FilesComponent', () => {
         });
     });
 
-    describe('onNodeDoubleClick()', () => {
-        beforeEach(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
-            spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
-
-            fixture.detectChanges();
-        });
-
-        it('should open preview if node is file', () => {
-            spyOn(router, 'navigate').and.stub();
-            node.isFile = true;
-            node.isFolder = false;
-
-            const event: any = {
-                detail: {
-                    node: {
-                        entry: node
-                    }
-                }
-            };
-            component.onNodeDoubleClick(event);
-
-            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.id]);
-        });
-
-        it('should navigate if node is folder', () => {
-            spyOn(component, 'navigate').and.stub();
-            node.isFolder = true;
-
-
-            const event: any = {
-                detail: {
-                    node: {
-                        entry: node
-                    }
-                }
-            };
-            component.onNodeDoubleClick(event);
-
-            expect(component.navigate).toHaveBeenCalledWith(node.id);
-        });
-    });
-
     describe('onBreadcrumbNavigate()', () => {
         beforeEach(() => {
             spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
