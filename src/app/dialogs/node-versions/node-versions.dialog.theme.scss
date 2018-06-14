@@ -47,11 +47,6 @@
             }
         }
 
-        .adf-version-list {
-            height: 200px;
-            overflow: auto;
-        }
-
         .adf-new-version-container {
             height: 100%;
 
@@ -60,32 +55,19 @@
                     width: 100%;
                 }
             }
+
+
         }
 
         .adf-version-list-container {
 
             .adf-version-list {
-                height: auto;
+                height: 220px;
+                overflow: hidden;
             }
 
-            .mat-list .mat-list-item {
-                &.mat-3-line {
-                    display: flex;
-                    align-items: center;
-                    height: 100%;
-                    min-height: 88px;
-                }
-
-                .mat-list-item-content {
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    width: 100%;
-                }
-
-                .mat-line.adf-version-list-item-comment {
-                    overflow: visible;
-                    white-space: pre-wrap;
-                }
+            .mat-list.adf-version-list {
+                overflow: auto;
             }
         }
     }
