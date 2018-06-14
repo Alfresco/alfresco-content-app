@@ -24,6 +24,7 @@
  */
 
 import { Component, Input, OnInit } from '@angular/core';
+import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ViewNodeAction } from '../../store/actions/viewer.action';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -34,8 +35,7 @@ import { AppStore } from '../../store/states/app.state';
     styleUrls: ['./custom-dl-row.component.scss']
 })
 export class CustomDlRowComponent implements OnInit {
-
-    private node;
+    private node: MinimalNodeEntryEntity;
 
     @Input()
     context: any;
@@ -48,27 +48,27 @@ export class CustomDlRowComponent implements OnInit {
 
 
     get name() {
-        return this.getValue(this.node, 'name');
+        return this.getValue('name');
     }
 
     get title() {
-        return this.getValue(this.node, 'properties["cm:title"]');
+        return this.getValue('properties["cm:title"]');
     }
 
     get description() {
-        return this.getValue(this.node, 'properties["cm:description"]');
+        return this.getValue('properties["cm:description"]');
     }
 
     get modifiedAt() {
-        return this.getValue(this.node, 'modifiedAt');
+        return this.getValue('modifiedAt');
     }
 
     get size() {
-        return this.getValue(this.node, 'content.modifiedAt');
+        return this.getValue('content.modifiedAt');
     }
 
     get user() {
-        return this.getValue(this.node, 'modifiedByUser.displayName');
+        return this.getValue('modifiedByUser.displayName');
     }
 
     get hasDescription() {
@@ -84,7 +84,7 @@ export class CustomDlRowComponent implements OnInit {
     }
 
     get isFile() {
-        return this.getValue(this.node, 'isFile');
+        return this.getValue('isFile');
     }
 
     showPreview() {
@@ -96,7 +96,7 @@ export class CustomDlRowComponent implements OnInit {
         }));
     }
 
-    private getValue(source, path) {
+    private getValue(path) {
         return path
             .replace('["', '.')
             .replace('"]', '')
