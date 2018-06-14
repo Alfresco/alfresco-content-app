@@ -100,32 +100,15 @@
                                 [sr-title]="'ADF-DOCUMENT-LIST.LAYOUT.THUMBNAIL'"
                                 [sortable]="false">
                             </data-column>
+
                             <data-column
-                                [key]="'name'"
-                                [type]="'text'"
-                                [title]="'ADF-DOCUMENT-LIST.LAYOUT.NAME'"
-                                [class]="'full-width ellipsis-cell'"
-                                [sortable]="false">
+                                key
+                                type="text">
+                                    <ng-template let-context>
+                                        <app-custom-dl-row [context]="context"></app-custom-dl-row>
+                                    </ng-template>
                             </data-column>
-                            <data-column
-                                [key]="'content.sizeInBytes'"
-                                [type]="'fileSize'"
-                                [title]="'ADF-DOCUMENT-LIST.LAYOUT.SIZE'"
-                                [sortable]="false">
-                            </data-column>
-                            <data-column
-                                [key]="'modifiedAt'"
-                                [type]="'date'"
-                                [title]="'ADF-DOCUMENT-LIST.LAYOUT.MODIFIED_ON'"
-                                [format]="'timeAgo'"
-                                [sortable]="false">
-                            </data-column>
-                            <data-column
-                                [key]="'modifiedByUser.displayName'"
-                                [type]="'text'"
-                                [title]="'ADF-DOCUMENT-LIST.LAYOUT.MODIFIED_BY'"
-                                [sortable]="false">
-                            </data-column>
+
                         </data-columns>
 
                         <empty-folder-content>
