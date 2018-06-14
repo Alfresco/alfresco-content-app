@@ -28,7 +28,7 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
-import { VersionManagerDialogAdapterComponent } from '../../components/versions-dialog/version-manager-dialog-adapter.component';
+import { VersionManagerDialogAdapterComponent } from '../../dialogs/versions-dialog/version-manager-dialog-adapter.component';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
