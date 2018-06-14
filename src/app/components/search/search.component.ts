@@ -74,7 +74,6 @@ export class SearchComponent extends PageComponent implements OnInit {
             }),
 
             this.queryBuilder.executed.subscribe(data => {
-                console.log(data);
                 this.onSearchResultLoaded(data);
             })
         );
