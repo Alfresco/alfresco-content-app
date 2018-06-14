@@ -3,6 +3,7 @@
 
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/about/about.component.theme';
+@import '../dialogs/node-versions/node-versions.dialog.theme';
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
 @import './overrides/adf-info-drawer.theme';
@@ -67,6 +68,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include adf-document-list-theme($custom-theme);
     @include adf-upload-drag-area-theme($custom-theme);
 
+    @include aca-node-versions-dialog-theme($custom-theme);
     @include snackbar-theme($custom-theme);
     @include sidenav-component-theme($custom-theme);
     @include aca-about-component-theme($custom-theme);

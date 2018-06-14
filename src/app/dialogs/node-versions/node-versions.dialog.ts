@@ -34,8 +34,9 @@ import { MatSnackBar } from '@angular/material';
 
 @Component({
     templateUrl: './node-versions.dialog.html',
-    styleUrls: ['./node-versions.dialog.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    // tslint:disable-next-line:use-host-property-decorator
+    host: { 'class': 'aca-node-versions-dialog' }
 })
 export class NodeVersionsDialogComponent {
     contentEntry: MinimalNodeEntryEntity;

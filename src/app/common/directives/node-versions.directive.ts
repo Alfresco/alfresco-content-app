@@ -38,10 +38,8 @@ import { SnackbarErrorAction } from '../../store/actions';
     selector: '[acaNodeVersions]'
 })
 export class NodeVersionsDirective {
-
     // tslint:disable-next-line:no-input-rename
-    @Input('acaNodeVersions')
-    node: MinimalNodeEntity;
+    @Input('acaNodeVersions') node: MinimalNodeEntity;
 
     @HostListener('click')
     onClick() {
@@ -56,7 +54,7 @@ export class NodeVersionsDirective {
 
     async onManageVersions() {
         if (this.node && this.node.entry) {
-            let entry  = this.node.entry;
+            let entry = this.node.entry;
 
             if (entry.nodeId || (<any>entry).guid) {
                 entry = await this.apiService.nodesApi.getNodeInfo(
@@ -74,11 +72,15 @@ export class NodeVersionsDirective {
 
     openVersionManagerDialog(contentEntry: MinimalNodeEntryEntity) {
         if (contentEntry.isFile) {
-            this.dialog.open(
-                NodeVersionsDialogComponent,
-                <any>{ data: { contentEntry }, panelClass: 'adf-version-manager-dialog', width: '630px' });
+            this.dialog.open(NodeVersionsDialogComponent, {
+                data: { contentEntry },
+                panelClass: 'adf-version-manager-dialog-panel',
+                width: '630px'
+            });
         } else {
-            this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
+            this.store.dispatch(
+                new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
+            );
         }
     }
 }

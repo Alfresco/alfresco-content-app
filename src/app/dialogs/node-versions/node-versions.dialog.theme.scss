@@ -1,0 +1,92 @@
+@mixin aca-node-versions-dialog-theme($theme) {
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    // .adf-version-manager-dialog-panel {}
+
+    .aca-node-versions-dialog {
+
+        .mat-dialog-container {
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 8px;
+        }
+
+        .mat-dialog-title {
+            margin-left: 24px;
+            margin-right: 24px;
+            font-size: 20px;
+            font-weight: 600;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.6;
+            letter-spacing: -0.5px;
+            color: mat-color($foreground, text, 0.87);
+        }
+
+        .mat-dialog-content {
+            margin: 0;
+        }
+
+        .mat-dialog-actions {
+            padding: 8px 8px 24px 8px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+            color: mat-color($foreground, text, 0.54);
+
+            button {
+                text-transform: uppercase;
+                font-weight: normal;
+
+                &:enabled {
+                    color: mat-color($accent);
+                }
+            }
+        }
+
+        .adf-version-list {
+            height: 200px;
+            overflow: auto;
+        }
+
+        .adf-new-version-container {
+            height: 100%;
+
+            .adf-new-version-uploader-container {
+                & > .adf-version-upload {
+                    width: 100%;
+                }
+            }
+        }
+
+        .adf-version-list-container {
+
+            .adf-version-list {
+                height: auto;
+            }
+
+            .mat-list .mat-list-item {
+                &.mat-3-line {
+                    display: flex;
+                    align-items: center;
+                    height: 100%;
+                    min-height: 88px;
+                }
+
+                .mat-list-item-content {
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    width: 100%;
+                }
+
+                .mat-line.adf-version-list-item-comment {
+                    overflow: visible;
+                    white-space: pre-wrap;
+                }
+            }
+        }
+    }
+}
