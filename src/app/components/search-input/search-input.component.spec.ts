@@ -29,6 +29,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { SearchInputComponent } from './search-input.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('SearchInputComponent', () => {
     let fixture;
@@ -38,7 +39,8 @@ describe('SearchInputComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                RouterTestingModule
+                RouterTestingModule,
+                TranslateModule.forRoot()
             ],
             declarations: [
                 SearchInputComponent
