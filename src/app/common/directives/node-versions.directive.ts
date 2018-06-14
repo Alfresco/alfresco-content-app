@@ -28,7 +28,7 @@ import { Directive, HostListener, Input } from '@angular/core';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
-import { VersionManagerDialogAdapterComponent } from '../../dialogs/versions-dialog/version-manager-dialog-adapter.component';
+import { NodeVersionsDialogComponent } from '../../dialogs/node-versions/node-versions.dialog';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -75,7 +75,7 @@ export class NodeVersionsDirective {
     openVersionManagerDialog(contentEntry: MinimalNodeEntryEntity) {
         if (contentEntry.isFile) {
             this.dialog.open(
-                VersionManagerDialogAdapterComponent,
+                NodeVersionsDialogComponent,
                 <any>{ data: { contentEntry }, panelClass: 'adf-version-manager-dialog', width: '630px' });
         } else {
             this.store.dispatch(new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION'));
