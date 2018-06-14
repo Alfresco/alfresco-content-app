@@ -27,7 +27,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
-import { SearchConfigurationService, UserPreferencesService, SearchService } from '@alfresco/adf-core';
+import { UserPreferencesService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -37,7 +37,6 @@ import {  NavigateToLocationAction } from '../../store/actions';
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  providers: [SearchService]
 })
 export class SearchComponent extends PageComponent implements OnInit {
 
@@ -48,14 +47,11 @@ export class SearchComponent extends PageComponent implements OnInit {
     queryParamName = 'q';
     data: NodePaging;
     totalResults = 0;
-    maxItems = 5;
-    skipCount = 0;
     sorting = ['name', 'asc'];
 
     constructor(
         public permission: NodePermissionService,
         private queryBuilder: SearchQueryBuilderService,
-        private searchConfiguration: SearchConfigurationService,
         store: Store<AppStore>,
         preferences: UserPreferencesService,
         route: ActivatedRoute) {
@@ -72,21 +68,39 @@ export class SearchComponent extends PageComponent implements OnInit {
 
         this.sorting = this.getSorting();
 
-        this.queryBuilder.updated.subscribe(() => {
-            this.sorting = this.getSorting();
-        });
+        this.subscriptions.push(
+            this.queryBuilder.updated.subscribe(() => {
+                this.sorting = this.getSorting();
+            }),
+
+            this.queryBuilder.executed.subscribe(data => {
+                console.log(data);
+                this.onSearchResultLoaded(data);
+            })
+        );
 
         if (this.route) {
             this.route.params.forEach((params: Params) => {
                 this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-                if (this.searchedWord) {
-                    const queryBody = this.searchConfiguration.generateQueryBody(this.searchedWord, 0, 100);
+                const query = this.formatSearchQuery(this.searchedWord);
 
-                    this.queryBuilder.userQuery = queryBody.query.query;
+                if (query) {
+                    this.queryBuilder.userQuery = query;
                     this.queryBuilder.update();
                 }
             });
         }
+    }
+
+    private formatSearchQuery(userInput: string) {
+        if (!userInput) {
+            return null;
+        }
+
+        const suffix = userInput.lastIndexOf('*') >= 0 ? '' : '*';
+        const query = `${userInput}${suffix} OR name:${userInput}${suffix}`;
+
+        return query;
     }
 
     onSearchResultLoaded(nodePaging: NodePaging) {
@@ -102,9 +116,6 @@ export class SearchComponent extends PageComponent implements OnInit {
     }
 
     onPaginationChanged(pagination: Pagination) {
-        this.maxItems = pagination.maxItems;
-        this.skipCount = pagination.skipCount;
-
         this.queryBuilder.paging = {
             maxItems: pagination.maxItems,
             skipCount: pagination.skipCount
