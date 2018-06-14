@@ -64,14 +64,6 @@
     </div>
 
     <div class="inner-layout__content">
-        <adf-search
-            #search
-            [searchTerm]="searchedWord"
-            [maxResults]="maxItems"
-            [skipResults]="skipCount"
-            (resultLoaded)="onSearchResultLoaded($event)">
-        </adf-search>
-
         <div class="inner-layout__panel">
             <div class="adf-search-results">
                 <adf-search-filter #searchFilter></adf-search-filter>
