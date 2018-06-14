@@ -40,9 +40,9 @@ export class LibrariesComponent extends PageComponent {
     constructor(private nodesApi: NodesApiService,
                 route: ActivatedRoute,
                 store: Store<AppStore>,
-                router: Router,
+                private router: Router,
                 preferences: UserPreferencesService) {
-        super(preferences, router, route, store);
+        super(preferences, route, store);
     }
 
     makeLibraryTooltip(library: any): string {

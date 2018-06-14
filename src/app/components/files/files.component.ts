@@ -50,7 +50,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     private nodePath: PathElement[];
 
-    constructor(router: Router,
+    constructor(private router: Router,
                 route: ActivatedRoute,
                 store: Store<AppStore>,
                 private nodesApi: NodesApiService,
@@ -61,7 +61,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private apiService: AlfrescoApiService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, router, route, store);
+        super(preferences, route, store);
     }
 
     ngOnInit() {
@@ -139,24 +139,21 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    onNodeDoubleClick(event: CustomEvent) {
-        if (!!event.detail && !!event.detail.node) {
+    onNodeDoubleClick(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            const { id, isFolder } = node.entry;
 
-            const node: MinimalNodeEntryEntity = event.detail.node.entry;
-            if (node) {
-
-                if (node.isFolder) {
-                    this.navigate(node.id);
-                }
-
-                if (PageComponent.isLockedNode(node)) {
-                    event.preventDefault();
-
-                } else if (node.isFile) {
-                    this.router.navigate(['./preview', node.id], { relativeTo: this.route });
-                }
+            if (isFolder) {
+                this.navigate(id);
+                return;
             }
 
+            if (PageComponent.isLockedNode(node.entry)) {
+                event.preventDefault();
+                return;
+            }
+
+            this.showPreview(node);
         }
     }
 

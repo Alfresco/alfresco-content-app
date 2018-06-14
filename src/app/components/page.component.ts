@@ -26,7 +26,7 @@
 import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
 import { UserPreferencesService, FileUploadErrorEvent } from '@alfresco/adf-core';
 import { ShareDataRow, DocumentListComponent } from '@alfresco/adf-content-services';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { OnDestroy, ViewChild, OnInit } from '@angular/core';
 import { Subscription, Subject } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
@@ -35,6 +35,7 @@ import { SetSelectedNodesAction } from '../store/actions/node.action';
 import { selectedNodes } from '../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { SnackbarErrorAction } from '../store/actions';
+import { ViewNodeAction } from '../store/actions/viewer.action';
 
 
 export abstract class PageComponent implements OnInit, OnDestroy {
@@ -66,7 +67,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     }
 
     constructor(protected preferences: UserPreferencesService,
-                protected router: Router,
                 protected route: ActivatedRoute,
                 protected store: Store<AppStore>) {
     }
@@ -103,8 +103,17 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     }
 
     showPreview(node: MinimalNodeEntity) {
-        if (node && node.entry && node.entry.isFile) {
-            this.router.navigate(['./preview', node.entry.id], { relativeTo: this.route });
+        if (node && node.entry) {
+            const { id, nodeId, name, isFile, isFolder } = node.entry;
+            const parentId = this.node ? this.node.id : null;
+
+            this.store.dispatch(new ViewNodeAction({
+                parentId,
+                id: nodeId || id,
+                name,
+                isFile,
+                isFolder
+            }));
         }
     }
 

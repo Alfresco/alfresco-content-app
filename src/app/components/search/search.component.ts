@@ -24,8 +24,8 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
+import { ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
 import { SearchConfigurationService, UserPreferencesService, SearchService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
@@ -57,10 +57,9 @@ export class SearchComponent extends PageComponent implements OnInit {
         private queryBuilder: SearchQueryBuilderService,
         private searchConfiguration: SearchConfigurationService,
         store: Store<AppStore>,
-        router: Router,
         preferences: UserPreferencesService,
         route: ActivatedRoute) {
-        super(preferences, router, route, store);
+        super(preferences, route, store);
 
         queryBuilder.paging = {
             skipCount: 0,
@@ -123,16 +122,19 @@ export class SearchComponent extends PageComponent implements OnInit {
         return ['name', 'asc'];
     }
 
-    onNodeDoubleClick(node: MinimalNodeEntryEntity) {
-        if (node && node.isFolder) {
-            this.store.dispatch(new NavigateToLocationAction(node));
-        }
+    onNodeDoubleClick(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            if (node.entry.isFolder) {
+                this.store.dispatch(new NavigateToLocationAction(node));
+                return;
+            }
 
-        if (node && PageComponent.isLockedNode(node)) {
-            event.preventDefault();
+            if (PageComponent.isLockedNode(node.entry)) {
+                event.preventDefault();
+                return;
+            }
 
-        } else if (node && node.isFile) {
-            this.router.navigate(['./preview', node.id], { relativeTo: this.route });
+            this.showPreview(node);
         }
     }
 }

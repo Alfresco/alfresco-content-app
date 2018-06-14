@@ -39,14 +39,14 @@ import { AppStore } from '../../store/states/app.state';
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
 
-    constructor(router: Router,
+    constructor(private router: Router,
                 route: ActivatedRoute,
                 store: Store<AppStore>,
                 private nodesApi: NodesApiService,
                 private content: ContentManagementService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, router, route, store);
+        super(preferences, route, store);
     }
 
     ngOnInit() {

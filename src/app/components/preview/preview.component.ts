@@ -61,11 +61,11 @@ export class PreviewComponent extends PageComponent implements OnInit {
         private apiService: AlfrescoApiService,
         preferences: UserPreferencesService,
         route: ActivatedRoute,
-        router: Router,
+        private router: Router,
         store: Store<AppStore>,
         public permission: NodePermissionService) {
 
-        super(preferences, router, route, store);
+        super(preferences, route, store);
     }
 
     ngOnInit() {

@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Pagination } from 'alfresco-js-api';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -40,9 +40,8 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     constructor(private contentManagementService: ContentManagementService,
                 preferences: UserPreferencesService,
                 store: Store<AppStore>,
-                router: Router,
                 route: ActivatedRoute) {
-        super(preferences, router, route, store);
+        super(preferences, route, store);
     }
 
     ngOnInit() {
