@@ -191,32 +191,6 @@ describe('FavoritesComponent', () => {
         });
     });
 
-    describe('onNodeDoubleClick', () => {
-        beforeEach(() => {
-            spyOn(nodesApi, 'getNode').and.returnValue(Observable.of(node));
-            fixture.detectChanges();
-        });
-
-        it('navigates if node is a folder', () => {
-            node.isFolder = true;
-            spyOn(router, 'navigate');
-
-            component.onNodeDoubleClick({ entry: node });
-
-            expect(router.navigate).toHaveBeenCalled();
-        });
-
-        it('opens preview if node is a file', () => {
-            node.isFolder = false;
-            node.isFile = true;
-            spyOn(router, 'navigate').and.stub();
-
-            component.onNodeDoubleClick({ entry: node });
-
-            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', 'folder-node']);
-        });
-    });
-
     describe('refresh', () => {
         it('should call document list reload', () => {
             spyOn(component.documentList, 'reload');
