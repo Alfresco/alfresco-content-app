@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UserPreferencesService, UploadService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -38,14 +38,13 @@ import { AppStore } from '../../store/states/app.state';
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
 
-    constructor(router: Router,
-                route: ActivatedRoute,
+    constructor(route: ActivatedRoute,
                 store: Store<AppStore>,
                 private uploadService: UploadService,
                 private content: ContentManagementService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, router, route, store);
+        super(preferences, route, store);
     }
 
     ngOnInit() {
@@ -57,11 +56,5 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
             this.content.nodesRestored.subscribe(() => this.reload()),
             this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
-    }
-
-    onNodeDoubleClick(link: { nodeId?: string }) {
-        if (link && link.nodeId) {
-            this.router.navigate(['./preview', link.nodeId], { relativeTo: this.route });
-        }
     }
 }
