@@ -31,7 +31,7 @@ export class ViewerEffects {
                 path.push(node.parentId);
             }
             path.push('preview', node.id);
-            this.router.navigate(path);
+            this.router.navigateByUrl(path.join('/'));
         })
     );
 }

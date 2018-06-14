@@ -50,7 +50,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     private nodePath: PathElement[];
 
-    constructor(router: Router,
+    constructor(private router: Router,
                 route: ActivatedRoute,
                 store: Store<AppStore>,
                 private nodesApi: NodesApiService,
@@ -61,7 +61,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private apiService: AlfrescoApiService,
                 public permission: NodePermissionService,
                 preferences: UserPreferencesService) {
-        super(preferences, router, route, store);
+        super(preferences, route, store);
     }
 
     ngOnInit() {
