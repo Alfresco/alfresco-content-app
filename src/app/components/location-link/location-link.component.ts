@@ -28,10 +28,14 @@ import { AlfrescoApiService, DataColumn, DataRow, DataTableAdapter } from '@alfr
 import { PathInfoEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import {  NavigateToLocationAction } from '../../store/actions';
+
 @Component({
     selector: 'app-location-link',
     template: `
-        <a href="" [title]="tooltip | async" [routerLink]="link">
+        <a href="" [title]="tooltip | async" (click)="goToLocation()">
             {{ displayText | async }}
         </a>
     `,
@@ -56,7 +60,17 @@ export class LocationLinkComponent implements OnInit {
     @Input()
     tooltip: Observable<string>;
 
-    constructor(private apiService: AlfrescoApiService) {
+    constructor(
+        private store: Store<AppStore>,
+        private apiService: AlfrescoApiService) {
+    }
+
+    goToLocation() {
+        if (this.context) {
+            const { node } = this.context.row;
+
+            this.store.dispatch(new NavigateToLocationAction(node.entry));
+        }
     }
 
     ngOnInit() {
@@ -67,29 +81,10 @@ export class LocationLinkComponent implements OnInit {
             const value: PathInfoEntity = data.getValue(row, col);
 
             if (value && value.name && value.elements) {
-                const isLibraryPath = this.isLibraryContent(value);
-
                 this.displayText = this.getDisplayText(value);
                 this.tooltip = this.getTooltip(value);
-
-                const parent = value.elements[value.elements.length - 1];
-                const area = isLibraryPath ? '/libraries' : '/personal-files';
-
-                if (!isLibraryPath) {
-                    this.link = [ area, parent.id ];
-                } else {
-                    // parent.id could be 'Site' folder or child as 'documentLibrary'
-                    this.link = [ area, (parent.name === 'Sites' ? {} : parent.id) ];
-                }
             }
         }
-    }
-
-    private isLibraryContent(path: PathInfoEntity): boolean {
-        if (path && path.elements.length >= 2 && path.elements[1].name === 'Sites') {
-            return true;
-        }
-        return false;
     }
 
     // todo: review once 5.2.3 is out
