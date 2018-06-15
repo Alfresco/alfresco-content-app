@@ -47,7 +47,9 @@ export class RouterEffects {
             }
         }
 
-        this.router.navigate(link);
+        setTimeout(() => {
+            this.router.navigate(link);
+        }, 10);
     }
 
     private isLibraryContent(path: PathInfoEntity): boolean {
