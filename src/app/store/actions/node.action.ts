@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { NodeInfo } from '../models/node-info.model';
 
 export const SET_SELECTED_NODES = 'SET_SELECTED_NODES';
 export const DELETE_NODES = 'DELETE_NODES';
@@ -6,14 +7,6 @@ export const UNDO_DELETE_NODES = 'UNDO_DELETE_NODES';
 export const RESTORE_DELETED_NODES = 'RESTORE_DELETED_NODES';
 export const PURGE_DELETED_NODES = 'PURGE_DELETED_NODES';
 export const DOWNLOAD_NODES = 'DOWNLOAD_NODES';
-
-export interface NodeInfo {
-    parentId?: string;
-    id: string;
-    name: string;
-    isFile?: boolean;
-    isFolder?: boolean;
-}
 
 export class SetSelectedNodesAction implements Action {
     readonly type = SET_SELECTED_NODES;

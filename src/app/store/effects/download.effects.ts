@@ -4,8 +4,8 @@ import { map } from 'rxjs/operators';
 import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { MatDialog } from '@angular/material';
-import { NodeInfo } from '../actions/node.action';
 import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
+import { NodeInfo } from '../models';
 
 @Injectable()
 export class DownloadEffects {

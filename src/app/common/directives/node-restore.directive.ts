@@ -32,8 +32,7 @@ import {
     PathInfoEntity,
     DeletedNodesPaging
 } from 'alfresco-js-api';
-import { DeletedNodeInfo } from './deleted-node-info.interface';
-import { DeleteStatus } from './delete-status.interface';
+import { DeleteStatus, DeletedNodeInfo } from '../../store/models';
 import { ContentManagementService } from '../services/content-management.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
