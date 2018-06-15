@@ -174,6 +174,12 @@
                     }
                 }
             },
+            "UPLOAD": {
+                "ERROR": {
+                    "CONFLICT": "New version not uploaded, another file with the same name already exists",
+                    "500": "Opps! There was a problem while uploading"
+                }
+            },
             "INFO": {
                 "TRASH": {
                     "NODES_PURGE": {
@@ -231,11 +237,6 @@
         "SEARCH": "Search"
     },
     "VERSION": {
-        "MESSAGE": {
-            "ERROR": {
-                "CONFLICT": "New version not uploaded, another file with the same name already exists"
-            }
-        },
         "DIALOG": {
             "TITLE": "Manage Versions",
             "CLOSE": "Close"
