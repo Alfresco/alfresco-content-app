@@ -23,20 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { AppConfigService, PeopleContentService } from '@alfresco/adf-core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppConfigService, PeopleContentService, TranslationService, TranslationMock } from '@alfresco/adf-core';
-import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
-
+import { SetAppNameAction, SetHeaderColorAction } from '../../store/actions';
+import { AppStore } from '../../store/states/app.state';
+import { AppTestingModule } from '../../testing/app-testing.module';
 import { HeaderComponent } from './header.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { StoreModule, Store } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE, AppStore } from '../../store/states/app.state';
-import { SetAppNameAction } from '../../store/actions/app-name.action';
-import { SetHeaderColorAction } from '../../store/actions/header-color.action';
 
 describe('HeaderComponent', () => {
     let fixture: ComponentFixture<HeaderComponent>;
@@ -47,18 +42,14 @@ describe('HeaderComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpClientModule,
-                RouterTestingModule,
-                TranslateModule.forRoot(),
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
+                AppTestingModule
             ],
             declarations: [
                 HeaderComponent
             ],
             providers: [
                 AppConfigService,
-                PeopleContentService,
-                { provide: TranslationService, useClass: TranslationMock },
+                PeopleContentService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
