@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { NodeInfo } from './node.action';
+import { NodeInfo } from '../models';
 
 export const VIEW_NODE = 'VIEW_NODE';
 

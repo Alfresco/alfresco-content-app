@@ -30,7 +30,8 @@ import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
 
 import { AppStore } from '../../store/states/app.state';
-import { NodeInfo, PurgeDeletedNodesAction } from '../../store/actions';
+import { PurgeDeletedNodesAction } from '../../store/actions';
+import { NodeInfo } from '../../store/models';
 
 @Directive({
     selector: '[acaPermanentDelete]'

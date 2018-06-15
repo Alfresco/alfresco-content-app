@@ -10,7 +10,6 @@ import {
     SnackbarErrorAction,
     PurgeDeletedNodesAction,
     PURGE_DELETED_NODES,
-    NodeInfo,
     DeleteNodesAction,
     DELETE_NODES,
     SnackbarUserAction,
@@ -22,6 +21,7 @@ import { ContentManagementService } from '../../common/services/content-manageme
 import { Observable } from 'rxjs/Rx';
 import { DeletedNodeInfo } from '../../common/directives/deleted-node-info.interface';
 import { AlfrescoApiService } from '@alfresco/adf-core';
+import { NodeInfo } from '../models';
 
 @Injectable()
 export class NodeEffects {
