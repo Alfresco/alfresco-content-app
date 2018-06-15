@@ -176,6 +176,7 @@
             },
             "UPLOAD": {
                 "ERROR": {
+                    "GENERIC": "Opps! There was a problem",
                     "CONFLICT": "New version not uploaded, another file with the same name already exists",
                     "500": "Opps! There was a problem while uploading"
                 }
