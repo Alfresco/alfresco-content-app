@@ -1,0 +1,21 @@
+<div class="app-custom-search-row">
+    <div class="line">
+        <a *ngIf="isFile" href="" (click)="showPreview()" class="link"> {{ name }} </a>
+
+        <span *ngIf="!isFile" class="bold"> {{ name }} </span>
+
+        <span *ngIf="hasTitle"> ( {{ title }} ) </span>
+    </div>
+
+    <div *ngIf="hasDescription" class="line">  {{ description }} </div>
+
+    <div class="line">
+        {{ 'APP.BROWSE.SEARCH.CUSTOM_ROW.MODIFIED' | translate }}: {{ modifiedAt | date:'medium' }}
+
+        by <span> {{ user }}  </span>
+
+        <span *ngIf="size">|  {{ size }} </span>
+    </div>
+
+    <div class="line">{{ 'APP.BROWSE.SEARCH.CUSTOM_ROW.LOCATION' | translate }}: <app-location-link [context]="context"></app-location-link></div>
+</div>

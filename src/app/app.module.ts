@@ -57,6 +57,7 @@ import { SearchInputComponent } from './components/search-input/search-input.com
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
+import { CustomDlRowComponent } from './components/custom-dl-row/custom-dl-row.component';
 import { NodeCopyDirective } from './common/directives/node-copy.directive';
 import { NodeDeleteDirective } from './common/directives/node-delete.directive';
 import { NodeMoveDirective } from './common/directives/node-move.directive';
@@ -139,6 +140,7 @@ import { ViewerEffects } from './store/effects/viewer.effects';
         PreviewComponent,
         AboutComponent,
         LocationLinkComponent,
+        CustomDlRowComponent,
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,

@@ -98,7 +98,11 @@
             },
             "SEARCH": {
                 "TITLE": "Search Results",
-                "FOUND_RESULTS": "{{ number }} results found"
+                "FOUND_RESULTS": "{{ number }} results found",
+                "CUSTOM_ROW": {
+                    "MODIFIED": "Modified",
+                    "LOCATION": "Location"
+                }
             }
         },
         "ACTIONS": {

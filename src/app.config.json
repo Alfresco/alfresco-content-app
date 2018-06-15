@@ -159,7 +159,7 @@
         }
     },
     "search": {
-        "include": ["path", "allowableOperations"],
+        "include": ["path", "allowableOperations", "properties"],
         "sorting": {
             "options": [
                 {
@@ -217,6 +217,7 @@
         "filterQueries": [
             { "query": "TYPE:'cm:folder' OR TYPE:'cm:content'" },
             { "query": "NOT cm:creator:System" },
+            { "query": "NOT TYPE:'dl:dataList' AND NOT TYPE:'dl:todoList' AND NOT TYPE:'dl:issue' AND NOT TYPE:'fm:topic' AND NOT TYPE:'lnk:link' AND NOT TYPE:'fm:post'" },
             { "query": "-(SITE: _REPOSITORY_)" }
         ],
         "facetFields": [
