@@ -32,11 +32,6 @@ import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, PageTitleService } 
 import { ContentModule } from '@alfresco/adf-content-services';
 import { ElectronModule } from '@ngstack/electron';
 
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
 
@@ -77,18 +72,11 @@ import { HybridAppConfigService } from './common/services/hybrid-app-config.serv
 import { SortingPreferenceKeyDirective } from './directives/sorting-preference-key.directive';
 import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
 
-import { INITIAL_STATE } from './store/states/app.state';
-import { appReducer } from './store/reducers/app.reducer';
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 import { EditFolderDirective } from './directives/edit-folder.directive';
-import { SnackbarEffects } from './store/effects/snackbar.effects';
-import { NodeEffects } from './store/effects/node.effects';
-import { environment } from '../environments/environment';
-import { RouterEffects } from './store/effects/router.effects';
 import { CreateFolderDirective } from './directives/create-folder.directive';
-import { DownloadEffects } from './store/effects/download.effects';
 import { DownloadNodesDirective } from './directives/download-nodes.directive';
-import { ViewerEffects } from './store/effects/viewer.effects';
+import { AppStoreModule } from './store/app-store.module';
 
 
 @NgModule({
@@ -109,17 +97,7 @@ import { ViewerEffects } from './store/effects/viewer.effects';
         CoreModule,
         ContentModule,
         ElectronModule,
-
-        StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
-        StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-        EffectsModule.forRoot([
-            SnackbarEffects,
-            NodeEffects,
-            RouterEffects,
-            DownloadEffects,
-            ViewerEffects
-        ]),
-        !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25 }) : []
+        AppStoreModule
     ],
     declarations: [
         AppComponent,
