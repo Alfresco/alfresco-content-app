@@ -135,7 +135,7 @@ export class SearchComponent extends PageComponent implements OnInit {
     onNodeDoubleClick(node: MinimalNodeEntity) {
         if (node && node.entry) {
             if (node.entry.isFolder) {
-                this.store.dispatch(new NavigateToLocationAction(node));
+                this.store.dispatch(new NavigateToLocationAction(node.entry));
                 return;
             }
 
