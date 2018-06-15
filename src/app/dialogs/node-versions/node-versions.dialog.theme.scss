@@ -1,7 +1,10 @@
 @mixin aca-node-versions-dialog-theme($theme) {
     $foreground: map-get($theme, foreground);
     $accent: map-get($theme, accent);
-    // .adf-version-manager-dialog-panel {}
+
+    .adf-version-manager-dialog-panel {
+        height: 400px;
+    }
 
     .aca-node-versions-dialog {
 
@@ -12,8 +15,6 @@
         }
 
         .mat-dialog-title {
-            margin-left: 24px;
-            margin-right: 24px;
             font-size: 20px;
             font-weight: 600;
             font-style: normal;
@@ -21,10 +22,6 @@
             line-height: 1.6;
             letter-spacing: -0.5px;
             color: mat-color($foreground, text, 0.87);
-        }
-
-        .mat-dialog-content {
-            margin: 0;
         }
 
         .mat-dialog-actions {
