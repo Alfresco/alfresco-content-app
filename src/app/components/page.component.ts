@@ -191,12 +191,18 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     }
 
     onFileUploadedError(error: FileUploadErrorEvent) {
-        let message = null;
+        let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
 
         if (error.error.status === 409) {
-           message =  new SnackbarErrorAction('VERSION.MESSAGE.ERROR.CONFLICT');
+           message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
         }
 
-        this.store.dispatch(message);
+        if (error.error.status === 500) {
+            message = 'APP.MESSAGES.UPLOAD.ERROR.500';
+         }
+
+        const action = new SnackbarErrorAction(message);
+
+        this.store.dispatch(action);
     }
 }
