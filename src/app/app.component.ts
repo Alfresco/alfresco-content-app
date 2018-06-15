@@ -32,9 +32,7 @@ import {
 import { ElectronService } from '@ngstack/electron';
 import { Store } from '@ngrx/store';
 import { AppStore } from './store/states/app.state';
-import { SetHeaderColorAction } from './store/actions/header-color.action';
-import { SetAppNameAction } from './store/actions/app-name.action';
-import { SetLogoPathAction } from './store/actions/logo-path.action';
+import { SetHeaderColorAction, SetAppNameAction, SetLogoPathAction } from './store/actions';
 
 @Component({
     selector: 'app-root',
