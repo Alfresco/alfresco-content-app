@@ -78,7 +78,8 @@ export class LocationLinkComponent implements OnInit {
             const data: DataTableAdapter = this.context.data;
             const col: DataColumn = this.context.col;
             const row: DataRow = this.context.row;
-            const value: PathInfoEntity = data.getValue(row, col);
+            const path: PathInfoEntity  = data.getValue(row, col);
+            const value = path || this.context.row.node.entry.path;
 
             if (value && value.name && value.elements) {
                 this.displayText = this.getDisplayText(value);
