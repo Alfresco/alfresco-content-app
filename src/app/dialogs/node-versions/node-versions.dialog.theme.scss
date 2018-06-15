@@ -1,0 +1,66 @@
+@mixin aca-node-versions-dialog-theme($theme) {
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+
+    .adf-version-manager-dialog-panel {
+        height: 400px;
+    }
+
+    .aca-node-versions-dialog {
+
+        .mat-dialog-title {
+            font-size: 20px;
+            font-weight: 600;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.6;
+            letter-spacing: -0.5px;
+            color: mat-color($foreground, text, 0.87);
+        }
+
+        .mat-dialog-actions {
+            padding: 8px 8px 24px 8px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: end;
+            -ms-flex-pack: end;
+            justify-content: flex-end;
+            color: mat-color($foreground, text, 0.54);
+
+            button {
+                text-transform: uppercase;
+                font-weight: normal;
+
+                &:enabled {
+                    color: mat-color($accent);
+                }
+            }
+        }
+
+        .adf-new-version-container {
+            height: 100%;
+
+            .adf-new-version-uploader-container {
+                & > .adf-version-upload {
+                    width: 100%;
+                }
+            }
+
+
+        }
+
+        .adf-version-list-container {
+
+            .adf-version-list {
+                height: 180px;
+                overflow: hidden;
+                padding: 0;
+            }
+
+            .mat-list.adf-version-list {
+                overflow: auto;
+            }
+        }
+    }
+}

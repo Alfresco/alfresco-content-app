@@ -23,20 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
-import { UserPreferencesService, FileUploadErrorEvent } from '@alfresco/adf-core';
-import { ShareDataRow, DocumentListComponent } from '@alfresco/adf-content-services';
+import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
+import { FileUploadErrorEvent, UserPreferencesService } from '@alfresco/adf-core';
+import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { OnDestroy, ViewChild, OnInit } from '@angular/core';
-import { Subscription, Subject } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states/app.state';
-import { SetSelectedNodesAction } from '../store/actions/node.action';
-import { selectedNodes } from '../store/selectors/app.selectors';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
-import { SnackbarErrorAction } from '../store/actions';
-import { ViewNodeAction } from '../store/actions/viewer.action';
-
+import { Subject, Subscription } from 'rxjs/Rx';
+import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
+import { selectedNodes } from '../store/selectors/app.selectors';
+import { AppStore } from '../store/states/app.state';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 

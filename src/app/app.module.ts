@@ -65,7 +65,7 @@ import { NodeRestoreDirective } from './common/directives/node-restore.directive
 import { NodePermanentDeleteDirective } from './common/directives/node-permanent-delete.directive';
 import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
 import { NodeVersionsDirective } from './common/directives/node-versions.directive';
-import { VersionManagerDialogAdapterComponent } from './components/versions-dialog/version-manager-dialog-adapter.component';
+import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
@@ -148,7 +148,7 @@ import { ViewerEffects } from './store/effects/viewer.effects';
         NodePermanentDeleteDirective,
         NodeUnshareDirective,
         NodeVersionsDirective,
-        VersionManagerDialogAdapterComponent,
+        NodeVersionsDialogComponent,
         SearchComponent,
         SettingsComponent,
         SortingPreferenceKeyDirective,
@@ -174,7 +174,7 @@ import { ViewerEffects } from './store/effects/viewer.effects';
         NodePermissionService
     ],
     entryComponents: [
-        VersionManagerDialogAdapterComponent
+        NodeVersionsDialogComponent
     ],
     bootstrap: [AppComponent]
 })
