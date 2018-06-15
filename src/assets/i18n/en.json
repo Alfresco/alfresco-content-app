@@ -101,7 +101,8 @@
                 "FOUND_RESULTS": "{{ number }} results found",
                 "CUSTOM_ROW": {
                     "MODIFIED": "Modified",
-                    "LOCATION": "Location"
+                    "LOCATION": "Location",
+                    "SIZE": "Size"
                 }
             }
         },
