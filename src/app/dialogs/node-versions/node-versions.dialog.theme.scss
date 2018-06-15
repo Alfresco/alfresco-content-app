@@ -8,12 +8,6 @@
 
     .aca-node-versions-dialog {
 
-        .mat-dialog-container {
-            padding-left: 0;
-            padding-right: 0;
-            padding-bottom: 8px;
-        }
-
         .mat-dialog-title {
             font-size: 20px;
             font-weight: 600;
@@ -59,8 +53,9 @@
         .adf-version-list-container {
 
             .adf-version-list {
-                height: 220px;
+                height: 180px;
                 overflow: hidden;
+                padding: 0;
             }
 
             .mat-list.adf-version-list {
