@@ -64,7 +64,7 @@ export class CustomDlRowComponent implements OnInit {
     }
 
     get size() {
-        return this.getValue('content.modifiedAt');
+        return this.getValue('content.sizeInBytes');
     }
 
     get user() {
