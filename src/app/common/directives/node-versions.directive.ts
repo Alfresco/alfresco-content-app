@@ -70,10 +70,10 @@ export class NodeVersionsDirective {
         }
     }
 
-    openVersionManagerDialog(contentEntry: MinimalNodeEntryEntity) {
-        if (contentEntry.isFile) {
+    openVersionManagerDialog(node: MinimalNodeEntryEntity) {
+        if (node.isFile) {
             this.dialog.open(NodeVersionsDialogComponent, {
-                data: { contentEntry },
+                data: { node },
                 panelClass: 'adf-version-manager-dialog-panel',
                 width: '630px'
             });

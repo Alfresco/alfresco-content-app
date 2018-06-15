@@ -24,38 +24,29 @@
  */
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import {
-    MAT_DIALOG_DATA,
-    MatDialogRef,
-    MatSnackBarConfig
-} from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { MatSnackBar } from '@angular/material';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { SnackbarErrorAction } from '../../store/actions';
 
 @Component({
     templateUrl: './node-versions.dialog.html',
     encapsulation: ViewEncapsulation.None,
     // tslint:disable-next-line:use-host-property-decorator
-    host: { 'class': 'aca-node-versions-dialog' }
+    host: { class: 'aca-node-versions-dialog' }
 })
 export class NodeVersionsDialogComponent {
-    contentEntry: MinimalNodeEntryEntity;
+    node: MinimalNodeEntryEntity;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) data: any,
-        private snackBar: MatSnackBar,
-        private containingDialog?: MatDialogRef<NodeVersionsDialogComponent>
+        private store: Store<AppStore>
     ) {
-        this.contentEntry = data.contentEntry;
+        this.node = data.node;
     }
 
     uploadError(errorMessage: string) {
-        this.snackBar.open(errorMessage, '', <MatSnackBarConfig>{
-            duration: 4000
-        });
-    }
-
-    close() {
-        this.containingDialog.close();
+        this.store.dispatch(new SnackbarErrorAction(errorMessage));
     }
 }
