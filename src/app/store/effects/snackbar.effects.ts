@@ -1,18 +1,18 @@
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { TranslationService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 import {
+    SnackbarAction,
     SnackbarErrorAction,
-    SNACKBAR_ERROR,
-    SNACKBAR_INFO,
     SnackbarInfoAction,
     SnackbarWarningAction,
-    SNACKBAR_WARNING,
-    SnackbarAction
+    SNACKBAR_ERROR,
+    SNACKBAR_INFO,
+    SNACKBAR_WARNING
 } from '../actions';
-import { MatSnackBar } from '@angular/material';
-import { TranslationService } from '@alfresco/adf-core';
-import { map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 
 @Injectable()

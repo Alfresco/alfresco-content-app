@@ -25,7 +25,7 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { ViewNodeAction } from '../../store/actions/viewer.action';
+import { ViewNodeAction } from '../../store/actions/viewer.actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 

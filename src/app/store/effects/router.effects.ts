@@ -1,11 +1,14 @@
-import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { PathInfoEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
-import {
-    NavigateRouteAction, NAVIGATE_ROUTE, NavigateToLocationAction, NAVIGATE_LOCATION
-} from '../actions/router.action';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { MinimalNodeEntryEntity, PathInfoEntity } from 'alfresco-js-api';
+import { map } from 'rxjs/operators';
+import {
+    NavigateRouteAction,
+    NavigateToLocationAction,
+    NAVIGATE_LOCATION,
+    NAVIGATE_ROUTE
+} from '../actions';
 
 @Injectable()
 export class RouterEffects {
@@ -40,10 +43,10 @@ export class RouterEffects {
             const area = isLibraryPath ? '/libraries' : '/personal-files';
 
             if (!isLibraryPath) {
-                link = [ area, parent.id ];
+                link = [area, parent.id];
             } else {
                 // parent.id could be 'Site' folder or child as 'documentLibrary'
-                link = [ area, (parent.name === 'Sites' ? {} : parent.id) ];
+                link = [area, parent.name === 'Sites' ? {} : parent.id];
             }
         }
 
@@ -53,7 +56,11 @@ export class RouterEffects {
     }
 
     private isLibraryContent(path: PathInfoEntity): boolean {
-        if (path && path.elements.length >= 2 && path.elements[1].name === 'Sites') {
+        if (
+            path &&
+            path.elements.length >= 2 &&
+            path.elements[1].name === 'Sites'
+        ) {
             return true;
         }
 

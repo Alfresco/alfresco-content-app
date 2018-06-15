@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { NodeInfo } from '../models/node-info.model';
+import { NodeInfo } from '../models';
 
 export const SET_SELECTED_NODES = 'SET_SELECTED_NODES';
 export const DELETE_NODES = 'DELETE_NODES';

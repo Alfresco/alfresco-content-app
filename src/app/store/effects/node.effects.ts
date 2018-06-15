@@ -1,7 +1,6 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { DeleteStatus, DeletedNodeInfo } from '../../store/models';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import {
@@ -20,7 +19,7 @@ import {
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { Observable } from 'rxjs/Rx';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { NodeInfo } from '../models';
+import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
 
 @Injectable()
 export class NodeEffects {

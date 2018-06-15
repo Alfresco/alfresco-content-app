@@ -1,10 +1,10 @@
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
 import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
-import { AlfrescoApiService } from '@alfresco/adf-core';
-import { MatDialog } from '@angular/material';
-import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
 import { NodeInfo } from '../models';
 
 @Injectable()

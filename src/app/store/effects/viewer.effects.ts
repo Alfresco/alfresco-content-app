@@ -1,7 +1,7 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { ViewNodeAction, VIEW_NODE } from '../actions/viewer.action';
+import { ViewNodeAction, VIEW_NODE } from '../actions/viewer.actions';
 import { Router } from '@angular/router';
 
 @Injectable()
