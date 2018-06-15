@@ -1,11 +1,39 @@
-import { Effect, Actions, ofType } from '@ngrx/effects';
+/*!
+ * @license
+ * Alfresco Example Content Application
+ *
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import { Injectable } from '@angular/core';
-import { PathInfoEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
-import {
-    NavigateRouteAction, NAVIGATE_ROUTE, NavigateToLocationAction, NAVIGATE_LOCATION
-} from '../actions/router.action';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { MinimalNodeEntryEntity, PathInfoEntity } from 'alfresco-js-api';
+import { map } from 'rxjs/operators';
+import {
+    NavigateRouteAction,
+    NavigateToLocationAction,
+    NAVIGATE_LOCATION,
+    NAVIGATE_ROUTE
+} from '../actions';
 
 @Injectable()
 export class RouterEffects {
@@ -40,10 +68,10 @@ export class RouterEffects {
             const area = isLibraryPath ? '/libraries' : '/personal-files';
 
             if (!isLibraryPath) {
-                link = [ area, parent.id ];
+                link = [area, parent.id];
             } else {
                 // parent.id could be 'Site' folder or child as 'documentLibrary'
-                link = [ area, (parent.name === 'Sites' ? {} : parent.id) ];
+                link = [area, parent.name === 'Sites' ? {} : parent.id];
             }
         }
 
@@ -53,7 +81,11 @@ export class RouterEffects {
     }
 
     private isLibraryContent(path: PathInfoEntity): boolean {
-        if (path && path.elements.length >= 2 && path.elements[1].name === 'Sites') {
+        if (
+            path &&
+            path.elements.length >= 2 &&
+            path.elements[1].name === 'Sites'
+        ) {
             return true;
         }
 

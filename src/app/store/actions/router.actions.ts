@@ -23,11 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { createSelector } from '@ngrx/store';
-import { AppStore, AppState } from '../states/app.state';
+import { Action } from '@ngrx/store';
 
-export const selectApp = (state: AppStore) => state.app;
-export const selectHeaderColor = createSelector(selectApp, (state: AppState) => state.headerColor);
-export const selectAppName = createSelector(selectApp, (state: AppState) => state.appName);
-export const selectLogoPath = createSelector(selectApp, (state: AppState) => state.logoPath);
-export const selectedNodes = createSelector(selectApp, (state: AppState) => state.selectedNodes);
+export const NAVIGATE_ROUTE = 'NAVIGATE_ROUTE';
+export const NAVIGATE_LOCATION = 'NAVIGATE_LOCATION';
+
+export class NavigateRouteAction implements Action {
+    readonly type = NAVIGATE_ROUTE;
+    constructor(public payload: any[]) {}
+}
+
+export class NavigateToLocationAction implements Action {
+    readonly type = NAVIGATE_LOCATION;
+    constructor(public payload: any) {}
+}
