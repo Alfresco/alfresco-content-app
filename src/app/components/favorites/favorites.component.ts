@@ -84,7 +84,9 @@ export class FavoritesComponent extends PageComponent implements OnInit {
                 this.navigate(node.entry);
             }
 
-            this.showPreview(node);
+            if (node.entry.isFile) {
+                this.showPreview(node);
+            }
         }
     }
 }
