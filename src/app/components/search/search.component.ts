@@ -31,12 +31,13 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import {  NavigateToLocationAction } from '../../store/actions';
+import { NavigateToLocationAction } from '../../store/actions';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
+  providers: [SearchQueryBuilderService]
 })
 export class SearchComponent extends PageComponent implements OnInit {
 
