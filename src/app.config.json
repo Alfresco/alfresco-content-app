@@ -1,5 +1,7 @@
 {
     "ecmHost": "http://{hostname}{:port}",
+    "providers": "ECM",
+    "authType" : "BASIC",
     "application": {
         "name": "Alfresco Example Content Application",
         "logo": "assets/images/alfresco-logo-white.svg",
