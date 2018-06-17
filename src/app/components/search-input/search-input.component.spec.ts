@@ -29,7 +29,7 @@ import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import { ViewNodeAction, SNACKBAR_INFO } from '../../store/actions';
+import { ViewNodeAction, VIEW_NODE, NAVIGATE_FOLDER, NavigateToFolder } from '../../store/actions';
 import { map } from 'rxjs/operators';
 
 describe('SearchInputComponent', () => {
@@ -59,8 +59,9 @@ describe('SearchInputComponent', () => {
     describe('onItemClicked()', () => {
         it('opens preview if node is file', fakeAsync(done => {
             actions$.pipe(
-                ofType<ViewNodeAction>(SNACKBAR_INFO),
+                ofType<ViewNodeAction>(VIEW_NODE),
                 map(action => {
+                    expect(action.payload.id).toBe('node-id');
                     done();
                 })
             );
@@ -73,12 +74,13 @@ describe('SearchInputComponent', () => {
 
         it('navigates if node is folder', fakeAsync(done => {
             actions$.pipe(
-                ofType<ViewNodeAction>(SNACKBAR_INFO),
+                ofType<NavigateToFolder>(NAVIGATE_FOLDER),
                 map(action => {
+                    expect(action.payload.entry.id).toBe('folder-id');
                     done();
                 })
             );
-            const node = { entry: { isFolder: true } };
+            const node = { entry: { id: 'folder-id', isFolder: true } };
             component.onItemClicked(node);
             tick();
         }));
