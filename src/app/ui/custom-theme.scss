@@ -9,6 +9,7 @@
 @import '../components/current-user/current-user.component.theme';
 @import '../components/header/header.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
+
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
 @import './overrides/adf-info-drawer.theme';
@@ -19,6 +20,7 @@
 @import './overrides/adf-sidenav-layout.theme';
 @import './overrides/adf-document-list.theme';
 @import './overrides/adf-upload-drag-area.theme';
+@import './overrides/adf-search-sorting-picker.theme';
 
 @import 'layout';
 @import 'snackbar';
@@ -73,6 +75,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include adf-sidenav-layout-theme($theme);
     @include adf-document-list-theme($theme);
     @include adf-upload-drag-area-theme($theme);
+    @include adf-search-sorting-picker-theme($theme);
 
     @include aca-layout-theme($theme);
     @include aca-header-theme($theme);
