@@ -23,25 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { SEARCH_BY_TERM, SearchByTermAction } from '../actions/search.actions';
+import { Router } from '@angular/router';
 
-export const NAVIGATE_ROUTE = 'NAVIGATE_ROUTE';
-export const NAVIGATE_FOLDER = 'NAVIGATE_FOLDER';
-export const NAVIGATE_PARENT_FOLDER = 'NAVIGATE_PARENT_FOLDER';
+@Injectable()
+export class SearchEffects {
+    constructor(private actions$: Actions, private router: Router) {}
 
-export class NavigateRouteAction implements Action {
-    readonly type = NAVIGATE_ROUTE;
-    constructor(public payload: any[]) {}
-}
-
-export class NavigateToFolder implements Action {
-    readonly type = NAVIGATE_FOLDER;
-    constructor(public payload: MinimalNodeEntity) {}
-}
-
-
-export class NavigateToParentFolder implements Action {
-    readonly type = NAVIGATE_PARENT_FOLDER;
-    constructor(public payload: MinimalNodeEntity) {}
+    @Effect({ dispatch: false })
+    searchByTerm$ = this.actions$.pipe(
+        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        map(action => {
+            this.router.navigateByUrl('/search;q=' + action.payload);
+        })
+    );
 }

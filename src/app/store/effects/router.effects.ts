@@ -30,10 +30,11 @@ import { MinimalNodeEntryEntity, PathInfoEntity } from 'alfresco-js-api';
 import { map } from 'rxjs/operators';
 import {
     NavigateRouteAction,
-    NavigateToLocationAction,
-    NAVIGATE_LOCATION,
+    NavigateToParentFolder,
+    NAVIGATE_PARENT_FOLDER,
     NAVIGATE_ROUTE
 } from '../actions';
+import { NavigateToFolder, NAVIGATE_FOLDER } from '../actions/router.actions';
 
 @Injectable()
 export class RouterEffects {
@@ -48,16 +49,49 @@ export class RouterEffects {
     );
 
     @Effect({ dispatch: false })
-    navigateLocation$ = this.actions$.pipe(
-        ofType<NavigateToLocationAction>(NAVIGATE_LOCATION),
+    navigateToFolder$ = this.actions$.pipe(
+        ofType<NavigateToFolder>(NAVIGATE_FOLDER),
         map(action => {
-            if (action.payload) {
-                this.navigateToLocation(action.payload);
+            if (action.payload && action.payload.entry) {
+                this.navigateToFolder(action.payload.entry);
             }
         })
     );
 
-    private navigateToLocation(node: MinimalNodeEntryEntity) {
+    @Effect({ dispatch: false })
+    navigateToParentFolder$ = this.actions$.pipe(
+        ofType<NavigateToParentFolder>(NAVIGATE_PARENT_FOLDER),
+        map(action => {
+            if (action.payload && action.payload.entry) {
+                this.navigateToParentFolder(action.payload.entry);
+            }
+        })
+    );
+
+    private navigateToFolder(node: MinimalNodeEntryEntity) {
+        let link = null;
+        const { path, id } = node;
+
+        if (path && path.name && path.elements) {
+            const isLibraryPath = this.isLibraryContent(<PathInfoEntity>path);
+
+            const parent = path.elements[path.elements.length - 1];
+            const area = isLibraryPath ? '/libraries' : '/personal-files';
+
+            if (!isLibraryPath) {
+                link = [area, id];
+            } else {
+                // parent.id could be 'Site' folder or child as 'documentLibrary'
+                link = [area, parent.name === 'Sites' ? {} : id];
+            }
+        }
+
+        setTimeout(() => {
+            this.router.navigate(link);
+        }, 10);
+    }
+
+    private navigateToParentFolder(node: MinimalNodeEntryEntity) {
         let link = null;
         const { path } = node;
 

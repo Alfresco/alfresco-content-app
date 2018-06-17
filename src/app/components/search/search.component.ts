@@ -31,7 +31,7 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { NavigateToLocationAction } from '../../store/actions';
+import { NavigateToFolder } from '../../store/actions';
 
 @Component({
   selector: 'app-search',
@@ -136,7 +136,7 @@ export class SearchComponent extends PageComponent implements OnInit {
     onNodeDoubleClick(node: MinimalNodeEntity) {
         if (node && node.entry) {
             if (node.entry.isFolder) {
-                this.store.dispatch(new NavigateToLocationAction(node.entry));
+                this.store.dispatch(new NavigateToFolder(node));
                 return;
             }
 

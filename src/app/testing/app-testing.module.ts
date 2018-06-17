@@ -34,13 +34,15 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../store/reducers/app.reducer';
 import { INITIAL_STATE } from '../store/states/app.state';
 import { RouterTestingModule } from '@angular/router/testing';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
     imports: [
         NoopAnimationsModule,
         HttpClientModule,
         RouterTestingModule,
-        StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
+        StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+        EffectsModule.forRoot([])
     ],
     declarations: [
         TranslatePipeMock
