@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
     NavigationEnd, PRIMARY_OUTLET, Router, RouterEvent, UrlSegment, UrlSegmentGroup,
     UrlTree
@@ -32,9 +32,11 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 import { SearchControlComponent } from '@alfresco/adf-content-services';
 
 @Component({
-    selector: 'app-search-input',
+    selector: 'aca-search-input',
     templateUrl: 'search-input.component.html',
-    styleUrls: ['search-input.component.scss']
+    encapsulation: ViewEncapsulation.None,
+    // tslint:disable-next-line:use-host-property-decorator
+    host: { class: 'aca-search-input' }
 })
 export class SearchInputComponent implements OnInit {
 

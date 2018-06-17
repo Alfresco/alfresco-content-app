@@ -1,17 +1,15 @@
-<div class="adf-search-control-wrapper">
-    <button mat-icon-button
-            *ngIf="onSearchResults"
-            id="adf-search-button"
-            class="adf-search-button"
-            [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
-        <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
-    </button>
-    <adf-search-control #searchControl
-        [highlight]="true"
-        (optionClicked)="onItemClicked($event)"
-        [expandable]="!onSearchResults"
-        [liveSearchEnabled]="!onSearchResults"
-        (submit)="onSearchSubmit($event)"
-        (searchChange)="onSearchChange($event)">
-    </adf-search-control>
-</div>
+<button mat-icon-button
+        *ngIf="onSearchResults"
+        id="adf-search-button"
+        class="adf-search-button"
+        [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+    <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
+</button>
+<adf-search-control #searchControl
+    [highlight]="true"
+    (optionClicked)="onItemClicked($event)"
+    [expandable]="!onSearchResults"
+    [liveSearchEnabled]="!onSearchResults"
+    (submit)="onSearchSubmit($event)"
+    (searchChange)="onSearchChange($event)">
+</adf-search-control>
