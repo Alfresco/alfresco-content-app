@@ -37,6 +37,6 @@ export class Header extends Component {
     userInfo: UserInfo = new UserInfo(this.component);
 
     constructor(ancestor?: ElementFinder) {
-        super('app-header', ancestor);
+        super('aca-header', ancestor);
     }
 }

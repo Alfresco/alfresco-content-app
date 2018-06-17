@@ -30,10 +30,11 @@ import { AppStore } from '../../store/states/app.state';
 import { selectHeaderColor, selectAppName, selectLogoPath } from '../../store/selectors/app.selectors';
 
 @Component({
-    selector: 'app-header',
+    selector: 'aca-header',
     templateUrl: './header.component.html',
-    styleUrls: [ './header.component.scss' ],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    // tslint:disable-next-line:use-host-property-decorator
+    host: { class: 'aca-header' }
 })
 export class HeaderComponent {
     @Output() menu: EventEmitter<any> = new EventEmitter<any>();
