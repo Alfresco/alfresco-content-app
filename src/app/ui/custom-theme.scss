@@ -5,6 +5,7 @@
 @import '../components/about/about.component.theme';
 @import '../components/generic-error/generic-error.component.theme';
 @import '../components/search-input/search-input.component.theme';
+@import '../components/settings/settings.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
@@ -73,6 +74,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include aca-search-input-theme($theme);
     @include aca-generic-error-theme($theme);
     @include aca-node-versions-dialog-theme($theme);
+    @include aca-settings-theme($theme);
     @include snackbar-theme($theme);
     @include sidenav-component-theme($theme);
     @include aca-about-component-theme($theme);
