@@ -32,7 +32,7 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 import { SearchControlComponent } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { SearchByTermAction } from '../../store/actions';
+import { SearchByTermAction, ViewNodeAction, ViewFolderAction } from '../../store/actions';
 
 @Component({
     selector: 'aca-search-input',
@@ -87,10 +87,17 @@ export class SearchInputComponent implements OnInit {
 
     onItemClicked(node: MinimalNodeEntity) {
         if (node && node.entry) {
-            if (node.entry.isFile) {
-                this.router.navigate([`/personal-files/${node.entry.parentId}/preview/`, node.entry.id]);
-            } else if (node.entry.isFolder) {
-                this.router.navigate([ '/personal-files',  node.entry.id ]);
+            const { id, nodeId, name, isFile, isFolder, parentId } = node.entry;
+            if (isFile) {
+                this.store.dispatch(new ViewNodeAction({
+                    parentId,
+                    id: nodeId || id,
+                    name,
+                    isFile,
+                    isFolder
+                }));
+            } else if (isFolder) {
+                this.store.dispatch(new ViewFolderAction(id));
             }
         }
     }

@@ -27,8 +27,14 @@ import { Action } from '@ngrx/store';
 import { NodeInfo } from '../models';
 
 export const VIEW_NODE = 'VIEW_NODE';
+export const VIEW_FOLDER = 'VIEW_FOLDER';
 
 export class ViewNodeAction implements Action {
     readonly type = VIEW_NODE;
     constructor(public payload: NodeInfo) {}
+}
+
+export class ViewFolderAction implements Action {
+    readonly type = VIEW_FOLDER;
+    constructor(public payload: string) {}
 }
