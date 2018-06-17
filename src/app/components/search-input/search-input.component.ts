@@ -35,7 +35,6 @@ import { SearchControlComponent } from '@alfresco/adf-content-services';
     selector: 'aca-search-input',
     templateUrl: 'search-input.component.html',
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
     host: { class: 'aca-search-input' }
 })
 export class SearchInputComponent implements OnInit {

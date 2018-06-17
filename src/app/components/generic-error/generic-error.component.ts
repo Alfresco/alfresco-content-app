@@ -30,7 +30,6 @@ import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/
     templateUrl: './generic-error.component.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    // tslint:disable-next-line:use-host-property-decorator
     host: { class: 'aca-generic-error' }
 })
 export class GenericErrorComponent {}

@@ -31,7 +31,6 @@ import { Subscription } from 'rxjs/Rx';
     selector: 'aca-current-user',
     templateUrl: './current-user.component.html',
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
     host: { class: 'aca-current-user' }
 })
 export class CurrentUserComponent implements OnInit, OnDestroy {

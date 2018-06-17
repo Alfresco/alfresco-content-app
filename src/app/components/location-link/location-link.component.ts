@@ -30,7 +30,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import {  NavigateToLocationAction } from '../../store/actions';
+import { NavigateToLocationAction } from '../../store/actions';
 
 @Component({
     selector: 'app-location-link',
@@ -41,10 +41,7 @@ import {  NavigateToLocationAction } from '../../store/actions';
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
-    host: {
-        'class': 'app-location-link adf-location-cell'
-    }
+    host: { 'class': 'app-location-link adf-location-cell' }
 })
 export class LocationLinkComponent implements OnInit {
 

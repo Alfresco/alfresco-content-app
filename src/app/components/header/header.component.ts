@@ -33,7 +33,6 @@ import { selectHeaderColor, selectAppName, selectLogoPath } from '../../store/se
     selector: 'aca-header',
     templateUrl: './header.component.html',
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
     host: { class: 'aca-header' }
 })
 export class HeaderComponent {

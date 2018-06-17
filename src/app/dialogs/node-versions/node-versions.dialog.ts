@@ -33,7 +33,6 @@ import { SnackbarErrorAction } from '../../store/actions';
 @Component({
     templateUrl: './node-versions.dialog.html',
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
     host: { class: 'aca-node-versions-dialog' }
 })
 export class NodeVersionsDialogComponent {

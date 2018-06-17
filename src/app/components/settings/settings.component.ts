@@ -32,7 +32,6 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
     selector: 'aca-settings',
     templateUrl: './settings.component.html',
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
     host: { class: 'aca-settings' }
 })
 export class SettingsComponent implements OnInit {
