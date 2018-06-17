@@ -25,10 +25,7 @@
 
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import {
-    PageTitleService, UserPreferencesService, AppConfigService,
-    FileModel, UploadService
-} from '@alfresco/adf-core';
+import { PageTitleService, AppConfigService, FileModel, UploadService } from '@alfresco/adf-core';
 import { ElectronService } from '@ngstack/electron';
 import { Store } from '@ngrx/store';
 import { AppStore } from './store/states/app.state';
@@ -44,7 +41,6 @@ export class AppComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private pageTitle: PageTitleService,
-        preferences: UserPreferencesService,
         private store: Store<AppStore>,
         private config: AppConfigService,
         private electronService: ElectronService,
