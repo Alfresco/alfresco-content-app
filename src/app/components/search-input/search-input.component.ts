@@ -30,6 +30,9 @@ import {
 } from '@angular/router';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { SearchControlComponent } from '@alfresco/adf-content-services';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { SearchByTermAction } from '../../store/actions';
 
 @Component({
     selector: 'aca-search-input',
@@ -46,7 +49,7 @@ export class SearchInputComponent implements OnInit {
     @ViewChild('searchControl')
     searchControl: SearchControlComponent;
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private store: Store<AppStore>) {
         this.router.events.filter(e => e instanceof RouterEvent).subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.showInputValue();
@@ -98,13 +101,11 @@ export class SearchInputComponent implements OnInit {
      * @param event Parameters relating to the search
      */
     onSearchSubmit(event: KeyboardEvent) {
-        const value = (event.target as HTMLInputElement).value;
-        this.router.navigate(['/search', {
-            q: value
-        }]);
+        const searchTerm = (event.target as HTMLInputElement).value;
+        this.store.dispatch(new SearchByTermAction(searchTerm));
     }
 
-    onSearchChange(event: string) {
+    onSearchChange(searchTerm: string) {
         if (this.onSearchResults) {
 
             if (this.hasOneChange) {
@@ -119,8 +120,8 @@ export class SearchInputComponent implements OnInit {
             }
 
             this.navigationTimer = setTimeout(() => {
-                if (event) {
-                    this.router.navigate(['/search', {q: event}]);
+                if (searchTerm) {
+                    this.store.dispatch(new SearchByTermAction(searchTerm));
                 }
                 this.hasOneChange = false;
             }, 1000);

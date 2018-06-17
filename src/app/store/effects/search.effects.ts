@@ -23,9 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './effects/download.effects';
-export * from './effects/node.effects';
-export * from './effects/router.effects';
-export * from './effects/snackbar.effects';
-export * from './effects/viewer.effects';
-export * from './effects/search.effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { SEARCH_BY_TERM, SearchByTermAction } from '../actions/search.actions';
+import { Router } from '@angular/router';
+
+@Injectable()
+export class SearchEffects {
+    constructor(private actions$: Actions, private router: Router) {}
+
+    @Effect({ dispatch: false })
+    searchByTerm$ = this.actions$.pipe(
+        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        map(action => {
+            this.router.navigateByUrl('/search;q=' + action.payload);
+        })
+    );
+}

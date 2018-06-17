@@ -23,9 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './effects/download.effects';
-export * from './effects/node.effects';
-export * from './effects/router.effects';
-export * from './effects/snackbar.effects';
-export * from './effects/viewer.effects';
-export * from './effects/search.effects';
+import { Action } from '@ngrx/store';
+
+export const SEARCH_BY_TERM = 'SEARCH_BY_TERM';
+
+export class SearchByTermAction implements Action {
+    readonly type = SEARCH_BY_TERM;
+    constructor(public payload: string) {}
+}
