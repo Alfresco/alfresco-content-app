@@ -3,7 +3,13 @@
 
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/about/about.component.theme';
+@import '../components/generic-error/generic-error.component.theme';
+@import '../components/search-input/search-input.component.theme';
+@import '../components/settings/settings.component.theme';
+@import '../components/current-user/current-user.component.theme';
+@import '../components/header/header.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
+
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
 @import './overrides/adf-info-drawer.theme';
@@ -14,7 +20,9 @@
 @import './overrides/adf-sidenav-layout.theme';
 @import './overrides/adf-document-list.theme';
 @import './overrides/adf-upload-drag-area.theme';
+@import './overrides/adf-search-sorting-picker.theme';
 
+@import 'layout';
 @import 'snackbar';
 
 $grey-scale: (
@@ -58,18 +66,25 @@ $custom-theme-warn: mat-palette($alfresco-warn);
 $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
 
 @mixin custom-theme($theme) {
-    @include adf-toolbar-theme($custom-theme);
-    @include adf-search-filter-theme($custom-theme);
-    @include adf-info-drawer-theme($custom-theme);
-    @include adf-upload-button-theme($custom-theme);
-    @include adf-sidebar-action-menu-theme($custom-theme);
-    @include adf-pagination-theme($custom-theme);
-    @include adf-sidenav-layout-theme($custom-theme);
-    @include adf-document-list-theme($custom-theme);
-    @include adf-upload-drag-area-theme($custom-theme);
+    @include adf-toolbar-theme($theme);
+    @include adf-search-filter-theme($theme);
+    @include adf-info-drawer-theme($theme);
+    @include adf-upload-button-theme($theme);
+    @include adf-sidebar-action-menu-theme($theme);
+    @include adf-pagination-theme($theme);
+    @include adf-sidenav-layout-theme($theme);
+    @include adf-document-list-theme($theme);
+    @include adf-upload-drag-area-theme($theme);
+    @include adf-search-sorting-picker-theme($theme);
 
-    @include aca-node-versions-dialog-theme($custom-theme);
-    @include snackbar-theme($custom-theme);
-    @include sidenav-component-theme($custom-theme);
-    @include aca-about-component-theme($custom-theme);
+    @include aca-layout-theme($theme);
+    @include aca-header-theme($theme);
+    @include aca-search-input-theme($theme);
+    @include aca-generic-error-theme($theme);
+    @include aca-node-versions-dialog-theme($theme);
+    @include aca-settings-theme($theme);
+    @include snackbar-theme($theme);
+    @include sidenav-component-theme($theme);
+    @include aca-about-component-theme($theme);
+    @include aca-current-user-theme($theme);
 }

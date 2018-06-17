@@ -37,7 +37,6 @@ import { PageComponent } from '../page.component';
     templateUrl: 'preview.component.html',
     styleUrls: ['preview.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
     host: { 'class': 'app-preview' }
 })
 export class PreviewComponent extends PageComponent implements OnInit {

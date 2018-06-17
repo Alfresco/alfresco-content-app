@@ -29,12 +29,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
-    selector: 'app-settings',
+    selector: 'aca-settings',
     templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
-    host: { class: 'app-settings' }
+    host: { class: 'aca-settings' }
 })
 export class SettingsComponent implements OnInit {
 

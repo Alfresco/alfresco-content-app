@@ -40,7 +40,7 @@ export class UserInfo extends Component {
     menu: Menu = new Menu();
 
     constructor(ancestor?: ElementFinder) {
-        super('app-current-user', ancestor);
+        super('aca-current-user', ancestor);
     }
 
     openMenu(): promise.Promise<Menu> {

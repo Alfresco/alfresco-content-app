@@ -152,6 +152,7 @@
         },
         "MESSAGES": {
             "ERRORS":{
+                "MISSING_CONTENT": "This file / folder no longer exists or you don't have permission to view it.",
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
                 "NODE_MOVE": "Move unsuccessful, a file with the same name already exists.",
