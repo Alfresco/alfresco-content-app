@@ -84,6 +84,26 @@
                     "url": "/trashcan"
                 }
             }
+        ],
+        "dynamic": [
+            {
+                "icon": "build",
+                "label": "Dynamic Page 1",
+                "route": {
+                    "url": "/dynamic1",
+                    "path": "dynamic1",
+                    "component": "dynamic1"
+                }
+            },
+            {
+                "icon": "build",
+                "label": "Dynamic Page 2",
+                "route": {
+                    "url": "/dynamic2",
+                    "path": "dynamic2",
+                    "component": "dynamic2"
+                }
+            }
         ]
     },
     "languages": [

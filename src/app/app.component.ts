@@ -25,11 +25,13 @@
 
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { PageTitleService, AppConfigService, FileModel, UploadService } from '@alfresco/adf-core';
+import { PageTitleService, AppConfigService, FileModel, UploadService, AuthGuardEcm } from '@alfresco/adf-core';
 import { ElectronService } from '@ngstack/electron';
 import { Store } from '@ngrx/store';
 import { AppStore } from './store/states/app.state';
 import { SetHeaderColorAction, SetAppNameAction, SetLogoPathAction } from './store/actions';
+import { LayoutComponent } from './components/layout/layout.component';
+import { PluginService } from './services/plugin.service';
 
 @Component({
     selector: 'app-root',
@@ -38,6 +40,7 @@ import { SetHeaderColorAction, SetAppNameAction, SetLogoPathAction } from './sto
 })
 export class AppComponent implements OnInit {
     constructor(
+        private plugins: PluginService,
         private route: ActivatedRoute,
         private router: Router,
         private pageTitle: PageTitleService,
@@ -50,6 +53,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {
 
         this.loadAppSettings();
+        this.loadRoutes();
 
         const { router, pageTitle, route } = this;
 
@@ -103,5 +107,34 @@ export class AppComponent implements OnInit {
         if (logoPath) {
             this.store.dispatch(new SetLogoPathAction(logoPath));
         }
+    }
+
+    private loadRoutes() {
+        const routes = this.getRoutes();
+        routes.forEach(route => {
+            this.router.config.unshift({
+                path: route.path,
+                component: LayoutComponent,
+                canActivateChild: [ AuthGuardEcm ],
+                canActivate: [ AuthGuardEcm ],
+                children: [
+                    {
+                        path: '',
+                        component: this.plugins.components[route.component],
+                    }
+                ]
+            });
+        });
+    }
+
+    private getRoutes(): Array<{ path: string, component: string}> {
+        const schema = this.config.get('navigation');
+        const data = Array.isArray(schema) ? { main: schema } : schema;
+
+        return Object.keys(data)
+            .map(key => data[key])
+            .reduce((acc, value) => acc.concat(value), [])
+            .map(entry => entry.route)
+            .filter(route => route.component);
     }
 }

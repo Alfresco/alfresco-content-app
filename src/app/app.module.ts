@@ -77,6 +77,8 @@ import { EditFolderDirective } from './directives/edit-folder.directive';
 import { CreateFolderDirective } from './directives/create-folder.directive';
 import { DownloadNodesDirective } from './directives/download-nodes.directive';
 import { AppStoreModule } from './store/app-store.module';
+import { DynamicComponentModule } from './dynamic-pages/dynamic.module';
+import { PluginService } from './services/plugin.service';
 
 
 @NgModule({
@@ -97,7 +99,8 @@ import { AppStoreModule } from './store/app-store.module';
         CoreModule,
         ContentModule,
         ElectronModule,
-        AppStoreModule
+        AppStoreModule,
+        DynamicComponentModule
     ],
     declarations: [
         AppComponent,
@@ -136,6 +139,7 @@ import { AppStoreModule } from './store/app-store.module';
         DownloadNodesDirective
     ],
     providers: [
+        PluginService,
         { provide: PageTitleService, useClass: AcaPageTitleService },
         { provide: AppConfigService, useClass: HybridAppConfigService },
         {
