@@ -18,6 +18,7 @@
 @import './overrides/adf-document-list.theme';
 @import './overrides/adf-upload-drag-area.theme';
 
+@import 'layout';
 @import 'snackbar';
 
 $grey-scale: (
@@ -71,6 +72,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include adf-document-list-theme($theme);
     @include adf-upload-drag-area-theme($theme);
 
+    @include aca-layout-theme($theme);
     @include aca-search-input-theme($theme);
     @include aca-generic-error-theme($theme);
     @include aca-node-versions-dialog-theme($theme);
