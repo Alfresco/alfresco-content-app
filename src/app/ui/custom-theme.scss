@@ -6,6 +6,7 @@
 @import '../components/generic-error/generic-error.component.theme';
 @import '../components/search-input/search-input.component.theme';
 @import '../components/settings/settings.component.theme';
+@import '../components/current-user/current-user.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
@@ -80,4 +81,5 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include snackbar-theme($theme);
     @include sidenav-component-theme($theme);
     @include aca-about-component-theme($theme);
+    @include aca-current-user-theme($theme);
 }

@@ -30,7 +30,7 @@ import { UserInfo } from './user-info';
 export class Header extends Component {
     private locators = {
         logoLink: by.css('.app-menu__title'),
-        userInfo: by.css('app-current-user')
+        userInfo: by.css('aca-current-user')
     };
 
     logoLink: ElementFinder = this.component.element(this.locators.logoLink);

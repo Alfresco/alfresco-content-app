@@ -23,14 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { PeopleContentService } from '@alfresco/adf-core';
 import { Subscription } from 'rxjs/Rx';
 
 @Component({
-    selector: 'app-current-user',
+    selector: 'aca-current-user',
     templateUrl: './current-user.component.html',
-    styleUrls: [ './current-user.component.scss' ]
+    encapsulation: ViewEncapsulation.None,
+    // tslint:disable-next-line:use-host-property-decorator
+    host: { class: 'aca-current-user' }
 })
 export class CurrentUserComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
