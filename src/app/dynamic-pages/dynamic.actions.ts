@@ -23,26 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { Dynamic1Component } from './dynamic1.component';
-import { Dynamic2Component } from './dynamic2.component';
-import { PluginService } from '../services/plugin.service';
-import { EffectsModule } from '@ngrx/effects';
-import { DynamicEffects } from './dynamic.effect';
-import { Store } from '@ngrx/store';
-import { DynamicAction } from './dynamic.actions';
+import { Action } from '@ngrx/store';
 
-@NgModule({
-    imports: [
-        EffectsModule.forFeature([DynamicEffects])
-    ],
-    declarations: [Dynamic1Component, Dynamic2Component],
-    entryComponents: [Dynamic1Component, Dynamic2Component]
-})
-export class DynamicComponentModule {
-    constructor(plugins: PluginService, store: Store<any>) {
-        plugins.components['dynamic1'] = Dynamic1Component;
-        plugins.components['dynamic2'] = Dynamic2Component;
-        store.dispatch(new DynamicAction('hello world'));
-    }
+export const DYNAMIC_ACTION = 'DYNAMIC_ACTION';
+
+export class DynamicAction implements Action {
+    readonly type = DYNAMIC_ACTION;
+    constructor(public payload: string) {}
 }

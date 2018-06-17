@@ -23,26 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { Dynamic1Component } from './dynamic1.component';
-import { Dynamic2Component } from './dynamic2.component';
-import { PluginService } from '../services/plugin.service';
-import { EffectsModule } from '@ngrx/effects';
-import { DynamicEffects } from './dynamic.effect';
-import { Store } from '@ngrx/store';
-import { DynamicAction } from './dynamic.actions';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { DYNAMIC_ACTION, DynamicAction } from './dynamic.actions';
 
-@NgModule({
-    imports: [
-        EffectsModule.forFeature([DynamicEffects])
-    ],
-    declarations: [Dynamic1Component, Dynamic2Component],
-    entryComponents: [Dynamic1Component, Dynamic2Component]
-})
-export class DynamicComponentModule {
-    constructor(plugins: PluginService, store: Store<any>) {
-        plugins.components['dynamic1'] = Dynamic1Component;
-        plugins.components['dynamic2'] = Dynamic2Component;
-        store.dispatch(new DynamicAction('hello world'));
-    }
+@Injectable()
+export class DynamicEffects {
+    constructor(private actions$: Actions) {}
+
+    @Effect({ dispatch: false })
+    dynamicAction$ = this.actions$.pipe(
+        ofType<DynamicAction>(DYNAMIC_ACTION),
+        map(action => {
+            console.log('Dynamic action', action);
+        })
+    );
 }
