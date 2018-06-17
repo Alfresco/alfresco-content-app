@@ -49,9 +49,6 @@ export class AppComponent implements OnInit {
         private config: AppConfigService,
         private electronService: ElectronService,
         private uploadService: UploadService) {
-        // TODO: remove once ADF 2.3.0 is out (needs bug fixes)
-        preferences.defaults.supportedPageSizes = config.get('pagination.supportedPageSizes');
-        preferences.defaults.paginationSize = config.get('pagination.size');
     }
 
     ngOnInit() {
