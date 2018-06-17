@@ -25,12 +25,12 @@
 
 import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation } from '@angular/core';
 import { AlfrescoApiService, DataColumn, DataRow, DataTableAdapter } from '@alfresco/adf-core';
-import { PathInfoEntity } from 'alfresco-js-api';
+import { PathInfoEntity, MinimalNodeEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { NavigateToLocationAction } from '../../store/actions';
+import { NavigateToParentFolder } from '../../store/actions';
 
 @Component({
     selector: 'app-location-link',
@@ -64,9 +64,8 @@ export class LocationLinkComponent implements OnInit {
 
     goToLocation() {
         if (this.context) {
-            const { node } = this.context.row;
-
-            this.store.dispatch(new NavigateToLocationAction(node.entry));
+            const node: MinimalNodeEntity  = this.context.row.node;
+            this.store.dispatch(new NavigateToParentFolder(node));
         }
     }
 

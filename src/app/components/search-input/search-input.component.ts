@@ -32,7 +32,7 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 import { SearchControlComponent } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { SearchByTermAction, ViewNodeAction, ViewFolderAction } from '../../store/actions';
+import { SearchByTermAction, ViewNodeAction, NavigateToFolder } from '../../store/actions';
 
 @Component({
     selector: 'aca-search-input',
@@ -97,7 +97,7 @@ export class SearchInputComponent implements OnInit {
                     isFolder
                 }));
             } else if (isFolder) {
-                this.store.dispatch(new ViewFolderAction(id));
+                this.store.dispatch(new NavigateToFolder(node));
             }
         }
     }

@@ -26,7 +26,7 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { ViewNodeAction, VIEW_NODE, ViewFolderAction, VIEW_FOLDER } from '../actions/viewer.actions';
+import { ViewNodeAction, VIEW_NODE } from '../actions/viewer.actions';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -57,14 +57,6 @@ export class ViewerEffects {
             }
             path.push('preview', node.id);
             this.router.navigateByUrl(path.join('/'));
-        })
-    );
-
-    @Effect({ dispatch: false })
-    viewFolder$ = this.actions$.pipe(
-        ofType<ViewFolderAction>(VIEW_FOLDER),
-        map(action => {
-            this.router.navigateByUrl('/personal-files/' + action.payload);
         })
     );
 }
