@@ -82,7 +82,7 @@ export class SnackbarEffects {
         }
 
         const snackBarRef = this.snackBar.open(message, actionName, {
-            duration: action.duration,
+            duration: action.duration || 4000,
             panelClass: panelClass
         });
 

@@ -29,8 +29,6 @@ import { Dynamic2Component } from './dynamic2.component';
 import { PluginService } from '../services/plugin.service';
 import { EffectsModule } from '@ngrx/effects';
 import { DynamicEffects } from './dynamic.effect';
-import { Store } from '@ngrx/store';
-import { DynamicAction } from './dynamic.actions';
 
 @NgModule({
     imports: [
@@ -40,9 +38,8 @@ import { DynamicAction } from './dynamic.actions';
     entryComponents: [Dynamic1Component, Dynamic2Component]
 })
 export class DynamicComponentModule {
-    constructor(plugins: PluginService, store: Store<any>) {
+    constructor(plugins: PluginService) {
         plugins.components['dynamic1'] = Dynamic1Component;
         plugins.components['dynamic2'] = Dynamic2Component;
-        store.dispatch(new DynamicAction('hello world'));
     }
 }

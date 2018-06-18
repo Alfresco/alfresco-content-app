@@ -106,6 +106,22 @@
             }
         ]
     },
+    "actions": [
+        {
+            "id": "action1",
+            "type": "DYNAMIC_ACTION",
+            "payload": "test action 1",
+            "icon": "build",
+            "title": "dynamic action 1"
+        },
+        {
+            "id": "action2",
+            "type": "SNACKBAR_INFO",
+            "payload": "Hello, there!",
+            "icon": "alarm",
+            "title": "dynamic action 2"
+        }
+    ],
     "languages": [
         {
             "key": "de",

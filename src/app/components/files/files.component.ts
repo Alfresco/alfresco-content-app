@@ -29,7 +29,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import {
     UploadService, FileUploadEvent, NodesApiService,
-    AlfrescoApiService, UserPreferencesService
+    AlfrescoApiService, UserPreferencesService, AppConfigService
 } from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
@@ -49,10 +49,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     isValidPath = true;
 
     private nodePath: PathElement[];
+    actions: any[] = [];
 
     constructor(private router: Router,
                 route: ActivatedRoute,
                 store: Store<AppStore>,
+                private config: AppConfigService,
                 private nodesApi: NodesApiService,
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
@@ -66,6 +68,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         super.ngOnInit();
+
+        this.actions = this.config.get('actions', []);
 
         const { route, contentManagementService, nodeActionsService, uploadService } = this;
         const { data } = route.snapshot;
@@ -111,6 +115,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         super.ngOnDestroy();
         this.browsingFilesService.onChangeParent.next(null);
+    }
+
+    runAction(action: any) {
+        const { type, payload } = action;
+        this.store.dispatch({ type, payload });
     }
 
     fetchNode(nodeId: string): Observable<MinimalNodeEntryEntity> {
