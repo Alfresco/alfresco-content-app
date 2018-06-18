@@ -7,6 +7,13 @@
         </adf-breadcrumb>
 
         <adf-toolbar class="inline" *ngIf="hasSelection">
+            <button *ngFor="let action of actions"
+                mat-icon-button
+                color="primary"
+                title="{{ action.title }}"
+                (click)="runAction(action)">
+                <mat-icon>{{ action.icon }}</mat-icon>
+            </button>
             <button
                 color="primary"
                 mat-icon-button

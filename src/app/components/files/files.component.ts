@@ -29,7 +29,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
 import {
     UploadService, FileUploadEvent, NodesApiService,
-    AlfrescoApiService, UserPreferencesService
+    AlfrescoApiService, UserPreferencesService, AppConfigService
 } from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
@@ -49,10 +49,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     isValidPath = true;
 
     private nodePath: PathElement[];
+    actions: any[] = [];
 
     constructor(private router: Router,
                 route: ActivatedRoute,
                 store: Store<AppStore>,
+                private config: AppConfigService,
                 private nodesApi: NodesApiService,
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
@@ -66,6 +68,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         super.ngOnInit();
+
+        this.actions = this.config.get('actions', []);
 
         const { route, contentManagementService, nodeActionsService, uploadService } = this;
         const { data } = route.snapshot;
@@ -111,6 +115,24 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         super.ngOnDestroy();
         this.browsingFilesService.onChangeParent.next(null);
+    }
+
+    runAction(action: { type: string, payload: string }) {
+        const { type } = action;
+
+        if (type && action.payload) {
+            let payload = action.payload;
+            const $node = this.selectedNodes[0].entry;
+
+            if (payload.startsWith('$node')) {
+                // todo: cache compiled funcs
+                const fn = new Function('$node', `return ${payload}`);
+                payload = fn($node);
+                console.log(payload);
+            }
+
+            this.store.dispatch({ type: type, payload });
+        }
     }
 
     fetchNode(nodeId: string): Observable<MinimalNodeEntryEntity> {
