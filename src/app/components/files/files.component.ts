@@ -117,9 +117,22 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         this.browsingFilesService.onChangeParent.next(null);
     }
 
-    runAction(action: any) {
-        const { type, payload } = action;
-        this.store.dispatch({ type, payload });
+    runAction(action: { type: string, payload: string }) {
+        const { type } = action;
+
+        if (type && action.payload) {
+            let payload = action.payload;
+            const $node = this.selectedNodes[0].entry;
+
+            if (payload.startsWith('$node')) {
+                // todo: cache compiled funcs
+                const fn = new Function('$node', `return ${payload}`);
+                payload = fn($node);
+                console.log(payload);
+            }
+
+            this.store.dispatch({ type: type, payload });
+        }
     }
 
     fetchNode(nodeId: string): Observable<MinimalNodeEntryEntity> {
