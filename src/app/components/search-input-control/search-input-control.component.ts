@@ -37,6 +37,7 @@ import { EmptySearchResultComponent, SearchComponent } from '@alfresco/adf-conte
 @Component({
     selector: 'app-search-input-control',
     templateUrl: './search-input-control.component.html',
+    styleUrls: ['./search-input-control.component.scss'],
     animations: [
         trigger('transitionMessages', [
             state('active', style({ transform: 'translateX(0%)', 'margin-left': '13px' })),
@@ -116,6 +117,7 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
     searchTerm = '';
     subscriptAnimationState: string;
     noSearchResultTemplate: TemplateRef <any> = null;
+    skipToggle = false;
 
     private toggleSearch = new Subject<any>();
     private focusSubject = new Subject<FocusEvent>();
@@ -124,7 +126,7 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
                 private thumbnailService: ThumbnailService) {
 
         this.toggleSearch.asObservable().pipe(debounceTime(200)).subscribe(() => {
-            if (this.expandable) {
+            if (this.expandable && !this.skipToggle) {
                 this.subscriptAnimationState = this.subscriptAnimationState === 'inactive' ? 'active' : 'inactive';
 
                 if (this.subscriptAnimationState === 'inactive') {
@@ -135,6 +137,7 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
                     }
                 }
             }
+            this.skipToggle = false;
         });
     }
 
@@ -258,6 +261,12 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
         }).subscribe(() => {
             this.toggleSearchBar();
         });
+    }
+
+    clear(event: any) {
+        this.searchTerm = '';
+        this.searchChange.emit('');
+        this.skipToggle = true;
     }
 
     private getNextElementSibling(node: Element): Element {

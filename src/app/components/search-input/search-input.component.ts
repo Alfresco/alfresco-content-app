@@ -130,9 +130,7 @@ export class SearchInputComponent implements OnInit {
             }
 
             this.navigationTimer = setTimeout(() => {
-                if (searchTerm) {
-                    this.store.dispatch(new SearchByTermAction(searchTerm));
-                }
+                this.store.dispatch(new SearchByTermAction(searchTerm));
                 this.hasOneChange = false;
             }, 1000);
         }

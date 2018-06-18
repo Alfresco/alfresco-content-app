@@ -22,6 +22,12 @@
                    (ngModelChange)="inputChange($event)"
                    [searchAutocomplete]="auto"
                    (keyup.enter)="searchSubmit($event)">
+
+            <div matSuffix class="adf-clear-search-icon-wrapper">
+                <mat-icon *ngIf="searchTerm.length > 0"
+                          (click)="clear()">clear
+                </mat-icon>
+            </div>
         </mat-form-field>
     </div>
 </div>
