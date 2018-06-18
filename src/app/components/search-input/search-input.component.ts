@@ -29,7 +29,7 @@ import {
     UrlTree
 } from '@angular/router';
 import { MinimalNodeEntity } from 'alfresco-js-api';
-import { SearchControlComponent } from '@alfresco/adf-content-services';
+import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { SearchByTermAction, ViewNodeAction, NavigateToFolder } from '../../store/actions';
@@ -46,19 +46,20 @@ export class SearchInputComponent implements OnInit {
     hasNewChange = false;
     navigationTimer: any;
 
-    @ViewChild('searchControl')
-    searchControl: SearchControlComponent;
+    @ViewChild('searchInputControl')
+    searchInputControl: SearchInputControlComponent;
 
     constructor(private router: Router, private store: Store<AppStore>) {
+    }
+
+    ngOnInit() {
+        this.showInputValue();
+
         this.router.events.filter(e => e instanceof RouterEvent).subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.showInputValue();
             }
         });
-    }
-
-    ngOnInit() {
-        this.showInputValue();
     }
 
     showInputValue() {
@@ -73,14 +74,16 @@ export class SearchInputComponent implements OnInit {
                 searchedWord = urlSegments[0].parameters['q'];
             }
 
-            this.searchControl.searchTerm = searchedWord;
-            this.searchControl.subscriptAnimationState = 'no-animation';
+            if (this.searchInputControl) {
+                this.searchInputControl.searchTerm = searchedWord;
+                this.searchInputControl.subscriptAnimationState = 'no-animation';
+            }
 
         } else {
-            if (this.searchControl.subscriptAnimationState === 'no-animation') {
-                this.searchControl.subscriptAnimationState = 'active';
-                this.searchControl.searchTerm = '';
-                this.searchControl.toggleSearchBar();
+            if (this.searchInputControl.subscriptAnimationState === 'no-animation') {
+                this.searchInputControl.subscriptAnimationState = 'active';
+                this.searchInputControl.searchTerm = '';
+                this.searchInputControl.toggleSearchBar();
             }
         }
     }

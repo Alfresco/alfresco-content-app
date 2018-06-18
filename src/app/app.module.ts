@@ -49,6 +49,7 @@ import { SidenavViewsManagerDirective } from './components/layout/sidenav-views-
 import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { SearchInputComponent } from './components/search-input/search-input.component';
+import { SearchInputControlComponent } from './components/search-input-control/search-input-control.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
@@ -108,6 +109,7 @@ import { AppStoreModule } from './store/app-store.module';
         HeaderComponent,
         CurrentUserComponent,
         SearchInputComponent,
+        SearchInputControlComponent,
         SidenavComponent,
         FilesComponent,
         FavoritesComponent,
