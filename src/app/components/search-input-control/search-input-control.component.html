@@ -1,5 +1,5 @@
 <div class="adf-search-container">
-    <div *ngIf="isLoggedIn()" [@transitionMessages]="subscriptAnimationState" (@transitionMessages.done)="applySearchFocus($event)">
+    <div [@transitionMessages]="subscriptAnimationState" (@transitionMessages.done)="applySearchFocus($event)">
         <button mat-icon-button
                 id="adf-search-button"
                 class="adf-search-button"
@@ -20,7 +20,7 @@
                    (keyup.escape)="toggleSearchBar()"
                    (keyup.arrowdown)="selectFirstResult()"
                    (ngModelChange)="inputChange($event)"
-                   [searchAutocomplete]="auto"
+                   [searchAutocomplete]="liveSearchEnabled && auto"
                    (keyup.enter)="searchSubmit($event)">
 
             <div matSuffix class="adf-clear-search-icon-wrapper">

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AuthenticationService, ThumbnailService } from '@alfresco/adf-core';
+import { ThumbnailService } from '@alfresco/adf-core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output,
     QueryList, ViewEncapsulation, ViewChild, ViewChildren, ElementRef, TemplateRef, ContentChild } from '@angular/core';
@@ -122,8 +122,7 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
     private toggleSearch = new Subject<any>();
     private focusSubject = new Subject<FocusEvent>();
 
-    constructor(public authService: AuthenticationService,
-                private thumbnailService: ThumbnailService) {
+    constructor(private thumbnailService: ThumbnailService) {
 
         this.toggleSearch.asObservable().pipe(debounceTime(200)).subscribe(() => {
             if (this.expandable && !this.skipToggle) {
@@ -166,10 +165,6 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
             this.toggleSearch.unsubscribe();
             this.toggleSearch = null;
         }
-    }
-
-    isLoggedIn(): boolean {
-        return this.authService.isEcmLoggedIn();
     }
 
     searchSubmit(event: any) {
