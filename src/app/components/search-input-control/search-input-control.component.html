@@ -4,8 +4,8 @@
                 id="adf-search-button"
                 class="adf-search-button"
                 [title]="'SEARCH.BUTTON.TOOLTIP' | translate"
-                (click)="expandable && toggleSearchBar($event)"
-                (keyup.enter)="expandable && toggleSearchBar($event)">
+                (click)="expandable && toggleSearchBar()"
+                (keyup.enter)="expandable && toggleSearchBar()">
             <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
         </button>
         <mat-form-field class="adf-input-form-field-divider">
@@ -15,7 +15,7 @@
                    [autocomplete]="getAutoComplete()"
                    id="adf-control-input"
                    [(ngModel)]="searchTerm"
-                   (focus)="activateToolbar($event)"
+                   (focus)="activateToolbar()"
                    (blur)="onBlur($event)"
                    (keyup.escape)="toggleSearchBar()"
                    (keyup.arrowdown)="selectFirstResult()"
