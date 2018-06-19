@@ -58,13 +58,13 @@ export class PreviewComponent extends PageComponent implements OnInit {
     constructor(
         private uploadService: UploadService,
         private apiService: AlfrescoApiService,
-        preferences: UserPreferencesService,
-        route: ActivatedRoute,
+        private preferences: UserPreferencesService,
+        private route: ActivatedRoute,
         private router: Router,
         store: Store<AppStore>,
         public permission: NodePermissionService) {
 
-        super(preferences, route, store);
+        super(store);
     }
 
     ngOnInit() {

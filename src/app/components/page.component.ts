@@ -24,9 +24,8 @@
  */
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
-import { FileUploadErrorEvent, UserPreferencesService } from '@alfresco/adf-core';
+import { FileUploadErrorEvent } from '@alfresco/adf-core';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
@@ -54,10 +53,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected preferences: UserPreferencesService,
-                protected route: ActivatedRoute,
-                protected store: Store<AppStore>) {
-    }
+    constructor(protected store: Store<AppStore>) {}
 
     ngOnInit() {
         this.store

@@ -23,23 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { AlfrescoApiService, FileUploadEvent, NodesApiService, UploadService } from '@alfresco/adf-core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, PathElement, PathElementEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
-import {
-    UploadService, FileUploadEvent, NodesApiService,
-    AlfrescoApiService, UserPreferencesService
-} from '@alfresco/adf-core';
-
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
-
-import { PageComponent } from '../page.component';
-import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
+import { PageComponent } from '../page.component';
 
 @Component({
     templateUrl: './files.component.html'
@@ -51,7 +46,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     private nodePath: PathElement[];
 
     constructor(private router: Router,
-                route: ActivatedRoute,
+                private route: ActivatedRoute,
                 store: Store<AppStore>,
                 private nodesApi: NodesApiService,
                 private nodeActionsService: NodeActionsService,
@@ -59,9 +54,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private contentManagementService: ContentManagementService,
                 private browsingFilesService: BrowsingFilesService,
                 private apiService: AlfrescoApiService,
-                public permission: NodePermissionService,
-                preferences: UserPreferencesService) {
-        super(preferences, route, store);
+                public permission: NodePermissionService) {
+        super(store);
     }
 
     ngOnInit() {
