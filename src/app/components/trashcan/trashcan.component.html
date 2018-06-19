@@ -24,13 +24,12 @@
 
     <div class="inner-layout__content">
         <div class="inner-layout__panel">
-            <adf-document-list #documentList
+            <adf-document-list acaDocumentList #documentList
                 currentFolderId="-trashcan-"
                 [includeFields]="['isFavorite']"
                 selectionMode="multiple"
                 [navigate]="false"
                 [sorting]="[ 'archivedAt', 'desc' ]"
-                [acaSortingPreferenceKey]="sortingPreferenceKey"
                 (ready)="onDocumentListReady($event, documentList)"
                 (node-select)="onNodeSelect($event, documentList)"
                 (node-unselect)="onNodeUnselect($event, documentList)">

@@ -103,10 +103,9 @@
                 [parentId]="node?.id"
                 [disabled]="!permission.check(node, ['create'])">
 
-                <adf-document-list #documentList
+                <adf-document-list acaDocumentList #documentList
                     [includeFields]="['isFavorite']"
                     [sorting]="[ 'modifiedAt', 'desc' ]"
-                    [acaSortingPreferenceKey]="sortingPreferenceKey"
                     selectionMode="multiple"
                     [currentFolderId]="node?.id"
                     [allowDropFiles]="true"

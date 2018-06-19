@@ -70,7 +70,6 @@ import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInpu
 import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { HybridAppConfigService } from './common/services/hybrid-app-config.service';
-import { SortingPreferenceKeyDirective } from './directives/sorting-preference-key.directive';
 import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
 
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
@@ -79,6 +78,7 @@ import { CreateFolderDirective } from './directives/create-folder.directive';
 import { DownloadNodesDirective } from './directives/download-nodes.directive';
 import { AppStoreModule } from './store/app-store.module';
 import { PaginationDirective } from './directives/pagination.directive';
+import { DocumentListDirective } from './directives/document-list.directive';
 
 
 @NgModule({
@@ -132,12 +132,12 @@ import { PaginationDirective } from './directives/pagination.directive';
         NodeVersionsDialogComponent,
         SearchComponent,
         SettingsComponent,
-        SortingPreferenceKeyDirective,
         InfoDrawerComponent,
         EditFolderDirective,
         CreateFolderDirective,
         DownloadNodesDirective,
-        PaginationDirective
+        PaginationDirective,
+        DocumentListDirective
     ],
     providers: [
         { provide: PageTitleService, useClass: AcaPageTitleService },

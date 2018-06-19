@@ -23,42 +23,63 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, Input, OnInit, HostListener } from '@angular/core';
+import { Directive, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
+import { ActivatedRoute } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
+import { Subscription } from 'rxjs/Rx';
 
 @Directive({
-    selector: '[acaSortingPreferenceKey]',
+    selector: '[acaDocumentList]'
 })
-export class SortingPreferenceKeyDirective implements OnInit {
+export class DocumentListDirective implements OnInit, OnDestroy {
+    private subscriptions: Subscription[] = [];
 
-    // tslint:disable-next-line:no-input-rename
-    @Input('acaSortingPreferenceKey')
-    preferenceKey: string;
+    get sortingPreferenceKey(): string {
+        return this.route.snapshot.data.sortingPreferenceKey;
+    }
 
     constructor(
         private documentList: DocumentListComponent,
-        private userPreferencesService: UserPreferencesService) {
-    }
-
-    @HostListener('sorting-changed', ['$event'])
-    onSortingChanged(event: CustomEvent) {
-        if (this.preferenceKey) {
-            this.userPreferencesService.set(`${this.preferenceKey}.sorting.key`, event.detail.key);
-            this.userPreferencesService.set(`${this.preferenceKey}.sorting.direction`, event.detail.direction);
-        }
-    }
+        private preferences: UserPreferencesService,
+        private route: ActivatedRoute
+    ) {}
 
     ngOnInit() {
-        if (this.preferenceKey) {
+        if (this.sortingPreferenceKey) {
             const current = this.documentList.sorting;
 
-            const key = this.userPreferencesService.get(`${this.preferenceKey}.sorting.key`, current[0]);
-            const direction = this.userPreferencesService.get(`${this.preferenceKey}.sorting.direction`, current[1]);
+            const key = this.preferences.get(
+                `${this.sortingPreferenceKey}.sorting.key`,
+                current[0]
+            );
+            const direction = this.preferences.get(
+                `${this.sortingPreferenceKey}.sorting.direction`,
+                current[1]
+            );
 
             this.documentList.sorting = [key, direction];
             // TODO: bug in ADF, the `sorting` binding is not updated when changed from code
             this.documentList.data.setSorting({ key, direction });
+        }
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        this.subscriptions = [];
+    }
+
+    @HostListener('sorting-changed', ['$event'])
+    onSortingChanged(event: CustomEvent) {
+        if (this.sortingPreferenceKey) {
+            this.preferences.set(
+                `${this.sortingPreferenceKey}.sorting.key`,
+                event.detail.key
+            );
+            this.preferences.set(
+                `${this.sortingPreferenceKey}.sorting.direction`,
+                event.detail.direction
+            );
         }
     }
 }

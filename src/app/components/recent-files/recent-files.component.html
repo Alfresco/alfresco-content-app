@@ -84,13 +84,12 @@
 
     <div class="inner-layout__content">
         <div class="inner-layout__panel">
-            <adf-document-list #documentList
+            <adf-document-list acaDocumentList #documentList
                 currentFolderId="-recent-"
                 [includeFields]="['isFavorite']"
                 selectionMode="multiple"
                 [navigate]="false"
                 [sorting]="[ 'modifiedAt', 'desc' ]"
-                [acaSortingPreferenceKey]="sortingPreferenceKey"
                 [imageResolver]="imageResolver"
                 (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
                 (ready)="onDocumentListReady($event, documentList)"
