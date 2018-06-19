@@ -24,19 +24,25 @@
  */
 
 import { MinimalNodeEntity } from 'alfresco-js-api';
+import { SelectionState } from './selection.state';
 
 export interface AppState {
     appName: string;
     headerColor: string;
     logoPath: string;
     selectedNodes: MinimalNodeEntity[];
+    selection: SelectionState;
 }
 
 export const INITIAL_APP_STATE: AppState = {
     appName: 'Alfresco Example Content Application',
     headerColor: '#2196F3',
     logoPath: 'assets/images/alfresco-logo-white.svg',
-    selectedNodes: []
+    selectedNodes: [],
+    selection: {
+        nodes: [],
+        isEmpty: true
+    }
 };
 
 export interface AppStore {
@@ -44,5 +50,5 @@ export interface AppStore {
 }
 
 export const INITIAL_STATE: AppStore = {
-    app: INITIAL_APP_STATE
+    app: INITIAL_APP_STATE,
 };

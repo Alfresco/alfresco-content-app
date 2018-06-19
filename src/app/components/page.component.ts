@@ -32,12 +32,13 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
-import { selectedNodes } from '../store/selectors/app.selectors';
+import { selectedNodes, appSelection } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
+import { SelectionState } from '../store/states/selection.state';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
-    onDestroy$: Subject<void> = new Subject<void>();
+    onDestroy$: Subject<boolean> = new Subject<boolean>();
 
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
@@ -52,6 +53,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     hasSelection = false;
     lastSelectedNode: MinimalNodeEntity;
     selectedNodes: MinimalNodeEntity[];
+
+    selection: SelectionState;
 
     protected subscriptions: Subscription[] = [];
 
@@ -73,11 +76,25 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             .select(selectedNodes)
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(selection => this.onSelectionChanged(selection));
+
+        this.store
+            .select(appSelection)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(selection => {
+                this.selection = selection;
+                console.log(selection);
+
+                if (selection.isEmpty) {
+                    this.infoDrawerOpened = false;
+                }
+            });
     }
 
     ngOnDestroy() {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
         this.subscriptions = [];
+
+        this.onDestroy$.next(true);
         this.onDestroy$.complete();
     }
 

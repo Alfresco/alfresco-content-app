@@ -23,12 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { createSelector } from '@ngrx/store';
-import { AppStore, AppState } from '../states/app.state';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
-export const selectApp = (state: AppStore) => state.app;
-export const selectHeaderColor = createSelector(selectApp, (state: AppState) => state.headerColor);
-export const selectAppName = createSelector(selectApp, (state: AppState) => state.appName);
-export const selectLogoPath = createSelector(selectApp, (state: AppState) => state.logoPath);
-export const selectedNodes = createSelector(selectApp, (state: AppState) => state.selectedNodes);
-export const appSelection =  createSelector(selectApp, (state: AppState) => state.selection);
+export interface SelectionState {
+    nodes: MinimalNodeEntity[];
+    isEmpty: boolean;
+    first?: MinimalNodeEntity;
+    last?: MinimalNodeEntity;
+    firstFolder?: MinimalNodeEntity;
+    firstFile?: MinimalNodeEntity;
+}
