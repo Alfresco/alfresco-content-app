@@ -29,13 +29,13 @@ import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { selectUser } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states/app.state';
-import { selectUser } from '../../store/selectors/app.selectors';
+import { ProfileState } from '../../store/states/profile.state';
 
 @Component({
     templateUrl: './trashcan.component.html'
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
-    userIsAdmin: boolean;
+    user: ProfileState;
 
     constructor(private contentManagementService: ContentManagementService,
                 store: Store<AppStore>) {
@@ -49,15 +49,7 @@ export class TrashcanComponent extends PageComponent implements OnInit {
             this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
             this.contentManagementService.nodesPurged.subscribe(() => this.reload()),
             this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
-            this.store.select(selectUser).subscribe((user) => this.isUserAdmin(user))
+            this.store.select(selectUser).subscribe((user) => this.user = user)
         );
-    }
-
-    private isUserAdmin(user) {
-        if (user && user.capabilities) {
-            this.userIsAdmin = user.capabilities.isAdmin;
-        } else {
-            this.userIsAdmin = true;
-        }
     }
  }

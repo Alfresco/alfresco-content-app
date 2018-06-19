@@ -62,7 +62,7 @@ export const APP_ROUTES: Routes = [
     {
         path: '',
         component: LayoutComponent,
-        resolve: { profile: ProfileResolver }
+        resolve: { profile: ProfileResolver },
         children: [
             {
                 path: '',

@@ -94,7 +94,24 @@ function updateLogoPath(state: AppState, action: SetLogoPathAction): AppState {
 
 function updateUser(state: AppState, action: SetUserAction): AppState {
     const newState = Object.assign({}, state);
-    newState.user = action.payload;
+    const user = action.payload;
+
+    const id = user.id;
+    const firstName = user.firstName || '';
+    const lastName = user.lastName || '';
+    const userName = `${firstName} ${lastName}`;
+    const initials = [ firstName[0], lastName[0] ].join('');
+    const isAdmin = user.capabilities ? user.capabilities.isAdmin : true;
+
+    newState.user = {
+        firstName,
+        lastName,
+        userName,
+        initials,
+        isAdmin,
+        id
+    };
+
     return newState;
 }
 
