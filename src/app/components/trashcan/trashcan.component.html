@@ -87,6 +87,7 @@
                     </data-column>
 
                     <data-column
+                        *ngIf="userIsAdmin"
                         class="adf-data-table-cell--ellipsis"
                         key="archivedByUser.displayName"
                         title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">

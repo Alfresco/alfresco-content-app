@@ -32,7 +32,7 @@ import {
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService,
     AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
-    NodeFavoriteDirective, DataTableComponent, AppConfigPipe
+    NodeFavoriteDirective, DataTableComponent, AppConfigPipe, PeopleContentService
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
 import { TranslateModule } from '@ngx-translate/core';
@@ -86,6 +86,7 @@ describe('TrashcanComponent', () => {
                 { provide: TranslationService, useClass: TranslationMock },
                 AuthenticationService,
                 UserPreferencesService,
+                PeopleContentService,
                 AppConfigService, StorageService, CookieService,
                 AlfrescoApiService,
                 LogService,
