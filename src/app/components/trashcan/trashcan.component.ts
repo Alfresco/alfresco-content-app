@@ -26,7 +26,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Pagination } from 'alfresco-js-api';
-import { UserPreferencesService } from '@alfresco/adf-core';
+import { UserPreferencesService, PeopleContentService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
@@ -36,8 +36,10 @@ import { AppStore } from '../../store/states/app.state';
     templateUrl: './trashcan.component.html'
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
+    userIsAdmin: boolean;
 
     constructor(private contentManagementService: ContentManagementService,
+                private peopleApi: PeopleContentService,
                 preferences: UserPreferencesService,
                 store: Store<AppStore>,
                 route: ActivatedRoute) {
@@ -50,11 +52,20 @@ export class TrashcanComponent extends PageComponent implements OnInit {
         this.subscriptions.push(
             this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
             this.contentManagementService.nodesPurged.subscribe(() => this.reload()),
-            this.contentManagementService.nodesRestored.subscribe(() => this.reload())
+            this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
+            this.peopleApi.getCurrentPerson().subscribe((user: any) => this.isUserAdmin(user))
         );
     }
 
     onChangePageSize(event: Pagination): void {
         this.preferences.paginationSize = event.maxItems;
     }
-}
+
+    private isUserAdmin(user) {
+        if (user && user.capabilities) {
+            this.userIsAdmin = user.capabilities.isAdmin;
+        } else {
+            this.userIsAdmin = true;
+        }
+    }
+ }
