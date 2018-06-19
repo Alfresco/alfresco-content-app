@@ -48,5 +48,5 @@ export interface AppStore {
 }
 
 export const INITIAL_STATE: AppStore = {
-    app: INITIAL_APP_STATE,
+    app: INITIAL_APP_STATE
 };
