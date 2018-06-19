@@ -104,7 +104,6 @@
                 [disabled]="!permission.check(node, ['create'])">
 
                 <adf-document-list acaDocumentList #documentList
-                    [includeFields]="['isFavorite']"
                     [sorting]="[ 'modifiedAt', 'desc' ]"
                     selectionMode="multiple"
                     [currentFolderId]="node?.id"

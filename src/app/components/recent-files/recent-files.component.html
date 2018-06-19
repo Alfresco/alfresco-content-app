@@ -86,7 +86,6 @@
         <div class="inner-layout__panel">
             <adf-document-list acaDocumentList #documentList
                 currentFolderId="-recent-"
-                [includeFields]="['isFavorite']"
                 selectionMode="multiple"
                 [navigate]="false"
                 [sorting]="[ 'modifiedAt', 'desc' ]"

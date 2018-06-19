@@ -94,7 +94,6 @@
         <div class="inner-layout__panel">
             <adf-document-list acaDocumentList #documentList
                 currentFolderId="-sharedlinks-"
-                [includeFields]="['isFavorite']"
                 selectionMode="multiple"
                 [sorting]="[ 'modifiedAt', 'desc' ]"
                 (node-dblclick)="showPreview($event.detail?.node)">
