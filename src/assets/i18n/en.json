@@ -15,6 +15,7 @@
         },
         "NEW_MENU": {
             "LABEL": "New",
+            "TOOLTIP": "Add new files or folders",
             "MENU_ITEMS": {
                 "CREATE_FOLDER": "Create folder",
                 "UPLOAD_FILE": "Upload file",
