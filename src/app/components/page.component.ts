@@ -32,12 +32,13 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
-import { selectedNodes } from '../store/selectors/app.selectors';
+import { appSelection } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
+import { SelectionState } from '../store/states/selection.state';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
-    onDestroy$: Subject<void> = new Subject<void>();
+    onDestroy$: Subject<boolean> = new Subject<boolean>();
 
     @ViewChild(DocumentListComponent)
     documentList: DocumentListComponent;
@@ -45,13 +46,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     title = 'Page';
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
-
-    selectedFolder: MinimalNodeEntity;
-    selectedFile: MinimalNodeEntity;
-
-    hasSelection = false;
-    lastSelectedNode: MinimalNodeEntity;
-    selectedNodes: MinimalNodeEntity[];
+    selection: SelectionState;
 
     protected subscriptions: Subscription[] = [];
 
@@ -70,33 +65,22 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.store
-            .select(selectedNodes)
+            .select(appSelection)
             .pipe(takeUntil(this.onDestroy$))
-            .subscribe(selection => this.onSelectionChanged(selection));
+            .subscribe(selection => {
+                this.selection = selection;
+                if (selection.isEmpty) {
+                    this.infoDrawerOpened = false;
+                }
+            });
     }
 
     ngOnDestroy() {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
         this.subscriptions = [];
+
+        this.onDestroy$.next(true);
         this.onDestroy$.complete();
-    }
-
-    // Precalculates all the "static state" flags so that UI does not re-evaluate that on every tick
-    protected onSelectionChanged(selection: MinimalNodeEntity[] = []) {
-        this.selectedNodes = selection;
-        this.hasSelection = selection.length > 0;
-        this.selectedFolder = null;
-        this.selectedFile = null;
-
-        if (selection.length > 0) {
-            if (selection.length === 1) {
-                this.selectedFile = selection.find(entity => entity.entry.isFile);
-                this.selectedFolder = selection.find(entity => entity.entry.isFolder);
-            }
-        } else {
-            this.lastSelectedNode = null;
-            this.infoDrawerOpened = false;
-        }
     }
 
     showPreview(node: MinimalNodeEntity) {
@@ -130,7 +114,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 this.unSelectLockedNodes(documentList);
             }
 
-            this.lastSelectedNode = event.detail.node;
             this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
         }
     }

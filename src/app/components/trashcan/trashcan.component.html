@@ -3,11 +3,11 @@
         <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE">
         </adf-breadcrumb>
 
-        <adf-toolbar class="inline" *ngIf="hasSelection">
+        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
             <button
                 color="primary"
                 mat-icon-button
-                [acaPermanentDelete]="selectedNodes"
+                [acaPermanentDelete]="selection.nodes"
                 title="{{ 'APP.ACTIONS.DELETE_PERMANENT' | translate }}">
                 <mat-icon>delete_forever</mat-icon>
             </button>
@@ -15,7 +15,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                [acaRestoreNode]="selectedNodes"
+                [acaRestoreNode]="selection.nodes"
                 title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
                 <mat-icon>restore</mat-icon>
            </button>
@@ -87,6 +87,7 @@
                     </data-column>
 
                     <data-column
+                        *ngIf="userIsAdmin"
                         class="adf-data-table-cell--ellipsis"
                         key="archivedByUser.displayName"
                         title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">

@@ -24,14 +24,9 @@
  */
 
 import { PageComponent } from './page.component';
-import { MinimalNodeEntity } from 'alfresco-js-api';
 
 class TestClass extends PageComponent {
     node: any;
-
-    setSelection(selection: MinimalNodeEntity[] = []) {
-        this.onSelectionChanged(selection);
-    }
 
     constructor() {
         super(null, null, null);
@@ -56,49 +51,6 @@ describe('PageComponent', () => {
             component.node = null;
 
             expect(component.getParentNodeId()).toBe(null);
-        });
-    });
-
-    describe('hasSelection()', () => {
-        it('returns true when it has nodes selected', () => {
-            component.setSelection([
-                { entry: { isFile: true }  },
-                { entry: { isFile: true }  }
-            ]);
-            expect(component.hasSelection).toBe(true);
-        });
-
-        it('returns false when it has no selections', () => {
-            component.setSelection([]);
-            expect(component.hasSelection).toBe(false);
-        });
-    });
-
-    describe('selectedFile', () => {
-        it('returns true if selected node is file', () => {
-            const selection = [ { entry: { isFile: true } } ];
-            component.setSelection(selection);
-            expect(component.selectedFile).toBe(selection[0]);
-        });
-
-        it('returns false if selected node is folder', () => {
-            const selection = [ { entry: { isFile: false, isFolder: true } } ];
-            component.setSelection(selection);
-            expect(component.selectedFile).toBeFalsy();
-        });
-    });
-
-    describe('selectedFolder', () => {
-        it('returns true if selected node is folder', () => {
-            const selection = [ { entry: { isFile: false, isFolder: true } } ];
-            component.setSelection(selection);
-            expect(component.selectedFolder).toBe(selection[0]);
-        });
-
-        it('returns false if selected node is file', () => {
-            const selection = [ { entry: { isFile: true, isFolder: false } } ];
-            component.setSelection(selection);
-            expect(component.selectedFolder).toBeFalsy();
         });
     });
 });
