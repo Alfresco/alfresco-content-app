@@ -69,8 +69,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(selection => {
                 this.selection = selection;
-                console.log(selection);
-
                 if (selection.isEmpty) {
                     this.infoDrawerOpened = false;
                 }
