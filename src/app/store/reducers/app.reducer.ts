@@ -91,29 +91,34 @@ function updateSelectedNodes(
 ): AppState {
     const newState = Object.assign({}, state);
     const nodes = [...action.payload];
+    const count = nodes.length;
     const isEmpty = nodes.length === 0;
 
     let first = null;
     let last = null;
-    let firstFile = null;
-    let firstFolder = null;
+    let file = null;
+    let folder = null;
 
     if (nodes.length > 0) {
         first = nodes[0];
         last = nodes[nodes.length - 1];
-        firstFile = nodes.find(entity => entity.entry.isFile);
-        firstFolder = nodes.find(entity => entity.entry.isFolder);
+
+        if (nodes.length === 1) {
+            file = nodes.find(entity => entity.entry.isFile);
+            folder = nodes.find(entity => entity.entry.isFolder);
+        }
     }
 
     newState.selectedNodes = [...action.payload];
 
     newState.selection = {
+        count,
         nodes,
         isEmpty,
         first,
         last,
-        firstFile,
-        firstFolder
+        file,
+        folder
     };
     return newState;
 }

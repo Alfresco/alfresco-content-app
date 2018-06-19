@@ -26,10 +26,11 @@
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 export interface SelectionState {
+    count: number;
     nodes: MinimalNodeEntity[];
     isEmpty: boolean;
     first?: MinimalNodeEntity;
     last?: MinimalNodeEntity;
-    firstFolder?: MinimalNodeEntity;
-    firstFile?: MinimalNodeEntity;
+    folder?: MinimalNodeEntity;
+    file?: MinimalNodeEntity;
 }

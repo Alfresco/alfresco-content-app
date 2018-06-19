@@ -41,7 +41,8 @@ export const INITIAL_APP_STATE: AppState = {
     selectedNodes: [],
     selection: {
         nodes: [],
-        isEmpty: true
+        isEmpty: true,
+        count: 0
     }
 };
 

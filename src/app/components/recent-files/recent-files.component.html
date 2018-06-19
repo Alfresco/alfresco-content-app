@@ -3,14 +3,14 @@
         <adf-breadcrumb root="APP.BROWSE.RECENT.TITLE">
         </adf-breadcrumb>
 
-        <adf-toolbar class="inline" *ngIf="hasSelection">
+        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
 
             <button
                 mat-icon-button
                 color="primary"
-                *ngIf="selectedFile"
+                *ngIf="selection.file"
                 title="{{ 'APP.ACTIONS.VIEW' | translate }}"
-                (click)="showPreview(selectedFile)">
+                (click)="showPreview(selection.file)">
                 <mat-icon>open_in_browser</mat-icon>
             </button>
 
@@ -18,7 +18,7 @@
                 mat-icon-button
                 color="primary"
                 title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                [adfNodeDownload]="selectedNodes">
+                [adfNodeDownload]="selection.nodes">
                 <mat-icon>get_app</mat-icon>
             </button>
 
@@ -41,40 +41,40 @@
                 [overlapTrigger]="false">
                 <button
                     mat-menu-item
-                    #selection="adfFavorite"
-                    [adf-node-favorite]="selectedNodes">
-                    <mat-icon color="primary" *ngIf="selection.hasFavorites()">star</mat-icon>
-                    <mat-icon *ngIf="!selection.hasFavorites()">star_border</mat-icon>
+                    #favorites="adfFavorite"
+                    [adf-node-favorite]="selection.nodes">
+                    <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
+                    <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
                     <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
-                    [acaCopyNode]="selectedNodes">
+                    [acaCopyNode]="selection.nodes">
                     <mat-icon>content_copy</mat-icon>
                     <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
-                    *ngIf="permission.check(selectedNodes, ['delete'])"
-                    [acaMoveNode]="selectedNodes">
+                    *ngIf="permission.check(selection.nodes, ['delete'])"
+                    [acaMoveNode]="selection.nodes">
                     <mat-icon>library_books</mat-icon>
                     <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
-                    *ngIf="permission.check(selectedNodes, ['delete'])"
-                    [acaDeleteNode]="selectedNodes">
+                    *ngIf="permission.check(selection.nodes, ['delete'])"
+                    [acaDeleteNode]="selection.nodes">
                     <mat-icon>delete</mat-icon>
                     <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
                 </button>
 
                 <button
                     mat-menu-item
-                    *ngIf="selectedFile"
-                    [acaNodeVersions]="selectedFile">
+                    *ngIf="selection.file"
+                    [acaNodeVersions]="selection.file">
                     <mat-icon>history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
@@ -157,7 +157,7 @@
         </div>
 
         <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened">
-            <aca-info-drawer [node]="lastSelectedNode"></aca-info-drawer>
+            <aca-info-drawer [node]="selection.last"></aca-info-drawer>
         </div>
     </div>
 </div>
