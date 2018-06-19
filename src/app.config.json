@@ -19,8 +19,7 @@
     },
     "adf-version-manager": {
         "allowComments": true,
-        "allowDownload": true,
-        "allowDelete": true
+        "allowDownload": true
     },
     "sideNav": {
         "preserveState": true,

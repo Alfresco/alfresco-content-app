@@ -14,7 +14,11 @@
 
         <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
             <ng-container *ngIf="isFileSelected;else empty">
-                <adf-version-manager [node]="displayNode"></adf-version-manager>
+                <adf-version-manager
+                    [showComments]="'adf-version-manager.allowComments' | adfAppConfig:true"
+                    [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig:true"
+                    [node]="displayNode">
+                </adf-version-manager>
             </ng-container>
 
             <ng-template #empty>
