@@ -28,6 +28,10 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { Subscription } from 'rxjs/Rx';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../store/states/app.state';
+import { SetSelectedNodesAction } from '../store/actions';
+import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Directive({
     selector: '[acaDocumentList]'
@@ -40,6 +44,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     }
 
     constructor(
+        private store: Store<AppStore>,
         private documentList: DocumentListComponent,
         private preferences: UserPreferencesService,
         private route: ActivatedRoute
@@ -62,6 +67,10 @@ export class DocumentListDirective implements OnInit, OnDestroy {
             // TODO: bug in ADF, the `sorting` binding is not updated when changed from code
             this.documentList.data.setSorting({ key, direction });
         }
+
+        this.subscriptions.push(
+            this.documentList.ready.subscribe(() => this.onReady())
+        );
     }
 
     ngOnDestroy() {
@@ -80,6 +89,68 @@ export class DocumentListDirective implements OnInit, OnDestroy {
                 `${this.sortingPreferenceKey}.sorting.direction`,
                 event.detail.direction
             );
+        }
+    }
+
+    @HostListener('node-select', ['$event'])
+    onNodeSelect(event: CustomEvent) {
+        if (!!event.detail && !!event.detail.node) {
+            const node: MinimalNodeEntryEntity = event.detail.node.entry;
+            if (node && this.isLockedNode(node)) {
+                this.unSelectLockedNodes(this.documentList);
+            }
+
+            this.store.dispatch(
+                new SetSelectedNodesAction(this.documentList.selection)
+            );
+        }
+    }
+
+    @HostListener('node-unselect')
+    onNodeUnselect() {
+        this.store.dispatch(
+            new SetSelectedNodesAction(this.documentList.selection)
+        );
+    }
+
+    onReady() {
+        this.store.dispatch(
+            new SetSelectedNodesAction(this.documentList.selection)
+        );
+    }
+
+    private isLockedNode(node): boolean {
+        return (
+            node.isLocked ||
+            (node.properties &&
+                node.properties['cm:lockType'] === 'READ_ONLY_LOCK')
+        );
+    }
+
+    private isLockedRow(row): boolean {
+        return (
+            row.getValue('isLocked') ||
+            (row.getValue('properties') &&
+                row.getValue('properties')['cm:lockType'] === 'READ_ONLY_LOCK')
+        );
+    }
+
+    private unSelectLockedNodes(documentList: DocumentListComponent) {
+        documentList.selection = documentList.selection.filter(
+            item => !this.isLockedNode(item.entry)
+        );
+
+        const dataTable = documentList.dataTable;
+        if (dataTable && dataTable.data) {
+            const rows = dataTable.data.getRows();
+
+            if (rows && rows.length > 0) {
+                rows.forEach(r => {
+                    if (this.isLockedRow(r)) {
+                        r.isSelected = false;
+                    }
+                });
+            }
         }
     }
 }

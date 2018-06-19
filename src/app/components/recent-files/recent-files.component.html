@@ -91,10 +91,7 @@
                 [navigate]="false"
                 [sorting]="[ 'modifiedAt', 'desc' ]"
                 [imageResolver]="imageResolver"
-                (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
-                (ready)="onDocumentListReady($event, documentList)"
-                (node-select)="onNodeSelect($event, documentList)"
-                (node-unselect)="onNodeUnselect($event, documentList)">
+                (node-dblclick)="onNodeDoubleClick($event.detail?.node)">
 
                 <empty-folder-content>
                     <ng-template>

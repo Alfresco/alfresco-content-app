@@ -29,10 +29,7 @@
                 [includeFields]="['isFavorite']"
                 selectionMode="multiple"
                 [navigate]="false"
-                [sorting]="[ 'archivedAt', 'desc' ]"
-                (ready)="onDocumentListReady($event, documentList)"
-                (node-select)="onNodeSelect($event, documentList)"
-                (node-unselect)="onNodeUnselect($event, documentList)">
+                [sorting]="[ 'archivedAt', 'desc' ]">
 
                 <empty-folder-content>
                     <ng-template>

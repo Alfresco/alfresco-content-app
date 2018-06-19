@@ -14,9 +14,6 @@
                 selectionMode="none"
                 [navigate]="false"
                 [sorting]="[ 'title', 'asc' ]"
-                (ready)="onDocumentListReady($event, documentList)"
-                (node-select)="onNodeSelect($event, documentList)"
-                (node-unselect)="onNodeUnselect($event, documentList)"
                 (node-dblclick)="onNodeDoubleClick($event)">
 
                 <empty-folder-content>
