@@ -23,14 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MinimalNodeEntity } from 'alfresco-js-api';
 import { SelectionState } from './selection.state';
 
 export interface AppState {
     appName: string;
     headerColor: string;
     logoPath: string;
-    selectedNodes: MinimalNodeEntity[];
     selection: SelectionState;
 }
 
@@ -38,7 +36,6 @@ export const INITIAL_APP_STATE: AppState = {
     appName: 'Alfresco Example Content Application',
     headerColor: '#2196F3',
     logoPath: 'assets/images/alfresco-logo-white.svg',
-    selectedNodes: [],
     selection: {
         nodes: [],
         isEmpty: true,

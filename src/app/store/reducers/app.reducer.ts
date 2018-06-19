@@ -109,8 +109,6 @@ function updateSelectedNodes(
         }
     }
 
-    newState.selectedNodes = [...action.payload];
-
     newState.selection = {
         count,
         nodes,
