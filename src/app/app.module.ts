@@ -66,7 +66,6 @@ import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
 import { NodePermissionService } from './common/services/node-permission.service';
-import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { HybridAppConfigService } from './common/services/hybrid-app-config.service';
@@ -78,6 +77,7 @@ import { EditFolderDirective } from './directives/edit-folder.directive';
 import { CreateFolderDirective } from './directives/create-folder.directive';
 import { DownloadNodesDirective } from './directives/download-nodes.directive';
 import { AppStoreModule } from './store/app-store.module';
+import { MaterialModule } from './material.module';
 
 
 @NgModule({
@@ -90,11 +90,7 @@ import { AppStoreModule } from './store/app-store.module';
             useHash: true,
             enableTracing: false // enable for debug only
         }),
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatInputModule,
+        MaterialModule,
         CoreModule,
         ContentModule,
         ElectronModule,
