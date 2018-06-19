@@ -78,6 +78,7 @@ import { EditFolderDirective } from './directives/edit-folder.directive';
 import { CreateFolderDirective } from './directives/create-folder.directive';
 import { DownloadNodesDirective } from './directives/download-nodes.directive';
 import { AppStoreModule } from './store/app-store.module';
+import { PaginationDirective } from './directives/pagination.directive';
 
 
 @NgModule({
@@ -135,7 +136,8 @@ import { AppStoreModule } from './store/app-store.module';
         InfoDrawerComponent,
         EditFolderDirective,
         CreateFolderDirective,
-        DownloadNodesDirective
+        DownloadNodesDirective,
+        PaginationDirective
     ],
     providers: [
         { provide: PageTitleService, useClass: AcaPageTitleService },

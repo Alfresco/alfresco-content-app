@@ -25,7 +25,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Pagination } from 'alfresco-js-api';
 import { UserPreferencesService, PeopleContentService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
@@ -55,10 +54,6 @@ export class TrashcanComponent extends PageComponent implements OnInit {
             this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
             this.peopleApi.getCurrentPerson().subscribe((user: any) => this.isUserAdmin(user))
         );
-    }
-
-    onChangePageSize(event: Pagination): void {
-        this.preferences.paginationSize = event.maxItems;
     }
 
     private isUserAdmin(user) {

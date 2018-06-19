@@ -96,10 +96,7 @@
                 </data-columns>
             </adf-document-list>
 
-            <adf-pagination
-                [supportedPageSizes]="'pagination.supportedPageSizes' | adfAppConfig"
-                [target]="documentList"
-                (changePageSize)="onChangePageSize($event)">
+            <adf-pagination acaPagination [target]="documentList">
             </adf-pagination>
         </div>
     </div>

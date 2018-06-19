@@ -28,7 +28,7 @@ import { FileUploadErrorEvent, UserPreferencesService } from '@alfresco/adf-core
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
@@ -100,10 +100,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     getParentNodeId(): string {
         return this.node ? this.node.id : null;
-    }
-
-    onChangePageSize(event: Pagination): void {
-        this.preferences.paginationSize = event.maxItems;
     }
 
     onNodeSelect(event: CustomEvent, documentList: DocumentListComponent) {
