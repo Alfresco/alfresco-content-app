@@ -24,11 +24,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { PeopleContentService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
+import { selectUser } from '../../store/selectors/app.selectors';
 
 @Component({
     templateUrl: './trashcan.component.html'
@@ -37,7 +37,6 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     userIsAdmin: boolean;
 
     constructor(private contentManagementService: ContentManagementService,
-                private peopleApi: PeopleContentService,
                 store: Store<AppStore>) {
         super(store);
     }
@@ -49,7 +48,7 @@ export class TrashcanComponent extends PageComponent implements OnInit {
             this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
             this.contentManagementService.nodesPurged.subscribe(() => this.reload()),
             this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
-            this.peopleApi.getCurrentPerson().subscribe((user: any) => this.isUserAdmin(user))
+            this.store.select(selectUser).subscribe((user) => this.isUserAdmin(user))
         );
     }
 

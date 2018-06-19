@@ -70,6 +70,7 @@ import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { HybridAppConfigService } from './common/services/hybrid-app-config.service';
 import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
+import { ProfileResolver } from './common/services/profile.resolver';
 
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 import { EditFolderDirective } from './directives/edit-folder.directive';
@@ -148,7 +149,8 @@ import { MaterialModule } from './material.module';
         BrowsingFilesService,
         ContentManagementService,
         NodeActionsService,
-        NodePermissionService
+        NodePermissionService,
+        ProfileResolver
     ],
     entryComponents: [
         NodeVersionsDialogComponent

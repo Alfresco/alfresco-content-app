@@ -23,12 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { createSelector } from '@ngrx/store';
-import { AppStore, AppState } from '../states/app.state';
+import { Store } from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Resolve } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
-export const selectApp = (state: AppStore) => state.app;
-export const selectHeaderColor = createSelector(selectApp, (state: AppState) => state.headerColor);
-export const selectAppName = createSelector(selectApp, (state: AppState) => state.appName);
-export const selectLogoPath = createSelector(selectApp, (state: AppState) => state.logoPath);
-export const appSelection =  createSelector(selectApp, (state: AppState) => state.selection);
-export const selectUser =  createSelector(selectApp, (state: AppState) => state.user);
+import { AppStore } from '../../store/states/app.state';
+import { SetUserAction } from '../../store/actions/user.actions';
+import { selectUser } from '../../store/selectors/app.selectors';
+import { PeopleContentService } from '@alfresco/adf-core';
+
+@Injectable()
+export class ProfileResolver implements Resolve<any> {
+    constructor(private store: Store<AppStore>, private peopleApi: PeopleContentService) { }
+
+    resolve(): Observable<any> {
+
+        this.init();
+
+        return this.profileLoaded();
+    }
+
+    profileLoaded(): Observable<any> {
+        return this.store.select(selectUser).take(1);
+    }
+
+    init(): void {
+        this.peopleApi.getCurrentPerson().subscribe((person: any) => {
+            this.store.dispatch(new SetUserAction(person.entry));
+        });
+    }
+}

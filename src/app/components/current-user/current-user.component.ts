@@ -24,8 +24,11 @@
  */
 
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { PeopleContentService } from '@alfresco/adf-core';
 import { Subscription } from 'rxjs/Rx';
+
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { selectUser } from '../../store/selectors/app.selectors';
 
 @Component({
     selector: 'aca-current-user',
@@ -38,13 +41,11 @@ export class CurrentUserComponent implements OnInit, OnDestroy {
 
     user: any = null;
 
-    constructor(
-        private peopleApi: PeopleContentService
-    ) {}
+    constructor(private store: Store<AppStore>) {}
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            this.peopleApi.getCurrentPerson().subscribe((person: any) => this.user = person.entry)
+            this.store.select(selectUser).subscribe((user) => this.user = user)
         ]);
     }
 

@@ -42,6 +42,8 @@ import { GenericErrorComponent } from './components/generic-error/generic-error.
 import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
+import { ProfileResolver } from './common/services/profile.resolver';
+
 export const APP_ROUTES: Routes = [
     {
         path: 'login',
@@ -60,6 +62,7 @@ export const APP_ROUTES: Routes = [
     {
         path: '',
         component: LayoutComponent,
+        resolve: { profile: ProfileResolver }
         children: [
             {
                 path: '',
