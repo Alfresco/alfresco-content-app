@@ -29,7 +29,7 @@ import { Subscription } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { selectUser } from '../../store/selectors/app.selectors';
-import { ProfileState } from '../store/states/selection.state';
+import { ProfileState } from '../../store/states/profile.state';
 
 @Component({
     selector: 'aca-current-user',

@@ -28,6 +28,6 @@ export interface ProfileState {
     isAdmin: boolean;
     firstName: string;
     lastName: string;
-    userName: string;
-    initials: string;
+    userName?: string;
+    initials?: string;
 }
