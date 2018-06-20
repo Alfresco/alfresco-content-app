@@ -24,8 +24,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { UserPreferencesService, UploadService } from '@alfresco/adf-core';
+import { UploadService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -38,13 +37,11 @@ import { AppStore } from '../../store/states/app.state';
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
 
-    constructor(route: ActivatedRoute,
-                store: Store<AppStore>,
+    constructor(store: Store<AppStore>,
                 private uploadService: UploadService,
                 private content: ContentManagementService,
-                public permission: NodePermissionService,
-                preferences: UserPreferencesService) {
-        super(preferences, route, store);
+                public permission: NodePermissionService) {
+        super(store);
     }
 
     ngOnInit() {

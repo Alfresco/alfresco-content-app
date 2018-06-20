@@ -88,10 +88,7 @@
                         [sortingMode]="'server'"
                         [sorting]="sorting"
                         [node]="data"
-                        (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
-                        (ready)="onDocumentListReady($event, documentList)"
-                        (node-select)="onNodeSelect($event, documentList)"
-                        (node-unselect)="onNodeUnselect($event, documentList)">
+                        (node-dblclick)="onNodeDoubleClick($event.detail?.node)">
 
                         <data-columns>
                             <data-column

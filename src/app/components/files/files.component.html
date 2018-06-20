@@ -103,19 +103,14 @@
                 [parentId]="node?.id"
                 [disabled]="!permission.check(node, ['create'])">
 
-                <adf-document-list #documentList
-                    [includeFields]="['isFavorite']"
+                <adf-document-list acaDocumentList #documentList
                     [sorting]="[ 'modifiedAt', 'desc' ]"
-                    [acaSortingPreferenceKey]="sortingPreferenceKey"
                     selectionMode="multiple"
                     [currentFolderId]="node?.id"
                     [allowDropFiles]="true"
                     [navigate]="false"
                     [imageResolver]="imageResolver"
-                    (node-dblclick)="onNodeDoubleClick($event.detail?.node)"
-                    (ready)="onDocumentListReady($event, documentList)"
-                    (node-select)="onNodeSelect($event, documentList)"
-                    (node-unselect)="onNodeUnselect($event, documentList)">
+                    (node-dblclick)="onNodeDoubleClick($event.detail?.node)">
 
                     <data-columns>
                         <data-column
@@ -158,10 +153,7 @@
                     </data-columns>
                 </adf-document-list>
 
-                <adf-pagination
-                    [supportedPageSizes]="'pagination.supportedPageSizes' | adfAppConfig"
-                    [target]="documentList"
-                    (changePageSize)="onChangePageSize($event)">
+                <adf-pagination acaPagination [target]="documentList">
                 </adf-pagination>
             </adf-upload-drag-area>
         </div>

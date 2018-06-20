@@ -27,7 +27,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
-import { UserPreferencesService } from '@alfresco/adf-core';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -53,10 +52,10 @@ export class SearchComponent extends PageComponent implements OnInit {
     constructor(
         public permission: NodePermissionService,
         private queryBuilder: SearchQueryBuilderService,
-        store: Store<AppStore>,
-        preferences: UserPreferencesService,
-        route: ActivatedRoute) {
-        super(preferences, route, store);
+        private route: ActivatedRoute,
+        store: Store<AppStore>
+    ) {
+        super(store);
 
         queryBuilder.paging = {
             skipCount: 0,

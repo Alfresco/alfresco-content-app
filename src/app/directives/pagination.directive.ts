@@ -23,34 +23,43 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PageComponent } from './page.component';
+import { Directive, OnInit, OnDestroy } from '@angular/core';
+import {
+    PaginationComponent,
+    UserPreferencesService,
+    PaginationModel,
+    AppConfigService
+} from '@alfresco/adf-core';
+import { Subscription } from 'rxjs/Rx';
 
-class TestClass extends PageComponent {
-    node: any;
+@Directive({
+    selector: '[acaPagination]'
+})
+export class PaginationDirective implements OnInit, OnDestroy {
+    private subscriptions: Subscription[] = [];
 
-    constructor() {
-        super(null);
+    constructor(
+        private pagination: PaginationComponent,
+        private preferences: UserPreferencesService,
+        private config: AppConfigService
+    ) {}
+
+    ngOnInit() {
+        this.pagination.supportedPageSizes = this.config.get(
+            'pagination.supportedPageSizes'
+        );
+
+        this.subscriptions.push(
+            this.pagination.changePageSize.subscribe(
+                (event: PaginationModel) => {
+                    this.preferences.paginationSize = event.maxItems;
+                }
+            )
+        );
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        this.subscriptions = [];
     }
 }
-
-describe('PageComponent', () => {
-    let component: TestClass;
-
-    beforeEach(() => {
-        component = new TestClass();
-    });
-
-    describe('getParentNodeId()', () => {
-        it('returns parent node id when node is set', () => {
-            component.node = { id: 'node-id' };
-
-            expect(component.getParentNodeId()).toBe('node-id');
-        });
-
-        it('returns null when node is not set', () => {
-            component.node = null;
-
-            expect(component.getParentNodeId()).toBe(null);
-        });
-    });
-});

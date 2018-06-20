@@ -69,7 +69,6 @@ import { NodePermissionService } from './common/services/node-permission.service
 import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { HybridAppConfigService } from './common/services/hybrid-app-config.service';
-import { SortingPreferenceKeyDirective } from './directives/sorting-preference-key.directive';
 import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
 
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
@@ -77,8 +76,9 @@ import { EditFolderDirective } from './directives/edit-folder.directive';
 import { CreateFolderDirective } from './directives/create-folder.directive';
 import { DownloadNodesDirective } from './directives/download-nodes.directive';
 import { AppStoreModule } from './store/app-store.module';
+import { PaginationDirective } from './directives/pagination.directive';
+import { DocumentListDirective } from './directives/document-list.directive';
 import { MaterialModule } from './material.module';
-
 
 @NgModule({
     imports: [
@@ -127,11 +127,12 @@ import { MaterialModule } from './material.module';
         NodeVersionsDialogComponent,
         SearchComponent,
         SettingsComponent,
-        SortingPreferenceKeyDirective,
         InfoDrawerComponent,
         EditFolderDirective,
         CreateFolderDirective,
-        DownloadNodesDirective
+        DownloadNodesDirective,
+        PaginationDirective,
+        DocumentListDirective
     ],
     providers: [
         { provide: PageTitleService, useClass: AcaPageTitleService },

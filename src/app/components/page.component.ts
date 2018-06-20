@@ -24,11 +24,10 @@
  */
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
-import { FileUploadErrorEvent, UserPreferencesService } from '@alfresco/adf-core';
+import { FileUploadErrorEvent } from '@alfresco/adf-core';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, Pagination } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
@@ -50,18 +49,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     protected subscriptions: Subscription[] = [];
 
-    get sortingPreferenceKey(): string {
-        return this.route.snapshot.data.sortingPreferenceKey;
-    }
-
     static isLockedNode(node) {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected preferences: UserPreferencesService,
-                protected route: ActivatedRoute,
-                protected store: Store<AppStore>) {
-    }
+    constructor(protected store: Store<AppStore>) {}
 
     ngOnInit() {
         this.store
@@ -100,52 +92,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     getParentNodeId(): string {
         return this.node ? this.node.id : null;
-    }
-
-    onChangePageSize(event: Pagination): void {
-        this.preferences.paginationSize = event.maxItems;
-    }
-
-    onNodeSelect(event: CustomEvent, documentList: DocumentListComponent) {
-        if (!!event.detail && !!event.detail.node) {
-
-            const node: MinimalNodeEntryEntity = event.detail.node.entry;
-            if (node && PageComponent.isLockedNode(node)) {
-                this.unSelectLockedNodes(documentList);
-            }
-
-            this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
-        }
-    }
-
-    onDocumentListReady(event: CustomEvent, documentList: DocumentListComponent) {
-        this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
-    }
-
-    onNodeUnselect(event: CustomEvent, documentList: DocumentListComponent) {
-        this.store.dispatch(new SetSelectedNodesAction(documentList.selection));
-    }
-
-    unSelectLockedNodes(documentList: DocumentListComponent) {
-        documentList.selection = documentList.selection.filter(item => !PageComponent.isLockedNode(item.entry));
-
-        const dataTable = documentList.dataTable;
-        if (dataTable && dataTable.data) {
-            const rows = dataTable.data.getRows();
-
-            if (rows && rows.length > 0) {
-                rows.forEach(r => {
-                    if (this.isLockedRow(r)) {
-                        r.isSelected = false;
-                    }
-                });
-            }
-        }
-    }
-
-    isLockedRow(row) {
-        return row.getValue('isLocked') ||
-            (row.getValue('properties') && row.getValue('properties')['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
     imageResolver(row: ShareDataRow): string | null {

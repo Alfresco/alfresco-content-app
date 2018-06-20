@@ -23,30 +23,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { NodesApiService } from '@alfresco/adf-core';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { MinimalNodeEntryEntity, PathElementEntity, PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
-import { NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
-
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import {
+    MinimalNodeEntity,
+    MinimalNodeEntryEntity,
+    PathElementEntity,
+    PathInfo
+} from 'alfresco-js-api';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
-import { PageComponent } from '../page.component';
-import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
+import { PageComponent } from '../page.component';
 
 @Component({
     templateUrl: './favorites.component.html'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
-
-    constructor(private router: Router,
-                route: ActivatedRoute,
-                store: Store<AppStore>,
-                private nodesApi: NodesApiService,
-                private content: ContentManagementService,
-                public permission: NodePermissionService,
-                preferences: UserPreferencesService) {
-        super(preferences, route, store);
+    constructor(
+        private router: Router,
+        store: Store<AppStore>,
+        private nodesApi: NodesApiService,
+        private content: ContentManagementService,
+        public permission: NodePermissionService
+    ) {
+        super(store);
     }
 
     ngOnInit() {
@@ -65,15 +68,19 @@ export class FavoritesComponent extends PageComponent implements OnInit {
 
         // TODO: rework as it will fail on non-English setups
         const isSitePath = (path: PathInfo): boolean => {
-            return path.elements.some(({ name }: PathElementEntity) => (name === 'Sites'));
+            return path.elements.some(
+                ({ name }: PathElementEntity) => name === 'Sites'
+            );
         };
 
         if (isFolder) {
             this.nodesApi
                 .getNode(id)
                 .subscribe(({ path }: MinimalNodeEntryEntity) => {
-                    const routeUrl = isSitePath(path) ? '/libraries' : '/personal-files';
-                    this.router.navigate([ routeUrl, id ]);
+                    const routeUrl = isSitePath(path)
+                        ? '/libraries'
+                        : '/personal-files';
+                    this.router.navigate([routeUrl, id]);
                 });
         }
     }
