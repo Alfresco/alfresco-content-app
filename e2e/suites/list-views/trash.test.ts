@@ -132,10 +132,10 @@ describe('Trash', () => {
         });
 
         it('has the correct columns', () => {
-            const labels = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
+            const labels = [ 'Name', 'Location', 'Size', 'Deleted'];
             const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
-            expect(dataTable.getColumnHeaders().count()).toBe(5 + 1, 'Incorrect number of columns');
+            expect(dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
 
             elements.forEach((element, index) => {
                 expect(element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
