@@ -1,9 +1,9 @@
 <div title="{{ user?.id }}">
-    <div class="current-user__full-name">{{ userName }}</div>
+    <div class="current-user__full-name">{{ user?.userName }}</div>
     <div
         class="current-user__avatar am-avatar"
         [matMenuTriggerFor]="userMenu">
-            {{ userInitials }}
+            {{ user?.initials }}
     </div>
 </div>
 

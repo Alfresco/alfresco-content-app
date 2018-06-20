@@ -23,34 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs/Rx';
-
 import { Store } from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Resolve } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+
 import { AppStore } from '../../store/states/app.state';
+import { SetUserAction } from '../../store/actions/user.actions';
 import { selectUser } from '../../store/selectors/app.selectors';
-import { ProfileState } from '../../store/states/profile.state';
+import { PeopleContentService } from '@alfresco/adf-core';
 
-@Component({
-    selector: 'aca-current-user',
-    templateUrl: './current-user.component.html',
-    encapsulation: ViewEncapsulation.None,
-    host: { class: 'aca-current-user' }
-})
-export class CurrentUserComponent implements OnInit, OnDestroy {
-    private subscriptions: Subscription[] = [];
+@Injectable()
+export class ProfileResolver implements Resolve<any> {
+    constructor(private store: Store<AppStore>, private peopleApi: PeopleContentService) { }
 
-    user: ProfileState;
+    resolve(): Observable<any> {
 
-    constructor(private store: Store<AppStore>) {}
+        this.init();
 
-    ngOnInit() {
-        this.subscriptions = this.subscriptions.concat([
-            this.store.select(selectUser).subscribe((user) => this.user = user)
-        ]);
+        return this.profileLoaded();
     }
 
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
+    profileLoaded(): Observable<any> {
+        return this.store.select(selectUser).take(1);
+    }
+
+    init(): void {
+        this.peopleApi.getCurrentPerson().subscribe((person: any) => {
+            this.store.dispatch(new SetUserAction(person.entry));
+        });
     }
 }

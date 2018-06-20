@@ -29,3 +29,4 @@ export * from './actions/snackbar.actions';
 export * from './actions/router.actions';
 export * from './actions/viewer.actions';
 export * from './actions/search.actions';
+export * from './actions/user.actions';

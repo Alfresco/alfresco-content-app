@@ -23,34 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs/Rx';
+import { Action } from '@ngrx/store';
 
-import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { selectUser } from '../../store/selectors/app.selectors';
-import { ProfileState } from '../../store/states/profile.state';
+export const SET_USER = 'SET_USER';
 
-@Component({
-    selector: 'aca-current-user',
-    templateUrl: './current-user.component.html',
-    encapsulation: ViewEncapsulation.None,
-    host: { class: 'aca-current-user' }
-})
-export class CurrentUserComponent implements OnInit, OnDestroy {
-    private subscriptions: Subscription[] = [];
-
-    user: ProfileState;
-
-    constructor(private store: Store<AppStore>) {}
-
-    ngOnInit() {
-        this.subscriptions = this.subscriptions.concat([
-            this.store.select(selectUser).subscribe((user) => this.user = user)
-        ]);
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
-    }
+export class SetUserAction implements Action {
+  readonly type = SET_USER;
+  constructor(public payload: any) { }
 }

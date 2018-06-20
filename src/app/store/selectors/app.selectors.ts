@@ -31,3 +31,4 @@ export const selectHeaderColor = createSelector(selectApp, (state: AppState) => 
 export const selectAppName = createSelector(selectApp, (state: AppState) => state.appName);
 export const selectLogoPath = createSelector(selectApp, (state: AppState) => state.logoPath);
 export const appSelection =  createSelector(selectApp, (state: AppState) => state.selection);
+export const selectUser =  createSelector(selectApp, (state: AppState) => state.user);

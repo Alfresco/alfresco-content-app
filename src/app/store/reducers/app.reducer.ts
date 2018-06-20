@@ -33,7 +33,9 @@ import {
     SET_LOGO_PATH,
     SetLogoPathAction,
     SET_SELECTED_NODES,
-    SetSelectedNodesAction
+    SetSelectedNodesAction,
+    SET_USER,
+    SetUserAction
 } from '../actions';
 
 export function appReducer(
@@ -54,6 +56,11 @@ export function appReducer(
             break;
         case SET_SELECTED_NODES:
             newState = updateSelectedNodes(state, <SetSelectedNodesAction>(
+                action
+            ));
+            break;
+        case SET_USER:
+            newState = updateUser(state, <SetUserAction>(
                 action
             ));
             break;
@@ -82,6 +89,29 @@ function updateAppName(state: AppState, action: SetAppNameAction): AppState {
 function updateLogoPath(state: AppState, action: SetLogoPathAction): AppState {
     const newState = Object.assign({}, state);
     newState.logoPath = action.payload;
+    return newState;
+}
+
+function updateUser(state: AppState, action: SetUserAction): AppState {
+    const newState = Object.assign({}, state);
+    const user = action.payload;
+
+    const id = user.id;
+    const firstName = user.firstName || '';
+    const lastName = user.lastName || '';
+    const userName = `${firstName} ${lastName}`;
+    const initials = [ firstName[0], lastName[0] ].join('');
+    const isAdmin = user.capabilities ? user.capabilities.isAdmin : true;
+
+    newState.user = {
+        firstName,
+        lastName,
+        userName,
+        initials,
+        isAdmin,
+        id
+    };
+
     return newState;
 }
 
