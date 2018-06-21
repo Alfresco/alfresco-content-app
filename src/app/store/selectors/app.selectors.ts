@@ -24,11 +24,11 @@
  */
 
 import { createSelector } from '@ngrx/store';
-import { AppStore, AppState } from '../states/app.state';
+import { AppStore } from '../states/app.state';
 
 export const selectApp = (state: AppStore) => state.app;
-export const selectHeaderColor = createSelector(selectApp, (state: AppState) => state.headerColor);
-export const selectAppName = createSelector(selectApp, (state: AppState) => state.appName);
-export const selectLogoPath = createSelector(selectApp, (state: AppState) => state.logoPath);
-export const appSelection =  createSelector(selectApp, (state: AppState) => state.selection);
-export const selectUser =  createSelector(selectApp, (state: AppState) => state.user);
+export const selectHeaderColor = createSelector(selectApp, state => state.headerColor);
+export const selectAppName = createSelector(selectApp, state => state.appName);
+export const selectLogoPath = createSelector(selectApp, state => state.logoPath);
+export const appSelection =  createSelector(selectApp, state => state.selection);
+export const selectUser =  createSelector(selectApp, state => state.user);

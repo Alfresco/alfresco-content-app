@@ -23,22 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Rx';
-import { selectUser } from '../../store/selectors/app.selectors';
-import { AppStore, ProfileState } from '../../store/states';
-
-@Component({
-    selector: 'aca-current-user',
-    templateUrl: './current-user.component.html',
-    encapsulation: ViewEncapsulation.None,
-    host: { class: 'aca-current-user' }
-})
-export class CurrentUserComponent {
-    profile$: Observable<ProfileState>;
-
-    constructor(store: Store<AppStore>) {
-        this.profile$ = store.select(selectUser);
-    }
-}
+export * from './states/app.state';
+export * from './states/profile.state';
+export * from './states/selection.state';
