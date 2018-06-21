@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NodesApiService } from '@alfresco/adf-core';
 import { ShareDataRow } from '@alfresco/adf-content-services';
@@ -31,17 +31,29 @@ import { ShareDataRow } from '@alfresco/adf-content-services';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
+import { DeleteLibraryAction } from '../../store/actions';
+import { SiteEntry } from 'alfresco-js-api';
+import { ContentManagementService } from '../../common/services/content-management.service';
 
 @Component({
     templateUrl: './libraries.component.html'
 })
-export class LibrariesComponent extends PageComponent {
+export class LibrariesComponent extends PageComponent implements OnInit {
 
     constructor(private nodesApi: NodesApiService,
                 private route: ActivatedRoute,
+                private content: ContentManagementService,
                 store: Store<AppStore>,
                 private router: Router) {
         super(store);
+    }
+
+    ngOnInit() {
+        super.ngOnInit();
+
+        this.subscriptions.push(
+            this.content.siteDeleted.subscribe(() => this.reload())
+        );
     }
 
     makeLibraryTooltip(library: any): string {
@@ -82,6 +94,12 @@ export class LibrariesComponent extends PageComponent {
                 .subscribe(documentLibrary => {
                     this.router.navigate([ './', documentLibrary.id ], { relativeTo: this.route });
                 });
+        }
+    }
+
+    deleteLibrary(node: SiteEntry) {
+        if (node && node.entry) {
+            this.store.dispatch(new DeleteLibraryAction(node.entry.id));
         }
     }
 }

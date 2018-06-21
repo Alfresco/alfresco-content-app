@@ -29,6 +29,7 @@ import { Observable } from 'rxjs/Rx';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import {
     MinimalNodeEntity,
+    MinimalNodeEntryEntity,
     PathInfoEntity,
     DeletedNodesPaging
 } from 'alfresco-js-api';
@@ -230,12 +231,12 @@ export class NodeRestoreDirective {
 
         if (message) {
             if (status.oneSucceeded && !status.someFailed) {
+                const isSite = this.isSite(status.success[0].entry);
                 const path: PathInfoEntity = status.success[0].entry.path;
                 const parent = path.elements[path.elements.length - 1];
-                const navigate = new NavigateRouteAction([
-                    '/personal-files',
-                    parent.id
-                ]);
+                const route = isSite ? ['/libraries'] : ['/personal-files', parent.id];
+
+                const navigate = new NavigateRouteAction(route);
 
                 message.userAction = new SnackbarUserAction(
                     'APP.ACTIONS.VIEW',
@@ -245,6 +246,10 @@ export class NodeRestoreDirective {
 
             this.store.dispatch(message);
         }
+    }
+
+    private isSite(entry: MinimalNodeEntryEntity): boolean {
+        return entry.nodeType === 'st:site';
     }
 
     private refresh(): void {

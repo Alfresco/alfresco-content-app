@@ -23,11 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './actions/app.actions';
-export * from './actions/node.actions';
-export * from './actions/snackbar.actions';
-export * from './actions/router.actions';
-export * from './actions/viewer.actions';
-export * from './actions/search.actions';
-export * from './actions/user.actions';
-export * from './actions/library.actions';
+import { Action } from '@ngrx/store';
+
+export const DELETE_LIBRARY = 'DELETE_LIBRARY';
+
+export class DeleteLibraryAction implements Action {
+    readonly type = DELETE_LIBRARY;
+    constructor(public payload: string) {}
+}

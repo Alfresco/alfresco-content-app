@@ -174,7 +174,8 @@
                         "LOCATION_MISSING": "Can't restore {{ name }}, the original location no longer exists",
                         "GENERIC": "There was a problem restoring {{ name }}"
                     }
-                }
+                },
+                "DELETE_LIBRARY_FAILED": "Cannot delete the library"
             },
             "UPLOAD": {
                 "ERROR": {
@@ -218,7 +219,8 @@
                         "PLURAL": "Partially moved {{ partially }} items.",
                         "FAIL": "{{ failed }} couldn't be moved."
                     }
-                }
+                },
+                "LIBRARY_DELETED": "Library deleted"
             }
         },
         "CONTENT_METADATA": {

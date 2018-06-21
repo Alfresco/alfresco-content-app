@@ -2,7 +2,24 @@
     <div class="inner-layout__header">
         <adf-breadcrumb root="APP.BROWSE.LIBRARIES.TITLE">
         </adf-breadcrumb>
-        <adf-toolbar class="inline">
+        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
+            <ng-container *ifExperimental="'libraries'">
+                <button
+                    color="primary"
+                    mat-icon-button
+                    title="{{ 'APP.ACTIONS.MORE' | translate }}"
+                    [matMenuTriggerFor]="actionsMenu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
+                    <button
+                        mat-menu-item
+                        (click)="deleteLibrary(selection.first)">
+                        <mat-icon>delete</mat-icon>
+                        <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
+                    </button>
+                </mat-menu>
+            </ng-container>
         </adf-toolbar>
     </div>
 
@@ -10,7 +27,7 @@
         <div class="inner-layout__panel">
             <adf-document-list acaDocumentList #documentList
                 currentFolderId="-mysites-"
-                selectionMode="none"
+                selectionMode="single"
                 [navigate]="false"
                 [sorting]="[ 'title', 'asc' ]"
                 (node-dblclick)="onNodeDoubleClick($event)">
