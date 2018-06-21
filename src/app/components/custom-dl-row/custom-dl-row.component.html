@@ -1,6 +1,6 @@
 <div class="app-custom-search-row">
     <div class="line">
-        <a *ngIf="isFile" href="" (click)="showPreview()" class="link"> {{ name }} </a>
+        <span *ngIf="isFile" (click)="showPreview()" class="link"> {{ name }} </span>
 
         <span *ngIf="!isFile" class="bold"> {{ name }} </span>
 
