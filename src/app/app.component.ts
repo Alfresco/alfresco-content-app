@@ -25,7 +25,9 @@
 
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { PageTitleService, AppConfigService, FileModel, UploadService } from '@alfresco/adf-core';
+import {
+    PageTitleService, AppConfigService, FileModel, UploadService,
+    AuthenticationService, AlfrescoApiService } from '@alfresco/adf-core';
 import { ElectronService } from '@ngstack/electron';
 import { Store } from '@ngrx/store';
 import { AppStore } from './store/states/app.state';
@@ -43,11 +45,21 @@ export class AppComponent implements OnInit {
         private pageTitle: PageTitleService,
         private store: Store<AppStore>,
         private config: AppConfigService,
+        private alfrescoApiService: AlfrescoApiService,
+        private authenticationService: AuthenticationService,
         private electronService: ElectronService,
         private uploadService: UploadService) {
     }
 
     ngOnInit() {
+        this.alfrescoApiService.getInstance().on('error', (error) => {
+            if (error.status === 401) {
+                if (!this.authenticationService.isLoggedIn()) {
+                    this.router.navigate(['/login']);
+                }
+            }
+        });
+
 
         this.loadAppSettings();
 
