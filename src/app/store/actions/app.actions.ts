@@ -28,6 +28,7 @@ import { Action } from '@ngrx/store';
 export const SET_APP_NAME = 'SET_APP_NAME';
 export const SET_HEADER_COLOR = 'SET_HEADER_COLOR';
 export const SET_LOGO_PATH = 'SET_LOGO_PATH';
+export const SET_LANGUAGE_PICKER = 'SET_LANGUAGE_PICKER';
 
 export class SetAppNameAction implements Action {
     readonly type = SET_APP_NAME;
@@ -42,4 +43,9 @@ export class SetHeaderColorAction implements Action {
 export class SetLogoPathAction implements Action {
     readonly type = SET_LOGO_PATH;
     constructor(public payload: string) {}
+}
+
+export class SetLanguagePickerAction implements Action {
+    readonly type = SET_LANGUAGE_PICKER;
+    constructor(public payload: boolean) {}
 }

@@ -26,7 +26,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
-import { selectUser } from '../../store/selectors/app.selectors';
+import { selectUser, appLanguagePicker } from '../../store/selectors/app.selectors';
 import { AppStore, ProfileState } from '../../store/states';
 
 @Component({
@@ -37,8 +37,10 @@ import { AppStore, ProfileState } from '../../store/states';
 })
 export class CurrentUserComponent {
     profile$: Observable<ProfileState>;
+    languagePicker$: Observable<boolean>;
 
     constructor(store: Store<AppStore>) {
         this.profile$ = store.select(selectUser);
+        this.languagePicker$ = store.select(appLanguagePicker);
     }
 }
