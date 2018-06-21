@@ -47,6 +47,7 @@ import { LibrariesComponent } from './libraries.component';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../../store/reducers/app.reducer';
 import { INITIAL_STATE } from '../../store/states/app.state';
+import { ContentManagementService } from '../../common/services/content-management.service';
 
 describe('Libraries Routed Component', () => {
     let fixture: ComponentFixture<LibrariesComponent>;
@@ -105,7 +106,9 @@ describe('Libraries Routed Component', () => {
                     NodesApiService,
                     DocumentListService,
                     ThumbnailService,
-                    CustomResourcesService
+                    CustomResourcesService,
+
+                    ContentManagementService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         })
