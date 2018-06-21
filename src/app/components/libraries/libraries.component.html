@@ -3,21 +3,23 @@
         <adf-breadcrumb root="APP.BROWSE.LIBRARIES.TITLE">
         </adf-breadcrumb>
         <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
-            <button
-                color="primary"
-                mat-icon-button
-                title="{{ 'APP.ACTIONS.MORE' | translate }}"
-                [matMenuTriggerFor]="actionsMenu">
-                <mat-icon>more_vert</mat-icon>
-            </button>
-            <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
+            <ng-container *ifExperimental="'libraries'">
                 <button
-                    mat-menu-item
-                    (click)="deleteLibrary(selection.first)">
-                    <mat-icon>delete</mat-icon>
-                    <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
+                    color="primary"
+                    mat-icon-button
+                    title="{{ 'APP.ACTIONS.MORE' | translate }}"
+                    [matMenuTriggerFor]="actionsMenu">
+                    <mat-icon>more_vert</mat-icon>
                 </button>
-            </mat-menu>
+                <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
+                    <button
+                        mat-menu-item
+                        (click)="deleteLibrary(selection.first)">
+                        <mat-icon>delete</mat-icon>
+                        <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
+                    </button>
+                </mat-menu>
+            </ng-container>
         </adf-toolbar>
     </div>
 
