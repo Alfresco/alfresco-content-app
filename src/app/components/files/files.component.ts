@@ -162,6 +162,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     onFileUploadedEvent(event: FileUploadEvent) {
+        const node: MinimalNodeEntity = event.file.data;
+
+        // check root and child nodes
+        if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
+            this.documentList.reload();
+            return;
+        }
+
+        // check the child nodes to show dropped folder
         if (event && event.file.options.parentId === this.getParentNodeId()) {
             this.documentList.reload();
         }
