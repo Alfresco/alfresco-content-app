@@ -48,6 +48,7 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../../store/reducers/app.reducer';
 import { INITIAL_STATE } from '../../store/states/app.state';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('Libraries Routed Component', () => {
     let fixture: ComponentFixture<LibrariesComponent>;
@@ -92,7 +93,8 @@ describe('Libraries Routed Component', () => {
                     NodeFavoriteDirective,
                     DocumentListComponent,
                     LibrariesComponent,
-                    AppConfigPipe
+                    AppConfigPipe,
+                    ExperimentalDirective
                 ],
                 providers: [
                     { provide: TranslationService, useClass: TranslationMock },
