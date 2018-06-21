@@ -96,8 +96,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             contentManagementService.nodesDeleted.subscribe(() => this.documentList.reload()),
             contentManagementService.nodesMoved.subscribe(() => this.documentList.reload()),
             contentManagementService.nodesRestored.subscribe(() => this.documentList.reload()),
-            uploadService.fileUploadComplete.subscribe(file => this.onFileUploadedEvent(file)),
-            uploadService.fileUploadDeleted.subscribe((file) => this.onFileUploadedEvent(file)),
+            uploadService.fileUploadComplete.debounceTime(300).subscribe(file => this.onFileUploadedEvent(file)),
+            uploadService.fileUploadDeleted.debounceTime(300).subscribe((file) => this.onFileUploadedEvent(file)),
             uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
     }
@@ -162,6 +162,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     onFileUploadedEvent(event: FileUploadEvent) {
+        const node: MinimalNodeEntity = event.file.data;
+
+        // check root and child nodes
+        if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
+            this.documentList.reload();
+            return;
+        }
+
+        // check the child nodes to show dropped folder
         if (event && event.file.options.parentId === this.getParentNodeId()) {
             this.documentList.reload();
         }
