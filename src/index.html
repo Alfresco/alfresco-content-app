@@ -9,61 +9,46 @@
   <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
 
   <style>
-    .loading {
-      position: absolute;
-      top: 50%;
-      left: 50%;
+    @keyframes bouncing-loader {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0.1;
+            transform: translateY(-1rem);
+        }
     }
-
-    .loading-bar {
-      display: inline-block;
-      width: 4px;
-      height: 18px;
-      border-radius: 4px;
-      animation: loading 1s ease-in-out infinite;
+    .bouncing-loader {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
     }
-
-    .loading-bar:nth-child(1) {
-      background-color: #3498db;
-      animation-delay: 0;
+    .bouncing-loader > div {
+        width: 1rem;
+        height: 1rem;
+        margin: 3rem 0.2rem;
+        background: #8385aa;
+        border-radius: 50%;
+        animation: bouncing-loader 0.6s infinite alternate;
     }
-
-    .loading-bar:nth-child(2) {
-      background-color: #c0392b;
-      animation-delay: 0.09s;
+    .bouncing-loader > div:nth-child(2) {
+        animation-delay: 0.2s;
     }
-
-    .loading-bar:nth-child(3) {
-      background-color: #f1c40f;
-      animation-delay: .18s;
-    }
-
-    .loading-bar:nth-child(4) {
-      background-color: #27ae60;
-      animation-delay: .27s;
-    }
-
-    @keyframes loading {
-      0% {
-        transform: scale(1);
-      }
-      20% {
-        transform: scale(1, 2.2);
-      }
-      40% {
-        transform: scale(1);
-      }
+    .bouncing-loader > div:nth-child(3) {
+        animation-delay: 0.4s;
     }
   </style>
 </head>
 <body>
     <main>
         <app-root>
-            <div class="loading">
-                <div class="loading-bar"></div>
-                <div class="loading-bar"></div>
-                <div class="loading-bar"></div>
-                <div class="loading-bar"></div>
+            <div class="bouncing-loader">
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
         </app-root>
     </main>
