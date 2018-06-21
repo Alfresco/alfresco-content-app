@@ -8,6 +8,7 @@
         "copyright":
             "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
     },
+    "experimental": {},
     "headerColor": "#2196F3",
     "languagePicker": false,
     "pagination": {
