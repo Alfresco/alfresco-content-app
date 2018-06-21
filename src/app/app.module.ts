@@ -79,6 +79,7 @@ import { AppStoreModule } from './store/app-store.module';
 import { PaginationDirective } from './directives/pagination.directive';
 import { DocumentListDirective } from './directives/document-list.directive';
 import { MaterialModule } from './material.module';
+import { ExperimentalDirective } from './directives/experimental.directive';
 
 @NgModule({
     imports: [
@@ -132,7 +133,8 @@ import { MaterialModule } from './material.module';
         CreateFolderDirective,
         DownloadNodesDirective,
         PaginationDirective,
-        DocumentListDirective
+        DocumentListDirective,
+        ExperimentalDirective
     ],
     providers: [
         { provide: PageTitleService, useClass: AcaPageTitleService },
