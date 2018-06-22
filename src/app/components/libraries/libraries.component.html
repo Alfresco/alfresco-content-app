@@ -3,7 +3,7 @@
         <adf-breadcrumb root="APP.BROWSE.LIBRARIES.TITLE">
         </adf-breadcrumb>
         <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
-            <ng-container *ifExperimental="'libraries'">
+            <ng-container *ngIf="'experimental.libraries' | adfAppConfig">
                 <button
                     color="primary"
                     mat-icon-button

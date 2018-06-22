@@ -48,6 +48,7 @@ export class SettingsComponent implements OnInit {
     appName$: Observable<string>;
     headerColor$: Observable<string>;
     languagePicker$: Observable<boolean>;
+    libraries: boolean;
 
     constructor(
         private store: Store<AppStore>,
@@ -70,6 +71,8 @@ export class SettingsComponent implements OnInit {
         });
 
         this.reset();
+
+        this.libraries = this.appConfig.get<boolean>('experimental.libraries');
     }
 
     apply(model: any, isValid: boolean) {
@@ -88,5 +91,9 @@ export class SettingsComponent implements OnInit {
     onLanguagePickerValueChanged(event: MatCheckboxChange) {
         this.storage.setItem('languagePicker', event.checked.toString());
         this.store.dispatch(new SetLanguagePickerAction(event.checked));
+    }
+
+    onChangeLibrariesFeature(event: MatCheckboxChange) {
+        this.storage.setItem('experimental.libraries', event.checked.toString());
     }
 }
