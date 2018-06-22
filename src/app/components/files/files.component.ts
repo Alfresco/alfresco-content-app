@@ -172,8 +172,34 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
         // check the child nodes to show dropped folder
         if (event && event.file.options.parentId === this.getParentNodeId()) {
-            this.documentList.reload();
+            this.displayFolderParent(event.file.options.path, 0);
+            return;
         }
+
+        if (event && event.file.options.parentId) {
+            if (this.nodePath) {
+                const correspondingNodePath = this.nodePath.find(pathItem => pathItem.id === event.file.options.parentId);
+
+                // check if the current folder has the 'trigger-upload-folder' as one of its parents
+                if (correspondingNodePath) {
+                    const correspondingIndex = this.nodePath.length - this.nodePath.indexOf(correspondingNodePath);
+                    this.displayFolderParent(event.file.options.path, correspondingIndex);
+                }
+            }
+        }
+    }
+
+    displayFolderParent(filePath = '', index) {
+        const parentName = filePath.split('/')[index];
+        const currentFoldersDisplayed: any = this.documentList.data.getRows() || [];
+
+        const alreadyDisplayedParentFolder = currentFoldersDisplayed.find(
+            row => row.node.entry.isFolder && row.node.entry.name === parentName);
+
+        if (alreadyDisplayedParentFolder) {
+            return;
+        }
+        this.documentList.reload();
     }
 
     onContentCopied(nodes: MinimalNodeEntity[]) {
