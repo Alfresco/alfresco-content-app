@@ -27,6 +27,12 @@ import { Component, ViewEncapsulation, SecurityContext, OnInit } from '@angular/
 import { AppConfigService, StorageService, SettingsService } from '@alfresco/adf-core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs/Rx';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states';
+import { appLanguagePicker } from '../../store/selectors/app.selectors';
+import { MatCheckboxChange } from '@angular/material';
+import { SetLanguagePickerAction } from '../../store/actions';
 
 @Component({
     selector: 'aca-settings',
@@ -40,14 +46,16 @@ export class SettingsComponent implements OnInit {
     private defaultBackgroundColor = '#2196F3';
 
     form: FormGroup;
+    languagePicker$: Observable<boolean>;
 
     constructor(
+        private store: Store<AppStore>,
         private appConfig: AppConfigService,
         private sanitizer: DomSanitizer,
         private settingsService: SettingsService,
         private storage: StorageService,
         private fb: FormBuilder) {
-
+            this.languagePicker$ = store.select(appLanguagePicker);
         }
 
     get appName(): string {
@@ -82,5 +90,9 @@ export class SettingsComponent implements OnInit {
         this.form.reset({
             ecmHost: this.storage.getItem('ecmHost') || this.settingsService.ecmHost
         });
+    }
+
+    onLanguagePickerValueChanged(event: MatCheckboxChange) {
+        this.store.dispatch(new SetLanguagePickerAction(event.checked));
     }
 }
