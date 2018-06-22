@@ -37,6 +37,10 @@ import {
     SET_USER,
     SetUserAction
 } from '../actions';
+import {
+    SET_LANGUAGE_PICKER,
+    SetLanguagePickerAction
+} from '../actions/app.actions';
 
 export function appReducer(
     state: AppState = INITIAL_APP_STATE,
@@ -60,7 +64,10 @@ export function appReducer(
             ));
             break;
         case SET_USER:
-            newState = updateUser(state, <SetUserAction>(
+            newState = updateUser(state, <SetUserAction>action);
+            break;
+        case SET_LANGUAGE_PICKER:
+            newState = updateLanguagePicker(state, <SetLanguagePickerAction>(
                 action
             ));
             break;
@@ -77,6 +84,15 @@ function updateHeaderColor(
 ): AppState {
     const newState = Object.assign({}, state);
     newState.headerColor = action.payload;
+    return newState;
+}
+
+function updateLanguagePicker(
+    state: AppState,
+    action: SetLanguagePickerAction
+): AppState {
+    const newState = Object.assign({}, state);
+    newState.languagePicker = action.payload;
     return newState;
 }
 
@@ -100,7 +116,7 @@ function updateUser(state: AppState, action: SetUserAction): AppState {
     const firstName = user.firstName || '';
     const lastName = user.lastName || '';
     const userName = `${firstName} ${lastName}`;
-    const initials = [ firstName[0], lastName[0] ].join('');
+    const initials = [firstName[0], lastName[0]].join('');
     const isAdmin = user.capabilities ? user.capabilities.isAdmin : true;
 
     newState.user = {

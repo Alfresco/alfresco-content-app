@@ -31,7 +31,7 @@ import {
 import { ElectronService } from '@ngstack/electron';
 import { Store } from '@ngrx/store';
 import { AppStore } from './store/states/app.state';
-import { SetHeaderColorAction, SetAppNameAction, SetLogoPathAction } from './store/actions';
+import { SetHeaderColorAction, SetAppNameAction, SetLogoPathAction, SetLanguagePickerAction } from './store/actions';
 
 @Component({
     selector: 'app-root',
@@ -115,5 +115,7 @@ export class AppComponent implements OnInit {
         if (logoPath) {
             this.store.dispatch(new SetLogoPathAction(logoPath));
         }
+        const languagePicker = this.config.get<boolean>('languagePicker');
+        this.store.dispatch(new SetLanguagePickerAction(languagePicker));
     }
 }
