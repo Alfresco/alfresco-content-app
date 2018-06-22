@@ -1,7 +1,7 @@
-<adf-toolbar class="app-menu" [style.background-color]="backgroundColor">
+<adf-toolbar class="app-menu" [style.background-color]="headerColor$ | async">
     <adf-toolbar-title>
-        <a class="app-menu__title" title="{{ appName }}" [routerLink]="[ '/' ]">
-            <img [src]="logo" alt="{{ appName }}" />
+        <a class="app-menu__title" title="{{ appName$ | async }}" [routerLink]="[ '/' ]">
+            <img [src]="logo" alt="{{ appName$ | async }}" />
         </a>
     </adf-toolbar-title>
 </adf-toolbar>
