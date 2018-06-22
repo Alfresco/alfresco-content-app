@@ -93,6 +93,7 @@ export class SettingsComponent implements OnInit {
     }
 
     onLanguagePickerValueChanged(event: MatCheckboxChange) {
+        this.storage.setItem('languagePicker', event.checked.toString());
         this.store.dispatch(new SetLanguagePickerAction(event.checked));
     }
 }
