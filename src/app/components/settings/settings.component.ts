@@ -23,10 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, SecurityContext, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { AppConfigService, StorageService, SettingsService } from '@alfresco/adf-core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { Observable } from 'rxjs/Rx';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states';
+import { appLanguagePicker, selectHeaderColor, selectAppName } from '../../store/selectors/app.selectors';
+import { MatCheckboxChange } from '@angular/material';
+import { SetLanguagePickerAction } from '../../store/actions';
 
 @Component({
     selector: 'aca-settings',
@@ -37,30 +42,27 @@ import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 export class SettingsComponent implements OnInit {
 
     private defaultPath = '/assets/images/alfresco-logo-white.svg';
-    private defaultBackgroundColor = '#2196F3';
 
     form: FormGroup;
 
+    appName$: Observable<string>;
+    headerColor$: Observable<string>;
+    languagePicker$: Observable<boolean>;
+    libraries: boolean;
+
     constructor(
+        private store: Store<AppStore>,
         private appConfig: AppConfigService,
-        private sanitizer: DomSanitizer,
         private settingsService: SettingsService,
         private storage: StorageService,
         private fb: FormBuilder) {
-
+            this.appName$ = store.select(selectAppName);
+            this.languagePicker$ = store.select(appLanguagePicker);
+            this.headerColor$ = store.select(selectHeaderColor);
         }
-
-    get appName(): string {
-        return <string>this.appConfig.get('application.name');
-    }
 
     get logo() {
         return this.appConfig.get('application.logo', this.defaultPath);
-    }
-
-    get backgroundColor() {
-        const color = this.appConfig.get('headerColor', this.defaultBackgroundColor);
-        return this.sanitizer.sanitize(SecurityContext.STYLE, color);
     }
 
     ngOnInit() {
@@ -69,6 +71,9 @@ export class SettingsComponent implements OnInit {
         });
 
         this.reset();
+
+        const libraries = this.appConfig.get('experimental.libraries');
+        this.libraries = (libraries === true || libraries === 'true');
     }
 
     apply(model: any, isValid: boolean) {
@@ -82,5 +87,14 @@ export class SettingsComponent implements OnInit {
         this.form.reset({
             ecmHost: this.storage.getItem('ecmHost') || this.settingsService.ecmHost
         });
+    }
+
+    onLanguagePickerValueChanged(event: MatCheckboxChange) {
+        this.storage.setItem('languagePicker', event.checked.toString());
+        this.store.dispatch(new SetLanguagePickerAction(event.checked));
+    }
+
+    onChangeLibrariesFeature(event: MatCheckboxChange) {
+        this.storage.setItem('experimental.libraries', event.checked.toString());
     }
 }

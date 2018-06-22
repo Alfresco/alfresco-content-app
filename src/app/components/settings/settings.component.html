@@ -1,18 +1,18 @@
-<adf-toolbar class="app-menu" [style.background-color]="backgroundColor">
+<adf-toolbar class="app-menu" [style.background-color]="headerColor$ | async">
     <adf-toolbar-title>
-        <a class="app-menu__title" title="{{ appName }}" [routerLink]="[ '/' ]">
-            <img [src]="logo" alt="{{ appName }}" />
+        <a class="app-menu__title" title="{{ appName$ | async }}" [routerLink]="[ '/' ]">
+            <img [src]="logo" alt="{{ appName$ | async }}" />
         </a>
     </adf-toolbar-title>
 </adf-toolbar>
 
-<form [formGroup]="form" novalidate (ngSubmit)="apply(form.value, form.valid)">
-    <mat-accordion multi="true" displayMode="flat">
-        <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header>
-                <mat-panel-title>{{ 'APP.SETTINGS.REPOSITORY-SETTINGS' | translate }}</mat-panel-title>
-            </mat-expansion-panel-header>
 
+<mat-accordion multi="true" displayMode="flat">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>{{ 'APP.SETTINGS.REPOSITORY-SETTINGS' | translate }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]="form" novalidate (ngSubmit)="apply(form.value, form.valid)">
             <div>
                 <mat-form-field class="settings-input">
                     <input matInput
@@ -37,7 +37,32 @@
                     {{ 'APP.SETTINGS.APPLY' | translate }}
                 </button>
             </div>
+        </form>
+    </mat-expansion-panel>
 
-        </mat-expansion-panel>
-    </mat-accordion>
-</form>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ 'APP.SETTINGS.APPLICATION-SETTINGS' | translate }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-checkbox
+            [ngModel]="languagePicker$ | async"
+            (change)="onLanguagePickerValueChanged($event)">
+            Language Picker
+        </mat-checkbox>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{ 'APP.SETTINGS.EXPERIMENTAL-FEATURES' | translate }}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-checkbox
+            [(ngModel)]="libraries"
+            (change)="onChangeLibrariesFeature($event)">
+            Library Management
+        </mat-checkbox>
+    </mat-expansion-panel>
+</mat-accordion>
