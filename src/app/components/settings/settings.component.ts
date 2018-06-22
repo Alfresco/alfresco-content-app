@@ -72,7 +72,8 @@ export class SettingsComponent implements OnInit {
 
         this.reset();
 
-        this.libraries = this.appConfig.get<boolean>('experimental.libraries');
+        const libraries = this.appConfig.get('experimental.libraries');
+        this.libraries = (libraries === true || libraries === 'true');
     }
 
     apply(model: any, isValid: boolean) {
