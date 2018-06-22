@@ -24,7 +24,7 @@
  */
 
 import { Directive, TemplateRef, ViewContainerRef, Input } from '@angular/core';
-import { AppConfigService } from '@alfresco/adf-core';
+import { AppConfigService, StorageService } from '@alfresco/adf-core';
 import { environment } from '../../environments/environment';
 
 @Directive({
@@ -35,13 +35,22 @@ export class ExperimentalDirective {
     constructor(
         private templateRef: TemplateRef<any>,
         private viewContainerRef: ViewContainerRef,
+        private storage: StorageService,
         private config: AppConfigService
     ) {}
 
     @Input() set ifExperimental(featureKey: string) {
+        const key = `experimental.${featureKey}`;
+
+        const override = this.storage.getItem(key);
+        if (override === 'true') {
+            this.viewContainerRef.createEmbeddedView(this.templateRef);
+            return;
+        }
+
         if (!environment.production) {
-            const value = this.config.get<boolean>(`experimental.${featureKey}`);
-            if (value) {
+            const value = this.config.get(key);
+            if (value === true || value === 'true') {
                 this.viewContainerRef.createEmbeddedView(this.templateRef);
                 return;
             }

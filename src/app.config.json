@@ -9,7 +9,7 @@
             "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
     },
     "experimental": {
-        "libraries": true
+        "libraries": false
     },
     "headerColor": "#2196F3",
     "languagePicker": false,
