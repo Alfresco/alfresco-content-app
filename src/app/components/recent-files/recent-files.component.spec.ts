@@ -25,29 +25,23 @@
 
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
 import {
-    NotificationService, TranslationService, TranslationMock,
+    NotificationService,
     NodesApiService, AlfrescoApiService, ContentService, UploadService,
     UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    StorageService, CookieService, ThumbnailService, // AuthenticationService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { RecentFilesComponent } from './recent-files.component';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { MaterialModule } from '../../material.module';
 
-describe('RecentFiles Routed Component', () => {
+describe('RecentFilesComponent', () => {
     let fixture: ComponentFixture<RecentFilesComponent>;
     let component: RecentFilesComponent;
     let alfrescoApi: AlfrescoApiService;
@@ -66,13 +60,8 @@ describe('RecentFiles Routed Component', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    MatMenuModule,
-                    NoopAnimationsModule,
-                    HttpClientModule,
-                    TranslateModule.forRoot(),
-                    RouterTestingModule,
-                    MatSnackBarModule, MatIconModule,
-                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
+                    AppTestingModule,
+                    MaterialModule
                 ],
                 declarations: [
                     DataTableComponent,
@@ -84,8 +73,6 @@ describe('RecentFiles Routed Component', () => {
                     AppConfigPipe
                 ],
                 providers: [
-                    { provide: TranslationService, useClass: TranslationMock },
-                    AuthenticationService,
                     UserPreferencesService,
                     AppConfigService, StorageService, CookieService,
                     AlfrescoApiService,
