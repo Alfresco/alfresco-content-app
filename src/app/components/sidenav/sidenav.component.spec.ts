@@ -32,7 +32,6 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { SidenavComponent } from './sidenav.component';
-import { ElectronModule } from '@ngstack/electron';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from '../../store/reducers/app.reducer';
@@ -63,7 +62,6 @@ describe('SidenavComponent', () => {
                 MatMenuModule,
                 MatSnackBarModule,
                 RouterTestingModule,
-                ElectronModule,
                 StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
                 EffectsModule.forRoot([NodeEffects])
             ],
