@@ -40,7 +40,6 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 export class SidenavComponent implements OnInit, OnDestroy {
     @Input() showLabel: boolean;
 
-    isDesktopApp = false;
     node: MinimalNodeEntryEntity = null;
     navigation = [];
 
