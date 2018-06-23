@@ -23,34 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
 import {
-    NotificationService, TranslationService, TranslationMock,
+    NotificationService,
     NodesApiService, AlfrescoApiService, ContentService,
     UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    StorageService, CookieService, ThumbnailService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 
 import { LibrariesComponent } from './libraries.component';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { MaterialModule } from '../../material.module';
 
-describe('Libraries Routed Component', () => {
+describe('LibrariesComponent', () => {
     let fixture: ComponentFixture<LibrariesComponent>;
     let component: LibrariesComponent;
     let nodesApi: NodesApiService;
@@ -75,16 +69,11 @@ describe('Libraries Routed Component', () => {
         };
     });
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    MatMenuModule,
-                    NoopAnimationsModule,
-                    HttpClientModule,
-                    TranslateModule.forRoot(),
-                    RouterTestingModule,
-                    MatSnackBarModule, MatIconModule,
-                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
+                    AppTestingModule,
+                    MaterialModule,
                 ],
                 declarations: [
                     DataTableComponent,
@@ -97,8 +86,6 @@ describe('Libraries Routed Component', () => {
                     ExperimentalDirective
                 ],
                 providers: [
-                    { provide: TranslationService, useClass: TranslationMock },
-                    AuthenticationService,
                     UserPreferencesService,
                     AppConfigService, StorageService, CookieService,
                     AlfrescoApiService,
@@ -113,17 +100,16 @@ describe('Libraries Routed Component', () => {
                     ContentManagementService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
-        })
-        .compileComponents().then(() => {
-            fixture = TestBed.createComponent(LibrariesComponent);
-            component = fixture.componentInstance;
-
-            nodesApi = TestBed.get(NodesApiService);
-            alfrescoApi = TestBed.get(AlfrescoApiService);
-            alfrescoApi.reset();
-            router = TestBed.get(Router);
         });
-    }));
+
+        fixture = TestBed.createComponent(LibrariesComponent);
+        component = fixture.componentInstance;
+
+        nodesApi = TestBed.get(NodesApiService);
+        alfrescoApi = TestBed.get(AlfrescoApiService);
+        alfrescoApi.reset();
+        router = TestBed.get(Router);
+    });
 
     beforeEach(() => {
         spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue((Promise.resolve(page)));

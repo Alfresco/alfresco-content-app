@@ -31,18 +31,17 @@ import {
     NodesApiService, AlfrescoApiService, ContentService,
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService,
-    AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
+    TimeAgoPipe, NodeNameTooltipPipe,
     NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-
-import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { MaterialModule } from '../../material.module';
 
 describe('FavoritesComponent', () => {
     let fixture: ComponentFixture<FavoritesComponent>;
@@ -84,8 +83,7 @@ describe('FavoritesComponent', () => {
         TestBed.configureTestingModule({
                 imports: [
                     AppTestingModule,
-                    MatMenuModule,
-                    MatSnackBarModule, MatIconModule,
+                    MaterialModule,
                 ],
                 declarations: [
                     DataTableComponent,
@@ -97,7 +95,6 @@ describe('FavoritesComponent', () => {
                     AppConfigPipe
                 ],
                 providers: [
-                    AuthenticationService,
                     UserPreferencesService,
                     AppConfigService, StorageService, CookieService,
                     AlfrescoApiService,

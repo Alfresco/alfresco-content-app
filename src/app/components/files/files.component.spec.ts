@@ -24,23 +24,18 @@
  */
 
 import { Observable } from 'rxjs/Rx';
-import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, async, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    NotificationService, TranslationService, TranslationMock,
+    NotificationService,
     NodesApiService, AlfrescoApiService, ContentService,
     UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    StorageService, CookieService, ThumbnailService,
     TimeAgoPipe, NodeNameTooltipPipe, FileSizePipe, NodeFavoriteDirective,
     DataTableComponent, UploadService, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { MatMenuModule, MatSnackBarModule, MatIconModule, MatDialogModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
@@ -48,14 +43,13 @@ import { NodeActionsService } from '../../common/services/node-actions.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { FilesComponent } from './files.component';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { MaterialModule } from '../../material.module';
 
 describe('FilesComponent', () => {
     let node;
     let page;
-    let fixture;
+    let fixture: ComponentFixture<FilesComponent>;
     let component: FilesComponent;
     let contentManagementService: ContentManagementService;
     let uploadService: UploadService;
@@ -64,17 +58,16 @@ describe('FilesComponent', () => {
     let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
 
+    beforeAll(() => {
+        // testing only functional-wise not time-wise
+        Observable.prototype.debounceTime = function () { return this; };
+    });
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                MatMenuModule,
-                NoopAnimationsModule,
-                HttpClientModule,
-                TranslateModule.forRoot(),
-                RouterTestingModule,
-                MatSnackBarModule, MatIconModule,
-                MatDialogModule,
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
+                AppTestingModule,
+                MaterialModule
             ],
             declarations: [
                 FilesComponent,
@@ -91,8 +84,6 @@ describe('FilesComponent', () => {
                     snapshot: { data: { preferencePrefix: 'prefix' } },
                     params: Observable.of({ folderId: 'someId' })
                 } } ,
-                { provide: TranslationService, useClass: TranslationMock },
-                AuthenticationService,
                 UserPreferencesService,
                 AppConfigService, StorageService, CookieService,
                 AlfrescoApiService,
