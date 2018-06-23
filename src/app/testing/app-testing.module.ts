@@ -59,9 +59,7 @@ import { EffectsModule } from '@ngrx/effects';
         { provide: TranslatePipe, useClass: TranslatePipeMock },
         {
             provide: AuthenticationService,
-            useValue: jasmine.createSpyObj('AuthenticationService', [
-                'isEcmLoggedIn'
-            ])
+            useValue: {}
         }
     ]
 })
