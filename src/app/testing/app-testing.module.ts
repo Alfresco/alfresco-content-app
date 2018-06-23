@@ -24,10 +24,14 @@
  */
 
 import { NgModule } from '@angular/core';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { TranslatePipeMock } from './translate-pipe.directive';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslationService, TranslationMock } from '@alfresco/adf-core';
+import {
+    TranslationService,
+    TranslationMock,
+    AuthenticationService
+} from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateServiceMock } from './translation.service';
 import { StoreModule } from '@ngrx/store';
@@ -41,20 +45,24 @@ import { EffectsModule } from '@ngrx/effects';
         NoopAnimationsModule,
         HttpClientModule,
         RouterTestingModule,
-        StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+        StoreModule.forRoot(
+            { app: appReducer },
+            { initialState: INITIAL_STATE }
+        ),
         EffectsModule.forRoot([])
     ],
-    declarations: [
-        TranslatePipeMock
-    ],
-    exports: [
-        TranslatePipeMock,
-        RouterTestingModule
-    ],
+    declarations: [TranslatePipeMock],
+    exports: [TranslatePipeMock, RouterTestingModule],
     providers: [
         { provide: TranslationService, useClass: TranslationMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
-        { provide: TranslatePipe, useClass: TranslatePipeMock }
+        { provide: TranslatePipe, useClass: TranslatePipeMock },
+        {
+            provide: AuthenticationService,
+            useValue: jasmine.createSpyObj('AuthenticationService', [
+                'isEcmLoggedIn'
+            ])
+        }
     ]
 })
 export class AppTestingModule {}
