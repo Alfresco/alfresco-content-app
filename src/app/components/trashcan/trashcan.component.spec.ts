@@ -40,7 +40,7 @@ import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { MaterialModule } from '../../material.module';
 
-fdescribe('TrashcanComponent', () => {
+describe('TrashcanComponent', () => {
     let fixture: ComponentFixture<TrashcanComponent>;
     let component: TrashcanComponent;
     let alfrescoApi: AlfrescoApiService;
