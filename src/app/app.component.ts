@@ -23,12 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import {
-    PageTitleService, AppConfigService, FileModel, UploadService,
+    PageTitleService, AppConfigService,
     AuthenticationService, AlfrescoApiService } from '@alfresco/adf-core';
-import { ElectronService } from '@ngstack/electron';
 import { Store } from '@ngrx/store';
 import { AppStore } from './store/states/app.state';
 import { SetHeaderColorAction, SetAppNameAction, SetLogoPathAction, SetLanguagePickerAction } from './store/actions';
@@ -46,9 +45,7 @@ export class AppComponent implements OnInit {
         private store: Store<AppStore>,
         private config: AppConfigService,
         private alfrescoApiService: AlfrescoApiService,
-        private authenticationService: AuthenticationService,
-        private electronService: ElectronService,
-        private uploadService: UploadService) {
+        private authenticationService: AuthenticationService) {
     }
 
     ngOnInit() {
@@ -80,26 +77,6 @@ export class AppComponent implements OnInit {
 
                 pageTitle.setTitle(data.title || '');
             });
-
-        this.electronService.on('app:navigateRoute', (event: any, ...args: string[]) => {
-            this.router.navigate([...args]);
-        });
-
-        this.electronService.on('app:upload', (event: any, files: any[] = []) => {
-            const models = files.map(fileInfo => {
-                const file = new File([fileInfo.data], fileInfo.name);
-
-                return new FileModel(file, {
-                    path: fileInfo.path,
-                    parentId: fileInfo.parentId
-                });
-            });
-
-            if (models.length > 0) {
-                this.uploadService.addToQueue(...models);
-                this.uploadService.uploadFilesInTheQueue(new EventEmitter());
-            }
-        });
     }
 
     private loadAppSettings() {

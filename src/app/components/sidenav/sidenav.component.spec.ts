@@ -24,25 +24,20 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatMenuModule, MatSnackBarModule } from '@angular/material';
-import { AppConfigService, TranslationService, TranslationMock, CoreModule } from '@alfresco/adf-core';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { AppConfigService, CoreModule } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { SidenavComponent } from './sidenav.component';
-import { ElectronModule } from '@ngstack/electron';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { MaterialModule } from '../../material.module';
 
 describe('SidenavComponent', () => {
-    let fixture;
+    let fixture: ComponentFixture<SidenavComponent>;
     let component: SidenavComponent;
     let browsingService: BrowsingFilesService;
     let appConfig: AppConfigService;
@@ -58,20 +53,15 @@ describe('SidenavComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                NoopAnimationsModule,
+                AppTestingModule,
+                MaterialModule,
                 CoreModule.forRoot(),
-                MatMenuModule,
-                MatSnackBarModule,
-                RouterTestingModule,
-                ElectronModule,
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
                 EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 SidenavComponent
             ],
             providers: [
-                { provide: TranslationService, useClass: TranslationMock },
                 NodePermissionService,
                 BrowsingFilesService,
                 ContentManagementService

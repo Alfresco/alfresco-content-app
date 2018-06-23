@@ -31,7 +31,6 @@ import { AppConfigService } from '@alfresco/adf-core';
 
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
-import { ElectronService } from '@ngstack/electron';
 
 @Component({
     selector: 'app-sidenav',
@@ -41,7 +40,6 @@ import { ElectronService } from '@ngstack/electron';
 export class SidenavComponent implements OnInit, OnDestroy {
     @Input() showLabel: boolean;
 
-    isDesktopApp = false;
     node: MinimalNodeEntryEntity = null;
     navigation = [];
 
@@ -50,8 +48,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     constructor(
         private browsingFilesService: BrowsingFilesService,
         private appConfig: AppConfigService,
-        public permission: NodePermissionService,
-        private electronService: ElectronService
+        public permission: NodePermissionService
     ) {}
 
     ngOnInit() {
@@ -61,8 +58,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.browsingFilesService.onChangeParent
                 .subscribe((node: MinimalNodeEntryEntity) => this.node = node)
         ]);
-
-        this.isDesktopApp = this.electronService.isDesktopApp;
     }
 
     ngOnDestroy() {
@@ -74,9 +69,5 @@ export class SidenavComponent implements OnInit, OnDestroy {
         const data = Array.isArray(schema) ? { main: schema } : schema;
 
         return Object.keys(data).map((key) => data[key]);
-    }
-
-    uploadFolderDesktop() {
-        this.electronService.send('core:uploadFolder', this.node.id);
     }
 }

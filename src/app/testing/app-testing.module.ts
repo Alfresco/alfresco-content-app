@@ -48,7 +48,8 @@ import { EffectsModule } from '@ngrx/effects';
         TranslatePipeMock
     ],
     exports: [
-        TranslatePipeMock
+        TranslatePipeMock,
+        RouterTestingModule
     ],
     providers: [
         { provide: TranslationService, useClass: TranslationMock },
