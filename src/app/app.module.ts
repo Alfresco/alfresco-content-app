@@ -30,7 +30,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, PageTitleService, DebugAppConfigService } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
-import { ElectronModule } from '@ngstack/electron';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
@@ -94,7 +93,6 @@ import { ExperimentalDirective } from './directives/experimental.directive';
         MaterialModule,
         CoreModule,
         ContentModule,
-        ElectronModule,
         AppStoreModule
     ],
     declarations: [

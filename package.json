@@ -46,7 +46,6 @@
     "@ngrx/router-store": "^5.2.0",
     "@ngrx/store": "^5.2.0",
     "@ngrx/store-devtools": "^5.2.0",
-    "@ngstack/electron": "0.1.0",
     "@ngx-translate/core": "9.1.1",
     "alfresco-js-api": "2.4.0-92eae7db59edeb63e2e0dc1e4c2e6b182ff46f2b",
     "core-js": "2.5.3",
