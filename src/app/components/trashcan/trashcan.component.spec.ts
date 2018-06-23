@@ -23,11 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
-    NotificationService, TranslationService, TranslationMock,
+    NotificationService,
     NodesApiService, AlfrescoApiService, ContentService,
     UserPreferencesService, LogService, AppConfigService,
     StorageService, CookieService, ThumbnailService,
@@ -35,18 +33,14 @@ import {
     NodeFavoriteDirective, DataTableComponent, AppConfigPipe, PeopleContentService
 } from '@alfresco/adf-core';
 import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 
 import { TrashcanComponent } from './trashcan.component';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { MaterialModule } from '../../material.module';
 
-describe('TrashcanComponent', () => {
+fdescribe('TrashcanComponent', () => {
     let fixture: ComponentFixture<TrashcanComponent>;
     let component: TrashcanComponent;
     let alfrescoApi: AlfrescoApiService;
@@ -62,16 +56,11 @@ describe('TrashcanComponent', () => {
         };
     });
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                MatMenuModule,
-                NoopAnimationsModule,
-                HttpClientModule,
-                TranslateModule.forRoot(),
-                RouterTestingModule,
-                MatSnackBarModule, MatIconModule,
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
+                AppTestingModule,
+                MaterialModule,
             ],
             declarations: [
                 DataTableComponent,
@@ -83,7 +72,6 @@ describe('TrashcanComponent', () => {
                 AppConfigPipe
             ],
             providers: [
-                { provide: TranslationService, useClass: TranslationMock },
                 AuthenticationService,
                 UserPreferencesService,
                 PeopleContentService,
@@ -99,22 +87,20 @@ describe('TrashcanComponent', () => {
                 CustomResourcesService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
-        })
-        .compileComponents()
-        .then(() => {
-            fixture = TestBed.createComponent(TrashcanComponent);
-            component = fixture.componentInstance;
-
-            alfrescoApi = TestBed.get(AlfrescoApiService);
-            alfrescoApi.reset();
-            contentService = TestBed.get(ContentManagementService);
-
-            component.documentList = <any> {
-                reload:  jasmine.createSpy('reload'),
-                resetSelection: jasmine.createSpy('resetSelection')
-            };
         });
-    }));
+
+        fixture = TestBed.createComponent(TrashcanComponent);
+        component = fixture.componentInstance;
+
+        alfrescoApi = TestBed.get(AlfrescoApiService);
+        alfrescoApi.reset();
+        contentService = TestBed.get(ContentManagementService);
+
+        component.documentList = <any> {
+            reload:  jasmine.createSpy('reload'),
+            resetSelection: jasmine.createSpy('resetSelection')
+        };
+    });
 
     beforeEach(() => {
         spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve(page));
