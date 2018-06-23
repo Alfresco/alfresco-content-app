@@ -41,7 +41,7 @@ import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { MaterialModule } from '../../material.module';
 
-fdescribe('SharedFilesComponent', () => {
+describe('SharedFilesComponent', () => {
     let fixture: ComponentFixture<SharedFilesComponent>;
     let component: SharedFilesComponent;
     let contentService: ContentManagementService;
