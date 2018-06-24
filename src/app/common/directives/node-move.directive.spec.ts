@@ -27,7 +27,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { NodesApiService, NotificationService, CoreModule } from '@alfresco/adf-core';
+import { NodesApiService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeMoveDirective } from './node-move.directive';
 import { EffectsModule, Actions, ofType } from '@ngrx/effects';
@@ -51,12 +51,12 @@ describe('NodeMoveDirective', () => {
     let nodesApiService: NodesApiService;
     let service: NodeActionsService;
     let actions$: Actions;
+    let translationService: TranslationService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
                 AppTestingModule,
-                CoreModule,
                 EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
@@ -65,6 +65,8 @@ describe('NodeMoveDirective', () => {
             ]
         });
 
+        translationService = TestBed.get(TranslationService);
+
         actions$ = TestBed.get(Actions);
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
@@ -72,6 +74,20 @@ describe('NodeMoveDirective', () => {
         notificationService = TestBed.get(NotificationService);
         nodesApiService = TestBed.get(NodesApiService);
         service = TestBed.get(NodeActionsService);
+    });
+
+    beforeEach(() => {
+        spyOn(translationService, 'instant').and.callFake((keysArray) => {
+            if (Array.isArray(keysArray)) {
+                const processedKeys = {};
+                keysArray.forEach((key) => {
+                    processedKeys[key] = key;
+                });
+                return processedKeys;
+            } else {
+                return keysArray;
+            }
+        });
     });
 
     describe('Move node action', () => {
