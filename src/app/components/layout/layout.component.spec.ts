@@ -29,7 +29,6 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { PeopleContentService, AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Observable';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { LayoutComponent } from './layout.component';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -50,16 +49,12 @@ describe('LayoutComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                AppTestingModule
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 LayoutComponent,
                 SidenavViewsManagerDirective
             ],
             providers: [
-                NodePermissionService,
-                BrowsingFilesService,
                 {
                     provide: PeopleContentService,
                     useValue: {

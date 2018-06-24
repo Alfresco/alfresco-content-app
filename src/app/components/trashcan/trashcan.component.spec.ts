@@ -52,9 +52,7 @@ describe('TrashcanComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                AppTestingModule
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 DataTableComponent,
                 TimeAgoPipe,
@@ -63,9 +61,6 @@ describe('TrashcanComponent', () => {
                 DocumentListComponent,
                 TrashcanComponent,
                 AppConfigPipe
-            ],
-            providers: [
-                ContentManagementService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });

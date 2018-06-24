@@ -35,7 +35,6 @@ import {
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -78,9 +77,7 @@ describe('FavoritesComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-                imports: [
-                    AppTestingModule
-                ],
+                imports: [ AppTestingModule ],
                 declarations: [
                     DataTableComponent,
                     TimeAgoPipe,
@@ -89,10 +86,6 @@ describe('FavoritesComponent', () => {
                     DocumentListComponent,
                     FavoritesComponent,
                     AppConfigPipe
-                ],
-                providers: [
-                    ContentManagementService,
-                    NodePermissionService,
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -103,12 +96,10 @@ describe('FavoritesComponent', () => {
         nodesApi = TestBed.get(NodesApiService);
         alfrescoApi = TestBed.get(AlfrescoApiService);
         alfrescoApi.reset();
+        spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(Promise.resolve(page));
+
         contentService = TestBed.get(ContentManagementService);
         router = TestBed.get(Router);
-    });
-
-    beforeEach(() => {
-        spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(Promise.resolve(page));
     });
 
     describe('Events', () => {

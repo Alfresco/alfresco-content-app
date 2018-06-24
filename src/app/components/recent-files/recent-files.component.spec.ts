@@ -31,7 +31,6 @@ import {
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -66,10 +65,6 @@ describe('RecentFilesComponent', () => {
                     RecentFilesComponent,
                     AppConfigPipe
                 ],
-                providers: [
-                    ContentManagementService,
-                    NodePermissionService
-                ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         });
 
@@ -79,14 +74,12 @@ describe('RecentFilesComponent', () => {
         contentService = TestBed.get(ContentManagementService);
         alfrescoApi = TestBed.get(AlfrescoApiService);
         alfrescoApi.reset();
-    });
 
-    beforeEach(() => {
         spyOn(alfrescoApi.peopleApi, 'getPerson').and.returnValue(Promise.resolve({
-             entry: { id: 'personId' }
-        }));
+            entry: { id: 'personId' }
+       }));
 
-        spyOn(alfrescoApi.searchApi, 'search').and.returnValue(Promise.resolve(page));
+       spyOn(alfrescoApi.searchApi, 'search').and.returnValue(Promise.resolve(page));
     });
 
     describe('OnInit()', () => {

@@ -34,7 +34,6 @@ import {
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
-import { ContentManagementService } from '../../common/services/content-management.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
@@ -65,9 +64,7 @@ describe('LibrariesComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-                imports: [
-                    AppTestingModule
-                ],
+                imports: [ AppTestingModule ],
                 declarations: [
                     DataTableComponent,
                     TimeAgoPipe,
@@ -77,9 +74,6 @@ describe('LibrariesComponent', () => {
                     LibrariesComponent,
                     AppConfigPipe,
                     ExperimentalDirective
-                ],
-                providers: [
-                    ContentManagementService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -91,9 +85,7 @@ describe('LibrariesComponent', () => {
         alfrescoApi = TestBed.get(AlfrescoApiService);
         alfrescoApi.reset();
         router = TestBed.get(Router);
-    });
 
-    beforeEach(() => {
         spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue((Promise.resolve(page)));
         spyOn(alfrescoApi.peopleApi, 'getSiteMembership').and.returnValue((Promise.resolve({})));
     });

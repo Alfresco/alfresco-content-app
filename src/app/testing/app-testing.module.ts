@@ -56,6 +56,10 @@ import {
     DocumentListService
 } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../material.module';
+import { ContentManagementService } from '../common/services/content-management.service';
+import { NodeActionsService } from '../common/services/node-actions.service';
+import { NodePermissionService } from '../common/services/node-permission.service';
+import { BrowsingFilesService } from '../common/services/browsing-files.service';
 
 @NgModule({
     imports: [
@@ -92,7 +96,12 @@ import { MaterialModule } from '../material.module';
         UploadService,
         CustomResourcesService,
         DocumentListService,
-        PeopleContentService
+        PeopleContentService,
+
+        ContentManagementService,
+        NodeActionsService,
+        NodePermissionService,
+        BrowsingFilesService
     ]
 })
 export class AppTestingModule {}

@@ -31,7 +31,6 @@ import {
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
@@ -54,9 +53,7 @@ describe('SharedFilesComponent', () => {
     beforeEach(() => {
         TestBed
             .configureTestingModule({
-                imports: [
-                    AppTestingModule
-                ],
+                imports: [ AppTestingModule ],
                 declarations: [
                     DataTableComponent,
                     TimeAgoPipe,
@@ -65,10 +62,6 @@ describe('SharedFilesComponent', () => {
                     DocumentListComponent,
                     SharedFilesComponent,
                     AppConfigPipe
-                ],
-                providers: [
-                    ContentManagementService,
-                    NodePermissionService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
             });
@@ -79,10 +72,8 @@ describe('SharedFilesComponent', () => {
             contentService = TestBed.get(ContentManagementService);
             alfrescoApi = TestBed.get(AlfrescoApiService);
             alfrescoApi.reset();
-    });
 
-    beforeEach(() => {
-        spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
+            spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
     });
 
     describe('OnInit', () => {

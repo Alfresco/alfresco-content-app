@@ -36,11 +36,8 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
-
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { MaterialModule } from '../../material.module';
 
 describe('FilesComponent', () => {
     let node;
@@ -61,10 +58,7 @@ describe('FilesComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                AppTestingModule,
-                MaterialModule
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 FilesComponent,
                 DataTableComponent,
@@ -79,12 +73,7 @@ describe('FilesComponent', () => {
                 { provide: ActivatedRoute, useValue: {
                     snapshot: { data: { preferencePrefix: 'prefix' } },
                     params: Observable.of({ folderId: 'someId' })
-                } } ,
-
-                ContentManagementService,
-                NodeActionsService,
-                NodePermissionService,
-                BrowsingFilesService
+                } }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
