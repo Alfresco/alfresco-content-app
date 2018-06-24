@@ -130,7 +130,7 @@ export class ContentApiService {
         );
     }
 
-    restoreNode(nodeId: string): Observable<any> {
+    restoreNode(nodeId: string): Observable<MinimalNodeEntity> {
         return Observable.fromPromise(
             this.api.nodesApi.restoreNode(nodeId)
         );
