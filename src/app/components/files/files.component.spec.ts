@@ -28,9 +28,8 @@ import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testin
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
-    NodesApiService,
     TimeAgoPipe, NodeNameTooltipPipe, FileSizePipe, NodeFavoriteDirective,
-    DataTableComponent, UploadService, AppConfigPipe
+    DataTableComponent, UploadService, AppConfigPipe, AlfrescoApiService, AlfrescoApiMock
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -38,6 +37,7 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 import { NodeActionsService } from '../../common/services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
 
 describe('FilesComponent', () => {
     let node;
@@ -46,10 +46,10 @@ describe('FilesComponent', () => {
     let component: FilesComponent;
     let contentManagementService: ContentManagementService;
     let uploadService: UploadService;
-    let nodesApi: NodesApiService;
     let router: Router;
     let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
+    let contentApi: ContentApiService;
 
     beforeAll(() => {
         // testing only functional-wise not time-wise
@@ -70,6 +70,7 @@ describe('FilesComponent', () => {
                 AppConfigPipe
             ],
             providers: [
+                { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
                 { provide: ActivatedRoute, useValue: {
                     snapshot: { data: { preferencePrefix: 'prefix' } },
                     params: Observable.of({ folderId: 'someId' })
@@ -83,10 +84,10 @@ describe('FilesComponent', () => {
 
         contentManagementService = TestBed.get(ContentManagementService);
         uploadService = TestBed.get(UploadService);
-        nodesApi = TestBed.get(NodesApiService);
         router = TestBed.get(Router);
         browsingFilesService = TestBed.get(BrowsingFilesService);
         nodeActionsService = TestBed.get(NodeActionsService);
+        contentApi = TestBed.get(ContentApiService);
     });
 
     beforeEach(() => {
@@ -103,7 +104,7 @@ describe('FilesComponent', () => {
 
     describe('Current page is valid', () => {
         it('should be a valid current page', fakeAsync(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.throw(null));
 
             component.ngOnInit();
@@ -114,7 +115,7 @@ describe('FilesComponent', () => {
         }));
 
         it('should set current page as invalid path', fakeAsync(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
 
             component.ngOnInit();
@@ -127,7 +128,7 @@ describe('FilesComponent', () => {
 
     describe('OnInit', () => {
         it('should set current node', () => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
 
             fixture.detectChanges();
@@ -136,7 +137,7 @@ describe('FilesComponent', () => {
         });
 
         it('should get current node children', () => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
 
             fixture.detectChanges();
@@ -145,7 +146,7 @@ describe('FilesComponent', () => {
         });
 
         it('emits onChangeParent event', () => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
             spyOn(browsingFilesService.onChangeParent, 'next').and.callFake((val) => val);
 
@@ -158,7 +159,7 @@ describe('FilesComponent', () => {
         it('if should navigate to parent if node is not a folder', () => {
             node.isFolder = false;
             node.parentId = 'parent-id';
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
             spyOn(router, 'navigate');
 
             fixture.detectChanges();
@@ -169,7 +170,7 @@ describe('FilesComponent', () => {
 
     describe('refresh on events', () => {
         beforeEach(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of(node));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
             spyOn(component.documentList, 'reload');
 
@@ -269,25 +270,10 @@ describe('FilesComponent', () => {
         });
     });
 
-    describe('fetchNode()', () => {
-        beforeEach(() => {
-            spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
-            spyOn(nodesApi, 'getNode').and.returnValue(Observable.of(node));
-
-            fixture.detectChanges();
-        });
-
-        it('should call getNode api with node id', () => {
-            component.fetchNode('nodeId');
-
-            expect(nodesApi.getNode).toHaveBeenCalledWith('nodeId');
-        });
-    });
-
     describe('fetchNodes()', () => {
         beforeEach(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
-            spyOn(nodesApi, 'getNodeChildren').and.returnValue(Observable.of(page));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNodeChildren').and.returnValue(Observable.of(page));
 
             fixture.detectChanges();
         });
@@ -295,13 +281,13 @@ describe('FilesComponent', () => {
         it('should call getNode api with node id', () => {
             component.fetchNodes('nodeId');
 
-            expect(nodesApi.getNodeChildren).toHaveBeenCalledWith('nodeId', jasmine.any(Object));
+            expect(contentApi.getNodeChildren).toHaveBeenCalledWith('nodeId');
         });
     });
 
     describe('onBreadcrumbNavigate()', () => {
         beforeEach(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of(node));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
 
             fixture.detectChanges();
@@ -319,7 +305,7 @@ describe('FilesComponent', () => {
 
     describe('Node navigation', () => {
         beforeEach(() => {
-            spyOn(component, 'fetchNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of(node));
             spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
             spyOn(router, 'navigate');
 
