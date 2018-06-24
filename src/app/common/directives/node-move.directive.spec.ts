@@ -27,20 +27,14 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { TranslationService, NodesApiService, NotificationService, CoreModule } from '@alfresco/adf-core';
-import { DocumentListService } from '@alfresco/adf-content-services';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { NodesApiService, NotificationService, TranslationService } from '@alfresco/adf-core';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeMoveDirective } from './node-move.directive';
-import { ContentManagementService } from '../services/content-management.service';
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule, Actions, ofType } from '@ngrx/effects';
-import { appReducer } from '../../store/reducers/app.reducer';
 import { NodeEffects } from '../../store/effects/node.effects';
-import { INITIAL_STATE } from '../../store/states/app.state';
 import { SnackbarErrorAction, SNACKBAR_ERROR } from '../../store/actions';
 import { map } from 'rxjs/operators';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 @Component({
     template: '<div [acaMoveNode]="selection"></div>'
@@ -56,27 +50,22 @@ describe('NodeMoveDirective', () => {
     let notificationService: NotificationService;
     let nodesApiService: NodesApiService;
     let service: NodeActionsService;
-    let translationService: TranslationService;
     let actions$: Actions;
+    let translationService: TranslationService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                BrowserAnimationsModule,
-                CoreModule,
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                AppTestingModule,
                 EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 NodeMoveDirective,
                 TestComponent
-            ],
-            providers: [
-                DocumentListService,
-                ContentManagementService,
-                NodeActionsService
             ]
         });
+
+        translationService = TestBed.get(TranslationService);
 
         actions$ = TestBed.get(Actions);
         fixture = TestBed.createComponent(TestComponent);
@@ -85,19 +74,18 @@ describe('NodeMoveDirective', () => {
         notificationService = TestBed.get(NotificationService);
         nodesApiService = TestBed.get(NodesApiService);
         service = TestBed.get(NodeActionsService);
-        translationService = TestBed.get(TranslationService);
     });
 
     beforeEach(() => {
-        spyOn(translationService, 'get').and.callFake((keysArray) => {
+        spyOn(translationService, 'instant').and.callFake((keysArray) => {
             if (Array.isArray(keysArray)) {
                 const processedKeys = {};
                 keysArray.forEach((key) => {
                     processedKeys[key] = key;
                 });
-                return Observable.of(processedKeys);
+                return processedKeys;
             } else {
-                return Observable.of(keysArray);
+                return keysArray;
             }
         });
     });

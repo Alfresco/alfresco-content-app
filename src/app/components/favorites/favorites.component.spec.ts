@@ -26,20 +26,15 @@
 import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
-    NodesApiService, AlfrescoApiService, ContentService,
-    UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService,
-    AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
+    NodesApiService,
+    AlfrescoApiService,
+    TimeAgoPipe, NodeNameTooltipPipe,
     NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
-import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-
-import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -80,13 +75,9 @@ describe('FavoritesComponent', () => {
         };
     });
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
-                imports: [
-                    AppTestingModule,
-                    MatMenuModule,
-                    MatSnackBarModule, MatIconModule,
-                ],
+                imports: [ AppTestingModule ],
                 declarations: [
                     DataTableComponent,
                     TimeAgoPipe,
@@ -96,36 +87,19 @@ describe('FavoritesComponent', () => {
                     FavoritesComponent,
                     AppConfigPipe
                 ],
-                providers: [
-                    AuthenticationService,
-                    UserPreferencesService,
-                    AppConfigService, StorageService, CookieService,
-                    AlfrescoApiService,
-                    CustomResourcesService,
-                    LogService,
-                    ContentManagementService,
-                    ContentService,
-                    NodesApiService,
-                    NodePermissionService,
-                    DocumentListService,
-                    ThumbnailService
-                ],
                 schemas: [ NO_ERRORS_SCHEMA ]
-        })
-        .compileComponents().then(() => {
-            fixture = TestBed.createComponent(FavoritesComponent);
-            component = fixture.componentInstance;
-
-            nodesApi = TestBed.get(NodesApiService);
-            alfrescoApi = TestBed.get(AlfrescoApiService);
-            alfrescoApi.reset();
-            contentService = TestBed.get(ContentManagementService);
-            router = TestBed.get(Router);
         });
-    }));
 
-    beforeEach(() => {
+        fixture = TestBed.createComponent(FavoritesComponent);
+        component = fixture.componentInstance;
+
+        nodesApi = TestBed.get(NodesApiService);
+        alfrescoApi = TestBed.get(AlfrescoApiService);
+        alfrescoApi.reset();
         spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(Promise.resolve(page));
+
+        contentService = TestBed.get(ContentManagementService);
+        router = TestBed.get(Router);
     });
 
     describe('Events', () => {

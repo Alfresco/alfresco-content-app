@@ -24,10 +24,26 @@
  */
 
 import { NgModule } from '@angular/core';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { TranslatePipeMock } from './translate-pipe.directive';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslationService, TranslationMock } from '@alfresco/adf-core';
+import {
+    TranslationService,
+    TranslationMock,
+    AuthenticationService,
+    UserPreferencesService,
+    AppConfigService,
+    StorageService,
+    CookieService,
+    AlfrescoApiService,
+    LogService,
+    NotificationService,
+    NodesApiService,
+    ContentService,
+    ThumbnailService,
+    UploadService,
+    PeopleContentService
+} from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateServiceMock } from './translation.service';
 import { StoreModule } from '@ngrx/store';
@@ -35,26 +51,64 @@ import { appReducer } from '../store/reducers/app.reducer';
 import { INITIAL_STATE } from '../store/states/app.state';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
+import {
+    CustomResourcesService,
+    DocumentListService
+} from '@alfresco/adf-content-services';
+import { MaterialModule } from '../material.module';
+import { ContentManagementService } from '../common/services/content-management.service';
+import { NodeActionsService } from '../common/services/node-actions.service';
+import { NodePermissionService } from '../common/services/node-permission.service';
+import { BrowsingFilesService } from '../common/services/browsing-files.service';
 
 @NgModule({
     imports: [
         NoopAnimationsModule,
         HttpClientModule,
         RouterTestingModule,
-        StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+        MaterialModule,
+        StoreModule.forRoot(
+            { app: appReducer },
+            { initialState: INITIAL_STATE }
+        ),
         EffectsModule.forRoot([])
     ],
-    declarations: [
-        TranslatePipeMock
-    ],
-    exports: [
-        TranslatePipeMock,
-        RouterTestingModule
-    ],
+    declarations: [TranslatePipeMock],
+    exports: [TranslatePipeMock, RouterTestingModule, MaterialModule],
     providers: [
         { provide: TranslationService, useClass: TranslationMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
-        { provide: TranslatePipe, useClass: TranslatePipeMock }
+        { provide: TranslatePipe, useClass: TranslatePipeMock },
+        {
+            provide: AuthenticationService,
+            useValue: {
+                isEcmLoggedIn(): boolean {
+                    return true;
+                },
+                getRedirect(): string {
+                    return null;
+                }
+            }
+        },
+        UserPreferencesService,
+        AppConfigService,
+        StorageService,
+        CookieService,
+        AlfrescoApiService,
+        LogService,
+        NotificationService,
+        NodesApiService,
+        ContentService,
+        ThumbnailService,
+        UploadService,
+        CustomResourcesService,
+        DocumentListService,
+        PeopleContentService,
+
+        ContentManagementService,
+        NodeActionsService,
+        NodePermissionService,
+        BrowsingFilesService
     ]
 })
 export class AppTestingModule {}

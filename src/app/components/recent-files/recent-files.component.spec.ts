@@ -23,31 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
 import {
-    NotificationService, TranslationService, TranslationMock,
-    NodesApiService, AlfrescoApiService, ContentService, UploadService,
-    UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    AlfrescoApiService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
-import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { RecentFilesComponent } from './recent-files.component';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
-describe('RecentFiles Routed Component', () => {
+describe('RecentFilesComponent', () => {
     let fixture: ComponentFixture<RecentFilesComponent>;
     let component: RecentFilesComponent;
     let alfrescoApi: AlfrescoApiService;
@@ -63,16 +51,10 @@ describe('RecentFiles Routed Component', () => {
         };
     });
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    MatMenuModule,
-                    NoopAnimationsModule,
-                    HttpClientModule,
-                    TranslateModule.forRoot(),
-                    RouterTestingModule,
-                    MatSnackBarModule, MatIconModule,
-                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
+                    AppTestingModule
                 ],
                 declarations: [
                     DataTableComponent,
@@ -83,41 +65,21 @@ describe('RecentFiles Routed Component', () => {
                     RecentFilesComponent,
                     AppConfigPipe
                 ],
-                providers: [
-                    { provide: TranslationService, useClass: TranslationMock },
-                    AuthenticationService,
-                    UserPreferencesService,
-                    AppConfigService, StorageService, CookieService,
-                    AlfrescoApiService,
-                    LogService,
-                    NotificationService,
-                    ContentManagementService,
-                    NodePermissionService,
-                    ContentService,
-                    NodesApiService,
-                    DocumentListService,
-                    ThumbnailService,
-                    CustomResourcesService,
-                    UploadService
-                ],
                 schemas: [ NO_ERRORS_SCHEMA ]
-        })
-        .compileComponents().then(() => {
-            fixture = TestBed.createComponent(RecentFilesComponent);
-            component = fixture.componentInstance;
-
-            contentService = TestBed.get(ContentManagementService);
-            alfrescoApi = TestBed.get(AlfrescoApiService);
-            alfrescoApi.reset();
         });
-    }));
 
-    beforeEach(() => {
+        fixture = TestBed.createComponent(RecentFilesComponent);
+        component = fixture.componentInstance;
+
+        contentService = TestBed.get(ContentManagementService);
+        alfrescoApi = TestBed.get(AlfrescoApiService);
+        alfrescoApi.reset();
+
         spyOn(alfrescoApi.peopleApi, 'getPerson').and.returnValue(Promise.resolve({
-             entry: { id: 'personId' }
-        }));
+            entry: { id: 'personId' }
+       }));
 
-        spyOn(alfrescoApi.searchApi, 'search').and.returnValue(Promise.resolve(page));
+       spyOn(alfrescoApi.searchApi, 'search').and.returnValue(Promise.resolve(page));
     });
 
     describe('OnInit()', () => {

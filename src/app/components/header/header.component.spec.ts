@@ -41,15 +41,9 @@ describe('HeaderComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                AppTestingModule
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 HeaderComponent
-            ],
-            providers: [
-                AppConfigService,
-                PeopleContentService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })

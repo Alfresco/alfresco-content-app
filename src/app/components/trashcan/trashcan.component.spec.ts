@@ -25,20 +25,14 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
-    NotificationService,
-    NodesApiService, AlfrescoApiService, ContentService,
-    UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService,
-    AuthenticationService, TimeAgoPipe, NodeNameTooltipPipe,
-    NodeFavoriteDirective, DataTableComponent, AppConfigPipe, PeopleContentService
+    AlfrescoApiService,
+    TimeAgoPipe, NodeNameTooltipPipe,
+    NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
-import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { MaterialModule } from '../../material.module';
 
 describe('TrashcanComponent', () => {
     let fixture: ComponentFixture<TrashcanComponent>;
@@ -58,10 +52,7 @@ describe('TrashcanComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                AppTestingModule,
-                MaterialModule,
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 DataTableComponent,
                 TimeAgoPipe,
@@ -70,21 +61,6 @@ describe('TrashcanComponent', () => {
                 DocumentListComponent,
                 TrashcanComponent,
                 AppConfigPipe
-            ],
-            providers: [
-                AuthenticationService,
-                UserPreferencesService,
-                PeopleContentService,
-                AppConfigService, StorageService, CookieService,
-                AlfrescoApiService,
-                LogService,
-                NotificationService,
-                ContentManagementService,
-                ContentService,
-                NodesApiService,
-                DocumentListService,
-                ThumbnailService,
-                CustomResourcesService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });

@@ -25,23 +25,13 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import {
-    AlfrescoApiService, UserPreferencesService,
-    TranslationService, TranslationMock,
-    CoreModule, UploadService
-} from '@alfresco/adf-core';
-
+import { AlfrescoApiService, UserPreferencesService, AppConfigPipe, NodeFavoriteDirective } from '@alfresco/adf-core';
 import { PreviewComponent } from './preview.component';
 import { Observable } from 'rxjs/Rx';
-import { NodePermissionService } from '../../common/services/node-permission.service';
-import { ContentManagementService } from '../../common/services/content-management.service';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('PreviewComponent', () => {
 
@@ -55,20 +45,13 @@ describe('PreviewComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    RouterTestingModule,
-                    CoreModule.forRoot(),
-                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                    AppTestingModule,
                     EffectsModule.forRoot([NodeEffects])
                 ],
-                providers: [
-                    { provide: TranslationService, useClass: TranslationMock },
-                    NodePermissionService,
-                    ContentManagementService,
-                    UploadService
-                ],
                 declarations: [
+                    AppConfigPipe,
                     PreviewComponent,
-                    // NodeFavoriteDirective
+                    NodeFavoriteDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         })

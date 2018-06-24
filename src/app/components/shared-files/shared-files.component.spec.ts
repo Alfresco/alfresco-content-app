@@ -23,29 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
 import {
-    NotificationService, TranslationService, TranslationMock,
-    NodesApiService, AlfrescoApiService, ContentService,
-    UserPreferencesService, LogService, AppConfigService, UploadService,
-    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    AlfrescoApiService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
-import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
-
 import { SharedFilesComponent } from './shared-files.component';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('SharedFilesComponent', () => {
     let fixture: ComponentFixture<SharedFilesComponent>;
@@ -63,18 +50,10 @@ describe('SharedFilesComponent', () => {
         };
     });
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed
             .configureTestingModule({
-                imports: [
-                    MatMenuModule,
-                    NoopAnimationsModule,
-                    HttpClientModule,
-                    TranslateModule.forRoot(),
-                    RouterTestingModule,
-                    MatSnackBarModule, MatIconModule,
-                    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
-                ],
+                imports: [ AppTestingModule ],
                 declarations: [
                     DataTableComponent,
                     TimeAgoPipe,
@@ -84,39 +63,17 @@ describe('SharedFilesComponent', () => {
                     SharedFilesComponent,
                     AppConfigPipe
                 ],
-                providers: [
-                    { provide: TranslationService, useClass: TranslationMock },
-                    AuthenticationService,
-                    UserPreferencesService,
-                    AppConfigService, StorageService, CookieService,
-                    AlfrescoApiService,
-                    LogService,
-                    NotificationService,
-                    ContentManagementService,
-                    NodePermissionService,
-                    ContentService,
-                    NodesApiService,
-                    DocumentListService,
-                    ThumbnailService,
-                    CustomResourcesService,
-                    UploadService
-                ],
                 schemas: [ NO_ERRORS_SCHEMA ]
-            })
-            .compileComponents()
-            .then(() => {
-                fixture = TestBed.createComponent(SharedFilesComponent);
-                component = fixture.componentInstance;
-
-                contentService = TestBed.get(ContentManagementService);
-                alfrescoApi = TestBed.get(AlfrescoApiService);
-                alfrescoApi.reset();
             });
 
-    }));
+            fixture = TestBed.createComponent(SharedFilesComponent);
+            component = fixture.componentInstance;
 
-    beforeEach(() => {
-        spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
+            contentService = TestBed.get(ContentManagementService);
+            alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
+
+            spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
     });
 
     describe('OnInit', () => {

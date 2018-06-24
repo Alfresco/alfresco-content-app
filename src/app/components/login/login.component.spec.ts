@@ -24,19 +24,12 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
 import { Location } from '@angular/common';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import {
-    AuthenticationService, UserPreferencesService, TranslationService,
-    TranslationMock, AppConfigService, StorageService, AlfrescoApiService,
-    CookieService, LogService, AppConfigPipe
-} from '@alfresco/adf-core';
-
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { AuthenticationService, UserPreferencesService, AppConfigPipe } from '@alfresco/adf-core';
 import { LoginComponent } from './login.component';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('LoginComponent', () => {
     let fixture: ComponentFixture<LoginComponent>;
@@ -45,27 +38,15 @@ describe('LoginComponent', () => {
     let auth: AuthenticationService;
     let location: Location;
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientModule,
-                TranslateModule.forRoot(),
-                RouterTestingModule
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 LoginComponent,
                 AppConfigPipe
             ],
             providers: [
-                { provide: TranslationService, useClass: TranslationMock },
-                Location,
-                CookieService,
-                LogService,
-                StorageService,
-                AlfrescoApiService,
-                AppConfigService,
-                AuthenticationService,
-                UserPreferencesService
+                Location
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -73,16 +54,16 @@ describe('LoginComponent', () => {
         fixture = TestBed.createComponent(LoginComponent);
 
         router = TestBed.get(Router);
-        location = TestBed.get(Location);
-        auth = TestBed.get(AuthenticationService);
-        userPreference = TestBed.get(UserPreferencesService);
-    }));
-
-    beforeEach(() => {
-        spyOn(userPreference, 'setStoragePrefix');
         spyOn(router, 'navigateByUrl');
-        spyOn(auth, 'getRedirect').and.returnValue('/some-url');
+
+        location = TestBed.get(Location);
         spyOn(location, 'forward');
+
+        auth = TestBed.get(AuthenticationService);
+        spyOn(auth, 'getRedirect').and.returnValue('/some-url');
+
+        userPreference = TestBed.get(UserPreferencesService);
+        spyOn(userPreference, 'setStoragePrefix');
     });
 
     describe('OnInit()', () => {

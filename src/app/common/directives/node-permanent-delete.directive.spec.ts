@@ -24,17 +24,13 @@
  */
 
 import { Component, DebugElement } from '@angular/core';
-import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { AlfrescoApiService, CoreModule } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 
 import { NodePermanentDeleteDirective } from './node-permanent-delete.directive';
-import { MatDialogModule, MatDialog } from '@angular/material';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
-import { INITIAL_STATE } from '../../store/states/app.state';
-import { appReducer } from '../../store/reducers/app.reducer';
+import { MatDialog } from '@angular/material';
 import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
     SNACKBAR_INFO, SnackbarWarningAction, SnackbarInfoAction,
@@ -42,7 +38,7 @@ import {
 } from '../../store/actions';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../../store/effects/node.effects';
-import { ContentManagementService } from '../services/content-management.service';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 @Component({
     template: `<div [acaPermanentDelete]="selection"></div>`
@@ -57,43 +53,30 @@ describe('NodePermanentDeleteDirective', () => {
     let component: TestComponent;
     let alfrescoApiService: AlfrescoApiService;
     let dialog: MatDialog;
-
     let actions$: Actions;
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                NoopAnimationsModule,
-                CoreModule.forRoot(),
-                MatDialogModule,
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                AppTestingModule,
                 EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 NodePermanentDeleteDirective,
                 TestComponent
-            ],
-            providers: [
-                ContentManagementService
             ]
-        })
-        .compileComponents()
-        .then(() => {
-            alfrescoApiService = TestBed.get(AlfrescoApiService);
-            alfrescoApiService.reset();
-
-            actions$ = TestBed.get(Actions);
-
-            fixture = TestBed.createComponent(TestComponent);
-            component = fixture.componentInstance;
-            element = fixture.debugElement.query(By.directive(NodePermanentDeleteDirective));
-
-            dialog = TestBed.get(MatDialog);
         });
-    }));
 
-    beforeEach(() => {
+        alfrescoApiService = TestBed.get(AlfrescoApiService);
+        alfrescoApiService.reset();
 
+        actions$ = TestBed.get(Actions);
+
+        fixture = TestBed.createComponent(TestComponent);
+        component = fixture.componentInstance;
+        element = fixture.debugElement.query(By.directive(NodePermanentDeleteDirective));
+
+        dialog = TestBed.get(MatDialog);
         spyOn(dialog, 'open').and.returnValue({
             afterClosed() {
                 return Observable.of(true);

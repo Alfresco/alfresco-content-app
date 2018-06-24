@@ -25,16 +25,12 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { AppConfigService, CoreModule } from '@alfresco/adf-core';
+import { AppConfigService } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
-
 import { SidenavComponent } from './sidenav.component';
 import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
-import { ContentManagementService } from '../../common/services/content-management.service';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { MaterialModule } from '../../material.module';
 
 describe('SidenavComponent', () => {
     let fixture: ComponentFixture<SidenavComponent>;
@@ -54,17 +50,10 @@ describe('SidenavComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 AppTestingModule,
-                MaterialModule,
-                CoreModule.forRoot(),
                 EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 SidenavComponent
-            ],
-            providers: [
-                NodePermissionService,
-                BrowsingFilesService,
-                ContentManagementService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })

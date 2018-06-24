@@ -24,38 +24,25 @@
  */
 
 import { Observable } from 'rxjs/Rx';
-import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
-    NotificationService, TranslationService, TranslationMock,
-    NodesApiService, AlfrescoApiService, ContentService,
-    UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService, AuthenticationService,
+    NodesApiService,
     TimeAgoPipe, NodeNameTooltipPipe, FileSizePipe, NodeFavoriteDirective,
     DataTableComponent, UploadService, AppConfigPipe
 } from '@alfresco/adf-core';
-import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { MatMenuModule, MatSnackBarModule, MatIconModule, MatDialogModule } from '@angular/material';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
-
 import { FilesComponent } from './files.component';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('FilesComponent', () => {
     let node;
     let page;
-    let fixture;
+    let fixture: ComponentFixture<FilesComponent>;
     let component: FilesComponent;
     let contentManagementService: ContentManagementService;
     let uploadService: UploadService;
@@ -64,18 +51,14 @@ describe('FilesComponent', () => {
     let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
 
-    beforeEach(async(() => {
+    beforeAll(() => {
+        // testing only functional-wise not time-wise
+        Observable.prototype.debounceTime = function () { return this; };
+    });
+
+    beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                MatMenuModule,
-                NoopAnimationsModule,
-                HttpClientModule,
-                TranslateModule.forRoot(),
-                RouterTestingModule,
-                MatSnackBarModule, MatIconModule,
-                MatDialogModule,
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE })
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 FilesComponent,
                 DataTableComponent,
@@ -90,40 +73,21 @@ describe('FilesComponent', () => {
                 { provide: ActivatedRoute, useValue: {
                     snapshot: { data: { preferencePrefix: 'prefix' } },
                     params: Observable.of({ folderId: 'someId' })
-                } } ,
-                { provide: TranslationService, useClass: TranslationMock },
-                AuthenticationService,
-                UserPreferencesService,
-                AppConfigService, StorageService, CookieService,
-                AlfrescoApiService,
-                LogService,
-                NotificationService,
-                ContentManagementService,
-                ContentService,
-                NodesApiService,
-                DocumentListService,
-                ThumbnailService,
-                NodeActionsService,
-                NodePermissionService,
-                UploadService,
-                BrowsingFilesService,
-                CustomResourcesService
+                } }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
-        }).compileComponents()
-        .then(() => {
-
-            fixture = TestBed.createComponent(FilesComponent);
-            component = fixture.componentInstance;
-
-            contentManagementService = TestBed.get(ContentManagementService);
-            uploadService = TestBed.get(UploadService);
-            nodesApi = TestBed.get(NodesApiService);
-            router = TestBed.get(Router);
-            browsingFilesService = TestBed.get(BrowsingFilesService);
-            nodeActionsService = TestBed.get(NodeActionsService);
         });
-    }));
+
+        fixture = TestBed.createComponent(FilesComponent);
+        component = fixture.componentInstance;
+
+        contentManagementService = TestBed.get(ContentManagementService);
+        uploadService = TestBed.get(UploadService);
+        nodesApi = TestBed.get(NodesApiService);
+        router = TestBed.get(Router);
+        browsingFilesService = TestBed.get(BrowsingFilesService);
+        nodeActionsService = TestBed.get(NodeActionsService);
+    });
 
     beforeEach(() => {
         node = { id: 'node-id', isFolder: true };

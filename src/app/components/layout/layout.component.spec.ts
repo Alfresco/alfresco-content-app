@@ -24,23 +24,14 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
-import {
-    PeopleContentService, AppConfigService,
-    AuthenticationService, UserPreferencesService, TranslationService,
-    TranslationMock, StorageService, AlfrescoApiService, CookieService,
-    LogService
-} from '@alfresco/adf-core';
+import { PeopleContentService, AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Observable';
-
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { LayoutComponent } from './layout.component';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('LayoutComponent', () => {
     let fixture: ComponentFixture<LayoutComponent>;
@@ -58,26 +49,12 @@ describe('LayoutComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientModule,
-                TranslateModule.forRoot(),
-                RouterTestingModule
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 LayoutComponent,
                 SidenavViewsManagerDirective
             ],
             providers: [
-                { provide: TranslationService, useClass: TranslationMock },
-                AlfrescoApiService,
-                StorageService,
-                CookieService,
-                LogService,
-                UserPreferencesService,
-                AuthenticationService,
-                AppConfigService,
-                NodePermissionService,
-                BrowsingFilesService,
                 {
                     provide: PeopleContentService,
                     useValue: {
