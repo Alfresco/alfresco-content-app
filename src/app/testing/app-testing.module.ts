@@ -60,6 +60,7 @@ import { ContentManagementService } from '../common/services/content-management.
 import { NodeActionsService } from '../common/services/node-actions.service';
 import { NodePermissionService } from '../common/services/node-permission.service';
 import { BrowsingFilesService } from '../common/services/browsing-files.service';
+import { ContentApiService } from '../services/content-api.service';
 
 @NgModule({
     imports: [
@@ -108,7 +109,8 @@ import { BrowsingFilesService } from '../common/services/browsing-files.service'
         ContentManagementService,
         NodeActionsService,
         NodePermissionService,
-        BrowsingFilesService
+        BrowsingFilesService,
+        ContentApiService
     ]
 })
 export class AppTestingModule {}

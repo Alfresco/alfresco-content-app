@@ -24,21 +24,14 @@
  */
 
 import { TestBed, async } from '@angular/core/testing';
-import { MatDialog, MatDialogModule, MatIconModule } from '@angular/material';
-import { OverlayModule } from '@angular/cdk/overlay';
+import { MatDialog } from '@angular/material';
 import { Observable } from 'rxjs/Rx';
-import {
-    TranslationMock, AlfrescoApiService, NodesApiService,
-    TranslationService, ContentService, AuthenticationService,
-    UserPreferencesService, AppConfigService, StorageService,
-    CookieService, LogService, ThumbnailService
-} from '@alfresco/adf-core';
+import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
-
 import { NodeActionsService } from './node-actions.service';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
 
 class TestNode {
     entry?: MinimalNodeEntryEntity;
@@ -67,10 +60,10 @@ describe('NodeActionsService', () => {
     const emptyChildrenList = {list: {entries: []}};
     let service: NodeActionsService;
     let apiService: AlfrescoApiService;
-    let nodesApiService: NodesApiService;
     let nodesApi;
     const spyOnSuccess = jasmine.createSpy('spyOnSuccess');
     const spyOnError = jasmine.createSpy('spyOnError');
+    let contentApi: ContentApiService;
 
     const helper = {
         fakeCopyNode: (isForbidden: boolean = false, nameExistingOnDestination?: string) => {
@@ -110,33 +103,16 @@ describe('NodeActionsService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                MatDialogModule,
-                MatIconModule,
-                HttpClientModule,
-                TranslateModule.forRoot(),
-                OverlayModule
-            ],
-            providers: [
-                AlfrescoApiService,
-                NodesApiService,
-                { provide: TranslationService, useClass: TranslationMock },
-                AuthenticationService,
-                UserPreferencesService,
-                AppConfigService,
-                CookieService,
-                LogService,
-                ThumbnailService,
-                StorageService,
-                ContentService,
-                DocumentListService,
-                NodeActionsService
+                AppTestingModule
             ]
         });
+
+        contentApi = TestBed.get(ContentApiService);
 
         service = TestBed.get(NodeActionsService);
         apiService = TestBed.get(AlfrescoApiService);
         apiService.reset();
-        nodesApiService = TestBed.get(NodesApiService);
+
         nodesApi = apiService.getInstance().nodes;
     });
 
@@ -884,7 +860,7 @@ describe('NodeActionsService', () => {
 
                 beforeEach(() => {
                     parentFolderToMove = new TestNode('parent-folder', !isFile, 'conflicting-name');
-                    spyOnDelete = spyOn(nodesApiService, 'deleteNode').and.returnValue(Observable.of(null));
+                    spyOnDelete = spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
                 });
 
                 afterEach(() => {
