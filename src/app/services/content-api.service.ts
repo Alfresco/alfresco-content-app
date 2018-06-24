@@ -30,7 +30,8 @@ import {
     MinimalNodeEntity,
     NodePaging,
     Node,
-    DeletedNodesPaging
+    DeletedNodesPaging,
+    PersonEntry
 } from 'alfresco-js-api';
 
 @Injectable()
@@ -139,6 +140,17 @@ export class ContentApiService {
     purgeDeletedNode(nodeId: string): Observable<any> {
         return Observable.fromPromise(
             this.api.nodesApi.purgeDeletedNode(nodeId)
+        );
+    }
+
+    /**
+     * Gets information about a user identified by their username.
+     * @param personId ID of the target user
+     * @returns User information
+     */
+    getPerson(personId: string, options?: { fields?: Array<string> }): Observable<PersonEntry> {
+        return Observable.fromPromise(
+            this.api.peopleApi.getPerson(personId, options)
         );
     }
 }
