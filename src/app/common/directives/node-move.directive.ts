@@ -123,7 +123,7 @@ export class NodeMoveDirective {
             errorMessage = this.getErrorMessage(info);
         }
 
-        const undo = (succeeded + partiallySucceeded > 0) ? this.translation.translate.instant('APP.ACTIONS.UNDO') : '';
+        const undo = (succeeded + partiallySucceeded > 0) ? this.translation.instant('APP.ACTIONS.UNDO') : '';
         const withUndo = errorMessage ? '' : '_WITH_UNDO';
         failedMessage = errorMessage ?  errorMessage : failedMessage;
 

@@ -26,11 +26,9 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { AlfrescoApiService, UserPreferencesService, CoreModule, UploadService } from '@alfresco/adf-core';
+import { AlfrescoApiService, UserPreferencesService, AppConfigPipe, NodeFavoriteDirective } from '@alfresco/adf-core';
 import { PreviewComponent } from './preview.component';
 import { Observable } from 'rxjs/Rx';
-import { NodePermissionService } from '../../common/services/node-permission.service';
-import { ContentManagementService } from '../../common/services/content-management.service';
 import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -48,16 +46,12 @@ describe('PreviewComponent', () => {
         TestBed.configureTestingModule({
                 imports: [
                     AppTestingModule,
-                    CoreModule.forRoot(),
                     EffectsModule.forRoot([NodeEffects])
                 ],
-                providers: [
-                    NodePermissionService,
-                    ContentManagementService,
-                    UploadService
-                ],
                 declarations: [
-                    PreviewComponent
+                    AppConfigPipe,
+                    PreviewComponent,
+                    NodeFavoriteDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         })

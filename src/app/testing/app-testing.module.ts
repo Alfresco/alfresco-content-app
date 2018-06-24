@@ -81,7 +81,14 @@ import { BrowsingFilesService } from '../common/services/browsing-files.service'
         { provide: TranslatePipe, useClass: TranslatePipeMock },
         {
             provide: AuthenticationService,
-            useValue: {}
+            useValue: {
+                isEcmLoggedIn(): boolean {
+                    return true;
+                },
+                getRedirect(): string {
+                    return null;
+                }
+            }
         },
         UserPreferencesService,
         AppConfigService,

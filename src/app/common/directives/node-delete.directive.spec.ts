@@ -25,14 +25,10 @@
 
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CoreModule, AlfrescoApiService } from '@alfresco/adf-core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Component, DebugElement } from '@angular/core';
 
 import { NodeDeleteDirective } from './node-delete.directive';
-import { ContentManagementService } from '../services/content-management.service';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
 import { EffectsModule, Actions, ofType } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
 import {
@@ -40,6 +36,7 @@ import {
     SnackbarErrorAction, SnackbarWarningAction, SNACKBAR_WARNING
 } from '../../store/actions';
 import { map } from 'rxjs/operators';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 @Component({
     template: '<div [acaDeleteNode]="selection"></div>'
@@ -58,16 +55,12 @@ describe('NodeDeleteDirective', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+                AppTestingModule,
                 EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 NodeDeleteDirective,
                 TestComponent
-            ],
-            providers: [
-                ContentManagementService
             ]
         });
 

@@ -26,23 +26,11 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import { Observable } from 'rxjs/Rx';
-
-import {
-    TranslationService, NodesApiService, NotificationService, AlfrescoApiService, TranslationMock,
-    AppConfigService, StorageService, CookieService, ContentService, AuthenticationService,
-    UserPreferencesService, LogService, ThumbnailService
-} from '@alfresco/adf-core';
-import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
-
+import {  NodesApiService, NotificationService } from '@alfresco/adf-core';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeCopyDirective } from './node-copy.directive';
-import { ContentManagementService } from '../services/content-management.service';
-import { MatSnackBarModule, MatDialogModule, MatIconModule } from '@angular/material';
-import { DocumentListService } from '@alfresco/adf-content-services';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 @Component({
     template: '<div [acaCopyNode]="selection"></div>'
@@ -58,38 +46,13 @@ describe('NodeCopyDirective', () => {
     let notificationService: NotificationService;
     let nodesApiService: NodesApiService;
     let service: NodeActionsService;
-    let translationService: TranslationService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                NoopAnimationsModule,
-                HttpClientModule,
-                TranslateModule.forRoot(),
-                MatSnackBarModule,
-                MatDialogModule,
-                MatIconModule
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 TestComponent,
                 NodeCopyDirective
-            ],
-            providers: [
-                AlfrescoApiService,
-                AuthenticationService,
-                AppConfigService,
-                StorageService,
-                ContentService,
-                UserPreferencesService,
-                LogService,
-                CookieService,
-                NotificationService,
-                NodesApiService,
-                NodeActionsService,
-                { provide: TranslationService, useClass: TranslationMock },
-                ContentManagementService,
-                DocumentListService,
-                ThumbnailService
             ]
         });
 
@@ -99,13 +62,6 @@ describe('NodeCopyDirective', () => {
         notificationService = TestBed.get(NotificationService);
         nodesApiService = TestBed.get(NodesApiService);
         service = TestBed.get(NodeActionsService);
-        translationService = TestBed.get(TranslationService);
-    });
-
-    beforeEach(() => {
-        spyOn(translationService, 'get').and.callFake((key) => {
-            return Observable.of(key);
-        });
     });
 
     describe('Copy node action', () => {
