@@ -30,7 +30,19 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {
     TranslationService,
     TranslationMock,
-    AuthenticationService
+    AuthenticationService,
+    UserPreferencesService,
+    AppConfigService,
+    StorageService,
+    CookieService,
+    AlfrescoApiService,
+    LogService,
+    NotificationService,
+    NodesApiService,
+    ContentService,
+    ThumbnailService,
+    UploadService,
+    PeopleContentService
 } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateServiceMock } from './translation.service';
@@ -39,12 +51,18 @@ import { appReducer } from '../store/reducers/app.reducer';
 import { INITIAL_STATE } from '../store/states/app.state';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
+import {
+    CustomResourcesService,
+    DocumentListService
+} from '@alfresco/adf-content-services';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
     imports: [
         NoopAnimationsModule,
         HttpClientModule,
         RouterTestingModule,
+        MaterialModule,
         StoreModule.forRoot(
             { app: appReducer },
             { initialState: INITIAL_STATE }
@@ -52,7 +70,7 @@ import { EffectsModule } from '@ngrx/effects';
         EffectsModule.forRoot([])
     ],
     declarations: [TranslatePipeMock],
-    exports: [TranslatePipeMock, RouterTestingModule],
+    exports: [TranslatePipeMock, RouterTestingModule, MaterialModule],
     providers: [
         { provide: TranslationService, useClass: TranslationMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
@@ -60,7 +78,21 @@ import { EffectsModule } from '@ngrx/effects';
         {
             provide: AuthenticationService,
             useValue: {}
-        }
+        },
+        UserPreferencesService,
+        AppConfigService,
+        StorageService,
+        CookieService,
+        AlfrescoApiService,
+        LogService,
+        NotificationService,
+        NodesApiService,
+        ContentService,
+        ThumbnailService,
+        UploadService,
+        CustomResourcesService,
+        DocumentListService,
+        PeopleContentService
     ]
 })
 export class AppTestingModule {}

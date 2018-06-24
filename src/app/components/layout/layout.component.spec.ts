@@ -26,14 +26,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import {
-    PeopleContentService, AppConfigService,
-    UserPreferencesService,
-    StorageService,
-    AlfrescoApiService
-} from '@alfresco/adf-core';
+import { PeopleContentService, AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Observable';
-
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { LayoutComponent } from './layout.component';
@@ -57,17 +51,13 @@ describe('LayoutComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                AppTestingModule,
+                AppTestingModule
             ],
             declarations: [
                 LayoutComponent,
                 SidenavViewsManagerDirective
             ],
             providers: [
-                AlfrescoApiService,
-                StorageService,
-                UserPreferencesService,
-                AppConfigService,
                 NodePermissionService,
                 BrowsingFilesService,
                 {

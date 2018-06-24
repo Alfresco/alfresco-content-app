@@ -28,21 +28,15 @@ import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-    NotificationService,
-    NodesApiService, AlfrescoApiService, ContentService,
-    UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService,
+    NodesApiService, AlfrescoApiService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
-import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
-
 import { LibrariesComponent } from './libraries.component';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { MaterialModule } from '../../material.module';
 
 describe('LibrariesComponent', () => {
     let fixture: ComponentFixture<LibrariesComponent>;
@@ -72,8 +66,7 @@ describe('LibrariesComponent', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    AppTestingModule,
-                    MaterialModule,
+                    AppTestingModule
                 ],
                 declarations: [
                     DataTableComponent,
@@ -86,17 +79,6 @@ describe('LibrariesComponent', () => {
                     ExperimentalDirective
                 ],
                 providers: [
-                    UserPreferencesService,
-                    AppConfigService, StorageService, CookieService,
-                    AlfrescoApiService,
-                    LogService,
-                    NotificationService,
-                    ContentService,
-                    NodesApiService,
-                    DocumentListService,
-                    ThumbnailService,
-                    CustomResourcesService,
-
                     ContentManagementService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]

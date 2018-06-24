@@ -23,23 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
-    NotificationService,
-    NodesApiService, AlfrescoApiService, ContentService, UploadService,
-    UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService, // AuthenticationService,
+    AlfrescoApiService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
-import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { MaterialModule } from '../../material.module';
 
 describe('RecentFilesComponent', () => {
     let fixture: ComponentFixture<RecentFilesComponent>;
@@ -57,11 +52,10 @@ describe('RecentFilesComponent', () => {
         };
     });
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
                 imports: [
-                    AppTestingModule,
-                    MaterialModule
+                    AppTestingModule
                 ],
                 declarations: [
                     DataTableComponent,
@@ -73,31 +67,19 @@ describe('RecentFilesComponent', () => {
                     AppConfigPipe
                 ],
                 providers: [
-                    UserPreferencesService,
-                    AppConfigService, StorageService, CookieService,
-                    AlfrescoApiService,
-                    LogService,
-                    NotificationService,
                     ContentManagementService,
-                    NodePermissionService,
-                    ContentService,
-                    NodesApiService,
-                    DocumentListService,
-                    ThumbnailService,
-                    CustomResourcesService,
-                    UploadService
+                    NodePermissionService
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
-        })
-        .compileComponents().then(() => {
-            fixture = TestBed.createComponent(RecentFilesComponent);
-            component = fixture.componentInstance;
-
-            contentService = TestBed.get(ContentManagementService);
-            alfrescoApi = TestBed.get(AlfrescoApiService);
-            alfrescoApi.reset();
         });
-    }));
+
+        fixture = TestBed.createComponent(RecentFilesComponent);
+        component = fixture.componentInstance;
+
+        contentService = TestBed.get(ContentManagementService);
+        alfrescoApi = TestBed.get(AlfrescoApiService);
+        alfrescoApi.reset();
+    });
 
     beforeEach(() => {
         spyOn(alfrescoApi.peopleApi, 'getPerson').and.returnValue(Promise.resolve({
