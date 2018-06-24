@@ -42,7 +42,8 @@ import {
     ContentService,
     ThumbnailService,
     UploadService,
-    PeopleContentService
+    PeopleContentService,
+    AlfrescoApiMock
 } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateServiceMock } from './translation.service';
@@ -77,6 +78,7 @@ import { ContentApiService } from '../services/content-api.service';
     declarations: [TranslatePipeMock],
     exports: [TranslatePipeMock, RouterTestingModule, MaterialModule],
     providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
         { provide: TranslationService, useClass: TranslationMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
         { provide: TranslatePipe, useClass: TranslatePipeMock },

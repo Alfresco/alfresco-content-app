@@ -26,7 +26,6 @@
 import { Component, DebugElement } from '@angular/core';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import { NodeRestoreDirective } from './node-restore.directive';
 import { ContentManagementService } from '../services/content-management.service';
 import { Actions, ofType } from '@ngrx/effects';
@@ -35,6 +34,8 @@ import { SnackbarErrorAction,
     NavigateRouteAction, NAVIGATE_ROUTE } from '../../store/actions';
 import { map } from 'rxjs/operators';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
     template: `<div [acaRestoreNode]="selection"></div>`
@@ -47,10 +48,10 @@ describe('NodeRestoreDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let element: DebugElement;
     let component: TestComponent;
-    let alfrescoService: AlfrescoApiService;
     let directiveInstance: NodeRestoreDirective;
     let contentManagementService: ContentManagementService;
     let actions$: Actions;
+    let contentApi: ContentApiService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -63,43 +64,41 @@ describe('NodeRestoreDirective', () => {
 
         actions$ = TestBed.get(Actions);
 
-        alfrescoService = TestBed.get(AlfrescoApiService);
-        alfrescoService.reset();
-
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(NodeRestoreDirective));
         directiveInstance = element.injector.get(NodeRestoreDirective);
 
         contentManagementService = TestBed.get(ContentManagementService);
+        contentApi = TestBed.get(ContentApiService);
     });
 
     it('does not restore nodes if no selection', () => {
-        spyOn(alfrescoService.nodesApi, 'restoreNode');
+        spyOn(contentApi, 'restoreNode');
 
         component.selection = [];
 
         fixture.detectChanges();
         element.triggerEventHandler('click', null);
 
-        expect(alfrescoService.nodesApi.restoreNode).not.toHaveBeenCalled();
+        expect(contentApi.restoreNode).not.toHaveBeenCalled();
     });
 
     it('does not restore nodes if selection has nodes without path', () => {
-        spyOn(alfrescoService.nodesApi, 'restoreNode');
+        spyOn(contentApi, 'restoreNode');
 
         component.selection = [ { entry: { id: '1' } } ];
 
         fixture.detectChanges();
         element.triggerEventHandler('click', null);
 
-        expect(alfrescoService.nodesApi.restoreNode).not.toHaveBeenCalled();
+        expect(contentApi.restoreNode).not.toHaveBeenCalled();
     });
 
     it('call restore nodes if selection has nodes with path', fakeAsync(() => {
         spyOn(directiveInstance, 'restoreNotification').and.callFake(() => null);
-        spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.resolve());
-        spyOn(alfrescoService.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
+        spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
+        spyOn(contentApi, 'getDeletedNodes').and.returnValue(Observable.of({
             list: { entries: [] }
         }));
 
@@ -109,14 +108,14 @@ describe('NodeRestoreDirective', () => {
         element.triggerEventHandler('click', null);
         tick();
 
-        expect(alfrescoService.nodesApi.restoreNode).toHaveBeenCalled();
+        expect(contentApi.restoreNode).toHaveBeenCalled();
     }));
 
     describe('refresh()', () => {
         it('dispatch event on finish', fakeAsync(done => {
             spyOn(directiveInstance, 'restoreNotification').and.callFake(() => null);
-            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.resolve());
-            spyOn(alfrescoService.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
+            spyOn(contentApi, 'getDeletedNodes').and.returnValue(Observable.of({
                 list: { entries: [] }
             }));
 
@@ -132,7 +131,7 @@ describe('NodeRestoreDirective', () => {
 
     describe('notification', () => {
         beforeEach(() => {
-            spyOn(alfrescoService.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve({
+            spyOn(contentApi, 'getDeletedNodes').and.returnValue(Observable.of({
                 list: { entries: [] }
             }));
         });
@@ -145,17 +144,17 @@ describe('NodeRestoreDirective', () => {
                 map(action => done())
             );
 
-            spyOn(alfrescoService.nodesApi, 'restoreNode').and.callFake((id) => {
+            spyOn(contentApi, 'restoreNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
 
                 if (id === '2') {
-                    return Promise.reject(error);
+                    return Observable.throw(error);
                 }
 
                 if (id === '3') {
-                    return Promise.reject(error);
+                    return Observable.throw(error);
                 }
             });
 
@@ -172,7 +171,7 @@ describe('NodeRestoreDirective', () => {
 
         it('should raise error message when restored node exist, error 409', fakeAsync(done => {
             const error = { message: '{ "error": { "statusCode": 409 } }' };
-            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.reject(error));
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(error));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -191,7 +190,7 @@ describe('NodeRestoreDirective', () => {
         it('should raise error message when restored node returns different statusCode', fakeAsync(done => {
             const error = { message: '{ "error": { "statusCode": 404 } }' };
 
-            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.reject(error));
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(error));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -210,7 +209,7 @@ describe('NodeRestoreDirective', () => {
         it('should raise error message when restored node location is missing', fakeAsync(done => {
             const error = { message: '{ "error": { } }' };
 
-            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.reject(error));
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(error));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -227,13 +226,13 @@ describe('NodeRestoreDirective', () => {
         }));
 
         it('should raise info message when restore multiple nodes', fakeAsync(done => {
-            spyOn(alfrescoService.nodesApi, 'restoreNode').and.callFake((id) => {
+            spyOn(contentApi, 'restoreNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
 
                 if (id === '2') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
             });
 
@@ -253,7 +252,7 @@ describe('NodeRestoreDirective', () => {
         }));
 
         xit('should raise info message when restore selected node', fakeAsync(done => {
-            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.resolve());
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
 
             actions$.pipe(
                 ofType<SnackbarInfoAction>(SNACKBAR_INFO),
@@ -270,7 +269,7 @@ describe('NodeRestoreDirective', () => {
         }));
 
         it('navigate to restore selected node location onAction', fakeAsync(done => {
-            spyOn(alfrescoService.nodesApi, 'restoreNode').and.returnValue(Promise.resolve());
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
 
             actions$.pipe(
                 ofType<NavigateRouteAction>(NAVIGATE_ROUTE),

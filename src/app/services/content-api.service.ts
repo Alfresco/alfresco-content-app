@@ -26,7 +26,12 @@
 import { Injectable } from '@angular/core';
 import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Observable';
-import { MinimalNodeEntity, NodePaging, Node } from 'alfresco-js-api';
+import {
+    MinimalNodeEntity,
+    NodePaging,
+    Node,
+    DeletedNodesPaging
+} from 'alfresco-js-api';
 
 @Injectable()
 export class ContentApiService {
@@ -34,10 +39,6 @@ export class ContentApiService {
         private api: AlfrescoApiService,
         private preferences: UserPreferencesService
     ) {}
-
-    private get nodesApi() {
-        return this.api.nodesApi;
-    }
 
     /**
      * Moves a node to the trashcan.
@@ -50,7 +51,7 @@ export class ContentApiService {
         options: { permanent?: boolean } = {}
     ): Observable<void> {
         return Observable.fromPromise(
-            this.nodesApi.deleteNode(nodeId, options)
+            this.api.nodesApi.deleteNode(nodeId, options)
         );
     }
 
@@ -72,13 +73,18 @@ export class ContentApiService {
         const queryOptions = Object.assign(defaults, options);
 
         return Observable.fromPromise(
-            this.nodesApi.getNode(nodeId, queryOptions)
+            this.api.nodesApi.getNode(nodeId, queryOptions)
         );
     }
 
     getNodeInfo(nodeId: string, options: any = {}): Observable<Node> {
+        const defaults = {
+            include: ['allowableOperations']
+        };
+        const queryOptions = Object.assign(defaults, options);
+
         return Observable.fromPromise(
-            this.nodesApi.getNodeInfo(nodeId, options)
+            this.api.nodesApi.getNodeInfo(nodeId, queryOptions)
         );
     }
 
@@ -103,7 +109,30 @@ export class ContentApiService {
         const queryOptions = Object.assign(defaults, options);
 
         return Observable.fromPromise(
-            this.nodesApi.getNodeChildren(nodeId, queryOptions)
+            this.api.nodesApi.getNodeChildren(nodeId, queryOptions)
+        );
+    }
+
+    deleteSharedLink(linkId: string): Observable<any> {
+        return Observable.fromPromise(
+            this.api.sharedLinksApi.deleteSharedLink(linkId)
+        );
+    }
+
+    getDeletedNodes(options: any = {}): Observable<DeletedNodesPaging> {
+        const defaults = {
+            include: ['path']
+        };
+        const queryOptions = Object.assign(defaults, options);
+
+        return Observable.fromPromise(
+            this.api.nodesApi.getDeletedNodes(queryOptions)
+        );
+    }
+
+    restoreNode(nodeId: string): Observable<any> {
+        return Observable.fromPromise(
+            this.api.nodesApi.restoreNode(nodeId)
         );
     }
 }

@@ -25,8 +25,6 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import {
     MinimalNodeEntity,
     MinimalNodeEntryEntity,
@@ -44,6 +42,7 @@ import {
     SnackbarInfoAction,
     SnackbarUserAction
 } from '../../store/actions';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Directive({
     selector: '[acaRestoreNode]'
@@ -59,7 +58,7 @@ export class NodeRestoreDirective {
 
     constructor(
         private store: Store<AppStore>,
-        private alfrescoApiService: AlfrescoApiService,
+        private contentApi: ContentApiService,
         private contentManagementService: ContentManagementService
     ) {}
 
@@ -84,7 +83,7 @@ export class NodeRestoreDirective {
             .do(restoredNodes => {
                 status = this.processStatus(restoredNodes);
             })
-            .flatMap(() => this.getDeletedNodes())
+            .flatMap(() => this.contentApi.getDeletedNodes())
             .subscribe((nodes: DeletedNodesPaging) => {
                 const selectedNodes = this.diff(status.fail, selection, false);
                 const remainingNodes = this.diff(
@@ -101,20 +100,10 @@ export class NodeRestoreDirective {
             });
     }
 
-    private getDeletedNodes(): Observable<DeletedNodesPaging> {
-        return Observable.from(
-            this.alfrescoApiService.nodesApi.getDeletedNodes({
-                include: ['path']
-            })
-        );
-    }
-
     private restoreNode(node: MinimalNodeEntity): Observable<any> {
         const { entry } = node;
 
-        return Observable.from(
-            this.alfrescoApiService.nodesApi.restoreNode(entry.id)
-        )
+        return this.contentApi.restoreNode(entry.id)
             .map(() => ({
                 status: 1,
                 entry
