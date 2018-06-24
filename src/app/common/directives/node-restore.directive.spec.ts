@@ -24,24 +24,17 @@
  */
 
 import { Component, DebugElement } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Observable } from 'rxjs/Rx';
-
-import { AlfrescoApiService, TranslationService, CoreModule } from '@alfresco/adf-core';
-
+import { AlfrescoApiService } from '@alfresco/adf-core';
 import { NodeRestoreDirective } from './node-restore.directive';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ContentManagementService } from '../services/content-management.service';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule, Actions, ofType } from '@ngrx/effects';
-import { appReducer } from '../../store/reducers/app.reducer';
-import { INITIAL_STATE } from '../../store/states/app.state';
+import { Actions, ofType } from '@ngrx/effects';
 import { SnackbarErrorAction,
     SNACKBAR_ERROR, SnackbarInfoAction, SNACKBAR_INFO,
     NavigateRouteAction, NAVIGATE_ROUTE } from '../../store/actions';
 import { map } from 'rxjs/operators';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 @Component({
     template: `<div [acaRestoreNode]="selection"></div>`
@@ -55,26 +48,16 @@ describe('NodeRestoreDirective', () => {
     let element: DebugElement;
     let component: TestComponent;
     let alfrescoService: AlfrescoApiService;
-    let translation: TranslationService;
     let directiveInstance: NodeRestoreDirective;
     let contentManagementService: ContentManagementService;
     let actions$: Actions;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                NoopAnimationsModule,
-                RouterTestingModule,
-                CoreModule.forRoot(),
-                StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
-                EffectsModule.forRoot([])
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 NodeRestoreDirective,
                 TestComponent
-            ],
-            providers: [
-                ContentManagementService
             ]
         });
 
@@ -87,9 +70,6 @@ describe('NodeRestoreDirective', () => {
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(NodeRestoreDirective));
         directiveInstance = element.injector.get(NodeRestoreDirective);
-
-        translation = TestBed.get(TranslationService);
-        spyOn(translation, 'instant').and.returnValue(Observable.of('message'));
 
         contentManagementService = TestBed.get(ContentManagementService);
     });

@@ -25,10 +25,19 @@
 
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class TranslateServiceMock extends TranslateService {
     constructor() {
         super(null, null, null, null, null);
+    }
+
+    get(key: string | Array<string>, interpolateParams?: Object): Observable<string | any> {
+        return Observable.of(key);
+    }
+
+    instant(key: string | Array<string>, interpolateParams?: Object): string | any {
+        return key;
     }
 }
