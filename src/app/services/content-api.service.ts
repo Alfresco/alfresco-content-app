@@ -135,4 +135,10 @@ export class ContentApiService {
             this.api.nodesApi.restoreNode(nodeId)
         );
     }
+
+    purgeDeletedNode(nodeId: string): Observable<any> {
+        return Observable.fromPromise(
+            this.api.nodesApi.purgeDeletedNode(nodeId)
+        );
+    }
 }

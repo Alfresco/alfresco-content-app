@@ -27,7 +27,6 @@ import { Component, DebugElement } from '@angular/core';
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 
 import { NodePermanentDeleteDirective } from './node-permanent-delete.directive';
 import { MatDialog } from '@angular/material';
@@ -39,6 +38,7 @@ import {
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     template: `<div [acaPermanentDelete]="selection"></div>`
@@ -51,9 +51,9 @@ describe('NodePermanentDeleteDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let element: DebugElement;
     let component: TestComponent;
-    let alfrescoApiService: AlfrescoApiService;
     let dialog: MatDialog;
     let actions$: Actions;
+    let contentApi: ContentApiService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -67,9 +67,7 @@ describe('NodePermanentDeleteDirective', () => {
             ]
         });
 
-        alfrescoApiService = TestBed.get(AlfrescoApiService);
-        alfrescoApiService.reset();
-
+        contentApi = TestBed.get(ContentApiService);
         actions$ = TestBed.get(Actions);
 
         fixture = TestBed.createComponent(TestComponent);
@@ -85,18 +83,18 @@ describe('NodePermanentDeleteDirective', () => {
     });
 
     it('does not purge nodes if no selection', () => {
-        spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode');
+        spyOn(contentApi, 'purgeDeletedNode');
 
         component.selection = [];
 
         fixture.detectChanges();
         element.triggerEventHandler('click', null);
 
-        expect(alfrescoApiService.nodesApi.purgeDeletedNode).not.toHaveBeenCalled();
+        expect(contentApi.purgeDeletedNode).not.toHaveBeenCalled();
     });
 
     it('call purge nodes if selection is not empty', fakeAsync(() => {
-        spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.returnValue(Promise.resolve());
+        spyOn(contentApi, 'purgeDeletedNode').and.returnValue(Observable.of({}));
 
         component.selection = [ { entry: { id: '1' } } ];
 
@@ -104,7 +102,7 @@ describe('NodePermanentDeleteDirective', () => {
         element.triggerEventHandler('click', null);
         tick();
 
-        expect(alfrescoApiService.nodesApi.purgeDeletedNode).toHaveBeenCalled();
+        expect(contentApi.purgeDeletedNode).toHaveBeenCalled();
     }));
 
     describe('notification', () => {
@@ -116,17 +114,17 @@ describe('NodePermanentDeleteDirective', () => {
                 })
             );
 
-            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.callFake((id) => {
+            spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
 
                 if (id === '2') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
 
                 if (id === '3') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
             });
 
@@ -149,21 +147,21 @@ describe('NodePermanentDeleteDirective', () => {
                 })
             );
 
-            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.callFake((id) => {
+            spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
 
                 if (id === '2') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
 
                 if (id === '3') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
 
                 if (id === '4') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
             });
 
@@ -187,7 +185,7 @@ describe('NodePermanentDeleteDirective', () => {
                 })
             );
 
-            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.returnValue(Promise.resolve());
+            spyOn(contentApi, 'purgeDeletedNode').and.returnValue(Observable.of({}));
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } }
@@ -206,7 +204,7 @@ describe('NodePermanentDeleteDirective', () => {
                 })
             );
 
-            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.returnValue(Promise.reject({}));
+            spyOn(contentApi, 'purgeDeletedNode').and.returnValue(Observable.throw({}));
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } }
@@ -224,13 +222,13 @@ describe('NodePermanentDeleteDirective', () => {
                     done();
                 })
             );
-            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.callFake((id) => {
+            spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
 
                 if (id === '2') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
             });
 
@@ -251,13 +249,13 @@ describe('NodePermanentDeleteDirective', () => {
                     done();
                 })
             );
-            spyOn(alfrescoApiService.nodesApi, 'purgeDeletedNode').and.callFake((id) => {
+            spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
 
                 if (id === '2') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
             });
 
