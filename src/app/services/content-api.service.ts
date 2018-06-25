@@ -32,7 +32,8 @@ import {
     Node,
     DeletedNodesPaging,
     PersonEntry,
-    NodeEntry
+    NodeEntry,
+    DiscoveryEntry
 } from 'alfresco-js-api';
 
 @Injectable()
@@ -171,6 +172,16 @@ export class ContentApiService {
     ): Observable<NodeEntry> {
         return Observable.fromPromise(
             this.api.nodesApi.copyNode(nodeId, { targetParentId, name }, opts)
+        );
+    }
+
+    /**
+     * Gets product information for Content Services.
+     * @returns ProductVersionModel containing product details
+     */
+    getRepositoryInformation(): Observable<DiscoveryEntry> {
+        return Observable.fromPromise(
+            this.api.getInstance().discovery.discoveryApi.getRepositoryInformation()
         );
     }
 }
