@@ -1,5 +1,20 @@
 # Getting Started
 
+## Prerequisites
+
+This application uses the latest releases from Alfresco:
+
+- [Alfresco ADF (2.4.0)](https://community.alfresco.com/community/application-development-framework/pages/get-started)
+- [Alfresco Content Services (5.2.3)](https://www.alfresco.com/platform/content-services-ecm)
+  or [Alfresco Community Edition (201802 EA)](https://www.alfresco.com/products/community/download)
+
+<p class="warning">
+You also need <a href="https://nodejs.org/en/" target="_blank">node.js</a> (LTS) installed to build it locally from source code.
+</p>
+
+The latest version of the Alfresco Content platform is required
+due to the application using the latest [REST APIs](https://docs.alfresco.com/5.2/pra/1/topics/pra-welcome.html) developments.
+
 ## Building
 
 The Content App is based on [Angular CLI](https://cli.angular.io), and you can use all the commands, generators and blueprints supported by the CLI.
