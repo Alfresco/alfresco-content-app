@@ -26,7 +26,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     selector: 'aca-info-drawer',
@@ -67,7 +67,7 @@ export class InfoDrawerComponent implements OnChanges {
 
     constructor(
         public permission: NodePermissionService,
-        private apiService: AlfrescoApiService
+        private contentApi: ContentApiService
     ) {}
 
     ngOnChanges(changes: SimpleChanges) {
@@ -88,15 +88,13 @@ export class InfoDrawerComponent implements OnChanges {
         if (nodeId) {
             this.isLoading = true;
 
-            this.apiService.nodesApi
-                .getNodeInfo(nodeId, { include: ['allowableOperations'] })
-                .then((entity: MinimalNodeEntryEntity) => {
+            this.contentApi.getNodeInfo(nodeId).subscribe(
+                entity => {
                     this.displayNode = entity;
                     this.isLoading = false;
-                })
-                .catch(() => {
-                    this.isLoading = false;
-                });
+                },
+                () => this.isLoading = false
+            );
         }
     }
 }

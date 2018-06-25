@@ -43,8 +43,8 @@ import {
 } from '../actions';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { Observable } from 'rxjs/Rx';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Injectable()
 export class NodeEffects {
@@ -52,7 +52,7 @@ export class NodeEffects {
         private store: Store<AppStore>,
         private actions$: Actions,
         private contentManagementService: ContentManagementService,
-        private alfrescoApiService: AlfrescoApiService
+        private contentApi: ContentApiService
     ) {}
 
     @Effect({ dispatch: false })
@@ -113,9 +113,7 @@ export class NodeEffects {
     private deleteNode(node: NodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = node;
 
-        return Observable.fromPromise(
-            this.alfrescoApiService.nodesApi.deleteNode(id)
-        )
+        return this.contentApi.deleteNode(id)
             .map(() => {
                 return {
                     id,
@@ -208,9 +206,7 @@ export class NodeEffects {
     private undoDeleteNode(item: DeletedNodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = item;
 
-        return Observable.fromPromise(
-            this.alfrescoApiService.nodesApi.restoreNode(id)
-        )
+        return this.contentApi.restoreNode(id)
             .map(() => {
                 return {
                     id,
@@ -266,9 +262,8 @@ export class NodeEffects {
 
     private purgeDeletedNode(node: NodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = node;
-        const promise = this.alfrescoApiService.nodesApi.purgeDeletedNode(id);
 
-        return Observable.from(promise)
+        return this.contentApi.purgeDeletedNode(id)
             .map(() => ({
                 status: 1,
                 id,

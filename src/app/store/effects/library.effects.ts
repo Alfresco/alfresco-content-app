@@ -27,7 +27,6 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { DeleteLibraryAction, DELETE_LIBRARY } from '../actions';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import {
     SnackbarInfoAction,
     SnackbarErrorAction
@@ -35,13 +34,14 @@ import {
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Injectable()
 export class SiteEffects {
     constructor(
         private actions$: Actions,
         private store: Store<AppStore>,
-        private apiService: AlfrescoApiService,
+        private contentApi: ContentApiService,
         private content: ContentManagementService
     ) {}
 
@@ -49,7 +49,7 @@ export class SiteEffects {
     deleteLibrary$ = this.actions$.pipe(
         ofType<DeleteLibraryAction>(DELETE_LIBRARY),
         map(action => {
-            this.apiService.sitesApi.deleteSite(action.payload).then(
+            this.contentApi.deleteSite(action.payload).subscribe(
                 () => {
                     this.content.siteDeleted.next(action.payload);
                     this.store.dispatch(
@@ -58,7 +58,7 @@ export class SiteEffects {
                         )
                     );
                 },
-                err => {
+                () => {
                     this.store.dispatch(
                         new SnackbarErrorAction(
                             'APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED'

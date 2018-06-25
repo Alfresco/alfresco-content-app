@@ -27,10 +27,11 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import {  NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { NotificationService } from '@alfresco/adf-core';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeCopyDirective } from './node-copy.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     template: '<div [acaCopyNode]="selection"></div>'
@@ -44,8 +45,8 @@ describe('NodeCopyDirective', () => {
     let component: TestComponent;
     let element: DebugElement;
     let notificationService: NotificationService;
-    let nodesApiService: NodesApiService;
     let service: NodeActionsService;
+    let contentApi: ContentApiService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -56,11 +57,12 @@ describe('NodeCopyDirective', () => {
             ]
         });
 
+        contentApi = TestBed.get(ContentApiService);
+
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(NodeCopyDirective));
         notificationService = TestBed.get(NotificationService);
-        nodesApiService = TestBed.get(NodesApiService);
         service = TestBed.get(NodeActionsService);
     });
 
@@ -233,7 +235,7 @@ describe('NodeCopyDirective', () => {
         });
 
         it('should delete the newly created node on Undo action', () => {
-            spyOn(nodesApiService, 'deleteNode').and.returnValue(Observable.of(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
 
             component.selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
             const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -247,11 +249,11 @@ describe('NodeCopyDirective', () => {
                 'APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000
             );
 
-            expect(nodesApiService.deleteNode).toHaveBeenCalledWith(createdItems[0].entry.id, { permanent: true });
+            expect(contentApi.deleteNode).toHaveBeenCalledWith(createdItems[0].entry.id, { permanent: true });
         });
 
         it('should delete also the node created inside an already existing folder from destination', () => {
-            const spyOnDeleteNode = spyOn(nodesApiService, 'deleteNode').and.returnValue(Observable.of(null));
+            const spyOnDeleteNode = spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
 
             component.selection = [
                 { entry: { id: 'node-to-copy-1', name: 'name1' } },
@@ -277,7 +279,7 @@ describe('NodeCopyDirective', () => {
         });
 
         it('notifies when error occurs on Undo action', () => {
-            spyOn(nodesApiService, 'deleteNode').and.returnValue(Observable.throw(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(null));
 
             component.selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
             const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -287,14 +289,14 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(nodesApiService.deleteNode).toHaveBeenCalled();
+            expect(contentApi.deleteNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction['calls'].allArgs())
             .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000],
                 ['APP.MESSAGES.ERRORS.GENERIC', '', 3000]]);
         });
 
         it('notifies when some error of type Error occurs on Undo action', () => {
-            spyOn(nodesApiService, 'deleteNode').and.returnValue(Observable.throw(new Error('oops!')));
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(new Error('oops!')));
 
             component.selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
             const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -304,14 +306,14 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(nodesApiService.deleteNode).toHaveBeenCalled();
+            expect(contentApi.deleteNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction['calls'].allArgs())
             .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000],
                 ['APP.MESSAGES.ERRORS.GENERIC', '', 3000]]);
         });
 
         it('notifies permission error when it occurs on Undo action', () => {
-            spyOn(nodesApiService, 'deleteNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
 
             component.selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
             const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -321,7 +323,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(nodesApiService.deleteNode).toHaveBeenCalled();
+            expect(contentApi.deleteNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction['calls'].allArgs())
             .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000],
                 ['APP.MESSAGES.ERRORS.PERMISSION', '', 3000]]);

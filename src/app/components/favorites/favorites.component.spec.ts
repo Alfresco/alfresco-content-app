@@ -28,7 +28,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
-    NodesApiService,
     AlfrescoApiService,
     TimeAgoPipe, NodeNameTooltipPipe,
     NodeFavoriteDirective, DataTableComponent, AppConfigPipe
@@ -38,13 +37,14 @@ import { ContentManagementService } from '../../common/services/content-manageme
 
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
 
 describe('FavoritesComponent', () => {
     let fixture: ComponentFixture<FavoritesComponent>;
     let component: FavoritesComponent;
-    let nodesApi: NodesApiService;
     let alfrescoApi: AlfrescoApiService;
     let contentService: ContentManagementService;
+    let contentApi: ContentApiService;
     let router: Router;
     let page;
     let node;
@@ -93,10 +93,11 @@ describe('FavoritesComponent', () => {
         fixture = TestBed.createComponent(FavoritesComponent);
         component = fixture.componentInstance;
 
-        nodesApi = TestBed.get(NodesApiService);
         alfrescoApi = TestBed.get(AlfrescoApiService);
         alfrescoApi.reset();
         spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(Promise.resolve(page));
+
+        contentApi = TestBed.get(ContentApiService);
 
         contentService = TestBed.get(ContentManagementService);
         router = TestBed.get(Router);
@@ -135,7 +136,7 @@ describe('FavoritesComponent', () => {
 
     describe('Node navigation', () => {
         beforeEach(() => {
-            spyOn(nodesApi, 'getNode').and.returnValue(Observable.of(node));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node}));
             spyOn(router, 'navigate');
             fixture.detectChanges();
         });

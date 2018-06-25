@@ -25,7 +25,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NodesApiService } from '@alfresco/adf-core';
 import { ShareDataRow } from '@alfresco/adf-content-services';
 
 import { PageComponent } from '../page.component';
@@ -34,15 +33,16 @@ import { AppStore } from '../../store/states/app.state';
 import { DeleteLibraryAction } from '../../store/actions';
 import { SiteEntry } from 'alfresco-js-api';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     templateUrl: './libraries.component.html'
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
 
-    constructor(private nodesApi: NodesApiService,
-                private route: ActivatedRoute,
+    constructor(private route: ActivatedRoute,
                 private content: ContentManagementService,
+                private contentApi: ContentApiService,
                 store: Store<AppStore>,
                 private router: Router) {
         super(store);
@@ -89,8 +89,9 @@ export class LibrariesComponent extends PageComponent implements OnInit {
 
     navigate(libraryId: string) {
         if (libraryId) {
-            this.nodesApi
+            this.contentApi
                 .getNode(libraryId, { relativePath: '/documentLibrary' })
+                .map(node => node.entry)
                 .subscribe(documentLibrary => {
                     this.router.navigate([ './', documentLibrary.id ], { relativeTo: this.route });
                 });

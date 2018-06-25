@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AlfrescoApiService, FileUploadEvent, NodesApiService, UploadService } from '@alfresco/adf-core';
+import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -35,6 +35,7 @@ import { NodeActionsService } from '../../common/services/node-actions.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     templateUrl: './files.component.html'
@@ -47,13 +48,12 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     constructor(private router: Router,
                 private route: ActivatedRoute,
+                private contentApi: ContentApiService,
                 store: Store<AppStore>,
-                private nodesApi: NodesApiService,
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
                 private contentManagementService: ContentManagementService,
                 private browsingFilesService: BrowsingFilesService,
-                private apiService: AlfrescoApiService,
                 public permission: NodePermissionService) {
         super(store);
     }
@@ -69,8 +69,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         route.params.subscribe(({ folderId }: Params) => {
             const nodeId = folderId || data.defaultNodeId;
 
-            this.fetchNode(nodeId)
-                .do((node) => {
+            this.contentApi.getNode(nodeId)
+                .map(node => node.entry)
+                .do(node => {
                     if (node.isFolder) {
                         this.updateCurrentNode(node);
                     } else {
@@ -78,14 +79,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                     }
                 })
                 .skipWhile(node => !node.isFolder)
-                .flatMap((node) => this.fetchNodes(node.id))
+                .flatMap(node => this.fetchNodes(node.id))
                 .subscribe(
-                    (page) => {
-                        this.isValidPath = true;
-                    },
-                    error => {
-                        this.isValidPath = false;
-                    }
+                    () => this.isValidPath = true,
+                    () => this.isValidPath = false
                 );
         });
 
@@ -107,18 +104,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         this.browsingFilesService.onChangeParent.next(null);
     }
 
-    fetchNode(nodeId: string): Observable<MinimalNodeEntryEntity> {
-        return this.nodesApi.getNode(nodeId);
-    }
-
-    fetchNodes(parentNodeId?: string, options: { maxItems?: number, skipCount?: number } = {}): Observable<NodePaging> {
-        const defaults = {
-            include: [ 'isLocked', 'path', 'properties', 'allowableOperations' ]
-        };
-
-        const queryOptions = Object.assign({}, defaults, options);
-
-        return this.nodesApi.getNodeChildren(parentNodeId, queryOptions);
+    fetchNodes(parentNodeId?: string): Observable<NodePaging> {
+       return this.contentApi.getNodeChildren(parentNodeId);
     }
 
     navigate(nodeId: string = null) {
@@ -246,7 +233,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         if (this.isSiteContainer(node)) {
             // rename 'documentLibrary' entry to the target site display name
             // clicking on the breadcrumb entry loads the site content
-            const parentNode = await this.apiService.nodesApi.getNodeInfo(node.parentId);
+            const parentNode = await this.contentApi.getNodeInfo(node.parentId).toPromise();
             node.name = parentNode.properties['cm:title'] || parentNode.name;
 
             // remove the site entry
@@ -256,7 +243,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             const docLib = elements.findIndex(el => el.name === 'documentLibrary');
             if (docLib > -1) {
                 const siteFragment = elements[docLib - 1];
-                const siteNode = await this.apiService.nodesApi.getNodeInfo(siteFragment.id);
+                const siteNode = await this.contentApi.getNodeInfo(siteFragment.id).toPromise();
 
                 // apply Site Name to the parent fragment
                 siteFragment.name = siteNode.properties['cm:title'] || siteNode.name;

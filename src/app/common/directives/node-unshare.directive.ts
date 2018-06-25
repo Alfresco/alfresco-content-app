@@ -23,9 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input, ElementRef } from '@angular/core';
-import { AlfrescoApiService } from '@alfresco/adf-core';
+import { Directive, HostListener, Input } from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
+import { ContentManagementService } from '../services/content-management.service';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Directive({
     selector: '[acaUnshareNode]'
@@ -37,8 +38,8 @@ export class NodeUnshareDirective {
     selection: MinimalNodeEntity[];
 
     constructor(
-        private apiService: AlfrescoApiService,
-        private el: ElementRef) {
+        private contentApi: ContentApiService,
+        private contentManagement: ContentManagementService) {
     }
 
     @HostListener('click')
@@ -49,14 +50,8 @@ export class NodeUnshareDirective {
     }
 
     private async unshareLinks(links: MinimalNodeEntity[]) {
-        const promises = links.map(link => this.apiService.sharedLinksApi.deleteSharedLink(link.entry.id));
+        const promises = links.map(link => this.contentApi.deleteSharedLink(link.entry.id).toPromise());
         await Promise.all(promises);
-        this.emitDone();
+        this.contentManagement.linksUnshared.next();
     }
-
-    private emitDone() {
-        const e = new CustomEvent('links-unshared', { bubbles: true });
-        this.el.nativeElement.dispatchEvent(e);
-    }
-
 }

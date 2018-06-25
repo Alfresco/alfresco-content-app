@@ -24,13 +24,14 @@
  */
 
 import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation } from '@angular/core';
-import { AlfrescoApiService, DataColumn, DataRow, DataTableAdapter } from '@alfresco/adf-core';
+import { DataColumn, DataRow, DataTableAdapter } from '@alfresco/adf-core';
 import { PathInfoEntity, MinimalNodeEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { NavigateToParentFolder } from '../../store/actions';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     selector: 'app-location-link',
@@ -59,7 +60,7 @@ export class LocationLinkComponent implements OnInit {
 
     constructor(
         private store: Store<AppStore>,
-        private apiService: AlfrescoApiService) {
+        private contentApi: ContentApiService) {
     }
 
     goToLocation() {
@@ -104,12 +105,12 @@ export class LocationLinkComponent implements OnInit {
             const fragment = path.elements[path.elements.length - 2];
 
             return new Observable<string>(observer => {
-                this.apiService.nodesApi.getNodeInfo(fragment.id).then(
-                    (node) => {
+                this.contentApi.getNodeInfo(fragment.id).subscribe(
+                    node => {
                         observer.next(node.properties['cm:title'] || node.name || fragment.name);
                         observer.complete();
                     },
-                    (err) => {
+                    () => {
                         observer.next(fragment.name);
                         observer.complete();
                     }
@@ -132,8 +133,8 @@ export class LocationLinkComponent implements OnInit {
                     const fragment = elements[2];
 
                     return new Observable<string>(observer => {
-                        this.apiService.nodesApi.getNodeInfo(fragment.id).then(
-                            (node) => {
+                        this.contentApi.getNodeInfo(fragment.id).subscribe(
+                            node => {
                                 elements.splice(0, 2);
                                 elements[0].name = node.properties['cm:title'] || node.name || fragment.name;
                                 elements.splice(1, 1);
@@ -142,7 +143,7 @@ export class LocationLinkComponent implements OnInit {
                                 observer.next(elements.map(e => e.name).join('/'));
                                 observer.complete();
                             },
-                            (err) => {
+                            () => {
                                 elements.splice(0, 2);
                                 elements.unshift({ id: null, name: 'File Libraries' });
                                 elements.splice(2, 1);

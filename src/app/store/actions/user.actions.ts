@@ -24,10 +24,11 @@
  */
 
 import { Action } from '@ngrx/store';
+import { Person } from 'alfresco-js-api';
 
 export const SET_USER = 'SET_USER';
 
 export class SetUserAction implements Action {
   readonly type = SET_USER;
-  constructor(public payload: any) { }
+  constructor(public payload: Person) { }
 }
