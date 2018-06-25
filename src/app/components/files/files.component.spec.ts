@@ -29,7 +29,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
     TimeAgoPipe, NodeNameTooltipPipe, FileSizePipe, NodeFavoriteDirective,
-    DataTableComponent, UploadService, AppConfigPipe, AlfrescoApiService, AlfrescoApiMock
+    DataTableComponent, UploadService, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
@@ -70,7 +70,6 @@ describe('FilesComponent', () => {
                 AppConfigPipe
             ],
             providers: [
-                { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
                 { provide: ActivatedRoute, useValue: {
                     snapshot: { data: { preferencePrefix: 'prefix' } },
                     params: Observable.of({ folderId: 'someId' })

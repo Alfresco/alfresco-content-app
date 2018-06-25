@@ -24,19 +24,19 @@
  */
 
 import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
 import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
 import { NodeInfo } from '../models';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Injectable()
 export class DownloadEffects {
     constructor(
         private actions$: Actions,
-        private apiService: AlfrescoApiService,
+        private contentApi: ContentApiService,
         private dialog: MatDialog
     ) {}
 
@@ -75,7 +75,7 @@ export class DownloadEffects {
     private downloadFile(node: NodeInfo) {
         if (node) {
             this.download(
-                this.apiService.contentApi.getContentUrl(node.id, true),
+                this.contentApi.getContentUrl(node.id, true),
                 node.name
             );
         }

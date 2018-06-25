@@ -216,4 +216,14 @@ export class ContentApiService {
             this.api.searchApi.search(request)
         );
     }
+
+    getContentUrl(nodeId: string, attachment?: boolean): string {
+        return this.api.contentApi.getContentUrl(nodeId, attachment);
+    }
+
+    deleteSite(siteId?: string, opts?: { permanent?: boolean }): Observable<any> {
+        return Observable.fromPromise(
+            this.api.sitesApi.deleteSite(siteId, opts)
+        );
+    }
 }
