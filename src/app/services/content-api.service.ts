@@ -33,7 +33,11 @@ import {
     DeletedNodesPaging,
     PersonEntry,
     NodeEntry,
-    DiscoveryEntry
+    DiscoveryEntry,
+    FavoritePaging,
+    SharedLinkPaging,
+    SearchRequest,
+    ResultSetPaging
 } from 'alfresco-js-api';
 
 @Injectable()
@@ -168,7 +172,7 @@ export class ContentApiService {
         nodeId: string,
         targetParentId: string,
         name?: string,
-        opts?: { include?: Array<string>, fields?: Array<string> }
+        opts?: { include?: Array<string>; fields?: Array<string> }
     ): Observable<NodeEntry> {
         return Observable.fromPromise(
             this.api.nodesApi.copyNode(nodeId, { targetParentId, name }, opts)
@@ -181,7 +185,35 @@ export class ContentApiService {
      */
     getRepositoryInformation(): Observable<DiscoveryEntry> {
         return Observable.fromPromise(
-            this.api.getInstance().discovery.discoveryApi.getRepositoryInformation()
+            this.api
+                .getInstance()
+                .discovery.discoveryApi.getRepositoryInformation()
+        );
+    }
+
+    getFavorites(
+        personId: string,
+        opts?: {
+            skipCount?: number;
+            maxItems?: number;
+            where?: string;
+            fields?: Array<string>;
+        }
+    ): Observable<FavoritePaging> {
+        return Observable.fromPromise(
+            this.api.favoritesApi.getFavorites(personId, opts)
+        );
+    }
+
+    findSharedLinks(opts?: any): Observable<SharedLinkPaging> {
+        return Observable.fromPromise(
+            this.api.sharedLinksApi.findSharedLinks(opts)
+        );
+    }
+
+    search(request: SearchRequest): Observable<ResultSetPaging> {
+        return Observable.fromPromise(
+            this.api.searchApi.search(request)
         );
     }
 }
