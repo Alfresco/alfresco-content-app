@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NodesApiService } from '@alfresco/adf-core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -37,6 +36,7 @@ import { ContentManagementService } from '../../common/services/content-manageme
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     templateUrl: './favorites.component.html'
@@ -45,7 +45,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     constructor(
         private router: Router,
         store: Store<AppStore>,
-        private nodesApi: NodesApiService,
+        private contentApi: ContentApiService,
         private content: ContentManagementService,
         public permission: NodePermissionService
     ) {
@@ -74,8 +74,9 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         };
 
         if (isFolder) {
-            this.nodesApi
+            this.contentApi
                 .getNode(id)
+                .map(node => node.entry)
                 .subscribe(({ path }: MinimalNodeEntryEntity) => {
                     const routeUrl = isSitePath(path)
                         ? '/libraries'

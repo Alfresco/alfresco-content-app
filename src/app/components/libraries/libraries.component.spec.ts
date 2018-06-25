@@ -28,7 +28,7 @@ import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-    NodesApiService, AlfrescoApiService,
+    AlfrescoApiService,
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
@@ -36,11 +36,12 @@ import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
 
 describe('LibrariesComponent', () => {
     let fixture: ComponentFixture<LibrariesComponent>;
     let component: LibrariesComponent;
-    let nodesApi: NodesApiService;
+    let contentApi: ContentApiService;
     let alfrescoApi: AlfrescoApiService;
     let router: Router;
     let page;
@@ -81,13 +82,14 @@ describe('LibrariesComponent', () => {
         fixture = TestBed.createComponent(LibrariesComponent);
         component = fixture.componentInstance;
 
-        nodesApi = TestBed.get(NodesApiService);
         alfrescoApi = TestBed.get(AlfrescoApiService);
         alfrescoApi.reset();
         router = TestBed.get(Router);
 
         spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue((Promise.resolve(page)));
         spyOn(alfrescoApi.peopleApi, 'getSiteMembership').and.returnValue((Promise.resolve({})));
+
+        contentApi = TestBed.get(ContentApiService);
     });
 
     describe('makeLibraryTooltip()', () => {
@@ -153,7 +155,7 @@ describe('LibrariesComponent', () => {
 
         it('navigates to node id', () => {
             const document = { id: 'documentId' };
-            spyOn(nodesApi, 'getNode').and.returnValue(Observable.of(document));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: document }));
 
             component.navigate(node.id);
 
