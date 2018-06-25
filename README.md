@@ -7,7 +7,7 @@
 ## Introduction
 
 The Alfresco Content Application is an example application built using
-[Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components and was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
+[Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components and was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
 ### Who is this example application for
 
@@ -40,16 +40,33 @@ The app will automatically reload if you change any of the source files.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-Use the `--prod` flag for a production build.
+Run `npm run build` to build the project in the production mode. The build artifacts will be stored in the `dist/` directory.
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run the local instance of the application packaged into the docker image together with the ACS images:
+
+```sh
+npm run build
+npm run start:docker
+```
+
+The ACA runs on port 4000 inside the docker container.
+Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+```sh
+npm run e2e
+```
+
+When testing is over you can stop all corresponding containers:
+
+```sh
+npm run stop:docker
+```
 
 ## Further help
 
