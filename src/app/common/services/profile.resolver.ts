@@ -26,31 +26,26 @@
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
+import { Person } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Observable';
-
 import { AppStore } from '../../store/states/app.state';
 import { SetUserAction } from '../../store/actions/user.actions';
-import { selectUser } from '../../store/selectors/app.selectors';
-import { PeopleContentService } from '@alfresco/adf-core';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Injectable()
-export class ProfileResolver implements Resolve<any> {
-    constructor(private store: Store<AppStore>, private peopleApi: PeopleContentService) { }
+export class ProfileResolver implements Resolve<Person> {
+    constructor(
+        private store: Store<AppStore>,
+        private contentApi: ContentApiService
+    ) {}
 
-    resolve(): Observable<any> {
-
-        this.init();
-
-        return this.profileLoaded();
-    }
-
-    profileLoaded(): Observable<any> {
-        return this.store.select(selectUser).take(1);
-    }
-
-    init(): void {
-        this.peopleApi.getCurrentPerson().subscribe((person: any) => {
-            this.store.dispatch(new SetUserAction(person.entry));
+    resolve(): Observable<Person> {
+        return new Observable(observer => {
+            this.contentApi.getPerson('-me-').subscribe(person => {
+                this.store.dispatch(new SetUserAction(person.entry));
+                observer.next(person.entry);
+                observer.complete();
+            });
         });
     }
 }

@@ -25,13 +25,14 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
-import { AlfrescoApiService, UserPreferencesService, ObjectUtils, UploadService } from '@alfresco/adf-core';
+import { UserPreferencesService, ObjectUtils, UploadService } from '@alfresco/adf-core';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { DeleteNodesAction } from '../../store/actions';
 import { PageComponent } from '../page.component';
+import { ContentApiService } from '../../services/content-api.service';
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
@@ -56,8 +57,8 @@ export class PreviewComponent extends PageComponent implements OnInit {
     selectedEntities: MinimalNodeEntity[] = [];
 
     constructor(
+        private contentApi: ContentApiService,
         private uploadService: UploadService,
-        private apiService: AlfrescoApiService,
         private preferences: UserPreferencesService,
         private route: ActivatedRoute,
         private router: Router,
@@ -105,9 +106,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
     async displayNode(id: string) {
         if (id) {
             try {
-                this.node = await this.apiService.nodesApi.getNodeInfo(id, {
-                    include: ['allowableOperations']
-                });
+                this.node = await this.contentApi.getNodeInfo(id).toPromise();
                 this.selectedEntities = [{ entry: this.node }];
 
                 if (this.node && this.node.isFile) {
@@ -222,11 +221,11 @@ export class PreviewComponent extends PageComponent implements OnInit {
         if ((source === 'personal-files' || source === 'libraries') && folderId) {
             const sortKey = this.preferences.get('personal-files.sorting.key') || 'modifiedAt';
             const sortDirection = this.preferences.get('personal-files.sorting.direction') || 'desc';
-            const nodes = await this.apiService.nodesApi.getNodeChildren(folderId, {
+            const nodes = await this.contentApi.getNodeChildren(folderId, {
                 // orderBy: `${sortKey} ${sortDirection}`,
                 fields: ['id', this.getRootField(sortKey)],
                 where: '(isFile=true)'
-            });
+            }).toPromise();
 
             const entries = nodes.list.entries.map(obj => obj.entry);
             this.sort(entries, sortKey, sortDirection);
@@ -235,10 +234,10 @@ export class PreviewComponent extends PageComponent implements OnInit {
         }
 
         if (source === 'favorites') {
-            const nodes = await this.apiService.favoritesApi.getFavorites('-me-', {
+            const nodes = await this.contentApi.getFavorites('-me-', {
                 where: '(EXISTS(target/file))',
                 fields: ['target']
-            });
+            }).toPromise();
 
             const sortKey = this.preferences.get('favorites.sorting.key') || 'modifiedAt';
             const sortDirection = this.preferences.get('favorites.sorting.direction') || 'desc';
@@ -252,9 +251,9 @@ export class PreviewComponent extends PageComponent implements OnInit {
             const sortingKey = this.preferences.get('shared.sorting.key') || 'modifiedAt';
             const sortingDirection = this.preferences.get('shared.sorting.direction') || 'desc';
 
-            const nodes = await this.apiService.sharedLinksApi.findSharedLinks({
+            const nodes = await this.contentApi.findSharedLinks({
                 fields: ['nodeId', this.getRootField(sortingKey)]
-            });
+            }).toPromise();
 
             const entries = nodes.list.entries.map(obj => obj.entry);
             this.sort(entries, sortingKey, sortingDirection);
@@ -263,12 +262,12 @@ export class PreviewComponent extends PageComponent implements OnInit {
         }
 
         if (source === 'recent-files') {
-            const person = await this.apiService.peopleApi.getPerson('-me-');
+            const person = await this.contentApi.getPerson('-me-').toPromise();
             const username = person.entry.id;
             const sortingKey = this.preferences.get('recent-files.sorting.key') || 'modifiedAt';
             const sortingDirection = this.preferences.get('recent-files.sorting.direction') || 'desc';
 
-            const nodes = await this.apiService.searchApi.search({
+            const nodes = await this.contentApi.search({
                 query: {
                     query: '*',
                     language: 'afts'
@@ -284,7 +283,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
                     field: 'cm:modified',
                     ascending: false
                 }]
-            });
+            }).toPromise();
 
             const entries = nodes.list.entries.map(obj => obj.entry);
             this.sort(entries, sortingKey, sortingDirection);

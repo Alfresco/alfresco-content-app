@@ -35,4 +35,5 @@ export class ContentManagementService {
     folderEdited = new Subject<any>();
     folderCreated = new Subject<any>();
     siteDeleted = new Subject<string>();
+    linksUnshared = new Subject<any>();
 }

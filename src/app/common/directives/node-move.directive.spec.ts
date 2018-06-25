@@ -27,7 +27,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { NodesApiService, NotificationService, TranslationService } from '@alfresco/adf-core';
+import { NotificationService, TranslationService } from '@alfresco/adf-core';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeMoveDirective } from './node-move.directive';
 import { EffectsModule, Actions, ofType } from '@ngrx/effects';
@@ -35,6 +35,7 @@ import { NodeEffects } from '../../store/effects/node.effects';
 import { SnackbarErrorAction, SNACKBAR_ERROR } from '../../store/actions';
 import { map } from 'rxjs/operators';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     template: '<div [acaMoveNode]="selection"></div>'
@@ -48,10 +49,10 @@ describe('NodeMoveDirective', () => {
     let component: TestComponent;
     let element: DebugElement;
     let notificationService: NotificationService;
-    let nodesApiService: NodesApiService;
     let service: NodeActionsService;
     let actions$: Actions;
     let translationService: TranslationService;
+    let contentApi: ContentApiService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -65,6 +66,7 @@ describe('NodeMoveDirective', () => {
             ]
         });
 
+        contentApi = TestBed.get(ContentApiService);
         translationService = TestBed.get(TranslationService);
 
         actions$ = TestBed.get(Actions);
@@ -72,7 +74,6 @@ describe('NodeMoveDirective', () => {
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(NodeMoveDirective));
         notificationService = TestBed.get(NotificationService);
-        nodesApiService = TestBed.get(NodesApiService);
         service = TestBed.get(NodeActionsService);
     });
 
@@ -382,7 +383,7 @@ describe('NodeMoveDirective', () => {
 
         it('should restore deleted folder back to initial parent, after succeeded moving all its files', () => {
             // when folder was deleted after all its children were moved to a folder with the same name from destination
-            spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.of(null));
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of(null));
 
             const initialParent = 'parent-id-0';
             const node = { entry: { id: 'folder-to-move-id', name: 'conflicting-name', parentId: initialParent, isFolder: true } };
@@ -401,13 +402,13 @@ describe('NodeMoveDirective', () => {
             element.triggerEventHandler('click', null);
             service.contentMoved.next(<any>movedItems);
 
-            expect(nodesApiService.restoreNode).toHaveBeenCalled();
+            expect(contentApi.restoreNode).toHaveBeenCalled();
             expect(notificationService.openSnackMessageAction)
                 .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
         });
 
         it('should notify when error occurs on Undo Move action', fakeAsync(done => {
-            spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.throw(null));
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(null));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -432,11 +433,11 @@ describe('NodeMoveDirective', () => {
             element.triggerEventHandler('click', null);
             service.contentMoved.next(<any>movedItems);
 
-            expect(nodesApiService.restoreNode).toHaveBeenCalled();
+            expect(contentApi.restoreNode).toHaveBeenCalled();
         }));
 
         it('should notify when some error of type Error occurs on Undo Move action', fakeAsync(done => {
-            spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.throw(new Error('oops!')));
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(new Error('oops!')));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -460,11 +461,11 @@ describe('NodeMoveDirective', () => {
             element.triggerEventHandler('click', null);
             service.contentMoved.next(<any>movedItems);
 
-            expect(nodesApiService.restoreNode).toHaveBeenCalled();
+            expect(contentApi.restoreNode).toHaveBeenCalled();
         }));
 
         it('should notify permission error when it occurs on Undo Move action', fakeAsync(done => {
-            spyOn(nodesApiService, 'restoreNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -489,7 +490,7 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(<any>movedItems);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(nodesApiService.restoreNode).toHaveBeenCalled();
+            expect(contentApi.restoreNode).toHaveBeenCalled();
         }));
     });
 

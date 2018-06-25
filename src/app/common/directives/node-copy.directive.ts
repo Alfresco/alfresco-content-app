@@ -26,10 +26,11 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { NodeActionsService } from '../services/node-actions.service';
 import { ContentManagementService } from '../services/content-management.service';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Directive({
     selector: '[acaCopyNode]'
@@ -47,9 +48,9 @@ export class NodeCopyDirective {
 
     constructor(
         private content: ContentManagementService,
+        private contentApi: ContentApiService,
         private notification: NotificationService,
         private nodeActionsService: NodeActionsService,
-        private nodesApi: NodesApiService,
         private translation: TranslationService
     ) {}
 
@@ -117,7 +118,7 @@ export class NodeCopyDirective {
     private deleteCopy(nodes: MinimalNodeEntity[]) {
         const batch = this.nodeActionsService.flatten(nodes)
             .filter(item => item.entry)
-            .map(item => this.nodesApi.deleteNode(item.entry.id, { permanent: true }));
+            .map(item => this.contentApi.deleteNode(item.entry.id, { permanent: true }));
 
         Observable.forkJoin(...batch)
             .subscribe(

@@ -24,15 +24,13 @@
  */
 
 import { Directive, HostListener, Input } from '@angular/core';
-
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
-
 import { NodeVersionsDialogComponent } from '../../dialogs/node-versions/node-versions.dialog';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { SnackbarErrorAction } from '../../store/actions';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Directive({
     selector: '[acaNodeVersions]'
@@ -48,7 +46,7 @@ export class NodeVersionsDirective {
 
     constructor(
         private store: Store<AppStore>,
-        private apiService: AlfrescoApiService,
+        private contentApi: ContentApiService,
         private dialog: MatDialog
     ) {}
 
@@ -57,10 +55,9 @@ export class NodeVersionsDirective {
             let entry = this.node.entry;
 
             if (entry.nodeId || (<any>entry).guid) {
-                entry = await this.apiService.nodesApi.getNodeInfo(
-                    entry.nodeId || (<any>entry).id,
-                    { include: ['allowableOperations'] }
-                );
+                entry = await this.contentApi.getNodeInfo(
+                    entry.nodeId || (<any>entry).id
+                ).toPromise();
                 this.openVersionManagerDialog(entry);
             } else {
                 this.openVersionManagerDialog(entry);

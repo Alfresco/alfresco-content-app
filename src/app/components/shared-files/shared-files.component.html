@@ -65,8 +65,7 @@
                 <button
                     mat-menu-item
                     *ngIf="permission.check(selection.nodes, ['delete'])"
-                    [acaUnshareNode]="selection.nodes"
-                    (links-unshared)="reload()">
+                    [acaUnshareNode]="selection.nodes">
                     <mat-icon>stop_screen_share</mat-icon>
                     <span>{{ 'APP.ACTIONS.UNSHARE' | translate }}</span>
                 </button>

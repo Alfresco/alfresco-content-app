@@ -25,7 +25,7 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 
-import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService, NotificationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 import { ContentManagementService } from '../services/content-management.service';
@@ -34,6 +34,7 @@ import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { SnackbarErrorAction } from '../../store/actions';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Directive({
     selector: '[acaMoveNode]'
@@ -51,10 +52,10 @@ export class NodeMoveDirective {
 
     constructor(
         private store: Store<AppStore>,
+        private contentApi: ContentApiService,
         private content: ContentManagementService,
         private notification: NotificationService,
         private nodeActionsService: NodeActionsService,
-        private nodesApi: NodesApiService,
         private translation: TranslationService
     ) {}
 
@@ -173,7 +174,9 @@ export class NodeMoveDirective {
 
         const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries
             .map((folderEntry) => {
-                return this.nodesApi.restoreNode(folderEntry.nodeId || folderEntry.id);
+                return this.contentApi
+                    .restoreNode(folderEntry.nodeId || folderEntry.id)
+                    .map(node => node.entry);
             });
 
         Observable.zip(...restoreDeletedNodesBatch, Observable.of(null))

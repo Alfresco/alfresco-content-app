@@ -117,7 +117,9 @@ function updateUser(state: AppState, action: SetUserAction): AppState {
     const lastName = user.lastName || '';
     const userName = `${firstName} ${lastName}`;
     const initials = [firstName[0], lastName[0]].join('');
-    const isAdmin = user.capabilities ? user.capabilities.isAdmin : true;
+
+    const capabilities = (<any>user).capabilities;
+    const isAdmin = capabilities ? capabilities.isAdmin : true;
 
     newState.user = {
         firstName,

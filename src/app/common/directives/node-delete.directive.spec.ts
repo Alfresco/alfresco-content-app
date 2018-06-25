@@ -25,7 +25,6 @@
 
 import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Component, DebugElement } from '@angular/core';
 
 import { NodeDeleteDirective } from './node-delete.directive';
@@ -37,6 +36,8 @@ import {
 } from '../../store/actions';
 import { map } from 'rxjs/operators';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
     template: '<div [acaDeleteNode]="selection"></div>'
@@ -49,8 +50,8 @@ describe('NodeDeleteDirective', () => {
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
     let element: DebugElement;
-    let alfrescoApiService: AlfrescoApiService;
     let actions$: Actions;
+    let contentApi: ContentApiService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -64,9 +65,7 @@ describe('NodeDeleteDirective', () => {
             ]
         });
 
-        alfrescoApiService = TestBed.get(AlfrescoApiService);
-        alfrescoApiService.reset();
-
+        contentApi = TestBed.get(ContentApiService);
         actions$ = TestBed.get(Actions);
 
         fixture = TestBed.createComponent(TestComponent);
@@ -76,7 +75,7 @@ describe('NodeDeleteDirective', () => {
 
     describe('Delete action', () => {
         it('should raise info message on successful single file deletion', fakeAsync(done => {
-            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.returnValue(Promise.resolve(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
 
             actions$.pipe(
                 ofType<SnackbarInfoAction>(SNACKBAR_INFO),
@@ -94,7 +93,7 @@ describe('NodeDeleteDirective', () => {
         }));
 
         it('should raise error message on failed single file deletion', fakeAsync(done => {
-            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.returnValue(Promise.reject(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(null));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -112,7 +111,7 @@ describe('NodeDeleteDirective', () => {
         }));
 
         it('should raise info message on successful multiple files deletion', fakeAsync(done => {
-            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.returnValue(Promise.resolve(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
 
             actions$.pipe(
                 ofType<SnackbarInfoAction>(SNACKBAR_INFO),
@@ -133,7 +132,7 @@ describe('NodeDeleteDirective', () => {
         }));
 
         it('should raise error message failed multiple files deletion', fakeAsync(done => {
-            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.returnValue(Promise.reject(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(null));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -154,11 +153,11 @@ describe('NodeDeleteDirective', () => {
         }));
 
         it('should raise warning message when only one file is successful', fakeAsync(done => {
-            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.callFake((id) => {
+            spyOn(contentApi, 'deleteNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.reject(null);
+                    return Observable.throw(null);
                 } else {
-                    return Promise.resolve(null);
+                    return Observable.of(null);
                 }
             });
 
@@ -181,17 +180,17 @@ describe('NodeDeleteDirective', () => {
         }));
 
         it('should raise warning message when some files are successfully deleted', fakeAsync(done => {
-            spyOn(alfrescoApiService.nodesApi, 'deleteNode').and.callFake((id) => {
+            spyOn(contentApi, 'deleteNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.reject(null);
+                    return Observable.throw(null);
                 }
 
                 if (id === '2') {
-                    return Promise.resolve(null);
+                    return Observable.of(null);
                 }
 
                 if (id === '3') {
-                    return Promise.resolve(null);
+                    return Observable.of(null);
                 }
             });
 

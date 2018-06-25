@@ -79,6 +79,7 @@ import { PaginationDirective } from './directives/pagination.directive';
 import { DocumentListDirective } from './directives/document-list.directive';
 import { MaterialModule } from './material.module';
 import { ExperimentalDirective } from './directives/experimental.directive';
+import { ContentApiService } from './services/content-api.service';
 
 @NgModule({
     imports: [
@@ -149,7 +150,8 @@ import { ExperimentalDirective } from './directives/experimental.directive';
         ContentManagementService,
         NodeActionsService,
         NodePermissionService,
-        ProfileResolver
+        ProfileResolver,
+        ContentApiService
     ],
     entryComponents: [
         NodeVersionsDialogComponent

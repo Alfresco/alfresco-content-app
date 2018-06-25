@@ -42,7 +42,8 @@ import {
     ContentService,
     ThumbnailService,
     UploadService,
-    PeopleContentService
+    PeopleContentService,
+    AlfrescoApiMock
 } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateServiceMock } from './translation.service';
@@ -60,6 +61,7 @@ import { ContentManagementService } from '../common/services/content-management.
 import { NodeActionsService } from '../common/services/node-actions.service';
 import { NodePermissionService } from '../common/services/node-permission.service';
 import { BrowsingFilesService } from '../common/services/browsing-files.service';
+import { ContentApiService } from '../services/content-api.service';
 
 @NgModule({
     imports: [
@@ -76,6 +78,7 @@ import { BrowsingFilesService } from '../common/services/browsing-files.service'
     declarations: [TranslatePipeMock],
     exports: [TranslatePipeMock, RouterTestingModule, MaterialModule],
     providers: [
+        { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
         { provide: TranslationService, useClass: TranslationMock },
         { provide: TranslateService, useClass: TranslateServiceMock },
         { provide: TranslatePipe, useClass: TranslatePipeMock },
@@ -108,7 +111,8 @@ import { BrowsingFilesService } from '../common/services/browsing-files.service'
         ContentManagementService,
         NodeActionsService,
         NodePermissionService,
-        BrowsingFilesService
+        BrowsingFilesService,
+        ContentApiService
     ]
 })
 export class AppTestingModule {}
