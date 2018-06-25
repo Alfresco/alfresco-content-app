@@ -31,7 +31,8 @@ import {
     NodePaging,
     Node,
     DeletedNodesPaging,
-    PersonEntry
+    PersonEntry,
+    NodeEntry
 } from 'alfresco-js-api';
 
 @Injectable()
@@ -132,9 +133,7 @@ export class ContentApiService {
     }
 
     restoreNode(nodeId: string): Observable<MinimalNodeEntity> {
-        return Observable.fromPromise(
-            this.api.nodesApi.restoreNode(nodeId)
-        );
+        return Observable.fromPromise(this.api.nodesApi.restoreNode(nodeId));
     }
 
     purgeDeletedNode(nodeId: string): Observable<any> {
@@ -148,9 +147,30 @@ export class ContentApiService {
      * @param personId ID of the target user
      * @returns User information
      */
-    getPerson(personId: string, options?: { fields?: Array<string> }): Observable<PersonEntry> {
+    getPerson(
+        personId: string,
+        options?: { fields?: Array<string> }
+    ): Observable<PersonEntry> {
         return Observable.fromPromise(
             this.api.peopleApi.getPerson(personId, options)
+        );
+    }
+
+    /**
+     * Copy a node to destination node
+     *
+     * @param nodeId The id of the node to be copied
+     * @param targetParentId The id of the folder-node where the node have to be copied to
+     * @param name The new name for the copy that would be added on the destination folder
+     */
+    copyNode(
+        nodeId: string,
+        targetParentId: string,
+        name?: string,
+        opts?: { include?: Array<string>, fields?: Array<string> }
+    ): Observable<NodeEntry> {
+        return Observable.fromPromise(
+            this.api.nodesApi.copyNode(nodeId, { targetParentId, name }, opts)
         );
     }
 }
