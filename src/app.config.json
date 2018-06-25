@@ -195,6 +195,20 @@
                     "ascending": true
                 },
                 {
+                    "key": "modified",
+                    "label": "SEARCH.SORT.MODIFIER",
+                    "type": "FIELD",
+                    "field": "cm:modifier",
+                    "ascending": true
+                },
+                {
+                    "key": "modified",
+                    "label": "SEARCH.SORT.CREATE_DATE",
+                    "type": "FIELD",
+                    "field": "cm:created",
+                    "ascending": true
+                },
+                {
                     "key": "content.sizeInBytes",
                     "label": "SEARCH.SORT.SIZE",
                     "type": "FIELD",

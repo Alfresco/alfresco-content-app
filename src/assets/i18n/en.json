@@ -260,7 +260,9 @@
             "TITLE": "Title",
             "MODIFIED_DATE": "Modified Date",
             "SIZE": "Size",
-            "TYPE": "Type"
+            "TYPE": "Type",
+            "MODIFIER": "Modifier",
+            "CREATE_DATE": "Created date"
         },
         "FACET_FIELDS": {
             "FILE_TYPE": "File Type",
