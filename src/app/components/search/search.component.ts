@@ -86,8 +86,6 @@ export class SearchComponent extends PageComponent implements OnInit {
                 if (query) {
                     this.queryBuilder.userQuery = query;
                     this.queryBuilder.update();
-                } else {
-                    this.onSearchResultLoaded( {list: { pagination: { totalItems: 0 }, entries: []}} );
                 }
             });
         }
