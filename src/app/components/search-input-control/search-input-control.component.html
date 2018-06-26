@@ -10,6 +10,7 @@
         </button>
         <mat-form-field class="adf-input-form-field-divider">
             <input matInput #searchInput
+                   *ngIf="liveSearchEnabled"
                    [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
                    [type]="inputType"
                    [autocomplete]="getAutoComplete()"
@@ -20,7 +21,15 @@
                    (keyup.escape)="toggleSearchBar()"
                    (keyup.arrowdown)="selectFirstResult()"
                    (ngModelChange)="inputChange($event)"
-                   [searchAutocomplete]="liveSearchEnabled && auto"
+                   [searchAutocomplete]="auto"
+                   (keyup.enter)="searchSubmit($event)">
+            <input matInput
+                   *ngIf="!liveSearchEnabled"
+                   [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
+                   [type]="inputType"
+                   [autocomplete]="getAutoComplete()"
+                   [(ngModel)]="searchTerm"
+                   (ngModelChange)="inputChange($event)"
                    (keyup.enter)="searchSubmit($event)">
 
             <div matSuffix class="adf-clear-search-icon-wrapper">
@@ -65,14 +74,14 @@
                 <ng-template #elseBlock>
                     <h4 class="adf-search-fixed-text" mat-line id="result_name_{{idx}}" [innerHtml]="item.entry.name"></h4>
                 </ng-template>
-                <p mat-line class="adf-search-fixed-text"> {{item?.entry.createdByUser.displayName}} </p>
+                <p mat-line class="adf-search-fixed-text"> {{item?.entry?.createdByUser?.displayName}} </p>
             </mat-list-item>
             <mat-list-item id="search_no_result"
                            data-automation-id="search_no_result_found"
                            *ngIf="data?.list?.entries.length === 0">
                 <ng-content
                     selector="adf-empty-search-result"
-                    *ngIf="isNoSearchTemplatePresent() else defaultNoResult">
+                    *ngIf="isNoSearchTemplatePresent(); else defaultNoResult">
                 </ng-content>
                 <ng-template #defaultNoResult>
                     <p mat-line class="adf-search-fixed-text">{{ 'SEARCH.RESULTS.NONE' | translate:{searchTerm: searchTerm} }}</p>
