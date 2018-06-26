@@ -331,7 +331,7 @@ The Versions tab displays info about the node's versions and allows users to [ma
 
 It uses the [VersionManagerComponent](https://alfresco.github.io/adf-component-catalog/components/VersionManagerComponent.html) from ADF framework.
 
-Managing versions of a file can be possible also by accessing the 'Manage Versions' option from the 'More actions' menu. For more info on manage versions, please check the [version manager](/version-manager) page.
+Managing versions of a file can be possible also by accessing the 'Manage Versions' option from the 'More actions' menu. For more info on manage versions, please check the [version manager](#version-manager) page.
 
 ### Version Manager
 
