@@ -18,7 +18,7 @@
         "supportedPageSizes": [25, 50, 100]
     },
     "files": {
-        "excluded": [".DS_Store", "desktop.ini", "thumbs.db", ".git"]
+        "excluded": [".DS_Store", "desktop.ini", "Thumbs.db", ".git"]
     },
     "adf-version-manager": {
         "allowComments": true,
