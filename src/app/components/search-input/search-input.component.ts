@@ -112,7 +112,9 @@ export class SearchInputComponent implements OnInit {
      */
     onSearchSubmit(event: KeyboardEvent) {
         const searchTerm = (event.target as HTMLInputElement).value;
-        this.store.dispatch(new SearchByTermAction(searchTerm));
+        if (searchTerm) {
+            this.store.dispatch(new SearchByTermAction(searchTerm));
+        }
     }
 
     onSearchChange(searchTerm: string) {
@@ -130,7 +132,9 @@ export class SearchInputComponent implements OnInit {
             }
 
             this.navigationTimer = setTimeout(() => {
-                this.store.dispatch(new SearchByTermAction(searchTerm));
+                if (searchTerm) {
+                    this.store.dispatch(new SearchByTermAction(searchTerm));
+                }
                 this.hasOneChange = false;
             }, 1000);
         }
