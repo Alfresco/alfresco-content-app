@@ -325,7 +325,7 @@ For more information, please check also the ADF's [ContentMetadataComponent](htt
 
 #### Versions tab
 
-The Versions tab displays info about the node's versions and allows users to [manage versions](/version-manager), according to their permissions. Only the file nodes have version data available.
+The Versions tab displays info about the node's versions and allows users to [manage versions](#version-manager), according to their permissions. Only the file nodes have version data available.
 
 ![](images/version-manager-tab.png)
 
@@ -339,11 +339,13 @@ The versions of a file can be viewed & managed by using the [VersionManagerCompo
 
 There are 2 ways users can access the Version Manager:
 
-1. From the 'Manage Versions' option of the 'More actions' menu (check [Actions and the Actions Toolbar](/doc-list?id=actions-and-the-actions-toolbar)):
+1. From the 'Manage Versions' option of the 'More actions' menu (check [Actions and the Actions Toolbar](#actions-and-the-actions-toolbar)):
+
 ![](images/version-manager-action.png)
 ![](images/version-manager-dialog.png)
 
 2. From the [Info Drawer](/info-drawer) (the Details right panel):
+
 ![](images/version-manager-tab.png)
 
 #### Upload new version
