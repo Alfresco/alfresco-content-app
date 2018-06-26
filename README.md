@@ -72,6 +72,6 @@ npm run stop:docker
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
-[contributing]: ttps://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
+[contributing]: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
 [github]: https://github.com/Alfresco/alfresco-content-app/issues
 [jira]: https://issues.alfresco.com/jira/projects/ACA
