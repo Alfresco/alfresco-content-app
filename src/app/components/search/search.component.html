@@ -66,7 +66,9 @@
     <div class="inner-layout__content">
         <div class="inner-layout__panel">
             <div class="adf-search-results">
-                <adf-search-filter #searchFilter></adf-search-filter>
+                <adf-search-filter
+                    #searchFilter
+                    [ngClass]="{ 'adf-search-filter--hidden': !data?.list.entries.length }"></adf-search-filter>
 
                 <div class="adf-search-results__content">
                     <div class="adf-search-results__content-header content" *ngIf="data?.list.entries.length">
