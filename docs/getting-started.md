@@ -74,7 +74,7 @@ The fallback locale is the English one, however current browser language is take
 ### User-defined language
 
 You can allow users to set custom language that gets saved to user preferences.
-The main application menu already has the [ADF Language Menu](https://github.com/Alfresco/alfresco-ng2-components/blob/development/docs/language-menu.component.md) component integrated and pre-filled with the supported items.
+The main application menu already has the [ADF Language Menu](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/language-menu.component.md) component integrated and pre-filled with the supported items.
 
 To change the default language set edit the `app.config.json` file and add or remove items:
 
@@ -131,7 +131,7 @@ You can copy the content over to your newly created file and replace English val
 The Content Application automatically bundles your file upon project build.
 You can test your locale by changing the browser language settings and reloading the page.
 
-Optionally, you can extend the [ADF Language Menu](https://github.com/Alfresco/alfresco-ng2-components/blob/development/docs/language-menu.component.md) component with the newly added language by updating the `app.config.json` file.
+Optionally, you can extend the [ADF Language Menu](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/language-menu.component.md) component with the newly added language by updating the `app.config.json` file.
 
 ### Customizing ADF translations
 
@@ -322,7 +322,7 @@ By default, the application ships with the following rules already predefined:
 ```
 
 <p class="tip">
-You can get more details on the supported rules in the following article: <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/upload.service.md" target="_blank">Upload Service</a>.
+You can get more details on the supported rules in the following article: <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/upload.service.md" target="_blank">Upload Service</a>.
 </p>
 
 #### Pagination settings
@@ -348,7 +348,7 @@ You can change the default settings of the pagination that gets applied to all t
 You can store any information in the application configuration file, and access it at runtime by using the `AppConfigService` service provided by ADF.
 
 <p class="tip">
-Please refer to the <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/app-config.service.md" target="_blank">AppConfigService</a> documentation to get more details on Application Configuration features and API available.
+Please refer to the <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/app-config.service.md" target="_blank">AppConfigService</a> documentation to get more details on Application Configuration features and API available.
 </p>
 
 ## Navigation
@@ -427,7 +427,7 @@ To change the `title` and `label` of navigation links edit the values under `BRO
 }
 ```
 
-For more information about internationalization see [Internationalization (i18n)](/i18n) section.
+For more information about internationalization see [Internationalization (i18n)](#internationalization-i18n) section.
 
 ### User-defined navigation
 
@@ -513,7 +513,7 @@ Map the `/custom-route` in `app.routes.ts` as a child of `LayoutComponent` defin
 
 ![](images/navigation-03.png)
 
-For more information about the content of a custom page see [Document List Layout](/doc-list) section.
+For more information about the content of a custom page see [Document List Layout](/#document-list-layout) section.
 
 ## Docker
 
