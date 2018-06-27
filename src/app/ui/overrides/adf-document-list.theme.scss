@@ -83,9 +83,14 @@
         }
 
         &.adf-data-table--empty {
-            .adf-datatable-row:hover,
-            .adf-datatable-row:focus {
-                background-color: unset;
+            .adf-datatable-row {
+                &:hover, &:focus {
+                    background-color: unset;
+                }
+
+                .adf-datatable-table-cell {
+                    border: none
+                }
             }
         }
     }
