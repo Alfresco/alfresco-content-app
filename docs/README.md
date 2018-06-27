@@ -48,7 +48,7 @@ There are three main areas of the application controlled by the [Layout componen
 - [(2) Side Navigation](#side-navigation)
 - [(3) Document List](#document-list-layout)
 
-![](images/features-01.png)
+![Features](images/features-01.png)
 
 ### Header
 
@@ -58,7 +58,7 @@ The application [header](https://github.com/Alfresco/alfresco-content-app/tree/m
 2. [Search](#search)
 3. [Current User](#current-user)
 
-![](images/header.png)
+![Header](images/header.png)
 
 #### Logo and Color
 
@@ -72,7 +72,10 @@ The application [Search](https://github.com/Alfresco/alfresco-content-app/tree/m
 uses the [ADF Search Component](https://github.com/Alfresco/alfresco-ng2-components/tree/master/lib/content-services/search)
 the app provides a 'live' search feature, where users can open files and folders directly from the Search API results.
 
-![](images/search.png)
+![Search Input](images/search.png)
+
+If you type `Enter` in the text input area, you are going to see [Search Results](#search-results) page
+with advanced filtering and faceted search.
 
 #### Current User
 
@@ -81,14 +84,14 @@ displays the user's name, and a menu where users can logout.
 Optionally through updating the [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json)
 a language switching menu can be displayed.
 
-![](images/current-user.png)
+![Current User](images/current-user.png)
 
 ### Side Navigation
 
 The application [side navigation](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/sidenav) has two features:
 a button menu and navigation links.
 
-![](images/side-nav.png)
+![Side Navigation](images/side-nav.png)
 
 #### New button
 
@@ -103,7 +106,7 @@ is displayed which shows the user the progress of the uploads they have started.
 The upload dialog persists on the screen and can be minimized; users are able to continue using the application whilst uploads are in progress
 and uploads can be canceled which will stop uploads in progress or permanently delete already completed uploads.
 
-![](images/uploader.png)
+![Uploader](images/uploader.png)
 
 #### Navigation
 
@@ -259,7 +262,7 @@ or double click on a file to view it, and a folder to open it.
 
 The File Viewer has been created using the [ViewerComponent](https://alfresco.github.io/adf-component-catalog/components/ViewerComponent.html) from the ADF. The Viewer has four main areas:
 
-![](images/File-Viewer.png)
+![File Viewer](images/File-Viewer.png)
 
 1. [Header & Toolbar](#header-and-toolbar)
 2. [Content](#content)
@@ -293,21 +296,21 @@ The Document View includes a thumbnails pane which can be activated by a button 
 At the bottom of the content the Viewer Controls allow users to interact with the content in various ways; the actions available are dependant on the type of content being displayed.
 
 - Document View:
-   - Activate/Deactivate thumbnails pane
-   - Previous/Next page
-   - Jump to page number
-   - Zoom in/out
-   - Fit to page
+  - Activate/Deactivate thumbnails pane
+  - Previous/Next page
+  - Jump to page number
+  - Zoom in/out
+  - Fit to page
 - Image View:
-   - Zoom in/out
-   - Rotate left/right (does not alter content in the repository)
-   - Reset image
+  - Zoom in/out
+  - Rotate left/right (does not alter content in the repository)
+  - Reset image
 - Media View:
-   - Play/pause
-   - Timeline position
-   - Audio mute/unmute
-   - Audio volume
-   - Full screen
+  - Play/pause
+  - Timeline position
+  - Audio mute/unmute
+  - Audio volume
+  - Full screen
 
 ### Info Drawer
 
@@ -327,7 +330,7 @@ For more information, please check also the ADF's [ContentMetadataComponent](htt
 
 The Versions tab displays info about the node's versions and allows users to [manage versions](#version-manager), according to their permissions. Only the file nodes have version data available.
 
-![](images/version-manager-tab.png)
+![Version Manager Tab](images/version-manager-tab.png)
 
 It uses the [VersionManagerComponent](https://alfresco.github.io/adf-component-catalog/components/VersionManagerComponent.html) from ADF framework.
 
@@ -341,16 +344,16 @@ There are 2 ways users can access the Version Manager:
 
 1. From the 'Manage Versions' option of the 'More actions' menu (check [Actions and the Actions Toolbar](#actions-and-the-actions-toolbar)):
 
-![](images/version-manager-action.png)
-![](images/version-manager-dialog.png)
+![Version Manager Menu](images/version-manager-action.png)
+![Version Manager Dialog](images/version-manager-dialog.png)
 
 2. From the [Info Drawer](/info-drawer) (the Details right panel):
 
-![](images/version-manager-tab.png)
+![Version Manager Inline](images/version-manager-tab.png)
 
 #### Upload new version
 
-A new version for the selected file can be added by using this button. There is a restriction currently to only upload files of the same extension as the old version. The new version file will be automatically renamed to have the same name as the old version has. Please also check the [UploadVersionButtonComponent](https://alfresco.github.io/adf-component-catalog/components/UploadVersionButtonComponent.html). 
+A new version for the selected file can be added by using this button. There is a restriction currently to only upload files of the same extension as the old version. The new version file will be automatically renamed to have the same name as the old version has. Please also check the [UploadVersionButtonComponent](https://alfresco.github.io/adf-component-catalog/components/UploadVersionButtonComponent.html).
 
 #### Actions Menu
 
@@ -370,6 +373,23 @@ In the app.config.json file, these are the current settings for the ACA version 
 Set the allowComments to false if the version comments should not be displayed on the version list.
 
 Clicking to delete a version of a file triggers a confirmation dialog. Please see the [ConfirmDialogComponent](https://alfresco.github.io/adf-component-catalog/components/ConfirmDialogComponent.html) for more info.
+
+### Search Results
+
+Once you type the text in the Search Input component and press `Enter` you are going to see the Search Results page
+
+![Search Results](images/aca-search-results.png)
+
+This page consists of the following ADF components:
+
+- [Search Filter](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/content-services/search-filter.component.md)
+- [Search Chip List](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/content-services/search-chip-list.component.md)
+- [Search Sorting Picker](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/content-services/search-sorting-picker.component.md)
+- [Document List](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/content-services/document-list.component.md) with custom layout template
+- [Info Drawer](#info-drawer) with Metadata and [Version Management](#version-manager)
+- [Toolbar with basic actions](#actions-and-the-actions-toolbar) like `Preview`, `Download`, `Favorite`, `Copy`, etc.
+
+And also the Info Drawer, Toolbar and Node Selector dialogs for copy and move operations.
 
 ## How to contribute
 
