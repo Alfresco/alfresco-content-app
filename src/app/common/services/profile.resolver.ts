@@ -25,7 +25,7 @@
 
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router';
+import { Resolve, Router } from '@angular/router';
 import { Person } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Observable';
 import { AppStore } from '../../store/states/app.state';
@@ -36,16 +36,26 @@ import { ContentApiService } from '../../services/content-api.service';
 export class ProfileResolver implements Resolve<Person> {
     constructor(
         private store: Store<AppStore>,
-        private contentApi: ContentApiService
+        private contentApi: ContentApiService,
+        private router: Router
     ) {}
 
     resolve(): Observable<Person> {
         return new Observable(observer => {
-            this.contentApi.getPerson('-me-').subscribe(person => {
-                this.store.dispatch(new SetUserAction(person.entry));
-                observer.next(person.entry);
-                observer.complete();
-            });
+            this.contentApi.getPerson('-me-').subscribe(
+                person => {
+                    this.store.dispatch(new SetUserAction(person.entry));
+                    observer.next(person.entry);
+                    observer.complete();
+                },
+                err => {
+                    if (err && err.status === 401) {
+                        observer.next(null);
+                        observer.complete();
+                        this.router.navigate(['login']);
+                    }
+                }
+            );
         });
     }
 }
