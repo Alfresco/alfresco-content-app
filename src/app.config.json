@@ -269,10 +269,10 @@
                     "selector": "check-list",
                     "settings": {
                         "options": [
-                            { "name": "Small", "value": "content.size:[0 TO 1000000]" },
-                            { "name": "Medium", "value": "content.size:[1000000 TO 50000000]" },
-                            { "name": "Large", "value": "content.size:[50000000 TO 500000000]"},
-                            { "name": "Huge", "value": "content.size:[500000000 TO MAX]"}
+                            { "name": "Small", "value": "content.size:[0 TO 1048576]" },
+                            { "name": "Medium", "value": "content.size:[1048576 TO 5242880]" },
+                            { "name": "Large", "value": "content.size:[5242880 TO 52428800]" },
+                            { "name": "Huge", "value": "content.size:[52428800 TO MAX]" }
                         ]
                     }
                 }
