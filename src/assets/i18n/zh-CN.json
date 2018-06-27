@@ -3,11 +3,21 @@
     "LANGUAGE": "语言",
     "SIGN_IN": "登录",
     "SIGN_OUT": "退出",
+    "SETTINGS": {
+      "APPLICATION-SETTINGS": "应用程序设置",
+      "REPOSITORY-SETTINGS": "存储库设置",
+      "EXPERIMENTAL-FEATURES": "试验性功能",
+      "INVALID-VALUE-FORMAT": "值格式无效",
+      "REQUIRED-FIELD": "此字段为必填字段",
+      "RESET": "重置",
+      "APPLY": "应用"
+    },
     "PREVIEW": {
       "TITLE": "预览"
     },
     "NEW_MENU": {
       "LABEL": "新建",
+      "TOOLTIP": "添加新文件或文件夹",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "创建文件夹",
         "UPLOAD_FILE": "上传文件",
@@ -88,6 +98,15 @@
       },
       "ABOUT": {
         "TITLE": "关于"
+      },
+      "SEARCH": {
+        "TITLE": "搜索结果",
+        "FOUND_RESULTS": "找到 {{ number }} 个结果",
+        "CUSTOM_ROW": {
+          "MODIFIED": "已修改",
+          "LOCATION": "位置",
+          "SIZE": "字号(&S)"
+        }
       }
     },
     "ACTIONS": {
@@ -104,7 +123,8 @@
       "FAVORITE": "收藏",
       "UNSHARE": "取消共享",
       "DETAILS": "查看详细信息",
-      "VERSIONS": "管理版本"
+      "VERSIONS": "管理版本",
+      "TOGGLE-SIDENAV": "切换侧导航栏"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -135,6 +155,7 @@
     },
     "MESSAGES": {
       "ERRORS": {
+        "MISSING_CONTENT": "此文件或文件夹不再存在，或者您无权对其进行查看。",
         "GENERIC": "此操作未成功，请重试或联系您的 IT 团队。",
         "CONFLICT": "此名称已使用，请尝试其他名称。",
         "NODE_MOVE": "未成功移动，存在有相同名称的文件。",
@@ -155,6 +176,14 @@
             "LOCATION_MISSING": "无法恢复 {{ name }}，原位置不复存在",
             "GENERIC": "恢复 {{ name }} 时出现问题"
           }
+        },
+        "DELETE_LIBRARY_FAILED": "无法删除库"
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "发生了问题",
+          "CONFLICT": "未上传新版本，已存在另一个同名文件",
+          "500": "上传时发生了问题"
         }
       },
       "INFO": {
@@ -192,7 +221,8 @@
             "PLURAL": "部分移动 {{ partially }} 项目。",
             "FAIL": "{{ failed }} 无法移动。"
           }
-        }
+        },
+        "LIBRARY_DELETED": "库已删除"
       }
     },
     "CONTENT_METADATA": {
@@ -221,6 +251,37 @@
     "SELECTION": {
       "EMPTY": "请选定一个文件去看它的版本。",
       "NO_PERMISSION": "你没有权限管理此内容的版本。"
+    }
+  },
+  "SEARCH": {
+    "SORT": {
+      "RELEVANCE": "相关性",
+      "FILENAME": "文件名",
+      "TITLE": "标题",
+      "MODIFIED_DATE": "修改日期",
+      "SIZE": "字号(&S)",
+      "TYPE": "类型",
+      "MODIFIER": "修改者",
+      "CREATE_DATE": "创建日期"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "文件类型",
+      "CREATOR": "创建者",
+      "MODIFIER": "修改者",
+      "FILE_LIBRARY": "文件库"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "修改日期",
+      "SIZE": "字号(&S)",
+      "CREATED_DATE": "创建日期"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "保存更改",
+        "CANCEL": "丢弃更改"
+      }
     }
   }
 }

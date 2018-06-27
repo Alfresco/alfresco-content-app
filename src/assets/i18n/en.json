@@ -155,7 +155,7 @@
         },
         "MESSAGES": {
             "ERRORS":{
-                "MISSING_CONTENT": "This file / folder no longer exists or you don't have permission to view it.",
+                "MISSING_CONTENT": "This file or folder no longer exists or you don't have permission to view it.",
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
                 "NODE_MOVE": "Move unsuccessful, a file with the same name already exists.",
@@ -181,9 +181,9 @@
             },
             "UPLOAD": {
                 "ERROR": {
-                    "GENERIC": "Opps! There was a problem",
+                    "GENERIC": "There was a problem",
                     "CONFLICT": "New version not uploaded, another file with the same name already exists",
-                    "500": "Opps! There was a problem while uploading"
+                    "500": "There was a problem while uploading"
                 }
             },
             "INFO": {

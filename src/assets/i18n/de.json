@@ -3,11 +3,21 @@
     "LANGUAGE": "Sprache",
     "SIGN_IN": "Anmelden",
     "SIGN_OUT": "Abmelden",
+    "SETTINGS": {
+      "APPLICATION-SETTINGS": "Anwendungseinstellungen",
+      "REPOSITORY-SETTINGS": "Repository-Einstellungen",
+      "EXPERIMENTAL-FEATURES": "Testfunktionen",
+      "INVALID-VALUE-FORMAT": "Wert in ungültigem Format",
+      "REQUIRED-FIELD": "Dieses Feld ist erforderlich.",
+      "RESET": "Zurücksetzen",
+      "APPLY": "Anwenden"
+    },
     "PREVIEW": {
       "TITLE": "Vorschau"
     },
     "NEW_MENU": {
       "LABEL": "Neu",
+      "TOOLTIP": "Neue Dateien oder Ordner hinzufügen",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Ordner erstellen",
         "UPLOAD_FILE": "Datei hochladen",
@@ -88,6 +98,15 @@
       },
       "ABOUT": {
         "TITLE": "Info"
+      },
+      "SEARCH": {
+        "TITLE": "Ergebnisse durchsuchen",
+        "FOUND_RESULTS": "{{ number }} Ergebnisse gefunden",
+        "CUSTOM_ROW": {
+          "MODIFIED": "Bearbeitet",
+          "LOCATION": "Speicherort",
+          "SIZE": "Größe"
+        }
       }
     },
     "ACTIONS": {
@@ -104,7 +123,8 @@
       "FAVORITE": "Zu Favoriten",
       "UNSHARE": "Freigabe aufheben",
       "DETAILS": "Details anzeigen",
-      "VERSIONS": "Versionen verwalten"
+      "VERSIONS": "Versionen verwalten",
+      "TOGGLE-SIDENAV": "Navigationsseitenleiste umschalten"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -135,6 +155,7 @@
     },
     "MESSAGES": {
       "ERRORS": {
+        "MISSING_CONTENT": "Diese Datei oder diesen Ordner gibt es nicht mehr oder Sie verfügen nicht über die für die Anzeige nötigen Benutzerrechte.",
         "GENERIC": "Die Aktion war nicht erfolgreich. Versuchen Sie es noch einmal oder wenden Sie sich an Ihr IT-Team.",
         "CONFLICT": "Dieser Name wird bereits verwendet. Versuchen Sie es mit einem anderen Namen.",
         "NODE_MOVE": "Verschiebung nicht erfolgreich. Es gibt bereits eine Datei mit demselben Namen.",
@@ -155,6 +176,14 @@
             "LOCATION_MISSING": "{{ name }} kann nicht wiederhergestellt werden, weil es den ursprünglichen Speicherort nicht mehr gibt",
             "GENERIC": "Beim Wiederherstellen von {{ name }} ist ein Problem aufgetreten"
           }
+        },
+        "DELETE_LIBRARY_FAILED": "Bibliothek kann nicht gelöscht werden"
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "Es ist ein Problem aufgetreten.",
+          "CONFLICT": "Neue Version nicht hochgeladen. Es gibt bereits eine Datei mit demselben Namen.",
+          "500": "Beim Hochladen ist ein Problem aufgetreten."
         }
       },
       "INFO": {
@@ -192,7 +221,8 @@
             "PLURAL": "{{ partially }} Elemente teilweise verschoben.",
             "FAIL": "{{ failed }} konnte nicht verschoben werden."
           }
-        }
+        },
+        "LIBRARY_DELETED": "Bibliothek gelöscht"
       }
     },
     "CONTENT_METADATA": {
@@ -221,6 +251,37 @@
     "SELECTION": {
       "EMPTY": "Wählen Sie ein Dokument aus, um die Versionen davon anzuzeigen.",
       "NO_PERMISSION": "Sie verfügen nicht über die nötigen Benutzerrechte, um Versionen dieser Inhalte anzuzeigen."
+    }
+  },
+  "SEARCH": {
+    "SORT": {
+      "RELEVANCE": "Relevanz",
+      "FILENAME": "Dateiname",
+      "TITLE": "Titel",
+      "MODIFIED_DATE": "Datum der Änderung",
+      "SIZE": "Größe",
+      "TYPE": "Typ",
+      "MODIFIER": "Bearbeiter",
+      "CREATE_DATE": "Datum der Erstellung"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "Dateityp",
+      "CREATOR": "Ersteller",
+      "MODIFIER": "Bearbeiter",
+      "FILE_LIBRARY": "Dateibibliothek"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "Datum der Änderung",
+      "SIZE": "Größe",
+      "CREATED_DATE": "Datum der Erstellung"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "Änderungen speichern",
+        "CANCEL": "Änderungen verwerfen"
+      }
     }
   }
 }

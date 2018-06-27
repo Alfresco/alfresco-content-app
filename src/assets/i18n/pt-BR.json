@@ -3,11 +3,21 @@
     "LANGUAGE": "Idioma",
     "SIGN_IN": "Entrar",
     "SIGN_OUT": "Sair",
+    "SETTINGS": {
+      "APPLICATION-SETTINGS": "Configurações do aplicativo",
+      "REPOSITORY-SETTINGS": "Configurações do repositório",
+      "EXPERIMENTAL-FEATURES": "Recursos Experimentais",
+      "INVALID-VALUE-FORMAT": "Formato de valor inválido",
+      "REQUIRED-FIELD": "Este campo é obrigatório",
+      "RESET": "Redefinir",
+      "APPLY": "Aplicar"
+    },
     "PREVIEW": {
       "TITLE": "Visualizar"
     },
     "NEW_MENU": {
       "LABEL": "Novo",
+      "TOOLTIP": "Adicionar novos arquivos ou pastas",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Criar pasta",
         "UPLOAD_FILE": "Carregar arquivo",
@@ -88,6 +98,15 @@
       },
       "ABOUT": {
         "TITLE": "Sobre"
+      },
+      "SEARCH": {
+        "TITLE": "Resultados da pesquisa",
+        "FOUND_RESULTS": "{{ number }} resultados encontrados",
+        "CUSTOM_ROW": {
+          "MODIFIED": "Modificado",
+          "LOCATION": "Localização",
+          "SIZE": "Tamanho"
+        }
       }
     },
     "ACTIONS": {
@@ -104,7 +123,8 @@
       "FAVORITE": "Favoritos",
       "UNSHARE": "Descompartilhar",
       "DETAILS": "Exibir detalhes",
-      "VERSIONS": "Gerenciar versões"
+      "VERSIONS": "Gerenciar versões",
+      "TOGGLE-SIDENAV": "Alternar a barra de navegação lateral"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -135,6 +155,7 @@
     },
     "MESSAGES": {
       "ERRORS": {
+        "MISSING_CONTENT": "Este arquivo ou pasta não existe, ou você não tem permissão de visualização.",
         "GENERIC": "A ação não teve êxito. Tente novamente ou entre em contato com a Equipe de TI.",
         "CONFLICT": "Este nome já está em uso, tente outro nome.",
         "NODE_MOVE": "Falha ao mover, já existe um arquivo com o mesmo nome.",
@@ -155,6 +176,14 @@
             "LOCATION_MISSING": "Não foi possível restaurar {{ name }}, o local original não existe mais",
             "GENERIC": "Houve um problema ao restaurar {{ name }}"
           }
+        },
+        "DELETE_LIBRARY_FAILED": "Não foi possível apagar a biblioteca"
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "Houve um problema",
+          "CONFLICT": "Nova versão não carregada, já existe um arquivo com o mesmo nome",
+          "500": "Houve um problema ao carregar"
         }
       },
       "INFO": {
@@ -192,7 +221,8 @@
             "PLURAL": "Itens {{ success }} parcialmente movidos.",
             "FAIL": "Não foi possível mover {{ failed }}."
           }
-        }
+        },
+        "LIBRARY_DELETED": "Biblioteca apagada"
       }
     },
     "CONTENT_METADATA": {
@@ -221,6 +251,37 @@
     "SELECTION": {
       "EMPTY": "Escolha um documento para ver suas versões.",
       "NO_PERMISSION": "Você não tem permissão para gerenciar as versões deste conteúdo."
+    }
+  },
+  "SEARCH": {
+    "SORT": {
+      "RELEVANCE": "Relevância",
+      "FILENAME": "Nome do arquivo",
+      "TITLE": "Título",
+      "MODIFIED_DATE": "Data de modificação",
+      "SIZE": "Tamanho",
+      "TYPE": "Tipo",
+      "MODIFIER": "Modificador",
+      "CREATE_DATE": "Data de criação"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "Tipo de arquivo",
+      "CREATOR": "Criador",
+      "MODIFIER": "Modificador",
+      "FILE_LIBRARY": "Biblioteca de arquivo"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "Data de modificação",
+      "SIZE": "Tamanho",
+      "CREATED_DATE": "Data de criação"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "Salvar alterações",
+        "CANCEL": "Descartar alterações"
+      }
     }
   }
 }

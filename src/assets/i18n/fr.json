@@ -3,11 +3,21 @@
     "LANGUAGE": "Langue",
     "SIGN_IN": "Connexion",
     "SIGN_OUT": "Déconnexion",
+    "SETTINGS": {
+      "APPLICATION-SETTINGS": "Paramètres de l'application",
+      "REPOSITORY-SETTINGS": "Paramètres de l'entrepôt",
+      "EXPERIMENTAL-FEATURES": "Fonctionnalités expérimentales",
+      "INVALID-VALUE-FORMAT": "Format de valeur non valide",
+      "REQUIRED-FIELD": "Ce champ doit être renseigné",
+      "RESET": "Réinitialiser",
+      "APPLY": "Appliquer"
+    },
     "PREVIEW": {
       "TITLE": "Aperçu"
     },
     "NEW_MENU": {
       "LABEL": "Nouveau",
+      "TOOLTIP": "Ajouter de nouveaux fichiers ou dossiers",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Créer un dossier",
         "UPLOAD_FILE": "Importer le fichier",
@@ -88,6 +98,15 @@
       },
       "ABOUT": {
         "TITLE": "A propos de"
+      },
+      "SEARCH": {
+        "TITLE": "Résultats de la recherche",
+        "FOUND_RESULTS": "{{ number }} résultats trouvés",
+        "CUSTOM_ROW": {
+          "MODIFIED": "Modifié",
+          "LOCATION": "Emplacement",
+          "SIZE": "Taille"
+        }
       }
     },
     "ACTIONS": {
@@ -104,7 +123,8 @@
       "FAVORITE": "Favori",
       "UNSHARE": "Ne pas partager",
       "DETAILS": "Afficher les détails",
-      "VERSIONS": "Gérer les versions"
+      "VERSIONS": "Gérer les versions",
+      "TOGGLE-SIDENAV": "Activer/désactiver la barre de navigation latérale"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -135,6 +155,7 @@
     },
     "MESSAGES": {
       "ERRORS": {
+        "MISSING_CONTENT": "Ce fichier ou dossier n'existe plus ou vous n'avez pas les droits pour le consulter.",
         "GENERIC": "L'action a échoué. Réessayez ou contactez le service informatique.",
         "CONFLICT": "Ce nom est déjà utilisé, essayez avec un nom différent.",
         "NODE_MOVE": "Echec du déplacement, un fichier du même nom existe déjà.",
@@ -155,6 +176,14 @@
             "LOCATION_MISSING": "Impossible de restaurer {{ name }}, l'emplacement d'origine n'existe plus",
             "GENERIC": "Un problème est survenu pendant la restauration de {{ name }}"
           }
+        },
+        "DELETE_LIBRARY_FAILED": "Impossible de supprimer la bibliothèque"
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "Une erreur est survenue",
+          "CONFLICT": "La nouvelle version n'a pas été importée, un autre fichier du même nom existe déjà",
+          "500": "Une erreur est survenue lors de l'importation"
         }
       },
       "INFO": {
@@ -192,7 +221,8 @@
             "PLURAL": "{{ partially }} éléments partiellement déplacés.",
             "FAIL": "{{ failed }} n'a/n'ont pas pu être déplacé(s)."
           }
-        }
+        },
+        "LIBRARY_DELETED": "Bibliothèque supprimée"
       }
     },
     "CONTENT_METADATA": {
@@ -221,6 +251,37 @@
     "SELECTION": {
       "EMPTY": "Choisissez un document pour en voir les versions.",
       "NO_PERMISSION": "Vous n'êtes pas autorisé(e) à gérer les versions de ce contenu."
+    }
+  },
+  "SEARCH": {
+    "SORT": {
+      "RELEVANCE": "Pertinence",
+      "FILENAME": "Nom de fichier",
+      "TITLE": "Titre",
+      "MODIFIED_DATE": "Date de Modification",
+      "SIZE": "Taille",
+      "TYPE": "Type",
+      "MODIFIER": "Modificateur",
+      "CREATE_DATE": "Date de création"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "Type de fichier",
+      "CREATOR": "Créateur",
+      "MODIFIER": "Modificateur",
+      "FILE_LIBRARY": "Bibliothèque de fichiers"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "Date de Modification",
+      "SIZE": "Taille",
+      "CREATED_DATE": "Date de création"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "Enregistrer les modifications",
+        "CANCEL": "Ignorer les modifications"
+      }
     }
   }
 }
