@@ -64,7 +64,7 @@ The application [header](https://github.com/Alfresco/alfresco-content-app/tree/m
 
 Logo & app primary color - logo and color are configurable by updating the
 [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json) file in the root folder of the project.
-Please refer to the [Application Configuration](https://github.com/Alfresco/alfresco-content-app/blob/master/docs/configuration.md#application-logo) documentation for more information on how to change the logo and color.
+Please refer to the [Application Configuration](/getting-started#application-logo) documentation for more information on how to change the logo and color.
 
 #### Search
 
@@ -112,7 +112,7 @@ and uploads can be canceled which will stop uploads in progress or permanently d
 
 The navigation links are configurable via the [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json).
 Default configuration creates two sections.
-See [Navigation](#navigation) for more information about configuring the side navigation.
+See [Navigation](/getting-started#navigation) for more information about configuring the side navigation.
 
 ### Document List Layout
 
@@ -125,7 +125,7 @@ The main area of the application is composed of several individual ADF component
 
 ![](images/doclist.png)
 
-The application has six different Document List views which share commonalities between each view and subtle differences depending on the content being loaded which are explained below.
+The application has seven different Document List views which share commonalities between each view and subtle differences depending on the content being loaded which are explained below.
 
 #### Personal Files
 
@@ -158,7 +158,7 @@ A feature for creating and removing Shared Links will be added in the future.
 #### Recent Files
 
 The Recent Files view shows all the files that have been created or modified within the last 30 days by the current user.
-The [Recent Files](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/current-user)
+The [Recent Files](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/recent-files)
 component uses the Search API to query SOLR for changes made by the user and includes an extra column to display where the file is
 [located](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/location-link)
 in the content repository.
@@ -182,6 +182,11 @@ and perform the actions requested by the user and includes an extra column to di
 [located](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/location-link)
 in the content repository before it was deleted.
 
+#### Search Results
+
+The Search Results view shows the found items for a search query. It has a custom layout template and users can easily browse the results and perform actions on items.
+For more information on the [SearchComponent](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/search), please also check this [Search Results](#search-results1) section.
+
 #### Actions and the Actions Toolbar
 
 All the views incorporate the [toolbar](https://alfresco.github.io/adf-component-catalog/components/ToolbarComponent.html)
@@ -199,7 +204,7 @@ actions are automatically hidden when the user does not have permission.
     <tr>
         <td>View</td>
         <td>
-            Opens the selected file using the <a href="https://github.com/Alfresco/alfresco-content-app/tree/development/src/app/components/preview" target="_blank">Preview</a> component,
+            Opens the selected file using the <a href="https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/preview" target="_blank">Preview</a> component,
             where the file cannot be displayed natively in a browser a PDF rendition is obtained from the repository.
         </td>
         <td>Not applicable</td>
@@ -333,8 +338,7 @@ The Versions tab displays info about the node's versions and allows users to [ma
 ![Version Manager Tab](images/version-manager-tab.png)
 
 It uses the [VersionManagerComponent](https://alfresco.github.io/adf-component-catalog/components/VersionManagerComponent.html) from ADF framework.
-
-Managing versions of a file can be possible also by accessing the 'Manage Versions' option from the 'More actions' menu. For more info on manage versions, please check the [version manager](#version-manager) page.
+Managing versions of a file can be possible also by accessing the 'Manage Versions' option from the 'More actions' menu.
 
 ### Version Manager
 
@@ -342,18 +346,19 @@ The versions of a file can be viewed & managed by using the [VersionManagerCompo
 
 There are 2 ways users can access the Version Manager:
 
-1. From the 'Manage Versions' option of the 'More actions' menu (check [Actions and the Actions Toolbar](#actions-and-the-actions-toolbar)):
+1) From the 'Manage Versions' option of the 'More actions' menu (check [Actions and the Actions Toolbar](#actions-and-the-actions-toolbar)):
 
 ![Version Manager Menu](images/version-manager-action.png)
 ![Version Manager Dialog](images/version-manager-dialog.png)
 
-2. From the [Info Drawer](/info-drawer) (the Details right panel):
+2) From the [Info Drawer](#info-drawer) (the Details right panel):
 
 ![Version Manager Inline](images/version-manager-tab.png)
 
 #### Upload new version
 
-A new version for the selected file can be added by using this button. There is a restriction currently to only upload files of the same extension as the old version. The new version file will be automatically renamed to have the same name as the old version has. Please also check the [UploadVersionButtonComponent](https://alfresco.github.io/adf-component-catalog/components/UploadVersionButtonComponent.html).
+A new version for the selected file can be added by using this button. Users can upload a new file version using a file that is does not have the same name, or mimetype as the current version, whilst allowing the user to choose the type of version (minor or major) and inputting supporting comments. 
+Please also check the [UploadVersionButtonComponent](https://alfresco.github.io/adf-component-catalog/components/UploadVersionButtonComponent.html).
 
 #### Actions Menu
 
