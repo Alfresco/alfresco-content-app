@@ -10,6 +10,11 @@
         background-color: mat-color($background, card);
     }
 
+    adf-content-node-selector-panel .cell-container {
+        display: flex !important;
+        align-items: center;
+    }
+
     adf-datatable {
         @include flex-column;
         overflow-y: scroll;
