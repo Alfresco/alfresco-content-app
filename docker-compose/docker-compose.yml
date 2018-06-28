@@ -2,7 +2,7 @@ version: "3"
 
 services:
     alfresco:
-        image: alfresco/alfresco-content-repository-community:6.0.5-ea
+        image: alfresco/alfresco-content-repository-community:6.0.7-ga
         depends_on:
             - postgres
         environment:
@@ -16,7 +16,9 @@ services:
                 -Dsolr.secureComms=none
                 -Dsolr.base.url=/solr
                 -Dindex.subsystem.name=solr6
+                -Dshare.host=localhost
                 -Ddeployment.method=DOCKER_COMPOSE
+                -Dcsrf.filter.enabled=false
                 "
         networks:
             - internal
@@ -24,7 +26,7 @@ services:
             - 8080:8080 #Browser port
 
     share:
-        image: alfresco/alfresco-share:6.0.a
+        image: alfresco/alfresco-share:6.0.b
         depends_on:
             - alfresco
         environment:
@@ -41,6 +43,7 @@ services:
             - POSTGRES_PASSWORD=alfresco
             - POSTGRES_USER=alfresco
             - POSTGRES_DB=alfresco
+        command: postgres -c max_connections=300 -c log_min_messages=LOG
         networks:
             - internal
         ports:
