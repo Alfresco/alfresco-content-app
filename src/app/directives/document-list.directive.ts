@@ -52,6 +52,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.documentList.includeFields = ['isFavorite'];
+        this.documentList.allowDropFiles = false;
 
         if (this.sortingPreferenceKey) {
             const current = this.documentList.sorting;
