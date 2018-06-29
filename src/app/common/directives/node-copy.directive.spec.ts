@@ -27,7 +27,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { NotificationService } from '@alfresco/adf-core';
+import { MatSnackBar } from '@angular/material';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeCopyDirective } from './node-copy.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -44,7 +44,7 @@ describe('NodeCopyDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let component: TestComponent;
     let element: DebugElement;
-    let notificationService: NotificationService;
+    let snackBar: MatSnackBar;
     let service: NodeActionsService;
     let contentApi: ContentApiService;
 
@@ -62,13 +62,13 @@ describe('NodeCopyDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(NodeCopyDirective));
-        notificationService = TestBed.get(NotificationService);
+        snackBar = TestBed.get(MatSnackBar);
         service = TestBed.get(NodeActionsService);
     });
 
     describe('Copy node action', () => {
         beforeEach(() => {
-            spyOn(notificationService, 'openSnackMessageAction').and.callThrough();
+            spyOn(snackBar, 'open').and.callThrough();
         });
 
         it('notifies successful copy of a node', () => {
@@ -82,9 +82,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
         });
 
         it('notifies successful copy of multiple nodes', () => {
@@ -102,9 +100,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.PLURAL', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
         });
 
         it('notifies partially copy of one node out of a multiple selection of nodes', () => {
@@ -121,9 +117,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR');
         });
 
         it('notifies partially copy of more nodes out of a multiple selection of nodes', () => {
@@ -142,9 +136,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL');
         });
 
         it('notifies of failed copy of multiple nodes', () => {
@@ -161,9 +153,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL', '', 3000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL');
         });
 
         it('notifies of failed copy of one node', () => {
@@ -178,9 +168,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR', '', 3000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR');
         });
 
         it('notifies error if success message was not emitted', () => {
@@ -193,7 +181,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next();
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC', '', 3000);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
         });
 
         it('notifies permission error on copy of node', () => {
@@ -205,9 +193,7 @@ describe('NodeCopyDirective', () => {
             element.triggerEventHandler('click', null);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.PERMISSION', '', 3000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
         });
 
         it('notifies generic error message on all errors, but 403', () => {
@@ -219,9 +205,7 @@ describe('NodeCopyDirective', () => {
             element.triggerEventHandler('click', null);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.GENERIC', '', 3000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
         });
     });
 
@@ -229,7 +213,7 @@ describe('NodeCopyDirective', () => {
         beforeEach(() => {
             spyOn(service, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
 
-            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({
+            spyOn(snackBar, 'open').and.returnValue({
                 onAction: () => Observable.of({})
             });
         });
@@ -245,9 +229,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
 
             expect(contentApi.deleteNode).toHaveBeenCalledWith(createdItems[0].entry.id, { permanent: true });
         });
@@ -269,9 +251,7 @@ describe('NodeCopyDirective', () => {
             service.contentCopied.next(<any>createdItems);
 
             expect(service.copyNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_COPY.PLURAL', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
 
             expect(spyOnDeleteNode).toHaveBeenCalled();
             expect(spyOnDeleteNode.calls.allArgs())
@@ -290,9 +270,7 @@ describe('NodeCopyDirective', () => {
 
             expect(service.copyNodes).toHaveBeenCalled();
             expect(contentApi.deleteNode).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction['calls'].allArgs())
-            .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000],
-                ['APP.MESSAGES.ERRORS.GENERIC', '', 3000]]);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
         });
 
         it('notifies when some error of type Error occurs on Undo action', () => {
@@ -307,9 +285,7 @@ describe('NodeCopyDirective', () => {
 
             expect(service.copyNodes).toHaveBeenCalled();
             expect(contentApi.deleteNode).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction['calls'].allArgs())
-            .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000],
-                ['APP.MESSAGES.ERRORS.GENERIC', '', 3000]]);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
         });
 
         it('notifies permission error when it occurs on Undo action', () => {
@@ -324,9 +300,7 @@ describe('NodeCopyDirective', () => {
 
             expect(service.copyNodes).toHaveBeenCalled();
             expect(contentApi.deleteNode).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction['calls'].allArgs())
-            .toEqual([['APP.MESSAGES.INFO.NODE_COPY.SINGULAR', 'APP.ACTIONS.UNDO', 10000],
-                ['APP.MESSAGES.ERRORS.PERMISSION', '', 3000]]);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
         });
     });
 
