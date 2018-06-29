@@ -24,8 +24,7 @@
  */
 
 import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation } from '@angular/core';
-import { DataColumn, DataRow, DataTableAdapter } from '@alfresco/adf-core';
-import { PathInfoEntity, MinimalNodeEntity } from 'alfresco-js-api';
+import { PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 
 import { Store } from '@ngrx/store';
@@ -34,7 +33,7 @@ import { NavigateToParentFolder } from '../../store/actions';
 import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
-    selector: 'app-location-link',
+    selector: 'aca-location-link',
     template: `
         <a href="" [title]="tooltip | async" (click)="goToLocation()">
             {{ displayText | async }}
@@ -42,7 +41,7 @@ import { ContentApiService } from '../../services/content-api.service';
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    host: { 'class': 'app-location-link adf-location-cell' }
+    host: { 'class': 'aca-location-link adf-location-cell' }
 })
 export class LocationLinkComponent implements OnInit {
 
@@ -72,21 +71,20 @@ export class LocationLinkComponent implements OnInit {
 
     ngOnInit() {
         if (this.context) {
-            const data: DataTableAdapter = this.context.data;
-            const col: DataColumn = this.context.col;
-            const row: DataRow = this.context.row;
-            const path: PathInfoEntity  = data.getValue(row, col);
-            const value = path || this.context.row.node.entry.path;
+            const node: MinimalNodeEntity  = this.context.row.node;
+            if (node && node.entry && node.entry.path) {
+                const path = node.entry.path;
 
-            if (value && value.name && value.elements) {
-                this.displayText = this.getDisplayText(value);
-                this.tooltip = this.getTooltip(value);
+                if (path && path.name && path.elements) {
+                    this.displayText = this.getDisplayText(path);
+                    this.tooltip = this.getTooltip(path);
+                }
             }
         }
     }
 
     // todo: review once 5.2.3 is out
-    private getDisplayText(path: PathInfoEntity): Observable<string> {
+    private getDisplayText(path: PathInfo): Observable<string> {
         const elements = path.elements.map(e => e.name);
 
         // for admin users
@@ -122,7 +120,7 @@ export class LocationLinkComponent implements OnInit {
     }
 
     // todo: review once 5.2.3 is out
-    private getTooltip(path: PathInfoEntity): Observable<string> {
+    private getTooltip(path: PathInfo): Observable<string> {
         const elements = path.elements.map(e => Object.assign({}, e));
 
         if (elements[0].name === 'Company Home') {
