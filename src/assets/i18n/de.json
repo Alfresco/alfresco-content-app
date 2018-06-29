@@ -283,5 +283,10 @@
         "CANCEL": "Änderungen verwerfen"
       }
     }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Details anzeigen"
+    }
   }
 }

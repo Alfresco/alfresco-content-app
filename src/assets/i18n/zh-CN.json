@@ -283,5 +283,10 @@
         "CANCEL": "丢弃更改"
       }
     }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "查看详细信息"
+    }
   }
 }
