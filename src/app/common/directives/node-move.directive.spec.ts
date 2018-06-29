@@ -27,7 +27,8 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { NotificationService, TranslationService } from '@alfresco/adf-core';
+import { MatSnackBar } from '@angular/material';
+import { TranslationService } from '@alfresco/adf-core';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeMoveDirective } from './node-move.directive';
 import { EffectsModule, Actions, ofType } from '@ngrx/effects';
@@ -48,11 +49,11 @@ describe('NodeMoveDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let component: TestComponent;
     let element: DebugElement;
-    let notificationService: NotificationService;
     let service: NodeActionsService;
     let actions$: Actions;
     let translationService: TranslationService;
     let contentApi: ContentApiService;
+    let snackBar: MatSnackBar;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -73,8 +74,8 @@ describe('NodeMoveDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(NodeMoveDirective));
-        notificationService = TestBed.get(NotificationService);
         service = TestBed.get(NodeActionsService);
+        snackBar = TestBed.get(MatSnackBar);
     });
 
     beforeEach(() => {
@@ -93,7 +94,7 @@ describe('NodeMoveDirective', () => {
 
     describe('Move node action', () => {
         beforeEach(() => {
-            spyOn(notificationService, 'openSnackMessageAction').and.callThrough();
+            spyOn(snackBar, 'open').and.callThrough();
         });
 
         it('notifies successful move of a node', () => {
@@ -114,9 +115,7 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(moveResponse);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
         });
 
         it('notifies successful move of multiple nodes', () => {
@@ -139,9 +138,7 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(moveResponse);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.PLURAL', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PLURAL');
         });
 
         it('notifies partial move of a node', () => {
@@ -162,9 +159,7 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(moveResponse);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
         });
 
         it('notifies partial move of multiple nodes', () => {
@@ -187,9 +182,7 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(moveResponse);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL');
         });
 
         it('notifies successful move and the number of nodes that could not be moved', () => {
@@ -211,9 +204,8 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(moveResponse);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0])
+                .toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL');
         });
 
         it('notifies successful move and the number of partially moved ones', () => {
@@ -235,9 +227,8 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(moveResponse);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR', 'APP.ACTIONS.UNDO', 10000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0])
+                .toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
         });
 
         it('notifies error if success message was not emitted', () => {
@@ -257,7 +248,7 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(moveResponse);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith('APP.MESSAGES.ERRORS.GENERIC', '', 3000);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
         });
 
         it('notifies permission error on move of node', () => {
@@ -269,9 +260,7 @@ describe('NodeMoveDirective', () => {
             element.triggerEventHandler('click', null);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.PERMISSION', '', 3000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
         });
 
         it('notifies generic error message on all errors, but 403', () => {
@@ -283,9 +272,7 @@ describe('NodeMoveDirective', () => {
             element.triggerEventHandler('click', null);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.GENERIC', '', 3000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
         });
 
         it('notifies conflict error message on 409', () => {
@@ -297,9 +284,7 @@ describe('NodeMoveDirective', () => {
             element.triggerEventHandler('click', null);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.NODE_MOVE', '', 3000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.NODE_MOVE');
         });
 
         it('notifies error if move response has only failed items', () => {
@@ -320,9 +305,7 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(moveResponse);
 
             expect(service.moveNodes).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.GENERIC', '', 3000
-            );
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
         });
     });
 
@@ -330,11 +313,11 @@ describe('NodeMoveDirective', () => {
         beforeEach(() => {
             spyOn(service, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
 
-            spyOn(notificationService, 'openSnackMessageAction').and.returnValue({
+            spyOn(snackBar, 'open').and.returnValue({
                 onAction: () => Observable.of({})
             });
 
-            spyOn(notificationService, 'openSnackMessage').and.callThrough();
+            // spyOn(snackBar, 'open').and.callThrough();
         });
 
         it('should move node back to initial parent, after succeeded move', () => {
@@ -355,8 +338,7 @@ describe('NodeMoveDirective', () => {
 
             expect(service.moveNodeAction)
                 .toHaveBeenCalledWith(movedItems.succeeded[0].itemMoved.entry, movedItems.succeeded[0].initialParentId);
-            expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
         });
 
         it('should move node back to initial parent, after succeeded move of a single file', () => {
@@ -377,8 +359,7 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(<any>movedItems);
 
             expect(service.moveNodeAction).toHaveBeenCalledWith(node.entry, initialParent);
-            expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
         });
 
         it('should restore deleted folder back to initial parent, after succeeded moving all its files', () => {
@@ -403,8 +384,7 @@ describe('NodeMoveDirective', () => {
             service.contentMoved.next(<any>movedItems);
 
             expect(contentApi.restoreNode).toHaveBeenCalled();
-            expect(notificationService.openSnackMessageAction)
-                .toHaveBeenCalledWith('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR', 'APP.ACTIONS.UNDO', 10000);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
         });
 
         it('should notify when error occurs on Undo Move action', fakeAsync(done => {

@@ -25,8 +25,9 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 
-import { TranslationService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MatSnackBar } from '@angular/material';
 
 import { ContentManagementService } from '../services/content-management.service';
 import { NodeActionsService } from '../services/node-actions.service';
@@ -54,9 +55,9 @@ export class NodeMoveDirective {
         private store: Store<AppStore>,
         private contentApi: ContentApiService,
         private content: ContentManagementService,
-        private notification: NotificationService,
         private nodeActionsService: NodeActionsService,
-        private translation: TranslationService
+        private translation: TranslationService,
+        private snackBar: MatSnackBar
     ) {}
 
     moveSelected() {
@@ -125,7 +126,6 @@ export class NodeMoveDirective {
         }
 
         const undo = (succeeded + partiallySucceeded > 0) ? this.translation.instant('APP.ACTIONS.UNDO') : '';
-        const withUndo = errorMessage ? '' : '_WITH_UNDO';
         failedMessage = errorMessage ?  errorMessage : failedMessage;
 
         const beforePartialSuccessMessage = (successMessage && partialSuccessMessage) ? ' ' : '';
@@ -139,15 +139,17 @@ export class NodeMoveDirective {
         );
 
         // TODO: review in terms of i18n
-        this.notification.openSnackMessageAction(
-            messages[successMessage]
-            + beforePartialSuccessMessage + messages[partialSuccessMessage]
-            + beforeFailedMessage + messages[failedMessage],
-            undo,
-            NodeActionsService[`SNACK_MESSAGE_DURATION${withUndo}`]
-        )
-        .onAction()
-        .subscribe(() => this.revertMoving(moveResponse, initialParentId));
+        this.snackBar
+            .open(
+                messages[successMessage]
+                + beforePartialSuccessMessage + messages[partialSuccessMessage]
+                + beforeFailedMessage + messages[failedMessage]
+                    , undo, {
+                        panelClass: 'info-snackbar',
+                        duration: 3000
+                    })
+                    .onAction()
+                    .subscribe(() => this.revertMoving(moveResponse, initialParentId));
     }
 
     getErrorMessage(errorObject): string {

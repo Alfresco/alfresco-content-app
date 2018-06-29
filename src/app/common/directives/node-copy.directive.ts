@@ -25,8 +25,9 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { MatSnackBar } from '@angular/material';
 
-import { TranslationService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { NodeActionsService } from '../services/node-actions.service';
 import { ContentManagementService } from '../services/content-management.service';
@@ -49,7 +50,7 @@ export class NodeCopyDirective {
     constructor(
         private content: ContentManagementService,
         private contentApi: ContentApiService,
-        private notification: NotificationService,
+        private snackBar: MatSnackBar,
         private nodeActionsService: NodeActionsService,
         private translation: TranslationService
     ) {}
@@ -107,10 +108,14 @@ export class NodeCopyDirective {
         }
 
         const undo = (numberOfCopiedItems > 0) ? this.translation.instant('APP.ACTIONS.UNDO') : '';
-        const withUndo = (numberOfCopiedItems > 0) ? '_WITH_UNDO' : '';
 
         const message = this.translation.instant(i18nMessageString, { success: numberOfCopiedItems, failed: failedItems });
-        this.notification.openSnackMessageAction(message, undo, NodeActionsService[`SNACK_MESSAGE_DURATION${withUndo}`])
+
+        this.snackBar
+            .open(message, undo, {
+                panelClass: 'info-snackbar',
+                duration: 3000
+            })
             .onAction()
             .subscribe(() => this.deleteCopy(newItems));
     }
@@ -139,7 +144,11 @@ export class NodeCopyDirective {
                     }
 
                     const message = this.translation.instant(i18nMessageString);
-                    this.notification.openSnackMessageAction(message, '', NodeActionsService.SNACK_MESSAGE_DURATION);
+
+                    this.snackBar.open(message, '', {
+                        panelClass: 'error-snackbar',
+                        duration: 3000
+                    });
                 }
             );
     }
