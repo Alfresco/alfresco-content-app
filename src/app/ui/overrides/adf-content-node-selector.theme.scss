@@ -1,0 +1,9 @@
+@mixin adf-content-node-selector-theme($theme) {
+
+    adf-content-node-selector-panel {
+        .cell-container {
+            display: flex !important;
+            align-items: center;
+        }
+    }
+}
