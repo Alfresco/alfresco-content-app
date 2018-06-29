@@ -43,7 +43,7 @@ export class DataTable extends Component {
         row: '.adf-datatable-row[role]',
         selectedRow: '.adf-datatable-row.is-selected',
         cell: '.adf-data-table-cell',
-        locationLink: 'app-location-link',
+        locationLink: 'aca-location-link',
 
         selectedIcon: '.mat-icon',
 
