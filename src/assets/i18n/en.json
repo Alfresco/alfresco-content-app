@@ -283,5 +283,10 @@
                 "CANCEL": "Discard changes"
             }
         }
+    },
+    "ADF_VIEWER": {
+        "ACTIONS": {
+            "INFO": "View details"
+        }
     }
 }

@@ -283,5 +283,10 @@
         "CANCEL": "Wijzigingen negeren"
       }
     }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Details weergeven"
+    }
   }
 }

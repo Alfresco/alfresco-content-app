@@ -283,5 +283,10 @@
         "CANCEL": "Descartar cambios"
       }
     }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Ver los detalles"
+    }
   }
 }

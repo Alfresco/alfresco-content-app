@@ -283,5 +283,10 @@
         "CANCEL": "Forkast endringer"
       }
     }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Visningsdetaljer"
+    }
   }
 }
