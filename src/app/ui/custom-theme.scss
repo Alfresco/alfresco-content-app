@@ -21,6 +21,7 @@
 @import './overrides/adf-document-list.theme';
 @import './overrides/adf-upload-drag-area.theme';
 @import './overrides/adf-search-sorting-picker.theme';
+@import './overrides/adf-content-node-selector.theme';
 
 @import 'layout';
 @import 'snackbar';
@@ -76,6 +77,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include adf-document-list-theme($theme);
     @include adf-upload-drag-area-theme($theme);
     @include adf-search-sorting-picker-theme($theme);
+    @include adf-content-node-selector-theme($theme);
 
     @include aca-layout-theme($theme);
     @include aca-header-theme($theme);
