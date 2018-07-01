@@ -41,13 +41,8 @@ export class InfoDrawerComponent implements OnChanges {
     displayNode: MinimalNodeEntryEntity;
 
     canUpdateNode(): boolean {
-        if (this.node) {
-            if ((<any>this.node.entry).nodeId) {
-                return this.permission.check(this.node.entry, ['update'], {
-                    target: 'allowableOperationsOnTarget'
-                });
-            }
-            return this.permission.check(this.node.entry, ['update']);
+        if (this.displayNode) {
+            return this.permission.check(this.displayNode, ['update']);
         }
 
         return false;
