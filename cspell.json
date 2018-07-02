@@ -35,7 +35,8 @@
         "xpath",
         "tooltip",
         "tooltips",
-        "unindent"
+        "unindent",
+        "exif:exif"
     ],
     "dictionaries": [
         "html"
