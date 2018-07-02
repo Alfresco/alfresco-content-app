@@ -74,9 +74,22 @@ export class InfoDrawerComponent implements OnChanges {
                 // workaround for Favorite files
                 this.loadNodeInfo(entry.id);
             } else {
-                this.displayNode = this.node.entry;
+                // workaround Recent
+                if (this.isTypeImage(entry) && !this.hasAspectNames(entry)) {
+                    this.loadNodeInfo(this.node.entry.id);
+                } else {
+                    this.displayNode = this.node.entry;
+                }
             }
         }
+    }
+
+    private hasAspectNames(entry: MinimalNodeEntryEntity) {
+        return entry.aspectNames && entry.aspectNames.includes('exif:exif');
+    }
+
+    private isTypeImage(entry) {
+        return entry.content.mimeType.includes('image/');
     }
 
     private loadNodeInfo(nodeId: string) {
