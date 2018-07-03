@@ -59,6 +59,11 @@
                     "id": "aca:actions/node-name",
                     "type": "SNACKBAR_INFO",
                     "payload": "$('Action for ' + context.selection.first.entry.name)"
+                },
+                {
+                    "id": "aca:actions/settings",
+                    "type": "NAVIGATE_URL",
+                    "payload": "/settings"
                 }
             ],
             "features": {
@@ -157,7 +162,17 @@
                                 "permissions": ["one", "two"],
                                 "action": "aca:actions/node-name"
                             }
-
+                        },
+                        {
+                            "id": "aca:action3",
+                            "order": 101,
+                            "title": "Settings",
+                            "icon": "settings_applications",
+                            "target": {
+                                "type": "folder",
+                                "permissions": ["one", "two"],
+                                "action": "aca:actions/settings"
+                            }
                         }
                     ]
                 }
