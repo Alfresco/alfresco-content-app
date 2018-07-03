@@ -28,17 +28,24 @@ import { RouteExtension } from './route.extension';
 import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
 import { ContentActionExtension } from './content-action.extension';
+import { OpenWithExtension } from './open-with.extension';
+import { AppStore } from '../store/states';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class ExtensionService {
     routes: Array<RouteExtension> = [];
     actions: Array<ActionExtension> = [];
     contentActions: Array<ContentActionExtension> = [];
+    openWithActions: Array<OpenWithExtension> = [];
 
     authGuards: { [key: string]: Type<{}> } = {};
     components: { [key: string]: Type<{}> } = {};
 
-    constructor(private config: AppConfigService) {}
+    constructor(
+        private config: AppConfigService,
+        private store: Store<AppStore>
+    ) {}
 
     init() {
         this.routes = this.config.get<Array<RouteExtension>>(
@@ -53,6 +60,10 @@ export class ExtensionService {
             'extensions.core.features.content.actions'
         );
 
+        this.openWithActions = this.config.get<Array<OpenWithExtension>>(
+            'extensions.core.features.viewer.open-with'
+        );
+
         this.debugLog();
     }
 
@@ -62,6 +73,16 @@ export class ExtensionService {
 
     getActionById(id: string): ActionExtension {
         return this.actions.find(action => action.id === id);
+    }
+
+    runActionById(id: string, context?: any) {
+        const action = this.getActionById(id);
+        if (action) {
+            const { type, payload } = action;
+            const expression = this.runExpression(payload, context);
+
+            this.store.dispatch({ type, payload: expression });
+        }
     }
 
     runExpression(value: string, context?: any) {

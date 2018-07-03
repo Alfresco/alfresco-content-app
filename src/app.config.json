@@ -139,6 +139,17 @@
                         }
                     ]
                 },
+                "viewer": {
+                    "open-with": [
+                        {
+                            "id": "aca:viewer/action1",
+                            "order": 100,
+                            "icon": "build",
+                            "title": "Snackbar",
+                            "action": "aca:actions/info"
+                        }
+                    ]
+                },
                 "content": {
                     "actions": [
                         {

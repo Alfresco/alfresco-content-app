@@ -13,12 +13,12 @@
             <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
         </button>
         <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
-            <button *ngFor="let action of actions"
+            <button *ngFor="let entry of actions"
                 mat-icon-button
                 color="primary"
-                title="{{ action.title }}"
-                (click)="runAction(action)">
-                <mat-icon>{{ action.icon }}</mat-icon>
+                title="{{ entry.title }}"
+                (click)="runAction(entry.target.action)">
+                <mat-icon>{{ entry.icon }}</mat-icon>
             </button>
             <button
                 color="primary"
