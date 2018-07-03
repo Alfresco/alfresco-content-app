@@ -36,6 +36,8 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExtensionService } from '../../extensions/extension.service';
+import { ContentActionExtension } from '../../extensions/content-action.extension';
 
 @Component({
     templateUrl: './files.component.html'
@@ -43,6 +45,7 @@ import { ContentApiService } from '../../services/content-api.service';
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     isValidPath = true;
+    actions: Array<ContentActionExtension> = [];
 
     private nodePath: PathElement[];
 
@@ -54,7 +57,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private uploadService: UploadService,
                 private contentManagementService: ContentManagementService,
                 private browsingFilesService: BrowsingFilesService,
-                public permission: NodePermissionService) {
+                public permission: NodePermissionService,
+                private extensions: ExtensionService) {
         super(store);
     }
 
@@ -97,6 +101,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             uploadService.fileUploadDeleted.debounceTime(300).subscribe((file) => this.onFileUploadedEvent(file)),
             uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
+
+        this.mountExtensions();
     }
 
     ngOnDestroy() {
@@ -264,5 +270,19 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             return this.node.path.elements[0].id === nodeId;
         }
         return false;
+    }
+
+    private mountExtensions() {
+        this.actions = this.extensions.contentActions;
+    }
+
+    // this is where each application decides how to treat an action and what to do
+    // the ACA maps actions to the NgRx actions as an example
+    runAction(contentAction: ContentActionExtension) {
+        const action = this.extensions.getActionById(contentAction.target.action);
+        if (action) {
+            const { type, payload } = action;
+            this.store.dispatch({ type, payload });
+        }
     }
 }

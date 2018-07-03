@@ -49,7 +49,13 @@
                     }
                 }
             ],
-            "actions": [],
+            "actions": [
+                {
+                    "id": "aca:actions/info",
+                    "type": "SNACKBAR_INFO",
+                    "payload": "I'm a nice little popup raised by extension."
+                }
+            ],
             "features": {
                 "navigation": {
                     "aca:main": [
@@ -120,6 +126,21 @@
                             "title": "About (custom)",
                             "description": "Uses custom defined route",
                             "route": "aca:routes/about"
+                        }
+                    ]
+                },
+                "content": {
+                    "actions": [
+                        {
+                            "id": "aca:action1",
+                            "order": 100,
+                            "title": "Info",
+                            "icon": "build",
+                            "target": {
+                                "type": "folder",
+                                "permissions": ["one", "two"],
+                                "action": "aca:actions/info"
+                            }
                         }
                     ]
                 }

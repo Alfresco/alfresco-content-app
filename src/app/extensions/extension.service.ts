@@ -27,11 +27,13 @@ import { Injectable, Type } from '@angular/core';
 import { RouteExtension } from './route.extension';
 import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
+import { ContentActionExtension } from './content-action.extension';
 
 @Injectable()
 export class ExtensionService {
     routes: Array<RouteExtension> = [];
     actions: Array<ActionExtension> = [];
+    contentActions: Array<ContentActionExtension> = [];
 
     authGuards: { [key: string]: Type<{}> } = {};
     components: { [key: string]: Type<{}> } = {};
@@ -47,6 +49,10 @@ export class ExtensionService {
             'extensions.core.actions'
         );
 
+        this.contentActions = this.config.get<Array<ContentActionExtension>>(
+            'extensions.core.features.content.actions'
+        );
+
         this.debugLog();
     }
 
@@ -54,10 +60,15 @@ export class ExtensionService {
         return this.routes.find(route => route.id === id);
     }
 
+    getActionById(id: string): ActionExtension {
+        return this.actions.find(action => action.id === id);
+    }
+
     private debugLog() {
         console.log(this.routes);
         console.log(this.actions);
         console.log(this.components);
         console.log(this.authGuards);
+        console.log(this.contentActions);
     }
 }
