@@ -6,7 +6,7 @@
                 <p class="padding-left"> version: {{ repository.edition }} {{ repository.version.display }} </p>
             </article>
 
-            <article class="padding-top-bottom">
+            <article class="padding-top-bottom" *ngIf="license">
                 <header class="header padding-left-right">License</header>
                 <adf-datatable [data]="license"></adf-datatable>
             </article>
