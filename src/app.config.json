@@ -52,87 +52,79 @@
             "actions": [],
             "features": {
                 "navigation": {
+                    "aca:main": [
+                        {
+                            "id": "aca/personal-files",
+                            "order": 100,
+                            "icon": "folder",
+                            "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
+                            "route": "personal-files"
+                        },
+                        {
+                            "id": "aca/libraries",
+                            "order": 101,
+                            "icon": "group_work",
+                            "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                            "route": "libraries"
+                        }
+                    ],
+                    "aca:secondary": [
+                        {
+                            "id": "aca/shared",
+                            "order": 100,
+                            "icon": "people",
+                            "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
+                            "route": "shared"
+                        },
+                        {
+                            "id": "aca/recent-files",
+                            "order": 101,
+                            "icon": "schedule",
+                            "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+                            "route": "recent-files"
+                        },
+                        {
+                            "id": "aca/favorites",
+                            "order": 102,
+                            "icon": "star",
+                            "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
+                            "route": "favorites"
+                        },
+                        {
+                            "id": "aca/trashcan",
+                            "order": 103,
+                            "icon": "delete",
+                            "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
+                            "route": "trashcan"
+                        }
+                    ],
                     "aca:demo": [
                         {
                             "id": "aca:demo/link1",
                             "order": 100,
                             "icon": "build",
                             "title": "About (native)",
-                            "disabled": false,
-                            "route": "/about"
+                            "description": "Uses native application route",
+                            "route": "about"
                         },
                         {
                             "id": "aca:demo/link2",
                             "order": 100,
                             "icon": "build",
                             "title": "About (custom)",
-                            "disabled": false,
+                            "description": "Uses custom defined route",
                             "route": "aca:routes/about"
                         }
                     ]
                 }
             }
         }
-    },
-    "navigation": {
-        "main": [
-            {
-                "icon": "folder",
-                "label": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/personal-files"
-                }
-            },
-            {
-                "icon": "group_work",
-                "label": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/libraries"
-                }
-            }
-        ],
-        "secondary": [
-            {
-                "icon": "people",
-                "label": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/shared"
-                }
-            },
-            {
-                "icon": "schedule",
-                "label": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/recent-files"
-                }
-            },
-            {
-                "icon": "star",
-                "label": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/favorites"
-                }
-            },
-            {
-                "icon": "delete",
-                "label": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/trashcan"
-                }
-            }
-        ]
     },
     "languages": [
         {

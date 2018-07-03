@@ -32,9 +32,6 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { NavigationExtension } from '../../extensions/navigation.extension';
-import { AppStore } from '../../store/states';
-import { Store } from '@ngrx/store';
-import { NavigateUrlAction } from '../../store/actions';
 
 @Component({
     selector: 'app-sidenav',
@@ -45,13 +42,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
     @Input() showLabel: boolean;
 
     node: MinimalNodeEntryEntity = null;
-    navigation = [];
     groups: Array<NavigationExtension[]> = [];
 
     private subscriptions: Subscription[] = [];
 
     constructor(
-        private store: Store<AppStore>,
         private browsingFilesService: BrowsingFilesService,
         private appConfig: AppConfigService,
         public permission: NodePermissionService,
@@ -59,7 +54,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit() {
-        this.buildMenu();
         this.mountExtensions();
 
         this.subscriptions.concat([
@@ -73,13 +67,6 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach(s => s.unsubscribe());
     }
 
-    private buildMenu() {
-        const schema = this.appConfig.get('navigation');
-        const data = Array.isArray(schema) ? { main: schema } : schema;
-
-        this.navigation = Object.keys(data).map(key => data[key]);
-    }
-
     private mountExtensions() {
         const settings = this.appConfig.get<any>(
             'extensions.core.features.navigation'
@@ -88,18 +75,16 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.groups = Object.keys(settings).map(
                 key => {
                     return settings[key].map(group => {
-                        const route = this.extensions.getRouteById(group.route);
+                        const customRoute = this.extensions.getRouteById(group.route);
+                        const route = `/${customRoute ? customRoute.path : group.route}`;
+
                         return {
                             ...group,
-                            route: route ? route.path : group.route
+                            route
                         };
                     });
                 }
             );
         }
-    }
-
-    navigate(entry: NavigationExtension) {
-        this.store.dispatch(new NavigateUrlAction(entry.route));
     }
 }

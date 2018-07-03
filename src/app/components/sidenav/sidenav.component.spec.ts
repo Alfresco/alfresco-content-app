@@ -25,7 +25,7 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { AppConfigService } from '@alfresco/adf-core';
+// import { AppConfigService } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { SidenavComponent } from './sidenav.component';
 import { EffectsModule } from '@ngrx/effects';
@@ -36,15 +36,15 @@ describe('SidenavComponent', () => {
     let fixture: ComponentFixture<SidenavComponent>;
     let component: SidenavComponent;
     let browsingService: BrowsingFilesService;
-    let appConfig: AppConfigService;
-    let appConfigSpy;
+    // let appConfig: AppConfigService;
+    // let appConfigSpy;
 
-    const navItem = {
-        label: 'some-label',
-        route: {
-            url: '/some-url'
-        }
-    };
+    // const navItem = {
+    //     label: 'some-label',
+    //     route: {
+    //         url: '/some-url'
+    //     }
+    // };
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -60,12 +60,12 @@ describe('SidenavComponent', () => {
         .compileComponents()
         .then(() => {
             browsingService = TestBed.get(BrowsingFilesService);
-            appConfig = TestBed.get(AppConfigService);
+            // appConfig = TestBed.get(AppConfigService);
 
             fixture = TestBed.createComponent(SidenavComponent);
             component = fixture.componentInstance;
 
-            appConfigSpy = spyOn(appConfig, 'get').and.returnValue([navItem]);
+            // appConfigSpy = spyOn(appConfig, 'get').and.returnValue([navItem]);
         });
     }));
 
@@ -78,19 +78,19 @@ describe('SidenavComponent', () => {
         expect(component.node).toBe(node);
     });
 
-    describe('menu', () => {
-        it('should build menu from array', () => {
-            appConfigSpy.and.returnValue([navItem, navItem]);
-            fixture.detectChanges();
+    // describe('menu', () => {
+    //     it('should build menu from array', () => {
+    //         appConfigSpy.and.returnValue([navItem, navItem]);
+    //         fixture.detectChanges();
 
-            expect(component.navigation).toEqual([[navItem, navItem]]);
-        });
+    //         expect(component.navigation).toEqual([[navItem, navItem]]);
+    //     });
 
-        it('should build menu from object', () => {
-            appConfigSpy.and.returnValue({ a: [navItem, navItem], b: [navItem, navItem] });
-            fixture.detectChanges();
+    //     it('should build menu from object', () => {
+    //         appConfigSpy.and.returnValue({ a: [navItem, navItem], b: [navItem, navItem] });
+    //         fixture.detectChanges();
 
-            expect(component.navigation).toEqual([[navItem, navItem], [navItem, navItem]]);
-        });
-    });
+    //         expect(component.navigation).toEqual([[navItem, navItem], [navItem, navItem]]);
+    //     });
+    // });
 });
