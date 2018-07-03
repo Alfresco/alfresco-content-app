@@ -282,7 +282,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         const action = this.extensions.getActionById(contentAction.target.action);
         if (action) {
             const { type, payload } = action;
-            this.store.dispatch({ type, payload });
+
+            const context = {
+                selection: this.selection
+            };
+
+            const expression = this.extensions.runExpression(payload, context);
+
+            this.store.dispatch({ type, payload: expression });
         }
     }
 }

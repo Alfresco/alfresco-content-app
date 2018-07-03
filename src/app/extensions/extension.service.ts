@@ -64,6 +64,21 @@ export class ExtensionService {
         return this.actions.find(action => action.id === id);
     }
 
+    runExpression(value: string, context?: any) {
+        const pattern = new RegExp(/\$\((.*\)?)\)/g);
+        const matches = pattern.exec(value);
+
+        if (matches && matches.length > 1) {
+            const expression = matches[1];
+            const fn = new Function('context', `return ${expression}`);
+            const result = fn(context);
+
+            return result;
+        }
+
+        return value;
+    }
+
     private debugLog() {
         console.log(this.routes);
         console.log(this.actions);
