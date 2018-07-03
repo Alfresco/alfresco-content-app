@@ -70,15 +70,18 @@ export class AboutComponent implements OnInit {
                 {type: 'text', key: 'isThumbnailGenerationEnabled', title: 'Thumbnail Generation', sortable: true}
             ]);
 
-            this.license = new ObjectDataTableAdapter([repository.license], [
-                {type: 'date', key: 'issuedAt', title: 'Issued At', sortable: true},
-                {type: 'date', key: 'expiresAt', title: 'Expires At', sortable: true},
-                {type: 'text', key: 'remainingDays', title: 'Remaining Days', sortable: true},
-                {type: 'text', key: 'holder', title: 'Holder', sortable: true},
-                {type: 'text', key: 'mode', title: 'Type', sortable: true},
-                {type: 'text', key: 'isClusterEnabled', title: 'Cluster Enabled', sortable: true},
-                {type: 'text', key: 'isCryptodocEnabled', title: 'Cryptodoc Enable', sortable: true}
-            ]);
+
+            if (repository.license) {
+                this.license = new ObjectDataTableAdapter([repository.license], [
+                    {type: 'date', key: 'issuedAt', title: 'Issued At', sortable: true},
+                    {type: 'date', key: 'expiresAt', title: 'Expires At', sortable: true},
+                    {type: 'text', key: 'remainingDays', title: 'Remaining Days', sortable: true},
+                    {type: 'text', key: 'holder', title: 'Holder', sortable: true},
+                    {type: 'text', key: 'mode', title: 'Type', sortable: true},
+                    {type: 'text', key: 'isClusterEnabled', title: 'Cluster Enabled', sortable: true},
+                    {type: 'text', key: 'isCryptodocEnabled', title: 'Cryptodoc Enable', sortable: true}
+                ]);
+            }
         });
 
         this.http.get('/versions.json')
