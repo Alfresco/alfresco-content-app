@@ -232,7 +232,7 @@ export const APP_ROUTES: Routes = [
                 }
             },
             {
-                path: 'test/about',
+                path: 'about',
                 component: AboutComponent,
                 data: {
                     title: 'APP.BROWSE.ABOUT.TITLE'

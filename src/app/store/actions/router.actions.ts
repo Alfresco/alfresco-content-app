@@ -26,9 +26,15 @@
 import { Action } from '@ngrx/store';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
+export const NAVIGATE_URL = 'NAVIGATE_URL';
 export const NAVIGATE_ROUTE = 'NAVIGATE_ROUTE';
 export const NAVIGATE_FOLDER = 'NAVIGATE_FOLDER';
 export const NAVIGATE_PARENT_FOLDER = 'NAVIGATE_PARENT_FOLDER';
+
+export class NavigateUrlAction implements Action {
+    readonly type = NAVIGATE_URL;
+    constructor(public payload: string) {}
+}
 
 export class NavigateRouteAction implements Action {
     readonly type = NAVIGATE_ROUTE;
@@ -39,7 +45,6 @@ export class NavigateToFolder implements Action {
     readonly type = NAVIGATE_FOLDER;
     constructor(public payload: MinimalNodeEntity) {}
 }
-
 
 export class NavigateToParentFolder implements Action {
     readonly type = NAVIGATE_PARENT_FOLDER;

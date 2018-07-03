@@ -23,12 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RouteExtension } from './route.extension';
-
 export interface NavigationExtension {
     id: string;
     order: number;
     icon: string;
     title: string;
-    route: RouteExtension;
+    route: string;
 }

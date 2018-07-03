@@ -57,7 +57,15 @@
                             "id": "aca:demo/link1",
                             "order": 100,
                             "icon": "build",
-                            "title": "About",
+                            "title": "About (native)",
+                            "disabled": false,
+                            "route": "/about"
+                        },
+                        {
+                            "id": "aca:demo/link2",
+                            "order": 100,
+                            "icon": "build",
+                            "title": "About (custom)",
                             "disabled": false,
                             "route": "aca:routes/about"
                         }

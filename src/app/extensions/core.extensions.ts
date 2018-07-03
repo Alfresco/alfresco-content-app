@@ -24,8 +24,9 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AboutComponent, AuthGuardEcm } from '@alfresco/adf-core';
+import { AuthGuardEcm } from '@alfresco/adf-core';
 import { ExtensionService } from './extension.service';
+import { AboutComponent } from '../components/about/about.component';
 
 @NgModule({
     imports: [],

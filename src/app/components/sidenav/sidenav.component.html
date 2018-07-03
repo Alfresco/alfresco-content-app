@@ -86,21 +86,22 @@
                 #rla="routerLinkActive"
                 title="{{ item.title | translate }}">
 
-                <button [routerLink]="'/' + item.route.path"
+                <button
                     [color]="rla.isActive ? 'accent': 'primary'"
                     [attr.aria-label]="item.title | translate"
                     mat-icon-button
                     mat-ripple
                     matRippleColor="primary"
                     [matRippleTrigger]="rippleTrigger"
-                    [matRippleCentered]="true">
+                    [matRippleCentered]="true"
+                    (click)="navigate(item)">
 
                     <mat-icon>{{ item.icon }}</mat-icon>
                 </button>
 
                 <span #rippleTrigger
                     class="menu__item--label"
-                    [routerLink]="'/' + item.route.path"
+                    (click)="navigate(item)"
                     [hidden]="!showLabel"
                     [ngClass]="{
                         'menu__item--active': rla.isActive,

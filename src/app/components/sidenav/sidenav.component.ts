@@ -32,6 +32,9 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { NavigationExtension } from '../../extensions/navigation.extension';
+import { AppStore } from '../../store/states';
+import { Store } from '@ngrx/store';
+import { NavigateUrlAction } from '../../store/actions';
 
 @Component({
     selector: 'app-sidenav',
@@ -48,6 +51,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     constructor(
+        private store: Store<AppStore>,
         private browsingFilesService: BrowsingFilesService,
         private appConfig: AppConfigService,
         public permission: NodePermissionService,
@@ -84,13 +88,18 @@ export class SidenavComponent implements OnInit, OnDestroy {
             this.groups = Object.keys(settings).map(
                 key => {
                     return settings[key].map(group => {
+                        const route = this.extensions.getRouteById(group.route);
                         return {
                             ...group,
-                            route: this.extensions.getRouteById(group.route)
+                            route: route ? route.path : group.route
                         };
                     });
                 }
             );
         }
+    }
+
+    navigate(entry: NavigationExtension) {
+        this.store.dispatch(new NavigateUrlAction(entry.route));
     }
 }
