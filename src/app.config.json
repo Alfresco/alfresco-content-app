@@ -31,6 +31,16 @@
         "preserveState": true,
         "expandedSidenav": true
     },
+    "extensions": {
+        "external": [
+            "plugin1.json",
+            "plugin2.json"
+        ],
+        "core": {
+            "routes": [],
+            "actions": []
+        }
+    },
     "navigation": {
         "main": [
             {

@@ -37,6 +37,7 @@ import {
     SetLanguagePickerAction,
     SetSharedUrlAction
 } from './store/actions';
+import { ExtensionService } from './extensions/extension.service';
 
 @Component({
     selector: 'app-root',
@@ -51,7 +52,8 @@ export class AppComponent implements OnInit {
         private store: Store<AppStore>,
         private config: AppConfigService,
         private alfrescoApiService: AlfrescoApiService,
-        private authenticationService: AuthenticationService) {
+        private authenticationService: AuthenticationService,
+        extensions: ExtensionService) {
     }
 
     ngOnInit() {
