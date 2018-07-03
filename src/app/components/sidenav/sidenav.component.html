@@ -78,4 +78,35 @@
             </li>
         </ul>
     </div>
+
+    <div class="sidenav__section sidenav__section--menu" *ngFor="let group of groups">
+        <ul class="sidenav-menu">
+            <li *ngFor="let item of group" class="sidenav-menu__item"
+                routerLinkActive
+                #rla="routerLinkActive"
+                title="{{ item.title | translate }}">
+
+                <button [routerLink]="'/' + item.route.path"
+                    [color]="rla.isActive ? 'accent': 'primary'"
+                    [attr.aria-label]="item.title | translate"
+                    mat-icon-button
+                    mat-ripple
+                    matRippleColor="primary"
+                    [matRippleTrigger]="rippleTrigger"
+                    [matRippleCentered]="true">
+
+                    <mat-icon>{{ item.icon }}</mat-icon>
+                </button>
+
+                <span #rippleTrigger
+                    class="menu__item--label"
+                    [routerLink]="'/' + item.route.path"
+                    [hidden]="!showLabel"
+                    [ngClass]="{
+                        'menu__item--active': rla.isActive,
+                        'menu__item--default': !rla.isActive
+                    }">{{ item.title | translate }}</span>
+            </li>
+        </ul>
+    </div>
 </div>

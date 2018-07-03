@@ -39,9 +39,9 @@
         "core": {
             "routes": [
                 {
-                    "id": "aca@about",
+                    "id": "aca:routes/about",
                     "path": "ext/about",
-                    "component": "aca:about",
+                    "component": "aca:components/about",
                     "layout": "main",
                     "auth":[ "aca:auth" ],
                     "data": {
@@ -49,7 +49,21 @@
                     }
                 }
             ],
-            "actions": []
+            "actions": [],
+            "features": {
+                "navigation": {
+                    "aca:demo": [
+                        {
+                            "id": "aca:demo/link1",
+                            "order": 100,
+                            "icon": "build",
+                            "title": "About",
+                            "disabled": false,
+                            "route": "aca:routes/about"
+                        }
+                    ]
+                }
+            }
         }
     },
     "navigation": {

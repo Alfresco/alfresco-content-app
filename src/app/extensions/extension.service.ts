@@ -50,6 +50,10 @@ export class ExtensionService {
         this.debugLog();
     }
 
+    getRouteById(id: string): RouteExtension {
+        return this.routes.find(route => route.id === id);
+    }
+
     private debugLog() {
         console.log(this.routes);
         console.log(this.actions);
