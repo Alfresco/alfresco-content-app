@@ -27,7 +27,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import {
     PageTitleService, AppConfigService,
-    AuthenticationService, AlfrescoApiService } from '@alfresco/adf-core';
+    AuthenticationService, AlfrescoApiService, AuthGuardEcm } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore } from './store/states/app.state';
 import {
@@ -38,6 +38,7 @@ import {
     SetSharedUrlAction
 } from './store/actions';
 import { ExtensionService } from './extensions/extension.service';
+import { LayoutComponent } from './components/layout/layout.component';
 
 @Component({
     selector: 'app-root',
@@ -53,7 +54,7 @@ export class AppComponent implements OnInit {
         private config: AppConfigService,
         private alfrescoApiService: AlfrescoApiService,
         private authenticationService: AuthenticationService,
-        extensions: ExtensionService) {
+        private extensions: ExtensionService) {
     }
 
     ngOnInit() {
@@ -85,6 +86,9 @@ export class AppComponent implements OnInit {
 
                 pageTitle.setTitle(data.title || '');
             });
+
+        this.extensions.init();
+        this.mountRoutes();
     }
 
     private loadAppSettings() {
@@ -105,5 +109,27 @@ export class AppComponent implements OnInit {
 
         const sharedPreviewUrl = this.config.get<string>('ecmHost') + '/#/preview/s/';
         this.store.dispatch(new SetSharedUrlAction(sharedPreviewUrl));
+    }
+
+    private mountRoutes() {
+        const routes = this.extensions.routes;
+
+        routes.forEach(route => {
+            // todo: respect 'layout' property
+            // todo: respect 'auth' settings
+            // todo: move to extension service as utility function
+            this.router.config.unshift({
+                path: route.path,
+                component: LayoutComponent,
+                canActivateChild: [ AuthGuardEcm ],
+                canActivate: [ AuthGuardEcm ],
+                children: [
+                    {
+                        path: '',
+                        component: this.extensions.components[route.component]
+                    }
+                ]
+            });
+        });
     }
 }

@@ -23,23 +23,37 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { RouteExtension } from './route.extension';
 import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
 
 @Injectable()
 export class ExtensionService {
-    routes: Array<RouteExtension>;
-    actions: Array<ActionExtension>;
+    routes: Array<RouteExtension> = [];
+    actions: Array<ActionExtension> = [];
 
-    constructor(config: AppConfigService) {
-        console.log('Extension service init');
+    authGuards: { [key: string]: Type<{}> } = {};
+    components: { [key: string]: Type<{}> } = {};
 
-        const routes = config.get<Array<RouteExtension>>('extensions.core.routes');
-        console.log(routes);
+    constructor(private config: AppConfigService) {}
 
-        const actions = config.get<Array<ActionExtension>>('extensions.core.actions');
-        console.log(actions);
+    init() {
+        this.routes = this.config.get<Array<RouteExtension>>(
+            'extensions.core.routes'
+        );
+
+        this.actions = this.config.get<Array<ActionExtension>>(
+            'extensions.core.actions'
+        );
+
+        this.debugLog();
+    }
+
+    private debugLog() {
+        console.log(this.routes);
+        console.log(this.actions);
+        console.log(this.components);
+        console.log(this.authGuards);
     }
 }

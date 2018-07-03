@@ -84,6 +84,7 @@ import { ExperimentalDirective } from './directives/experimental.directive';
 import { ContentApiService } from './services/content-api.service';
 import { ExtensionsModule } from './extensions.module';
 import { ExtensionService } from './extensions/extension.service';
+import { CoreExtensionsModule } from './extensions/core.extensions';
 
 @NgModule({
     imports: [
@@ -99,6 +100,7 @@ import { ExtensionService } from './extensions/extension.service';
         CoreModule,
         ContentModule,
         AppStoreModule,
+        CoreExtensionsModule,
         ExtensionsModule
     ],
     declarations: [

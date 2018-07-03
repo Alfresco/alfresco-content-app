@@ -37,7 +37,18 @@
             "plugin2.json"
         ],
         "core": {
-            "routes": [],
+            "routes": [
+                {
+                    "id": "aca@about",
+                    "path": "ext/about",
+                    "component": "aca:about",
+                    "layout": "main",
+                    "auth":[ "aca:auth" ],
+                    "data": {
+                        "title": "Custom About"
+                    }
+                }
+            ],
             "actions": []
         }
     },

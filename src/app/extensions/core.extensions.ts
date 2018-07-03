@@ -23,11 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface RouteExtension {
-    id: string;
-    path: string;
-    component: string;
-    layout: string;
-    auth: string[];
-    data?: { [key: string]: string };
+import { NgModule } from '@angular/core';
+import { AboutComponent, AuthGuardEcm } from '@alfresco/adf-core';
+import { ExtensionService } from './extension.service';
+
+@NgModule({
+    imports: [],
+    declarations: [ ],
+    entryComponents: [ AboutComponent ]
+})
+export class CoreExtensionsModule {
+    constructor(extensions: ExtensionService) {
+        extensions.components['aca:about'] = AboutComponent;
+        extensions.authGuards['aca:auth'] = AuthGuardEcm;
+    }
 }
