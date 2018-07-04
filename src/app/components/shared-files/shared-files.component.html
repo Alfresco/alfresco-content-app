@@ -80,8 +80,8 @@
 
                 <button
                     mat-menu-item
-                    *ngIf="selection.count === 1 && permission.check(selection.nodes, ['update'], { target: 'allowableOperationsOnTarget' })"
-                    [acaNodeVersions]="selection.nodes">
+                    *ngIf="selection.file && permission.check(selection.file, ['update'], { target: 'allowableOperationsOnTarget' })"
+                    [acaNodeVersions]="selection.file">
                     <mat-icon>history</mat-icon>
                     <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
