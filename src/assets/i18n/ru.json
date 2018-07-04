@@ -288,5 +288,12 @@
     "ACTIONS": {
       "INFO": "Подробно"
     }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "Отправить новую версию"
+      }
+    }
   }
 }

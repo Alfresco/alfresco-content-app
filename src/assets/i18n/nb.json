@@ -288,5 +288,12 @@
     "ACTIONS": {
       "INFO": "Visningsdetaljer"
     }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "Last opp ny versjon"
+      }
+    }
   }
 }

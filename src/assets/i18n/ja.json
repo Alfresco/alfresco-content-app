@@ -288,5 +288,12 @@
     "ACTIONS": {
       "INFO": "詳細の表示"
     }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "新しいバージョンのアップロード"
+      }
+    }
   }
 }
