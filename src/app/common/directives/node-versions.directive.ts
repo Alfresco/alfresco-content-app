@@ -68,7 +68,8 @@ export class NodeVersionsDirective {
     }
 
     openVersionManagerDialog(node: MinimalNodeEntryEntity) {
-        if (node.isFile) {
+        // workaround Shared
+        if (node.isFile || node.nodeId) {
             this.dialog.open(NodeVersionsDialogComponent, {
                 data: { node },
                 panelClass: 'adf-version-manager-dialog-panel',
