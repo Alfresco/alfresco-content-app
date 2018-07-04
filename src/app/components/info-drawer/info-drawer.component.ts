@@ -84,12 +84,15 @@ export class InfoDrawerComponent implements OnChanges {
         }
     }
 
-    private hasAspectNames(entry: MinimalNodeEntryEntity) {
+    private hasAspectNames(entry: MinimalNodeEntryEntity): boolean {
         return entry.aspectNames && entry.aspectNames.includes('exif:exif');
     }
 
-    private isTypeImage(entry) {
-        return entry.content.mimeType.includes('image/');
+    private isTypeImage(entry: MinimalNodeEntryEntity): boolean {
+        if (entry && entry.content && entry.content.mimeType) {
+            return entry.content.mimeType.includes('image/');
+        }
+        return false;
     }
 
     private loadNodeInfo(nodeId: string) {
