@@ -83,8 +83,7 @@
                     *ngIf="selection.file && permission.check(selection.file, ['update'], { target: 'allowableOperationsOnTarget' })"
                     [acaNodeVersions]="selection.file">
                     <mat-icon>history</mat-icon>
-                    {{ selection.file }}
-                    <!-- <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span> -->
+                    <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                 </button>
             </mat-menu>
         </adf-toolbar>
