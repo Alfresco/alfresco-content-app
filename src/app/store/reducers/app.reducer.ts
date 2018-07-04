@@ -152,7 +152,10 @@ function updateSelectedNodes(
         last = nodes[nodes.length - 1];
 
         if (nodes.length === 1) {
-            file = nodes.find(entity => entity.entry.isFile);
+            file = nodes.find(entity => {
+                // workaround Shared
+                return entity.entry.isFile || entity.entry.nodeId;
+            });
             folder = nodes.find(entity => entity.entry.isFolder);
         }
     }
