@@ -232,7 +232,8 @@
             "TITLE": "Details",
             "TABS": {
                 "PROPERTIES": "Properties",
-                "VERSIONS": "Versions"
+                "VERSIONS": "Versions",
+                "COMMENTS": "Comments"
             }
         }
     },
