@@ -14,7 +14,7 @@
 
         <ng-container *ifExperimental="'comments'; else versions">
             <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.COMMENTS' | translate">
-                <adf-comments [nodeId]="displayNode"></adf-comments>
+                <adf-comments [nodeId]="displayNode.id"></adf-comments>
             </adf-info-drawer-tab>
         </ng-container>
 
