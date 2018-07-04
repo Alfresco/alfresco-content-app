@@ -283,5 +283,17 @@
         "CANCEL": "Ignora modifiche"
       }
     }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Visualizza dettagli"
+    }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "Utilizza nuova versione"
+      }
+    }
   }
 }

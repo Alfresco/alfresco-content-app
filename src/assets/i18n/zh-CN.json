@@ -288,5 +288,12 @@
     "ACTIONS": {
       "INFO": "查看详细信息"
     }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "上传新版本"
+      }
+    }
   }
 }
