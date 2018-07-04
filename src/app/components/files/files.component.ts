@@ -23,21 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Observable, Subscription } from 'rxjs/Rx';
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElementEntity, NodePaging, PathElement } from 'alfresco-js-api';
-import {
-    UploadService, FileUploadEvent, NodesApiService,
-    ContentService, AlfrescoApiService, UserPreferencesService, NotificationService
-} from '@alfresco/adf-core';
-
+import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, PathElement, PathElementEntity } from 'alfresco-js-api';
+import { Observable } from 'rxjs/Rx';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
-
+import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     templateUrl: './files.component.html'
@@ -47,43 +45,33 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     isValidPath = true;
 
     private nodePath: PathElement[];
-    private subscriptions: Subscription[] = [];
-
-    sorting = [ 'modifiedAt', 'desc' ];
 
     constructor(private router: Router,
-                private zone: NgZone,
                 private route: ActivatedRoute,
-                private nodesApi: NodesApiService,
+                private contentApi: ContentApiService,
+                store: Store<AppStore>,
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
                 private contentManagementService: ContentManagementService,
                 private browsingFilesService: BrowsingFilesService,
-                private contentService: ContentService,
-                private apiService: AlfrescoApiService,
-                private notificationService: NotificationService,
-                public permission: NodePermissionService,
-                preferences: UserPreferencesService) {
-        super(preferences);
-
-        const sortingKey = this.preferences.get(`${this.prefix}.sorting.key`) || 'modifiedAt';
-        const sortingDirection = this.preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
-
-        this.sorting = [sortingKey, sortingDirection];
+                public permission: NodePermissionService) {
+        super(store);
     }
 
     ngOnInit() {
-        const { route, contentManagementService, contentService, nodeActionsService, uploadService } = this;
+        super.ngOnInit();
+
+        const { route, contentManagementService, nodeActionsService, uploadService } = this;
         const { data } = route.snapshot;
 
-        this.title = data.i18nTitle;
+        this.title = data.title;
 
         route.params.subscribe(({ folderId }: Params) => {
             const nodeId = folderId || data.defaultNodeId;
-            this.isLoading = true;
 
-            this.fetchNode(nodeId)
-                .do((node) => {
+            this.contentApi.getNode(nodeId)
+                .map(node => node.entry)
+                .do(node => {
                     if (node.isFolder) {
                         this.updateCurrentNode(node);
                     } else {
@@ -91,49 +79,33 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                     }
                 })
                 .skipWhile(node => !node.isFolder)
-                .flatMap((node) => this.fetchNodes(node.id))
+                .flatMap(node => this.fetchNodes(node.id))
                 .subscribe(
-                    (page) => {
-                        this.isValidPath = true;
-                        this.onPageLoaded(page);
-                    },
-                    error => {
-                        this.isValidPath = false;
-                        this.onFetchError(error);
-                    }
+                    () => this.isValidPath = true,
+                    () => this.isValidPath = false
                 );
         });
 
         this.subscriptions = this.subscriptions.concat([
             nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-            contentService.folderCreate.subscribe(() => this.load(false, this.pagination)),
-            contentService.folderEdit.subscribe(() => this.load(false, this.pagination)),
-            contentManagementService.nodeDeleted.subscribe(() => this.load(false, this.pagination)),
-            contentManagementService.nodeMoved.subscribe(() => this.load(false, this.pagination)),
-            contentManagementService.nodeRestored.subscribe(() => this.load(false, this.pagination)),
-            uploadService.fileUploadComplete.subscribe(file => this.onFileUploadedEvent(file)),
-            uploadService.fileUploadDeleted.subscribe((file) => this.onFileUploadedEvent(file))
+            contentManagementService.folderCreated.subscribe(() => this.documentList.reload()),
+            contentManagementService.folderEdited.subscribe(() => this.documentList.reload()),
+            contentManagementService.nodesDeleted.subscribe(() => this.documentList.reload()),
+            contentManagementService.nodesMoved.subscribe(() => this.documentList.reload()),
+            contentManagementService.nodesRestored.subscribe(() => this.documentList.reload()),
+            uploadService.fileUploadComplete.debounceTime(300).subscribe(file => this.onFileUploadedEvent(file)),
+            uploadService.fileUploadDeleted.debounceTime(300).subscribe((file) => this.onFileUploadedEvent(file)),
+            uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
-
+        super.ngOnDestroy();
         this.browsingFilesService.onChangeParent.next(null);
     }
 
-    fetchNode(nodeId: string): Observable<MinimalNodeEntryEntity> {
-        return this.nodesApi.getNode(nodeId);
-    }
-
-    fetchNodes(parentNodeId?: string, options: { maxItems?: number, skipCount?: number } = {}): Observable<NodePaging> {
-        const defaults = {
-            include: [ 'isLocked', 'path', 'properties', 'allowableOperations' ]
-        };
-
-        const queryOptions = Object.assign({}, defaults, options);
-
-        return this.nodesApi.getNodeChildren(parentNodeId, queryOptions);
+    fetchNodes(parentNodeId?: string): Observable<NodePaging> {
+       return this.contentApi.getNodeChildren(parentNodeId);
     }
 
     navigate(nodeId: string = null) {
@@ -148,32 +120,21 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    onNodeDoubleClick(event) {
-        if (!!event.detail && !!event.detail.node) {
+    onNodeDoubleClick(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            const { id, isFolder } = node.entry;
 
-            const node: MinimalNodeEntryEntity = event.detail.node.entry;
-            if (node) {
-
-                if (node.isFolder) {
-                    this.navigate(node.id);
-                }
-
-                if (PageComponent.isLockedNode(node)) {
-                    event.preventDefault();
-
-                } else if (node.isFile) {
-                    this.router.navigate(['./preview', node.id], { relativeTo: this.route });
-                }
+            if (isFolder) {
+                this.navigate(id);
+                return;
             }
 
-        }
-    }
-
-    showPreview(node: MinimalNodeEntryEntity) {
-        if (node) {
-            if (node.isFile) {
-                this.router.navigate(['./preview', node.id], { relativeTo: this.route });
+            if (PageComponent.isLockedNode(node.entry)) {
+                event.preventDefault();
+                return;
             }
+
+            this.showPreview(node);
         }
     }
 
@@ -188,9 +149,44 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
 
     onFileUploadedEvent(event: FileUploadEvent) {
-        if (event && event.file.options.parentId === this.getParentNodeId()) {
-            this.load(false, this.pagination);
+        const node: MinimalNodeEntity = event.file.data;
+
+        // check root and child nodes
+        if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
+            this.documentList.reload();
+            return;
         }
+
+        // check the child nodes to show dropped folder
+        if (event && event.file.options.parentId === this.getParentNodeId()) {
+            this.displayFolderParent(event.file.options.path, 0);
+            return;
+        }
+
+        if (event && event.file.options.parentId) {
+            if (this.nodePath) {
+                const correspondingNodePath = this.nodePath.find(pathItem => pathItem.id === event.file.options.parentId);
+
+                // check if the current folder has the 'trigger-upload-folder' as one of its parents
+                if (correspondingNodePath) {
+                    const correspondingIndex = this.nodePath.length - this.nodePath.indexOf(correspondingNodePath);
+                    this.displayFolderParent(event.file.options.path, correspondingIndex);
+                }
+            }
+        }
+    }
+
+    displayFolderParent(filePath = '', index) {
+        const parentName = filePath.split('/')[index];
+        const currentFoldersDisplayed: any = this.documentList.data.getRows() || [];
+
+        const alreadyDisplayedParentFolder = currentFoldersDisplayed.find(
+            row => row.node.entry.isFolder && row.node.entry.name === parentName);
+
+        if (alreadyDisplayedParentFolder) {
+            return;
+        }
+        this.documentList.reload();
     }
 
     onContentCopied(nodes: MinimalNodeEntity[]) {
@@ -199,41 +195,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 return node && node.entry && node.entry.parentId === this.getParentNodeId();
             });
         if (newNode) {
-            this.load(false, this.pagination);
+            this.documentList.reload();
         }
-    }
-
-    load(showIndicator: boolean = false, options: { maxItems?: number, skipCount?: number } = {}) {
-        this.isLoading = showIndicator;
-
-        this.fetchNodes(this.getParentNodeId(), options)
-            .flatMap((page) => {
-                if (this.isCurrentPageEmpty(page) && this.isNotFirstPage(page)) {
-                    const newSkipCount = options.skipCount - options.maxItems;
-
-                    return this.fetchNodes(this.getParentNodeId(), {
-                        skipCount: newSkipCount, maxItems: options.maxItems
-                    });
-                }
-
-                return Observable.of(page);
-            })
-            .subscribe(
-                (page) => this.zone.run(() => this.onPageLoaded(page)),
-                error => this.onFetchError(error)
-            );
-    }
-
-    isCurrentPageEmpty(page): boolean {
-        return !this.hasPageEntries(page);
-    }
-
-    hasPageEntries(page): boolean {
-        return page && page.list && page.list.entries && page.list.entries.length > 0;
-    }
-
-    isNotFirstPage(page): boolean {
-        return (page.list.pagination.skipCount >= page.list.pagination.maxItems);
     }
 
     // todo: review this approach once 5.2.3 is out
@@ -270,7 +233,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         if (this.isSiteContainer(node)) {
             // rename 'documentLibrary' entry to the target site display name
             // clicking on the breadcrumb entry loads the site content
-            const parentNode = await this.apiService.nodesApi.getNodeInfo(node.parentId);
+            const parentNode = await this.contentApi.getNodeInfo(node.parentId).toPromise();
             node.name = parentNode.properties['cm:title'] || parentNode.name;
 
             // remove the site entry
@@ -280,7 +243,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             const docLib = elements.findIndex(el => el.name === 'documentLibrary');
             if (docLib > -1) {
                 const siteFragment = elements[docLib - 1];
-                const siteNode = await this.apiService.nodesApi.getNodeInfo(siteFragment.id);
+                const siteNode = await this.contentApi.getNodeInfo(siteFragment.id).toPromise();
 
                 // apply Site Name to the parent fragment
                 siteFragment.name = siteNode.properties['cm:title'] || siteNode.name;
@@ -301,21 +264,5 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             return this.node.path.elements[0].id === nodeId;
         }
         return false;
-    }
-
-    onSortingChanged(event: CustomEvent) {
-        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
-        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
-    }
-
-    openSnackMessage(event: any) {
-        this.notificationService.openSnackMessage(
-            event,
-            4000
-        );
-    }
-
-    private get prefix() {
-        return this.route.snapshot.data.preferencePrefix;
     }
 }

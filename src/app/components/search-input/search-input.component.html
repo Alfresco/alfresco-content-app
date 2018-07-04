@@ -1,5 +1,8 @@
-<adf-search-control
+<app-search-input-control #searchInputControl
     [highlight]="true"
     (optionClicked)="onItemClicked($event)"
-    (submit)="onSearchSubmit($event)">
-</adf-search-control>
+    [expandable]="!onSearchResults"
+    [liveSearchEnabled]="!onSearchResults"
+    (submit)="onSearchSubmit($event)"
+    (searchChange)="onSearchChange($event)">
+</app-search-input-control>

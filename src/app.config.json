@@ -1,31 +1,32 @@
 {
     "ecmHost": "http://{hostname}{:port}",
+    "providers": "ECM",
+    "authType" : "BASIC",
     "application": {
         "name": "Alfresco Example Content Application",
-        "logo": "assets/images/alfresco-logo-white.svg"
+        "logo": "assets/images/alfresco-logo-white.svg",
+        "copyright":
+            "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
+    },
+    "experimental": {
+        "libraries": false
     },
     "headerColor": "#2196F3",
     "languagePicker": false,
     "pagination": {
         "size": 25,
-        "supportedPageSizes": [
-            25,
-            50,
-            100
-        ]
+        "supportedPageSizes": [25, 50, 100]
     },
     "files": {
-        "excluded": [
-            ".DS_Store",
-            "desktop.ini",
-            "thumbs.db",
-            ".git"
-        ]
+        "excluded": [".DS_Store", "desktop.ini", "Thumbs.db", ".git"]
     },
     "adf-version-manager": {
         "allowComments": true,
-        "allowDownload": true,
-        "allowDelete": true
+        "allowDownload": true
+    },
+    "sideNav": {
+        "preserveState": true,
+        "expandedSidenav": true
     },
     "navigation": {
         "main": [
@@ -162,115 +163,132 @@
         }
     },
     "search": {
-        "limits": {
-            "permissionEvaluationTime": null,
-            "permissionEvaluationCount": null
+        "include": ["path", "allowableOperations", "properties"],
+        "sorting": {
+            "options": [
+                {
+                    "key": "score",
+                    "label": "SEARCH.SORT.RELEVANCE",
+                    "type": "FIELD",
+                    "field": "score",
+                    "ascending": true
+                },
+                {
+                    "key": "name",
+                    "label": "SEARCH.SORT.FILENAME",
+                    "type": "FIELD",
+                    "field": "cm:name",
+                    "ascending": true
+                },
+                {
+                    "key": "title",
+                    "label": "SEARCH.SORT.TITLE",
+                    "type": "FIELD",
+                    "field": "cm:title",
+                    "ascending": true
+                },
+                {
+                    "key": "modified",
+                    "label": "SEARCH.SORT.MODIFIED_DATE",
+                    "type": "FIELD",
+                    "field": "cm:modified",
+                    "ascending": true
+                },
+                {
+                    "key": "modified",
+                    "label": "SEARCH.SORT.MODIFIER",
+                    "type": "FIELD",
+                    "field": "cm:modifier",
+                    "ascending": true
+                },
+                {
+                    "key": "modified",
+                    "label": "SEARCH.SORT.CREATE_DATE",
+                    "type": "FIELD",
+                    "field": "cm:created",
+                    "ascending": true
+                },
+                {
+                    "key": "content.sizeInBytes",
+                    "label": "SEARCH.SORT.SIZE",
+                    "type": "FIELD",
+                    "field": "content.size",
+                    "ascending": true
+                },
+                {
+                    "key": "content.mimetype",
+                    "label": "SEARCH.SORT.TYPE",
+                    "type": "FIELD",
+                    "field": "content.mimetype",
+                    "ascending": true
+                }
+            ],
+            "defaults": [
+                {
+                    "key": "score",
+                    "type": "FIELD",
+                    "field": "score",
+                    "ascending": true
+                }
+            ]
         },
         "filterQueries": [
             { "query": "TYPE:'cm:folder' OR TYPE:'cm:content'" },
-            { "query": "NOT cm:creator:System" }
+            { "query": "NOT cm:creator:System" },
+            { "query": "NOT TYPE:'dl:dataList' AND NOT TYPE:'dl:todoList' AND NOT TYPE:'dl:issue' AND NOT TYPE:'fm:topic' AND NOT TYPE:'lnk:link' AND NOT TYPE:'fm:post'" }
         ],
-        "facetFields": {
-            "facets": [
-                { "field": "content.mimetype", "mincount": 1, "label": "Type" },
-                { "field": "content.size", "mincount": 1, "label": "Size" },
-                { "field": "creator", "mincount": 1, "label": "Creator" },
-                { "field": "modifier", "mincount": 1, "label": "Modifier" }
-          ]
-        },
-        "facetQueries": [
-            { "query": "created:2018", "label": "Created This Year" },
-            { "query": "content.mimetype", "label": "Type" },
-            { "query": "content.size:[0 TO 10240]", "label": "Size: xtra small"},
-            { "query": "content.size:[10240 TO 102400]", "label": "Size: small"},
-            { "query": "content.size:[102400 TO 1048576]", "label": "Size: medium" },
-            { "query": "content.size:[1048576 TO 16777216]", "label": "Size: large" },
-            { "query": "content.size:[16777216 TO 134217728]", "label": "Size: xtra large" },
-            { "query": "content.size:[134217728 TO MAX]", "label": "Size: XX large" }
+        "facetFields": [
+            { "field": "content.mimetype", "mincount": 1, "label": "SEARCH.FACET_FIELDS.FILE_TYPE" },
+            { "field": "creator", "mincount": 1, "label": "SEARCH.FACET_FIELDS.CREATOR" },
+            { "field": "modifier", "mincount": 1, "label": "SEARCH.FACET_FIELDS.MODIFIER" },
+            { "field": "SITE", "mincount": 1, "label": "SEARCH.FACET_FIELDS.FILE_LIBRARY" }
         ],
-        "query": {
-            "categories": [
-                {
-                    "id": "broken",
-                    "name": "Broken Facet",
-                    "enabled": false,
-                    "expanded": false,
-                    "component": {
-                        "selector": "adf-search-text",
-                        "settings": {
-                            "field": "fieldname"
-                        }
-                    }
-                },
-                {
-                    "id": "queryName",
-                    "name": "Name",
-                    "enabled": true,
-                    "expanded": true,
-                    "component": {
-                        "selector": "adf-search-text",
-                        "settings": {
-                            "pattern": "cm:name:'(.*?)'",
-                            "field": "cm:name",
-                            "placeholder": "Enter the name"
-                        }
-                    }
-                },
-                {
-                    "id": "queryFields",
-                    "name": "Fields",
-                    "enabled": true,
-                    "expanded": false,
-                    "component": {
-                        "selector": "adf-search-fields",
-                        "settings": {
-                            "field": null,
-                            "options": [
-                                { "name": "Name", "value": "name", "fields": ["name"], "default": true },
-                                { "name": "File Size", "value": "content.sizeInBytes", "fields": ["content"], "default": true },
-                                { "name": "Modified On", "value": "modifiedAt", "fields": ["modifiedAt"], "default": true },
-                                { "name": "Modified By", "value": "modifiedByUser.displayName", "fields": ["modifiedByUser"], "default": true }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "id": "queryType",
-                    "name": "Type",
-                    "enabled": true,
-                    "expanded": false,
-                    "component": {
-                        "selector": "adf-search-radio",
-                        "settings": {
-                            "field": null,
-                                "options": [
-                                { "name": "None", "value": "", "default": true },
-                                { "name": "All", "value": "TYPE:'cm:folder' OR TYPE:'cm:content'" },
-                                { "name": "Folder", "value": "TYPE:'cm:folder'" },
-                                { "name": "Document", "value": "TYPE:'cm:content'" }
-                            ]
-                        }
-                    }
-                },
-                {
-                    "id": "queryLocations",
-                    "name": "Locations",
-                    "enabled": true,
-                    "expanded": false,
-                    "component": {
-                        "selector": "adf-search-scope-locations",
-                        "settings": {
-                            "field": null,
-                            "options": [
-                                { "name": "Default", "value": "nodes", "default": true },
-                                { "name": "Nodes", "value": "nodes" },
-                                { "name": "Deleted Nodes", "value": "deleted-nodes" },
-                                { "name": "Versions", "value": "versions" }
-                            ]
-                        }
+        "categories": [
+            {
+                "id": "modifiedDate",
+                "name": "SEARCH.CATEGORIES.MODIFIED_DATE",
+                "enabled": true,
+                "component": {
+                    "selector": "check-list",
+                    "settings": {
+                        "options": [
+                            { "name": "Today", "value": "cm:modified:[TODAY to TODAY]" },
+                            { "name": "This week", "value": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]" },
+                            { "name": "This month", "value": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"},
+                            { "name": "In last 6 months", "value": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"},
+                            { "name": "This year", "value": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"}
+                        ]
                     }
                 }
-            ]
-        }
+            },
+            {
+                "id": "size",
+                "name": "SEARCH.CATEGORIES.SIZE",
+                "enabled": true,
+                "component": {
+                    "selector": "check-list",
+                    "settings": {
+                        "options": [
+                            { "name": "Small", "value": "content.size:[0 TO 1048576>" },
+                            { "name": "Medium", "value": "content.size:[1048576 TO 52428800]" },
+                            { "name": "Large", "value": "content.size:<52428800 TO 524288000]" },
+                            { "name": "Huge", "value": "content.size:<524288000 TO MAX]" }
+                        ]
+                    }
+                }
+            },
+            {
+                "id": "createdDateRange",
+                "name": "SEARCH.CATEGORIES.CREATED_DATE",
+                "enabled": true,
+                "component": {
+                    "selector": "date-range",
+                    "settings": {
+                        "field": "cm:created",
+                        "dateFormat": "DD-MMM-YY"
+                    }
+                }
+            }
+        ]
     }
 }

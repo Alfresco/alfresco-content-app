@@ -24,16 +24,24 @@
  */
 
 import { Component, DebugElement } from '@angular/core';
-import { TestBed, ComponentFixture, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Rx';
-import { AlfrescoApiService, TranslationService, NotificationService, CoreModule } from '@alfresco/adf-core';
 
 import { NodePermanentDeleteDirective } from './node-permanent-delete.directive';
-import { MatDialogModule, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { Actions, ofType, EffectsModule } from '@ngrx/effects';
+import {
+    SNACKBAR_INFO, SnackbarWarningAction, SnackbarInfoAction,
+    SnackbarErrorAction, SNACKBAR_ERROR, SNACKBAR_WARNING
+} from '../../store/actions';
+import { map } from 'rxjs/operators';
+import { NodeEffects } from '../../store/effects/node.effects';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
-    template: `<div [app-permanent-delete-node]="selection"></div>`
+    template: `<div [acaPermanentDelete]="selection"></div>`
 })
 class TestComponent {
     selection = [];
@@ -43,64 +51,50 @@ describe('NodePermanentDeleteDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let element: DebugElement;
     let component: TestComponent;
-    let alfrescoService: AlfrescoApiService;
-    let translation: TranslationService;
-    let notificationService: NotificationService;
-    let nodesService;
-    let directiveInstance;
     let dialog: MatDialog;
+    let actions$: Actions;
+    let contentApi: ContentApiService;
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                CoreModule,
-                MatDialogModule
+                AppTestingModule,
+                EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 NodePermanentDeleteDirective,
                 TestComponent
             ]
-        })
-        .compileComponents()
-        .then(() => {
-            fixture = TestBed.createComponent(TestComponent);
-            component = fixture.componentInstance;
-            element = fixture.debugElement.query(By.directive(NodePermanentDeleteDirective));
-            directiveInstance = element.injector.get(NodePermanentDeleteDirective);
-
-            dialog = TestBed.get(MatDialog);
-            alfrescoService = TestBed.get(AlfrescoApiService);
-            translation = TestBed.get(TranslationService);
-            notificationService = TestBed.get(NotificationService);
         });
-    }));
 
-    beforeEach(() => {
-        nodesService = alfrescoService.getInstance().nodes;
+        contentApi = TestBed.get(ContentApiService);
+        actions$ = TestBed.get(Actions);
 
-        spyOn(translation, 'get').and.returnValue(Observable.of('message'));
-        spyOn(notificationService, 'openSnackMessage').and.returnValue({});
+        fixture = TestBed.createComponent(TestComponent);
+        component = fixture.componentInstance;
+        element = fixture.debugElement.query(By.directive(NodePermanentDeleteDirective));
 
+        dialog = TestBed.get(MatDialog);
         spyOn(dialog, 'open').and.returnValue({
             afterClosed() {
-                return Observable.of(true)
+                return Observable.of(true);
             }
         });
     });
 
     it('does not purge nodes if no selection', () => {
-        spyOn(nodesService, 'purgeDeletedNode');
+        spyOn(contentApi, 'purgeDeletedNode');
 
         component.selection = [];
 
         fixture.detectChanges();
         element.triggerEventHandler('click', null);
 
-        expect(nodesService.purgeDeletedNode).not.toHaveBeenCalled();
+        expect(contentApi.purgeDeletedNode).not.toHaveBeenCalled();
     });
 
     it('call purge nodes if selection is not empty', fakeAsync(() => {
-        spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.resolve());
+        spyOn(contentApi, 'purgeDeletedNode').and.returnValue(Observable.of({}));
 
         component.selection = [ { entry: { id: '1' } } ];
 
@@ -108,22 +102,29 @@ describe('NodePermanentDeleteDirective', () => {
         element.triggerEventHandler('click', null);
         tick();
 
-        expect(nodesService.purgeDeletedNode).toHaveBeenCalled();
+        expect(contentApi.purgeDeletedNode).toHaveBeenCalled();
     }));
 
     describe('notification', () => {
-        it('notifies on multiple fail and one success', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
+        it('raises warning on multiple fail and one success', fakeAsync(done => {
+            actions$.pipe(
+                ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+                map((action: SnackbarWarningAction) => {
+                    done();
+                })
+            );
+
+            spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
 
                 if (id === '2') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
 
                 if (id === '3') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
             });
 
@@ -136,30 +137,31 @@ describe('NodePermanentDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR',
-                { name: 'name1', failed: 2 }
-            );
         }));
 
-        it('notifies on multiple success and multiple fail', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
+        it('raises warning on multiple success and multiple fail', fakeAsync(done => {
+            actions$.pipe(
+                ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+                map((action: SnackbarWarningAction) => {
+                    done();
+                })
+            );
+
+            spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
 
                 if (id === '2') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
 
                 if (id === '3') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
 
                 if (id === '4') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
             });
 
@@ -173,16 +175,17 @@ describe('NodePermanentDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL',
-                { number: 2, failed: 2 }
-            );
         }));
 
-        it('notifies on one selected node success', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.resolve());
+        it('raises info on one selected node success', fakeAsync(done => {
+            actions$.pipe(
+                ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+                map((action: SnackbarInfoAction) => {
+                    done();
+                })
+            );
+
+            spyOn(contentApi, 'purgeDeletedNode').and.returnValue(Observable.of({}));
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } }
@@ -191,16 +194,17 @@ describe('NodePermanentDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR',
-                { name: 'name1' }
-            );
         }));
 
-        it('notifies on one selected node fail', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.reject({}));
+        it('raises error on one selected node fail', fakeAsync(done => {
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map((action: SnackbarErrorAction) => {
+                    done();
+                })
+            );
+
+            spyOn(contentApi, 'purgeDeletedNode').and.returnValue(Observable.throw({}));
 
             component.selection = [
                 { entry: { id: '1', name: 'name1' } }
@@ -209,22 +213,22 @@ describe('NodePermanentDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR',
-                { name: 'name1' }
-            );
         }));
 
-        it('notifies on selected nodes success', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
+        it('raises info on all nodes success', fakeAsync(done => {
+            actions$.pipe(
+                ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+                map((action: SnackbarInfoAction) => {
+                    done();
+                })
+            );
+            spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
 
                 if (id === '2') {
-                    return Promise.resolve();
+                    return Observable.of({});
                 }
             });
 
@@ -236,22 +240,22 @@ describe('NodePermanentDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL',
-                { number: 2 }
-            );
         }));
 
-        it('notifies on selected nodes fail', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
+        it('raises error on all nodes fail', fakeAsync(done => {
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map((action: SnackbarErrorAction) => {
+                    done();
+                })
+            );
+            spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
 
                 if (id === '2') {
-                    return Promise.reject({});
+                    return Observable.throw({});
                 }
             });
 
@@ -263,96 +267,6 @@ describe('NodePermanentDeleteDirective', () => {
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
             tick();
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalled();
-            expect(translation.get).toHaveBeenCalledWith(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL',
-                { number: 2 }
-            );
-        }));
-    });
-
-    describe('refresh()', () => {
-        it('resets selection on success', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.resolve());
-
-            component.selection = [
-                { entry: { id: '1', name: 'name1' } }
-            ];
-
-            fixture.detectChanges();
-            element.triggerEventHandler('click', null);
-            tick();
-
-            expect(directiveInstance.selection).toEqual([]);
-        }));
-
-        it('resets selection on error', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.reject({}));
-
-            component.selection = [
-                { entry: { id: '1', name: 'name1' } }
-            ];
-
-            fixture.detectChanges();
-            element.triggerEventHandler('click', null);
-            tick();
-
-            expect(directiveInstance.selection).toEqual([]);
-        }));
-
-        it('resets status', fakeAsync(() => {
-            const status = directiveInstance.processStatus([
-                { status: 0 },
-                { status: 1 }
-            ]);
-
-            expect(status.fail.length).toBe(1);
-            expect(status.success.length).toBe(1);
-
-            status.reset();
-
-            expect(status.fail.length).toBe(0);
-            expect(status.success.length).toBe(0);
-        }));
-
-        it('dispatch event on partial success', fakeAsync(() => {
-            spyOn(element.nativeElement, 'dispatchEvent');
-            spyOn(nodesService, 'purgeDeletedNode').and.callFake((id) => {
-                if (id === '1') {
-                    return Promise.reject({});
-                }
-
-                if (id === '2') {
-                    return Promise.resolve();
-                }
-            });
-
-            component.selection = [
-                { entry: { id: '1', name: 'name1' } },
-                { entry: { id: '2', name: 'name2' } }
-            ];
-
-            fixture.detectChanges();
-            element.triggerEventHandler('click', null);
-            tick();
-
-            expect(element.nativeElement.dispatchEvent).toHaveBeenCalled();
-        }));
-
-        it('does not dispatch event on error', fakeAsync(() => {
-            spyOn(nodesService, 'purgeDeletedNode').and.returnValue(Promise.reject({}));
-            spyOn(element.nativeElement, 'dispatchEvent');
-
-            component.selection = [
-                { entry: { id: '1', name: 'name1' } }
-            ];
-
-            fixture.detectChanges();
-            element.triggerEventHandler('click', null);
-            tick();
-
-            expect(element.nativeElement.dispatchEvent).not.toHaveBeenCalled();
         }));
     });
 });

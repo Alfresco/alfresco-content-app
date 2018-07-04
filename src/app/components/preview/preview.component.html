@@ -13,7 +13,11 @@
 
             <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
                 <ng-container>
-                    <adf-version-manager [node]="node"></adf-version-manager>
+                    <adf-version-manager
+                        [showComments]="'adf-version-manager.allowComments' | adfAppConfig:true"
+                        [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig:true"
+                        [node]="node">
+                    </adf-version-manager>
                 </ng-container>
             </adf-info-drawer-tab>
         </adf-info-drawer>
@@ -35,29 +39,25 @@
 
             <button
                 mat-menu-item
-                #selection="adfFavorite"
+                #favorites="adfFavorite"
                 [adf-node-favorite]="selectedEntities">
-                <mat-icon [ngClass]="{
-                    'toolbar__option--active': selection.hasFavorites(),
-                    'toolbar__option--default': !selection.hasFavorites()
-                }">
-                    {{ selection.hasFavorites() ? 'star' :'star_border' }}
-                </mat-icon>
+                <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
+                <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
                 <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
             </button>
 
             <button
                 mat-menu-item
-                [app-copy-node]="selectedEntities">
-                <mat-icon color="primary">content_copy</mat-icon>
+                [acaCopyNode]="selectedEntities">
+                <mat-icon>content_copy</mat-icon>
                 <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
             </button>
 
             <button
                 mat-menu-item
                 *ngIf="permission.check(node, ['delete'])"
-                [app-move-node]="selectedEntities">
-                <mat-icon color="primary">library_books</mat-icon>
+                [acaMoveNode]="selectedEntities">
+                <mat-icon>library_books</mat-icon>
                 <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
             </button>
 
@@ -65,15 +65,15 @@
                 mat-menu-item
                 *ngIf="permission.check(node, ['delete'])"
                 (click)="deleteFile()">
-                <mat-icon color="primary">delete</mat-icon>
+                <mat-icon>delete</mat-icon>
                 <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
             </button>
 
             <button
                 mat-menu-item
                 *ngIf="permission.check(node, ['update'])"
-                [app-node-versions]="selectedEntities">
-                <mat-icon color="primary">history</mat-icon>
+                [acaNodeVersions]="node">
+                <mat-icon>history</mat-icon>
                 <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
             </button>
         </adf-viewer-more-actions>

@@ -1,0 +1,19 @@
+@mixin adf-toolbar-theme($theme) {
+
+    .adf-toolbar {
+        @include angular-material-theme($theme);
+
+        .mat-toolbar-single-row {
+            padding: 0 14px;
+            height: 48px;
+        }
+
+        &.inline {
+            .mat-toolbar {
+                background-color: inherit;
+                border: none !important;
+                padding: 0;
+            }
+        }
+    }
+}

@@ -1,13 +1,24 @@
 dist: trusty
 sudo: required
 
+services:
+  - docker
+
+addons:
+  chrome: stable
+
 language: node_js
 node_js:
   - "8"
+
+before_script:
+  # Disable services enabled by default
+  - sudo /etc/init.d/postgresql stop
 
 install:
   - npm install -g npm@latest
   - npm ci
 
 script:
-  - npm run test:ci
+  # - docker-compose stop
+  - npm run build && npm run e2e:docker

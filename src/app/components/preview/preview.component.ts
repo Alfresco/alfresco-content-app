@@ -24,21 +24,23 @@
  */
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlfrescoApiService, UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
+import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
+import { UserPreferencesService, ObjectUtils, UploadService } from '@alfresco/adf-core';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
-import { ContentManagementService } from '../../common/services/content-management.service';
-
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { DeleteNodesAction } from '../../store/actions';
+import { PageComponent } from '../page.component';
+import { ContentApiService } from '../../services/content-api.service';
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
     styleUrls: ['preview.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
     host: { 'class': 'app-preview' }
 })
-export class PreviewComponent implements OnInit {
+export class PreviewComponent extends PageComponent implements OnInit {
 
     node: Node;
     previewLocation: string = null;
@@ -54,12 +56,16 @@ export class PreviewComponent implements OnInit {
 
     selectedEntities: MinimalNodeEntity[] = [];
 
-    constructor(private router: Router,
-        private route: ActivatedRoute,
-        private apiService: AlfrescoApiService,
+    constructor(
+        private contentApi: ContentApiService,
+        private uploadService: UploadService,
         private preferences: UserPreferencesService,
-        private content: ContentManagementService,
+        private route: ActivatedRoute,
+        private router: Router,
+        store: Store<AppStore>,
         public permission: NodePermissionService) {
+
+        super(store);
     }
 
     ngOnInit() {
@@ -87,6 +93,10 @@ export class PreviewComponent implements OnInit {
                 this.displayNode(id);
             }
         });
+
+        this.subscriptions = this.subscriptions.concat([
+            this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
+        ]);
     }
 
     /**
@@ -96,9 +106,7 @@ export class PreviewComponent implements OnInit {
     async displayNode(id: string) {
         if (id) {
             try {
-                this.node = await this.apiService.nodesApi.getNodeInfo(id, {
-                    include: ['allowableOperations']
-                });
+                this.node = await this.contentApi.getNodeInfo(id).toPromise();
                 this.selectedEntities = [{ entry: this.node }];
 
                 if (this.node && this.node.isFile) {
@@ -124,7 +132,7 @@ export class PreviewComponent implements OnInit {
         const shouldSkipNavigation = this.routesSkipNavigation.includes(this.previewLocation);
 
         if (!isVisible) {
-            const route = [this.previewLocation];
+            const route = this.getNavigationCommands(this.previewLocation);
 
             if ( !shouldSkipNavigation && this.folderId ) {
                 route.push(this.folderId);
@@ -213,11 +221,11 @@ export class PreviewComponent implements OnInit {
         if ((source === 'personal-files' || source === 'libraries') && folderId) {
             const sortKey = this.preferences.get('personal-files.sorting.key') || 'modifiedAt';
             const sortDirection = this.preferences.get('personal-files.sorting.direction') || 'desc';
-            const nodes = await this.apiService.nodesApi.getNodeChildren(folderId, {
+            const nodes = await this.contentApi.getNodeChildren(folderId, {
                 // orderBy: `${sortKey} ${sortDirection}`,
                 fields: ['id', this.getRootField(sortKey)],
                 where: '(isFile=true)'
-            });
+            }).toPromise();
 
             const entries = nodes.list.entries.map(obj => obj.entry);
             this.sort(entries, sortKey, sortDirection);
@@ -226,10 +234,10 @@ export class PreviewComponent implements OnInit {
         }
 
         if (source === 'favorites') {
-            const nodes = await this.apiService.favoritesApi.getFavorites('-me-', {
+            const nodes = await this.contentApi.getFavorites('-me-', {
                 where: '(EXISTS(target/file))',
                 fields: ['target']
-            });
+            }).toPromise();
 
             const sortKey = this.preferences.get('favorites.sorting.key') || 'modifiedAt';
             const sortDirection = this.preferences.get('favorites.sorting.direction') || 'desc';
@@ -243,9 +251,9 @@ export class PreviewComponent implements OnInit {
             const sortingKey = this.preferences.get('shared.sorting.key') || 'modifiedAt';
             const sortingDirection = this.preferences.get('shared.sorting.direction') || 'desc';
 
-            const nodes = await this.apiService.sharedLinksApi.findSharedLinks({
+            const nodes = await this.contentApi.findSharedLinks({
                 fields: ['nodeId', this.getRootField(sortingKey)]
-            });
+            }).toPromise();
 
             const entries = nodes.list.entries.map(obj => obj.entry);
             this.sort(entries, sortingKey, sortingDirection);
@@ -254,12 +262,12 @@ export class PreviewComponent implements OnInit {
         }
 
         if (source === 'recent-files') {
-            const person = await this.apiService.peopleApi.getPerson('-me-');
+            const person = await this.contentApi.getPerson('-me-').toPromise();
             const username = person.entry.id;
             const sortingKey = this.preferences.get('recent-files.sorting.key') || 'modifiedAt';
             const sortingDirection = this.preferences.get('recent-files.sorting.direction') || 'desc';
 
-            const nodes = await this.apiService.searchApi.search({
+            const nodes = await this.contentApi.search({
                 query: {
                     query: '*',
                     language: 'afts'
@@ -275,7 +283,7 @@ export class PreviewComponent implements OnInit {
                     field: 'cm:modified',
                     ascending: false
                 }]
-            });
+            }).toPromise();
 
             const entries = nodes.list.entries.map(obj => obj.entry);
             this.sort(entries, sortingKey, sortingDirection);
@@ -326,11 +334,29 @@ export class PreviewComponent implements OnInit {
         return path;
     }
 
-    async deleteFile() {
-        try {
-            await this.content.deleteNode(this.node);
-            this.onVisibilityChanged(false);
-        } catch {
+    deleteFile() {
+        this.store.dispatch(new DeleteNodesAction([
+            {
+                id: this.node.nodeId || this.node.id,
+                name: this.node.name
+            }
+        ]));
+        this.onVisibilityChanged(false);
+    }
+
+    private getNavigationCommands(url: string): any[] {
+        const urlTree: UrlTree = this.router.parseUrl(url);
+        const urlSegmentGroup: UrlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
+
+        if (!urlSegmentGroup) {
+            return [url];
         }
+
+        const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
+
+        return urlSegments.reduce(function(acc, item) {
+            acc.push(item.path, item.parameters);
+            return acc;
+        }, []);
     }
 }

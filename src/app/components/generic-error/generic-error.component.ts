@@ -23,12 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-    selector: 'app-generic-error',
-    styleUrls: ['./generic-error.component.scss'],
-    templateUrl: './generic-error.component.html'
+    selector: 'aca-generic-error',
+    templateUrl: './generic-error.component.html',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'aca-generic-error' }
 })
 export class GenericErrorComponent {}
 

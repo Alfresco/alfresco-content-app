@@ -24,23 +24,24 @@
  */
 
 import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation } from '@angular/core';
-import { AlfrescoApiService, DataColumn, DataRow, DataTableAdapter } from '@alfresco/adf-core';
-import { PathInfoEntity } from 'alfresco-js-api';
+import { PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
 
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { NavigateToParentFolder } from '../../store/actions';
+import { ContentApiService } from '../../services/content-api.service';
+
 @Component({
-    selector: 'app-location-link',
+    selector: 'aca-location-link',
     template: `
-        <a href="" [title]="tooltip | async" [routerLink]="link">
+        <a href="" [title]="tooltip | async" (click)="goToLocation()">
             {{ displayText | async }}
         </a>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    // tslint:disable-next-line:use-host-property-decorator
-    host: {
-        'class': 'app-location-link adf-location-cell'
-    }
+    host: { 'class': 'aca-location-link adf-location-cell' }
 })
 export class LocationLinkComponent implements OnInit {
 
@@ -56,44 +57,34 @@ export class LocationLinkComponent implements OnInit {
     @Input()
     tooltip: Observable<string>;
 
-    constructor(private apiService: AlfrescoApiService) {
+    constructor(
+        private store: Store<AppStore>,
+        private contentApi: ContentApiService) {
+    }
+
+    goToLocation() {
+        if (this.context) {
+            const node: MinimalNodeEntity  = this.context.row.node;
+            this.store.dispatch(new NavigateToParentFolder(node));
+        }
     }
 
     ngOnInit() {
         if (this.context) {
-            const data: DataTableAdapter = this.context.data;
-            const col: DataColumn = this.context.col;
-            const row: DataRow = this.context.row;
-            const value: PathInfoEntity = data.getValue(row, col);
+            const node: MinimalNodeEntity  = this.context.row.node;
+            if (node && node.entry && node.entry.path) {
+                const path = node.entry.path;
 
-            if (value && value.name && value.elements) {
-                const isLibraryPath = this.isLibraryContent(value);
-
-                this.displayText = this.getDisplayText(value);
-                this.tooltip = this.getTooltip(value);
-
-                const parent = value.elements[value.elements.length - 1];
-                const area = isLibraryPath ? '/libraries' : '/personal-files';
-
-                if (!isLibraryPath) {
-                    this.link = [ area, parent.id ];
-                } else {
-                    // parent.id could be 'Site' folder or child as 'documentLibrary'
-                    this.link = [ area, (parent.name === 'Sites' ? {} : parent.id) ];
+                if (path && path.name && path.elements) {
+                    this.displayText = this.getDisplayText(path);
+                    this.tooltip = this.getTooltip(path);
                 }
             }
         }
     }
 
-    private isLibraryContent(path: PathInfoEntity): boolean {
-        if (path && path.elements.length >= 2 && path.elements[1].name === 'Sites') {
-            return true;
-        }
-        return false;
-    }
-
     // todo: review once 5.2.3 is out
-    private getDisplayText(path: PathInfoEntity): Observable<string> {
+    private getDisplayText(path: PathInfo): Observable<string> {
         const elements = path.elements.map(e => e.name);
 
         // for admin users
@@ -112,12 +103,12 @@ export class LocationLinkComponent implements OnInit {
             const fragment = path.elements[path.elements.length - 2];
 
             return new Observable<string>(observer => {
-                this.apiService.nodesApi.getNodeInfo(fragment.id).then(
-                    (node) => {
+                this.contentApi.getNodeInfo(fragment.id).subscribe(
+                    node => {
                         observer.next(node.properties['cm:title'] || node.name || fragment.name);
                         observer.complete();
                     },
-                    (err) => {
+                    () => {
                         observer.next(fragment.name);
                         observer.complete();
                     }
@@ -129,7 +120,7 @@ export class LocationLinkComponent implements OnInit {
     }
 
     // todo: review once 5.2.3 is out
-    private getTooltip(path: PathInfoEntity): Observable<string> {
+    private getTooltip(path: PathInfo): Observable<string> {
         const elements = path.elements.map(e => Object.assign({}, e));
 
         if (elements[0].name === 'Company Home') {
@@ -140,8 +131,8 @@ export class LocationLinkComponent implements OnInit {
                     const fragment = elements[2];
 
                     return new Observable<string>(observer => {
-                        this.apiService.nodesApi.getNodeInfo(fragment.id).then(
-                            (node) => {
+                        this.contentApi.getNodeInfo(fragment.id).subscribe(
+                            node => {
                                 elements.splice(0, 2);
                                 elements[0].name = node.properties['cm:title'] || node.name || fragment.name;
                                 elements.splice(1, 1);
@@ -150,7 +141,7 @@ export class LocationLinkComponent implements OnInit {
                                 observer.next(elements.map(e => e.name).join('/'));
                                 observer.complete();
                             },
-                            (err) => {
+                            () => {
                                 elements.splice(0, 2);
                                 elements.unshift({ id: null, name: 'File Libraries' });
                                 elements.splice(2, 1);

@@ -24,27 +24,19 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { MatMenuModule, MatSnackBarModule } from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
-import {
-    AppConfigService, AuthenticationService,
-    UserPreferencesService, StorageService, AlfrescoApiService,
-    CookieService, LogService, NotificationService
-} from '@alfresco/adf-core';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { AppConfigService } from '@alfresco/adf-core';
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
-
 import { SidenavComponent } from './sidenav.component';
+import { EffectsModule } from '@ngrx/effects';
+import { NodeEffects } from '../../store/effects/node.effects';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('SidenavComponent', () => {
-    let fixture;
+    let fixture: ComponentFixture<SidenavComponent>;
     let component: SidenavComponent;
     let browsingService: BrowsingFilesService;
     let appConfig: AppConfigService;
-    let notificationService: NotificationService;
     let appConfigSpy;
 
     const navItem = {
@@ -57,26 +49,11 @@ describe('SidenavComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpClientModule,
-                MatMenuModule,
-                MatSnackBarModule,
-                TranslateModule.forRoot(),
-                RouterTestingModule
+                AppTestingModule,
+                EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
                 SidenavComponent
-            ],
-            providers: [
-                LogService,
-                CookieService,
-                AlfrescoApiService,
-                StorageService,
-                UserPreferencesService,
-                AuthenticationService,
-                NodePermissionService,
-                AppConfigService,
-                BrowsingFilesService,
-                NotificationService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
@@ -84,7 +61,6 @@ describe('SidenavComponent', () => {
         .then(() => {
             browsingService = TestBed.get(BrowsingFilesService);
             appConfig = TestBed.get(AppConfigService);
-            notificationService = TestBed.get(NotificationService);
 
             fixture = TestBed.createComponent(SidenavComponent);
             component = fixture.componentInstance;
@@ -115,18 +91,6 @@ describe('SidenavComponent', () => {
             fixture.detectChanges();
 
             expect(component.navigation).toEqual([[navItem, navItem], [navItem, navItem]]);
-        });
-    });
-
-    describe('openSnackMessage', () => {
-        it('should call notification service', () => {
-            const message = 'notification message';
-
-            spyOn(notificationService, 'openSnackMessage');
-
-            component.openSnackMessage(message);
-
-            expect(notificationService.openSnackMessage).toHaveBeenCalledWith(message, 4000);
         });
     });
 });

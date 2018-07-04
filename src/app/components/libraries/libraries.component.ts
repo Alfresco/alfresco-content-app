@@ -23,33 +23,37 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NodesApiService, UserPreferencesService } from '@alfresco/adf-core';
-import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
+import { ShareDataRow } from '@alfresco/adf-content-services';
 
 import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { DeleteLibraryAction } from '../../store/actions';
+import { SiteEntry } from 'alfresco-js-api';
+import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
     templateUrl: './libraries.component.html'
 })
-export class LibrariesComponent extends PageComponent {
+export class LibrariesComponent extends PageComponent implements OnInit {
 
-    @ViewChild(DocumentListComponent)
-    documentList: DocumentListComponent;
+    constructor(private route: ActivatedRoute,
+                private content: ContentManagementService,
+                private contentApi: ContentApiService,
+                store: Store<AppStore>,
+                private router: Router) {
+        super(store);
+    }
 
-    sorting = [ 'title', 'asc' ];
+    ngOnInit() {
+        super.ngOnInit();
 
-    constructor(private nodesApi: NodesApiService,
-                private route: ActivatedRoute,
-                private router: Router,
-                preferences: UserPreferencesService) {
-        super(preferences);
-
-        const sortingKey = preferences.get(`${this.prefix}.sorting.key`) || 'title';
-        const sortingDirection = preferences.get(`${this.prefix}.sorting.direction`) || 'desc';
-
-        this.sorting = [sortingKey, sortingDirection];
+        this.subscriptions.push(
+            this.content.siteDeleted.subscribe(() => this.reload())
+        );
     }
 
     makeLibraryTooltip(library: any): string {
@@ -85,24 +89,18 @@ export class LibrariesComponent extends PageComponent {
 
     navigate(libraryId: string) {
         if (libraryId) {
-            this.nodesApi
+            this.contentApi
                 .getNode(libraryId, { relativePath: '/documentLibrary' })
+                .map(node => node.entry)
                 .subscribe(documentLibrary => {
                     this.router.navigate([ './', documentLibrary.id ], { relativeTo: this.route });
                 });
         }
     }
 
-    fetchNodes(): void {
-        // todo: remove once all views migrate to native data source
-    }
-
-    onSortingChanged(event: CustomEvent) {
-        this.preferences.set(`${this.prefix}.sorting.key`, event.detail.key || 'modifiedAt');
-        this.preferences.set(`${this.prefix}.sorting.direction`, event.detail.direction || 'desc');
-    }
-
-    private get prefix() {
-        return this.route.snapshot.data.preferencePrefix;
+    deleteLibrary(node: SiteEntry) {
+        if (node && node.entry) {
+            this.store.dispatch(new DeleteLibraryAction(node.entry.id));
+        }
     }
 }

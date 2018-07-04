@@ -3,11 +3,21 @@
     "LANGUAGE": "言語",
     "SIGN_IN": "サインイン",
     "SIGN_OUT": "サインアウト",
+    "SETTINGS": {
+      "APPLICATION-SETTINGS": "アプリケーションの設定",
+      "REPOSITORY-SETTINGS": "リポジトリの設定",
+      "EXPERIMENTAL-FEATURES": "試験的な機能",
+      "INVALID-VALUE-FORMAT": "無効な値形式",
+      "REQUIRED-FIELD": "このフィールドは必須です",
+      "RESET": "リセット",
+      "APPLY": "適用"
+    },
     "PREVIEW": {
       "TITLE": "プレビュー"
     },
     "NEW_MENU": {
       "LABEL": "新規",
+      "TOOLTIP": "新しいフィールドまたはフォルダを追加します",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "フォルダの作成",
         "UPLOAD_FILE": "ファイルのアップロード",
@@ -88,6 +98,15 @@
       },
       "ABOUT": {
         "TITLE": "バージョン情報"
+      },
+      "SEARCH": {
+        "TITLE": "検索結果",
+        "FOUND_RESULTS": "{{ number }} 件見つかりました",
+        "CUSTOM_ROW": {
+          "MODIFIED": "変更日",
+          "LOCATION": "場所",
+          "SIZE": "サイズ"
+        }
       }
     },
     "ACTIONS": {
@@ -104,7 +123,8 @@
       "FAVORITE": "お気に入り",
       "UNSHARE": "共有の解除",
       "DETAILS": "詳細の表示",
-      "VERSIONS": "バージョンの管理"
+      "VERSIONS": "バージョンの管理",
+      "TOGGLE-SIDENAV": "サイドナビゲーションバーの切り替え"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -135,6 +155,7 @@
     },
     "MESSAGES": {
       "ERRORS": {
+        "MISSING_CONTENT": "このファイルまたはフォルダがなくなったか、表示する権限がありません。",
         "GENERIC": "処理が失敗しました。もう一度操作をやり直すか、IT 担当者に連絡してください。",
         "CONFLICT": "この名前は既に使用されています。別の名前を使用してください。",
         "NODE_MOVE": "移動できません。同じ名前のファイルが既に存在します。",
@@ -155,6 +176,14 @@
             "LOCATION_MISSING": "{{ name }} を復元できません。元の場所が削除されています。",
             "GENERIC": "{{ name }} の復元中に問題が発生しました"
           }
+        },
+        "DELETE_LIBRARY_FAILED": "このライブラリは削除できません"
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "問題が発生しました",
+          "CONFLICT": "新しいバージョンはアップロードされていません。同じ名前のファイルが既に存在します",
+          "500": "アップロード中に問題が発生しました"
         }
       },
       "INFO": {
@@ -192,7 +221,8 @@
             "PLURAL": "一部のアイテム ({{ partially }} 件) を移動しました。",
             "FAIL": "{{ failed }} 件を移動できませんでした。"
           }
-        }
+        },
+        "LIBRARY_DELETED": "ライブラリが削除されました"
       }
     },
     "CONTENT_METADATA": {
@@ -221,6 +251,49 @@
     "SELECTION": {
       "EMPTY": "バージョンを表示する文書を選択してください。",
       "NO_PERMISSION": "このコンテンツのバージョンを管理するための権限がありません。"
+    }
+  },
+  "SEARCH": {
+    "SORT": {
+      "RELEVANCE": "関連性",
+      "FILENAME": "ファイル名",
+      "TITLE": "タイトル",
+      "MODIFIED_DATE": "変更日",
+      "SIZE": "サイズ",
+      "TYPE": "種類",
+      "MODIFIER": "変更者",
+      "CREATE_DATE": "作成日"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "ファイルの種類",
+      "CREATOR": "作成者",
+      "MODIFIER": "変更者",
+      "FILE_LIBRARY": "ファイルライブラリ"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "変更日",
+      "SIZE": "サイズ",
+      "CREATED_DATE": "作成日"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "変更を保存する",
+        "CANCEL": "変更を破棄する"
+      }
+    }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "詳細の表示"
+    }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "新しいバージョンのアップロード"
+      }
     }
   }
 }

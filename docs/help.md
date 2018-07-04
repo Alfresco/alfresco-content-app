@@ -32,11 +32,30 @@ The most cost-effective way to take advantage of this valuable training is throu
 Visit the Alfresco University section on the Alfresco website for more information:
 https://www.alfresco.com/alfresco-university
 
-# Building and running locally
+## Frequently asked questions
 
-Please refer to the [developer docs](/build) to get more details on building and running application on your local machine.
+### How do I log an issue (bug, enhancement, feature)?
 
-# Using with Docker
+Log any issues in the [Jira][jira],
+please include a clear description, steps to reproduce and screenshots where appropriate.
+All issues will be reviewed; bugs will be categorized if reproducible and enhancement/feature suggestions
+will be considered against existing priorities if the use case serves a general-purpose need.
 
-The Content App provides a "Dockerfile" and "docker-compose" files to aid in running application in a container.
-Please refer to the "[Using with Docker](/docker)" article for more details.
+### Does this/Will this application replace Alfresco Share?
+
+This example application is designed to demonstrate how to construct a content application using the Alfresco Application Development Framework,
+it is not intended to be a replacement for Alfresco Share.
+
+### How do I contribute to the project?
+
+Want to file a bug, contribute some code, or improve documentation? Excellent!
+Read up on our guidelines for [contributing][contributing]
+and then check out one of our issues in the [Jira][jira] or [GitHub][github]
+
+### How often will this project be updated?
+
+This project will continue to evolve as the Alfresco ADF evolves, with Alfresco and community developers contributing to its progress.
+
+[contributing]: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
+[github]: https://github.com/Alfresco/alfresco-content-app/issues
+[jira]: https://issues.alfresco.com/jira/projects/ACA

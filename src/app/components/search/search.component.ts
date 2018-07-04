@@ -23,31 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, Optional, ViewChild } from '@angular/core';
-import { NodePaging, Pagination } from 'alfresco-js-api';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
+import { ActivatedRoute, Params } from '@angular/router';
+import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
+import { PageComponent } from '../page.component';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { NavigateToFolder } from '../../store/actions';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  providers: [SearchQueryBuilderService]
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent extends PageComponent implements OnInit {
 
     @ViewChild('search')
     search: AdfSearchComponent;
 
+    searchedWord: string;
     queryParamName = 'q';
-    searchedWord = '';
     data: NodePaging;
-    maxItems = 5;
-    skipCount = 0;
+    totalResults = 0;
+    sorting = ['name', 'asc'];
 
     constructor(
-        public router: Router,
+        public permission: NodePermissionService,
         private queryBuilder: SearchQueryBuilderService,
-        @Optional() private route: ActivatedRoute) {
+        private route: ActivatedRoute,
+        store: Store<AppStore>
+    ) {
+        super(store);
+
         queryBuilder.paging = {
             skipCount: 0,
             maxItems: 25
@@ -55,27 +64,105 @@ export class SearchComponent implements OnInit {
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
+        this.sorting = this.getSorting();
+        this.resetSettings();
+
+        this.subscriptions.push(
+            this.queryBuilder.updated.subscribe(() => {
+                this.sorting = this.getSorting();
+            }),
+
+            this.queryBuilder.executed.subscribe(data => {
+                this.onSearchResultLoaded(data);
+            })
+        );
+
         if (this.route) {
             this.route.params.forEach((params: Params) => {
                 this.searchedWord = params.hasOwnProperty(this.queryParamName) ? params[this.queryParamName] : null;
-                this.queryBuilder.queryFragments['queryName'] = `cm:name:'${this.searchedWord}'`;
-                this.queryBuilder.update();
+                const query = this.formatSearchQuery(this.searchedWord);
+
+                if (query) {
+                    this.queryBuilder.userQuery = query;
+                    this.queryBuilder.update();
+                } else {
+                    this.queryBuilder.userQuery = null;
+                    this.queryBuilder.executed.next( {list: { pagination: { totalItems: 0 }, entries: []}} );
+                }
             });
         }
     }
 
-    onSearchResultLoaded(nodePaging: NodePaging) {
-        this.data = nodePaging;
+    // TODO: workaround for ADF 2.4.0 bug
+    private resetSettings() {
+        this.queryBuilder.categories
+            .map(category => category.component)
+            .filter(component => component.selector === 'check-list')
+            .map(component => component.settings.options || [])
+            .reduce((acc, value) => acc.concat(value), [])
+            .forEach(value => {
+                if (value.hasOwnProperty('checked')) {
+                    value.checked = false;
+                }
+            });
     }
 
-    onRefreshPagination(pagination: Pagination) {
-        this.maxItems = pagination.maxItems;
-        this.skipCount = pagination.skipCount;
+    private formatSearchQuery(userInput: string) {
+        if (!userInput) {
+            return null;
+        }
 
+        const suffix = userInput.lastIndexOf('*') >= 0 ? '' : '*';
+        const query = `${userInput}${suffix} OR name:${userInput}${suffix}`;
+
+        return query;
+    }
+
+    onSearchResultLoaded(nodePaging: NodePaging) {
+        this.data = nodePaging;
+        this.totalResults = this.getNumberOfResults();
+    }
+
+    getNumberOfResults() {
+        if (this.data && this.data.list && this.data.list.pagination) {
+            return this.data.list.pagination.totalItems;
+        }
+        return 0;
+    }
+
+    onPaginationChanged(pagination: Pagination) {
         this.queryBuilder.paging = {
             maxItems: pagination.maxItems,
             skipCount: pagination.skipCount
         };
         this.queryBuilder.update();
+    }
+
+    private getSorting(): string[] {
+        const primary = this.queryBuilder.getPrimarySorting();
+
+        if (primary) {
+            return [primary.key, primary.ascending ? 'asc' : 'desc'];
+        }
+
+        return ['name', 'asc'];
+    }
+
+    onNodeDoubleClick(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            if (node.entry.isFolder) {
+                this.store.dispatch(new NavigateToFolder(node));
+                return;
+            }
+
+            if (PageComponent.isLockedNode(node.entry)) {
+                event.preventDefault();
+                return;
+            }
+
+            this.showPreview(node);
+        }
     }
 }

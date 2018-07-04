@@ -1,0 +1,55 @@
+@import 'mixins';
+
+@mixin aca-layout-theme($theme) {
+    $foreground: map-get($theme, foreground);
+
+    $app-layout--header-height: 65px;
+    $app-layout--side-width: 320px;
+    $app-inner-layout--header-height: 48px;
+    $app-inner-layout--footer-height: 48px;
+    $alfresco-divider-color: mat-color($foreground, text, 0.07);
+    $alfresco-gray-background: #fafafa;
+
+    .layout {
+        @include flex-column;
+    }
+
+    .inner-layout {
+        @include flex-column;
+
+        &__header {
+            display: flex;
+            align-items: center;
+            flex: 0 0 $app-layout--header-height;
+            flex-basis: $app-inner-layout--header-height;
+            background: $alfresco-gray-background;
+            border-bottom: 1px solid $alfresco-divider-color;
+            padding: 0 24px;
+        }
+
+        &__content {
+            @include flex-row;
+        }
+
+        &__content--hide {
+            display: none !important;
+        }
+
+        &__panel {
+            @include flex-column;
+            border-right: 1px solid mat-color($foreground, text, 0.07);
+        }
+
+        &__side-panel {
+            display: block;
+            height: 100%;
+            overflow-y: scroll;
+            max-width: 350px;
+            width: 350px;
+        }
+    }
+
+    .content--scroll {
+        overflow: auto !important;
+    }
+}

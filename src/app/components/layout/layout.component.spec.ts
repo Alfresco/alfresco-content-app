@@ -24,27 +24,22 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule } from '@angular/common/http';
-import {
-    PeopleContentService, AppConfigService,
-    AuthenticationService, UserPreferencesService, TranslationService,
-    TranslationMock, StorageService, AlfrescoApiService, CookieService,
-    LogService
-} from '@alfresco/adf-core';
+import { PeopleContentService, AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { Observable } from 'rxjs/Observable';
-
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { LayoutComponent } from './layout.component';
+import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('LayoutComponent', () => {
     let fixture: ComponentFixture<LayoutComponent>;
     let component: LayoutComponent;
     let browsingFilesService: BrowsingFilesService;
+    let appConfig: AppConfigService;
+    let userPreference: UserPreferencesService;
+
     const navItem = {
         label: 'some-label',
         route: {
@@ -54,25 +49,12 @@ describe('LayoutComponent', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientModule,
-                TranslateModule.forRoot(),
-                RouterTestingModule
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
-                LayoutComponent
+                LayoutComponent,
+                SidenavViewsManagerDirective
             ],
             providers: [
-                { provide: TranslationService, useClass: TranslationMock },
-                AlfrescoApiService,
-                StorageService,
-                CookieService,
-                LogService,
-                UserPreferencesService,
-                AuthenticationService,
-                AppConfigService,
-                NodePermissionService,
-                BrowsingFilesService,
                 {
                     provide: PeopleContentService,
                     useValue: {
@@ -86,18 +68,82 @@ describe('LayoutComponent', () => {
         fixture = TestBed.createComponent(LayoutComponent);
         component = fixture.componentInstance;
         browsingFilesService = TestBed.get(BrowsingFilesService);
-
-        const appConfig = TestBed.get(AppConfigService);
-        spyOn(appConfig, 'get').and.returnValue([navItem]);
-
-        fixture.detectChanges();
+        appConfig = TestBed.get(AppConfigService);
+        userPreference = TestBed.get(UserPreferencesService);
     });
 
     it('sets current node', () => {
+        appConfig.config = {
+            navigation: [navItem]
+        };
+
         const currentNode = <MinimalNodeEntryEntity>{ id: 'someId' };
+
+        fixture.detectChanges();
 
         browsingFilesService.onChangeParent.next(currentNode);
 
         expect(component.node).toEqual(currentNode);
+    });
+
+    describe('sidenav state', () => {
+        it('should get state from configuration', () => {
+            appConfig.config = {
+                sideNav: {
+                    expandedSidenav: false,
+                    preserveState: false
+                }
+            };
+
+            fixture.detectChanges();
+
+            expect(component.expandedSidenav).toBe(false);
+        });
+
+        it('should resolve state to true is no configuration', () => {
+            appConfig.config = {};
+
+            fixture.detectChanges();
+
+            expect(component.expandedSidenav).toBe(true);
+        });
+
+        it('should get state from user settings as true', () => {
+            appConfig.config = {
+                sideNav: {
+                    expandedSidenav: false,
+                    preserveState: true
+                }
+            };
+
+            spyOn(userPreference, 'get').and.callFake(key => {
+                if (key === 'expandedSidenav') {
+                    return 'true';
+                }
+            });
+
+            fixture.detectChanges();
+
+            expect(component.expandedSidenav).toBe(true);
+        });
+
+        it('should get state from user settings as false', () => {
+            appConfig.config = {
+                sideNav: {
+                    expandedSidenav: false,
+                    preserveState: true
+                }
+            };
+
+            spyOn(userPreference, 'get').and.callFake(key => {
+                if (key === 'expandedSidenav') {
+                    return 'false';
+                }
+            });
+
+            fixture.detectChanges();
+
+            expect(component.expandedSidenav).toBe(false);
+        });
     });
  });

@@ -23,176 +23,82 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, Pagination } from 'alfresco-js-api';
-import { UserPreferencesService } from '@alfresco/adf-core';
-import { ShareDataRow } from '@alfresco/adf-content-services';
+import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
+import { FileUploadErrorEvent } from '@alfresco/adf-core';
+import { OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { takeUntil } from 'rxjs/operators';
+import { Subject, Subscription } from 'rxjs/Rx';
+import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
+import { appSelection } from '../store/selectors/app.selectors';
+import { AppStore } from '../store/states/app.state';
+import { SelectionState } from '../store/states/selection.state';
 
-export abstract class PageComponent {
+export abstract class PageComponent implements OnInit, OnDestroy {
+
+    onDestroy$: Subject<boolean> = new Subject<boolean>();
+
+    @ViewChild(DocumentListComponent)
+    documentList: DocumentListComponent;
 
     title = 'Page';
-
-    isLoading = false;
-    isEmpty = true;
     infoDrawerOpened = false;
-
-    paging: NodePaging;
-    pagination: Pagination;
-
     node: MinimalNodeEntryEntity;
+    selection: SelectionState;
+
+    protected subscriptions: Subscription[] = [];
 
     static isLockedNode(node) {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    abstract fetchNodes(parentNodeId?: string, options?: any): void;
+    constructor(protected store: Store<AppStore>) {}
 
-    constructor(protected preferences: UserPreferencesService) {
+    ngOnInit() {
+        this.store
+            .select(appSelection)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(selection => {
+                this.selection = selection;
+                if (selection.isEmpty) {
+                    this.infoDrawerOpened = false;
+                }
+            });
     }
 
-    onFetchError(error: any) {
-        this.isLoading = false;
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        this.subscriptions = [];
+
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
+    }
+
+    showPreview(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            const { id, nodeId, name, isFile, isFolder } = node.entry;
+            const parentId = this.node ? this.node.id : null;
+
+            this.store.dispatch(new ViewNodeAction({
+                parentId,
+                id: nodeId || id,
+                name,
+                isFile,
+                isFolder
+            }));
+        }
     }
 
     getParentNodeId(): string {
         return this.node ? this.node.id : null;
     }
 
-    onPaginationChange(pagination: any) {
-        this.fetchNodes(this.getParentNodeId(), pagination);
-    }
-
-    onPageLoaded(page: NodePaging) {
-        this.isLoading = false;
-        this.paging = page;
-        this.pagination = { ...page.list.pagination };
-        this.isEmpty = !(page.list.entries && page.list.entries.length > 0);
-    }
-
-    hasSelection(selection: Array<MinimalNodeEntity>): boolean {
-        return selection && selection.length > 0;
-    }
-
-    filesOnlySelected(selection: Array<MinimalNodeEntity>): boolean {
-        if (this.hasSelection(selection)) {
-            return selection.every(entity => entity.entry && entity.entry.isFile);
-        }
-        return false;
-    }
-
-    foldersOnlySelected(selection: Array<MinimalNodeEntity>): boolean {
-        if (this.hasSelection(selection)) {
-            return selection.every(entity => entity.entry && entity.entry.isFolder);
-        }
-        return false;
-    }
-
-    isFileSelected(selection: Array<MinimalNodeEntity>): boolean {
-        if (selection && selection.length === 1) {
-            const entry = selection[0].entry;
-
-            if (entry && entry.isFile) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    canEditFolder(selection: Array<MinimalNodeEntity>): boolean {
-        if (selection && selection.length === 1) {
-            const entry = selection[0].entry;
-
-            if (entry && entry.isFolder) {
-                return this.nodeHasPermission(entry, 'update');
-            }
-        }
-        return false;
-    }
-
-    canDelete(selection: Array<MinimalNodeEntity> = []): boolean {
-        return selection.every(node => node.entry && this.nodeHasPermission(node.entry, 'delete'));
-    }
-
-    canMove(selection: Array<MinimalNodeEntity>): boolean {
-        return this.canDelete(selection);
-    }
-
-    canUpdate(selection: Array<MinimalNodeEntity> = []): boolean {
-        return selection.every(node => node.entry && this.nodeHasPermission(node.entry, 'update'));
-    }
-
-    canPreviewFile(selection: Array<MinimalNodeEntity>): boolean {
-        return this.isFileSelected(selection);
-    }
-
-    canShareFile(selection: Array<MinimalNodeEntity>): boolean {
-        return this.isFileSelected(selection);
-    }
-
-    canDownloadFile(selection: Array<MinimalNodeEntity>): boolean {
-        return this.isFileSelected(selection);
-    }
-
-    canUpdateFile(selection: Array<MinimalNodeEntity>): boolean {
-        return this.isFileSelected(selection) && this.nodeHasPermission(selection[0].entry, 'update');
-    }
-
-    canManageVersions(selection: Array<MinimalNodeEntity>): boolean {
-        return this.canUpdateFile(selection);
-    }
-
-    nodeHasPermission(node: MinimalNodeEntryEntity, permission: string): boolean {
-        if (node && permission) {
-            const { allowableOperations = [] } = <any>(node || {});
-
-            if (allowableOperations.indexOf(permission) > -1) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    onChangePageSize(event: Pagination): void {
-        this.preferences.paginationSize = event.maxItems;
-    }
-
-    onNodeSelect(event, documentList) {
-        if (!!event.detail && !!event.detail.node) {
-
-            const node: MinimalNodeEntryEntity = event.detail.node.entry;
-            if (node && PageComponent.isLockedNode(node)) {
-                this.unSelectLockedNodes(documentList);
-            }
-        }
-    }
-
-    unSelectLockedNodes(documentList) {
-        documentList.selection = documentList.selection.filter(item => !PageComponent.isLockedNode(item.entry));
-
-        const dataTable = documentList.dataTable;
-        if (dataTable && dataTable.data) {
-            const rows = dataTable.data.getRows();
-
-            if (rows && rows.length > 0) {
-                rows.forEach(r => {
-                    if (this.isLockedRow(r)) {
-                        r.isSelected = false;
-                    }
-                });
-            }
-        }
-    }
-
-    isLockedRow(row) {
-        return row.getValue('isLocked') ||
-            (row.getValue('properties') && row.getValue('properties')['cm:lockType'] === 'READ_ONLY_LOCK');
-    }
-
     imageResolver(row: ShareDataRow): string | null {
         const entry: MinimalNodeEntryEntity = row.node.entry;
 
         if (PageComponent.isLockedNode(entry)) {
-            return '/assets/images/ic_lock_black_24dp_1x.png';
+            return 'assets/images/ic_lock_black_24dp_1x.png';
         }
         return null;
     }
@@ -203,5 +109,29 @@ export abstract class PageComponent {
         }
 
         this.infoDrawerOpened = !this.infoDrawerOpened;
+    }
+
+    reload(): void {
+        if (this.documentList) {
+            this.documentList.resetSelection();
+            this.store.dispatch(new SetSelectedNodesAction([]));
+            this.documentList.reload();
+        }
+    }
+
+    onFileUploadedError(error: FileUploadErrorEvent) {
+        let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
+
+        if (error.error.status === 409) {
+           message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
+        }
+
+        if (error.error.status === 500) {
+            message = 'APP.MESSAGES.UPLOAD.ERROR.500';
+         }
+
+        const action = new SnackbarErrorAction(message);
+
+        this.store.dispatch(action);
     }
 }

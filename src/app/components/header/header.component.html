@@ -1,19 +1,24 @@
-<adf-toolbar class="app-menu" [style.background-color]="backgroundColor">
+<adf-toolbar class="app-menu" [style.background-color]="headerColor$ | async" role="heading" aria-level="1">
     <adf-toolbar-title>
-        <button mat-icon-button (click)="toggleMenu()">
+        <button
+            title="{{ 'APP.ACTIONS.TOGGLE-SIDENAV' | translate }}"
+            mat-icon-button
+            (click)="toggleMenu()">
             <mat-icon>menu</mat-icon>
         </button>
 
         <a class="app-menu__title"
-            title="{{ appName }}"
+            title="{{ appName$ | async }}"
             [routerLink]="[ '/' ]">
-            <img [src]="logo" alt="{{ appName }}" />
+            <img [src]="logo$ | async" alt="{{ appName$ | async }}" />
         </a>
     </adf-toolbar-title>
 
-    <app-search-input></app-search-input>
+    <div class="adf-toolbar--spacer"></div>
+
+    <aca-search-input></aca-search-input>
 
     <adf-toolbar-divider></adf-toolbar-divider>
 
-    <app-current-user></app-current-user>
+    <aca-current-user></aca-current-user>
 </adf-toolbar>

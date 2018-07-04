@@ -1,10 +1,11 @@
 ## PR Checklist
 Please check if your PR fulfills the following requirements:
 
+```
 - [ ] The commit message follows our guidelines: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md#commit
 - [ ] Tests for the changes have been added (for bug fixes / features)
 - [ ] Docs have been added / updated (for bug fixes / features)
-
+```
 
 ## PR Type
 What kind of change does this PR introduce?

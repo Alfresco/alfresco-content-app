@@ -25,18 +25,21 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { MatSnackBar } from '@angular/material';
 
-import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { NodeActionsService } from '../services/node-actions.service';
 import { ContentManagementService } from '../services/content-management.service';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Directive({
-    selector: '[app-copy-node]'
+    selector: '[acaCopyNode]'
 })
 export class NodeCopyDirective {
 
-    @Input('app-copy-node')
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaCopyNode')
     selection: MinimalNodeEntity[];
 
     @HostListener('click')
@@ -46,9 +49,9 @@ export class NodeCopyDirective {
 
     constructor(
         private content: ContentManagementService,
-        private notification: NotificationService,
+        private contentApi: ContentApiService,
+        private snackBar: MatSnackBar,
         private nodeActionsService: NodeActionsService,
-        private nodesApi: NodesApiService,
         private translation: TranslationService
     ) {}
 
@@ -105,24 +108,27 @@ export class NodeCopyDirective {
         }
 
         const undo = (numberOfCopiedItems > 0) ? this.translation.instant('APP.ACTIONS.UNDO') : '';
-        const withUndo = (numberOfCopiedItems > 0) ? '_WITH_UNDO' : '';
 
-        this.translation.get(i18nMessageString, { success: numberOfCopiedItems, failed: failedItems }).subscribe(message => {
-            this.notification.openSnackMessageAction(message, undo, NodeActionsService[`SNACK_MESSAGE_DURATION${withUndo}`])
-                .onAction()
-                .subscribe(() => this.deleteCopy(newItems));
-        });
+        const message = this.translation.instant(i18nMessageString, { success: numberOfCopiedItems, failed: failedItems });
+
+        this.snackBar
+            .open(message, undo, {
+                panelClass: 'info-snackbar',
+                duration: 3000
+            })
+            .onAction()
+            .subscribe(() => this.deleteCopy(newItems));
     }
 
     private deleteCopy(nodes: MinimalNodeEntity[]) {
         const batch = this.nodeActionsService.flatten(nodes)
             .filter(item => item.entry)
-            .map(item => this.nodesApi.deleteNode(item.entry.id, { permanent: true }));
+            .map(item => this.contentApi.deleteNode(item.entry.id, { permanent: true }));
 
         Observable.forkJoin(...batch)
             .subscribe(
                 () => {
-                    this.content.nodeDeleted.next(null);
+                    this.content.nodesDeleted.next(null);
                 },
                 (error) => {
                     let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
@@ -137,8 +143,11 @@ export class NodeCopyDirective {
                         i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
                     }
 
-                    this.translation.get(i18nMessageString).subscribe(message => {
-                        this.notification.openSnackMessageAction(message, '', NodeActionsService.SNACK_MESSAGE_DURATION);
+                    const message = this.translation.instant(i18nMessageString);
+
+                    this.snackBar.open(message, '', {
+                        panelClass: 'error-snackbar',
+                        duration: 3000
                     });
                 }
             );

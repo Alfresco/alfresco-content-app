@@ -8,8 +8,10 @@
         border-bottom: 0;
     }
 
-    .section--new--mini  {
+    &_action-menu {
         display: flex;
+        padding: 16px 24px;
+        height: 40px;
         justify-content: center;
         align-items: center;
     }
@@ -17,19 +19,6 @@
     &__section {
         padding: 8px 14px;
         position: relative;
-
-        &--new {
-            padding: 16px 24px;
-            height: 40px;
-        }
-
-        &--new__button {
-            width: 100%;
-        }
-
-        &--new__button.mat-raised-button {
-            box-shadow: none !important;
-        }
     }
 
     &-menu {

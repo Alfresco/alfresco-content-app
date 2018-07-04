@@ -25,16 +25,16 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
-import { DiscoveryApiService } from '@alfresco/adf-core';
-import { EcmProductVersionModel, ObjectDataTableAdapter  } from '@alfresco/adf-core';
+import { ObjectDataTableAdapter  } from '@alfresco/adf-core';
+import { ContentApiService } from '../../services/content-api.service';
+import { RepositoryInfo } from 'alfresco-js-api';
 
 @Component({
     selector: 'app-about',
-    templateUrl: './about.component.html',
-    styleUrls: [ './about.component.scss' ]
+    templateUrl: './about.component.html'
 })
 export class AboutComponent implements OnInit {
-    ecmVersion: EcmProductVersionModel = null;
+    repository: RepositoryInfo;
     data: ObjectDataTableAdapter;
     status: ObjectDataTableAdapter;
     license: ObjectDataTableAdapter;
@@ -43,15 +43,17 @@ export class AboutComponent implements OnInit {
     releaseVersion = '';
 
     constructor(
-        private discovery: DiscoveryApiService,
+        private contentApi: ContentApiService,
         private http: Http
     ) {}
 
     ngOnInit() {
-        this.discovery.getEcmProductInfo().subscribe((ecmVers) => {
-            this.ecmVersion = ecmVers;
+        this.contentApi.getRepositoryInformation()
+            .map(node => node.entry.repository)
+            .subscribe(repository => {
+            this.repository = repository;
 
-            this.modules = new ObjectDataTableAdapter(this.ecmVersion.modules, [
+            this.modules = new ObjectDataTableAdapter(repository.modules, [
                 {type: 'text', key: 'id', title: 'ID', sortable: true},
                 {type: 'text', key: 'title', title: 'Title', sortable: true},
                 {type: 'text', key: 'version', title: 'Description', sortable: true},
@@ -61,22 +63,25 @@ export class AboutComponent implements OnInit {
                 {type: 'text', key: 'versionMax', title: 'Version Max', sortable: true}
             ]);
 
-            this.status = new ObjectDataTableAdapter([this.ecmVersion.status], [
+            this.status = new ObjectDataTableAdapter([repository.status], [
                 {type: 'text', key: 'isReadOnly', title: 'Read Only', sortable: true},
                 {type: 'text', key: 'isAuditEnabled', title: 'Audit Enable', sortable: true},
                 {type: 'text', key: 'isQuickShareEnabled', title: 'Quick Shared Enable', sortable: true},
                 {type: 'text', key: 'isThumbnailGenerationEnabled', title: 'Thumbnail Generation', sortable: true}
             ]);
 
-            this.license = new ObjectDataTableAdapter([this.ecmVersion.license], [
-                {type: 'date', key: 'issuedAt', title: 'Issued At', sortable: true},
-                {type: 'date', key: 'expiresAt', title: 'Expires At', sortable: true},
-                {type: 'text', key: 'remainingDays', title: 'Remaining Days', sortable: true},
-                {type: 'text', key: 'holder', title: 'Holder', sortable: true},
-                {type: 'text', key: 'mode', title: 'Type', sortable: true},
-                {type: 'text', key: 'isClusterEnabled', title: 'Cluster Enabled', sortable: true},
-                {type: 'text', key: 'isCryptodocEnabled', title: 'Cryptodoc Enable', sortable: true}
-            ]);
+
+            if (repository.license) {
+                this.license = new ObjectDataTableAdapter([repository.license], [
+                    {type: 'date', key: 'issuedAt', title: 'Issued At', sortable: true},
+                    {type: 'date', key: 'expiresAt', title: 'Expires At', sortable: true},
+                    {type: 'text', key: 'remainingDays', title: 'Remaining Days', sortable: true},
+                    {type: 'text', key: 'holder', title: 'Holder', sortable: true},
+                    {type: 'text', key: 'mode', title: 'Type', sortable: true},
+                    {type: 'text', key: 'isClusterEnabled', title: 'Cluster Enabled', sortable: true},
+                    {type: 'text', key: 'isCryptodocEnabled', title: 'Cryptodoc Enable', sortable: true}
+                ]);
+            }
         });
 
         this.http.get('/versions.json')

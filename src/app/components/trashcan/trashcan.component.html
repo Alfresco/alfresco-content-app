@@ -1,15 +1,13 @@
 <div class="inner-layout">
     <div class="inner-layout__header">
-        <adf-breadcrumb [root]="'APP.BROWSE.TRASHCAN.TITLE' | translate">
+        <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE">
         </adf-breadcrumb>
 
-        <adf-toolbar class="inline">
+        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
             <button
                 color="primary"
                 mat-icon-button
-                [app-permanent-delete-node]="documentList.selection"
-                (selection-node-deleted)="refresh()"
-                *ngIf="documentList.selection.length"
+                [acaPermanentDelete]="selection.nodes"
                 title="{{ 'APP.ACTIONS.DELETE_PERMANENT' | translate }}">
                 <mat-icon>delete_forever</mat-icon>
             </button>
@@ -17,9 +15,7 @@
             <button
                 color="primary"
                 mat-icon-button
-                (selection-node-restored)="refresh()"
-                [app-restore-node]="documentList.selection"
-                *ngIf="documentList.selection.length"
+                [acaRestoreNode]="selection.nodes"
                 title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
                 <mat-icon>restore</mat-icon>
            </button>
@@ -27,25 +23,21 @@
     </div>
 
     <div class="inner-layout__content">
-        <div class="inner-layout__panel" [ngClass]="{'adf-document-list--loading': documentList.isEmpty()}">
-            <adf-document-list #documentList
-                [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
+        <div class="inner-layout__panel">
+            <adf-document-list acaDocumentList #documentList
                 currentFolderId="-trashcan-"
                 selectionMode="multiple"
                 [navigate]="false"
-                [sorting]="sorting"
-                [contextMenuActions]="true"
-                [contentActions]="false"
-                (sorting-changed)="onSortingChanged($event)">
+                [sorting]="[ 'archivedAt', 'desc' ]">
 
                 <empty-folder-content>
                     <ng-template>
-                        <app-empty-folder
+                        <adf-empty-content
                             icon="delete"
-                            title="APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE">
-                            <p class="app-empty-folder__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.FIRST_TEXT' | translate }}</p>
-                            <p class="app-empty-folder__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.SECOND_TEXT' | translate }}</p>
-                        </app-empty-folder>
+                            [title]="'APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE'">
+                            <p class="adf-empty-content__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.FIRST_TEXT' | translate }}</p>
+                            <p class="adf-empty-content__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.SECOND_TEXT' | translate }}</p>
+                        </adf-empty-content>
                     </ng-template>
                 </empty-folder-content>
 
@@ -68,10 +60,10 @@
                     </data-column>
 
                     <data-column
-                        key="path"
+                        key="path.name"
                         title="APP.DOCUMENT_LIST.COLUMNS.LOCATION">
                         <ng-template let-context>
-                            <app-location-link [context]="context"></app-location-link>
+                            <aca-location-link [context]="context"></aca-location-link>
                         </ng-template>
                     </data-column>
 
@@ -90,6 +82,7 @@
                     </data-column>
 
                     <data-column
+                        *ngIf="user.isAdmin"
                         class="adf-data-table-cell--ellipsis"
                         key="archivedByUser.displayName"
                         title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">
@@ -98,13 +91,8 @@
                 </data-columns>
             </adf-document-list>
 
-            <ng-container *ngIf="!documentList.isEmpty()">
-                <adf-pagination
-                    [supportedPageSizes]="'pagination.supportedPageSizes' | appConfig"
-                    [target]="documentList"
-                    (changePageSize)="onChangePageSize($event)">
-                </adf-pagination>
-            </ng-container>
+            <adf-pagination acaPagination [target]="documentList">
+            </adf-pagination>
         </div>
     </div>
 </div>

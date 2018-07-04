@@ -23,32 +23,27 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { AppConfigService, PeopleContentService } from '@alfresco/adf-core';
-import { HttpClientModule } from '@angular/common/http';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Rx';
-
+import { SetAppNameAction, SetHeaderColorAction } from '../../store/actions';
+import { AppStore } from '../../store/states/app.state';
+import { AppTestingModule } from '../../testing/app-testing.module';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
-    let fixture;
-    let component;
+    let fixture: ComponentFixture<HeaderComponent>;
+    let component: HeaderComponent;
     let appConfigService: AppConfigService;
+    let store: Store<AppStore>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [
-                HttpClientModule,
-                RouterTestingModule
-            ],
+            imports: [ AppTestingModule ],
             declarations: [
                 HeaderComponent
-            ],
-            providers: [
-                AppConfigService,
-                PeopleContentService
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })
@@ -57,6 +52,10 @@ describe('HeaderComponent', () => {
                 getCurrentPerson: () => Observable.of({ entry: {} })
             }
         });
+
+        store = TestBed.get(Store);
+        store.dispatch(new SetAppNameAction('app-name'));
+        store.dispatch(new SetHeaderColorAction('some-color'));
 
         fixture = TestBed.createComponent(HeaderComponent);
         component = fixture.componentInstance;
@@ -79,11 +78,17 @@ describe('HeaderComponent', () => {
         fixture.detectChanges();
     });
 
-    it('it should set application name', () => {
-        expect(component.appName).toBe('app-name');
+    it('it should set application name', done => {
+        component.appName$.subscribe(val => {
+            expect(val).toBe('app-name');
+            done();
+        });
     });
 
-    it('it should set header background color', () => {
-        expect(component.backgroundColor).toBe('some-color');
+    it('it should set header background color', done => {
+        component.headerColor$.subscribe(val => {
+            expect(val).toBe('some-color');
+            done();
+        });
     });
 });

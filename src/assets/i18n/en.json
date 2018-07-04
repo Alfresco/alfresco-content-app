@@ -3,11 +3,21 @@
         "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
+        "SETTINGS": {
+            "APPLICATION-SETTINGS": "Application Settings",
+            "REPOSITORY-SETTINGS": "Repository Settings",
+            "EXPERIMENTAL-FEATURES": "Experimental Features",
+            "INVALID-VALUE-FORMAT": "Invalid value format",
+            "REQUIRED-FIELD": "This field is required",
+            "RESET": "Reset",
+            "APPLY": "Apply"
+        },
         "PREVIEW": {
             "TITLE": "Preview"
         },
         "NEW_MENU": {
             "LABEL": "New",
+            "TOOLTIP": "Add new files or folders",
             "MENU_ITEMS": {
                 "CREATE_FOLDER": "Create folder",
                 "UPLOAD_FILE": "Upload file",
@@ -88,6 +98,15 @@
             },
             "ABOUT": {
                 "TITLE": "About"
+            },
+            "SEARCH": {
+                "TITLE": "Search Results",
+                "FOUND_RESULTS": "{{ number }} results found",
+                "CUSTOM_ROW": {
+                    "MODIFIED": "Modified",
+                    "LOCATION": "Location",
+                    "SIZE": "Size"
+                }
             }
         },
         "ACTIONS": {
@@ -104,7 +123,8 @@
             "FAVORITE": "Favorite",
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
-            "VERSIONS": "Manage Versions"
+            "VERSIONS": "Manage Versions",
+            "TOGGLE-SIDENAV": "Toggle side navigation bar"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -135,6 +155,7 @@
         },
         "MESSAGES": {
             "ERRORS":{
+                "MISSING_CONTENT": "This file or folder no longer exists or you don't have permission to view it.",
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
                 "NODE_MOVE": "Move unsuccessful, a file with the same name already exists.",
@@ -155,6 +176,14 @@
                         "LOCATION_MISSING": "Can't restore {{ name }}, the original location no longer exists",
                         "GENERIC": "There was a problem restoring {{ name }}"
                     }
+                },
+                "DELETE_LIBRARY_FAILED": "Cannot delete the library"
+            },
+            "UPLOAD": {
+                "ERROR": {
+                    "GENERIC": "There was a problem",
+                    "CONFLICT": "New version not uploaded, another file with the same name already exists",
+                    "500": "There was a problem while uploading"
                 }
             },
             "INFO": {
@@ -192,7 +221,8 @@
                         "PLURAL": "Partially moved {{ partially }} items.",
                         "FAIL": "{{ failed }} couldn't be moved."
                     }
-                }
+                },
+                "LIBRARY_DELETED": "Library deleted"
             }
         },
         "CONTENT_METADATA": {
@@ -221,6 +251,49 @@
         "SELECTION": {
             "EMPTY": "Please choose a document to see the versions of it.",
             "NO_PERMISSION": "You don't have permission to manage the versions of this content."
+        }
+    },
+    "SEARCH": {
+        "SORT": {
+            "RELEVANCE": "Relevance",
+            "FILENAME": "Filename",
+            "TITLE": "Title",
+            "MODIFIED_DATE": "Modified Date",
+            "SIZE": "Size",
+            "TYPE": "Type",
+            "MODIFIER": "Modifier",
+            "CREATE_DATE": "Created date"
+        },
+        "FACET_FIELDS": {
+            "FILE_TYPE": "File Type",
+            "CREATOR": "Creator",
+            "MODIFIER": "Modifier",
+            "FILE_LIBRARY": "File Library"
+        },
+        "CATEGORIES": {
+            "MODIFIED_DATE": "Modified date",
+            "SIZE": "Size",
+            "CREATED_DATE": "Created Date"
+        }
+    },
+    "CORE": {
+        "METADATA": {
+            "ACTIONS": {
+                "SAVE": "Save changes",
+                "CANCEL": "Discard changes"
+            }
+        }
+    },
+    "ADF_VIEWER": {
+        "ACTIONS": {
+            "INFO": "View details"
+        }
+    },
+    "ADF_VERSION_LIST": {
+        "ACTIONS": {
+            "UPLOAD": {
+                "TOOLTIP": "Upload new version"
+            }
         }
     }
 }

@@ -3,11 +3,21 @@
     "LANGUAGE": "Språk",
     "SIGN_IN": "Logg på",
     "SIGN_OUT": "Logg ut",
+    "SETTINGS": {
+      "APPLICATION-SETTINGS": "Programinnstillinger",
+      "REPOSITORY-SETTINGS": "Databaseinnstillinger",
+      "EXPERIMENTAL-FEATURES": "Eksperimentelle funksjoner",
+      "INVALID-VALUE-FORMAT": "Ugyldig verdiformat",
+      "REQUIRED-FIELD": "Dette feltet er obligatorisk",
+      "RESET": "Tilbakestill",
+      "APPLY": "Bruk"
+    },
     "PREVIEW": {
       "TITLE": "Forhåndsvis"
     },
     "NEW_MENU": {
       "LABEL": "Ny",
+      "TOOLTIP": "Legg til nye filer eller mapper",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Opprett mappe",
         "UPLOAD_FILE": "Last opp fil",
@@ -88,6 +98,15 @@
       },
       "ABOUT": {
         "TITLE": "Om"
+      },
+      "SEARCH": {
+        "TITLE": "Søkeresultater",
+        "FOUND_RESULTS": "{{ number }} resultater funnet",
+        "CUSTOM_ROW": {
+          "MODIFIED": "Endret",
+          "LOCATION": "Sted",
+          "SIZE": "Størrelse"
+        }
       }
     },
     "ACTIONS": {
@@ -104,7 +123,8 @@
       "FAVORITE": "Favoritt",
       "UNSHARE": "Opphev deling",
       "DETAILS": "Visningsdetaljer",
-      "VERSIONS": "Administrer versjoner"
+      "VERSIONS": "Administrer versjoner",
+      "TOGGLE-SIDENAV": "Aktiver/deaktiver sidenavigasjonsfelt"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -135,6 +155,7 @@
     },
     "MESSAGES": {
       "ERRORS": {
+        "MISSING_CONTENT": "Denne filen eller mappen finnes ikke lenger, eller du har ikke tillatelse til å se den.",
         "GENERIC": "Handlingen var mislykket. Prøv på nytt, eller kontakt IT-teamet.",
         "CONFLICT": "Dette navnet er allerede i bruk, prøv et annet navn.",
         "NODE_MOVE": "Mislykket flytting, det finnes allerede en fil med samme navn.",
@@ -155,6 +176,14 @@
             "LOCATION_MISSING": "Kan ikke gjenopprette {{ name }}, det opprinnelige stedet finnes ikke lenger",
             "GENERIC": "Problem med å gjenopprette {{ name }}"
           }
+        },
+        "DELETE_LIBRARY_FAILED": "Kan ikke slette biblioteket"
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "Det oppstod et problem",
+          "CONFLICT": "Ny versjon er ikke lastet opp, en annen fil med samme navn finnes alt",
+          "500": "Det oppstod et problem under opplasting"
         }
       },
       "INFO": {
@@ -192,7 +221,8 @@
             "PLURAL": "Flyttet elementer {{ partially }} delvis.",
             "FAIL": "{{ failed }} kunne ikke flyttes."
           }
-        }
+        },
+        "LIBRARY_DELETED": "Bibliotek slettet"
       }
     },
     "CONTENT_METADATA": {
@@ -221,6 +251,49 @@
     "SELECTION": {
       "EMPTY": "Velg et dokument for å se versjonene av det.",
       "NO_PERMISSION": "Du har ikke tillatelse til å administrere versjonene av dette innholdet."
+    }
+  },
+  "SEARCH": {
+    "SORT": {
+      "RELEVANCE": "Relevans",
+      "FILENAME": "Filnavn",
+      "TITLE": "Tittel",
+      "MODIFIED_DATE": "Endringsdato",
+      "SIZE": "Størrelse",
+      "TYPE": "Type",
+      "MODIFIER": "Modifikator",
+      "CREATE_DATE": "Opprettelsesdato"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "Filtype",
+      "CREATOR": "Oppretter",
+      "MODIFIER": "Modifikator",
+      "FILE_LIBRARY": "Filbibliotek"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "Endringsdato",
+      "SIZE": "Størrelse",
+      "CREATED_DATE": "Opprettelsesdato"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "Lagre endringer",
+        "CANCEL": "Forkast endringer"
+      }
+    }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Visningsdetaljer"
+    }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "Last opp ny versjon"
+      }
     }
   }
 }

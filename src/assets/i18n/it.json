@@ -3,11 +3,21 @@
     "LANGUAGE": "Lingua",
     "SIGN_IN": "Accedi",
     "SIGN_OUT": "Disconnetti",
+    "SETTINGS": {
+      "APPLICATION-SETTINGS": "Impostazioni applicazione",
+      "REPOSITORY-SETTINGS": "Impostazioni repository",
+      "EXPERIMENTAL-FEATURES": "Funzioni sperimentali",
+      "INVALID-VALUE-FORMAT": "Formato valore non valido",
+      "REQUIRED-FIELD": "Questo campo è obbligatorio",
+      "RESET": "Reimposta",
+      "APPLY": "Applica"
+    },
     "PREVIEW": {
       "TITLE": "Anteprima"
     },
     "NEW_MENU": {
       "LABEL": "Nuovo",
+      "TOOLTIP": "Aggiungi nuovi file o cartelle",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Crea cartella",
         "UPLOAD_FILE": "Carica file",
@@ -88,6 +98,15 @@
       },
       "ABOUT": {
         "TITLE": "Informazioni su"
+      },
+      "SEARCH": {
+        "TITLE": "Risultati della ricerca",
+        "FOUND_RESULTS": "{{ number }} risultati trovati",
+        "CUSTOM_ROW": {
+          "MODIFIED": "Modificato",
+          "LOCATION": "Località",
+          "SIZE": "Dimensione"
+        }
       }
     },
     "ACTIONS": {
@@ -104,7 +123,8 @@
       "FAVORITE": "Preferito",
       "UNSHARE": "Rimuovi condivisione",
       "DETAILS": "Visualizza dettagli",
-      "VERSIONS": "Gestione versioni"
+      "VERSIONS": "Gestione versioni",
+      "TOGGLE-SIDENAV": "Attiva/disattiva barra di navigazione laterale"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -135,6 +155,7 @@
     },
     "MESSAGES": {
       "ERRORS": {
+        "MISSING_CONTENT": "Il file o la cartella non esistono più o non si dispone delle autorizzazioni per visualizzarli.",
         "GENERIC": "Azione non eseguita correttamente. Riprovare o contattare il team IT.",
         "CONFLICT": "Nome già in uso, provare un nome diverso.",
         "NODE_MOVE": "Spostamento non eseguito correttamente, file con lo stesso nome già esistente.",
@@ -155,6 +176,14 @@
             "LOCATION_MISSING": "Impossibile ripristinare {{ name }}. Il percorso originale non esiste più.",
             "GENERIC": "Si è verificato un problema durante il ripristino di {{ name }}"
           }
+        },
+        "DELETE_LIBRARY_FAILED": "Impossibile eliminare la raccolta"
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "Si è verificato un problema",
+          "CONFLICT": "Nuova versione non caricata. Esiste già un fil con lo stesso nome.",
+          "500": "Si è verificato un problema durante il caricamento"
         }
       },
       "INFO": {
@@ -192,7 +221,8 @@
             "PLURAL": "Elementi {{ partially }} parzialmente spostati.",
             "FAIL": "Impossibile spostare {{ failed }}."
           }
-        }
+        },
+        "LIBRARY_DELETED": "Raccolta eliminata"
       }
     },
     "CONTENT_METADATA": {
@@ -221,6 +251,49 @@
     "SELECTION": {
       "EMPTY": "Selezionare un documento per vedere le versioni.",
       "NO_PERMISSION": "Non hai il permesso per gestire le versioni di questo documento."
+    }
+  },
+  "SEARCH": {
+    "SORT": {
+      "RELEVANCE": "Pertinenza",
+      "FILENAME": "Nome file",
+      "TITLE": "Titolo",
+      "MODIFIED_DATE": "Data di modifica",
+      "SIZE": "Dimensione",
+      "TYPE": "Tipo",
+      "MODIFIER": "Modificatore",
+      "CREATE_DATE": "Data di creazione"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "Tipo di file",
+      "CREATOR": "Creatore",
+      "MODIFIER": "Modificatore",
+      "FILE_LIBRARY": "Raccolta di file"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "Data di modifica",
+      "SIZE": "Dimensione",
+      "CREATED_DATE": "Data di creazione"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "Salva modifiche",
+        "CANCEL": "Ignora modifiche"
+      }
+    }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Visualizza dettagli"
+    }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "Utilizza nuova versione"
+      }
     }
   }
 }

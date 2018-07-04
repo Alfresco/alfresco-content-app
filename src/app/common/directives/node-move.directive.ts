@@ -25,19 +25,25 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 
-import { TranslationService, NodesApiService, NotificationService } from '@alfresco/adf-core';
+import { TranslationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MatSnackBar } from '@angular/material';
 
 import { ContentManagementService } from '../services/content-management.service';
 import { NodeActionsService } from '../services/node-actions.service';
 import { Observable } from 'rxjs/Rx';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { SnackbarErrorAction } from '../../store/actions';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Directive({
-    selector: '[app-move-node]'
+    selector: '[acaMoveNode]'
 })
 
 export class NodeMoveDirective {
-    @Input('app-move-node')
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaMoveNode')
     selection: MinimalNodeEntity[];
 
     @HostListener('click')
@@ -46,11 +52,12 @@ export class NodeMoveDirective {
     }
 
     constructor(
+        private store: Store<AppStore>,
+        private contentApi: ContentApiService,
         private content: ContentManagementService,
-        private notification: NotificationService,
         private nodeActionsService: NodeActionsService,
-        private nodesApi: NodesApiService,
-        private translation: TranslationService
+        private translation: TranslationService,
+        private snackBar: MatSnackBar
     ) {}
 
     moveSelected() {
@@ -64,7 +71,7 @@ export class NodeMoveDirective {
                 const [ operationResult, moveResponse ] = result;
                 this.toastMessage(operationResult, moveResponse);
 
-                this.content.nodeMoved.next(null);
+                this.content.nodesMoved.next(null);
             },
             (error) => {
                 this.toastMessage(error);
@@ -86,7 +93,7 @@ export class NodeMoveDirective {
 
             // in case of success
             if (info.toLowerCase().indexOf('succes') !== -1) {
-                let i18nMessageString = 'APP.MESSAGES.INFO.NODE_MOVE.';
+                const i18nMessageString = 'APP.MESSAGES.INFO.NODE_MOVE.';
                 let i18MessageSuffix = '';
 
                 if (succeeded) {
@@ -118,8 +125,7 @@ export class NodeMoveDirective {
             errorMessage = this.getErrorMessage(info);
         }
 
-        const undo = (succeeded + partiallySucceeded > 0) ? this.translation.translate.instant('APP.ACTIONS.UNDO') : '';
-        const withUndo = errorMessage ? '' : '_WITH_UNDO';
+        const undo = (succeeded + partiallySucceeded > 0) ? this.translation.instant('APP.ACTIONS.UNDO') : '';
         failedMessage = errorMessage ?  errorMessage : failedMessage;
 
         const beforePartialSuccessMessage = (successMessage && partialSuccessMessage) ? ' ' : '';
@@ -127,20 +133,23 @@ export class NodeMoveDirective {
 
         const initialParentId = this.nodeActionsService.getEntryParentId(this.selection[0].entry);
 
-        this.translation.get(
+        const messages = this.translation.instant(
             [successMessage, partialSuccessMessage, failedMessage],
-            { success: succeeded, failed: failures, partially: partiallySucceeded}).subscribe(messages => {
+            { success: succeeded, failed: failures, partially: partiallySucceeded}
+        );
 
-            this.notification.openSnackMessageAction(
+        // TODO: review in terms of i18n
+        this.snackBar
+            .open(
                 messages[successMessage]
                 + beforePartialSuccessMessage + messages[partialSuccessMessage]
-                + beforeFailedMessage + messages[failedMessage],
-                undo,
-                NodeActionsService[`SNACK_MESSAGE_DURATION${withUndo}`]
-            )
-                .onAction()
-                .subscribe(() => this.revertMoving(moveResponse, initialParentId));
-        });
+                + beforeFailedMessage + messages[failedMessage]
+                    , undo, {
+                        panelClass: 'info-snackbar',
+                        duration: 3000
+                    })
+                    .onAction()
+                    .subscribe(() => this.revertMoving(moveResponse, initialParentId));
     }
 
     getErrorMessage(errorObject): string {
@@ -167,7 +176,9 @@ export class NodeMoveDirective {
 
         const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries
             .map((folderEntry) => {
-                return this.nodesApi.restoreNode(folderEntry.nodeId || folderEntry.id);
+                return this.contentApi
+                    .restoreNode(folderEntry.nodeId || folderEntry.id)
+                    .map(node => node.entry);
             });
 
         Observable.zip(...restoreDeletedNodesBatch, Observable.of(null))
@@ -190,26 +201,21 @@ export class NodeMoveDirective {
             })
             .subscribe(
                 () => {
-                    this.content.nodeMoved.next(null);
+                    this.content.nodesMoved.next(null);
                 },
-                (error) => {
-
-                    let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
+                error => {
+                    let message = 'APP.MESSAGES.ERRORS.GENERIC';
 
                     let errorJson = null;
                     try {
                         errorJson = JSON.parse(error.message);
-                    } catch (e) { //
-                    }
+                    } catch {}
 
                     if (errorJson && errorJson.error && errorJson.error.statusCode === 403) {
-                        i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
+                        message = 'APP.MESSAGES.ERRORS.PERMISSION';
                     }
 
-                    this.translation.get(i18nMessageString).subscribe(message => {
-                        this.notification.openSnackMessage(
-                            message, NodeActionsService.SNACK_MESSAGE_DURATION);
-                    });
+                    this.store.dispatch(new SnackbarErrorAction(message));
                 }
             );
     }

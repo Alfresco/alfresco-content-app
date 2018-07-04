@@ -28,7 +28,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, CoreModule } from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, PageTitleService, DebugAppConfigService } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 
 import { AppComponent } from './app.component';
@@ -44,30 +44,42 @@ import { RecentFilesComponent } from './components/recent-files/recent-files.com
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { SidenavViewsManagerDirective } from './components/layout/sidenav-views-manager.directive';
 import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { SearchInputComponent } from './components/search-input/search-input.component';
+import { SearchInputControlComponent } from './components/search-input-control/search-input-control.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
-import { EmptyFolderComponent } from './components/empty-folder/empty-folder.component';
+import { CustomDlRowComponent } from './components/custom-dl-row/custom-dl-row.component';
 import { NodeCopyDirective } from './common/directives/node-copy.directive';
 import { NodeDeleteDirective } from './common/directives/node-delete.directive';
 import { NodeMoveDirective } from './common/directives/node-move.directive';
 import { NodeRestoreDirective } from './common/directives/node-restore.directive';
 import { NodePermanentDeleteDirective } from './common/directives/node-permanent-delete.directive';
 import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
-import { NodeInfoDirective } from './common/directives/node-info.directive';
 import { NodeVersionsDirective } from './common/directives/node-versions.directive';
-import { AppConfigPipe } from './common/pipes/app-config.pipe';
-import { VersionManagerDialogAdapterComponent } from './components/versions-dialog/version-manager-dialog-adapter.component';
+import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
 import { NodePermissionService } from './common/services/node-permission.service';
-import { MatMenuModule, MatIconModule, MatButtonModule, MatDialogModule, MatInputModule } from '@angular/material';
 import { SearchComponent } from './components/search/search.component';
-import { NodeDownloadDirective } from './common/directives/node-download.directive';
+import { SettingsComponent } from './components/settings/settings.component';
+import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
+import { ProfileResolver } from './common/services/profile.resolver';
+
+import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
+import { EditFolderDirective } from './directives/edit-folder.directive';
+import { CreateFolderDirective } from './directives/create-folder.directive';
+import { DownloadNodesDirective } from './directives/download-nodes.directive';
+import { AppStoreModule } from './store/app-store.module';
+import { PaginationDirective } from './directives/pagination.directive';
+import { DocumentListDirective } from './directives/document-list.directive';
+import { MaterialModule } from './material.module';
+import { ExperimentalDirective } from './directives/experimental.directive';
+import { ContentApiService } from './services/content-api.service';
 
 @NgModule({
     imports: [
@@ -79,22 +91,21 @@ import { NodeDownloadDirective } from './common/directives/node-download.directi
             useHash: true,
             enableTracing: false // enable for debug only
         }),
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatInputModule,
+        MaterialModule,
         CoreModule,
-        ContentModule
+        ContentModule,
+        AppStoreModule
     ],
     declarations: [
         AppComponent,
         GenericErrorComponent,
         LoginComponent,
         LayoutComponent,
+        SidenavViewsManagerDirective,
         HeaderComponent,
         CurrentUserComponent,
         SearchInputComponent,
+        SearchInputControlComponent,
         SidenavComponent,
         FilesComponent,
         FavoritesComponent,
@@ -105,22 +116,28 @@ import { NodeDownloadDirective } from './common/directives/node-download.directi
         PreviewComponent,
         AboutComponent,
         LocationLinkComponent,
-        EmptyFolderComponent,
+        CustomDlRowComponent,
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,
         NodeRestoreDirective,
         NodePermanentDeleteDirective,
         NodeUnshareDirective,
-        NodeInfoDirective,
         NodeVersionsDirective,
-        AppConfigPipe,
-        VersionManagerDialogAdapterComponent,
+        NodeVersionsDialogComponent,
         SearchComponent,
-        // Workarounds for ADF 2.3.0
-        NodeDownloadDirective
+        SettingsComponent,
+        InfoDrawerComponent,
+        EditFolderDirective,
+        CreateFolderDirective,
+        DownloadNodesDirective,
+        PaginationDirective,
+        DocumentListDirective,
+        ExperimentalDirective
     ],
     providers: [
+        { provide: PageTitleService, useClass: AcaPageTitleService },
+        { provide: AppConfigService, useClass: DebugAppConfigService },
         {
             provide: TRANSLATION_PROVIDER,
             multi: true,
@@ -132,10 +149,12 @@ import { NodeDownloadDirective } from './common/directives/node-download.directi
         BrowsingFilesService,
         ContentManagementService,
         NodeActionsService,
-        NodePermissionService
+        NodePermissionService,
+        ProfileResolver,
+        ContentApiService
     ],
     entryComponents: [
-        VersionManagerDialogAdapterComponent
+        NodeVersionsDialogComponent
     ],
     bootstrap: [AppComponent]
 })

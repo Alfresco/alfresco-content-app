@@ -23,38 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
 import {
-    NotificationService, TranslationService, TranslationMock,
-    NodesApiService, AlfrescoApiService, ContentService,
-    UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService, AuthenticationService,
-    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective,DataTableComponent
+    AlfrescoApiService,
+    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
-import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodeInfoDirective } from '../../common/directives/node-info.directive';
-import { NodePermissionService } from '../../common/services/node-permission.service';
-import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
-
 import { SharedFilesComponent } from './shared-files.component';
+import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('SharedFilesComponent', () => {
-    let fixture;
+    let fixture: ComponentFixture<SharedFilesComponent>;
     let component: SharedFilesComponent;
     let contentService: ContentManagementService;
-    let nodeService;
     let alfrescoApi: AlfrescoApiService;
-    let preferenceService: UserPreferencesService;
-    let router: Router;
     let page;
 
     beforeEach(() => {
@@ -66,133 +50,59 @@ describe('SharedFilesComponent', () => {
         };
     });
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed
             .configureTestingModule({
-                imports: [
-                    MatMenuModule,
-                    NoopAnimationsModule,
-                    HttpClientModule,
-                    TranslateModule.forRoot(),
-                    RouterTestingModule,
-                    MatSnackBarModule, MatIconModule
-                ],
+                imports: [ AppTestingModule ],
                 declarations: [
                     DataTableComponent,
                     TimeAgoPipe,
                     NodeNameTooltipPipe,
                     NodeFavoriteDirective,
-                    NodeInfoDirective,
                     DocumentListComponent,
                     SharedFilesComponent,
                     AppConfigPipe
                 ],
-                providers: [
-                    { provide: ActivatedRoute, useValue: {
-                        snapshot: { data: { preferencePrefix: 'prefix' } }
-                    } } ,
-                    { provide: TranslationService, useClass: TranslationMock },
-                    AuthenticationService,
-                    UserPreferencesService,
-                    AppConfigService, StorageService, CookieService,
-                    AlfrescoApiService,
-                    LogService,
-                    NotificationService,
-                    ContentManagementService,
-                    NodePermissionService,
-                    ContentService,
-                    NodesApiService,
-                    DocumentListService,
-                    ThumbnailService,
-                    CustomResourcesService
-                ],
                 schemas: [ NO_ERRORS_SCHEMA ]
-            })
-            .compileComponents()
-            .then(() => {
-                fixture = TestBed.createComponent(SharedFilesComponent);
-                component = fixture.componentInstance;
-
-                contentService = TestBed.get(ContentManagementService);
-                alfrescoApi = TestBed.get(AlfrescoApiService);
-                alfrescoApi.reset();
-                nodeService = alfrescoApi.getInstance().nodes;
-                preferenceService = TestBed.get(UserPreferencesService);
-                router = TestBed.get(Router);
             });
 
-    }));
+            fixture = TestBed.createComponent(SharedFilesComponent);
+            component = fixture.componentInstance;
 
-    beforeEach(() => {
-        spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
+            contentService = TestBed.get(ContentManagementService);
+            alfrescoApi = TestBed.get(AlfrescoApiService);
+            alfrescoApi.reset();
+
+            spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
     });
 
     describe('OnInit', () => {
         beforeEach(() => {
-            spyOn(component, 'refresh').and.callFake(val => val);
+            spyOn(component, 'reload').and.callFake(val => val);
         });
 
         it('should refresh on deleteNode event', () => {
             fixture.detectChanges();
 
-            contentService.nodeDeleted.next();
+            contentService.nodesDeleted.next();
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should refresh on restoreNode event', () => {
             fixture.detectChanges();
 
-            contentService.nodeRestored.next();
+            contentService.nodesRestored.next();
 
-            expect(component.refresh).toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
 
         it('should reload on move node event', () => {
             fixture.detectChanges();
 
-            contentService.nodeMoved.next();
+            contentService.nodesMoved.next();
 
-            expect(component.refresh).toHaveBeenCalled();
-        });
-    });
-
-    describe('onNodeDoubleClick()', () => {
-        beforeEach(() => {
-            spyOn(component, 'fetchNodes').and.callFake(val => val);
-            fixture.detectChanges();
-        });
-
-        it('opens viewer if node is file', fakeAsync(() => {
-            spyOn(router, 'navigate').and.stub();
-            const link = { nodeId: 'nodeId' };
-            const node = { entry: { isFile: true, id: 'nodeId' } };
-
-            spyOn(nodeService, 'getNode').and.returnValue(Promise.resolve(node));
-            component.onNodeDoubleClick(link);
-            tick();
-
-            expect(router.navigate['calls'].argsFor(0)[0]).toEqual(['./preview', node.entry.id]);
-        }));
-
-        it('does nothing if node is folder', fakeAsync(() => {
-            spyOn(router, 'navigate').and.stub();
-            spyOn(nodeService, 'getNode').and.returnValue(Promise.resolve({ entry: { isFile: false } }));
-            const link = { nodeId: 'nodeId' };
-
-            component.onNodeDoubleClick(link);
-            tick();
-
-            expect(router.navigate).not.toHaveBeenCalled();
-        }));
-
-        it('does nothing if link data is not passed', () => {
-            spyOn(router, 'navigate').and.stub();
-            spyOn(nodeService, 'getNode').and.returnValue(Promise.resolve({ entry: { isFile: true } }));
-
-            component.onNodeDoubleClick(null);
-
-            expect(router.navigate).not.toHaveBeenCalled();
+            expect(component.reload).toHaveBeenCalled();
         });
     });
 
@@ -201,40 +111,9 @@ describe('SharedFilesComponent', () => {
             spyOn(component.documentList, 'reload');
             fixture.detectChanges();
 
-            component.refresh();
+            component.reload();
 
             expect(component.documentList.reload).toHaveBeenCalled();
-        });
-    });
-
-    describe('onSortingChanged', () => {
-        it('should save sorting input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {
-                    key: 'some-name',
-                    direction: 'some-direction'
-                }
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
-        });
-
-        it('should save default sorting when no input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {}
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 });

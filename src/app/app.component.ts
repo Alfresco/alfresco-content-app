@@ -25,7 +25,12 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { TranslationService, PageTitleService, UserPreferencesService, AppConfigService } from '@alfresco/adf-core';
+import {
+    PageTitleService, AppConfigService,
+    AuthenticationService, AlfrescoApiService } from '@alfresco/adf-core';
+import { Store } from '@ngrx/store';
+import { AppStore } from './store/states/app.state';
+import { SetHeaderColorAction, SetAppNameAction, SetLogoPathAction, SetLanguagePickerAction } from './store/actions';
 
 @Component({
     selector: 'app-root',
@@ -37,15 +42,24 @@ export class AppComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private pageTitle: PageTitleService,
-        private translateService: TranslationService,
-        preferences: UserPreferencesService,
-        config: AppConfigService) {
-        // TODO: remove once ADF 2.3.0 is out (needs bug fixes)
-        preferences.defaults.supportedPageSizes = config.get('pagination.supportedPageSizes');
-        preferences.defaults.paginationSize = config.get('pagination.size');
+        private store: Store<AppStore>,
+        private config: AppConfigService,
+        private alfrescoApiService: AlfrescoApiService,
+        private authenticationService: AuthenticationService) {
     }
 
     ngOnInit() {
+        this.alfrescoApiService.getInstance().on('error', (error) => {
+            if (error.status === 401) {
+                if (!this.authenticationService.isLoggedIn()) {
+                    this.router.navigate(['/login']);
+                }
+            }
+        });
+
+
+        this.loadAppSettings();
+
         const { router, pageTitle, route } = this;
 
         router
@@ -61,14 +75,24 @@ export class AppComponent implements OnInit {
                 const snapshot: any = currentRoute.snapshot || {};
                 const data: any = snapshot.data || {};
 
-                if (data.i18nTitle) {
-                    this.translateService.translate
-                        .stream(data.i18nTitle)
-                        .subscribe((title) => pageTitle.setTitle(title));
-
-                } else {
-                    pageTitle.setTitle(data.title || '');
-                }
+                pageTitle.setTitle(data.title || '');
             });
+    }
+
+    private loadAppSettings() {
+        const headerColor = this.config.get<string>('headerColor');
+        if (headerColor) {
+            this.store.dispatch(new SetHeaderColorAction(headerColor));
+        }
+        const appName = this.config.get<string>('application.name');
+        if (appName) {
+            this.store.dispatch(new SetAppNameAction(appName));
+        }
+        const logoPath = this.config.get<string>('application.logo');
+        if (logoPath) {
+            this.store.dispatch(new SetLogoPathAction(logoPath));
+        }
+        const languagePicker = this.config.get<boolean>('languagePicker');
+        this.store.dispatch(new SetLanguagePickerAction(languagePicker));
     }
 }

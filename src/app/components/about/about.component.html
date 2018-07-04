@@ -1,12 +1,12 @@
 <div class="inner-layout inner-layout--scroll">
     <div class="inner-layout__content">
         <div class="inner-layout__panel content--scroll">
-            <article *ngIf="ecmVersion" class="padding">
+            <article *ngIf="repository" class="padding">
                 <header class="header padding-left">Alfresco Content Services</header>
-                <p class="padding-left"> version: {{ ecmVersion.edition }} {{ ecmVersion.version.display }} </p>
+                <p class="padding-left"> version: {{ repository.edition }} {{ repository.version.display }} </p>
             </article>
 
-            <article class="padding-top-bottom">
+            <article class="padding-top-bottom" *ngIf="license">
                 <header class="header padding-left-right">License</header>
                 <adf-datatable [data]="license"></adf-datatable>
             </article>

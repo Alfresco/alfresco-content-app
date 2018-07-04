@@ -23,36 +23,27 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 import {
-    NotificationService, TranslationService, TranslationMock,
-    NodesApiService, AlfrescoApiService, ContentService,
-    UserPreferencesService, LogService, AppConfigService,
-    StorageService, CookieService, ThumbnailService, AuthenticationService,
-    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent
+    AlfrescoApiService,
+    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
-import { DocumentListComponent, CustomResourcesService } from '@alfresco/adf-content-services';
-import { TranslateModule } from '@ngx-translate/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatMenuModule, MatSnackBarModule, MatIconModule } from '@angular/material';
-import { DocumentListService } from '@alfresco/adf-content-services';
+import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
-import { AppConfigPipe } from '../../common/pipes/app-config.pipe';
-
 import { LibrariesComponent } from './libraries.component';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { ContentApiService } from '../../services/content-api.service';
 
-describe('Libraries Routed Component', () => {
-    let fixture;
+describe('LibrariesComponent', () => {
+    let fixture: ComponentFixture<LibrariesComponent>;
     let component: LibrariesComponent;
-    let nodesApi: NodesApiService;
+    let contentApi: ContentApiService;
     let alfrescoApi: AlfrescoApiService;
     let router: Router;
-    let preferenceService: UserPreferencesService;
     let page;
     let node;
 
@@ -72,16 +63,9 @@ describe('Libraries Routed Component', () => {
         };
     });
 
-    beforeEach(async(() => {
+    beforeEach(() => {
         TestBed.configureTestingModule({
-                imports: [
-                    MatMenuModule,
-                    NoopAnimationsModule,
-                    HttpClientModule,
-                    TranslateModule.forRoot(),
-                    RouterTestingModule,
-                    MatSnackBarModule, MatIconModule
-                ],
+                imports: [ AppTestingModule ],
                 declarations: [
                     DataTableComponent,
                     TimeAgoPipe,
@@ -89,42 +73,23 @@ describe('Libraries Routed Component', () => {
                     NodeFavoriteDirective,
                     DocumentListComponent,
                     LibrariesComponent,
-                    AppConfigPipe
-                ],
-                providers: [
-                    { provide: ActivatedRoute, useValue: {
-                        snapshot: { data: { preferencePrefix: 'prefix' } }
-                    } } ,
-                    { provide: TranslationService, useClass: TranslationMock },
-                    AuthenticationService,
-                    UserPreferencesService,
-                    AppConfigService, StorageService, CookieService,
-                    AlfrescoApiService,
-                    LogService,
-                    NotificationService,
-                    ContentService,
-                    NodesApiService,
-                    DocumentListService,
-                    ThumbnailService,
-                    CustomResourcesService
+                    AppConfigPipe,
+                    ExperimentalDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
-        })
-        .compileComponents().then(() => {
-            fixture = TestBed.createComponent(LibrariesComponent);
-            component = fixture.componentInstance;
-
-            nodesApi = TestBed.get(NodesApiService);
-            alfrescoApi = TestBed.get(AlfrescoApiService);
-            alfrescoApi.reset();
-            router = TestBed.get(Router);
-            preferenceService = TestBed.get(UserPreferencesService);
         });
-    }));
 
-    beforeEach(() => {
+        fixture = TestBed.createComponent(LibrariesComponent);
+        component = fixture.componentInstance;
+
+        alfrescoApi = TestBed.get(AlfrescoApiService);
+        alfrescoApi.reset();
+        router = TestBed.get(Router);
+
         spyOn(alfrescoApi.sitesApi, 'getSites').and.returnValue((Promise.resolve(page)));
         spyOn(alfrescoApi.peopleApi, 'getSiteMembership').and.returnValue((Promise.resolve({})));
+
+        contentApi = TestBed.get(ContentApiService);
     });
 
     describe('makeLibraryTooltip()', () => {
@@ -153,7 +118,7 @@ describe('Libraries Routed Component', () => {
         it('sets title with id when duplicate nodes title exists in list', () => {
             node.title = 'title';
 
-            const data = new ShareDataTableAdapter(null);
+            const data = new ShareDataTableAdapter(null, null);
             data.setRows([<any>{ node: { entry: { id: 'some-id', title: 'title' } } }]);
 
             component.documentList.data = data;
@@ -165,7 +130,7 @@ describe('Libraries Routed Component', () => {
         it('sets title when no duplicate nodes title exists in list', () => {
             node.title = 'title';
 
-            const data = new ShareDataTableAdapter(null);
+            const data = new ShareDataTableAdapter(null, null);
             data.setRows([<any>{ node: { entry: { id: 'some-id', title: 'title-some-id' } } }]);
 
             component.documentList.data = data;
@@ -180,7 +145,6 @@ describe('Libraries Routed Component', () => {
 
         beforeEach(() => {
             routerSpy = spyOn(router, 'navigate');
-            spyOn(component, 'fetchNodes').and.callFake(val => val);
         });
 
         it('does not navigate when id is not passed', () => {
@@ -191,7 +155,7 @@ describe('Libraries Routed Component', () => {
 
         it('navigates to node id', () => {
             const document = { id: 'documentId' };
-            spyOn(nodesApi, 'getNode').and.returnValue(Observable.of(document));
+            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: document }));
 
             component.navigate(node.id);
 
@@ -230,37 +194,6 @@ describe('Libraries Routed Component', () => {
             component.onNodeDoubleClick(event);
 
             expect(component.navigate).not.toHaveBeenCalled();
-        });
-    });
-
-    describe('onSortingChanged', () => {
-        it('should save sorting input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {
-                    key: 'some-name',
-                    direction: 'some-direction'
-                }
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'some-name');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'some-direction');
-        });
-
-        it('should save default sorting when no input', () => {
-            spyOn(preferenceService, 'set');
-
-            const event = <any>{
-                detail: {}
-             };
-
-            component.onSortingChanged(event);
-
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.key', 'modifiedAt');
-            expect(preferenceService.set).toHaveBeenCalledWith('prefix.sorting.direction', 'desc');
         });
     });
 });

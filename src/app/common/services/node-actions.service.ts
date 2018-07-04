@@ -27,9 +27,10 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Observable, Subject } from 'rxjs/Rx';
 
-import { AlfrescoApiService, ContentService, NodesApiService, DataColumn, TranslationService } from '@alfresco/adf-core';
+import { AlfrescoApiService, ContentService, DataColumn, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging } from 'alfresco-js-api';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Injectable()
 export class NodeActionsService {
@@ -42,10 +43,10 @@ export class NodeActionsService {
     isSitesDestinationAvailable = false;
 
     constructor(private contentService: ContentService,
+                private contentApi: ContentApiService,
                 private dialog: MatDialog,
                 private documentListService: DocumentListService,
                 private apiService: AlfrescoApiService,
-                private nodesApi: NodesApiService,
                 private translation: TranslationService) {}
 
     /**
@@ -422,7 +423,7 @@ export class NodeActionsService {
                                     // Check if there's nodeId for Shared Files
                                     const nodeEntryId = nodeEntry.nodeId || nodeEntry.id;
                                     // delete it from location
-                                    return this.nodesApi.deleteNode(nodeEntryId)
+                                    return this.contentApi.deleteNode(nodeEntryId)
                                         .flatMap(() => {
                                             this.moveDeletedEntries.push(nodeEntry);
                                             return Observable.of(newContent);

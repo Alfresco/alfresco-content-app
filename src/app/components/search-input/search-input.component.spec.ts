@@ -24,21 +24,23 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, async } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 
 import { SearchInputComponent } from './search-input.component';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { Actions, ofType } from '@ngrx/effects';
+import { ViewNodeAction, VIEW_NODE, NAVIGATE_FOLDER, NavigateToFolder } from '../../store/actions';
+import { map } from 'rxjs/operators';
 
 describe('SearchInputComponent', () => {
-    let fixture;
-    let component;
-    let router: Router;
+    let fixture: ComponentFixture<SearchInputComponent>;
+    let component: SearchInputComponent;
+    let actions$: Actions;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                RouterTestingModule
+                AppTestingModule
             ],
             declarations: [
                 SearchInputComponent
@@ -47,32 +49,40 @@ describe('SearchInputComponent', () => {
         })
         .compileComponents()
         .then(() => {
+            actions$ = TestBed.get(Actions);
             fixture = TestBed.createComponent(SearchInputComponent);
             component = fixture.componentInstance;
-            router = TestBed.get(Router);
-
             fixture.detectChanges();
         });
     }));
 
     describe('onItemClicked()', () => {
-        it('opens preview if node is file', () => {
-            spyOn(router, 'navigate').and.stub();
+        it('opens preview if node is file', fakeAsync(done => {
+            actions$.pipe(
+                ofType<ViewNodeAction>(VIEW_NODE),
+                map(action => {
+                    expect(action.payload.id).toBe('node-id');
+                    done();
+                })
+            );
+
             const node = { entry: { isFile: true, id: 'node-id', parentId: 'parent-id' } };
 
             component.onItemClicked(node);
+            tick();
+        }));
 
-            expect(router.navigate['calls'].argsFor(0)[0])
-                .toEqual([`/personal-files/${node.entry.parentId}/preview/`, node.entry.id]);
-        });
-
-        it('navigates if node is folder', () => {
-            const node = { entry: { isFolder: true } };
-            spyOn(router, 'navigate');
-
+        it('navigates if node is folder', fakeAsync(done => {
+            actions$.pipe(
+                ofType<NavigateToFolder>(NAVIGATE_FOLDER),
+                map(action => {
+                    expect(action.payload.entry.id).toBe('folder-id');
+                    done();
+                })
+            );
+            const node = { entry: { id: 'folder-id', isFolder: true } };
             component.onItemClicked(node);
-
-            expect(router.navigate).toHaveBeenCalled();
-        });
+            tick();
+        }));
     });
 });

@@ -2,30 +2,43 @@
     <div class="inner-layout__header">
         <adf-breadcrumb root="APP.BROWSE.LIBRARIES.TITLE">
         </adf-breadcrumb>
-        <adf-toolbar class="inline">
+        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
+            <ng-container *ifExperimental="'libraries'">
+                <button
+                    color="primary"
+                    mat-icon-button
+                    title="{{ 'APP.ACTIONS.MORE' | translate }}"
+                    [matMenuTriggerFor]="actionsMenu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
+                    <button
+                        mat-menu-item
+                        (click)="deleteLibrary(selection.first)">
+                        <mat-icon>delete</mat-icon>
+                        <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
+                    </button>
+                </mat-menu>
+            </ng-container>
         </adf-toolbar>
     </div>
 
     <div class="inner-layout__content">
-        <div class="inner-layout__panel" [ngClass]="{'adf-document-list--loading': isLoading}">
-            <adf-document-list #documentList
-                [attr.class]="documentList.isEmpty() ? 'adf-document-list--empty' : ''"
+        <div class="inner-layout__panel">
+            <adf-document-list acaDocumentList #documentList
                 currentFolderId="-mysites-"
-                selectionMode="none"
+                selectionMode="single"
                 [navigate]="false"
-                [sorting]="sorting"
-                [contextMenuActions]="true"
-                [contentActions]="false"
-                (sorting-changed)="onSortingChanged($event)"
+                [sorting]="[ 'title', 'asc' ]"
                 (node-dblclick)="onNodeDoubleClick($event)">
 
                 <empty-folder-content>
                     <ng-template>
-                        <app-empty-folder
+                        <adf-empty-content
                             icon="group_work"
-                            title="APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE"
+                            [title]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE'"
                             subtitle="APP.BROWSE.LIBRARIES.EMPTY_STATE.TEXT">
-                        </app-empty-folder>
+                        </adf-empty-content>
                     </ng-template>
                 </empty-folder-content>
 
@@ -66,13 +79,8 @@
                 </data-columns>
             </adf-document-list>
 
-            <ng-container *ngIf="!documentList.isEmpty()">
-                    <adf-pagination
-                        [supportedPageSizes]="'pagination.supportedPageSizes' | appConfig"
-                        [target]="documentList"
-                        (changePageSize)="onChangePageSize($event)">
-                    </adf-pagination>
-            </ng-container>
+            <adf-pagination acaPagination [target]="documentList">
+            </adf-pagination>
         </div>
     </div>
 </div>

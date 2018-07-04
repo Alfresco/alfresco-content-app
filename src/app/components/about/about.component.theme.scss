@@ -1,0 +1,39 @@
+@mixin aca-about-component-theme($theme) {
+    $foreground: map-get($theme, foreground);
+
+    article {
+        color: mat-color($foreground, text, 0.54);
+    }
+
+    article:first-of-type {
+        padding-bottom: 0;
+    }
+
+    article:last-of-type {
+        margin-bottom: 50px;
+    }
+
+    header {
+        line-height: 24px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: -0.2px;
+    }
+
+    a {
+        text-decoration: none;
+        color: mat-color($foreground, text, 0.87);
+    }
+
+    .padding {
+        padding: 25px;
+    }
+
+    .padding-top-bottom {
+        padding: 25px 0 25px 0;
+    }
+
+    .padding-left-right {
+        padding: 0 25px 0 25px;
+    }
+}

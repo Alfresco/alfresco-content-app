@@ -23,24 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
-
-import { TranslationService, NotificationService, AlfrescoApiService } from '@alfresco/adf-core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
-
-import { VersionManagerDialogAdapterComponent } from '../../components/versions-dialog/version-manager-dialog-adapter.component';
+import { Directive, HostListener, Input } from '@angular/core';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { NodeVersionsDialogComponent } from '../../dialogs/node-versions/node-versions.dialog';
 import { MatDialog } from '@angular/material';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { SnackbarErrorAction } from '../../store/actions';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Directive({
-    selector: '[app-node-versions]'
+    selector: '[acaNodeVersions]'
 })
 export class NodeVersionsDirective {
-
-    @Input('app-node-versions')
-    selection: MinimalNodeEntity[];
-
-    @Output()
-    nodeVersionError: EventEmitter<any> = new EventEmitter();
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaNodeVersions') node: MinimalNodeEntity;
 
     @HostListener('click')
     onClick() {
@@ -48,32 +45,40 @@ export class NodeVersionsDirective {
     }
 
     constructor(
-        private apiService: AlfrescoApiService,
-        private dialog: MatDialog,
-        private notification: NotificationService,
-        private translation: TranslationService
+        private store: Store<AppStore>,
+        private contentApi: ContentApiService,
+        private dialog: MatDialog
     ) {}
 
-    onManageVersions() {
-        const contentEntry = this.selection[0].entry;
-        const nodeId = (<any>contentEntry).nodeId;
+    async onManageVersions() {
+        if (this.node && this.node.entry) {
+            let entry = this.node.entry;
 
-        this.apiService.getInstance().nodes.getNodeInfo(nodeId || contentEntry.id, {
-            include: ['allowableOperations']
-        }).then(entry => this.openVersionManagerDialog(entry));
-
+            if (entry.nodeId || (<any>entry).guid) {
+                entry = await this.contentApi.getNodeInfo(
+                    entry.nodeId || (<any>entry).id
+                ).toPromise();
+                this.openVersionManagerDialog(entry);
+            } else {
+                this.openVersionManagerDialog(entry);
+            }
+        } else if (this.node) {
+            this.openVersionManagerDialog(<MinimalNodeEntryEntity>this.node);
+        }
     }
 
-    openVersionManagerDialog(contentEntry) {
-        if (contentEntry.isFile) {
-            this.dialog.open(
-                VersionManagerDialogAdapterComponent,
-                <any>{ data: { contentEntry }, panelClass: 'adf-version-manager-dialog', width: '630px' });
+    openVersionManagerDialog(node: MinimalNodeEntryEntity) {
+        // workaround Shared
+        if (node.isFile || node.nodeId) {
+            this.dialog.open(NodeVersionsDialogComponent, {
+                data: { node },
+                panelClass: 'adf-version-manager-dialog-panel',
+                width: '630px'
+            });
         } else {
-            const translatedErrorMessage: any = this.translation.get('APP.MESSAGES.ERRORS.PERMISSION');
-            this.notification.openSnackMessage(translatedErrorMessage.value, 4000);
-
-            this.nodeVersionError.emit();
+            this.store.dispatch(
+                new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
+            );
         }
     }
 }

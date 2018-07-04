@@ -23,56 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PeopleContentService, AppConfigService } from '@alfresco/adf-core';
-import { Subscription } from 'rxjs/Rx';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Rx';
+import { selectUser, appLanguagePicker } from '../../store/selectors/app.selectors';
+import { AppStore, ProfileState } from '../../store/states';
 
 @Component({
-    selector: 'app-current-user',
+    selector: 'aca-current-user',
     templateUrl: './current-user.component.html',
-    styleUrls: [ './current-user.component.scss' ]
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'aca-current-user' }
 })
-export class CurrentUserComponent implements OnInit, OnDestroy {
-    private subscriptions: Subscription[] = [];
+export class CurrentUserComponent {
+    profile$: Observable<ProfileState>;
+    languagePicker$: Observable<boolean>;
 
-    user: any = null;
-
-    constructor(
-        private peopleApi: PeopleContentService,
-        private appConfig: AppConfigService
-    ) {}
-
-    ngOnInit() {
-        this.subscriptions = this.subscriptions.concat([
-            this.peopleApi.getCurrentPerson().subscribe((person: any) => this.user = person.entry)
-        ]);
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
-    }
-
-    get userFirstName(): string {
-        const { user } = this;
-        return user ? (user.firstName || '') : '';
-    }
-
-    get userLastName(): string {
-        const { user } = this;
-        return user ? (user.lastName || '') : '';
-    }
-
-    get userName(): string {
-        const { userFirstName: first, userLastName: last } = this;
-        return `${first} ${last}`;
-    }
-
-    get userInitials(): string {
-        const { userFirstName: first, userLastName: last } = this;
-        return [ first[0], last[0] ].join('');
-    }
-
-    get showLanguagePicker() {
-        return this.appConfig.get('languagePicker') || false;
+    constructor(store: Store<AppStore>) {
+        this.profile$ = store.select(selectUser);
+        this.languagePicker$ = store.select(appLanguagePicker);
     }
 }
