@@ -1,4 +1,4 @@
-   <p align="right"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - make business flow"></p>
+   <p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - make business flow"></p>
    
 # Alfresco Example Content Application
 
@@ -7,7 +7,7 @@
 The Alfresco Content Application is an example application built using
 [Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components and was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
-The Alfresco Content Application is an example application built using [Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components and was generated with [Angular CLI](https://github.com/angular/angular-cli).
+This project is an example application built using [Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components and was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
 ### Who is this example application for
 
