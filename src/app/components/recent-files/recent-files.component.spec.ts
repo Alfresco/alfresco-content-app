@@ -34,6 +34,7 @@ import { ContentManagementService } from '../../common/services/content-manageme
 
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('RecentFilesComponent', () => {
     let fixture: ComponentFixture<RecentFilesComponent>;
@@ -63,7 +64,8 @@ describe('RecentFilesComponent', () => {
                     NodeFavoriteDirective,
                     DocumentListComponent,
                     RecentFilesComponent,
-                    AppConfigPipe
+                    AppConfigPipe,
+                    ExperimentalDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         });

@@ -36,7 +36,8 @@
         "tooltip",
         "tooltips",
         "unindent",
-        "exif"
+        "exif",
+        "cardview"
     ],
     "dictionaries": [
         "html"

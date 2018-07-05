@@ -38,6 +38,7 @@ import { NodeActionsService } from '../../common/services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('FilesComponent', () => {
     let node;
@@ -67,7 +68,8 @@ describe('FilesComponent', () => {
                 NodeFavoriteDirective,
                 DocumentListComponent,
                 FileSizePipe,
-                AppConfigPipe
+                AppConfigPipe,
+                ExperimentalDirective
             ],
             providers: [
                 { provide: ActivatedRoute, useValue: {

@@ -50,6 +50,7 @@ export class SettingsComponent implements OnInit {
     languagePicker$: Observable<boolean>;
     libraries: boolean;
     comments: boolean;
+    cardview: boolean;
 
     constructor(
         private store: Store<AppStore>,
@@ -78,6 +79,9 @@ export class SettingsComponent implements OnInit {
 
         const comments = this.appConfig.get('experimental.comments');
         this.comments = (comments === true || comments === 'true');
+
+        const cardview = this.appConfig.get('experimental.cardview');
+        this.cardview = (cardview === true || cardview === 'true');
     }
 
     apply(model: any, isValid: boolean) {
@@ -104,5 +108,9 @@ export class SettingsComponent implements OnInit {
 
     onChangeCommentsFeature(event: MatCheckboxChange) {
         this.storage.setItem('experimental.comments', event.checked.toString());
+    }
+
+    onChangeCardviewFeature(event: MatCheckboxChange) {
+        this.storage.setItem('experimental.cardview', event.checked.toString());
     }
 }
