@@ -59,10 +59,19 @@
                 {{ 'APP.SETTINGS.EXPERIMENTAL-FEATURES' | translate }}
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-checkbox
-            [(ngModel)]="libraries"
-            (change)="onChangeLibrariesFeature($event)">
-            Library Management
-        </mat-checkbox>
+        <div>
+            <mat-checkbox
+                [(ngModel)]="libraries"
+                (change)="onChangeLibrariesFeature($event)">
+                Library Management
+            </mat-checkbox>
+        </div>
+        <div>
+            <mat-checkbox
+                [(ngModel)]="comments"
+                (change)="onChangeCommentsFeature($event)">
+                Comments
+            </mat-checkbox>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>

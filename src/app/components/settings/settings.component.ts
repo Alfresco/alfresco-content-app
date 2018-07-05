@@ -49,6 +49,7 @@ export class SettingsComponent implements OnInit {
     headerColor$: Observable<string>;
     languagePicker$: Observable<boolean>;
     libraries: boolean;
+    comments: boolean;
 
     constructor(
         private store: Store<AppStore>,
@@ -74,6 +75,9 @@ export class SettingsComponent implements OnInit {
 
         const libraries = this.appConfig.get('experimental.libraries');
         this.libraries = (libraries === true || libraries === 'true');
+
+        const comments = this.appConfig.get('experimental.comments');
+        this.comments = (comments === true || comments === 'true');
     }
 
     apply(model: any, isValid: boolean) {
@@ -96,5 +100,9 @@ export class SettingsComponent implements OnInit {
 
     onChangeLibrariesFeature(event: MatCheckboxChange) {
         this.storage.setItem('experimental.libraries', event.checked.toString());
+    }
+
+    onChangeCommentsFeature(event: MatCheckboxChange) {
+        this.storage.setItem('experimental.comments', event.checked.toString());
     }
 }
