@@ -24,7 +24,7 @@
  */
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
-import { FileUploadErrorEvent } from '@alfresco/adf-core';
+import { DisplayMode, FileUploadErrorEvent } from '@alfresco/adf-core';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
@@ -46,6 +46,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     infoDrawerOpened = false;
     node: MinimalNodeEntryEntity;
     selection: SelectionState;
+    displayMode = DisplayMode.List;
 
     protected subscriptions: Subscription[] = [];
 
@@ -133,5 +134,10 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         const action = new SnackbarErrorAction(message);
 
         this.store.dispatch(action);
+    }
+
+    toggleGalleryView(): void {
+        this.displayMode = this.displayMode === DisplayMode.List ? DisplayMode.Gallery : DisplayMode.List;
+        this.documentList.display = this.displayMode;
     }
 }

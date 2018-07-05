@@ -146,6 +146,10 @@
                 "SHARED_BY": "Shared by",
                 "DELETED_ON": "Deleted",
                 "DELETED_BY": "Deleted by"
+            },
+            "TOOLBAR": {
+                "CARDVIEW": "Card view mode",
+                "LISTVIEW": "List view mode"
             }
         },
         "SITES_VISIBILITY": {
