@@ -6,6 +6,12 @@
                 <mat-icon [title]="'APP.NEW_MENU.TOOLTIP' | translate">queue</mat-icon>
             </div>
             <div sidebar-menu-options>
+                <button *ngFor="let entry of createActions"
+                    mat-menu-item
+                    (click)="runAction(entry.action)">
+                    <mat-icon>{{ entry.icon }}</mat-icon>
+                    <span>{{ entry.title | translate }}</span>
+                </button>
                 <button
                     mat-menu-item
                     [disabled]="!permission.check(node, ['create'])"

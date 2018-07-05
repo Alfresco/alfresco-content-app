@@ -101,7 +101,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
             this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
 
-        this.mountExtensions();
+        this.openWith = this.extensions.openWithActions;
     }
 
     /**
@@ -363,10 +363,6 @@ export class PreviewComponent extends PageComponent implements OnInit {
             acc.push(item.path, item.parameters);
             return acc;
         }, []);
-    }
-
-    private mountExtensions() {
-        this.openWith = this.extensions.openWithActions;
     }
 
     // this is where each application decides how to treat an action and what to do

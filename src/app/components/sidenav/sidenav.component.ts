@@ -30,6 +30,7 @@ import { BrowsingFilesService } from '../../common/services/browsing-files.servi
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { NavigationExtension } from '../../extensions/navigation.extension';
+import { CreateExtension } from '../../extensions/create.extension';
 
 @Component({
     selector: 'app-sidenav',
@@ -41,6 +42,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     node: MinimalNodeEntryEntity = null;
     groups: Array<NavigationExtension[]> = [];
+    createActions: Array<CreateExtension> = [];
 
     private subscriptions: Subscription[] = [];
 
@@ -52,6 +54,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.groups = this.extensions.getNavigationGroups();
+        this.createActions = this.extensions.createActions;
 
         this.subscriptions.concat([
             this.browsingFilesService.onChangeParent.subscribe(
@@ -62,5 +65,11 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
+    }
+
+    // this is where each application decides how to treat an action and what to do
+    // the ACA maps actions to the NgRx actions as an example
+    runAction(actionId: string) {
+        this.extensions.runActionById(actionId);
     }
 }

@@ -33,13 +33,16 @@ import { AppStore } from '../store/states';
 import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
+import { CreateExtension } from './create.extension';
 
 @Injectable()
 export class ExtensionService {
     routes: Array<RouteExtension> = [];
     actions: Array<ActionExtension> = [];
+
     contentActions: Array<ContentActionExtension> = [];
     openWithActions: Array<OpenWithExtension> = [];
+    createActions: Array<CreateExtension> = [];
 
     authGuards: { [key: string]: Type<{}> } = {};
     components: { [key: string]: Type<{}> } = {};
@@ -76,7 +79,11 @@ export class ExtensionService {
             )
             .sort(this.sortByOrder);
 
-        this.debugLog();
+        this.createActions = this.config
+            .get<Array<CreateExtension>>(
+                'extensions.core.features.create', []
+            )
+            .sort(this.sortByOrder);
     }
 
     getRouteById(id: string): RouteExtension {
@@ -171,13 +178,5 @@ export class ExtensionService {
         const left = a.order === undefined ? Number.MAX_SAFE_INTEGER : a.order;
         const right = b.order === undefined ? Number.MAX_SAFE_INTEGER : b.order;
         return left - right;
-    }
-
-    private debugLog() {
-        console.log(this.routes);
-        console.log(this.actions);
-        console.log(this.components);
-        console.log(this.authGuards);
-        console.log(this.contentActions);
     }
 }
