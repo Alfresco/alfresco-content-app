@@ -33,6 +33,7 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('SharedFilesComponent', () => {
     let fixture: ComponentFixture<SharedFilesComponent>;
@@ -61,7 +62,8 @@ describe('SharedFilesComponent', () => {
                     NodeFavoriteDirective,
                     DocumentListComponent,
                     SharedFilesComponent,
-                    AppConfigPipe
+                    AppConfigPipe,
+                    ExperimentalDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
             });
