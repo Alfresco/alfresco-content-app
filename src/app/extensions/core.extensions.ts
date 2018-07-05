@@ -27,14 +27,16 @@ import { NgModule } from '@angular/core';
 import { AuthGuardEcm } from '@alfresco/adf-core';
 import { ExtensionService } from './extension.service';
 import { AboutComponent } from '../components/about/about.component';
+import { LayoutComponent } from '../components/layout/layout.component';
 
 @NgModule({
     imports: [],
-    declarations: [ ],
-    entryComponents: [ AboutComponent ]
+    declarations: [],
+    entryComponents: [AboutComponent]
 })
 export class CoreExtensionsModule {
     constructor(extensions: ExtensionService) {
+        extensions.components['aca:layouts/main'] = LayoutComponent;
         extensions.components['aca:components/about'] = AboutComponent;
         extensions.authGuards['aca:auth'] = AuthGuardEcm;
     }

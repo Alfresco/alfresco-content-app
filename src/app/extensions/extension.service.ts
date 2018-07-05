@@ -32,6 +32,7 @@ import { OpenWithExtension } from './open-with.extension';
 import { AppStore } from '../store/states';
 import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
+import { Route } from '@angular/router';
 
 @Injectable()
 export class ExtensionService {
@@ -48,6 +49,8 @@ export class ExtensionService {
         private store: Store<AppStore>
     ) {}
 
+    // initialise extension service
+    // in future will also load and merge data from the external plugins
     init() {
         this.routes = this.config.get<Array<RouteExtension>>(
             'extensions.core.routes',
@@ -119,6 +122,14 @@ export class ExtensionService {
         return [];
     }
 
+    getAuthGuards(ids: string[] = []): Array<Type<{}>> {
+        return ids.map(id => this.authGuards[id]);
+    }
+
+    getComponentById(id: string): Type<{}> {
+        return this.components[id];
+    }
+
     runExpression(value: string, context?: any) {
         const pattern = new RegExp(/\$\((.*\)?)\)/g);
         const matches = pattern.exec(value);
@@ -132,6 +143,25 @@ export class ExtensionService {
         }
 
         return value;
+    }
+
+    getApplicationRoutes(): Array<Route> {
+        return this.routes.map(route => {
+            const guards = this.getAuthGuards(route.auth);
+
+            return {
+                path: route.path,
+                component: this.getComponentById(route.layout),
+                canActivateChild: guards,
+                canActivate: guards,
+                children: [
+                    {
+                        path: '',
+                        component: this.getComponentById(route.component)
+                    }
+                ]
+            };
+        });
     }
 
     private sortByOrder(

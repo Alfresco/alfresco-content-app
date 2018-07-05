@@ -43,7 +43,7 @@
                     "id": "aca:routes/about",
                     "path": "ext/about",
                     "component": "aca:components/about",
-                    "layout": "main",
+                    "layout": "aca:layouts/main",
                     "auth":[ "aca:auth" ],
                     "data": {
                         "title": "Custom About"
