@@ -25,7 +25,7 @@
 
 export interface OpenWithExtension {
     id: string;
-    order: number;
+    order?: number;
     icon: string;
     title: string;
     action: string;

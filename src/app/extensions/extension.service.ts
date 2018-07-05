@@ -31,6 +31,7 @@ import { ContentActionExtension } from './content-action.extension';
 import { OpenWithExtension } from './open-with.extension';
 import { AppStore } from '../store/states';
 import { Store } from '@ngrx/store';
+import { NavigationExtension } from './navigation.extension';
 
 @Injectable()
 export class ExtensionService {
@@ -49,20 +50,28 @@ export class ExtensionService {
 
     init() {
         this.routes = this.config.get<Array<RouteExtension>>(
-            'extensions.core.routes'
+            'extensions.core.routes',
+            []
         );
 
         this.actions = this.config.get<Array<ActionExtension>>(
-            'extensions.core.actions'
+            'extensions.core.actions',
+            []
         );
 
-        this.contentActions = this.config.get<Array<ContentActionExtension>>(
-            'extensions.core.features.content.actions'
-        );
+        this.contentActions = this.config
+            .get<Array<ContentActionExtension>>(
+                'extensions.core.features.content.actions',
+                []
+            )
+            .sort(this.sortByOrder);
 
-        this.openWithActions = this.config.get<Array<OpenWithExtension>>(
-            'extensions.core.features.viewer.open-with'
-        );
+        this.openWithActions = this.config
+            .get<Array<OpenWithExtension>>(
+                'extensions.core.features.viewer.open-with',
+                []
+            )
+            .sort(this.sortByOrder);
 
         this.debugLog();
     }
@@ -85,6 +94,31 @@ export class ExtensionService {
         }
     }
 
+    getNavigationGroups(): Array<NavigationExtension[]> {
+        const settings = this.config.get<any>(
+            'extensions.core.features.navigation'
+        );
+        if (settings) {
+            const groups = Object.keys(settings).map(key => {
+                return settings[key].map(group => {
+                    const customRoute = this.getRouteById(group.route);
+                    const route = `/${
+                        customRoute ? customRoute.path : group.route
+                    }`;
+
+                    return {
+                        ...group,
+                        route
+                    };
+                });
+            });
+
+            return groups;
+        }
+
+        return [];
+    }
+
     runExpression(value: string, context?: any) {
         const pattern = new RegExp(/\$\((.*\)?)\)/g);
         const matches = pattern.exec(value);
@@ -98,6 +132,15 @@ export class ExtensionService {
         }
 
         return value;
+    }
+
+    private sortByOrder(
+        a: { order?: number | undefined },
+        b: { order?: number | undefined }
+    ) {
+        const left = a.order === undefined ? Number.MAX_SAFE_INTEGER : a.order;
+        const right = b.order === undefined ? Number.MAX_SAFE_INTEGER : b.order;
+        return left - right;
     }
 
     private debugLog() {

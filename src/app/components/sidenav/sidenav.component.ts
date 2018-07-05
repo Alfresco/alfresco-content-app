@@ -26,8 +26,6 @@
 import { Subscription } from 'rxjs/Rx';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { AppConfigService } from '@alfresco/adf-core';
-
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ExtensionService } from '../../extensions/extension.service';
@@ -48,13 +46,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     constructor(
         private browsingFilesService: BrowsingFilesService,
-        private appConfig: AppConfigService,
         public permission: NodePermissionService,
         private extensions: ExtensionService
     ) {}
 
     ngOnInit() {
-        this.mountExtensions();
+        this.groups = this.extensions.getNavigationGroups();
 
         this.subscriptions.concat([
             this.browsingFilesService.onChangeParent.subscribe(
@@ -65,26 +62,5 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
-    }
-
-    private mountExtensions() {
-        const settings = this.appConfig.get<any>(
-            'extensions.core.features.navigation'
-        );
-        if (settings) {
-            this.groups = Object.keys(settings).map(
-                key => {
-                    return settings[key].map(group => {
-                        const customRoute = this.extensions.getRouteById(group.route);
-                        const route = `/${customRoute ? customRoute.path : group.route}`;
-
-                        return {
-                            ...group,
-                            route
-                        };
-                    });
-                }
-            );
-        }
     }
 }

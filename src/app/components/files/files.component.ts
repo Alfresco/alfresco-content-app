@@ -102,7 +102,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
 
-        this.mountExtensions();
+        this.actions = this.extensions.contentActions;
     }
 
     ngOnDestroy() {
@@ -270,10 +270,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             return this.node.path.elements[0].id === nodeId;
         }
         return false;
-    }
-
-    private mountExtensions() {
-        this.actions = this.extensions.contentActions;
     }
 
     // this is where each application decides how to treat an action and what to do
