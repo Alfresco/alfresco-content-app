@@ -36,6 +36,7 @@ import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('LibrariesComponent', () => {
     let fixture: ComponentFixture<LibrariesComponent>;
@@ -72,7 +73,8 @@ describe('LibrariesComponent', () => {
                     NodeFavoriteDirective,
                     DocumentListComponent,
                     LibrariesComponent,
-                    AppConfigPipe
+                    AppConfigPipe,
+                    ExperimentalDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         });
