@@ -12,7 +12,8 @@
         "libraries": false,
         "comments": false,
         "cardview": false,
-        "share": false
+        "share": false,
+        "extensions": false
     },
     "headerColor": "#2196F3",
     "languagePicker": false,
