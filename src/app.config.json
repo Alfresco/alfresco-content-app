@@ -10,7 +10,8 @@
     },
     "experimental": {
         "libraries": false,
-        "comments": false
+        "comments": false,
+        "cardview": false
     },
     "headerColor": "#2196F3",
     "languagePicker": false,

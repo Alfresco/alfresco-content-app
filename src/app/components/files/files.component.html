@@ -6,7 +6,7 @@
             (navigate)="onBreadcrumbNavigate($event)">
         </adf-breadcrumb>
 
-        <button
+        <button *ifExperimental="'cardview'"
             mat-icon-button
             (click)="toggleGalleryView()">
             <mat-icon *ngIf="displayMode === 'list'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.CARDVIEW' | translate }}">view_comfy</mat-icon>

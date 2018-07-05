@@ -73,5 +73,12 @@
                 Comments
             </mat-checkbox>
         </div>
+        <div>
+            <mat-checkbox
+                [(ngModel)]="cardview"
+                (change)="onChangeCardviewFeature($event)">
+                Cardview
+            </mat-checkbox>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>
