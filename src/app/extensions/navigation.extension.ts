@@ -30,4 +30,5 @@ export interface NavigationExtension {
     title: string;
     route: string;
     description?: string;
+    disabled?: boolean;
 }

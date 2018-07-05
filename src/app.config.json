@@ -137,6 +137,7 @@
                     ],
                     "aca:demo": [
                         {
+                            "disabled": true,
                             "id": "aca:demo/link1",
                             "order": 100,
                             "icon": "build",
@@ -145,6 +146,7 @@
                             "route": "about"
                         },
                         {
+                            "disabled": true,
                             "id": "aca:demo/link2",
                             "order": 100,
                             "icon": "build",
@@ -157,6 +159,7 @@
                 "viewer": {
                     "open-with": [
                         {
+                            "disabled": true,
                             "id": "aca:viewer/action1",
                             "order": 100,
                             "icon": "build",
@@ -168,6 +171,7 @@
                 "content": {
                     "actions": [
                         {
+                            "disabled": true,
                             "id": "aca:action1",
                             "order": 100,
                             "title": "Info",
@@ -179,6 +183,7 @@
                             }
                         },
                         {
+                            "disabled": true,
                             "id": "aca:action2",
                             "order": 101,
                             "title": "Node name",
@@ -190,6 +195,7 @@
                             }
                         },
                         {
+                            "disabled": true,
                             "id": "aca:action3",
                             "order": 101,
                             "title": "Settings",

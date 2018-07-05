@@ -70,6 +70,7 @@ export class ExtensionService {
                 'extensions.core.features.content.actions',
                 []
             )
+            .filter(entry => !entry.disabled)
             .sort(this.sortByOrder);
 
         this.openWithActions = this.config
@@ -77,12 +78,12 @@ export class ExtensionService {
                 'extensions.core.features.viewer.open-with',
                 []
             )
+            .filter(entry => !entry.disabled)
             .sort(this.sortByOrder);
 
         this.createActions = this.config
-            .get<Array<CreateExtension>>(
-                'extensions.core.features.create', []
-            )
+            .get<Array<CreateExtension>>('extensions.core.features.create', [])
+            .filter(entry => !entry.disabled)
             .sort(this.sortByOrder);
     }
 
@@ -110,17 +111,19 @@ export class ExtensionService {
         );
         if (settings) {
             const groups = Object.keys(settings).map(key => {
-                return settings[key].map(group => {
-                    const customRoute = this.getRouteById(group.route);
-                    const route = `/${
-                        customRoute ? customRoute.path : group.route
-                    }`;
+                return settings[key]
+                    .map(group => {
+                        const customRoute = this.getRouteById(group.route);
+                        const route = `/${
+                            customRoute ? customRoute.path : group.route
+                        }`;
 
-                    return {
-                        ...group,
-                        route
-                    };
-                });
+                        return {
+                            ...group,
+                            route
+                        };
+                    })
+                    .filter(entry => !entry.disabled);
             });
 
             return groups;

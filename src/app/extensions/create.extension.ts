@@ -29,4 +29,5 @@ export interface CreateExtension {
     title: string;
     icon?: string;
     action: string;
+    disabled?: boolean;
 }

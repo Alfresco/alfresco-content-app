@@ -29,4 +29,5 @@ export interface OpenWithExtension {
     icon: string;
     title: string;
     action: string;
+    disabled?: boolean;
 }

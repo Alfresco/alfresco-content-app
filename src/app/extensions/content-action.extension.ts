@@ -28,6 +28,7 @@ export interface ContentActionExtension {
     order?: number;
     title: string;
     icon?: string;
+    disabled?: boolean;
     target: {
         type: string;
         permissions: Array<string>,
