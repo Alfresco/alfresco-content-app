@@ -37,7 +37,6 @@ import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
-import { ContentActionExtension } from '../../extensions/content-action.extension';
 
 @Component({
     templateUrl: './files.component.html'
@@ -45,7 +44,6 @@ import { ContentActionExtension } from '../../extensions/content-action.extensio
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     isValidPath = true;
-    actions: Array<ContentActionExtension> = [];
 
     private nodePath: PathElement[];
 
@@ -58,8 +56,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private contentManagementService: ContentManagementService,
                 private browsingFilesService: BrowsingFilesService,
                 public permission: NodePermissionService,
-                private extensions: ExtensionService) {
-        super(store);
+                extensions: ExtensionService) {
+        super(store, extensions);
     }
 
     ngOnInit() {
@@ -101,8 +99,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             uploadService.fileUploadDeleted.debounceTime(300).subscribe((file) => this.onFileUploadedEvent(file)),
             uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
-
-        this.actions = this.extensions.contentActions;
     }
 
     ngOnDestroy() {

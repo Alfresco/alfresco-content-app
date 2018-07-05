@@ -205,6 +205,18 @@
                                 "permissions": ["one", "two"],
                                 "action": "aca:actions/settings"
                             }
+                        },
+                        {
+                            "disabled": true,
+                            "id": "aca:action4",
+                            "order": 101,
+                            "title": "Error",
+                            "icon": "report_problem",
+                            "target": {
+                                "type": "file",
+                                "permissions": ["one", "two"],
+                                "action": "aca:actions/error"
+                            }
                         }
                     ]
                 }
