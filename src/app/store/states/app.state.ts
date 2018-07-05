@@ -31,6 +31,7 @@ export interface AppState {
     headerColor: string;
     logoPath: string;
     languagePicker: boolean;
+    sharedUrl: string;
     selection: SelectionState;
     user: ProfileState;
 }
@@ -40,6 +41,7 @@ export const INITIAL_APP_STATE: AppState = {
     headerColor: '#2196F3',
     logoPath: 'assets/images/alfresco-logo-white.svg',
     languagePicker: false,
+    sharedUrl: '',
     user: {
         isAdmin: true, // 5.2.x
         id: null,

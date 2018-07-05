@@ -29,6 +29,7 @@ export const SET_APP_NAME = 'SET_APP_NAME';
 export const SET_HEADER_COLOR = 'SET_HEADER_COLOR';
 export const SET_LOGO_PATH = 'SET_LOGO_PATH';
 export const SET_LANGUAGE_PICKER = 'SET_LANGUAGE_PICKER';
+export const SET_SHARED_URL = 'SET_SHARED_URL';
 
 export class SetAppNameAction implements Action {
     readonly type = SET_APP_NAME;
@@ -48,4 +49,9 @@ export class SetLogoPathAction implements Action {
 export class SetLanguagePickerAction implements Action {
     readonly type = SET_LANGUAGE_PICKER;
     constructor(public payload: boolean) {}
+}
+
+export class SetSharedUrlAction implements Action {
+    readonly type = SET_SHARED_URL;
+    constructor(public payload: string) {}
 }

@@ -33,3 +33,4 @@ export const selectLogoPath = createSelector(selectApp, state => state.logoPath)
 export const appSelection =  createSelector(selectApp, state => state.selection);
 export const appLanguagePicker = createSelector(selectApp, state => state.languagePicker);
 export const selectUser =  createSelector(selectApp, state => state.user);
+export const sharedUrl =  createSelector(selectApp, state => state.sharedUrl);

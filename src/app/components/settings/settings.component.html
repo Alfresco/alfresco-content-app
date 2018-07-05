@@ -80,5 +80,13 @@
                 Cardview
             </mat-checkbox>
         </div>
+
+        <div>
+            <mat-checkbox
+                [(ngModel)]="share"
+                (change)="onChangeShareFeature($event)">
+                Share
+            </mat-checkbox>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>

@@ -11,7 +11,8 @@
     "experimental": {
         "libraries": false,
         "comments": false,
-        "cardview": false
+        "cardview": false,
+        "share": false
     },
     "headerColor": "#2196F3",
     "languagePicker": false,

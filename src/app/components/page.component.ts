@@ -31,9 +31,10 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
-import { appSelection } from '../store/selectors/app.selectors';
+import { appSelection, sharedUrl } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
+import { Observable } from 'rxjs/Rx';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
@@ -47,6 +48,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity;
     selection: SelectionState;
     displayMode = DisplayMode.List;
+    sharedPreviewUrl$: Observable<string>;
 
     protected subscriptions: Subscription[] = [];
 
@@ -54,7 +56,9 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected store: Store<AppStore>) {}
+    constructor(protected store: Store<AppStore>) {
+        this.sharedPreviewUrl$ = store.select(sharedUrl);
+    }
 
     ngOnInit() {
         this.store

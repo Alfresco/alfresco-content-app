@@ -46,6 +46,16 @@
                 <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
             </button>
 
+            <ng-container *ifExperimental="'share'">
+                <button mat-menu-item
+                    color="primary"
+                    [baseShareUrl]="sharedPreviewUrl$ | async"
+                    [adf-share]="selectedEntities[0]">
+                    <mat-icon>share</mat-icon>
+                    <span>{{ 'APP.ACTIONS.SHARE' | translate }}</span>
+                </button>
+            </ng-container>
+
             <button
                 mat-menu-item
                 [acaCopyNode]="selectedEntities">

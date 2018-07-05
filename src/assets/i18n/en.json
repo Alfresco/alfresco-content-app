@@ -124,7 +124,8 @@
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions",
-            "TOGGLE-SIDENAV": "Toggle side navigation bar"
+            "TOGGLE-SIDENAV": "Toggle side navigation bar",
+            "SHARE": "Share"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {

@@ -30,7 +30,13 @@ import {
     AuthenticationService, AlfrescoApiService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore } from './store/states/app.state';
-import { SetHeaderColorAction, SetAppNameAction, SetLogoPathAction, SetLanguagePickerAction } from './store/actions';
+import {
+    SetHeaderColorAction,
+    SetAppNameAction,
+    SetLogoPathAction,
+    SetLanguagePickerAction,
+    SetSharedUrlAction
+} from './store/actions';
 
 @Component({
     selector: 'app-root',
@@ -94,5 +100,8 @@ export class AppComponent implements OnInit {
         }
         const languagePicker = this.config.get<boolean>('languagePicker');
         this.store.dispatch(new SetLanguagePickerAction(languagePicker));
+
+        const sharedPreviewUrl = this.config.get<string>('ecmHost') + '/#/preview/s/';
+        this.store.dispatch(new SetSharedUrlAction(sharedPreviewUrl));
     }
 }

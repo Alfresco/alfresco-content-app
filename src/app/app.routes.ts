@@ -25,6 +25,7 @@
 
 import { Routes } from '@angular/router';
 import { AuthGuardEcm } from '@alfresco/adf-core';
+import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 
 import { LayoutComponent } from './components/layout/layout.component';
 
@@ -57,6 +58,13 @@ export const APP_ROUTES: Routes = [
         component: SettingsComponent,
         data: {
             title: 'Settings'
+        }
+    },
+    {
+        path: 'preview/s/:id',
+        component: SharedLinkViewComponent,
+        data: {
+            title: 'APP.PREVIEW.TITLE',
         }
     },
     {
