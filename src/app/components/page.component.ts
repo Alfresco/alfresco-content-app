@@ -56,11 +56,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected store: Store<AppStore>) {
-        this.sharedPreviewUrl$ = store.select(sharedUrl);
-    }
+    constructor(protected store: Store<AppStore>) {}
 
     ngOnInit() {
+        this.sharedPreviewUrl$ = this.store.select(sharedUrl);
+
         this.store
             .select(appSelection)
             .pipe(takeUntil(this.onDestroy$))
