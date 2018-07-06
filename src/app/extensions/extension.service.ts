@@ -167,9 +167,10 @@ export class ExtensionService {
                 children: [
                     {
                         path: '',
-                        component: this.getComponentById(route.component)
+                        component: this.getComponentById(route.component),
+                        data: route.data
                     }
-                ]
+                ],
             };
         });
     }
