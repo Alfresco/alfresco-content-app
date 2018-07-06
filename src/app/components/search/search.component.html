@@ -3,6 +3,15 @@
         <adf-breadcrumb root="APP.BROWSE.SEARCH.TITLE">
         </adf-breadcrumb>
         <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
+            <ng-container *ifExperimental="'extensions'">
+                <button *ngFor="let entry of actions"
+                    mat-icon-button
+                    color="primary"
+                    title="{{ entry.title | translate }}"
+                    (click)="runAction(entry.target.action)">
+                    <mat-icon>{{ entry.icon }}</mat-icon>
+                </button>
+            </ng-container>
             <button
                 color="primary"
                 mat-icon-button

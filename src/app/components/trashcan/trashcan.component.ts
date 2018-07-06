@@ -30,6 +30,7 @@ import { Store } from '@ngrx/store';
 import { selectUser } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states/app.state';
 import { ProfileState } from '../../store/states/profile.state';
+import { ExtensionService } from '../../extensions/extension.service';
 
 @Component({
     templateUrl: './trashcan.component.html'
@@ -38,8 +39,9 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     user: ProfileState;
 
     constructor(private contentManagementService: ContentManagementService,
+                extensions: ExtensionService,
                 store: Store<AppStore>) {
-        super(store);
+        super(store, extensions);
     }
 
     ngOnInit() {

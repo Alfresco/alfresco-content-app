@@ -267,14 +267,4 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         }
         return false;
     }
-
-    // this is where each application decides how to treat an action and what to do
-    // the ACA maps actions to the NgRx actions as an example
-    runAction(actionId: string) {
-        const context = {
-            selection: this.selection
-        };
-
-        this.extensions.runActionById(actionId, context);
-    }
 }

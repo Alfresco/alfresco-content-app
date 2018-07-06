@@ -34,6 +34,7 @@ import { DeleteLibraryAction } from '../../store/actions';
 import { SiteEntry } from 'alfresco-js-api';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExtensionService } from '../../extensions/extension.service';
 
 @Component({
     templateUrl: './libraries.component.html'
@@ -44,8 +45,9 @@ export class LibrariesComponent extends PageComponent implements OnInit {
                 private content: ContentManagementService,
                 private contentApi: ContentApiService,
                 store: Store<AppStore>,
+                extensions: ExtensionService,
                 private router: Router) {
-        super(store);
+        super(store, extensions);
     }
 
     ngOnInit() {

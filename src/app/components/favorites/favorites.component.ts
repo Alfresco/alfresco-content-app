@@ -37,6 +37,7 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExtensionService } from '../../extensions/extension.service';
 
 @Component({
     templateUrl: './favorites.component.html'
@@ -45,11 +46,12 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     constructor(
         private router: Router,
         store: Store<AppStore>,
+        extensions: ExtensionService,
         private contentApi: ContentApiService,
         private content: ContentManagementService,
         public permission: NodePermissionService
     ) {
-        super(store);
+        super(store, extensions);
     }
 
     ngOnInit() {

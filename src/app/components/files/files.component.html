@@ -17,7 +17,7 @@
                 <button *ngFor="let entry of actions"
                     mat-icon-button
                     color="primary"
-                    title="{{ entry.title }}"
+                    title="{{ entry.title | translate }}"
                     (click)="runAction(entry.target.action)">
                     <mat-icon>{{ entry.icon }}</mat-icon>
                 </button>
