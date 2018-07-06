@@ -70,6 +70,7 @@ import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
 import { ProfileResolver } from './common/services/profile.resolver';
+import { ExperimentalGuard } from './common/services/experimental-guard.service';
 
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 import { EditFolderDirective } from './directives/edit-folder.directive';
@@ -153,6 +154,7 @@ import { ContentApiService } from './services/content-api.service';
         NodeActionsService,
         NodePermissionService,
         ProfileResolver,
+        ExperimentalGuard,
         ContentApiService
     ],
     entryComponents: [
