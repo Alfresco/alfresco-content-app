@@ -52,6 +52,7 @@ export class SettingsComponent implements OnInit {
     comments: boolean;
     cardview: boolean;
     share: boolean;
+    extensions: boolean;
 
     constructor(
         private store: Store<AppStore>,
@@ -86,6 +87,9 @@ export class SettingsComponent implements OnInit {
 
         const share = this.appConfig.get('experimental.share');
         this.share = (share === true || share === 'true');
+
+        const extensions = this.appConfig.get('experimental.extensions');
+        this.extensions = (extensions === true || extensions === 'true');
     }
 
     apply(model: any, isValid: boolean) {
@@ -120,5 +124,9 @@ export class SettingsComponent implements OnInit {
 
     onChangeShareFeature(event: MatCheckboxChange) {
         this.storage.setItem('experimental.share', event.checked.toString());
+    }
+
+    onChangeExtensionsFeature(event: MatCheckboxChange) {
+        this.storage.setItem('experimental.extensions', event.checked.toString());
     }
 }

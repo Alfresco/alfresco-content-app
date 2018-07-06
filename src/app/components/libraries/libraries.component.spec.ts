@@ -34,9 +34,9 @@ import {
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('LibrariesComponent', () => {
     let fixture: ComponentFixture<LibrariesComponent>;

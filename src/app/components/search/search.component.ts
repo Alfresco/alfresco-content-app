@@ -31,6 +31,7 @@ import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { NavigateToFolder } from '../../store/actions';
+import { ExtensionService } from '../../extensions/extension.service';
 
 @Component({
   selector: 'app-search',
@@ -53,9 +54,10 @@ export class SearchComponent extends PageComponent implements OnInit {
         public permission: NodePermissionService,
         private queryBuilder: SearchQueryBuilderService,
         private route: ActivatedRoute,
-        store: Store<AppStore>
+        store: Store<AppStore>,
+        extensions: ExtensionService
     ) {
-        super(store);
+        super(store, extensions);
 
         queryBuilder.paging = {
             skipCount: 0,

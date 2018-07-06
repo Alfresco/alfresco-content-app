@@ -12,7 +12,8 @@
         "libraries": false,
         "comments": false,
         "cardview": false,
-        "share": false
+        "share": false,
+        "extensions": false
     },
     "headerColor": "#2196F3",
     "languagePicker": false,
@@ -31,65 +32,196 @@
         "preserveState": true,
         "expandedSidenav": true
     },
-    "navigation": {
-        "main": [
-            {
-                "icon": "folder",
-                "label": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/personal-files"
-                }
-            },
-            {
-                "icon": "group_work",
-                "label": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/libraries"
-                }
-            }
+    "extensions": {
+        "external": [
+            "plugin1.json",
+            "plugin2.json"
         ],
-        "secondary": [
-            {
-                "icon": "people",
-                "label": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/shared"
+        "core": {
+            "routes": [
+                {
+                    "id": "aca:routes/about",
+                    "path": "ext/about",
+                    "component": "aca:components/about",
+                    "layout": "aca:layouts/main",
+                    "auth":[ "aca:auth" ],
+                    "data": {
+                        "title": "Custom About"
+                    }
                 }
-            },
-            {
-                "icon": "schedule",
-                "label": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/recent-files"
+            ],
+            "actions": [
+                {
+                    "id": "aca:actions/info",
+                    "type": "SNACKBAR_INFO",
+                    "payload": "I'm a nice little popup raised by extension."
+                },
+                {
+                    "id": "aca:actions/error",
+                    "type": "SNACKBAR_ERROR",
+                    "payload": "Aw, Snap!"
+                },
+                {
+                    "id": "aca:actions/node-name",
+                    "type": "SNACKBAR_INFO",
+                    "payload": "$('Action for ' + context.selection.first.entry.name)"
+                },
+                {
+                    "id": "aca:actions/settings",
+                    "type": "NAVIGATE_URL",
+                    "payload": "/settings"
                 }
-            },
-            {
-                "icon": "star",
-                "label": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/favorites"
-                }
-            },
-            {
-                "icon": "delete",
-                "label": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
-                "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
-                "disabled": false,
-                "route": {
-                    "url": "/trashcan"
+            ],
+            "features": {
+                "create": [
+                    {
+                        "id": "aca:create/action1",
+                        "order": 100,
+                        "icon": "build",
+                        "title": "Error",
+                        "action": "aca:actions/error"
+                    }
+                ],
+                "navigation": {
+                    "aca:main": [
+                        {
+                            "id": "aca/personal-files",
+                            "order": 100,
+                            "icon": "folder",
+                            "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
+                            "route": "personal-files"
+                        },
+                        {
+                            "id": "aca/libraries",
+                            "order": 101,
+                            "icon": "group_work",
+                            "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                            "route": "libraries"
+                        }
+                    ],
+                    "aca:secondary": [
+                        {
+                            "id": "aca/shared",
+                            "order": 100,
+                            "icon": "people",
+                            "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
+                            "route": "shared"
+                        },
+                        {
+                            "id": "aca/recent-files",
+                            "order": 101,
+                            "icon": "schedule",
+                            "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+                            "route": "recent-files"
+                        },
+                        {
+                            "id": "aca/favorites",
+                            "order": 102,
+                            "icon": "star",
+                            "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
+                            "route": "favorites"
+                        },
+                        {
+                            "id": "aca/trashcan",
+                            "order": 103,
+                            "icon": "delete",
+                            "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
+                            "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
+                            "route": "trashcan"
+                        }
+                    ],
+                    "aca:demo": [
+                        {
+                            "disabled": true,
+                            "id": "aca:demo/link1",
+                            "order": 100,
+                            "icon": "build",
+                            "title": "About (native)",
+                            "description": "Uses native application route",
+                            "route": "about"
+                        },
+                        {
+                            "disabled": true,
+                            "id": "aca:demo/link2",
+                            "order": 100,
+                            "icon": "build",
+                            "title": "About (custom)",
+                            "description": "Uses custom defined route",
+                            "route": "aca:routes/about"
+                        }
+                    ]
+                },
+                "viewer": {
+                    "open-with": [
+                        {
+                            "disabled": false,
+                            "id": "aca:viewer/action1",
+                            "order": 100,
+                            "icon": "build",
+                            "title": "Snackbar",
+                            "action": "aca:actions/info"
+                        }
+                    ]
+                },
+                "content": {
+                    "actions": [
+                        {
+                            "disabled": false,
+                            "id": "aca:action1",
+                            "order": 100,
+                            "title": "Info",
+                            "icon": "build",
+                            "target": {
+                                "type": "folder",
+                                "permissions": ["one", "two"],
+                                "action": "aca:actions/info"
+                            }
+                        },
+                        {
+                            "disabled": false,
+                            "id": "aca:action2",
+                            "order": 101,
+                            "title": "Node name",
+                            "icon": "feedback",
+                            "target": {
+                                "type": "folder",
+                                "permissions": ["one", "two"],
+                                "action": "aca:actions/node-name"
+                            }
+                        },
+                        {
+                            "disabled": false,
+                            "id": "aca:action3",
+                            "order": 101,
+                            "title": "Settings",
+                            "icon": "settings_applications",
+                            "target": {
+                                "type": "folder",
+                                "permissions": ["one", "two"],
+                                "action": "aca:actions/settings"
+                            }
+                        },
+                        {
+                            "disabled": false,
+                            "id": "aca:action4",
+                            "order": 101,
+                            "title": "Error",
+                            "icon": "report_problem",
+                            "target": {
+                                "type": "file",
+                                "permissions": ["one", "two"],
+                                "action": "aca:actions/error"
+                            }
+                        }
+                    ]
                 }
             }
-        ]
+        }
     },
     "languages": [
         {

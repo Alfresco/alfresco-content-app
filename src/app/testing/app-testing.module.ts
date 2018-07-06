@@ -62,6 +62,7 @@ import { NodeActionsService } from '../common/services/node-actions.service';
 import { NodePermissionService } from '../common/services/node-permission.service';
 import { BrowsingFilesService } from '../common/services/browsing-files.service';
 import { ContentApiService } from '../services/content-api.service';
+import { ExtensionService } from '../extensions/extension.service';
 
 @NgModule({
     imports: [
@@ -76,7 +77,11 @@ import { ContentApiService } from '../services/content-api.service';
         EffectsModule.forRoot([])
     ],
     declarations: [TranslatePipeMock],
-    exports: [TranslatePipeMock, RouterTestingModule, MaterialModule],
+    exports: [
+        TranslatePipeMock,
+        RouterTestingModule,
+        MaterialModule,
+    ],
     providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
         { provide: TranslationService, useClass: TranslationMock },
@@ -112,7 +117,8 @@ import { ContentApiService } from '../services/content-api.service';
         NodeActionsService,
         NodePermissionService,
         BrowsingFilesService,
-        ContentApiService
+        ContentApiService,
+        ExtensionService
     ]
 })
 export class AppTestingModule {}

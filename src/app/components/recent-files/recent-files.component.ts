@@ -32,6 +32,7 @@ import { PageComponent } from '../page.component';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
+import { ExtensionService } from '../../extensions/extension.service';
 
 @Component({
     templateUrl: './recent-files.component.html'
@@ -40,10 +41,11 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
     constructor(
         store: Store<AppStore>,
+        extensions: ExtensionService,
         private uploadService: UploadService,
         private content: ContentManagementService,
         public permission: NodePermissionService) {
-        super(store);
+        super(store, extensions);
     }
 
     ngOnInit() {

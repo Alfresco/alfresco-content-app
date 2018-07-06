@@ -40,6 +40,8 @@
         "cardview"
     ],
     "dictionaries": [
-        "html"
+        "html",
+        "en-gb",
+        "en_US"
     ]
 }

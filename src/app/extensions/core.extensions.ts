@@ -23,34 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PageComponent } from './page.component';
+import { NgModule } from '@angular/core';
+import { AuthGuardEcm } from '@alfresco/adf-core';
+import { ExtensionService } from './extension.service';
+import { AboutComponent } from '../components/about/about.component';
+import { LayoutComponent } from '../components/layout/layout.component';
 
-class TestClass extends PageComponent {
-    node: any;
-
-    constructor() {
-        super(null, null);
+@NgModule({
+    imports: [],
+    declarations: [],
+    entryComponents: [AboutComponent]
+})
+export class CoreExtensionsModule {
+    constructor(extensions: ExtensionService) {
+        extensions.components['aca:layouts/main'] = LayoutComponent;
+        extensions.components['aca:components/about'] = AboutComponent;
+        extensions.authGuards['aca:auth'] = AuthGuardEcm;
     }
 }
-
-describe('PageComponent', () => {
-    let component: TestClass;
-
-    beforeEach(() => {
-        component = new TestClass();
-    });
-
-    describe('getParentNodeId()', () => {
-        it('returns parent node id when node is set', () => {
-            component.node = { id: 'node-id' };
-
-            expect(component.getParentNodeId()).toBe('node-id');
-        });
-
-        it('returns null when node is not set', () => {
-            component.node = null;
-
-            expect(component.getParentNodeId()).toBe(null);
-        });
-    });
-});

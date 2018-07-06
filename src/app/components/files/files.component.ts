@@ -36,6 +36,7 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExtensionService } from '../../extensions/extension.service';
 
 @Component({
     templateUrl: './files.component.html'
@@ -54,8 +55,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private uploadService: UploadService,
                 private contentManagementService: ContentManagementService,
                 private browsingFilesService: BrowsingFilesService,
-                public permission: NodePermissionService) {
-        super(store);
+                public permission: NodePermissionService,
+                extensions: ExtensionService) {
+        super(store, extensions);
     }
 
     ngOnInit() {

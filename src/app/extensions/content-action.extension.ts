@@ -23,34 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PageComponent } from './page.component';
-
-class TestClass extends PageComponent {
-    node: any;
-
-    constructor() {
-        super(null, null);
-    }
+export interface ContentActionExtension {
+    id: string;
+    order?: number;
+    title: string;
+    icon?: string;
+    disabled?: boolean;
+    target: {
+        type: string;
+        permissions: Array<string>,
+        action: string;
+    };
 }
-
-describe('PageComponent', () => {
-    let component: TestClass;
-
-    beforeEach(() => {
-        component = new TestClass();
-    });
-
-    describe('getParentNodeId()', () => {
-        it('returns parent node id when node is set', () => {
-            component.node = { id: 'node-id' };
-
-            expect(component.getParentNodeId()).toBe('node-id');
-        });
-
-        it('returns null when node is not set', () => {
-            component.node = null;
-
-            expect(component.getParentNodeId()).toBe(null);
-        });
-    });
-});

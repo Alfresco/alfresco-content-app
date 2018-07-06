@@ -31,17 +31,20 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
+import { ExtensionService } from '../../extensions/extension.service';
 
 @Component({
     templateUrl: './shared-files.component.html'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
-
-    constructor(store: Store<AppStore>,
-                private uploadService: UploadService,
-                private content: ContentManagementService,
-                public permission: NodePermissionService) {
-        super(store);
+    constructor(
+        store: Store<AppStore>,
+        extensions: ExtensionService,
+        private uploadService: UploadService,
+        private content: ContentManagementService,
+        public permission: NodePermissionService
+    ) {
+        super(store, extensions);
     }
 
     ngOnInit() {
@@ -52,7 +55,9 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
             this.content.nodesMoved.subscribe(() => this.reload()),
             this.content.nodesRestored.subscribe(() => this.reload()),
             this.content.linksUnshared.subscribe(() => this.reload()),
-            this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
+            this.uploadService.fileUploadError.subscribe(error =>
+                this.onFileUploadedError(error)
+            )
         ]);
     }
 }

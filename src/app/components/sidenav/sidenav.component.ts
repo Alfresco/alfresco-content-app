@@ -26,11 +26,11 @@
 import { Subscription } from 'rxjs/Rx';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { AppConfigService } from '@alfresco/adf-core';
-
-
 import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
+import { ExtensionService } from '../../extensions/extension.service';
+import { NavigationExtension } from '../../extensions/navigation.extension';
+import { CreateExtension } from '../../extensions/create.extension';
 
 @Component({
     selector: 'app-sidenav',
@@ -41,22 +41,25 @@ export class SidenavComponent implements OnInit, OnDestroy {
     @Input() showLabel: boolean;
 
     node: MinimalNodeEntryEntity = null;
-    navigation = [];
+    groups: Array<NavigationExtension[]> = [];
+    createActions: Array<CreateExtension> = [];
 
     private subscriptions: Subscription[] = [];
 
     constructor(
         private browsingFilesService: BrowsingFilesService,
-        private appConfig: AppConfigService,
-        public permission: NodePermissionService
+        public permission: NodePermissionService,
+        private extensions: ExtensionService
     ) {}
 
     ngOnInit() {
-        this.navigation = this.buildMenu();
+        this.groups = this.extensions.getNavigationGroups();
+        this.createActions = this.extensions.createActions;
 
         this.subscriptions.concat([
-            this.browsingFilesService.onChangeParent
-                .subscribe((node: MinimalNodeEntryEntity) => this.node = node)
+            this.browsingFilesService.onChangeParent.subscribe(
+                (node: MinimalNodeEntryEntity) => (this.node = node)
+            )
         ]);
     }
 
@@ -64,10 +67,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach(s => s.unsubscribe());
     }
 
-    private buildMenu() {
-        const schema = this.appConfig.get('navigation');
-        const data = Array.isArray(schema) ? { main: schema } : schema;
-
-        return Object.keys(data).map((key) => data[key]);
+    // this is where each application decides how to treat an action and what to do
+    // the ACA maps actions to the NgRx actions as an example
+    runAction(actionId: string) {
+        this.extensions.runActionById(actionId);
     }
 }

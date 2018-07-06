@@ -35,6 +35,8 @@ import { appSelection, sharedUrl } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
 import { Observable } from 'rxjs/Rx';
+import { ExtensionService } from '../extensions/extension.service';
+import { ContentActionExtension } from '../extensions/content-action.extension';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
@@ -49,6 +51,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     selection: SelectionState;
     displayMode = DisplayMode.List;
     sharedPreviewUrl$: Observable<string>;
+    actions: Array<ContentActionExtension> = [];
 
     protected subscriptions: Subscription[] = [];
 
@@ -56,7 +59,9 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected store: Store<AppStore>) {}
+    constructor(
+        protected store: Store<AppStore>,
+        protected extensions: ExtensionService) {}
 
     ngOnInit() {
         this.sharedPreviewUrl$ = this.store.select(sharedUrl);
@@ -68,6 +73,21 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 this.selection = selection;
                 if (selection.isEmpty) {
                     this.infoDrawerOpened = false;
+                    this.actions = [];
+                } else {
+                    this.actions = this.extensions.contentActions.filter(action => {
+                        if (action.target && action.target.type) {
+                            switch (action.target.type.toLowerCase()) {
+                                case 'folder':
+                                    return selection.folder ? true : false;
+                                case 'file':
+                                    return selection.file ? true : false;
+                                default:
+                                    return false;
+                            }
+                        }
+                        return false;
+                    });
                 }
             });
     }
@@ -143,5 +163,15 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     toggleGalleryView(): void {
         this.displayMode = this.displayMode === DisplayMode.List ? DisplayMode.Gallery : DisplayMode.List;
         this.documentList.display = this.displayMode;
+    }
+
+    // this is where each application decides how to treat an action and what to do
+    // the ACA maps actions to the NgRx actions as an example
+    runAction(actionId: string) {
+        const context = {
+            selection: this.selection
+        };
+
+        this.extensions.runActionById(actionId, context);
     }
 }

@@ -82,6 +82,9 @@ import { DocumentListDirective } from './directives/document-list.directive';
 import { MaterialModule } from './material.module';
 import { ExperimentalDirective } from './directives/experimental.directive';
 import { ContentApiService } from './services/content-api.service';
+import { ExtensionsModule } from './extensions.module';
+import { ExtensionService } from './extensions/extension.service';
+import { CoreExtensionsModule } from './extensions/core.extensions';
 
 @NgModule({
     imports: [
@@ -96,7 +99,9 @@ import { ContentApiService } from './services/content-api.service';
         MaterialModule,
         CoreModule,
         ContentModule,
-        AppStoreModule
+        AppStoreModule,
+        CoreExtensionsModule,
+        ExtensionsModule
     ],
     declarations: [
         AppComponent,
@@ -155,7 +160,8 @@ import { ContentApiService } from './services/content-api.service';
         NodePermissionService,
         ProfileResolver,
         ExperimentalGuard,
-        ContentApiService
+        ContentApiService,
+        ExtensionService
     ],
     entryComponents: [
         NodeVersionsDialogComponent

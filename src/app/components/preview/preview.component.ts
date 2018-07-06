@@ -33,6 +33,8 @@ import { AppStore } from '../../store/states/app.state';
 import { DeleteNodesAction } from '../../store/actions';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExtensionService } from '../../extensions/extension.service';
+import { OpenWithExtension } from '../../extensions/open-with.extension';
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
@@ -55,6 +57,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
     navigateMultiple = false;
 
     selectedEntities: MinimalNodeEntity[] = [];
+    openWith: Array<OpenWithExtension> = [];
 
     constructor(
         private contentApi: ContentApiService,
@@ -63,9 +66,9 @@ export class PreviewComponent extends PageComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         store: Store<AppStore>,
-        public permission: NodePermissionService) {
-
-        super(store);
+        public permission: NodePermissionService,
+        extensions: ExtensionService) {
+        super(store, extensions);
     }
 
     ngOnInit() {
@@ -97,6 +100,8 @@ export class PreviewComponent extends PageComponent implements OnInit {
         this.subscriptions = this.subscriptions.concat([
             this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
         ]);
+
+        this.openWith = this.extensions.openWithActions;
     }
 
     /**
@@ -358,5 +363,11 @@ export class PreviewComponent extends PageComponent implements OnInit {
             acc.push(item.path, item.parameters);
             return acc;
         }, []);
+    }
+
+    // this is where each application decides how to treat an action and what to do
+    // the ACA maps actions to the NgRx actions as an example
+    runAction(actionId: string) {
+        this.extensions.runActionById(actionId);
     }
 }

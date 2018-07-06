@@ -34,11 +34,21 @@ import {
     NAVIGATE_PARENT_FOLDER,
     NAVIGATE_ROUTE
 } from '../actions';
-import { NavigateToFolder, NAVIGATE_FOLDER } from '../actions/router.actions';
+import { NavigateToFolder, NAVIGATE_FOLDER, NavigateUrlAction, NAVIGATE_URL } from '../actions/router.actions';
 
 @Injectable()
 export class RouterEffects {
     constructor(private actions$: Actions, private router: Router) {}
+
+    @Effect({ dispatch: false })
+    navigateUrl$ = this.actions$.pipe(
+        ofType<NavigateUrlAction>(NAVIGATE_URL),
+        map(action => {
+            if (action.payload) {
+                this.router.navigateByUrl(action.payload);
+            }
+        })
+    );
 
     @Effect({ dispatch: false })
     navigateRoute$ = this.actions$.pipe(

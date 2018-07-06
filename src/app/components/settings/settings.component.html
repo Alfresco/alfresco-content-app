@@ -80,12 +80,18 @@
                 Cardview
             </mat-checkbox>
         </div>
-
         <div>
             <mat-checkbox
                 [(ngModel)]="share"
                 (change)="onChangeShareFeature($event)">
                 Share
+            </mat-checkbox>
+        </div>
+        <div>
+            <mat-checkbox
+                [(ngModel)]="extensions"
+                (change)="onChangeExtensionsFeature($event)">
+                Extensions
             </mat-checkbox>
         </div>
     </mat-expansion-panel>
