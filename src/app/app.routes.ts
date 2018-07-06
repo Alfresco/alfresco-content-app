@@ -25,6 +25,7 @@
 
 import { Routes } from '@angular/router';
 import { AuthGuardEcm } from '@alfresco/adf-core';
+import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 
 import { LayoutComponent } from './components/layout/layout.component';
 
@@ -43,6 +44,7 @@ import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
 import { ProfileResolver } from './common/services/profile.resolver';
+import { ExperimentalGuard } from './common/services/experimental-guard.service';
 
 export const APP_ROUTES: Routes = [
     {
@@ -57,6 +59,15 @@ export const APP_ROUTES: Routes = [
         component: SettingsComponent,
         data: {
             title: 'Settings'
+        }
+    },
+    {
+        path: 'preview/s/:id',
+        component: SharedLinkViewComponent,
+        canActivate: [ ExperimentalGuard ],
+        data: {
+            ifExperimentalKey: 'share',
+            title: 'APP.PREVIEW.TITLE',
         }
     },
     {

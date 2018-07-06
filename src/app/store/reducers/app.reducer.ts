@@ -39,7 +39,9 @@ import {
 } from '../actions';
 import {
     SET_LANGUAGE_PICKER,
-    SetLanguagePickerAction
+    SetLanguagePickerAction,
+    SET_SHARED_URL,
+    SetSharedUrlAction
 } from '../actions/app.actions';
 
 export function appReducer(
@@ -68,6 +70,11 @@ export function appReducer(
             break;
         case SET_LANGUAGE_PICKER:
             newState = updateLanguagePicker(state, <SetLanguagePickerAction>(
+                action
+            ));
+            break;
+        case SET_SHARED_URL:
+            newState = updateSharedUrl(state, <SetSharedUrlAction>(
                 action
             ));
             break;
@@ -105,6 +112,15 @@ function updateAppName(state: AppState, action: SetAppNameAction): AppState {
 function updateLogoPath(state: AppState, action: SetLogoPathAction): AppState {
     const newState = Object.assign({}, state);
     newState.logoPath = action.payload;
+    return newState;
+}
+
+function updateSharedUrl(
+    state: AppState,
+    action: SetSharedUrlAction
+): AppState {
+    const newState = Object.assign({}, state);
+    newState.sharedUrl = action.payload;
     return newState;
 }
 

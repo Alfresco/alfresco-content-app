@@ -53,6 +53,7 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
 import { CustomDlRowComponent } from './components/custom-dl-row/custom-dl-row.component';
+import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { NodeCopyDirective } from './common/directives/node-copy.directive';
 import { NodeDeleteDirective } from './common/directives/node-delete.directive';
 import { NodeMoveDirective } from './common/directives/node-move.directive';
@@ -69,6 +70,7 @@ import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
 import { ProfileResolver } from './common/services/profile.resolver';
+import { ExperimentalGuard } from './common/services/experimental-guard.service';
 
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 import { EditFolderDirective } from './directives/edit-folder.directive';
@@ -128,6 +130,7 @@ import { ContentApiService } from './services/content-api.service';
         SearchComponent,
         SettingsComponent,
         InfoDrawerComponent,
+        SharedLinkViewComponent,
         EditFolderDirective,
         CreateFolderDirective,
         DownloadNodesDirective,
@@ -151,6 +154,7 @@ import { ContentApiService } from './services/content-api.service';
         NodeActionsService,
         NodePermissionService,
         ProfileResolver,
+        ExperimentalGuard,
         ContentApiService
     ],
     entryComponents: [

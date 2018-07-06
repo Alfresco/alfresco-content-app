@@ -30,6 +30,7 @@ import { UserPreferencesService, AppConfigPipe, NodeFavoriteDirective } from '@a
 import { PreviewComponent } from './preview.component';
 import { Observable } from 'rxjs/Rx';
 import { EffectsModule } from '@ngrx/effects';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
@@ -52,7 +53,8 @@ describe('PreviewComponent', () => {
                 declarations: [
                     AppConfigPipe,
                     PreviewComponent,
-                    NodeFavoriteDirective
+                    NodeFavoriteDirective,
+                    ExperimentalDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         });
