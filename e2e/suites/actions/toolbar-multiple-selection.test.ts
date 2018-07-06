@@ -25,7 +25,7 @@
 
 import { browser, protractor } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
+import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS, APP_ROUTES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -384,7 +384,8 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         beforeEach(done => {
-            page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
+            // page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
+            browser.get(APP_ROUTES.SHARED_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(done);
         });
