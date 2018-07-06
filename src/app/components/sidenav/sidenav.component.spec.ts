@@ -30,6 +30,7 @@ import { SidenavComponent } from './sidenav.component';
 import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('SidenavComponent', () => {
     let fixture: ComponentFixture<SidenavComponent>;
@@ -43,7 +44,8 @@ describe('SidenavComponent', () => {
                 EffectsModule.forRoot([NodeEffects])
             ],
             declarations: [
-                SidenavComponent
+                SidenavComponent,
+                ExperimentalDirective
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         })

@@ -159,7 +159,7 @@
                 "viewer": {
                     "open-with": [
                         {
-                            "disabled": true,
+                            "disabled": false,
                             "id": "aca:viewer/action1",
                             "order": 100,
                             "icon": "build",
@@ -171,7 +171,7 @@
                 "content": {
                     "actions": [
                         {
-                            "disabled": true,
+                            "disabled": false,
                             "id": "aca:action1",
                             "order": 100,
                             "title": "Info",
@@ -183,7 +183,7 @@
                             }
                         },
                         {
-                            "disabled": true,
+                            "disabled": false,
                             "id": "aca:action2",
                             "order": 101,
                             "title": "Node name",
@@ -195,7 +195,7 @@
                             }
                         },
                         {
-                            "disabled": true,
+                            "disabled": false,
                             "id": "aca:action3",
                             "order": 101,
                             "title": "Settings",
@@ -207,7 +207,7 @@
                             }
                         },
                         {
-                            "disabled": true,
+                            "disabled": false,
                             "id": "aca:action4",
                             "order": 101,
                             "title": "Error",

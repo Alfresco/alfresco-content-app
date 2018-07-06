@@ -35,7 +35,7 @@
         (navigateBefore)="onNavigateBefore()"
         (navigateNext)="onNavigateNext()">
 
-        <adf-viewer-open-with *ngIf="openWith.length">
+        <adf-viewer-open-with *ifExperimental="'extensions'">
             <button *ngFor="let entry of openWith"
                 mat-menu-item
                 (click)="runAction(entry.action)">
