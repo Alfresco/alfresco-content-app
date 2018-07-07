@@ -47,7 +47,8 @@ import { ContentManagementService } from '../../common/services/content-manageme
 import { Observable } from 'rxjs/Rx';
 import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
-import { currentFolder } from '../selectors/app.selectors';
+import { currentFolder, appSelection } from '../selectors/app.selectors';
+import { EditFolderAction, EDIT_FOLDER } from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
@@ -99,6 +100,25 @@ export class NodeEffects {
                     .subscribe(node => {
                         if (node && node.id) {
                             this.contentManagementService.createFolder(node.id);
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    editFolder$ = this.actions$.pipe(
+        ofType<EditFolderAction>(EDIT_FOLDER),
+        map(action => {
+            if (action.payload) {
+                this.contentManagementService.editFolder(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.folder) {
+                            this.contentManagementService.editFolder(selection.folder);
                         }
                     });
             }

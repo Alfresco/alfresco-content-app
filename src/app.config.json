@@ -60,6 +60,12 @@
                     "payload": null
                 },
                 {
+                    "id": "aca:actions/edit-folder",
+                    "type": "EDIT_FOLDER",
+                    "payload": null
+                },
+
+                {
                     "id": "aca:actions/info",
                     "type": "SNACKBAR_INFO",
                     "payload": "I'm a nice little popup raised by extension."
@@ -196,16 +202,17 @@
                         },
                         {
                             "disabled": false,
-                            "id": "aca:action2",
-                            "order": 101,
-                            "title": "Node name",
-                            "icon": "feedback",
+                            "id": "aca:toolbar/edit-folder",
+                            "order": 20,
+                            "title": "APP.ACTIONS.EDIT",
+                            "icon": "create",
                             "target": {
                                 "types": ["folder"],
-                                "permissions": [],
-                                "action": "aca:actions/node-name"
+                                "permissions": ["update"],
+                                "action": "aca:actions/edit-folder"
                             }
                         },
+
                         {
                             "disabled": false,
                             "id": "aca:action3",

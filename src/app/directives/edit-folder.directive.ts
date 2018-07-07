@@ -24,59 +24,24 @@
  */
 
 import { Directive, Input, HostListener } from '@angular/core';
-import { MinimalNodeEntryEntity, MinimalNodeEntity } from 'alfresco-js-api';
-import { MatDialog, MatDialogConfig } from '@angular/material';
-import { FolderDialogComponent } from '@alfresco/adf-content-services';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states/app.state';
-import { SnackbarErrorAction } from '../store/actions';
-import { ContentManagementService } from '../common/services/content-management.service';
+import { AppStore } from '../store/states';
+import { EditFolderAction } from '../store/actions';
 
 @Directive({
     selector: '[acaEditFolder]'
 })
 export class EditFolderDirective {
-
     /** Folder node to edit. */
     // tslint:disable-next-line:no-input-rename
-    @Input('acaEditFolder')
-    folder: MinimalNodeEntity;
+    @Input('acaEditFolder') folder: MinimalNodeEntity;
 
-    @HostListener('click', [ '$event' ])
+    @HostListener('click', ['$event'])
     onClick(event) {
         event.preventDefault();
-
-        if (this.folder) {
-            this.openDialog();
-        }
+        this.store.dispatch(new EditFolderAction(this.folder));
     }
 
-    constructor(
-        private store: Store<AppStore>,
-        private dialogRef: MatDialog,
-        private content: ContentManagementService
-    ) {}
-
-    private get dialogConfig(): MatDialogConfig {
-        return {
-            data: {
-                folder: this.folder.entry
-            },
-            width: '400px'
-        };
-    }
-
-    private openDialog(): void {
-        const dialog = this.dialogRef.open(FolderDialogComponent, this.dialogConfig);
-
-        dialog.componentInstance.error.subscribe(message => {
-            this.store.dispatch(new SnackbarErrorAction(message));
-        });
-
-        dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
-            if (node) {
-                this.content.folderEdited.next(node);
-            }
-        });
-    }
+    constructor(private store: Store<AppStore>) {}
 }

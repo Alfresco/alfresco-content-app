@@ -30,6 +30,7 @@ import { FolderDialogComponent } from '@alfresco/adf-content-services';
 import { SnackbarErrorAction } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Injectable()
 export class ContentManagementService {
@@ -61,6 +62,29 @@ export class ContentManagementService {
         dialogInstance.afterClosed().subscribe(node => {
             if (node) {
                 this.folderCreated.next(node);
+            }
+        });
+    }
+
+    editFolder(folder: MinimalNodeEntity) {
+        if (!folder) {
+            return;
+        }
+
+        const dialog = this.dialogRef.open(FolderDialogComponent, {
+            data: {
+                folder: folder.entry
+            },
+            width: '400px'
+        });
+
+        dialog.componentInstance.error.subscribe(message => {
+            this.store.dispatch(new SnackbarErrorAction(message));
+        });
+
+        dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
+            if (node) {
+                this.folderEdited.next(node);
             }
         });
     }
