@@ -27,9 +27,9 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
 
 import { SearchInputComponent } from './search-input.component';
-import { AppTestingModule } from '../../testing/app-testing.module';
+import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import { ViewNodeAction, VIEW_NODE, NAVIGATE_FOLDER, NavigateToFolder } from '../../store/actions';
+import { ViewNodeAction, VIEW_NODE, NAVIGATE_FOLDER, NavigateToFolder } from '../../../store/actions';
 import { map } from 'rxjs/operators';
 
 describe('SearchInputComponent', () => {

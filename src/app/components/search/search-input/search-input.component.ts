@@ -31,8 +31,8 @@ import {
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { SearchByTermAction, ViewNodeAction, NavigateToFolder } from '../../store/actions';
+import { AppStore } from '../../../store/states/app.state';
+import { SearchByTermAction, ViewNodeAction, NavigateToFolder } from '../../../store/actions';
 
 @Component({
     selector: 'aca-search-input',

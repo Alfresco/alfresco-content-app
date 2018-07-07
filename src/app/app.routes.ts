@@ -40,7 +40,7 @@ import { AboutComponent } from './components/about/about.component';
 import { LoginComponent } from './components/login/login.component';
 import { PreviewComponent } from './components/preview/preview.component';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
-import { SearchComponent } from './components/search/search.component';
+import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
 import { ProfileResolver } from './common/services/profile.resolver';
@@ -243,7 +243,7 @@ export const APP_ROUTES: Routes = [
                 children: [
                     {
                         path: '',
-                        component: SearchComponent,
+                        component: SearchResultsComponent,
                         data: {
                             title: 'APP.BROWSE.SEARCH.TITLE'
                         }
