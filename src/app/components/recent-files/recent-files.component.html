@@ -13,6 +13,7 @@
             </button>
 
             <ng-container *ifExperimental="'extensions'">
+                <adf-toolbar-divider></adf-toolbar-divider>
                 <button *ngFor="let entry of actions"
                     mat-icon-button
                     color="primary"
@@ -20,6 +21,7 @@
                     (click)="runAction(entry.target.action)">
                     <mat-icon>{{ entry.icon }}</mat-icon>
                 </button>
+                <adf-toolbar-divider></adf-toolbar-divider>
             </ng-container>
 
             <ng-container *ngIf="!selection.isEmpty">

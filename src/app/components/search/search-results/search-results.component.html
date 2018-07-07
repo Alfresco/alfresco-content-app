@@ -2,8 +2,9 @@
     <div class="inner-layout__header">
         <adf-breadcrumb root="APP.BROWSE.SEARCH.TITLE">
         </adf-breadcrumb>
-        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
+        <adf-toolbar class="inline">
             <ng-container *ifExperimental="'extensions'">
+                <adf-toolbar-divider></adf-toolbar-divider>
                 <button *ngFor="let entry of actions"
                     mat-icon-button
                     color="primary"
@@ -11,64 +12,68 @@
                     (click)="runAction(entry.target.action)">
                     <mat-icon>{{ entry.icon }}</mat-icon>
                 </button>
+                <adf-toolbar-divider></adf-toolbar-divider>
             </ng-container>
-            <button
-                color="primary"
-                mat-icon-button
-                *ngIf="selection.file"
-                title="{{ 'APP.ACTIONS.VIEW' | translate }}"
-                (click)="showPreview(selection.file)">
-                <mat-icon>open_in_browser</mat-icon>
-            </button>
 
-            <button
-                color="primary"
-                mat-icon-button
-                title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                [acaDownloadNodes]="selection.nodes">
-                <mat-icon>get_app</mat-icon>
-            </button>
-
-            <button mat-icon-button
-                [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
-                (click)="toggleSidebar()">
-                <mat-icon>info_outline</mat-icon>
-            </button>
-
-            <button
-                color="primary"
-                mat-icon-button
-                title="{{ 'APP.ACTIONS.MORE' | translate }}"
-                [matMenuTriggerFor]="actionsMenu">
-                <mat-icon>more_vert</mat-icon>
-            </button>
-
-            <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
+            <ng-container *ngIf="!selection.isEmpty">
                 <button
-                    mat-menu-item
-                    #favorites="adfFavorite"
-                    [adf-node-favorite]="selection.nodes">
-                    <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
-                    <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
-                    <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
-                </button>
-
-                <button
-                    mat-menu-item
-                    [acaCopyNode]="selection.nodes">
-                    <mat-icon>content_copy</mat-icon>
-                    <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
-                </button>
-
-                <button
-                    mat-menu-item
+                    color="primary"
+                    mat-icon-button
                     *ngIf="selection.file"
-                    [acaNodeVersions]="selection.file">
-                    <mat-icon>history</mat-icon>
-                    <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
+                    title="{{ 'APP.ACTIONS.VIEW' | translate }}"
+                    (click)="showPreview(selection.file)">
+                    <mat-icon>open_in_browser</mat-icon>
                 </button>
-            </mat-menu>
+
+                <button
+                    color="primary"
+                    mat-icon-button
+                    title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
+                    [acaDownloadNodes]="selection.nodes">
+                    <mat-icon>get_app</mat-icon>
+                </button>
+
+                <button mat-icon-button
+                    [color]="infoDrawerOpened ? 'accent' : 'primary'"
+                    title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
+                    (click)="toggleSidebar()">
+                    <mat-icon>info_outline</mat-icon>
+                </button>
+
+                <button
+                    color="primary"
+                    mat-icon-button
+                    title="{{ 'APP.ACTIONS.MORE' | translate }}"
+                    [matMenuTriggerFor]="actionsMenu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
+                    <button
+                        mat-menu-item
+                        #favorites="adfFavorite"
+                        [adf-node-favorite]="selection.nodes">
+                        <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
+                        <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
+                        <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
+                    </button>
+
+                    <button
+                        mat-menu-item
+                        [acaCopyNode]="selection.nodes">
+                        <mat-icon>content_copy</mat-icon>
+                        <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
+                    </button>
+
+                    <button
+                        mat-menu-item
+                        *ngIf="selection.file"
+                        [acaNodeVersions]="selection.file">
+                        <mat-icon>history</mat-icon>
+                        <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
+                    </button>
+                </mat-menu>
+            </ng-container>
         </adf-toolbar>
     </div>
 
