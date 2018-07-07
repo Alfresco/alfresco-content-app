@@ -17,7 +17,7 @@
                 <button
                     mat-menu-item
                     [disabled]="!permission.check(node, ['create'])"
-                    [acaCreateFolder]="node?.id"
+                    (click)="createNewFolder()"
                     [attr.title]="
                         ( permission.check(node, ['create'])
                             ? 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER'

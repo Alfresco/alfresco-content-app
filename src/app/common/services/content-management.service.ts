@@ -25,6 +25,11 @@
 
 import { Subject } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { FolderDialogComponent } from '@alfresco/adf-content-services';
+import { SnackbarErrorAction } from '../../store/actions';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states';
 
 @Injectable()
 export class ContentManagementService {
@@ -36,4 +41,27 @@ export class ContentManagementService {
     folderCreated = new Subject<any>();
     siteDeleted = new Subject<string>();
     linksUnshared = new Subject<any>();
+
+    constructor(private store: Store<AppStore>, private dialogRef: MatDialog) {}
+
+    createFolder(parentNodeId: string) {
+        const dialogInstance = this.dialogRef.open(FolderDialogComponent, {
+            data: {
+                parentNodeId: parentNodeId,
+                createTitle: undefined,
+                nodeType: 'cm:folder'
+            },
+            width: '400px'
+        });
+
+        dialogInstance.componentInstance.error.subscribe(message => {
+            this.store.dispatch(new SnackbarErrorAction(message));
+        });
+
+        dialogInstance.afterClosed().subscribe(node => {
+            if (node) {
+                this.folderCreated.next(node);
+            }
+        });
+    }
 }

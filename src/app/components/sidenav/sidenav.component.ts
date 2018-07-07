@@ -31,6 +31,9 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 import { ExtensionService } from '../../extensions/extension.service';
 import { NavigationExtension } from '../../extensions/navigation.extension';
 import { CreateExtension } from '../../extensions/create.extension';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states';
+import { CreateFolderAction } from '../../store/actions';
 
 @Component({
     selector: 'app-sidenav',
@@ -47,6 +50,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     constructor(
+        private store: Store<AppStore>,
         private browsingFilesService: BrowsingFilesService,
         public permission: NodePermissionService,
         private extensions: ExtensionService
@@ -65,6 +69,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subscriptions.forEach(s => s.unsubscribe());
+    }
+
+    createNewFolder() {
+        if (this.node && this.node.id) {
+            this.store.dispatch(new CreateFolderAction(this.node.id));
+        }
     }
 
     // this is where each application decides how to treat an action and what to do

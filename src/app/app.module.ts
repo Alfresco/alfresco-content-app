@@ -72,7 +72,6 @@ import { ExperimentalGuard } from './common/services/experimental-guard.service'
 
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 import { EditFolderDirective } from './directives/edit-folder.directive';
-import { CreateFolderDirective } from './directives/create-folder.directive';
 import { DownloadNodesDirective } from './directives/download-nodes.directive';
 import { AppStoreModule } from './store/app-store.module';
 import { PaginationDirective } from './directives/pagination.directive';
@@ -136,7 +135,6 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
         InfoDrawerComponent,
         SharedLinkViewComponent,
         EditFolderDirective,
-        CreateFolderDirective,
         DownloadNodesDirective,
         PaginationDirective,
         DocumentListDirective,

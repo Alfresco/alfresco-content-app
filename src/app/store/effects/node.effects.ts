@@ -39,7 +39,9 @@ import {
     SnackbarUserAction,
     SnackbarAction,
     UndoDeleteNodesAction,
-    UNDO_DELETE_NODES
+    UNDO_DELETE_NODES,
+    CreateFolderAction,
+    CREATE_FOLDER
 } from '../actions';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { Observable } from 'rxjs/Rx';
@@ -83,6 +85,14 @@ export class NodeEffects {
         })
     );
 
+    @Effect({ dispatch: false })
+    createFolder$ = this.actions$.pipe(
+        ofType<CreateFolderAction>(CREATE_FOLDER),
+        map(action => {
+            this.contentManagementService.createFolder(action.payload);
+        })
+    );
+
     private deleteNodes(items: NodeInfo[]): void {
         const batch: Observable<DeletedNodeInfo>[] = [];
 
@@ -113,7 +123,8 @@ export class NodeEffects {
     private deleteNode(node: NodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = node;
 
-        return this.contentApi.deleteNode(id)
+        return this.contentApi
+            .deleteNode(id)
             .map(() => {
                 return {
                     id,
@@ -206,7 +217,8 @@ export class NodeEffects {
     private undoDeleteNode(item: DeletedNodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = item;
 
-        return this.contentApi.restoreNode(id)
+        return this.contentApi
+            .restoreNode(id)
             .map(() => {
                 return {
                     id,
@@ -263,7 +275,8 @@ export class NodeEffects {
     private purgeDeletedNode(node: NodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = node;
 
-        return this.contentApi.purgeDeletedNode(id)
+        return this.contentApi
+            .purgeDeletedNode(id)
             .map(() => ({
                 status: 1,
                 id,

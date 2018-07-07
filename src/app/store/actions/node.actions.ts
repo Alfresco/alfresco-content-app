@@ -32,6 +32,7 @@ export const UNDO_DELETE_NODES = 'UNDO_DELETE_NODES';
 export const RESTORE_DELETED_NODES = 'RESTORE_DELETED_NODES';
 export const PURGE_DELETED_NODES = 'PURGE_DELETED_NODES';
 export const DOWNLOAD_NODES = 'DOWNLOAD_NODES';
+export const CREATE_FOLDER = 'CREATE_FOLDER';
 
 export class SetSelectedNodesAction implements Action {
     readonly type = SET_SELECTED_NODES;
@@ -61,4 +62,9 @@ export class PurgeDeletedNodesAction implements Action {
 export class DownloadNodesAction implements Action {
     readonly type = DOWNLOAD_NODES;
     constructor(public payload: NodeInfo[] = []) {}
+}
+
+export class CreateFolderAction implements Action {
+    readonly type = CREATE_FOLDER;
+    constructor(public payload: string) {}
 }
