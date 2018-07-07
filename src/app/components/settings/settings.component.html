@@ -53,7 +53,7 @@
         </mat-checkbox>
     </mat-expansion-panel>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="(profile$ | async)?.isAdmin">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 {{ 'APP.SETTINGS.EXPERIMENTAL-FEATURES' | translate }}

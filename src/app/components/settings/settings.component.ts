@@ -28,8 +28,8 @@ import { AppConfigService, StorageService, SettingsService } from '@alfresco/adf
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states';
-import { appLanguagePicker, selectHeaderColor, selectAppName } from '../../store/selectors/app.selectors';
+import { AppStore, ProfileState } from '../../store/states';
+import { appLanguagePicker, selectHeaderColor, selectAppName, selectUser } from '../../store/selectors/app.selectors';
 import { MatCheckboxChange } from '@angular/material';
 import { SetLanguagePickerAction } from '../../store/actions';
 
@@ -45,6 +45,7 @@ export class SettingsComponent implements OnInit {
 
     form: FormGroup;
 
+    profile$: Observable<ProfileState>;
     appName$: Observable<string>;
     headerColor$: Observable<string>;
     languagePicker$: Observable<boolean>;
@@ -60,6 +61,7 @@ export class SettingsComponent implements OnInit {
         private settingsService: SettingsService,
         private storage: StorageService,
         private fb: FormBuilder) {
+            this.profile$ = store.select(selectUser);
             this.appName$ = store.select(selectAppName);
             this.languagePicker$ = store.select(appLanguagePicker);
             this.headerColor$ = store.select(selectHeaderColor);
