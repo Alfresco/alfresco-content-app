@@ -49,11 +49,7 @@ export class SettingsComponent implements OnInit {
     appName$: Observable<string>;
     headerColor$: Observable<string>;
     languagePicker$: Observable<boolean>;
-    libraries: boolean;
-    comments: boolean;
-    cardview: boolean;
-    share: boolean;
-    extensions: boolean;
+    experimental: Array<{ key: string, value: boolean }> = [];
 
     constructor(
         private store: Store<AppStore>,
@@ -78,20 +74,14 @@ export class SettingsComponent implements OnInit {
 
         this.reset();
 
-        const libraries = this.appConfig.get('experimental.libraries');
-        this.libraries = (libraries === true || libraries === 'true');
-
-        const comments = this.appConfig.get('experimental.comments');
-        this.comments = (comments === true || comments === 'true');
-
-        const cardview = this.appConfig.get('experimental.cardview');
-        this.cardview = (cardview === true || cardview === 'true');
-
-        const share = this.appConfig.get('experimental.share');
-        this.share = (share === true || share === 'true');
-
-        const extensions = this.appConfig.get('experimental.extensions');
-        this.extensions = (extensions === true || extensions === 'true');
+        const settings = this.appConfig.get('experimental');
+        this.experimental = Object.keys(settings).map(key => {
+            const value = this.appConfig.get(`experimental.${key}`);
+            return {
+                key,
+                value: (value === true || value === 'true')
+            };
+        });
     }
 
     apply(model: any, isValid: boolean) {
@@ -112,23 +102,7 @@ export class SettingsComponent implements OnInit {
         this.store.dispatch(new SetLanguagePickerAction(event.checked));
     }
 
-    onChangeLibrariesFeature(event: MatCheckboxChange) {
-        this.storage.setItem('experimental.libraries', event.checked.toString());
-    }
-
-    onChangeCommentsFeature(event: MatCheckboxChange) {
-        this.storage.setItem('experimental.comments', event.checked.toString());
-    }
-
-    onChangeCardviewFeature(event: MatCheckboxChange) {
-        this.storage.setItem('experimental.cardview', event.checked.toString());
-    }
-
-    onChangeShareFeature(event: MatCheckboxChange) {
-        this.storage.setItem('experimental.share', event.checked.toString());
-    }
-
-    onChangeExtensionsFeature(event: MatCheckboxChange) {
-        this.storage.setItem('experimental.extensions', event.checked.toString());
+    onToggleExperimentalFeature(key: string, event: MatCheckboxChange) {
+        this.storage.setItem(`experimental.${key}`, event.checked.toString());
     }
 }
