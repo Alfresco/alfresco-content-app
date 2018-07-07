@@ -74,7 +74,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 if (selection.isEmpty) {
                     this.infoDrawerOpened = false;
                 }
-                this.actions = this.getSelectedContentActions(selection);
+                this.actions = this.extensions.getSelectedContentActions(selection, this.node);
             });
     }
 
@@ -159,26 +159,5 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         };
 
         this.extensions.runActionById(actionId, context);
-    }
-
-    getSelectedContentActions(selection: SelectionState): Array<ContentActionExtension> {
-        return this.extensions.contentActions.filter(action => {
-            if (action.target) {
-                const types = action.target.types;
-
-                if (!types || types.length === 0) {
-                    return true;
-                }
-
-                if (selection && selection.folder && types.includes('folder')) {
-                    return true;
-                }
-
-                if (selection && selection.file && types.includes('file')) {
-                    return true;
-                }
-            }
-            return false;
-        });
     }
 }

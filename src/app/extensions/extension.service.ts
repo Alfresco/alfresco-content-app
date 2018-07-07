@@ -29,11 +29,12 @@ import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
 import { ContentActionExtension } from './content-action.extension';
 import { OpenWithExtension } from './open-with.extension';
-import { AppStore } from '../store/states';
+import { AppStore, SelectionState } from '../store/states';
 import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
 import { CreateExtension } from './create.extension';
+import { Node } from 'alfresco-js-api';
 
 @Injectable()
 export class ExtensionService {
@@ -175,6 +176,13 @@ export class ExtensionService {
         });
     }
 
+    getSelectedContentActions(selection: SelectionState, parentNode: Node): Array<ContentActionExtension> {
+        return this.contentActions
+            .filter(action => action.target)
+            .filter(action => this.filterByTarget(selection, action))
+            .filter(action => this.filterByPermission(selection, action, parentNode));
+    }
+
     private sortByOrder(
         a: { order?: number | undefined },
         b: { order?: number | undefined }
@@ -182,5 +190,54 @@ export class ExtensionService {
         const left = a.order === undefined ? Number.MAX_SAFE_INTEGER : a.order;
         const right = b.order === undefined ? Number.MAX_SAFE_INTEGER : b.order;
         return left - right;
+    }
+
+    // todo: support multiple selected nodes
+    private filterByTarget(selection: SelectionState, action: ContentActionExtension): boolean {
+        const types = action.target.types;
+
+        if (!types || types.length === 0) {
+            return true;
+        }
+
+        if (selection && selection.folder && types.includes('folder')) {
+            return true;
+        }
+
+        if (selection && selection.file && types.includes('file')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // todo: support multiple selected nodes
+    private filterByPermission(selection: SelectionState, action: ContentActionExtension, parentNode: Node): boolean {
+        const permissions = action.target.permissions;
+
+        if (!permissions || permissions.length === 0) {
+            return true;
+        }
+
+        return permissions.some(permission => {
+            if (permission === 'parent.create' && parentNode) {
+                return this.nodeHasPermissions(parentNode, ['create']);
+            }
+
+            if (selection && selection.first) {
+                return this.nodeHasPermissions(selection.first.entry, permissions);
+            }
+
+            return true;
+        });
+
+        return true;
+    }
+
+    private nodeHasPermissions(node: Node, permissions: string[] = []): boolean {
+        if (node && node.allowableOperations && node.allowableOperations.length > 0) {
+            return permissions.some(permission => node.allowableOperations.includes(permission));
+        }
+        return false;
     }
 }

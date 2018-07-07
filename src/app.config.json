@@ -186,7 +186,7 @@
                             "icon": "create_new_folder",
                             "target": {
                                 "types": [],
-                                "permissions": ["create"],
+                                "permissions": ["parent.create"],
                                 "action": "aca:actions/create-folder"
                             }
                         },
@@ -198,7 +198,7 @@
                             "icon": "feedback",
                             "target": {
                                 "types": ["folder"],
-                                "permissions": ["one", "two"],
+                                "permissions": [],
                                 "action": "aca:actions/node-name"
                             }
                         },
@@ -209,8 +209,8 @@
                             "title": "Settings",
                             "icon": "settings_applications",
                             "target": {
-                                "types": ["folder"],
-                                "permissions": ["one", "two"],
+                                "types": [],
+                                "permissions": [],
                                 "action": "aca:actions/settings"
                             }
                         },
@@ -222,7 +222,7 @@
                             "icon": "report_problem",
                             "target": {
                                 "types": ["file"],
-                                "permissions": ["one", "two"],
+                                "permissions": ["update", "delete"],
                                 "action": "aca:actions/error"
                             }
                         }
