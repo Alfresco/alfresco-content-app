@@ -84,7 +84,7 @@
     "selenium-webdriver": "4.0.0-alpha.1",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.7.2",
+    "typescript": "^2.9.2",
     "wait-on": "2.1.0"
   }
 }
