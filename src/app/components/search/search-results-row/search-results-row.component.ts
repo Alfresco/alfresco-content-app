@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ViewNodeAction } from '../../../store/actions/viewer.actions';
 import { Store } from '@ngrx/store';
@@ -32,7 +32,10 @@ import { AppStore } from '../../../store/states/app.state';
 @Component({
     selector: 'aca-search-results-row',
     templateUrl: './search-results-row.component.html',
-    styleUrls: ['./search-results-row.component.scss']
+    styleUrls: ['./search-results-row.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit {
     private node: MinimalNodeEntryEntity;
