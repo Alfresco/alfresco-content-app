@@ -61,7 +61,6 @@ import { NodePermanentDeleteDirective } from './common/directives/node-permanent
 import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
 import { NodeVersionsDirective } from './common/directives/node-versions.directive';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
-import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
 import { NodePermissionService } from './common/services/node-permission.service';
@@ -150,7 +149,6 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
                 source: 'assets'
             }
         },
-        BrowsingFilesService,
         ContentManagementService,
         NodeActionsService,
         NodePermissionService,

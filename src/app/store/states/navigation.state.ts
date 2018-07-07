@@ -23,12 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subject } from 'rxjs/Rx';
-import { Injectable } from '@angular/core';
+import { Node } from 'alfresco-js-api';
 
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-
-@Injectable()
-export class BrowsingFilesService {
-    onChangeParent = new Subject<MinimalNodeEntryEntity>();
+export interface NavigationState {
+    currentFolder?: Node;
 }

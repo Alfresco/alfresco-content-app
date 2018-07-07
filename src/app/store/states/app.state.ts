@@ -25,6 +25,7 @@
 
 import { SelectionState } from './selection.state';
 import { ProfileState } from './profile.state';
+import { NavigationState } from './navigation.state';
 
 export interface AppState {
     appName: string;
@@ -34,6 +35,7 @@ export interface AppState {
     sharedUrl: string;
     selection: SelectionState;
     user: ProfileState;
+    navigation: NavigationState;
 }
 
 export const INITIAL_APP_STATE: AppState = {
@@ -52,6 +54,9 @@ export const INITIAL_APP_STATE: AppState = {
         nodes: [],
         isEmpty: true,
         count: 0
+    },
+    navigation: {
+        currentFolder: null
     }
 };
 

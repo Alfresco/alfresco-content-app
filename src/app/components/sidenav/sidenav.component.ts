@@ -23,10 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subscription } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Rx';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { BrowsingFilesService } from '../../common/services/browsing-files.service';
+import { Node } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { NavigationExtension } from '../../extensions/navigation.extension';
@@ -34,6 +33,8 @@ import { CreateExtension } from '../../extensions/create.extension';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import { CreateFolderAction } from '../../store/actions';
+import { currentFolder } from '../../store/selectors/app.selectors';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-sidenav',
@@ -43,32 +44,34 @@ import { CreateFolderAction } from '../../store/actions';
 export class SidenavComponent implements OnInit, OnDestroy {
     @Input() showLabel: boolean;
 
-    node: MinimalNodeEntryEntity = null;
+    node: Node = null;
     groups: Array<NavigationExtension[]> = [];
     createActions: Array<CreateExtension> = [];
-
-    private subscriptions: Subscription[] = [];
+    canCreateContent = false;
+    onDestroy$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private store: Store<AppStore>,
-        private browsingFilesService: BrowsingFilesService,
-        public permission: NodePermissionService,
+        private permission: NodePermissionService,
         private extensions: ExtensionService
-    ) {}
+    ) {
+    }
 
     ngOnInit() {
         this.groups = this.extensions.getNavigationGroups();
         this.createActions = this.extensions.createActions;
 
-        this.subscriptions.concat([
-            this.browsingFilesService.onChangeParent.subscribe(
-                (node: MinimalNodeEntryEntity) => (this.node = node)
-            )
-        ]);
+        this.store.select(currentFolder)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(node => {
+                this.node = node;
+                this.canCreateContent = this.permission.check(node, ['create']);
+            });
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
     }
 
     createNewFolder() {

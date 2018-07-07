@@ -35,14 +35,14 @@ import {
     SET_SELECTED_NODES,
     SetSelectedNodesAction,
     SET_USER,
-    SetUserAction
-} from '../actions';
-import {
+    SetUserAction,
     SET_LANGUAGE_PICKER,
     SetLanguagePickerAction,
     SET_SHARED_URL,
-    SetSharedUrlAction
-} from '../actions/app.actions';
+    SetSharedUrlAction,
+    SET_CURRENT_FOLDER
+} from '../actions';
+import { SetCurrentFolderAction } from '../actions/app.actions';
 
 export function appReducer(
     state: AppState = INITIAL_APP_STATE,
@@ -74,7 +74,10 @@ export function appReducer(
             ));
             break;
         case SET_SHARED_URL:
-            newState = updateSharedUrl(state, <SetSharedUrlAction>(
+            newState = updateSharedUrl(state, <SetSharedUrlAction>action);
+            break;
+        case SET_CURRENT_FOLDER:
+            newState = updateCurrentFolder(state, <SetCurrentFolderAction>(
                 action
             ));
             break;
@@ -146,6 +149,12 @@ function updateUser(state: AppState, action: SetUserAction): AppState {
         id
     };
 
+    return newState;
+}
+
+function updateCurrentFolder(state: AppState, action: SetCurrentFolderAction) {
+    const newState = Object.assign({}, state);
+    newState.navigation.currentFolder = action.payload;
     return newState;
 }
 
