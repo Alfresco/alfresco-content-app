@@ -73,22 +73,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 this.selection = selection;
                 if (selection.isEmpty) {
                     this.infoDrawerOpened = false;
-                    this.actions = [];
-                } else {
-                    this.actions = this.extensions.contentActions.filter(action => {
-                        if (action.target && action.target.type) {
-                            switch (action.target.type.toLowerCase()) {
-                                case 'folder':
-                                    return selection.folder ? true : false;
-                                case 'file':
-                                    return selection.file ? true : false;
-                                default:
-                                    return false;
-                            }
-                        }
-                        return false;
-                    });
                 }
+                this.actions = this.getSelectedContentActions(selection);
             });
     }
 
@@ -173,5 +159,26 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         };
 
         this.extensions.runActionById(actionId, context);
+    }
+
+    getSelectedContentActions(selection: SelectionState): Array<ContentActionExtension> {
+        return this.extensions.contentActions.filter(action => {
+            if (action.target) {
+                const types = action.target.types;
+
+                if (!types || types.length === 0) {
+                    return true;
+                }
+
+                if (selection && selection.folder && types.includes('folder')) {
+                    return true;
+                }
+
+                if (selection && selection.file && types.includes('file')) {
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 }

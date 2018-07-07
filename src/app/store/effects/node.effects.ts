@@ -47,6 +47,7 @@ import { ContentManagementService } from '../../common/services/content-manageme
 import { Observable } from 'rxjs/Rx';
 import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
+import { currentFolder } from '../selectors/app.selectors';
 
 @Injectable()
 export class NodeEffects {
@@ -89,7 +90,18 @@ export class NodeEffects {
     createFolder$ = this.actions$.pipe(
         ofType<CreateFolderAction>(CREATE_FOLDER),
         map(action => {
-            this.contentManagementService.createFolder(action.payload);
+            if (action.payload) {
+                this.contentManagementService.createFolder(action.payload);
+            } else {
+                this.store
+                    .select(currentFolder)
+                    .take(1)
+                    .subscribe(node => {
+                        if (node && node.id) {
+                            this.contentManagementService.createFolder(node.id);
+                        }
+                    });
+            }
         })
     );
 
