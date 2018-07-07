@@ -66,7 +66,7 @@ import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
 import { NodePermissionService } from './common/services/node-permission.service';
-import { SearchComponent } from './components/search/search.component';
+import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { ProfileResolver } from './common/services/profile.resolver';
 import { ExperimentalGuard } from './common/services/experimental-guard.service';
@@ -131,7 +131,7 @@ import { CoreExtensionsModule } from './extensions/core.extensions';
         NodeUnshareDirective,
         NodeVersionsDirective,
         NodeVersionsDialogComponent,
-        SearchComponent,
+        SearchResultsComponent,
         SettingsComponent,
         InfoDrawerComponent,
         SharedLinkViewComponent,

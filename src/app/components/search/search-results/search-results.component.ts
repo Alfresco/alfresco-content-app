@@ -27,19 +27,19 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
-import { PageComponent } from '../page.component';
+import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { NavigateToFolder } from '../../store/actions';
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppStore } from '../../../store/states/app.state';
+import { NavigateToFolder } from '../../../store/actions';
+import { ExtensionService } from '../../../extensions/extension.service';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
+  selector: 'aca-search-results',
+  templateUrl: './search-results.component.html',
+  styleUrls: ['./search-results.component.scss'],
   providers: [SearchQueryBuilderService]
 })
-export class SearchComponent extends PageComponent implements OnInit {
+export class SearchResultsComponent extends PageComponent implements OnInit {
 
     @ViewChild('search')
     search: AdfSearchComponent;
