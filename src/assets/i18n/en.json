@@ -4,6 +4,7 @@
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
         "SETTINGS": {
+            "TITLE": "Settings",
             "APPLICATION-SETTINGS": "Application Settings",
             "REPOSITORY-SETTINGS": "Repository Settings",
             "EXPERIMENTAL-FEATURES": "Experimental Features",
