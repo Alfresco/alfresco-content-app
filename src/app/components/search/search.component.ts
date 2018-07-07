@@ -69,7 +69,6 @@ export class SearchComponent extends PageComponent implements OnInit {
         super.ngOnInit();
 
         this.sorting = this.getSorting();
-        this.resetSettings();
 
         this.subscriptions.push(
             this.queryBuilder.updated.subscribe(() => {
@@ -95,20 +94,6 @@ export class SearchComponent extends PageComponent implements OnInit {
                 }
             });
         }
-    }
-
-    // TODO: workaround for ADF 2.4.0 bug
-    private resetSettings() {
-        this.queryBuilder.categories
-            .map(category => category.component)
-            .filter(component => component.selector === 'check-list')
-            .map(component => component.settings.options || [])
-            .reduce((acc, value) => acc.concat(value), [])
-            .forEach(value => {
-                if (value.hasOwnProperty('checked')) {
-                    value.checked = false;
-                }
-            });
     }
 
     private formatSearchQuery(userInput: string) {
