@@ -29,12 +29,12 @@ import { Node } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { NavigationExtension } from '../../extensions/navigation.extension';
-import { CreateExtension } from '../../extensions/create.extension';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import { CreateFolderAction } from '../../store/actions';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
+import { ContentActionExtension } from '../../extensions/content-action.extension';
 
 @Component({
     selector: 'app-sidenav',
@@ -46,7 +46,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     node: Node = null;
     groups: Array<NavigationExtension[]> = [];
-    createActions: Array<CreateExtension> = [];
+    createActions: Array<ContentActionExtension> = [];
     canCreateContent = false;
     onDestroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -59,12 +59,12 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.groups = this.extensions.getNavigationGroups();
-        this.createActions = this.extensions.createActions;
 
         this.store.select(currentFolder)
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(node => {
                 this.node = node;
+                this.createActions = this.extensions.getFolderCreateActions(node);
                 this.canCreateContent = this.permission.check(node, ['create']);
             });
     }

@@ -9,7 +9,8 @@
                 <ng-container *ifExperimental="'extensions'">
                     <button *ngFor="let entry of createActions"
                         mat-menu-item
-                        (click)="runAction(entry.action)">
+                        [disabled]="entry.disabled"
+                        (click)="runAction(entry.target.action)">
                         <mat-icon>{{ entry.icon }}</mat-icon>
                         <span>{{ entry.title | translate }}</span>
                     </button>

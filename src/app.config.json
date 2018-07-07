@@ -83,11 +83,15 @@
             "features": {
                 "create": [
                     {
-                        "id": "aca:create/action1",
+                        "disabled": false,
+                        "id": "aca:create/folder",
                         "order": 100,
-                        "icon": "build",
-                        "title": "Error",
-                        "action": "aca:actions/error"
+                        "icon": "create_new_folder",
+                        "title": "ext: Create Folder",
+                        "target": {
+                            "permissions": ["create"],
+                            "action": "aca:actions/create-folder"
+                        }
                     }
                 ],
                 "navigation": {
