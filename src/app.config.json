@@ -22,7 +22,10 @@
         "supportedPageSizes": [25, 50, 100]
     },
     "files": {
-        "excluded": [".DS_Store", "desktop.ini", "Thumbs.db", ".git"]
+        "excluded": [".DS_Store", "desktop.ini", "Thumbs.db", ".git"],
+        "match-options": {
+          "nocase": true
+        }
     },
     "adf-version-manager": {
         "allowComments": true,
