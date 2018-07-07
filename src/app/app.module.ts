@@ -28,7 +28,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, PageTitleService, DebugAppConfigService } from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 
 import { AppComponent } from './app.component';
@@ -68,7 +68,6 @@ import { NodeActionsService } from './common/services/node-actions.service';
 import { NodePermissionService } from './common/services/node-permission.service';
 import { SearchComponent } from './components/search/search.component';
 import { SettingsComponent } from './components/settings/settings.component';
-import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
 import { ProfileResolver } from './common/services/profile.resolver';
 import { ExperimentalGuard } from './common/services/experimental-guard.service';
 
@@ -144,7 +143,6 @@ import { CoreExtensionsModule } from './extensions/core.extensions';
         ExperimentalDirective
     ],
     providers: [
-        { provide: PageTitleService, useClass: AcaPageTitleService },
         { provide: AppConfigService, useClass: DebugAppConfigService },
         {
             provide: TRANSLATION_PROVIDER,
