@@ -47,12 +47,11 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { SidenavViewsManagerDirective } from './components/layout/sidenav-views-manager.directive';
 import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
-import { SearchInputComponent } from './components/search-input/search-input.component';
-import { SearchInputControlComponent } from './components/search-input-control/search-input-control.component';
+import { SearchInputComponent } from './components/search/search-input/search-input.component';
+import { SearchInputControlComponent } from './components/search/search-input-control/search-input-control.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
-import { CustomDlRowComponent } from './components/custom-dl-row/custom-dl-row.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { NodeCopyDirective } from './common/directives/node-copy.directive';
 import { NodeDeleteDirective } from './common/directives/node-delete.directive';
@@ -84,6 +83,7 @@ import { ContentApiService } from './services/content-api.service';
 import { ExtensionsModule } from './extensions.module';
 import { ExtensionService } from './extensions/extension.service';
 import { CoreExtensionsModule } from './extensions/core.extensions';
+import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 
 @NgModule({
     imports: [
@@ -122,7 +122,7 @@ import { CoreExtensionsModule } from './extensions/core.extensions';
         PreviewComponent,
         AboutComponent,
         LocationLinkComponent,
-        CustomDlRowComponent,
+        SearchResultsRowComponent,
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,

@@ -25,27 +25,25 @@
 
 import { Component, Input, OnInit } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { ViewNodeAction } from '../../store/actions/viewer.actions';
+import { ViewNodeAction } from '../../../store/actions/viewer.actions';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
+import { AppStore } from '../../../store/states/app.state';
 
 @Component({
-    selector: 'app-custom-dl-row',
-    templateUrl: './custom-dl-row.component.html',
-    styleUrls: ['./custom-dl-row.component.scss']
+    selector: 'aca-search-results-row',
+    templateUrl: './search-results-row.component.html',
+    styleUrls: ['./search-results-row.component.scss']
 })
-export class CustomDlRowComponent implements OnInit {
+export class SearchResultsRowComponent implements OnInit {
     private node: MinimalNodeEntryEntity;
 
-    @Input()
-    context: any;
+    @Input() context: any;
 
     constructor(private store: Store<AppStore>) {}
 
     ngOnInit() {
         this.node = this.context.row.node.entry;
     }
-
 
     get name() {
         return this.getValue('name');
@@ -88,12 +86,14 @@ export class CustomDlRowComponent implements OnInit {
     }
 
     showPreview() {
-        const { id, name} = this.node;
+        const { id, name } = this.node;
 
-        this.store.dispatch(new ViewNodeAction({
-            id,
-            name
-        }));
+        this.store.dispatch(
+            new ViewNodeAction({
+                id,
+                name
+            })
+        );
     }
 
     private getValue(path) {
@@ -103,6 +103,6 @@ export class CustomDlRowComponent implements OnInit {
             .replace('[', '.')
             .replace(']', '')
             .split('.')
-            .reduce((acc, part) => acc ? acc[part] : null, this.node);
+            .reduce((acc, part) => (acc ? acc[part] : null), this.node);
     }
 }
