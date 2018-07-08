@@ -4,8 +4,8 @@
         <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
             <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
                 <adf-content-metadata-card
-                    [readOnly]="!permission.check(node, ['update'])"
-                    [displayEmpty]="permission.check(node, ['update'])"
+                    [readOnly]="!canUpdatePreview"
+                    [displayEmpty]="canUpdatePreview"
                     [preset]="'custom'"
                     [node]="node">
                 </adf-content-metadata-card>
@@ -74,7 +74,7 @@
 
             <button
                 mat-menu-item
-                *ngIf="permission.check(node, ['delete'])"
+                *ngIf="canDeletePreview"
                 [acaMoveNode]="selectedEntities">
                 <mat-icon>library_books</mat-icon>
                 <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -82,7 +82,7 @@
 
             <button
                 mat-menu-item
-                *ngIf="permission.check(node, ['delete'])"
+                *ngIf="canDeletePreview"
                 (click)="deleteFile()">
                 <mat-icon>delete</mat-icon>
                 <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -90,7 +90,7 @@
 
             <button
                 mat-menu-item
-                *ngIf="permission.check(node, ['update'])"
+                *ngIf="canUpdatePreview"
                 [acaNodeVersions]="node">
                 <mat-icon>history</mat-icon>
                 <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>

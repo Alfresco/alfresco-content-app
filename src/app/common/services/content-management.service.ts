@@ -98,15 +98,19 @@ export class ContentManagementService {
         });
     }
 
+    canDeleteNode(node: MinimalNodeEntity | Node): boolean {
+        return this.permission.check(node, ['delete']);
+    }
+
     canDeleteNodes(nodes: MinimalNodeEntity[]): boolean {
         return this.permission.check(nodes, ['delete']);
     }
 
-    canUpdateNode(node: MinimalNodeEntity): boolean {
+    canUpdateNode(node: MinimalNodeEntity | Node): boolean {
         return this.permission.check(node, ['update']);
     }
 
-    canUploadContent(folderNode: Node): boolean {
+    canUploadContent(folderNode: MinimalNodeEntity | Node): boolean {
         return this.permission.check(folderNode, ['create']);
     }
 

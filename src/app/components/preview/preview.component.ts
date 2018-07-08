@@ -27,7 +27,6 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
 import { UserPreferencesService, ObjectUtils, UploadService } from '@alfresco/adf-core';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { DeleteNodesAction } from '../../store/actions';
@@ -60,6 +59,9 @@ export class PreviewComponent extends PageComponent implements OnInit {
     selectedEntities: MinimalNodeEntity[] = [];
     openWith: Array<OpenWithExtension> = [];
 
+    canDeletePreview = false;
+    canUpdatePreview = false;
+
     constructor(
         private contentApi: ContentApiService,
         private uploadService: UploadService,
@@ -67,7 +69,6 @@ export class PreviewComponent extends PageComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         store: Store<AppStore>,
-        public permission: NodePermissionService,
         extensions: ExtensionService,
         content: ContentManagementService) {
         super(store, extensions, content);
@@ -115,6 +116,8 @@ export class PreviewComponent extends PageComponent implements OnInit {
             try {
                 this.node = await this.contentApi.getNodeInfo(id).toPromise();
                 this.selectedEntities = [{ entry: this.node }];
+                this.canDeletePreview = this.node && this.content.canDeleteNode(this.node);
+                this.canUpdatePreview = this.node && this.content.canUpdateNode(this.node);
 
                 if (this.node && this.node.isFile) {
                     const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
