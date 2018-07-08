@@ -1,39 +1,19 @@
 <ng-container *ngIf="nodeId">
 
-    <ng-template #sidebarTemplate>
-        <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
-            <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
-                <adf-content-metadata-card
-                    [readOnly]="!canUpdateFile"
-                    [displayEmpty]="canUpdateFile"
-                    [preset]="'custom'"
-                    [node]="node">
-                </adf-content-metadata-card>
-            </adf-info-drawer-tab>
-
-            <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
-                <ng-container>
-                    <adf-version-manager
-                        [showComments]="'adf-version-manager.allowComments' | adfAppConfig:true"
-                        [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig:true"
-                        [node]="node">
-                    </adf-version-manager>
-                </ng-container>
-            </adf-info-drawer-tab>
-        </adf-info-drawer>
-    </ng-template>
-
     <adf-viewer
         [fileNodeId]="nodeId"
         [allowNavigate]="navigateMultiple"
         [allowSidebar]="true"
-        [sidebarTemplate]="sidebarTemplate"
         [canNavigateBefore]="previousNodeId"
         [canNavigateNext]="nextNodeId"
         [overlayMode]="true"
         (showViewerChange)="onVisibilityChanged($event)"
         (navigateBefore)="onNavigateBefore()"
         (navigateNext)="onNavigateNext()">
+
+        <adf-viewer-sidebar>
+            <aca-info-drawer [node]="selection.file"></aca-info-drawer>
+        </adf-viewer-sidebar>
 
         <adf-viewer-open-with *ifExperimental="'extensions'">
             <button *ngFor="let entry of openWith"
@@ -91,7 +71,7 @@
             <button
                 mat-menu-item
                 *ngIf="canUpdateFile"
-                [acaNodeVersions]="node">
+                [acaNodeVersions]="selection.file">
                 <mat-icon>history</mat-icon>
                 <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
             </button>
