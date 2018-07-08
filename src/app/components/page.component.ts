@@ -91,7 +91,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         this.store.select(currentFolder)
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(node => {
-                this.canUpload = this.content.canUploadContent(node);
+                this.canUpload = node && this.content.canUploadContent(node);
             });
     }
 
