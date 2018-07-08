@@ -26,10 +26,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
 import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
-import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { DeleteNodesAction } from '../../store/actions';
+import { DeleteNodesAction, SetSelectedNodesAction } from '../../store/actions';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
@@ -44,23 +43,16 @@ import { ContentManagementService } from '../../common/services/content-manageme
 })
 export class PreviewComponent extends PageComponent implements OnInit {
 
-    node: Node;
     previewLocation: string = null;
     routesSkipNavigation = [ 'shared', 'recent-files', 'favorites' ];
     navigateSource: string = null;
     navigationSources = ['favorites', 'libraries', 'personal-files', 'recent-files', 'shared'];
-
     folderId: string = null;
     nodeId: string = null;
     previousNodeId: string;
     nextNodeId: string;
     navigateMultiple = false;
-
-    selectedEntities: MinimalNodeEntity[] = [];
     openWith: Array<OpenWithExtension> = [];
-
-    canDeletePreview = false;
-    canUpdatePreview = false;
 
     constructor(
         private contentApi: ContentApiService,
@@ -74,6 +66,8 @@ export class PreviewComponent extends PageComponent implements OnInit {
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.previewLocation = this.router.url
             .substr(0, this.router.url.indexOf('/', 1))
             .replace(/\//g, '');
@@ -110,9 +104,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
         if (id) {
             try {
                 this.node = await this.contentApi.getNodeInfo(id).toPromise();
-                this.selectedEntities = [{ entry: this.node }];
-                this.canDeletePreview = this.node && this.content.canDeleteNode(this.node);
-                this.canUpdatePreview = this.node && this.content.canUpdateNode(this.node);
+                this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
 
                 if (this.node && this.node.isFile) {
                     const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
@@ -363,11 +355,5 @@ export class PreviewComponent extends PageComponent implements OnInit {
             acc.push(item.path, item.parameters);
             return acc;
         }, []);
-    }
-
-    // this is where each application decides how to treat an action and what to do
-    // the ACA maps actions to the NgRx actions as an example
-    runAction(actionId: string) {
-        this.extensions.runActionById(actionId);
     }
 }

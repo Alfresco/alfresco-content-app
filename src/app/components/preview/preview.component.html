@@ -1,39 +1,19 @@
 <ng-container *ngIf="nodeId">
 
-    <ng-template #sidebarTemplate>
-        <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
-            <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
-                <adf-content-metadata-card
-                    [readOnly]="!canUpdatePreview"
-                    [displayEmpty]="canUpdatePreview"
-                    [preset]="'custom'"
-                    [node]="node">
-                </adf-content-metadata-card>
-            </adf-info-drawer-tab>
-
-            <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
-                <ng-container>
-                    <adf-version-manager
-                        [showComments]="'adf-version-manager.allowComments' | adfAppConfig:true"
-                        [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig:true"
-                        [node]="node">
-                    </adf-version-manager>
-                </ng-container>
-            </adf-info-drawer-tab>
-        </adf-info-drawer>
-    </ng-template>
-
     <adf-viewer
         [fileNodeId]="nodeId"
         [allowNavigate]="navigateMultiple"
         [allowSidebar]="true"
-        [sidebarTemplate]="sidebarTemplate"
         [canNavigateBefore]="previousNodeId"
         [canNavigateNext]="nextNodeId"
         [overlayMode]="true"
         (showViewerChange)="onVisibilityChanged($event)"
         (navigateBefore)="onNavigateBefore()"
         (navigateNext)="onNavigateNext()">
+
+        <adf-viewer-sidebar>
+            <aca-info-drawer [node]="selection.file"></aca-info-drawer>
+        </adf-viewer-sidebar>
 
         <adf-viewer-open-with *ifExperimental="'extensions'">
             <button *ngFor="let entry of openWith"
@@ -49,7 +29,7 @@
             <button
                 mat-menu-item
                 #favorites="adfFavorite"
-                [adf-node-favorite]="selectedEntities">
+                [adf-node-favorite]="selection.nodes">
                 <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
                 <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
                 <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
@@ -59,7 +39,7 @@
                 <button mat-menu-item
                     color="primary"
                     [baseShareUrl]="sharedPreviewUrl$ | async"
-                    [adf-share]="selectedEntities[0]">
+                    [adf-share]="selection.file">
                     <mat-icon>share</mat-icon>
                     <span>{{ 'APP.ACTIONS.SHARE' | translate }}</span>
                 </button>
@@ -67,22 +47,22 @@
 
             <button
                 mat-menu-item
-                [acaCopyNode]="selectedEntities">
+                [acaCopyNode]="selection.nodes">
                 <mat-icon>content_copy</mat-icon>
                 <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
             </button>
 
             <button
                 mat-menu-item
-                *ngIf="canDeletePreview"
-                [acaMoveNode]="selectedEntities">
+                *ngIf="canDelete"
+                [acaMoveNode]="selection.nodes">
                 <mat-icon>library_books</mat-icon>
                 <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
             </button>
 
             <button
                 mat-menu-item
-                *ngIf="canDeletePreview"
+                *ngIf="canDelete"
                 (click)="deleteFile()">
                 <mat-icon>delete</mat-icon>
                 <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -90,8 +70,8 @@
 
             <button
                 mat-menu-item
-                *ngIf="canUpdatePreview"
-                [acaNodeVersions]="node">
+                *ngIf="canUpdateFile"
+                [acaNodeVersions]="selection.file">
                 <mat-icon>history</mat-icon>
                 <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
             </button>

@@ -38,7 +38,7 @@ export const EDIT_FOLDER = 'EDIT_FOLDER';
 
 export class SetSelectedNodesAction implements Action {
     readonly type = SET_SELECTED_NODES;
-    constructor(public payload: any[] = []) {}
+    constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class DeleteNodesAction implements Action {
