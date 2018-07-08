@@ -29,11 +29,11 @@ import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
 import { ContentActionExtension } from './content-action.extension';
 import { OpenWithExtension } from './open-with.extension';
-import { AppStore } from '../store/states';
+import { AppStore, SelectionState } from '../store/states';
 import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
-import { CreateExtension } from './create.extension';
+import { Node } from 'alfresco-js-api';
 
 @Injectable()
 export class ExtensionService {
@@ -42,7 +42,7 @@ export class ExtensionService {
 
     contentActions: Array<ContentActionExtension> = [];
     openWithActions: Array<OpenWithExtension> = [];
-    createActions: Array<CreateExtension> = [];
+    createActions: Array<ContentActionExtension> = [];
 
     authGuards: { [key: string]: Type<{}> } = {};
     components: { [key: string]: Type<{}> } = {};
@@ -70,7 +70,6 @@ export class ExtensionService {
                 'extensions.core.features.content.actions',
                 []
             )
-            .filter(entry => !entry.disabled)
             .sort(this.sortByOrder);
 
         this.openWithActions = this.config
@@ -82,8 +81,10 @@ export class ExtensionService {
             .sort(this.sortByOrder);
 
         this.createActions = this.config
-            .get<Array<CreateExtension>>('extensions.core.features.create', [])
-            .filter(entry => !entry.disabled)
+            .get<Array<ContentActionExtension>>(
+                'extensions.core.features.create',
+                []
+            )
             .sort(this.sortByOrder);
     }
 
@@ -170,9 +171,46 @@ export class ExtensionService {
                         component: this.getComponentById(route.component),
                         data: route.data
                     }
-                ],
+                ]
             };
         });
+    }
+
+    // evaluates create actions for the folder node
+    getFolderCreateActions(folder: Node): Array<ContentActionExtension> {
+        return this.createActions.filter(this.filterOutDisabled).map(action => {
+            if (
+                action.target &&
+                action.target.permissions &&
+                action.target.permissions.length > 0
+            ) {
+                return {
+                    ...action,
+                    disabled: !this.nodeHasPermissions(
+                        folder,
+                        action.target.permissions
+                    ),
+                    target: {
+                        ...action.target
+                    }
+                };
+            }
+            return action;
+        });
+    }
+
+    // evaluates content actions for the selection and parent folder node
+    getSelectedContentActions(
+        selection: SelectionState,
+        parentNode: Node
+    ): Array<ContentActionExtension> {
+        return this.contentActions
+            .filter(this.filterOutDisabled)
+            .filter(action => action.target)
+            .filter(action => this.filterByTarget(selection, action))
+            .filter(action =>
+                this.filterByPermission(selection, action, parentNode)
+            );
     }
 
     private sortByOrder(
@@ -182,5 +220,82 @@ export class ExtensionService {
         const left = a.order === undefined ? Number.MAX_SAFE_INTEGER : a.order;
         const right = b.order === undefined ? Number.MAX_SAFE_INTEGER : b.order;
         return left - right;
+    }
+
+    private filterOutDisabled(entry: { disabled?: boolean }): boolean {
+        return !entry.disabled;
+    }
+
+    // todo: support multiple selected nodes
+    private filterByTarget(
+        selection: SelectionState,
+        action: ContentActionExtension
+    ): boolean {
+        const types = action.target.types;
+
+        if (!types || types.length === 0) {
+            return true;
+        }
+
+        if (selection && selection.folder && types.includes('folder')) {
+            return true;
+        }
+
+        if (selection && selection.file && types.includes('file')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // todo: support multiple selected nodes
+    private filterByPermission(
+        selection: SelectionState,
+        action: ContentActionExtension,
+        parentNode: Node
+    ): boolean {
+        const permissions = action.target.permissions;
+
+        if (!permissions || permissions.length === 0) {
+            return true;
+        }
+
+        return permissions.some(permission => {
+            if (permission.startsWith('parent.')) {
+                if (parentNode) {
+                    const parentQuery = permission.split('.')[1];
+                    // console.log(parentNode.allowableOperations, parentQuery);
+                    return this.nodeHasPermissions(parentNode, [parentQuery]);
+                }
+                return false;
+            }
+
+            if (selection && selection.first) {
+                return this.nodeHasPermissions(
+                    selection.first.entry,
+                    permissions
+                );
+            }
+
+            return true;
+        });
+
+        return true;
+    }
+
+    private nodeHasPermissions(
+        node: Node,
+        permissions: string[] = []
+    ): boolean {
+        if (
+            node &&
+            node.allowableOperations &&
+            node.allowableOperations.length > 0
+        ) {
+            return permissions.some(permission =>
+                node.allowableOperations.includes(permission)
+            );
+        }
+        return false;
     }
 }

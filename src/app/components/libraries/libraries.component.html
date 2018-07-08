@@ -3,29 +3,33 @@
         <adf-breadcrumb root="APP.BROWSE.LIBRARIES.TITLE">
         </adf-breadcrumb>
 
-        <button *ifExperimental="'cardview'"
-            mat-icon-button
-            (click)="toggleGalleryView()">
-            <mat-icon *ngIf="displayMode === 'list'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.CARDVIEW' | translate }}">view_comfy</mat-icon>
-            <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
-        </button>
-        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
-            <ng-container *ifExperimental="'libraries'">
-                <button
-                    color="primary"
-                    mat-icon-button
-                    title="{{ 'APP.ACTIONS.MORE' | translate }}"
-                    [matMenuTriggerFor]="actionsMenu">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
+        <adf-toolbar class="inline">
+            <button *ifExperimental="'cardview'"
+                mat-icon-button
+                color="primary"
+                (click)="toggleGalleryView()">
+                <mat-icon *ngIf="displayMode === 'list'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.CARDVIEW' | translate }}">view_comfy</mat-icon>
+                <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
+            </button>
+
+            <ng-container *ngIf="!selection.isEmpty">
+                <ng-container *ifExperimental="'libraries'">
                     <button
-                        mat-menu-item
-                        (click)="deleteLibrary(selection.first)">
-                        <mat-icon>delete</mat-icon>
-                        <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
+                        color="primary"
+                        mat-icon-button
+                        title="{{ 'APP.ACTIONS.MORE' | translate }}"
+                        [matMenuTriggerFor]="actionsMenu">
+                        <mat-icon>more_vert</mat-icon>
                     </button>
-                </mat-menu>
+                    <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
+                        <button
+                            mat-menu-item
+                            (click)="deleteLibrary(selection.first)">
+                            <mat-icon>delete</mat-icon>
+                            <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
+                        </button>
+                    </mat-menu>
+                </ng-container>
             </ng-container>
         </adf-toolbar>
     </div>

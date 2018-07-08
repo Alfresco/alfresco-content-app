@@ -29,7 +29,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, PathElement, PathElementEntity } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Rx';
-import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
@@ -37,6 +36,7 @@ import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
+import { SetCurrentFolderAction } from '../../store/actions';
 
 @Component({
     templateUrl: './files.component.html'
@@ -54,7 +54,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
                 private contentManagementService: ContentManagementService,
-                private browsingFilesService: BrowsingFilesService,
                 public permission: NodePermissionService,
                 extensions: ExtensionService) {
         super(store, extensions);
@@ -103,7 +102,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         super.ngOnDestroy();
-        this.browsingFilesService.onChangeParent.next(null);
+        this.store.dispatch(new SetCurrentFolderAction(null));
     }
 
     fetchNodes(parentNodeId?: string): Observable<NodePaging> {
@@ -222,7 +221,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         }
 
         this.node = node;
-        this.browsingFilesService.onChangeParent.next(node);
+        this.store.dispatch(new SetCurrentFolderAction(node));
     }
 
     // todo: review this approach once 5.2.3 is out

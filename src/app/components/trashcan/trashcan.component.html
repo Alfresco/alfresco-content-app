@@ -3,14 +3,17 @@
         <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE">
         </adf-breadcrumb>
 
-        <button *ifExperimental="'cardview'"
-            mat-icon-button
-            (click)="toggleGalleryView()">
-            <mat-icon *ngIf="displayMode === 'list'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.CARDVIEW' | translate }}">view_comfy</mat-icon>
-            <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
-        </button>
-        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
+        <adf-toolbar class="inline">
+            <button *ifExperimental="'cardview'"
+                color="primary"
+                mat-icon-button
+                (click)="toggleGalleryView()">
+                <mat-icon *ngIf="displayMode === 'list'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.CARDVIEW' | translate }}">view_comfy</mat-icon>
+                <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
+            </button>
+
             <ng-container *ifExperimental="'extensions'">
+                <adf-toolbar-divider></adf-toolbar-divider>
                 <button *ngFor="let entry of actions"
                     mat-icon-button
                     color="primary"
@@ -18,22 +21,26 @@
                     (click)="runAction(entry.target.action)">
                     <mat-icon>{{ entry.icon }}</mat-icon>
                 </button>
+                <adf-toolbar-divider></adf-toolbar-divider>
             </ng-container>
-            <button
-                color="primary"
-                mat-icon-button
-                [acaPermanentDelete]="selection.nodes"
-                title="{{ 'APP.ACTIONS.DELETE_PERMANENT' | translate }}">
-                <mat-icon>delete_forever</mat-icon>
-            </button>
 
-            <button
-                color="primary"
-                mat-icon-button
-                [acaRestoreNode]="selection.nodes"
-                title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
-                <mat-icon>restore</mat-icon>
-           </button>
+            <ng-container *ngIf="!selection.isEmpty">
+                <button
+                    color="primary"
+                    mat-icon-button
+                    [acaPermanentDelete]="selection.nodes"
+                    title="{{ 'APP.ACTIONS.DELETE_PERMANENT' | translate }}">
+                    <mat-icon>delete_forever</mat-icon>
+                </button>
+
+                <button
+                    color="primary"
+                    mat-icon-button
+                    [acaRestoreNode]="selection.nodes"
+                    title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
+                    <mat-icon>restore</mat-icon>
+                </button>
+            </ng-container>
         </adf-toolbar>
     </div>
 
@@ -97,7 +104,7 @@
                     </data-column>
 
                     <data-column
-                        *ngIf="user.isAdmin"
+                        *ngIf="(user$ | async)?.isAdmin"
                         class="adf-data-table-cell--ellipsis"
                         key="archivedByUser.displayName"
                         title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">

@@ -24,11 +24,14 @@
  */
 
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Rx';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states';
+import { currentFolder } from '../../store/selectors/app.selectors';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-layout',
@@ -38,14 +41,14 @@ import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive'
 export class LayoutComponent implements OnInit, OnDestroy {
     @ViewChild(SidenavViewsManagerDirective) manager: SidenavViewsManagerDirective;
 
+    onDestroy$: Subject<boolean> = new Subject<boolean>();
     expandedSidenav: boolean;
     node: MinimalNodeEntryEntity;
-
-    private subscriptions: Subscription[] = [];
+    canUpload = false;
 
     constructor(
-        private browsingFilesService: BrowsingFilesService,
-        public permission: NodePermissionService) {}
+        protected store: Store<AppStore>,
+        private permission: NodePermissionService) {}
 
     ngOnInit() {
         if (!this.manager.minimizeSidenav) {
@@ -56,12 +59,16 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
         this.manager.run(true);
 
-        this.subscriptions.concat([
-            this.browsingFilesService.onChangeParent.subscribe((node: MinimalNodeEntryEntity) => this.node = node)
-        ]);
+        this.store.select(currentFolder)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(node => {
+                this.node = node;
+                this.canUpload = this.permission.check(node, ['create']);
+            });
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
     }
 }

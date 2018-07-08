@@ -25,6 +25,7 @@
 
 import { Action } from '@ngrx/store';
 import { NodeInfo } from '../models';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
 export const SET_SELECTED_NODES = 'SET_SELECTED_NODES';
 export const DELETE_NODES = 'DELETE_NODES';
@@ -32,6 +33,8 @@ export const UNDO_DELETE_NODES = 'UNDO_DELETE_NODES';
 export const RESTORE_DELETED_NODES = 'RESTORE_DELETED_NODES';
 export const PURGE_DELETED_NODES = 'PURGE_DELETED_NODES';
 export const DOWNLOAD_NODES = 'DOWNLOAD_NODES';
+export const CREATE_FOLDER = 'CREATE_FOLDER';
+export const EDIT_FOLDER = 'EDIT_FOLDER';
 
 export class SetSelectedNodesAction implements Action {
     readonly type = SET_SELECTED_NODES;
@@ -61,4 +64,14 @@ export class PurgeDeletedNodesAction implements Action {
 export class DownloadNodesAction implements Action {
     readonly type = DOWNLOAD_NODES;
     constructor(public payload: NodeInfo[] = []) {}
+}
+
+export class CreateFolderAction implements Action {
+    readonly type = CREATE_FOLDER;
+    constructor(public payload: string) {}
+}
+
+export class EditFolderAction implements Action {
+    readonly type = EDIT_FOLDER;
+    constructor(public payload: MinimalNodeEntity) {}
 }

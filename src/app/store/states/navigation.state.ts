@@ -23,11 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface CreateExtension {
-    id: string;
-    order?: number;
-    title: string;
-    icon?: string;
-    action: string;
-    disabled?: boolean;
+import { Node } from 'alfresco-js-api';
+
+export interface NavigationState {
+    currentFolder?: Node;
 }

@@ -33,7 +33,6 @@ import {
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -48,7 +47,6 @@ describe('FilesComponent', () => {
     let contentManagementService: ContentManagementService;
     let uploadService: UploadService;
     let router: Router;
-    let browsingFilesService: BrowsingFilesService;
     let nodeActionsService: NodeActionsService;
     let contentApi: ContentApiService;
 
@@ -86,7 +84,6 @@ describe('FilesComponent', () => {
         contentManagementService = TestBed.get(ContentManagementService);
         uploadService = TestBed.get(UploadService);
         router = TestBed.get(Router);
-        browsingFilesService = TestBed.get(BrowsingFilesService);
         nodeActionsService = TestBed.get(NodeActionsService);
         contentApi = TestBed.get(ContentApiService);
     });
@@ -144,17 +141,6 @@ describe('FilesComponent', () => {
             fixture.detectChanges();
 
             expect(component.fetchNodes).toHaveBeenCalled();
-        });
-
-        it('emits onChangeParent event', () => {
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
-            spyOn(component, 'fetchNodes').and.returnValue(Observable.of(page));
-            spyOn(browsingFilesService.onChangeParent, 'next').and.callFake((val) => val);
-
-            fixture.detectChanges();
-
-            expect(browsingFilesService.onChangeParent.next)
-                .toHaveBeenCalledWith(node);
         });
 
         it('if should navigate to parent if node is not a folder', () => {

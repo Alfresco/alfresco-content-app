@@ -73,22 +73,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 this.selection = selection;
                 if (selection.isEmpty) {
                     this.infoDrawerOpened = false;
-                    this.actions = [];
-                } else {
-                    this.actions = this.extensions.contentActions.filter(action => {
-                        if (action.target && action.target.type) {
-                            switch (action.target.type.toLowerCase()) {
-                                case 'folder':
-                                    return selection.folder ? true : false;
-                                case 'file':
-                                    return selection.file ? true : false;
-                                default:
-                                    return false;
-                            }
-                        }
-                        return false;
-                    });
                 }
+                this.actions = this.extensions.getSelectedContentActions(selection, this.node);
             });
     }
 

@@ -61,7 +61,6 @@ import { NodePermanentDeleteDirective } from './common/directives/node-permanent
 import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
 import { NodeVersionsDirective } from './common/directives/node-versions.directive';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
-import { BrowsingFilesService } from './common/services/browsing-files.service';
 import { ContentManagementService } from './common/services/content-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
 import { NodePermissionService } from './common/services/node-permission.service';
@@ -72,7 +71,6 @@ import { ExperimentalGuard } from './common/services/experimental-guard.service'
 
 import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
 import { EditFolderDirective } from './directives/edit-folder.directive';
-import { CreateFolderDirective } from './directives/create-folder.directive';
 import { DownloadNodesDirective } from './directives/download-nodes.directive';
 import { AppStoreModule } from './store/app-store.module';
 import { PaginationDirective } from './directives/pagination.directive';
@@ -136,7 +134,6 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
         InfoDrawerComponent,
         SharedLinkViewComponent,
         EditFolderDirective,
-        CreateFolderDirective,
         DownloadNodesDirective,
         PaginationDirective,
         DocumentListDirective,
@@ -152,7 +149,6 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
                 source: 'assets'
             }
         },
-        BrowsingFilesService,
         ContentManagementService,
         NodeActionsService,
         NodePermissionService,

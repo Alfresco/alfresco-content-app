@@ -25,7 +25,6 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { BrowsingFilesService } from '../../common/services/browsing-files.service';
 import { SidenavComponent } from './sidenav.component';
 import { EffectsModule } from '@ngrx/effects';
 import { NodeEffects } from '../../store/effects/node.effects';
@@ -35,7 +34,6 @@ import { ExperimentalDirective } from '../../directives/experimental.directive';
 describe('SidenavComponent', () => {
     let fixture: ComponentFixture<SidenavComponent>;
     let component: SidenavComponent;
-    let browsingService: BrowsingFilesService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -51,19 +49,12 @@ describe('SidenavComponent', () => {
         })
         .compileComponents()
         .then(() => {
-            browsingService = TestBed.get(BrowsingFilesService);
-
             fixture = TestBed.createComponent(SidenavComponent);
             component = fixture.componentInstance;
         });
     }));
 
-    it('should update node on change', () => {
-        fixture.detectChanges();
-        const node: any = { entry: { id: 'someNodeId' } };
-
-        browsingService.onChangeParent.next(<any>node);
-
-        expect(component.node).toBe(node);
+    it('should be created', () => {
+        expect(component).toBeTruthy();
     });
 });

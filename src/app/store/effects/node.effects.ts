@@ -39,12 +39,16 @@ import {
     SnackbarUserAction,
     SnackbarAction,
     UndoDeleteNodesAction,
-    UNDO_DELETE_NODES
+    UNDO_DELETE_NODES,
+    CreateFolderAction,
+    CREATE_FOLDER
 } from '../actions';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { Observable } from 'rxjs/Rx';
 import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
+import { currentFolder, appSelection } from '../selectors/app.selectors';
+import { EditFolderAction, EDIT_FOLDER } from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
@@ -83,6 +87,44 @@ export class NodeEffects {
         })
     );
 
+    @Effect({ dispatch: false })
+    createFolder$ = this.actions$.pipe(
+        ofType<CreateFolderAction>(CREATE_FOLDER),
+        map(action => {
+            if (action.payload) {
+                this.contentManagementService.createFolder(action.payload);
+            } else {
+                this.store
+                    .select(currentFolder)
+                    .take(1)
+                    .subscribe(node => {
+                        if (node && node.id) {
+                            this.contentManagementService.createFolder(node.id);
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    editFolder$ = this.actions$.pipe(
+        ofType<EditFolderAction>(EDIT_FOLDER),
+        map(action => {
+            if (action.payload) {
+                this.contentManagementService.editFolder(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.folder) {
+                            this.contentManagementService.editFolder(selection.folder);
+                        }
+                    });
+            }
+        })
+    );
+
     private deleteNodes(items: NodeInfo[]): void {
         const batch: Observable<DeletedNodeInfo>[] = [];
 
@@ -113,7 +155,8 @@ export class NodeEffects {
     private deleteNode(node: NodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = node;
 
-        return this.contentApi.deleteNode(id)
+        return this.contentApi
+            .deleteNode(id)
             .map(() => {
                 return {
                     id,
@@ -206,7 +249,8 @@ export class NodeEffects {
     private undoDeleteNode(item: DeletedNodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = item;
 
-        return this.contentApi.restoreNode(id)
+        return this.contentApi
+            .restoreNode(id)
             .map(() => {
                 return {
                     id,
@@ -263,7 +307,8 @@ export class NodeEffects {
     private purgeDeletedNode(node: NodeInfo): Observable<DeletedNodeInfo> {
         const { id, name } = node;
 
-        return this.contentApi.purgeDeletedNode(id)
+        return this.contentApi
+            .purgeDeletedNode(id)
             .map(() => ({
                 status: 1,
                 id,

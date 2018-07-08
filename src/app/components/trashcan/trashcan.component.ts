@@ -31,17 +31,19 @@ import { selectUser } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states/app.state';
 import { ProfileState } from '../../store/states/profile.state';
 import { ExtensionService } from '../../extensions/extension.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     templateUrl: './trashcan.component.html'
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
-    user: ProfileState;
+    user$: Observable<ProfileState>;
 
     constructor(private contentManagementService: ContentManagementService,
                 extensions: ExtensionService,
                 store: Store<AppStore>) {
         super(store, extensions);
+        this.user$ = this.store.select(selectUser);
     }
 
     ngOnInit() {
@@ -51,7 +53,6 @@ export class TrashcanComponent extends PageComponent implements OnInit {
             this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
             this.contentManagementService.nodesPurged.subscribe(() => this.reload()),
             this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
-            this.store.select(selectUser).subscribe((user) => this.user = user)
         );
     }
  }

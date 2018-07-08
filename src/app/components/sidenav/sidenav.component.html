@@ -9,17 +9,18 @@
                 <ng-container *ifExperimental="'extensions'">
                     <button *ngFor="let entry of createActions"
                         mat-menu-item
-                        (click)="runAction(entry.action)">
+                        [disabled]="entry.disabled"
+                        (click)="runAction(entry.target.action)">
                         <mat-icon>{{ entry.icon }}</mat-icon>
                         <span>{{ entry.title | translate }}</span>
                     </button>
                 </ng-container>
                 <button
                     mat-menu-item
-                    [disabled]="!permission.check(node, ['create'])"
-                    [acaCreateFolder]="node?.id"
+                    [disabled]="!canCreateContent"
+                    (click)="createNewFolder()"
                     [attr.title]="
-                        ( permission.check(node, ['create'])
+                        ( canCreateContent
                             ? 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER'
                             : 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED'
                         ) | translate">
@@ -29,11 +30,11 @@
 
                 <adf-upload-button
                     [tooltip]="
-                        (permission.check(node, ['create'])
+                        (canCreateContent
                             ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES'
                             : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES_NOT_ALLOWED'
                         ) | translate"
-                    [disabled]="!permission.check(node, ['create'])"
+                    [disabled]="!canCreateContent"
                     [rootFolderId]="node?.id"
                     [multipleFiles]="true"
                     [uploadFolders]="false"
@@ -42,11 +43,11 @@
 
                 <adf-upload-button
                     [tooltip]="
-                        (permission.check(node, ['create'])
+                        (canCreateContent
                             ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS'
                             : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED'
                         ) | translate"
-                    [disabled]="!permission.check(node, ['create'])"
+                    [disabled]="!canCreateContent"
                     [rootFolderId]="node?.id"
                     [multipleFiles]="true"
                     [uploadFolders]="true"
