@@ -82,9 +82,9 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                     this.infoDrawerOpened = false;
                 }
                 this.actions = this.extensions.getSelectedContentActions(selection, this.node);
-                this.canDelete = this.content.canDeleteNodes(selection.nodes);
+                this.canDelete = !this.selection.isEmpty && this.content.canDeleteNodes(selection.nodes);
                 this.canEditFolder = selection.folder && this.content.canUpdateNode(selection.folder);
-                this.canDeleteShared = this.content.canDeleteSharedNodes(selection.nodes);
+                this.canDeleteShared = !this.selection.isEmpty && this.content.canDeleteSharedNodes(selection.nodes);
                 this.canUpdateShared = selection.file && this.content.canUpdateSharedNode(selection.file);
             });
 
