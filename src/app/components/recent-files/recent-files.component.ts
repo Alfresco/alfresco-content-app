@@ -29,7 +29,6 @@ import { UploadService } from '@alfresco/adf-core';
 
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { ExtensionService } from '../../extensions/extension.service';
@@ -43,8 +42,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
         store: Store<AppStore>,
         extensions: ExtensionService,
         private uploadService: UploadService,
-        content: ContentManagementService,
-        public permission: NodePermissionService) {
+        content: ContentManagementService) {
         super(store, extensions, content);
     }
 

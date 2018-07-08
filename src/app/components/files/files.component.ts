@@ -31,7 +31,6 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, PathElement, Pat
 import { Observable } from 'rxjs/Rx';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { NodeActionsService } from '../../common/services/node-actions.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
@@ -54,7 +53,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
                 content: ContentManagementService,
-                public permission: NodePermissionService,
                 extensions: ExtensionService) {
         super(store, extensions, content);
     }

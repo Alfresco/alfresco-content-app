@@ -26,7 +26,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
+import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
@@ -52,7 +52,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     sorting = ['name', 'asc'];
 
     constructor(
-        public permission: NodePermissionService,
         private queryBuilder: SearchQueryBuilderService,
         private route: ActivatedRoute,
         store: Store<AppStore>,

@@ -30,7 +30,7 @@ import { FolderDialogComponent } from '@alfresco/adf-content-services';
 import { SnackbarErrorAction } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, Node } from 'alfresco-js-api';
 import { NodePermissionService } from './node-permission.service';
 
 @Injectable()
@@ -95,5 +95,13 @@ export class ContentManagementService {
 
     canDeleteNodes(nodes: MinimalNodeEntity[]): boolean {
         return this.permission.check(nodes, ['delete']);
+    }
+
+    canUpdateNode(node: MinimalNodeEntity): boolean {
+        return this.permission.check(node, ['update']);
+    }
+
+    canUploadContent(node: Node): boolean {
+        return this.permission.check(node, ['create']);
     }
 }

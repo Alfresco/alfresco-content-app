@@ -31,7 +31,7 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
-import { appSelection, sharedUrl } from '../store/selectors/app.selectors';
+import { appSelection, sharedUrl, currentFolder } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
 import { Observable } from 'rxjs/Rx';
@@ -54,6 +54,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     sharedPreviewUrl$: Observable<string>;
     actions: Array<ContentActionExtension> = [];
     canDelete = false;
+    canEditFolder = false;
+    canUpload = false;
 
     protected subscriptions: Subscription[] = [];
 
@@ -79,7 +81,13 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 }
                 this.actions = this.extensions.getSelectedContentActions(selection, this.node);
                 this.canDelete = this.content.canDeleteNodes(selection.nodes);
-                // this.canDelete = permission.check(selection.nodes, ['delete'])
+                this.canEditFolder = selection.folder && this.content.canUpdateNode(selection.folder);
+            });
+
+        this.store.select(currentFolder)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(node => {
+                this.canUpload = this.content.canUploadContent(node);
             });
     }
 
