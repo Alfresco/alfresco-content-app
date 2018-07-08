@@ -24,19 +24,20 @@
  */
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
-import { DisplayMode, FileUploadErrorEvent } from '@alfresco/adf-core';
+import { DisplayMode } from '@alfresco/adf-core';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
-import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
-import { appSelection, sharedUrl } from '../store/selectors/app.selectors';
+import { ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
+import { appSelection, sharedUrl, currentFolder } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
 import { Observable } from 'rxjs/Rx';
 import { ExtensionService } from '../extensions/extension.service';
 import { ContentActionExtension } from '../extensions/content-action.extension';
+import { ContentManagementService } from '../common/services/content-management.service';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
@@ -52,6 +53,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     displayMode = DisplayMode.List;
     sharedPreviewUrl$: Observable<string>;
     actions: Array<ContentActionExtension> = [];
+    canDelete = false;
+    canEditFolder = false;
+    canUpload = false;
+    canDeleteShared = false;
+    canUpdateShared = false;
 
     protected subscriptions: Subscription[] = [];
 
@@ -61,7 +67,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     constructor(
         protected store: Store<AppStore>,
-        protected extensions: ExtensionService) {}
+        protected extensions: ExtensionService,
+        protected content: ContentManagementService) {}
 
     ngOnInit() {
         this.sharedPreviewUrl$ = this.store.select(sharedUrl);
@@ -75,6 +82,16 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                     this.infoDrawerOpened = false;
                 }
                 this.actions = this.extensions.getSelectedContentActions(selection, this.node);
+                this.canDelete = !this.selection.isEmpty && this.content.canDeleteNodes(selection.nodes);
+                this.canEditFolder = selection.folder && this.content.canUpdateNode(selection.folder);
+                this.canDeleteShared = !this.selection.isEmpty && this.content.canDeleteSharedNodes(selection.nodes);
+                this.canUpdateShared = selection.file && this.content.canUpdateSharedNode(selection.file);
+            });
+
+        this.store.select(currentFolder)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(node => {
+                this.canUpload = node && this.content.canUploadContent(node);
             });
     }
 
@@ -128,22 +145,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             this.store.dispatch(new SetSelectedNodesAction([]));
             this.documentList.reload();
         }
-    }
-
-    onFileUploadedError(error: FileUploadErrorEvent) {
-        let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
-
-        if (error.error.status === 409) {
-           message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
-        }
-
-        if (error.error.status === 500) {
-            message = 'APP.MESSAGES.UPLOAD.ERROR.500';
-         }
-
-        const action = new SnackbarErrorAction(message);
-
-        this.store.dispatch(action);
     }
 
     toggleGalleryView(): void {

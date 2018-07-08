@@ -30,7 +30,12 @@ import { FolderDialogComponent } from '@alfresco/adf-content-services';
 import { SnackbarErrorAction } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import {
+    MinimalNodeEntity,
+    MinimalNodeEntryEntity,
+    Node
+} from 'alfresco-js-api';
+import { NodePermissionService } from './node-permission.service';
 
 @Injectable()
 export class ContentManagementService {
@@ -43,7 +48,11 @@ export class ContentManagementService {
     siteDeleted = new Subject<string>();
     linksUnshared = new Subject<any>();
 
-    constructor(private store: Store<AppStore>, private dialogRef: MatDialog) {}
+    constructor(
+        private store: Store<AppStore>,
+        private permission: NodePermissionService,
+        private dialogRef: MatDialog
+    ) {}
 
     createFolder(parentNodeId: string) {
         const dialogInstance = this.dialogRef.open(FolderDialogComponent, {
@@ -86,6 +95,34 @@ export class ContentManagementService {
             if (node) {
                 this.folderEdited.next(node);
             }
+        });
+    }
+
+    canDeleteNode(node: MinimalNodeEntity | Node): boolean {
+        return this.permission.check(node, ['delete']);
+    }
+
+    canDeleteNodes(nodes: MinimalNodeEntity[]): boolean {
+        return this.permission.check(nodes, ['delete']);
+    }
+
+    canUpdateNode(node: MinimalNodeEntity | Node): boolean {
+        return this.permission.check(node, ['update']);
+    }
+
+    canUploadContent(folderNode: MinimalNodeEntity | Node): boolean {
+        return this.permission.check(folderNode, ['create']);
+    }
+
+    canDeleteSharedNodes(sharedLinks: MinimalNodeEntity[]): boolean {
+        return this.permission.check(sharedLinks, ['delete'], {
+            target: 'allowableOperationsOnTarget'
+        });
+    }
+
+    canUpdateSharedNode(sharedLink: MinimalNodeEntity): boolean {
+        return this.permission.check(sharedLink, ['update'], {
+            target: 'allowableOperationsOnTarget'
         });
     }
 }

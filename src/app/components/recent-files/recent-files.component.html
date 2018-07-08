@@ -88,7 +88,7 @@
 
                     <button
                         mat-menu-item
-                        *ngIf="permission.check(selection.nodes, ['delete'])"
+                        *ngIf="canDelete"
                         [acaMoveNode]="selection.nodes">
                         <mat-icon>library_books</mat-icon>
                         <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -96,7 +96,7 @@
 
                     <button
                         mat-menu-item
-                        *ngIf="permission.check(selection.nodes, ['delete'])"
+                        *ngIf="canDelete"
                         [acaDeleteNode]="selection.nodes">
                         <mat-icon>delete</mat-icon>
                         <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>

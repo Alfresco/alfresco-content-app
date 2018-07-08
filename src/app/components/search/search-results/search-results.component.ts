@@ -26,12 +26,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, NodePermissionService } from '@alfresco/adf-content-services';
+import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
 import { ExtensionService } from '../../../extensions/extension.service';
+import { ContentManagementService } from '../../../common/services/content-management.service';
 
 @Component({
   selector: 'aca-search-results',
@@ -51,13 +52,13 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     sorting = ['name', 'asc'];
 
     constructor(
-        public permission: NodePermissionService,
         private queryBuilder: SearchQueryBuilderService,
         private route: ActivatedRoute,
         store: Store<AppStore>,
-        extensions: ExtensionService
+        extensions: ExtensionService,
+        content: ContentManagementService
     ) {
-        super(store, extensions);
+        super(store, extensions, content);
 
         queryBuilder.paging = {
             skipCount: 0,

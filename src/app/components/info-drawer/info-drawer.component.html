@@ -5,8 +5,8 @@
     <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
         <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
             <adf-content-metadata-card
-                [readOnly]="!canUpdateNode()"
-                [displayEmpty]="canUpdateNode()"
+                [readOnly]="!canUpdateNode"
+                [displayEmpty]="canUpdateNode"
                 [preset]="'custom'"
                 [node]="displayNode">
             </adf-content-metadata-card>
