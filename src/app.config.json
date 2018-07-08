@@ -207,20 +207,8 @@
                         },
                         {
                             "disabled": false,
-                            "id": "aca:toolbar/edit-folder",
-                            "order": 20,
-                            "title": "APP.ACTIONS.EDIT",
-                            "icon": "create",
-                            "target": {
-                                "types": ["folder"],
-                                "permissions": ["update"],
-                                "action": "aca:actions/edit-folder"
-                            }
-                        },
-                        {
-                            "disabled": false,
                             "id": "aca:toolbar/download",
-                            "order": 30,
+                            "order": 20,
                             "title": "APP.ACTIONS.DOWNLOAD",
                             "icon": "get_app",
                             "target": {
@@ -229,6 +217,19 @@
                                 "action": "aca:actions/download"
                             }
                         },
+                        {
+                            "disabled": false,
+                            "id": "aca:toolbar/edit-folder",
+                            "order": 30,
+                            "title": "APP.ACTIONS.EDIT",
+                            "icon": "create",
+                            "target": {
+                                "types": ["folder"],
+                                "permissions": ["update"],
+                                "action": "aca:actions/edit-folder"
+                            }
+                        },
+
 
                         {
                             "disabled": false,
