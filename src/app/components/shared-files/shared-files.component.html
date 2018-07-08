@@ -77,7 +77,7 @@
 
                     <button
                         mat-menu-item
-                        *ngIf="permission.check(selection.nodes, ['delete'], { target: 'allowableOperationsOnTarget' })"
+                        *ngIf="canDeleteShared"
                         [acaMoveNode]="selection.nodes">
                         <mat-icon>library_books</mat-icon>
                         <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
@@ -85,7 +85,7 @@
 
                     <button
                         mat-menu-item
-                        *ngIf="permission.check(selection.nodes, ['delete'])"
+                        *ngIf="canDelete"
                         [acaUnshareNode]="selection.nodes">
                         <mat-icon>stop_screen_share</mat-icon>
                         <span>{{ 'APP.ACTIONS.UNSHARE' | translate }}</span>
@@ -93,7 +93,7 @@
 
                     <button
                         mat-menu-item
-                        *ngIf="permission.check(selection.nodes, ['delete'], { target: 'allowableOperationsOnTarget' })"
+                        *ngIf="canDeleteShared"
                         [acaDeleteNode]="selection.nodes">
                         <mat-icon>delete</mat-icon>
                         <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -101,7 +101,7 @@
 
                     <button
                         mat-menu-item
-                        *ngIf="selection.file && permission.check(selection.file, ['update'], { target: 'allowableOperationsOnTarget' })"
+                        *ngIf="canUpdateShared"
                         [acaNodeVersions]="selection.file">
                         <mat-icon>history</mat-icon>
                         <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>

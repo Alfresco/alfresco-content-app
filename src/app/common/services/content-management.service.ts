@@ -30,7 +30,11 @@ import { FolderDialogComponent } from '@alfresco/adf-content-services';
 import { SnackbarErrorAction } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, Node } from 'alfresco-js-api';
+import {
+    MinimalNodeEntity,
+    MinimalNodeEntryEntity,
+    Node
+} from 'alfresco-js-api';
 import { NodePermissionService } from './node-permission.service';
 
 @Injectable()
@@ -47,7 +51,8 @@ export class ContentManagementService {
     constructor(
         private store: Store<AppStore>,
         private permission: NodePermissionService,
-        private dialogRef: MatDialog) {}
+        private dialogRef: MatDialog
+    ) {}
 
     createFolder(parentNodeId: string) {
         const dialogInstance = this.dialogRef.open(FolderDialogComponent, {
@@ -101,7 +106,19 @@ export class ContentManagementService {
         return this.permission.check(node, ['update']);
     }
 
-    canUploadContent(node: Node): boolean {
-        return this.permission.check(node, ['create']);
+    canUploadContent(folderNode: Node): boolean {
+        return this.permission.check(folderNode, ['create']);
+    }
+
+    canDeleteSharedNodes(sharedLinks: MinimalNodeEntity[]): boolean {
+        return this.permission.check(sharedLinks, ['delete'], {
+            target: 'allowableOperationsOnTarget'
+        });
+    }
+
+    canUpdateSharedNode(sharedLink: MinimalNodeEntity): boolean {
+        return this.permission.check(sharedLink, ['update'], {
+            target: 'allowableOperationsOnTarget'
+        });
     }
 }

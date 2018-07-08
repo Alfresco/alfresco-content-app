@@ -25,9 +25,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { UploadService } from '@alfresco/adf-core';
-
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -41,8 +39,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
         store: Store<AppStore>,
         extensions: ExtensionService,
         private uploadService: UploadService,
-        content: ContentManagementService,
-        public permission: NodePermissionService
+        content: ContentManagementService
     ) {
         super(store, extensions, content);
     }

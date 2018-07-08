@@ -56,6 +56,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     canDelete = false;
     canEditFolder = false;
     canUpload = false;
+    canDeleteShared = false;
+    canUpdateShared = false;
 
     protected subscriptions: Subscription[] = [];
 
@@ -82,6 +84,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 this.actions = this.extensions.getSelectedContentActions(selection, this.node);
                 this.canDelete = this.content.canDeleteNodes(selection.nodes);
                 this.canEditFolder = selection.folder && this.content.canUpdateNode(selection.folder);
+                this.canDeleteShared = this.content.canDeleteSharedNodes(selection.nodes);
+                this.canUpdateShared = selection.file && this.content.canUpdateSharedNode(selection.file);
             });
 
         this.store.select(currentFolder)
