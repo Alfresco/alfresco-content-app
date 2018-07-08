@@ -64,6 +64,11 @@
                     "type": "EDIT_FOLDER",
                     "payload": null
                 },
+                {
+                    "id": "aca:actions/download",
+                    "type": "DOWNLOAD_NODES",
+                    "payload": null
+                },
 
                 {
                     "id": "aca:actions/info",
@@ -202,8 +207,20 @@
                         },
                         {
                             "disabled": false,
-                            "id": "aca:toolbar/edit-folder",
+                            "id": "aca:toolbar/download",
                             "order": 20,
+                            "title": "APP.ACTIONS.DOWNLOAD",
+                            "icon": "get_app",
+                            "target": {
+                                "types": ["folder", "file"],
+                                "permissions": [],
+                                "action": "aca:actions/download"
+                            }
+                        },
+                        {
+                            "disabled": false,
+                            "id": "aca:toolbar/edit-folder",
+                            "order": 30,
                             "title": "APP.ACTIONS.EDIT",
                             "icon": "create",
                             "target": {
@@ -212,6 +229,7 @@
                                 "action": "aca:actions/edit-folder"
                             }
                         },
+
 
                         {
                             "disabled": false,

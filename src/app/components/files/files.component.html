@@ -41,7 +41,7 @@
                     color="primary"
                     mat-icon-button
                     title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                    [adfNodeDownload]="selection.nodes">
+                    (click)="downloadSelection()">
                     <mat-icon>get_app</mat-icon>
                 </button>
 
