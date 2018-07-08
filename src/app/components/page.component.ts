@@ -37,6 +37,7 @@ import { SelectionState } from '../store/states/selection.state';
 import { Observable } from 'rxjs/Rx';
 import { ExtensionService } from '../extensions/extension.service';
 import { ContentActionExtension } from '../extensions/content-action.extension';
+import { ContentManagementService } from '../common/services/content-management.service';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
@@ -52,6 +53,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     displayMode = DisplayMode.List;
     sharedPreviewUrl$: Observable<string>;
     actions: Array<ContentActionExtension> = [];
+    canDelete = false;
 
     protected subscriptions: Subscription[] = [];
 
@@ -61,7 +63,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     constructor(
         protected store: Store<AppStore>,
-        protected extensions: ExtensionService) {}
+        protected extensions: ExtensionService,
+        protected content: ContentManagementService) {}
 
     ngOnInit() {
         this.sharedPreviewUrl$ = this.store.select(sharedUrl);
@@ -75,6 +78,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                     this.infoDrawerOpened = false;
                 }
                 this.actions = this.extensions.getSelectedContentActions(selection, this.node);
+                this.canDelete = this.content.canDeleteNodes(selection.nodes);
+                // this.canDelete = permission.check(selection.nodes, ['delete'])
             });
     }
 

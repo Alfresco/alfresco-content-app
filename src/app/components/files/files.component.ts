@@ -53,16 +53,16 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 store: Store<AppStore>,
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
-                private contentManagementService: ContentManagementService,
+                content: ContentManagementService,
                 public permission: NodePermissionService,
                 extensions: ExtensionService) {
-        super(store, extensions);
+        super(store, extensions, content);
     }
 
     ngOnInit() {
         super.ngOnInit();
 
-        const { route, contentManagementService, nodeActionsService, uploadService } = this;
+        const { route, content, nodeActionsService, uploadService } = this;
         const { data } = route.snapshot;
 
         this.title = data.title;
@@ -89,11 +89,11 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
         this.subscriptions = this.subscriptions.concat([
             nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-            contentManagementService.folderCreated.subscribe(() => this.documentList.reload()),
-            contentManagementService.folderEdited.subscribe(() => this.documentList.reload()),
-            contentManagementService.nodesDeleted.subscribe(() => this.documentList.reload()),
-            contentManagementService.nodesMoved.subscribe(() => this.documentList.reload()),
-            contentManagementService.nodesRestored.subscribe(() => this.documentList.reload()),
+            content.folderCreated.subscribe(() => this.documentList.reload()),
+            content.folderEdited.subscribe(() => this.documentList.reload()),
+            content.nodesDeleted.subscribe(() => this.documentList.reload()),
+            content.nodesMoved.subscribe(() => this.documentList.reload()),
+            content.nodesRestored.subscribe(() => this.documentList.reload()),
             uploadService.fileUploadComplete.debounceTime(300).subscribe(file => this.onFileUploadedEvent(file)),
             uploadService.fileUploadDeleted.debounceTime(300).subscribe((file) => this.onFileUploadedEvent(file)),
             uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))

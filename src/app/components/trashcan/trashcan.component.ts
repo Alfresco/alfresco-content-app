@@ -39,10 +39,10 @@ import { Observable } from 'rxjs/Observable';
 export class TrashcanComponent extends PageComponent implements OnInit {
     user$: Observable<ProfileState>;
 
-    constructor(private contentManagementService: ContentManagementService,
+    constructor(content: ContentManagementService,
                 extensions: ExtensionService,
                 store: Store<AppStore>) {
-        super(store, extensions);
+        super(store, extensions, content);
         this.user$ = this.store.select(selectUser);
     }
 
@@ -50,9 +50,9 @@ export class TrashcanComponent extends PageComponent implements OnInit {
         super.ngOnInit();
 
         this.subscriptions.push(
-            this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
-            this.contentManagementService.nodesPurged.subscribe(() => this.reload()),
-            this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
+            this.content.nodesRestored.subscribe(() => this.reload()),
+            this.content.nodesPurged.subscribe(() => this.reload()),
+            this.content.nodesRestored.subscribe(() => this.reload()),
         );
     }
  }

@@ -32,6 +32,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
 import { ExtensionService } from '../../../extensions/extension.service';
+import { ContentManagementService } from '../../../common/services/content-management.service';
 
 @Component({
   selector: 'aca-search-results',
@@ -55,9 +56,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         private queryBuilder: SearchQueryBuilderService,
         private route: ActivatedRoute,
         store: Store<AppStore>,
-        extensions: ExtensionService
+        extensions: ExtensionService,
+        content: ContentManagementService
     ) {
-        super(store, extensions);
+        super(store, extensions, content);
 
         queryBuilder.paging = {
             skipCount: 0,

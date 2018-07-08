@@ -41,10 +41,10 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
         store: Store<AppStore>,
         extensions: ExtensionService,
         private uploadService: UploadService,
-        private content: ContentManagementService,
+        content: ContentManagementService,
         public permission: NodePermissionService
     ) {
-        super(store, extensions);
+        super(store, extensions, content);
     }
 
     ngOnInit() {

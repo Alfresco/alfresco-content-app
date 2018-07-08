@@ -33,7 +33,6 @@ import {
     PathInfo
 } from 'alfresco-js-api';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
@@ -48,10 +47,9 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         store: Store<AppStore>,
         extensions: ExtensionService,
         private contentApi: ContentApiService,
-        private content: ContentManagementService,
-        public permission: NodePermissionService
+        content: ContentManagementService
     ) {
-        super(store, extensions);
+        super(store, extensions, content);
     }
 
     ngOnInit() {

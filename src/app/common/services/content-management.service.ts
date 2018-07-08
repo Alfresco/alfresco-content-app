@@ -31,6 +31,7 @@ import { SnackbarErrorAction } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { NodePermissionService } from './node-permission.service';
 
 @Injectable()
 export class ContentManagementService {
@@ -43,7 +44,10 @@ export class ContentManagementService {
     siteDeleted = new Subject<string>();
     linksUnshared = new Subject<any>();
 
-    constructor(private store: Store<AppStore>, private dialogRef: MatDialog) {}
+    constructor(
+        private store: Store<AppStore>,
+        private permission: NodePermissionService,
+        private dialogRef: MatDialog) {}
 
     createFolder(parentNodeId: string) {
         const dialogInstance = this.dialogRef.open(FolderDialogComponent, {
@@ -87,5 +91,9 @@ export class ContentManagementService {
                 this.folderEdited.next(node);
             }
         });
+    }
+
+    canDeleteNodes(nodes: MinimalNodeEntity[]): boolean {
+        return this.permission.check(nodes, ['delete']);
     }
 }

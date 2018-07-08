@@ -35,6 +35,7 @@ import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { OpenWithExtension } from '../../extensions/open-with.extension';
+import { ContentManagementService } from '../../common/services/content-management.service';
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
@@ -67,8 +68,9 @@ export class PreviewComponent extends PageComponent implements OnInit {
         private router: Router,
         store: Store<AppStore>,
         public permission: NodePermissionService,
-        extensions: ExtensionService) {
-        super(store, extensions);
+        extensions: ExtensionService,
+        content: ContentManagementService) {
+        super(store, extensions, content);
     }
 
     ngOnInit() {

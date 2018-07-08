@@ -42,12 +42,12 @@ import { ExtensionService } from '../../extensions/extension.service';
 export class LibrariesComponent extends PageComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
-                private content: ContentManagementService,
+                content: ContentManagementService,
                 private contentApi: ContentApiService,
                 store: Store<AppStore>,
                 extensions: ExtensionService,
                 private router: Router) {
-        super(store, extensions);
+        super(store, extensions, content);
     }
 
     ngOnInit() {
