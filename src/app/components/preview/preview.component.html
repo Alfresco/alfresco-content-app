@@ -4,8 +4,8 @@
         <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
             <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
                 <adf-content-metadata-card
-                    [readOnly]="!canUpdatePreview"
-                    [displayEmpty]="canUpdatePreview"
+                    [readOnly]="!canUpdateFile"
+                    [displayEmpty]="canUpdateFile"
                     [preset]="'custom'"
                     [node]="node">
                 </adf-content-metadata-card>
@@ -49,7 +49,7 @@
             <button
                 mat-menu-item
                 #favorites="adfFavorite"
-                [adf-node-favorite]="selectedEntities">
+                [adf-node-favorite]="selection.nodes">
                 <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
                 <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
                 <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
@@ -59,7 +59,7 @@
                 <button mat-menu-item
                     color="primary"
                     [baseShareUrl]="sharedPreviewUrl$ | async"
-                    [adf-share]="selectedEntities[0]">
+                    [adf-share]="selection.file">
                     <mat-icon>share</mat-icon>
                     <span>{{ 'APP.ACTIONS.SHARE' | translate }}</span>
                 </button>
@@ -67,22 +67,22 @@
 
             <button
                 mat-menu-item
-                [acaCopyNode]="selectedEntities">
+                [acaCopyNode]="selection.nodes">
                 <mat-icon>content_copy</mat-icon>
                 <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
             </button>
 
             <button
                 mat-menu-item
-                *ngIf="canDeletePreview"
-                [acaMoveNode]="selectedEntities">
+                *ngIf="canDelete"
+                [acaMoveNode]="selection.nodes">
                 <mat-icon>library_books</mat-icon>
                 <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
             </button>
 
             <button
                 mat-menu-item
-                *ngIf="canDeletePreview"
+                *ngIf="canDelete"
                 (click)="deleteFile()">
                 <mat-icon>delete</mat-icon>
                 <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
@@ -90,7 +90,7 @@
 
             <button
                 mat-menu-item
-                *ngIf="canUpdatePreview"
+                *ngIf="canUpdateFile"
                 [acaNodeVersions]="node">
                 <mat-icon>history</mat-icon>
                 <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>

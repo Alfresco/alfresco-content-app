@@ -179,7 +179,7 @@ function updateSelectedNodes(
         if (nodes.length === 1) {
             file = nodes.find(entity => {
                 // workaround Shared
-                return entity.entry.isFile || entity.entry.nodeId;
+                return (entity.entry.isFile || entity.entry.nodeId) ? true : false;
             });
             folder = nodes.find(entity => entity.entry.isFolder);
         }
