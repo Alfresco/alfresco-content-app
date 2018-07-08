@@ -63,7 +63,7 @@ export class PurgeDeletedNodesAction implements Action {
 
 export class DownloadNodesAction implements Action {
     readonly type = DOWNLOAD_NODES;
-    constructor(public payload: NodeInfo[] = []) {}
+    constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class CreateFolderAction implements Action {

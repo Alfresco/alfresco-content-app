@@ -64,6 +64,11 @@
                     "type": "EDIT_FOLDER",
                     "payload": null
                 },
+                {
+                    "id": "aca:actions/download",
+                    "type": "DOWNLOAD_NODES",
+                    "payload": null
+                },
 
                 {
                     "id": "aca:actions/info",
@@ -210,6 +215,18 @@
                                 "types": ["folder"],
                                 "permissions": ["update"],
                                 "action": "aca:actions/edit-folder"
+                            }
+                        },
+                        {
+                            "disabled": false,
+                            "id": "aca:toolbar/download",
+                            "order": 30,
+                            "title": "APP.ACTIONS.DOWNLOAD",
+                            "icon": "get_app",
+                            "target": {
+                                "types": ["folder", "file"],
+                                "permissions": [],
+                                "action": "aca:actions/download"
                             }
                         },
 

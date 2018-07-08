@@ -30,7 +30,7 @@ import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
-import { ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
+import { ViewNodeAction, SetSelectedNodesAction, DownloadNodesAction } from '../store/actions';
 import { appSelection, sharedUrl, currentFolder } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
@@ -152,6 +152,10 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     toggleGalleryView(): void {
         this.displayMode = this.displayMode === DisplayMode.List ? DisplayMode.Gallery : DisplayMode.List;
         this.documentList.display = this.displayMode;
+    }
+
+    downloadSelection() {
+        this.store.dispatch(new DownloadNodesAction());
     }
 
     // this is where each application decides how to treat an action and what to do
