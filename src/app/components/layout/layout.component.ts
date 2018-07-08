@@ -63,7 +63,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(node => {
                 this.node = node;
-                this.canUpload = this.permission.check(node, ['create']);
+                this.canUpload = node && this.permission.check(node, ['create']);
             });
     }
 

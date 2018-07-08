@@ -34,19 +34,11 @@ import { ContentApiService } from '../../services/content-api.service';
 })
 export class InfoDrawerComponent implements OnChanges {
     @Input() nodeId: string;
-
     @Input() node: MinimalNodeEntity;
 
     isLoading = false;
     displayNode: MinimalNodeEntryEntity;
-
-    canUpdateNode(): boolean {
-        if (this.displayNode) {
-            return this.permission.check(this.displayNode, ['update']);
-        }
-
-        return false;
-    }
+    canUpdateNode = false;
 
     get isFileSelected(): boolean {
         if (this.node && this.node.entry) {
@@ -78,7 +70,7 @@ export class InfoDrawerComponent implements OnChanges {
                 if (this.isTypeImage(entry) && !this.hasAspectNames(entry)) {
                     this.loadNodeInfo(this.node.entry.id);
                 } else {
-                    this.displayNode = this.node.entry;
+                    this.setDisplayNode(this.node.entry);
                 }
             }
         }
@@ -101,11 +93,16 @@ export class InfoDrawerComponent implements OnChanges {
 
             this.contentApi.getNodeInfo(nodeId).subscribe(
                 entity => {
-                    this.displayNode = entity;
+                    this.setDisplayNode(entity);
                     this.isLoading = false;
                 },
                 () => this.isLoading = false
             );
         }
+    }
+
+    private setDisplayNode(node: MinimalNodeEntryEntity) {
+        this.displayNode = node;
+        this.canUpdateNode = node && this.permission.check(node, ['update']);
     }
 }
