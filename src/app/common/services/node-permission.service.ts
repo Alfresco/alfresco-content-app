@@ -35,7 +35,6 @@ export class NodePermissionService {
     };
 
     check(source: any, permissions: string[], options: any = {}): boolean {
-        console.log(source, permissions, options);
         const opts = Object.assign({}, this.defaultOptions, options);
 
         if (source) {
