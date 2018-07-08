@@ -25,7 +25,7 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
-import { UserPreferencesService, ObjectUtils, UploadService } from '@alfresco/adf-core';
+import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -64,7 +64,6 @@ export class PreviewComponent extends PageComponent implements OnInit {
 
     constructor(
         private contentApi: ContentApiService,
-        private uploadService: UploadService,
         private preferences: UserPreferencesService,
         private route: ActivatedRoute,
         private router: Router,
@@ -99,10 +98,6 @@ export class PreviewComponent extends PageComponent implements OnInit {
                 this.displayNode(id);
             }
         });
-
-        this.subscriptions = this.subscriptions.concat([
-            this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
-        ]);
 
         this.openWith = this.extensions.openWithActions;
     }

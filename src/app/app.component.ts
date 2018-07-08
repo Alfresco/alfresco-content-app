@@ -23,21 +23,27 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import {
+    AlfrescoApiService,
+    AppConfigService,
+    AuthenticationService,
+    FileUploadErrorEvent,
+    PageTitleService,
+    UploadService
+} from '@alfresco/adf-core';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import {
-    PageTitleService, AppConfigService,
-    AuthenticationService, AlfrescoApiService } from '@alfresco/adf-core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppStore } from './store/states/app.state';
-import {
-    SetHeaderColorAction,
-    SetAppNameAction,
-    SetLogoPathAction,
-    SetLanguagePickerAction,
-    SetSharedUrlAction
-} from './store/actions';
 import { ExtensionService } from './extensions/extension.service';
+import {
+    SetAppNameAction,
+    SetHeaderColorAction,
+    SetLanguagePickerAction,
+    SetLogoPathAction,
+    SetSharedUrlAction,
+    SnackbarErrorAction
+} from './store/actions';
+import { AppStore } from './store/states/app.state';
 
 @Component({
     selector: 'app-root',
@@ -53,11 +59,12 @@ export class AppComponent implements OnInit {
         private config: AppConfigService,
         private alfrescoApiService: AlfrescoApiService,
         private authenticationService: AuthenticationService,
-        private extensions: ExtensionService) {
-    }
+        private uploadService: UploadService,
+        private extensions: ExtensionService
+    ) {}
 
     ngOnInit() {
-        this.alfrescoApiService.getInstance().on('error', (error) => {
+        this.alfrescoApiService.getInstance().on('error', error => {
             if (error.status === 401) {
                 if (!this.authenticationService.isLoggedIn()) {
                     this.router.navigate(['/login']);
@@ -65,13 +72,11 @@ export class AppComponent implements OnInit {
             }
         });
 
-
         this.loadAppSettings();
 
         const { router, pageTitle, route } = this;
 
-        router
-            .events
+        router.events
             .filter(event => event instanceof NavigationEnd)
             .subscribe(() => {
                 let currentRoute = route.root;
@@ -88,8 +93,10 @@ export class AppComponent implements OnInit {
 
         this.extensions.init();
 
-        this.router.config.unshift(
-            ...this.extensions.getApplicationRoutes()
+        this.router.config.unshift(...this.extensions.getApplicationRoutes());
+
+        this.uploadService.fileUploadError.subscribe(error =>
+            this.onFileUploadedError(error)
         );
     }
 
@@ -109,7 +116,22 @@ export class AppComponent implements OnInit {
         const languagePicker = this.config.get<boolean>('languagePicker');
         this.store.dispatch(new SetLanguagePickerAction(languagePicker));
 
-        const sharedPreviewUrl = this.config.get<string>('ecmHost') + '/#/preview/s/';
+        const sharedPreviewUrl =
+            this.config.get<string>('ecmHost') + '/#/preview/s/';
         this.store.dispatch(new SetSharedUrlAction(sharedPreviewUrl));
+    }
+
+    onFileUploadedError(error: FileUploadErrorEvent) {
+        let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
+
+        if (error.error.status === 409) {
+            message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
+        }
+
+        if (error.error.status === 500) {
+            message = 'APP.MESSAGES.UPLOAD.ERROR.500';
+        }
+
+        this.store.dispatch(new SnackbarErrorAction(message));
     }
 }

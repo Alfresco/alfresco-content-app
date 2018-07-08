@@ -24,13 +24,13 @@
  */
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
-import { DisplayMode, FileUploadErrorEvent } from '@alfresco/adf-core';
+import { DisplayMode } from '@alfresco/adf-core';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
-import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
+import { ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
 import { appSelection, sharedUrl, currentFolder } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
@@ -145,22 +145,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             this.store.dispatch(new SetSelectedNodesAction([]));
             this.documentList.reload();
         }
-    }
-
-    onFileUploadedError(error: FileUploadErrorEvent) {
-        let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
-
-        if (error.error.status === 409) {
-           message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
-        }
-
-        if (error.error.status === 500) {
-            message = 'APP.MESSAGES.UPLOAD.ERROR.500';
-         }
-
-        const action = new SnackbarErrorAction(message);
-
-        this.store.dispatch(action);
     }
 
     toggleGalleryView(): void {

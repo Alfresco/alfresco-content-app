@@ -25,8 +25,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
-import { UploadService } from '@alfresco/adf-core';
-
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
@@ -37,12 +35,11 @@ import { ExtensionService } from '../../extensions/extension.service';
     templateUrl: './recent-files.component.html'
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
-
     constructor(
         store: Store<AppStore>,
         extensions: ExtensionService,
-        private uploadService: UploadService,
-        content: ContentManagementService) {
+        content: ContentManagementService
+    ) {
         super(store, extensions, content);
     }
 
@@ -52,8 +49,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
         this.subscriptions = this.subscriptions.concat([
             this.content.nodesDeleted.subscribe(() => this.reload()),
             this.content.nodesMoved.subscribe(() => this.reload()),
-            this.content.nodesRestored.subscribe(() => this.reload()),
-            this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
+            this.content.nodesRestored.subscribe(() => this.reload())
         ]);
     }
 

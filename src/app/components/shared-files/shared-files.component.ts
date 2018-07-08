@@ -24,7 +24,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { UploadService } from '@alfresco/adf-core';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
@@ -38,7 +37,6 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     constructor(
         store: Store<AppStore>,
         extensions: ExtensionService,
-        private uploadService: UploadService,
         content: ContentManagementService
     ) {
         super(store, extensions, content);
@@ -52,9 +50,6 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
             this.content.nodesMoved.subscribe(() => this.reload()),
             this.content.nodesRestored.subscribe(() => this.reload()),
             this.content.linksUnshared.subscribe(() => this.reload()),
-            this.uploadService.fileUploadError.subscribe(error =>
-                this.onFileUploadedError(error)
-            )
         ]);
     }
 }
