@@ -23,11 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { AppConfigService, PeopleContentService } from '@alfresco/adf-core';
+import { AppConfigService } from '@alfresco/adf-core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Rx';
 import { SetAppNameAction, SetHeaderColorAction } from '../../store/actions';
 import { AppStore } from '../../store/states/app.state';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -46,11 +45,6 @@ describe('HeaderComponent', () => {
                 HeaderComponent
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
-        })
-        .overrideProvider(PeopleContentService, {
-            useValue: {
-                getCurrentPerson: () => Observable.of({ entry: {} })
-            }
         });
 
         store = TestBed.get(Store);

@@ -25,8 +25,7 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { PeopleContentService, AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
-import { Observable } from 'rxjs/Observable';
+import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { LayoutComponent } from './layout.component';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -43,14 +42,6 @@ describe('LayoutComponent', () => {
             declarations: [
                 LayoutComponent,
                 SidenavViewsManagerDirective
-            ],
-            providers: [
-                {
-                    provide: PeopleContentService,
-                    useValue: {
-                        getCurrentPerson: () => Observable.of({ entry: {} })
-                    }
-                }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });

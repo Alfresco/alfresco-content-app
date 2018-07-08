@@ -34,7 +34,6 @@ import {
     UserPreferencesService,
     AppConfigService,
     StorageService,
-    CookieService,
     AlfrescoApiService,
     LogService,
     NotificationService,
@@ -42,7 +41,6 @@ import {
     ContentService,
     ThumbnailService,
     UploadService,
-    PeopleContentService,
     AlfrescoApiMock
 } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
@@ -100,7 +98,6 @@ import { ExtensionService } from '../extensions/extension.service';
         UserPreferencesService,
         AppConfigService,
         StorageService,
-        CookieService,
         AlfrescoApiService,
         LogService,
         NotificationService,
@@ -110,7 +107,6 @@ import { ExtensionService } from '../extensions/extension.service';
         UploadService,
         CustomResourcesService,
         DocumentListService,
-        PeopleContentService,
 
         ContentManagementService,
         NodeActionsService,
