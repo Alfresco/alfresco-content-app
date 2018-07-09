@@ -54,6 +54,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     sharedPreviewUrl$: Observable<string>;
     actions: Array<ContentActionExtension> = [];
     canUpdateFile = false;
+    canUpdateNode = false;
     canDelete = false;
     canEditFolder = false;
     canUpload = false;
@@ -84,6 +85,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 }
                 this.actions = this.extensions.getSelectedContentActions(selection, this.node);
                 this.canUpdateFile = this.selection.file && this.content.canUpdateNode(selection.file);
+                this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
                 this.canDelete = !this.selection.isEmpty && this.content.canDeleteNodes(selection.nodes);
                 this.canEditFolder = selection.folder && this.content.canUpdateNode(selection.folder);
                 this.canDeleteShared = !this.selection.isEmpty && this.content.canDeleteSharedNodes(selection.nodes);

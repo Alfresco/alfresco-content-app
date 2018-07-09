@@ -8,6 +8,7 @@
 @import '../components/settings/settings.component.theme';
 @import '../components/current-user/current-user.component.theme';
 @import '../components/header/header.component.theme';
+@import '../components/permission-manager/permissions-manager.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 
 @import './overrides/adf-toolbar.theme';
@@ -83,6 +84,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include aca-header-theme($theme);
     @include aca-search-input-theme($theme);
     @include aca-generic-error-theme($theme);
+    @include aca-permissions-manager-theme($theme);
     @include aca-node-versions-dialog-theme($theme);
     @include aca-settings-theme($theme);
     @include snackbar-theme($theme);
