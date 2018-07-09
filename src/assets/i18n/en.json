@@ -120,6 +120,7 @@
             "DELETE_PERMANENT": "Permanently delete",
             "MORE": "More actions",
             "UNDO": "Undo",
+            "PERMISSIONS": "Permissions",
             "RESTORE": "Restore",
             "FAVORITE": "Favorite",
             "UNSHARE": "Unshare",
@@ -249,6 +250,14 @@
         "MOVE_ITEM": "Move '{{ name }}' to...",
         "MOVE_ITEMS": "Move {{ number }} items to...",
         "SEARCH": "Search"
+    },
+    "PERMISSIONS": {
+        "DIALOG": {
+            "TITLE": "Manage Permissons",
+            "CLOSE": "Close",
+            "INHERIT_PERMISSIONS_BUTTON": "Inherit Permission",
+            "INHERITED_PERMISSIONS_BUTTON": "Permission Inherited"
+        }
     },
     "VERSION": {
         "DIALOG": {

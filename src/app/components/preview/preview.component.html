@@ -75,6 +75,13 @@
                 <mat-icon>history</mat-icon>
                 <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
             </button>
+
+            <button
+                mat-menu-item
+                [acaNodePermissions]="selection.nodes">
+                <mat-icon>settings_input_component</mat-icon>
+                <span>{{ 'APP.ACTIONS.PERMISSIONS' | translate }}</span>
+            </button>
         </adf-viewer-more-actions>
     </adf-viewer>
 </ng-container>
