@@ -70,6 +70,11 @@
                     "type": "DOWNLOAD_NODES",
                     "payload": null
                 },
+                {
+                    "id": "aca:actions/preview",
+                    "type": "VIEW_FILE",
+                    "payload": null
+                },
 
                 {
                     "id": "aca:actions/info",
@@ -204,6 +209,18 @@
                                 "types": [],
                                 "permissions": ["parent.create"],
                                 "action": "aca:actions/create-folder"
+                            }
+                        },
+                        {
+                            "disabled": false,
+                            "id": "aca:toolbar/preview",
+                            "order": 15,
+                            "title": "APP.ACTIONS.VIEW",
+                            "icon": "open_in_browser",
+                            "target": {
+                                "types": ["file"],
+                                "permissions": [],
+                                "action": "aca:actions/preview"
                             }
                         },
                         {

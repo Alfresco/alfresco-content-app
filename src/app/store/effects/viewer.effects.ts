@@ -26,37 +26,84 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { ViewNodeAction, VIEW_NODE } from '../actions/viewer.actions';
+import { VIEW_FILE, ViewFileAction } from '../actions';
 import { Router } from '@angular/router';
+import { Store, createSelector } from '@ngrx/store';
+import { AppStore } from '../states';
+import { appSelection, currentFolder } from '../selectors/app.selectors';
+
+export const fileToPreview = createSelector(
+    appSelection,
+    currentFolder,
+    (selection, folder) => {
+        return {
+            selection,
+            folder
+        };
+    }
+);
 
 @Injectable()
 export class ViewerEffects {
-    constructor(private actions$: Actions, private router: Router) {}
+    constructor(
+        private store: Store<AppStore>,
+        private actions$: Actions,
+        private router: Router
+    ) {}
 
     @Effect({ dispatch: false })
-    viewNode$ = this.actions$.pipe(
-        ofType<ViewNodeAction>(VIEW_NODE),
+    viewFile$ = this.actions$.pipe(
+        ofType<ViewFileAction>(VIEW_FILE),
         map(action => {
-            const node = action.payload;
-            if (!node) {
-                return;
-            }
+            if (action.payload && action.payload.entry) {
+                const { id, nodeId, isFile } = action.payload.entry;
 
-            let previewLocation = this.router.url;
-            if (previewLocation.lastIndexOf('/') > 0) {
-                previewLocation = previewLocation.substr(
-                    0,
-                    this.router.url.indexOf('/', 1)
-                );
-            }
-            previewLocation = previewLocation.replace(/\//g, '');
+                if (isFile || nodeId) {
+                    this.displayPreview(nodeId || id, action.parentId);
+                }
+            } else {
+                this.store
+                    .select(fileToPreview)
+                    .take(1)
+                    .subscribe(result => {
+                        if (result.selection && result.selection.file) {
+                            const {
+                                id,
+                                nodeId,
+                                isFile
+                            } = result.selection.file.entry;
 
-            const path = [previewLocation];
-            if (node.parentId) {
-                path.push(node.parentId);
+                            if (isFile || nodeId) {
+                                const parentId = result.folder
+                                    ? result.folder.id
+                                    : null;
+                                this.displayPreview(nodeId || id, parentId);
+                            }
+                        }
+                    });
             }
-            path.push('preview', node.id);
-            this.router.navigateByUrl(path.join('/'));
         })
     );
+
+    private displayPreview(nodeId: string, parentId: string) {
+        if (!nodeId) {
+            return;
+        }
+
+        let previewLocation = this.router.url;
+        if (previewLocation.lastIndexOf('/') > 0) {
+            previewLocation = previewLocation.substr(
+                0,
+                this.router.url.indexOf('/', 1)
+            );
+        }
+        previewLocation = previewLocation.replace(/\//g, '');
+
+        const path = [previewLocation];
+        if (parentId) {
+            path.push(parentId);
+        }
+        path.push('preview', nodeId);
+        this.router.navigateByUrl(path.join('/'));
+    }
 }

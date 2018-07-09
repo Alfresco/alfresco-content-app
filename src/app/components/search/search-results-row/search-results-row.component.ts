@@ -24,8 +24,8 @@
  */
 
 import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { ViewNodeAction } from '../../../store/actions/viewer.actions';
+import { MinimalNodeEntity } from 'alfresco-js-api';
+import { ViewFileAction } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 
@@ -38,14 +38,14 @@ import { AppStore } from '../../../store/states/app.state';
     host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit {
-    private node: MinimalNodeEntryEntity;
+    private node: MinimalNodeEntity;
 
     @Input() context: any;
 
     constructor(private store: Store<AppStore>) {}
 
     ngOnInit() {
-        this.node = this.context.row.node.entry;
+        this.node = this.context.row.node;
     }
 
     get name() {
@@ -89,13 +89,8 @@ export class SearchResultsRowComponent implements OnInit {
     }
 
     showPreview() {
-        const { id, name } = this.node;
-
         this.store.dispatch(
-            new ViewNodeAction({
-                id,
-                name
-            })
+            new ViewFileAction(this.node)
         );
     }
 
@@ -106,6 +101,6 @@ export class SearchResultsRowComponent implements OnInit {
             .replace('[', '.')
             .replace(']', '')
             .split('.')
-            .reduce((acc, part) => (acc ? acc[part] : null), this.node);
+            .reduce((acc, part) => (acc ? acc[part] : null), this.node.entry);
     }
 }
