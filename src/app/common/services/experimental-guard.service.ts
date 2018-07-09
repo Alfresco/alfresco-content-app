@@ -6,7 +6,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class ExperimentalGuard implements CanActivate {
     constructor(
-        private config: AppConfigService
+        private config: AppConfigService,
         private storage: StorageService,
         private router: Router
     ) {}
