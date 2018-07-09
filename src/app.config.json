@@ -212,9 +212,10 @@
                             "title": "APP.ACTIONS.DOWNLOAD",
                             "icon": "get_app",
                             "target": {
-                                "types": ["folder", "file"],
+                                "types": ["file", "folder"],
                                 "permissions": [],
-                                "action": "aca:actions/download"
+                                "action": "aca:actions/download",
+                                "multiple": true
                             }
                         },
                         {

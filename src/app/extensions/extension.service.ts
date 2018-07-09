@@ -237,12 +237,46 @@ export class ExtensionService {
             return true;
         }
 
-        if (selection && selection.folder && types.includes('folder')) {
-            return true;
-        }
+        if (selection && !selection.isEmpty) {
 
-        if (selection && selection.file && types.includes('file')) {
-            return true;
+            if (selection.nodes.length === 1) {
+                if (selection.folder && types.includes('folder')) {
+                    return true;
+                }
+                if (selection.file && types.includes('file')) {
+                    return true;
+                }
+                return false;
+            } else {
+                if (types.length === 1) {
+                    if (types.includes('folder')) {
+                        if (action.target.multiple) {
+                            return selection.nodes.every(node => node.entry.isFolder);
+                        }
+                        return false;
+                    }
+                    if (types.includes('file')) {
+                        if (action.target.multiple) {
+                            return selection.nodes.every(node => node.entry.isFile);
+                        }
+                        return false;
+                    }
+                } else {
+                    return types.some(type => {
+                        if (type === 'folder') {
+                            return action.target.multiple
+                                ? selection.nodes.some(node => node.entry.isFolder)
+                                : selection.nodes.every(node => node.entry.isFolder);
+                        }
+                        if (type === 'file') {
+                            return action.target.multiple
+                                ? selection.nodes.some(node => node.entry.isFile)
+                                : selection.nodes.every(node => node.entry.isFile);
+                        }
+                        return false;
+                    });
+                }
+            }
         }
 
         return false;
