@@ -28,10 +28,28 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { VIEW_FILE, ViewFileAction } from '../actions';
 import { Router } from '@angular/router';
+import { Store, createSelector } from '@ngrx/store';
+import { AppStore } from '../states';
+import { appSelection, currentFolder } from '../selectors/app.selectors';
+
+export const fileToPreview = createSelector(
+    appSelection,
+    currentFolder,
+    (selection, folder) => {
+        return {
+            selection,
+            folder
+        };
+    }
+);
 
 @Injectable()
 export class ViewerEffects {
-    constructor(private actions$: Actions, private router: Router) {}
+    constructor(
+        private store: Store<AppStore>,
+        private actions$: Actions,
+        private router: Router
+    ) {}
 
     @Effect({ dispatch: false })
     viewFile$ = this.actions$.pipe(
@@ -43,11 +61,35 @@ export class ViewerEffects {
                 if (isFile || nodeId) {
                     this.displayPreview(nodeId || id, action.parentId);
                 }
+            } else {
+                this.store
+                    .select(fileToPreview)
+                    .take(1)
+                    .subscribe(result => {
+                        if (result.selection && result.selection.file) {
+                            const {
+                                id,
+                                nodeId,
+                                isFile
+                            } = result.selection.file.entry;
+
+                            if (isFile || nodeId) {
+                                const parentId = result.folder
+                                    ? result.folder.id
+                                    : null;
+                                this.displayPreview(nodeId || id, parentId);
+                            }
+                        }
+                    });
             }
         })
     );
 
     private displayPreview(nodeId: string, parentId: string) {
+        if (!nodeId) {
+            return;
+        }
+
         let previewLocation = this.router.url;
         if (previewLocation.lastIndexOf('/') > 0) {
             previewLocation = previewLocation.substr(
