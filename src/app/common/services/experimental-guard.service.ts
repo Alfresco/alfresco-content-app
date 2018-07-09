@@ -20,16 +20,15 @@ export class ExperimentalGuard implements CanActivate {
             return true;
         }
 
-        console.log('!environment.production', !environment.production)
         if (!environment.production) {
             if (value === true || value === 'true') {
                 return true;
             }
 
-            this.router.navigate(['/');
+            this.router.navigate(['/']);
         }
 
-        this.router.navigate(['/');
+        this.router.navigate(['/']);
 
         return false;
     }
