@@ -29,7 +29,7 @@ import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import { ViewNodeAction, VIEW_NODE, NAVIGATE_FOLDER, NavigateToFolder } from '../../../store/actions';
+import { NAVIGATE_FOLDER, NavigateToFolder, VIEW_FILE, ViewFileAction } from '../../../store/actions';
 import { map } from 'rxjs/operators';
 
 describe('SearchInputComponent', () => {
@@ -59,9 +59,9 @@ describe('SearchInputComponent', () => {
     describe('onItemClicked()', () => {
         it('opens preview if node is file', fakeAsync(done => {
             actions$.pipe(
-                ofType<ViewNodeAction>(VIEW_NODE),
+                ofType<ViewFileAction>(VIEW_FILE),
                 map(action => {
-                    expect(action.payload.id).toBe('node-id');
+                    expect(action.payload.entry.id).toBe('node-id');
                     done();
                 })
             );

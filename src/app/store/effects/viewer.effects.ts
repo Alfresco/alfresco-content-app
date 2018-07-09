@@ -70,10 +70,10 @@ export class ViewerEffects {
         ofType<ViewFileAction>(VIEW_FILE),
         map(action => {
             if (action.payload && action.payload.entry) {
-                const { id, nodeId, isFile, parentId } = action.payload.entry;
+            const { id, nodeId, isFile } = action.payload.entry;
 
                 if (isFile) {
-                    this.displayPreview(nodeId || id, parentId);
+                    this.displayPreview(nodeId || id, action.parentId);
                 }
             }
         })

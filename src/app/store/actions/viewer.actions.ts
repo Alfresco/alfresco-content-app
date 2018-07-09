@@ -37,5 +37,5 @@ export class ViewNodeAction implements Action {
 
 export class ViewFileAction implements Action {
     readonly type = VIEW_FILE;
-    constructor(public payload: MinimalNodeEntity) {}
+    constructor(public payload: MinimalNodeEntity, public parentId?: string) {}
 }
