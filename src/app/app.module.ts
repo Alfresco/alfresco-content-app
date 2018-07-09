@@ -81,6 +81,9 @@ import { ExtensionsModule } from './extensions.module';
 import { ExtensionService } from './extensions/extension.service';
 import { CoreExtensionsModule } from './extensions/core.extensions';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
+import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
+import { NodePermissionsDirective } from './common/directives/node-permissions.directive';
+import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
 
 @NgModule({
     imports: [
@@ -127,7 +130,10 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
         NodePermanentDeleteDirective,
         NodeUnshareDirective,
         NodeVersionsDirective,
+        NodePermissionsDirective,
         NodeVersionsDialogComponent,
+        NodePermissionsDialogComponent,
+        PermissionsManagerComponent,
         SearchResultsComponent,
         SettingsComponent,
         InfoDrawerComponent,
@@ -156,7 +162,8 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
         ExtensionService
     ],
     entryComponents: [
-        NodeVersionsDialogComponent
+        NodeVersionsDialogComponent,
+        NodePermissionsDialogComponent
     ],
     bootstrap: [AppComponent]
 })

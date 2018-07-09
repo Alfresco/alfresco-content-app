@@ -1,0 +1,7 @@
+<header mat-dialog-title>{{'PERMISSIONS.DIALOG.TITLE' | translate}}</header>
+<section mat-dialog-content>
+    <aca-permissions-manager [nodeId]="nodeId"></aca-permissions-manager>
+</section>
+<footer mat-dialog-actions>
+   <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>{{'PERMISSIONS.DIALOG.CLOSE' | translate}}</button>
+</footer>
