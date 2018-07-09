@@ -200,8 +200,17 @@
                 "content": {
                     "actions": [
                         {
+                            "id": "aca:toolbar/separator-1",
+                            "order": 5,
+                            "type": "separator",
+                            "target": {
+                                "types": []
+                            }
+                        },
+                        {
                             "disabled": false,
                             "id": "aca:toolbar/create-folder",
+                            "type": "button",
                             "order": 10,
                             "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                             "icon": "create_new_folder",
@@ -214,6 +223,7 @@
                         {
                             "disabled": false,
                             "id": "aca:toolbar/preview",
+                            "type": "button",
                             "order": 15,
                             "title": "APP.ACTIONS.VIEW",
                             "icon": "open_in_browser",
@@ -226,6 +236,7 @@
                         {
                             "disabled": false,
                             "id": "aca:toolbar/download",
+                            "type": "button",
                             "order": 20,
                             "title": "APP.ACTIONS.DOWNLOAD",
                             "icon": "get_app",
@@ -239,6 +250,7 @@
                         {
                             "disabled": false,
                             "id": "aca:toolbar/edit-folder",
+                            "type": "button",
                             "order": 30,
                             "title": "APP.ACTIONS.EDIT",
                             "icon": "create",
@@ -253,6 +265,7 @@
                         {
                             "disabled": false,
                             "id": "aca:action3",
+                            "type": "button",
                             "order": 101,
                             "title": "Settings",
                             "icon": "settings_applications",
@@ -265,6 +278,7 @@
                         {
                             "disabled": false,
                             "id": "aca:action4",
+                            "type": "button",
                             "order": 101,
                             "title": "Error",
                             "icon": "report_problem",
@@ -272,6 +286,15 @@
                                 "types": ["file"],
                                 "permissions": ["update", "delete"],
                                 "action": "aca:actions/error"
+                            }
+                        },
+
+                        {
+                            "id": "aca:toolbar/separator-2",
+                            "order": 200,
+                            "type": "separator",
+                            "target": {
+                                "types": []
                             }
                         }
                     ]
