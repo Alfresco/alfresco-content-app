@@ -200,18 +200,6 @@
                     "actions": [
                         {
                             "disabled": false,
-                            "id": "aca:toolbar/preview",
-                            "order": 5,
-                            "title": "APP.ACTIONS.VIEW",
-                            "icon": "open_in_browser",
-                            "target": {
-                                "types": ["file"],
-                                "permissions": [],
-                                "action": "aca:actions/preview"
-                            }
-                        },
-                        {
-                            "disabled": false,
                             "id": "aca:toolbar/create-folder",
                             "order": 10,
                             "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
@@ -220,6 +208,18 @@
                                 "types": [],
                                 "permissions": ["parent.create"],
                                 "action": "aca:actions/create-folder"
+                            }
+                        },
+                        {
+                            "disabled": false,
+                            "id": "aca:toolbar/preview",
+                            "order": 15,
+                            "title": "APP.ACTIONS.VIEW",
+                            "icon": "open_in_browser",
+                            "target": {
+                                "types": ["file"],
+                                "permissions": [],
+                                "action": "aca:actions/preview"
                             }
                         },
                         {
