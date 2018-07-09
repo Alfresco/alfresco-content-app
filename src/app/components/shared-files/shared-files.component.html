@@ -106,13 +106,15 @@
                         <mat-icon>history</mat-icon>
                         <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
                     </button>
-                    <button
-                        mat-menu-item
-                        *ngIf="selection.count === 1"
-                        [acaNodePermissions]="selection.nodes[0]">
-                        <mat-icon>settings_input_component</mat-icon>
-                        <span>{{ 'APP.ACTIONS.PERMISSIONS' | translate }}</span>
-                    </button>
+                    <ng-container *ifExperimental="'permissions'">
+                        <button
+                            mat-menu-item
+                            *ngIf="selection.count === 1"
+                            [acaNodePermissions]="selection.nodes[0]">
+                            <mat-icon>settings_input_component</mat-icon>
+                            <span>{{ 'APP.ACTIONS.PERMISSIONS' | translate }}</span>
+                        </button>
+                    </ng-container>
                 </mat-menu>
             </ng-container>
         </adf-toolbar>

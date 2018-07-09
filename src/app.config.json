@@ -12,6 +12,7 @@
         "libraries": false,
         "comments": false,
         "cardview": false,
+        "permissions": false,
         "share": false,
         "extensions": false
     },
