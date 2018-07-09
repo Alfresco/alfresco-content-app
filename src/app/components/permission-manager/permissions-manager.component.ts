@@ -61,20 +61,14 @@ export class PermissionsManagerComponent implements OnInit {
     }
 
     onError(errorMessage: string) {
-        console.log('adf-permission-list error:');
-        console.log(errorMessage);
         this.store.dispatch(new SnackbarErrorAction(errorMessage));
     }
 
     onUpdate(event) {
-        console.log('adf-permission-list update:');
-        console.log(event);
         this.permissionList.reload();
     }
 
     onUpdatedPermissions(node: MinimalNodeEntryEntity) {
-        console.log('adf-inherit-permission updated:');
-        console.log(node);
         this.toggleStatus = node.permissions.isInheritanceEnabled;
         this.permissionList.reload();
     }
@@ -82,19 +76,15 @@ export class PermissionsManagerComponent implements OnInit {
     openAddPermissionDialog(event: Event) {
         this.nodePermissionDialogService.updateNodePermissionByDialog(this.nodeId)
             .subscribe(() => {
-                // this.permissionList.reload();
-            },
-            (error) => {
-                console.log('ERROR ' + error);
-                this.store.dispatch(new SnackbarErrorAction(error));
-            },
-            () => {
                 this.dialog.open(NodePermissionsDialogComponent, {
                         data: { nodeId: this.nodeId },
                         panelClass: 'aca-permissions-dialog-panel',
                         width: '800px'
                     }
                 );
+            },
+            (error) => {
+                this.store.dispatch(new SnackbarErrorAction(error));
             }
         );
     }
