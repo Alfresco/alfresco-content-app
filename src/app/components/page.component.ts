@@ -30,7 +30,7 @@ import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
-import { ViewNodeAction, SetSelectedNodesAction, DownloadNodesAction } from '../store/actions';
+import { SetSelectedNodesAction, DownloadNodesAction, ViewFileAction } from '../store/actions';
 import { appSelection, sharedUrl, currentFolder } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
@@ -107,16 +107,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     showPreview(node: MinimalNodeEntity) {
         if (node && node.entry) {
-            const { id, nodeId, name, isFile, isFolder } = node.entry;
             const parentId = this.node ? this.node.id : null;
-
-            this.store.dispatch(new ViewNodeAction({
-                parentId,
-                id: nodeId || id,
-                name,
-                isFile,
-                isFolder
-            }));
+           this.store.dispatch(new ViewFileAction(node, parentId));
         }
     }
 
