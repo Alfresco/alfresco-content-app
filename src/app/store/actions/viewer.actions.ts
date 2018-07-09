@@ -25,10 +25,17 @@
 
 import { Action } from '@ngrx/store';
 import { NodeInfo } from '../models';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
 export const VIEW_NODE = 'VIEW_NODE';
+export const VIEW_FILE = 'VIEW_FILE';
 
 export class ViewNodeAction implements Action {
     readonly type = VIEW_NODE;
     constructor(public payload: NodeInfo) {}
+}
+
+export class ViewFileAction implements Action {
+    readonly type = VIEW_FILE;
+    constructor(public payload: MinimalNodeEntity) {}
 }

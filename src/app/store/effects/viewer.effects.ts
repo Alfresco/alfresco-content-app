@@ -26,7 +26,12 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { ViewNodeAction, VIEW_NODE } from '../actions/viewer.actions';
+import {
+    ViewNodeAction,
+    VIEW_NODE,
+    VIEW_FILE,
+    ViewFileAction
+} from '../actions';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -59,4 +64,36 @@ export class ViewerEffects {
             this.router.navigateByUrl(path.join('/'));
         })
     );
+
+    @Effect({ dispatch: false })
+    viewFile$ = this.actions$.pipe(
+        ofType<ViewFileAction>(VIEW_FILE),
+        map(action => {
+            if (action.payload && action.payload.entry) {
+                const { id, nodeId, isFile, parentId } = action.payload.entry;
+
+                if (isFile) {
+                    this.displayPreview(nodeId || id, parentId);
+                }
+            }
+        })
+    );
+
+    private displayPreview(nodeId: string, parentId: string) {
+        let previewLocation = this.router.url;
+        if (previewLocation.lastIndexOf('/') > 0) {
+            previewLocation = previewLocation.substr(
+                0,
+                this.router.url.indexOf('/', 1)
+            );
+        }
+        previewLocation = previewLocation.replace(/\//g, '');
+
+        const path = [previewLocation];
+        if (parentId) {
+            path.push(parentId);
+        }
+        path.push('preview', nodeId);
+        this.router.navigateByUrl(path.join('/'));
+    }
 }

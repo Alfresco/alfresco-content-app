@@ -32,7 +32,7 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
-import { SearchByTermAction, ViewNodeAction, NavigateToFolder } from '../../../store/actions';
+import { SearchByTermAction, NavigateToFolder, ViewFileAction } from '../../../store/actions';
 
 @Component({
     selector: 'aca-search-input',
@@ -90,15 +90,9 @@ export class SearchInputComponent implements OnInit {
 
     onItemClicked(node: MinimalNodeEntity) {
         if (node && node.entry) {
-            const { id, nodeId, name, isFile, isFolder, parentId } = node.entry;
+            const { isFile, isFolder } = node.entry;
             if (isFile) {
-                this.store.dispatch(new ViewNodeAction({
-                    parentId,
-                    id: nodeId || id,
-                    name,
-                    isFile,
-                    isFolder
-                }));
+                this.store.dispatch(new ViewFileAction(node));
             } else if (isFolder) {
                 this.store.dispatch(new NavigateToFolder(node));
             }
