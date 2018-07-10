@@ -34,6 +34,7 @@ import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
+import { reduceSeparators, sortByOrder, filterEnabled, copyAction, reduceEmptyMenus } from './utils';
 
 @Injectable()
 export class ExtensionService {
@@ -70,7 +71,7 @@ export class ExtensionService {
                 'extensions.core.features.content.actions',
                 []
             )
-            .sort(this.sortByOrder);
+            .sort(sortByOrder);
 
         this.openWithActions = this.config
             .get<Array<OpenWithExtension>>(
@@ -78,14 +79,14 @@ export class ExtensionService {
                 []
             )
             .filter(entry => !entry.disabled)
-            .sort(this.sortByOrder);
+            .sort(sortByOrder);
 
         this.createActions = this.config
             .get<Array<ContentActionExtension>>(
                 'extensions.core.features.create',
                 []
             )
-            .sort(this.sortByOrder);
+            .sort(sortByOrder);
     }
 
     getRouteById(id: string): RouteExtension {
@@ -178,7 +179,7 @@ export class ExtensionService {
 
     // evaluates create actions for the folder node
     getFolderCreateActions(folder: Node): Array<ContentActionExtension> {
-        return this.createActions.filter(this.filterOutDisabled).map(action => {
+        return this.createActions.filter(filterEnabled).map(action => {
             if (
                 action.target &&
                 action.target.permissions &&
@@ -205,46 +206,24 @@ export class ExtensionService {
         parentNode: Node
     ): Array<ContentActionExtension> {
         return this.contentActions
-            .filter(this.filterOutDisabled)
+            .filter(filterEnabled)
             .filter(action => this.filterByTarget(nodes, action))
             .filter(action => this.filterByPermission(nodes, action, parentNode))
-            .reduce(this.reduceSeparators, []);
-    }
-
-    private reduceSeparators(
-        acc: ContentActionExtension[],
-        el: ContentActionExtension,
-        i: number,
-        arr: ContentActionExtension[]
-    ): ContentActionExtension[] {
-        // remove duplicate separators
-        if (i > 0) {
-            const prev = arr[i - 1];
-            if (prev.type === ContentActionType.separator
-                && el.type === ContentActionType.separator) {
-                    return acc;
+            .reduce(reduceSeparators, [])
+            .map(action => {
+                if (action.type === ContentActionType.menu) {
+                    const copy = copyAction(action);
+                    if (copy.children && copy.children.length > 0) {
+                        copy.children = copy.children
+                            .filter(childAction => this.filterByTarget(nodes, childAction))
+                            .filter(childAction => this.filterByPermission(nodes, childAction, parentNode))
+                            .reduce(reduceSeparators, []);
+                    }
+                    return copy;
                 }
-        }
-        // remove trailing separator
-        if (i === arr.length - 1) {
-            if (el.type === ContentActionType.separator) {
-                return acc;
-            }
-        }
-        return acc.concat(el);
-    }
-
-    private sortByOrder(
-        a: { order?: number | undefined },
-        b: { order?: number | undefined }
-    ) {
-        const left = a.order === undefined ? Number.MAX_SAFE_INTEGER : a.order;
-        const right = b.order === undefined ? Number.MAX_SAFE_INTEGER : b.order;
-        return left - right;
-    }
-
-    private filterOutDisabled(entry: { disabled?: boolean }): boolean {
-        return !entry.disabled;
+                return action;
+            })
+            .reduce(reduceEmptyMenus, []);
     }
 
     private filterByTarget(
