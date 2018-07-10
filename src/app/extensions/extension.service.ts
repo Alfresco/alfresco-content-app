@@ -29,7 +29,7 @@ import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
 import { ContentActionExtension, ContentActionType } from './content-action.extension';
 import { OpenWithExtension } from './open-with.extension';
-import { AppStore, SelectionState } from '../store/states';
+import { AppStore } from '../store/states';
 import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
@@ -200,18 +200,38 @@ export class ExtensionService {
     }
 
     // evaluates content actions for the selection and parent folder node
-    getSelectedContentActions(
-        selection: SelectionState,
+    getAllowedContentActions(
+        nodes: MinimalNodeEntity[],
         parentNode: Node
     ): Array<ContentActionExtension> {
-        const nodes = selection ? selection.nodes : null;
-
         return this.contentActions
             .filter(this.filterOutDisabled)
             .filter(action => this.filterByTarget(nodes, action))
-            .filter(action =>
-                this.filterByPermission(selection, action, parentNode)
-            );
+            .filter(action => this.filterByPermission(nodes, action, parentNode))
+            .reduce(this.reduceSeparators, []);
+    }
+
+    private reduceSeparators(
+        acc: ContentActionExtension[],
+        el: ContentActionExtension,
+        i: number,
+        arr: ContentActionExtension[]
+    ): ContentActionExtension[] {
+        // remove duplicate separators
+        if (i > 0) {
+            const prev = arr[i - 1];
+            if (prev.type === ContentActionType.separator
+                && el.type === ContentActionType.separator) {
+                    return acc;
+                }
+        }
+        // remove trailing separator
+        if (i === arr.length - 1) {
+            if (el.type === ContentActionType.separator) {
+                return acc;
+            }
+        }
+        return acc.concat(el);
     }
 
     private sortByOrder(
@@ -237,7 +257,8 @@ export class ExtensionService {
         }
 
         if (!action.target) {
-            return action.type === ContentActionType.separator;
+            return action.type === ContentActionType.separator
+                || action.type === ContentActionType.menu;
         }
 
         const types = action.target.types;
@@ -293,7 +314,7 @@ export class ExtensionService {
 
     // todo: support multiple selected nodes
     private filterByPermission(
-        selection: SelectionState,
+        nodes: MinimalNodeEntity[],
         action: ContentActionExtension,
         parentNode: Node
     ): boolean {
@@ -302,7 +323,8 @@ export class ExtensionService {
         }
 
         if (!action.target) {
-            return action.type === ContentActionType.separator;
+            return action.type === ContentActionType.separator
+                || action.type === ContentActionType.menu;
         }
 
         const permissions = action.target.permissions;
@@ -315,15 +337,14 @@ export class ExtensionService {
             if (permission.startsWith('parent.')) {
                 if (parentNode) {
                     const parentQuery = permission.split('.')[1];
-                    // console.log(parentNode.allowableOperations, parentQuery);
                     return this.nodeHasPermissions(parentNode, [parentQuery]);
                 }
                 return false;
             }
 
-            if (selection && selection.first) {
+            if (nodes && nodes.length > 0) {
                 return this.nodeHasPermissions(
-                    selection.first.entry,
+                    nodes[0].entry,
                     permissions
                 );
             }

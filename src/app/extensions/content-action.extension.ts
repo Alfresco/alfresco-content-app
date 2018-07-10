@@ -37,6 +37,7 @@ export interface ContentActionExtension {
     title: string;
     icon?: string;
     disabled?: boolean;
+    children?: Array<ContentActionExtension>;
     target: {
         types: Array<string>;
         permissions: Array<string>,

@@ -83,7 +83,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 if (selection.isEmpty) {
                     this.infoDrawerOpened = false;
                 }
-                this.actions = this.extensions.getSelectedContentActions(selection, this.node);
+                const selectedNodes = selection ? selection.nodes : null;
+                this.actions = this.extensions.getAllowedContentActions(selectedNodes, this.node);
                 this.canUpdateFile = this.selection.file && this.content.canUpdateNode(selection.file);
                 this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
                 this.canDelete = !this.selection.isEmpty && this.content.canDeleteNodes(selection.nodes);
