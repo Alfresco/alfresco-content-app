@@ -33,7 +33,7 @@ import { AppStore, SelectionState } from '../store/states';
 import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
-import { Node } from 'alfresco-js-api';
+import { Node, MinimalNodeEntity } from 'alfresco-js-api';
 
 @Injectable()
 export class ExtensionService {
@@ -204,9 +204,11 @@ export class ExtensionService {
         selection: SelectionState,
         parentNode: Node
     ): Array<ContentActionExtension> {
+        const nodes = selection ? selection.nodes : null;
+
         return this.contentActions
             .filter(this.filterOutDisabled)
-            .filter(action => this.filterByTarget(selection, action))
+            .filter(action => this.filterByTarget(nodes, action))
             .filter(action =>
                 this.filterByPermission(selection, action, parentNode)
             );
@@ -225,9 +227,8 @@ export class ExtensionService {
         return !entry.disabled;
     }
 
-    // todo: support multiple selected nodes
     private filterByTarget(
-        selection: SelectionState,
+        nodes: MinimalNodeEntity[],
         action: ContentActionExtension
     ): boolean {
 
@@ -245,27 +246,27 @@ export class ExtensionService {
             return true;
         }
 
-        if (selection && !selection.isEmpty) {
+        if (nodes && nodes.length > 0) {
 
-            if (selection.nodes.length === 1) {
-                if (selection.folder && types.includes('folder')) {
-                    return true;
+            if (nodes.length === 1) {
+                if (types.includes('folder')) {
+                    return nodes.every(node => node.entry.isFolder);
                 }
-                if (selection.file && types.includes('file')) {
-                    return true;
+                if (types.includes('file')) {
+                    return nodes.every(node => node.entry.isFile);
                 }
                 return false;
             } else {
                 if (types.length === 1) {
                     if (types.includes('folder')) {
                         if (action.target.multiple) {
-                            return selection.nodes.every(node => node.entry.isFolder);
+                            return nodes.every(node => node.entry.isFolder);
                         }
                         return false;
                     }
                     if (types.includes('file')) {
                         if (action.target.multiple) {
-                            return selection.nodes.every(node => node.entry.isFile);
+                            return nodes.every(node => node.entry.isFile);
                         }
                         return false;
                     }
@@ -273,13 +274,13 @@ export class ExtensionService {
                     return types.some(type => {
                         if (type === 'folder') {
                             return action.target.multiple
-                                ? selection.nodes.some(node => node.entry.isFolder)
-                                : selection.nodes.every(node => node.entry.isFolder);
+                                ? nodes.some(node => node.entry.isFolder)
+                                : nodes.every(node => node.entry.isFolder);
                         }
                         if (type === 'file') {
                             return action.target.multiple
-                                ? selection.nodes.some(node => node.entry.isFile)
-                                : selection.nodes.every(node => node.entry.isFile);
+                                ? nodes.some(node => node.entry.isFile)
+                                : nodes.every(node => node.entry.isFile);
                         }
                         return false;
                     });
