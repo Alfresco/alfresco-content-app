@@ -1,0 +1,30 @@
+<ng-container [ngSwitch]="entry.type">
+    <button *ngSwitchCase="'button'"
+        mat-icon-button
+        color="primary"
+        title="{{ entry.title | translate }}"
+        (click)="runAction(entry.target.action)">
+        <mat-icon>{{ entry.icon }}</mat-icon>
+    </button>
+    <adf-toolbar-divider *ngSwitchCase="'separator'"></adf-toolbar-divider>
+    <ng-container *ngSwitchCase="'menu'">
+        <button
+            color="primary"
+            mat-icon-button
+            title="{{ entry.title | translate }}"
+            [matMenuTriggerFor]="menu">
+            <mat-icon>{{ entry.icon }}</mat-icon>
+        </button>
+
+        <mat-menu #menu="matMenu"
+            [overlapTrigger]="false">
+            <ng-container *ngFor="let child of entry.children">
+                <button mat-menu-item
+                    (click)="runAction(child.target.action)">
+                    <mat-icon>{{ child.icon }}</mat-icon>
+                    <span>{{ child.title | translate }}</span>
+                </button>
+            </ng-container>
+        </mat-menu>
+    </ng-container>
+</ng-container>

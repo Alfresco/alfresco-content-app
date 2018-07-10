@@ -4,15 +4,9 @@
         </adf-breadcrumb>
         <adf-toolbar class="inline">
             <ng-container *ifExperimental="'extensions'">
-                <adf-toolbar-divider></adf-toolbar-divider>
-                <button *ngFor="let entry of actions"
-                    mat-icon-button
-                    color="primary"
-                    title="{{ entry.title | translate }}"
-                    (click)="runAction(entry.target.action)">
-                    <mat-icon>{{ entry.icon }}</mat-icon>
-                </button>
-                <adf-toolbar-divider></adf-toolbar-divider>
+                <ng-container *ngFor="let entry of actions">
+                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
+                </ng-container>
             </ng-container>
 
             <ng-container *ngIf="!selection.isEmpty">

@@ -200,8 +200,13 @@
                 "content": {
                     "actions": [
                         {
-                            "disabled": false,
+                            "id": "aca:toolbar/separator-1",
+                            "order": 5,
+                            "type": "separator"
+                        },
+                        {
                             "id": "aca:toolbar/create-folder",
+                            "type": "button",
                             "order": 10,
                             "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                             "icon": "create_new_folder",
@@ -212,8 +217,8 @@
                             }
                         },
                         {
-                            "disabled": false,
                             "id": "aca:toolbar/preview",
+                            "type": "button",
                             "order": 15,
                             "title": "APP.ACTIONS.VIEW",
                             "icon": "open_in_browser",
@@ -224,8 +229,8 @@
                             }
                         },
                         {
-                            "disabled": false,
                             "id": "aca:toolbar/download",
+                            "type": "button",
                             "order": 20,
                             "title": "APP.ACTIONS.DOWNLOAD",
                             "icon": "get_app",
@@ -237,8 +242,8 @@
                             }
                         },
                         {
-                            "disabled": false,
                             "id": "aca:toolbar/edit-folder",
+                            "type": "button",
                             "order": 30,
                             "title": "APP.ACTIONS.EDIT",
                             "icon": "create",
@@ -249,30 +254,44 @@
                             }
                         },
 
-
                         {
-                            "disabled": false,
-                            "id": "aca:action3",
-                            "order": 101,
-                            "title": "Settings",
-                            "icon": "settings_applications",
-                            "target": {
-                                "types": [],
-                                "permissions": [],
-                                "action": "aca:actions/settings"
-                            }
+                            "id": "aca:toolbar/separator-2",
+                            "order": 200,
+                            "type": "separator"
                         },
                         {
-                            "disabled": false,
-                            "id": "aca:action4",
-                            "order": 101,
-                            "title": "Error",
-                            "icon": "report_problem",
-                            "target": {
-                                "types": ["file"],
-                                "permissions": ["update", "delete"],
-                                "action": "aca:actions/error"
-                            }
+                            "id": "aca:toolbar/menu-1",
+                            "type": "menu",
+                            "icon": "storage",
+                            "order": 300,
+                            "children": [
+                                {
+                                    "id": "aca:action3",
+                                    "type": "button",
+                                    "title": "Settings",
+                                    "icon": "settings_applications",
+                                    "target": {
+                                        "types": [],
+                                        "permissions": [],
+                                        "action": "aca:actions/settings"
+                                    }
+                                },
+                                {
+                                    "id": "aca:action4",
+                                    "type": "button",
+                                    "title": "Error",
+                                    "icon": "report_problem",
+                                    "target": {
+                                        "types": ["file"],
+                                        "permissions": ["update", "delete"],
+                                        "action": "aca:actions/error"
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "id": "aca:toolbar/separator-3",
+                            "type": "separator"
                         }
                     ]
                 }

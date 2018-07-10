@@ -27,13 +27,14 @@ import { Injectable, Type } from '@angular/core';
 import { RouteExtension } from './route.extension';
 import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
-import { ContentActionExtension } from './content-action.extension';
+import { ContentActionExtension, ContentActionType } from './content-action.extension';
 import { OpenWithExtension } from './open-with.extension';
-import { AppStore, SelectionState } from '../store/states';
+import { AppStore } from '../store/states';
 import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
-import { Node } from 'alfresco-js-api';
+import { Node, MinimalNodeEntity } from 'alfresco-js-api';
+import { reduceSeparators, sortByOrder, filterEnabled, copyAction, reduceEmptyMenus } from './utils';
 
 @Injectable()
 export class ExtensionService {
@@ -70,7 +71,7 @@ export class ExtensionService {
                 'extensions.core.features.content.actions',
                 []
             )
-            .sort(this.sortByOrder);
+            .sort(sortByOrder);
 
         this.openWithActions = this.config
             .get<Array<OpenWithExtension>>(
@@ -78,14 +79,14 @@ export class ExtensionService {
                 []
             )
             .filter(entry => !entry.disabled)
-            .sort(this.sortByOrder);
+            .sort(sortByOrder);
 
         this.createActions = this.config
             .get<Array<ContentActionExtension>>(
                 'extensions.core.features.create',
                 []
             )
-            .sort(this.sortByOrder);
+            .sort(sortByOrder);
     }
 
     getRouteById(id: string): RouteExtension {
@@ -178,7 +179,7 @@ export class ExtensionService {
 
     // evaluates create actions for the folder node
     getFolderCreateActions(folder: Node): Array<ContentActionExtension> {
-        return this.createActions.filter(this.filterOutDisabled).map(action => {
+        return this.createActions.filter(filterEnabled).map(action => {
             if (
                 action.target &&
                 action.target.permissions &&
@@ -200,64 +201,72 @@ export class ExtensionService {
     }
 
     // evaluates content actions for the selection and parent folder node
-    getSelectedContentActions(
-        selection: SelectionState,
+    getAllowedContentActions(
+        nodes: MinimalNodeEntity[],
         parentNode: Node
     ): Array<ContentActionExtension> {
         return this.contentActions
-            .filter(this.filterOutDisabled)
-            .filter(action => action.target)
-            .filter(action => this.filterByTarget(selection, action))
-            .filter(action =>
-                this.filterByPermission(selection, action, parentNode)
-            );
+            .filter(filterEnabled)
+            .filter(action => this.filterByTarget(nodes, action))
+            .filter(action => this.filterByPermission(nodes, action, parentNode))
+            .reduce(reduceSeparators, [])
+            .map(action => {
+                if (action.type === ContentActionType.menu) {
+                    const copy = copyAction(action);
+                    if (copy.children && copy.children.length > 0) {
+                        copy.children = copy.children
+                            .filter(childAction => this.filterByTarget(nodes, childAction))
+                            .filter(childAction => this.filterByPermission(nodes, childAction, parentNode))
+                            .reduce(reduceSeparators, []);
+                    }
+                    return copy;
+                }
+                return action;
+            })
+            .reduce(reduceEmptyMenus, []);
     }
 
-    private sortByOrder(
-        a: { order?: number | undefined },
-        b: { order?: number | undefined }
-    ) {
-        const left = a.order === undefined ? Number.MAX_SAFE_INTEGER : a.order;
-        const right = b.order === undefined ? Number.MAX_SAFE_INTEGER : b.order;
-        return left - right;
-    }
-
-    private filterOutDisabled(entry: { disabled?: boolean }): boolean {
-        return !entry.disabled;
-    }
-
-    // todo: support multiple selected nodes
     private filterByTarget(
-        selection: SelectionState,
+        nodes: MinimalNodeEntity[],
         action: ContentActionExtension
     ): boolean {
+
+        if (!action) {
+            return false;
+        }
+
+        if (!action.target) {
+            return action.type === ContentActionType.separator
+                || action.type === ContentActionType.menu;
+        }
+
         const types = action.target.types;
 
         if (!types || types.length === 0) {
             return true;
         }
 
-        if (selection && !selection.isEmpty) {
+        if (nodes && nodes.length > 0) {
 
-            if (selection.nodes.length === 1) {
-                if (selection.folder && types.includes('folder')) {
-                    return true;
+            if (nodes.length === 1) {
+                if (types.includes('folder')) {
+                    return nodes.every(node => node.entry.isFolder);
                 }
-                if (selection.file && types.includes('file')) {
-                    return true;
+                if (types.includes('file')) {
+                    return nodes.every(node => node.entry.isFile);
                 }
                 return false;
             } else {
                 if (types.length === 1) {
                     if (types.includes('folder')) {
                         if (action.target.multiple) {
-                            return selection.nodes.every(node => node.entry.isFolder);
+                            return nodes.every(node => node.entry.isFolder);
                         }
                         return false;
                     }
                     if (types.includes('file')) {
                         if (action.target.multiple) {
-                            return selection.nodes.every(node => node.entry.isFile);
+                            return nodes.every(node => node.entry.isFile);
                         }
                         return false;
                     }
@@ -265,13 +274,13 @@ export class ExtensionService {
                     return types.some(type => {
                         if (type === 'folder') {
                             return action.target.multiple
-                                ? selection.nodes.some(node => node.entry.isFolder)
-                                : selection.nodes.every(node => node.entry.isFolder);
+                                ? nodes.some(node => node.entry.isFolder)
+                                : nodes.every(node => node.entry.isFolder);
                         }
                         if (type === 'file') {
                             return action.target.multiple
-                                ? selection.nodes.some(node => node.entry.isFile)
-                                : selection.nodes.every(node => node.entry.isFile);
+                                ? nodes.some(node => node.entry.isFile)
+                                : nodes.every(node => node.entry.isFile);
                         }
                         return false;
                     });
@@ -284,10 +293,19 @@ export class ExtensionService {
 
     // todo: support multiple selected nodes
     private filterByPermission(
-        selection: SelectionState,
+        nodes: MinimalNodeEntity[],
         action: ContentActionExtension,
         parentNode: Node
     ): boolean {
+        if (!action) {
+            return false;
+        }
+
+        if (!action.target) {
+            return action.type === ContentActionType.separator
+                || action.type === ContentActionType.menu;
+        }
+
         const permissions = action.target.permissions;
 
         if (!permissions || permissions.length === 0) {
@@ -298,15 +316,14 @@ export class ExtensionService {
             if (permission.startsWith('parent.')) {
                 if (parentNode) {
                     const parentQuery = permission.split('.')[1];
-                    // console.log(parentNode.allowableOperations, parentQuery);
                     return this.nodeHasPermissions(parentNode, [parentQuery]);
                 }
                 return false;
             }
 
-            if (selection && selection.first) {
+            if (nodes && nodes.length > 0) {
                 return this.nodeHasPermissions(
-                    selection.first.entry,
+                    nodes[0].entry,
                     permissions
                 );
             }

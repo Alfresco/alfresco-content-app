@@ -23,12 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+export enum ContentActionType {
+    default = 'button',
+    button = 'button',
+    separator = 'separator',
+    menu = 'menu'
+}
+
 export interface ContentActionExtension {
     id: string;
+    type: ContentActionType;
     order?: number;
     title: string;
     icon?: string;
     disabled?: boolean;
+    children?: Array<ContentActionExtension>;
     target: {
         types: Array<string>;
         permissions: Array<string>,
