@@ -202,10 +202,7 @@
                         {
                             "id": "aca:toolbar/separator-1",
                             "order": 5,
-                            "type": "separator",
-                            "target": {
-                                "types": []
-                            }
+                            "type": "separator"
                         },
                         {
                             "disabled": false,

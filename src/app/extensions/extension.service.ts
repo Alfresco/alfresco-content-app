@@ -27,7 +27,7 @@ import { Injectable, Type } from '@angular/core';
 import { RouteExtension } from './route.extension';
 import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
-import { ContentActionExtension } from './content-action.extension';
+import { ContentActionExtension, ContentActionType } from './content-action.extension';
 import { OpenWithExtension } from './open-with.extension';
 import { AppStore, SelectionState } from '../store/states';
 import { Store } from '@ngrx/store';
@@ -206,7 +206,6 @@ export class ExtensionService {
     ): Array<ContentActionExtension> {
         return this.contentActions
             .filter(this.filterOutDisabled)
-            .filter(action => action.target)
             .filter(action => this.filterByTarget(selection, action))
             .filter(action =>
                 this.filterByPermission(selection, action, parentNode)
@@ -231,6 +230,15 @@ export class ExtensionService {
         selection: SelectionState,
         action: ContentActionExtension
     ): boolean {
+
+        if (!action) {
+            return false;
+        }
+
+        if (!action.target) {
+            return action.type === ContentActionType.separator;
+        }
+
         const types = action.target.types;
 
         if (!types || types.length === 0) {
@@ -288,6 +296,14 @@ export class ExtensionService {
         action: ContentActionExtension,
         parentNode: Node
     ): boolean {
+        if (!action) {
+            return false;
+        }
+
+        if (!action.target) {
+            return action.type === ContentActionType.separator;
+        }
+
         const permissions = action.target.permissions;
 
         if (!permissions || permissions.length === 0) {
