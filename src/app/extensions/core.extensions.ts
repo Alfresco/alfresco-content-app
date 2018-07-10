@@ -24,14 +24,20 @@
  */
 
 import { NgModule } from '@angular/core';
-import { AuthGuardEcm } from '@alfresco/adf-core';
+import { AuthGuardEcm, CoreModule } from '@alfresco/adf-core';
 import { ExtensionService } from './extension.service';
 import { AboutComponent } from '../components/about/about.component';
 import { LayoutComponent } from '../components/layout/layout.component';
+import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-    imports: [],
-    declarations: [],
+    imports: [
+        CommonModule,
+        CoreModule.forChild()
+    ],
+    declarations: [ToolbarActionComponent],
+    exports: [ToolbarActionComponent],
     entryComponents: [AboutComponent]
 })
 export class CoreExtensionsModule {

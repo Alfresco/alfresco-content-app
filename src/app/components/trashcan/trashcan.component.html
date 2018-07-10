@@ -14,16 +14,7 @@
 
             <ng-container *ifExperimental="'extensions'">
                 <ng-container *ngFor="let entry of actions">
-                    <ng-container [ngSwitch]="entry.type">
-                        <button *ngSwitchCase="'button'"
-                            mat-icon-button
-                            color="primary"
-                            title="{{ entry.title | translate }}"
-                            (click)="runAction(entry.target.action)">
-                            <mat-icon>{{ entry.icon }}</mat-icon>
-                        </button>
-                        <adf-toolbar-divider *ngSwitchCase="'separator'"></adf-toolbar-divider>
-                    </ng-container>
+                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
                 </ng-container>
             </ng-container>
 
