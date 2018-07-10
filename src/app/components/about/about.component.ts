@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { ObjectDataTableAdapter  } from '@alfresco/adf-core';
 import { ContentApiService } from '../../services/content-api.service';
 import { RepositoryInfo } from 'alfresco-js-api';
@@ -44,7 +44,7 @@ export class AboutComponent implements OnInit {
 
     constructor(
         private contentApi: ContentApiService,
-        private http: Http
+        private http: HttpClient
     ) {}
 
     ngOnInit() {
@@ -85,8 +85,7 @@ export class AboutComponent implements OnInit {
         });
 
         this.http.get('/versions.json')
-            .map(response => response.json())
-            .subscribe(response => {
+            .subscribe((response: any) => {
                 const regexp = new RegExp('^(@alfresco|alfresco-)');
 
                 const alfrescoPackagesTableRepresentation = Object.keys(response.dependencies)
