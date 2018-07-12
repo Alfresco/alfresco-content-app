@@ -240,7 +240,7 @@ export class ExtensionService {
             .reduce(this.reduceEmptyMenus, []);
     }
 
-    private reduceSeparators(
+    reduceSeparators(
         acc: ContentActionExtension[],
         el: ContentActionExtension,
         i: number,
@@ -255,17 +255,19 @@ export class ExtensionService {
             ) {
                 return acc;
             }
-        }
-        // remove trailing separator
-        if (i === arr.length - 1) {
-            if (el.type === ContentActionType.separator) {
-                return acc;
+
+            // remove trailing separator
+            if (i === arr.length - 1) {
+                if (el.type === ContentActionType.separator) {
+                    return acc;
+                }
             }
         }
+
         return acc.concat(el);
     }
 
-    private reduceEmptyMenus(
+    reduceEmptyMenus(
         acc: ContentActionExtension[],
         el: ContentActionExtension
     ): ContentActionExtension[] {
@@ -277,7 +279,7 @@ export class ExtensionService {
         return acc.concat(el);
     }
 
-    private sortByOrder(
+    sortByOrder(
         a: { order?: number | undefined },
         b: { order?: number | undefined }
     ) {
@@ -286,11 +288,11 @@ export class ExtensionService {
         return left - right;
     }
 
-    private filterEnabled(entry: { disabled?: boolean }): boolean {
+    filterEnabled(entry: { disabled?: boolean }): boolean {
         return !entry.disabled;
     }
 
-    private copyAction(action: ContentActionExtension): ContentActionExtension {
+    copyAction(action: ContentActionExtension): ContentActionExtension {
         return {
             ...action,
             children: (action.children || []).map(child =>
@@ -299,7 +301,7 @@ export class ExtensionService {
         };
     }
 
-    private filterByTarget(
+    filterByTarget(
         nodes: MinimalNodeEntity[],
         action: ContentActionExtension
     ): boolean {
@@ -341,7 +343,7 @@ export class ExtensionService {
         return false;
     }
 
-    private filterByPermission(
+    filterByPermission(
         nodes: MinimalNodeEntity[],
         action: ContentActionExtension,
         parentNode: Node
@@ -387,11 +389,8 @@ export class ExtensionService {
         });
     }
 
-    private nodeHasPermissions(
-        node: Node,
-        permissions: string[] = []
-    ): boolean {
-        if (node && permissions.length > 0) {
+    nodeHasPermissions(node: Node, permissions: string[]): boolean {
+        if (node && permissions && permissions.length > 0) {
             return permissions.some(permission =>
                 this.nodeHasPermission(node, permission)
             );
@@ -399,7 +398,7 @@ export class ExtensionService {
         return false;
     }
 
-    private nodeHasPermission(node: Node, permission: string): boolean {
+    nodeHasPermission(node: Node, permission: string): boolean {
         if (node && permission) {
             const allowableOperations = node.allowableOperations || [];
             return allowableOperations.includes(permission);

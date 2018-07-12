@@ -29,6 +29,7 @@ import { ExtensionService } from './extension.service';
 import { AppConfigService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
+import { ContentActionType } from './content-action.extension';
 
 describe('ExtensionService', () => {
     let config: AppConfigService;
@@ -104,6 +105,9 @@ describe('ExtensionService', () => {
     });
 
     describe('routes', () => {
+        let component1, component2;
+        let guard1;
+
         beforeEach(() => {
             config.config.extensions = {
                 core: {
@@ -121,32 +125,46 @@ describe('ExtensionService', () => {
                     ]
                 }
             };
+
+            component1 = {};
+            component2 = {};
+            extensions.components['aca:components/about'] = component1;
+            extensions.components['aca:layouts/main'] = component2;
+
+            guard1 = {};
+            extensions.authGuards['aca:auth'] = guard1;
+
+            extensions.init();
         });
 
         it('should load routes from the config', () => {
-            extensions.init();
             expect(extensions.routes.length).toBe(1);
         });
 
-        it('should have an empty route list if config provides nothing', () => {
-            config.config.extensions = {};
-            extensions.init();
-            expect(extensions.routes).toEqual([]);
-        });
-
         it('should find a route by id', () => {
-            extensions.init();
-
             const route = extensions.getRouteById('aca:routes/about');
             expect(route).toBeTruthy();
             expect(route.path).toBe('ext/about');
         });
 
         it('should not find a route by id', () => {
-            extensions.init();
-
             const route = extensions.getRouteById('some-route');
             expect(route).toBeFalsy();
+        });
+
+        it('should build application routes', () => {
+            const routes = extensions.getApplicationRoutes();
+
+            expect(routes.length).toBe(1);
+
+            const route = routes[0];
+            expect(route.path).toBe('ext/about');
+            expect(route.component).toEqual(component2);
+            expect(route.canActivateChild).toEqual([guard1]);
+            expect(route.canActivate).toEqual([guard1]);
+            expect(route.children.length).toBe(1);
+            expect(route.children[0].path).toBe('');
+            expect(route.children[0].component).toEqual(component1);
         });
     });
 
@@ -471,5 +489,149 @@ describe('ExtensionService', () => {
             const value = extensions.runExpression(expression, context);
             expect(value).toBe('hey there!');
         });
+    });
+
+    describe('permissions', () => {
+        it('should approve node permission', () => {
+            const node: any = {
+                allowableOperations: ['create']
+            };
+
+            expect(extensions.nodeHasPermission(node, 'create')).toBeTruthy();
+        });
+
+        it('should not approve node permission', () => {
+            const node: any = {
+                allowableOperations: ['create']
+            };
+
+            expect(extensions.nodeHasPermission(node, 'update')).toBeFalsy();
+        });
+
+        it('should not approve node permission when node missing property', () => {
+            const node: any = {
+                allowableOperations: null
+            };
+
+            expect(extensions.nodeHasPermission(node, 'update')).toBeFalsy();
+        });
+
+        it('should require node to check permission', () => {
+            expect(extensions.nodeHasPermission(null, 'create')).toBeFalsy();
+        });
+
+        it('should require permission value to check', () => {
+            const node: any = {
+                allowableOperations: ['create']
+            };
+            expect(extensions.nodeHasPermission(node, null)).toBeFalsy();
+        });
+
+        it('should approve multiple permissions', () => {
+            const node: any = {
+                allowableOperations: ['create', 'update', 'delete']
+            };
+            expect(
+                extensions.nodeHasPermissions(node, ['create', 'delete'])
+            ).toBeTruthy();
+        });
+
+        it('should require node to check multiple permissions', () => {
+            expect(extensions.nodeHasPermissions(null, ['create'])).toBeFalsy();
+        });
+
+        it('should require multiple permissions to check', () => {
+            const node: any = {
+                allowableOperations: ['create', 'update', 'delete']
+            };
+            expect(extensions.nodeHasPermissions(node, null)).toBeFalsy();
+        });
+    });
+
+    describe('sorting', () => {
+        it('should sort by provided order', () => {
+            const sorted = [
+                { id: '1', order: 10 },
+                { id: '2', order: 1 },
+                { id: '3', order: 5 }
+            ].sort(extensions.sortByOrder);
+
+            expect(sorted[0].id).toBe('2');
+            expect(sorted[1].id).toBe('3');
+            expect(sorted[2].id).toBe('1');
+        });
+
+        it('should use implicit order', () => {
+            const sorted = [
+                { id: '3'},
+                { id: '2' },
+                { id: '1', order: 1 }
+            ].sort(extensions.sortByOrder);
+
+            expect(sorted[0].id).toBe('1');
+            expect(sorted[1].id).toBe('3');
+            expect(sorted[2].id).toBe('2');
+        });
+    });
+
+    describe('filtering', () => {
+        it('should filter out disabled items', () => {
+            const items = [
+                { id: 1, disabled: true },
+                { id: 2 },
+                { id: 3, disabled: true }
+            ].filter(extensions.filterEnabled);
+
+            expect(items.length).toBe(1);
+            expect(items[0].id).toBe(2);
+        });
+    });
+
+    it('should reduce duplicate separators', () => {
+        const actions = [
+            { id: '1', type: ContentActionType.button },
+            { id: '2', type: ContentActionType.separator },
+            { id: '3', type: ContentActionType.separator },
+            { id: '4', type: ContentActionType.separator },
+            { id: '5', type: ContentActionType.button }
+        ];
+
+        const result = actions.reduce(extensions.reduceSeparators, []);
+        expect(result.length).toBe(3);
+        expect(result[0].id).toBe('1');
+        expect(result[1].id).toBe('2');
+        expect(result[2].id).toBe('5');
+    });
+
+    it('should trim trailing separators', () => {
+        const actions = [
+            { id: '1', type: ContentActionType.button },
+            { id: '2', type: ContentActionType.separator }
+        ];
+
+        const result = actions.reduce(extensions.reduceSeparators, []);
+        expect(result.length).toBe(1);
+        expect(result[0].id).toBe('1');
+    });
+
+    it('should reduce empty menus', () => {
+        const actions = [
+            <any>{ id: '1', type: ContentActionType.button },
+            {
+                id: '2',
+                type: ContentActionType.menu
+            },
+            {
+                id: '3',
+                type: ContentActionType.menu,
+                children: [{ id: '3-1', type: ContentActionType.button }]
+            }
+        ];
+
+        const result = actions.reduce(extensions.reduceEmptyMenus, []);
+
+        expect(result.length).toBe(2);
+        expect(result[0].id).toBe('1');
+        expect(result[1].id).toBe('3');
     });
 });
