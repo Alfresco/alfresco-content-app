@@ -136,8 +136,10 @@ export class ExtensionService {
         return [];
     }
 
-    getAuthGuards(ids: string[] = []): Array<Type<{}>> {
-        return ids.map(id => this.authGuards[id]);
+    getAuthGuards(ids: string[]): Array<Type<{}>> {
+        return (ids || [])
+            .map(id => this.authGuards[id])
+            .filter(guard => guard);
     }
 
     getComponentById(id: string): Type<{}> {
