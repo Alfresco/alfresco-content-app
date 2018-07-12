@@ -225,7 +225,6 @@ export class ExtensionService {
             .reduce(this.reduceEmptyMenus, []);
     }
 
-    // todo: support multiple selected nodes
     private filterByPermission(
         nodes: MinimalNodeEntity[],
         action: ContentActionExtension,
@@ -240,9 +239,9 @@ export class ExtensionService {
                 || action.type === ContentActionType.menu;
         }
 
-        const permissions = action.target.permissions;
+        const permissions = action.target.permissions || [];
 
-        if (!permissions || permissions.length === 0) {
+        if (permissions.length === 0) {
             return true;
         }
 
@@ -258,20 +257,25 @@ export class ExtensionService {
             if (nodes && nodes.length > 0) {
                 return this.nodeHasPermissions(
                     nodes[0].entry,
-                    permissions
+                    permissions,
+                    parentNode
                 );
             }
 
             return true;
         });
-
-        return true;
     }
 
     private nodeHasPermissions(
         node: Node,
-        permissions: string[] = []
+        permissions: string[] = [],
+        parentNode?: Node
     ): boolean {
+
+        if (permissions.length === 0) {
+            return true;
+        }
+
         if (
             node &&
             node.allowableOperations &&
@@ -369,12 +373,12 @@ export class ExtensionService {
                 if (type === 'folder') {
                     return action.target.multiple
                         ? nodes.some(node => node.entry.isFolder)
-                        : nodes.every(node => node.entry.isFolder);
+                        : nodes.length === 1 && nodes.every(node => node.entry.isFolder);
                 }
                 if (type === 'file') {
                     return action.target.multiple
                         ? nodes.some(node => node.entry.isFile)
-                        : nodes.every(node => node.entry.isFile);
+                        : nodes.length === 1 && nodes.every(node => node.entry.isFile);
                 }
                 return false;
             });
