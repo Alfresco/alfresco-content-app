@@ -30,7 +30,7 @@ import { AppConfigService } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
 
-fdescribe('ExtensionService', () => {
+describe('ExtensionService', () => {
     let config: AppConfigService;
     let extensions: ExtensionService;
     let store: Store<AppStore>;
