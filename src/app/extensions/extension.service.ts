@@ -34,7 +34,6 @@ import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
-import { reduceSeparators, sortByOrder, filterEnabled, copyAction, reduceEmptyMenus } from './utils';
 
 @Injectable()
 export class ExtensionService {
@@ -71,7 +70,7 @@ export class ExtensionService {
                 'extensions.core.features.content.actions',
                 []
             )
-            .sort(sortByOrder);
+            .sort(this.sortByOrder);
 
         this.openWithActions = this.config
             .get<Array<OpenWithExtension>>(
@@ -79,14 +78,14 @@ export class ExtensionService {
                 []
             )
             .filter(entry => !entry.disabled)
-            .sort(sortByOrder);
+            .sort(this.sortByOrder);
 
         this.createActions = this.config
             .get<Array<ContentActionExtension>>(
                 'extensions.core.features.create',
                 []
             )
-            .sort(sortByOrder);
+            .sort(this.sortByOrder);
     }
 
     getRouteById(id: string): RouteExtension {
@@ -179,7 +178,7 @@ export class ExtensionService {
 
     // evaluates create actions for the folder node
     getFolderCreateActions(folder: Node): Array<ContentActionExtension> {
-        return this.createActions.filter(filterEnabled).map(action => {
+        return this.createActions.filter(this.filterEnabled).map(action => {
             if (
                 action.target &&
                 action.target.permissions &&
@@ -206,89 +205,24 @@ export class ExtensionService {
         parentNode: Node
     ): Array<ContentActionExtension> {
         return this.contentActions
-            .filter(filterEnabled)
+            .filter(this.filterEnabled)
             .filter(action => this.filterByTarget(nodes, action))
             .filter(action => this.filterByPermission(nodes, action, parentNode))
-            .reduce(reduceSeparators, [])
+            .reduce(this.reduceSeparators, [])
             .map(action => {
                 if (action.type === ContentActionType.menu) {
-                    const copy = copyAction(action);
+                    const copy = this.copyAction(action);
                     if (copy.children && copy.children.length > 0) {
                         copy.children = copy.children
                             .filter(childAction => this.filterByTarget(nodes, childAction))
                             .filter(childAction => this.filterByPermission(nodes, childAction, parentNode))
-                            .reduce(reduceSeparators, []);
+                            .reduce(this.reduceSeparators, []);
                     }
                     return copy;
                 }
                 return action;
             })
-            .reduce(reduceEmptyMenus, []);
-    }
-
-    private filterByTarget(
-        nodes: MinimalNodeEntity[],
-        action: ContentActionExtension
-    ): boolean {
-
-        if (!action) {
-            return false;
-        }
-
-        if (!action.target) {
-            return action.type === ContentActionType.separator
-                || action.type === ContentActionType.menu;
-        }
-
-        const types = action.target.types;
-
-        if (!types || types.length === 0) {
-            return true;
-        }
-
-        if (nodes && nodes.length > 0) {
-
-            if (nodes.length === 1) {
-                if (types.includes('folder')) {
-                    return nodes.every(node => node.entry.isFolder);
-                }
-                if (types.includes('file')) {
-                    return nodes.every(node => node.entry.isFile);
-                }
-                return false;
-            } else {
-                if (types.length === 1) {
-                    if (types.includes('folder')) {
-                        if (action.target.multiple) {
-                            return nodes.every(node => node.entry.isFolder);
-                        }
-                        return false;
-                    }
-                    if (types.includes('file')) {
-                        if (action.target.multiple) {
-                            return nodes.every(node => node.entry.isFile);
-                        }
-                        return false;
-                    }
-                } else {
-                    return types.some(type => {
-                        if (type === 'folder') {
-                            return action.target.multiple
-                                ? nodes.some(node => node.entry.isFolder)
-                                : nodes.every(node => node.entry.isFolder);
-                        }
-                        if (type === 'file') {
-                            return action.target.multiple
-                                ? nodes.some(node => node.entry.isFile)
-                                : nodes.every(node => node.entry.isFile);
-                        }
-                        return false;
-                    });
-                }
-            }
-        }
-
-        return false;
+            .reduce(this.reduceEmptyMenus, []);
     }
 
     // todo: support multiple selected nodes
@@ -347,6 +281,130 @@ export class ExtensionService {
                 node.allowableOperations.includes(permission)
             );
         }
+        return false;
+    }
+
+    private reduceSeparators(
+        acc: ContentActionExtension[],
+        el: ContentActionExtension,
+        i: number,
+        arr: ContentActionExtension[]
+    ): ContentActionExtension[] {
+        // remove duplicate separators
+        if (i > 0) {
+            const prev = arr[i - 1];
+            if (
+                prev.type === ContentActionType.separator &&
+                el.type === ContentActionType.separator
+            ) {
+                return acc;
+            }
+        }
+        // remove trailing separator
+        if (i === arr.length - 1) {
+            if (el.type === ContentActionType.separator) {
+                return acc;
+            }
+        }
+        return acc.concat(el);
+    }
+
+    private reduceEmptyMenus(
+        acc: ContentActionExtension[],
+        el: ContentActionExtension
+    ): ContentActionExtension[] {
+        if (el.type === ContentActionType.menu) {
+            if ((el.children || []).length === 0) {
+                return acc;
+            }
+        }
+        return acc.concat(el);
+    }
+
+    private sortByOrder(
+        a: { order?: number | undefined },
+        b: { order?: number | undefined }
+    ) {
+        const left = a.order === undefined ? Number.MAX_SAFE_INTEGER : a.order;
+        const right = b.order === undefined ? Number.MAX_SAFE_INTEGER : b.order;
+        return left - right;
+    }
+
+    private filterEnabled(entry: { disabled?: boolean }): boolean {
+        return !entry.disabled;
+    }
+
+    private copyAction(
+        action: ContentActionExtension
+    ): ContentActionExtension {
+        return {
+            ...action,
+            children: (action.children || []).map(child => this.copyAction(child))
+        };
+    }
+
+    private filterByTarget(
+        nodes: MinimalNodeEntity[],
+        action: ContentActionExtension
+    ): boolean {
+        if (!action) {
+            return false;
+        }
+
+        if (!action.target) {
+            return (
+                action.type === ContentActionType.separator ||
+                action.type === ContentActionType.menu
+            );
+        }
+
+        const types = action.target.types;
+
+        if (!types || types.length === 0) {
+            return true;
+        }
+
+        if (nodes && nodes.length > 0) {
+            if (nodes.length === 1) {
+                if (types.includes('folder')) {
+                    return nodes.every(node => node.entry.isFolder);
+                }
+                if (types.includes('file')) {
+                    return nodes.every(node => node.entry.isFile);
+                }
+                return false;
+            } else {
+                if (types.length === 1) {
+                    if (types.includes('folder')) {
+                        if (action.target.multiple) {
+                            return nodes.every(node => node.entry.isFolder);
+                        }
+                        return false;
+                    }
+                    if (types.includes('file')) {
+                        if (action.target.multiple) {
+                            return nodes.every(node => node.entry.isFile);
+                        }
+                        return false;
+                    }
+                } else {
+                    return types.some(type => {
+                        if (type === 'folder') {
+                            return action.target.multiple
+                                ? nodes.some(node => node.entry.isFolder)
+                                : nodes.every(node => node.entry.isFolder);
+                        }
+                        if (type === 'file') {
+                            return action.target.multiple
+                                ? nodes.some(node => node.entry.isFile)
+                                : nodes.every(node => node.entry.isFile);
+                        }
+                        return false;
+                    });
+                }
+            }
+        }
+
         return false;
     }
 }
