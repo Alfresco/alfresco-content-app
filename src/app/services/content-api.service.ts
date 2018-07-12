@@ -37,7 +37,9 @@ import {
     FavoritePaging,
     SharedLinkPaging,
     SearchRequest,
-    ResultSetPaging
+    ResultSetPaging,
+    SiteBody,
+    SiteEntry
 } from 'alfresco-js-api';
 
 @Injectable()
@@ -224,6 +226,18 @@ export class ContentApiService {
     deleteSite(siteId?: string, opts?: { permanent?: boolean }): Observable<any> {
         return Observable.fromPromise(
             this.api.sitesApi.deleteSite(siteId, opts)
+        );
+    }
+
+    createSite(siteBody: SiteBody, opts?: {skipConfiguration?: boolean, skipAddToFavorites?: boolean}): Observable<SiteEntry> {
+        return Observable.fromPromise(
+            this.api.sitesApi.createSite(siteBody, opts)
+        );
+    }
+
+    getSite(siteId?: string, opts?: { relations?: Array<string>, fields?: Array<string> }): Observable<SiteEntry> {
+        return Observable.fromPromise(
+            this.api.sitesApi.getSite(siteId, opts)
         );
     }
 }

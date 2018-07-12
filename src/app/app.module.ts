@@ -61,7 +61,9 @@ import { NodePermanentDeleteDirective } from './common/directives/node-permanent
 import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
 import { NodeVersionsDirective } from './common/directives/node-versions.directive';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
+import { LibraryDialogComponent } from './dialogs/library/library.dialog';
 import { ContentManagementService } from './common/services/content-management.service';
+import { LibraryManagementService } from './common/services/library-management.service';
 import { NodeActionsService } from './common/services/node-actions.service';
 import { NodePermissionService } from './common/services/node-permission.service';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
@@ -132,6 +134,7 @@ import { PermissionsManagerComponent } from './components/permission-manager/per
         NodeVersionsDirective,
         NodePermissionsDirective,
         NodeVersionsDialogComponent,
+        LibraryDialogComponent,
         NodePermissionsDialogComponent,
         PermissionsManagerComponent,
         SearchResultsComponent,
@@ -154,6 +157,7 @@ import { PermissionsManagerComponent } from './components/permission-manager/per
             }
         },
         ContentManagementService,
+        LibraryManagementService,
         NodeActionsService,
         NodePermissionService,
         ProfileResolver,
@@ -162,6 +166,7 @@ import { PermissionsManagerComponent } from './components/permission-manager/per
         ExtensionService
     ],
     entryComponents: [
+        LibraryDialogComponent,
         NodeVersionsDialogComponent,
         NodePermissionsDialogComponent
     ],

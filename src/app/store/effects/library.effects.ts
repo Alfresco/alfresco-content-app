@@ -26,7 +26,10 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { DeleteLibraryAction, DELETE_LIBRARY } from '../actions';
+import {
+    DeleteLibraryAction, DELETE_LIBRARY,
+    CreateLibraryAction, CREATE_LIBRARY
+} from '../actions';
 import {
     SnackbarInfoAction,
     SnackbarErrorAction
@@ -34,6 +37,7 @@ import {
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import { ContentManagementService } from '../../common/services/content-management.service';
+import { LibraryManagementService } from '../../common/services/library-management.service';
 import { ContentApiService } from '../../services/content-api.service';
 
 @Injectable()
@@ -42,30 +46,49 @@ export class SiteEffects {
         private actions$: Actions,
         private store: Store<AppStore>,
         private contentApi: ContentApiService,
-        private content: ContentManagementService
+        private content: ContentManagementService,
+        private libraryManagementService: LibraryManagementService
     ) {}
 
     @Effect({ dispatch: false })
     deleteLibrary$ = this.actions$.pipe(
         ofType<DeleteLibraryAction>(DELETE_LIBRARY),
         map(action => {
-            this.contentApi.deleteSite(action.payload).subscribe(
-                () => {
-                    this.content.siteDeleted.next(action.payload);
-                    this.store.dispatch(
-                        new SnackbarInfoAction(
-                            'APP.MESSAGES.INFO.LIBRARY_DELETED'
-                        )
-                    );
-                },
-                () => {
-                    this.store.dispatch(
-                        new SnackbarErrorAction(
-                            'APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED'
-                        )
-                    );
-                }
-            );
+            if (action.payload) {
+                this.deleteLibrary(action.payload);
+            }
         })
     );
+
+    @Effect({ dispatch: false })
+    createLibrary$ = this.actions$.pipe(
+        ofType<CreateLibraryAction>(CREATE_LIBRARY),
+        map(action => {
+            this.createLibrary();
+        })
+    );
+
+    private deleteLibrary(id: string) {
+        this.contentApi.deleteSite(id).subscribe(
+            () => {
+                this.content.siteDeleted.next(id);
+                this.store.dispatch(
+                    new SnackbarInfoAction(
+                        'APP.MESSAGES.INFO.LIBRARY_DELETED'
+                    )
+                );
+            },
+            () => {
+                this.store.dispatch(
+                    new SnackbarErrorAction(
+                        'APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED'
+                    )
+                );
+            }
+        );
+    }
+
+    private createLibrary() {
+        this.libraryManagementService.createLibrary();
+    }
 }
