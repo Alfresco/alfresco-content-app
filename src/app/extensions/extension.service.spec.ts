@@ -470,6 +470,6 @@ describe('ExtensionService', () => {
             const expression = '$( context.a + " " + context.b + "!" )';
             const value = extensions.runExpression(expression, context);
             expect(value).toBe('hey there!');
-        })
+        });
     });
 });
