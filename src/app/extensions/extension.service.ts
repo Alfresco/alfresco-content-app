@@ -365,44 +365,19 @@ export class ExtensionService {
         }
 
         if (nodes && nodes.length > 0) {
-            if (nodes.length === 1) {
-                if (types.includes('folder')) {
-                    return nodes.every(node => node.entry.isFolder);
+            return types.some(type => {
+                if (type === 'folder') {
+                    return action.target.multiple
+                        ? nodes.some(node => node.entry.isFolder)
+                        : nodes.every(node => node.entry.isFolder);
                 }
-                if (types.includes('file')) {
-                    return nodes.every(node => node.entry.isFile);
+                if (type === 'file') {
+                    return action.target.multiple
+                        ? nodes.some(node => node.entry.isFile)
+                        : nodes.every(node => node.entry.isFile);
                 }
                 return false;
-            } else {
-                if (types.length === 1) {
-                    if (types.includes('folder')) {
-                        if (action.target.multiple) {
-                            return nodes.every(node => node.entry.isFolder);
-                        }
-                        return false;
-                    }
-                    if (types.includes('file')) {
-                        if (action.target.multiple) {
-                            return nodes.every(node => node.entry.isFile);
-                        }
-                        return false;
-                    }
-                } else {
-                    return types.some(type => {
-                        if (type === 'folder') {
-                            return action.target.multiple
-                                ? nodes.some(node => node.entry.isFolder)
-                                : nodes.every(node => node.entry.isFolder);
-                        }
-                        if (type === 'file') {
-                            return action.target.multiple
-                                ? nodes.some(node => node.entry.isFile)
-                                : nodes.every(node => node.entry.isFile);
-                        }
-                        return false;
-                    });
-                }
-            }
+            });
         }
 
         return false;
