@@ -54,8 +54,8 @@ export class LibrariesComponent extends PageComponent implements OnInit {
         super.ngOnInit();
 
         this.subscriptions.push(
-            this.content.siteDeleted.subscribe(() => this.reload()),
-            this.content.siteCreated.subscribe(() => this.reload())
+            this.content.libraryDeleted.subscribe(() => this.reload()),
+            this.content.libraryCreated.subscribe(() => this.reload())
         );
     }
 

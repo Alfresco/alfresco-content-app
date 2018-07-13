@@ -37,7 +37,6 @@ import {
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import { ContentManagementService } from '../../common/services/content-management.service';
-import { LibraryManagementService } from '../../common/services/library-management.service';
 import { ContentApiService } from '../../services/content-api.service';
 
 @Injectable()
@@ -46,8 +45,7 @@ export class SiteEffects {
         private actions$: Actions,
         private store: Store<AppStore>,
         private contentApi: ContentApiService,
-        private content: ContentManagementService,
-        private libraryManagementService: LibraryManagementService
+        private content: ContentManagementService
     ) {}
 
     @Effect({ dispatch: false })
@@ -71,7 +69,7 @@ export class SiteEffects {
     private deleteLibrary(id: string) {
         this.contentApi.deleteSite(id).subscribe(
             () => {
-                this.content.siteDeleted.next(id);
+                this.content.libraryDeleted.next(id);
                 this.store.dispatch(
                     new SnackbarInfoAction(
                         'APP.MESSAGES.INFO.LIBRARY_DELETED'
@@ -89,6 +87,6 @@ export class SiteEffects {
     }
 
     private createLibrary() {
-        this.libraryManagementService.createLibrary();
+        this.content.createLibrary();
     }
 }
