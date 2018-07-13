@@ -112,7 +112,7 @@ export class LibraryDialogComponent implements OnInit {
                     this.success.emit(folder);
                     dialog.close(folder);
                 },
-                (error) => this.error.emit('LIBRARY.ERRORS.GENERIC')
+                (error) => this.handleError(error)
             );
     }
 
@@ -136,5 +136,15 @@ export class LibraryDialogComponent implements OnInit {
         return input
             .replace(/[\s]/g, '-')
             .replace(/[^A-Za-z0-9-]/g, '');
+    }
+
+    private handleError(error: any): any {
+        const { error: { statusCode } } = JSON.parse(error.message);
+
+        if (statusCode === 409) {
+            this.form.controls['id'].setErrors({ message: 'LIBRARY.ERRORS.CONFLICT' });
+        }
+
+        return error;
     }
 }
