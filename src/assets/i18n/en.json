@@ -287,7 +287,8 @@
         },
         "ERRORS": {
             "GENERIC": "There was an error",
-            "EXISTENT_SITE": "ID already used (it might be in the trashcan).",
+            "EXISTENT_SITE": "This Site ID isn't available. Try a different one",
+            "CONFLICT": "ID already used (it might be in the trashcan).",
             "ID_TOO_LONG": "Use 72 characters or less for the URL name",
             "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",
             "TITLE_TOO_LONG": "Use 256 characters or less for title",
