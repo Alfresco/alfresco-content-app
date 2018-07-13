@@ -30,7 +30,7 @@ import { ShareDataRow } from '@alfresco/adf-content-services';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { DeleteLibraryAction } from '../../store/actions';
+import { DeleteLibraryAction, CreateLibraryAction } from '../../store/actions';
 import { SiteEntry } from 'alfresco-js-api';
 import { ContentManagementService } from '../../common/services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
@@ -54,7 +54,8 @@ export class LibrariesComponent extends PageComponent implements OnInit {
         super.ngOnInit();
 
         this.subscriptions.push(
-            this.content.siteDeleted.subscribe(() => this.reload())
+            this.content.libraryDeleted.subscribe(() => this.reload()),
+            this.content.libraryCreated.subscribe(() => this.reload())
         );
     }
 
@@ -104,5 +105,9 @@ export class LibrariesComponent extends PageComponent implements OnInit {
         if (node && node.entry) {
             this.store.dispatch(new DeleteLibraryAction(node.entry.id));
         }
+    }
+
+    createLibrary() {
+        this.store.dispatch(new CreateLibraryAction());
     }
 }

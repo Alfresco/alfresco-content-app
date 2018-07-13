@@ -27,6 +27,7 @@ import { Subject } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FolderDialogComponent } from '@alfresco/adf-content-services';
+import { LibraryDialogComponent } from '../../dialogs/library/library.dialog';
 import { SnackbarErrorAction } from '../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
@@ -45,7 +46,8 @@ export class ContentManagementService {
     nodesRestored = new Subject<any>();
     folderEdited = new Subject<any>();
     folderCreated = new Subject<any>();
-    siteDeleted = new Subject<string>();
+    libraryDeleted = new Subject<string>();
+    libraryCreated = new Subject<string>();
     linksUnshared = new Subject<any>();
 
     constructor(
@@ -94,6 +96,22 @@ export class ContentManagementService {
         dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
             if (node) {
                 this.folderEdited.next(node);
+            }
+        });
+    }
+
+    createLibrary() {
+        const dialogInstance =  this.dialogRef.open(LibraryDialogComponent, {
+            width: '400px'
+        });
+
+        dialogInstance.componentInstance.error.subscribe(message => {
+            this.store.dispatch(new SnackbarErrorAction(message));
+        });
+
+        dialogInstance.afterClosed().subscribe(node => {
+            if (node) {
+                this.libraryCreated.next(node);
             }
         });
     }
