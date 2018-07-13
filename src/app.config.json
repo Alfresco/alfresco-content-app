@@ -42,6 +42,23 @@
             "plugin2.json"
         ],
         "core": {
+            "rules": [
+                {
+                    "id": "aca:rules/can-edit-folder",
+                    "type": "core.rules/every",
+                    "parameters": [
+                        { "type": "core.rules/nodes.isFolder" },
+                        { "type": "core.rules/permissions.canUpdate" }
+                    ]
+                },
+                {
+                    "id": "aca:rules/can-view-file",
+                    "type": "core.rules/some",
+                    "parameters": [
+                        { "type": "core.rules/nodes.isFile" }
+                    ]
+                }
+            ],
             "routes": [
                 {
                     "id": "aca:routes/about",
