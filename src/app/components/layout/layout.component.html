@@ -15,7 +15,20 @@
 
             <adf-sidenav-layout-header>
                 <ng-template let-toggleMenu="toggleMenu">
-                    <aca-header (menu)="toggleMenu()"></aca-header>
+                    <adf-layout-header
+                        [logo]="logo$ | async"
+                        [color]="'accent'"
+                        (clicked)=toggleMenu($event)>
+
+                        <div class="adf-toolbar--spacer"></div>
+
+                        <aca-search-input></aca-search-input>
+
+                        <adf-toolbar-divider></adf-toolbar-divider>
+
+                        <aca-current-user></aca-current-user>
+
+                    </adf-layout-header>
                 </ng-template>
             </adf-sidenav-layout-header>
 
