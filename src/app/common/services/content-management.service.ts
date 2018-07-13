@@ -34,7 +34,8 @@ import { AppStore } from '../../store/states';
 import {
     MinimalNodeEntity,
     MinimalNodeEntryEntity,
-    Node
+    Node,
+    SiteEntry
 } from 'alfresco-js-api';
 import { NodePermissionService } from './node-permission.service';
 
@@ -47,7 +48,7 @@ export class ContentManagementService {
     folderEdited = new Subject<any>();
     folderCreated = new Subject<any>();
     libraryDeleted = new Subject<string>();
-    libraryCreated = new Subject<string>();
+    libraryCreated = new Subject<SiteEntry>();
     linksUnshared = new Subject<any>();
 
     constructor(
@@ -109,7 +110,7 @@ export class ContentManagementService {
             this.store.dispatch(new SnackbarErrorAction(message));
         });
 
-        dialogInstance.afterClosed().subscribe(node => {
+        dialogInstance.afterClosed().subscribe((node: SiteEntry) => {
             if (node) {
                 this.libraryCreated.next(node);
             }
