@@ -21,7 +21,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { SiteBody } from 'alfresco-js-api';
 import { ContentApiService } from '../../services/content-api.service';
-import { SiteIdValidator } from './form.validators';
+import { SiteIdValidator, forbidSpecialCharacters } from './form.validators';
 
 
 @Component({
@@ -53,7 +53,7 @@ export class LibraryDialogComponent implements OnInit {
 
     ngOnInit() {
         const validators = {
-            id: [ Validators.required, Validators.maxLength(72) ],
+            id: [ Validators.required, Validators.maxLength(72), forbidSpecialCharacters ],
             title: [ Validators.required, Validators.maxLength(256) ],
             description: [ Validators.maxLength(512) ]
         };
@@ -69,8 +69,12 @@ export class LibraryDialogComponent implements OnInit {
         this.form.controls['title'].valueChanges
             .debounceTime(300)
             .subscribe((titleValue: string) => {
+                if (!titleValue.trim().length) {
+                    return;
+                }
+
                 if (!this.form.controls['id'].dirty) {
-                    this.form.patchValue({ id: this.sanitize(titleValue) });
+                    this.form.patchValue({ id: this.sanitize(titleValue.trim()) });
                     this.form.controls['id'].markAsTouched();
                 }
             });
@@ -129,6 +133,8 @@ export class LibraryDialogComponent implements OnInit {
     }
 
     private sanitize(input: string) {
-        return input.replace(/[^A-Za-z0-9-]/g, '');
+        return input
+            .replace(/[\s]/g, '-')
+            .replace(/[^A-Za-z0-9-]/g, '');
     }
 }

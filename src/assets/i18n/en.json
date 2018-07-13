@@ -290,7 +290,8 @@
             "EXISTENT_SITE": "ID already used (it might be in the trashcan).",
             "ID_TOO_LONG": "Use 72 characters or less for the URL name",
             "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",
-            "TITLE_TOO_LONG": "Use 256 characters or less for title"
+            "TITLE_TOO_LONG": "Use 256 characters or less for title",
+            "ILLEGAL_CHARACTERS": "Use characters a-z, A-Z, 0-9 and - only"
         }
     },
 

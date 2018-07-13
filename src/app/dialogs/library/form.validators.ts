@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, FormControl } from '@angular/forms';
 import { ContentApiService } from '../../services/content-api.service';
 
 export class SiteIdValidator {
@@ -32,11 +32,20 @@ export class SiteIdValidator {
                     return contentApiService
                         .getSite(control.value)
                         .subscribe(
-                            () => resolve({ siteIdExists: true }),
+                            () => resolve({ message: 'LIBRARY.ERRORS.EXISTENT_SITE' }),
                             () => resolve(null)
                         );
                 }, 300);
             });
         };
     }
+}
+
+export function forbidSpecialCharacters({ value }: FormControl) {
+    const validCharacters: RegExp = /[^A-Za-z0-9-]/;
+    const isValid: boolean = !validCharacters.test(value);
+
+    return (isValid) ? null : {
+        message: 'LIBRARY.ERRORS.ILLEGAL_CHARACTERS'
+    };
 }
