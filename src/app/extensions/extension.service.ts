@@ -27,7 +27,10 @@ import { Injectable, Type } from '@angular/core';
 import { RouteExtension } from './route.extension';
 import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
-import { ContentActionExtension, ContentActionType } from './content-action.extension';
+import {
+    ContentActionExtension,
+    ContentActionType
+} from './content-action.extension';
 import { OpenWithExtension } from './open-with.extension';
 import { AppStore } from '../store/states';
 import { Store } from '@ngrx/store';
@@ -133,8 +136,10 @@ export class ExtensionService {
         return [];
     }
 
-    getAuthGuards(ids: string[] = []): Array<Type<{}>> {
-        return ids.map(id => this.authGuards[id]);
+    getAuthGuards(ids: string[]): Array<Type<{}>> {
+        return (ids || [])
+            .map(id => this.authGuards[id])
+            .filter(guard => guard);
     }
 
     getComponentById(id: string): Type<{}> {
@@ -207,15 +212,25 @@ export class ExtensionService {
         return this.contentActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByTarget(nodes, action))
-            .filter(action => this.filterByPermission(nodes, action, parentNode))
+            .filter(action =>
+                this.filterByPermission(nodes, action, parentNode)
+            )
             .reduce(this.reduceSeparators, [])
             .map(action => {
                 if (action.type === ContentActionType.menu) {
                     const copy = this.copyAction(action);
                     if (copy.children && copy.children.length > 0) {
                         copy.children = copy.children
-                            .filter(childAction => this.filterByTarget(nodes, childAction))
-                            .filter(childAction => this.filterByPermission(nodes, childAction, parentNode))
+                            .filter(childAction =>
+                                this.filterByTarget(nodes, childAction)
+                            )
+                            .filter(childAction =>
+                                this.filterByPermission(
+                                    nodes,
+                                    childAction,
+                                    parentNode
+                                )
+                            )
                             .reduce(this.reduceSeparators, []);
                     }
                     return copy;
@@ -225,66 +240,7 @@ export class ExtensionService {
             .reduce(this.reduceEmptyMenus, []);
     }
 
-    // todo: support multiple selected nodes
-    private filterByPermission(
-        nodes: MinimalNodeEntity[],
-        action: ContentActionExtension,
-        parentNode: Node
-    ): boolean {
-        if (!action) {
-            return false;
-        }
-
-        if (!action.target) {
-            return action.type === ContentActionType.separator
-                || action.type === ContentActionType.menu;
-        }
-
-        const permissions = action.target.permissions;
-
-        if (!permissions || permissions.length === 0) {
-            return true;
-        }
-
-        return permissions.some(permission => {
-            if (permission.startsWith('parent.')) {
-                if (parentNode) {
-                    const parentQuery = permission.split('.')[1];
-                    return this.nodeHasPermissions(parentNode, [parentQuery]);
-                }
-                return false;
-            }
-
-            if (nodes && nodes.length > 0) {
-                return this.nodeHasPermissions(
-                    nodes[0].entry,
-                    permissions
-                );
-            }
-
-            return true;
-        });
-
-        return true;
-    }
-
-    private nodeHasPermissions(
-        node: Node,
-        permissions: string[] = []
-    ): boolean {
-        if (
-            node &&
-            node.allowableOperations &&
-            node.allowableOperations.length > 0
-        ) {
-            return permissions.some(permission =>
-                node.allowableOperations.includes(permission)
-            );
-        }
-        return false;
-    }
-
-    private reduceSeparators(
+    reduceSeparators(
         acc: ContentActionExtension[],
         el: ContentActionExtension,
         i: number,
@@ -299,17 +255,19 @@ export class ExtensionService {
             ) {
                 return acc;
             }
-        }
-        // remove trailing separator
-        if (i === arr.length - 1) {
-            if (el.type === ContentActionType.separator) {
-                return acc;
+
+            // remove trailing separator
+            if (i === arr.length - 1) {
+                if (el.type === ContentActionType.separator) {
+                    return acc;
+                }
             }
         }
+
         return acc.concat(el);
     }
 
-    private reduceEmptyMenus(
+    reduceEmptyMenus(
         acc: ContentActionExtension[],
         el: ContentActionExtension
     ): ContentActionExtension[] {
@@ -321,7 +279,7 @@ export class ExtensionService {
         return acc.concat(el);
     }
 
-    private sortByOrder(
+    sortByOrder(
         a: { order?: number | undefined },
         b: { order?: number | undefined }
     ) {
@@ -330,20 +288,20 @@ export class ExtensionService {
         return left - right;
     }
 
-    private filterEnabled(entry: { disabled?: boolean }): boolean {
+    filterEnabled(entry: { disabled?: boolean }): boolean {
         return !entry.disabled;
     }
 
-    private copyAction(
-        action: ContentActionExtension
-    ): ContentActionExtension {
+    copyAction(action: ContentActionExtension): ContentActionExtension {
         return {
             ...action,
-            children: (action.children || []).map(child => this.copyAction(child))
+            children: (action.children || []).map(child =>
+                this.copyAction(child)
+            )
         };
     }
 
-    private filterByTarget(
+    filterByTarget(
         nodes: MinimalNodeEntity[],
         action: ContentActionExtension
     ): boolean {
@@ -358,9 +316,9 @@ export class ExtensionService {
             );
         }
 
-        const types = action.target.types;
+        const types = action.target.types || [];
 
-        if (!types || types.length === 0) {
+        if (types.length === 0) {
             return true;
         }
 
@@ -369,17 +327,82 @@ export class ExtensionService {
                 if (type === 'folder') {
                     return action.target.multiple
                         ? nodes.some(node => node.entry.isFolder)
-                        : nodes.every(node => node.entry.isFolder);
+                        : nodes.length === 1 &&
+                              nodes.every(node => node.entry.isFolder);
                 }
                 if (type === 'file') {
                     return action.target.multiple
                         ? nodes.some(node => node.entry.isFile)
-                        : nodes.every(node => node.entry.isFile);
+                        : nodes.length === 1 &&
+                              nodes.every(node => node.entry.isFile);
                 }
                 return false;
             });
         }
 
+        return false;
+    }
+
+    filterByPermission(
+        nodes: MinimalNodeEntity[],
+        action: ContentActionExtension,
+        parentNode: Node
+    ): boolean {
+        if (!action) {
+            return false;
+        }
+
+        if (!action.target) {
+            return (
+                action.type === ContentActionType.separator ||
+                action.type === ContentActionType.menu
+            );
+        }
+
+        const permissions = action.target.permissions || [];
+
+        if (permissions.length === 0) {
+            return true;
+        }
+
+        return permissions.some(permission => {
+            if (permission.startsWith('parent.')) {
+                if (parentNode) {
+                    const parentQuery = permission.split('.')[1];
+                    return this.nodeHasPermission(parentNode, parentQuery);
+                }
+                return false;
+            }
+
+            if (nodes && nodes.length > 0) {
+                return action.target.multiple
+                    ? nodes.some(node =>
+                          this.nodeHasPermission(node.entry, permission)
+                      )
+                    : nodes.length === 1 &&
+                          nodes.every(node =>
+                              this.nodeHasPermission(node.entry, permission)
+                          );
+            }
+
+            return false;
+        });
+    }
+
+    nodeHasPermissions(node: Node, permissions: string[]): boolean {
+        if (node && permissions && permissions.length > 0) {
+            return permissions.some(permission =>
+                this.nodeHasPermission(node, permission)
+            );
+        }
+        return false;
+    }
+
+    nodeHasPermission(node: Node, permission: string): boolean {
+        if (node && permission) {
+            const allowableOperations = node.allowableOperations || [];
+            return allowableOperations.includes(permission);
+        }
         return false;
     }
 }
