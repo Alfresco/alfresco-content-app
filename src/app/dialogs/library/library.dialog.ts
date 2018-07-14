@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { SiteBody } from 'alfresco-js-api';
+import { SiteBody, SiteEntry } from 'alfresco-js-api';
 import { ContentApiService } from '../../services/content-api.service';
 import { SiteIdValidator, forbidSpecialCharacters } from './form.validators';
 
@@ -108,9 +108,10 @@ export class LibraryDialogComponent implements OnInit {
         if (!form.valid) { return; }
 
         this.create().subscribe(
-                (folder: any) => {
-                    this.success.emit(folder);
-                    dialog.close(folder);
+                (node: SiteEntry) => {
+
+                    this.success.emit(node);
+                    dialog.close(node);
                 },
                 (error) => this.handleError(error)
             );
@@ -120,7 +121,7 @@ export class LibraryDialogComponent implements OnInit {
         this.visibilityOption = event.value;
     }
 
-    private create(): Observable<any> {
+    private create(): Observable<SiteEntry> {
         const { contentApi, title, id, description, visibility  } = this;
         const siteBody = <SiteBody>{
             id,
