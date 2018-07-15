@@ -224,11 +224,11 @@
                             "order": 10,
                             "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                             "icon": "create_new_folder",
-                            "target": {
-                                "permissions": ["parent.create"]
-                            },
                             "actions": {
                                 "click": "aca:actions/create-folder"
+                            },
+                            "rules": {
+                                "visible": "app.create.canCreateFolder"
                             }
                         },
                         {
