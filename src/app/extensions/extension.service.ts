@@ -314,10 +314,7 @@ export class ExtensionService {
         }
 
         if (!action.target) {
-            return (
-                action.type === ContentActionType.separator ||
-                action.type === ContentActionType.menu
-            );
+            return true;
         }
 
         const types = action.target.types || [];
@@ -364,10 +361,7 @@ export class ExtensionService {
         }
 
         if (!action.target) {
-            return (
-                action.type === ContentActionType.separator ||
-                action.type === ContentActionType.menu
-            );
+            return true;
         }
 
         const permissions = action.target.permissions || [];

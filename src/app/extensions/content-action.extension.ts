@@ -41,7 +41,6 @@ export interface ContentActionExtension {
     target: {
         types: Array<string>;
         permissions: Array<string>,
-        action: string;
         multiple?: boolean;
     };
     actions?: {

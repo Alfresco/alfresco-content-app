@@ -225,9 +225,10 @@
                             "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                             "icon": "create_new_folder",
                             "target": {
-                                "types": [],
-                                "permissions": ["parent.create"],
-                                "action": "aca:actions/create-folder"
+                                "permissions": ["parent.create"]
+                            },
+                            "actions": {
+                                "click": "aca:actions/create-folder"
                             }
                         },
                         {
@@ -237,9 +238,10 @@
                             "title": "APP.ACTIONS.VIEW",
                             "icon": "open_in_browser",
                             "target": {
-                                "types": ["file"],
-                                "permissions": [],
-                                "action": "aca:actions/preview"
+                                "types": ["file"]
+                            },
+                            "actions": {
+                                "click": "aca:actions/preview"
                             }
                         },
                         {
@@ -250,9 +252,10 @@
                             "icon": "get_app",
                             "target": {
                                 "types": ["file", "folder"],
-                                "permissions": [],
-                                "action": "aca:actions/download",
                                 "multiple": true
+                            },
+                            "actions": {
+                                "click": "aca:actions/download"
                             }
                         },
                         {
@@ -261,11 +264,11 @@
                             "order": 30,
                             "title": "APP.ACTIONS.EDIT",
                             "icon": "create",
-                            "target": {
-                                "action": "aca:actions/edit-folder"
-                            },
                             "rules": {
                                 "visible": "app.toolbar.canEditFolder"
+                            },
+                            "actions": {
+                                "click": "aca:actions/edit-folder"
                             }
                         },
 
@@ -285,10 +288,8 @@
                                     "type": "button",
                                     "title": "Settings",
                                     "icon": "settings_applications",
-                                    "target": {
-                                        "types": [],
-                                        "permissions": [],
-                                        "action": "aca:actions/settings"
+                                    "actions": {
+                                        "click": "aca:actions/settings"
                                     }
                                 },
                                 {
@@ -298,8 +299,10 @@
                                     "icon": "report_problem",
                                     "target": {
                                         "types": ["file"],
-                                        "permissions": ["update", "delete"],
-                                        "action": "aca:actions/error"
+                                        "permissions": ["update", "delete"]
+                                    },
+                                    "actions": {
+                                        "click": "aca:actions/error"
                                     }
                                 }
                             ]
