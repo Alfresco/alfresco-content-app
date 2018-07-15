@@ -24,21 +24,34 @@
  */
 
 import { RuleContext } from './rule-context';
+import { RuleParameter } from './rule-parameter';
+import { Node } from 'alfresco-js-api';
 
-export function nodeIsFolder(context: RuleContext): boolean {
-    const node = context.selection.first;
-    return node && node.entry && node.entry.isFolder;
-}
-
-export function nodeHasPermission(context: RuleContext, permission: string): boolean {
-    const node = context.selection.first;
-    if (node && node.entry && permission) {
-        const allowableOperations = node.entry.allowableOperations || [];
-        return allowableOperations.includes(permission);
+export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
+    const folder = context.navigation.currentFolder;
+    if (folder) {
+        return nodeHasPermission(folder, 'create');
     }
     return false;
 }
 
-export function canUpdateNode(context: RuleContext): boolean {
-    return nodeHasPermission(context, 'update');
+export function hasFolderSelected(context: RuleContext, ...args: RuleParameter[]): boolean {
+    const folder = context.selection.folder;
+    return folder ? true : false;
+}
+
+export function canUpdateSelectedFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
+    const folder = context.selection.folder;
+    if (folder && folder.entry) {
+        return nodeHasPermission(folder.entry, 'update');
+    }
+    return false;
+}
+
+export function nodeHasPermission(node: Node, permission: string): boolean {
+    if (node && permission) {
+        const allowableOperations = node.allowableOperations || [];
+        return allowableOperations.includes(permission);
+    }
+    return false;
 }

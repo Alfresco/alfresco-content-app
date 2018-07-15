@@ -187,24 +187,23 @@ export class ExtensionService {
 
     // evaluates create actions for the folder node
     getFolderCreateActions(folder: Node): Array<ContentActionExtension> {
-        return this.createActions.filter(this.filterEnabled).map(action => {
-            if (
-                action.target &&
-                action.target.permissions &&
-                action.target.permissions.length > 0
-            ) {
+        return this.createActions
+            .filter(this.filterEnabled)
+            .filter(action => this.filterByRules(action))
+            .map(action => {
+                let disabled = false;
+
+                if (action.rules && action.rules.enabled) {
+                    disabled = !this.ruleService.evaluateRule(action.rules.enabled);
+                }
+
                 return {
                     ...action,
-                    disabled: !this.nodeHasPermissions(
-                        folder,
-                        action.target.permissions
-                    ),
+                    disabled,
                     target: {
                         ...action.target
                     }
                 };
-            }
-            return action;
         });
     }
 
@@ -215,6 +214,7 @@ export class ExtensionService {
     ): Array<ContentActionExtension> {
         return this.contentActions
             .filter(this.filterEnabled)
+            .filter(action => this.filterByRules(action))
             .filter(action => this.filterByTarget(nodes, action))
             .filter(action =>
                 this.filterByPermission(nodes, action, parentNode)
@@ -345,6 +345,13 @@ export class ExtensionService {
         }
 
         return false;
+    }
+
+    filterByRules(action: ContentActionExtension): boolean {
+        if (action && action.rules && action.rules.visible) {
+            return this.ruleService.evaluateRule(action.rules.visible);
+        }
+        return true;
     }
 
     filterByPermission(

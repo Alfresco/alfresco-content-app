@@ -44,4 +44,9 @@ export interface ContentActionExtension {
         action: string;
         multiple?: boolean;
     };
+    rules: {
+        enabled?: string;
+        visible?: string;
+        [key: string]: string;
+    };
 }

@@ -44,18 +44,15 @@
         "core": {
             "rules": [
                 {
-                    "id": "aca:rules/can-edit-folder",
-                    "type": "core.rules/every",
-                    "parameters": [
-                        { "type": "rule", "value": "core.rules/nodes.isFolder" },
-                        { "type": "rule", "value": "core.rules/nodes.canUpdate" }
-                    ]
+                    "id": "app.create.canCreateFolder",
+                    "type": "app.navigation.folder.canCreate"
                 },
                 {
-                    "id": "aca:rules/can-view-file",
-                    "type": "core.rules/some",
+                    "id": "app.toolbar.canEditFolder",
+                    "type": "core.every",
                     "parameters": [
-                        { "type": "core.rules/nodes.isFile" }
+                        { "type": "rule", "value": "app.selection.folder" },
+                        { "type": "rule", "value": "app.selection.folder.canUpdate" }
                     ]
                 }
             ],
@@ -117,14 +114,14 @@
             "features": {
                 "create": [
                     {
-                        "disabled": false,
-                        "id": "aca:create/folder",
-                        "order": 100,
+                        "id": "app.create.folder",
                         "icon": "create_new_folder",
                         "title": "ext: Create Folder",
                         "target": {
-                            "permissions": ["create"],
                             "action": "aca:actions/create-folder"
+                        },
+                        "rules": {
+                            "enabled": "app.create.canCreateFolder"
                         }
                     }
                 ],
@@ -265,9 +262,10 @@
                             "title": "APP.ACTIONS.EDIT",
                             "icon": "create",
                             "target": {
-                                "types": ["folder"],
-                                "permissions": ["update"],
                                 "action": "aca:actions/edit-folder"
+                            },
+                            "rules": {
+                                "visible": "app.toolbar.canEditFolder"
                             }
                         },
 

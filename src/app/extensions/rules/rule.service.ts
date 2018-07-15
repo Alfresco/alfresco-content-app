@@ -26,27 +26,53 @@
 import { Injectable } from '@angular/core';
 import { AppConfigService } from '@alfresco/adf-core';
 import { every, some } from './core.evaluators';
-import {
-    nodeIsFolder,
-    nodeHasPermission,
-    canUpdateNode
-} from './node.evaluators';
 import { RuleContext } from './rule-context';
 import { RuleRef } from './rule-ref';
+import { createSelector, Store } from '@ngrx/store';
+import {
+    appSelection,
+    appNavigation
+} from '../../store/selectors/app.selectors';
+import { AppStore, SelectionState } from '../../store/states';
+import { NavigationState } from '../../store/states/navigation.state';
+import { canCreateFolder, hasFolderSelected, canUpdateSelectedFolder } from './app.evaluators';
 
 export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
 
+export const selectionWithFolder = createSelector(
+    appSelection,
+    appNavigation,
+    (selection, navigation) => {
+        return {
+            selection,
+            navigation
+        };
+    }
+);
+
 @Injectable()
-export class RuleService {
+export class RuleService implements RuleContext {
     rules: Array<RuleRef> = [];
     evaluators: { [key: string]: RuleEvaluator } = {};
+    selection: SelectionState;
+    navigation: NavigationState;
 
-    constructor(private config: AppConfigService) {
-        this.evaluators['core.rules/every'] = every;
-        this.evaluators['core.rules/some'] = some;
-        this.evaluators['core.rules/nodes.isFolder'] = nodeIsFolder;
-        this.evaluators['core.rules/nodes.hasPermission'] = nodeHasPermission;
-        this.evaluators['core.rules/nodes.canUpdate'] = canUpdateNode;
+    constructor(
+        private config: AppConfigService,
+        private store: Store<AppStore>
+    ) {
+        this.evaluators['core.every'] = every;
+        this.evaluators['core.some'] = some;
+        this.evaluators['app.selection.folder'] = hasFolderSelected;
+        this.evaluators['app.selection.folder.canUpdate'] = canUpdateSelectedFolder;
+        this.evaluators['app.navigation.folder.canCreate'] = canCreateFolder;
+
+        this.store
+            .select(selectionWithFolder)
+            .subscribe(result => {
+                this.selection = result.selection;
+                this.navigation = result.navigation;
+            });
     }
 
     init() {
@@ -58,15 +84,11 @@ export class RuleService {
             });
     }
 
-    evaluateRule(ruleId: string, context?: RuleContext): boolean {
+    evaluateRule(ruleId: string): boolean {
         const ruleRef = this.rules.find(ref => ref.id === ruleId);
 
         if (ruleRef.evaluator) {
-            context = Object.assign({
-                selection: null,
-                evaluators: this.evaluators
-            }, context || {});
-            return ruleRef.evaluator(context, ...ruleRef.parameters);
+            return ruleRef.evaluator(this, ...ruleRef.parameters);
         }
         return false;
     }

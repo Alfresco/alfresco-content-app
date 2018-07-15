@@ -25,8 +25,10 @@
 
 import { SelectionState } from '../../store/states';
 import { RuleEvaluator } from './rule.service';
+import { NavigationState } from '../../store/states/navigation.state';
 
 export interface RuleContext {
     selection: SelectionState;
+    navigation: NavigationState;
     evaluators: { [key: string]: RuleEvaluator };
 }
