@@ -28,7 +28,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppConfigService } from '@alfresco/adf-core';
 import { RuleService } from './rule.service';
 
-fdescribe('RuleService', () => {
+describe('RuleService', () => {
     let config: AppConfigService;
     let ruleService: RuleService;
 
