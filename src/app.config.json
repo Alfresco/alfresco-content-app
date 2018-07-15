@@ -117,8 +117,8 @@
                         "id": "app.create.folder",
                         "icon": "create_new_folder",
                         "title": "ext: Create Folder",
-                        "target": {
-                            "action": "aca:actions/create-folder"
+                        "actions": {
+                            "click": "aca:actions/create-folder"
                         },
                         "rules": {
                             "enabled": "app.create.canCreateFolder"
