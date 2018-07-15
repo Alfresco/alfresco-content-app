@@ -47,8 +47,8 @@
                     "id": "aca:rules/can-edit-folder",
                     "type": "core.rules/every",
                     "parameters": [
-                        { "type": "core.rules/nodes.isFolder" },
-                        { "type": "core.rules/permissions.canUpdate" }
+                        { "type": "rule", "value": "core.rules/nodes.isFolder" },
+                        { "type": "rule", "value": "core.rules/nodes.canUpdate" }
                     ]
                 },
                 {

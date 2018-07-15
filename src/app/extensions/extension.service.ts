@@ -37,6 +37,7 @@ import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
 import { Node, MinimalNodeEntity } from 'alfresco-js-api';
+import { RuleService } from './rules/rule.service';
 
 @Injectable()
 export class ExtensionService {
@@ -52,7 +53,8 @@ export class ExtensionService {
 
     constructor(
         private config: AppConfigService,
-        private store: Store<AppStore>
+        private store: Store<AppStore>,
+        private ruleService: RuleService
     ) {}
 
     // initialise extension service
@@ -89,6 +91,8 @@ export class ExtensionService {
                 []
             )
             .sort(this.sortByOrder);
+
+        this.ruleService.init();
     }
 
     getRouteById(id: string): RouteExtension {

@@ -23,8 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface RuleExtension {
-    type: string;
-    id?: string;
-    parameters?: Array<any>;
+import { RouteExtension } from './route.extension';
+import { ActionExtension } from './action.extension';
+import { RuleRef } from './rules/rule-ref';
+
+export interface ExtensionConfig {
+    rules?: Array<RuleRef>;
+    routes?: Array<RouteExtension>;
+    actions?: Array<ActionExtension>;
+    features?: { [key: string]: any };
 }
