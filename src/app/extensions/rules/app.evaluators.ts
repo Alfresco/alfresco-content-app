@@ -40,6 +40,11 @@ export function hasFolderSelected(context: RuleContext, ...args: RuleParameter[]
     return folder ? true : false;
 }
 
+export function hasFileSelected(context: RuleContext, ...args: RuleParameter[]): boolean {
+    const file = context.selection.file;
+    return file ? true : false;
+}
+
 export function canUpdateSelectedFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
     const folder = context.selection.folder;
     if (folder && folder.entry) {
