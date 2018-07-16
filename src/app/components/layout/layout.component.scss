@@ -2,20 +2,3 @@
     display: flex;
     flex: 1;
 }
-
-app-layout adf-layout-header .mat-toolbar-single-row {
-    .adf-app-logo {
-        width: 100px;
-        height: 50px;
-        margin-left: 40px;
-    }
-
-    .adf-toolbar-divider {
-        margin-left: 5px;
-        margin-right: 5px;
-
-        & > div {
-            background-color: #FFF;
-        }
-    }
-}
