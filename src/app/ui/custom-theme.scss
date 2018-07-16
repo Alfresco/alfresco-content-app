@@ -7,7 +7,6 @@
 @import '../components/search/search-input/search-input.component.theme';
 @import '../components/settings/settings.component.theme';
 @import '../components/current-user/current-user.component.theme';
-@import '../components/header/header.component.theme';
 @import '../components/permission-manager/permissions-manager.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 
@@ -83,7 +82,6 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include adf-layout-header-theme($theme);
 
     @include aca-layout-theme($theme);
-    @include aca-header-theme($theme);
     @include aca-search-input-theme($theme);
     @include aca-generic-error-theme($theme);
     @include aca-permissions-manager-theme($theme);
