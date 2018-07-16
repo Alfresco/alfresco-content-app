@@ -85,6 +85,7 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
 import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
 import { NodePermissionsDirective } from './common/directives/node-permissions.directive';
 import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
+import { RuleService } from './extensions/rules/rule.service';
 
 @NgModule({
     imports: [
@@ -161,7 +162,8 @@ import { PermissionsManagerComponent } from './components/permission-manager/per
         ProfileResolver,
         ExperimentalGuard,
         ContentApiService,
-        ExtensionService
+        ExtensionService,
+        RuleService
     ],
     entryComponents: [
         LibraryDialogComponent,

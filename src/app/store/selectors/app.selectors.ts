@@ -34,4 +34,5 @@ export const appSelection =  createSelector(selectApp, state => state.selection)
 export const appLanguagePicker = createSelector(selectApp, state => state.languagePicker);
 export const selectUser =  createSelector(selectApp, state => state.user);
 export const sharedUrl =  createSelector(selectApp, state => state.sharedUrl);
+export const appNavigation = createSelector(selectApp, state => state.navigation);
 export const currentFolder = createSelector(selectApp, state => state.navigation.currentFolder);

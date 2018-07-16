@@ -23,28 +23,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export enum ContentActionType {
-    default = 'button',
-    button = 'button',
-    separator = 'separator',
-    menu = 'menu'
+import { RuleContext } from './rule-context';
+import { RuleParameter } from './rule-parameter';
+
+export function every(context: RuleContext, ...args: RuleParameter[]): boolean {
+    if (!args || args.length === 0) {
+        return false;
+    }
+
+    return args
+        .map(arg => context.evaluators[arg.value])
+        .every(evaluator => evaluator(context));
 }
 
-export interface ContentActionExtension {
-    id: string;
-    type: ContentActionType;
-    order?: number;
-    title: string;
-    icon?: string;
-    disabled?: boolean;
-    children?: Array<ContentActionExtension>;
-    actions?: {
-        click?: string;
-        [key: string]: string;
-    };
-    rules: {
-        enabled?: string;
-        visible?: string;
-        [key: string]: string;
-    };
+export function some(context: RuleContext, ...args: RuleParameter[]): boolean {
+    if (!args || args.length === 0) {
+        return false;
+    }
+
+    return args
+        .map(arg => context.evaluators[arg.value])
+        .some(evaluator => evaluator(context));
 }
