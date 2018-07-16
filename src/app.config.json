@@ -58,6 +58,10 @@
                 {
                     "id": "app.toolbar.canViewFile",
                     "type": "app.selection.file"
+                },
+                {
+                    "id": "app.toolbar.canDownload",
+                    "type": "app.selection.canDownload"
                 }
             ],
             "routes": [
@@ -249,12 +253,11 @@
                             "order": 20,
                             "title": "APP.ACTIONS.DOWNLOAD",
                             "icon": "get_app",
-                            "target": {
-                                "types": ["file", "folder"],
-                                "multiple": true
-                            },
                             "actions": {
                                 "click": "aca:actions/download"
+                            },
+                            "rules": {
+                                "visible": "app.toolbar.canDownload"
                             }
                         },
                         {
@@ -263,11 +266,11 @@
                             "order": 30,
                             "title": "APP.ACTIONS.EDIT",
                             "icon": "create",
-                            "rules": {
-                                "visible": "app.toolbar.canEditFolder"
-                            },
                             "actions": {
                                 "click": "aca:actions/edit-folder"
+                            },
+                            "rules": {
+                                "visible": "app.toolbar.canEditFolder"
                             }
                         },
 

@@ -38,11 +38,6 @@ export interface ContentActionExtension {
     icon?: string;
     disabled?: boolean;
     children?: Array<ContentActionExtension>;
-    target: {
-        types: Array<string>;
-        permissions: Array<string>,
-        multiple?: boolean;
-    };
     actions?: {
         click?: string;
         [key: string]: string;

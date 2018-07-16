@@ -35,6 +35,16 @@ export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]):
     return false;
 }
 
+export function canDownloadSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
+    if (!context.selection.isEmpty) {
+        return context.selection.nodes.every(node => {
+            return node.entry && (node.entry.isFile || node.entry.isFolder);
+        });
+    }
+    return false;
+
+}
+
 export function hasFolderSelected(context: RuleContext, ...args: RuleParameter[]): boolean {
     const folder = context.selection.folder;
     return folder ? true : false;

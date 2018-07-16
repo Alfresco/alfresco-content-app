@@ -35,7 +35,7 @@ import {
 } from '../../store/selectors/app.selectors';
 import { AppStore, SelectionState } from '../../store/states';
 import { NavigationState } from '../../store/states/navigation.state';
-import { canCreateFolder, hasFolderSelected, canUpdateSelectedFolder, hasFileSelected } from './app.evaluators';
+import { canCreateFolder, hasFolderSelected, canUpdateSelectedFolder, hasFileSelected, canDownloadSelection } from './app.evaluators';
 
 export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
 
@@ -63,6 +63,7 @@ export class RuleService implements RuleContext {
     ) {
         this.evaluators['core.every'] = every;
         this.evaluators['core.some'] = some;
+        this.evaluators['app.selection.canDownload'] = canDownloadSelection;
         this.evaluators['app.selection.file'] = hasFileSelected;
         this.evaluators['app.selection.folder'] = hasFolderSelected;
         this.evaluators['app.selection.folder.canUpdate'] = canUpdateSelectedFolder;
