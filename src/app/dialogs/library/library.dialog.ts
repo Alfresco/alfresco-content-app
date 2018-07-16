@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { SiteBody } from 'alfresco-js-api';
+import { SiteBody, SiteEntry } from 'alfresco-js-api';
 import { ContentApiService } from '../../services/content-api.service';
 import { SiteIdValidator, forbidSpecialCharacters } from './form.validators';
 
@@ -108,11 +108,12 @@ export class LibraryDialogComponent implements OnInit {
         if (!form.valid) { return; }
 
         this.create().subscribe(
-                (folder: any) => {
-                    this.success.emit(folder);
-                    dialog.close(folder);
+                (node: SiteEntry) => {
+
+                    this.success.emit(node);
+                    dialog.close(node);
                 },
-                (error) => this.error.emit('LIBRARY.ERRORS.GENERIC')
+                (error) => this.handleError(error)
             );
     }
 
@@ -120,7 +121,7 @@ export class LibraryDialogComponent implements OnInit {
         this.visibilityOption = event.value;
     }
 
-    private create(): Observable<any> {
+    private create(): Observable<SiteEntry> {
         const { contentApi, title, id, description, visibility  } = this;
         const siteBody = <SiteBody>{
             id,
@@ -136,5 +137,15 @@ export class LibraryDialogComponent implements OnInit {
         return input
             .replace(/[\s]/g, '-')
             .replace(/[^A-Za-z0-9-]/g, '');
+    }
+
+    private handleError(error: any): any {
+        const { error: { statusCode } } = JSON.parse(error.message);
+
+        if (statusCode === 409) {
+            this.form.controls['id'].setErrors({ message: 'LIBRARY.ERRORS.CONFLICT' });
+        }
+
+        return error;
     }
 }

@@ -229,7 +229,9 @@ export class ContentApiService {
         );
     }
 
-    createSite(siteBody: SiteBody, opts?: {skipConfiguration?: boolean, skipAddToFavorites?: boolean}): Observable<SiteEntry> {
+    createSite(
+        siteBody: SiteBody,
+        opts?: {fields?: Array<string>, skipConfiguration?: boolean, skipAddToFavorites?: boolean}): Observable<SiteEntry> {
         return Observable.fromPromise(
             this.api.sitesApi.createSite(siteBody, opts)
         );
