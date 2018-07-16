@@ -42,6 +42,28 @@
             "plugin2.json"
         ],
         "core": {
+            "rules": [
+                {
+                    "id": "app.create.canCreateFolder",
+                    "type": "app.navigation.folder.canCreate"
+                },
+                {
+                    "id": "app.toolbar.canEditFolder",
+                    "type": "core.every",
+                    "parameters": [
+                        { "type": "rule", "value": "app.selection.folder" },
+                        { "type": "rule", "value": "app.selection.folder.canUpdate" }
+                    ]
+                },
+                {
+                    "id": "app.toolbar.canViewFile",
+                    "type": "app.selection.file"
+                },
+                {
+                    "id": "app.toolbar.canDownload",
+                    "type": "app.selection.canDownload"
+                }
+            ],
             "routes": [
                 {
                     "id": "aca:routes/about",
@@ -82,11 +104,6 @@
                     "payload": "I'm a nice little popup raised by extension."
                 },
                 {
-                    "id": "aca:actions/error",
-                    "type": "SNACKBAR_ERROR",
-                    "payload": "Aw, Snap!"
-                },
-                {
                     "id": "aca:actions/node-name",
                     "type": "SNACKBAR_INFO",
                     "payload": "$('Action for ' + context.selection.first.entry.name)"
@@ -100,14 +117,14 @@
             "features": {
                 "create": [
                     {
-                        "disabled": false,
-                        "id": "aca:create/folder",
-                        "order": 100,
+                        "id": "app.create.folder",
                         "icon": "create_new_folder",
                         "title": "ext: Create Folder",
-                        "target": {
-                            "permissions": ["create"],
-                            "action": "aca:actions/create-folder"
+                        "actions": {
+                            "click": "aca:actions/create-folder"
+                        },
+                        "rules": {
+                            "enabled": "app.create.canCreateFolder"
                         }
                     }
                 ],
@@ -210,10 +227,11 @@
                             "order": 10,
                             "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                             "icon": "create_new_folder",
-                            "target": {
-                                "types": [],
-                                "permissions": ["parent.create"],
-                                "action": "aca:actions/create-folder"
+                            "actions": {
+                                "click": "aca:actions/create-folder"
+                            },
+                            "rules": {
+                                "visible": "app.create.canCreateFolder"
                             }
                         },
                         {
@@ -222,10 +240,11 @@
                             "order": 15,
                             "title": "APP.ACTIONS.VIEW",
                             "icon": "open_in_browser",
-                            "target": {
-                                "types": ["file"],
-                                "permissions": [],
-                                "action": "aca:actions/preview"
+                            "actions": {
+                                "click": "aca:actions/preview"
+                            },
+                            "rules": {
+                                "visible": "app.toolbar.canViewFile"
                             }
                         },
                         {
@@ -234,11 +253,11 @@
                             "order": 20,
                             "title": "APP.ACTIONS.DOWNLOAD",
                             "icon": "get_app",
-                            "target": {
-                                "types": ["file", "folder"],
-                                "permissions": [],
-                                "action": "aca:actions/download",
-                                "multiple": true
+                            "actions": {
+                                "click": "aca:actions/download"
+                            },
+                            "rules": {
+                                "visible": "app.toolbar.canDownload"
                             }
                         },
                         {
@@ -247,10 +266,11 @@
                             "order": 30,
                             "title": "APP.ACTIONS.EDIT",
                             "icon": "create",
-                            "target": {
-                                "types": ["folder"],
-                                "permissions": ["update"],
-                                "action": "aca:actions/edit-folder"
+                            "actions": {
+                                "click": "aca:actions/edit-folder"
+                            },
+                            "rules": {
+                                "visible": "app.toolbar.canEditFolder"
                             }
                         },
 
@@ -270,21 +290,8 @@
                                     "type": "button",
                                     "title": "Settings",
                                     "icon": "settings_applications",
-                                    "target": {
-                                        "types": [],
-                                        "permissions": [],
-                                        "action": "aca:actions/settings"
-                                    }
-                                },
-                                {
-                                    "id": "aca:action4",
-                                    "type": "button",
-                                    "title": "Error",
-                                    "icon": "report_problem",
-                                    "target": {
-                                        "types": ["file"],
-                                        "permissions": ["update", "delete"],
-                                        "action": "aca:actions/error"
+                                    "actions": {
+                                        "click": "aca:actions/settings"
                                     }
                                 }
                             ]

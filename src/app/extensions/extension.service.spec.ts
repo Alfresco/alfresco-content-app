@@ -491,63 +491,6 @@ describe('ExtensionService', () => {
         });
     });
 
-    describe('permissions', () => {
-        it('should approve node permission', () => {
-            const node: any = {
-                allowableOperations: ['create']
-            };
-
-            expect(extensions.nodeHasPermission(node, 'create')).toBeTruthy();
-        });
-
-        it('should not approve node permission', () => {
-            const node: any = {
-                allowableOperations: ['create']
-            };
-
-            expect(extensions.nodeHasPermission(node, 'update')).toBeFalsy();
-        });
-
-        it('should not approve node permission when node missing property', () => {
-            const node: any = {
-                allowableOperations: null
-            };
-
-            expect(extensions.nodeHasPermission(node, 'update')).toBeFalsy();
-        });
-
-        it('should require node to check permission', () => {
-            expect(extensions.nodeHasPermission(null, 'create')).toBeFalsy();
-        });
-
-        it('should require permission value to check', () => {
-            const node: any = {
-                allowableOperations: ['create']
-            };
-            expect(extensions.nodeHasPermission(node, null)).toBeFalsy();
-        });
-
-        it('should approve multiple permissions', () => {
-            const node: any = {
-                allowableOperations: ['create', 'update', 'delete']
-            };
-            expect(
-                extensions.nodeHasPermissions(node, ['create', 'delete'])
-            ).toBeTruthy();
-        });
-
-        it('should require node to check multiple permissions', () => {
-            expect(extensions.nodeHasPermissions(null, ['create'])).toBeFalsy();
-        });
-
-        it('should require multiple permissions to check', () => {
-            const node: any = {
-                allowableOperations: ['create', 'update', 'delete']
-            };
-            expect(extensions.nodeHasPermissions(node, null)).toBeFalsy();
-        });
-    });
-
     describe('sorting', () => {
         it('should sort by provided order', () => {
             const sorted = [

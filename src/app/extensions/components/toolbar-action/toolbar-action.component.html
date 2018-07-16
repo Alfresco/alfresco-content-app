@@ -3,7 +3,7 @@
         mat-icon-button
         color="primary"
         title="{{ entry.title | translate }}"
-        (click)="runAction(entry.target.action)">
+        (click)="runAction(entry.actions.click)">
         <mat-icon>{{ entry.icon }}</mat-icon>
     </button>
     <adf-toolbar-divider *ngSwitchCase="'separator'"></adf-toolbar-divider>
@@ -20,7 +20,7 @@
             [overlapTrigger]="false">
             <ng-container *ngFor="let child of entry.children">
                 <button mat-menu-item
-                    (click)="runAction(child.target.action)">
+                    (click)="runAction(child.actions.click)">
                     <mat-icon>{{ child.icon }}</mat-icon>
                     <span>{{ child.title | translate }}</span>
                 </button>

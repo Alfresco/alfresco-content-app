@@ -36,7 +36,8 @@ import { AppStore } from '../store/states';
 import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
-import { Node, MinimalNodeEntity } from 'alfresco-js-api';
+import { Node } from 'alfresco-js-api';
+import { RuleService } from './rules/rule.service';
 
 @Injectable()
 export class ExtensionService {
@@ -52,7 +53,8 @@ export class ExtensionService {
 
     constructor(
         private config: AppConfigService,
-        private store: Store<AppStore>
+        private store: Store<AppStore>,
+        private ruleService: RuleService
     ) {}
 
     // initialise extension service
@@ -89,6 +91,8 @@ export class ExtensionService {
                 []
             )
             .sort(this.sortByOrder);
+
+        this.ruleService.init();
     }
 
     getRouteById(id: string): RouteExtension {
@@ -183,38 +187,28 @@ export class ExtensionService {
 
     // evaluates create actions for the folder node
     getFolderCreateActions(folder: Node): Array<ContentActionExtension> {
-        return this.createActions.filter(this.filterEnabled).map(action => {
-            if (
-                action.target &&
-                action.target.permissions &&
-                action.target.permissions.length > 0
-            ) {
+        return this.createActions
+            .filter(this.filterEnabled)
+            .filter(action => this.filterByRules(action))
+            .map(action => {
+                let disabled = false;
+
+                if (action.rules && action.rules.enabled) {
+                    disabled = !this.ruleService.evaluateRule(action.rules.enabled);
+                }
+
                 return {
                     ...action,
-                    disabled: !this.nodeHasPermissions(
-                        folder,
-                        action.target.permissions
-                    ),
-                    target: {
-                        ...action.target
-                    }
+                    disabled
                 };
-            }
-            return action;
         });
     }
 
     // evaluates content actions for the selection and parent folder node
-    getAllowedContentActions(
-        nodes: MinimalNodeEntity[],
-        parentNode: Node
-    ): Array<ContentActionExtension> {
+    getAllowedContentActions(): Array<ContentActionExtension> {
         return this.contentActions
             .filter(this.filterEnabled)
-            .filter(action => this.filterByTarget(nodes, action))
-            .filter(action =>
-                this.filterByPermission(nodes, action, parentNode)
-            )
+            .filter(action => this.filterByRules(action))
             .reduce(this.reduceSeparators, [])
             .map(action => {
                 if (action.type === ContentActionType.menu) {
@@ -222,14 +216,7 @@ export class ExtensionService {
                     if (copy.children && copy.children.length > 0) {
                         copy.children = copy.children
                             .filter(childAction =>
-                                this.filterByTarget(nodes, childAction)
-                            )
-                            .filter(childAction =>
-                                this.filterByPermission(
-                                    nodes,
-                                    childAction,
-                                    parentNode
-                                )
+                                this.filterByRules(childAction)
                             )
                             .reduce(this.reduceSeparators, []);
                     }
@@ -301,108 +288,10 @@ export class ExtensionService {
         };
     }
 
-    filterByTarget(
-        nodes: MinimalNodeEntity[],
-        action: ContentActionExtension
-    ): boolean {
-        if (!action) {
-            return false;
+    filterByRules(action: ContentActionExtension): boolean {
+        if (action && action.rules && action.rules.visible) {
+            return this.ruleService.evaluateRule(action.rules.visible);
         }
-
-        if (!action.target) {
-            return (
-                action.type === ContentActionType.separator ||
-                action.type === ContentActionType.menu
-            );
-        }
-
-        const types = action.target.types || [];
-
-        if (types.length === 0) {
-            return true;
-        }
-
-        if (nodes && nodes.length > 0) {
-            return types.some(type => {
-                if (type === 'folder') {
-                    return action.target.multiple
-                        ? nodes.some(node => node.entry.isFolder)
-                        : nodes.length === 1 &&
-                              nodes.every(node => node.entry.isFolder);
-                }
-                if (type === 'file') {
-                    return action.target.multiple
-                        ? nodes.some(node => node.entry.isFile)
-                        : nodes.length === 1 &&
-                              nodes.every(node => node.entry.isFile);
-                }
-                return false;
-            });
-        }
-
-        return false;
-    }
-
-    filterByPermission(
-        nodes: MinimalNodeEntity[],
-        action: ContentActionExtension,
-        parentNode: Node
-    ): boolean {
-        if (!action) {
-            return false;
-        }
-
-        if (!action.target) {
-            return (
-                action.type === ContentActionType.separator ||
-                action.type === ContentActionType.menu
-            );
-        }
-
-        const permissions = action.target.permissions || [];
-
-        if (permissions.length === 0) {
-            return true;
-        }
-
-        return permissions.some(permission => {
-            if (permission.startsWith('parent.')) {
-                if (parentNode) {
-                    const parentQuery = permission.split('.')[1];
-                    return this.nodeHasPermission(parentNode, parentQuery);
-                }
-                return false;
-            }
-
-            if (nodes && nodes.length > 0) {
-                return action.target.multiple
-                    ? nodes.some(node =>
-                          this.nodeHasPermission(node.entry, permission)
-                      )
-                    : nodes.length === 1 &&
-                          nodes.every(node =>
-                              this.nodeHasPermission(node.entry, permission)
-                          );
-            }
-
-            return false;
-        });
-    }
-
-    nodeHasPermissions(node: Node, permissions: string[]): boolean {
-        if (node && permissions && permissions.length > 0) {
-            return permissions.some(permission =>
-                this.nodeHasPermission(node, permission)
-            );
-        }
-        return false;
-    }
-
-    nodeHasPermission(node: Node, permission: string): boolean {
-        if (node && permission) {
-            const allowableOperations = node.allowableOperations || [];
-            return allowableOperations.includes(permission);
-        }
-        return false;
+        return true;
     }
 }

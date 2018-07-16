@@ -55,7 +55,9 @@ export class LibrariesComponent extends PageComponent implements OnInit {
 
         this.subscriptions.push(
             this.content.libraryDeleted.subscribe(() => this.reload()),
-            this.content.libraryCreated.subscribe(() => this.reload())
+            this.content.libraryCreated.subscribe((node: SiteEntry) => {
+                this.navigate(node.entry.guid);
+            })
         );
     }
 
