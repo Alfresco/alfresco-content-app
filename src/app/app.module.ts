@@ -45,7 +45,6 @@ import { SharedFilesComponent } from './components/shared-files/shared-files.com
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { SidenavViewsManagerDirective } from './components/layout/sidenav-views-manager.directive';
-import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { SearchInputComponent } from './components/search/search-input/search-input.component';
 import { SearchInputControlComponent } from './components/search/search-input-control/search-input-control.component';
@@ -110,7 +109,6 @@ import { RuleService } from './extensions/rules/rule.service';
         LoginComponent,
         LayoutComponent,
         SidenavViewsManagerDirective,
-        HeaderComponent,
         CurrentUserComponent,
         SearchInputComponent,
         SearchInputControlComponent,

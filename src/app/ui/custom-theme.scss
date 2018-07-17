@@ -7,7 +7,6 @@
 @import '../components/search/search-input/search-input.component.theme';
 @import '../components/settings/settings.component.theme';
 @import '../components/current-user/current-user.component.theme';
-@import '../components/header/header.component.theme';
 @import '../components/permission-manager/permissions-manager.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 
@@ -23,6 +22,7 @@
 @import './overrides/adf-upload-drag-area.theme';
 @import './overrides/adf-search-sorting-picker.theme';
 @import './overrides/adf-content-node-selector.theme';
+@import './overrides/adf-layout-header.theme';
 
 @import 'layout';
 @import 'snackbar';
@@ -79,9 +79,9 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include adf-upload-drag-area-theme($theme);
     @include adf-search-sorting-picker-theme($theme);
     @include adf-content-node-selector-theme($theme);
+    @include adf-layout-header-theme($theme);
 
     @include aca-layout-theme($theme);
-    @include aca-header-theme($theme);
     @include aca-search-input-theme($theme);
     @include aca-generic-error-theme($theme);
     @include aca-permissions-manager-theme($theme);

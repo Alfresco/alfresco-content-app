@@ -23,20 +23,21 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs/Rx';
+import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Observable, Subject } from 'rxjs/Rx';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../common/services/node-permission.service';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { currentFolder } from '../../store/selectors/app.selectors';
+import { currentFolder, selectAppName, selectHeaderColor, selectLogoPath } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-layout',
     templateUrl: './layout.component.html',
-    styleUrls: ['./layout.component.scss']
+    styleUrls: ['./layout.component.scss'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class LayoutComponent implements OnInit, OnDestroy {
     @ViewChild(SidenavViewsManagerDirective) manager: SidenavViewsManagerDirective;
@@ -46,9 +47,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
     node: MinimalNodeEntryEntity;
     canUpload = false;
 
+    appName$: Observable<string>;
+    headerColor$: Observable<string>;
+    logo$: Observable<string>;
+
     constructor(
         protected store: Store<AppStore>,
-        private permission: NodePermissionService) {}
+        private permission: NodePermissionService) {
+
+        this.headerColor$ = store.select(selectHeaderColor);
+        this.appName$ = store.select(selectAppName);
+        this.logo$ = store.select(selectLogoPath);
+    }
 
     ngOnInit() {
         if (!this.manager.minimizeSidenav) {

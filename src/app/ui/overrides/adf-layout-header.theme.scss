@@ -1,0 +1,21 @@
+@mixin adf-layout-header-theme($theme) {
+    $background: map-get($theme, background);
+
+    .adf-layout-header {
+        .mat-toolbar-single-row {
+            .adf-app-logo {
+                width: 100px;
+                height: 50px;
+                margin-left: 40px;
+            }
+        }
+
+        .adf-toolbar-divider {
+            margin: 0 5px;
+
+            & > div {
+                background-color: mat-color($background, card, 1);
+            }
+        }
+    }
+}
