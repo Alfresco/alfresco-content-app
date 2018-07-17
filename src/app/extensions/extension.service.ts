@@ -45,9 +45,9 @@ export class ExtensionService {
     openWithActions: Array<OpenWithExtension> = [];
     createActions: Array<ContentActionExtension> = [];
 
-    protected routes: Array<RouteRef> = [];
-    protected authGuards: { [key: string]: Type<{}> } = {};
-    protected components: { [key: string]: Type<{}> } = {};
+    routes: Array<RouteRef> = [];
+    authGuards: { [key: string]: Type<{}> } = {};
+    components: { [key: string]: Type<{}> } = {};
 
     constructor(
         private config: AppConfigService,

@@ -28,12 +28,10 @@ import { AppTestingModule } from '../testing/app-testing.module';
 import { ExtensionService } from './extension.service';
 import { AppConfigService } from '@alfresco/adf-core';
 import { ContentActionType } from './content-action.extension';
-import { RouteService } from './routes/route.service';
 
 describe('ExtensionService', () => {
     let config: AppConfigService;
     let extensions: ExtensionService;
-    let routeService: RouteService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -41,7 +39,6 @@ describe('ExtensionService', () => {
         });
 
         extensions = TestBed.get(ExtensionService);
-        routeService = TestBed.get(RouteService);
 
         config = TestBed.get(AppConfigService);
         config.config['extensions'] = {};
@@ -137,7 +134,7 @@ describe('ExtensionService', () => {
         });
 
         it('should load routes from the config', () => {
-            expect(routeService.routes.length).toBe(1);
+            expect(extensions.routes.length).toBe(1);
         });
 
         it('should find a route by id', () => {
