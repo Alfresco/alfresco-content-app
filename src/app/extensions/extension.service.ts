@@ -24,7 +24,6 @@
  */
 
 import { Injectable, Type } from '@angular/core';
-import { RouteExtension } from './route.extension';
 import { AppConfigService } from '@alfresco/adf-core';
 import {
     ContentActionExtension,
@@ -37,17 +36,18 @@ import { Node } from 'alfresco-js-api';
 import { RuleService } from './rules/rule.service';
 import { ActionService } from './actions/action.service';
 import { ActionRef } from './actions/action-ref';
+import { RouteRef } from './route-ref';
 
 @Injectable()
 export class ExtensionService {
-    routes: Array<RouteExtension> = [];
 
     contentActions: Array<ContentActionExtension> = [];
     openWithActions: Array<OpenWithExtension> = [];
     createActions: Array<ContentActionExtension> = [];
 
-    authGuards: { [key: string]: Type<{}> } = {};
-    components: { [key: string]: Type<{}> } = {};
+    protected routes: Array<RouteRef> = [];
+    protected authGuards: { [key: string]: Type<{}> } = {};
+    protected components: { [key: string]: Type<{}> } = {};
 
     constructor(
         private config: AppConfigService,
@@ -58,7 +58,7 @@ export class ExtensionService {
     // initialise extension service
     // in future will also load and merge data from the external plugins
     init() {
-        this.routes = this.config.get<Array<RouteExtension>>(
+        this.routes = this.config.get<Array<RouteRef>>(
             'extensions.core.routes',
             []
         );
@@ -89,7 +89,12 @@ export class ExtensionService {
         this.actionService.init();
     }
 
-    getRouteById(id: string): RouteExtension {
+    setAuthGuard(key: string, value: Type<{}>): ExtensionService {
+        this.authGuards[key] = value;
+        return this;
+    }
+
+    getRouteById(id: string): RouteRef {
         return this.routes.find(route => route.id === id);
     }
 
@@ -99,6 +104,12 @@ export class ExtensionService {
 
     runActionById(id: string, context?: any) {
         this.actionService.runActionById(id, context);
+    }
+
+    getAuthGuards(ids: string[]): Array<Type<{}>> {
+        return (ids || [])
+            .map(id => this.authGuards[id])
+            .filter(guard => guard);
     }
 
     getNavigationGroups(): Array<NavigationExtension[]> {
@@ -128,10 +139,9 @@ export class ExtensionService {
         return [];
     }
 
-    getAuthGuards(ids: string[]): Array<Type<{}>> {
-        return (ids || [])
-            .map(id => this.authGuards[id])
-            .filter(guard => guard);
+    setComponent(id: string, value: Type<{}>): ExtensionService {
+        this.components[id] = value;
+        return this;
     }
 
     getComponentById(id: string): Type<{}> {

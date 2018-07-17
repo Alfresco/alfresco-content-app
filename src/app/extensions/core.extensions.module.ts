@@ -34,23 +34,17 @@ import { RuleService } from './rules/rule.service';
 import { ActionService } from './actions/action.service';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CoreModule.forChild()
-    ],
+    imports: [CommonModule, CoreModule.forChild()],
     declarations: [ToolbarActionComponent],
     exports: [ToolbarActionComponent],
     entryComponents: [AboutComponent],
-    providers: [
-        ExtensionService,
-        RuleService,
-        ActionService
-    ]
+    providers: [ExtensionService, RuleService, ActionService]
 })
 export class CoreExtensionsModule {
     constructor(extensions: ExtensionService) {
-        extensions.components['aca:layouts/main'] = LayoutComponent;
-        extensions.components['aca:components/about'] = AboutComponent;
-        extensions.authGuards['aca:auth'] = AuthGuardEcm;
+        extensions
+            .setComponent('aca:layouts/main', LayoutComponent)
+            .setComponent('aca:components/about', AboutComponent)
+            .setAuthGuard('aca:auth', AuthGuardEcm);
     }
 }
