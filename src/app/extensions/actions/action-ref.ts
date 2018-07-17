@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface ActionExtension {
+export interface ActionRef {
     id: string;
     type: string;
     payload?: string;

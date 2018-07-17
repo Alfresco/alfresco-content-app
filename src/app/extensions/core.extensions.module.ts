@@ -30,6 +30,8 @@ import { AboutComponent } from '../components/about/about.component';
 import { LayoutComponent } from '../components/layout/layout.component';
 import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
 import { CommonModule } from '@angular/common';
+import { RuleService } from './rules/rule.service';
+import { ActionService } from './actions/action.service';
 
 @NgModule({
     imports: [
@@ -38,7 +40,12 @@ import { CommonModule } from '@angular/common';
     ],
     declarations: [ToolbarActionComponent],
     exports: [ToolbarActionComponent],
-    entryComponents: [AboutComponent]
+    entryComponents: [AboutComponent],
+    providers: [
+        ExtensionService,
+        RuleService,
+        ActionService
+    ]
 })
 export class CoreExtensionsModule {
     constructor(extensions: ExtensionService) {

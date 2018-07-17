@@ -61,6 +61,7 @@ import { NodePermissionService } from '../common/services/node-permission.servic
 import { ContentApiService } from '../services/content-api.service';
 import { ExtensionService } from '../extensions/extension.service';
 import { RuleService } from '../extensions/rules/rule.service';
+import { ActionService } from '../extensions/actions/action.service';
 
 @NgModule({
     imports: [
@@ -114,7 +115,8 @@ import { RuleService } from '../extensions/rules/rule.service';
         NodePermissionService,
         ContentApiService,
         ExtensionService,
-        RuleService
+        RuleService,
+        ActionService
     ]
 })
 export class AppTestingModule {}
