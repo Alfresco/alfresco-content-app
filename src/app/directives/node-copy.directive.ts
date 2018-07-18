@@ -31,7 +31,7 @@ import { TranslationService } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { NodeActionsService } from '../services/node-actions.service';
 import { ContentManagementService } from '../services/content-management.service';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '../services/content-api.service';
 
 @Directive({
     selector: '[acaCopyNode]'

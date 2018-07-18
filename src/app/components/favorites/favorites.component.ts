@@ -32,7 +32,7 @@ import {
     PathElementEntity,
     PathInfo
 } from 'alfresco-js-api';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';

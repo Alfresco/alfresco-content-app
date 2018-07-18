@@ -32,11 +32,11 @@ import { TranslationService } from '@alfresco/adf-core';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeMoveDirective } from './node-move.directive';
 import { EffectsModule, Actions, ofType } from '@ngrx/effects';
-import { NodeEffects } from '../../store/effects/node.effects';
-import { SnackbarErrorAction, SNACKBAR_ERROR } from '../../store/actions';
+import { NodeEffects } from '../store/effects/node.effects';
+import { SnackbarErrorAction, SNACKBAR_ERROR } from '../store/actions';
 import { map } from 'rxjs/operators';
-import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { AppTestingModule } from '../testing/app-testing.module';
+import { ContentApiService } from '../services/content-api.service';
 
 @Component({
     template: '<div [acaMoveNode]="selection"></div>'

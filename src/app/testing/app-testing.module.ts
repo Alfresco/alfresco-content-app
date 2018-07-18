@@ -55,9 +55,9 @@ import {
     DocumentListService
 } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../material.module';
-import { ContentManagementService } from '../common/services/content-management.service';
-import { NodeActionsService } from '../common/services/node-actions.service';
-import { NodePermissionService } from '../common/services/node-permission.service';
+import { ContentManagementService } from '../services/content-management.service';
+import { NodeActionsService } from '../services/node-actions.service';
+import { NodePermissionService } from '../services/node-permission.service';
 import { ContentApiService } from '../services/content-api.service';
 import { ExtensionService } from '../extensions/extension.service';
 import { RuleService } from '../extensions/rules/rule.service';

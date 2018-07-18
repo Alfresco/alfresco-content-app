@@ -31,10 +31,10 @@ import { ContentManagementService } from '../services/content-management.service
 import { Actions, ofType } from '@ngrx/effects';
 import { SnackbarErrorAction,
     SNACKBAR_ERROR, SnackbarInfoAction, SNACKBAR_INFO,
-    NavigateRouteAction, NAVIGATE_ROUTE } from '../../store/actions';
+    NavigateRouteAction, NAVIGATE_ROUTE } from '../store/actions';
 import { map } from 'rxjs/operators';
-import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { AppTestingModule } from '../testing/app-testing.module';
+import { ContentApiService } from '../services/content-api.service';
 import { Observable } from 'rxjs/Rx';
 
 @Component({

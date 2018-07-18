@@ -25,7 +25,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
