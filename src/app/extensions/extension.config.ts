@@ -33,20 +33,20 @@ export interface ExtensionConfig {
     version: string;
     references?: Array<string>;
     app: {
-        rules: Array<RuleRef>;
-        routes: Array<RouteRef>;
-        actions: Array<ActionRef>;
-        features: {
+        rules?: Array<RuleRef>;
+        routes?: Array<RouteRef>;
+        actions?: Array<ActionRef>;
+        features?: {
             [key: string]: any;
-            create: Array<ContentActionExtension>;
-            viewer: {
-                openWith: Array<OpenWithExtension>;
+            create?: Array<ContentActionExtension>;
+            viewer?: {
+                openWith?: Array<OpenWithExtension>;
             };
-            navbar: {
+            navbar?: {
                 [key: string]: any;
             };
-            content: {
-                actions: Array<ContentActionExtension>;
+            content?: {
+                actions?: Array<ContentActionExtension>;
             };
         };
     };

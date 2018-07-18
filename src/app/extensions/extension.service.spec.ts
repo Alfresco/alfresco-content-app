@@ -48,25 +48,13 @@ describe('ExtensionService', () => {
             extensions.setup({
                 version: '1.0.0',
                 app: {
-                    rules: [],
-                    routes: [],
                     actions: [
                         {
                             id: 'aca:actions/create-folder',
                             type: 'CREATE_FOLDER',
                             payload: 'folder-name'
                         }
-                    ],
-                    features: {
-                        create: null,
-                        viewer: {
-                            openWith: []
-                        },
-                        navbar: null,
-                        content: {
-                            actions: []
-                        }
-                    }
+                    ]
                 }
             });
         });
@@ -195,7 +183,6 @@ describe('ExtensionService', () => {
             extensions.setup({
                 version: '1.0.0',
                 app: {
-                    rules: [],
                     routes: [
                         {
                             id: 'aca:routes/about',
@@ -207,18 +194,7 @@ describe('ExtensionService', () => {
                                 title: 'Custom About'
                             }
                         }
-                    ],
-                    actions: [],
-                    features: {
-                        create: null,
-                        viewer: {
-                            openWith: []
-                        },
-                        navbar: null,
-                        content: {
-                            actions: []
-                        }
-                    }
+                    ]
                 }
             });
 
@@ -267,15 +243,7 @@ describe('ExtensionService', () => {
             extensions.setup({
                 version: '1.0.0',
                 app: {
-                    rules: [],
-                    routes: [],
-                    actions: [],
                     features: {
-                        create: null,
-                        viewer: {
-                            openWith: []
-                        },
-                        navbar: null,
                         content: {
                             actions: [
                                 {
@@ -303,15 +271,7 @@ describe('ExtensionService', () => {
             extensions.setup({
                 version: '1.0.0',
                 app: {
-                    rules: [],
-                    routes: [],
-                    actions: [],
                     features: {
-                        create: null,
-                        viewer: {
-                            openWith: []
-                        },
-                        navbar: null,
                         content: {
                             actions: [
                                 {
@@ -347,11 +307,7 @@ describe('ExtensionService', () => {
             extensions.setup({
                 version: '1.0.0',
                 app: {
-                    rules: [],
-                    routes: [],
-                    actions: [],
                     features: {
-                        create: null,
                         viewer: {
                             openWith: [
                                 {
@@ -363,10 +319,6 @@ describe('ExtensionService', () => {
                                     action: 'aca:actions/info'
                                 }
                             ]
-                        },
-                        navbar: null,
-                        content: {
-                            actions: []
                         }
                     }
                 }
@@ -379,11 +331,7 @@ describe('ExtensionService', () => {
             extensions.setup({
                 version: '1.0.0',
                 app: {
-                    rules: [],
-                    routes: [],
-                    actions: [],
                     features: {
-                        create: null,
                         viewer: {
                             openWith: [
                                 {
@@ -402,10 +350,6 @@ describe('ExtensionService', () => {
                                     action: 'aca:actions/info'
                                 }
                             ]
-                        },
-                        navbar: null,
-                        content: {
-                            actions: []
                         }
                     }
                 }
@@ -419,11 +363,7 @@ describe('ExtensionService', () => {
             extensions.setup({
                 version: '1.0.0',
                 app: {
-                    rules: [],
-                    routes: [],
-                    actions: [],
                     features: {
-                        create: null,
                         viewer: {
                             openWith: [
                                 {
@@ -441,10 +381,6 @@ describe('ExtensionService', () => {
                                     action: 'aca:actions/info'
                                 }
                             ]
-                        },
-                        navbar: null,
-                        content: {
-                            actions: []
                         }
                     }
                 }
@@ -461,9 +397,6 @@ describe('ExtensionService', () => {
             extensions.setup({
                 version: '1.0.0',
                 app: {
-                    rules: [],
-                    routes: [],
-                    actions: [],
                     features: {
                         create: [
                             {
@@ -473,14 +406,7 @@ describe('ExtensionService', () => {
                                 title: 'ext: Create Folder',
                                 type: ContentActionType.default
                             }
-                        ],
-                        viewer: {
-                            openWith: []
-                        },
-                        navbar: null,
-                        content: {
-                            actions: []
-                        }
+                        ]
                     }
                 }
             });
@@ -492,9 +418,6 @@ describe('ExtensionService', () => {
             extensions.setup({
                 version: '1.0.0',
                 app: {
-                    rules: [],
-                    routes: [],
-                    actions: [],
                     features: {
                         create: [
                             {
@@ -511,14 +434,7 @@ describe('ExtensionService', () => {
                                 title: 'ext: Create Folder',
                                 type: ContentActionType.default
                             }
-                        ],
-                        viewer: {
-                            openWith: []
-                        },
-                        navbar: null,
-                        content: {
-                            actions: []
-                        }
+                        ]
                     }
                 }
             });

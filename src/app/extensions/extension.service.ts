@@ -90,20 +90,69 @@ export class ExtensionService implements RuleContext {
             return;
         }
 
-        this.actions = config.app.actions || [];
-        this.routes = config.app.routes || [];
-        this.contentActions = (config.app.features.content.actions || []).sort(
-            this.sortByOrder
-        );
-        this.openWithActions = (config.app.features.viewer.openWith || [])
-            .filter(entry => !entry.disabled)
-            .sort(this.sortByOrder);
-        this.createActions = (config.app.features.create || []).sort(
-            this.sortByOrder
-        );
+        this.rules = this.loadRules(config);
+        this.actions = this.loadActions(config);
+        this.routes = this.loadRoutes(config);
+        this.contentActions = this.loadContentActions(config);
+        this.openWithActions = this.loadViewerOpenWith(config);
+        this.createActions = this.loadCreateActions(config);
+        this.navbar = this.loadNavBar(config);
+    }
 
-        this.navbar = config.app.features.navbar || {};
-        this.rules = config.app.rules || [];
+
+    protected loadCreateActions(config: ExtensionConfig): Array<ContentActionExtension> {
+        if (config && config.app && config.app.features && config.app.features.create) {
+            return (config.app.features.create || []).sort(
+                this.sortByOrder
+            );
+        }
+        return [];
+    }
+
+    protected loadContentActions(config: ExtensionConfig) {
+        if (config && config.app && config.app.features && config.app.features.content) {
+            return (config.app.features.content.actions || []).sort(
+                this.sortByOrder
+            );
+        }
+        return [];
+    }
+
+    protected loadNavBar(config: ExtensionConfig): any {
+        if (config && config.app && config.app.features) {
+            return config.app.features.navbar || {};
+        }
+        return {};
+    }
+
+    protected loadViewerOpenWith(config: ExtensionConfig): Array<OpenWithExtension> {
+        if (config && config.app && config.app.features && config.app.features.viewer) {
+            return (config.app.features.viewer.openWith || [])
+                .filter(entry => !entry.disabled)
+                .sort(this.sortByOrder);
+        }
+        return [];
+    }
+
+    protected loadRules(config: ExtensionConfig): Array<RuleRef> {
+        if (config && config.app && config.app.rules) {
+            return config.app.rules;
+        }
+        return [];
+    }
+
+    protected loadRoutes(config: ExtensionConfig): Array<RouteRef> {
+        if (config && config.app && config.app.routes) {
+            return config.app.routes;
+        }
+        return [];
+    }
+
+    protected loadActions(config: ExtensionConfig): Array<ActionRef> {
+        if (config && config.app && config.app.actions) {
+            return config.app.actions;
+        }
+        return [];
     }
 
     setEvaluator(key: string, value: RuleEvaluator): ExtensionService {
