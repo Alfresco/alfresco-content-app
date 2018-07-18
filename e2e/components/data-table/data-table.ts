@@ -44,6 +44,7 @@ export class DataTable extends Component {
         selectedRow: '.adf-datatable-row.is-selected',
         cell: '.adf-data-table-cell',
         locationLink: 'aca-location-link',
+        linkCell: '.adf-location-cell',
 
         selectedIcon: '.mat-icon',
 
@@ -59,6 +60,7 @@ export class DataTable extends Component {
     body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
     cell = by.css(DataTable.selectors.cell);
     locationLink = by.css(DataTable.selectors.locationLink);
+    linkCell: ElementFinder = this.component.element(by.css(DataTable.selectors.linkCell));
     emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
     emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
     emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
@@ -139,8 +141,16 @@ export class DataTable extends Component {
         return this.body.element(by.cssContainingText(`.adf-data-table-cell span`, name));
     }
 
+    getRowLink(name: string): ElementFinder {
+        return this.body.element(by.cssContainingText(`.adf-data-table-cell a`, name));
+    }
+
     getItemNameTooltip(name: string): promise.Promise<string> {
         return this.getRowName(name).getAttribute('title');
+    }
+
+    getLinkCellTooltip(name: string): promise.Promise<string> {
+        return this.getRowLink(name).getAttribute('title');
     }
 
     countRows(): promise.Promise<number> {

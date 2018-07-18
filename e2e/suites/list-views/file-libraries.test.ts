@@ -150,12 +150,12 @@ describe('File Libraries', () => {
     });
 
     it('Tooltip for sites without description [C217096]', () => {
-        const tooltip = dataTable.getItemNameTooltip(sitePrivate);
+        const tooltip = dataTable.getLinkCellTooltip(sitePrivate);
         expect(tooltip).toBe(`${sitePrivate}`);
     });
 
     it('Tooltip for sites with description [C217097]', () => {
-        const tooltip = dataTable.getItemNameTooltip(siteModerated);
+        const tooltip = dataTable.getLinkCellTooltip(siteModerated);
         expect(tooltip).toBe(`${siteDescription}`);
     });
 });
