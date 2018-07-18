@@ -118,7 +118,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    onNameClick(node: MinimalNodeEntity) {
+    navigateTo(node: MinimalNodeEntity) {
         if (node && node.entry) {
             const { id, isFolder } = node.entry;
 

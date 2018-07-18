@@ -84,7 +84,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
         return isDuplicate ? `${title} (${id})` : `${title}`;
     }
 
-    onNameClick(node: SiteEntry) {
+    navigateTo(node: SiteEntry) {
         if (node && node.entry.guid) {
             this.navigate(node.entry.guid);
         }

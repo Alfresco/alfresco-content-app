@@ -48,7 +48,8 @@
                 currentFolderId="-mysites-"
                 selectionMode="single"
                 [navigate]="false"
-                [sorting]="[ 'title', 'asc' ]">
+                [sorting]="[ 'title', 'asc' ]"
+                (node-dblclick)="navigateTo($event.detail?.node)">
 
                 <empty-folder-content>
                     <ng-template>
@@ -75,7 +76,7 @@
                         <ng-template let-context>
                             <a class="adf-datatable-cell app-link"
                                 title="{{ makeLibraryTooltip(context.row.obj.entry) }}"
-                                (click)="onNameClick(context?.row?.obj)">
+                                (click)="navigateTo(context?.row?.obj)">
                                 {{ makeLibraryTitle(context.row.obj.entry) }}
                             </a>
                         </ng-template>

@@ -163,7 +163,7 @@ describe('LibrariesComponent', () => {
         });
     });
 
-    describe('onNameClick', () => {
+    describe('navigateTo', () => {
         it('navigates into library folder', () => {
             spyOn(component, 'navigate');
 
@@ -171,7 +171,7 @@ describe('LibrariesComponent', () => {
                 entry: { guid: 'node-guid' }
             };
 
-            component.onNameClick(site);
+            component.navigateTo(site);
 
             expect(component.navigate).toHaveBeenCalledWith('node-guid');
         });
@@ -179,7 +179,7 @@ describe('LibrariesComponent', () => {
         it(' does not navigate when library is not provided', () => {
             spyOn(component, 'navigate');
 
-            component.onNameClick(null);
+            component.navigateTo(null);
 
             expect(component.navigate).not.toHaveBeenCalled();
         });

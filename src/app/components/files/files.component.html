@@ -146,7 +146,8 @@
                     [currentFolderId]="node?.id"
                     [allowDropFiles]="true"
                     [navigate]="false"
-                    [imageResolver]="imageResolver">
+                    [imageResolver]="imageResolver"
+                    (node-dblclick)="navigateTo($event.detail?.node)">
 
                     <data-columns>
                         <data-column
@@ -163,7 +164,7 @@
                             <ng-template let-value="value" let-context>
                                 <a class="adf-datatable-cell app-link"
                                     title="{{ context?.row?.obj | adfNodeNameTooltip }}"
-                                    (click)="onNameClick(context?.row?.obj)">
+                                    (click)="navigateTo(context?.row?.obj)">
                                     {{ value }}
                                 </a>
                             </ng-template>
