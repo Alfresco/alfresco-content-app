@@ -84,11 +84,9 @@ export class LibrariesComponent extends PageComponent implements OnInit {
         return isDuplicate ? `${title} (${id})` : `${title}`;
     }
 
-    onNodeDoubleClick(e: CustomEvent) {
-        const node: any = e.detail.node.entry;
-
-        if (node && node.guid) {
-            this.navigate(node.guid);
+    navigateTo(node: SiteEntry) {
+        if (node && node.entry.guid) {
+            this.navigate(node.entry.guid);
         }
     }
 

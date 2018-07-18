@@ -163,35 +163,23 @@ describe('LibrariesComponent', () => {
         });
     });
 
-    describe('onNodeDoubleClick', () => {
-        it('navigates to document', () => {
+    describe('navigateTo', () => {
+        it('navigates into library folder', () => {
             spyOn(component, 'navigate');
 
-            const event: any = {
-                detail: {
-                    node: {
-                        entry: { guid: 'node-guid' }
-                    }
-                }
+            const site: any = {
+                entry: { guid: 'node-guid' }
             };
 
-            component.onNodeDoubleClick(event);
+            component.navigateTo(site);
 
             expect(component.navigate).toHaveBeenCalledWith('node-guid');
         });
 
-        it(' does not navigate when document is not provided', () => {
+        it(' does not navigate when library is not provided', () => {
             spyOn(component, 'navigate');
 
-            const event: any = {
-                detail: {
-                    node: {
-                        entry: null
-                    }
-                }
-            };
-
-            component.onNodeDoubleClick(event);
+            component.navigateTo(null);
 
             expect(component.navigate).not.toHaveBeenCalled();
         });

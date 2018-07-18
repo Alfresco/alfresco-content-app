@@ -49,7 +49,7 @@
                 selectionMode="single"
                 [navigate]="false"
                 [sorting]="[ 'title', 'asc' ]"
-                (node-dblclick)="onNodeDoubleClick($event)">
+                (node-dblclick)="navigateTo($event.detail?.node)">
 
                 <empty-folder-content>
                     <ng-template>
@@ -70,13 +70,15 @@
                     </data-column>
 
                     <data-column
-                        class="adf-data-table-cell--ellipsis__name"
+                        class="adf-data-table-cell--ellipsis__name adf-location-cell"
                         key="title"
                         title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
                         <ng-template let-context>
-                            <span class="adf-datatable-cell" title="{{ makeLibraryTooltip(context.row.obj.entry) }}">
+                            <a
+                                title="{{ makeLibraryTooltip(context.row.obj.entry) }}"
+                                (click)="navigateTo(context?.row?.obj)">
                                 {{ makeLibraryTitle(context.row.obj.entry) }}
-                            </span>
+                            </a>
                         </ng-template>
                     </data-column>
 
