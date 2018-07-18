@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface RouteExtension {
+export interface RouteRef {
     id: string;
     path: string;
     component: string;

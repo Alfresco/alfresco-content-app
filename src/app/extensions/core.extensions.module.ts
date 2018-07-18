@@ -23,8 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface ActionExtension {
-    id: string;
-    type: string;
-    payload?: string;
+import { NgModule } from '@angular/core';
+import { AuthGuardEcm, CoreModule } from '@alfresco/adf-core';
+import { ExtensionService } from './extension.service';
+import { AboutComponent } from '../components/about/about.component';
+import { LayoutComponent } from '../components/layout/layout.component';
+import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
+import { CommonModule } from '@angular/common';
+import { RuleService } from './rules/rule.service';
+import { ActionService } from './actions/action.service';
+
+@NgModule({
+    imports: [CommonModule, CoreModule.forChild()],
+    declarations: [ToolbarActionComponent],
+    exports: [ToolbarActionComponent],
+    entryComponents: [AboutComponent],
+    providers: [ExtensionService, RuleService, ActionService]
+})
+export class CoreExtensionsModule {
+    constructor(extensions: ExtensionService) {
+        extensions
+            .setComponent('aca:layouts/main', LayoutComponent)
+            .setComponent('aca:components/about', AboutComponent)
+            .setAuthGuard('aca:auth', AuthGuardEcm);
+    }
 }

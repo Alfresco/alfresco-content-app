@@ -27,14 +27,11 @@ import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ExtensionService } from './extension.service';
 import { AppConfigService } from '@alfresco/adf-core';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states';
 import { ContentActionType } from './content-action.extension';
 
 describe('ExtensionService', () => {
     let config: AppConfigService;
     let extensions: ExtensionService;
-    let store: Store<AppStore>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -42,7 +39,6 @@ describe('ExtensionService', () => {
         });
 
         extensions = TestBed.get(ExtensionService);
-        store = TestBed.get(Store);
 
         config = TestBed.get(AppConfigService);
         config.config['extensions'] = {};
@@ -165,71 +161,6 @@ describe('ExtensionService', () => {
             expect(route.children.length).toBe(1);
             expect(route.children[0].path).toBe('');
             expect(route.children[0].component).toEqual(component1);
-        });
-    });
-
-    describe('actions', () => {
-        beforeEach(() => {
-            config.config.extensions = {
-                core: {
-                    actions: [
-                        {
-                            id: 'aca:actions/create-folder',
-                            type: 'CREATE_FOLDER',
-                            payload: 'folder-name'
-                        }
-                    ]
-                }
-            };
-        });
-
-        it('should load actions from the config', () => {
-            extensions.init();
-            expect(extensions.actions.length).toBe(1);
-        });
-
-        it('should have an empty action list if config provides nothing', () => {
-            config.config.extensions = {};
-            extensions.init();
-
-            expect(extensions.actions).toEqual([]);
-        });
-
-        it('should find action by id', () => {
-            extensions.init();
-
-            const action = extensions.getActionById(
-                'aca:actions/create-folder'
-            );
-            expect(action).toBeTruthy();
-            expect(action.type).toBe('CREATE_FOLDER');
-            expect(action.payload).toBe('folder-name');
-        });
-
-        it('should not find action by id', () => {
-            extensions.init();
-
-            const action = extensions.getActionById('missing');
-            expect(action).toBeFalsy();
-        });
-
-        it('should run the action via store', () => {
-            extensions.init();
-            spyOn(store, 'dispatch').and.stub();
-
-            extensions.runActionById('aca:actions/create-folder');
-            expect(store.dispatch).toHaveBeenCalledWith({
-                type: 'CREATE_FOLDER',
-                payload: 'folder-name'
-            });
-        });
-
-        it('should not use store if action is missing', () => {
-            extensions.init();
-            spyOn(store, 'dispatch').and.stub();
-
-            extensions.runActionById('missing');
-            expect(store.dispatch).not.toHaveBeenCalled();
         });
     });
 
@@ -461,33 +392,6 @@ describe('ExtensionService', () => {
             expect(extensions.createActions.length).toBe(2);
             expect(extensions.createActions[0].id).toBe('aca:create/folder-2');
             expect(extensions.createActions[1].id).toBe('aca:create/folder');
-        });
-    });
-
-    describe('expressions', () => {
-        it('should eval static value', () => {
-            const value = extensions.runExpression('hello world');
-            expect(value).toBe('hello world');
-        });
-
-        it('should eval string as an expression', () => {
-            const value = extensions.runExpression('$( "hello world" )');
-            expect(value).toBe('hello world');
-        });
-
-        it('should eval expression with no context', () => {
-            const value = extensions.runExpression('$( 1 + 1 )');
-            expect(value).toBe(2);
-        });
-
-        it('should eval expression with context', () => {
-            const context = {
-                a: 'hey',
-                b: 'there'
-            };
-            const expression = '$( context.a + " " + context.b + "!" )';
-            const value = extensions.runExpression(expression, context);
-            expect(value).toBe('hey there!');
         });
     });
 
