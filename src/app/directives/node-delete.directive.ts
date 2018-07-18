@@ -25,53 +25,35 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
-import { MatDialog } from '@angular/material';
-import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
-
-import { AppStore } from '../../store/states/app.state';
-import { PurgeDeletedNodesAction } from '../../store/actions';
-import { NodeInfo } from '../../store/models';
+import { AppStore } from '../store/states/app.state';
+import { DeleteNodesAction } from '../store/actions';
+import { NodeInfo } from '../store/models';
 
 @Directive({
-    selector: '[acaPermanentDelete]'
+    selector: '[acaDeleteNode]'
 })
-export class NodePermanentDeleteDirective {
+export class NodeDeleteDirective {
 
     // tslint:disable-next-line:no-input-rename
-    @Input('acaPermanentDelete')
+    @Input('acaDeleteNode')
     selection: MinimalNodeEntity[];
 
-    constructor(
-        private store: Store<AppStore>,
-        private dialog: MatDialog
-    ) {}
+    constructor(private store: Store<AppStore>) {}
 
     @HostListener('click')
     onClick() {
-        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-            data: {
-                title: 'APP.DIALOGS.CONFIRM_PURGE.TITLE',
-                message: 'APP.DIALOGS.CONFIRM_PURGE.MESSAGE',
-                yesLabel: 'APP.DIALOGS.CONFIRM_PURGE.YES_LABEL',
-                noLabel: 'APP.DIALOGS.CONFIRM_PURGE.NO_LABEL'
-            },
-            minWidth: '250px'
-        });
+        if (this.selection && this.selection.length > 0) {
+            const toDelete: NodeInfo[] = this.selection.map(node => {
+                const { name } = node.entry;
+                const id = node.entry.nodeId || node.entry.id;
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (result === true) {
-                const nodesToDelete: NodeInfo[] = this.selection.map(node => {
-                    const { name } = node.entry;
-                    const id = node.entry.nodeId || node.entry.id;
-
-                    return {
-                        id,
-                        name
-                    };
-                });
-                this.store.dispatch(new PurgeDeletedNodesAction(nodesToDelete));
-            }
-        });
+                return {
+                    id,
+                    name
+                };
+            });
+            this.store.dispatch(new DeleteNodesAction(toDelete));
+        }
     }
 }

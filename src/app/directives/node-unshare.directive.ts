@@ -26,7 +26,7 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { ContentManagementService } from '../services/content-management.service';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '../services/content-api.service';
 
 @Directive({
     selector: '[acaUnshareNode]'

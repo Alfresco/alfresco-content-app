@@ -30,7 +30,7 @@ import {
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ExperimentalDirective } from '../../directives/experimental.directive';

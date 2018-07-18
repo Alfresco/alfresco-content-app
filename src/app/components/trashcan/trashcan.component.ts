@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { selectUser } from '../../store/selectors/app.selectors';

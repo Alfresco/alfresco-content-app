@@ -26,55 +26,52 @@
 import { Directive, HostListener, Input } from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { MatDialog } from '@angular/material';
+import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { SnackbarErrorAction } from '../../store/actions';
-import { NodePermissionsDialogComponent } from '../../dialogs/node-permissions/node-permissions.dialog';
+
+import { AppStore } from '../store/states/app.state';
+import { PurgeDeletedNodesAction } from '../store/actions';
+import { NodeInfo } from '../store/models';
 
 @Directive({
-    selector: '[acaNodePermissions]'
+    selector: '[acaPermanentDelete]'
 })
-export class NodePermissionsDirective {
-    // tslint:disable-next-line:no-input-rename
-    @Input('acaNodePermissions') node: MinimalNodeEntity;
+export class NodePermanentDeleteDirective {
 
-    @HostListener('click')
-    onClick() {
-        this.showPermissions();
-    }
+    // tslint:disable-next-line:no-input-rename
+    @Input('acaPermanentDelete')
+    selection: MinimalNodeEntity[];
 
     constructor(
         private store: Store<AppStore>,
         private dialog: MatDialog
     ) {}
 
-    showPermissions() {
-        if (this.node) {
-            let entry;
-            if (this.node.entry) {
-                entry = this.node.entry;
+    @HostListener('click')
+    onClick() {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+                title: 'APP.DIALOGS.CONFIRM_PURGE.TITLE',
+                message: 'APP.DIALOGS.CONFIRM_PURGE.MESSAGE',
+                yesLabel: 'APP.DIALOGS.CONFIRM_PURGE.YES_LABEL',
+                noLabel: 'APP.DIALOGS.CONFIRM_PURGE.NO_LABEL'
+            },
+            minWidth: '250px'
+        });
 
-            } else {
-                entry = this.node;
+        dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+                const nodesToDelete: NodeInfo[] = this.selection.map(node => {
+                    const { name } = node.entry;
+                    const id = node.entry.nodeId || node.entry.id;
+
+                    return {
+                        id,
+                        name
+                    };
+                });
+                this.store.dispatch(new PurgeDeletedNodesAction(nodesToDelete));
             }
-
-            const entryId = entry.nodeId || (<any>entry).guid || entry.id;
-            this.openPermissionsDialog(entryId);
-        }
-    }
-
-    openPermissionsDialog(nodeId: string) {
-        // workaround Shared
-        if (nodeId) {
-            this.dialog.open(NodePermissionsDialogComponent, {
-                data: { nodeId },
-                panelClass: 'aca-permissions-dialog-panel',
-                width: '730px'
-            });
-        } else {
-            this.store.dispatch(
-                new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
-            );
-        }
+        });
     }
 }

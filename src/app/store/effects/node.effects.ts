@@ -43,7 +43,7 @@ import {
     CreateFolderAction,
     CREATE_FOLDER
 } from '../actions';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 import { Observable } from 'rxjs/Rx';
 import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';

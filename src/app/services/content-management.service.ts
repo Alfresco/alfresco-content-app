@@ -27,10 +27,10 @@ import { Subject } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FolderDialogComponent } from '@alfresco/adf-content-services';
-import { LibraryDialogComponent } from '../../dialogs/library/library.dialog';
-import { SnackbarErrorAction } from '../../store/actions';
+import { LibraryDialogComponent } from '../dialogs/library/library.dialog';
+import { SnackbarErrorAction } from '../store/actions';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states';
+import { AppStore } from '../store/states';
 import {
     MinimalNodeEntity,
     MinimalNodeEntryEntity,

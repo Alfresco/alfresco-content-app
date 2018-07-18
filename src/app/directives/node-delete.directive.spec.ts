@@ -29,14 +29,14 @@ import { Component, DebugElement } from '@angular/core';
 
 import { NodeDeleteDirective } from './node-delete.directive';
 import { EffectsModule, Actions, ofType } from '@ngrx/effects';
-import { NodeEffects } from '../../store/effects/node.effects';
+import { NodeEffects } from '../store/effects/node.effects';
 import {
     SnackbarInfoAction, SNACKBAR_INFO, SNACKBAR_ERROR,
     SnackbarErrorAction, SnackbarWarningAction, SNACKBAR_WARNING
-} from '../../store/actions';
+} from '../store/actions';
 import { map } from 'rxjs/operators';
-import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { AppTestingModule } from '../testing/app-testing.module';
+import { ContentApiService } from '../services/content-api.service';
 import { Observable } from 'rxjs/Rx';
 
 @Component({

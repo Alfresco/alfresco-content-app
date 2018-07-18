@@ -31,18 +31,18 @@ import {
     PathInfoEntity,
     DeletedNodesPaging
 } from 'alfresco-js-api';
-import { DeleteStatus, DeletedNodeInfo } from '../../store/models';
+import { DeleteStatus, DeletedNodeInfo } from '../store/models';
 import { ContentManagementService } from '../services/content-management.service';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
+import { AppStore } from '../store/states/app.state';
 import {
     NavigateRouteAction,
     SnackbarAction,
     SnackbarErrorAction,
     SnackbarInfoAction,
     SnackbarUserAction
-} from '../../store/actions';
-import { ContentApiService } from '../../services/content-api.service';
+} from '../store/actions';
+import { ContentApiService } from '../services/content-api.service';
 
 @Directive({
     selector: '[acaRestoreNode]'

@@ -24,56 +24,52 @@
  */
 
 import { Directive, HostListener, Input } from '@angular/core';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { NodeVersionsDialogComponent } from '../../dialogs/node-versions/node-versions.dialog';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { SnackbarErrorAction } from '../../store/actions';
-import { ContentApiService } from '../../services/content-api.service';
+import { AppStore } from '../store/states/app.state';
+import { SnackbarErrorAction } from '../store/actions';
+import { NodePermissionsDialogComponent } from '../dialogs/node-permissions/node-permissions.dialog';
 
 @Directive({
-    selector: '[acaNodeVersions]'
+    selector: '[acaNodePermissions]'
 })
-export class NodeVersionsDirective {
+export class NodePermissionsDirective {
     // tslint:disable-next-line:no-input-rename
-    @Input('acaNodeVersions') node: MinimalNodeEntity;
+    @Input('acaNodePermissions') node: MinimalNodeEntity;
 
     @HostListener('click')
     onClick() {
-        this.onManageVersions();
+        this.showPermissions();
     }
 
     constructor(
         private store: Store<AppStore>,
-        private contentApi: ContentApiService,
         private dialog: MatDialog
     ) {}
 
-    async onManageVersions() {
-        if (this.node && this.node.entry) {
-            let entry = this.node.entry;
+    showPermissions() {
+        if (this.node) {
+            let entry;
+            if (this.node.entry) {
+                entry = this.node.entry;
 
-            if (entry.nodeId || (<any>entry).guid) {
-                entry = await this.contentApi.getNodeInfo(
-                    entry.nodeId || (<any>entry).id
-                ).toPromise();
-                this.openVersionManagerDialog(entry);
             } else {
-                this.openVersionManagerDialog(entry);
+                entry = this.node;
             }
-        } else if (this.node) {
-            this.openVersionManagerDialog(<MinimalNodeEntryEntity>this.node);
+
+            const entryId = entry.nodeId || (<any>entry).guid || entry.id;
+            this.openPermissionsDialog(entryId);
         }
     }
 
-    openVersionManagerDialog(node: MinimalNodeEntryEntity) {
+    openPermissionsDialog(nodeId: string) {
         // workaround Shared
-        if (node.isFile || node.nodeId) {
-            this.dialog.open(NodeVersionsDialogComponent, {
-                data: { node },
-                panelClass: 'adf-version-manager-dialog-panel',
-                width: '630px'
+        if (nodeId) {
+            this.dialog.open(NodePermissionsDialogComponent, {
+                data: { nodeId },
+                panelClass: 'aca-permissions-dialog-panel',
+                width: '730px'
             });
         } else {
             this.store.dispatch(

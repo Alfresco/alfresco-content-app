@@ -30,7 +30,7 @@ import { Observable, Subject } from 'rxjs/Rx';
 import { AlfrescoApiService, ContentService, DataColumn, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging } from 'alfresco-js-api';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '../services/content-api.service';
 
 @Injectable()
 export class NodeActionsService {

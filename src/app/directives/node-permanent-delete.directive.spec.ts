@@ -34,11 +34,11 @@ import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
     SNACKBAR_INFO, SnackbarWarningAction, SnackbarInfoAction,
     SnackbarErrorAction, SNACKBAR_ERROR, SNACKBAR_WARNING
-} from '../../store/actions';
+} from '../store/actions';
 import { map } from 'rxjs/operators';
-import { NodeEffects } from '../../store/effects/node.effects';
-import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { NodeEffects } from '../store/effects/node.effects';
+import { AppTestingModule } from '../testing/app-testing.module';
+import { ContentApiService } from '../services/content-api.service';
 
 @Component({
     template: `<div [acaPermanentDelete]="selection"></div>`
