@@ -347,7 +347,6 @@ export class PreviewComponent extends PageComponent implements OnInit {
     }
 
     printFile(event: any) {
-        console.log(this.viewUtils);
         this.viewUtils.printFileGeneric(this.nodeId, this.node.content.mimeType);
     }
 
