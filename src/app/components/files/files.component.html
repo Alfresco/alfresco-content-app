@@ -158,11 +158,11 @@
                         </data-column>
 
                         <data-column
-                            class="adf-data-table-cell--ellipsis__name"
+                            class="adf-data-table-cell--ellipsis__name adf-location-cell"
                             key="name"
                             title="APP.DOCUMENT_LIST.COLUMNS.NAME">
                             <ng-template let-value="value" let-context>
-                                <a class="adf-datatable-cell app-link"
+                                <a
                                     title="{{ context?.row?.obj | adfNodeNameTooltip }}"
                                     (click)="navigateTo(context?.row?.obj)">
                                     {{ value }}

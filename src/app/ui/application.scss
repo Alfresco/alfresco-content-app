@@ -23,13 +23,3 @@ aca-search-results,
 ng-component {
     @include flex-column;
 }
-
-.app-link {
-    text-decoration: none;
-    color: mat-color($foreground, text);
-
-    &:hover {
-        color: #2196F3;
-        text-decoration: underline;
-    }
-}
