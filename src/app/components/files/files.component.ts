@@ -36,6 +36,7 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
+import { ViewUtilService } from '../../common/services/view-util.service';
 
 @Component({
     templateUrl: './files.component.html'
@@ -54,6 +55,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private uploadService: UploadService,
                 private contentManagementService: ContentManagementService,
                 private browsingFilesService: BrowsingFilesService,
+                private viewUtil: ViewUtilService,
                 public permission: NodePermissionService) {
         super(store);
     }
@@ -250,6 +252,14 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 elements.splice(docLib, 1);
             }
         }
+    }
+
+    /**
+     * Use this method to print files from a
+     * @param event
+     */
+    onPrintFile(event: any) {
+        this.viewUtil.printFileGeneric(event.value.entry.id, event.value.entry.content.mimeType);
     }
 
     isSiteContainer(node: MinimalNodeEntryEntity): boolean {

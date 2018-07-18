@@ -80,6 +80,7 @@ import { DocumentListDirective } from './directives/document-list.directive';
 import { MaterialModule } from './material.module';
 import { ExperimentalDirective } from './directives/experimental.directive';
 import { ContentApiService } from './services/content-api.service';
+import { ViewUtilService} from './common/services/view-util.service';
 
 @NgModule({
     imports: [
@@ -151,7 +152,8 @@ import { ContentApiService } from './services/content-api.service';
         NodeActionsService,
         NodePermissionService,
         ProfileResolver,
-        ContentApiService
+        ContentApiService,
+        ViewUtilService
     ],
     entryComponents: [
         NodeVersionsDialogComponent

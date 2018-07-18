@@ -28,9 +28,11 @@
         [allowNavigate]="navigateMultiple"
         [allowSidebar]="true"
         [sidebarTemplate]="sidebarTemplate"
+        [allowPrint] ="true"
         [canNavigateBefore]="previousNodeId"
         [canNavigateNext]="nextNodeId"
         [overlayMode]="true"
+        (print) = "printFile($event)"
         (showViewerChange)="onVisibilityChanged($event)"
         (navigateBefore)="onNavigateBefore()"
         (navigateNext)="onNavigateNext()">
