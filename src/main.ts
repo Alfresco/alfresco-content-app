@@ -33,6 +33,7 @@ import 'hammerjs';
 
 import * as pdfjsLib from 'pdfjs-dist';
 pdfjsLib.PDFJS.workerSrc = 'pdf.worker.js';
+pdfjsLib.PDFJS.disableFontFace = true;
 
 if (environment.production) {
   enableProdMode();
