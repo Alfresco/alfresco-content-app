@@ -24,49 +24,42 @@
  */
 
 import { Injectable, Type } from '@angular/core';
-import { RouteExtension } from './route.extension';
-import { ActionExtension } from './action.extension';
 import { AppConfigService } from '@alfresco/adf-core';
 import {
     ContentActionExtension,
     ContentActionType
 } from './content-action.extension';
 import { OpenWithExtension } from './open-with.extension';
-import { AppStore } from '../store/states';
-import { Store } from '@ngrx/store';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
 import { Node } from 'alfresco-js-api';
 import { RuleService } from './rules/rule.service';
+import { ActionService } from './actions/action.service';
+import { ActionRef } from './actions/action-ref';
+import { RouteRef } from './route-ref';
 
 @Injectable()
 export class ExtensionService {
-    routes: Array<RouteExtension> = [];
-    actions: Array<ActionExtension> = [];
 
     contentActions: Array<ContentActionExtension> = [];
     openWithActions: Array<OpenWithExtension> = [];
     createActions: Array<ContentActionExtension> = [];
 
+    routes: Array<RouteRef> = [];
     authGuards: { [key: string]: Type<{}> } = {};
     components: { [key: string]: Type<{}> } = {};
 
     constructor(
         private config: AppConfigService,
-        private store: Store<AppStore>,
-        private ruleService: RuleService
+        private ruleService: RuleService,
+        private actionService: ActionService
     ) {}
 
     // initialise extension service
     // in future will also load and merge data from the external plugins
     init() {
-        this.routes = this.config.get<Array<RouteExtension>>(
+        this.routes = this.config.get<Array<RouteRef>>(
             'extensions.core.routes',
-            []
-        );
-
-        this.actions = this.config.get<Array<ActionExtension>>(
-            'extensions.core.actions',
             []
         );
 
@@ -93,24 +86,30 @@ export class ExtensionService {
             .sort(this.sortByOrder);
 
         this.ruleService.init();
+        this.actionService.init();
     }
 
-    getRouteById(id: string): RouteExtension {
+    setAuthGuard(key: string, value: Type<{}>): ExtensionService {
+        this.authGuards[key] = value;
+        return this;
+    }
+
+    getRouteById(id: string): RouteRef {
         return this.routes.find(route => route.id === id);
     }
 
-    getActionById(id: string): ActionExtension {
-        return this.actions.find(action => action.id === id);
+    getActionById(id: string): ActionRef {
+        return this.actionService.getActionById(id);
     }
 
     runActionById(id: string, context?: any) {
-        const action = this.getActionById(id);
-        if (action) {
-            const { type, payload } = action;
-            const expression = this.runExpression(payload, context);
+        this.actionService.runActionById(id, context);
+    }
 
-            this.store.dispatch({ type, payload: expression });
-        }
+    getAuthGuards(ids: string[]): Array<Type<{}>> {
+        return (ids || [])
+            .map(id => this.authGuards[id])
+            .filter(guard => guard);
     }
 
     getNavigationGroups(): Array<NavigationExtension[]> {
@@ -140,29 +139,13 @@ export class ExtensionService {
         return [];
     }
 
-    getAuthGuards(ids: string[]): Array<Type<{}>> {
-        return (ids || [])
-            .map(id => this.authGuards[id])
-            .filter(guard => guard);
+    setComponent(id: string, value: Type<{}>): ExtensionService {
+        this.components[id] = value;
+        return this;
     }
 
     getComponentById(id: string): Type<{}> {
         return this.components[id];
-    }
-
-    runExpression(value: string, context?: any) {
-        const pattern = new RegExp(/\$\((.*\)?)\)/g);
-        const matches = pattern.exec(value);
-
-        if (matches && matches.length > 1) {
-            const expression = matches[1];
-            const fn = new Function('context', `return ${expression}`);
-            const result = fn(context);
-
-            return result;
-        }
-
-        return value;
     }
 
     getApplicationRoutes(): Array<Route> {
