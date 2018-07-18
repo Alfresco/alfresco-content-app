@@ -91,8 +91,6 @@ export class AppComponent implements OnInit {
                 pageTitle.setTitle(data.title || '');
             });
 
-        this.extensions.init();
-
         this.router.config.unshift(...this.extensions.getApplicationRoutes());
 
         this.uploadService.fileUploadError.subscribe(error =>

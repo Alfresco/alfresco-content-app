@@ -24,7 +24,7 @@
  */
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -84,7 +84,11 @@ import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-
 import { NodePermissionsDirective } from './directives/node-permissions.directive';
 import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
+import { ExtensionService } from './extensions/extension.service';
 
+export function setupExtensionServiceFactory(service: ExtensionService): Function {
+    return () => service.load();
+}
 @NgModule({
     imports: [
         BrowserModule,
@@ -96,7 +100,7 @@ import { AppRouteReuseStrategy } from './app.routes.strategy';
             enableTracing: false // enable for debug only
         }),
         MaterialModule,
-        CoreModule,
+        CoreModule.forRoot(),
         ContentModule,
         AppStoreModule,
         CoreExtensionsModule,
@@ -159,7 +163,13 @@ import { AppRouteReuseStrategy } from './app.routes.strategy';
         NodePermissionService,
         ProfileResolver,
         ExperimentalGuard,
-        ContentApiService
+        ContentApiService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: setupExtensionServiceFactory,
+            deps: [ExtensionService, AppConfigService],
+            multi: true
+        }
     ],
     entryComponents: [
         LibraryDialogComponent,

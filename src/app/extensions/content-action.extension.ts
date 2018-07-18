@@ -42,7 +42,7 @@ export interface ContentActionExtension {
         click?: string;
         [key: string]: string;
     };
-    rules: {
+    rules?: {
         enabled?: string;
         visible?: string;
         [key: string]: string;

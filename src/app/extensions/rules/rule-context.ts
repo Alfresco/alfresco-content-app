@@ -24,8 +24,8 @@
  */
 
 import { SelectionState } from '../../store/states';
-import { RuleEvaluator } from './rule.service';
 import { NavigationState } from '../../store/states/navigation.state';
+import { RuleEvaluator } from './rule-evaluator';
 
 export interface RuleContext {
     selection: SelectionState;

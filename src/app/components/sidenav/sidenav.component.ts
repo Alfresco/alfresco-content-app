@@ -64,7 +64,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(node => {
                 this.node = node;
-                this.createActions = this.extensions.getFolderCreateActions(node);
+                this.createActions = this.extensions.getCreateActions();
                 this.canCreateContent = node && this.permission.check(node, ['create']);
             });
     }

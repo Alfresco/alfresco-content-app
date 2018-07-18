@@ -24,11 +24,9 @@
  */
 
 import { RuleParameter } from './rule-parameter';
-import { RuleEvaluator } from './rule.service';
 
 export class RuleRef {
     type: string;
     id?: string;
     parameters?: Array<RuleParameter>;
-    evaluator?: RuleEvaluator;
 }

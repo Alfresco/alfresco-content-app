@@ -24,12 +24,30 @@
  */
 
 import { RuleRef } from './rules/rule-ref';
-import { ActionRef } from './actions/action-ref';
+import { ActionRef } from './action-ref';
 import { RouteRef } from './route-ref';
+import { ContentActionExtension } from './content-action.extension';
+import { OpenWithExtension } from './open-with.extension';
 
 export interface ExtensionConfig {
-    rules?: Array<RuleRef>;
-    routes?: Array<RouteRef>;
-    actions?: Array<ActionRef>;
-    features?: { [key: string]: any };
+    version: string;
+    references?: Array<string>;
+    app: {
+        rules: Array<RuleRef>;
+        routes: Array<RouteRef>;
+        actions: Array<ActionRef>;
+        features: {
+            [key: string]: any;
+            create: Array<ContentActionExtension>;
+            viewer: {
+                openWith: Array<OpenWithExtension>;
+            };
+            navbar: {
+                [key: string]: any;
+            };
+            content: {
+                actions: Array<ContentActionExtension>;
+            };
+        };
+    };
 }

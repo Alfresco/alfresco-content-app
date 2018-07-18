@@ -24,7 +24,8 @@
  */
 
 import { Injectable, Type } from '@angular/core';
-import { AppConfigService } from '@alfresco/adf-core';
+import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 import {
     ContentActionExtension,
     ContentActionType
@@ -32,61 +33,82 @@ import {
 import { OpenWithExtension } from './open-with.extension';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
-import { Node } from 'alfresco-js-api';
-import { RuleService } from './rules/rule.service';
-import { ActionService } from './actions/action.service';
-import { ActionRef } from './actions/action-ref';
+import { ActionRef } from './action-ref';
 import { RouteRef } from './route-ref';
+import { ExtensionConfig } from './extension.config';
+import { AppStore, SelectionState } from '../store/states';
+import { RuleRef } from './rules/rule-ref';
+import { RuleEvaluator } from './rules/rule-evaluator';
+import { NavigationState } from '../store/states/navigation.state';
+import { RuleContext } from './rules/rule-context';
+import { selectionWithFolder } from '../store/selectors/app.selectors';
 
 @Injectable()
-export class ExtensionService {
+export class ExtensionService implements RuleContext {
+    configPath = 'assets/app.extensions.json';
 
+    actions: Array<ActionRef> = [];
     contentActions: Array<ContentActionExtension> = [];
     openWithActions: Array<OpenWithExtension> = [];
     createActions: Array<ContentActionExtension> = [];
-
+    rules: Array<RuleRef> = [];
     routes: Array<RouteRef> = [];
     authGuards: { [key: string]: Type<{}> } = {};
     components: { [key: string]: Type<{}> } = {};
+    navbar: { [key: string]: any } = {};
 
-    constructor(
-        private config: AppConfigService,
-        private ruleService: RuleService,
-        private actionService: ActionService
-    ) {}
+    evaluators: { [key: string]: RuleEvaluator } = {};
+    selection: SelectionState;
+    navigation: NavigationState;
 
-    // initialise extension service
-    // in future will also load and merge data from the external plugins
-    init() {
-        this.routes = this.config.get<Array<RouteRef>>(
-            'extensions.core.routes',
-            []
+    constructor(private http: HttpClient, private store: Store<AppStore>) {
+        this.store.select(selectionWithFolder).subscribe(result => {
+            this.selection = result.selection;
+            this.navigation = result.navigation;
+        });
+    }
+
+    load(): Promise<boolean> {
+        return new Promise<any>(resolve => {
+            this.http.get<ExtensionConfig>(this.configPath).subscribe(
+                config => {
+                    console.log(config);
+                    this.setup(config);
+                    resolve(true);
+                },
+                error => {
+                    console.log(error);
+                    resolve(false);
+                }
+            );
+        });
+    }
+
+    setup(config: ExtensionConfig) {
+        if (!config) {
+            console.error('Extension configuration not found');
+            return;
+        }
+
+        this.actions = config.app.actions || [];
+        this.routes = config.app.routes || [];
+        this.contentActions = (config.app.features.content.actions || []).sort(
+            this.sortByOrder
         );
-
-        this.contentActions = this.config
-            .get<Array<ContentActionExtension>>(
-                'extensions.core.features.content.actions',
-                []
-            )
-            .sort(this.sortByOrder);
-
-        this.openWithActions = this.config
-            .get<Array<OpenWithExtension>>(
-                'extensions.core.features.viewer.open-with',
-                []
-            )
+        this.openWithActions = (config.app.features.viewer.openWith || [])
             .filter(entry => !entry.disabled)
             .sort(this.sortByOrder);
+        this.createActions = (config.app.features.create || []).sort(
+            this.sortByOrder
+        );
 
-        this.createActions = this.config
-            .get<Array<ContentActionExtension>>(
-                'extensions.core.features.create',
-                []
-            )
-            .sort(this.sortByOrder);
+        this.navbar = config.app.features.navbar || {};
+        this.rules = config.app.rules || [];
+    }
 
-        this.ruleService.init();
-        this.actionService.init();
+    setEvaluator(key: string, value: RuleEvaluator): ExtensionService {
+        this.evaluators[key] = value;
+        return this;
     }
 
     setAuthGuard(key: string, value: Type<{}>): ExtensionService {
@@ -98,27 +120,17 @@ export class ExtensionService {
         return this.routes.find(route => route.id === id);
     }
 
-    getActionById(id: string): ActionRef {
-        return this.actionService.getActionById(id);
-    }
-
-    runActionById(id: string, context?: any) {
-        this.actionService.runActionById(id, context);
-    }
-
     getAuthGuards(ids: string[]): Array<Type<{}>> {
         return (ids || [])
             .map(id => this.authGuards[id])
             .filter(guard => guard);
     }
 
+    // todo: consider precalculating on init
     getNavigationGroups(): Array<NavigationExtension[]> {
-        const settings = this.config.get<any>(
-            'extensions.core.features.navigation'
-        );
-        if (settings) {
-            const groups = Object.keys(settings).map(key => {
-                return settings[key]
+        if (this.navbar) {
+            const groups = Object.keys(this.navbar).map(key => {
+                return this.navbar[key]
                     .map(group => {
                         const customRoute = this.getRouteById(group.route);
                         const route = `/${
@@ -168,8 +180,7 @@ export class ExtensionService {
         });
     }
 
-    // evaluates create actions for the folder node
-    getFolderCreateActions(folder: Node): Array<ContentActionExtension> {
+    getCreateActions(): Array<ContentActionExtension> {
         return this.createActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action))
@@ -177,14 +188,14 @@ export class ExtensionService {
                 let disabled = false;
 
                 if (action.rules && action.rules.enabled) {
-                    disabled = !this.ruleService.evaluateRule(action.rules.enabled);
+                    disabled = !this.evaluateRule(action.rules.enabled);
                 }
 
                 return {
                     ...action,
                     disabled
                 };
-        });
+            });
     }
 
     // evaluates content actions for the selection and parent folder node
@@ -273,8 +284,48 @@ export class ExtensionService {
 
     filterByRules(action: ContentActionExtension): boolean {
         if (action && action.rules && action.rules.visible) {
-            return this.ruleService.evaluateRule(action.rules.visible);
+            return this.evaluateRule(action.rules.visible);
         }
         return true;
+    }
+
+    getActionById(id: string): ActionRef {
+        return this.actions.find(action => action.id === id);
+    }
+
+    runActionById(id: string, context?: any) {
+        const action = this.getActionById(id);
+        if (action) {
+            const { type, payload } = action;
+            const expression = this.runExpression(payload, context);
+
+            this.store.dispatch({ type, payload: expression });
+        }
+    }
+
+    runExpression(value: string, context?: any) {
+        const pattern = new RegExp(/\$\((.*\)?)\)/g);
+        const matches = pattern.exec(value);
+
+        if (matches && matches.length > 1) {
+            const expression = matches[1];
+            const fn = new Function('context', `return ${expression}`);
+            const result = fn(context);
+
+            return result;
+        }
+
+        return value;
+    }
+
+    evaluateRule(ruleId: string): boolean {
+        const ruleRef = this.rules.find(ref => ref.id === ruleId);
+        if (ruleRef) {
+            const evaluator = this.evaluators[ruleRef.type];
+            if (evaluator) {
+                return evaluator(this, ...ruleRef.parameters);
+            }
+        }
+        return false;
     }
 }
