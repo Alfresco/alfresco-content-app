@@ -25,7 +25,7 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
@@ -83,6 +83,7 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
 import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
 import { NodePermissionsDirective } from './directives/node-permissions.directive';
 import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
+import { AppRouteReuseStrategy } from './app.routes.strategy';
 
 @NgModule({
     imports: [
@@ -143,6 +144,7 @@ import { PermissionsManagerComponent } from './components/permission-manager/per
         ExperimentalDirective
     ],
     providers: [
+        { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
         { provide: AppConfigService, useClass: DebugAppConfigService },
         {
             provide: TRANSLATION_PROVIDER,
