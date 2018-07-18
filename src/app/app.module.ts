@@ -79,13 +79,12 @@ import { MaterialModule } from './material.module';
 import { ExperimentalDirective } from './directives/experimental.directive';
 import { ContentApiService } from './services/content-api.service';
 import { ExtensionsModule } from './extensions.module';
-import { ExtensionService } from './extensions/extension.service';
 import { CoreExtensionsModule } from './extensions/core.extensions';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
 import { NodePermissionsDirective } from './common/directives/node-permissions.directive';
 import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
-import { RuleService } from './extensions/rules/rule.service';
+import { ViewUtilService} from './common/services/view-util.service';
 
 @NgModule({
     imports: [
@@ -162,8 +161,7 @@ import { RuleService } from './extensions/rules/rule.service';
         ProfileResolver,
         ExperimentalGuard,
         ContentApiService,
-        ExtensionService,
-        RuleService
+        ViewUtilService
     ],
     entryComponents: [
         LibraryDialogComponent,
