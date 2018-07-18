@@ -4,9 +4,11 @@
         [fileNodeId]="nodeId"
         [allowNavigate]="navigateMultiple"
         [allowSidebar]="true"
+        [allowPrint] ="true"
         [canNavigateBefore]="previousNodeId"
         [canNavigateNext]="nextNodeId"
         [overlayMode]="true"
+        (print) = "printFile($event)"
         (showViewerChange)="onVisibilityChanged($event)"
         (navigateBefore)="onNavigateBefore()"
         (navigateNext)="onNavigateNext()">

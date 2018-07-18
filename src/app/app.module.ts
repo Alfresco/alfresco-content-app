@@ -84,6 +84,7 @@ import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-
 import { NodePermissionsDirective } from './directives/node-permissions.directive';
 import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
+import { ViewUtilService} from './common/services/view-util.service';
 
 @NgModule({
     imports: [
@@ -159,7 +160,8 @@ import { AppRouteReuseStrategy } from './app.routes.strategy';
         NodePermissionService,
         ProfileResolver,
         ExperimentalGuard,
-        ContentApiService
+        ContentApiService,
+        ViewUtilService
     ],
     entryComponents: [
         LibraryDialogComponent,
