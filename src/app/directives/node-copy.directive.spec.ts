@@ -30,8 +30,8 @@ import { Observable } from 'rxjs/Rx';
 import { MatSnackBar } from '@angular/material';
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodeCopyDirective } from './node-copy.directive';
-import { AppTestingModule } from '../../testing/app-testing.module';
-import { ContentApiService } from '../../services/content-api.service';
+import { ContentApiService } from '../services/content-api.service';
+import { AppTestingModule } from '../testing/app-testing.module';
 
 @Component({
     template: '<div [acaCopyNode]="selection"></div>'

@@ -25,7 +25,7 @@
 
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { NodePermissionService } from '../../common/services/node-permission.service';
+import { NodePermissionService } from '../../services/node-permission.service';
 import { ContentApiService } from '../../services/content-api.service';
 
 @Component({

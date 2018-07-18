@@ -36,7 +36,7 @@ import {
 } from '../actions/snackbar.actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
 
 @Injectable()

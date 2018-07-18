@@ -32,7 +32,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
 import { ExtensionService } from '../../../extensions/extension.service';
-import { ContentManagementService } from '../../../common/services/content-management.service';
+import { ContentManagementService } from '../../../services/content-management.service';
 
 @Component({
   selector: 'aca-search-results',

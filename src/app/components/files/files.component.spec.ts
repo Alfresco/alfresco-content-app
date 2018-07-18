@@ -32,8 +32,8 @@ import {
     DataTableComponent, UploadService, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodeActionsService } from '../../common/services/node-actions.service';
+import { ContentManagementService } from '../../services/content-management.service';
+import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';

@@ -1,7 +1,7 @@
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AppConfigService, StorageService } from '@alfresco/adf-core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ExperimentalGuard implements CanActivate {

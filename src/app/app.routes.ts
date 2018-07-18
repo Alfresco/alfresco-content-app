@@ -43,8 +43,8 @@ import { GenericErrorComponent } from './components/generic-error/generic-error.
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
-import { ProfileResolver } from './common/services/profile.resolver';
-import { ExperimentalGuard } from './common/services/experimental-guard.service';
+import { ProfileResolver } from './services/profile.resolver';
+import { ExperimentalGuard } from './services/experimental-guard.service';
 
 export const APP_ROUTES: Routes = [
     {

@@ -33,9 +33,9 @@ import { ContentManagementService } from '../services/content-management.service
 import { NodeActionsService } from '../services/node-actions.service';
 import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { SnackbarErrorAction } from '../../store/actions';
-import { ContentApiService } from '../../services/content-api.service';
+import { AppStore } from '../store/states/app.state';
+import { SnackbarErrorAction } from '../store/actions';
+import { ContentApiService } from '../services/content-api.service';
 
 @Directive({
     selector: '[acaMoveNode]'

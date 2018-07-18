@@ -33,7 +33,7 @@ import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { OpenWithExtension } from '../../extensions/open-with.extension';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',

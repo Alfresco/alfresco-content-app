@@ -37,7 +37,7 @@ import { SelectionState } from '../store/states/selection.state';
 import { Observable } from 'rxjs/Rx';
 import { ExtensionService } from '../extensions/extension.service';
 import { ContentActionExtension } from '../extensions/content-action.extension';
-import { ContentManagementService } from '../common/services/content-management.service';
+import { ContentManagementService } from '../services/content-management.service';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 

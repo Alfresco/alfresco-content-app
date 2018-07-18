@@ -32,7 +32,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { DeleteLibraryAction, CreateLibraryAction } from '../../store/actions';
 import { SiteEntry } from 'alfresco-js-api';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 

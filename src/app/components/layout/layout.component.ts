@@ -26,7 +26,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { NodePermissionService } from '../../common/services/node-permission.service';
+import { NodePermissionService } from '../../services/node-permission.service';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';

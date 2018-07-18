@@ -28,9 +28,9 @@ import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 import { Person } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Observable';
-import { AppStore } from '../../store/states/app.state';
-import { SetUserAction } from '../../store/actions/user.actions';
-import { ContentApiService } from '../../services/content-api.service';
+import { AppStore } from '../store/states/app.state';
+import { SetUserAction } from '../store/actions';
+import { ContentApiService } from './content-api.service';
 
 @Injectable()
 export class ProfileResolver implements Resolve<Person> {
