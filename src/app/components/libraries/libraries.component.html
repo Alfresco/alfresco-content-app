@@ -48,8 +48,7 @@
                 currentFolderId="-mysites-"
                 selectionMode="single"
                 [navigate]="false"
-                [sorting]="[ 'title', 'asc' ]"
-                (node-dblclick)="onNodeDoubleClick($event)">
+                [sorting]="[ 'title', 'asc' ]">
 
                 <empty-folder-content>
                     <ng-template>
@@ -74,9 +73,11 @@
                         key="title"
                         title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
                         <ng-template let-context>
-                            <span class="adf-datatable-cell" title="{{ makeLibraryTooltip(context.row.obj.entry) }}">
+                            <a class="adf-datatable-cell app-link"
+                                title="{{ makeLibraryTooltip(context.row.obj.entry) }}"
+                                (click)="onNameClick(context?.row?.obj)">
                                 {{ makeLibraryTitle(context.row.obj.entry) }}
-                            </span>
+                            </a>
                         </ng-template>
                     </data-column>
 
