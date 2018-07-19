@@ -25,9 +25,9 @@
 
 import { RuleRef } from './rules/rule-ref';
 import { ActionRef } from './action-ref';
-import { RouteRef } from './route-ref';
 import { ContentActionExtension } from './content-action.extension';
 import { NavBarGroupRef } from './navbar.extensions';
+import { RouteRef } from './routing.extensions';
 
 export interface ExtensionConfig {
     version: string;

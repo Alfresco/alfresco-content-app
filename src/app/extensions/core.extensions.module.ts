@@ -49,9 +49,9 @@ import {
 export class CoreExtensionsModule {
     constructor(extensions: ExtensionService) {
         extensions
-            .setComponent('aca:layouts/main', LayoutComponent)
-            .setComponent('aca:components/about', AboutComponent)
-            .setAuthGuard('aca:auth', AuthGuardEcm)
+            .setComponent('app.layout.main', LayoutComponent)
+            .setComponent('app.components.about', AboutComponent)
+            .setAuthGuard('app.auth', AuthGuardEcm)
 
             .setEvaluator('core.every', every)
             .setEvaluator('core.some', some)

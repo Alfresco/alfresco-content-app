@@ -33,22 +33,22 @@
 
     "actions": [
         {
-            "id": "aca:actions/create-folder",
+            "id": "app.actions.createFolder",
             "type": "CREATE_FOLDER",
             "payload": null
         },
         {
-            "id": "aca:actions/edit-folder",
+            "id": "app.actions.editFolder",
             "type": "EDIT_FOLDER",
             "payload": null
         },
         {
-            "id": "aca:actions/download",
+            "id": "app.actions.download",
             "type": "DOWNLOAD_NODES",
             "payload": null
         },
         {
-            "id": "aca:actions/preview",
+            "id": "app.actions.preview",
             "type": "VIEW_FILE",
             "payload": null
         }
@@ -62,7 +62,7 @@
                 "icon": "create_new_folder",
                 "title": "ext: Create Folder",
                 "actions": {
-                    "click": "aca:actions/create-folder"
+                    "click": "app.actions.createFolder"
                 },
                 "rules": {
                     "enabled": "app.create.canCreateFolder"
@@ -71,17 +71,17 @@
         ],
         "navbar": [
             {
-                "id": "aca:main",
+                "id": "app.navbar.primary",
                 "items": [
                     {
-                        "id": "aca/personal-files",
+                        "id": "app.navbar.personalFiles",
                         "icon": "folder",
                         "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
                         "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
                         "route": "personal-files"
                     },
                     {
-                        "id": "aca/libraries",
+                        "id": "app.navbar.libraries",
                         "icon": "group_work",
                         "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
                         "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
@@ -90,31 +90,31 @@
                 ]
             },
             {
-                "id": "aca:secondary",
+                "id": "app.navbar.secondary",
                 "items": [
                     {
-                        "id": "aca/shared",
+                        "id": "app.navbar.shared",
                         "icon": "people",
                         "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
                         "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
                         "route": "shared"
                     },
                     {
-                        "id": "aca/recent-files",
+                        "id": "app.navbar.recentFiles",
                         "icon": "schedule",
                         "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
                         "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
                         "route": "recent-files"
                     },
                     {
-                        "id": "aca/favorites",
+                        "id": "app.navbar.favorites",
                         "icon": "star",
                         "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
                         "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
                         "route": "favorites"
                     },
                     {
-                        "id": "aca/trashcan",
+                        "id": "app.navbar.trashcan",
                         "icon": "delete",
                         "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
                         "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
@@ -126,64 +126,64 @@
         "content": {
             "actions": [
                 {
-                    "id": "aca:toolbar/separator-1",
+                    "id": "app.toolbar.separator.1",
                     "order": 5,
                     "type": "separator"
                 },
                 {
-                    "id": "aca:toolbar/create-folder",
+                    "id": "app.toolbar.createFolder",
                     "type": "button",
                     "order": 10,
                     "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                     "icon": "create_new_folder",
                     "actions": {
-                        "click": "aca:actions/create-folder"
+                        "click": "app.actions.createFolder"
                     },
                     "rules": {
                         "visible": "app.create.canCreateFolder"
                     }
                 },
                 {
-                    "id": "aca:toolbar/preview",
+                    "id": "app.toolbar.preview",
                     "type": "button",
                     "order": 15,
                     "title": "APP.ACTIONS.VIEW",
                     "icon": "open_in_browser",
                     "actions": {
-                        "click": "aca:actions/preview"
+                        "click": "app.actions.preview"
                     },
                     "rules": {
                         "visible": "app.toolbar.canViewFile"
                     }
                 },
                 {
-                    "id": "aca:toolbar/download",
+                    "id": "app.toolbar.download",
                     "type": "button",
                     "order": 20,
                     "title": "APP.ACTIONS.DOWNLOAD",
                     "icon": "get_app",
                     "actions": {
-                        "click": "aca:actions/download"
+                        "click": "app.actions.download"
                     },
                     "rules": {
                         "visible": "app.toolbar.canDownload"
                     }
                 },
                 {
-                    "id": "aca:toolbar/edit-folder",
+                    "id": "app.toolbar.editFolder",
                     "type": "button",
                     "order": 30,
                     "title": "APP.ACTIONS.EDIT",
                     "icon": "create",
                     "actions": {
-                        "click": "aca:actions/edit-folder"
+                        "click": "app.actions.editFolder"
                     },
                     "rules": {
                         "visible": "app.toolbar.canEditFolder"
                     }
                 },
                 {
-                    "id": "aca:toolbar/separator-2",
+                    "id": "app.toolbar.separator.2",
                     "order": 200,
                     "type": "separator"
                 }

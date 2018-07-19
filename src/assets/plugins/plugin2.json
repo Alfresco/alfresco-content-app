@@ -1,15 +1,15 @@
 {
     "version": "1.0.0",
+    "name": "plugin2",
+    "description": "demo plugin",
 
     "rules": [],
 
     "routes": [
         {
-            "id": "aca:routes/about",
+            "id": "plugin2.routes.about",
             "path": "ext/about",
-            "component": "aca:components/about",
-            "layout": "aca:layouts/main",
-            "auth":[ "aca:auth" ],
+            "component": "app.components.about",
             "data": {
                 "title": "Custom About"
             }
@@ -21,22 +21,22 @@
     "features": {
         "navbar": [
             {
-                "id": "aca:demo",
-                "disabled": true,
+                "id": "plugin2.navbar.group1",
+                "disabled": false,
                 "items": [
                     {
-                        "id": "aca:demo/link1",
+                        "id": "plugin2.navbar.group1.link1",
                         "icon": "build",
                         "title": "About (native)",
                         "description": "Uses native application route",
                         "route": "about"
                     },
                     {
-                        "id": "aca:demo/link2",
+                        "id": "plugin2.navbar.group1.link2",
                         "icon": "build",
                         "title": "About (custom)",
                         "description": "Uses custom defined route",
-                        "route": "aca:routes/about"
+                        "route": "plugin2.routes.about"
                     }
                 ]
             }

@@ -32,7 +32,6 @@ import {
 } from './content-action.extension';
 import { Route } from '@angular/router';
 import { ActionRef } from './action-ref';
-import { RouteRef } from './route-ref';
 import { ExtensionConfig } from './extension.config';
 import { AppStore, SelectionState } from '../store/states';
 import { RuleRef } from './rules/rule-ref';
@@ -41,11 +40,17 @@ import { NavigationState } from '../store/states/navigation.state';
 import { RuleContext } from './rules/rule-context';
 import { selectionWithFolder } from '../store/selectors/app.selectors';
 import { NavBarGroupRef } from './navbar.extensions';
+import { RouteRef } from './routing.extensions';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
     configPath = 'assets/app.extensions.json';
     pluginsPath = 'assets/plugins';
+
+    defaults = {
+        layout: 'app.layout.main',
+        auth: ['app.auth']
+    };
 
     rules: Array<RuleRef> = [];
     routes: Array<RouteRef> = [];
@@ -242,11 +247,15 @@ export class ExtensionService implements RuleContext {
 
     getApplicationRoutes(): Array<Route> {
         return this.routes.map(route => {
-            const guards = this.getAuthGuards(route.auth);
+            const guards = this.getAuthGuards(
+                route.auth && route.auth.length > 0
+                    ? route.auth
+                    : this.defaults.auth
+            );
 
             return {
                 path: route.path,
-                component: this.getComponentById(route.layout),
+                component: this.getComponentById(route.layout || this.defaults.layout),
                 canActivateChild: guards,
                 canActivate: guards,
                 children: [
