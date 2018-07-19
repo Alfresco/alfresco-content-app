@@ -1,0 +1,42 @@
+{
+    "version": "1.0.0",
+    "rules": [],
+    "routes": [],
+
+    "actions": [
+        {
+            "id": "aca:actions/settings",
+            "type": "NAVIGATE_URL",
+            "payload": "/settings"
+        }
+    ],
+
+    "features": {
+        "content": {
+            "actions": [
+                {
+                    "id": "aca:toolbar/menu-1",
+                    "type": "menu",
+                    "icon": "storage",
+                    "order": 300,
+                    "children": [
+                        {
+                            "id": "aca:action3",
+                            "type": "button",
+                            "title": "Settings",
+                            "icon": "settings_applications",
+                            "actions": {
+                                "click": "aca:actions/settings"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "aca:toolbar/separator-3",
+                    "order": 301,
+                    "type": "separator"
+                }
+            ]
+        }
+    }
+}

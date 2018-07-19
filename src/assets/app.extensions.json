@@ -1,8 +1,7 @@
 {
     "version": "1.0.0",
     "references": [
-        "plugin1.json",
-        "plugin2.json"
+        "plugin1.json"
     ],
     "rules": [
         {
@@ -69,11 +68,6 @@
             "id": "aca:actions/node-name",
             "type": "SNACKBAR_INFO",
             "payload": "$('Action for ' + context.selection.first.entry.name)"
-        },
-        {
-            "id": "aca:actions/settings",
-            "type": "NAVIGATE_URL",
-            "payload": "/settings"
         }
     ],
     "features": {
@@ -239,31 +233,9 @@
                         "visible": "app.toolbar.canEditFolder"
                     }
                 },
-
                 {
                     "id": "aca:toolbar/separator-2",
                     "order": 200,
-                    "type": "separator"
-                },
-                {
-                    "id": "aca:toolbar/menu-1",
-                    "type": "menu",
-                    "icon": "storage",
-                    "order": 300,
-                    "children": [
-                        {
-                            "id": "aca:action3",
-                            "type": "button",
-                            "title": "Settings",
-                            "icon": "settings_applications",
-                            "actions": {
-                                "click": "aca:actions/settings"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "id": "aca:toolbar/separator-3",
                     "type": "separator"
                 }
             ]

@@ -167,7 +167,7 @@ export function setupExtensionServiceFactory(service: ExtensionService): Functio
         {
             provide: APP_INITIALIZER,
             useFactory: setupExtensionServiceFactory,
-            deps: [ExtensionService, AppConfigService],
+            deps: [ExtensionService],
             multi: true
         }
     ],

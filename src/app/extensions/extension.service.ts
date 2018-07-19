@@ -45,6 +45,7 @@ import { selectionWithFolder } from '../store/selectors/app.selectors';
 @Injectable()
 export class ExtensionService implements RuleContext {
     configPath = 'assets/app.extensions.json';
+    pluginsPath = 'assets/plugins';
 
     actions: Array<ActionRef> = [];
     contentActions: Array<ContentActionExtension> = [];
@@ -69,17 +70,10 @@ export class ExtensionService implements RuleContext {
 
     load(): Promise<boolean> {
         return new Promise<any>(resolve => {
-            this.http.get<ExtensionConfig>(this.configPath).subscribe(
-                config => {
-                    console.log(config);
-                    this.setup(config);
-                    resolve(true);
-                },
-                error => {
-                    console.log(error);
-                    resolve(false);
-                }
-            );
+            this.loadConfig(this.configPath, 0).then(result => {
+                this.setup(result.config);
+                resolve(true);
+            });
         });
     }
 
@@ -89,15 +83,60 @@ export class ExtensionService implements RuleContext {
             return;
         }
 
-        this.rules = this.loadRules(config);
-        this.actions = this.loadActions(config);
-        this.routes = this.loadRoutes(config);
-        this.contentActions = this.loadContentActions(config);
-        this.openWithActions = this.loadViewerOpenWith(config);
-        this.createActions = this.loadCreateActions(config);
-        this.navbar = this.loadNavBar(config);
+        if (config.references && config.references.length > 0) {
+            const plugins = config.references.map(
+                (name, idx) => this.loadConfig(`${this.pluginsPath}/${name}`, idx)
+            );
+
+            Promise.all(plugins).then((results => {
+                const configs = results
+                    .filter(entry => entry)
+                    .sort(this.sortByOrder)
+                    .map(entry => entry.config);
+
+                if (configs.length > 0) {
+                    config = this.mergeConfigs(config, ...configs);
+                    console.log(config);
+                }
+
+                // todo: move to separate method
+                this.rules = this.loadRules(config);
+                this.actions = this.loadActions(config);
+                this.routes = this.loadRoutes(config);
+                this.contentActions = this.loadContentActions(config);
+                this.openWithActions = this.loadViewerOpenWith(config);
+                this.createActions = this.loadCreateActions(config);
+                this.navbar = this.loadNavBar(config);
+            }));
+        } else {
+            console.log(config);
+            // todo: move to separate method
+            this.rules = this.loadRules(config);
+            this.actions = this.loadActions(config);
+            this.routes = this.loadRoutes(config);
+            this.contentActions = this.loadContentActions(config);
+            this.openWithActions = this.loadViewerOpenWith(config);
+            this.createActions = this.loadCreateActions(config);
+            this.navbar = this.loadNavBar(config);
+        }
     }
 
+    protected loadConfig(url: string, order: number): Promise<{ order: number, config: ExtensionConfig }> {
+        return new Promise(resolve => {
+            this.http.get<ExtensionConfig>(url).subscribe(
+                config => {
+                    resolve({
+                        order,
+                        config
+                    });
+                },
+                error => {
+                    console.log(error);
+                    resolve(null);
+                }
+            );
+        });
+    }
 
     protected loadCreateActions(config: ExtensionConfig): Array<ContentActionExtension> {
         if (config && config.features) {
@@ -375,5 +414,25 @@ export class ExtensionService implements RuleContext {
             }
         }
         return false;
+    }
+
+    // todo: requires overwrite support for array entries
+    // todo: overwrite only particular areas, don't touch version or other top-level props
+    protected mergeConfigs(...objects): any {
+        const result = {};
+
+        objects.forEach(source => {
+            Object.keys(source).forEach(prop => {
+                if (prop in result && Array.isArray(result[prop])) {
+                    result[prop] = result[prop].concat(source[prop]);
+                } else if (prop in result && typeof result[prop] === 'object') {
+                    result[prop] = this.mergeConfigs(result[prop], source[prop]);
+                } else {
+                    result[prop] = source[prop];
+                }
+            });
+        });
+
+        return result;
     }
 }
