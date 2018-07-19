@@ -30,21 +30,38 @@ import { AboutComponent } from '../components/about/about.component';
 import { LayoutComponent } from '../components/layout/layout.component';
 import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
 import { CommonModule } from '@angular/common';
-import { RuleService } from './rules/rule.service';
-import { ActionService } from './actions/action.service';
+import { every, some } from './evaluators/core.evaluators';
+import {
+    canCreateFolder,
+    hasFolderSelected,
+    canUpdateSelectedFolder,
+    hasFileSelected,
+    canDownloadSelection
+} from './evaluators/app.evaluators';
 
 @NgModule({
     imports: [CommonModule, CoreModule.forChild()],
     declarations: [ToolbarActionComponent],
     exports: [ToolbarActionComponent],
     entryComponents: [AboutComponent],
-    providers: [ExtensionService, RuleService, ActionService]
+    providers: [ExtensionService]
 })
 export class CoreExtensionsModule {
     constructor(extensions: ExtensionService) {
         extensions
-            .setComponent('aca:layouts/main', LayoutComponent)
-            .setComponent('aca:components/about', AboutComponent)
-            .setAuthGuard('aca:auth', AuthGuardEcm);
+            .setComponent('app.layout.main', LayoutComponent)
+            .setComponent('app.components.about', AboutComponent)
+            .setAuthGuard('app.auth', AuthGuardEcm)
+
+            .setEvaluator('core.every', every)
+            .setEvaluator('core.some', some)
+            .setEvaluator('app.selection.canDownload', canDownloadSelection)
+            .setEvaluator('app.selection.file', hasFileSelected)
+            .setEvaluator('app.selection.folder', hasFolderSelected)
+            .setEvaluator(
+                'app.selection.folder.canUpdate',
+                canUpdateSelectedFolder
+            )
+            .setEvaluator('app.navigation.folder.canCreate', canCreateFolder);
     }
 }

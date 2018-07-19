@@ -27,7 +27,8 @@ export interface RouteRef {
     id: string;
     path: string;
     component: string;
-    layout: string;
-    auth: string[];
+
+    layout?: string;
+    auth?: string[];
     data?: { [key: string]: string };
 }

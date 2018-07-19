@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleContext } from './rule-context';
-import { RuleParameter } from './rule-parameter';
 import { Node } from 'alfresco-js-api';
+import { RuleContext, RuleParameter } from '../rule.extensions';
 
 export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
     const folder = context.navigation.currentFolder;

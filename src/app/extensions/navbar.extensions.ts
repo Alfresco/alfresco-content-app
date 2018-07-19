@@ -23,12 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface NavigationExtension {
+export interface NavBarGroupRef {
     id: string;
-    order: number;
+    items: Array<NavBarLinkRef>;
+
+    order?: number;
+    disabled?: boolean;
+}
+
+export interface NavBarLinkRef {
+    id: string;
     icon: string;
     title: string;
     route: string;
+
+    url?: string; // evaluated at runtime based on route ref
     description?: string;
+    order?: number;
     disabled?: boolean;
 }
