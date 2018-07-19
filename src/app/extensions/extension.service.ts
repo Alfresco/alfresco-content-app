@@ -26,21 +26,15 @@
 import { Injectable, Type } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
-import {
-    ContentActionExtension,
-    ContentActionType
-} from './content-action.extension';
 import { Route } from '@angular/router';
-import { ActionRef } from './action-ref';
 import { ExtensionConfig } from './extension.config';
 import { AppStore, SelectionState } from '../store/states';
-import { RuleRef } from './rules/rule-ref';
-import { RuleEvaluator } from './rules/rule-evaluator';
 import { NavigationState } from '../store/states/navigation.state';
-import { RuleContext } from './rules/rule-context';
 import { selectionWithFolder } from '../store/selectors/app.selectors';
 import { NavBarGroupRef } from './navbar.extensions';
 import { RouteRef } from './routing.extensions';
+import { RuleContext, RuleRef, RuleEvaluator } from './rule.extensions';
+import { ActionRef, ContentActionRef, ContentActionType } from './action.extensions';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
@@ -56,9 +50,9 @@ export class ExtensionService implements RuleContext {
     routes: Array<RouteRef> = [];
     actions: Array<ActionRef> = [];
 
-    contentActions: Array<ContentActionExtension> = [];
-    openWithActions: Array<ContentActionExtension> = [];
-    createActions: Array<ContentActionExtension> = [];
+    contentActions: Array<ContentActionRef> = [];
+    openWithActions: Array<ContentActionRef> = [];
+    createActions: Array<ContentActionRef> = [];
     navbar: Array<NavBarGroupRef> = [];
 
     authGuards: { [key: string]: Type<{}> } = {};
@@ -93,7 +87,6 @@ export class ExtensionService implements RuleContext {
 
                         if (configs.length > 0) {
                             config = this.mergeConfigs(config, ...configs);
-                            console.log(config);
                         }
 
                         this.setup(config);
@@ -139,7 +132,7 @@ export class ExtensionService implements RuleContext {
         });
     }
 
-    protected loadCreateActions(config: ExtensionConfig): Array<ContentActionExtension> {
+    protected loadCreateActions(config: ExtensionConfig): Array<ContentActionRef> {
         if (config && config.features) {
             return (config.features.create || []).sort(
                 this.sortByOrder
@@ -182,7 +175,7 @@ export class ExtensionService implements RuleContext {
         return {};
     }
 
-    protected loadViewerOpenWith(config: ExtensionConfig): Array<ContentActionExtension> {
+    protected loadViewerOpenWith(config: ExtensionConfig): Array<ContentActionRef> {
         if (config && config.features && config.features.viewer) {
             return (config.features.viewer.openWith || [])
                 .filter(entry => !entry.disabled)
@@ -269,7 +262,7 @@ export class ExtensionService implements RuleContext {
         });
     }
 
-    getCreateActions(): Array<ContentActionExtension> {
+    getCreateActions(): Array<ContentActionRef> {
         return this.createActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action))
@@ -288,7 +281,7 @@ export class ExtensionService implements RuleContext {
     }
 
     // evaluates content actions for the selection and parent folder node
-    getAllowedContentActions(): Array<ContentActionExtension> {
+    getAllowedContentActions(): Array<ContentActionRef> {
         return this.contentActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action))
@@ -311,11 +304,11 @@ export class ExtensionService implements RuleContext {
     }
 
     reduceSeparators(
-        acc: ContentActionExtension[],
-        el: ContentActionExtension,
+        acc: ContentActionRef[],
+        el: ContentActionRef,
         i: number,
-        arr: ContentActionExtension[]
-    ): ContentActionExtension[] {
+        arr: ContentActionRef[]
+    ): ContentActionRef[] {
         // remove duplicate separators
         if (i > 0) {
             const prev = arr[i - 1];
@@ -338,9 +331,9 @@ export class ExtensionService implements RuleContext {
     }
 
     reduceEmptyMenus(
-        acc: ContentActionExtension[],
-        el: ContentActionExtension
-    ): ContentActionExtension[] {
+        acc: ContentActionRef[],
+        el: ContentActionRef
+    ): ContentActionRef[] {
         if (el.type === ContentActionType.menu) {
             if ((el.children || []).length === 0) {
                 return acc;
@@ -362,7 +355,7 @@ export class ExtensionService implements RuleContext {
         return !entry.disabled;
     }
 
-    copyAction(action: ContentActionExtension): ContentActionExtension {
+    copyAction(action: ContentActionRef): ContentActionRef {
         return {
             ...action,
             children: (action.children || []).map(child =>
@@ -371,7 +364,7 @@ export class ExtensionService implements RuleContext {
         };
     }
 
-    filterByRules(action: ContentActionExtension): boolean {
+    filterByRules(action: ContentActionRef): boolean {
         if (action && action.rules && action.rules.visible) {
             return this.evaluateRule(action.rules.visible);
         }

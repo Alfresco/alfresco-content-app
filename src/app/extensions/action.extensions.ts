@@ -23,7 +23,35 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export interface RuleParameter {
+export enum ContentActionType {
+    default = 'button',
+    button = 'button',
+    separator = 'separator',
+    menu = 'menu'
+}
+
+export interface ContentActionRef {
+    id: string;
+    type: ContentActionType;
+
+    title?: string;
+    order?: number;
+    icon?: string;
+    disabled?: boolean;
+    children?: Array<ContentActionRef>;
+    actions?: {
+        click?: string;
+        [key: string]: string;
+    };
+    rules?: {
+        enabled?: string;
+        visible?: string;
+        [key: string]: string;
+    };
+}
+
+export interface ActionRef {
+    id: string;
     type: string;
-    value: any;
+    payload?: string;
 }

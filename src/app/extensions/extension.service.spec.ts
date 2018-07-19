@@ -26,9 +26,9 @@
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ExtensionService } from './extension.service';
-import { ContentActionType } from './content-action.extension';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
+import { ContentActionType } from './action.extensions';
 
 describe('ExtensionService', () => {
     let extensions: ExtensionService;

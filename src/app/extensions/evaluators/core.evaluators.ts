@@ -23,6 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleContext } from './rule-context';
+import { RuleContext, RuleParameter } from '../rule.extensions';
 
-export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
+export function every(context: RuleContext, ...args: RuleParameter[]): boolean {
+    if (!args || args.length === 0) {
+        return false;
+    }
+
+    return args
+        .map(arg => context.evaluators[arg.value])
+        .every(evaluator => evaluator(context));
+}
+
+export function some(context: RuleContext, ...args: RuleParameter[]): boolean {
+    if (!args || args.length === 0) {
+        return false;
+    }
+
+    return args
+        .map(arg => context.evaluators[arg.value])
+        .some(evaluator => evaluator(context));
+}

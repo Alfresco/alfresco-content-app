@@ -33,8 +33,8 @@ import { AppStore } from '../../store/states';
 import { CreateFolderAction } from '../../store/actions';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
-import { ContentActionExtension } from '../../extensions/content-action.extension';
 import { NavBarGroupRef } from '../../extensions/navbar.extensions';
+import { ContentActionRef } from '../../extensions/action.extensions';
 
 @Component({
     selector: 'app-sidenav',
@@ -46,7 +46,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     node: Node = null;
     groups: Array<NavBarGroupRef> = [];
-    createActions: Array<ContentActionExtension> = [];
+    createActions: Array<ContentActionRef> = [];
     canCreateContent = false;
     onDestroy$: Subject<boolean> = new Subject<boolean>();
 

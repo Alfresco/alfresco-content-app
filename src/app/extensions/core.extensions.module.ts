@@ -30,14 +30,14 @@ import { AboutComponent } from '../components/about/about.component';
 import { LayoutComponent } from '../components/layout/layout.component';
 import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
 import { CommonModule } from '@angular/common';
-import { every, some } from './rules/core.evaluators';
+import { every, some } from './evaluators/core.evaluators';
 import {
     canCreateFolder,
     hasFolderSelected,
     canUpdateSelectedFolder,
     hasFileSelected,
     canDownloadSelection
-} from './rules/app.evaluators';
+} from './evaluators/app.evaluators';
 
 @NgModule({
     imports: [CommonModule, CoreModule.forChild()],

@@ -33,7 +33,7 @@ import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
-import { ContentActionExtension } from '../../extensions/content-action.extension';
+import { ContentActionRef } from '../../extensions/action.extensions';
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
@@ -52,7 +52,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
     previousNodeId: string;
     nextNodeId: string;
     navigateMultiple = false;
-    openWith: Array<ContentActionExtension> = [];
+    openWith: Array<ContentActionRef> = [];
 
     constructor(
         private contentApi: ContentApiService,

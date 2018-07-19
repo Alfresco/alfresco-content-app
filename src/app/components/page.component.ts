@@ -36,8 +36,8 @@ import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
 import { Observable } from 'rxjs/Rx';
 import { ExtensionService } from '../extensions/extension.service';
-import { ContentActionExtension } from '../extensions/content-action.extension';
 import { ContentManagementService } from '../services/content-management.service';
+import { ContentActionRef } from '../extensions/action.extensions';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
@@ -52,7 +52,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     selection: SelectionState;
     displayMode = DisplayMode.List;
     sharedPreviewUrl$: Observable<string>;
-    actions: Array<ContentActionExtension> = [];
+    actions: Array<ContentActionRef> = [];
     canUpdateFile = false;
     canUpdateNode = false;
     canDelete = false;
