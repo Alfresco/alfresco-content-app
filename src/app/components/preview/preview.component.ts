@@ -32,8 +32,8 @@ import { DeleteNodesAction, SetSelectedNodesAction } from '../../store/actions';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
-import { OpenWithExtension } from '../../extensions/open-with.extension';
 import { ContentManagementService } from '../../services/content-management.service';
+import { ContentActionExtension } from '../../extensions/content-action.extension';
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
@@ -52,7 +52,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
     previousNodeId: string;
     nextNodeId: string;
     navigateMultiple = false;
-    openWith: Array<OpenWithExtension> = [];
+    openWith: Array<ContentActionExtension> = [];
 
     constructor(
         private contentApi: ContentApiService,

@@ -30,7 +30,6 @@ import {
     ContentActionExtension,
     ContentActionType
 } from './content-action.extension';
-import { OpenWithExtension } from './open-with.extension';
 import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
 import { ActionRef } from './action-ref';
@@ -49,7 +48,7 @@ export class ExtensionService implements RuleContext {
 
     actions: Array<ActionRef> = [];
     contentActions: Array<ContentActionExtension> = [];
-    openWithActions: Array<OpenWithExtension> = [];
+    openWithActions: Array<ContentActionExtension> = [];
     createActions: Array<ContentActionExtension> = [];
     rules: Array<RuleRef> = [];
     routes: Array<RouteRef> = [];
@@ -101,8 +100,8 @@ export class ExtensionService implements RuleContext {
 
 
     protected loadCreateActions(config: ExtensionConfig): Array<ContentActionExtension> {
-        if (config && config.app && config.app.features && config.app.features.create) {
-            return (config.app.features.create || []).sort(
+        if (config && config.features) {
+            return (config.features.create || []).sort(
                 this.sortByOrder
             );
         }
@@ -110,8 +109,8 @@ export class ExtensionService implements RuleContext {
     }
 
     protected loadContentActions(config: ExtensionConfig) {
-        if (config && config.app && config.app.features && config.app.features.content) {
-            return (config.app.features.content.actions || []).sort(
+        if (config && config.features && config.features.content) {
+            return (config.features.content.actions || []).sort(
                 this.sortByOrder
             );
         }
@@ -119,15 +118,15 @@ export class ExtensionService implements RuleContext {
     }
 
     protected loadNavBar(config: ExtensionConfig): any {
-        if (config && config.app && config.app.features) {
-            return config.app.features.navbar || {};
+        if (config && config.features) {
+            return config.features.navbar || {};
         }
         return {};
     }
 
-    protected loadViewerOpenWith(config: ExtensionConfig): Array<OpenWithExtension> {
-        if (config && config.app && config.app.features && config.app.features.viewer) {
-            return (config.app.features.viewer.openWith || [])
+    protected loadViewerOpenWith(config: ExtensionConfig): Array<ContentActionExtension> {
+        if (config && config.features && config.features.viewer) {
+            return (config.features.viewer.openWith || [])
                 .filter(entry => !entry.disabled)
                 .sort(this.sortByOrder);
         }
@@ -135,22 +134,22 @@ export class ExtensionService implements RuleContext {
     }
 
     protected loadRules(config: ExtensionConfig): Array<RuleRef> {
-        if (config && config.app && config.app.rules) {
-            return config.app.rules;
+        if (config && config.rules) {
+            return config.rules;
         }
         return [];
     }
 
     protected loadRoutes(config: ExtensionConfig): Array<RouteRef> {
-        if (config && config.app && config.app.routes) {
-            return config.app.routes;
+        if (config) {
+            return config.routes || [];
         }
         return [];
     }
 
     protected loadActions(config: ExtensionConfig): Array<ActionRef> {
-        if (config && config.app && config.app.actions) {
-            return config.app.actions;
+        if (config) {
+            return config.actions || [];
         }
         return [];
     }

@@ -18,7 +18,7 @@
         <adf-viewer-open-with *ifExperimental="'extensions'">
             <button *ngFor="let entry of openWith"
                 mat-menu-item
-                (click)="runAction(entry.action)">
+                (click)="runAction(entry.actions.click)">
                 <mat-icon>{{ entry.icon }}</mat-icon>
                 <span>{{ entry.title }}</span>
             </button>

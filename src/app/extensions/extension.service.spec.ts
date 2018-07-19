@@ -47,15 +47,13 @@ describe('ExtensionService', () => {
         beforeEach(() => {
             extensions.setup({
                 version: '1.0.0',
-                app: {
-                    actions: [
-                        {
-                            id: 'aca:actions/create-folder',
-                            type: 'CREATE_FOLDER',
-                            payload: 'folder-name'
-                        }
-                    ]
-                }
+                actions: [
+                    {
+                        id: 'aca:actions/create-folder',
+                        type: 'CREATE_FOLDER',
+                        payload: 'folder-name'
+                    }
+                ]
             });
         });
 
@@ -182,20 +180,18 @@ describe('ExtensionService', () => {
         beforeEach(() => {
             extensions.setup({
                 version: '1.0.0',
-                app: {
-                    routes: [
-                        {
-                            id: 'aca:routes/about',
-                            path: 'ext/about',
-                            component: 'aca:components/about',
-                            layout: 'aca:layouts/main',
-                            auth: ['aca:auth'],
-                            data: {
-                                title: 'Custom About'
-                            }
+                routes: [
+                    {
+                        id: 'aca:routes/about',
+                        path: 'ext/about',
+                        component: 'aca:components/about',
+                        layout: 'aca:layouts/main',
+                        auth: ['aca:auth'],
+                        data: {
+                            title: 'Custom About'
                         }
-                    ]
-                }
+                    }
+                ]
             });
 
             component1 = {};
@@ -242,24 +238,22 @@ describe('ExtensionService', () => {
         it('should load content actions from the config', () => {
             extensions.setup({
                 version: '1.0.0',
-                app: {
-                    features: {
-                        content: {
-                            actions: [
-                                {
-                                    id: 'aca:toolbar/separator-1',
-                                    order: 1,
-                                    type: ContentActionType.separator,
-                                    title: 'action1',
-                                },
-                                {
-                                    id: 'aca:toolbar/separator-2',
-                                    order: 2,
-                                    type: ContentActionType.separator,
-                                    title: 'action2'
-                                }
-                            ]
-                        }
+                features: {
+                    content: {
+                        actions: [
+                            {
+                                id: 'aca:toolbar/separator-1',
+                                order: 1,
+                                type: ContentActionType.separator,
+                                title: 'action1',
+                            },
+                            {
+                                id: 'aca:toolbar/separator-2',
+                                order: 2,
+                                type: ContentActionType.separator,
+                                title: 'action2'
+                            }
+                        ]
                     }
                 }
             });
@@ -270,24 +264,22 @@ describe('ExtensionService', () => {
         it('should sort content actions by order', () => {
             extensions.setup({
                 version: '1.0.0',
-                app: {
-                    features: {
-                        content: {
-                            actions: [
-                                {
-                                    id: 'aca:toolbar/separator-2',
-                                    order: 2,
-                                    type: ContentActionType.separator,
-                                    title: 'action2'
-                                },
-                                {
-                                    id: 'aca:toolbar/separator-1',
-                                    order: 1,
-                                    type: ContentActionType.separator,
-                                    title: 'action1'
-                                }
-                            ]
-                        }
+                features: {
+                    content: {
+                        actions: [
+                            {
+                                id: 'aca:toolbar/separator-2',
+                                order: 2,
+                                type: ContentActionType.separator,
+                                title: 'action2'
+                            },
+                            {
+                                id: 'aca:toolbar/separator-1',
+                                order: 1,
+                                type: ContentActionType.separator,
+                                title: 'action1'
+                            }
+                        ]
                     }
                 }
             });
@@ -306,20 +298,21 @@ describe('ExtensionService', () => {
         it('should load [open with] actions for the viewer', () => {
             extensions.setup({
                 version: '1.0.0',
-                app: {
-                    features: {
-                        viewer: {
-                            openWith: [
-                                {
-                                    disabled: false,
-                                    id: 'aca:viewer/action1',
-                                    order: 100,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
+                features: {
+                    viewer: {
+                        openWith: [
+                            {
+                                disabled: false,
+                                id: 'aca:viewer/action1',
+                                order: 100,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
                                 }
-                            ]
-                        }
+                            }
+                        ]
                     }
                 }
             });
@@ -330,27 +323,31 @@ describe('ExtensionService', () => {
         it('should load only enabled [open with] actions for the viewer', () => {
             extensions.setup({
                 version: '1.0.0',
-                app: {
-                    features: {
-                        viewer: {
-                            openWith: [
-                                {
-                                    id: 'aca:viewer/action2',
-                                    order: 200,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
-                                },
-                                {
-                                    disabled: true,
-                                    id: 'aca:viewer/action1',
-                                    order: 100,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
+                features: {
+                    viewer: {
+                        openWith: [
+                            {
+                                id: 'aca:viewer/action2',
+                                order: 200,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
                                 }
-                            ]
-                        }
+                            },
+                            {
+                                disabled: true,
+                                id: 'aca:viewer/action1',
+                                order: 100,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
+                                }
+                            }
+                        ]
                     }
                 }
             });
@@ -362,26 +359,30 @@ describe('ExtensionService', () => {
         it('should sort [open with] actions by order', () => {
             extensions.setup({
                 version: '1.0.0',
-                app: {
-                    features: {
-                        viewer: {
-                            openWith: [
-                                {
-                                    id: 'aca:viewer/action2',
-                                    order: 200,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
-                                },
-                                {
-                                    id: 'aca:viewer/action1',
-                                    order: 100,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
+                features: {
+                    viewer: {
+                        openWith: [
+                            {
+                                id: 'aca:viewer/action2',
+                                order: 200,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
                                 }
-                            ]
-                        }
+                            },
+                            {
+                                id: 'aca:viewer/action1',
+                                order: 100,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
+                                }
+                            }
+                        ]
                     }
                 }
             });
@@ -396,18 +397,16 @@ describe('ExtensionService', () => {
         it('should load [create] actions from config', () => {
             extensions.setup({
                 version: '1.0.0',
-                app: {
-                    features: {
-                        create: [
-                            {
-                                id: 'aca:create/folder',
-                                order: 100,
-                                icon: 'create_new_folder',
-                                title: 'ext: Create Folder',
-                                type: ContentActionType.default
-                            }
-                        ]
-                    }
+                features: {
+                    create: [
+                        {
+                            id: 'aca:create/folder',
+                            order: 100,
+                            icon: 'create_new_folder',
+                            title: 'ext: Create Folder',
+                            type: ContentActionType.default
+                        }
+                    ]
                 }
             });
 
@@ -417,25 +416,23 @@ describe('ExtensionService', () => {
         it('should sort [create] actions by order', () => {
             extensions.setup({
                 version: '1.0.0',
-                app: {
-                    features: {
-                        create: [
-                            {
-                                id: 'aca:create/folder',
-                                order: 100,
-                                icon: 'create_new_folder',
-                                title: 'ext: Create Folder',
-                                type: ContentActionType.default
-                            },
-                            {
-                                id: 'aca:create/folder-2',
-                                order: 10,
-                                icon: 'create_new_folder',
-                                title: 'ext: Create Folder',
-                                type: ContentActionType.default
-                            }
-                        ]
-                    }
+                features: {
+                    create: [
+                        {
+                            id: 'aca:create/folder',
+                            order: 100,
+                            icon: 'create_new_folder',
+                            title: 'ext: Create Folder',
+                            type: ContentActionType.default
+                        },
+                        {
+                            id: 'aca:create/folder-2',
+                            order: 10,
+                            icon: 'create_new_folder',
+                            title: 'ext: Create Folder',
+                            type: ContentActionType.default
+                        }
+                    ]
                 }
             });
 

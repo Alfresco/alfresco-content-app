@@ -4,268 +4,269 @@
         "plugin1.json",
         "plugin2.json"
     ],
-    "app": {
-        "rules": [
-            {
-                "id": "app.create.canCreateFolder",
-                "type": "app.navigation.folder.canCreate"
-            },
-            {
-                "id": "app.toolbar.canEditFolder",
-                "type": "core.every",
-                "parameters": [
-                    { "type": "rule", "value": "app.selection.folder" },
-                    { "type": "rule", "value": "app.selection.folder.canUpdate" }
-                ]
-            },
-            {
-                "id": "app.toolbar.canViewFile",
-                "type": "app.selection.file"
-            },
-            {
-                "id": "app.toolbar.canDownload",
-                "type": "app.selection.canDownload"
+    "rules": [
+        {
+            "id": "app.create.canCreateFolder",
+            "type": "app.navigation.folder.canCreate"
+        },
+        {
+            "id": "app.toolbar.canEditFolder",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.folder" },
+                { "type": "rule", "value": "app.selection.folder.canUpdate" }
+            ]
+        },
+        {
+            "id": "app.toolbar.canViewFile",
+            "type": "app.selection.file"
+        },
+        {
+            "id": "app.toolbar.canDownload",
+            "type": "app.selection.canDownload"
+        }
+    ],
+    "routes": [
+        {
+            "id": "aca:routes/about",
+            "path": "ext/about",
+            "component": "aca:components/about",
+            "layout": "aca:layouts/main",
+            "auth":[ "aca:auth" ],
+            "data": {
+                "title": "Custom About"
             }
-        ],
-        "routes": [
+        }
+    ],
+    "actions": [
+        {
+            "id": "aca:actions/create-folder",
+            "type": "CREATE_FOLDER",
+            "payload": null
+        },
+        {
+            "id": "aca:actions/edit-folder",
+            "type": "EDIT_FOLDER",
+            "payload": null
+        },
+        {
+            "id": "aca:actions/download",
+            "type": "DOWNLOAD_NODES",
+            "payload": null
+        },
+        {
+            "id": "aca:actions/preview",
+            "type": "VIEW_FILE",
+            "payload": null
+        },
+
+        {
+            "id": "aca:actions/info",
+            "type": "SNACKBAR_INFO",
+            "payload": "I'm a nice little popup raised by extension."
+        },
+        {
+            "id": "aca:actions/node-name",
+            "type": "SNACKBAR_INFO",
+            "payload": "$('Action for ' + context.selection.first.entry.name)"
+        },
+        {
+            "id": "aca:actions/settings",
+            "type": "NAVIGATE_URL",
+            "payload": "/settings"
+        }
+    ],
+    "features": {
+        "create": [
             {
-                "id": "aca:routes/about",
-                "path": "ext/about",
-                "component": "aca:components/about",
-                "layout": "aca:layouts/main",
-                "auth":[ "aca:auth" ],
-                "data": {
-                    "title": "Custom About"
+                "id": "app.create.folder",
+                "type": "default",
+                "icon": "create_new_folder",
+                "title": "ext: Create Folder",
+                "actions": {
+                    "click": "aca:actions/create-folder"
+                },
+                "rules": {
+                    "enabled": "app.create.canCreateFolder"
                 }
             }
         ],
-        "actions": [
-            {
-                "id": "aca:actions/create-folder",
-                "type": "CREATE_FOLDER",
-                "payload": null
-            },
-            {
-                "id": "aca:actions/edit-folder",
-                "type": "EDIT_FOLDER",
-                "payload": null
-            },
-            {
-                "id": "aca:actions/download",
-                "type": "DOWNLOAD_NODES",
-                "payload": null
-            },
-            {
-                "id": "aca:actions/preview",
-                "type": "VIEW_FILE",
-                "payload": null
-            },
-
-            {
-                "id": "aca:actions/info",
-                "type": "SNACKBAR_INFO",
-                "payload": "I'm a nice little popup raised by extension."
-            },
-            {
-                "id": "aca:actions/node-name",
-                "type": "SNACKBAR_INFO",
-                "payload": "$('Action for ' + context.selection.first.entry.name)"
-            },
-            {
-                "id": "aca:actions/settings",
-                "type": "NAVIGATE_URL",
-                "payload": "/settings"
-            }
-        ],
-        "features": {
-            "create": [
+        "navbar": {
+            "aca:main": [
                 {
-                    "id": "app.create.folder",
+                    "id": "aca/personal-files",
+                    "order": 100,
+                    "icon": "folder",
+                    "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                    "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
+                    "route": "personal-files"
+                },
+                {
+                    "id": "aca/libraries",
+                    "order": 101,
+                    "icon": "group_work",
+                    "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
+                    "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                    "route": "libraries"
+                }
+            ],
+            "aca:secondary": [
+                {
+                    "id": "aca/shared",
+                    "order": 100,
+                    "icon": "people",
+                    "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
+                    "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
+                    "route": "shared"
+                },
+                {
+                    "id": "aca/recent-files",
+                    "order": 101,
+                    "icon": "schedule",
+                    "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+                    "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+                    "route": "recent-files"
+                },
+                {
+                    "id": "aca/favorites",
+                    "order": 102,
+                    "icon": "star",
+                    "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
+                    "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
+                    "route": "favorites"
+                },
+                {
+                    "id": "aca/trashcan",
+                    "order": 103,
+                    "icon": "delete",
+                    "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
+                    "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
+                    "route": "trashcan"
+                }
+            ],
+            "aca:demo": [
+                {
+                    "disabled": true,
+                    "id": "aca:demo/link1",
+                    "order": 100,
+                    "icon": "build",
+                    "title": "About (native)",
+                    "description": "Uses native application route",
+                    "route": "about"
+                },
+                {
+                    "disabled": true,
+                    "id": "aca:demo/link2",
+                    "order": 100,
+                    "icon": "build",
+                    "title": "About (custom)",
+                    "description": "Uses custom defined route",
+                    "route": "aca:routes/about"
+                }
+            ]
+        },
+        "viewer": {
+            "openWith": [
+                {
+                    "disabled": false,
+                    "id": "aca:viewer/action1",
                     "type": "default",
+                    "order": 100,
+                    "icon": "build",
+                    "title": "Snackbar",
+                    "actions": {
+                        "click": "aca:actions/info"
+                    }
+                }
+            ]
+        },
+        "content": {
+            "actions": [
+                {
+                    "id": "aca:toolbar/separator-1",
+                    "order": 5,
+                    "type": "separator"
+                },
+                {
+                    "id": "aca:toolbar/create-folder",
+                    "type": "button",
+                    "order": 10,
+                    "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                     "icon": "create_new_folder",
-                    "title": "ext: Create Folder",
                     "actions": {
                         "click": "aca:actions/create-folder"
                     },
                     "rules": {
-                        "enabled": "app.create.canCreateFolder"
+                        "visible": "app.create.canCreateFolder"
                     }
-                }
-            ],
-            "navbar": {
-                "aca:main": [
-                    {
-                        "id": "aca/personal-files",
-                        "order": 100,
-                        "icon": "folder",
-                        "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
-                        "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
-                        "route": "personal-files"
+                },
+                {
+                    "id": "aca:toolbar/preview",
+                    "type": "button",
+                    "order": 15,
+                    "title": "APP.ACTIONS.VIEW",
+                    "icon": "open_in_browser",
+                    "actions": {
+                        "click": "aca:actions/preview"
                     },
-                    {
-                        "id": "aca/libraries",
-                        "order": 101,
-                        "icon": "group_work",
-                        "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
-                        "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
-                        "route": "libraries"
+                    "rules": {
+                        "visible": "app.toolbar.canViewFile"
                     }
-                ],
-                "aca:secondary": [
-                    {
-                        "id": "aca/shared",
-                        "order": 100,
-                        "icon": "people",
-                        "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
-                        "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
-                        "route": "shared"
+                },
+                {
+                    "id": "aca:toolbar/download",
+                    "type": "button",
+                    "order": 20,
+                    "title": "APP.ACTIONS.DOWNLOAD",
+                    "icon": "get_app",
+                    "actions": {
+                        "click": "aca:actions/download"
                     },
-                    {
-                        "id": "aca/recent-files",
-                        "order": 101,
-                        "icon": "schedule",
-                        "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
-                        "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
-                        "route": "recent-files"
-                    },
-                    {
-                        "id": "aca/favorites",
-                        "order": 102,
-                        "icon": "star",
-                        "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
-                        "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
-                        "route": "favorites"
-                    },
-                    {
-                        "id": "aca/trashcan",
-                        "order": 103,
-                        "icon": "delete",
-                        "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
-                        "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
-                        "route": "trashcan"
+                    "rules": {
+                        "visible": "app.toolbar.canDownload"
                     }
-                ],
-                "aca:demo": [
-                    {
-                        "disabled": true,
-                        "id": "aca:demo/link1",
-                        "order": 100,
-                        "icon": "build",
-                        "title": "About (native)",
-                        "description": "Uses native application route",
-                        "route": "about"
+                },
+                {
+                    "id": "aca:toolbar/edit-folder",
+                    "type": "button",
+                    "order": 30,
+                    "title": "APP.ACTIONS.EDIT",
+                    "icon": "create",
+                    "actions": {
+                        "click": "aca:actions/edit-folder"
                     },
-                    {
-                        "disabled": true,
-                        "id": "aca:demo/link2",
-                        "order": 100,
-                        "icon": "build",
-                        "title": "About (custom)",
-                        "description": "Uses custom defined route",
-                        "route": "aca:routes/about"
+                    "rules": {
+                        "visible": "app.toolbar.canEditFolder"
                     }
-                ]
-            },
-            "viewer": {
-                "openWith": [
-                    {
-                        "disabled": false,
-                        "id": "aca:viewer/action1",
-                        "order": 100,
-                        "icon": "build",
-                        "title": "Snackbar",
-                        "action": "aca:actions/info"
-                    }
-                ]
-            },
-            "content": {
-                "actions": [
-                    {
-                        "id": "aca:toolbar/separator-1",
-                        "order": 5,
-                        "type": "separator"
-                    },
-                    {
-                        "id": "aca:toolbar/create-folder",
-                        "type": "button",
-                        "order": 10,
-                        "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
-                        "icon": "create_new_folder",
-                        "actions": {
-                            "click": "aca:actions/create-folder"
-                        },
-                        "rules": {
-                            "visible": "app.create.canCreateFolder"
-                        }
-                    },
-                    {
-                        "id": "aca:toolbar/preview",
-                        "type": "button",
-                        "order": 15,
-                        "title": "APP.ACTIONS.VIEW",
-                        "icon": "open_in_browser",
-                        "actions": {
-                            "click": "aca:actions/preview"
-                        },
-                        "rules": {
-                            "visible": "app.toolbar.canViewFile"
-                        }
-                    },
-                    {
-                        "id": "aca:toolbar/download",
-                        "type": "button",
-                        "order": 20,
-                        "title": "APP.ACTIONS.DOWNLOAD",
-                        "icon": "get_app",
-                        "actions": {
-                            "click": "aca:actions/download"
-                        },
-                        "rules": {
-                            "visible": "app.toolbar.canDownload"
-                        }
-                    },
-                    {
-                        "id": "aca:toolbar/edit-folder",
-                        "type": "button",
-                        "order": 30,
-                        "title": "APP.ACTIONS.EDIT",
-                        "icon": "create",
-                        "actions": {
-                            "click": "aca:actions/edit-folder"
-                        },
-                        "rules": {
-                            "visible": "app.toolbar.canEditFolder"
-                        }
-                    },
+                },
 
-                    {
-                        "id": "aca:toolbar/separator-2",
-                        "order": 200,
-                        "type": "separator"
-                    },
-                    {
-                        "id": "aca:toolbar/menu-1",
-                        "type": "menu",
-                        "icon": "storage",
-                        "order": 300,
-                        "children": [
-                            {
-                                "id": "aca:action3",
-                                "type": "button",
-                                "title": "Settings",
-                                "icon": "settings_applications",
-                                "actions": {
-                                    "click": "aca:actions/settings"
-                                }
+                {
+                    "id": "aca:toolbar/separator-2",
+                    "order": 200,
+                    "type": "separator"
+                },
+                {
+                    "id": "aca:toolbar/menu-1",
+                    "type": "menu",
+                    "icon": "storage",
+                    "order": 300,
+                    "children": [
+                        {
+                            "id": "aca:action3",
+                            "type": "button",
+                            "title": "Settings",
+                            "icon": "settings_applications",
+                            "actions": {
+                                "click": "aca:actions/settings"
                             }
-                        ]
-                    },
-                    {
-                        "id": "aca:toolbar/separator-3",
-                        "type": "separator"
-                    }
-                ]
-            }
+                        }
+                    ]
+                },
+                {
+                    "id": "aca:toolbar/separator-3",
+                    "type": "separator"
+                }
+            ]
         }
     }
 }
