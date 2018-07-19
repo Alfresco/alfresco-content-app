@@ -1,0 +1,45 @@
+{
+    "version": "1.0.0",
+
+    "rules": [],
+
+    "routes": [
+        {
+            "id": "aca:routes/about",
+            "path": "ext/about",
+            "component": "aca:components/about",
+            "layout": "aca:layouts/main",
+            "auth":[ "aca:auth" ],
+            "data": {
+                "title": "Custom About"
+            }
+        }
+    ],
+
+    "actions": [],
+
+    "features": {
+        "navbar": {
+            "aca:demo": [
+                {
+                    "disabled": false,
+                    "id": "aca:demo/link1",
+                    "order": 100,
+                    "icon": "build",
+                    "title": "About (native)",
+                    "description": "Uses native application route",
+                    "route": "about"
+                },
+                {
+                    "disabled": false,
+                    "id": "aca:demo/link2",
+                    "order": 100,
+                    "icon": "build",
+                    "title": "About (custom)",
+                    "description": "Uses custom defined route",
+                    "route": "aca:routes/about"
+                }
+            ]
+        }
+    }
+}

@@ -1,8 +1,11 @@
 {
     "version": "1.0.0",
+
     "references": [
-        "plugin1.json"
+        "plugin1.json",
+        "plugin2.json"
     ],
+
     "rules": [
         {
             "id": "app.create.canCreateFolder",
@@ -25,18 +28,9 @@
             "type": "app.selection.canDownload"
         }
     ],
-    "routes": [
-        {
-            "id": "aca:routes/about",
-            "path": "ext/about",
-            "component": "aca:components/about",
-            "layout": "aca:layouts/main",
-            "auth":[ "aca:auth" ],
-            "data": {
-                "title": "Custom About"
-            }
-        }
-    ],
+
+    "routes": [],
+
     "actions": [
         {
             "id": "aca:actions/create-folder",
@@ -70,6 +64,7 @@
             "payload": "$('Action for ' + context.selection.first.entry.name)"
         }
     ],
+
     "features": {
         "create": [
             {
@@ -136,26 +131,6 @@
                     "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
                     "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
                     "route": "trashcan"
-                }
-            ],
-            "aca:demo": [
-                {
-                    "disabled": true,
-                    "id": "aca:demo/link1",
-                    "order": 100,
-                    "icon": "build",
-                    "title": "About (native)",
-                    "description": "Uses native application route",
-                    "route": "about"
-                },
-                {
-                    "disabled": true,
-                    "id": "aca:demo/link2",
-                    "order": 100,
-                    "icon": "build",
-                    "title": "About (custom)",
-                    "description": "Uses custom defined route",
-                    "route": "aca:routes/about"
                 }
             ]
         },

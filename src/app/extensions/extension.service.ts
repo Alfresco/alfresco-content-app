@@ -71,8 +71,31 @@ export class ExtensionService implements RuleContext {
     load(): Promise<boolean> {
         return new Promise<any>(resolve => {
             this.loadConfig(this.configPath, 0).then(result => {
-                this.setup(result.config);
-                resolve(true);
+                let config = result.config;
+
+                if (config.references && config.references.length > 0) {
+                    const plugins = config.references.map(
+                        (name, idx) => this.loadConfig(`${this.pluginsPath}/${name}`, idx)
+                    );
+
+                    Promise.all(plugins).then((results => {
+                        const configs = results
+                            .filter(entry => entry)
+                            .sort(this.sortByOrder)
+                            .map(entry => entry.config);
+
+                        if (configs.length > 0) {
+                            config = this.mergeConfigs(config, ...configs);
+                            console.log(config);
+                        }
+
+                        this.setup(config);
+                        resolve(true);
+                    }));
+                } else {
+                    this.setup(config);
+                    resolve(true);
+                }
             });
         });
     }
@@ -83,42 +106,15 @@ export class ExtensionService implements RuleContext {
             return;
         }
 
-        if (config.references && config.references.length > 0) {
-            const plugins = config.references.map(
-                (name, idx) => this.loadConfig(`${this.pluginsPath}/${name}`, idx)
-            );
+        this.rules = this.loadRules(config);
+        this.actions = this.loadActions(config);
+        this.routes = this.loadRoutes(config);
+        this.contentActions = this.loadContentActions(config);
+        this.openWithActions = this.loadViewerOpenWith(config);
+        this.createActions = this.loadCreateActions(config);
+        this.navbar = this.loadNavBar(config);
 
-            Promise.all(plugins).then((results => {
-                const configs = results
-                    .filter(entry => entry)
-                    .sort(this.sortByOrder)
-                    .map(entry => entry.config);
-
-                if (configs.length > 0) {
-                    config = this.mergeConfigs(config, ...configs);
-                    console.log(config);
-                }
-
-                // todo: move to separate method
-                this.rules = this.loadRules(config);
-                this.actions = this.loadActions(config);
-                this.routes = this.loadRoutes(config);
-                this.contentActions = this.loadContentActions(config);
-                this.openWithActions = this.loadViewerOpenWith(config);
-                this.createActions = this.loadCreateActions(config);
-                this.navbar = this.loadNavBar(config);
-            }));
-        } else {
-            console.log(config);
-            // todo: move to separate method
-            this.rules = this.loadRules(config);
-            this.actions = this.loadActions(config);
-            this.routes = this.loadRoutes(config);
-            this.contentActions = this.loadContentActions(config);
-            this.openWithActions = this.loadViewerOpenWith(config);
-            this.createActions = this.loadCreateActions(config);
-            this.navbar = this.loadNavBar(config);
-        }
+        console.log(this.navbar);
     }
 
     protected loadConfig(url: string, order: number): Promise<{ order: number, config: ExtensionConfig }> {
