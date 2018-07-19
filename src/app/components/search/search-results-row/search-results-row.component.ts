@@ -28,6 +28,7 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 import { ViewFileAction } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
+import { NavigateToFolder } from '../../../store/actions';
 
 @Component({
     selector: 'aca-search-results-row',
@@ -92,6 +93,10 @@ export class SearchResultsRowComponent implements OnInit {
         this.store.dispatch(
             new ViewFileAction(this.node)
         );
+    }
+
+    navigate() {
+        this.store.dispatch(new NavigateToFolder(this.node));
     }
 
     private getValue(path) {
