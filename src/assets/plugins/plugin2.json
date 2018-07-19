@@ -19,7 +19,7 @@
         "navbar": [
             {
                 "id": "plugin2.navbar.group1",
-                "disabled": false,
+                "disabled": true,
                 "items": [
                     {
                         "id": "plugin2.navbar.group1.link1",
