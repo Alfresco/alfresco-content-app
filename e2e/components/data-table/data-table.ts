@@ -141,16 +141,8 @@ export class DataTable extends Component {
         return this.body.element(by.cssContainingText(`.adf-data-table-cell span`, name));
     }
 
-    getRowLink(name: string): ElementFinder {
-        return this.body.element(by.cssContainingText(`.adf-data-table-cell a`, name));
-    }
-
     getItemNameTooltip(name: string): promise.Promise<string> {
         return this.getRowName(name).getAttribute('title');
-    }
-
-    getLinkCellTooltip(name: string): promise.Promise<string> {
-        return this.getRowLink(name).getAttribute('title');
     }
 
     countRows(): promise.Promise<number> {

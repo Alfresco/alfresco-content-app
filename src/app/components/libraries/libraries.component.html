@@ -70,15 +70,16 @@
                     </data-column>
 
                     <data-column
-                        class="adf-data-table-cell--ellipsis__name adf-location-cell"
+                        class="adf-data-table-cell--ellipsis__name"
                         key="title"
                         title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
                         <ng-template let-context>
-                            <a
+                            <span
+                                class="dl-link"
                                 title="{{ makeLibraryTooltip(context.row.obj.entry) }}"
                                 (click)="navigateTo(context?.row?.obj)">
                                 {{ makeLibraryTitle(context.row.obj.entry) }}
-                            </a>
+                            </span>
                         </ng-template>
                     </data-column>
 
