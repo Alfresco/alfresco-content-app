@@ -27,6 +27,7 @@ import { RuleRef } from './rules/rule-ref';
 import { ActionRef } from './action-ref';
 import { RouteRef } from './route-ref';
 import { ContentActionExtension } from './content-action.extension';
+import { NavBarGroupRef } from './navbar.extensions';
 
 export interface ExtensionConfig {
     version: string;
@@ -40,9 +41,7 @@ export interface ExtensionConfig {
         viewer?: {
             openWith?: Array<ContentActionExtension>;
         };
-        navbar?: {
-            [key: string]: any;
-        };
+        navbar?: Array<NavBarGroupRef>;
         content?: {
             actions?: Array<ContentActionExtension>;
         };

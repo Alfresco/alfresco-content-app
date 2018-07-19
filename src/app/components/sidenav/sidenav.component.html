@@ -59,13 +59,13 @@
 
     <div class="sidenav__section sidenav__section--menu" *ngFor="let group of groups">
         <ul class="sidenav-menu">
-            <li *ngFor="let item of group" class="sidenav-menu__item"
+            <li *ngFor="let item of group.items" class="sidenav-menu__item"
                 routerLinkActive
                 #rla="routerLinkActive"
                 title="{{ item.description | translate }}">
 
                 <button
-                    [routerLink]="item.route"
+                    [routerLink]="item.url"
                     [color]="rla.isActive ? 'accent': 'primary'"
                     [attr.aria-label]="item.title | translate"
                     mat-icon-button
@@ -78,7 +78,7 @@
                 </button>
 
                 <span #rippleTrigger
-                    [routerLink]="item.route"
+                    [routerLink]="item.url"
                     class="menu__item--label"
                     [hidden]="!showLabel"
                     [ngClass]="{

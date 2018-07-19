@@ -19,27 +19,27 @@
     "actions": [],
 
     "features": {
-        "navbar": {
-            "aca:demo": [
-                {
-                    "disabled": false,
-                    "id": "aca:demo/link1",
-                    "order": 100,
-                    "icon": "build",
-                    "title": "About (native)",
-                    "description": "Uses native application route",
-                    "route": "about"
-                },
-                {
-                    "disabled": false,
-                    "id": "aca:demo/link2",
-                    "order": 100,
-                    "icon": "build",
-                    "title": "About (custom)",
-                    "description": "Uses custom defined route",
-                    "route": "aca:routes/about"
-                }
-            ]
-        }
+        "navbar": [
+            {
+                "id": "aca:demo",
+                "disabled": true,
+                "items": [
+                    {
+                        "id": "aca:demo/link1",
+                        "icon": "build",
+                        "title": "About (native)",
+                        "description": "Uses native application route",
+                        "route": "about"
+                    },
+                    {
+                        "id": "aca:demo/link2",
+                        "icon": "build",
+                        "title": "About (custom)",
+                        "description": "Uses custom defined route",
+                        "route": "aca:routes/about"
+                    }
+                ]
+            }
+        ]
     }
 }

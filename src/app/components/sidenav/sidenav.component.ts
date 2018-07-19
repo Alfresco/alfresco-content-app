@@ -28,13 +28,13 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Node } from 'alfresco-js-api';
 import { NodePermissionService } from '../../services/node-permission.service';
 import { ExtensionService } from '../../extensions/extension.service';
-import { NavigationExtension } from '../../extensions/navigation.extension';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import { CreateFolderAction } from '../../store/actions';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { ContentActionExtension } from '../../extensions/content-action.extension';
+import { NavBarGroupRef } from '../../extensions/navbar.extensions';
 
 @Component({
     selector: 'app-sidenav',
@@ -45,7 +45,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
     @Input() showLabel: boolean;
 
     node: Node = null;
-    groups: Array<NavigationExtension[]> = [];
+    groups: Array<NavBarGroupRef> = [];
     createActions: Array<ContentActionExtension> = [];
     canCreateContent = false;
     onDestroy$: Subject<boolean> = new Subject<boolean>();

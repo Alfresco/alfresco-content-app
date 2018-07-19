@@ -69,60 +69,60 @@
                 }
             }
         ],
-        "navbar": {
-            "aca:main": [
-                {
-                    "id": "aca/personal-files",
-                    "order": 100,
-                    "icon": "folder",
-                    "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
-                    "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
-                    "route": "personal-files"
-                },
-                {
-                    "id": "aca/libraries",
-                    "order": 101,
-                    "icon": "group_work",
-                    "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
-                    "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
-                    "route": "libraries"
-                }
-            ],
-            "aca:secondary": [
-                {
-                    "id": "aca/shared",
-                    "order": 100,
-                    "icon": "people",
-                    "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
-                    "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
-                    "route": "shared"
-                },
-                {
-                    "id": "aca/recent-files",
-                    "order": 101,
-                    "icon": "schedule",
-                    "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
-                    "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
-                    "route": "recent-files"
-                },
-                {
-                    "id": "aca/favorites",
-                    "order": 102,
-                    "icon": "star",
-                    "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
-                    "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
-                    "route": "favorites"
-                },
-                {
-                    "id": "aca/trashcan",
-                    "order": 103,
-                    "icon": "delete",
-                    "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
-                    "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
-                    "route": "trashcan"
-                }
-            ]
-        },
+        "navbar": [
+            {
+                "id": "aca:main",
+                "items": [
+                    {
+                        "id": "aca/personal-files",
+                        "icon": "folder",
+                        "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
+                        "route": "personal-files"
+                    },
+                    {
+                        "id": "aca/libraries",
+                        "icon": "group_work",
+                        "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                        "route": "libraries"
+                    }
+                ]
+            },
+            {
+                "id": "aca:secondary",
+                "items": [
+                    {
+                        "id": "aca/shared",
+                        "icon": "people",
+                        "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
+                        "route": "shared"
+                    },
+                    {
+                        "id": "aca/recent-files",
+                        "icon": "schedule",
+                        "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+                        "route": "recent-files"
+                    },
+                    {
+                        "id": "aca/favorites",
+                        "icon": "star",
+                        "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
+                        "route": "favorites"
+                    },
+                    {
+                        "id": "aca/trashcan",
+                        "icon": "delete",
+                        "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
+                        "route": "trashcan"
+                    }
+                ]
+            }
+        ],
         "content": {
             "actions": [
                 {

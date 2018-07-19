@@ -30,7 +30,6 @@ import {
     ContentActionExtension,
     ContentActionType
 } from './content-action.extension';
-import { NavigationExtension } from './navigation.extension';
 import { Route } from '@angular/router';
 import { ActionRef } from './action-ref';
 import { RouteRef } from './route-ref';
@@ -41,21 +40,24 @@ import { RuleEvaluator } from './rules/rule-evaluator';
 import { NavigationState } from '../store/states/navigation.state';
 import { RuleContext } from './rules/rule-context';
 import { selectionWithFolder } from '../store/selectors/app.selectors';
+import { NavBarGroupRef } from './navbar.extensions';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
     configPath = 'assets/app.extensions.json';
     pluginsPath = 'assets/plugins';
 
+    rules: Array<RuleRef> = [];
+    routes: Array<RouteRef> = [];
     actions: Array<ActionRef> = [];
+
     contentActions: Array<ContentActionExtension> = [];
     openWithActions: Array<ContentActionExtension> = [];
     createActions: Array<ContentActionExtension> = [];
-    rules: Array<RuleRef> = [];
-    routes: Array<RouteRef> = [];
+    navbar: Array<NavBarGroupRef> = [];
+
     authGuards: { [key: string]: Type<{}> } = {};
     components: { [key: string]: Type<{}> } = {};
-    navbar: { [key: string]: any } = {};
 
     evaluators: { [key: string]: RuleEvaluator } = {};
     selection: SelectionState;
@@ -113,8 +115,6 @@ export class ExtensionService implements RuleContext {
         this.openWithActions = this.loadViewerOpenWith(config);
         this.createActions = this.loadCreateActions(config);
         this.navbar = this.loadNavBar(config);
-
-        console.log(this.navbar);
     }
 
     protected loadConfig(url: string, order: number): Promise<{ order: number, config: ExtensionConfig }> {
@@ -154,7 +154,25 @@ export class ExtensionService implements RuleContext {
 
     protected loadNavBar(config: ExtensionConfig): any {
         if (config && config.features) {
-            return config.features.navbar || {};
+            return (config.features.navbar || [])
+                .filter(entry => !entry.disabled)
+                .sort(this.sortByOrder)
+                .map(group => {
+                    return {
+                        ...group,
+                        items: (group.items || [])
+                            .filter(item => !item.disabled)
+                            .sort(this.sortByOrder)
+                            .map(item => {
+                                const routeRef = this.getRouteById(item.route);
+                                const url = `/${routeRef ? routeRef.path : item.route}`;
+                                return {
+                                    ...item,
+                                    url
+                                };
+                            })
+                    };
+                });
         }
         return {};
     }
@@ -209,29 +227,8 @@ export class ExtensionService implements RuleContext {
             .filter(guard => guard);
     }
 
-    // todo: consider precalculating on init
-    getNavigationGroups(): Array<NavigationExtension[]> {
-        if (this.navbar) {
-            const groups = Object.keys(this.navbar).map(key => {
-                return this.navbar[key]
-                    .map(group => {
-                        const customRoute = this.getRouteById(group.route);
-                        const route = `/${
-                            customRoute ? customRoute.path : group.route
-                        }`;
-
-                        return {
-                            ...group,
-                            route
-                        };
-                    })
-                    .filter(entry => !entry.disabled);
-            });
-
-            return groups;
-        }
-
-        return [];
+    getNavigationGroups(): Array<NavBarGroupRef> {
+        return this.navbar;
     }
 
     setComponent(id: string, value: Type<{}>): ExtensionService {
