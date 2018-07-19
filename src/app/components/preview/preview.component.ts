@@ -34,7 +34,7 @@ import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { OpenWithExtension } from '../../extensions/open-with.extension';
 import { ContentManagementService } from '../../services/content-management.service';
-import { ViewUtilService } from '../../common/services/view-util.service';
+import { ViewUtilService } from '../../services/view-util.service';
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',

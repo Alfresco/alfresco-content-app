@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AlfrescoApiService, LogService} from '@alfresco/adf-core';
-import {MinimalNodeEntity, RenditionEntry} from 'alfresco-js-api';
-import {ContentApiService} from '../../services/content-api.service';
+import {RenditionEntry} from 'alfresco-js-api';
+import {ContentApiService} from './content-api.service';
 
 @Injectable()
 export class ViewUtilService {
@@ -53,25 +53,23 @@ export class ViewUtilService {
         const pwa = window.open(url, ViewUtilService.TARGET);
         // Because of the way chrome focus and close image window vs. pdf preview window
         if (type === ViewUtilService.ContentGroup.IMAGE) {
-            pwa.onfocus = function () {
-                setTimeout(function () {
+            pwa.onfocus = () => {
+                setTimeout( () => {
                     pwa.close();
                 }, 500);
             };
-            pwa.onload = function () {
+            pwa.onload = () => {
                 pwa.print();
             };
-
         } else {
-            pwa.onload = function () {
+            pwa.onload = () => {
                 pwa.print();
-                pwa.onfocus = function () {
-                    setTimeout(function () {
+                pwa.onfocus =  () => {
+                    setTimeout( () => {
                         pwa.close();
                     }, 10);
                 };
             };
-
         }
     }
 
@@ -88,13 +86,15 @@ export class ViewUtilService {
         const nodeId = objectId;
         const type: string = this.getViewerTypeByMimeType(mimeType);
 
-        this.getRendition(nodeId, ViewUtilService.ContentGroup.PDF).then(value => {
+        this.getRendition(nodeId, ViewUtilService.ContentGroup.PDF)
+        .then(value => {
             const url: string = this.getRenditionUrl(nodeId, type, (value ? true : false));
-            const printType = ( type === ViewUtilService.ContentGroup.PDF
-            || type === ViewUtilService.ContentGroup.TEXT )
+            const printType = (type === ViewUtilService.ContentGroup.PDF
+                || type === ViewUtilService.ContentGroup.TEXT)
                 ? ViewUtilService.ContentGroup.PDF : type;
             this.printFile(url, printType);
-        }).catch(err => {
+        })
+        .catch(err => {
             this.logService.error('Error with Printing');
             this.logService.error(err);
         });
@@ -104,15 +104,6 @@ export class ViewUtilService {
         return (renditionExists && type !== ViewUtilService.ContentGroup.IMAGE) ?
             this.apiService.contentApi.getRenditionUrl(nodeId, ViewUtilService.ContentGroup.PDF) :
             this.contentApi.getContentUrl(nodeId, false);
-    }
-
-    /**
-     * Determine if we should show the print dialog
-     * @param {AlfrescoApi.MinimalNodeEntity} node
-     * @returns {boolean}
-     */
-    public showPrintFile(node: MinimalNodeEntity) {
-        return node.entry.isFile;
     }
 
     /**
