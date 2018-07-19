@@ -1,4 +1,6 @@
 {
+    "$schema": "../../extension.schema.json",
+    "name": "app",
     "version": "1.0.0",
 
     "references": [
@@ -29,28 +31,22 @@
         }
     ],
 
-    "routes": [],
-
     "actions": [
         {
             "id": "app.actions.createFolder",
-            "type": "CREATE_FOLDER",
-            "payload": null
+            "type": "CREATE_FOLDER"
         },
         {
             "id": "app.actions.editFolder",
-            "type": "EDIT_FOLDER",
-            "payload": null
+            "type": "EDIT_FOLDER"
         },
         {
             "id": "app.actions.download",
-            "type": "DOWNLOAD_NODES",
-            "payload": null
+            "type": "DOWNLOAD_NODES"
         },
         {
             "id": "app.actions.preview",
-            "type": "VIEW_FILE",
-            "payload": null
+            "type": "VIEW_FILE"
         }
     ],
 

@@ -33,8 +33,9 @@ export enum ContentActionType {
 export interface ContentActionExtension {
     id: string;
     type: ContentActionType;
+
+    title?: string;
     order?: number;
-    title: string;
     icon?: string;
     disabled?: boolean;
     children?: Array<ContentActionExtension>;

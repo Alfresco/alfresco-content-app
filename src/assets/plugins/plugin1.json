@@ -1,10 +1,8 @@
 {
+    "$schema": "../../../extension.schema.json",
     "version": "1.0.0",
     "name": "plugin1",
     "description": "demo plugin",
-
-    "rules": [],
-    "routes": [],
 
     "actions": [
         {
@@ -28,7 +26,6 @@
         "viewer": {
             "openWith": [
                 {
-                    "disabled": false,
                     "id": "plugin1.viewer.openWith.action1",
                     "type": "default",
                     "icon": "build",
