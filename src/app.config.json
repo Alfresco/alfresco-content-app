@@ -191,6 +191,7 @@
             { "field": "modifier", "mincount": 1, "label": "SEARCH.FACET_FIELDS.MODIFIER" },
             { "field": "SITE", "mincount": 1, "label": "SEARCH.FACET_FIELDS.FILE_LIBRARY" }
         ],
+        "facetQueries": {},
         "categories": [
             {
                 "id": "modifiedDate",
