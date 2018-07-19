@@ -51,17 +51,6 @@
             "id": "aca:actions/preview",
             "type": "VIEW_FILE",
             "payload": null
-        },
-
-        {
-            "id": "aca:actions/info",
-            "type": "SNACKBAR_INFO",
-            "payload": "I'm a nice little popup raised by extension."
-        },
-        {
-            "id": "aca:actions/node-name",
-            "type": "SNACKBAR_INFO",
-            "payload": "$('Action for ' + context.selection.first.entry.name)"
         }
     ],
 
@@ -131,21 +120,6 @@
                     "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
                     "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
                     "route": "trashcan"
-                }
-            ]
-        },
-        "viewer": {
-            "openWith": [
-                {
-                    "disabled": false,
-                    "id": "aca:viewer/action1",
-                    "type": "default",
-                    "order": 100,
-                    "icon": "build",
-                    "title": "Snackbar",
-                    "actions": {
-                        "click": "aca:actions/info"
-                    }
                 }
             ]
         },
