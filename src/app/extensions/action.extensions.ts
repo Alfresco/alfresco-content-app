@@ -23,12 +23,35 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SelectionState } from '../../store/states';
-import { RuleEvaluator } from './rule.service';
-import { NavigationState } from '../../store/states/navigation.state';
+export enum ContentActionType {
+    default = 'button',
+    button = 'button',
+    separator = 'separator',
+    menu = 'menu'
+}
 
-export interface RuleContext {
-    selection: SelectionState;
-    navigation: NavigationState;
-    evaluators: { [key: string]: RuleEvaluator };
+export interface ContentActionRef {
+    id: string;
+    type: ContentActionType;
+
+    title?: string;
+    order?: number;
+    icon?: string;
+    disabled?: boolean;
+    children?: Array<ContentActionRef>;
+    actions?: {
+        click?: string;
+        [key: string]: string;
+    };
+    rules?: {
+        enabled?: string;
+        visible?: string;
+        [key: string]: string;
+    };
+}
+
+export interface ActionRef {
+    id: string;
+    type: string;
+    payload?: string;
 }

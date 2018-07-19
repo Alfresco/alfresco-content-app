@@ -26,22 +26,98 @@
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ExtensionService } from './extension.service';
-import { AppConfigService } from '@alfresco/adf-core';
-import { ContentActionType } from './content-action.extension';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../store/states';
+import { ContentActionType } from './action.extensions';
 
 describe('ExtensionService', () => {
-    let config: AppConfigService;
     let extensions: ExtensionService;
+    let store: Store<AppStore>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [AppTestingModule]
         });
 
+        store = TestBed.get(Store);
         extensions = TestBed.get(ExtensionService);
+    });
 
-        config = TestBed.get(AppConfigService);
-        config.config['extensions'] = {};
+    describe('actions', () => {
+        beforeEach(() => {
+            extensions.setup({
+                version: '1.0.0',
+                actions: [
+                    {
+                        id: 'aca:actions/create-folder',
+                        type: 'CREATE_FOLDER',
+                        payload: 'folder-name'
+                    }
+                ]
+            });
+        });
+
+        it('should load actions from the config', () => {
+            expect(extensions.actions.length).toBe(1);
+        });
+
+        it('should find action by id', () => {
+            const action = extensions.getActionById(
+                'aca:actions/create-folder'
+            );
+            expect(action).toBeTruthy();
+            expect(action.type).toBe('CREATE_FOLDER');
+            expect(action.payload).toBe('folder-name');
+        });
+
+        it('should not find action by id', () => {
+            const action = extensions.getActionById('missing');
+            expect(action).toBeFalsy();
+        });
+
+        it('should run the action via store', () => {
+            spyOn(store, 'dispatch').and.stub();
+
+            extensions.runActionById('aca:actions/create-folder');
+            expect(store.dispatch).toHaveBeenCalledWith({
+                type: 'CREATE_FOLDER',
+                payload: 'folder-name'
+            });
+        });
+
+        it('should not use store if action is missing', () => {
+            spyOn(store, 'dispatch').and.stub();
+
+            extensions.runActionById('missing');
+            expect(store.dispatch).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('expressions', () => {
+        it('should eval static value', () => {
+            const value = extensions.runExpression('hello world');
+            expect(value).toBe('hello world');
+        });
+
+        it('should eval string as an expression', () => {
+            const value = extensions.runExpression('$( "hello world" )');
+            expect(value).toBe('hello world');
+        });
+
+        it('should eval expression with no context', () => {
+            const value = extensions.runExpression('$( 1 + 1 )');
+            expect(value).toBe(2);
+        });
+
+        it('should eval expression with context', () => {
+            const context = {
+                a: 'hey',
+                b: 'there'
+            };
+            const expression = '$( context.a + " " + context.b + "!" )';
+            const value = extensions.runExpression(expression, context);
+            expect(value).toBe('hey there!');
+        });
     });
 
     describe('auth guards', () => {
@@ -54,8 +130,6 @@ describe('ExtensionService', () => {
 
             extensions.authGuards['guard1'] = guard1;
             extensions.authGuards['guard2'] = guard2;
-
-            extensions.init();
         });
 
         it('should fetch auth guards by ids', () => {
@@ -86,7 +160,6 @@ describe('ExtensionService', () => {
             component1 = {};
 
             extensions.components['component-1'] = component1;
-            extensions.init();
         });
 
         it('should fetch registered component', () => {
@@ -105,22 +178,21 @@ describe('ExtensionService', () => {
         let guard1;
 
         beforeEach(() => {
-            config.config.extensions = {
-                core: {
-                    routes: [
-                        {
-                            id: 'aca:routes/about',
-                            path: 'ext/about',
-                            component: 'aca:components/about',
-                            layout: 'aca:layouts/main',
-                            auth: ['aca:auth'],
-                            data: {
-                                title: 'Custom About'
-                            }
+            extensions.setup({
+                version: '1.0.0',
+                routes: [
+                    {
+                        id: 'aca:routes/about',
+                        path: 'ext/about',
+                        component: 'aca:components/about',
+                        layout: 'aca:layouts/main',
+                        auth: ['aca:auth'],
+                        data: {
+                            title: 'Custom About'
                         }
-                    ]
-                }
-            };
+                    }
+                ]
+            });
 
             component1 = {};
             component2 = {};
@@ -129,8 +201,6 @@ describe('ExtensionService', () => {
 
             guard1 = {};
             extensions.authGuards['aca:auth'] = guard1;
-
-            extensions.init();
         });
 
         it('should load routes from the config', () => {
@@ -166,60 +236,54 @@ describe('ExtensionService', () => {
 
     describe('content actions', () => {
         it('should load content actions from the config', () => {
-            config.config.extensions = {
-                core: {
-                    features: {
-                        content: {
-                            actions: [
-                                {
-                                    id: 'aca:toolbar/separator-1',
-                                    order: 1,
-                                    type: 'separator'
-                                },
-                                {
-                                    id: 'aca:toolbar/separator-2',
-                                    order: 2,
-                                    type: 'separator'
-                                }
-                            ]
-                        }
+            extensions.setup({
+                version: '1.0.0',
+                features: {
+                    content: {
+                        actions: [
+                            {
+                                id: 'aca:toolbar/separator-1',
+                                order: 1,
+                                type: ContentActionType.separator,
+                                title: 'action1',
+                            },
+                            {
+                                id: 'aca:toolbar/separator-2',
+                                order: 2,
+                                type: ContentActionType.separator,
+                                title: 'action2'
+                            }
+                        ]
                     }
                 }
-            };
+            });
 
-            extensions.init();
             expect(extensions.contentActions.length).toBe(2);
         });
 
-        it('should have an empty content action list if config is empty', () => {
-            config.config.extensions = {};
-            extensions.init();
-            expect(extensions.contentActions).toEqual([]);
-        });
-
         it('should sort content actions by order', () => {
-            config.config.extensions = {
-                core: {
-                    features: {
-                        content: {
-                            actions: [
-                                {
-                                    id: 'aca:toolbar/separator-2',
-                                    order: 2,
-                                    type: 'separator'
-                                },
-                                {
-                                    id: 'aca:toolbar/separator-1',
-                                    order: 1,
-                                    type: 'separator'
-                                }
-                            ]
-                        }
+            extensions.setup({
+                version: '1.0.0',
+                features: {
+                    content: {
+                        actions: [
+                            {
+                                id: 'aca:toolbar/separator-2',
+                                order: 2,
+                                type: ContentActionType.separator,
+                                title: 'action2'
+                            },
+                            {
+                                id: 'aca:toolbar/separator-1',
+                                order: 1,
+                                type: ContentActionType.separator,
+                                title: 'action1'
+                            }
+                        ]
                     }
                 }
-            };
+            });
 
-            extensions.init();
             expect(extensions.contentActions.length).toBe(2);
             expect(extensions.contentActions[0].id).toBe(
                 'aca:toolbar/separator-1'
@@ -232,94 +296,97 @@ describe('ExtensionService', () => {
 
     describe('open with', () => {
         it('should load [open with] actions for the viewer', () => {
-            config.config.extensions = {
-                core: {
-                    features: {
-                        viewer: {
-                            'open-with': [
-                                {
-                                    disabled: false,
-                                    id: 'aca:viewer/action1',
-                                    order: 100,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
+            extensions.setup({
+                version: '1.0.0',
+                features: {
+                    viewer: {
+                        openWith: [
+                            {
+                                disabled: false,
+                                id: 'aca:viewer/action1',
+                                order: 100,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
                                 }
-                            ]
-                        }
+                            }
+                        ]
                     }
                 }
-            };
+            });
 
-            extensions.init();
             expect(extensions.openWithActions.length).toBe(1);
         });
 
-        it('should have an empty [open with] list if config is empty', () => {
-            config.config.extensions = {};
-            extensions.init();
-            expect(extensions.openWithActions).toEqual([]);
-        });
-
         it('should load only enabled [open with] actions for the viewer', () => {
-            config.config.extensions = {
-                core: {
-                    features: {
-                        viewer: {
-                            'open-with': [
-                                {
-                                    id: 'aca:viewer/action2',
-                                    order: 200,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
-                                },
-                                {
-                                    disabled: true,
-                                    id: 'aca:viewer/action1',
-                                    order: 100,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
+            extensions.setup({
+                version: '1.0.0',
+                features: {
+                    viewer: {
+                        openWith: [
+                            {
+                                id: 'aca:viewer/action2',
+                                order: 200,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
                                 }
-                            ]
-                        }
+                            },
+                            {
+                                disabled: true,
+                                id: 'aca:viewer/action1',
+                                order: 100,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
+                                }
+                            }
+                        ]
                     }
                 }
-            };
+            });
 
-            extensions.init();
             expect(extensions.openWithActions.length).toBe(1);
             expect(extensions.openWithActions[0].id).toBe('aca:viewer/action2');
         });
 
         it('should sort [open with] actions by order', () => {
-            config.config.extensions = {
-                core: {
-                    features: {
-                        viewer: {
-                            'open-with': [
-                                {
-                                    id: 'aca:viewer/action2',
-                                    order: 200,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
-                                },
-                                {
-                                    id: 'aca:viewer/action1',
-                                    order: 100,
-                                    icon: 'build',
-                                    title: 'Snackbar',
-                                    action: 'aca:actions/info'
+            extensions.setup({
+                version: '1.0.0',
+                features: {
+                    viewer: {
+                        openWith: [
+                            {
+                                id: 'aca:viewer/action2',
+                                order: 200,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
                                 }
-                            ]
-                        }
+                            },
+                            {
+                                id: 'aca:viewer/action1',
+                                order: 100,
+                                icon: 'build',
+                                title: 'Snackbar',
+                                type: ContentActionType.default,
+                                actions: {
+                                    click: 'aca:actions/info'
+                                }
+                            }
+                        ]
                     }
                 }
-            };
+            });
 
-            extensions.init();
             expect(extensions.openWithActions.length).toBe(2);
             expect(extensions.openWithActions[0].id).toBe('aca:viewer/action1');
             expect(extensions.openWithActions[1].id).toBe('aca:viewer/action2');
@@ -328,67 +395,47 @@ describe('ExtensionService', () => {
 
     describe('create', () => {
         it('should load [create] actions from config', () => {
-            config.config.extensions = {
-                core: {
-                    features: {
-                        create: [
-                            {
-                                disabled: false,
-                                id: 'aca:create/folder',
-                                order: 100,
-                                icon: 'create_new_folder',
-                                title: 'ext: Create Folder',
-                                target: {
-                                    permissions: ['create'],
-                                    action: 'aca:actions/create-folder'
-                                }
-                            }
-                        ]
-                    }
+            extensions.setup({
+                version: '1.0.0',
+                features: {
+                    create: [
+                        {
+                            id: 'aca:create/folder',
+                            order: 100,
+                            icon: 'create_new_folder',
+                            title: 'ext: Create Folder',
+                            type: ContentActionType.default
+                        }
+                    ]
                 }
-            };
+            });
 
-            extensions.init();
             expect(extensions.createActions.length).toBe(1);
         });
 
-        it('should have an empty [create] actions if config is empty', () => {
-            config.config.extensions = {};
-            extensions.init();
-            expect(extensions.createActions).toEqual([]);
-        });
-
         it('should sort [create] actions by order', () => {
-            config.config.extensions = {
-                core: {
-                    features: {
-                        create: [
-                            {
-                                id: 'aca:create/folder',
-                                order: 100,
-                                icon: 'create_new_folder',
-                                title: 'ext: Create Folder',
-                                target: {
-                                    permissions: ['create'],
-                                    action: 'aca:actions/create-folder'
-                                }
-                            },
-                            {
-                                id: 'aca:create/folder-2',
-                                order: 10,
-                                icon: 'create_new_folder',
-                                title: 'ext: Create Folder',
-                                target: {
-                                    permissions: ['create'],
-                                    action: 'aca:actions/create-folder'
-                                }
-                            }
-                        ]
-                    }
+            extensions.setup({
+                version: '1.0.0',
+                features: {
+                    create: [
+                        {
+                            id: 'aca:create/folder',
+                            order: 100,
+                            icon: 'create_new_folder',
+                            title: 'ext: Create Folder',
+                            type: ContentActionType.default
+                        },
+                        {
+                            id: 'aca:create/folder-2',
+                            order: 10,
+                            icon: 'create_new_folder',
+                            title: 'ext: Create Folder',
+                            type: ContentActionType.default
+                        }
+                    ]
                 }
-            };
+            });
 
-            extensions.init();
             expect(extensions.createActions.length).toBe(2);
             expect(extensions.createActions[0].id).toBe('aca:create/folder-2');
             expect(extensions.createActions[1].id).toBe('aca:create/folder');

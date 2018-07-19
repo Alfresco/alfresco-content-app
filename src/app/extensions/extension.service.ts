@@ -24,69 +24,190 @@
  */
 
 import { Injectable, Type } from '@angular/core';
-import { AppConfigService } from '@alfresco/adf-core';
-import {
-    ContentActionExtension,
-    ContentActionType
-} from './content-action.extension';
-import { OpenWithExtension } from './open-with.extension';
-import { NavigationExtension } from './navigation.extension';
+import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
-import { Node } from 'alfresco-js-api';
-import { RuleService } from './rules/rule.service';
-import { ActionService } from './actions/action.service';
-import { ActionRef } from './actions/action-ref';
-import { RouteRef } from './route-ref';
+import { ExtensionConfig } from './extension.config';
+import { AppStore, SelectionState } from '../store/states';
+import { NavigationState } from '../store/states/navigation.state';
+import { selectionWithFolder } from '../store/selectors/app.selectors';
+import { NavBarGroupRef } from './navbar.extensions';
+import { RouteRef } from './routing.extensions';
+import { RuleContext, RuleRef, RuleEvaluator } from './rule.extensions';
+import { ActionRef, ContentActionRef, ContentActionType } from './action.extensions';
 
 @Injectable()
-export class ExtensionService {
+export class ExtensionService implements RuleContext {
+    configPath = 'assets/app.extensions.json';
+    pluginsPath = 'assets/plugins';
 
-    contentActions: Array<ContentActionExtension> = [];
-    openWithActions: Array<OpenWithExtension> = [];
-    createActions: Array<ContentActionExtension> = [];
+    defaults = {
+        layout: 'app.layout.main',
+        auth: ['app.auth']
+    };
 
+    rules: Array<RuleRef> = [];
     routes: Array<RouteRef> = [];
+    actions: Array<ActionRef> = [];
+
+    contentActions: Array<ContentActionRef> = [];
+    openWithActions: Array<ContentActionRef> = [];
+    createActions: Array<ContentActionRef> = [];
+    navbar: Array<NavBarGroupRef> = [];
+
     authGuards: { [key: string]: Type<{}> } = {};
     components: { [key: string]: Type<{}> } = {};
 
-    constructor(
-        private config: AppConfigService,
-        private ruleService: RuleService,
-        private actionService: ActionService
-    ) {}
+    evaluators: { [key: string]: RuleEvaluator } = {};
+    selection: SelectionState;
+    navigation: NavigationState;
 
-    // initialise extension service
-    // in future will also load and merge data from the external plugins
-    init() {
-        this.routes = this.config.get<Array<RouteRef>>(
-            'extensions.core.routes',
-            []
-        );
+    constructor(private http: HttpClient, private store: Store<AppStore>) {
+        this.store.select(selectionWithFolder).subscribe(result => {
+            this.selection = result.selection;
+            this.navigation = result.navigation;
+        });
+    }
 
-        this.contentActions = this.config
-            .get<Array<ContentActionExtension>>(
-                'extensions.core.features.content.actions',
-                []
-            )
-            .sort(this.sortByOrder);
+    load(): Promise<boolean> {
+        return new Promise<any>(resolve => {
+            this.loadConfig(this.configPath, 0).then(result => {
+                let config = result.config;
 
-        this.openWithActions = this.config
-            .get<Array<OpenWithExtension>>(
-                'extensions.core.features.viewer.open-with',
-                []
-            )
-            .filter(entry => !entry.disabled)
-            .sort(this.sortByOrder);
+                if (config.references && config.references.length > 0) {
+                    const plugins = config.references.map(
+                        (name, idx) => this.loadConfig(`${this.pluginsPath}/${name}`, idx)
+                    );
 
-        this.createActions = this.config
-            .get<Array<ContentActionExtension>>(
-                'extensions.core.features.create',
-                []
-            )
-            .sort(this.sortByOrder);
+                    Promise.all(plugins).then((results => {
+                        const configs = results
+                            .filter(entry => entry)
+                            .sort(this.sortByOrder)
+                            .map(entry => entry.config);
 
-        this.ruleService.init();
-        this.actionService.init();
+                        if (configs.length > 0) {
+                            config = this.mergeConfigs(config, ...configs);
+                        }
+
+                        this.setup(config);
+                        resolve(true);
+                    }));
+                } else {
+                    this.setup(config);
+                    resolve(true);
+                }
+            });
+        });
+    }
+
+    setup(config: ExtensionConfig) {
+        if (!config) {
+            console.error('Extension configuration not found');
+            return;
+        }
+
+        this.rules = this.loadRules(config);
+        this.actions = this.loadActions(config);
+        this.routes = this.loadRoutes(config);
+        this.contentActions = this.loadContentActions(config);
+        this.openWithActions = this.loadViewerOpenWith(config);
+        this.createActions = this.loadCreateActions(config);
+        this.navbar = this.loadNavBar(config);
+    }
+
+    protected loadConfig(url: string, order: number): Promise<{ order: number, config: ExtensionConfig }> {
+        return new Promise(resolve => {
+            this.http.get<ExtensionConfig>(url).subscribe(
+                config => {
+                    resolve({
+                        order,
+                        config
+                    });
+                },
+                error => {
+                    console.log(error);
+                    resolve(null);
+                }
+            );
+        });
+    }
+
+    protected loadCreateActions(config: ExtensionConfig): Array<ContentActionRef> {
+        if (config && config.features) {
+            return (config.features.create || []).sort(
+                this.sortByOrder
+            );
+        }
+        return [];
+    }
+
+    protected loadContentActions(config: ExtensionConfig) {
+        if (config && config.features && config.features.content) {
+            return (config.features.content.actions || []).sort(
+                this.sortByOrder
+            );
+        }
+        return [];
+    }
+
+    protected loadNavBar(config: ExtensionConfig): any {
+        if (config && config.features) {
+            return (config.features.navbar || [])
+                .filter(entry => !entry.disabled)
+                .sort(this.sortByOrder)
+                .map(group => {
+                    return {
+                        ...group,
+                        items: (group.items || [])
+                            .filter(item => !item.disabled)
+                            .sort(this.sortByOrder)
+                            .map(item => {
+                                const routeRef = this.getRouteById(item.route);
+                                const url = `/${routeRef ? routeRef.path : item.route}`;
+                                return {
+                                    ...item,
+                                    url
+                                };
+                            })
+                    };
+                });
+        }
+        return {};
+    }
+
+    protected loadViewerOpenWith(config: ExtensionConfig): Array<ContentActionRef> {
+        if (config && config.features && config.features.viewer) {
+            return (config.features.viewer.openWith || [])
+                .filter(entry => !entry.disabled)
+                .sort(this.sortByOrder);
+        }
+        return [];
+    }
+
+    protected loadRules(config: ExtensionConfig): Array<RuleRef> {
+        if (config && config.rules) {
+            return config.rules;
+        }
+        return [];
+    }
+
+    protected loadRoutes(config: ExtensionConfig): Array<RouteRef> {
+        if (config) {
+            return config.routes || [];
+        }
+        return [];
+    }
+
+    protected loadActions(config: ExtensionConfig): Array<ActionRef> {
+        if (config) {
+            return config.actions || [];
+        }
+        return [];
+    }
+
+    setEvaluator(key: string, value: RuleEvaluator): ExtensionService {
+        this.evaluators[key] = value;
+        return this;
     }
 
     setAuthGuard(key: string, value: Type<{}>): ExtensionService {
@@ -98,45 +219,14 @@ export class ExtensionService {
         return this.routes.find(route => route.id === id);
     }
 
-    getActionById(id: string): ActionRef {
-        return this.actionService.getActionById(id);
-    }
-
-    runActionById(id: string, context?: any) {
-        this.actionService.runActionById(id, context);
-    }
-
     getAuthGuards(ids: string[]): Array<Type<{}>> {
         return (ids || [])
             .map(id => this.authGuards[id])
             .filter(guard => guard);
     }
 
-    getNavigationGroups(): Array<NavigationExtension[]> {
-        const settings = this.config.get<any>(
-            'extensions.core.features.navigation'
-        );
-        if (settings) {
-            const groups = Object.keys(settings).map(key => {
-                return settings[key]
-                    .map(group => {
-                        const customRoute = this.getRouteById(group.route);
-                        const route = `/${
-                            customRoute ? customRoute.path : group.route
-                        }`;
-
-                        return {
-                            ...group,
-                            route
-                        };
-                    })
-                    .filter(entry => !entry.disabled);
-            });
-
-            return groups;
-        }
-
-        return [];
+    getNavigationGroups(): Array<NavBarGroupRef> {
+        return this.navbar;
     }
 
     setComponent(id: string, value: Type<{}>): ExtensionService {
@@ -150,11 +240,15 @@ export class ExtensionService {
 
     getApplicationRoutes(): Array<Route> {
         return this.routes.map(route => {
-            const guards = this.getAuthGuards(route.auth);
+            const guards = this.getAuthGuards(
+                route.auth && route.auth.length > 0
+                    ? route.auth
+                    : this.defaults.auth
+            );
 
             return {
                 path: route.path,
-                component: this.getComponentById(route.layout),
+                component: this.getComponentById(route.layout || this.defaults.layout),
                 canActivateChild: guards,
                 canActivate: guards,
                 children: [
@@ -168,8 +262,7 @@ export class ExtensionService {
         });
     }
 
-    // evaluates create actions for the folder node
-    getFolderCreateActions(folder: Node): Array<ContentActionExtension> {
+    getCreateActions(): Array<ContentActionRef> {
         return this.createActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action))
@@ -177,18 +270,18 @@ export class ExtensionService {
                 let disabled = false;
 
                 if (action.rules && action.rules.enabled) {
-                    disabled = !this.ruleService.evaluateRule(action.rules.enabled);
+                    disabled = !this.evaluateRule(action.rules.enabled);
                 }
 
                 return {
                     ...action,
                     disabled
                 };
-        });
+            });
     }
 
     // evaluates content actions for the selection and parent folder node
-    getAllowedContentActions(): Array<ContentActionExtension> {
+    getAllowedContentActions(): Array<ContentActionRef> {
         return this.contentActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action))
@@ -211,11 +304,11 @@ export class ExtensionService {
     }
 
     reduceSeparators(
-        acc: ContentActionExtension[],
-        el: ContentActionExtension,
+        acc: ContentActionRef[],
+        el: ContentActionRef,
         i: number,
-        arr: ContentActionExtension[]
-    ): ContentActionExtension[] {
+        arr: ContentActionRef[]
+    ): ContentActionRef[] {
         // remove duplicate separators
         if (i > 0) {
             const prev = arr[i - 1];
@@ -238,9 +331,9 @@ export class ExtensionService {
     }
 
     reduceEmptyMenus(
-        acc: ContentActionExtension[],
-        el: ContentActionExtension
-    ): ContentActionExtension[] {
+        acc: ContentActionRef[],
+        el: ContentActionRef
+    ): ContentActionRef[] {
         if (el.type === ContentActionType.menu) {
             if ((el.children || []).length === 0) {
                 return acc;
@@ -262,7 +355,7 @@ export class ExtensionService {
         return !entry.disabled;
     }
 
-    copyAction(action: ContentActionExtension): ContentActionExtension {
+    copyAction(action: ContentActionRef): ContentActionRef {
         return {
             ...action,
             children: (action.children || []).map(child =>
@@ -271,10 +364,70 @@ export class ExtensionService {
         };
     }
 
-    filterByRules(action: ContentActionExtension): boolean {
+    filterByRules(action: ContentActionRef): boolean {
         if (action && action.rules && action.rules.visible) {
-            return this.ruleService.evaluateRule(action.rules.visible);
+            return this.evaluateRule(action.rules.visible);
         }
         return true;
+    }
+
+    getActionById(id: string): ActionRef {
+        return this.actions.find(action => action.id === id);
+    }
+
+    runActionById(id: string, context?: any) {
+        const action = this.getActionById(id);
+        if (action) {
+            const { type, payload } = action;
+            const expression = this.runExpression(payload, context);
+
+            this.store.dispatch({ type, payload: expression });
+        }
+    }
+
+    runExpression(value: string, context?: any) {
+        const pattern = new RegExp(/\$\((.*\)?)\)/g);
+        const matches = pattern.exec(value);
+
+        if (matches && matches.length > 1) {
+            const expression = matches[1];
+            const fn = new Function('context', `return ${expression}`);
+            const result = fn(context);
+
+            return result;
+        }
+
+        return value;
+    }
+
+    evaluateRule(ruleId: string): boolean {
+        const ruleRef = this.rules.find(ref => ref.id === ruleId);
+        if (ruleRef) {
+            const evaluator = this.evaluators[ruleRef.type];
+            if (evaluator) {
+                return evaluator(this, ...ruleRef.parameters);
+            }
+        }
+        return false;
+    }
+
+    // todo: requires overwrite support for array entries
+    // todo: overwrite only particular areas, don't touch version or other top-level props
+    protected mergeConfigs(...objects): any {
+        const result = {};
+
+        objects.forEach(source => {
+            Object.keys(source).forEach(prop => {
+                if (prop in result && Array.isArray(result[prop])) {
+                    result[prop] = result[prop].concat(source[prop]);
+                } else if (prop in result && typeof result[prop] === 'object') {
+                    result[prop] = this.mergeConfigs(result[prop], source[prop]);
+                } else {
+                    result[prop] = source[prop];
+                }
+            });
+        });
+
+        return result;
     }
 }

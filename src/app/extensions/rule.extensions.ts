@@ -23,6 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { SelectionState } from '../store/states';
+import { NavigationState } from '../store/states/navigation.state';
+
+export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
+
+export interface RuleContext {
+    selection: SelectionState;
+    navigation: NavigationState;
+    evaluators: { [key: string]: RuleEvaluator };
+}
+
+export class RuleRef {
+    type: string;
+    id?: string;
+    parameters?: Array<RuleParameter>;
+}
+
 export interface RuleParameter {
     type: string;
     value: any;

@@ -31,13 +31,13 @@ import {
     OnInit,
     OnDestroy
 } from '@angular/core';
-import { ContentActionExtension } from '../../content-action.extension';
 import { AppStore, SelectionState } from '../../../store/states';
 import { Store } from '@ngrx/store';
 import { ExtensionService } from '../../extension.service';
 import { appSelection } from '../../../store/selectors/app.selectors';
 import { Subject } from 'rxjs/Rx';
 import { takeUntil } from 'rxjs/operators';
+import { ContentActionRef } from '../../action.extensions';
 
 @Component({
     selector: 'aca-toolbar-action',
@@ -47,7 +47,7 @@ import { takeUntil } from 'rxjs/operators';
     host: { class: 'aca-toolbar-action' }
 })
 export class ToolbarActionComponent implements OnInit, OnDestroy {
-    @Input() entry: ContentActionExtension;
+    @Input() entry: ContentActionRef;
 
     selection: SelectionState;
     onDestroy$: Subject<boolean> = new Subject<boolean>();

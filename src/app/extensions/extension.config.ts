@@ -23,13 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleRef } from './rules/rule-ref';
-import { ActionRef } from './actions/action-ref';
-import { RouteRef } from './route-ref';
+import { NavBarGroupRef } from './navbar.extensions';
+import { RouteRef } from './routing.extensions';
+import { RuleRef } from './rule.extensions';
+import { ActionRef, ContentActionRef } from './action.extensions';
 
 export interface ExtensionConfig {
+    version: string;
+    references?: Array<string>;
     rules?: Array<RuleRef>;
     routes?: Array<RouteRef>;
     actions?: Array<ActionRef>;
-    features?: { [key: string]: any };
+    features?: {
+        [key: string]: any;
+        create?: Array<ContentActionRef>;
+        viewer?: {
+            openWith?: Array<ContentActionRef>;
+        };
+        navbar?: Array<NavBarGroupRef>;
+        content?: {
+            actions?: Array<ContentActionRef>;
+        };
+    };
 }

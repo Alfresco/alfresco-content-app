@@ -1,0 +1,189 @@
+{
+    "$schema": "../../extension.schema.json",
+    "name": "app",
+    "version": "1.0.0",
+
+    "references": [
+        "plugin1.json",
+        "plugin2.json"
+    ],
+
+    "rules": [
+        {
+            "id": "app.create.canCreateFolder",
+            "type": "app.navigation.folder.canCreate"
+        },
+        {
+            "id": "app.toolbar.canEditFolder",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.folder" },
+                { "type": "rule", "value": "app.selection.folder.canUpdate" }
+            ]
+        },
+        {
+            "id": "app.toolbar.canViewFile",
+            "type": "app.selection.file"
+        },
+        {
+            "id": "app.toolbar.canDownload",
+            "type": "app.selection.canDownload"
+        }
+    ],
+
+    "actions": [
+        {
+            "id": "app.actions.createFolder",
+            "type": "CREATE_FOLDER"
+        },
+        {
+            "id": "app.actions.editFolder",
+            "type": "EDIT_FOLDER"
+        },
+        {
+            "id": "app.actions.download",
+            "type": "DOWNLOAD_NODES"
+        },
+        {
+            "id": "app.actions.preview",
+            "type": "VIEW_FILE"
+        }
+    ],
+
+    "features": {
+        "create": [
+            {
+                "id": "app.create.folder",
+                "type": "default",
+                "icon": "create_new_folder",
+                "title": "ext: Create Folder",
+                "actions": {
+                    "click": "app.actions.createFolder"
+                },
+                "rules": {
+                    "enabled": "app.create.canCreateFolder"
+                }
+            }
+        ],
+        "navbar": [
+            {
+                "id": "app.navbar.primary",
+                "items": [
+                    {
+                        "id": "app.navbar.personalFiles",
+                        "icon": "folder",
+                        "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.PERSONAL.SIDENAV_LINK.TOOLTIP",
+                        "route": "personal-files"
+                    },
+                    {
+                        "id": "app.navbar.libraries",
+                        "icon": "group_work",
+                        "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                        "route": "libraries"
+                    }
+                ]
+            },
+            {
+                "id": "app.navbar.secondary",
+                "items": [
+                    {
+                        "id": "app.navbar.shared",
+                        "icon": "people",
+                        "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
+                        "route": "shared"
+                    },
+                    {
+                        "id": "app.navbar.recentFiles",
+                        "icon": "schedule",
+                        "title": "APP.BROWSE.RECENT.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.RECENT.SIDENAV_LINK.TOOLTIP",
+                        "route": "recent-files"
+                    },
+                    {
+                        "id": "app.navbar.favorites",
+                        "icon": "star",
+                        "title": "APP.BROWSE.FAVORITES.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.FAVORITES.SIDENAV_LINK.TOOLTIP",
+                        "route": "favorites"
+                    },
+                    {
+                        "id": "app.navbar.trashcan",
+                        "icon": "delete",
+                        "title": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.LABEL",
+                        "description": "APP.BROWSE.TRASHCAN.SIDENAV_LINK.TOOLTIP",
+                        "route": "trashcan"
+                    }
+                ]
+            }
+        ],
+        "content": {
+            "actions": [
+                {
+                    "id": "app.toolbar.separator.1",
+                    "order": 5,
+                    "type": "separator"
+                },
+                {
+                    "id": "app.toolbar.createFolder",
+                    "type": "button",
+                    "order": 10,
+                    "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
+                    "icon": "create_new_folder",
+                    "actions": {
+                        "click": "app.actions.createFolder"
+                    },
+                    "rules": {
+                        "visible": "app.create.canCreateFolder"
+                    }
+                },
+                {
+                    "id": "app.toolbar.preview",
+                    "type": "button",
+                    "order": 15,
+                    "title": "APP.ACTIONS.VIEW",
+                    "icon": "open_in_browser",
+                    "actions": {
+                        "click": "app.actions.preview"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canViewFile"
+                    }
+                },
+                {
+                    "id": "app.toolbar.download",
+                    "type": "button",
+                    "order": 20,
+                    "title": "APP.ACTIONS.DOWNLOAD",
+                    "icon": "get_app",
+                    "actions": {
+                        "click": "app.actions.download"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canDownload"
+                    }
+                },
+                {
+                    "id": "app.toolbar.editFolder",
+                    "type": "button",
+                    "order": 30,
+                    "title": "APP.ACTIONS.EDIT",
+                    "icon": "create",
+                    "actions": {
+                        "click": "app.actions.editFolder"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canEditFolder"
+                    }
+                },
+                {
+                    "id": "app.toolbar.separator.2",
+                    "order": 200,
+                    "type": "separator"
+                }
+            ]
+        }
+    }
+}
