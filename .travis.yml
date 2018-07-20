@@ -27,10 +27,10 @@ install:
 jobs:
   include:
     - stage: verify
-      script: npm run lint && npm run spellcheck
+      script: npm run lint
+    - stage: verify
+      script: npm run spellcheck
     - stage: test
-      name: "unit tests"
       script: npm run test:ci
-    - stage: e2e
-      name: "e2e tests"
+    - stage: test
       script: npm run build && npm run e2e:docker
