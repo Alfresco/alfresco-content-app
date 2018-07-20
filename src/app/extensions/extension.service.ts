@@ -105,7 +105,6 @@ export class ExtensionService implements RuleContext {
             console.error('Extension configuration not found');
             return;
         }
-        console.log(config);
 
         this.rules = this.loadRules(config);
         this.actions = this.loadActions(config);
@@ -412,7 +411,6 @@ export class ExtensionService implements RuleContext {
         return false;
     }
 
-    // todo: overwrite only particular areas, don't touch version or other top-level props
     mergeObjects(...objects): any {
         const result = {};
 
