@@ -101,7 +101,7 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemName(file1)
+            dataTable.clickOnItemNameRow(file1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -121,7 +121,7 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.selectMultipleItems([file1, file2])
+            dataTable.selectMultipleItemsRow([file1, file2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -146,7 +146,7 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemName(folder1)
+            dataTable.clickOnItemNameRow(folder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => {
@@ -164,7 +164,7 @@ describe('Delete content', () => {
         });
 
         it('delete a folder containing locked files', () => {
-            dataTable.clickOnItemName(folder2)
+            dataTable.clickOnItemNameRow(folder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -180,7 +180,7 @@ describe('Delete content', () => {
         });
 
         it('notification on multiple items deletion - some items fail to delete', () => {
-            dataTable.selectMultipleItems([file1, folder2])
+            dataTable.selectMultipleItemsRow([file1, folder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -191,7 +191,7 @@ describe('Delete content', () => {
 
         // TODO: needs to operate on two folders containing locked items
         xit('Notification on multiple items deletion - all items fail to delete', () => {
-            dataTable.selectMultipleItems([fileLocked1, folder2])
+            dataTable.selectMultipleItemsRow([fileLocked1, folder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -234,7 +234,7 @@ describe('Delete content', () => {
         });
 
         it('delete a file and check notification', () => {
-            dataTable.clickOnItemName(sharedFile1)
+            dataTable.clickOnItemNameRow(sharedFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -249,7 +249,7 @@ describe('Delete content', () => {
         });
 
         it('delete multiple files and check notification', () => {
-            dataTable.selectMultipleItems([sharedFile2, sharedFile3])
+            dataTable.selectMultipleItemsRow([sharedFile2, sharedFile3])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -324,7 +324,7 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemName(favoriteFile1)
+            dataTable.clickOnItemNameRow(favoriteFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -344,7 +344,7 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.selectMultipleItems([favoriteFile1, favoriteFile2])
+            dataTable.selectMultipleItemsRow([favoriteFile1, favoriteFile2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -368,7 +368,7 @@ describe('Delete content', () => {
         it('delete a folder with content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
-            dataTable.clickOnItemName(favoriteFolder1)
+            dataTable.clickOnItemNameRow(favoriteFolder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => {
@@ -386,7 +386,7 @@ describe('Delete content', () => {
         });
 
         it('delete a folder containing locked files', () => {
-            dataTable.clickOnItemName(favoriteFolder2)
+            dataTable.clickOnItemNameRow(favoriteFolder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -402,7 +402,7 @@ describe('Delete content', () => {
         });
 
         it('notification on multiple items deletion - some items fail to delete', () => {
-            dataTable.selectMultipleItems([favoriteFile1, favoriteFolder2])
+            dataTable.selectMultipleItemsRow([favoriteFile1, favoriteFolder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -414,7 +414,7 @@ describe('Delete content', () => {
         });
 
         it('Notification on multiple items deletion - all items fail to delete', () => {
-            dataTable.selectMultipleItems([favoriteFileLocked1, favoriteFolder2])
+            dataTable.selectMultipleItemsRow([favoriteFileLocked1, favoriteFolder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -467,7 +467,7 @@ describe('Delete content', () => {
         });
 
         xit('delete a file and check notification', () => {
-            dataTable.clickOnItemName(recentFile1)
+            dataTable.clickOnItemNameRow(recentFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -482,7 +482,7 @@ describe('Delete content', () => {
         });
 
         xit('delete multiple files and check notification', () => {
-            dataTable.selectMultipleItems([recentFile2, recentFile3])
+            dataTable.selectMultipleItemsRow([recentFile2, recentFile3])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
