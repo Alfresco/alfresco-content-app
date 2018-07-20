@@ -32,19 +32,14 @@ jobs:
       cache:
         directories:
         - node_modules
+        - dist
     - stage: verify
       before_install:
         - "export DISPLAY=:99.0"
         - "sh -e /etc/init.d/xvfb start"
       script: npm run lint && npm run spellcheck && npm run test:ci
-      cache:
-        directories:
-        - node_modules
     - stage: e2e
       before_install:
         - "export DISPLAY=:99.0"
         - "sh -e /etc/init.d/xvfb start"
-      script: npm run build && npm run e2e:docker
-      cache:
-        directories:
-        - node_modules
+      script: npm run e2e:docker
