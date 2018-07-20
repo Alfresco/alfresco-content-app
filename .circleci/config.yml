@@ -14,7 +14,7 @@ jobs:
           key: alfresco-content-app-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
             - "node_modules"
-      - run: xvfb-run -a npm run test:ci
+      - run: xvfb-run -a npm run test:pr
   lint:
     working_directory: ~/alfresco-content-app
     docker:
