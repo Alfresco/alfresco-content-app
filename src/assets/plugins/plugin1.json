@@ -38,7 +38,8 @@
         },
         "navbar": [
             {
-                "id": "app.navbar.primary",
+                "id": "__app.navbar.primary",
+                "disabled": true,
                 "items": [
                     {
                         "id": "app.navbar.personalFiles",
