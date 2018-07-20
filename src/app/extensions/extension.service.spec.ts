@@ -43,10 +43,59 @@ describe('ExtensionService', () => {
         extensions = TestBed.get(ExtensionService);
     });
 
+    describe('configs', () => {
+        it('should merge two arrays based on [id] keys', () => {
+            const left = [
+                {
+                    name: 'item0'
+                },
+                {
+                    id: '#1',
+                    name: 'item1'
+                },
+                {
+                    id: '#2',
+                    name: 'item2'
+                }
+            ];
+
+            const right = [
+                {
+                    name: 'extra-1'
+                },
+                {
+                    id: '#2',
+                    name: 'custom2',
+                    tag: 'extra tag'
+                }
+            ];
+
+            const result = extensions.mergeArrays(left, right);
+            expect(result).toEqual([
+                {
+                    id: '#1',
+                    name: 'item1'
+                },
+                {
+                    id: '#2',
+                    name: 'custom2',
+                    tag: 'extra tag'
+                },
+                {
+                    name: 'item0'
+                },
+                {
+                    name: 'extra-1'
+                },
+            ]);
+        });
+    });
+
     describe('actions', () => {
         beforeEach(() => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 actions: [
                     {
                         id: 'aca:actions/create-folder',
@@ -179,7 +228,8 @@ describe('ExtensionService', () => {
 
         beforeEach(() => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 routes: [
                     {
                         id: 'aca:routes/about',
@@ -237,7 +287,8 @@ describe('ExtensionService', () => {
     describe('content actions', () => {
         it('should load content actions from the config', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     content: {
                         actions: [
@@ -263,7 +314,8 @@ describe('ExtensionService', () => {
 
         it('should sort content actions by order', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     content: {
                         actions: [
@@ -297,7 +349,8 @@ describe('ExtensionService', () => {
     describe('open with', () => {
         it('should load [open with] actions for the viewer', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     viewer: {
                         openWith: [
@@ -322,7 +375,8 @@ describe('ExtensionService', () => {
 
         it('should load only enabled [open with] actions for the viewer', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     viewer: {
                         openWith: [
@@ -358,7 +412,8 @@ describe('ExtensionService', () => {
 
         it('should sort [open with] actions by order', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     viewer: {
                         openWith: [
@@ -396,7 +451,8 @@ describe('ExtensionService', () => {
     describe('create', () => {
         it('should load [create] actions from config', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     create: [
                         {
@@ -415,7 +471,8 @@ describe('ExtensionService', () => {
 
         it('should sort [create] actions by order', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     create: [
                         {
