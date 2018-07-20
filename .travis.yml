@@ -21,23 +21,11 @@ before_install:
   - sh -e /etc/init.d/xvfb start
   - sleep 3 # give xvfb some time to start
 
-# install:
-#   - npm install -g npm@latest
-#   - npm ci
-
-cache:
-  directories:
-    - "node_modules"
-    - "dist"
-
 jobs:
   include:
-    - stage: prepare
-      # install: npm install
-      script: npm run lint && npm run spellcheck
     - stage: test
-      script: npm run build
+      script: npm run lint && npm run spellcheck
     - stage: test
       script: npm run test:ci
     - stage: e2e
-      script: npm run e2e:docker
+      script: npm run build && npm run e2e:docker
