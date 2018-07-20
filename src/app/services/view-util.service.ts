@@ -10,7 +10,6 @@ export class ViewUtilService {
     /**
      * Content groups based on categorization of files that can be viewed in the web browser. This
      * implementation or grouping is tied to the definition the ng component: ViewerComponent
-     * @type {{IMAGE: string; MEDIA: string; PDF: string; TEXT: string}}
      */
     public static ContentGroup = {
         IMAGE: 'image',
@@ -20,15 +19,14 @@ export class ViewUtilService {
     };
 
     /**
-     * Based on ViewerComponent Implementation, this value is used to determne how many times we try
+     * Based on ViewerComponent Implementation, this value is used to determine how many times we try
      * to get the rendition of a file for preview, or printing.
      * @type {number}
      */
     maxRetries = 5;
 
     /**
-     * Mimetype grouping based on the ViewerComponent.
-     * @type {{text: string[]; pdf: string[]; image: string[]; media: string[]}}
+     * Mime-type grouping based on the ViewerComponent.
      */
     private mimeTypes = {
         text: ['text/plain', 'text/csv', 'text/xml', 'text/html', 'application/x-javascript'],
@@ -76,7 +74,7 @@ export class ViewUtilService {
     /**
      * Launch the File Print dialog from anywhere other than the preview service, which resolves the
      * rendition of the object that can be printed from a web browser.
-     * These are: images, PDFs, or PDF rendition of files.
+     * These are: images, PDF files, or PDF rendition of files.
      * We also force PDF rendition for TEXT type objects, otherwise the default URL is to download.
      * TODO there are different TEXT type objects, (HTML, plaintext, xml, etc. we should determine how these are handled)
      * @param {string} objectId
@@ -150,7 +148,7 @@ export class ViewUtilService {
     }
 
     /**
-     * From ViwerComponent
+     * From ViewerComponent
      * @param {number} ms
      * @returns {Promise<any>}
      */
