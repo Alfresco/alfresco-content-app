@@ -27,6 +27,10 @@ install:
 jobs:
   include:
     - stage: test
+      name: "spellcheck"
+      script: npm run spellcheck
+      name: "lint"
+      script: npm run lint
       name: "unit tests"
       script: npm run test:ci
     - stage: e2e
