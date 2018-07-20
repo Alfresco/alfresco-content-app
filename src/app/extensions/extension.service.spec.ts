@@ -94,7 +94,8 @@ describe('ExtensionService', () => {
     describe('actions', () => {
         beforeEach(() => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 actions: [
                     {
                         id: 'aca:actions/create-folder',
@@ -227,7 +228,8 @@ describe('ExtensionService', () => {
 
         beforeEach(() => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 routes: [
                     {
                         id: 'aca:routes/about',
@@ -285,7 +287,8 @@ describe('ExtensionService', () => {
     describe('content actions', () => {
         it('should load content actions from the config', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     content: {
                         actions: [
@@ -311,7 +314,8 @@ describe('ExtensionService', () => {
 
         it('should sort content actions by order', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     content: {
                         actions: [
@@ -345,7 +349,8 @@ describe('ExtensionService', () => {
     describe('open with', () => {
         it('should load [open with] actions for the viewer', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     viewer: {
                         openWith: [
@@ -370,7 +375,8 @@ describe('ExtensionService', () => {
 
         it('should load only enabled [open with] actions for the viewer', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     viewer: {
                         openWith: [
@@ -406,7 +412,8 @@ describe('ExtensionService', () => {
 
         it('should sort [open with] actions by order', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     viewer: {
                         openWith: [
@@ -444,7 +451,8 @@ describe('ExtensionService', () => {
     describe('create', () => {
         it('should load [create] actions from config', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     create: [
                         {
@@ -463,7 +471,8 @@ describe('ExtensionService', () => {
 
         it('should sort [create] actions by order', () => {
             extensions.setup({
-                version: '1.0.0',
+                $name: 'test',
+                $version: '1.0.0',
                 features: {
                     create: [
                         {

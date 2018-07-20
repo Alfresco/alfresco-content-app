@@ -74,8 +74,8 @@ export class ExtensionService implements RuleContext {
             this.loadConfig(this.configPath, 0).then(result => {
                 let config = result.config;
 
-                if (config.references && config.references.length > 0) {
-                    const plugins = config.references.map(
+                if (config.$references && config.$references.length > 0) {
+                    const plugins = config.$references.map(
                         (name, idx) => this.loadConfig(`${this.pluginsPath}/${name}`, idx)
                     );
 
@@ -418,13 +418,15 @@ export class ExtensionService implements RuleContext {
 
         objects.forEach(source => {
             Object.keys(source).forEach(prop => {
-                if (prop in result && Array.isArray(result[prop])) {
-                    // result[prop] = result[prop].concat(source[prop]);
-                    result[prop] = this.mergeArrays(result[prop], source[prop]);
-                } else if (prop in result && typeof result[prop] === 'object') {
-                    result[prop] = this.mergeObjects(result[prop], source[prop]);
-                } else {
-                    result[prop] = source[prop];
+                if (!prop.startsWith('$')) {
+                    if (prop in result && Array.isArray(result[prop])) {
+                        // result[prop] = result[prop].concat(source[prop]);
+                        result[prop] = this.mergeArrays(result[prop], source[prop]);
+                    } else if (prop in result && typeof result[prop] === 'object') {
+                        result[prop] = this.mergeObjects(result[prop], source[prop]);
+                    } else {
+                        result[prop] = source[prop];
+                    }
                 }
             });
         });
