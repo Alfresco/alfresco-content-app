@@ -36,6 +36,19 @@
                 }
             ]
         },
+        "navbar": [
+            {
+                "id": "app.navbar.primary",
+                "items": [
+                    {
+                        "id": "app.navbar.personalFiles",
+                        "icon": "extension",
+                        "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                        "route": "personal-files"
+                    }
+                ]
+            }
+        ],
         "content": {
             "actions": [
                 {

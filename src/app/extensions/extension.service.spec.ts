@@ -43,6 +43,54 @@ describe('ExtensionService', () => {
         extensions = TestBed.get(ExtensionService);
     });
 
+    describe('configs', () => {
+        it('should merge two arrays based on [id] keys', () => {
+            const left = [
+                {
+                    name: 'item0'
+                },
+                {
+                    id: '#1',
+                    name: 'item1'
+                },
+                {
+                    id: '#2',
+                    name: 'item2'
+                }
+            ];
+
+            const right = [
+                {
+                    name: 'extra-1'
+                },
+                {
+                    id: '#2',
+                    name: 'custom2',
+                    tag: 'extra tag'
+                }
+            ];
+
+            const result = extensions.mergeArrays(left, right);
+            expect(result).toEqual([
+                {
+                    id: '#1',
+                    name: 'item1'
+                },
+                {
+                    id: '#2',
+                    name: 'custom2',
+                    tag: 'extra tag'
+                },
+                {
+                    name: 'item0'
+                },
+                {
+                    name: 'extra-1'
+                },
+            ]);
+        });
+    });
+
     describe('actions', () => {
         beforeEach(() => {
             extensions.setup({

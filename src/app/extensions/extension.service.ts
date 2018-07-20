@@ -86,7 +86,7 @@ export class ExtensionService implements RuleContext {
                             .map(entry => entry.config);
 
                         if (configs.length > 0) {
-                            config = this.mergeConfigs(config, ...configs);
+                            config = this.mergeObjects(config, ...configs);
                         }
 
                         this.setup(config);
@@ -105,6 +105,7 @@ export class ExtensionService implements RuleContext {
             console.error('Extension configuration not found');
             return;
         }
+        console.log(config);
 
         this.rules = this.loadRules(config);
         this.actions = this.loadActions(config);
@@ -411,17 +412,17 @@ export class ExtensionService implements RuleContext {
         return false;
     }
 
-    // todo: requires overwrite support for array entries
     // todo: overwrite only particular areas, don't touch version or other top-level props
-    protected mergeConfigs(...objects): any {
+    mergeObjects(...objects): any {
         const result = {};
 
         objects.forEach(source => {
             Object.keys(source).forEach(prop => {
                 if (prop in result && Array.isArray(result[prop])) {
-                    result[prop] = result[prop].concat(source[prop]);
+                    // result[prop] = result[prop].concat(source[prop]);
+                    result[prop] = this.mergeArrays(result[prop], source[prop]);
                 } else if (prop in result && typeof result[prop] === 'object') {
-                    result[prop] = this.mergeConfigs(result[prop], source[prop]);
+                    result[prop] = this.mergeObjects(result[prop], source[prop]);
                 } else {
                     result[prop] = source[prop];
                 }
@@ -429,5 +430,31 @@ export class ExtensionService implements RuleContext {
         });
 
         return result;
+    }
+
+    mergeArrays(left: any[], right: any[]): any[] {
+        const result = [];
+        const map = {};
+
+        (left || []).forEach(entry => {
+            const element = entry;
+            if (element && element.hasOwnProperty('id')) {
+                map[element.id] = element;
+            } else {
+                result.push(element);
+            }
+        });
+
+        (right || []).forEach(entry => {
+            const element = entry;
+            if (element && element.hasOwnProperty('id') && map[element.id]) {
+                const merged = this.mergeObjects(map[element.id], element);
+                map[element.id] = merged;
+            } else {
+                result.push(element);
+            }
+        });
+
+        return Object.values(map).concat(result);
     }
 }
