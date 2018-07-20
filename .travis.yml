@@ -24,8 +24,11 @@ install:
   - npm install -g npm@latest
   - npm ci
 
-script:
-  # - docker-compose stop
-  - npm run build
-  - npm run test:ci
-  - npm run e2e:docker
+jobs:
+  include:
+    - stage: test
+      name: "unit tests"
+      script: npm run test:ci
+    - stage: e2e
+      name: "e2e tests"
+      script: npm run build && npm run e2e:docker
