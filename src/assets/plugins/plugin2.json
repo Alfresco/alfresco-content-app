@@ -1,8 +1,8 @@
 {
     "$schema": "../../../extension.schema.json",
-    "version": "1.0.0",
-    "name": "plugin2",
-    "description": "demo plugin",
+    "$version": "1.0.0",
+    "$name": "plugin2",
+    "$description": "demo plugin",
 
     "routes": [
         {
