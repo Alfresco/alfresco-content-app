@@ -24,34 +24,23 @@
  */
 
 import { NgModule } from '@angular/core';
-import {
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    MatSnackBarModule,
-    MatProgressBarModule
-} from '@angular/material';
+import { CoreModule } from '@alfresco/adf-core';
+import { PreviewComponent } from './preview.component';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { DirectivesModule } from '../../directives/directives.module';
+import { CommonModule } from '@angular/common';
+import { ContentModule } from '@alfresco/adf-content-services';
 
 @NgModule({
     imports: [
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatInputModule,
-        MatSnackBarModule,
-        MatProgressBarModule
+        CommonModule,
+        CoreModule.forChild(),
+        ContentModule,
+        DirectivesModule,
+        AppInfoDrawerModule
     ],
-    exports: [
-        MatMenuModule,
-        MatIconModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatInputModule,
-        MatSnackBarModule,
-        MatProgressBarModule
+    declarations: [
+        PreviewComponent
     ]
 })
-export class MaterialModule {}
+export class PreviewModule {}
