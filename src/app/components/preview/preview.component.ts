@@ -33,6 +33,7 @@ import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
+import { ViewUtilService } from '../../services/view-util.service';
 import { ContentActionRef } from '../../extensions/action.extensions';
 @Component({
     selector: 'app-preview',
@@ -59,6 +60,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
         private preferences: UserPreferencesService,
         private route: ActivatedRoute,
         private router: Router,
+        private viewUtils: ViewUtilService,
         store: Store<AppStore>,
         extensions: ExtensionService,
         content: ContentManagementService) {
@@ -339,6 +341,10 @@ export class PreviewComponent extends PageComponent implements OnInit {
             }
         ]));
         this.onVisibilityChanged(false);
+    }
+
+    printFile(event: any) {
+        this.viewUtils.printFileGeneric(this.nodeId, this.node.content.mimeType);
     }
 
     private getNavigationCommands(url: string): any[] {

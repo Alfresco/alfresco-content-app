@@ -29,8 +29,10 @@ import { RuleRef } from './rule.extensions';
 import { ActionRef, ContentActionRef } from './action.extensions';
 
 export interface ExtensionConfig {
-    version: string;
-    references?: Array<string>;
+    $name: string;
+    $version: string;
+    $description?: string;
+    $references?: Array<string>;
     rules?: Array<RuleRef>;
     routes?: Array<RouteRef>;
     actions?: Array<ActionRef>;

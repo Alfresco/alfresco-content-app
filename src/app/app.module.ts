@@ -84,6 +84,7 @@ import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-
 import { NodePermissionsDirective } from './directives/node-permissions.directive';
 import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
+import { ViewUtilService} from './services/view-util.service';
 import { ExtensionService } from './extensions/extension.service';
 
 export function setupExtensionServiceFactory(service: ExtensionService): Function {
@@ -169,7 +170,8 @@ export function setupExtensionServiceFactory(service: ExtensionService): Functio
             useFactory: setupExtensionServiceFactory,
             deps: [ExtensionService],
             multi: true
-        }
+        },
+        ViewUtilService
     ],
     entryComponents: [
         LibraryDialogComponent,

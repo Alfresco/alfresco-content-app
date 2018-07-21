@@ -1,8 +1,8 @@
 {
     "$schema": "../../../extension.schema.json",
-    "version": "1.0.0",
-    "name": "plugin1",
-    "description": "demo plugin",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+    "$description": "demo plugin",
 
     "actions": [
         {
@@ -36,6 +36,20 @@
                 }
             ]
         },
+        "navbar": [
+            {
+                "id": "__app.navbar.primary",
+                "disabled": true,
+                "items": [
+                    {
+                        "id": "app.navbar.personalFiles",
+                        "icon": "extension",
+                        "title": "APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL",
+                        "route": "personal-files"
+                    }
+                ]
+            }
+        ],
         "content": {
             "actions": [
                 {

@@ -12,6 +12,7 @@
     "build:tomcat": "npm run server-versions && ng build --base-href ./",
     "build:electron": "npm run server-versions && ng build --output-path www --base-href ./",
     "test": "ng test --code-coverage",
+    "test:pr": "ng test --single-run --no-progress",
     "test:ci": "ng test --code-coverage --single-run --no-progress && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",
     "lint": "ng lint",
     "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0",

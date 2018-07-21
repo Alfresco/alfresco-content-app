@@ -1,9 +1,8 @@
 {
     "$schema": "../../extension.schema.json",
-    "name": "app",
-    "version": "1.0.0",
-
-    "references": [
+    "$name": "app",
+    "$version": "1.0.0",
+    "$references": [
         "plugin1.json",
         "plugin2.json"
     ],

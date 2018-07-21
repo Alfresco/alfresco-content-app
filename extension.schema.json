@@ -214,20 +214,20 @@
     },
 
     "type": "object",
-    "required": ["name", "version"],
+    "required": ["$name", "$version"],
     "properties": {
-        "name": {
+        "$name": {
             "description": "Extension name",
             "type": "string"
         },
-        "version": {
+        "$version": {
             "description": "Extension version",
             "type": "string"
         },
-        "description": {
+        "$description": {
             "description": "Brief description on what the extension does"
         },
-        "references": {
+        "$references": {
             "description": "References to external files",
             "type": "array",
             "items": {
