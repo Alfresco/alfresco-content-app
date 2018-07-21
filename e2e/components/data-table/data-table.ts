@@ -164,6 +164,16 @@ export class DataTable extends Component {
         return dblClick.perform();
     }
 
+    // Navigation/selection methods
+    doubleClickOnItemNameRow(name: string): promise.Promise<any> {
+        const dblClick = browser.actions()
+            .mouseMove(this.getRowName(name).element(by.xpath(`./ancestor::div[contains(@class, 'adf-datatable-row')]`)))
+            .click()
+            .click();
+
+        return dblClick.perform();
+    }
+
     clickOnItemName(name: string): promise.Promise<any> {
         const item = this.getRowName(name);
         return Utils.waitUntilElementClickable(item)

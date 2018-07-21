@@ -135,7 +135,7 @@ describe('Personal Files', () => {
                 .then(response => response.data.entry.id);
 
             const navigatePromise = dataTable
-                .doubleClickOnItemName(userFolder)
+                .doubleClickOnItemNameRow(userFolder)
                 .then(() => dataTable.waitForHeader());
 
             Promise
@@ -153,7 +153,7 @@ describe('Personal Files', () => {
         });
 
         it('redirects to Personal Files on clicking the link from sidebar [C213245]', () => {
-            personalFilesPage.dataTable.doubleClickOnItemName(userFolder)
+            personalFilesPage.dataTable.doubleClickOnItemNameRow(userFolder)
                 .then(() => personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
                 .then(() => browser.getCurrentUrl())
                 .then(url => expect(url.endsWith(APP_ROUTES.PERSONAL_FILES)).toBe(true, 'incorrect url'));

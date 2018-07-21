@@ -67,7 +67,7 @@ describe('Upload files', () => {
     });
 
     it('Upload a file', () => {
-        dataTable.doubleClickOnItemName(folder1)
+        dataTable.doubleClickOnItemNameRow(folder1)
             .then(() => page.sidenav.openNewMenu())
             .then(() => page.sidenav.menu.uploadFile().sendKeys(`${__dirname}/create-folder.test.ts`));
     });

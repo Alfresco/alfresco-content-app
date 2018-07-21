@@ -80,7 +80,7 @@ describe('Restore from Trash', () => {
         });
 
         it('restore file', () => {
-            dataTable.clickOnItemName(file)
+            dataTable.clickOnItemNameRow(file)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
@@ -98,7 +98,7 @@ describe('Restore from Trash', () => {
         });
 
         it('restore folder', () => {
-            dataTable.clickOnItemName(folder)
+            dataTable.clickOnItemNameRow(folder)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
@@ -116,7 +116,7 @@ describe('Restore from Trash', () => {
         });
 
         it('restore multiple items', () => {
-            dataTable.selectMultipleItems([ file, folder ])
+            dataTable.selectMultipleItemsRow([ file, folder ])
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
@@ -136,7 +136,7 @@ describe('Restore from Trash', () => {
         });
 
         it('View from notification', () => {
-            dataTable.clickOnItemName(file)
+            dataTable.clickOnItemNameRow(file)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.clickSnackBarAction())
                 .then(() => page.dataTable.waitForHeader())
@@ -186,7 +186,7 @@ describe('Restore from Trash', () => {
 
         it('Restore a file when another file with same name exists on the restore location', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-                .then(() => dataTable.clickOnItemName(file1))
+                .then(() => dataTable.clickOnItemNameRow(file1))
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual(`Can't restore, ${file1} already exists`));
@@ -194,7 +194,7 @@ describe('Restore from Trash', () => {
 
         it('Restore a file when original location no longer exists', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-                .then(() => dataTable.clickOnItemName(file2))
+                .then(() => dataTable.clickOnItemNameRow(file2))
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual(`Can't restore ${file2}, the original location no longer exists`));
@@ -252,14 +252,14 @@ describe('Restore from Trash', () => {
         });
 
         it('one failure', () => {
-            dataTable.selectMultipleItems([ file1, file2 ])
+            dataTable.selectMultipleItemsRow([ file1, file2 ])
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                     .then(text => expect(text).toEqual(`Can't restore ${file1}, the original location no longer exists`));
         });
 
         it('multiple failures', () => {
-            dataTable.selectMultipleItems([ file3, file4, file5 ])
+            dataTable.selectMultipleItemsRow([ file3, file4, file5 ])
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual('2 items not restored because of issues with the restore location'));

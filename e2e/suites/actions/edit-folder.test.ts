@@ -74,7 +74,7 @@ describe('Edit folder', () => {
     beforeEach(done => {
         personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => dataTable.waitForHeader())
-            .then(() => dataTable.doubleClickOnItemName(parent))
+            .then(() => dataTable.doubleClickOnItemNameRow(parent))
             .then(() => dataTable.waitForHeader())
             .then(done);
     });
@@ -94,7 +94,7 @@ describe('Edit folder', () => {
     });
 
     it('dialog UI defaults', () => {
-        dataTable.clickOnItemName(folderName)
+        dataTable.clickOnItemNameRow(folderName)
             .then(() => editButton.click())
             .then(() => {
                 expect(editDialog.getTitle()).toEqual('Edit folder');
@@ -106,7 +106,7 @@ describe('Edit folder', () => {
     });
 
     it('properties are modified when pressing OK', () => {
-        dataTable.clickOnItemName(folderNameToEdit)
+        dataTable.clickOnItemNameRow(folderNameToEdit)
             .then(() => editButton.click())
             .then(() => editDialog.waitForDialogToOpen())
             .then(() => editDialog.enterDescription(folderDescriptionEdited))
@@ -120,7 +120,7 @@ describe('Edit folder', () => {
     });
 
     it('with empty folder name', () => {
-        dataTable.clickOnItemName(folderName)
+        dataTable.clickOnItemNameRow(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.deleteNameWithBackspace())
             .then(() => {
@@ -132,7 +132,7 @@ describe('Edit folder', () => {
     it('with name with special characters', () => {
         const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-        dataTable.clickOnItemName(folderName)
+        dataTable.clickOnItemNameRow(folderName)
             .then(() => editButton.click())
             .then(() => namesWithSpecialChars.forEach(name => {
                 editDialog.enterName(name);
@@ -143,7 +143,7 @@ describe('Edit folder', () => {
     });
 
     it('with name ending with a dot', () => {
-        dataTable.clickOnItemName(folderName)
+        dataTable.clickOnItemNameRow(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.nameInput.sendKeys('.'))
             .then(() => {
@@ -153,7 +153,7 @@ describe('Edit folder', () => {
     });
 
     it('Cancel button', () => {
-        dataTable.clickOnItemName(folderName)
+        dataTable.clickOnItemNameRow(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.clickCancel())
             .then(() => {
@@ -162,7 +162,7 @@ describe('Edit folder', () => {
     });
 
     it('with duplicate folder name', () => {
-        dataTable.clickOnItemName(folderName)
+        dataTable.clickOnItemNameRow(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.enterName(duplicateFolderName))
             .then(() => editDialog.clickUpdate())
@@ -174,7 +174,7 @@ describe('Edit folder', () => {
     });
 
     it('trim ending spaces', () => {
-        dataTable.clickOnItemName(folderName)
+        dataTable.clickOnItemNameRow(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.nameInput.sendKeys('   '))
             .then(() => editDialog.clickUpdate())

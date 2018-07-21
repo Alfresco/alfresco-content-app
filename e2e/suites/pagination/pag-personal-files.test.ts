@@ -110,7 +110,7 @@ describe('Pagination on Personal Files', () => {
         beforeEach(done => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
                 .then(() => dataTable.waitForHeader())
-                .then(() => dataTable.doubleClickOnItemName(parent))
+                .then(() => dataTable.doubleClickOnItemNameRow(parent))
                 .then(done);
         });
 

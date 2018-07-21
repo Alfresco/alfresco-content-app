@@ -145,7 +145,7 @@ describe('Favorites', () => {
     });
 
     it('Navigate into folder from Favorites [C213230]', () => {
-        dataTable.doubleClickOnItemName(folderName)
+        dataTable.doubleClickOnItemNameRow(folderName)
             .then(() => dataTable.waitForHeader())
             .then(() => breadcrumb.getCurrentItemName())
             .then(name => {

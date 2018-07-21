@@ -95,7 +95,7 @@ describe('Undo delete content', () => {
         });
 
         it('Successful delete notification shows Undo action', () => {
-            dataTable.clickOnItemName(file1)
+            dataTable.clickOnItemNameRow(file1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -107,7 +107,7 @@ describe('Undo delete content', () => {
         });
 
         it('Unsuccessful delete notification does not show Undo action', () => {
-            dataTable.clickOnItemName(folder2)
+            dataTable.clickOnItemNameRow(folder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -120,7 +120,7 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemName(file1)
+            dataTable.clickOnItemNameRow(file1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -134,7 +134,7 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemName(folder1)
+            dataTable.clickOnItemNameRow(folder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -142,7 +142,7 @@ describe('Undo delete content', () => {
                     expect(dataTable.getRowName(folder1).isPresent()).toBe(true, 'Item was not restored');
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
-                .then(() => dataTable.doubleClickOnItemName(folder1))
+                .then(() => dataTable.doubleClickOnItemNameRow(folder1))
                 .then(() => {
                     expect(dataTable.getRowName(file4).isPresent()).toBe(true, 'file from folder not restored');
                 });
@@ -152,7 +152,7 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.selectMultipleItems([file2, file3])
+            dataTable.selectMultipleItemsRow([file2, file3])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -201,7 +201,7 @@ describe('Undo delete content', () => {
         });
 
         it('Successful delete notification shows Undo action', () => {
-            dataTable.clickOnItemName(sharedFile1)
+            dataTable.clickOnItemNameRow(sharedFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -209,7 +209,7 @@ describe('Undo delete content', () => {
         });
 
         it('Undo delete of file', () => {
-            dataTable.clickOnItemName(sharedFile2)
+            dataTable.clickOnItemNameRow(sharedFile2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -218,7 +218,7 @@ describe('Undo delete content', () => {
         });
 
         it('undo delete of multiple files', () => {
-            dataTable.selectMultipleItems([sharedFile3, sharedFile4])
+            dataTable.selectMultipleItemsRow([sharedFile3, sharedFile4])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -276,7 +276,7 @@ describe('Undo delete content', () => {
         });
 
         it('Successful delete notification shows Undo action', () => {
-            dataTable.clickOnItemName(favoriteFile1)
+            dataTable.clickOnItemNameRow(favoriteFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -286,7 +286,7 @@ describe('Undo delete content', () => {
         });
 
         it('Unsuccessful delete notification does not show Undo action', () => {
-            dataTable.clickOnItemName(favoriteFolder2)
+            dataTable.clickOnItemNameRow(favoriteFolder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -297,7 +297,7 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemName(favoriteFile1)
+            dataTable.clickOnItemNameRow(favoriteFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -311,7 +311,7 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemName(favoriteFolder1)
+            dataTable.clickOnItemNameRow(favoriteFolder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -319,7 +319,7 @@ describe('Undo delete content', () => {
                     expect(dataTable.getRowName(favoriteFolder1).isPresent()).toBe(true, 'Item was not restored');
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
-                .then(() => dataTable.doubleClickOnItemName(favoriteFolder1))
+                .then(() => dataTable.doubleClickOnItemNameRow(favoriteFolder1))
                 .then(() => expect(dataTable.getRowName(favoriteFile4).isPresent()).toBe(true, 'file from folder not restored'));
         });
 
@@ -327,7 +327,7 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.selectMultipleItems([favoriteFile1, favoriteFile2])
+            dataTable.selectMultipleItemsRow([favoriteFile1, favoriteFile2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -384,7 +384,7 @@ describe('Undo delete content', () => {
         });
 
         xit('Successful delete notification shows Undo action', () => {
-            dataTable.clickOnItemName(recentFile1)
+            dataTable.clickOnItemNameRow(recentFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -396,7 +396,7 @@ describe('Undo delete content', () => {
         // without adding a very big browser.sleep followed by a page.refresh
         // so for the moment we're testing that the restored file is not displayed in the Trash
         xit('Undo delete of file', () => {
-            dataTable.clickOnItemName(recentFile2)
+            dataTable.clickOnItemNameRow(recentFile2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -409,7 +409,7 @@ describe('Undo delete content', () => {
         // without adding a very big browser.sleep followed by a page.refresh
         // so for the moment we're testing that the restored file is not displayed in the Trash
         xit('undo delete of multiple files', () => {
-            dataTable.selectMultipleItems([recentFile3, recentFile4])
+            dataTable.selectMultipleItemsRow([recentFile3, recentFile4])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())

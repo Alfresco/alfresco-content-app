@@ -102,14 +102,14 @@ describe('Toolbar actions - single selection : ', () => {
         xit('actions not displayed for top level of File Libraries', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
                 .then(() => dataTable.waitForHeader())
-                .then(() => dataTable.clickOnItemName(userSite))
+                .then(() => dataTable.clickOnItemNameRow(userSite))
                 .then(() => expect(toolbar.actions.isEmpty()).toBe(true, 'toolbar not empty'));
         });
 
         it('selected row is marked with a check circle icon', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
                 .then(() => dataTable.waitForHeader())
-                .then(() => dataTable.clickOnItemName(fileUser))
+                .then(() => dataTable.clickOnItemNameRow(fileUser))
                 .then(() => expect(dataTable.hasCheckMarkIcon(fileUser)).toBe(true, 'check mark missing'));
         });
 
@@ -152,9 +152,9 @@ describe('Toolbar actions - single selection : ', () => {
                 it('on File Libraries', () => {
                     page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
                         .then(() => dataTable.waitForHeader())
-                        .then(() => dataTable.doubleClickOnItemName(site))
+                        .then(() => dataTable.doubleClickOnItemNameRow(site))
                         .then(() => dataTable.waitForHeader())
-                        .then(() => dataTable.clickOnItemName(file1))
+                        .then(() => dataTable.clickOnItemNameRow(file1))
                         .then(() => {
                             expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
                             expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
@@ -168,7 +168,7 @@ describe('Toolbar actions - single selection : ', () => {
                             expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
                         })
                         .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())
-                        .then(() => dataTable.clickOnItemName(file2))
+                        .then(() => dataTable.clickOnItemNameRow(file2))
                         .then(() => {
                             expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file2}`);
                             expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file2}`);
@@ -187,7 +187,7 @@ describe('Toolbar actions - single selection : ', () => {
                 xit('on Shared Files', () => {
                     page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
                         .then(() => dataTable.waitForHeader())
-                        .then(() => dataTable.clickOnItemName(file1))
+                        .then(() => dataTable.clickOnItemNameRow(file1))
                         .then(() => {
                             expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
                             expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
@@ -201,7 +201,7 @@ describe('Toolbar actions - single selection : ', () => {
                             expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
                         })
                         .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())
-                        .then(() => dataTable.clickOnItemName(file2))
+                        .then(() => dataTable.clickOnItemNameRow(file2))
                         .then(() => {
                             expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file2}`);
                             expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file2}`);
@@ -221,7 +221,7 @@ describe('Toolbar actions - single selection : ', () => {
                 xit('on Favorites', () => {
                     page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
                         .then(() => dataTable.waitForHeader())
-                        .then(() => dataTable.clickOnItemName(file1))
+                        .then(() => dataTable.clickOnItemNameRow(file1))
                         .then(() => {
                             expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
                             expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
@@ -235,7 +235,7 @@ describe('Toolbar actions - single selection : ', () => {
                             expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
                         })
                         .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())
-                        .then(() => dataTable.clickOnItemName(file2))
+                        .then(() => dataTable.clickOnItemNameRow(file2))
                         .then(() => {
                             expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file2}`);
                             expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file2}`);
@@ -256,7 +256,7 @@ describe('Toolbar actions - single selection : ', () => {
                 it('on File Libraries', () => {
                     page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
                         .then(() => dataTable.waitForHeader())
-                        .then(() => dataTable.doubleClickOnItemName(site))
+                        .then(() => dataTable.doubleClickOnItemNameRow(site))
                         .then(() => dataTable.waitForHeader())
                         .then(() => dataTable.selectMultipleItems([ file1, file2 ]))
                         .then(() => {
@@ -338,21 +338,21 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are displayed when a file is selected', () => {
-            dataTable.clickOnItemName(fileUser)
+            dataTable.clickOnItemNameRow(fileUser)
                 .then(() => {
                     expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
                 });
         });
 
         it('actions are displayed when a folder is selected', () => {
-            dataTable.clickOnItemName(folderUser)
+            dataTable.clickOnItemNameRow(folderUser)
                 .then(() => {
                     expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
                 });
         });
 
         it('correct actions appear when a file is selected', () => {
-            dataTable.clickOnItemName(fileUser)
+            dataTable.clickOnItemNameRow(fileUser)
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
@@ -369,7 +369,7 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a folder is selected', () => {
-            dataTable.clickOnItemName(folderUser)
+            dataTable.clickOnItemNameRow(folderUser)
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
@@ -400,7 +400,7 @@ describe('Toolbar actions - single selection : ', () => {
         beforeEach(done => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
                 .then(() => dataTable.waitForHeader())
-                .then(() => dataTable.doubleClickOnItemName(siteName))
+                .then(() => dataTable.doubleClickOnItemNameRow(siteName))
                 .then(() => dataTable.waitForHeader())
                 .then(done);
         });
@@ -425,21 +425,21 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             it('actions are displayed when a file is selected', () => {
-                dataTable.clickOnItemName(fileAdmin)
+                dataTable.clickOnItemNameRow(fileAdmin)
                     .then(() => {
                         expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileAdmin}`);
                     });
             });
 
             it('actions are displayed when a folder is selected', () => {
-                dataTable.clickOnItemName(folderAdmin)
+                dataTable.clickOnItemNameRow(folderAdmin)
                     .then(() => {
                         expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderAdmin}`);
                     });
             });
 
             it('correct actions appear when a file is selected', () => {
-                dataTable.clickOnItemName(fileAdmin)
+                dataTable.clickOnItemNameRow(fileAdmin)
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileAdmin}`);
@@ -456,7 +456,7 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             it('correct actions appear when a folder is selected', () => {
-                dataTable.clickOnItemName(folderAdmin)
+                dataTable.clickOnItemNameRow(folderAdmin)
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderAdmin}`);
@@ -487,21 +487,21 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             it('actions are displayed when a file is selected', () => {
-                dataTable.clickOnItemName(fileAdmin)
+                dataTable.clickOnItemNameRow(fileAdmin)
                     .then(() => {
                         expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileAdmin}`);
                     });
             });
 
             it('actions are displayed when a folder is selected', () => {
-                dataTable.clickOnItemName(folderAdmin)
+                dataTable.clickOnItemNameRow(folderAdmin)
                     .then(() => {
                         expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderAdmin}`);
                     });
             });
 
             it('correct actions appear when a file is selected', () => {
-                dataTable.clickOnItemName(fileAdmin)
+                dataTable.clickOnItemNameRow(fileAdmin)
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileAdmin}`);
@@ -518,7 +518,7 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             it('correct actions appear when a folder is selected', () => {
-                dataTable.clickOnItemName(folderAdmin)
+                dataTable.clickOnItemNameRow(folderAdmin)
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderAdmin}`);
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderAdmin}`);
@@ -560,14 +560,14 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are displayed when a file is selected', () => {
-            dataTable.clickOnItemName(fileUser)
+            dataTable.clickOnItemNameRow(fileUser)
                 .then(() => {
                     expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
                 });
         });
 
         it('correct actions appear when a file is selected', () => {
-            dataTable.clickOnItemName(fileUser)
+            dataTable.clickOnItemNameRow(fileUser)
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
@@ -608,14 +608,14 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are displayed when a file is selected', () => {
-            dataTable.clickOnItemName(fileUser)
+            dataTable.clickOnItemNameRow(fileUser)
                 .then(() => {
                     expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
                 });
         });
 
         it('correct actions appear when a file is selected', () => {
-            dataTable.clickOnItemName(fileUser)
+            dataTable.clickOnItemNameRow(fileUser)
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
@@ -652,21 +652,21 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are displayed when a file is selected', () => {
-            dataTable.clickOnItemName(fileUser)
+            dataTable.clickOnItemNameRow(fileUser)
                 .then(() => {
                     expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
                 });
         });
 
         it('actions are displayed when a folder is selected', () => {
-            dataTable.clickOnItemName(folderUser)
+            dataTable.clickOnItemNameRow(folderUser)
                 .then(() => {
                     expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
                 });
         });
 
         it('correct actions appear when a file is selected', () => {
-            dataTable.clickOnItemName(fileUser)
+            dataTable.clickOnItemNameRow(fileUser)
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
@@ -683,7 +683,7 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a folder is selected', () => {
-            dataTable.clickOnItemName(folderUser)
+            dataTable.clickOnItemNameRow(folderUser)
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
@@ -729,21 +729,21 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are displayed when a file is selected', () => {
-            dataTable.clickOnItemName(fileForDelete)
+            dataTable.clickOnItemNameRow(fileForDelete)
                 .then(() => {
                     expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileForDelete}`);
                 });
         });
 
         it('actions are displayed when a folder is selected', () => {
-            dataTable.clickOnItemName(folderForDelete)
+            dataTable.clickOnItemNameRow(folderForDelete)
                 .then(() => {
                     expect(toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderForDelete}`);
                 });
         });
 
         it('correct actions appear when a file is selected', () => {
-            dataTable.clickOnItemName(fileForDelete)
+            dataTable.clickOnItemNameRow(fileForDelete)
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('Permanently delete'))
                         .toBe(true, `Permanently delete is not displayed for ${fileForDelete}`);
@@ -752,7 +752,7 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a folder is selected', () => {
-            dataTable.clickOnItemName(folderForDelete)
+            dataTable.clickOnItemNameRow(folderForDelete)
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('Permanently delete'))
                         .toBe(true, `Permanently delete is displayed for ${folderForDelete}`);
