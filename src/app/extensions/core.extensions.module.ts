@@ -39,7 +39,7 @@ import {
 } from './evaluators/app.evaluators';
 import { TrashcanComponent } from '../components/trashcan/trashcan.component';
 
-function setupExtensions(extensions: ExtensionService): Function {
+export function setupExtensions(extensions: ExtensionService): Function {
     return () =>
         new Promise(resolve => {
             extensions
