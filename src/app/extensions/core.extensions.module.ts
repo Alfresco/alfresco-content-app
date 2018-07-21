@@ -23,21 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule, ModuleWithProviders, APP_INITIALIZER } from '@angular/core';
 import { AuthGuardEcm, CoreModule } from '@alfresco/adf-core';
-import { ExtensionService } from './extension.service';
-import { LayoutComponent } from '../components/layout/layout.component';
-import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
 import { CommonModule } from '@angular/common';
-import { every, some } from './evaluators/core.evaluators';
-import {
-    canCreateFolder,
-    hasFolderSelected,
-    canUpdateSelectedFolder,
-    hasFileSelected,
-    canDownloadSelection
-} from './evaluators/app.evaluators';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { LayoutComponent } from '../components/layout/layout.component';
 import { TrashcanComponent } from '../components/trashcan/trashcan.component';
+import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
+import * as app from './evaluators/app.evaluators';
+import * as core from './evaluators/core.evaluators';
+import { ExtensionService } from './extension.service';
 
 export function setupExtensions(extensions: ExtensionService): Function {
     return () =>
@@ -47,19 +41,24 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 .setComponent('app.components.trashcan', TrashcanComponent)
                 .setAuthGuard('app.auth', AuthGuardEcm)
 
-                .setEvaluator('core.every', every)
-                .setEvaluator('core.some', some)
-                .setEvaluator('app.selection.canDownload', canDownloadSelection)
-                .setEvaluator('app.selection.file', hasFileSelected)
-                .setEvaluator('app.selection.folder', hasFolderSelected)
+                .setEvaluator('core.every', core.every)
+                .setEvaluator('core.some', core.some)
+                .setEvaluator('core.not', core.not)
+                .setEvaluator(
+                    'app.selection.canDownload',
+                    app.canDownloadSelection
+                )
+                .setEvaluator('app.selection.file', app.hasFileSelected)
+                .setEvaluator('app.selection.folder', app.hasFolderSelected)
                 .setEvaluator(
                     'app.selection.folder.canUpdate',
-                    canUpdateSelectedFolder
+                    app.canUpdateSelectedFolder
                 )
                 .setEvaluator(
                     'app.navigation.folder.canCreate',
-                    canCreateFolder
-                );
+                    app.canCreateFolder
+                )
+                .setEvaluator('app.navigation.isTrashcan', app.isTrashcan);
 
             resolve(true);
         });

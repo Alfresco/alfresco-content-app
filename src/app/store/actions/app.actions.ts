@@ -32,6 +32,7 @@ export const SET_LOGO_PATH = 'SET_LOGO_PATH';
 export const SET_LANGUAGE_PICKER = 'SET_LANGUAGE_PICKER';
 export const SET_SHARED_URL = 'SET_SHARED_URL';
 export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
+export const SET_CURRENT_URL = 'SET_CURRENT_URL';
 
 export class SetAppNameAction implements Action {
     readonly type = SET_APP_NAME;
@@ -61,4 +62,9 @@ export class SetSharedUrlAction implements Action {
 export class SetCurrentFolderAction implements Action {
     readonly type = SET_CURRENT_FOLDER;
     constructor(public payload: Node) {}
+}
+
+export class SetCurrentUrlAction implements Action {
+    readonly type = SET_CURRENT_URL;
+    constructor(public payload: string) {}
 }

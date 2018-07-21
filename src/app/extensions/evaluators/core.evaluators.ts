@@ -25,14 +25,34 @@
 
 import { RuleContext, RuleParameter } from '../rule.extensions';
 
+export function not(context: RuleContext, ...args: RuleParameter[]): boolean {
+    if (!args || args.length === 0) {
+        return false;
+    }
+
+    return args
+        .every(arg => {
+            const evaluator = context.evaluators[arg.value];
+            if (!evaluator) {
+                console.warn('evaluator not found: ' + arg.value);
+            }
+            return !evaluator(context, ...arg.parameters);
+        });
+}
+
 export function every(context: RuleContext, ...args: RuleParameter[]): boolean {
     if (!args || args.length === 0) {
         return false;
     }
 
     return args
-        .map(arg => context.evaluators[arg.value])
-        .every(evaluator => evaluator(context));
+        .every(arg => {
+            const evaluator = context.evaluators[arg.value];
+            if (!evaluator) {
+                console.warn('evaluator not found: ' + arg.value);
+            }
+            return evaluator(context, ...arg.parameters);
+        });
 }
 
 export function some(context: RuleContext, ...args: RuleParameter[]): boolean {
@@ -41,6 +61,11 @@ export function some(context: RuleContext, ...args: RuleParameter[]): boolean {
     }
 
     return args
-        .map(arg => context.evaluators[arg.value])
-        .some(evaluator => evaluator(context));
+        .some(arg => {
+            const evaluator = context.evaluators[arg.value];
+            if (!evaluator) {
+                console.warn('evaluator not found: ' + arg.value);
+            }
+            return evaluator(context, ...arg.parameters);
+        });
 }

@@ -26,6 +26,11 @@
 import { Node } from 'alfresco-js-api';
 import { RuleContext, RuleParameter } from '../rule.extensions';
 
+export function isTrashcan(context: RuleContext, ...args: RuleParameter[]): boolean {
+    const { url } = context.navigation;
+    return url && url.startsWith('/trashcan');
+}
+
 export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
     const folder = context.navigation.currentFolder;
     if (folder) {

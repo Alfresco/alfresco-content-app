@@ -32,9 +32,12 @@ import {
     NavigateRouteAction,
     NavigateToParentFolder,
     NAVIGATE_PARENT_FOLDER,
-    NAVIGATE_ROUTE
+    NAVIGATE_ROUTE,
+    NavigateToFolder,
+    NAVIGATE_FOLDER,
+    NavigateUrlAction,
+    NAVIGATE_URL
 } from '../actions';
-import { NavigateToFolder, NAVIGATE_FOLDER, NavigateUrlAction, NAVIGATE_URL } from '../actions/router.actions';
 
 @Injectable()
 export class RouterEffects {

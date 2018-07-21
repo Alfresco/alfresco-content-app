@@ -41,7 +41,8 @@ import {
     SetLanguagePickerAction,
     SetLogoPathAction,
     SetSharedUrlAction,
-    SnackbarErrorAction
+    SnackbarErrorAction,
+    SetCurrentUrlAction
 } from './store/actions';
 import { AppStore } from './store/states/app.state';
 
@@ -89,6 +90,8 @@ export class AppComponent implements OnInit {
                 const data: any = snapshot.data || {};
 
                 pageTitle.setTitle(data.title || '');
+
+                this.store.dispatch(new SetCurrentUrlAction(router.url));
             });
 
         this.router.config.unshift(...this.extensions.getApplicationRoutes());

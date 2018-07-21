@@ -26,7 +26,20 @@
         },
         {
             "id": "app.toolbar.canDownload",
-            "type": "app.selection.canDownload"
+            "type": "core.every",
+            "parameters": [
+                {
+                    "type": "rule",
+                    "value": "app.selection.canDownload"
+                },
+                {
+                    "type": "rule",
+                    "value": "core.not",
+                    "parameters": [
+                        { "type": "rule", "value": "app.navigation.isTrashcan" }
+                    ]
+                }
+            ]
         }
     ],
 
