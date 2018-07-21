@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders, APP_INITIALIZER } from '@angular/core';
 import { AuthGuardEcm, CoreModule } from '@alfresco/adf-core';
 import { ExtensionService } from './extension.service';
 import { LayoutComponent } from '../components/layout/layout.component';
@@ -39,29 +39,56 @@ import {
 } from './evaluators/app.evaluators';
 import { TrashcanComponent } from '../components/trashcan/trashcan.component';
 
+function setupExtensions(extensions: ExtensionService): Function {
+    return () =>
+        new Promise(resolve => {
+            extensions
+                .setComponent('app.layout.main', LayoutComponent)
+                .setComponent('app.components.trashcan', TrashcanComponent)
+                .setAuthGuard('app.auth', AuthGuardEcm)
+
+                .setEvaluator('core.every', every)
+                .setEvaluator('core.some', some)
+                .setEvaluator('app.selection.canDownload', canDownloadSelection)
+                .setEvaluator('app.selection.file', hasFileSelected)
+                .setEvaluator('app.selection.folder', hasFolderSelected)
+                .setEvaluator(
+                    'app.selection.folder.canUpdate',
+                    canUpdateSelectedFolder
+                )
+                .setEvaluator(
+                    'app.navigation.folder.canCreate',
+                    canCreateFolder
+                );
+
+            resolve(true);
+        });
+}
+
 @NgModule({
     imports: [CommonModule, CoreModule.forChild()],
     declarations: [ToolbarActionComponent],
-    exports: [ToolbarActionComponent],
-    entryComponents: [TrashcanComponent],
-    providers: [ExtensionService]
+    exports: [ToolbarActionComponent]
 })
 export class CoreExtensionsModule {
-    constructor(extensions: ExtensionService) {
-        extensions
-            .setComponent('app.layout.main', LayoutComponent)
-            .setComponent('app.components.trashcan', TrashcanComponent)
-            .setAuthGuard('app.auth', AuthGuardEcm)
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: CoreExtensionsModule,
+            providers: [
+                ExtensionService,
+                {
+                    provide: APP_INITIALIZER,
+                    useFactory: setupExtensions,
+                    deps: [ExtensionService],
+                    multi: true
+                }
+            ]
+        };
+    }
 
-            .setEvaluator('core.every', every)
-            .setEvaluator('core.some', some)
-            .setEvaluator('app.selection.canDownload', canDownloadSelection)
-            .setEvaluator('app.selection.file', hasFileSelected)
-            .setEvaluator('app.selection.folder', hasFolderSelected)
-            .setEvaluator(
-                'app.selection.folder.canUpdate',
-                canUpdateSelectedFolder
-            )
-            .setEvaluator('app.navigation.folder.canCreate', canCreateFolder);
+    static forChild(): ModuleWithProviders {
+        return {
+            ngModule: CoreExtensionsModule
+        };
     }
 }

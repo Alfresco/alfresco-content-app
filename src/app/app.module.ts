@@ -91,7 +91,7 @@ export function setupExtensionServiceFactory(service: ExtensionService): Functio
         CoreModule.forRoot(),
         ContentModule,
         AppStoreModule,
-        CoreExtensionsModule,
+        CoreExtensionsModule.forRoot(),
         ExtensionsModule,
 
         DirectivesModule,
