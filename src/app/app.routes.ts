@@ -35,10 +35,8 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
-import { AboutComponent } from './components/about/about.component';
 
 import { LoginComponent } from './components/login/login.component';
-import { PreviewComponent } from './components/preview/preview.component';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -95,7 +93,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -125,7 +123,7 @@ export const APP_ROUTES: Routes = [
                 },
                 {
                     path: ':folderId/preview/:nodeId',
-                    component: PreviewComponent,
+                    loadChildren: 'app/components/preview/preview.module#PreviewModule',
                     data: {
                         title: 'APP.PREVIEW.TITLE',
                         navigateMultiple: true,
@@ -157,7 +155,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -166,7 +164,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: ':folderId/preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -190,7 +188,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -214,7 +212,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -233,7 +231,7 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'about',
-                component: AboutComponent,
+                loadChildren: 'app/components/about/about.module#AboutModule',
                 data: {
                     title: 'APP.BROWSE.ABOUT.TITLE'
                 }
@@ -251,7 +249,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,

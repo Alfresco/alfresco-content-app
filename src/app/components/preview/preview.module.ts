@@ -23,23 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
 import { CoreModule } from '@alfresco/adf-core';
-import { PreviewComponent } from './preview.component';
-import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { DirectivesModule } from '../../directives/directives.module';
 import { CommonModule } from '@angular/common';
-import { ContentModule } from '@alfresco/adf-content-services';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { PreviewComponent } from './preview.component';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+
+import * as pdfjsLib from 'pdfjs-dist';
+pdfjsLib.PDFJS.workerSrc = 'pdf.worker.js';
+pdfjsLib.PDFJS.disableFontFace = true;
+
+const routes: Routes = [
+    {
+        path: '',
+        component: PreviewComponent
+    }
+];
 
 @NgModule({
     imports: [
         CommonModule,
+        RouterModule.forChild(routes),
         CoreModule.forChild(),
-        ContentModule,
+        ContentDirectiveModule,
         DirectivesModule,
         AppInfoDrawerModule
     ],
     declarations: [
+        PreviewComponent,
+    ],
+    exports: [
         PreviewComponent
     ]
 })

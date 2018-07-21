@@ -26,7 +26,6 @@
 import { NgModule } from '@angular/core';
 import { AuthGuardEcm, CoreModule } from '@alfresco/adf-core';
 import { ExtensionService } from './extension.service';
-import { AboutComponent } from '../components/about/about.component';
 import { LayoutComponent } from '../components/layout/layout.component';
 import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
 import { CommonModule } from '@angular/common';
@@ -38,19 +37,20 @@ import {
     hasFileSelected,
     canDownloadSelection
 } from './evaluators/app.evaluators';
+import { TrashcanComponent } from '../components/trashcan/trashcan.component';
 
 @NgModule({
     imports: [CommonModule, CoreModule.forChild()],
     declarations: [ToolbarActionComponent],
     exports: [ToolbarActionComponent],
-    entryComponents: [AboutComponent],
+    entryComponents: [TrashcanComponent],
     providers: [ExtensionService]
 })
 export class CoreExtensionsModule {
     constructor(extensions: ExtensionService) {
         extensions
             .setComponent('app.layout.main', LayoutComponent)
-            .setComponent('app.components.about', AboutComponent)
+            .setComponent('app.components.trashcan', TrashcanComponent)
             .setAuthGuard('app.auth', AuthGuardEcm)
 
             .setEvaluator('core.every', every)
