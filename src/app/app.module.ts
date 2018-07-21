@@ -36,7 +36,6 @@ import { APP_ROUTES } from './app.routes';
 
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { LoginComponent } from './components/login/login.component';
-import { PreviewComponent } from './components/preview/preview.component';
 import { FilesComponent } from './components/files/files.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
@@ -49,16 +48,8 @@ import { CurrentUserComponent } from './components/current-user/current-user.com
 import { SearchInputComponent } from './components/search/search-input/search-input.component';
 import { SearchInputControlComponent } from './components/search/search-input-control/search-input-control.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
-import { NodeCopyDirective } from './directives/node-copy.directive';
-import { NodeDeleteDirective } from './directives/node-delete.directive';
-import { NodeMoveDirective } from './directives/node-move.directive';
-import { NodeRestoreDirective } from './directives/node-restore.directive';
-import { NodePermanentDeleteDirective } from './directives/node-permanent-delete.directive';
-import { NodeUnshareDirective } from './directives/node-unshare.directive';
-import { NodeVersionsDirective } from './directives/node-versions.directive';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { LibraryDialogComponent } from './dialogs/library/library.dialog';
 import { ContentManagementService } from './services/content-management.service';
@@ -69,23 +60,19 @@ import { SettingsComponent } from './components/settings/settings.component';
 import { ProfileResolver } from './services/profile.resolver';
 import { ExperimentalGuard } from './services/experimental-guard.service';
 
-import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
-import { EditFolderDirective } from './directives/edit-folder.directive';
 import { AppStoreModule } from './store/app-store.module';
-import { PaginationDirective } from './directives/pagination.directive';
-import { DocumentListDirective } from './directives/document-list.directive';
 import { MaterialModule } from './material.module';
-import { ExperimentalDirective } from './directives/experimental.directive';
 import { ContentApiService } from './services/content-api.service';
 import { ExtensionsModule } from './extensions.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
-import { NodePermissionsDirective } from './directives/node-permissions.directive';
 import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
 import { ViewUtilService} from './services/view-util.service';
 import { ExtensionService } from './extensions/extension.service';
+import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
+import { DirectivesModule } from './directives/directives.module';
 
 export function setupExtensionServiceFactory(service: ExtensionService): Function {
     return () => service.load();
@@ -104,8 +91,11 @@ export function setupExtensionServiceFactory(service: ExtensionService): Functio
         CoreModule.forRoot(),
         ContentModule,
         AppStoreModule,
-        CoreExtensionsModule,
-        ExtensionsModule
+        CoreExtensionsModule.forRoot(),
+        ExtensionsModule,
+
+        DirectivesModule,
+        AppInfoDrawerModule
     ],
     declarations: [
         AppComponent,
@@ -123,30 +113,15 @@ export function setupExtensionServiceFactory(service: ExtensionService): Functio
         RecentFilesComponent,
         SharedFilesComponent,
         TrashcanComponent,
-        PreviewComponent,
-        AboutComponent,
         LocationLinkComponent,
         SearchResultsRowComponent,
-        NodeCopyDirective,
-        NodeDeleteDirective,
-        NodeMoveDirective,
-        NodeRestoreDirective,
-        NodePermanentDeleteDirective,
-        NodeUnshareDirective,
-        NodeVersionsDirective,
-        NodePermissionsDirective,
         NodeVersionsDialogComponent,
         LibraryDialogComponent,
         NodePermissionsDialogComponent,
         PermissionsManagerComponent,
         SearchResultsComponent,
         SettingsComponent,
-        InfoDrawerComponent,
-        SharedLinkViewComponent,
-        EditFolderDirective,
-        PaginationDirective,
-        DocumentListDirective,
-        ExperimentalDirective
+        SharedLinkViewComponent
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },

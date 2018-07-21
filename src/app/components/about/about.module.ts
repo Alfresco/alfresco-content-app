@@ -23,17 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { AboutComponent } from './about.component';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+const routes: Routes = [
+    {
+        path: '',
+        component: AboutComponent
+    }
+];
 
-import 'hammerjs';
-
-if (environment.production) {
-  enableProdMode();
+@NgModule({
+    imports: [
+        CommonModule,
+        CoreModule.forChild(),
+        RouterModule.forChild(routes)
+    ],
+    declarations: [AboutComponent]
+})
+export class AboutModule {
 }
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
