@@ -31,6 +31,10 @@ export function isTrashcan(context: RuleContext, ...args: RuleParameter[]): bool
     return url && url.startsWith('/trashcan');
 }
 
+export function isNotTrashcan(context: RuleContext, ...args: RuleParameter[]): boolean {
+    return !isTrashcan(context, ...args);
+}
+
 export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
     const folder = context.navigation.currentFolder;
     if (folder) {
@@ -42,7 +46,7 @@ export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]):
 export function canDownloadSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
     if (!context.selection.isEmpty) {
         return context.selection.nodes.every(node => {
-            return node.entry && (node.entry.isFile || node.entry.isFolder);
+            return node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId);
         });
     }
     return false;
