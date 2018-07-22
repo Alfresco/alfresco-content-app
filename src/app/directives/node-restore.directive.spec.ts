@@ -28,7 +28,7 @@ import { TestBed, ComponentFixture, fakeAsync, tick } from '@angular/core/testin
 import { By } from '@angular/platform-browser';
 import { NodeRestoreDirective } from './node-restore.directive';
 import { ContentManagementService } from '../services/content-management.service';
-import { Actions, ofType } from '@ngrx/effects';
+import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import { SnackbarErrorAction,
     SNACKBAR_ERROR, SnackbarInfoAction, SNACKBAR_INFO,
     NavigateRouteAction, NAVIGATE_ROUTE } from '../store/actions';
@@ -36,26 +36,30 @@ import { map } from 'rxjs/operators';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ContentApiService } from '../services/content-api.service';
 import { Observable } from 'rxjs/Rx';
+import { NodeEffects } from '../store/effects';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
 @Component({
     template: `<div [acaRestoreNode]="selection"></div>`
 })
 class TestComponent {
-    selection = [];
+    selection: Array<MinimalNodeEntity> = [];
 }
 
 describe('NodeRestoreDirective', () => {
     let fixture: ComponentFixture<TestComponent>;
     let element: DebugElement;
     let component: TestComponent;
-    let directiveInstance: NodeRestoreDirective;
     let contentManagementService: ContentManagementService;
     let actions$: Actions;
     let contentApi: ContentApiService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [ AppTestingModule ],
+            imports: [
+                AppTestingModule,
+                EffectsModule.forRoot([NodeEffects])
+            ],
             declarations: [
                 NodeRestoreDirective,
                 TestComponent
@@ -67,7 +71,6 @@ describe('NodeRestoreDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement.query(By.directive(NodeRestoreDirective));
-        directiveInstance = element.injector.get(NodeRestoreDirective);
 
         contentManagementService = TestBed.get(ContentManagementService);
         contentApi = TestBed.get(ContentApiService);
@@ -96,13 +99,28 @@ describe('NodeRestoreDirective', () => {
     });
 
     it('call restore nodes if selection has nodes with path', fakeAsync(() => {
-        spyOn(directiveInstance, 'restoreNotification').and.callFake(() => null);
         spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
         spyOn(contentApi, 'getDeletedNodes').and.returnValue(Observable.of({
             list: { entries: [] }
         }));
 
-        component.selection = [{ entry: { id: '1', path: ['somewhere-over-the-rainbow'] } }];
+        const path = {
+            elements: [
+                {
+                    id: '1-1',
+                    name: 'somewhere-over-the-rainbow'
+                }
+            ]
+        };
+
+        component.selection = [
+            {
+                entry: {
+                    id: '1',
+                    path
+                }
+            }
+        ];
 
         fixture.detectChanges();
         element.triggerEventHandler('click', null);
@@ -113,13 +131,28 @@ describe('NodeRestoreDirective', () => {
 
     describe('refresh()', () => {
         it('dispatch event on finish', fakeAsync(done => {
-            spyOn(directiveInstance, 'restoreNotification').and.callFake(() => null);
             spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
             spyOn(contentApi, 'getDeletedNodes').and.returnValue(Observable.of({
                 list: { entries: [] }
             }));
 
-            component.selection = [{ entry: { id: '1', path: ['somewhere-over-the-rainbow'] } }];
+            const path = {
+                elements: [
+                    {
+                        id: '1-1',
+                        name: 'somewhere-over-the-rainbow'
+                    }
+                ]
+            };
+
+            component.selection = [
+                {
+                    entry: {
+                        id: '1',
+                        path
+                    }
+                }
+            ];
 
             fixture.detectChanges();
             element.triggerEventHandler('click', null);
@@ -158,10 +191,19 @@ describe('NodeRestoreDirective', () => {
                 }
             });
 
+            const path = {
+                elements: [
+                    {
+                        id: '1-1',
+                        name: 'somewhere-over-the-rainbow'
+                    }
+                ]
+            };
+
             component.selection = [
-                { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } },
-                { entry: { id: '2', name: 'name2', path: ['somewhere-over-the-rainbow'] } },
-                { entry: { id: '3', name: 'name3', path: ['somewhere-over-the-rainbow'] } }
+                { entry: { id: '1', name: 'name1', path } },
+                { entry: { id: '2', name: 'name2', path } },
+                { entry: { id: '3', name: 'name3', path } }
             ];
 
             fixture.detectChanges();
@@ -178,8 +220,17 @@ describe('NodeRestoreDirective', () => {
                 map(action => done())
             );
 
+            const path = {
+                elements: [
+                    {
+                        id: '1-1',
+                        name: 'somewhere-over-the-rainbow'
+                    }
+                ]
+            };
+
             component.selection = [
-                { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } }
+                { entry: { id: '1', name: 'name1', path } }
             ];
 
             fixture.detectChanges();
@@ -197,8 +248,17 @@ describe('NodeRestoreDirective', () => {
                 map(action => done())
             );
 
+            const path = {
+                elements: [
+                    {
+                        id: '1-1',
+                        name: 'somewhere-over-the-rainbow'
+                    }
+                ]
+            };
+
             component.selection = [
-                { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } }
+                { entry: { id: '1', name: 'name1', path } }
             ];
 
             fixture.detectChanges();
@@ -216,8 +276,17 @@ describe('NodeRestoreDirective', () => {
                 map(action => done())
             );
 
+            const path = {
+                elements: [
+                    {
+                        id: '1-1',
+                        name: 'somewhere-over-the-rainbow'
+                    }
+                ]
+            };
+
             component.selection = [
-                { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } }
+                { entry: { id: '1', name: 'name1', path } }
             ];
 
             fixture.detectChanges();
@@ -241,9 +310,18 @@ describe('NodeRestoreDirective', () => {
                 map(action => done())
             );
 
+            const path = {
+                elements: [
+                    {
+                        id: '1-1',
+                        name: 'somewhere-over-the-rainbow'
+                    }
+                ]
+            };
+
             component.selection = [
-                { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } },
-                { entry: { id: '2', name: 'name2', path: ['somewhere-over-the-rainbow'] } }
+                { entry: { id: '1', name: 'name1', path } },
+                { entry: { id: '2', name: 'name2', path } }
             ];
 
             fixture.detectChanges();
@@ -259,8 +337,17 @@ describe('NodeRestoreDirective', () => {
                 map(action => done())
             );
 
+            const path = {
+                elements: [
+                    {
+                        id: '1-1',
+                        name: 'somewhere-over-the-rainbow'
+                    }
+                ]
+            };
+
             component.selection = [
-                { entry: { id: '1', name: 'name1', path: ['somewhere-over-the-rainbow'] } }
+                { entry: { id: '1', name: 'name1', path } }
             ];
 
             fixture.detectChanges();
@@ -276,14 +363,21 @@ describe('NodeRestoreDirective', () => {
                 map(action => done())
             );
 
+            const path = {
+                elements: [
+                    {
+                        id: '1-1',
+                        name: 'somewhere-over-the-rainbow'
+                    }
+                ]
+            };
+
             component.selection = [
                 {
                     entry: {
                          id: '1',
                          name: 'name1',
-                         path: {
-                             elements: ['somewhere-over-the-rainbow']
-                         }
+                         path
                     }
                 }
             ];
