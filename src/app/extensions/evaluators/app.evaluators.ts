@@ -35,6 +35,11 @@ export function isNotTrashcan(context: RuleContext, ...args: RuleParameter[]): b
     return !isTrashcan(context, ...args);
 }
 
+export function hasSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
+    const { selection } = context;
+    return selection && !selection.isEmpty;
+}
+
 export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
     const folder = context.navigation.currentFolder;
     if (folder) {

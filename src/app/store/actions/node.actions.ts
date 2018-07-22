@@ -58,7 +58,7 @@ export class RestoreDeletedNodesAction implements Action {
 
 export class PurgeDeletedNodesAction implements Action {
     readonly type = PURGE_DELETED_NODES;
-    constructor(public payload: NodeInfo[] = []) {}
+    constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class DownloadNodesAction implements Action {

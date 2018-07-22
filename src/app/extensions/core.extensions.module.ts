@@ -48,6 +48,7 @@ export function setupExtensions(extensions: ExtensionService): Function {
                     'app.selection.canDownload',
                     app.canDownloadSelection
                 )
+                .setEvaluator('app.selection.notEmpty', app.hasSelection)
                 .setEvaluator('app.selection.file', app.hasFileSelected)
                 .setEvaluator('app.selection.folder', app.hasFolderSelected)
                 .setEvaluator(

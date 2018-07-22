@@ -13,6 +13,14 @@
             "type": "app.navigation.folder.canCreate"
         },
         {
+            "id":"app.trashcan.canPurge",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.notEmpty" },
+                { "type": "rule", "value": "app.navigation.isTrashcan" }
+            ]
+        },
+        {
             "id": "app.toolbar.canEditFolder",
             "type": "core.every",
             "parameters": [
@@ -63,6 +71,10 @@
         {
             "id": "app.actions.preview",
             "type": "VIEW_FILE"
+        },
+        {
+            "id": "app.actions.purgeDeletedNodes",
+            "type": "PURGE_DELETED_NODES"
         }
     ],
 
@@ -192,6 +204,18 @@
                     },
                     "rules": {
                         "visible": "app.toolbar.canEditFolder"
+                    }
+                },
+                {
+                    "id": "app.toolbar.purgeDeletedNodes",
+                    "type": "button",
+                    "title": "APP.ACTIONS.DELETE_PERMANENT",
+                    "icon": "delete_forever",
+                    "actions": {
+                        "click": "app.actions.purgeDeletedNodes"
+                    },
+                    "rules": {
+                        "visible": "app.trashcan.canPurge"
                     }
                 },
                 {
