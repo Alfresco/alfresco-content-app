@@ -59,7 +59,7 @@ export function setupExtensions(extensions: ExtensionService): Function {
                     app.canCreateFolder
                 )
                 .setEvaluator('app.navigation.isTrashcan', app.isTrashcan)
-                .setEvaluator('app.navigation.isNotTrashcan', app.isNotTrashcan;
+                .setEvaluator('app.navigation.isNotTrashcan', app.isNotTrashcan);
 
             resolve(true);
         });
