@@ -28,18 +28,27 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FolderDialogComponent, ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { LibraryDialogComponent } from '../dialogs/library/library.dialog';
-import { SnackbarErrorAction, SnackbarInfoAction, SnackbarAction, SnackbarWarningAction } from '../store/actions';
+import { SnackbarErrorAction, SnackbarInfoAction, SnackbarAction, SnackbarWarningAction,
+    NavigateRouteAction, SnackbarUserAction } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
 import {
     MinimalNodeEntity,
     MinimalNodeEntryEntity,
     Node,
-    SiteEntry
+    SiteEntry,
+    DeletedNodesPaging,
+    PathInfoEntity
 } from 'alfresco-js-api';
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
 import { ContentApiService } from './content-api.service';
+
+interface RestoredNode {
+    status: number;
+    entry: MinimalNodeEntryEntity;
+    statusCode?: number;
+}
 
 @Injectable()
 export class ContentManagementService {
@@ -179,6 +188,63 @@ export class ContentManagementService {
         });
     }
 
+    restoreDeletedNodes(selection: MinimalNodeEntity[] = []) {
+        if (!selection.length) {
+            return;
+        }
+
+        const nodesWithPath = selection.filter(node => node.entry.path);
+
+        if (selection.length && !nodesWithPath.length) {
+            const failedStatus = this.processStatus([]);
+            failedStatus.fail.push(...selection);
+            this.showRestoreNotification(failedStatus);
+            this.nodesRestored.next();
+            return;
+        }
+
+        let status: DeleteStatus;
+
+        Observable.forkJoin(nodesWithPath.map(node => this.restoreNode(node)))
+            .do(restoredNodes => {
+                status = this.processStatus(restoredNodes);
+            })
+            .flatMap(() => this.contentApi.getDeletedNodes())
+            .subscribe((nodes: DeletedNodesPaging) => {
+                const selectedNodes = this.diff(status.fail, selection, false);
+                const remainingNodes = this.diff(
+                    selectedNodes,
+                    nodes.list.entries
+                );
+
+                if (!remainingNodes.length) {
+                    this.showRestoreNotification(status);
+                    this.nodesRestored.next();
+                } else {
+                    this.restoreDeletedNodes(remainingNodes);
+                }
+            });
+    }
+
+    private restoreNode(node: MinimalNodeEntity): Observable<RestoredNode> {
+        const { entry } = node;
+
+        return this.contentApi.restoreNode(entry.id)
+            .map(() => ({
+                status: 1,
+                entry
+            }))
+            .catch(error => {
+                const { statusCode } = JSON.parse(error.message).error;
+
+                return Observable.of({
+                    status: 0,
+                    statusCode,
+                    entry
+                });
+            });
+    }
+
     private purgeNodes(selection: NodeInfo[] = []) {
         if (!selection.length) {
             return;
@@ -218,7 +284,7 @@ export class ContentManagementService {
             });
     }
 
-    private processStatus(data: DeletedNodeInfo[] = []): DeleteStatus {
+    private processStatus(data: Array<{ status: number }> = []): DeleteStatus {
         const status = {
             fail: [],
             success: [],
@@ -307,5 +373,88 @@ export class ContentManagementService {
         }
 
         return null;
+    }
+
+    private showRestoreNotification(status: DeleteStatus): void {
+        const message = this.getRestoreMessage(status);
+
+        if (message) {
+            if (status.oneSucceeded && !status.someFailed) {
+                const isSite = this.isSite(status.success[0].entry);
+                const path: PathInfoEntity = status.success[0].entry.path;
+                const parent = path.elements[path.elements.length - 1];
+                const route = isSite ? ['/libraries'] : ['/personal-files', parent.id];
+
+                const navigate = new NavigateRouteAction(route);
+
+                message.userAction = new SnackbarUserAction(
+                    'APP.ACTIONS.VIEW',
+                    navigate
+                );
+            }
+
+            this.store.dispatch(message);
+        }
+    }
+
+    private isSite(entry: MinimalNodeEntryEntity): boolean {
+        return entry.nodeType === 'st:site';
+    }
+
+    private getRestoreMessage(status: DeleteStatus): SnackbarAction {
+        if (status.someFailed && !status.oneFailed) {
+            return new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.PARTIAL_PLURAL',
+                { number: status.fail.length }
+            );
+        }
+
+        if (status.oneFailed && status.fail[0].statusCode) {
+            if (status.fail[0].statusCode === 409) {
+                return new SnackbarErrorAction(
+                    'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.NODE_EXISTS',
+                    { name: status.fail[0].entry.name }
+                );
+            } else {
+                return new SnackbarErrorAction(
+                    'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.GENERIC',
+                    { name: status.fail[0].entry.name }
+                );
+            }
+        }
+
+        if (status.oneFailed && !status.fail[0].statusCode) {
+            return new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.TRASH.NODES_RESTORE.LOCATION_MISSING',
+                { name: status.fail[0].entry.name }
+            );
+        }
+
+        if (status.allSucceeded && !status.oneSucceeded) {
+            return new SnackbarInfoAction(
+                'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.PLURAL'
+            );
+        }
+
+        if (status.allSucceeded && status.oneSucceeded) {
+            return new SnackbarInfoAction(
+                'APP.MESSAGES.INFO.TRASH.NODES_RESTORE.SINGULAR',
+                { name: status.success[0].entry.name }
+            );
+        }
+
+        return null;
+    }
+
+    private diff(selection, list, fromList = true): any {
+        const ids = selection.map(item => item.entry.id);
+
+        return list.filter(item => {
+            if (fromList) {
+                return ids.includes(item.entry.id) ? item : null;
+            } else {
+                return !ids.includes(item.entry.id) ? item : null;
+            }
+        });
     }
 }

@@ -13,7 +13,7 @@
             "type": "app.navigation.folder.canCreate"
         },
         {
-            "id":"app.trashcan.canPurge",
+            "id": "app.trashcan.hasSelection",
             "type": "core.every",
             "parameters": [
                 { "type": "rule", "value": "app.selection.notEmpty" },
@@ -75,6 +75,10 @@
         {
             "id": "app.actions.purgeDeletedNodes",
             "type": "PURGE_DELETED_NODES"
+        },
+        {
+            "id": "app.actions.restoreDeletedNodes",
+            "type": "RESTORE_DELETED_NODES"
         }
     ],
 
@@ -215,7 +219,19 @@
                         "click": "app.actions.purgeDeletedNodes"
                     },
                     "rules": {
-                        "visible": "app.trashcan.canPurge"
+                        "visible": "app.trashcan.hasSelection"
+                    }
+                },
+                {
+                    "id": "app.toolbar.restoreDeletedNodes",
+                    "type": "button",
+                    "title": "APP.ACTIONS.RESTORE",
+                    "icon": "restore",
+                    "actions": {
+                        "click": "app.actions.restoreDeletedNodes"
+                    },
+                    "rules": {
+                        "visible": "app.trashcan.hasSelection"
                     }
                 },
                 {

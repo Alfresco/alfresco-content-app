@@ -48,7 +48,7 @@ import { Observable } from 'rxjs/Rx';
 import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
-import { EditFolderAction, EDIT_FOLDER } from '../actions/node.actions';
+import { EditFolderAction, EDIT_FOLDER, RestoreDeletedNodesAction, RESTORE_DELETED_NODES } from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
@@ -72,6 +72,25 @@ export class NodeEffects {
                     .subscribe(selection => {
                         if (selection && selection.count > 0) {
                             this.contentManagementService.purgeDeletedNodes(selection.nodes);
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    restoreDeletedNodes$ = this.actions$.pipe(
+        ofType<RestoreDeletedNodesAction>(RESTORE_DELETED_NODES),
+        map(action => {
+            if (action && action.payload && action.payload.length > 0) {
+                this.contentManagementService.restoreDeletedNodes(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.count > 0) {
+                            this.contentManagementService.restoreDeletedNodes(selection.nodes);
                         }
                     });
             }
