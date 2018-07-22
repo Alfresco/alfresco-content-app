@@ -382,6 +382,8 @@ export class ExtensionService implements RuleContext {
             const expression = this.runExpression(payload, context);
 
             this.store.dispatch({ type, payload: expression });
+        } else {
+            this.store.dispatch({ type: id });
         }
     }
 

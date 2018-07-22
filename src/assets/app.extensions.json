@@ -55,33 +55,6 @@
         }
     ],
 
-    "actions": [
-        {
-            "id": "app.actions.createFolder",
-            "type": "CREATE_FOLDER"
-        },
-        {
-            "id": "app.actions.editFolder",
-            "type": "EDIT_FOLDER"
-        },
-        {
-            "id": "app.actions.download",
-            "type": "DOWNLOAD_NODES"
-        },
-        {
-            "id": "app.actions.preview",
-            "type": "VIEW_FILE"
-        },
-        {
-            "id": "app.actions.purgeDeletedNodes",
-            "type": "PURGE_DELETED_NODES"
-        },
-        {
-            "id": "app.actions.restoreDeletedNodes",
-            "type": "RESTORE_DELETED_NODES"
-        }
-    ],
-
     "features": {
         "create": [
             {
@@ -90,7 +63,7 @@
                 "icon": "create_new_folder",
                 "title": "ext: Create Folder",
                 "actions": {
-                    "click": "app.actions.createFolder"
+                    "click": "CREATE_FOLDER"
                 },
                 "rules": {
                     "enabled": "app.create.canCreateFolder"
@@ -165,7 +138,7 @@
                     "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                     "icon": "create_new_folder",
                     "actions": {
-                        "click": "app.actions.createFolder"
+                        "click": "CREATE_FOLDER"
                     },
                     "rules": {
                         "visible": "app.create.canCreateFolder"
@@ -178,7 +151,7 @@
                     "title": "APP.ACTIONS.VIEW",
                     "icon": "open_in_browser",
                     "actions": {
-                        "click": "app.actions.preview"
+                        "click": "VIEW_FILE"
                     },
                     "rules": {
                         "visible": "app.toolbar.canViewFile"
@@ -191,7 +164,7 @@
                     "title": "APP.ACTIONS.DOWNLOAD",
                     "icon": "get_app",
                     "actions": {
-                        "click": "app.actions.download"
+                        "click": "DOWNLOAD_NODES"
                     },
                     "rules": {
                         "visible": "app.toolbar.canDownload"
@@ -204,7 +177,7 @@
                     "title": "APP.ACTIONS.EDIT",
                     "icon": "create",
                     "actions": {
-                        "click": "app.actions.editFolder"
+                        "click": "EDIT_FOLDER"
                     },
                     "rules": {
                         "visible": "app.toolbar.canEditFolder"
@@ -216,7 +189,7 @@
                     "title": "APP.ACTIONS.DELETE_PERMANENT",
                     "icon": "delete_forever",
                     "actions": {
-                        "click": "app.actions.purgeDeletedNodes"
+                        "click": "PURGE_DELETED_NODES"
                     },
                     "rules": {
                         "visible": "app.trashcan.hasSelection"
@@ -228,7 +201,7 @@
                     "title": "APP.ACTIONS.RESTORE",
                     "icon": "restore",
                     "actions": {
-                        "click": "app.actions.restoreDeletedNodes"
+                        "click": "RESTORE_DELETED_NODES"
                     },
                     "rules": {
                         "visible": "app.trashcan.hasSelection"
