@@ -22,11 +22,28 @@
         },
         {
             "id": "app.toolbar.canViewFile",
-            "type": "app.selection.file"
+            "type": "core.every",
+            "parameters": [
+                {
+                    "type": "rule",
+                    "value": "app.selection.file"
+                },
+                {
+                    "type": "rule",
+                    "value": "core.not",
+                    "parameters": [
+                        { "type": "rule", "value": "app.navigation.isTrashcan" }
+                    ]
+                }
+            ]
         },
         {
             "id": "app.toolbar.canDownload",
-            "type": "app.selection.canDownload"
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.canDownload" },
+                { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+            ]
         }
     ],
 
