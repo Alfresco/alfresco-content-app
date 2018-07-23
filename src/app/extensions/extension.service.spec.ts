@@ -134,11 +134,11 @@ describe('ExtensionService', () => {
             });
         });
 
-        it('should not use store if action is missing', () => {
+        it('should still invoke store if action is missing', () => {
             spyOn(store, 'dispatch').and.stub();
 
             extensions.runActionById('missing');
-            expect(store.dispatch).not.toHaveBeenCalled();
+            expect(store.dispatch).toHaveBeenCalled();
         });
     });
 
