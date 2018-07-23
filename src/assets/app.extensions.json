@@ -9,10 +9,6 @@
 
     "rules": [
         {
-            "id": "app.create.canCreateFolder",
-            "type": "app.navigation.folder.canCreate"
-        },
-        {
             "id": "app.trashcan.hasSelection",
             "type": "core.every",
             "parameters": [
@@ -66,7 +62,7 @@
                     "click": "CREATE_FOLDER"
                 },
                 "rules": {
-                    "enabled": "app.create.canCreateFolder"
+                    "enabled": "app.navigation.folder.canCreate"
                 }
             }
         ],
@@ -141,7 +137,7 @@
                         "click": "CREATE_FOLDER"
                     },
                     "rules": {
-                        "visible": "app.create.canCreateFolder"
+                        "visible": "app.navigation.folder.canCreate"
                     }
                 },
                 {

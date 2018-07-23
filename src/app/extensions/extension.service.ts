@@ -404,10 +404,16 @@ export class ExtensionService implements RuleContext {
 
     evaluateRule(ruleId: string): boolean {
         const ruleRef = this.rules.find(ref => ref.id === ruleId);
+
         if (ruleRef) {
             const evaluator = this.evaluators[ruleRef.type];
             if (evaluator) {
                 return evaluator(this, ...ruleRef.parameters);
+            }
+        } else {
+            const evaluator = this.evaluators[ruleId];
+            if (evaluator) {
+                return evaluator(this);
             }
         }
         return false;
