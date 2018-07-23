@@ -117,8 +117,10 @@ export class PreviewComponent extends PageComponent implements OnInit {
                     return;
                 }
                 this.router.navigate([this.previewLocation, id]);
-            } catch {
-                this.router.navigate([this.previewLocation, id]);
+            } catch (err) {
+                if (!err || err.status !== 401) {
+                    this.router.navigate([this.previewLocation, id]);
+                }
             }
         }
     }

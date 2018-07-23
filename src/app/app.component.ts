@@ -68,6 +68,7 @@ export class AppComponent implements OnInit {
         this.alfrescoApiService.getInstance().on('error', error => {
             if (error.status === 401) {
                 if (!this.authenticationService.isLoggedIn()) {
+                    this.authenticationService.setRedirect({ provider: 'ECM', url: this.router.url });
                     this.router.navigate(['/login']);
                 }
             }
