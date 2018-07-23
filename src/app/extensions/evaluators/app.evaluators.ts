@@ -26,6 +26,20 @@
 import { Node } from 'alfresco-js-api';
 import { RuleContext, RuleParameter } from '../rule.extensions';
 
+export function isTrashcan(context: RuleContext, ...args: RuleParameter[]): boolean {
+    const { url } = context.navigation;
+    return url && url.startsWith('/trashcan');
+}
+
+export function isNotTrashcan(context: RuleContext, ...args: RuleParameter[]): boolean {
+    return !isTrashcan(context, ...args);
+}
+
+export function hasSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
+    const { selection } = context;
+    return selection && !selection.isEmpty;
+}
+
 export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
     const folder = context.navigation.currentFolder;
     if (folder) {
@@ -37,7 +51,7 @@ export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]):
 export function canDownloadSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
     if (!context.selection.isEmpty) {
         return context.selection.nodes.every(node => {
-            return node.entry && (node.entry.isFile || node.entry.isFolder);
+            return node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId);
         });
     }
     return false;

@@ -53,12 +53,12 @@ export class UndoDeleteNodesAction implements Action {
 
 export class RestoreDeletedNodesAction implements Action {
     readonly type = RESTORE_DELETED_NODES;
-    constructor(public payload: any[] = []) {}
+    constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class PurgeDeletedNodesAction implements Action {
     readonly type = PURGE_DELETED_NODES;
-    constructor(public payload: NodeInfo[] = []) {}
+    constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class DownloadNodesAction implements Action {

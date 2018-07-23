@@ -36,6 +36,12 @@
                 "value": {
                     "description": "Rule parameter value",
                     "type": "string"
+                },
+                "parameters": {
+                    "description": "Parameters",
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/ruleParameter" },
+                    "minItems": 1
                 }
             }
         },

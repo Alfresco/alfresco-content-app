@@ -23,45 +23,66 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
 import { AuthGuardEcm, CoreModule } from '@alfresco/adf-core';
-import { ExtensionService } from './extension.service';
-import { AboutComponent } from '../components/about/about.component';
-import { LayoutComponent } from '../components/layout/layout.component';
-import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
 import { CommonModule } from '@angular/common';
-import { every, some } from './evaluators/core.evaluators';
-import {
-    canCreateFolder,
-    hasFolderSelected,
-    canUpdateSelectedFolder,
-    hasFileSelected,
-    canDownloadSelection
-} from './evaluators/app.evaluators';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { LayoutComponent } from '../components/layout/layout.component';
+import { TrashcanComponent } from '../components/trashcan/trashcan.component';
+import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
+import * as app from './evaluators/app.evaluators';
+import { ExtensionService } from './extension.service';
+
+export function setupExtensions(extensions: ExtensionService): Function {
+    return () =>
+        new Promise(resolve => {
+            extensions.setComponents({
+                'app.layout.main': LayoutComponent,
+                'app.components.trashcan': TrashcanComponent
+            });
+
+            extensions.setAuthGuards({
+                'app.auth': AuthGuardEcm
+            });
+
+            extensions.setEvaluators({
+                'app.selection.canDownload': app.canDownloadSelection,
+                'app.selection.notEmpty': app.hasSelection,
+                'app.selection.file': app.hasFileSelected,
+                'app.selection.folder': app.hasFolderSelected,
+                'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
+                'app.navigation.folder.canCreate': app.canCreateFolder,
+                'app.navigation.isTrashcan': app.isTrashcan,
+                'app.navigation.isNotTrashcan': app.isNotTrashcan
+            });
+
+            resolve(true);
+        });
+}
 
 @NgModule({
     imports: [CommonModule, CoreModule.forChild()],
     declarations: [ToolbarActionComponent],
-    exports: [ToolbarActionComponent],
-    entryComponents: [AboutComponent],
-    providers: [ExtensionService]
+    exports: [ToolbarActionComponent]
 })
 export class CoreExtensionsModule {
-    constructor(extensions: ExtensionService) {
-        extensions
-            .setComponent('app.layout.main', LayoutComponent)
-            .setComponent('app.components.about', AboutComponent)
-            .setAuthGuard('app.auth', AuthGuardEcm)
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: CoreExtensionsModule,
+            providers: [
+                ExtensionService,
+                {
+                    provide: APP_INITIALIZER,
+                    useFactory: setupExtensions,
+                    deps: [ExtensionService],
+                    multi: true
+                }
+            ]
+        };
+    }
 
-            .setEvaluator('core.every', every)
-            .setEvaluator('core.some', some)
-            .setEvaluator('app.selection.canDownload', canDownloadSelection)
-            .setEvaluator('app.selection.file', hasFileSelected)
-            .setEvaluator('app.selection.folder', hasFolderSelected)
-            .setEvaluator(
-                'app.selection.folder.canUpdate',
-                canUpdateSelectedFolder
-            )
-            .setEvaluator('app.navigation.folder.canCreate', canCreateFolder);
+    static forChild(): ModuleWithProviders {
+        return {
+            ngModule: CoreExtensionsModule
+        };
     }
 }

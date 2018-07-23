@@ -7,10 +7,10 @@
     "routes": [
         {
             "id": "plugin2.routes.about",
-            "path": "ext/about",
-            "component": "app.components.about",
+            "path": "ext/bin",
+            "component": "app.components.trashcan",
             "data": {
-                "title": "Custom About"
+                "title": "Custom Trashcan"
             }
         }
     ],
@@ -24,14 +24,14 @@
                     {
                         "id": "plugin2.navbar.group1.link1",
                         "icon": "build",
-                        "title": "About (native)",
+                        "title": "Trashcan (native)",
                         "description": "Uses native application route",
-                        "route": "about"
+                        "route": "trashcan"
                     },
                     {
                         "id": "plugin2.navbar.group1.link2",
                         "icon": "build",
-                        "title": "About (custom)",
+                        "title": "Trashcan (custom)",
                         "description": "Uses custom defined route",
                         "route": "plugin2.routes.about"
                     }

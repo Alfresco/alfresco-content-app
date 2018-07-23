@@ -43,4 +43,5 @@ export class RuleRef {
 export interface RuleParameter {
     type: string;
     value: any;
+    parameters?: Array<RuleParameter>;
 }

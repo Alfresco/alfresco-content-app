@@ -23,17 +23,41 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { CoreModule } from '@alfresco/adf-core';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { PreviewComponent } from './preview.component';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
 
-import 'hammerjs';
+import * as pdfjsLib from 'pdfjs-dist';
+pdfjsLib.PDFJS.workerSrc = 'pdf.worker.js';
+pdfjsLib.PDFJS.disableFontFace = true;
 
-if (environment.production) {
-  enableProdMode();
-}
+const routes: Routes = [
+    {
+        path: '',
+        component: PreviewComponent
+    }
+];
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+@NgModule({
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        CoreModule.forChild(),
+        ContentDirectiveModule,
+        DirectivesModule,
+        AppInfoDrawerModule
+    ],
+    declarations: [
+        PreviewComponent,
+    ],
+    exports: [
+        PreviewComponent
+    ]
+})
+export class PreviewModule {}

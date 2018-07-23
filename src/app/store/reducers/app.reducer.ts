@@ -40,9 +40,10 @@ import {
     SetLanguagePickerAction,
     SET_SHARED_URL,
     SetSharedUrlAction,
-    SET_CURRENT_FOLDER
+    SET_CURRENT_FOLDER,
+    SetCurrentFolderAction,
+    SET_CURRENT_URL, SetCurrentUrlAction
 } from '../actions';
-import { SetCurrentFolderAction } from '../actions/app.actions';
 
 export function appReducer(
     state: AppState = INITIAL_APP_STATE,
@@ -80,6 +81,9 @@ export function appReducer(
             newState = updateCurrentFolder(state, <SetCurrentFolderAction>(
                 action
             ));
+            break;
+        case SET_CURRENT_URL:
+            newState = updateCurrentUrl(state, <SetCurrentUrlAction>action);
             break;
         default:
             newState = Object.assign({}, state);
@@ -158,6 +162,12 @@ function updateCurrentFolder(state: AppState, action: SetCurrentFolderAction) {
     return newState;
 }
 
+function updateCurrentUrl(state: AppState, action: SetCurrentUrlAction) {
+    const newState = Object.assign({}, state);
+    newState.navigation.url = action.payload;
+    return newState;
+}
+
 function updateSelectedNodes(
     state: AppState,
     action: SetSelectedNodesAction
@@ -179,7 +189,9 @@ function updateSelectedNodes(
         if (nodes.length === 1) {
             file = nodes.find(entity => {
                 // workaround Shared
-                return (entity.entry.isFile || entity.entry.nodeId) ? true : false;
+                return entity.entry.isFile || entity.entry.nodeId
+                    ? true
+                    : false;
             });
             folder = nodes.find(entity => entity.entry.isFolder);
         }

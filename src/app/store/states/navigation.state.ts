@@ -27,4 +27,5 @@ import { Node } from 'alfresco-js-api';
 
 export interface NavigationState {
     currentFolder?: Node;
+    url?: string;
 }

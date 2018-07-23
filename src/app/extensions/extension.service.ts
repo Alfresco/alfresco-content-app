@@ -35,6 +35,7 @@ import { NavBarGroupRef } from './navbar.extensions';
 import { RouteRef } from './routing.extensions';
 import { RuleContext, RuleRef, RuleEvaluator } from './rule.extensions';
 import { ActionRef, ContentActionRef, ContentActionType } from './action.extensions';
+import * as core from './evaluators/core.evaluators';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
@@ -63,6 +64,13 @@ export class ExtensionService implements RuleContext {
     navigation: NavigationState;
 
     constructor(private http: HttpClient, private store: Store<AppStore>) {
+
+        this.evaluators = {
+            'core.every': core.every,
+            'core.some': core.some,
+            'core.not': core.not
+        };
+
         this.store.select(selectionWithFolder).subscribe(result => {
             this.selection = result.selection;
             this.navigation = result.navigation;
@@ -205,14 +213,22 @@ export class ExtensionService implements RuleContext {
         return [];
     }
 
-    setEvaluator(key: string, value: RuleEvaluator): ExtensionService {
-        this.evaluators[key] = value;
-        return this;
+    setEvaluators(values: { [key: string]: RuleEvaluator }) {
+        if (values) {
+            this.evaluators = Object.assign({}, this.evaluators, values);
+        }
     }
 
-    setAuthGuard(key: string, value: Type<{}>): ExtensionService {
-        this.authGuards[key] = value;
-        return this;
+    setAuthGuards(values: { [key: string]: Type<{}> }) {
+        if (values) {
+            this.authGuards = Object.assign({}, this.authGuards, values);
+        }
+    }
+
+    setComponents(values: { [key: string]: Type<{}> }) {
+        if (values) {
+            this.components = Object.assign({}, this.components, values);
+        }
     }
 
     getRouteById(id: string): RouteRef {
@@ -227,11 +243,6 @@ export class ExtensionService implements RuleContext {
 
     getNavigationGroups(): Array<NavBarGroupRef> {
         return this.navbar;
-    }
-
-    setComponent(id: string, value: Type<{}>): ExtensionService {
-        this.components[id] = value;
-        return this;
     }
 
     getComponentById(id: string): Type<{}> {
@@ -382,6 +393,8 @@ export class ExtensionService implements RuleContext {
             const expression = this.runExpression(payload, context);
 
             this.store.dispatch({ type, payload: expression });
+        } else {
+            this.store.dispatch({ type: id });
         }
     }
 
@@ -402,10 +415,16 @@ export class ExtensionService implements RuleContext {
 
     evaluateRule(ruleId: string): boolean {
         const ruleRef = this.rules.find(ref => ref.id === ruleId);
+
         if (ruleRef) {
             const evaluator = this.evaluators[ruleRef.type];
             if (evaluator) {
                 return evaluator(this, ...ruleRef.parameters);
+            }
+        } else {
+            const evaluator = this.evaluators[ruleId];
+            if (evaluator) {
+                return evaluator(this);
             }
         }
         return false;

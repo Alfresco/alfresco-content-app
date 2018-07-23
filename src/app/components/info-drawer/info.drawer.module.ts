@@ -23,17 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
+import { ContentMetadataModule, VersionManagerModule } from '@alfresco/adf-content-services';
+import { InfoDrawerComponent } from './info-drawer.component';
+import { DirectivesModule } from '../../directives/directives.module';
+import { MaterialModule } from '../../material.module';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
-
-import 'hammerjs';
-
-if (environment.production) {
-  enableProdMode();
-}
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+@NgModule({
+    imports: [
+        CommonModule,
+        MaterialModule,
+        CoreModule.forChild(),
+        ContentMetadataModule,
+        VersionManagerModule,
+        DirectivesModule
+    ],
+    declarations: [
+        InfoDrawerComponent
+    ],
+    exports: [
+        InfoDrawerComponent
+    ]
+})
+export class AppInfoDrawerModule {}
