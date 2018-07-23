@@ -30,36 +30,30 @@ import { LayoutComponent } from '../components/layout/layout.component';
 import { TrashcanComponent } from '../components/trashcan/trashcan.component';
 import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
 import * as app from './evaluators/app.evaluators';
-import * as core from './evaluators/core.evaluators';
 import { ExtensionService } from './extension.service';
 
 export function setupExtensions(extensions: ExtensionService): Function {
     return () =>
         new Promise(resolve => {
-            extensions
-                .setComponent('app.layout.main', LayoutComponent)
-                .setComponent('app.components.trashcan', TrashcanComponent)
-                .setAuthGuard('app.auth', AuthGuardEcm)
+            extensions.setComponents({
+                'app.layout.main': LayoutComponent,
+                'app.components.trashcan': TrashcanComponent
+            });
 
-                .setEvaluator('core.every', core.every)
-                .setEvaluator('core.some', core.some)
-                .setEvaluator('core.not', core.not)
-                .setEvaluator(
-                    'app.selection.canDownload',
-                    app.canDownloadSelection
-                )
-                .setEvaluator('app.selection.file', app.hasFileSelected)
-                .setEvaluator('app.selection.folder', app.hasFolderSelected)
-                .setEvaluator(
-                    'app.selection.folder.canUpdate',
-                    app.canUpdateSelectedFolder
-                )
-                .setEvaluator(
-                    'app.navigation.folder.canCreate',
-                    app.canCreateFolder
-                )
-                .setEvaluator('app.navigation.isTrashcan', app.isTrashcan)
-                .setEvaluator('app.navigation.isNotTrashcan', app.isNotTrashcan);
+            extensions.setAuthGuards({
+                'app.auth': AuthGuardEcm
+            });
+
+            extensions.setEvaluators({
+                'app.selection.canDownload': app.canDownloadSelection,
+                'app.selection.notEmpty': app.hasSelection,
+                'app.selection.file': app.hasFileSelected,
+                'app.selection.folder': app.hasFolderSelected,
+                'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
+                'app.navigation.folder.canCreate': app.canCreateFolder,
+                'app.navigation.isTrashcan': app.isTrashcan,
+                'app.navigation.isNotTrashcan': app.isNotTrashcan
+            });
 
             resolve(true);
         });

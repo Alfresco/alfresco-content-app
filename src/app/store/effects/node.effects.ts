@@ -48,7 +48,7 @@ import { Observable } from 'rxjs/Rx';
 import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
-import { EditFolderAction, EDIT_FOLDER } from '../actions/node.actions';
+import { EditFolderAction, EDIT_FOLDER, RestoreDeletedNodesAction, RESTORE_DELETED_NODES } from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
@@ -63,7 +63,37 @@ export class NodeEffects {
     purgeDeletedNodes$ = this.actions$.pipe(
         ofType<PurgeDeletedNodesAction>(PURGE_DELETED_NODES),
         map(action => {
-            this.purgeNodes(action.payload);
+            if (action && action.payload && action.payload.length > 0) {
+                this.contentManagementService.purgeDeletedNodes(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.count > 0) {
+                            this.contentManagementService.purgeDeletedNodes(selection.nodes);
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    restoreDeletedNodes$ = this.actions$.pipe(
+        ofType<RestoreDeletedNodesAction>(RESTORE_DELETED_NODES),
+        map(action => {
+            if (action && action.payload && action.payload.length > 0) {
+                this.contentManagementService.restoreDeletedNodes(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.count > 0) {
+                            this.contentManagementService.restoreDeletedNodes(selection.nodes);
+                        }
+                    });
+            }
         })
     );
 
@@ -284,45 +314,6 @@ export class NodeEffects {
         return null;
     }
 
-    private purgeNodes(selection: NodeInfo[] = []) {
-        if (!selection.length) {
-            return;
-        }
-
-        const batch = selection.map(node => this.purgeDeletedNode(node));
-
-        Observable.forkJoin(batch).subscribe(purgedNodes => {
-            const status = this.processStatus(purgedNodes);
-
-            if (status.success.length) {
-                this.contentManagementService.nodesPurged.next();
-            }
-            const message = this.getPurgeMessage(status);
-            if (message) {
-                this.store.dispatch(message);
-            }
-        });
-    }
-
-    private purgeDeletedNode(node: NodeInfo): Observable<DeletedNodeInfo> {
-        const { id, name } = node;
-
-        return this.contentApi
-            .purgeDeletedNode(id)
-            .map(() => ({
-                status: 1,
-                id,
-                name
-            }))
-            .catch(error => {
-                return Observable.of({
-                    status: 0,
-                    id,
-                    name
-                });
-            });
-    }
-
     private processStatus(data: DeletedNodeInfo[] = []): DeleteStatus {
         const status = {
             fail: [],
@@ -360,57 +351,5 @@ export class NodeEffects {
 
             return acc;
         }, status);
-    }
-
-    private getPurgeMessage(status: DeleteStatus): SnackbarAction {
-        if (status.oneSucceeded && status.someFailed && !status.oneFailed) {
-            return new SnackbarWarningAction(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_SINGULAR',
-                {
-                    name: status.success[0].name,
-                    failed: status.fail.length
-                }
-            );
-        }
-
-        if (status.someSucceeded && !status.oneSucceeded && status.someFailed) {
-            return new SnackbarWarningAction(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PARTIAL_PLURAL',
-                {
-                    number: status.success.length,
-                    failed: status.fail.length
-                }
-            );
-        }
-
-        if (status.oneSucceeded) {
-            return new SnackbarInfoAction(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.SINGULAR',
-                { name: status.success[0].name }
-            );
-        }
-
-        if (status.oneFailed) {
-            return new SnackbarErrorAction(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.SINGULAR',
-                { name: status.fail[0].name }
-            );
-        }
-
-        if (status.allSucceeded) {
-            return new SnackbarInfoAction(
-                'APP.MESSAGES.INFO.TRASH.NODES_PURGE.PLURAL',
-                { number: status.success.length }
-            );
-        }
-
-        if (status.allFailed) {
-            return new SnackbarErrorAction(
-                'APP.MESSAGES.ERRORS.TRASH.NODES_PURGE.PLURAL',
-                { number: status.fail.length }
-            );
-        }
-
-        return null;
     }
 }
