@@ -87,8 +87,12 @@
                 <adf-search-filter
                     #searchFilter
                     [ngClass]="{ 'adf-search-filter--hidden': !searchedWord }"></adf-search-filter>
-
                 <div class="adf-search-results__content">
+                    <mat-progress-bar
+                        *ngIf="isLoading"
+                        color="primary"
+                        mode="indeterminate">
+                    </mat-progress-bar>
                     <div class="adf-search-results__content-header content" *ngIf="data?.list.entries.length">
                         <div class="content__side--left">
                             <div class="adf-search-results--info-text">{{ 'APP.BROWSE.SEARCH.FOUND_RESULTS' | translate: { number: totalResults } }}</div>
@@ -131,9 +135,13 @@
 
                         <empty-folder-content>
                             <ng-template>
-                                <div class="empty-search__block">
-                                    <p class="empty-search__text">Your search returned 0 results</p>
-                                </div>
+                                <ng-container *ngIf="data">
+                                    <div class="empty-search__block">
+                                        <p class="empty-search__text">
+                                            {{ 'APP.BROWSE.SEARCH.NO_RESULTS' | translate }}
+                                        </p>
+                                    </div>
+                                </ng-container>
                             </ng-template>
                         </empty-folder-content>
                     </adf-document-list>
