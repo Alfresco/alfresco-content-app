@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
 import { PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
-import { Observable } from 'rxjs/Rx';
+import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -44,6 +44,8 @@ import { ContentApiService } from '../../services/content-api.service';
     host: { 'class': 'aca-location-link adf-location-cell' }
 })
 export class LocationLinkComponent implements OnInit {
+    private nodePath$ = new BehaviorSubject(null);
+    private _tooltip: string;
 
     @Input()
     context: any;
@@ -56,6 +58,10 @@ export class LocationLinkComponent implements OnInit {
 
     @Input()
     tooltip: Observable<string>;
+
+    @HostListener('mouseenter') onMouseEnter() {
+        this.nodePath$.subscribe((path: PathInfo) => this.tooltip = this.getTooltip(path));
+    }
 
     constructor(
         private store: Store<AppStore>,
@@ -77,7 +83,7 @@ export class LocationLinkComponent implements OnInit {
 
                 if (path && path.name && path.elements) {
                     this.displayText = this.getDisplayText(path);
-                    this.tooltip = this.getTooltip(path);
+                    this.nodePath$.next(path);
                 }
             }
         }
@@ -121,6 +127,12 @@ export class LocationLinkComponent implements OnInit {
 
     // todo: review once 5.2.3 is out
     private getTooltip(path: PathInfo): Observable<string> {
+        let result: string = null;
+
+        if (this._tooltip) {
+            return Observable.of(this._tooltip);
+        }
+
         const elements = path.elements.map(e => Object.assign({}, e));
 
         if (elements[0].name === 'Company Home') {
@@ -138,7 +150,9 @@ export class LocationLinkComponent implements OnInit {
                                 elements.splice(1, 1);
                                 elements.unshift({ id: null, name: 'File Libraries' });
 
-                                observer.next(elements.map(e => e.name).join('/'));
+                                result = elements.map(e => e.name).join('/');
+                                this._tooltip = result;
+                                observer.next(result);
                                 observer.complete();
                             },
                             () => {
@@ -146,7 +160,9 @@ export class LocationLinkComponent implements OnInit {
                                 elements.unshift({ id: null, name: 'File Libraries' });
                                 elements.splice(2, 1);
 
-                                observer.next(elements.map(e => e.name).join('/'));
+                                result = elements.map(e => e.name).join('/');
+                                this._tooltip = result;
+                                observer.next(result);
                                 observer.complete();
                             }
                         );
@@ -160,7 +176,8 @@ export class LocationLinkComponent implements OnInit {
             }
         }
 
-        const result = elements.map(e => e.name).join('/');
+        result = elements.map(e => e.name).join('/');
+        this._tooltip = result;
         return Observable.of(result);
     }
 }
