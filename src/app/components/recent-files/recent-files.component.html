@@ -147,15 +147,15 @@
                     </data-column>
 
                     <data-column
-                        class="adf-data-table-cell--ellipsis__name adf-location-cell"
+                        class="adf-data-table-cell--ellipsis__name"
                         key="name"
                         title="APP.DOCUMENT_LIST.COLUMNS.NAME">
                         <ng-template let-value="value" let-context>
-                            <a class="adf-datatable-cell"
+                            <span class="dl-link"
                                 title="{{ context?.row?.obj | adfNodeNameTooltip }}"
                                 (click)="onNodeDoubleClick(context?.row?.obj)">
                                 {{ value }}
-                            </a>
+                            </span>
                         </ng-template>
                     </data-column>
 

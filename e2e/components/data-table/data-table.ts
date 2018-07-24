@@ -141,16 +141,8 @@ export class DataTable extends Component {
         return this.body.element(by.cssContainingText(`.adf-data-table-cell span`, name));
     }
 
-    getRowLink(name: string): ElementFinder {
-        return this.body.element(by.cssContainingText(`.adf-data-table-cell a`, name));
-    }
-
     getItemNameTooltip(name: string): promise.Promise<string> {
         return this.getRowName(name).getAttribute('title');
-    }
-
-    getLinkCellTooltip(name: string): promise.Promise<string> {
-        return this.getRowLink(name).getAttribute('title');
     }
 
     countRows(): promise.Promise<number> {
@@ -172,10 +164,39 @@ export class DataTable extends Component {
         return dblClick.perform();
     }
 
+    // Navigation/selection methods
+    doubleClickOnItemNameRow(name: string): promise.Promise<any> {
+        const dblClick = browser.actions()
+            .mouseMove(this.getRowName(name).element(by.xpath(`./ancestor::div[contains(@class, 'adf-datatable-row')]`)))
+            .click()
+            .click();
+
+        return dblClick.perform();
+    }
+
     clickOnItemName(name: string): promise.Promise<any> {
         const item = this.getRowName(name);
         return Utils.waitUntilElementClickable(item)
             .then(() => this.getRowName(name).click());
+    }
+
+    clickOnItemNameRow(name: string): promise.Promise<any> {
+        const item = this.getRowName(name);
+        return Utils.waitUntilElementClickable(item)
+            .then(() => this.getRowName(name)
+                .element(by.xpath(`./ancestor::div[contains(@class, 'adf-datatable-row')]`))
+                .click());
+    }
+
+    selectMultipleItemsRow(names: string[]): promise.Promise<void> {
+        return this.clearSelection()
+            .then(() => browser.actions().sendKeys(protractor.Key.COMMAND).perform())
+            .then(() => {
+                names.forEach(name => {
+                    this.clickOnItemNameRow(name);
+                });
+            })
+            .then(() => browser.actions().sendKeys(protractor.Key.NULL).perform());
     }
 
     selectMultipleItems(names: string[]): promise.Promise<void> {

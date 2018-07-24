@@ -88,25 +88,25 @@ describe('Mark items as favorites', () => {
         });
 
         it('Favorite action has empty star icon for an item not marked as favorite', () => {
-            dataTable.clickOnItemName(file1NotFav)
+            dataTable.clickOnItemNameRow(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star_border'));
         });
 
         it('Favorite action has empty star icon for multiple selection of items when some are not favorite', () => {
-            dataTable.selectMultipleItems([ file1NotFav, file3Fav ])
+            dataTable.selectMultipleItemsRow([ file1NotFav, file3Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star_border'));
         });
 
         it('Favorite action has full star icon for items marked as favorite', () => {
-            dataTable.clickOnItemName(file3Fav)
+            dataTable.clickOnItemNameRow(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star'));
         });
 
         it('favorite a file', () => {
-            dataTable.clickOnItemName(file1NotFav)
+            dataTable.clickOnItemNameRow(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -117,7 +117,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite a folder', () => {
-            dataTable.clickOnItemName(folder1)
+            dataTable.clickOnItemNameRow(folder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -128,7 +128,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite an item', () => {
-            dataTable.clickOnItemName(file3Fav)
+            dataTable.clickOnItemNameRow(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 1 }))
@@ -139,7 +139,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite multiple items - all unfavorite', () => {
-            dataTable.selectMultipleItems([ file1NotFav, file2NotFav ])
+            dataTable.selectMultipleItemsRow([ file1NotFav, file2NotFav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 4 }))
@@ -157,7 +157,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite multiple items - some favorite and some unfavorite', () => {
-            dataTable.selectMultipleItems([ file1NotFav, file3Fav ])
+            dataTable.selectMultipleItemsRow([ file1NotFav, file3Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -174,7 +174,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite multiple items', () => {
-            dataTable.selectMultipleItems([ file3Fav, file4Fav ])
+            dataTable.selectMultipleItemsRow([ file3Fav, file4Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => browser.sleep(2000))
@@ -205,7 +205,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite a file', () => {
-            dataTable.clickOnItemName(file1NotFav)
+            dataTable.clickOnItemNameRow(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -216,7 +216,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite an item', () => {
-            dataTable.clickOnItemName(file3Fav)
+            dataTable.clickOnItemNameRow(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 1 }))
@@ -227,7 +227,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite multiple items - all unfavorite', () => {
-            dataTable.selectMultipleItems([ file1NotFav, file2NotFav ])
+            dataTable.selectMultipleItemsRow([ file1NotFav, file2NotFav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 4 }))
@@ -245,7 +245,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite multiple items - some favorite and some unfavorite', () => {
-            dataTable.selectMultipleItems([ file1NotFav, file3Fav ])
+            dataTable.selectMultipleItemsRow([ file1NotFav, file3Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -262,7 +262,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite multiple items', () => {
-            dataTable.selectMultipleItems([ file3Fav, file4Fav ])
+            dataTable.selectMultipleItemsRow([ file3Fav, file4Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => browser.sleep(2000))
@@ -295,7 +295,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite a file', () => {
-            dataTable.clickOnItemName(file1NotFav)
+            dataTable.clickOnItemNameRow(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -306,7 +306,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite an item', () => {
-            dataTable.clickOnItemName(file3Fav)
+            dataTable.clickOnItemNameRow(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 1 }))
@@ -317,7 +317,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite multiple items - all unfavorite', () => {
-            dataTable.selectMultipleItems([ file1NotFav, file2NotFav ])
+            dataTable.selectMultipleItemsRow([ file1NotFav, file2NotFav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 4 }))
@@ -335,7 +335,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite multiple items - some favorite and some unfavorite', () => {
-            dataTable.selectMultipleItems([ file1NotFav, file3Fav ])
+            dataTable.selectMultipleItemsRow([ file1NotFav, file3Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -352,7 +352,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite multiple items', () => {
-            dataTable.selectMultipleItems([ file3Fav, file4Fav ])
+            dataTable.selectMultipleItemsRow([ file3Fav, file4Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => browser.sleep(2000))
@@ -382,7 +382,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite an item', () => {
-            dataTable.clickOnItemName(file3Fav)
+            dataTable.clickOnItemNameRow(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 1 }))
@@ -396,7 +396,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite multiple items', () => {
-            dataTable.selectMultipleItems([ file3Fav, file4Fav ])
+            dataTable.selectMultipleItemsRow([ file3Fav, file4Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => browser.sleep(2000))
