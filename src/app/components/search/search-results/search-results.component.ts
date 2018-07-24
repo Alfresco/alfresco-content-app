@@ -50,6 +50,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     data: NodePaging;
     totalResults = 0;
     sorting = ['name', 'asc'];
+    isLoading = false;
 
     constructor(
         private queryBuilder: SearchQueryBuilderService,
@@ -74,10 +75,12 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         this.subscriptions.push(
             this.queryBuilder.updated.subscribe(() => {
                 this.sorting = this.getSorting();
+                this.isLoading = true;
             }),
 
             this.queryBuilder.executed.subscribe(data => {
                 this.onSearchResultLoaded(data);
+                this.isLoading = false;
             })
         );
 
