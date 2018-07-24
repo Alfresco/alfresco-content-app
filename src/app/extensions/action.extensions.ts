@@ -28,7 +28,7 @@ export enum ContentActionType {
     button = 'button',
     separator = 'separator',
     menu = 'menu',
-    dynamic = 'dynamic'
+    custom = 'custom'
 }
 
 export interface ContentActionRef {
