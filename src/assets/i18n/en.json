@@ -107,7 +107,8 @@
                     "MODIFIED": "Modified",
                     "LOCATION": "Location",
                     "SIZE": "Size"
-                }
+                },
+                "NO_RESULTS": "Your search returned 0 results"
             }
         },
         "ACTIONS": {
