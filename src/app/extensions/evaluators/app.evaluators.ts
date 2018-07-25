@@ -25,27 +25,61 @@
 
 import { RuleContext, RuleParameter } from '../rule.extensions';
 
-export function canDeleteSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
-    if (!context.selection.isEmpty) {
+export function canDeleteSelection(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    if (
+        isNotTrashcan(context, ...args) &&
+        isNotLibraries(context, ...args) &&
+        !context.selection.isEmpty
+    ) {
         return context.permissions.check(context.selection.nodes, ['delete']);
     }
     return false;
 }
 
-export function isTrashcan(context: RuleContext, ...args: RuleParameter[]): boolean {
+export function isTrashcan(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
     const { url } = context.navigation;
     return url && url.startsWith('/trashcan');
 }
 
-export function isNotTrashcan(context: RuleContext, ...args: RuleParameter[]): boolean {
+export function isNotTrashcan(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
     return !isTrashcan(context, ...args);
 }
 
-export function hasSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
+export function isLibraries(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    const { url } = context.navigation;
+    return url && url.startsWith('/libraries');
+}
+
+export function isNotLibraries(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    return !isLibraries(context, ...args);
+}
+
+export function hasSelection(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
     return !context.selection.isEmpty;
 }
 
-export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
+export function canCreateFolder(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
     const { currentFolder } = context.navigation;
     if (currentFolder) {
         return context.permissions.check(currentFolder, ['create']);
@@ -53,27 +87,43 @@ export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]):
     return false;
 }
 
-export function canDownloadSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
+export function canDownloadSelection(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
     if (!context.selection.isEmpty) {
         return context.selection.nodes.every(node => {
-            return node.entry && (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId);
+            return (
+                node.entry &&
+                (node.entry.isFile ||
+                    node.entry.isFolder ||
+                    !!node.entry.nodeId)
+            );
         });
     }
     return false;
-
 }
 
-export function hasFolderSelected(context: RuleContext, ...args: RuleParameter[]): boolean {
+export function hasFolderSelected(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
     const folder = context.selection.folder;
     return folder ? true : false;
 }
 
-export function hasFileSelected(context: RuleContext, ...args: RuleParameter[]): boolean {
+export function hasFileSelected(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
     const file = context.selection.file;
     return file ? true : false;
 }
 
-export function canUpdateSelectedFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
+export function canUpdateSelectedFolder(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
     const { folder } = context.selection;
     if (folder) {
         return context.permissions.check(folder.entry, ['update']);
