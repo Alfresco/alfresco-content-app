@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener, OnDestroy } from '@angular/core';
 import { PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
@@ -35,7 +35,7 @@ import { ContentApiService } from '../../services/content-api.service';
 @Component({
     selector: 'aca-location-link',
     template: `
-        <a href="" [title]="tooltip | async" (click)="goToLocation()">
+        <a href="" [title]="nodeLocation$ | async" (click)="goToLocation()">
             {{ displayText | async }}
         </a>
     `,
@@ -43,9 +43,11 @@ import { ContentApiService } from '../../services/content-api.service';
     encapsulation: ViewEncapsulation.None,
     host: { 'class': 'aca-location-link adf-location-cell' }
 })
-export class LocationLinkComponent implements OnInit {
-    private nodePath$ = new BehaviorSubject(null);
-    private _tooltip: string;
+export class LocationLinkComponent implements OnInit, OnDestroy {
+    private _path: PathInfo;
+    private nodeLocation: string;
+
+    nodeLocation$ = new BehaviorSubject(null);
 
     @Input()
     context: any;
@@ -60,7 +62,7 @@ export class LocationLinkComponent implements OnInit {
     tooltip: Observable<string>;
 
     @HostListener('mouseenter') onMouseEnter() {
-        this.nodePath$.subscribe((path: PathInfo) => this.tooltip = this.getTooltip(path));
+        this.getTooltip(this._path);
     }
 
     constructor(
@@ -83,10 +85,14 @@ export class LocationLinkComponent implements OnInit {
 
                 if (path && path.name && path.elements) {
                     this.displayText = this.getDisplayText(path);
-                    this.nodePath$.next(path);
+                    this._path = path;
                 }
             }
         }
+    }
+
+    ngOnDestroy() {
+        this.nodeLocation$.unsubscribe();
     }
 
     // todo: review once 5.2.3 is out
@@ -126,11 +132,11 @@ export class LocationLinkComponent implements OnInit {
     }
 
     // todo: review once 5.2.3 is out
-    private getTooltip(path: PathInfo): Observable<string> {
+    private getTooltip(path: PathInfo) {
         let result: string = null;
 
-        if (this._tooltip) {
-            return Observable.of(this._tooltip);
+        if (this.nodeLocation) {
+            return this.nodeLocation$.next(this.nodeLocation);
         }
 
         const elements = path.elements.map(e => Object.assign({}, e));
@@ -141,8 +147,6 @@ export class LocationLinkComponent implements OnInit {
             if (elements.length > 2) {
                 if (elements[1].name === 'Sites') {
                     const fragment = elements[2];
-
-                    return new Observable<string>(observer => {
                         this.contentApi.getNodeInfo(fragment.id).subscribe(
                             node => {
                                 elements.splice(0, 2);
@@ -151,9 +155,8 @@ export class LocationLinkComponent implements OnInit {
                                 elements.unshift({ id: null, name: 'File Libraries' });
 
                                 result = elements.map(e => e.name).join('/');
-                                this._tooltip = result;
-                                observer.next(result);
-                                observer.complete();
+                                this.nodeLocation = result;
+                                this.nodeLocation$.next(result);
                             },
                             () => {
                                 elements.splice(0, 2);
@@ -161,12 +164,10 @@ export class LocationLinkComponent implements OnInit {
                                 elements.splice(2, 1);
 
                                 result = elements.map(e => e.name).join('/');
-                                this._tooltip = result;
-                                observer.next(result);
-                                observer.complete();
+                                this.nodeLocation = result;
+                                this.nodeLocation$.next(result);
                             }
                         );
-                    });
                 }
 
                 if (elements[1].name === 'User Homes') {
@@ -177,7 +178,7 @@ export class LocationLinkComponent implements OnInit {
         }
 
         result = elements.map(e => e.name).join('/');
-        this._tooltip = result;
-        return Observable.of(result);
+        this.nodeLocation = result;
+        this.nodeLocation$.next(result);
     }
 }
