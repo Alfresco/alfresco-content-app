@@ -207,6 +207,13 @@
                     "id": "app.toolbar.separator.2",
                     "order": 200,
                     "type": "separator"
+                },
+                {
+                    "disabled": true,
+                    "id": "app.toolbar.custom.1",
+                    "order": 200,
+                    "type": "custom",
+                    "component": "app.demo.button"
                 }
             ]
         }

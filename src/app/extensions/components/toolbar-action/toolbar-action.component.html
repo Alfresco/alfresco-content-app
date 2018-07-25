@@ -6,7 +6,9 @@
         (click)="runAction(entry.actions.click)">
         <mat-icon>{{ entry.icon }}</mat-icon>
     </button>
+
     <adf-toolbar-divider *ngSwitchCase="'separator'"></adf-toolbar-divider>
+
     <ng-container *ngSwitchCase="'menu'">
         <button
             color="primary"
@@ -27,4 +29,9 @@
             </ng-container>
         </mat-menu>
     </ng-container>
+
+    <ng-container *ngSwitchCase="'custom'">
+        <app-custom-component [id]="entry.component"></app-custom-component>
+    </ng-container>
 </ng-container>
+
