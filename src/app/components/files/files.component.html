@@ -55,17 +55,6 @@
                     <mat-icon>info_outline</mat-icon>
                 </button>
 
-                <ng-container *ifExperimental="'share'">
-                    <button mat-icon-button
-                        color="primary"
-                        title="{{ 'APP.ACTIONS.SHARE' | translate }}"
-                        *ngIf="selection.file"
-                        [baseShareUrl]="sharedPreviewUrl$ | async"
-                        [adf-share]="selection.file">
-                        <mat-icon>share</mat-icon>
-                    </button>
-                </ng-container>
-
                 <button
                     color="primary"
                     mat-icon-button

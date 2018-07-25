@@ -209,6 +209,18 @@
                     "icon": "more_vert",
                     "children": [
                         {
+                            "id": "app.toolbar.share",
+                            "type": "button",
+                            "title": "APP.ACTIONS.SHARE",
+                            "icon": "share",
+                            "actions": {
+                                "click": "SHARE_NODE"
+                            },
+                            "rules": {
+                                "visible": "app.selection.file.canShare"
+                            }
+                        },
+                        {
                             "id": "app.toolbar.delete",
                             "type": "button",
                             "title": "APP.ACTIONS.DELETE",

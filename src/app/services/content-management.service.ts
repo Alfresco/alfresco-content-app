@@ -26,7 +26,7 @@
 import { Subject, Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { FolderDialogComponent, ConfirmDialogComponent } from '@alfresco/adf-content-services';
+import { FolderDialogComponent, ConfirmDialogComponent, ShareDialogComponent } from '@alfresco/adf-content-services';
 import { LibraryDialogComponent } from '../dialogs/library/library.dialog';
 import { SnackbarErrorAction, SnackbarInfoAction, SnackbarAction, SnackbarWarningAction,
     NavigateRouteAction, SnackbarUserAction, UndoDeleteNodesAction } from '../store/actions';
@@ -43,6 +43,7 @@ import {
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
 import { ContentApiService } from './content-api.service';
+import { sharedUrl } from '../store/selectors/app.selectors';
 
 interface RestoredNode {
     status: number;
@@ -68,6 +69,25 @@ export class ContentManagementService {
         private permission: NodePermissionService,
         private dialogRef: MatDialog
     ) {}
+
+    shareNode(node: MinimalNodeEntity): void {
+        if (node && node.entry && node.entry.isFile) {
+
+            this.store
+                .select(sharedUrl)
+                .take(1)
+                .subscribe(baseShareUrl => {
+                    this.dialogRef.open(ShareDialogComponent, {
+                        width: '600px',
+                        disableClose: true,
+                        data: {
+                            node,
+                            baseShareUrl
+                        }
+                    });
+                });
+        }
+    }
 
     createFolder(parentNodeId: string) {
         const dialogInstance = this.dialogRef.open(FolderDialogComponent, {
@@ -114,7 +134,7 @@ export class ContentManagementService {
     }
 
     createLibrary() {
-        const dialogInstance =  this.dialogRef.open(LibraryDialogComponent, {
+        const dialogInstance = this.dialogRef.open(LibraryDialogComponent, {
             width: '400px'
         });
 

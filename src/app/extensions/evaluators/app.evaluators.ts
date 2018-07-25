@@ -25,6 +25,20 @@
 
 import { RuleContext, RuleParameter } from '../rule.extensions';
 
+export function canShareFile(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    if (
+        isNotTrashcan(context, ...args) &&
+        isNotSharedFiles(context, ...args) &&
+        context.selection.file
+    ) {
+        return true;
+    }
+    return false;
+}
+
 export function canDeleteSelection(
     context: RuleContext,
     ...args: RuleParameter[]
@@ -37,6 +51,21 @@ export function canDeleteSelection(
         return context.permissions.check(context.selection.nodes, ['delete']);
     }
     return false;
+}
+
+export function isSharedFiles(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    const { url } = context.navigation;
+    return url && url.startsWith('/shared');
+}
+
+export function isNotSharedFiles(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    return !isSharedFiles(context, ...args);
 }
 
 export function isTrashcan(

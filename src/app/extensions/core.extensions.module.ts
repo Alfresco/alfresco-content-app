@@ -52,13 +52,16 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.selection.canDownload': app.canDownloadSelection,
                 'app.selection.notEmpty': app.hasSelection,
                 'app.selection.file': app.hasFileSelected,
+                'app.selection.file.canShare': app.canShareFile,
                 'app.selection.folder': app.hasFolderSelected,
                 'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
                 'app.navigation.folder.canCreate': app.canCreateFolder,
                 'app.navigation.isTrashcan': app.isTrashcan,
                 'app.navigation.isNotTrashcan': app.isNotTrashcan,
                 'app.navigation.isLibraries': app.isLibraries,
-                'app.navigation.isNotLibraries': app.isNotLibraries
+                'app.navigation.isNotLibraries': app.isNotLibraries,
+                'app.navigation.isSharedFiles': app.isSharedFiles,
+                'app.navigation.isNotSharedFiles': app.isNotSharedFiles
             });
 
             resolve(true);

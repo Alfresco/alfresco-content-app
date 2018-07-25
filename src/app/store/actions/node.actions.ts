@@ -34,6 +34,7 @@ export const PURGE_DELETED_NODES = 'PURGE_DELETED_NODES';
 export const DOWNLOAD_NODES = 'DOWNLOAD_NODES';
 export const CREATE_FOLDER = 'CREATE_FOLDER';
 export const EDIT_FOLDER = 'EDIT_FOLDER';
+export const SHARE_NODE = 'SHARE_NODE';
 
 export class SetSelectedNodesAction implements Action {
     readonly type = SET_SELECTED_NODES;
@@ -72,5 +73,10 @@ export class CreateFolderAction implements Action {
 
 export class EditFolderAction implements Action {
     readonly type = EDIT_FOLDER;
+    constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class ShareNodeAction implements Action {
+    readonly type = SHARE_NODE;
     constructor(public payload: MinimalNodeEntity) {}
 }

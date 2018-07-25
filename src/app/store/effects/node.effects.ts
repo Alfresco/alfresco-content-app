@@ -36,33 +36,59 @@ import {
     UndoDeleteNodesAction,
     UNDO_DELETE_NODES,
     CreateFolderAction,
-    CREATE_FOLDER
+    CREATE_FOLDER,
+    EditFolderAction,
+    EDIT_FOLDER,
+    RestoreDeletedNodesAction,
+    RESTORE_DELETED_NODES,
+    ShareNodeAction,
+    SHARE_NODE
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
-import { EditFolderAction, EDIT_FOLDER, RestoreDeletedNodesAction, RESTORE_DELETED_NODES } from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
     constructor(
         private store: Store<AppStore>,
         private actions$: Actions,
-        private contentManagementService: ContentManagementService
+        private contentService: ContentManagementService
     ) {}
+
+    @Effect({ dispatch: false })
+    shareNode$ = this.actions$.pipe(
+        ofType<ShareNodeAction>(SHARE_NODE),
+        map(action => {
+            if (action.payload) {
+                this.contentService.shareNode(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.file) {
+                            this.contentService.shareNode(selection.file);
+                        }
+                    });
+            }
+        })
+    );
 
     @Effect({ dispatch: false })
     purgeDeletedNodes$ = this.actions$.pipe(
         ofType<PurgeDeletedNodesAction>(PURGE_DELETED_NODES),
         map(action => {
             if (action && action.payload && action.payload.length > 0) {
-                this.contentManagementService.purgeDeletedNodes(action.payload);
+                this.contentService.purgeDeletedNodes(action.payload);
             } else {
                 this.store
                     .select(appSelection)
                     .take(1)
                     .subscribe(selection => {
                         if (selection && selection.count > 0) {
-                            this.contentManagementService.purgeDeletedNodes(selection.nodes);
+                            this.contentService.purgeDeletedNodes(
+                                selection.nodes
+                            );
                         }
                     });
             }
@@ -74,14 +100,16 @@ export class NodeEffects {
         ofType<RestoreDeletedNodesAction>(RESTORE_DELETED_NODES),
         map(action => {
             if (action && action.payload && action.payload.length > 0) {
-                this.contentManagementService.restoreDeletedNodes(action.payload);
+                this.contentService.restoreDeletedNodes(action.payload);
             } else {
                 this.store
                     .select(appSelection)
                     .take(1)
                     .subscribe(selection => {
                         if (selection && selection.count > 0) {
-                            this.contentManagementService.restoreDeletedNodes(selection.nodes);
+                            this.contentService.restoreDeletedNodes(
+                                selection.nodes
+                            );
                         }
                     });
             }
@@ -93,14 +121,14 @@ export class NodeEffects {
         ofType<DeleteNodesAction>(DELETE_NODES),
         map(action => {
             if (action && action.payload && action.payload.length > 0) {
-                this.contentManagementService.deleteNodes(action.payload);
+                this.contentService.deleteNodes(action.payload);
             } else {
                 this.store
                     .select(appSelection)
                     .take(1)
                     .subscribe(selection => {
                         if (selection && selection.count > 0) {
-                            this.contentManagementService.deleteNodes(selection.nodes);
+                            this.contentService.deleteNodes(selection.nodes);
                         }
                     });
             }
@@ -112,7 +140,7 @@ export class NodeEffects {
         ofType<UndoDeleteNodesAction>(UNDO_DELETE_NODES),
         map(action => {
             if (action.payload.length > 0) {
-                this.contentManagementService.undoDeleteNodes(action.payload);
+                this.contentService.undoDeleteNodes(action.payload);
             }
         })
     );
@@ -122,14 +150,14 @@ export class NodeEffects {
         ofType<CreateFolderAction>(CREATE_FOLDER),
         map(action => {
             if (action.payload) {
-                this.contentManagementService.createFolder(action.payload);
+                this.contentService.createFolder(action.payload);
             } else {
                 this.store
                     .select(currentFolder)
                     .take(1)
                     .subscribe(node => {
                         if (node && node.id) {
-                            this.contentManagementService.createFolder(node.id);
+                            this.contentService.createFolder(node.id);
                         }
                     });
             }
@@ -141,14 +169,14 @@ export class NodeEffects {
         ofType<EditFolderAction>(EDIT_FOLDER),
         map(action => {
             if (action.payload) {
-                this.contentManagementService.editFolder(action.payload);
+                this.contentService.editFolder(action.payload);
             } else {
                 this.store
                     .select(appSelection)
                     .take(1)
                     .subscribe(selection => {
                         if (selection && selection.folder) {
-                            this.contentManagementService.editFolder(selection.folder);
+                            this.contentService.editFolder(selection.folder);
                         }
                     });
             }
