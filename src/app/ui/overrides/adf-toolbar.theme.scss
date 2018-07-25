@@ -2,8 +2,6 @@
     $foreground: map-get($theme, foreground);
 
     .adf-viewer {
-        @include angular-material-theme($theme);
-
         .adf-toolbar {
             .mat-toolbar {
                 color: mat-color($foreground, text, .54);
