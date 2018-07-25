@@ -209,6 +209,7 @@
                     "type": "separator"
                 },
                 {
+                    "disabled": true,
                     "id": "app.toolbar.custom.1",
                     "order": 200,
                     "type": "custom",
