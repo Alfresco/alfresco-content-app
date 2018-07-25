@@ -29,24 +29,16 @@ import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import {
-    SnackbarWarningAction,
-    SnackbarInfoAction,
-    SnackbarErrorAction,
     PurgeDeletedNodesAction,
     PURGE_DELETED_NODES,
     DeleteNodesAction,
     DELETE_NODES,
-    SnackbarUserAction,
-    SnackbarAction,
     UndoDeleteNodesAction,
     UNDO_DELETE_NODES,
     CreateFolderAction,
     CREATE_FOLDER
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
-import { Observable } from 'rxjs/Rx';
-import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
-import { ContentApiService } from '../../services/content-api.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
 import { EditFolderAction, EDIT_FOLDER, RestoreDeletedNodesAction, RESTORE_DELETED_NODES } from '../actions/node.actions';
 
@@ -55,8 +47,7 @@ export class NodeEffects {
     constructor(
         private store: Store<AppStore>,
         private actions$: Actions,
-        private contentManagementService: ContentManagementService,
-        private contentApi: ContentApiService
+        private contentManagementService: ContentManagementService
     ) {}
 
     @Effect({ dispatch: false })
@@ -101,8 +92,17 @@ export class NodeEffects {
     deleteNodes$ = this.actions$.pipe(
         ofType<DeleteNodesAction>(DELETE_NODES),
         map(action => {
-            if (action.payload.length > 0) {
-                this.deleteNodes(action.payload);
+            if (action && action.payload && action.payload.length > 0) {
+                this.contentManagementService.deleteNodes(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.count > 0) {
+                            this.contentManagementService.deleteNodes(selection.nodes);
+                        }
+                    });
             }
         })
     );
@@ -112,7 +112,7 @@ export class NodeEffects {
         ofType<UndoDeleteNodesAction>(UNDO_DELETE_NODES),
         map(action => {
             if (action.payload.length > 0) {
-                this.undoDeleteNodes(action.payload);
+                this.contentManagementService.undoDeleteNodes(action.payload);
             }
         })
     );
@@ -154,202 +154,4 @@ export class NodeEffects {
             }
         })
     );
-
-    private deleteNodes(items: NodeInfo[]): void {
-        const batch: Observable<DeletedNodeInfo>[] = [];
-
-        items.forEach(node => {
-            batch.push(this.deleteNode(node));
-        });
-
-        Observable.forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
-            const status = this.processStatus(data);
-            const message = this.getDeleteMessage(status);
-
-            if (message && status.someSucceeded) {
-                message.duration = 10000;
-                message.userAction = new SnackbarUserAction(
-                    'APP.ACTIONS.UNDO',
-                    new UndoDeleteNodesAction([...status.success])
-                );
-            }
-
-            this.store.dispatch(message);
-
-            if (status.someSucceeded) {
-                this.contentManagementService.nodesDeleted.next();
-            }
-        });
-    }
-
-    private deleteNode(node: NodeInfo): Observable<DeletedNodeInfo> {
-        const { id, name } = node;
-
-        return this.contentApi
-            .deleteNode(id)
-            .map(() => {
-                return {
-                    id,
-                    name,
-                    status: 1
-                };
-            })
-            .catch((error: any) => {
-                return Observable.of({
-                    id,
-                    name,
-                    status: 0
-                });
-            });
-    }
-
-    private getDeleteMessage(status: DeleteStatus): SnackbarAction {
-        if (status.allFailed && !status.oneFailed) {
-            return new SnackbarErrorAction(
-                'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
-                { number: status.fail.length }
-            );
-        }
-
-        if (status.allSucceeded && !status.oneSucceeded) {
-            return new SnackbarInfoAction(
-                'APP.MESSAGES.INFO.NODE_DELETION.PLURAL',
-                { number: status.success.length }
-            );
-        }
-
-        if (status.someFailed && status.someSucceeded && !status.oneSucceeded) {
-            return new SnackbarWarningAction(
-                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL',
-                {
-                    success: status.success.length,
-                    failed: status.fail.length
-                }
-            );
-        }
-
-        if (status.someFailed && status.oneSucceeded) {
-            return new SnackbarWarningAction(
-                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR',
-                {
-                    success: status.success.length,
-                    failed: status.fail.length
-                }
-            );
-        }
-
-        if (status.oneFailed && !status.someSucceeded) {
-            return new SnackbarErrorAction(
-                'APP.MESSAGES.ERRORS.NODE_DELETION',
-                { name: status.fail[0].name }
-            );
-        }
-
-        if (status.oneSucceeded && !status.someFailed) {
-            return new SnackbarInfoAction(
-                'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR',
-                { name: status.success[0].name }
-            );
-        }
-
-        return null;
-    }
-
-    private undoDeleteNodes(items: DeletedNodeInfo[]): void {
-        const batch: Observable<DeletedNodeInfo>[] = [];
-
-        items.forEach(item => {
-            batch.push(this.undoDeleteNode(item));
-        });
-
-        Observable.forkJoin(...batch).subscribe(data => {
-            const processedData = this.processStatus(data);
-
-            if (processedData.fail.length) {
-                const message = this.getUndoDeleteMessage(processedData);
-                this.store.dispatch(message);
-            }
-
-            if (processedData.someSucceeded) {
-                this.contentManagementService.nodesRestored.next();
-            }
-        });
-    }
-
-    private undoDeleteNode(item: DeletedNodeInfo): Observable<DeletedNodeInfo> {
-        const { id, name } = item;
-
-        return this.contentApi
-            .restoreNode(id)
-            .map(() => {
-                return {
-                    id,
-                    name,
-                    status: 1
-                };
-            })
-            .catch((error: any) => {
-                return Observable.of({
-                    id,
-                    name,
-                    status: 0
-                });
-            });
-    }
-
-    private getUndoDeleteMessage(status: DeleteStatus): SnackbarAction {
-        if (status.someFailed && !status.oneFailed) {
-            return new SnackbarErrorAction(
-                'APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL',
-                { number: status.fail.length }
-            );
-        }
-
-        if (status.oneFailed) {
-            return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_RESTORE', {
-                name: status.fail[0].name
-            });
-        }
-
-        return null;
-    }
-
-    private processStatus(data: DeletedNodeInfo[] = []): DeleteStatus {
-        const status = {
-            fail: [],
-            success: [],
-            get someFailed() {
-                return !!this.fail.length;
-            },
-            get someSucceeded() {
-                return !!this.success.length;
-            },
-            get oneFailed() {
-                return this.fail.length === 1;
-            },
-            get oneSucceeded() {
-                return this.success.length === 1;
-            },
-            get allSucceeded() {
-                return this.someSucceeded && !this.someFailed;
-            },
-            get allFailed() {
-                return this.someFailed && !this.someSucceeded;
-            },
-            reset() {
-                this.fail = [];
-                this.success = [];
-            }
-        };
-
-        return data.reduce((acc, node) => {
-            if (node.status) {
-                acc.success.push(node);
-            } else {
-                acc.fail.push(node);
-            }
-
-            return acc;
-        }, status);
-    }
 }

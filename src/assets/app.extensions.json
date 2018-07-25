@@ -204,6 +204,25 @@
                     }
                 },
                 {
+                    "id": "app.toolbar.more",
+                    "type": "menu",
+                    "icon": "more_vert",
+                    "children": [
+                        {
+                            "id": "app.toolbar.delete",
+                            "type": "button",
+                            "title": "APP.ACTIONS.DELETE",
+                            "icon": "delete",
+                            "actions": {
+                                "click": "DELETE_NODES"
+                            },
+                            "rules": {
+                                "visible": "app.selection.canDelete"
+                            }
+                        }
+                    ]
+                },
+                {
                     "id": "app.toolbar.separator.2",
                     "order": 200,
                     "type": "separator"

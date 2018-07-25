@@ -29,7 +29,7 @@ import { MatDialog } from '@angular/material';
 import { FolderDialogComponent, ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import { LibraryDialogComponent } from '../dialogs/library/library.dialog';
 import { SnackbarErrorAction, SnackbarInfoAction, SnackbarAction, SnackbarWarningAction,
-    NavigateRouteAction, SnackbarUserAction } from '../store/actions';
+    NavigateRouteAction, SnackbarUserAction, UndoDeleteNodesAction } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
 import {
@@ -224,6 +224,92 @@ export class ContentManagementService {
                     this.restoreDeletedNodes(remainingNodes);
                 }
             });
+    }
+
+    deleteNodes(items: MinimalNodeEntity[]): void {
+        const batch: Observable<DeletedNodeInfo>[] = [];
+
+        items.forEach(node => {
+            batch.push(this.deleteNode(node));
+        });
+
+        Observable.forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
+            const status = this.processStatus(data);
+            const message = this.getDeleteMessage(status);
+
+            if (message && status.someSucceeded) {
+                message.duration = 10000;
+                message.userAction = new SnackbarUserAction(
+                    'APP.ACTIONS.UNDO',
+                    new UndoDeleteNodesAction([...status.success])
+                );
+            }
+
+            this.store.dispatch(message);
+
+            if (status.someSucceeded) {
+                this.nodesDeleted.next();
+            }
+        });
+    }
+
+    undoDeleteNodes(items: DeletedNodeInfo[]): void {
+        const batch: Observable<DeletedNodeInfo>[] = [];
+
+        items.forEach(item => {
+            batch.push(this.undoDeleteNode(item));
+        });
+
+        Observable.forkJoin(...batch).subscribe(data => {
+            const processedData = this.processStatus(data);
+
+            if (processedData.fail.length) {
+                const message = this.getUndoDeleteMessage(processedData);
+                this.store.dispatch(message);
+            }
+
+            if (processedData.someSucceeded) {
+                this.nodesRestored.next();
+            }
+        });
+    }
+
+    private undoDeleteNode(item: DeletedNodeInfo): Observable<DeletedNodeInfo> {
+        const { id, name } = item;
+
+        return this.contentApi
+            .restoreNode(id)
+            .map(() => {
+                return {
+                    id,
+                    name,
+                    status: 1
+                };
+            })
+            .catch((error: any) => {
+                return Observable.of({
+                    id,
+                    name,
+                    status: 0
+                });
+            });
+    }
+
+    private getUndoDeleteMessage(status: DeleteStatus): SnackbarAction {
+        if (status.someFailed && !status.oneFailed) {
+            return new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL',
+                { number: status.fail.length }
+            );
+        }
+
+        if (status.oneFailed) {
+            return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_RESTORE', {
+                name: status.fail[0].name
+            });
+        }
+
+        return null;
     }
 
     private restoreNode(node: MinimalNodeEntity): Observable<RestoredNode> {
@@ -456,5 +542,80 @@ export class ContentManagementService {
                 return !ids.includes(item.entry.id) ? item : null;
             }
         });
+    }
+
+    private deleteNode(node: MinimalNodeEntity): Observable<DeletedNodeInfo> {
+        const { name } = node.entry;
+        const id = node.entry.nodeId || node.entry.id;
+
+
+        return this.contentApi
+            .deleteNode(id)
+            .map(() => {
+                return {
+                    id,
+                    name,
+                    status: 1
+                };
+            })
+            .catch(() => {
+                return Observable.of({
+                    id,
+                    name,
+                    status: 0
+                });
+            });
+    }
+
+    private getDeleteMessage(status: DeleteStatus): SnackbarAction {
+        if (status.allFailed && !status.oneFailed) {
+            return new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
+                { number: status.fail.length }
+            );
+        }
+
+        if (status.allSucceeded && !status.oneSucceeded) {
+            return new SnackbarInfoAction(
+                'APP.MESSAGES.INFO.NODE_DELETION.PLURAL',
+                { number: status.success.length }
+            );
+        }
+
+        if (status.someFailed && status.someSucceeded && !status.oneSucceeded) {
+            return new SnackbarWarningAction(
+                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL',
+                {
+                    success: status.success.length,
+                    failed: status.fail.length
+                }
+            );
+        }
+
+        if (status.someFailed && status.oneSucceeded) {
+            return new SnackbarWarningAction(
+                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR',
+                {
+                    success: status.success.length,
+                    failed: status.fail.length
+                }
+            );
+        }
+
+        if (status.oneFailed && !status.someSucceeded) {
+            return new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.NODE_DELETION',
+                { name: status.fail[0].name }
+            );
+        }
+
+        if (status.oneSucceeded && !status.someFailed) {
+            return new SnackbarInfoAction(
+                'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR',
+                { name: status.success[0].name }
+            );
+        }
+
+        return null;
     }
 }

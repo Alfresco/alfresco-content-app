@@ -23,8 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Node } from 'alfresco-js-api';
 import { RuleContext, RuleParameter } from '../rule.extensions';
+
+export function canDeleteSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
+    if (!context.selection.isEmpty) {
+        return context.permissions.check(context.selection.nodes, ['delete']);
+    }
+    return false;
+}
 
 export function isTrashcan(context: RuleContext, ...args: RuleParameter[]): boolean {
     const { url } = context.navigation;
@@ -36,14 +42,13 @@ export function isNotTrashcan(context: RuleContext, ...args: RuleParameter[]): b
 }
 
 export function hasSelection(context: RuleContext, ...args: RuleParameter[]): boolean {
-    const { selection } = context;
-    return selection && !selection.isEmpty;
+    return !context.selection.isEmpty;
 }
 
 export function canCreateFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
-    const folder = context.navigation.currentFolder;
-    if (folder) {
-        return nodeHasPermission(folder, 'create');
+    const { currentFolder } = context.navigation;
+    if (currentFolder) {
+        return context.permissions.check(currentFolder, ['create']);
     }
     return false;
 }
@@ -69,17 +74,9 @@ export function hasFileSelected(context: RuleContext, ...args: RuleParameter[]):
 }
 
 export function canUpdateSelectedFolder(context: RuleContext, ...args: RuleParameter[]): boolean {
-    const folder = context.selection.folder;
-    if (folder && folder.entry) {
-        return nodeHasPermission(folder.entry, 'update');
-    }
-    return false;
-}
-
-export function nodeHasPermission(node: Node, permission: string): boolean {
-    if (node && permission) {
-        const allowableOperations = node.allowableOperations || [];
-        return allowableOperations.includes(permission);
+    const { folder } = context.selection;
+    if (folder) {
+        return context.permissions.check(folder.entry, ['update']);
     }
     return false;
 }

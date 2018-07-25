@@ -24,7 +24,6 @@
  */
 
 import { Action } from '@ngrx/store';
-import { NodeInfo } from '../models';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 export const SET_SELECTED_NODES = 'SET_SELECTED_NODES';
@@ -43,7 +42,7 @@ export class SetSelectedNodesAction implements Action {
 
 export class DeleteNodesAction implements Action {
     readonly type = DELETE_NODES;
-    constructor(public payload: NodeInfo[] = []) {}
+    constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class UndoDeleteNodesAction implements Action {

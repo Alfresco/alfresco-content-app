@@ -336,12 +336,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
     }
 
     deleteFile() {
-        this.store.dispatch(new DeleteNodesAction([
-            {
-                id: this.node.nodeId || this.node.id,
-                name: this.node.name
-            }
-        ]));
+        this.store.dispatch(new DeleteNodesAction([{ entry: this.node }]));
         this.onVisibilityChanged(false);
     }
 

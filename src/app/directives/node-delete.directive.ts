@@ -28,7 +28,6 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
 import { DeleteNodesAction } from '../store/actions';
-import { NodeInfo } from '../store/models';
 
 @Directive({
     selector: '[acaDeleteNode]'
@@ -44,16 +43,7 @@ export class NodeDeleteDirective {
     @HostListener('click')
     onClick() {
         if (this.selection && this.selection.length > 0) {
-            const toDelete: NodeInfo[] = this.selection.map(node => {
-                const { name } = node.entry;
-                const id = node.entry.nodeId || node.entry.id;
-
-                return {
-                    id,
-                    name
-                };
-            });
-            this.store.dispatch(new DeleteNodesAction(toDelete));
+            this.store.dispatch(new DeleteNodesAction(this.selection));
         }
     }
 }

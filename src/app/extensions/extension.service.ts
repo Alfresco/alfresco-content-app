@@ -36,6 +36,7 @@ import { RouteRef } from './routing.extensions';
 import { RuleContext, RuleRef, RuleEvaluator } from './rule.extensions';
 import { ActionRef, ContentActionRef, ContentActionType } from './action.extensions';
 import * as core from './evaluators/core.evaluators';
+import { NodePermissionService } from '../services/node-permission.service';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
@@ -63,7 +64,10 @@ export class ExtensionService implements RuleContext {
     selection: SelectionState;
     navigation: NavigationState;
 
-    constructor(private http: HttpClient, private store: Store<AppStore>) {
+    constructor(
+        private http: HttpClient,
+        private store: Store<AppStore>,
+        public permissions: NodePermissionService) {
 
         this.evaluators = {
             'core.every': core.every,

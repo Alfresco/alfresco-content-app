@@ -48,6 +48,7 @@ export function setupExtensions(extensions: ExtensionService): Function {
             });
 
             extensions.setEvaluators({
+                'app.selection.canDelete': app.canDeleteSelection,
                 'app.selection.canDownload': app.canDownloadSelection,
                 'app.selection.notEmpty': app.hasSelection,
                 'app.selection.file': app.hasFileSelected,
