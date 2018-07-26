@@ -101,18 +101,18 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemNameRow(file1)
+            dataTable.clickOnRowByName(file1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`${file1} deleted`);
-                    expect(dataTable.getRowName(file1).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(file1).isPresent()).toBe(false, 'Item was not removed from list');
                     items--;
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
-                .then(() => expect(dataTable.getRowName(file1).isPresent()).toBe(true, 'Item is not in trash'))
+                .then(() => expect(dataTable.getRowByName(file1).isPresent()).toBe(true, 'Item is not in trash'))
 
                 .then(() => apis.user.trashcan.restore(file1Id));
         });
@@ -121,21 +121,21 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.selectMultipleItemsRow([file1, file2])
+            dataTable.selectMultipleItems([file1, file2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`Deleted 2 items`);
-                    expect(dataTable.getRowName(file1).isPresent()).toBe(false, `${file1} was not removed from list`);
-                    expect(dataTable.getRowName(file2).isPresent()).toBe(false, `${file2} was not removed from list`);
+                    expect(dataTable.getRowByName(file1).isPresent()).toBe(false, `${file1} was not removed from list`);
+                    expect(dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} was not removed from list`);
                     items = items - 2;
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(file1).isPresent()).toBe(true, `${file1} is not in trash`);
-                    expect(dataTable.getRowName(file2).isPresent()).toBe(true, `${file2} is not in trash`);
+                    expect(dataTable.getRowByName(file1).isPresent()).toBe(true, `${file1} is not in trash`);
+                    expect(dataTable.getRowByName(file2).isPresent()).toBe(true, `${file2} is not in trash`);
                 })
 
                 .then(() => apis.user.trashcan.restore(file1Id))
@@ -146,41 +146,41 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemNameRow(folder1)
+            dataTable.clickOnRowByName(folder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => {
-                    expect(dataTable.getRowName(folder1).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(folder1).isPresent()).toBe(false, 'Item was not removed from list');
                     items--;
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(folder1).isPresent()).toBe(true, 'Item is not in trash');
-                    expect(dataTable.getRowName(file3).isPresent()).toBe(false, 'Item is in trash');
+                    expect(dataTable.getRowByName(folder1).isPresent()).toBe(true, 'Item is not in trash');
+                    expect(dataTable.getRowByName(file3).isPresent()).toBe(false, 'Item is in trash');
                 })
 
                 .then(() => apis.user.trashcan.restore(folder1Id));
         });
 
         it('delete a folder containing locked files', () => {
-            dataTable.clickOnItemNameRow(folder2)
+            dataTable.clickOnRowByName(folder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`${folder2} couldn't be deleted`);
-                    expect(dataTable.getRowName(folder2).isPresent()).toBe(true, 'Item was removed from list');
+                    expect(dataTable.getRowByName(folder2).isPresent()).toBe(true, 'Item was removed from list');
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(folder2).isPresent()).toBe(false, 'Item is in trash');
-                    expect(dataTable.getRowName(file4).isPresent()).toBe(false, 'Item is in trash');
+                    expect(dataTable.getRowByName(folder2).isPresent()).toBe(false, 'Item is in trash');
+                    expect(dataTable.getRowByName(file4).isPresent()).toBe(false, 'Item is in trash');
                 });
         });
 
         it('notification on multiple items deletion - some items fail to delete', () => {
-            dataTable.selectMultipleItemsRow([file1, folder2])
+            dataTable.selectMultipleItems([file1, folder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -191,7 +191,7 @@ describe('Delete content', () => {
 
         // TODO: needs to operate on two folders containing locked items
         xit('Notification on multiple items deletion - all items fail to delete', () => {
-            dataTable.selectMultipleItemsRow([fileLocked1, folder2])
+            dataTable.selectMultipleItems([fileLocked1, folder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -234,34 +234,34 @@ describe('Delete content', () => {
         });
 
         it('delete a file and check notification', () => {
-            dataTable.clickOnItemNameRow(sharedFile1)
+            dataTable.clickOnRowByName(sharedFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`${sharedFile1} deleted`);
-                    expect(dataTable.getRowName(sharedFile1).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(sharedFile1).isPresent()).toBe(false, 'Item was not removed from list');
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
-                .then(() => expect(dataTable.getRowName(sharedFile1).isPresent()).toBe(true, 'Item is not in trash'))
+                .then(() => expect(dataTable.getRowByName(sharedFile1).isPresent()).toBe(true, 'Item is not in trash'))
 
                 .then(() => apis.user.trashcan.restore(sharedFile1Id));
         });
 
         it('delete multiple files and check notification', () => {
-            dataTable.selectMultipleItemsRow([sharedFile2, sharedFile3])
+            dataTable.selectMultipleItems([sharedFile2, sharedFile3])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`Deleted 2 items`);
-                    expect(dataTable.getRowName(sharedFile2).isPresent()).toBe(false, `${sharedFile2} was not removed from list`);
-                    expect(dataTable.getRowName(sharedFile3).isPresent()).toBe(false, `${sharedFile3} was not removed from list`);
+                    expect(dataTable.getRowByName(sharedFile2).isPresent()).toBe(false, `${sharedFile2} was not removed from list`);
+                    expect(dataTable.getRowByName(sharedFile3).isPresent()).toBe(false, `${sharedFile3} was not removed from list`);
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(sharedFile2).isPresent()).toBe(true, `${sharedFile2} is not in trash`);
-                    expect(dataTable.getRowName(sharedFile3).isPresent()).toBe(true, `${sharedFile3} is not in trash`);
+                    expect(dataTable.getRowByName(sharedFile2).isPresent()).toBe(true, `${sharedFile2} is not in trash`);
+                    expect(dataTable.getRowByName(sharedFile3).isPresent()).toBe(true, `${sharedFile3} is not in trash`);
                 })
 
                 .then(() => apis.user.trashcan.restore(sharedFile2Id))
@@ -324,18 +324,18 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemNameRow(favoriteFile1)
+            dataTable.clickOnRowByName(favoriteFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`${favoriteFile1} deleted`);
-                    expect(dataTable.getRowName(favoriteFile1).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(favoriteFile1).isPresent()).toBe(false, 'Item was not removed from list');
                     items--;
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
-                .then(() => expect(dataTable.getRowName(favoriteFile1).isPresent()).toBe(true, 'Item is not in trash'))
+                .then(() => expect(dataTable.getRowByName(favoriteFile1).isPresent()).toBe(true, 'Item is not in trash'))
 
                 .then(() => apis.user.trashcan.restore(favoriteFile1Id));
         });
@@ -344,21 +344,21 @@ describe('Delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.selectMultipleItemsRow([favoriteFile1, favoriteFile2])
+            dataTable.selectMultipleItems([favoriteFile1, favoriteFile2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`Deleted 2 items`);
-                    expect(dataTable.getRowName(favoriteFile1).isPresent()).toBe(false, `${favoriteFile1} was not removed from list`);
-                    expect(dataTable.getRowName(favoriteFile2).isPresent()).toBe(false, `${favoriteFile2} was not removed from list`);
+                    expect(dataTable.getRowByName(favoriteFile1).isPresent()).toBe(false, `${favoriteFile1} was not removed from list`);
+                    expect(dataTable.getRowByName(favoriteFile2).isPresent()).toBe(false, `${favoriteFile2} was not removed from list`);
                     items = items - 2;
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(favoriteFile1).isPresent()).toBe(true, `${favoriteFile1} is not in trash`);
-                    expect(dataTable.getRowName(favoriteFile2).isPresent()).toBe(true, `${favoriteFile2} is not in trash`);
+                    expect(dataTable.getRowByName(favoriteFile1).isPresent()).toBe(true, `${favoriteFile1} is not in trash`);
+                    expect(dataTable.getRowByName(favoriteFile2).isPresent()).toBe(true, `${favoriteFile2} is not in trash`);
                 })
 
                 .then(() => apis.user.trashcan.restore(favoriteFile1Id))
@@ -368,41 +368,41 @@ describe('Delete content', () => {
         it('delete a folder with content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
-            dataTable.clickOnItemNameRow(favoriteFolder1)
+            dataTable.clickOnRowByName(favoriteFolder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => {
-                    expect(dataTable.getRowName(favoriteFolder1).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(favoriteFolder1).isPresent()).toBe(false, 'Item was not removed from list');
                     items--;
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(favoriteFolder1).isPresent()).toBe(true, 'Item is not in trash');
-                    expect(dataTable.getRowName(favoriteFile3).isPresent()).toBe(false, 'Item is in trash');
+                    expect(dataTable.getRowByName(favoriteFolder1).isPresent()).toBe(true, 'Item is not in trash');
+                    expect(dataTable.getRowByName(favoriteFile3).isPresent()).toBe(false, 'Item is in trash');
                 })
 
                 .then(() => apis.user.trashcan.restore(favoriteFolder1Id));
         });
 
         it('delete a folder containing locked files', () => {
-            dataTable.clickOnItemNameRow(favoriteFolder2)
+            dataTable.clickOnRowByName(favoriteFolder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`${favoriteFolder2} couldn't be deleted`);
-                    expect(dataTable.getRowName(favoriteFolder2).isPresent()).toBe(true, 'Item was removed from list');
+                    expect(dataTable.getRowByName(favoriteFolder2).isPresent()).toBe(true, 'Item was removed from list');
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(favoriteFolder2).isPresent()).toBe(false, 'Item is in trash');
-                    expect(dataTable.getRowName(favoriteFile4).isPresent()).toBe(false, 'Item is in trash');
+                    expect(dataTable.getRowByName(favoriteFolder2).isPresent()).toBe(false, 'Item is in trash');
+                    expect(dataTable.getRowByName(favoriteFile4).isPresent()).toBe(false, 'Item is in trash');
                 });
         });
 
         it('notification on multiple items deletion - some items fail to delete', () => {
-            dataTable.selectMultipleItemsRow([favoriteFile1, favoriteFolder2])
+            dataTable.selectMultipleItems([favoriteFile1, favoriteFolder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -414,7 +414,7 @@ describe('Delete content', () => {
         });
 
         it('Notification on multiple items deletion - all items fail to delete', () => {
-            dataTable.selectMultipleItemsRow([favoriteFileLocked1, favoriteFolder2])
+            dataTable.selectMultipleItems([favoriteFileLocked1, favoriteFolder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -467,34 +467,34 @@ describe('Delete content', () => {
         });
 
         xit('delete a file and check notification', () => {
-            dataTable.clickOnItemNameRow(recentFile1)
+            dataTable.clickOnRowByName(recentFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`${recentFile1} deleted`);
-                    expect(dataTable.getRowName(recentFile1).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(recentFile1).isPresent()).toBe(false, 'Item was not removed from list');
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
-                .then(() => expect(dataTable.getRowName(recentFile1).isPresent()).toBe(true, 'Item is not in trash'))
+                .then(() => expect(dataTable.getRowByName(recentFile1).isPresent()).toBe(true, 'Item is not in trash'))
 
                 .then(() => apis.user.trashcan.restore(recentFile1Id));
         });
 
         xit('delete multiple files and check notification', () => {
-            dataTable.selectMultipleItemsRow([recentFile2, recentFile3])
+            dataTable.selectMultipleItems([recentFile2, recentFile3])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => {
                     expect(message).toContain(`Deleted 2 items`);
-                    expect(dataTable.getRowName(recentFile2).isPresent()).toBe(false, `${recentFile2} was not removed from list`);
-                    expect(dataTable.getRowName(recentFile3).isPresent()).toBe(false, `${recentFile3} was not removed from list`);
+                    expect(dataTable.getRowByName(recentFile2).isPresent()).toBe(false, `${recentFile2} was not removed from list`);
+                    expect(dataTable.getRowByName(recentFile3).isPresent()).toBe(false, `${recentFile3} was not removed from list`);
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(recentFile2).isPresent()).toBe(true, `${recentFile2} is not in trash`);
-                    expect(dataTable.getRowName(recentFile3).isPresent()).toBe(true, `${recentFile3} is not in trash`);
+                    expect(dataTable.getRowByName(recentFile2).isPresent()).toBe(true, `${recentFile2} is not in trash`);
+                    expect(dataTable.getRowByName(recentFile3).isPresent()).toBe(true, `${recentFile3} is not in trash`);
                 })
 
                 .then(() => apis.user.trashcan.restore(recentFile2Id))

@@ -25,7 +25,7 @@
 
 import { browser, protractor } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS, APP_ROUTES } from '../../configs';
+import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -77,9 +77,11 @@ describe('Toolbar actions - multiple selection : ', () => {
             .then(() => apis.user.nodes.createFolders([ folderForDelete2 ]).then(resp => folderForDelete2Id = resp.data.entry.id))
 
             .then(() => apis.user.shared.shareFilesByIds([ file1Id, file2Id ]))
+            .then(() => apis.user.shared.waitForApi({ expect: 2 }))
 
             .then(() => apis.user.favorites.addFavoritesByIds('file', [ file1Id, file2Id ]))
             .then(() => apis.user.favorites.addFavoritesByIds('folder', [ folder1Id, folder2Id ]))
+            .then(() => apis.user.favorites.waitForApi({ expect: 4 }))
 
             .then(() => apis.user.nodes.deleteNodesById([
                 fileForDelete1Id, fileForDelete2Id, folderForDelete1Id, folderForDelete2Id
@@ -115,26 +117,26 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         it('unselect selected items - single click', () => {
-            dataTable.selectMultipleItemsRow([ file1, file2, folder1, folder2 ])
+            dataTable.selectMultipleItems([ file1, file2, folder1, folder2 ])
                 .then(() => expect(dataTable.countSelectedRows()).toEqual(4, 'incorrect selected rows number'))
-                .then(() => dataTable.clickOnItemNameRow(file1))
+                .then(() => dataTable.clickOnRowByName(file1))
                 .then(() => expect(dataTable.countSelectedRows()).toEqual(1, 'incorrect selected rows number'))
                 .then(() => dataTable.clearSelection());
         });
 
         it('unselect selected items - CMD+click', () => {
-            dataTable.selectMultipleItemsRow([ file1, file2, folder1, folder2 ])
+            dataTable.selectMultipleItems([ file1, file2, folder1, folder2 ])
                 .then(() => expect(dataTable.countSelectedRows()).toEqual(4, 'incorrect selected rows number'))
                 .then(() => browser.actions().sendKeys(protractor.Key.COMMAND).perform())
-                .then(() => dataTable.clickOnItemNameRow(file1))
-                .then(() => dataTable.clickOnItemNameRow(file2))
+                .then(() => dataTable.clickOnRowByName(file1))
+                .then(() => dataTable.clickOnRowByName(file2))
                 .then(() => browser.actions().sendKeys(protractor.Key.NULL).perform())
                 .then(() => expect(dataTable.countSelectedRows()).toEqual(2, 'incorrect selected rows number'))
                 .then(() => dataTable.clearSelection());
         });
 
         it('correct actions appear when multiple files are selected', () => {
-            dataTable.selectMultipleItemsRow([file1, file2])
+            dataTable.selectMultipleItems([file1, file2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
@@ -142,13 +144,12 @@ describe('Toolbar actions - multiple selection : ', () => {
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
                 })
-                // .then(() => browser.$('body').click())
-                .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())
+                .then(() => browser.actions().sendKeys(protractor.Key.ESCAPE).perform())
                 .then(() => dataTable.clearSelection());
         });
 
         it('correct actions appear when multiple folders are selected', () => {
-            dataTable.selectMultipleItemsRow([folder1, folder2])
+            dataTable.selectMultipleItems([folder1, folder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
@@ -156,55 +157,54 @@ describe('Toolbar actions - multiple selection : ', () => {
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
                 })
-                // .then(() => browser.$('body').click())
-                .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())
+                .then(() => browser.actions().sendKeys(protractor.Key.ESCAPE).perform())
                 .then(() => dataTable.clearSelection());
         });
 
         it('should not display View action when multiple entries selected', async () => {
-            await dataTable.selectMultipleItemsRow([folder1, file1, folder2]);
+            await dataTable.selectMultipleItems([folder1, file1, folder2]);
             expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'Action is displayed');
         });
 
 
         it('should display View action when one file is selected', async () => {
-            await dataTable.selectMultipleItemsRow([file1]);
+            await dataTable.selectMultipleItems([file1]);
             expect(toolbar.actions.isButtonPresent('View')).toBe(true, 'Action is not displayed');
         });
 
         it('should not display View action when only folders selected', async () => {
-            await dataTable.selectMultipleItemsRow([folder1, folder2]);
+            await dataTable.selectMultipleItems([folder1, folder2]);
             expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'Action is displayed');
         });
 
         it('should display Download action for selected items', async () => {
-            await dataTable.selectMultipleItemsRow([folder1, file1, folder2]);
+            await dataTable.selectMultipleItems([folder1, file1, folder2]);
             expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Action is not displayed');
         });
 
         it('should not display Download action for empty selection', async () => {
-            await dataTable.selectMultipleItemsRow([folder1, file1, folder2]);
+            await dataTable.selectMultipleItems([folder1, file1, folder2]);
             await dataTable.clearSelection();
             expect(toolbar.actions.isButtonPresent('Download')).toBe(false, 'Action is displayed');
         });
 
         it('should display Edit action when single folder selected', async () => {
-            await dataTable.selectMultipleItemsRow([folder1]);
+            await dataTable.selectMultipleItems([folder1]);
             expect(toolbar.actions.isButtonPresent('Edit')).toBe(true, 'Action is not displayed');
         });
 
         it('should not display Edit action when multiple folders selected', async () => {
-            await dataTable.selectMultipleItemsRow([folder1, file1, folder2]);
+            await dataTable.selectMultipleItems([folder1, file1, folder2]);
             expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Action is displayed');
         });
 
         it('should not display Edit action if no folders selected', async () => {
-            await dataTable.selectMultipleItemsRow([file1, file2]);
+            await dataTable.selectMultipleItems([file1, file2]);
             expect(toolbar.actions.isButtonPresent('Edit')).toBe(false, 'Action is displayed');
         });
 
         it('correct actions appear when both files and folders are selected', () => {
-            dataTable.selectMultipleItemsRow([file1, file2, folder1, folder2])
+            dataTable.selectMultipleItems([file1, file2, folder1, folder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(menu => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
@@ -212,8 +212,7 @@ describe('Toolbar actions - multiple selection : ', () => {
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
                 })
-                // .then(() => browser.$('body').click())
-                .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())
+                .then(() => browser.actions().sendKeys(protractor.Key.ESCAPE).perform())
                 .then(() => dataTable.clearSelection());
         });
     });
@@ -232,7 +231,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         beforeEach(done => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
                 .then(() => dataTable.waitForHeader())
-                .then(() => dataTable.doubleClickOnItemNameRow(siteName))
+                .then(() => dataTable.doubleClickOnRowByName(siteName))
                 .then(() => dataTable.waitForHeader())
                 .then(done);
         });
@@ -253,7 +252,7 @@ describe('Toolbar actions - multiple selection : ', () => {
             });
 
             it('correct actions appear when multiple files are selected', () => {
-                dataTable.selectMultipleItemsRow([file1Admin, file2Admin])
+                dataTable.selectMultipleItems([file1Admin, file2Admin])
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed for selected files');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
@@ -272,7 +271,7 @@ describe('Toolbar actions - multiple selection : ', () => {
             });
 
             it('correct actions appear when multiple folders are selected', () => {
-                dataTable.selectMultipleItemsRow([folder1Admin, folder2Admin])
+                dataTable.selectMultipleItems([folder1Admin, folder2Admin])
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
@@ -291,7 +290,7 @@ describe('Toolbar actions - multiple selection : ', () => {
             });
 
             it('correct actions appear when both files and folders are selected', () => {
-                dataTable.selectMultipleItemsRow([file1Admin, file2Admin, folder1Admin, folder2Admin])
+                dataTable.selectMultipleItems([file1Admin, file2Admin, folder1Admin, folder2Admin])
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
@@ -320,7 +319,7 @@ describe('Toolbar actions - multiple selection : ', () => {
             });
 
             it('correct actions appear when multiple files are selected', () => {
-                dataTable.selectMultipleItemsRow([file1Admin, file2Admin])
+                dataTable.selectMultipleItems([file1Admin, file2Admin])
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed for selected files');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
@@ -339,7 +338,7 @@ describe('Toolbar actions - multiple selection : ', () => {
             });
 
             it('correct actions appear when multiple folders are selected', () => {
-                dataTable.selectMultipleItemsRow([folder1Admin, folder2Admin])
+                dataTable.selectMultipleItems([folder1Admin, folder2Admin])
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
@@ -358,7 +357,7 @@ describe('Toolbar actions - multiple selection : ', () => {
             });
 
             it('correct actions appear when both files and folders are selected', () => {
-                dataTable.selectMultipleItemsRow([file1Admin, file2Admin, folder1Admin, folder2Admin])
+                dataTable.selectMultipleItems([file1Admin, file2Admin, folder1Admin, folder2Admin])
                     .then(() => {
                         expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                         expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
@@ -384,8 +383,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         beforeEach(done => {
-            // page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
-            browser.get(APP_ROUTES.SHARED_FILES)
+            page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(done);
         });
@@ -395,7 +393,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         it('correct actions appear when multiple files are selected', () => {
-            dataTable.selectMultipleItemsRow([file1, file2])
+            dataTable.selectMultipleItems([file1, file2])
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
@@ -408,7 +406,6 @@ describe('Toolbar actions - multiple selection : ', () => {
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
                 })
-                // .then(() => browser.$('body').click())
                 .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())
                 .then(() => dataTable.clearSelection());
         });
@@ -430,7 +427,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         it('correct actions appear when multiple files are selected', () => {
-            dataTable.selectMultipleItemsRow([file1, file2])
+            dataTable.selectMultipleItems([file1, file2])
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
@@ -465,7 +462,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         it('correct actions appear when multiple files are selected', () => {
-            dataTable.selectMultipleItemsRow([file1, file2])
+            dataTable.selectMultipleItems([file1, file2])
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
@@ -484,7 +481,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         it('correct actions appear when multiple folders are selected', () => {
-            dataTable.selectMultipleItemsRow([folder1, folder2])
+            dataTable.selectMultipleItems([folder1, folder2])
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
@@ -503,7 +500,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         it('correct actions appear when both files and folders are selected', () => {
-            dataTable.selectMultipleItemsRow([file1, file2, folder1, folder2])
+            dataTable.selectMultipleItems([file1, file2, folder1, folder2])
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('View')).toBe(false, 'View is displayed');
                     expect(toolbar.actions.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
@@ -539,7 +536,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         it('correct actions appear when multiple files are selected', () => {
-            dataTable.selectMultipleItemsRow([fileForDelete1, fileForDelete2])
+            dataTable.selectMultipleItems([fileForDelete1, fileForDelete2])
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('Permanently delete'))
                         .toBe(true, 'Permanently delete is displayed for selected files');
@@ -549,7 +546,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         it('correct actions appear when multiple folders are selected', () => {
-            dataTable.selectMultipleItemsRow([folderForDelete1, folderForDelete2])
+            dataTable.selectMultipleItems([folderForDelete1, folderForDelete2])
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('Permanently delete'))
                         .toBe(true, 'Permanently delete is displayed for selected files');
@@ -559,7 +556,7 @@ describe('Toolbar actions - multiple selection : ', () => {
         });
 
         it('correct actions appear when both files and folders are selected', () => {
-            dataTable.selectMultipleItemsRow([fileForDelete1, fileForDelete2, folderForDelete1, folderForDelete2])
+            dataTable.selectMultipleItems([fileForDelete1, fileForDelete2, folderForDelete1, folderForDelete2])
                 .then(() => {
                     expect(toolbar.actions.isButtonPresent('Permanently delete'))
                         .toBe(true, 'Permanently delete is displayed for selected files');

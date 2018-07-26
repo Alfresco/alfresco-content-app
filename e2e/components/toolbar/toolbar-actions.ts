@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, promise } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, promise, protractor, browser } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
@@ -60,5 +60,9 @@ export class ToolbarActions extends Component {
         return this.getButtonByTitleAttribute('More actions').click()
             .then(() => this.menu.waitForMenuToOpen())
             .then(() => this.menu);
+    }
+
+    closeMoreMenu() {
+        return browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
     }
 }

@@ -103,13 +103,13 @@ describe('Recent Files', () => {
 
     it('displays the files added by the current user in the last 30 days [C213170]', () => {
         expect(dataTable.countRows()).toEqual(3, 'Incorrect number of files displayed');
-        expect(dataTable.getRowName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
-        expect(dataTable.getRowName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
-        expect(dataTable.getRowName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
+        expect(dataTable.getRowByName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
+        expect(dataTable.getRowByName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
+        expect(dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
     });
 
     it(`file not displayed if it's in the Trashcan [C213174]`, () => {
-        expect(dataTable.getRowName(fileName3).isPresent()).not.toBe(true, `${fileName3} is displayed`);
+        expect(dataTable.getRowByName(fileName3).isPresent()).not.toBe(true, `${fileName3} is displayed`);
     });
 
     it('Location column displays the parent folder of the file [C213175]', () => {

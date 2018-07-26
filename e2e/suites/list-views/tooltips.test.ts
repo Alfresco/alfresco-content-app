@@ -100,7 +100,7 @@ describe('File / folder tooltips', () => {
     describe('on Personal Files', () => {
         beforeAll(done => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-                .then(() => dataTable.doubleClickOnItemNameRow(parent))
+                .then(() => dataTable.doubleClickOnRowByName(parent))
                 .then(done);
         });
 
