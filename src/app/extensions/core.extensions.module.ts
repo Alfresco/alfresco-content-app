@@ -56,6 +56,7 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.selection.folder': app.hasFolderSelected,
                 'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
                 'app.navigation.folder.canCreate': app.canCreateFolder,
+                'app.navigation.folder.canUpload': app.canUpload,
                 'app.navigation.isTrashcan': app.isTrashcan,
                 'app.navigation.isNotTrashcan': app.isNotTrashcan,
                 'app.navigation.isLibraries': app.isLibraries,

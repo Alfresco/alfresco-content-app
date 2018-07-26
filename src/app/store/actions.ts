@@ -31,3 +31,4 @@ export * from './actions/viewer.actions';
 export * from './actions/search.actions';
 export * from './actions/user.actions';
 export * from './actions/library.actions';
+export * from './actions/upload.actions';

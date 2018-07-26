@@ -38,7 +38,8 @@ import {
     DownloadEffects,
     ViewerEffects,
     SearchEffects,
-    SiteEffects
+    SiteEffects,
+    UploadEffects
 } from './effects';
 
 @NgModule({
@@ -55,7 +56,8 @@ import {
             DownloadEffects,
             ViewerEffects,
             SearchEffects,
-            SiteEffects
+            SiteEffects,
+            UploadEffects
         ]),
         !environment.production
             ? StoreDevtoolsModule.instrument({ maxAge: 25 })

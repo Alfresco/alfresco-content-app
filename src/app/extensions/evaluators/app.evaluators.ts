@@ -116,6 +116,17 @@ export function canCreateFolder(
     return false;
 }
 
+export function canUpload(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    const { currentFolder } = context.navigation;
+    if (currentFolder) {
+        return context.permissions.check(currentFolder, ['create']);
+    }
+    return false;
+}
+
 export function canDownloadSelection(
     context: RuleContext,
     ...args: RuleParameter[]

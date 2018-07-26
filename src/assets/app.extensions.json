@@ -64,6 +64,30 @@
                 "rules": {
                     "enabled": "app.navigation.folder.canCreate"
                 }
+            },
+            {
+                "id": "app.create.uploadFile",
+                "type": "default",
+                "icon": "file_upload",
+                "title": "ext: Upload files",
+                "actions": {
+                    "click": "UPLOAD_FILES"
+                },
+                "rules": {
+                    "enabled": "app.navigation.folder.canUpload"
+                }
+            },
+            {
+                "id": "app.create.uploadFolder",
+                "type": "default",
+                "icon": "cloud_upload",
+                "title": "ext: Upload folder",
+                "actions": {
+                    "click": "UPLOAD_FOLDER"
+                },
+                "rules": {
+                    "enabled": "app.navigation.folder.canUpload"
+                }
             }
         ],
         "navbar": [
@@ -139,6 +163,37 @@
                     "rules": {
                         "visible": "app.navigation.folder.canCreate"
                     }
+                },
+                {
+                    "id": "app.toolbar.uploadFile",
+                    "order": 11,
+                    "type": "button",
+                    "icon": "file_upload",
+                    "title": "ext: Upload files",
+                    "actions": {
+                        "click": "UPLOAD_FILES"
+                    },
+                    "rules": {
+                        "visible": "app.navigation.folder.canUpload"
+                    }
+                },
+                {
+                    "id": "app.toolbar.uploadFolder",
+                    "order": 12,
+                    "type": "button",
+                    "icon": "cloud_upload",
+                    "title": "ext: Upload folder",
+                    "actions": {
+                        "click": "UPLOAD_FOLDER"
+                    },
+                    "rules": {
+                        "visible": "app.navigation.folder.canUpload"
+                    }
+                },
+                {
+                    "id": "app.toolbar.separator.2",
+                    "order": 5,
+                    "type": "separator"
                 },
                 {
                     "id": "app.toolbar.preview",
@@ -235,7 +290,7 @@
                     ]
                 },
                 {
-                    "id": "app.toolbar.separator.2",
+                    "id": "app.toolbar.separator.3",
                     "order": 200,
                     "type": "separator"
                 },
