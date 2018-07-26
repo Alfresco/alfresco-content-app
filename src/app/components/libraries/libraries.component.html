@@ -4,12 +4,6 @@
         </adf-breadcrumb>
 
         <adf-toolbar class="inline">
-            <ng-container *ifExperimental="'extensions'">
-                <ng-container *ngFor="let entry of actions">
-                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
-                </ng-container>
-            </ng-container>
-
             <button *ifExperimental="'cardview'"
                 mat-icon-button
                 color="primary"
@@ -18,31 +12,9 @@
                 <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
             </button>
 
-            <button
-                mat-icon-button
-                color="primary"
-                *ifExperimental="'libraries'"
-                (click)="createLibrary()">
-                <mat-icon>create_new_folder</mat-icon>
-            </button>
-
-            <ng-container *ngIf="!selection.isEmpty">
-                <ng-container *ifExperimental="'libraries'">
-                    <button
-                        color="primary"
-                        mat-icon-button
-                        title="{{ 'APP.ACTIONS.MORE' | translate }}"
-                        [matMenuTriggerFor]="actionsMenu">
-                        <mat-icon>more_vert</mat-icon>
-                    </button>
-                    <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
-                        <button
-                            mat-menu-item
-                            (click)="deleteLibrary(selection.first)">
-                            <mat-icon>delete</mat-icon>
-                            <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
-                        </button>
-                    </mat-menu>
+            <ng-container *ifExperimental="'extensions'">
+                <ng-container *ngFor="let entry of actions">
+                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
                 </ng-container>
             </ng-container>
         </adf-toolbar>

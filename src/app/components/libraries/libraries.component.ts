@@ -30,7 +30,6 @@ import { ShareDataRow } from '@alfresco/adf-content-services';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { DeleteLibraryAction, CreateLibraryAction } from '../../store/actions';
 import { SiteEntry } from 'alfresco-js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
@@ -99,15 +98,5 @@ export class LibrariesComponent extends PageComponent implements OnInit {
                     this.router.navigate([ './', documentLibrary.id ], { relativeTo: this.route });
                 });
         }
-    }
-
-    deleteLibrary(node: SiteEntry) {
-        if (node && node.entry) {
-            this.store.dispatch(new DeleteLibraryAction(node.entry.id));
-        }
-    }
-
-    createLibrary() {
-        this.store.dispatch(new CreateLibraryAction());
     }
 }

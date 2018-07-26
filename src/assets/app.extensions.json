@@ -259,6 +259,18 @@
                     }
                 },
                 {
+                    "id": "app.toolbar.createLibrary",
+                    "type": "button",
+                    "title": "Create Library",
+                    "icon": "create_new_folder",
+                    "actions": {
+                        "click": "CREATE_LIBRARY"
+                    },
+                    "rules": {
+                        "visible": "app.navigation.isLibraries"
+                    }
+                },
+                {
                     "id": "app.toolbar.more",
                     "type": "menu",
                     "icon": "more_vert",
