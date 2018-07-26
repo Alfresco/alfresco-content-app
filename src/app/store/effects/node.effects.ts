@@ -46,6 +46,7 @@ import {
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
+import { UnshareNodesAction, UNSHARE_NODES } from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
@@ -68,6 +69,25 @@ export class NodeEffects {
                     .subscribe(selection => {
                         if (selection && selection.file) {
                             this.contentService.shareNode(selection.file);
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    unshareNodes$ = this.actions$.pipe(
+        ofType<UnshareNodesAction>(UNSHARE_NODES),
+        map(action => {
+            if (action && action.payload && action.payload.length > 0) {
+                this.contentService.unshareNodes(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && !selection.isEmpty) {
+                            this.contentService.unshareNodes(selection.nodes);
                         }
                     });
             }

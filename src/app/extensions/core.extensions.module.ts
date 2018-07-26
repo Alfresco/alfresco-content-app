@@ -51,6 +51,7 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.selection.canDelete': app.canDeleteSelection,
                 'app.selection.canDownload': app.canDownloadSelection,
                 'app.selection.notEmpty': app.hasSelection,
+                'app.selection.canUnshare': app.canUnshareNodes,
                 'app.selection.file': app.hasFileSelected,
                 'app.selection.file.canShare': app.canShareFile,
                 'app.selection.library': app.hasLibrarySelected,

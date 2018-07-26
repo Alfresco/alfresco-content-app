@@ -169,6 +169,12 @@ export class ContentManagementService {
         );
     }
 
+    async unshareNodes(links: Array<MinimalNodeEntity>) {
+        const promises = links.map(link => this.contentApi.deleteSharedLink(link.entry.id).toPromise());
+        await Promise.all(promises);
+        this.linksUnshared.next();
+    }
+
     canDeleteNode(node: MinimalNodeEntity | Node): boolean {
         return this.permission.check(node, ['delete']);
     }

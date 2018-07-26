@@ -289,6 +289,18 @@
                             }
                         },
                         {
+                            "id": "app.toolbar.unshare",
+                            "type": "button",
+                            "title": "APP.ACTIONS.UNSHARE",
+                            "icon": "stop_screen_share",
+                            "actions": {
+                                "click": "UNSHARE_NODES"
+                            },
+                            "rules": {
+                                "visible": "app.selection.canUnshare"
+                            }
+                        },
+                        {
                             "id": "app.toolbar.delete",
                             "type": "button",
                             "title": "APP.ACTIONS.DELETE",

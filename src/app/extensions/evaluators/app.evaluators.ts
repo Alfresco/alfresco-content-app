@@ -68,6 +68,18 @@ export function isNotSharedFiles(
     return !isSharedFiles(context, ...args);
 }
 
+export function canUnshareNodes(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    if (!context.selection.isEmpty) {
+        return context.permissions.check(context.selection.nodes, ['delete'], {
+            target: 'allowableOperationsOnTarget'
+        });
+    }
+    return false;
+}
+
 export function isTrashcan(
     context: RuleContext,
     ...args: RuleParameter[]
