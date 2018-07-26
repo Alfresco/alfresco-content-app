@@ -109,7 +109,7 @@
                 "type": {
                     "description": "Element type",
                     "type": "string",
-                    "enum": ["default", "button", "separator", "menu"]
+                    "enum": ["default", "button", "separator", "menu", "custom"]
                 },
                 "title": {
                     "description": "Element title",
@@ -126,6 +126,10 @@
                 "disabled": {
                     "description": "Toggles disabled state",
                     "type": "boolean"
+                },
+                "component": {
+                    "description": "Custom component id (requires type to be 'custom')",
+                    "type": "string"
                 },
                 "children": {
                     "description": "Child entries for the container types.",

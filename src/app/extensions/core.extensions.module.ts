@@ -31,13 +31,16 @@ import { TrashcanComponent } from '../components/trashcan/trashcan.component';
 import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
 import * as app from './evaluators/app.evaluators';
 import { ExtensionService } from './extension.service';
+import { CustomExtensionComponent } from './components/custom-component/custom.component';
+import { DemoButtonComponent } from './components/custom-component/demo.button';
 
 export function setupExtensions(extensions: ExtensionService): Function {
     return () =>
         new Promise(resolve => {
             extensions.setComponents({
                 'app.layout.main': LayoutComponent,
-                'app.components.trashcan': TrashcanComponent
+                'app.components.trashcan': TrashcanComponent,
+                'app.demo.button': DemoButtonComponent
             });
 
             extensions.setAuthGuards({
@@ -61,8 +64,18 @@ export function setupExtensions(extensions: ExtensionService): Function {
 
 @NgModule({
     imports: [CommonModule, CoreModule.forChild()],
-    declarations: [ToolbarActionComponent],
-    exports: [ToolbarActionComponent]
+    declarations: [
+        ToolbarActionComponent,
+        CustomExtensionComponent,
+        DemoButtonComponent
+    ],
+    exports: [
+        ToolbarActionComponent,
+        CustomExtensionComponent
+    ],
+    entryComponents: [
+        DemoButtonComponent
+    ]
 })
 export class CoreExtensionsModule {
     static forRoot(): ModuleWithProviders {

@@ -23,37 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export enum ContentActionType {
-    default = 'button',
-    button = 'button',
-    separator = 'separator',
-    menu = 'menu',
-    custom = 'custom'
-}
+import { Component } from '@angular/core';
 
-export interface ContentActionRef {
-    id: string;
-    type: ContentActionType;
-
-    title?: string;
-    order?: number;
-    icon?: string;
-    disabled?: boolean;
-    children?: Array<ContentActionRef>;
-    component?: string;
-    actions?: {
-        click?: string;
-        [key: string]: string;
-    };
-    rules?: {
-        enabled?: string;
-        visible?: string;
-        [key: string]: string;
-    };
-}
-
-export interface ActionRef {
-    id: string;
-    type: string;
-    payload?: string;
-}
+@Component({
+    selector: 'app-demo-button',
+    template: `
+        <button color="primary" mat-icon-button>
+            <mat-icon>extension</mat-icon>
+        </button>
+    `
+})
+export class DemoButtonComponent {}
