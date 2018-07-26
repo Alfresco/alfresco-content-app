@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener, OnDestroy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
 import { PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
@@ -43,7 +43,7 @@ import { ContentApiService } from '../../services/content-api.service';
     encapsulation: ViewEncapsulation.None,
     host: { 'class': 'aca-location-link adf-location-cell' }
 })
-export class LocationLinkComponent implements OnInit, OnDestroy {
+export class LocationLinkComponent implements OnInit {
     private _path: PathInfo;
 
     nodeLocation$ = new BehaviorSubject(null);
@@ -88,10 +88,6 @@ export class LocationLinkComponent implements OnInit, OnDestroy {
                 }
             }
         }
-    }
-
-    ngOnDestroy() {
-        this.nodeLocation$.unsubscribe();
     }
 
     // todo: review once 5.2.3 is out
