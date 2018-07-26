@@ -44,8 +44,7 @@ import { ContentApiService } from '../../services/content-api.service';
     host: { 'class': 'aca-location-link adf-location-cell' }
 })
 export class LocationLinkComponent implements OnInit, OnDestroy {
-    private _path: PathInfo;
-    private nodeLocation: string;
+    private _path: PathInfo;;
 
     nodeLocation$ = new BehaviorSubject(null);
 
@@ -135,10 +134,6 @@ export class LocationLinkComponent implements OnInit, OnDestroy {
     private getTooltip(path: PathInfo) {
         let result: string = null;
 
-        if (this.nodeLocation) {
-            return this.nodeLocation$.next(this.nodeLocation);
-        }
-
         const elements = path.elements.map(e => Object.assign({}, e));
 
         if (elements[0].name === 'Company Home') {
@@ -155,7 +150,6 @@ export class LocationLinkComponent implements OnInit, OnDestroy {
                                 elements.unshift({ id: null, name: 'File Libraries' });
 
                                 result = elements.map(e => e.name).join('/');
-                                this.nodeLocation = result;
                                 this.nodeLocation$.next(result);
                             },
                             () => {
@@ -164,7 +158,6 @@ export class LocationLinkComponent implements OnInit, OnDestroy {
                                 elements.splice(2, 1);
 
                                 result = elements.map(e => e.name).join('/');
-                                this.nodeLocation = result;
                                 this.nodeLocation$.next(result);
                             }
                         );
@@ -178,7 +171,6 @@ export class LocationLinkComponent implements OnInit, OnDestroy {
         }
 
         result = elements.map(e => e.name).join('/');
-        this.nodeLocation = result;
         this.nodeLocation$.next(result);
     }
 }
