@@ -206,9 +206,7 @@ export class DataTable extends Component {
 
     getItemLocationTileAttr(name: string) {
         const location = this.getItemLocation(name).$('a');
-        const condition = function () {
-            return location.getAttribute('title').then((value) => value && value.length > 0);
-        };
+        const condition = () => location.getAttribute('title').then((value) => value && value.length > 0);
 
         browser.actions()
             .mouseMove(location)
