@@ -44,7 +44,7 @@ import { ContentApiService } from '../../services/content-api.service';
     host: { 'class': 'aca-location-link adf-location-cell' }
 })
 export class LocationLinkComponent implements OnInit, OnDestroy {
-    private _path: PathInfo;;
+    private _path: PathInfo;
 
     nodeLocation$ = new BehaviorSubject(null);
 
