@@ -136,7 +136,7 @@ describe('Shared Files', () => {
     });
 
     it('Location column displays a tooltip with the entire path of the file [C213667]', () => {
-        expect(dataTable.getItemLocationTooltip(fileAdmin)).toEqual(`File Libraries/${siteName}`);
-        expect(dataTable.getItemLocationTooltip(file1User)).toEqual(`Personal Files/${folderUser}`);
+        expect(dataTable.getItemLocationTileAttr(fileAdmin)).toEqual(`File Libraries/${siteName}`);
+        expect(dataTable.getItemLocationTileAttr(file1User)).toEqual(`Personal Files/${folderUser}`);
     });
 });
