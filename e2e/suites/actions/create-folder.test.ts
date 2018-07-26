@@ -85,7 +85,7 @@ describe('Create folder', () => {
     });
 
     it('option is enabled when having enough permissions', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openNewMenu())
             .then(menu => {
                 const isEnabled = menu.getItemByLabel('Create folder').isEnabled();
@@ -94,7 +94,7 @@ describe('Create folder', () => {
     });
 
     it('creates new folder with name', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => createDialog.enterName(folderName1))
@@ -102,13 +102,13 @@ describe('Create folder', () => {
             .then(() => createDialog.waitForDialogToClose())
             .then(() => dataTable.waitForHeader())
             .then(() => {
-                const isPresent = dataTable.getRowName(folderName1).isPresent();
+                const isPresent = dataTable.getRowByName(folderName1).isPresent();
                 expect(isPresent).toBe(true, 'Folder not displayed in list view');
             });
     });
 
     it('creates new folder with name and description', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => createDialog.enterName(folderName2))
@@ -116,13 +116,13 @@ describe('Create folder', () => {
             .then(() => createDialog.clickCreate())
             .then(() => createDialog.waitForDialogToClose())
             .then(() => dataTable.waitForHeader())
-            .then(() => expect(dataTable.getRowName(folderName2).isPresent()).toBe(true, 'Folder not displayed'))
+            .then(() => expect(dataTable.getRowByName(folderName2).isPresent()).toBe(true, 'Folder not displayed'))
             .then(() => apis.user.nodes.getNodeDescription(folderName2, parent))
             .then(desc => expect(desc).toEqual(folderDescription));
     });
 
     it('enabled option tooltip', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openNewMenu())
             .then(menu => browser.actions().mouseMove(menu.getItemByLabel('Create folder')).perform()
                 .then(() => menu))
@@ -135,8 +135,8 @@ describe('Create folder', () => {
         const fileLibrariesPage = new BrowsingPage();
 
         fileLibrariesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnItemName(siteName))
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnItemName(folderName1))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByName(siteName))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByName(folderName1))
             .then(() => fileLibrariesPage.sidenav.openNewMenu())
             .then(menu => {
                 const isEnabled = menu.getItemByLabel('Create folder').isEnabled();
@@ -148,8 +148,8 @@ describe('Create folder', () => {
         const fileLibrariesPage = new BrowsingPage();
 
         fileLibrariesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnItemName(siteName))
-            .then(() => fileLibrariesPage.dataTable.doubleClickOnItemName(folderName1))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByName(siteName))
+            .then(() => fileLibrariesPage.dataTable.doubleClickOnRowByName(folderName1))
             .then(() => fileLibrariesPage.sidenav.openNewMenu())
             .then(menu => browser.actions().mouseMove(menu.getItemByLabel('Create folder')).perform()
                 .then(() => menu))
@@ -160,7 +160,7 @@ describe('Create folder', () => {
     });
 
     it('dialog UI elements', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => {
@@ -179,7 +179,7 @@ describe('Create folder', () => {
     });
 
     it('with empty folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => createDialog.deleteNameWithBackspace())
@@ -193,7 +193,7 @@ describe('Create folder', () => {
     });
 
     it('with folder name ending with a dot "."', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => createDialog.enterName('folder-name.'))
@@ -209,7 +209,7 @@ describe('Create folder', () => {
     it('with folder name containing special characters', () => {
         const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => namesWithSpecialChars.forEach(name => {
@@ -224,7 +224,7 @@ describe('Create folder', () => {
     });
 
     it('with folder name containing only spaces', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => createDialog.enterName('    '))
@@ -238,7 +238,7 @@ describe('Create folder', () => {
     });
 
     it('cancel folder creation', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => createDialog.enterName('test'))
@@ -250,7 +250,7 @@ describe('Create folder', () => {
     });
 
     it('duplicate folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => createDialog.enterName(duplicateFolderName))
@@ -263,7 +263,7 @@ describe('Create folder', () => {
     });
 
     it('trim ending spaces from folder name', () => {
-        personalFilesPage.dataTable.doubleClickOnItemName(parent)
+        personalFilesPage.dataTable.doubleClickOnRowByName(parent)
             .then(() => personalFilesPage.sidenav.openCreateDialog())
             .then(() => createDialog.waitForDialogToOpen())
             .then(() => createDialog.enterName(nameWithSpaces))
@@ -271,7 +271,7 @@ describe('Create folder', () => {
             .then(() => createDialog.waitForDialogToClose())
             .then(() => dataTable.waitForHeader())
             .then(() => {
-                const isPresent = dataTable.getRowName(nameWithSpaces.trim()).isPresent();
+                const isPresent = dataTable.getRowByName(nameWithSpaces.trim()).isPresent();
                 expect(isPresent).toBe(true, 'Folder not displayed in list view');
             });
     });

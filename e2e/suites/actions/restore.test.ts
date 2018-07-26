@@ -80,63 +80,63 @@ describe('Restore from Trash', () => {
         });
 
         it('restore file', () => {
-            dataTable.clickOnItemNameRow(file)
+            dataTable.clickOnRowByName(file)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
                     expect(text).toContain(`${file} restored`);
                     expect(text).toContain(`View`);
-                    expect(dataTable.getRowName(file).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
                 .then(() => page.dataTable.waitForHeader())
                 .then(() => {
-                    expect(page.dataTable.getRowName(file).isPresent()).toBe(true, 'Item not displayed in list');
+                    expect(page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
                 })
 
                 .then(() => apis.user.nodes.deleteNodeById(fileId, false));
         });
 
         it('restore folder', () => {
-            dataTable.clickOnItemNameRow(folder)
+            dataTable.clickOnRowByName(folder)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
                     expect(text).toContain(`${folder} restored`);
                     expect(text).toContain(`View`);
-                    expect(dataTable.getRowName(folder).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
                 .then(() => page.dataTable.waitForHeader())
                 .then(() => {
-                    expect(page.dataTable.getRowName(folder).isPresent()).toBe(true, 'Item not displayed in list');
+                    expect(page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
                 })
 
                 .then(() => apis.user.nodes.deleteNodeById(folderId, false));
         });
 
         it('restore multiple items', () => {
-            dataTable.selectMultipleItemsRow([ file, folder ])
+            dataTable.selectMultipleItems([ file, folder ])
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
                     expect(text).toContain(`Restore successful`);
                     expect(text).not.toContain(`View`);
-                    expect(dataTable.getRowName(file).isPresent()).toBe(false, 'Item was not removed from list');
-                    expect(dataTable.getRowName(folder).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
+                    expect(dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
                 })
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
                 .then(() => page.dataTable.waitForHeader())
                 .then(() => {
-                    expect(page.dataTable.getRowName(file).isPresent()).toBe(true, 'Item not displayed in list');
-                    expect(page.dataTable.getRowName(folder).isPresent()).toBe(true, 'Item not displayed in list');
+                    expect(page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
+                    expect(page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
                 })
 
                 .then(() => apis.user.nodes.deleteNodesById([ fileId, folderId ], false));
         });
 
         it('View from notification', () => {
-            dataTable.clickOnItemNameRow(file)
+            dataTable.clickOnRowByName(file)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.clickSnackBarAction())
                 .then(() => page.dataTable.waitForHeader())
@@ -186,7 +186,7 @@ describe('Restore from Trash', () => {
 
         it('Restore a file when another file with same name exists on the restore location', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-                .then(() => dataTable.clickOnItemNameRow(file1))
+                .then(() => dataTable.clickOnRowByName(file1))
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual(`Can't restore, ${file1} already exists`));
@@ -194,7 +194,7 @@ describe('Restore from Trash', () => {
 
         it('Restore a file when original location no longer exists', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-                .then(() => dataTable.clickOnItemNameRow(file2))
+                .then(() => dataTable.clickOnRowByName(file2))
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual(`Can't restore ${file2}, the original location no longer exists`));
@@ -252,14 +252,14 @@ describe('Restore from Trash', () => {
         });
 
         it('one failure', () => {
-            dataTable.selectMultipleItemsRow([ file1, file2 ])
+            dataTable.selectMultipleItems([ file1, file2 ])
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                     .then(text => expect(text).toEqual(`Can't restore ${file1}, the original location no longer exists`));
         });
 
         it('multiple failures', () => {
-            dataTable.selectMultipleItemsRow([ file3, file4, file5 ])
+            dataTable.selectMultipleItems([ file3, file4, file5 ])
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual('2 items not restored because of issues with the restore location'));

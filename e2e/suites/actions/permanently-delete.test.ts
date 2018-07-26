@@ -78,7 +78,7 @@ describe('Permanently delete from Trash', () => {
     });
 
     it('delete file [C217094] [C217091] [C217092]', () => {
-        dataTable.clickOnItemNameRow(file1)
+        dataTable.clickOnRowByName(file1)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
             .then(() => trashPage.waitForDialog())
             .then(() => trashPage.getDialogActionByLabel('Delete'))
@@ -87,12 +87,12 @@ describe('Permanently delete from Trash', () => {
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
                 expect(text).toEqual(`${file1} deleted`);
-                expect(dataTable.getRowName(file1).isPresent()).toBe(false, 'Item was not deleted');
+                expect(dataTable.getRowByName(file1).isPresent()).toBe(false, 'Item was not deleted');
             });
     });
 
     it('delete folder [C217091] [C217092]', () => {
-        dataTable.clickOnItemNameRow(folder1)
+        dataTable.clickOnRowByName(folder1)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
             .then(() => trashPage.waitForDialog())
             .then(() => trashPage.getDialogActionByLabel('Delete'))
@@ -101,12 +101,12 @@ describe('Permanently delete from Trash', () => {
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
                 expect(text).toEqual(`${folder1} deleted`);
-                expect(dataTable.getRowName(folder1).isPresent()).toBe(false, 'Item was not deleted');
+                expect(dataTable.getRowByName(folder1).isPresent()).toBe(false, 'Item was not deleted');
             });
     });
 
     it('delete multiple items [C217093]', () => {
-        dataTable.selectMultipleItemsRow([ file2, folder2 ])
+        dataTable.selectMultipleItems([ file2, folder2 ])
             .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
             .then(() => trashPage.waitForDialog())
             .then(() => trashPage.getDialogActionByLabel('Delete'))
@@ -115,8 +115,8 @@ describe('Permanently delete from Trash', () => {
             .then(() => trashPage.getSnackBarMessage())
             .then(text => {
                 expect(text).toEqual(`2 items deleted`);
-                expect(dataTable.getRowName(file2).isPresent()).toBe(false, 'Item was not deleted');
-                expect(dataTable.getRowName(folder2).isPresent()).toBe(false, 'Item was not deleted');
+                expect(dataTable.getRowByName(file2).isPresent()).toBe(false, 'Item was not deleted');
+                expect(dataTable.getRowByName(folder2).isPresent()).toBe(false, 'Item was not deleted');
             });
     });
 });

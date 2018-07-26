@@ -86,11 +86,11 @@ describe('Personal Files', () => {
         });
 
         it('has "Data Dictionary" folder [C213241]', () => {
-            expect(dataTable.getRowName('Data Dictionary').isPresent()).toBe(true);
+            expect(dataTable.getRowByName('Data Dictionary').isPresent()).toBe(true);
         });
 
         it('has created content', () => {
-            expect(dataTable.getRowName(adminFolder).isPresent()).toBe(true);
+            expect(dataTable.getRowByName(adminFolder).isPresent()).toBe(true);
         });
     });
 
@@ -125,7 +125,7 @@ describe('Personal Files', () => {
         });
 
         it('has user created content [C213242]', () => {
-            expect(dataTable.getRowName(userFolder).isPresent())
+            expect(dataTable.getRowByName(userFolder).isPresent())
                 .toBe(true);
         });
 
@@ -135,7 +135,7 @@ describe('Personal Files', () => {
                 .then(response => response.data.entry.id);
 
             const navigatePromise = dataTable
-                .doubleClickOnItemNameRow(userFolder)
+                .doubleClickOnRowByName(userFolder)
                 .then(() => dataTable.waitForHeader());
 
             Promise
@@ -147,13 +147,13 @@ describe('Personal Files', () => {
                     expect(browser.getCurrentUrl())
                         .toContain(nodeId, 'Node ID is not in the URL');
 
-                    expect(dataTable.getRowName(userFile).isPresent())
+                    expect(dataTable.getRowByName(userFile).isPresent())
                         .toBe(true, 'user file is missing');
                 });
         });
 
         it('redirects to Personal Files on clicking the link from sidebar [C213245]', () => {
-            personalFilesPage.dataTable.doubleClickOnItemNameRow(userFolder)
+            personalFilesPage.dataTable.doubleClickOnRowByName(userFolder)
                 .then(() => personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
                 .then(() => browser.getCurrentUrl())
                 .then(url => expect(url.endsWith(APP_ROUTES.PERSONAL_FILES)).toBe(true, 'incorrect url'));
