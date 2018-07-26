@@ -191,25 +191,17 @@
             { "field": "modifier", "mincount": 1, "label": "SEARCH.FACET_FIELDS.MODIFIER" },
             { "field": "SITE", "mincount": 1, "label": "SEARCH.FACET_FIELDS.FILE_LIBRARY" }
         ],
-        "facetQueries": {},
+        "facetQueries": {
+            "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
+            "queries": [
+                { "label": "Today", "query": "cm:modified:[TODAY to TODAY]" },
+                { "label": "This week", "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]" },
+                { "label": "This month", "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"},
+                { "label": "In last 6 months", "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"},
+                { "label": "This year", "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"}
+            ]
+        },
         "categories": [
-            {
-                "id": "modifiedDate",
-                "name": "SEARCH.CATEGORIES.MODIFIED_DATE",
-                "enabled": true,
-                "component": {
-                    "selector": "check-list",
-                    "settings": {
-                        "options": [
-                            { "name": "Today", "value": "cm:modified:[TODAY to TODAY]" },
-                            { "name": "This week", "value": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]" },
-                            { "name": "This month", "value": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"},
-                            { "name": "In last 6 months", "value": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"},
-                            { "name": "This year", "value": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"}
-                        ]
-                    }
-                }
-            },
             {
                 "id": "size",
                 "name": "SEARCH.CATEGORIES.SIZE",
