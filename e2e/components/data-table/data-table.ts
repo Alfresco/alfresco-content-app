@@ -204,6 +204,20 @@ export class DataTable extends Component {
         return this.getItemLocation(name).$('a').getAttribute('title');
     }
 
+    getItemLocationTileAttr(name: string) {
+        const location = this.getItemLocation(name).$('a');
+        const condition = function () {
+            return location.getAttribute('title').then((value) => value && value.length > 0);
+        };
+
+        browser.actions()
+            .mouseMove(location)
+            .perform();
+
+        browser.wait(condition, BROWSER_WAIT_TIMEOUT);
+        return location.getAttribute('title');
+    }
+
     clickItemLocation(name: string) {
         return this.getItemLocation(name).click();
     }
