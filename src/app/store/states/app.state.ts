@@ -52,6 +52,7 @@ export const INITIAL_APP_STATE: AppState = {
     },
     selection: {
         nodes: [],
+        libraries: [],
         isEmpty: true,
         count: 0
     },

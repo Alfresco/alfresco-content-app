@@ -23,14 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity, SiteEntry } from 'alfresco-js-api';
 
 export interface SelectionState {
     count: number;
     nodes: MinimalNodeEntity[];
+    libraries: SiteEntry[];
     isEmpty: boolean;
     first?: MinimalNodeEntity;
     last?: MinimalNodeEntity;
     folder?: MinimalNodeEntity;
     file?: MinimalNodeEntity;
+    library?: SiteEntry;
 }

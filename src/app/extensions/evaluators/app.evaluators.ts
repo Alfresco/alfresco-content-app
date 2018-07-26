@@ -152,6 +152,14 @@ export function hasFolderSelected(
     return folder ? true : false;
 }
 
+export function hasLibrarySelected(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    const library = context.selection.library;
+    return library ? true : false;
+}
+
 export function hasFileSelected(
     context: RuleContext,
     ...args: RuleParameter[]

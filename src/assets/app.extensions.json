@@ -155,7 +155,7 @@
                     "id": "app.toolbar.createFolder",
                     "type": "button",
                     "order": 10,
-                    "title": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
+                    "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
                     "icon": "create_new_folder",
                     "actions": {
                         "click": "CREATE_FOLDER"
@@ -262,6 +262,7 @@
                     "id": "app.toolbar.more",
                     "type": "menu",
                     "icon": "more_vert",
+                    "title": "APP.ACTIONS.MORE",
                     "children": [
                         {
                             "id": "app.toolbar.share",
@@ -285,6 +286,18 @@
                             },
                             "rules": {
                                 "visible": "app.selection.canDelete"
+                            }
+                        },
+                        {
+                            "id": "app.toolbar.deleteLibrary",
+                            "type": "button",
+                            "title": "APP.ACTIONS.DELETE",
+                            "icon": "delete",
+                            "actions": {
+                                "click": "DELETE_LIBRARY"
+                            },
+                            "rules": {
+                                "visible": "app.selection.library"
                             }
                         }
                     ]

@@ -30,7 +30,7 @@ export const CREATE_LIBRARY = 'CREATE_LIBRARY';
 
 export class DeleteLibraryAction implements Action {
     readonly type = DELETE_LIBRARY;
-    constructor(public payload: string) {}
+    constructor(public payload?: string) {}
 }
 
 export class CreateLibraryAction implements Action {

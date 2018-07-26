@@ -53,6 +53,7 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.selection.notEmpty': app.hasSelection,
                 'app.selection.file': app.hasFileSelected,
                 'app.selection.file.canShare': app.canShareFile,
+                'app.selection.library': app.hasLibrarySelected,
                 'app.selection.folder': app.hasFolderSelected,
                 'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
                 'app.navigation.folder.canCreate': app.canCreateFolder,

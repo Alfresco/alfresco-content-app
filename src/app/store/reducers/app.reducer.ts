@@ -181,6 +181,7 @@ function updateSelectedNodes(
     let last = null;
     let file = null;
     let folder = null;
+    let library = null;
 
     if (nodes.length > 0) {
         first = nodes[0];
@@ -197,6 +198,11 @@ function updateSelectedNodes(
         }
     }
 
+    const libraries = [...action.payload].filter((node: any) => node.isLibrary);
+    if (libraries.length === 1) {
+        library = libraries[0];
+    }
+
     newState.selection = {
         count,
         nodes,
@@ -204,7 +210,9 @@ function updateSelectedNodes(
         first,
         last,
         file,
-        folder
+        folder,
+        libraries,
+        library
     };
     return newState;
 }

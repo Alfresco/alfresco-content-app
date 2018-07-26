@@ -149,6 +149,26 @@ export class ContentManagementService {
         });
     }
 
+    deleteLibrary(id: string): void {
+        this.contentApi.deleteSite(id).subscribe(
+            () => {
+                this.libraryDeleted.next(id);
+                this.store.dispatch(
+                    new SnackbarInfoAction(
+                        'APP.MESSAGES.INFO.LIBRARY_DELETED'
+                    )
+                );
+            },
+            () => {
+                this.store.dispatch(
+                    new SnackbarErrorAction(
+                        'APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED'
+                    )
+                );
+            }
+        );
+    }
+
     canDeleteNode(node: MinimalNodeEntity | Node): boolean {
         return this.permission.check(node, ['delete']);
     }

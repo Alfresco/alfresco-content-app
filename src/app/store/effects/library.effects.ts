@@ -30,21 +30,16 @@ import {
     DeleteLibraryAction, DELETE_LIBRARY,
     CreateLibraryAction, CREATE_LIBRARY
 } from '../actions';
-import {
-    SnackbarInfoAction,
-    SnackbarErrorAction
-} from '../actions/snackbar.actions';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../states/app.state';
 import { ContentManagementService } from '../../services/content-management.service';
-import { ContentApiService } from '../../services/content-api.service';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../states';
+import { appSelection } from '../selectors/app.selectors';
 
 @Injectable()
 export class SiteEffects {
     constructor(
-        private actions$: Actions,
         private store: Store<AppStore>,
-        private contentApi: ContentApiService,
+        private actions$: Actions,
         private content: ContentManagementService
     ) {}
 
@@ -53,7 +48,16 @@ export class SiteEffects {
         ofType<DeleteLibraryAction>(DELETE_LIBRARY),
         map(action => {
             if (action.payload) {
-                this.deleteLibrary(action.payload);
+                this.content.deleteLibrary(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.library) {
+                            this.content.deleteLibrary(selection.library.entry.id);
+                        }
+                    });
             }
         })
     );
@@ -62,31 +66,7 @@ export class SiteEffects {
     createLibrary$ = this.actions$.pipe(
         ofType<CreateLibraryAction>(CREATE_LIBRARY),
         map(action => {
-            this.createLibrary();
+            this.content.createLibrary();
         })
     );
-
-    private deleteLibrary(id: string) {
-        this.contentApi.deleteSite(id).subscribe(
-            () => {
-                this.content.libraryDeleted.next(id);
-                this.store.dispatch(
-                    new SnackbarInfoAction(
-                        'APP.MESSAGES.INFO.LIBRARY_DELETED'
-                    )
-                );
-            },
-            () => {
-                this.store.dispatch(
-                    new SnackbarErrorAction(
-                        'APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED'
-                    )
-                );
-            }
-        );
-    }
-
-    private createLibrary() {
-        this.content.createLibrary();
-    }
 }
