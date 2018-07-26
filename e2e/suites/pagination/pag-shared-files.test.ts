@@ -186,7 +186,7 @@ describe('Pagination on Shared Files', () => {
                     expect(pagination.currentPage.getText()).toContain('Page 3');
                     expect(pagination.previousButton.isEnabled()).toBe(true, 'Previous button is not enabled');
                     expect(pagination.nextButton.isEnabled()).toBe(true, 'Next button is not enabled');
-                    expect(dataTable.getRowName('file-40.txt').isPresent())
+                    expect(dataTable.getRowByName('file-40.txt').isPresent())
                         .toBe(true, 'File not found on page');
                 })
 
@@ -198,7 +198,7 @@ describe('Pagination on Shared Files', () => {
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
                     expect(pagination.range.getText()).toContain('26-50 of 101');
-                    expect(dataTable.getRowName('file-70.txt').isPresent()).toBe(true, 'File not found on page');
+                    expect(dataTable.getRowByName('file-70.txt').isPresent()).toBe(true, 'File not found on page');
                 })
 
                 .then(() => pagination.resetToDefaultPageNumber());
@@ -212,7 +212,7 @@ describe('Pagination on Shared Files', () => {
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
                     expect(pagination.range.getText()).toContain('1-25 of 101');
-                    expect(dataTable.getRowName('file-88.txt').isPresent()).toBe(true, 'File not found on page');
+                    expect(dataTable.getRowByName('file-88.txt').isPresent()).toBe(true, 'File not found on page');
                 })
 
                 .then(() => pagination.resetToDefaultPageNumber());

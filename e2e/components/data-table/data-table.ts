@@ -43,7 +43,7 @@ export class DataTable extends Component {
         row: '.adf-datatable-row[role]',
         selectedRow: '.adf-datatable-row.is-selected',
         cell: '.adf-data-table-cell',
-        locationLink: 'aca-location-link',
+        locationLink: '.aca-location-link',
         linkCell: '.adf-location-cell',
 
         selectedIcon: '.mat-icon',
@@ -125,6 +125,10 @@ export class DataTable extends Component {
         return this.body.all(by.css(DataTable.selectors.row));
     }
 
+    countRows(): promise.Promise<number> {
+        return this.getRows().count();
+    }
+
     getSelectedRows(): ElementArrayFinder {
         return this.body.all(by.css(DataTable.selectors.selectedRow));
     }
@@ -137,66 +141,41 @@ export class DataTable extends Component {
         return this.getRows().get(nth - 1);
     }
 
-    getRowName(name: string): ElementFinder {
-        return this.body.element(by.cssContainingText(`.adf-data-table-cell span`, name));
+    getRowByName(name: string): ElementFinder {
+        return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
+    }
+
+    getRowFirstCell(name: string) {
+        return this.getRowByName(name).all(by.css(DataTable.selectors.cell)).get(0);
+    }
+
+    getRowNameCell(name: string) {
+        return this.getRowByName(name).all(by.css(DataTable.selectors.cell)).get(1);
+    }
+
+    getRowNameCellText(name: string) {
+        return this.getRowNameCell(name).$('span');
     }
 
     getItemNameTooltip(name: string): promise.Promise<string> {
-        return this.getRowName(name).getAttribute('title');
-    }
-
-    countRows(): promise.Promise<number> {
-        return this.getRows().count();
+        return this.getRowNameCellText(name).getAttribute('title');
     }
 
     hasCheckMarkIcon(itemName: string) {
-        return this.getRowName(itemName).element(by.xpath(`./ancestor::div[contains(@class, 'adf-datatable-row')]`))
-            .element(by.css(DataTable.selectors.selectedIcon)).isPresent();
+        return this.getRowByName(itemName).element(by.css(DataTable.selectors.selectedIcon)).isPresent();
     }
 
     // Navigation/selection methods
-    doubleClickOnItemName(name: string): promise.Promise<any> {
-        const dblClick = browser.actions()
-            .mouseMove(this.getRowName(name))
-            .click()
-            .click();
-
-        return dblClick.perform();
-    }
-
-    // Navigation/selection methods
-    doubleClickOnItemNameRow(name: string): promise.Promise<any> {
-        const dblClick = browser.actions()
-            .mouseMove(this.getRowName(name).element(by.xpath(`./ancestor::div[contains(@class, 'adf-datatable-row')]`)))
-            .click()
-            .click();
-
-        return dblClick.perform();
-    }
-
-    clickOnItemName(name: string): promise.Promise<any> {
-        const item = this.getRowName(name);
+    doubleClickOnRowByName(name: string): promise.Promise<any> {
+        const item = this.getRowFirstCell(name);
         return Utils.waitUntilElementClickable(item)
-            .then(() => this.getRowName(name).click());
+            .then(() => browser.actions().mouseMove(item).click().click().perform());
     }
 
-    clickOnItemNameRow(name: string): promise.Promise<any> {
-        const item = this.getRowName(name);
+    clickOnRowByName(name: string): promise.Promise<any> {
+        const item = this.getRowFirstCell(name);
         return Utils.waitUntilElementClickable(item)
-            .then(() => this.getRowName(name)
-                .element(by.xpath(`./ancestor::div[contains(@class, 'adf-datatable-row')]`))
-                .click());
-    }
-
-    selectMultipleItemsRow(names: string[]): promise.Promise<void> {
-        return this.clearSelection()
-            .then(() => browser.actions().sendKeys(protractor.Key.COMMAND).perform())
-            .then(() => {
-                names.forEach(name => {
-                    this.clickOnItemNameRow(name);
-                });
-            })
-            .then(() => browser.actions().sendKeys(protractor.Key.NULL).perform());
+                .then(() => item.click());
     }
 
     selectMultipleItems(names: string[]): promise.Promise<void> {
@@ -204,7 +183,7 @@ export class DataTable extends Component {
             .then(() => browser.actions().sendKeys(protractor.Key.COMMAND).perform())
             .then(() => {
                 names.forEach(name => {
-                    this.clickOnItemName(name);
+                    this.clickOnRowByName(name);
                 });
             })
             .then(() => browser.actions().sendKeys(protractor.Key.NULL).perform());
@@ -218,8 +197,7 @@ export class DataTable extends Component {
     }
 
     getItemLocation(name: string) {
-        return this.getRowName(name).element(by.xpath(`./ancestor::div[contains(@class, 'adf-datatable-row')]`))
-            .element(this.locationLink);
+        return this.getRowByName(name).element(this.locationLink);
     }
 
     getItemLocationTooltip(name: string): promise.Promise<string> {

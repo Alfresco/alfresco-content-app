@@ -23,8 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by } from 'protractor';
-
 import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
@@ -117,7 +115,7 @@ describe('File Libraries', () => {
         };
 
         expect(sitesCount).toEqual(5, 'Incorrect number of sites displayed');
-        expect(dataTable.getRowName(adminSite).isPresent()).toBe(false, 'Incorrect site appears in list');
+        expect(dataTable.getRowByName(adminSite).isPresent()).toBe(false, 'Incorrect site appears in list');
 
         dataTable.getRows()
             .map((row) => {

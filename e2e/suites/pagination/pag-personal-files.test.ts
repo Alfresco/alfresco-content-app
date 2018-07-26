@@ -110,7 +110,7 @@ describe('Pagination on Personal Files', () => {
         beforeEach(done => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
                 .then(() => dataTable.waitForHeader())
-                .then(() => dataTable.doubleClickOnItemNameRow(parent))
+                .then(() => dataTable.doubleClickOnRowByName(parent))
                 .then(done);
         });
 
@@ -179,7 +179,7 @@ describe('Pagination on Personal Files', () => {
                     expect(pagination.currentPage.getText()).toContain('Page 3');
                     expect(pagination.previousButton.isEnabled()).toBe(true, 'Previous button is not enabled');
                     expect(pagination.nextButton.isEnabled()).toBe(true, 'Next button is not enabled');
-                    expect(dataTable.getRowName('file-60.txt').isPresent()).toBe(true, 'File not found on page');
+                    expect(dataTable.getRowByName('file-60.txt').isPresent()).toBe(true, 'File not found on page');
                 })
 
                 .then(() => pagination.resetToDefaultPageNumber());
@@ -190,7 +190,7 @@ describe('Pagination on Personal Files', () => {
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
                     expect(pagination.range.getText()).toContain('26-50 of 101');
-                    expect(dataTable.getRowName('file-30.txt').isPresent()).toBe(true, 'File not found on page');
+                    expect(dataTable.getRowByName('file-30.txt').isPresent()).toBe(true, 'File not found on page');
                 })
 
                 .then(() => pagination.resetToDefaultPageNumber());
@@ -204,7 +204,7 @@ describe('Pagination on Personal Files', () => {
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
                     expect(pagination.range.getText()).toContain('1-25 of 101');
-                    expect(dataTable.getRowName('file-12.txt').isPresent()).toBe(true, 'File not found on page');
+                    expect(dataTable.getRowByName('file-12.txt').isPresent()).toBe(true, 'File not found on page');
                 })
 
                 .then(() => pagination.resetToDefaultPageNumber());

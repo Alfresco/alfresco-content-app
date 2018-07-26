@@ -74,7 +74,7 @@ describe('Edit folder', () => {
     beforeEach(done => {
         personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => dataTable.waitForHeader())
-            .then(() => dataTable.doubleClickOnItemNameRow(parent))
+            .then(() => dataTable.doubleClickOnRowByName(parent))
             .then(() => dataTable.waitForHeader())
             .then(done);
     });
@@ -94,7 +94,7 @@ describe('Edit folder', () => {
     });
 
     it('dialog UI defaults', () => {
-        dataTable.clickOnItemNameRow(folderName)
+        dataTable.clickOnRowByName(folderName)
             .then(() => editButton.click())
             .then(() => {
                 expect(editDialog.getTitle()).toEqual('Edit folder');
@@ -106,7 +106,7 @@ describe('Edit folder', () => {
     });
 
     it('properties are modified when pressing OK', () => {
-        dataTable.clickOnItemNameRow(folderNameToEdit)
+        dataTable.clickOnRowByName(folderNameToEdit)
             .then(() => editButton.click())
             .then(() => editDialog.waitForDialogToOpen())
             .then(() => editDialog.enterDescription(folderDescriptionEdited))
@@ -114,13 +114,13 @@ describe('Edit folder', () => {
             .then(() => editDialog.clickUpdate())
             .then(() => editDialog.waitForDialogToClose())
             .then(() => dataTable.waitForHeader())
-            .then(() => expect(dataTable.getRowName(folderNameEdited).isPresent()).toBe(true, 'Folder not displayed'))
+            .then(() => expect(dataTable.getRowByName(folderNameEdited).isPresent()).toBe(true, 'Folder not displayed'))
             .then(() => apis.user.nodes.getNodeDescription(folderNameEdited, parent))
             .then(desc => expect(desc).toEqual(folderDescriptionEdited));
     });
 
     it('with empty folder name', () => {
-        dataTable.clickOnItemNameRow(folderName)
+        dataTable.clickOnRowByName(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.deleteNameWithBackspace())
             .then(() => {
@@ -132,7 +132,7 @@ describe('Edit folder', () => {
     it('with name with special characters', () => {
         const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-        dataTable.clickOnItemNameRow(folderName)
+        dataTable.clickOnRowByName(folderName)
             .then(() => editButton.click())
             .then(() => namesWithSpecialChars.forEach(name => {
                 editDialog.enterName(name);
@@ -143,7 +143,7 @@ describe('Edit folder', () => {
     });
 
     it('with name ending with a dot', () => {
-        dataTable.clickOnItemNameRow(folderName)
+        dataTable.clickOnRowByName(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.nameInput.sendKeys('.'))
             .then(() => {
@@ -153,7 +153,7 @@ describe('Edit folder', () => {
     });
 
     it('Cancel button', () => {
-        dataTable.clickOnItemNameRow(folderName)
+        dataTable.clickOnRowByName(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.clickCancel())
             .then(() => {
@@ -162,7 +162,7 @@ describe('Edit folder', () => {
     });
 
     it('with duplicate folder name', () => {
-        dataTable.clickOnItemNameRow(folderName)
+        dataTable.clickOnRowByName(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.enterName(duplicateFolderName))
             .then(() => editDialog.clickUpdate())
@@ -174,14 +174,14 @@ describe('Edit folder', () => {
     });
 
     it('trim ending spaces', () => {
-        dataTable.clickOnItemNameRow(folderName)
+        dataTable.clickOnRowByName(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.nameInput.sendKeys('   '))
             .then(() => editDialog.clickUpdate())
             .then(() => editDialog.waitForDialogToClose())
             .then(() => {
                 expect(personalFilesPage.snackBar.isPresent()).not.toBe(true, 'notification appears');
-                expect(dataTable.getRowName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
+                expect(dataTable.getRowByName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
             });
     });
 });

@@ -95,7 +95,7 @@ describe('Undo delete content', () => {
         });
 
         it('Successful delete notification shows Undo action', () => {
-            dataTable.clickOnItemNameRow(file1)
+            dataTable.clickOnRowByName(file1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -107,7 +107,7 @@ describe('Undo delete content', () => {
         });
 
         it('Unsuccessful delete notification does not show Undo action', () => {
-            dataTable.clickOnItemNameRow(folder2)
+            dataTable.clickOnRowByName(folder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -120,12 +120,12 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemNameRow(file1)
+            dataTable.clickOnRowByName(file1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => {
-                    expect(dataTable.getRowName(file1).isPresent()).toBe(true, 'Item was not restored');
+                    expect(dataTable.getRowByName(file1).isPresent()).toBe(true, 'Item was not restored');
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 });
         });
@@ -134,17 +134,17 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemNameRow(folder1)
+            dataTable.clickOnRowByName(folder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => {
-                    expect(dataTable.getRowName(folder1).isPresent()).toBe(true, 'Item was not restored');
+                    expect(dataTable.getRowByName(folder1).isPresent()).toBe(true, 'Item was not restored');
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
-                .then(() => dataTable.doubleClickOnItemNameRow(folder1))
+                .then(() => dataTable.doubleClickOnRowByName(folder1))
                 .then(() => {
-                    expect(dataTable.getRowName(file4).isPresent()).toBe(true, 'file from folder not restored');
+                    expect(dataTable.getRowByName(file4).isPresent()).toBe(true, 'file from folder not restored');
                 });
         });
 
@@ -152,13 +152,13 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.selectMultipleItemsRow([file2, file3])
+            dataTable.selectMultipleItems([file2, file3])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => {
-                    expect(dataTable.getRowName(file2).isPresent()).toBe(true, `${file2} was not removed from list`);
-                    expect(dataTable.getRowName(file3).isPresent()).toBe(true, `${file3} was not removed from list`);
+                    expect(dataTable.getRowByName(file2).isPresent()).toBe(true, `${file2} was not removed from list`);
+                    expect(dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} was not removed from list`);
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 });
         });
@@ -201,7 +201,7 @@ describe('Undo delete content', () => {
         });
 
         it('Successful delete notification shows Undo action', () => {
-            dataTable.clickOnItemNameRow(sharedFile1)
+            dataTable.clickOnRowByName(sharedFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -209,23 +209,23 @@ describe('Undo delete content', () => {
         });
 
         it('Undo delete of file', () => {
-            dataTable.clickOnItemNameRow(sharedFile2)
+            dataTable.clickOnRowByName(sharedFile2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
-                .then(() => expect(dataTable.getRowName(sharedFile2).isPresent()).toBe(false, 'Item was not restored'));
+                .then(() => expect(dataTable.getRowByName(sharedFile2).isPresent()).toBe(false, 'Item was not restored'));
         });
 
         it('undo delete of multiple files', () => {
-            dataTable.selectMultipleItemsRow([sharedFile3, sharedFile4])
+            dataTable.selectMultipleItems([sharedFile3, sharedFile4])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(sharedFile3).isPresent()).toBe(false, `${sharedFile3} was not restored`);
-                    expect(dataTable.getRowName(sharedFile4).isPresent()).toBe(false, `${sharedFile4} was not restored`);
+                    expect(dataTable.getRowByName(sharedFile3).isPresent()).toBe(false, `${sharedFile3} was not restored`);
+                    expect(dataTable.getRowByName(sharedFile4).isPresent()).toBe(false, `${sharedFile4} was not restored`);
                 });
         });
     });
@@ -276,7 +276,7 @@ describe('Undo delete content', () => {
         });
 
         it('Successful delete notification shows Undo action', () => {
-            dataTable.clickOnItemNameRow(favoriteFile1)
+            dataTable.clickOnRowByName(favoriteFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -286,7 +286,7 @@ describe('Undo delete content', () => {
         });
 
         it('Unsuccessful delete notification does not show Undo action', () => {
-            dataTable.clickOnItemNameRow(favoriteFolder2)
+            dataTable.clickOnRowByName(favoriteFolder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -297,12 +297,12 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemNameRow(favoriteFile1)
+            dataTable.clickOnRowByName(favoriteFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => {
-                    expect(dataTable.getRowName(favoriteFile1).isPresent()).toBe(true, 'Item was not restored');
+                    expect(dataTable.getRowByName(favoriteFile1).isPresent()).toBe(true, 'Item was not restored');
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 });
         });
@@ -311,29 +311,29 @@ describe('Undo delete content', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnItemNameRow(favoriteFolder1)
+            dataTable.clickOnRowByName(favoriteFolder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => {
-                    expect(dataTable.getRowName(favoriteFolder1).isPresent()).toBe(true, 'Item was not restored');
+                    expect(dataTable.getRowByName(favoriteFolder1).isPresent()).toBe(true, 'Item was not restored');
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 })
-                .then(() => dataTable.doubleClickOnItemNameRow(favoriteFolder1))
-                .then(() => expect(dataTable.getRowName(favoriteFile4).isPresent()).toBe(true, 'file from folder not restored'));
+                .then(() => dataTable.doubleClickOnRowByName(favoriteFolder1))
+                .then(() => expect(dataTable.getRowByName(favoriteFile4).isPresent()).toBe(true, 'file from folder not restored'));
         });
 
         it('undo delete of multiple files', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.selectMultipleItemsRow([favoriteFile1, favoriteFile2])
+            dataTable.selectMultipleItems([favoriteFile1, favoriteFile2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => {
-                    expect(dataTable.getRowName(favoriteFile1).isPresent()).toBe(true, `${favoriteFile1} was not removed from list`);
-                    expect(dataTable.getRowName(favoriteFile2).isPresent()).toBe(true, `${favoriteFile2} was not removed from list`);
+                    expect(dataTable.getRowByName(favoriteFile1).isPresent()).toBe(true, `${favoriteFile1} was not removed from list`);
+                    expect(dataTable.getRowByName(favoriteFile2).isPresent()).toBe(true, `${favoriteFile2} was not removed from list`);
                     expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
                 });
         });
@@ -384,7 +384,7 @@ describe('Undo delete content', () => {
         });
 
         xit('Successful delete notification shows Undo action', () => {
-            dataTable.clickOnItemNameRow(recentFile1)
+            dataTable.clickOnRowByName(recentFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -396,12 +396,12 @@ describe('Undo delete content', () => {
         // without adding a very big browser.sleep followed by a page.refresh
         // so for the moment we're testing that the restored file is not displayed in the Trash
         xit('Undo delete of file', () => {
-            dataTable.clickOnItemNameRow(recentFile2)
+            dataTable.clickOnRowByName(recentFile2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
-                .then(() => expect(dataTable.getRowName(recentFile2).isPresent()).toBe(false, 'Item is in Trash'));
+                .then(() => expect(dataTable.getRowByName(recentFile2).isPresent()).toBe(false, 'Item is in Trash'));
         });
 
         // due to the fact that the search api is slow to update,
@@ -409,14 +409,14 @@ describe('Undo delete content', () => {
         // without adding a very big browser.sleep followed by a page.refresh
         // so for the moment we're testing that the restored file is not displayed in the Trash
         xit('undo delete of multiple files', () => {
-            dataTable.selectMultipleItemsRow([recentFile3, recentFile4])
+            dataTable.selectMultipleItems([recentFile3, recentFile4])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => {
-                    expect(dataTable.getRowName(recentFile3).isPresent()).toBe(false, `${recentFile3} is in Trash`);
-                    expect(dataTable.getRowName(recentFile4).isPresent()).toBe(false, `${recentFile4} is in Trash`);
+                    expect(dataTable.getRowByName(recentFile3).isPresent()).toBe(false, `${recentFile3} is in Trash`);
+                    expect(dataTable.getRowByName(recentFile4).isPresent()).toBe(false, `${recentFile4} is in Trash`);
                 });
         });
     });
