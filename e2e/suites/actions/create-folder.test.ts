@@ -144,8 +144,7 @@ describe('Create folder', () => {
             });
     });
 
-    // todo: disabled until deciding the UX around the New menu and need to have disabled items/tooltips
-    xit('disabled option tooltip', () => {
+    it('disabled option tooltip', () => {
         const fileLibrariesPage = new BrowsingPage();
 
         fileLibrariesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
@@ -156,7 +155,7 @@ describe('Create folder', () => {
                 .then(() => menu))
             .then(menu => {
                 const tooltip = menu.getItemTooltip('Create folder');
-                expect(tooltip).toContain(`You can't create a folder here`);
+                expect(tooltip).toContain(`Folders cannot be created whilst viewing the current items.`);
             });
     });
 

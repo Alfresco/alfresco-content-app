@@ -119,6 +119,10 @@
                     "description": "Element description, used for the tooltips.",
                     "type": "string"
                 },
+                "description-disabled": {
+                    "description": "Description to use when element is in the disabled state.",
+                    "type": "string"
+                },
                 "order": {
                     "description": "Element order",
                     "type": "number"

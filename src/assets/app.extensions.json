@@ -59,6 +59,7 @@
                 "icon": "create_new_folder",
                 "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
                 "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
+                "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
                 "actions": {
                     "click": "CREATE_FOLDER"
                 },
@@ -72,6 +73,7 @@
                 "icon": "file_upload",
                 "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
                 "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
+                "description-disabled": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES_NOT_ALLOWED",
                 "actions": {
                     "click": "UPLOAD_FILES"
                 },
@@ -85,6 +87,7 @@
                 "icon": "file_upload",
                 "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
                 "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
+                "description-disabled": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED",
                 "actions": {
                     "click": "UPLOAD_FOLDER"
                 },

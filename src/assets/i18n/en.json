@@ -26,11 +26,11 @@
             },
             "TOOLTIPS": {
                 "CREATE_FOLDER": "Create new folder",
-                "CREATE_FOLDER_NOT_ALLOWED": "You can't create a folder here. You might not have the required permissions, check with your IT Team.",
+                "CREATE_FOLDER_NOT_ALLOWED": "Folders cannot be created whilst viewing the current items.",
                 "UPLOAD_FILES": "Select files to upload",
-                "UPLOAD_FILES_NOT_ALLOWED": "You need permissions to upload here, check with your IT Team.",
+                "UPLOAD_FILES_NOT_ALLOWED": "Files cannot be uploaded whilst viewing the current items",
                 "UPLOAD_FOLDERS": "Select folders to upload",
-                "UPLOAD_FOLDERS_NOT_ALLOWED": "You need permissions to upload here, check with your IT Team."
+                "UPLOAD_FOLDERS_NOT_ALLOWED": "Folders cannot be uploaded whilst viewing the current items"
             }
         },
         "BROWSE": {
