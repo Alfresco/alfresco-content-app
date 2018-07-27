@@ -144,7 +144,8 @@ describe('Create folder', () => {
             });
     });
 
-    it('disabled option tooltip', () => {
+    // todo: disabled until deciding the UX around the New menu and need to have disabled items/tooltips
+    xit('disabled option tooltip', () => {
         const fileLibrariesPage = new BrowsingPage();
 
         fileLibrariesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)

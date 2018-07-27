@@ -53,6 +53,8 @@ export class UploadEffects {
         this.fileInput.style.display = 'none';
         this.fileInput.setAttribute('multiple', '');
         this.fileInput.addEventListener('change', event => this.upload(event));
+        renderer.appendChild(document.body, this.fileInput);
+
 
         this.folderInput = renderer.createElement('input') as HTMLInputElement;
         this.folderInput.id = 'app-upload-folder';
@@ -61,6 +63,7 @@ export class UploadEffects {
         this.folderInput.setAttribute('directory', '');
         this.folderInput.setAttribute('webkitdirectory', '');
         this.folderInput.addEventListener('change', event => this.upload(event));
+        renderer.appendChild(document.body, this.folderInput);
     }
 
     @Effect({ dispatch: false })
