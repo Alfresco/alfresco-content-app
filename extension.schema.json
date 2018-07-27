@@ -115,6 +115,10 @@
                     "description": "Element title",
                     "type": "string"
                 },
+                "description": {
+                    "description": "Element description, used for the tooltips.",
+                    "type": "string"
+                },
                 "order": {
                     "description": "Element order",
                     "type": "number"

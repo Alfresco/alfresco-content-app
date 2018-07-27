@@ -2,7 +2,7 @@
     <button *ngSwitchCase="'button'"
         mat-icon-button
         color="primary"
-        title="{{ entry.title | translate }}"
+        [attr.title]="(entry.description || entry.title) | translate"
         (click)="runAction(entry.actions.click)">
         <mat-icon>{{ entry.icon }}</mat-icon>
     </button>
@@ -13,7 +13,7 @@
         <button
             color="primary"
             mat-icon-button
-            title="{{ entry.title | translate }}"
+            [attr.title]="(entry.description || entry.title) | translate"
             [matMenuTriggerFor]="menu">
             <mat-icon>{{ entry.icon }}</mat-icon>
         </button>

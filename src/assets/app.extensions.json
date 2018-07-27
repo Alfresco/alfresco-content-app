@@ -58,6 +58,7 @@
                 "type": "default",
                 "icon": "create_new_folder",
                 "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
+                "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                 "actions": {
                     "click": "CREATE_FOLDER"
                 },
@@ -70,6 +71,7 @@
                 "type": "default",
                 "icon": "file_upload",
                 "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
+                "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
                 "actions": {
                     "click": "UPLOAD_FILES"
                 },
@@ -82,6 +84,7 @@
                 "type": "default",
                 "icon": "file_upload",
                 "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
+                "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
                 "actions": {
                     "click": "UPLOAD_FOLDER"
                 },
@@ -156,6 +159,7 @@
                     "type": "button",
                     "order": 10,
                     "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
+                    "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
                     "icon": "create_new_folder",
                     "actions": {
                         "click": "CREATE_FOLDER"
@@ -170,6 +174,7 @@
                     "type": "button",
                     "icon": "file_upload",
                     "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
+                    "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
                     "actions": {
                         "click": "UPLOAD_FILES"
                     },
@@ -183,6 +188,7 @@
                     "type": "button",
                     "icon": "cloud_upload",
                     "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
+                    "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
                     "actions": {
                         "click": "UPLOAD_FOLDER"
                     },

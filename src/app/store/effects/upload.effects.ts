@@ -48,12 +48,14 @@ export class UploadEffects {
         const renderer = rendererFactory.createRenderer(null, null);
 
         this.fileInput = renderer.createElement('input') as HTMLInputElement;
+        this.fileInput.id = 'app-upload-files';
         this.fileInput.type = 'file';
         this.fileInput.style.display = 'none';
         this.fileInput.setAttribute('multiple', '');
         this.fileInput.addEventListener('change', event => this.upload(event));
 
         this.folderInput = renderer.createElement('input') as HTMLInputElement;
+        this.folderInput.id = 'app-upload-folder';
         this.folderInput.type = 'file';
         this.folderInput.style.display = 'none';
         this.folderInput.setAttribute('directory', '');

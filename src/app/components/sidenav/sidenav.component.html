@@ -9,6 +9,7 @@
                 <button *ngFor="let entry of createActions"
                     mat-menu-item
                     [disabled]="entry.disabled"
+                    [attr.title]="(entry.description || entry.title) | translate"
                     (click)="runAction(entry.actions.click)">
                     <mat-icon>{{ entry.icon }}</mat-icon>
                     <span>{{ entry.title | translate }}</span>

@@ -32,7 +32,7 @@ export class Menu extends Component {
         root: '.mat-menu-panel',
         item: '.mat-menu-item',
         icon: '.mat-icon',
-        uploadFiles: 'input[id="upload-multiple-files"]'
+        uploadFiles: 'input[id="app-upload-files"]'
     };
 
     items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
