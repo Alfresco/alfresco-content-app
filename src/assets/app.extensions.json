@@ -57,7 +57,7 @@
                 "id": "app.create.folder",
                 "type": "default",
                 "icon": "create_new_folder",
-                "title": "ext: Create Folder",
+                "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
                 "actions": {
                     "click": "CREATE_FOLDER"
                 },
@@ -69,7 +69,7 @@
                 "id": "app.create.uploadFile",
                 "type": "default",
                 "icon": "file_upload",
-                "title": "ext: Upload files",
+                "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
                 "actions": {
                     "click": "UPLOAD_FILES"
                 },
@@ -80,8 +80,8 @@
             {
                 "id": "app.create.uploadFolder",
                 "type": "default",
-                "icon": "cloud_upload",
-                "title": "ext: Upload folder",
+                "icon": "file_upload",
+                "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
                 "actions": {
                     "click": "UPLOAD_FOLDER"
                 },
@@ -169,7 +169,7 @@
                     "order": 11,
                     "type": "button",
                     "icon": "file_upload",
-                    "title": "ext: Upload files",
+                    "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
                     "actions": {
                         "click": "UPLOAD_FILES"
                     },
@@ -182,7 +182,7 @@
                     "order": 12,
                     "type": "button",
                     "icon": "cloud_upload",
-                    "title": "ext: Upload folder",
+                    "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
                     "actions": {
                         "click": "UPLOAD_FOLDER"
                     },
