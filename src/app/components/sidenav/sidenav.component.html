@@ -6,7 +6,14 @@
                 <mat-icon [title]="'APP.NEW_MENU.TOOLTIP' | translate">queue</mat-icon>
             </div>
             <div sidebar-menu-options>
-                <ng-container *ifExperimental="'extensions'">
+                <button *ngFor="let entry of createActions"
+                    mat-menu-item
+                    [disabled]="entry.disabled"
+                    (click)="runAction(entry.actions.click)">
+                    <mat-icon>{{ entry.icon }}</mat-icon>
+                    <span>{{ entry.title | translate }}</span>
+                </button>
+                <!-- <ng-container *ifExperimental="'extensions'">
                     <button *ngFor="let entry of createActions"
                         mat-menu-item
                         [disabled]="entry.disabled"
@@ -14,8 +21,8 @@
                         <mat-icon>{{ entry.icon }}</mat-icon>
                         <span>{{ entry.title | translate }}</span>
                     </button>
-                </ng-container>
-                <button
+                </ng-container> -->
+                <!-- <button
                     mat-menu-item
                     [disabled]="!canCreateContent"
                     (click)="createNewFolder()"
@@ -26,9 +33,9 @@
                         ) | translate">
                     <mat-icon>create_new_folder</mat-icon>
                     <span>{{ 'APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER' | translate }}</span>
-                </button>
+                </button> -->
 
-                <adf-upload-button
+                <!-- <adf-upload-button
                     [tooltip]="
                         (canCreateContent
                             ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES'
@@ -39,9 +46,9 @@
                     [multipleFiles]="true"
                     [uploadFolders]="false"
                     [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE' | translate">
-                </adf-upload-button>
+                </adf-upload-button> -->
 
-                <adf-upload-button
+                <!-- <adf-upload-button
                     [tooltip]="
                         (canCreateContent
                             ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS'
@@ -52,7 +59,7 @@
                     [multipleFiles]="true"
                     [uploadFolders]="true"
                     [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER' | translate">
-                </adf-upload-button>
+                </adf-upload-button> -->
             </div>
         </adf-sidebar-action-menu>
     </div>

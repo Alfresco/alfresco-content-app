@@ -53,6 +53,7 @@
         "content": {
             "actions": [
                 {
+                    "disabled": true,
                     "id": "plugin1.toolbar.menu1",
                     "type": "menu",
                     "icon": "storage",
