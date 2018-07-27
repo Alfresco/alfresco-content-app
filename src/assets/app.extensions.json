@@ -21,7 +21,8 @@
             "type": "core.every",
             "parameters": [
                 { "type": "rule", "value": "app.selection.folder" },
-                { "type": "rule", "value": "app.selection.folder.canUpdate" }
+                { "type": "rule", "value": "app.selection.folder.canUpdate" },
+                { "type": "rule", "value": "app.navigation.isNotTrashcan" }
             ]
         },
         {
@@ -153,11 +154,6 @@
         "content": {
             "actions": [
                 {
-                    "id": "app.toolbar.separator.1",
-                    "order": 5,
-                    "type": "separator"
-                },
-                {
                     "id": "app.toolbar.createFolder",
                     "type": "button",
                     "order": 10,
@@ -198,11 +194,6 @@
                     "rules": {
                         "visible": "app.navigation.folder.canUpload"
                     }
-                },
-                {
-                    "id": "app.toolbar.separator.2",
-                    "order": 5,
-                    "type": "separator"
                 },
                 {
                     "id": "app.toolbar.preview",
@@ -336,8 +327,9 @@
                     ]
                 },
                 {
+                    "disabled": true,
                     "id": "app.toolbar.separator.3",
-                    "order": 200,
+                    "order": 199,
                     "type": "separator"
                 },
                 {

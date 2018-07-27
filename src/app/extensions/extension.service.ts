@@ -300,7 +300,6 @@ export class ExtensionService implements RuleContext {
         return this.contentActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action))
-            .reduce(this.reduceSeparators, [])
             .map(action => {
                 if (action.type === ContentActionType.menu) {
                     const copy = this.copyAction(action);
@@ -315,7 +314,8 @@ export class ExtensionService implements RuleContext {
                 }
                 return action;
             })
-            .reduce(this.reduceEmptyMenus, []);
+            .reduce(this.reduceEmptyMenus, [])
+            .reduce(this.reduceSeparators, []);
     }
 
     reduceSeparators(
@@ -324,6 +324,12 @@ export class ExtensionService implements RuleContext {
         i: number,
         arr: ContentActionRef[]
     ): ContentActionRef[] {
+        // remove leading separator
+        if (i === 0) {
+            if (arr[i].type === ContentActionType.separator) {
+                return acc;
+            }
+        }
         // remove duplicate separators
         if (i > 0) {
             const prev = arr[i - 1];
