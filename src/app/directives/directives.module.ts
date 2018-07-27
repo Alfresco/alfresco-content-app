@@ -30,9 +30,7 @@ import { EditFolderDirective } from './edit-folder.directive';
 import { NodeCopyDirective } from './node-copy.directive';
 import { NodeDeleteDirective } from './node-delete.directive';
 import { NodeMoveDirective } from './node-move.directive';
-import { NodePermanentDeleteDirective } from './node-permanent-delete.directive';
 import { NodePermissionsDirective } from './node-permissions.directive';
-import { NodeRestoreDirective } from './node-restore.directive';
 import { NodeUnshareDirective } from './node-unshare.directive';
 import { NodeVersionsDirective } from './node-versions.directive';
 import { PaginationDirective } from './pagination.directive';
@@ -45,9 +43,7 @@ import { PaginationDirective } from './pagination.directive';
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,
-        NodePermanentDeleteDirective,
         NodePermissionsDirective,
-        NodeRestoreDirective,
         NodeUnshareDirective,
         NodeVersionsDirective,
         PaginationDirective
@@ -59,9 +55,7 @@ import { PaginationDirective } from './pagination.directive';
         NodeCopyDirective,
         NodeDeleteDirective,
         NodeMoveDirective,
-        NodePermanentDeleteDirective,
         NodePermissionsDirective,
-        NodeRestoreDirective,
         NodeUnshareDirective,
         NodeVersionsDirective,
         PaginationDirective
