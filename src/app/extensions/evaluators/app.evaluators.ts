@@ -24,14 +24,25 @@
  */
 
 import { RuleContext, RuleParameter } from '../rule.extensions';
-import { isNotTrashcan, isNotSharedFiles, isNotLibraries, isFavorites, isLibraries } from './navigation.evaluators';
+import {
+    isNotTrashcan,
+    isNotSharedFiles,
+    isNotLibraries,
+    isFavorites,
+    isLibraries,
+    isTrashcan
+} from './navigation.evaluators';
 
 export function canAddFavorite(
     context: RuleContext,
     ...args: RuleParameter[]
 ): boolean {
     if (!context.selection.isEmpty) {
-        if (isFavorites(context, ...args) || isLibraries(context, ...args)) {
+        if (
+            isFavorites(context, ...args) ||
+            isLibraries(context, ...args) ||
+            isTrashcan(context, ...args)
+        ) {
             return false;
         }
         return context.selection.nodes.some(node => !node.entry.isFavorite);
@@ -43,7 +54,7 @@ export function canRemoveFavorite(
     context: RuleContext,
     ...args: RuleParameter[]
 ): boolean {
-    if (!context.selection.isEmpty) {
+    if (!context.selection.isEmpty && !isTrashcan(context, ...args)) {
         if (isFavorites(context, ...args)) {
             return true;
         }

@@ -9,6 +9,15 @@
 
     "rules": [
         {
+            "id": "app.toolbar.canCopyNode",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.notEmpty" },
+                { "type": "rule", "value": "app.navigation.isNotTrashcan" },
+                { "type": "rule", "value": "app.navigation.isNotLibraries" }
+            ]
+        },
+        {
             "id": "app.trashcan.hasSelection",
             "type": "core.every",
             "parameters": [
@@ -298,6 +307,18 @@
                             },
                             "rules": {
                                 "visible": "app.selection.canRemoveFavorite"
+                            }
+                        },
+                        {
+                            "id": "app.toolbar.copy",
+                            "type": "button",
+                            "title": "APP.ACTIONS.COPY",
+                            "icon": "content_copy",
+                            "actions": {
+                                "click": "COPY_NODES"
+                            },
+                            "rules": {
+                                "visible": "app.toolbar.canCopyNode"
                             }
                         },
                         {

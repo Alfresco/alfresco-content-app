@@ -25,7 +25,7 @@
 
 import { Subject, Observable } from 'rxjs/Rx';
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { FolderDialogComponent, ConfirmDialogComponent, ShareDialogComponent } from '@alfresco/adf-content-services';
 import { LibraryDialogComponent } from '../dialogs/library/library.dialog';
 import { SnackbarErrorAction, SnackbarInfoAction, SnackbarAction, SnackbarWarningAction,
@@ -44,6 +44,8 @@ import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
 import { ContentApiService } from './content-api.service';
 import { sharedUrl } from '../store/selectors/app.selectors';
+import { NodeActionsService } from './node-actions.service';
+import { TranslationService } from '@alfresco/adf-core';
 
 interface RestoredNode {
     status: number;
@@ -69,7 +71,10 @@ export class ContentManagementService {
         private store: Store<AppStore>,
         private contentApi: ContentApiService,
         private permission: NodePermissionService,
-        private dialogRef: MatDialog
+        private dialogRef: MatDialog,
+        private nodeActionsService: NodeActionsService,
+        private translation: TranslationService,
+        private snackBar: MatSnackBar
     ) {}
 
     addFavorite(nodes: Array<MinimalNodeEntity>) {
@@ -296,6 +301,116 @@ export class ContentManagementService {
                     this.restoreDeletedNodes(remainingNodes);
                 }
             });
+    }
+
+    copyNodes(nodes: Array<MinimalNodeEntity>) {
+        Observable.zip(
+            this.nodeActionsService.copyNodes(nodes),
+            this.nodeActionsService.contentCopied
+        ).subscribe(
+            result => {
+                const [operationResult, newItems] = result;
+                this.showCopyMessage(operationResult, nodes, newItems);
+            },
+            error => {
+                this.showCopyMessage(error, nodes);
+            }
+        );
+    }
+
+    private showCopyMessage(
+        info: any,
+        nodes: Array<MinimalNodeEntity>,
+        newItems?: Array<MinimalNodeEntity>
+    ) {
+        const numberOfCopiedItems = newItems ? newItems.length : 0;
+        const failedItems = nodes.length - numberOfCopiedItems;
+
+        let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
+
+        if (typeof info === 'string') {
+            if (info.toLowerCase().indexOf('succes') !== -1) {
+                let i18MessageSuffix;
+
+                if (failedItems) {
+                    if (numberOfCopiedItems) {
+                        i18MessageSuffix =
+                            numberOfCopiedItems === 1
+                                ? 'PARTIAL_SINGULAR'
+                                : 'PARTIAL_PLURAL';
+                    } else {
+                        i18MessageSuffix =
+                            failedItems === 1 ? 'FAIL_SINGULAR' : 'FAIL_PLURAL';
+                    }
+                } else {
+                    i18MessageSuffix =
+                        numberOfCopiedItems === 1 ? 'SINGULAR' : 'PLURAL';
+                }
+
+                i18nMessageString = `APP.MESSAGES.INFO.NODE_COPY.${i18MessageSuffix}`;
+            }
+        } else {
+            try {
+                const {
+                    error: { statusCode }
+                } = JSON.parse(info.message);
+
+                if (statusCode === 403) {
+                    i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
+                }
+            } catch {}
+        }
+
+        const undo =
+            numberOfCopiedItems > 0
+                ? this.translation.instant('APP.ACTIONS.UNDO')
+                : '';
+
+        const message = this.translation.instant(i18nMessageString, {
+            success: numberOfCopiedItems,
+            failed: failedItems
+        });
+
+        this.snackBar
+            .open(message, undo, {
+                panelClass: 'info-snackbar',
+                duration: 3000
+            })
+            .onAction()
+            .subscribe(() => this.undoCopyNodes(newItems));
+    }
+
+    private undoCopyNodes(nodes: MinimalNodeEntity[]) {
+        const batch = this.nodeActionsService
+            .flatten(nodes)
+            .filter(item => item.entry)
+            .map(item =>
+                this.contentApi.deleteNode(item.entry.id, { permanent: true })
+            );
+
+        Observable.forkJoin(...batch).subscribe(
+            () => {
+                this.nodesDeleted.next(null);
+            },
+            error => {
+                let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
+
+                let errorJson = null;
+                try {
+                    errorJson = JSON.parse(error.message);
+                } catch {}
+
+                if (
+                    errorJson &&
+                    errorJson.error &&
+                    errorJson.error.statusCode === 403
+                ) {
+                    i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
+                }
+
+                this.store.dispatch(new SnackbarErrorAction(i18nMessageString));
+            }
+        );
     }
 
     deleteNodes(items: MinimalNodeEntity[]): void {

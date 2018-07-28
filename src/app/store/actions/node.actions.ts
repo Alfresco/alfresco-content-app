@@ -36,6 +36,7 @@ export const CREATE_FOLDER = 'CREATE_FOLDER';
 export const EDIT_FOLDER = 'EDIT_FOLDER';
 export const SHARE_NODE = 'SHARE_NODE';
 export const UNSHARE_NODES = 'UNSHARE_NODES';
+export const COPY_NODES = 'COPY_NODES';
 
 export class SetSelectedNodesAction implements Action {
     readonly type = SET_SELECTED_NODES;
@@ -84,5 +85,10 @@ export class ShareNodeAction implements Action {
 
 export class UnshareNodesAction implements Action {
     readonly type = UNSHARE_NODES;
+    constructor(public payload: Array<MinimalNodeEntity>) {}
+}
+
+export class CopyNodesAction implements Action {
+    readonly type = COPY_NODES;
     constructor(public payload: Array<MinimalNodeEntity>) {}
 }

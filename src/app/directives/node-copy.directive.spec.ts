@@ -32,6 +32,8 @@ import { NodeActionsService } from '../services/node-actions.service';
 import { NodeCopyDirective } from './node-copy.directive';
 import { ContentApiService } from '../services/content-api.service';
 import { AppTestingModule } from '../testing/app-testing.module';
+import { EffectsModule } from '@ngrx/effects';
+import { NodeEffects } from '../store/effects';
 
 @Component({
     template: '<div [acaCopyNode]="selection"></div>'
@@ -50,7 +52,10 @@ describe('NodeCopyDirective', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [ AppTestingModule ],
+            imports: [
+                AppTestingModule,
+                EffectsModule.forRoot([NodeEffects])
+            ],
             declarations: [
                 TestComponent,
                 NodeCopyDirective
