@@ -24,14 +24,14 @@
  */
 
 import { RuleContext, RuleParameter } from '../rule.extensions';
-import { isNotTrashcan, isNotSharedFiles, isNotLibraries, isFavorites } from './navigation.evaluators';
+import { isNotTrashcan, isNotSharedFiles, isNotLibraries, isFavorites, isLibraries } from './navigation.evaluators';
 
 export function canAddFavorite(
     context: RuleContext,
     ...args: RuleParameter[]
 ): boolean {
     if (!context.selection.isEmpty) {
-        if (isFavorites(context, ...args)) {
+        if (isFavorites(context, ...args) || isLibraries(context, ...args)) {
             return false;
         }
         return context.selection.nodes.some(node => !node.entry.isFavorite);
