@@ -124,6 +124,8 @@
             "PERMISSIONS": "Permissions",
             "RESTORE": "Restore",
             "FAVORITE": "Favorite",
+            "ADD_FAVORITE": "Favorite",
+            "REMOVE_FAVORITE": "Remove as favorite",
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions",

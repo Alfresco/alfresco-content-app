@@ -24,6 +24,33 @@
  */
 
 import { RuleContext, RuleParameter } from '../rule.extensions';
+import { isNotTrashcan, isNotSharedFiles, isNotLibraries, isFavorites } from './navigation.evaluators';
+
+export function canAddFavorite(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    if (!context.selection.isEmpty) {
+        if (isFavorites(context, ...args)) {
+            return false;
+        }
+        return context.selection.nodes.some(node => !node.entry.isFavorite);
+    }
+    return false;
+}
+
+export function canRemoveFavorite(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    if (!context.selection.isEmpty) {
+        if (isFavorites(context, ...args)) {
+            return true;
+        }
+        return context.selection.nodes.every(node => node.entry.isFavorite);
+    }
+    return false;
+}
 
 export function canShareFile(
     context: RuleContext,
@@ -53,21 +80,6 @@ export function canDeleteSelection(
     return false;
 }
 
-export function isSharedFiles(
-    context: RuleContext,
-    ...args: RuleParameter[]
-): boolean {
-    const { url } = context.navigation;
-    return url && url.startsWith('/shared');
-}
-
-export function isNotSharedFiles(
-    context: RuleContext,
-    ...args: RuleParameter[]
-): boolean {
-    return !isSharedFiles(context, ...args);
-}
-
 export function canUnshareNodes(
     context: RuleContext,
     ...args: RuleParameter[]
@@ -78,36 +90,6 @@ export function canUnshareNodes(
         });
     }
     return false;
-}
-
-export function isTrashcan(
-    context: RuleContext,
-    ...args: RuleParameter[]
-): boolean {
-    const { url } = context.navigation;
-    return url && url.startsWith('/trashcan');
-}
-
-export function isNotTrashcan(
-    context: RuleContext,
-    ...args: RuleParameter[]
-): boolean {
-    return !isTrashcan(context, ...args);
-}
-
-export function isLibraries(
-    context: RuleContext,
-    ...args: RuleParameter[]
-): boolean {
-    const { url } = context.navigation;
-    return url && url.startsWith('/libraries');
-}
-
-export function isNotLibraries(
-    context: RuleContext,
-    ...args: RuleParameter[]
-): boolean {
-    return !isLibraries(context, ...args);
 }
 
 export function hasSelection(

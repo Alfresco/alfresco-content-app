@@ -62,6 +62,8 @@ export class ContentManagementService {
     libraryDeleted = new Subject<string>();
     libraryCreated = new Subject<SiteEntry>();
     linksUnshared = new Subject<any>();
+    favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
+    favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
 
     constructor(
         private store: Store<AppStore>,
@@ -69,6 +71,22 @@ export class ContentManagementService {
         private permission: NodePermissionService,
         private dialogRef: MatDialog
     ) {}
+
+    addFavorite(nodes: Array<MinimalNodeEntity>) {
+        if (nodes && nodes.length > 0) {
+            this.contentApi.addFavorite(nodes).subscribe(() => {
+                this.favoriteAdded.next(nodes);
+            });
+        }
+    }
+
+    removeFavorite(nodes: Array<MinimalNodeEntity>) {
+        if (nodes && nodes.length > 0) {
+            this.contentApi.removeFavorite(nodes).subscribe(() => {
+                this.favoriteRemoved.next(nodes);
+            });
+        }
+    }
 
     shareNode(node: MinimalNodeEntity): void {
         if (node && node.entry && node.entry.isFile) {

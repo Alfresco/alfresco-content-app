@@ -30,6 +30,7 @@ import { LayoutComponent } from '../components/layout/layout.component';
 import { TrashcanComponent } from '../components/trashcan/trashcan.component';
 import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
 import * as app from './evaluators/app.evaluators';
+import * as nav from './evaluators/navigation.evaluators';
 import { ExtensionService } from './extension.service';
 import { CustomExtensionComponent } from './components/custom-component/custom.component';
 import { DemoButtonComponent } from './components/custom-component/demo.button';
@@ -52,6 +53,8 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.selection.canDownload': app.canDownloadSelection,
                 'app.selection.notEmpty': app.hasSelection,
                 'app.selection.canUnshare': app.canUnshareNodes,
+                'app.selection.canAddFavorite': app.canAddFavorite,
+                'app.selection.canRemoveFavorite': app.canRemoveFavorite,
                 'app.selection.file': app.hasFileSelected,
                 'app.selection.file.canShare': app.canShareFile,
                 'app.selection.library': app.hasLibrarySelected,
@@ -59,12 +62,14 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
                 'app.navigation.folder.canCreate': app.canCreateFolder,
                 'app.navigation.folder.canUpload': app.canUpload,
-                'app.navigation.isTrashcan': app.isTrashcan,
-                'app.navigation.isNotTrashcan': app.isNotTrashcan,
-                'app.navigation.isLibraries': app.isLibraries,
-                'app.navigation.isNotLibraries': app.isNotLibraries,
-                'app.navigation.isSharedFiles': app.isSharedFiles,
-                'app.navigation.isNotSharedFiles': app.isNotSharedFiles
+                'app.navigation.isTrashcan': nav.isTrashcan,
+                'app.navigation.isNotTrashcan': nav.isNotTrashcan,
+                'app.navigation.isLibraries': nav.isLibraries,
+                'app.navigation.isNotLibraries': nav.isNotLibraries,
+                'app.navigation.isSharedFiles': nav.isSharedFiles,
+                'app.navigation.isNotSharedFiles': nav.isNotSharedFiles,
+                'app.navigation.isFavorites': nav.isFavorites,
+                'app.navigation.isNotFavorites': nav.isNotFavorites
             });
 
             resolve(true);

@@ -277,6 +277,30 @@
                     "title": "APP.ACTIONS.MORE",
                     "children": [
                         {
+                            "id": "app.toolbar.favorite",
+                            "type": "button",
+                            "title": "APP.ACTIONS.ADD_FAVORITE",
+                            "icon": "star",
+                            "actions": {
+                                "click": "ADD_FAVORITE"
+                            },
+                            "rules": {
+                                "visible": "app.selection.canAddFavorite"
+                            }
+                        },
+                        {
+                            "id": "app.toolbar.favorite",
+                            "type": "button",
+                            "title": "APP.ACTIONS.REMOVE_FAVORITE",
+                            "icon": "star",
+                            "actions": {
+                                "click": "REMOVE_FAVORITE"
+                            },
+                            "rules": {
+                                "visible": "app.selection.canRemoveFavorite"
+                            }
+                        },
+                        {
                             "id": "app.toolbar.share",
                             "type": "button",
                             "title": "APP.ACTIONS.SHARE",
