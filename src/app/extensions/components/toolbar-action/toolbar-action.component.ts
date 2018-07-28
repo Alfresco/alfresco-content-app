@@ -78,4 +78,8 @@ export class ToolbarActionComponent implements OnInit, OnDestroy {
 
         this.extensions.runActionById(actionId, context);
     }
+
+    trackByActionId(index: number, action: ContentActionRef) {
+        return action.id;
+    }
 }

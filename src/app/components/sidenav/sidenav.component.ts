@@ -33,7 +33,7 @@ import { AppStore } from '../../store/states';
 import { CreateFolderAction } from '../../store/actions';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
-import { NavBarGroupRef } from '../../extensions/navbar.extensions';
+import { NavBarGroupRef, NavBarLinkRef } from '../../extensions/navbar.extensions';
 import { ContentActionRef } from '../../extensions/action.extensions';
 
 @Component({
@@ -85,4 +85,13 @@ export class SidenavComponent implements OnInit, OnDestroy {
     runAction(actionId: string) {
         this.extensions.runActionById(actionId);
     }
+
+    trackByGroupId(index: number, group: NavBarGroupRef) {
+        return group.id;
+    }
+
+    trackByLinkId(index: number, link: NavBarLinkRef) {
+        return link.id;
+    }
+
 }

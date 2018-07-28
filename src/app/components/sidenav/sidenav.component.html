@@ -21,9 +21,11 @@
         </adf-sidebar-action-menu>
     </div>
 
-    <div class="sidenav__section sidenav__section--menu" *ngFor="let group of groups">
+    <div *ngFor="let group of groups; trackBy: trackByGroupId"
+        class="sidenav__section sidenav__section--menu" >
         <ul class="sidenav-menu">
-            <li *ngFor="let item of group.items" class="sidenav-menu__item"
+            <li *ngFor="let item of group.items; trackBy: trackByLinkId"
+                class="sidenav-menu__item"
                 routerLinkActive
                 #rla="routerLinkActive"
                 [attr.title]="item.description | translate">

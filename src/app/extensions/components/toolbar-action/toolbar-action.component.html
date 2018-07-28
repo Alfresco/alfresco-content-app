@@ -24,7 +24,7 @@
 
         <mat-menu #menu="matMenu"
             [overlapTrigger]="false">
-            <ng-container *ngFor="let child of entry.children">
+            <ng-container *ngFor="let child of entry.children; trackBy: trackByActionId">
                 <button mat-menu-item
                     [id]="child.id"
                     [attr.title]="(child.description || child.title) | translate"

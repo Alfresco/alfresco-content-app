@@ -12,7 +12,7 @@
                 <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
             </button>
 
-            <ng-container *ngFor="let entry of actions">
+            <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
                 <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
             </ng-container>
         </adf-toolbar>
