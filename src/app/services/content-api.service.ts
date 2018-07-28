@@ -247,8 +247,9 @@ export class ContentApiService {
     addFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
         const payload: FavoriteBody[] = nodes.map(node => {
             const { isFolder, nodeId, id } = node.entry;
-            const type = isFolder ? 'folder' : 'file';
-            const guid = nodeId || id;
+            const siteId = node.entry['guid'];
+            const type = siteId ? 'site' : isFolder ? 'folder' : 'file';
+            const guid = siteId || nodeId || id;
 
             return {
                 target: {
