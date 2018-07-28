@@ -29,7 +29,7 @@ import { MatDialog } from '@angular/material';
 import { FolderDialogComponent, ConfirmDialogComponent, ShareDialogComponent } from '@alfresco/adf-content-services';
 import { LibraryDialogComponent } from '../dialogs/library/library.dialog';
 import { SnackbarErrorAction, SnackbarInfoAction, SnackbarAction, SnackbarWarningAction,
-    NavigateRouteAction, SnackbarUserAction, UndoDeleteNodesAction } from '../store/actions';
+    NavigateRouteAction, SnackbarUserAction, UndoDeleteNodesAction, SetSelectedNodesAction } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
 import {
@@ -75,6 +75,10 @@ export class ContentManagementService {
     addFavorite(nodes: Array<MinimalNodeEntity>) {
         if (nodes && nodes.length > 0) {
             this.contentApi.addFavorite(nodes).subscribe(() => {
+                nodes.forEach(node => {
+                    node.entry.isFavorite = true;
+                });
+                this.store.dispatch(new SetSelectedNodesAction(nodes));
                 this.favoriteAdded.next(nodes);
             });
         }
@@ -83,6 +87,10 @@ export class ContentManagementService {
     removeFavorite(nodes: Array<MinimalNodeEntity>) {
         if (nodes && nodes.length > 0) {
             this.contentApi.removeFavorite(nodes).subscribe(() => {
+                nodes.forEach(node => {
+                    node.entry.isFavorite = false;
+                });
+                this.store.dispatch(new SetSelectedNodesAction(nodes));
                 this.favoriteRemoved.next(nodes);
             });
         }

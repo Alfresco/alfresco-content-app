@@ -97,11 +97,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             .subscribe(node => {
                 this.canUpload = node && this.content.canUploadContent(node);
             });
-
-        this.subscriptions.push(
-            this.content.favoriteAdded.subscribe(() => this.reload()),
-            this.content.favoriteRemoved.subscribe(() => this.reload()),
-        );
     }
 
     ngOnDestroy() {
