@@ -413,6 +413,75 @@ export class ContentManagementService {
         );
     }
 
+    moveNodes(nodes: Array<MinimalNodeEntity>) {
+        const permissionForMove = '!';
+
+        Observable.zip(
+            this.nodeActionsService.moveNodes(nodes, permissionForMove),
+            this.nodeActionsService.contentMoved
+        ).subscribe(
+            (result) => {
+                const [ operationResult, moveResponse ] = result;
+                this.showMoveMessage(nodes, operationResult, moveResponse);
+
+                this.nodesMoved.next(null);
+            },
+            (error) => {
+                this.showMoveMessage(nodes, error);
+            }
+        );
+    }
+
+    private undoMoveNodes(moveResponse, selectionParentId) {
+        const movedNodes = (moveResponse && moveResponse['succeeded']) ? moveResponse['succeeded'] : [];
+        const partiallyMovedNodes = (moveResponse && moveResponse['partiallySucceeded']) ? moveResponse['partiallySucceeded'] : [];
+
+        const restoreDeletedNodesBatch = this.nodeActionsService.moveDeletedEntries
+            .map((folderEntry) => {
+                return this.contentApi
+                    .restoreNode(folderEntry.nodeId || folderEntry.id)
+                    .map(node => node.entry);
+            });
+
+        Observable.zip(...restoreDeletedNodesBatch, Observable.of(null))
+            .flatMap(() => {
+
+                const nodesToBeMovedBack = [...partiallyMovedNodes, ...movedNodes];
+
+                const revertMoveBatch = this.nodeActionsService
+                    .flatten(nodesToBeMovedBack)
+                    .filter(node => node.entry || (node.itemMoved && node.itemMoved.entry))
+                    .map((node) => {
+                        if (node.itemMoved) {
+                            return this.nodeActionsService.moveNodeAction(node.itemMoved.entry, node.initialParentId);
+                        } else {
+                            return this.nodeActionsService.moveNodeAction(node.entry, selectionParentId);
+                        }
+                    });
+
+                return Observable.zip(...revertMoveBatch, Observable.of(null));
+            })
+            .subscribe(
+                () => {
+                    this.nodesMoved.next(null);
+                },
+                error => {
+                    let message = 'APP.MESSAGES.ERRORS.GENERIC';
+
+                    let errorJson = null;
+                    try {
+                        errorJson = JSON.parse(error.message);
+                    } catch {}
+
+                    if (errorJson && errorJson.error && errorJson.error.statusCode === 403) {
+                        message = 'APP.MESSAGES.ERRORS.PERMISSION';
+                    }
+
+                    this.store.dispatch(new SnackbarErrorAction(message));
+                }
+            );
+    }
+
     deleteNodes(items: MinimalNodeEntity[]): void {
         const batch: Observable<DeletedNodeInfo>[] = [];
 
@@ -804,5 +873,96 @@ export class ContentManagementService {
         }
 
         return null;
+    }
+
+    private showMoveMessage(nodes: Array<MinimalNodeEntity>, info: any, moveResponse?: any) {
+        const succeeded = (moveResponse && moveResponse['succeeded']) ? moveResponse['succeeded'].length : 0;
+        const partiallySucceeded = (moveResponse && moveResponse['partiallySucceeded']) ? moveResponse['partiallySucceeded'].length : 0;
+        const failures = (moveResponse && moveResponse['failed']) ? moveResponse['failed'].length : 0;
+
+        let successMessage = '';
+        let partialSuccessMessage = '';
+        let failedMessage = '';
+        let errorMessage = '';
+
+        if (typeof info === 'string') {
+
+            // in case of success
+            if (info.toLowerCase().indexOf('succes') !== -1) {
+                const i18nMessageString = 'APP.MESSAGES.INFO.NODE_MOVE.';
+                let i18MessageSuffix = '';
+
+                if (succeeded) {
+                    i18MessageSuffix = ( succeeded === 1 ) ? 'SINGULAR' : 'PLURAL';
+                    successMessage = `${i18nMessageString}${i18MessageSuffix}`;
+                }
+
+                if (partiallySucceeded) {
+                    i18MessageSuffix = ( partiallySucceeded === 1 ) ? 'PARTIAL.SINGULAR' : 'PARTIAL.PLURAL';
+                    partialSuccessMessage = `${i18nMessageString}${i18MessageSuffix}`;
+                }
+
+                if (failures) {
+                    // if moving failed for ALL nodes, emit error
+                    if (failures === nodes.length) {
+                        const errors = this.nodeActionsService.flatten(moveResponse['failed']);
+                        errorMessage = this.getErrorMessage(errors[0]);
+
+                    } else {
+                        i18MessageSuffix = 'PARTIAL.FAIL';
+                        failedMessage = `${i18nMessageString}${i18MessageSuffix}`;
+                    }
+                }
+            } else {
+                errorMessage = 'APP.MESSAGES.ERRORS.GENERIC';
+            }
+
+        } else {
+            errorMessage = this.getErrorMessage(info);
+        }
+
+        const undo = (succeeded + partiallySucceeded > 0) ? this.translation.instant('APP.ACTIONS.UNDO') : '';
+        failedMessage = errorMessage ?  errorMessage : failedMessage;
+
+        const beforePartialSuccessMessage = (successMessage && partialSuccessMessage) ? ' ' : '';
+        const beforeFailedMessage = ((successMessage || partialSuccessMessage) && failedMessage) ? ' ' : '';
+
+        const initialParentId = this.nodeActionsService.getEntryParentId(nodes[0].entry);
+
+        const messages = this.translation.instant(
+            [successMessage, partialSuccessMessage, failedMessage],
+            { success: succeeded, failed: failures, partially: partiallySucceeded}
+        );
+
+        // TODO: review in terms of i18n
+        this.snackBar
+            .open(
+                messages[successMessage]
+                + beforePartialSuccessMessage + messages[partialSuccessMessage]
+                + beforeFailedMessage + messages[failedMessage]
+                    , undo, {
+                        panelClass: 'info-snackbar',
+                        duration: 3000
+                    })
+                    .onAction()
+                    .subscribe(() => this.undoMoveNodes(moveResponse, initialParentId));
+    }
+
+    getErrorMessage(errorObject): string {
+        let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
+
+        try {
+            const { error: { statusCode } } = JSON.parse(errorObject.message);
+
+            if (statusCode === 409) {
+                i18nMessageString =  'APP.MESSAGES.ERRORS.NODE_MOVE';
+
+            } else if (statusCode === 403) {
+                i18nMessageString = 'APP.MESSAGES.ERRORS.PERMISSION';
+            }
+
+        } catch (err) { /* Do nothing, keep the original message */ }
+
+        return i18nMessageString;
     }
 }

@@ -322,6 +322,18 @@
                             }
                         },
                         {
+                            "id": "app.toolbar.move",
+                            "type": "button",
+                            "title": "APP.ACTIONS.MOVE",
+                            "icon": "library_books",
+                            "actions": {
+                                "click": "MOVE_NODES"
+                            },
+                            "rules": {
+                                "visible": "app.selection.canDelete"
+                            }
+                        },
+                        {
                             "id": "app.toolbar.share",
                             "type": "button",
                             "title": "APP.ACTIONS.SHARE",

@@ -46,7 +46,7 @@ import {
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
-import { UnshareNodesAction, UNSHARE_NODES, CopyNodesAction, COPY_NODES } from '../actions/node.actions';
+import { UnshareNodesAction, UNSHARE_NODES, CopyNodesAction, COPY_NODES, MoveNodesAction, MOVE_NODES } from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
@@ -218,6 +218,25 @@ export class NodeEffects {
                             this.contentService.copyNodes(selection.nodes);
                         }
                     });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    moveNodes$ = this.actions$.pipe(
+        ofType<MoveNodesAction>(MOVE_NODES),
+        map(action => {
+            if (action.payload && action.payload.length > 0) {
+                this.contentService.moveNodes(action.payload);
+            } else {
+                this.store
+                .select(appSelection)
+                .take(1)
+                .subscribe(selection => {
+                    if (selection && !selection.isEmpty) {
+                        this.contentService.moveNodes(selection.nodes);
+                    }
+                });
             }
         })
     );

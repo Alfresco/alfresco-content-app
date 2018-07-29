@@ -86,6 +86,10 @@ export function canDeleteSelection(
         isNotLibraries(context, ...args) &&
         !context.selection.isEmpty
     ) {
+        // temp workaround for Search api
+        if (isFavorites(context, ...args)) {
+            return true;
+        }
         return context.permissions.check(context.selection.nodes, ['delete']);
     }
     return false;
