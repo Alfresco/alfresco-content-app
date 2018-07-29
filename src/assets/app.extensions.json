@@ -9,6 +9,15 @@
 
     "rules": [
         {
+            "id": "app.toolbar.info",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.notEmpty" },
+                { "type": "rule", "value": "app.navigation.isNotLibraries" },
+                { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+            ]
+        },
+        {
             "id": "app.toolbar.canCopyNode",
             "type": "core.every",
             "parameters": [
@@ -293,6 +302,14 @@
                     },
                     "rules": {
                         "visible": "app.navigation.isLibraries"
+                    }
+                },
+                {
+                    "id": "app.toolbar.info",
+                    "type": "custom",
+                    "component": "app.toolbar.toggleInfoDrawer",
+                    "rules": {
+                        "visible": "app.toolbar.info"
                     }
                 },
                 {

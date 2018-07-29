@@ -31,7 +31,7 @@ import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { SetSelectedNodesAction, DownloadNodesAction, ViewFileAction } from '../store/actions';
-import { appSelection, sharedUrl, currentFolder } from '../store/selectors/app.selectors';
+import { appSelection, sharedUrl, currentFolder, infoDrawerOpened } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
 import { Observable } from 'rxjs/Rx';
@@ -47,7 +47,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     documentList: DocumentListComponent;
 
     title = 'Page';
-    infoDrawerOpened = false;
+    infoDrawerOpened$: Observable<boolean>;
     node: MinimalNodeEntryEntity;
     selection: SelectionState;
     displayMode = DisplayMode.List;
@@ -74,15 +74,13 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.sharedPreviewUrl$ = this.store.select(sharedUrl);
+        this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
 
         this.store
             .select(appSelection)
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(selection => {
                 this.selection = selection;
-                if (selection.isEmpty) {
-                    this.infoDrawerOpened = false;
-                }
                 this.actions = this.extensions.getAllowedContentActions();
                 this.canUpdateFile = this.selection.file && this.content.canUpdateNode(selection.file);
                 this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
@@ -125,14 +123,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             return 'assets/images/ic_lock_black_24dp_1x.png';
         }
         return null;
-    }
-
-    toggleSidebar(event) {
-        if (event) {
-            return;
-        }
-
-        this.infoDrawerOpened = !this.infoDrawerOpened;
     }
 
     reload(): void {

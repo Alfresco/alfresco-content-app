@@ -36,6 +36,7 @@ export const selectUser =  createSelector(selectApp, state => state.user);
 export const sharedUrl =  createSelector(selectApp, state => state.sharedUrl);
 export const appNavigation = createSelector(selectApp, state => state.navigation);
 export const currentFolder = createSelector(selectApp, state => state.navigation.currentFolder);
+export const infoDrawerOpened = createSelector(selectApp, state => state.infoDrawerOpened);
 
 export const selectionWithFolder = createSelector(
     appSelection,

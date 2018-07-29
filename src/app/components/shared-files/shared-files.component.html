@@ -36,12 +36,7 @@
                     <mat-icon>get_app</mat-icon>
                 </button>
 
-                <button mat-icon-button
-                    [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                    title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
-                    (click)="toggleSidebar()">
-                    <mat-icon>info_outline</mat-icon>
-                </button>
+                <app-toggle-info-drawer></app-toggle-info-drawer>
 
                 <button
                     color="primary"
@@ -196,7 +191,7 @@
             </adf-pagination>
         </div>
 
-        <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened">
+        <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened$ | async">
             <aca-info-drawer [node]="selection.last"></aca-info-drawer>
         </div>
     </div>

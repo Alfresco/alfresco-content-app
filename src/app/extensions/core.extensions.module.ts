@@ -34,6 +34,7 @@ import * as nav from './evaluators/navigation.evaluators';
 import { ExtensionService } from './extension.service';
 import { CustomExtensionComponent } from './components/custom-component/custom.component';
 import { DemoButtonComponent } from './components/custom-component/demo.button';
+import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 
 export function setupExtensions(extensions: ExtensionService): Function {
     return () =>
@@ -41,7 +42,8 @@ export function setupExtensions(extensions: ExtensionService): Function {
             extensions.setComponents({
                 'app.layout.main': LayoutComponent,
                 'app.components.trashcan': TrashcanComponent,
-                'app.demo.button': DemoButtonComponent
+                'app.demo.button': DemoButtonComponent,
+                'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent
             });
 
             extensions.setAuthGuards({

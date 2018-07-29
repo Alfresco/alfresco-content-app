@@ -23,50 +23,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SelectionState } from './selection.state';
-import { ProfileState } from './profile.state';
-import { NavigationState } from './navigation.state';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../../store/states';
+import { infoDrawerOpened } from '../../../store/selectors/app.selectors';
+import { ToggleInfoDrawerAction } from '../../../store/actions';
 
-export interface AppState {
-    appName: string;
-    headerColor: string;
-    logoPath: string;
-    languagePicker: boolean;
-    sharedUrl: string;
-    selection: SelectionState;
-    user: ProfileState;
-    navigation: NavigationState;
-    infoDrawerOpened: boolean;
+@Component({
+    selector: 'app-toggle-info-drawer',
+    template: `
+        <button
+            mat-icon-button
+            [color]="(infoDrawerOpened$ | async) ? 'accent' : 'primary'"
+            [attr.title]="'APP.ACTIONS.DETAILS' | translate"
+            (click)="onClick()">
+            <mat-icon>info_outline</mat-icon>
+        </button>
+    `
+})
+export class ToggleInfoDrawerComponent {
+    infoDrawerOpened$: Observable<boolean>;
+
+    constructor(private store: Store<AppStore>) {
+        this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
+    }
+
+    onClick() {
+        this.store.dispatch(new ToggleInfoDrawerAction());
+    }
 }
-
-export const INITIAL_APP_STATE: AppState = {
-    appName: 'Alfresco Example Content Application',
-    headerColor: '#2196F3',
-    logoPath: 'assets/images/alfresco-logo-white.svg',
-    languagePicker: false,
-    sharedUrl: '',
-    user: {
-        isAdmin: true, // 5.2.x
-        id: null,
-        firstName: '',
-        lastName: ''
-    },
-    selection: {
-        nodes: [],
-        libraries: [],
-        isEmpty: true,
-        count: 0
-    },
-    navigation: {
-        currentFolder: null
-    },
-    infoDrawerOpened: false
-};
-
-export interface AppStore {
-    app: AppState;
-}
-
-export const INITIAL_STATE: AppStore = {
-    app: INITIAL_APP_STATE
-};

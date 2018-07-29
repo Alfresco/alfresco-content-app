@@ -44,6 +44,7 @@ import {
     SetCurrentFolderAction,
     SET_CURRENT_URL, SetCurrentUrlAction
 } from '../actions';
+import { TOGGLE_INFO_DRAWER, ToggleInfoDrawerAction } from '../actions/app.actions';
 
 export function appReducer(
     state: AppState = INITIAL_APP_STATE,
@@ -84,6 +85,9 @@ export function appReducer(
             break;
         case SET_CURRENT_URL:
             newState = updateCurrentUrl(state, <SetCurrentUrlAction>action);
+            break;
+        case TOGGLE_INFO_DRAWER:
+            newState = updateInfoDrawer(state, <ToggleInfoDrawerAction>action);
             break;
         default:
             newState = Object.assign({}, state);
@@ -168,6 +172,21 @@ function updateCurrentUrl(state: AppState, action: SetCurrentUrlAction) {
     return newState;
 }
 
+function updateInfoDrawer(state: AppState, action: ToggleInfoDrawerAction) {
+    const newState = Object.assign({}, state);
+
+    let value = state.infoDrawerOpened;
+    if (state.selection.isEmpty) {
+        value = false;
+    } else {
+        value = !value;
+    }
+
+    newState.infoDrawerOpened = value;
+
+    return newState;
+}
+
 function updateSelectedNodes(
     state: AppState,
     action: SetSelectedNodesAction
@@ -201,6 +220,10 @@ function updateSelectedNodes(
     const libraries = [...action.payload].filter((node: any) => node.isLibrary);
     if (libraries.length === 1) {
         library = libraries[0];
+    }
+
+    if (isEmpty) {
+        newState.infoDrawerOpened = false;
     }
 
     newState.selection = {
