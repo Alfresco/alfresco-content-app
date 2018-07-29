@@ -24,13 +24,10 @@
  */
 
 import { Directive, HostListener, Input } from '@angular/core';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
-import { MatDialog } from '@angular/material';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
-import { SnackbarErrorAction } from '../store/actions';
-import { ContentApiService } from '../services/content-api.service';
+import { ManageVersionsAction } from '../store/actions';
 
 @Directive({
     selector: '[acaNodeVersions]'
@@ -39,46 +36,10 @@ export class NodeVersionsDirective {
     // tslint:disable-next-line:no-input-rename
     @Input('acaNodeVersions') node: MinimalNodeEntity;
 
+    constructor(private store: Store<AppStore>) {}
+
     @HostListener('click')
     onClick() {
-        this.onManageVersions();
-    }
-
-    constructor(
-        private store: Store<AppStore>,
-        private contentApi: ContentApiService,
-        private dialog: MatDialog
-    ) {}
-
-    async onManageVersions() {
-        if (this.node && this.node.entry) {
-            let entry = this.node.entry;
-
-            if (entry.nodeId || (<any>entry).guid) {
-                entry = await this.contentApi.getNodeInfo(
-                    entry.nodeId || (<any>entry).id
-                ).toPromise();
-                this.openVersionManagerDialog(entry);
-            } else {
-                this.openVersionManagerDialog(entry);
-            }
-        } else if (this.node) {
-            this.openVersionManagerDialog(<MinimalNodeEntryEntity>this.node);
-        }
-    }
-
-    openVersionManagerDialog(node: MinimalNodeEntryEntity) {
-        // workaround Shared
-        if (node.isFile || node.nodeId) {
-            this.dialog.open(NodeVersionsDialogComponent, {
-                data: { node },
-                panelClass: 'adf-version-manager-dialog-panel',
-                width: '630px'
-            });
-        } else {
-            this.store.dispatch(
-                new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
-            );
-        }
+        this.store.dispatch(new ManageVersionsAction(this.node));
     }
 }
