@@ -74,6 +74,7 @@ import { ExtensionService } from './extensions/extension.service';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
 import { ToggleInfoDrawerComponent } from './components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
+import { DocumentDisplayModeComponent } from './components/toolbar/document-display-mode/document-display-mode.component';
 
 export function setupExtensionServiceFactory(service: ExtensionService): Function {
     return () => service.load();
@@ -123,7 +124,8 @@ export function setupExtensionServiceFactory(service: ExtensionService): Functio
         SearchResultsComponent,
         SettingsComponent,
         SharedLinkViewComponent,
-        ToggleInfoDrawerComponent
+        ToggleInfoDrawerComponent,
+        DocumentDisplayModeComponent
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -154,7 +156,8 @@ export function setupExtensionServiceFactory(service: ExtensionService): Functio
         LibraryDialogComponent,
         NodeVersionsDialogComponent,
         NodePermissionsDialogComponent,
-        ToggleInfoDrawerComponent
+        ToggleInfoDrawerComponent,
+        DocumentDisplayModeComponent
     ],
     bootstrap: [AppComponent]
 })

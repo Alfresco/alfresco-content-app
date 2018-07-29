@@ -34,6 +34,7 @@ export const SET_SHARED_URL = 'SET_SHARED_URL';
 export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
 export const SET_CURRENT_URL = 'SET_CURRENT_URL';
 export const TOGGLE_INFO_DRAWER = 'TOGGLE_INFO_DRAWER';
+export const TOGGLE_DOCUMENT_DISPLAY_MODE = 'TOGGLE_DOCUMENT_DISPLAY_MODE';
 
 export class SetAppNameAction implements Action {
     readonly type = SET_APP_NAME;
@@ -72,5 +73,10 @@ export class SetCurrentUrlAction implements Action {
 
 export class ToggleInfoDrawerAction implements Action {
     readonly type = TOGGLE_INFO_DRAWER;
+    constructor(public payload?: any) {}
+}
+
+export class ToggleDocumentDisplayMode implements Action {
+    readonly type = TOGGLE_DOCUMENT_DISPLAY_MODE;
     constructor(public payload?: any) {}
 }

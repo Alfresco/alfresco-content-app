@@ -42,9 +42,15 @@ import {
     SetSharedUrlAction,
     SET_CURRENT_FOLDER,
     SetCurrentFolderAction,
-    SET_CURRENT_URL, SetCurrentUrlAction
+    SET_CURRENT_URL,
+    SetCurrentUrlAction
 } from '../actions';
-import { TOGGLE_INFO_DRAWER, ToggleInfoDrawerAction } from '../actions/app.actions';
+import {
+    TOGGLE_INFO_DRAWER,
+    ToggleInfoDrawerAction,
+    TOGGLE_DOCUMENT_DISPLAY_MODE,
+    ToggleDocumentDisplayMode
+} from '../actions/app.actions';
 
 export function appReducer(
     state: AppState = INITIAL_APP_STATE,
@@ -88,6 +94,11 @@ export function appReducer(
             break;
         case TOGGLE_INFO_DRAWER:
             newState = updateInfoDrawer(state, <ToggleInfoDrawerAction>action);
+            break;
+        case TOGGLE_DOCUMENT_DISPLAY_MODE:
+            newState = updateDocumentDisplayMode(state, <
+                ToggleDocumentDisplayMode
+            >action);
             break;
         default:
             newState = Object.assign({}, state);
@@ -184,6 +195,16 @@ function updateInfoDrawer(state: AppState, action: ToggleInfoDrawerAction) {
 
     newState.infoDrawerOpened = value;
 
+    return newState;
+}
+
+function updateDocumentDisplayMode(
+    state: AppState,
+    action: ToggleDocumentDisplayMode
+) {
+    const newState = Object.assign({}, state);
+    newState.documentDisplayMode =
+        newState.documentDisplayMode === 'list' ? 'gallery' : 'list';
     return newState;
 }
 

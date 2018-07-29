@@ -24,14 +24,13 @@
  */
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
-import { DisplayMode } from '@alfresco/adf-core';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
 import { SetSelectedNodesAction, DownloadNodesAction, ViewFileAction } from '../store/actions';
-import { appSelection, sharedUrl, currentFolder, infoDrawerOpened } from '../store/selectors/app.selectors';
+import { appSelection, sharedUrl, currentFolder, infoDrawerOpened, documentDisplayMode } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
 import { Observable } from 'rxjs/Rx';
@@ -50,7 +49,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     infoDrawerOpened$: Observable<boolean>;
     node: MinimalNodeEntryEntity;
     selection: SelectionState;
-    displayMode = DisplayMode.List;
+    documentDisplayMode$: Observable<string>;
     sharedPreviewUrl$: Observable<string>;
     actions: Array<ContentActionRef> = [];
     canUpdateFile = false;
@@ -75,6 +74,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.sharedPreviewUrl$ = this.store.select(sharedUrl);
         this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
+        this.documentDisplayMode$ = this.store.select(documentDisplayMode);
 
         this.store
             .select(appSelection)
@@ -131,11 +131,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             this.store.dispatch(new SetSelectedNodesAction([]));
             this.documentList.reload();
         }
-    }
-
-    toggleGalleryView(): void {
-        this.displayMode = this.displayMode === DisplayMode.List ? DisplayMode.Gallery : DisplayMode.List;
-        this.documentList.display = this.displayMode;
     }
 
     downloadSelection() {

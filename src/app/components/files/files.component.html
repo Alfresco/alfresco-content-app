@@ -7,13 +7,7 @@
         </adf-breadcrumb>
 
         <adf-toolbar class="inline">
-            <button *ifExperimental="'cardview'"
-                color="primary"
-                mat-icon-button
-                (click)="toggleGalleryView()">
-                <mat-icon *ngIf="displayMode === 'list'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.CARDVIEW' | translate }}">view_comfy</mat-icon>
-                <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
-            </button>
+            <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
 
             <ng-container *ifExperimental="'extensions'">
                 <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
@@ -125,6 +119,7 @@
                 [disabled]="!canUpload">
 
                 <adf-document-list acaDocumentList #documentList
+                    [display]="documentDisplayMode$ | async"
                     [sorting]="[ 'modifiedAt', 'desc' ]"
                     selectionMode="multiple"
                     [currentFolderId]="node?.id"

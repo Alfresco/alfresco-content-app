@@ -37,6 +37,7 @@ export interface AppState {
     user: ProfileState;
     navigation: NavigationState;
     infoDrawerOpened: boolean;
+    documentDisplayMode: string;
 }
 
 export const INITIAL_APP_STATE: AppState = {
@@ -60,7 +61,8 @@ export const INITIAL_APP_STATE: AppState = {
     navigation: {
         currentFolder: null
     },
-    infoDrawerOpened: false
+    infoDrawerOpened: false,
+    documentDisplayMode: 'list'
 };
 
 export interface AppStore {
