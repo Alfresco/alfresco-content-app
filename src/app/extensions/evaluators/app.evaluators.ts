@@ -193,7 +193,11 @@ export function canUpdateSelectedFolder(
 ): boolean {
     const { folder } = context.selection;
     if (folder) {
-        return context.permissions.check(folder.entry, ['update']);
+        return (
+            // workaround for Search Api
+            isFavorites(context, ...args) ||
+            context.permissions.check(folder.entry, ['update'])
+        );
     }
     return false;
 }
