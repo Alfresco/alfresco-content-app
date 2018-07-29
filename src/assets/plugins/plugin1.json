@@ -71,6 +71,7 @@
                     ]
                 },
                 {
+                    "disabled": true,
                     "id": "plugin1.toolbar.separator3",
                     "order": 301,
                     "type": "separator"
