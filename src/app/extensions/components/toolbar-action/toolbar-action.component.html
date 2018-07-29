@@ -17,7 +17,7 @@
             [id]="entry.id"
             color="primary"
             mat-icon-button
-            [attr.title]="entry.description | translate"
+            [attr.title]="(entry.description || entry.title) | translate"
             [matMenuTriggerFor]="menu">
             <mat-icon>{{ entry.icon }}</mat-icon>
         </button>
