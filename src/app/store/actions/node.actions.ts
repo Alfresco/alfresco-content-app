@@ -38,6 +38,8 @@ export const SHARE_NODE = 'SHARE_NODE';
 export const UNSHARE_NODES = 'UNSHARE_NODES';
 export const COPY_NODES = 'COPY_NODES';
 export const MOVE_NODES = 'MOVE_NODES';
+export const MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS';
+export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
 
 export class SetSelectedNodesAction implements Action {
     readonly type = SET_SELECTED_NODES;
@@ -97,4 +99,14 @@ export class CopyNodesAction implements Action {
 export class MoveNodesAction implements Action {
     readonly type = MOVE_NODES;
     constructor(public payload: Array<MinimalNodeEntity>) {}
+}
+
+export class ManagePermissionsAction implements Action {
+    readonly type = MANAGE_PERMISSIONS;
+    constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class ManageVersionsAction implements Action {
+    readonly type = MANAGE_VERSIONS;
+    constructor(public payload: MinimalNodeEntity) {}
 }

@@ -18,6 +18,22 @@
             ]
         },
         {
+            "id": "app.toolbar.permissions",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.first.canUpdate" },
+                { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+            ]
+        },
+        {
+            "id": "app.toolbar.versions",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.file" },
+                { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+            ]
+        },
+        {
             "id": "app.trashcan.hasSelection",
             "type": "core.every",
             "parameters": [
@@ -379,6 +395,30 @@
                             },
                             "rules": {
                                 "visible": "app.selection.library"
+                            }
+                        },
+                        {
+                            "id": "app.toolbar.versions",
+                            "type": "button",
+                            "title": "APP.ACTIONS.VERSIONS",
+                            "icon": "history",
+                            "actions": {
+                                "click": "MANAGE_VERSIONS"
+                            },
+                            "rules": {
+                                "visible": "app.toolbar.versions"
+                            }
+                        },
+                        {
+                            "id": "app.toolbar.permissions",
+                            "type": "button",
+                            "title": "APP.ACTIONS.PERMISSIONS",
+                            "icon": "settings_input_component",
+                            "actions": {
+                                "click": "MANAGE_PERMISSIONS"
+                            },
+                            "rules": {
+                                "visible": "app.toolbar.permissions"
                             }
                         }
                     ]

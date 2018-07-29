@@ -46,7 +46,18 @@ import {
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
-import { UnshareNodesAction, UNSHARE_NODES, CopyNodesAction, COPY_NODES, MoveNodesAction, MOVE_NODES } from '../actions/node.actions';
+import {
+    UnshareNodesAction,
+    UNSHARE_NODES,
+    CopyNodesAction,
+    COPY_NODES,
+    MoveNodesAction,
+    MOVE_NODES,
+    ManagePermissionsAction,
+    MANAGE_PERMISSIONS,
+    ManageVersionsAction,
+    MANAGE_VERSIONS
+} from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
@@ -230,13 +241,55 @@ export class NodeEffects {
                 this.contentService.moveNodes(action.payload);
             } else {
                 this.store
-                .select(appSelection)
-                .take(1)
-                .subscribe(selection => {
-                    if (selection && !selection.isEmpty) {
-                        this.contentService.moveNodes(selection.nodes);
-                    }
-                });
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && !selection.isEmpty) {
+                            this.contentService.moveNodes(selection.nodes);
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    managePermissions = this.actions$.pipe(
+        ofType<ManagePermissionsAction>(MANAGE_PERMISSIONS),
+        map(action => {
+            if (action && action.payload) {
+                this.contentService.managePermissions(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && !selection.isEmpty) {
+                            this.contentService.managePermissions(
+                                selection.first
+                            );
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    manageVersions$ = this.actions$.pipe(
+        ofType<ManageVersionsAction>(MANAGE_VERSIONS),
+        map(action => {
+            if (action && action.payload) {
+                this.contentService.manageVersions(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.file) {
+                            this.contentService.manageVersions(
+                                selection.file
+                            );
+                        }
+                    });
             }
         })
     );

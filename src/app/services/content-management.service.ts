@@ -46,6 +46,8 @@ import { ContentApiService } from './content-api.service';
 import { sharedUrl } from '../store/selectors/app.selectors';
 import { NodeActionsService } from './node-actions.service';
 import { TranslationService } from '@alfresco/adf-core';
+import { NodePermissionsDialogComponent } from '../dialogs/node-permissions/node-permissions.dialog';
+import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 
 interface RestoredNode {
     status: number;
@@ -98,6 +100,56 @@ export class ContentManagementService {
                 this.store.dispatch(new SetSelectedNodesAction(nodes));
                 this.favoriteRemoved.next(nodes);
             });
+        }
+    }
+
+    managePermissions(node: MinimalNodeEntity): void {
+        if (node && node.entry) {
+            const { nodeId, id } = node.entry;
+            const siteId = node.entry['guid'];
+            const targetId = siteId || nodeId || id;
+
+            if (targetId) {
+                this.dialogRef.open(NodePermissionsDialogComponent, {
+                    data: { nodeId: targetId },
+                    panelClass: 'aca-permissions-dialog-panel',
+                    width: '730px'
+                });
+            } else {
+                this.store.dispatch(
+                    new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
+                );
+            }
+        }
+    }
+
+    manageVersions(node: MinimalNodeEntity) {
+        if (node && node.entry) {
+            if (node.entry.nodeId) {
+                this.contentApi
+                    .getNodeInfo(node.entry.nodeId)
+                    .subscribe(entry => {
+                        this.openVersionManagerDialog(entry);
+                    });
+
+            } else {
+                this.openVersionManagerDialog(node.entry);
+            }
+        }
+    }
+
+    private openVersionManagerDialog(node: MinimalNodeEntryEntity) {
+        // workaround Shared
+        if (node.isFile || node.nodeId) {
+            this.dialogRef.open(NodeVersionsDialogComponent, {
+                data: { node },
+                panelClass: 'adf-version-manager-dialog-panel',
+                width: '630px'
+            });
+        } else {
+            this.store.dispatch(
+                new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
+            );
         }
     }
 

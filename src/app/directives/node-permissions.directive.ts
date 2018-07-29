@@ -25,11 +25,9 @@
 
 import { Directive, HostListener, Input } from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
-import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
-import { SnackbarErrorAction } from '../store/actions';
-import { NodePermissionsDialogComponent } from '../dialogs/node-permissions/node-permissions.dialog';
+import { ManagePermissionsAction } from '../store/actions';
 
 @Directive({
     selector: '[acaNodePermissions]'
@@ -38,43 +36,10 @@ export class NodePermissionsDirective {
     // tslint:disable-next-line:no-input-rename
     @Input('acaNodePermissions') node: MinimalNodeEntity;
 
+    constructor(private store: Store<AppStore>) {}
+
     @HostListener('click')
     onClick() {
-        this.showPermissions();
-    }
-
-    constructor(
-        private store: Store<AppStore>,
-        private dialog: MatDialog
-    ) {}
-
-    showPermissions() {
-        if (this.node) {
-            let entry;
-            if (this.node.entry) {
-                entry = this.node.entry;
-
-            } else {
-                entry = this.node;
-            }
-
-            const entryId = entry.nodeId || (<any>entry).guid || entry.id;
-            this.openPermissionsDialog(entryId);
-        }
-    }
-
-    openPermissionsDialog(nodeId: string) {
-        // workaround Shared
-        if (nodeId) {
-            this.dialog.open(NodePermissionsDialogComponent, {
-                data: { nodeId },
-                panelClass: 'aca-permissions-dialog-panel',
-                width: '730px'
-            });
-        } else {
-            this.store.dispatch(
-                new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
-            );
-        }
+        this.store.dispatch(new ManagePermissionsAction(this.node));
     }
 }

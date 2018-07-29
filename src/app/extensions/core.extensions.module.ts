@@ -55,6 +55,7 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.selection.canUnshare': app.canUnshareNodes,
                 'app.selection.canAddFavorite': app.canAddFavorite,
                 'app.selection.canRemoveFavorite': app.canRemoveFavorite,
+                'app.selection.first.canUpdate': app.canUpdateSelectedNode,
                 'app.selection.file': app.hasFileSelected,
                 'app.selection.file.canShare': app.canShareFile,
                 'app.selection.library': app.hasLibrarySelected,

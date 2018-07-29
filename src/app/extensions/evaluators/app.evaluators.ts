@@ -177,6 +177,16 @@ export function hasFileSelected(
     return file ? true : false;
 }
 
+export function canUpdateSelectedNode(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    if (context.selection && !context.selection.isEmpty) {
+        return context.permissions.check(context.selection.first, ['update']);
+    }
+    return false;
+}
+
 export function canUpdateSelectedFolder(
     context: RuleContext,
     ...args: RuleParameter[]
