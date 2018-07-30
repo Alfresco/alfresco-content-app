@@ -31,7 +31,7 @@ import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
     SNACKBAR_INFO, SnackbarWarningAction, SnackbarInfoAction,
     SnackbarErrorAction, SNACKBAR_ERROR, SNACKBAR_WARNING, PurgeDeletedNodesAction,
-    RestoreDeletedNodesAction, NavigateRouteAction, NAVIGATE_ROUTE
+    RestoreDeletedNodesAction, NavigateRouteAction, NAVIGATE_ROUTE, DeleteNodesAction
 } from '../store/actions';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -68,6 +68,129 @@ describe('ContentManagementService', () => {
                 return Observable.of(true);
             }
         });
+    });
+
+    describe('Delete action', () => {
+        it('should raise info message on successful single file deletion', fakeAsync(done => {
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
+
+            actions$.pipe(
+                ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+                map(action => {
+                    done();
+                })
+            );
+
+            const selection = [{ entry: { id: '1', name: 'name1' } }];
+
+            store.dispatch(new DeleteNodesAction(selection));
+        }));
+
+        it('should raise error message on failed single file deletion', fakeAsync(done => {
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(null));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => {
+                    done();
+                })
+            );
+
+            const selection = [{ entry: { id: '1', name: 'name1' } }];
+
+            store.dispatch(new DeleteNodesAction(selection));
+        }));
+
+        it('should raise info message on successful multiple files deletion', fakeAsync(done => {
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
+
+            actions$.pipe(
+                ofType<SnackbarInfoAction>(SNACKBAR_INFO),
+                map(action => {
+                    done();
+                })
+            );
+
+            const selection = [
+                { entry: { id: '1', name: 'name1' } },
+                { entry: { id: '2', name: 'name2' } }
+            ];
+
+            store.dispatch(new DeleteNodesAction(selection));
+        }));
+
+        it('should raise error message failed multiple files deletion', fakeAsync(done => {
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(null));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => {
+                    done();
+                })
+            );
+
+            const selection = [
+                { entry: { id: '1', name: 'name1' } },
+                { entry: { id: '2', name: 'name2' } }
+            ];
+
+            store.dispatch(new DeleteNodesAction(selection));
+        }));
+
+        it('should raise warning message when only one file is successful', fakeAsync(done => {
+            spyOn(contentApi, 'deleteNode').and.callFake((id) => {
+                if (id === '1') {
+                    return Observable.throw(null);
+                } else {
+                    return Observable.of(null);
+                }
+            });
+
+            actions$.pipe(
+                ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+                map(action => {
+                    done();
+                })
+            );
+
+            const selection = [
+                { entry: { id: '1', name: 'name1' } },
+                { entry: { id: '2', name: 'name2' } }
+            ];
+
+            store.dispatch(new DeleteNodesAction(selection));
+        }));
+
+        it('should raise warning message when some files are successfully deleted', fakeAsync(done => {
+            spyOn(contentApi, 'deleteNode').and.callFake((id) => {
+                if (id === '1') {
+                    return Observable.throw(null);
+                }
+
+                if (id === '2') {
+                    return Observable.of(null);
+                }
+
+                if (id === '3') {
+                    return Observable.of(null);
+                }
+            });
+
+            actions$.pipe(
+                ofType<SnackbarWarningAction>(SNACKBAR_WARNING),
+                map(action => {
+                    done();
+                })
+            );
+
+            const selection = [
+                { entry: { id: '1', name: 'name1' } },
+                { entry: { id: '2', name: 'name2' } },
+                { entry: { id: '3', name: 'name3' } }
+            ];
+
+            store.dispatch(new DeleteNodesAction(selection));
+        }));
     });
 
 
