@@ -52,6 +52,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     documentDisplayMode$: Observable<string>;
     sharedPreviewUrl$: Observable<string>;
     actions: Array<ContentActionRef> = [];
+    viewerActions: Array<ContentActionRef> = [];
     canUpdateFile = false;
     canUpdateNode = false;
     canDelete = false;
@@ -82,6 +83,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             .subscribe(selection => {
                 this.selection = selection;
                 this.actions = this.extensions.getAllowedContentActions();
+                this.viewerActions = this.extensions.getViewerActions();
                 this.canUpdateFile = this.selection.file && this.content.canUpdateNode(selection.file);
                 this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
                 this.canDelete = !this.selection.isEmpty && this.content.canDeleteNodes(selection.nodes);
@@ -135,16 +137,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     downloadSelection() {
         this.store.dispatch(new DownloadNodesAction());
-    }
-
-    // this is where each application decides how to treat an action and what to do
-    // the ACA maps actions to the NgRx actions as an example
-    runAction(actionId: string) {
-        const context = {
-            selection: this.selection
-        };
-
-        this.extensions.runActionById(actionId, context);
     }
 
     trackByActionId(index: number, action: ContentActionRef) {

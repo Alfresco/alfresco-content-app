@@ -53,6 +53,7 @@ export class ExtensionService implements RuleContext {
     actions: Array<ActionRef> = [];
 
     contentActions: Array<ContentActionRef> = [];
+    viewerActions: Array<ContentActionRef> = [];
     openWithActions: Array<ContentActionRef> = [];
     createActions: Array<ContentActionRef> = [];
     navbar: Array<NavBarGroupRef> = [];
@@ -122,6 +123,7 @@ export class ExtensionService implements RuleContext {
         this.actions = this.loadActions(config);
         this.routes = this.loadRoutes(config);
         this.contentActions = this.loadContentActions(config);
+        this.viewerActions = this.loadViewerActions(config);
         this.openWithActions = this.loadViewerOpenWith(config);
         this.createActions = this.loadCreateActions(config);
         this.navbar = this.loadNavBar(config);
@@ -156,6 +158,15 @@ export class ExtensionService implements RuleContext {
     protected loadContentActions(config: ExtensionConfig) {
         if (config && config.features && config.features.content) {
             return (config.features.content.actions || []).sort(
+                this.sortByOrder
+            );
+        }
+        return [];
+    }
+
+    protected loadViewerActions(config: ExtensionConfig) {
+        if (config && config.features && config.features.viewer) {
+            return (config.features.viewer.actions || []).sort(
                 this.sortByOrder
             );
         }
@@ -316,6 +327,12 @@ export class ExtensionService implements RuleContext {
             })
             .reduce(this.reduceEmptyMenus, [])
             .reduce(this.reduceSeparators, []);
+    }
+
+    getViewerActions(): Array<ContentActionRef> {
+        return this.viewerActions
+            .filter(this.filterEnabled)
+            .filter(action => this.filterByRules(action));
     }
 
     reduceSeparators(

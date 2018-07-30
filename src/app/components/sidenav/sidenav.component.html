@@ -9,22 +9,19 @@
                 <mat-icon [title]="'APP.NEW_MENU.TOOLTIP' | translate">queue</mat-icon>
             </div>
             <div sidebar-menu-options>
-                <button *ngFor="let entry of createActions"
-                    mat-menu-item
-                    [disabled]="entry.disabled"
-                    [attr.title]="(entry.disabled ? entry['description-disabled'] : entry.description) | translate"
-                    (click)="runAction(entry.actions.click)">
-                    <mat-icon>{{ entry.icon }}</mat-icon>
-                    <span>{{ entry.title | translate }}</span>
-                </button>
+                <ng-container *ngFor="let action of createActions; trackBy: trackById">
+                    <app-toolbar-button
+                        type="menu-item"
+                        [actionRef]="action"></app-toolbar-button>
+                </ng-container>
             </div>
         </adf-sidebar-action-menu>
     </div>
 
-    <div *ngFor="let group of groups; trackBy: trackByGroupId"
+    <div *ngFor="let group of groups; trackBy: trackById"
         class="sidenav__section sidenav__section--menu" >
         <ul class="sidenav-menu">
-            <li *ngFor="let item of group.items; trackBy: trackByLinkId"
+            <li *ngFor="let item of group.items; trackBy: trackById"
                 class="sidenav-menu__item"
                 routerLinkActive
                 #rla="routerLinkActive"

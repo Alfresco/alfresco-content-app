@@ -28,14 +28,14 @@ import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { LayoutComponent } from '../components/layout/layout.component';
 import { TrashcanComponent } from '../components/trashcan/trashcan.component';
-import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
+import { ToolbarActionComponent } from './components/toolbar/toolbar-action.component';
 import * as app from './evaluators/app.evaluators';
 import * as nav from './evaluators/navigation.evaluators';
 import { ExtensionService } from './extension.service';
 import { CustomExtensionComponent } from './components/custom-component/custom.component';
-import { DemoButtonComponent } from './components/custom-component/demo.button';
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
+import { ToolbarButtonComponent } from './components/toolbar/toolbar-button.component';
 
 export function setupExtensions(extensions: ExtensionService): Function {
     return () =>
@@ -43,7 +43,6 @@ export function setupExtensions(extensions: ExtensionService): Function {
             extensions.setComponents({
                 'app.layout.main': LayoutComponent,
                 'app.components.trashcan': TrashcanComponent,
-                'app.demo.button': DemoButtonComponent,
                 'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
                 'app.toolbar.toggleFavorite': ToggleFavoriteComponent
             });
@@ -90,15 +89,13 @@ export function setupExtensions(extensions: ExtensionService): Function {
     imports: [CommonModule, CoreModule.forChild()],
     declarations: [
         ToolbarActionComponent,
-        CustomExtensionComponent,
-        DemoButtonComponent
+        ToolbarButtonComponent,
+        CustomExtensionComponent
     ],
     exports: [
         ToolbarActionComponent,
+        ToolbarButtonComponent,
         CustomExtensionComponent
-    ],
-    entryComponents: [
-        DemoButtonComponent
     ]
 })
 export class CoreExtensionsModule {

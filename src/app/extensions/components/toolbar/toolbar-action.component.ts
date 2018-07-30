@@ -27,16 +27,11 @@ import {
     Component,
     ViewEncapsulation,
     ChangeDetectionStrategy,
-    Input,
-    OnInit,
-    OnDestroy
+    Input
 } from '@angular/core';
-import { AppStore, SelectionState } from '../../../store/states';
+import { AppStore } from '../../../store/states';
 import { Store } from '@ngrx/store';
 import { ExtensionService } from '../../extension.service';
-import { appSelection } from '../../../store/selectors/app.selectors';
-import { Subject } from 'rxjs/Rx';
-import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '../../action.extensions';
 
 @Component({
@@ -46,38 +41,14 @@ import { ContentActionRef } from '../../action.extensions';
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: { class: 'aca-toolbar-action' }
 })
-export class ToolbarActionComponent implements OnInit, OnDestroy {
+export class ToolbarActionComponent {
+    @Input() type = 'icon-button';
     @Input() entry: ContentActionRef;
-
-    selection: SelectionState;
-    onDestroy$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         protected store: Store<AppStore>,
         protected extensions: ExtensionService
     ) {}
-
-    ngOnInit() {
-        this.store
-            .select(appSelection)
-            .pipe(takeUntil(this.onDestroy$))
-            .subscribe(selection => {
-                this.selection = selection;
-            });
-    }
-
-    ngOnDestroy() {
-        this.onDestroy$.next(true);
-        this.onDestroy$.complete();
-    }
-
-    runAction(actionId: string) {
-        const context = {
-            selection: this.selection
-        };
-
-        this.extensions.runActionById(actionId, context);
-    }
 
     trackByActionId(index: number, action: ContentActionRef) {
         return action.id;

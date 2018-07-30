@@ -8,7 +8,7 @@
         [canNavigateBefore]="previousNodeId"
         [canNavigateNext]="nextNodeId"
         [overlayMode]="true"
-        (print) = "printFile($event)"
+        (print)="printFile()"
         (showViewerChange)="onVisibilityChanged($event)"
         (navigateBefore)="onNavigateBefore()"
         (navigateNext)="onNavigateNext()">
@@ -18,74 +18,14 @@
         </adf-viewer-sidebar>
 
         <adf-viewer-open-with *ifExperimental="'extensions'">
-            <button *ngFor="let entry of openWith"
-                mat-menu-item
-                (click)="runAction(entry.actions.click)">
-                <mat-icon>{{ entry.icon }}</mat-icon>
-                <span>{{ entry.title }}</span>
-            </button>
+            <ng-container *ngFor="let action of openWith; trackBy: trackByActionId">
+                <aca-toolbar-action type="menu-item" [entry]="action"></aca-toolbar-action>
+            </ng-container>
         </adf-viewer-open-with>
 
         <adf-viewer-more-actions>
-
-            <button
-                mat-menu-item
-                #favorites="adfFavorite"
-                [adf-node-favorite]="selection.nodes">
-                <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
-                <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
-                <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
-            </button>
-
-            <ng-container *ifExperimental="'share'">
-                <button mat-menu-item
-                    color="primary"
-                    [baseShareUrl]="sharedPreviewUrl$ | async"
-                    [adf-share]="selection.file">
-                    <mat-icon>share</mat-icon>
-                    <span>{{ 'APP.ACTIONS.SHARE' | translate }}</span>
-                </button>
-            </ng-container>
-
-            <button
-                mat-menu-item
-                [acaCopyNode]="selection.nodes">
-                <mat-icon>content_copy</mat-icon>
-                <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
-            </button>
-
-            <button
-                mat-menu-item
-                *ngIf="canDelete"
-                [acaMoveNode]="selection.nodes">
-                <mat-icon>library_books</mat-icon>
-                <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
-            </button>
-
-            <button
-                mat-menu-item
-                *ngIf="canDelete"
-                (click)="deleteFile()">
-                <mat-icon>delete</mat-icon>
-                <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
-            </button>
-
-            <button
-                mat-menu-item
-                *ngIf="canUpdateFile"
-                [acaNodeVersions]="selection.file">
-                <mat-icon>history</mat-icon>
-                <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
-            </button>
-
-            <ng-container *ifExperimental="'permissions'">
-                <button
-                    mat-menu-item
-                    *ngIf="canUpdateNode"
-                    [acaNodePermissions]="selection.first">
-                    <mat-icon>settings_input_component</mat-icon>
-                    <span>{{ 'APP.ACTIONS.PERMISSIONS' | translate }}</span>
-                </button>
+            <ng-container *ngFor="let action of viewerActions; trackBy: trackByActionId">
+                <aca-toolbar-action type="menu-item" [entry]="action"></aca-toolbar-action>
             </ng-container>
         </adf-viewer-more-actions>
     </adf-viewer>

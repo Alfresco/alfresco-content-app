@@ -1,12 +1,7 @@
 <ng-container [ngSwitch]="entry.type">
-    <button *ngSwitchCase="'button'"
-        [id]="entry.id"
-        mat-icon-button
-        color="primary"
-        [attr.title]="(entry.description || entry.title) | translate"
-        (click)="runAction(entry.actions.click)">
-        <mat-icon>{{ entry.icon }}</mat-icon>
-    </button>
+    <ng-container *ngSwitchCase="'button'">
+        <app-toolbar-button [type]="type" [actionRef]="entry"></app-toolbar-button>
+    </ng-container>
 
     <adf-toolbar-divider *ngSwitchCase="'separator'"
         [id]="entry.id">
@@ -30,13 +25,7 @@
                         <app-custom-component [id]="child.component"></app-custom-component>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
-                        <button mat-menu-item
-                            [id]="child.id"
-                            [attr.title]="(child.description || child.title) | translate"
-                            (click)="runAction(child.actions.click)">
-                            <mat-icon>{{ child.icon }}</mat-icon>
-                            <span>{{ child.title | translate }}</span>
-                        </button>
+                        <app-toolbar-button type="menu-item" [actionRef]="child"></app-toolbar-button>
                     </ng-container>
                 </ng-container>
             </ng-container>

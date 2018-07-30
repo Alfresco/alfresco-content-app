@@ -27,7 +27,7 @@
             "openWith": [
                 {
                     "id": "plugin1.viewer.openWith.action1",
-                    "type": "default",
+                    "type": "button",
                     "icon": "build",
                     "title": "Snackbar",
                     "actions": {

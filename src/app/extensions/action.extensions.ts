@@ -24,7 +24,7 @@
  */
 
 export enum ContentActionType {
-    default = 'button',
+    default = 'default',
     button = 'button',
     separator = 'separator',
     menu = 'menu',

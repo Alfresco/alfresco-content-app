@@ -28,7 +28,7 @@ import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_O
 import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { DeleteNodesAction, SetSelectedNodesAction } from '../../store/actions';
+import { SetSelectedNodesAction } from '../../store/actions';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
@@ -335,12 +335,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
         return path;
     }
 
-    deleteFile() {
-        this.store.dispatch(new DeleteNodesAction([{ entry: this.node }]));
-        this.onVisibilityChanged(false);
-    }
-
-    printFile(event: any) {
+    printFile() {
         this.viewUtils.printFileGeneric(this.nodeId, this.node.content.mimeType);
     }
 

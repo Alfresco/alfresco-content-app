@@ -291,6 +291,12 @@
                             "type": "array",
                             "items": { "$ref": "#/definitions/contentActionRef" },
                             "minItems": 1
+                        },
+                        "actions": {
+                            "description": "Content actions (toolbar, context menus, etc.)",
+                            "type": "array",
+                            "items": { "$ref": "#/definitions/contentActionRef" },
+                            "minItems": 1
                         }
                     }
                 },

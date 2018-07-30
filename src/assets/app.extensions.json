@@ -451,19 +451,106 @@
                             }
                         }
                     ]
+                }
+            ]
+        },
+        "viewer": {
+            "actions": [
+                {
+                    "id": "app.viewer.favorite.add",
+                    "type": "button",
+                    "title": "APP.ACTIONS.FAVORITE",
+                    "icon": "star_border",
+                    "actions": {
+                        "click": "ADD_FAVORITE"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.favorite.canAdd"
+                    }
                 },
                 {
-                    "disabled": true,
-                    "id": "app.toolbar.separator.3",
-                    "order": 199,
-                    "type": "separator"
+                    "id": "app.viewer.favorite.remove",
+                    "type": "button",
+                    "title": "APP.ACTIONS.FAVORITE",
+                    "icon": "star",
+                    "actions": {
+                        "click": "REMOVE_FAVORITE"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.favorite.canRemove"
+                    }
                 },
                 {
-                    "disabled": true,
-                    "id": "app.toolbar.custom.1",
-                    "order": 200,
-                    "type": "custom",
-                    "component": "app.demo.button"
+                    "id": "app.viewer.share",
+                    "type": "button",
+                    "title": "APP.ACTIONS.SHARE",
+                    "icon": "share",
+                    "actions": {
+                        "click": "SHARE_NODE"
+                    },
+                    "rules": {
+                        "visible": "app.selection.file.canShare"
+                    }
+                },
+                {
+                    "id": "app.viewer.copy",
+                    "type": "button",
+                    "title": "APP.ACTIONS.COPY",
+                    "icon": "content_copy",
+                    "actions": {
+                        "click": "COPY_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canCopyNode"
+                    }
+                },
+                {
+                    "id": "app.viewer.move",
+                    "type": "button",
+                    "title": "APP.ACTIONS.MOVE",
+                    "icon": "library_books",
+                    "actions": {
+                        "click": "MOVE_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.selection.canDelete"
+                    }
+                },
+                {
+                    "id": "app.viewer.delete",
+                    "type": "button",
+                    "title": "APP.ACTIONS.DELETE",
+                    "icon": "delete",
+                    "actions": {
+                        "click": "DELETE_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.selection.canDelete"
+                    }
+                },
+                {
+                    "id": "app.viewer.versions",
+                    "type": "button",
+                    "title": "APP.ACTIONS.VERSIONS",
+                    "icon": "history",
+                    "actions": {
+                        "click": "MANAGE_VERSIONS"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.versions"
+                    }
+                },
+                {
+                    "id": "app.viewer.permissions",
+                    "type": "button",
+                    "title": "APP.ACTIONS.PERMISSIONS",
+                    "icon": "settings_input_component",
+                    "actions": {
+                        "click": "MANAGE_PERMISSIONS"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.permissions"
+                    }
                 }
             ]
         }

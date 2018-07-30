@@ -41,6 +41,7 @@ export interface ExtensionConfig {
         create?: Array<ContentActionRef>;
         viewer?: {
             openWith?: Array<ContentActionRef>;
+            actions?: Array<ContentActionRef>;
         };
         navbar?: Array<NavBarGroupRef>;
         content?: {
