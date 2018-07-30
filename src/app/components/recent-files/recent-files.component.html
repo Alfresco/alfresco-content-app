@@ -6,13 +6,12 @@
         <adf-toolbar class="inline">
             <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
 
-            <!-- <ng-container *ifExperimental="'extensions'"> -->
-            <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-                <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
+            <ng-container *ifExperimental="'extensions'">
+                <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
+                </ng-container>
             </ng-container>
-            <!-- </ng-container> -->
 
-            <!--
             <ng-container *ngIf="!selection.isEmpty">
                 <button
                     mat-icon-button
@@ -94,7 +93,6 @@
                     </ng-container>
                 </mat-menu>
             </ng-container>
-            -->
         </adf-toolbar>
     </div>
 
