@@ -182,7 +182,15 @@ export function canUpdateSelectedNode(
     ...args: RuleParameter[]
 ): boolean {
     if (context.selection && !context.selection.isEmpty) {
-        return context.permissions.check(context.selection.first, ['update']);
+        const node = context.selection.first;
+
+        if (node.entry.hasOwnProperty('allowableOperationsOnTarget')) {
+            return context.permissions.check(node, ['update'], {
+                target: 'allowableOperationsOnTarget'
+            });
+        }
+
+        return context.permissions.check(node, ['update']);
     }
     return false;
 }
