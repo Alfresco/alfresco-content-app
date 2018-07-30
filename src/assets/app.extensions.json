@@ -220,48 +220,6 @@
         "content": {
             "actions": [
                 {
-                    "id": "app.toolbar.createFolder",
-                    "type": "button",
-                    "order": 10,
-                    "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
-                    "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
-                    "icon": "create_new_folder",
-                    "actions": {
-                        "click": "CREATE_FOLDER"
-                    },
-                    "rules": {
-                        "visible": "app.navigation.folder.canCreate"
-                    }
-                },
-                {
-                    "id": "app.toolbar.uploadFile",
-                    "order": 11,
-                    "type": "button",
-                    "icon": "file_upload",
-                    "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
-                    "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
-                    "actions": {
-                        "click": "UPLOAD_FILES"
-                    },
-                    "rules": {
-                        "visible": "app.navigation.folder.canUpload"
-                    }
-                },
-                {
-                    "id": "app.toolbar.uploadFolder",
-                    "order": 12,
-                    "type": "button",
-                    "icon": "cloud_upload",
-                    "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
-                    "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
-                    "actions": {
-                        "click": "UPLOAD_FOLDER"
-                    },
-                    "rules": {
-                        "visible": "app.navigation.folder.canUpload"
-                    }
-                },
-                {
                     "id": "app.toolbar.preview",
                     "type": "button",
                     "order": 15,
