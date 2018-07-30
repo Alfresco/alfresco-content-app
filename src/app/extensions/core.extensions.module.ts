@@ -65,6 +65,7 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.selection.library': app.hasLibrarySelected,
                 'app.selection.folder': app.hasFolderSelected,
                 'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
+
                 'app.navigation.folder.canCreate': app.canCreateFolder,
                 'app.navigation.folder.canUpload': app.canUpload,
                 'app.navigation.isTrashcan': nav.isTrashcan,
@@ -76,7 +77,9 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.navigation.isFavorites': nav.isFavorites,
                 'app.navigation.isNotFavorites': nav.isNotFavorites,
                 'app.navigation.isRecentFiles': nav.isRecentFiles,
-                'app.navigation.isNotRecentFiles': nav.isNotRecentFiles
+                'app.navigation.isNotRecentFiles': nav.isNotRecentFiles,
+                'app.navigation.isSearchResults': nav.isSearchResults,
+                'app.navigation.isNotSearchResults': nav.isNotSearchResults
             });
 
             resolve(true);

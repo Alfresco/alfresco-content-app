@@ -31,7 +31,8 @@ import {
     isFavorites,
     isLibraries,
     isTrashcan,
-    isSharedFiles
+    isSharedFiles,
+    isNotSearchResults
 } from './navigation.evaluators';
 
 export function canAddFavorite(
@@ -85,6 +86,7 @@ export function canDeleteSelection(
     if (
         isNotTrashcan(context, ...args) &&
         isNotLibraries(context, ...args) &&
+        isNotSearchResults(context, ...args) &&
         !context.selection.isEmpty
     ) {
         // temp workaround for Search api

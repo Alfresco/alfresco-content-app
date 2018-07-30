@@ -99,3 +99,18 @@ export function isNotRecentFiles(
 ): boolean {
     return !isRecentFiles(context, ...args);
 }
+
+export function isSearchResults(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    const { url } = context.navigation;
+    return url && url.startsWith('/search');
+}
+
+export function isNotSearchResults(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    return !isSearchResults(context, ...args);
+}
