@@ -6,12 +6,13 @@
         <adf-toolbar class="inline">
             <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
 
-            <ng-container *ifExperimental="'extensions'">
-                <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
-                </ng-container>
+            <!-- <ng-container *ifExperimental="'extensions'"> -->
+            <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+                <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
             </ng-container>
+            <!-- </ng-container> -->
 
+            <!--
             <ng-container *ngIf="!selection.isEmpty">
                 <button
                     mat-icon-button
@@ -42,14 +43,7 @@
 
                 <mat-menu #actionsMenu="matMenu"
                     [overlapTrigger]="false">
-                    <button
-                        mat-menu-item
-                        #favorites="adfFavorite"
-                        [adf-node-favorite]="selection.nodes">
-                        <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
-                        <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
-                        <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
-                    </button>
+                    <app-toggle-favorite></app-toggle-favorite>
 
                     <button
                         mat-menu-item
@@ -93,6 +87,7 @@
                     </ng-container>
                 </mat-menu>
             </ng-container>
+            -->
         </adf-toolbar>
     </div>
 

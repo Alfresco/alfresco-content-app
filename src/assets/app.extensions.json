@@ -9,6 +9,38 @@
 
     "rules": [
         {
+            "id": "app.toolbar.favorite.canToggle",
+            "comment": "workaround for recent files and search api issue",
+            "type": "core.every",
+            "parameters": [
+                {
+                    "type": "rule",
+                    "value": "core.some",
+                    "parameters": [
+                        { "type": "rule", "value": "app.selection.canAddFavorite" },
+                        { "type": "rule", "value": "app.selection.canRemoveFavorite" }
+                    ]
+                },
+                { "type": "rule", "value": "app.navigation.isRecentFiles" }
+            ]
+        },
+        {
+            "id": "app.toolbar.favorite.canAdd",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.canAddFavorite" },
+                { "type": "rule", "value": "app.navigation.isNotRecentFiles" }
+            ]
+        },
+        {
+            "id": "app.toolbar.favorite.canRemove",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.canRemoveFavorite" },
+                { "type": "rule", "value": "app.navigation.isNotRecentFiles" }
+            ]
+        },
+        {
             "id": "app.toolbar.info",
             "type": "core.every",
             "parameters": [
@@ -320,26 +352,35 @@
                     "children": [
                         {
                             "id": "app.toolbar.favorite",
+                            "comment": "workaround for Recent Files and Search API issue",
+                            "type": "custom",
+                            "component": "app.toolbar.toggleFavorite",
+                            "rules": {
+                                "visible": "app.toolbar.favorite.canToggle"
+                            }
+                        },
+                        {
+                            "id": "app.toolbar.favorite.add",
                             "type": "button",
-                            "title": "APP.ACTIONS.ADD_FAVORITE",
-                            "icon": "star",
+                            "title": "APP.ACTIONS.FAVORITE",
+                            "icon": "star_border",
                             "actions": {
                                 "click": "ADD_FAVORITE"
                             },
                             "rules": {
-                                "visible": "app.selection.canAddFavorite"
+                                "visible": "app.toolbar.favorite.canAdd"
                             }
                         },
                         {
-                            "id": "app.toolbar.favorite",
+                            "id": "app.toolbar.favorite.remove",
                             "type": "button",
-                            "title": "APP.ACTIONS.REMOVE_FAVORITE",
+                            "title": "APP.ACTIONS.FAVORITE",
                             "icon": "star",
                             "actions": {
                                 "click": "REMOVE_FAVORITE"
                             },
                             "rules": {
-                                "visible": "app.selection.canRemoveFavorite"
+                                "visible": "app.toolbar.favorite.canRemove"
                             }
                         },
                         {

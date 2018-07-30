@@ -84,3 +84,18 @@ export function isNotLibraries(
 ): boolean {
     return !isLibraries(context, ...args);
 }
+
+export function isRecentFiles(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    const { url } = context.navigation;
+    return url && url.startsWith('/recent-files');
+}
+
+export function isNotRecentFiles(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    return !isRecentFiles(context, ...args);
+}

@@ -385,7 +385,7 @@ describe('Mark items as favorites', () => {
         it('unfavorite an item', () => {
             dataTable.clickOnRowByName(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
-                .then(() => toolbar.actions.menu.clickMenuItem('Remove as favorite'))
+                .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 1 }))
                 .then(() => apis.user.favorites.isFavorite(file3Id))
                 .then(isFavorite => {
@@ -399,7 +399,7 @@ describe('Mark items as favorites', () => {
         it('unfavorite multiple items', () => {
             dataTable.selectMultipleItems([ file3Fav, file4Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
-                .then(() => toolbar.actions.menu.clickMenuItem('Remove as favorite'))
+                .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => browser.sleep(2000))
                 .then(() => apis.user.favorites.isFavorite(file3Id))
                 .then(resp => {

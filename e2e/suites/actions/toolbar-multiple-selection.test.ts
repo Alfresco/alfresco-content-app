@@ -473,7 +473,7 @@ describe('Toolbar actions - multiple selection : ', () => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-                    expect(menu.isMenuItemPresent('Remove as favorite')).toBe(true, `Favorite is not displayed for selected files`);
+                    expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
                 })
                 // .then(() => browser.$('body').click())
                 .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())
@@ -492,7 +492,7 @@ describe('Toolbar actions - multiple selection : ', () => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-                    expect(menu.isMenuItemPresent('Remove as favorite')).toBe(true, `Favorite is not displayed for selected files`);
+                    expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
                 })
                 // .then(() => browser.$('body').click())
                 .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())
@@ -511,7 +511,7 @@ describe('Toolbar actions - multiple selection : ', () => {
                     expect(menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
                     expect(menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-                    expect(menu.isMenuItemPresent('Remove as favorite')).toBe(true, `Favorite is not displayed for selected files`);
+                    expect(menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
                 })
                 // .then(() => browser.$('body').click())
                 .then(() => browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform())

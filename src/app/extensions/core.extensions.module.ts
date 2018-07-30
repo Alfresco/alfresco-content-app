@@ -35,6 +35,7 @@ import { ExtensionService } from './extension.service';
 import { CustomExtensionComponent } from './components/custom-component/custom.component';
 import { DemoButtonComponent } from './components/custom-component/demo.button';
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
+import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
 
 export function setupExtensions(extensions: ExtensionService): Function {
     return () =>
@@ -43,7 +44,8 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.layout.main': LayoutComponent,
                 'app.components.trashcan': TrashcanComponent,
                 'app.demo.button': DemoButtonComponent,
-                'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent
+                'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
+                'app.toolbar.toggleFavorite': ToggleFavoriteComponent
             });
 
             extensions.setAuthGuards({
@@ -72,7 +74,9 @@ export function setupExtensions(extensions: ExtensionService): Function {
                 'app.navigation.isSharedFiles': nav.isSharedFiles,
                 'app.navigation.isNotSharedFiles': nav.isNotSharedFiles,
                 'app.navigation.isFavorites': nav.isFavorites,
-                'app.navigation.isNotFavorites': nav.isNotFavorites
+                'app.navigation.isNotFavorites': nav.isNotFavorites,
+                'app.navigation.isRecentFiles': nav.isRecentFiles,
+                'app.navigation.isNotRecentFiles': nav.isNotRecentFiles
             });
 
             resolve(true);

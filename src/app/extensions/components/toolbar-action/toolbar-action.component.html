@@ -25,13 +25,20 @@
         <mat-menu #menu="matMenu"
             [overlapTrigger]="false">
             <ng-container *ngFor="let child of entry.children; trackBy: trackByActionId">
-                <button mat-menu-item
-                    [id]="child.id"
-                    [attr.title]="(child.description || child.title) | translate"
-                    (click)="runAction(child.actions.click)">
-                    <mat-icon>{{ child.icon }}</mat-icon>
-                    <span>{{ child.title | translate }}</span>
-                </button>
+                <ng-container [ngSwitch]="child.type">
+                    <ng-container *ngSwitchCase="'custom'">
+                        <app-custom-component [id]="child.component"></app-custom-component>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        <button mat-menu-item
+                            [id]="child.id"
+                            [attr.title]="(child.description || child.title) | translate"
+                            (click)="runAction(child.actions.click)">
+                            <mat-icon>{{ child.icon }}</mat-icon>
+                            <span>{{ child.title | translate }}</span>
+                        </button>
+                    </ng-container>
+                </ng-container>
             </ng-container>
         </mat-menu>
     </ng-container>

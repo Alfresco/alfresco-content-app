@@ -585,7 +585,7 @@ describe('Toolbar actions - single selection : ', () => {
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
-            expect(await menu.isMenuItemPresent('Remove as favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
+            expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
             await toolbar.actions.closeMoreMenu();
         });
 
@@ -599,7 +599,7 @@ describe('Toolbar actions - single selection : ', () => {
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
-            expect(await menu.isMenuItemPresent('Remove as favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
+            expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
             await toolbar.actions.closeMoreMenu();
         });
     });
