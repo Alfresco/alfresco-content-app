@@ -27,9 +27,6 @@ import { NgModule } from '@angular/core';
 import { ExperimentalDirective } from './experimental.directive';
 import { DocumentListDirective } from './document-list.directive';
 import { NodeCopyDirective } from './node-copy.directive';
-import { NodeMoveDirective } from './node-move.directive';
-import { NodePermissionsDirective } from './node-permissions.directive';
-import { NodeVersionsDirective } from './node-versions.directive';
 import { PaginationDirective } from './pagination.directive';
 
 @NgModule({
@@ -37,18 +34,12 @@ import { PaginationDirective } from './pagination.directive';
         ExperimentalDirective,
         DocumentListDirective,
         NodeCopyDirective,
-        NodeMoveDirective,
-        NodePermissionsDirective,
-        NodeVersionsDirective,
         PaginationDirective
     ],
     exports: [
         ExperimentalDirective,
         DocumentListDirective,
         NodeCopyDirective,
-        NodeMoveDirective,
-        NodePermissionsDirective,
-        NodeVersionsDirective,
         PaginationDirective
     ]
 })

@@ -26,12 +26,12 @@
 
 import { TestBed, fakeAsync } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
     SNACKBAR_INFO, SnackbarWarningAction, SnackbarInfoAction,
     SnackbarErrorAction, SNACKBAR_ERROR, SNACKBAR_WARNING, PurgeDeletedNodesAction,
-    RestoreDeletedNodesAction, NavigateRouteAction, NAVIGATE_ROUTE, DeleteNodesAction
+    RestoreDeletedNodesAction, NavigateRouteAction, NAVIGATE_ROUTE, DeleteNodesAction, MoveNodesAction
 } from '../store/actions';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -40,6 +40,8 @@ import { ContentApiService } from '../services/content-api.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
 import { ContentManagementService } from './content-management.service';
+import { NodeActionsService } from './node-actions.service';
+import { TranslationService } from '@alfresco/adf-core';
 
 describe('ContentManagementService', () => {
 
@@ -48,6 +50,9 @@ describe('ContentManagementService', () => {
     let contentApi: ContentApiService;
     let store: Store<AppStore>;
     let contentManagementService: ContentManagementService;
+    let snackBar: MatSnackBar;
+    let nodeActions: NodeActionsService;
+    let translationService: TranslationService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -61,6 +66,9 @@ describe('ContentManagementService', () => {
         actions$ = TestBed.get(Actions);
         store = TestBed.get(Store);
         contentManagementService = TestBed.get(ContentManagementService);
+        snackBar = TestBed.get(MatSnackBar);
+        nodeActions = TestBed.get(NodeActionsService);
+        translationService = TestBed.get(TranslationService);
 
         dialog = TestBed.get(MatDialog);
         spyOn(dialog, 'open').and.returnValue({
@@ -68,6 +76,389 @@ describe('ContentManagementService', () => {
                 return Observable.of(true);
             }
         });
+    });
+
+    describe('Move node action', () => {
+        beforeEach(() => {
+            spyOn(translationService, 'instant').and.callFake((keysArray) => {
+                if (Array.isArray(keysArray)) {
+                    const processedKeys = {};
+                    keysArray.forEach((key) => {
+                        processedKeys[key] = key;
+                    });
+                    return processedKeys;
+                } else {
+                    return keysArray;
+                }
+            });
+        });
+
+        beforeEach(() => {
+            spyOn(snackBar, 'open').and.callThrough();
+        });
+
+        it('notifies successful move of a node', () => {
+            const node = [ { entry: { id: 'node-to-move-id', name: 'name' } } ];
+            const moveResponse = {
+                succeeded: node,
+                failed: [],
+                partiallySucceeded: []
+            };
+
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
+
+            const selection = node;
+            store.dispatch(new MoveNodesAction(selection));
+
+            nodeActions.contentMoved.next(moveResponse);
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+        });
+
+        it('notifies successful move of multiple nodes', () => {
+            const nodes = [
+                { entry: { id: '1', name: 'name1' } },
+                { entry: { id: '2', name: 'name2' } }];
+            const moveResponse = {
+                succeeded: nodes,
+                failed: [],
+                partiallySucceeded: []
+            };
+
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
+
+            const selection = nodes;
+
+            store.dispatch(new MoveNodesAction(selection));
+            nodeActions.contentMoved.next(moveResponse);
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PLURAL');
+        });
+
+        it('notifies partial move of a node', () => {
+            const nodes = [ { entry: { id: '1', name: 'name' } } ];
+            const moveResponse = {
+                succeeded: [],
+                failed: [],
+                partiallySucceeded: nodes
+            };
+
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
+
+            const selection = nodes;
+
+            store.dispatch(new MoveNodesAction(selection));
+            nodeActions.contentMoved.next(moveResponse);
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
+        });
+
+        it('notifies partial move of multiple nodes', () => {
+            const nodes = [
+                { entry: { id: '1', name: 'name' } },
+                { entry: { id: '2', name: 'name2' } } ];
+            const moveResponse = {
+                succeeded: [],
+                failed: [],
+                partiallySucceeded: nodes
+            };
+
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
+
+            const selection = nodes;
+
+            store.dispatch(new MoveNodesAction(selection));
+            nodeActions.contentMoved.next(moveResponse);
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.PLURAL');
+        });
+
+        it('notifies successful move and the number of nodes that could not be moved', () => {
+            const nodes = [ { entry: { id: '1', name: 'name' } },
+                { entry: { id: '2', name: 'name2' } } ];
+            const moveResponse = {
+                succeeded: [ nodes[0] ],
+                failed: [ nodes[1] ],
+                partiallySucceeded: []
+            };
+
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
+
+            store.dispatch(new MoveNodesAction(nodes));
+
+            nodeActions.contentMoved.next(moveResponse);
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0])
+                .toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.FAIL');
+        });
+
+        it('notifies successful move and the number of partially moved ones', () => {
+            const nodes = [ { entry: { id: '1', name: 'name' } },
+                { entry: { id: '2', name: 'name2' } } ];
+            const moveResponse = {
+                succeeded: [ nodes[0] ],
+                failed: [],
+                partiallySucceeded: [ nodes[1] ]
+            };
+
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
+
+            store.dispatch(new MoveNodesAction(nodes));
+            nodeActions.contentMoved.next(moveResponse);
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0])
+                .toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR APP.MESSAGES.INFO.NODE_MOVE.PARTIAL.SINGULAR');
+        });
+
+        it('notifies error if success message was not emitted', () => {
+            const nodes = [{ entry: { id: 'node-to-move-id', name: 'name' } }];
+            const moveResponse = {
+                succeeded: [],
+                failed: [],
+                partiallySucceeded: []
+            };
+
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of(''));
+
+            store.dispatch(new MoveNodesAction(nodes));
+            nodeActions.contentMoved.next(moveResponse);
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+        });
+
+        it('notifies permission error on move of node', () => {
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+
+            const selection = [{ entry: { id: '1', name: 'name' } }];
+            store.dispatch(new MoveNodesAction(selection));
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
+        });
+
+        it('notifies generic error message on all errors, but 403', () => {
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 404}}))));
+
+            const selection = [{ entry: { id: '1', name: 'name' } }];
+            store.dispatch(new MoveNodesAction(selection));
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+        });
+
+        it('notifies conflict error message on 409', () => {
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 409}}))));
+
+            const selection = [{ entry: { id: '1', name: 'name' } }];
+            store.dispatch(new MoveNodesAction(selection));
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.NODE_MOVE');
+        });
+
+        it('notifies error if move response has only failed items', () => {
+            const nodes = [ { entry: { id: '1', name: 'name' } } ];
+            const moveResponse = {
+                succeeded: [],
+                failed: [ {} ],
+                partiallySucceeded: []
+            };
+
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
+
+            store.dispatch(new MoveNodesAction(nodes));
+            nodeActions.contentMoved.next(moveResponse);
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+        });
+    });
+
+    describe('Undo Move action', () => {
+        beforeEach(() => {
+            spyOn(translationService, 'instant').and.callFake((keysArray) => {
+                if (Array.isArray(keysArray)) {
+                    const processedKeys = {};
+                    keysArray.forEach((key) => {
+                        processedKeys[key] = key;
+                    });
+                    return processedKeys;
+                } else {
+                    return keysArray;
+                }
+            });
+        });
+
+        beforeEach(() => {
+            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+
+            spyOn(snackBar, 'open').and.returnValue({
+                onAction: () => Observable.of({})
+            });
+
+            // spyOn(snackBar, 'open').and.callThrough();
+        });
+
+        it('should move node back to initial parent, after succeeded move', () => {
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent } };
+            const selection = [ node ];
+
+            spyOn(nodeActions, 'moveNodeAction').and.returnValue(Observable.of({}));
+
+            store.dispatch(new MoveNodesAction(selection));
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [ { itemMoved: node, initialParentId: initialParent} ]
+            };
+            nodeActions.contentMoved.next(<any>movedItems);
+
+            expect(nodeActions.moveNodeAction)
+                .toHaveBeenCalledWith(movedItems.succeeded[0].itemMoved.entry, movedItems.succeeded[0].initialParentId);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+        });
+
+        it('should move node back to initial parent, after succeeded move of a single file', () => {
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'name', isFolder: false, parentId: initialParent } };
+            const selection = [ node ];
+
+            spyOn(nodeActions, 'moveNodeAction').and.returnValue(Observable.of({}));
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [ node ]
+            };
+
+            store.dispatch(new MoveNodesAction(selection));
+            nodeActions.contentMoved.next(<any>movedItems);
+
+            expect(nodeActions.moveNodeAction).toHaveBeenCalledWith(node.entry, initialParent);
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+        });
+
+        it('should restore deleted folder back to initial parent, after succeeded moving all its files', () => {
+            // when folder was deleted after all its children were moved to a folder with the same name from destination
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of(null));
+
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'folder-to-move-id', name: 'conflicting-name', parentId: initialParent, isFolder: true } };
+            const selection = [ node ];
+
+            const itemMoved = {}; // folder was empty
+            nodeActions.moveDeletedEntries = [ node ]; // folder got deleted
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [ [ itemMoved ] ]
+            };
+
+            store.dispatch(new MoveNodesAction(selection));
+            nodeActions.contentMoved.next(<any>movedItems);
+
+            expect(contentApi.restoreNode).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_MOVE.SINGULAR');
+        });
+
+        it('should notify when error occurs on Undo Move action', fakeAsync(done => {
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(null));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
+
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'conflicting-name', parentId: initialParent } };
+            const selection = [node];
+
+            const afterMoveParentId = 'parent-id-1';
+            const childMoved = { entry: { id: 'child-of-node-to-move-id', name: 'child-name', parentId: afterMoveParentId } };
+            nodeActions.moveDeletedEntries = [ node ]; // folder got deleted
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [{ itemMoved: childMoved, initialParentId: initialParent }]
+            };
+
+            store.dispatch(new MoveNodesAction(selection));
+            nodeActions.contentMoved.next(<any>movedItems);
+
+            expect(contentApi.restoreNode).toHaveBeenCalled();
+        }));
+
+        it('should notify when some error of type Error occurs on Undo Move action', fakeAsync(done => {
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(new Error('oops!')));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
+
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent } };
+            const selection = [ node ];
+
+            const childMoved = { entry: { id: 'child-of-node-to-move-id', name: 'child-name' } };
+            nodeActions.moveDeletedEntries = [ node ]; // folder got deleted
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [{ itemMoved: childMoved, initialParentId: initialParent }]
+            };
+
+            store.dispatch(new MoveNodesAction(selection));
+            nodeActions.contentMoved.next(<any>movedItems);
+
+            expect(contentApi.restoreNode).toHaveBeenCalled();
+        }));
+
+        it('should notify permission error when it occurs on Undo Move action', fakeAsync(done => {
+            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+
+            actions$.pipe(
+                ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
+                map(action => done())
+            );
+
+            const initialParent = 'parent-id-0';
+            const node = { entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent } };
+            const selection = [ node ];
+
+            const childMoved = { entry: { id: 'child-of-node-to-move-id', name: 'child-name' } };
+            nodeActions.moveDeletedEntries = [ node ]; // folder got deleted
+
+            const movedItems = {
+                failed: [],
+                partiallySucceeded: [],
+                succeeded: [{ itemMoved: childMoved, initialParentId: initialParent }]
+            };
+
+            store.dispatch(new MoveNodesAction(selection));
+            nodeActions.contentMoved.next(<any>movedItems);
+
+            expect(nodeActions.moveNodes).toHaveBeenCalled();
+            expect(contentApi.restoreNode).toHaveBeenCalled();
+        }));
     });
 
     describe('Delete action', () => {
