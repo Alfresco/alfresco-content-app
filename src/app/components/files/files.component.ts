@@ -27,8 +27,7 @@ import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, PathElement, PathElementEntity } from 'alfresco-js-api';
-import { Observable } from 'rxjs/Rx';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from 'alfresco-js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { AppStore } from '../../store/states/app.state';
@@ -68,19 +67,21 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         route.params.subscribe(({ folderId }: Params) => {
             const nodeId = folderId || data.defaultNodeId;
 
-            this.contentApi.getNode(nodeId)
-                .map(node => node.entry)
-                .do(node => {
-                    if (node.isFolder) {
-                        this.updateCurrentNode(node);
-                    } else {
-                        this.router.navigate(['/personal-files', node.parentId], { replaceUrl: true });
-                    }
-                })
-                .skipWhile(node => !node.isFolder)
-                .flatMap(node => this.fetchNodes(node.id))
+            this.contentApi
+                .getNode(nodeId)
                 .subscribe(
-                    () => this.isValidPath = true,
+                    node => {
+                        this.isValidPath = true;
+
+                        if (node.entry && node.entry.isFolder) {
+                            this.updateCurrentNode(node.entry);
+                        } else {
+                            this.router.navigate(
+                                ['/personal-files', node.entry.parentId],
+                                { replaceUrl: true }
+                            );
+                        }
+                    },
                     () => this.isValidPath = false
                 );
         });
@@ -100,10 +101,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         super.ngOnDestroy();
         this.store.dispatch(new SetCurrentFolderAction(null));
-    }
-
-    fetchNodes(parentNodeId?: string): Observable<NodePaging> {
-       return this.contentApi.getNodeChildren(parentNodeId);
     }
 
     navigate(nodeId: string = null) {

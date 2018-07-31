@@ -23,14 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import {
+    Component,
+    ViewEncapsulation,
+    ChangeDetectionStrategy,
+    Input
+} from '@angular/core';
+import { AppStore } from '../../../store/states';
+import { Store } from '@ngrx/store';
+import { ExtensionService } from '../../extension.service';
+import { ContentActionRef } from '../../action.extensions';
 
 @Component({
-    selector: 'app-demo-button',
-    template: `
-        <button color="primary" mat-icon-button>
-            <mat-icon>extension</mat-icon>
-        </button>
-    `
+    selector: 'aca-toolbar-action',
+    templateUrl: './toolbar-action.component.html',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    host: { class: 'aca-toolbar-action' }
 })
-export class DemoButtonComponent {}
+export class ToolbarActionComponent {
+    @Input() type = 'icon-button';
+    @Input() entry: ContentActionRef;
+
+    constructor(
+        protected store: Store<AppStore>,
+        protected extensions: ExtensionService
+    ) {}
+
+    trackByActionId(index: number, action: ContentActionRef) {
+        return action.id;
+    }
+}

@@ -23,27 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input } from '@angular/core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states';
-import { PurgeDeletedNodesAction } from '../store/actions';
+import { AppStore } from '../../../store/states';
+import { documentDisplayMode } from '../../../store/selectors/app.selectors';
+import { ToggleDocumentDisplayMode } from '../../../store/actions';
 
-@Directive({
-    selector: '[acaPermanentDelete]'
+@Component({
+    selector: 'app-document-display-mode',
+    template: `
+        <button
+            mat-icon-button
+            color="primary"
+            (click)="onClick()">
+            <mat-icon *ngIf="(displayMode$ | async) === 'list'">view_comfy</mat-icon>
+            <mat-icon *ngIf="(displayMode$ | async) === 'gallery'">list</mat-icon>
+        </button>
+    `
 })
-export class NodePermanentDeleteDirective {
+export class DocumentDisplayModeComponent {
 
-    // tslint:disable-next-line:no-input-rename
-    @Input('acaPermanentDelete')
-    selection: MinimalNodeEntity[];
+    displayMode$: Observable<string>;
 
-    constructor(
-        private store: Store<AppStore>
-    ) {}
+    constructor(private store: Store<AppStore>) {
+        this.displayMode$ = store.select(documentDisplayMode);
+    }
 
-    @HostListener('click')
     onClick() {
-        this.store.dispatch(new PurgeDeletedNodesAction(this.selection));
+        this.store.dispatch(new ToggleDocumentDisplayMode());
     }
 }

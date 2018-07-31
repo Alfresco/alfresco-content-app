@@ -4,36 +4,10 @@
         </adf-breadcrumb>
 
         <adf-toolbar class="inline">
-            <button *ifExperimental="'cardview'"
-                color="primary"
-                mat-icon-button
-                (click)="toggleGalleryView()">
-                <mat-icon *ngIf="displayMode === 'list'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.CARDVIEW' | translate }}">view_comfy</mat-icon>
-                <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
-            </button>
+            <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
 
-            <ng-container *ifExperimental="'extensions'">
-                <ng-container *ngFor="let entry of actions">
-                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
-                </ng-container>
-            </ng-container>
-
-            <ng-container *ngIf="!selection.isEmpty">
-                <button
-                    color="primary"
-                    mat-icon-button
-                    [acaPermanentDelete]="selection.nodes"
-                    title="{{ 'APP.ACTIONS.DELETE_PERMANENT' | translate }}">
-                    <mat-icon>delete_forever</mat-icon>
-                </button>
-
-                <button
-                    color="primary"
-                    mat-icon-button
-                    [acaRestoreNode]="selection.nodes"
-                    title="{{ 'APP.ACTIONS.RESTORE' | translate }}">
-                    <mat-icon>restore</mat-icon>
-                </button>
+            <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+                <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
             </ng-container>
         </adf-toolbar>
     </div>
@@ -41,6 +15,7 @@
     <div class="inner-layout__content">
         <div class="inner-layout__panel">
             <adf-document-list acaDocumentList #documentList
+                [display]="documentDisplayMode$ | async"
                 currentFolderId="-trashcan-"
                 selectionMode="multiple"
                 [navigate]="false"

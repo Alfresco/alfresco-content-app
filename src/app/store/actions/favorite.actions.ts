@@ -23,37 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input } from '@angular/core';
+import { Action } from '@ngrx/store';
 import { MinimalNodeEntity } from 'alfresco-js-api';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states/app.state';
-import { DeleteNodesAction } from '../store/actions';
-import { NodeInfo } from '../store/models';
 
-@Directive({
-    selector: '[acaDeleteNode]'
-})
-export class NodeDeleteDirective {
+export const ADD_FAVORITE = 'ADD_FAVORITE';
+export const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
 
-    // tslint:disable-next-line:no-input-rename
-    @Input('acaDeleteNode')
-    selection: MinimalNodeEntity[];
+export class AddFavoriteAction implements Action {
+    readonly type = ADD_FAVORITE;
+    constructor(public payload: Array<MinimalNodeEntity>) {}
+}
 
-    constructor(private store: Store<AppStore>) {}
-
-    @HostListener('click')
-    onClick() {
-        if (this.selection && this.selection.length > 0) {
-            const toDelete: NodeInfo[] = this.selection.map(node => {
-                const { name } = node.entry;
-                const id = node.entry.nodeId || node.entry.id;
-
-                return {
-                    id,
-                    name
-                };
-            });
-            this.store.dispatch(new DeleteNodesAction(toDelete));
-        }
-    }
+export class RemoveFavoriteAction implements Action {
+    readonly type = REMOVE_FAVORITE;
+    constructor(public payload: Array<MinimalNodeEntity>) {}
 }

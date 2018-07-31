@@ -38,6 +38,7 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 })
 export class DocumentListDirective implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
+    private isLibrary = false;
 
     get sortingPreferenceKey(): string {
         return this.route.snapshot.data.sortingPreferenceKey;
@@ -53,6 +54,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     ngOnInit() {
         this.documentList.includeFields = ['isFavorite', 'aspectNames'];
         this.documentList.allowDropFiles = false;
+        this.isLibrary = this.documentList.currentFolderId === '-mysites-';
 
         if (this.sortingPreferenceKey) {
             const current = this.documentList.sorting;
@@ -103,22 +105,27 @@ export class DocumentListDirective implements OnInit, OnDestroy {
                 this.unSelectLockedNodes(this.documentList);
             }
 
-            this.store.dispatch(
-                new SetSelectedNodesAction(this.documentList.selection)
-            );
+            this.updateSelection();
         }
     }
 
     @HostListener('node-unselect')
     onNodeUnselect() {
-        this.store.dispatch(
-            new SetSelectedNodesAction(this.documentList.selection)
-        );
+        this.updateSelection();
     }
 
     onReady() {
+        this.updateSelection();
+    }
+
+    private updateSelection() {
+        const selection = this.documentList.selection.map(entry => {
+            entry['isLibrary'] = this.isLibrary;
+            return entry;
+        });
+
         this.store.dispatch(
-            new SetSelectedNodesAction(this.documentList.selection)
+            new SetSelectedNodesAction(selection)
         );
     }
 

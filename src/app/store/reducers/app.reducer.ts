@@ -42,8 +42,15 @@ import {
     SetSharedUrlAction,
     SET_CURRENT_FOLDER,
     SetCurrentFolderAction,
-    SET_CURRENT_URL, SetCurrentUrlAction
+    SET_CURRENT_URL,
+    SetCurrentUrlAction
 } from '../actions';
+import {
+    TOGGLE_INFO_DRAWER,
+    ToggleInfoDrawerAction,
+    TOGGLE_DOCUMENT_DISPLAY_MODE,
+    ToggleDocumentDisplayMode
+} from '../actions/app.actions';
 
 export function appReducer(
     state: AppState = INITIAL_APP_STATE,
@@ -84,6 +91,14 @@ export function appReducer(
             break;
         case SET_CURRENT_URL:
             newState = updateCurrentUrl(state, <SetCurrentUrlAction>action);
+            break;
+        case TOGGLE_INFO_DRAWER:
+            newState = updateInfoDrawer(state, <ToggleInfoDrawerAction>action);
+            break;
+        case TOGGLE_DOCUMENT_DISPLAY_MODE:
+            newState = updateDocumentDisplayMode(state, <
+                ToggleDocumentDisplayMode
+            >action);
             break;
         default:
             newState = Object.assign({}, state);
@@ -168,6 +183,31 @@ function updateCurrentUrl(state: AppState, action: SetCurrentUrlAction) {
     return newState;
 }
 
+function updateInfoDrawer(state: AppState, action: ToggleInfoDrawerAction) {
+    const newState = Object.assign({}, state);
+
+    let value = state.infoDrawerOpened;
+    if (state.selection.isEmpty) {
+        value = false;
+    } else {
+        value = !value;
+    }
+
+    newState.infoDrawerOpened = value;
+
+    return newState;
+}
+
+function updateDocumentDisplayMode(
+    state: AppState,
+    action: ToggleDocumentDisplayMode
+) {
+    const newState = Object.assign({}, state);
+    newState.documentDisplayMode =
+        newState.documentDisplayMode === 'list' ? 'gallery' : 'list';
+    return newState;
+}
+
 function updateSelectedNodes(
     state: AppState,
     action: SetSelectedNodesAction
@@ -181,6 +221,7 @@ function updateSelectedNodes(
     let last = null;
     let file = null;
     let folder = null;
+    let library = null;
 
     if (nodes.length > 0) {
         first = nodes[0];
@@ -197,6 +238,15 @@ function updateSelectedNodes(
         }
     }
 
+    const libraries = [...action.payload].filter((node: any) => node.isLibrary);
+    if (libraries.length === 1) {
+        library = libraries[0];
+    }
+
+    if (isEmpty) {
+        newState.infoDrawerOpened = false;
+    }
+
     newState.selection = {
         count,
         nodes,
@@ -204,7 +254,9 @@ function updateSelectedNodes(
         first,
         last,
         file,
-        folder
+        folder,
+        libraries,
+        library
     };
     return newState;
 }

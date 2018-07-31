@@ -115,6 +115,14 @@
                     "description": "Element title",
                     "type": "string"
                 },
+                "description": {
+                    "description": "Element description, used for the tooltips.",
+                    "type": "string"
+                },
+                "description-disabled": {
+                    "description": "Description to use when element is in the disabled state.",
+                    "type": "string"
+                },
                 "order": {
                     "description": "Element order",
                     "type": "number"
@@ -280,6 +288,12 @@
                     "properties": {
                         "openWith": {
                             "description": "The [Open With] menu extensions",
+                            "type": "array",
+                            "items": { "$ref": "#/definitions/contentActionRef" },
+                            "minItems": 1
+                        },
+                        "actions": {
+                            "description": "Content actions (toolbar, context menus, etc.)",
                             "type": "array",
                             "items": { "$ref": "#/definitions/contentActionRef" },
                             "minItems": 1

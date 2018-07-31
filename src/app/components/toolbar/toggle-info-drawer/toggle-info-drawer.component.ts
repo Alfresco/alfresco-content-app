@@ -23,35 +23,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input } from '@angular/core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
-import { ContentManagementService } from '../services/content-management.service';
-import { ContentApiService } from '../services/content-api.service';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../../store/states';
+import { infoDrawerOpened } from '../../../store/selectors/app.selectors';
+import { ToggleInfoDrawerAction } from '../../../store/actions';
 
-@Directive({
-    selector: '[acaUnshareNode]'
+@Component({
+    selector: 'app-toggle-info-drawer',
+    template: `
+        <button
+            mat-icon-button
+            [color]="(infoDrawerOpened$ | async) ? 'accent' : 'primary'"
+            [attr.title]="'APP.ACTIONS.DETAILS' | translate"
+            (click)="onClick()">
+            <mat-icon>info_outline</mat-icon>
+        </button>
+    `
 })
-export class NodeUnshareDirective {
+export class ToggleInfoDrawerComponent {
+    infoDrawerOpened$: Observable<boolean>;
 
-    // tslint:disable-next-line:no-input-rename
-    @Input('acaUnshareNode')
-    selection: MinimalNodeEntity[];
-
-    constructor(
-        private contentApi: ContentApiService,
-        private contentManagement: ContentManagementService) {
+    constructor(private store: Store<AppStore>) {
+        this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
     }
 
-    @HostListener('click')
     onClick() {
-        if (this.selection.length > 0) {
-            this.unshareLinks(this.selection);
-        }
-    }
-
-    private async unshareLinks(links: MinimalNodeEntity[]) {
-        const promises = links.map(link => this.contentApi.deleteSharedLink(link.entry.id).toPromise());
-        await Promise.all(promises);
-        this.contentManagement.linksUnshared.next();
+        this.store.dispatch(new ToggleInfoDrawerAction());
     }
 }

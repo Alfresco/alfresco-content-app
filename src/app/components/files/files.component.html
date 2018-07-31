@@ -7,125 +7,9 @@
         </adf-breadcrumb>
 
         <adf-toolbar class="inline">
-            <button *ifExperimental="'cardview'"
-                color="primary"
-                mat-icon-button
-                (click)="toggleGalleryView()">
-                <mat-icon *ngIf="displayMode === 'list'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.CARDVIEW' | translate }}">view_comfy</mat-icon>
-                <mat-icon *ngIf="displayMode === 'gallery'" matTooltip="{{ 'APP.DOCUMENT_LIST.TOOLBAR.LISTVIEW' | translate }}">list</mat-icon>
-            </button>
-
-            <ng-container *ifExperimental="'extensions'">
-                <ng-container *ngFor="let entry of actions">
-                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
-                </ng-container>
-            </ng-container>
-
-            <ng-container *ngIf="!selection.isEmpty">
-                <button
-                    color="primary"
-                    mat-icon-button
-                    *ngIf="selection.file"
-                    title="{{ 'APP.ACTIONS.VIEW' | translate }}"
-                    (click)="showPreview(selection.file)">
-                    <mat-icon>open_in_browser</mat-icon>
-                </button>
-
-                <button
-                    color="primary"
-                    mat-icon-button
-                    title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                    (click)="downloadSelection()">
-                    <mat-icon>get_app</mat-icon>
-                </button>
-
-                <button
-                    color="primary"
-                    mat-icon-button
-                    *ngIf="canEditFolder"
-                    title="{{ 'APP.ACTIONS.EDIT' | translate }}"
-                    [acaEditFolder]="selection.folder">
-                    <mat-icon>create</mat-icon>
-                </button>
-
-                <button mat-icon-button
-                    [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                    title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
-                    (click)="toggleSidebar()">
-                    <mat-icon>info_outline</mat-icon>
-                </button>
-
-                <ng-container *ifExperimental="'share'">
-                    <button mat-icon-button
-                        color="primary"
-                        title="{{ 'APP.ACTIONS.SHARE' | translate }}"
-                        *ngIf="selection.file"
-                        [baseShareUrl]="sharedPreviewUrl$ | async"
-                        [adf-share]="selection.file">
-                        <mat-icon>share</mat-icon>
-                    </button>
-                </ng-container>
-
-                <button
-                    color="primary"
-                    mat-icon-button
-                    title="{{ 'APP.ACTIONS.MORE' | translate }}"
-                    [matMenuTriggerFor]="actionsMenu">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-
-                <mat-menu #actionsMenu="matMenu"
-                    [overlapTrigger]="false">
-                    <button
-                        mat-menu-item
-                        #favorites="adfFavorite"
-                        [adf-node-favorite]="selection.nodes">
-                        <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
-                        <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
-                        <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
-                    </button>
-
-                    <button
-                        mat-menu-item
-                        [acaCopyNode]="selection.nodes">
-                        <mat-icon>content_copy</mat-icon>
-                        <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
-                    </button>
-
-                    <button
-                        mat-menu-item
-                        *ngIf="canDelete"
-                        [acaMoveNode]="selection.nodes">
-                        <mat-icon>library_books</mat-icon>
-                        <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
-                    </button>
-
-                    <button
-                        mat-menu-item
-                        *ngIf="canDelete"
-                        [acaDeleteNode]="selection.nodes">
-                        <mat-icon>delete</mat-icon>
-                        <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
-                    </button>
-
-                    <button
-                        mat-menu-item
-                        *ngIf="selection.file"
-                        [acaNodeVersions]="selection.file">
-                        <mat-icon>history</mat-icon>
-                        <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
-                    </button>
-
-                    <ng-container *ifExperimental="'permissions'">
-                        <button
-                            mat-menu-item
-                            *ngIf="canUpdateNode"
-                            [acaNodePermissions]="selection.first">
-                            <mat-icon>settings_input_component</mat-icon>
-                            <span>{{ 'APP.ACTIONS.PERMISSIONS' | translate }}</span>
-                        </button>
-                    </ng-container>
-                </mat-menu>
+            <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
+            <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+                <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
             </ng-container>
         </adf-toolbar>
     </div>
@@ -141,6 +25,7 @@
                 [disabled]="!canUpload">
 
                 <adf-document-list acaDocumentList #documentList
+                    [display]="documentDisplayMode$ | async"
                     [sorting]="[ 'modifiedAt', 'desc' ]"
                     selectionMode="multiple"
                     [currentFolderId]="node?.id"
@@ -199,7 +84,7 @@
             </adf-upload-drag-area>
         </div>
 
-        <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened">
+        <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened$ | async">
             <aca-info-drawer [node]="selection.last"></aca-info-drawer>
         </div>
     </div>

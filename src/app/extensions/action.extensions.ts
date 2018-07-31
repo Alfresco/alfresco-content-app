@@ -24,7 +24,7 @@
  */
 
 export enum ContentActionType {
-    default = 'button',
+    default = 'default',
     button = 'button',
     separator = 'separator',
     menu = 'menu',
@@ -36,6 +36,7 @@ export interface ContentActionRef {
     type: ContentActionType;
 
     title?: string;
+    description?: string;
     order?: number;
     icon?: string;
     disabled?: boolean;

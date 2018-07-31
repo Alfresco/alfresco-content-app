@@ -27,7 +27,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { PreviewComponent } from './preview.component';
@@ -51,7 +51,8 @@ const routes: Routes = [
         CoreModule.forChild(),
         ContentDirectiveModule,
         DirectivesModule,
-        AppInfoDrawerModule
+        AppInfoDrawerModule,
+        CoreExtensionsModule.forChild()
     ],
     declarations: [
         PreviewComponent,

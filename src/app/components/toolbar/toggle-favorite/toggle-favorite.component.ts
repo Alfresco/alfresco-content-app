@@ -23,25 +23,30 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, Input, HostListener } from '@angular/core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states';
-import { EditFolderAction } from '../store/actions';
+import { AppStore, SelectionState } from '../../../store/states';
+import { appSelection } from '../../../store/selectors/app.selectors';
+import { Observable } from 'rxjs/Observable';
 
-@Directive({
-    selector: '[acaEditFolder]'
+@Component({
+    selector: 'app-toggle-favorite',
+    template: `
+    <button
+        mat-menu-item
+        #favorites="adfFavorite"
+        [adf-node-favorite]="(selection$ | async).nodes">
+        <mat-icon *ngIf="favorites.hasFavorites()">star</mat-icon>
+        <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
+        <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
+    </button>
+    `
 })
-export class EditFolderDirective {
-    /** Folder node to edit. */
-    // tslint:disable-next-line:no-input-rename
-    @Input('acaEditFolder') folder: MinimalNodeEntity;
+export class ToggleFavoriteComponent {
 
-    @HostListener('click', ['$event'])
-    onClick(event) {
-        event.preventDefault();
-        this.store.dispatch(new EditFolderAction(this.folder));
+    selection$: Observable<SelectionState>;
+
+    constructor(private store: Store<AppStore>) {
+        this.selection$ = this.store.select(appSelection);
     }
-
-    constructor(private store: Store<AppStore>) {}
 }

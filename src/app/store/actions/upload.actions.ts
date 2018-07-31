@@ -23,23 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input } from '@angular/core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states';
-import { RestoreDeletedNodesAction } from '../store/actions';
+import { Action } from '@ngrx/store';
 
-@Directive({
-    selector: '[acaRestoreNode]'
-})
-export class NodeRestoreDirective {
-    // tslint:disable-next-line:no-input-rename
-    @Input('acaRestoreNode') selection: MinimalNodeEntity[];
+export const UPLOAD_FILES = 'UPLOAD_FILES';
+export const UPLOAD_FOLDER = 'UPLOAD_FOLDER';
 
-    constructor(private store: Store<AppStore>) {}
+export class UploadFilesAction implements Action {
+    readonly type = UPLOAD_FILES;
+    constructor(public payload: any) {}
+}
 
-    @HostListener('click')
-    onClick() {
-        this.store.dispatch(new RestoreDeletedNodesAction(this.selection));
-    }
+export class UploadFolderAction implements Action {
+    readonly type = UPLOAD_FOLDER;
+    constructor(public payload: any) {}
 }

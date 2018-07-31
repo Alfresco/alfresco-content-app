@@ -28,11 +28,14 @@ import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { LayoutComponent } from '../components/layout/layout.component';
 import { TrashcanComponent } from '../components/trashcan/trashcan.component';
-import { ToolbarActionComponent } from './components/toolbar-action/toolbar-action.component';
+import { ToolbarActionComponent } from './components/toolbar/toolbar-action.component';
 import * as app from './evaluators/app.evaluators';
+import * as nav from './evaluators/navigation.evaluators';
 import { ExtensionService } from './extension.service';
 import { CustomExtensionComponent } from './components/custom-component/custom.component';
-import { DemoButtonComponent } from './components/custom-component/demo.button';
+import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
+import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
+import { ToolbarButtonComponent } from './components/toolbar/toolbar-button.component';
 
 export function setupExtensions(extensions: ExtensionService): Function {
     return () =>
@@ -40,7 +43,8 @@ export function setupExtensions(extensions: ExtensionService): Function {
             extensions.setComponents({
                 'app.layout.main': LayoutComponent,
                 'app.components.trashcan': TrashcanComponent,
-                'app.demo.button': DemoButtonComponent
+                'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
+                'app.toolbar.toggleFavorite': ToggleFavoriteComponent
             });
 
             extensions.setAuthGuards({
@@ -48,14 +52,33 @@ export function setupExtensions(extensions: ExtensionService): Function {
             });
 
             extensions.setEvaluators({
+                'app.selection.canDelete': app.canDeleteSelection,
                 'app.selection.canDownload': app.canDownloadSelection,
                 'app.selection.notEmpty': app.hasSelection,
+                'app.selection.canUnshare': app.canUnshareNodes,
+                'app.selection.canAddFavorite': app.canAddFavorite,
+                'app.selection.canRemoveFavorite': app.canRemoveFavorite,
+                'app.selection.first.canUpdate': app.canUpdateSelectedNode,
                 'app.selection.file': app.hasFileSelected,
+                'app.selection.file.canShare': app.canShareFile,
+                'app.selection.library': app.hasLibrarySelected,
                 'app.selection.folder': app.hasFolderSelected,
                 'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
+
                 'app.navigation.folder.canCreate': app.canCreateFolder,
-                'app.navigation.isTrashcan': app.isTrashcan,
-                'app.navigation.isNotTrashcan': app.isNotTrashcan
+                'app.navigation.folder.canUpload': app.canUpload,
+                'app.navigation.isTrashcan': nav.isTrashcan,
+                'app.navigation.isNotTrashcan': nav.isNotTrashcan,
+                'app.navigation.isLibraries': nav.isLibraries,
+                'app.navigation.isNotLibraries': nav.isNotLibraries,
+                'app.navigation.isSharedFiles': nav.isSharedFiles,
+                'app.navigation.isNotSharedFiles': nav.isNotSharedFiles,
+                'app.navigation.isFavorites': nav.isFavorites,
+                'app.navigation.isNotFavorites': nav.isNotFavorites,
+                'app.navigation.isRecentFiles': nav.isRecentFiles,
+                'app.navigation.isNotRecentFiles': nav.isNotRecentFiles,
+                'app.navigation.isSearchResults': nav.isSearchResults,
+                'app.navigation.isNotSearchResults': nav.isNotSearchResults
             });
 
             resolve(true);
@@ -66,15 +89,13 @@ export function setupExtensions(extensions: ExtensionService): Function {
     imports: [CommonModule, CoreModule.forChild()],
     declarations: [
         ToolbarActionComponent,
-        CustomExtensionComponent,
-        DemoButtonComponent
+        ToolbarButtonComponent,
+        CustomExtensionComponent
     ],
     exports: [
         ToolbarActionComponent,
+        ToolbarButtonComponent,
         CustomExtensionComponent
-    ],
-    entryComponents: [
-        DemoButtonComponent
     ]
 })
 export class CoreExtensionsModule {

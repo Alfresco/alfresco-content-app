@@ -155,7 +155,7 @@ describe('Create folder', () => {
                 .then(() => menu))
             .then(menu => {
                 const tooltip = menu.getItemTooltip('Create folder');
-                expect(tooltip).toContain(`You can't create a folder here`);
+                expect(tooltip).toContain(`Folders cannot be created whilst viewing the current items.`);
             });
     });
 

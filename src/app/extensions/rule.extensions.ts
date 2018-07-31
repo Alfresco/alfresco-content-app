@@ -25,6 +25,7 @@
 
 import { SelectionState } from '../store/states';
 import { NavigationState } from '../store/states/navigation.state';
+import { NodePermissions } from './permission.extensions';
 
 export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
 
@@ -32,6 +33,7 @@ export interface RuleContext {
     selection: SelectionState;
     navigation: NavigationState;
     evaluators: { [key: string]: RuleEvaluator };
+    permissions: NodePermissions;
 }
 
 export class RuleRef {

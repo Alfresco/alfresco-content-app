@@ -39,7 +39,8 @@ import {
     SearchRequest,
     ResultSetPaging,
     SiteBody,
-    SiteEntry
+    SiteEntry,
+    FavoriteBody
 } from 'alfresco-js-api';
 
 @Injectable()
@@ -241,5 +242,31 @@ export class ContentApiService {
         return Observable.fromPromise(
             this.api.sitesApi.getSite(siteId, opts)
         );
+    }
+
+    addFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
+        const payload: FavoriteBody[] = nodes.map(node => {
+            const { isFolder, nodeId, id } = node.entry;
+            const siteId = node.entry['guid'];
+            const type = siteId ? 'site' : isFolder ? 'folder' : 'file';
+            const guid = siteId || nodeId || id;
+
+            return {
+                target: {
+                    [type]: {
+                        guid
+                    }
+                }
+            };
+        });
+
+        return Observable.from(this.api.favoritesApi.addFavorite('-me-', <any>payload));
+    }
+
+    removeFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
+        return Observable.from(Promise.all(nodes.map(node => {
+            const id = node.entry.nodeId || node.entry.id;
+            return this.api.favoritesApi.removeFavoriteSite('-me-', id);
+        })));
     }
 }

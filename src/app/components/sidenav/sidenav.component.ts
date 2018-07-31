@@ -25,12 +25,9 @@
 
 import { Subject } from 'rxjs/Rx';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Node } from 'alfresco-js-api';
-import { NodePermissionService } from '../../services/node-permission.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { CreateFolderAction } from '../../store/actions';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { NavBarGroupRef } from '../../extensions/navbar.extensions';
@@ -44,28 +41,23 @@ import { ContentActionRef } from '../../extensions/action.extensions';
 export class SidenavComponent implements OnInit, OnDestroy {
     @Input() showLabel: boolean;
 
-    node: Node = null;
     groups: Array<NavBarGroupRef> = [];
     createActions: Array<ContentActionRef> = [];
-    canCreateContent = false;
     onDestroy$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private store: Store<AppStore>,
-        private permission: NodePermissionService,
         private extensions: ExtensionService
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.groups = this.extensions.getNavigationGroups();
 
-        this.store.select(currentFolder)
+        this.store
+            .select(currentFolder)
             .pipe(takeUntil(this.onDestroy$))
-            .subscribe(node => {
-                this.node = node;
+            .subscribe(() => {
                 this.createActions = this.extensions.getCreateActions();
-                this.canCreateContent = node && this.permission.check(node, ['create']);
             });
     }
 
@@ -74,15 +66,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
         this.onDestroy$.complete();
     }
 
-    createNewFolder() {
-        if (this.node && this.node.id) {
-            this.store.dispatch(new CreateFolderAction(this.node.id));
-        }
-    }
-
-    // this is where each application decides how to treat an action and what to do
-    // the ACA maps actions to the NgRx actions as an example
-    runAction(actionId: string) {
-        this.extensions.runActionById(actionId);
+    trackById(index: number, obj: { id: string }) {
+        return obj.id;
     }
 }

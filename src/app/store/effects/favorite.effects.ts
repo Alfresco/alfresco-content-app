@@ -26,17 +26,14 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import {
-    DeleteLibraryAction, DELETE_LIBRARY,
-    CreateLibraryAction, CREATE_LIBRARY
-} from '../actions';
-import { ContentManagementService } from '../../services/content-management.service';
+import { ADD_FAVORITE, AddFavoriteAction, RemoveFavoriteAction, REMOVE_FAVORITE } from '../actions/favorite.actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
+import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()
-export class SiteEffects {
+export class FavoriteEffects {
     constructor(
         private store: Store<AppStore>,
         private actions$: Actions,
@@ -44,18 +41,18 @@ export class SiteEffects {
     ) {}
 
     @Effect({ dispatch: false })
-    deleteLibrary$ = this.actions$.pipe(
-        ofType<DeleteLibraryAction>(DELETE_LIBRARY),
+    addFavorite$ = this.actions$.pipe(
+        ofType<AddFavoriteAction>(ADD_FAVORITE),
         map(action => {
-            if (action.payload) {
-                this.content.deleteLibrary(action.payload);
+            if (action.payload && action.payload.length > 0) {
+                this.content.addFavorite(action.payload);
             } else {
                 this.store
                     .select(appSelection)
                     .take(1)
                     .subscribe(selection => {
-                        if (selection && selection.library) {
-                            this.content.deleteLibrary(selection.library.entry.id);
+                        if (selection && !selection.isEmpty) {
+                            this.content.addFavorite(selection.nodes);
                         }
                     });
             }
@@ -63,10 +60,23 @@ export class SiteEffects {
     );
 
     @Effect({ dispatch: false })
-    createLibrary$ = this.actions$.pipe(
-        ofType<CreateLibraryAction>(CREATE_LIBRARY),
+    removeFavorite$ = this.actions$.pipe(
+        ofType<RemoveFavoriteAction>(REMOVE_FAVORITE),
         map(action => {
-            this.content.createLibrary();
+            if (action.payload && action.payload.length > 0) {
+                this.content.removeFavorite(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && !selection.isEmpty) {
+                            this.content.removeFavorite(selection.nodes);
+                        }
+                    });
+            }
         })
     );
+
+
 }

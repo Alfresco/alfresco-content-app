@@ -24,14 +24,13 @@
  */
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
-import { DisplayMode } from '@alfresco/adf-core';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
-import { SetSelectedNodesAction, DownloadNodesAction, ViewFileAction } from '../store/actions';
-import { appSelection, sharedUrl, currentFolder } from '../store/selectors/app.selectors';
+import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
+import { appSelection, sharedUrl, currentFolder, infoDrawerOpened, documentDisplayMode } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
 import { Observable } from 'rxjs/Rx';
@@ -47,19 +46,15 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     documentList: DocumentListComponent;
 
     title = 'Page';
-    infoDrawerOpened = false;
+    infoDrawerOpened$: Observable<boolean>;
     node: MinimalNodeEntryEntity;
     selection: SelectionState;
-    displayMode = DisplayMode.List;
+    documentDisplayMode$: Observable<string>;
     sharedPreviewUrl$: Observable<string>;
     actions: Array<ContentActionRef> = [];
-    canUpdateFile = false;
+    viewerActions: Array<ContentActionRef> = [];
     canUpdateNode = false;
-    canDelete = false;
-    canEditFolder = false;
     canUpload = false;
-    canDeleteShared = false;
-    canUpdateShared = false;
 
     protected subscriptions: Subscription[] = [];
 
@@ -74,22 +69,17 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.sharedPreviewUrl$ = this.store.select(sharedUrl);
+        this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
+        this.documentDisplayMode$ = this.store.select(documentDisplayMode);
 
         this.store
             .select(appSelection)
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(selection => {
                 this.selection = selection;
-                if (selection.isEmpty) {
-                    this.infoDrawerOpened = false;
-                }
                 this.actions = this.extensions.getAllowedContentActions();
-                this.canUpdateFile = this.selection.file && this.content.canUpdateNode(selection.file);
+                this.viewerActions = this.extensions.getViewerActions();
                 this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
-                this.canDelete = !this.selection.isEmpty && this.content.canDeleteNodes(selection.nodes);
-                this.canEditFolder = selection.folder && this.content.canUpdateNode(selection.folder);
-                this.canDeleteShared = !this.selection.isEmpty && this.content.canDeleteSharedNodes(selection.nodes);
-                this.canUpdateShared = selection.file && this.content.canUpdateSharedNode(selection.file);
             });
 
         this.store.select(currentFolder)
@@ -127,14 +117,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    toggleSidebar(event) {
-        if (event) {
-            return;
-        }
-
-        this.infoDrawerOpened = !this.infoDrawerOpened;
-    }
-
     reload(): void {
         if (this.documentList) {
             this.documentList.resetSelection();
@@ -143,22 +125,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         }
     }
 
-    toggleGalleryView(): void {
-        this.displayMode = this.displayMode === DisplayMode.List ? DisplayMode.Gallery : DisplayMode.List;
-        this.documentList.display = this.displayMode;
-    }
-
-    downloadSelection() {
-        this.store.dispatch(new DownloadNodesAction());
-    }
-
-    // this is where each application decides how to treat an action and what to do
-    // the ACA maps actions to the NgRx actions as an example
-    runAction(actionId: string) {
-        const context = {
-            selection: this.selection
-        };
-
-        this.extensions.runActionById(actionId, context);
+    trackByActionId(index: number, action: ContentActionRef) {
+        return action.id;
     }
 }

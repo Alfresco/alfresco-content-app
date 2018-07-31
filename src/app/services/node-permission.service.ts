@@ -24,9 +24,10 @@
  */
 
 import { Injectable } from '@angular/core';
+import { NodePermissions } from '../extensions/permission.extensions';
 
 @Injectable()
-export class NodePermissionService {
+export class NodePermissionService implements NodePermissions {
     static DEFAULT_OPERATION = 'OR';
 
     private defaultOptions = {
@@ -34,8 +35,8 @@ export class NodePermissionService {
         target: null
     };
 
-    check(source: any, permissions: string[], options: any = {}): boolean {
-        const opts = Object.assign({}, this.defaultOptions, options);
+    check(source: any, permissions: string[], options?: any): boolean {
+        const opts = Object.assign({}, this.defaultOptions, options || {});
 
         if (source) {
             if (Array.isArray(source) && source.length) {

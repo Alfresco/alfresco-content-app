@@ -36,6 +36,8 @@ export interface AppState {
     selection: SelectionState;
     user: ProfileState;
     navigation: NavigationState;
+    infoDrawerOpened: boolean;
+    documentDisplayMode: string;
 }
 
 export const INITIAL_APP_STATE: AppState = {
@@ -52,12 +54,15 @@ export const INITIAL_APP_STATE: AppState = {
     },
     selection: {
         nodes: [],
+        libraries: [],
         isEmpty: true,
         count: 0
     },
     navigation: {
         currentFolder: null
-    }
+    },
+    infoDrawerOpened: false,
+    documentDisplayMode: 'list'
 };
 
 export interface AppStore {

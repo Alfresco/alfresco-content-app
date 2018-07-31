@@ -26,44 +26,17 @@
 import { NgModule } from '@angular/core';
 import { ExperimentalDirective } from './experimental.directive';
 import { DocumentListDirective } from './document-list.directive';
-import { EditFolderDirective } from './edit-folder.directive';
-import { NodeCopyDirective } from './node-copy.directive';
-import { NodeDeleteDirective } from './node-delete.directive';
-import { NodeMoveDirective } from './node-move.directive';
-import { NodePermanentDeleteDirective } from './node-permanent-delete.directive';
-import { NodePermissionsDirective } from './node-permissions.directive';
-import { NodeRestoreDirective } from './node-restore.directive';
-import { NodeUnshareDirective } from './node-unshare.directive';
-import { NodeVersionsDirective } from './node-versions.directive';
 import { PaginationDirective } from './pagination.directive';
 
 @NgModule({
     declarations: [
         ExperimentalDirective,
         DocumentListDirective,
-        EditFolderDirective,
-        NodeCopyDirective,
-        NodeDeleteDirective,
-        NodeMoveDirective,
-        NodePermanentDeleteDirective,
-        NodePermissionsDirective,
-        NodeRestoreDirective,
-        NodeUnshareDirective,
-        NodeVersionsDirective,
         PaginationDirective
     ],
     exports: [
         ExperimentalDirective,
         DocumentListDirective,
-        EditFolderDirective,
-        NodeCopyDirective,
-        NodeDeleteDirective,
-        NodeMoveDirective,
-        NodePermanentDeleteDirective,
-        NodePermissionsDirective,
-        NodeRestoreDirective,
-        NodeUnshareDirective,
-        NodeVersionsDirective,
         PaginationDirective
     ]
 })

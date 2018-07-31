@@ -24,9 +24,11 @@
  */
 
 export * from './effects/download.effects';
+export * from './effects/favorite.effects';
 export * from './effects/node.effects';
 export * from './effects/router.effects';
 export * from './effects/snackbar.effects';
 export * from './effects/viewer.effects';
 export * from './effects/search.effects';
 export * from './effects/library.effects';
+export * from './effects/upload.effects';

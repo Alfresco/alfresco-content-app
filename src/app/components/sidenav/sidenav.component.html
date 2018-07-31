@@ -1,75 +1,39 @@
 <div class="sidenav">
     <div class="sidenav__section sidenav__section sidenav_action-menu">
-        <adf-sidebar-action-menu [expanded]="showLabel" [attr.title]="'APP.NEW_MENU.TOOLTIP' | translate" title="{{'APP.NEW_MENU.LABEL' | translate }}">
-            <mat-icon sidebar-menu-title-icon >arrow_drop_down</mat-icon>
+        <adf-sidebar-action-menu
+            [expanded]="showLabel"
+            [attr.title]="'APP.NEW_MENU.TOOLTIP' | translate"
+            [title]="'APP.NEW_MENU.LABEL' | translate">
+            <mat-icon sidebar-menu-title-icon>arrow_drop_down</mat-icon>
             <div sidebar-menu-expand-icon>
                 <mat-icon [title]="'APP.NEW_MENU.TOOLTIP' | translate">queue</mat-icon>
             </div>
             <div sidebar-menu-options>
-                <ng-container *ifExperimental="'extensions'">
-                    <button *ngFor="let entry of createActions"
-                        mat-menu-item
-                        [disabled]="entry.disabled"
-                        (click)="runAction(entry.actions.click)">
-                        <mat-icon>{{ entry.icon }}</mat-icon>
-                        <span>{{ entry.title | translate }}</span>
-                    </button>
+                <ng-container *ngFor="let action of createActions; trackBy: trackById">
+                    <app-toolbar-button
+                        type="menu-item"
+                        [actionRef]="action"></app-toolbar-button>
                 </ng-container>
-                <button
-                    mat-menu-item
-                    [disabled]="!canCreateContent"
-                    (click)="createNewFolder()"
-                    [attr.title]="
-                        ( canCreateContent
-                            ? 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER'
-                            : 'APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED'
-                        ) | translate">
-                    <mat-icon>create_new_folder</mat-icon>
-                    <span>{{ 'APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER' | translate }}</span>
-                </button>
-
-                <adf-upload-button
-                    [tooltip]="
-                        (canCreateContent
-                            ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES'
-                            : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES_NOT_ALLOWED'
-                        ) | translate"
-                    [disabled]="!canCreateContent"
-                    [rootFolderId]="node?.id"
-                    [multipleFiles]="true"
-                    [uploadFolders]="false"
-                    [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE' | translate">
-                </adf-upload-button>
-
-                <adf-upload-button
-                    [tooltip]="
-                        (canCreateContent
-                            ? 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS'
-                            : 'APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS_NOT_ALLOWED'
-                        ) | translate"
-                    [disabled]="!canCreateContent"
-                    [rootFolderId]="node?.id"
-                    [multipleFiles]="true"
-                    [uploadFolders]="true"
-                    [staticTitle]="'APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER' | translate">
-                </adf-upload-button>
             </div>
         </adf-sidebar-action-menu>
     </div>
 
-    <div class="sidenav__section sidenav__section--menu" *ngFor="let group of groups">
+    <div *ngFor="let group of groups; trackBy: trackById"
+        class="sidenav__section sidenav__section--menu" >
         <ul class="sidenav-menu">
-            <li *ngFor="let item of group.items" class="sidenav-menu__item"
+            <li *ngFor="let item of group.items; trackBy: trackById"
+                class="sidenav-menu__item"
                 routerLinkActive
                 #rla="routerLinkActive"
-                title="{{ item.description | translate }}">
+                [attr.title]="item.description | translate">
 
                 <button
+                    [id]="item.id"
+                    mat-icon-button
+                    mat-ripple
                     [routerLink]="item.url"
                     [color]="rla.isActive ? 'accent': 'primary'"
                     [attr.aria-label]="item.title | translate"
-                    mat-icon-button
-                    mat-ripple
                     matRippleColor="primary"
                     [matRippleTrigger]="rippleTrigger"
                     [matRippleCentered]="true">

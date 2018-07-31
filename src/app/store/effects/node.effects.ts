@@ -29,49 +29,97 @@ import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import {
-    SnackbarWarningAction,
-    SnackbarInfoAction,
-    SnackbarErrorAction,
     PurgeDeletedNodesAction,
     PURGE_DELETED_NODES,
     DeleteNodesAction,
     DELETE_NODES,
-    SnackbarUserAction,
-    SnackbarAction,
     UndoDeleteNodesAction,
     UNDO_DELETE_NODES,
     CreateFolderAction,
-    CREATE_FOLDER
+    CREATE_FOLDER,
+    EditFolderAction,
+    EDIT_FOLDER,
+    RestoreDeletedNodesAction,
+    RESTORE_DELETED_NODES,
+    ShareNodeAction,
+    SHARE_NODE
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
-import { Observable } from 'rxjs/Rx';
-import { NodeInfo, DeleteStatus, DeletedNodeInfo } from '../models';
-import { ContentApiService } from '../../services/content-api.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
-import { EditFolderAction, EDIT_FOLDER, RestoreDeletedNodesAction, RESTORE_DELETED_NODES } from '../actions/node.actions';
+import {
+    UnshareNodesAction,
+    UNSHARE_NODES,
+    CopyNodesAction,
+    COPY_NODES,
+    MoveNodesAction,
+    MOVE_NODES,
+    ManagePermissionsAction,
+    MANAGE_PERMISSIONS,
+    ManageVersionsAction,
+    MANAGE_VERSIONS
+} from '../actions/node.actions';
 
 @Injectable()
 export class NodeEffects {
     constructor(
         private store: Store<AppStore>,
         private actions$: Actions,
-        private contentManagementService: ContentManagementService,
-        private contentApi: ContentApiService
+        private contentService: ContentManagementService
     ) {}
+
+    @Effect({ dispatch: false })
+    shareNode$ = this.actions$.pipe(
+        ofType<ShareNodeAction>(SHARE_NODE),
+        map(action => {
+            if (action.payload) {
+                this.contentService.shareNode(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.file) {
+                            this.contentService.shareNode(selection.file);
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    unshareNodes$ = this.actions$.pipe(
+        ofType<UnshareNodesAction>(UNSHARE_NODES),
+        map(action => {
+            if (action && action.payload && action.payload.length > 0) {
+                this.contentService.unshareNodes(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && !selection.isEmpty) {
+                            this.contentService.unshareNodes(selection.nodes);
+                        }
+                    });
+            }
+        })
+    );
 
     @Effect({ dispatch: false })
     purgeDeletedNodes$ = this.actions$.pipe(
         ofType<PurgeDeletedNodesAction>(PURGE_DELETED_NODES),
         map(action => {
             if (action && action.payload && action.payload.length > 0) {
-                this.contentManagementService.purgeDeletedNodes(action.payload);
+                this.contentService.purgeDeletedNodes(action.payload);
             } else {
                 this.store
                     .select(appSelection)
                     .take(1)
                     .subscribe(selection => {
                         if (selection && selection.count > 0) {
-                            this.contentManagementService.purgeDeletedNodes(selection.nodes);
+                            this.contentService.purgeDeletedNodes(
+                                selection.nodes
+                            );
                         }
                     });
             }
@@ -83,14 +131,16 @@ export class NodeEffects {
         ofType<RestoreDeletedNodesAction>(RESTORE_DELETED_NODES),
         map(action => {
             if (action && action.payload && action.payload.length > 0) {
-                this.contentManagementService.restoreDeletedNodes(action.payload);
+                this.contentService.restoreDeletedNodes(action.payload);
             } else {
                 this.store
                     .select(appSelection)
                     .take(1)
                     .subscribe(selection => {
                         if (selection && selection.count > 0) {
-                            this.contentManagementService.restoreDeletedNodes(selection.nodes);
+                            this.contentService.restoreDeletedNodes(
+                                selection.nodes
+                            );
                         }
                     });
             }
@@ -101,8 +151,17 @@ export class NodeEffects {
     deleteNodes$ = this.actions$.pipe(
         ofType<DeleteNodesAction>(DELETE_NODES),
         map(action => {
-            if (action.payload.length > 0) {
-                this.deleteNodes(action.payload);
+            if (action && action.payload && action.payload.length > 0) {
+                this.contentService.deleteNodes(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.count > 0) {
+                            this.contentService.deleteNodes(selection.nodes);
+                        }
+                    });
             }
         })
     );
@@ -112,7 +171,7 @@ export class NodeEffects {
         ofType<UndoDeleteNodesAction>(UNDO_DELETE_NODES),
         map(action => {
             if (action.payload.length > 0) {
-                this.undoDeleteNodes(action.payload);
+                this.contentService.undoDeleteNodes(action.payload);
             }
         })
     );
@@ -122,14 +181,14 @@ export class NodeEffects {
         ofType<CreateFolderAction>(CREATE_FOLDER),
         map(action => {
             if (action.payload) {
-                this.contentManagementService.createFolder(action.payload);
+                this.contentService.createFolder(action.payload);
             } else {
                 this.store
                     .select(currentFolder)
                     .take(1)
                     .subscribe(node => {
                         if (node && node.id) {
-                            this.contentManagementService.createFolder(node.id);
+                            this.contentService.createFolder(node.id);
                         }
                     });
             }
@@ -141,215 +200,97 @@ export class NodeEffects {
         ofType<EditFolderAction>(EDIT_FOLDER),
         map(action => {
             if (action.payload) {
-                this.contentManagementService.editFolder(action.payload);
+                this.contentService.editFolder(action.payload);
             } else {
                 this.store
                     .select(appSelection)
                     .take(1)
                     .subscribe(selection => {
                         if (selection && selection.folder) {
-                            this.contentManagementService.editFolder(selection.folder);
+                            this.contentService.editFolder(selection.folder);
                         }
                     });
             }
         })
     );
 
-    private deleteNodes(items: NodeInfo[]): void {
-        const batch: Observable<DeletedNodeInfo>[] = [];
-
-        items.forEach(node => {
-            batch.push(this.deleteNode(node));
-        });
-
-        Observable.forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
-            const status = this.processStatus(data);
-            const message = this.getDeleteMessage(status);
-
-            if (message && status.someSucceeded) {
-                message.duration = 10000;
-                message.userAction = new SnackbarUserAction(
-                    'APP.ACTIONS.UNDO',
-                    new UndoDeleteNodesAction([...status.success])
-                );
-            }
-
-            this.store.dispatch(message);
-
-            if (status.someSucceeded) {
-                this.contentManagementService.nodesDeleted.next();
-            }
-        });
-    }
-
-    private deleteNode(node: NodeInfo): Observable<DeletedNodeInfo> {
-        const { id, name } = node;
-
-        return this.contentApi
-            .deleteNode(id)
-            .map(() => {
-                return {
-                    id,
-                    name,
-                    status: 1
-                };
-            })
-            .catch((error: any) => {
-                return Observable.of({
-                    id,
-                    name,
-                    status: 0
-                });
-            });
-    }
-
-    private getDeleteMessage(status: DeleteStatus): SnackbarAction {
-        if (status.allFailed && !status.oneFailed) {
-            return new SnackbarErrorAction(
-                'APP.MESSAGES.ERRORS.NODE_DELETION_PLURAL',
-                { number: status.fail.length }
-            );
-        }
-
-        if (status.allSucceeded && !status.oneSucceeded) {
-            return new SnackbarInfoAction(
-                'APP.MESSAGES.INFO.NODE_DELETION.PLURAL',
-                { number: status.success.length }
-            );
-        }
-
-        if (status.someFailed && status.someSucceeded && !status.oneSucceeded) {
-            return new SnackbarWarningAction(
-                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_PLURAL',
-                {
-                    success: status.success.length,
-                    failed: status.fail.length
-                }
-            );
-        }
-
-        if (status.someFailed && status.oneSucceeded) {
-            return new SnackbarWarningAction(
-                'APP.MESSAGES.INFO.NODE_DELETION.PARTIAL_SINGULAR',
-                {
-                    success: status.success.length,
-                    failed: status.fail.length
-                }
-            );
-        }
-
-        if (status.oneFailed && !status.someSucceeded) {
-            return new SnackbarErrorAction(
-                'APP.MESSAGES.ERRORS.NODE_DELETION',
-                { name: status.fail[0].name }
-            );
-        }
-
-        if (status.oneSucceeded && !status.someFailed) {
-            return new SnackbarInfoAction(
-                'APP.MESSAGES.INFO.NODE_DELETION.SINGULAR',
-                { name: status.success[0].name }
-            );
-        }
-
-        return null;
-    }
-
-    private undoDeleteNodes(items: DeletedNodeInfo[]): void {
-        const batch: Observable<DeletedNodeInfo>[] = [];
-
-        items.forEach(item => {
-            batch.push(this.undoDeleteNode(item));
-        });
-
-        Observable.forkJoin(...batch).subscribe(data => {
-            const processedData = this.processStatus(data);
-
-            if (processedData.fail.length) {
-                const message = this.getUndoDeleteMessage(processedData);
-                this.store.dispatch(message);
-            }
-
-            if (processedData.someSucceeded) {
-                this.contentManagementService.nodesRestored.next();
-            }
-        });
-    }
-
-    private undoDeleteNode(item: DeletedNodeInfo): Observable<DeletedNodeInfo> {
-        const { id, name } = item;
-
-        return this.contentApi
-            .restoreNode(id)
-            .map(() => {
-                return {
-                    id,
-                    name,
-                    status: 1
-                };
-            })
-            .catch((error: any) => {
-                return Observable.of({
-                    id,
-                    name,
-                    status: 0
-                });
-            });
-    }
-
-    private getUndoDeleteMessage(status: DeleteStatus): SnackbarAction {
-        if (status.someFailed && !status.oneFailed) {
-            return new SnackbarErrorAction(
-                'APP.MESSAGES.ERRORS.NODE_RESTORE_PLURAL',
-                { number: status.fail.length }
-            );
-        }
-
-        if (status.oneFailed) {
-            return new SnackbarErrorAction('APP.MESSAGES.ERRORS.NODE_RESTORE', {
-                name: status.fail[0].name
-            });
-        }
-
-        return null;
-    }
-
-    private processStatus(data: DeletedNodeInfo[] = []): DeleteStatus {
-        const status = {
-            fail: [],
-            success: [],
-            get someFailed() {
-                return !!this.fail.length;
-            },
-            get someSucceeded() {
-                return !!this.success.length;
-            },
-            get oneFailed() {
-                return this.fail.length === 1;
-            },
-            get oneSucceeded() {
-                return this.success.length === 1;
-            },
-            get allSucceeded() {
-                return this.someSucceeded && !this.someFailed;
-            },
-            get allFailed() {
-                return this.someFailed && !this.someSucceeded;
-            },
-            reset() {
-                this.fail = [];
-                this.success = [];
-            }
-        };
-
-        return data.reduce((acc, node) => {
-            if (node.status) {
-                acc.success.push(node);
+    @Effect({ dispatch: false })
+    copyNodes$ = this.actions$.pipe(
+        ofType<CopyNodesAction>(COPY_NODES),
+        map(action => {
+            if (action.payload && action.payload.length > 0) {
+                this.contentService.copyNodes(action.payload);
             } else {
-                acc.fail.push(node);
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && !selection.isEmpty) {
+                            this.contentService.copyNodes(selection.nodes);
+                        }
+                    });
             }
+        })
+    );
 
-            return acc;
-        }, status);
-    }
+    @Effect({ dispatch: false })
+    moveNodes$ = this.actions$.pipe(
+        ofType<MoveNodesAction>(MOVE_NODES),
+        map(action => {
+            if (action.payload && action.payload.length > 0) {
+                this.contentService.moveNodes(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && !selection.isEmpty) {
+                            this.contentService.moveNodes(selection.nodes);
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    managePermissions = this.actions$.pipe(
+        ofType<ManagePermissionsAction>(MANAGE_PERMISSIONS),
+        map(action => {
+            if (action && action.payload) {
+                this.contentService.managePermissions(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && !selection.isEmpty) {
+                            this.contentService.managePermissions(
+                                selection.first
+                            );
+                        }
+                    });
+            }
+        })
+    );
+
+    @Effect({ dispatch: false })
+    manageVersions$ = this.actions$.pipe(
+        ofType<ManageVersionsAction>(MANAGE_VERSIONS),
+        map(action => {
+            if (action && action.payload) {
+                this.contentService.manageVersions(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .take(1)
+                    .subscribe(selection => {
+                        if (selection && selection.file) {
+                            this.contentService.manageVersions(
+                                selection.file
+                            );
+                        }
+                    });
+            }
+        })
+    );
 }
