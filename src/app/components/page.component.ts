@@ -29,7 +29,7 @@ import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs/Rx';
-import { SetSelectedNodesAction, DownloadNodesAction, ViewFileAction } from '../store/actions';
+import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
 import { appSelection, sharedUrl, currentFolder, infoDrawerOpened, documentDisplayMode } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 import { SelectionState } from '../store/states/selection.state';
@@ -53,13 +53,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     sharedPreviewUrl$: Observable<string>;
     actions: Array<ContentActionRef> = [];
     viewerActions: Array<ContentActionRef> = [];
-    canUpdateFile = false;
     canUpdateNode = false;
-    canDelete = false;
-    canEditFolder = false;
     canUpload = false;
-    canDeleteShared = false;
-    canUpdateShared = false;
 
     protected subscriptions: Subscription[] = [];
 
@@ -84,12 +79,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
                 this.selection = selection;
                 this.actions = this.extensions.getAllowedContentActions();
                 this.viewerActions = this.extensions.getViewerActions();
-                this.canUpdateFile = this.selection.file && this.content.canUpdateNode(selection.file);
                 this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
-                this.canDelete = !this.selection.isEmpty && this.content.canDeleteNodes(selection.nodes);
-                this.canEditFolder = selection.folder && this.content.canUpdateNode(selection.folder);
-                this.canDeleteShared = !this.selection.isEmpty && this.content.canDeleteSharedNodes(selection.nodes);
-                this.canUpdateShared = selection.file && this.content.canUpdateSharedNode(selection.file);
             });
 
         this.store.select(currentFolder)
@@ -133,10 +123,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
             this.store.dispatch(new SetSelectedNodesAction([]));
             this.documentList.reload();
         }
-    }
-
-    downloadSelection() {
-        this.store.dispatch(new DownloadNodesAction());
     }
 
     trackByActionId(index: number, action: ContentActionRef) {

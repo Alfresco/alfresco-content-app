@@ -258,32 +258,12 @@ export class ContentManagementService {
         this.linksUnshared.next();
     }
 
-    canDeleteNode(node: MinimalNodeEntity | Node): boolean {
-        return this.permission.check(node, ['delete']);
-    }
-
-    canDeleteNodes(nodes: MinimalNodeEntity[]): boolean {
-        return this.permission.check(nodes, ['delete']);
-    }
-
     canUpdateNode(node: MinimalNodeEntity | Node): boolean {
         return this.permission.check(node, ['update']);
     }
 
     canUploadContent(folderNode: MinimalNodeEntity | Node): boolean {
         return this.permission.check(folderNode, ['create']);
-    }
-
-    canDeleteSharedNodes(sharedLinks: MinimalNodeEntity[]): boolean {
-        return this.permission.check(sharedLinks, ['delete'], {
-            target: 'allowableOperationsOnTarget'
-        });
-    }
-
-    canUpdateSharedNode(sharedLink: MinimalNodeEntity): boolean {
-        return this.permission.check(sharedLink, ['update'], {
-            target: 'allowableOperationsOnTarget'
-        });
     }
 
     purgeDeletedNodes(nodes: MinimalNodeEntity[]) {
