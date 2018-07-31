@@ -31,7 +31,7 @@ import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
     SNACKBAR_INFO, SnackbarWarningAction, SnackbarInfoAction,
     SnackbarErrorAction, SNACKBAR_ERROR, SNACKBAR_WARNING, PurgeDeletedNodesAction,
-    RestoreDeletedNodesAction, NavigateRouteAction, NAVIGATE_ROUTE, DeleteNodesAction, MoveNodesAction
+    RestoreDeletedNodesAction, NavigateRouteAction, NAVIGATE_ROUTE, DeleteNodesAction, MoveNodesAction, CopyNodesAction
 } from '../store/actions';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -75,6 +75,229 @@ describe('ContentManagementService', () => {
             afterClosed() {
                 return Observable.of(true);
             }
+        });
+    });
+
+    describe('Copy node action', () => {
+        beforeEach(() => {
+            spyOn(snackBar, 'open').and.callThrough();
+        });
+
+        it('notifies successful copy of a node', () => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
+            const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+        });
+
+        it('notifies successful copy of multiple nodes', () => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            const selection = [
+                { entry: { id: 'node-to-copy-1', name: 'name1' } },
+                { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+            const createdItems = [
+                { entry: { id: 'copy-of-node-1', name: 'name1' } },
+                { entry: { id: 'copy-of-node-2', name: 'name2' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
+        });
+
+        it('notifies partially copy of one node out of a multiple selection of nodes', () => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            const selection = [
+                { entry: { id: 'node-to-copy-1', name: 'name1' } },
+                { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+            const createdItems = [
+                { entry: { id: 'copy-of-node-1', name: 'name1' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_SINGULAR');
+        });
+
+        it('notifies partially copy of more nodes out of a multiple selection of nodes', () => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            const selection = [
+                { entry: { id: 'node-to-copy-0', name: 'name0' } },
+                { entry: { id: 'node-to-copy-1', name: 'name1' } },
+                { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+            const createdItems = [
+                { entry: { id: 'copy-of-node-0', name: 'name0' } },
+                { entry: { id: 'copy-of-node-1', name: 'name1' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PARTIAL_PLURAL');
+        });
+
+        it('notifies of failed copy of multiple nodes', () => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            const selection = [
+                { entry: { id: 'node-to-copy-0', name: 'name0' } },
+                { entry: { id: 'node-to-copy-1', name: 'name1' } },
+                { entry: { id: 'node-to-copy-2', name: 'name2' } }];
+            const createdItems = [];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_PLURAL');
+        });
+
+        it('notifies of failed copy of one node', () => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            const selection = [
+                { entry: { id: 'node-to-copy', name: 'name' } }];
+            const createdItems = [];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.FAIL_SINGULAR');
+        });
+
+        it('notifies error if success message was not emitted', () => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of(''));
+
+            const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next();
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+        });
+
+        it('notifies permission error on copy of node', () => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+
+            const selection = [{ entry: { id: '1', name: 'name' } }];
+            store.dispatch(new CopyNodesAction(selection));
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.PERMISSION');
+        });
+
+        it('notifies generic error message on all errors, but 403', () => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 404}}))));
+
+            const selection = [{ entry: { id: '1', name: 'name' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.ERRORS.GENERIC');
+        });
+    });
+
+    describe('Undo Copy action', () => {
+        beforeEach(() => {
+            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+
+            spyOn(snackBar, 'open').and.returnValue({
+                onAction: () => Observable.of({})
+            });
+        });
+
+        it('should delete the newly created node on Undo action', () => {
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
+
+            const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
+            const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+
+            expect(contentApi.deleteNode).toHaveBeenCalledWith(createdItems[0].entry.id, { permanent: true });
+        });
+
+        it('should delete also the node created inside an already existing folder from destination', () => {
+            const spyOnDeleteNode = spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
+
+            const selection = [
+                { entry: { id: 'node-to-copy-1', name: 'name1' } },
+                { entry: { id: 'node-to-copy-2', name: 'folder-with-name-already-existing-on-destination' } }];
+            const id1 = 'copy-of-node-1';
+            const id2 = 'copy-of-child-of-node-2';
+            const createdItems = [
+                { entry: { id: id1, name: 'name1' } },
+                [ { entry: { id: id2, name: 'name-of-child-of-node-2' , parentId: 'the-folder-already-on-destination' } }] ];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toBe('APP.MESSAGES.INFO.NODE_COPY.PLURAL');
+
+            expect(spyOnDeleteNode).toHaveBeenCalled();
+            expect(spyOnDeleteNode.calls.allArgs())
+                .toEqual([[id1, { permanent: true }], [id2, { permanent: true }]]);
+        });
+
+        it('notifies when error occurs on Undo action', () => {
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(null));
+
+            const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
+            const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(contentApi.deleteNode).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+        });
+
+        it('notifies when some error of type Error occurs on Undo action', () => {
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(new Error('oops!')));
+
+            const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
+            const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(contentApi.deleteNode).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
+        });
+
+        it('notifies permission error when it occurs on Undo action', () => {
+            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+
+            const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
+            const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
+
+            store.dispatch(new CopyNodesAction(selection));
+            nodeActions.contentCopied.next(<any>createdItems);
+
+            expect(nodeActions.copyNodes).toHaveBeenCalled();
+            expect(contentApi.deleteNode).toHaveBeenCalled();
+            expect(snackBar.open['calls'].argsFor(0)[0]).toEqual('APP.MESSAGES.INFO.NODE_COPY.SINGULAR');
         });
     });
 

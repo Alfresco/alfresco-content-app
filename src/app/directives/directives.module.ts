@@ -26,20 +26,17 @@
 import { NgModule } from '@angular/core';
 import { ExperimentalDirective } from './experimental.directive';
 import { DocumentListDirective } from './document-list.directive';
-import { NodeCopyDirective } from './node-copy.directive';
 import { PaginationDirective } from './pagination.directive';
 
 @NgModule({
     declarations: [
         ExperimentalDirective,
         DocumentListDirective,
-        NodeCopyDirective,
         PaginationDirective
     ],
     exports: [
         ExperimentalDirective,
         DocumentListDirective,
-        NodeCopyDirective,
         PaginationDirective
     ]
 })
