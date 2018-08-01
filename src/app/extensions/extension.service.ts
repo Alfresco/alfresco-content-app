@@ -33,7 +33,7 @@ import { NavigationState } from '../store/states/navigation.state';
 import { selectionWithFolder } from '../store/selectors/app.selectors';
 import { NavBarGroupRef } from './navbar.extensions';
 import { RouteRef } from './routing.extensions';
-import { RuleContext, RuleRef, RuleEvaluator } from './rule.extensions';
+import { RuleContext, RuleRef, RuleEvaluator, RuleParameter } from './rule.extensions';
 import { ActionRef, ContentActionRef, ContentActionType } from './action.extensions';
 import * as core from './evaluators/core.evaluators';
 import { NodePermissionService } from '../services/node-permission.service';
@@ -440,16 +440,26 @@ export class ExtensionService implements RuleContext {
         return value;
     }
 
+    getEvaluator(key: string): RuleEvaluator {
+        if (key && key.startsWith('!')) {
+            const fn = this.evaluators[key.substring(1)];
+            return (context: RuleContext, ...args: RuleParameter[]): boolean => {
+                return !fn(context, ...args);
+            };
+        }
+        return this.evaluators[key];
+    }
+
     evaluateRule(ruleId: string): boolean {
         const ruleRef = this.rules.find(ref => ref.id === ruleId);
 
         if (ruleRef) {
-            const evaluator = this.evaluators[ruleRef.type];
+            const evaluator = this.getEvaluator(ruleRef.type);
             if (evaluator) {
                 return evaluator(this, ...ruleRef.parameters);
             }
         } else {
-            const evaluator = this.evaluators[ruleId];
+            const evaluator = this.getEvaluator(ruleId);
             if (evaluator) {
                 return evaluator(this);
             }
