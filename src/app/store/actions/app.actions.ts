@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { Node } from 'alfresco-js-api';
+import { Node, Person } from 'alfresco-js-api';
 
 export const SET_APP_NAME = 'SET_APP_NAME';
 export const SET_HEADER_COLOR = 'SET_HEADER_COLOR';
@@ -33,6 +33,7 @@ export const SET_LANGUAGE_PICKER = 'SET_LANGUAGE_PICKER';
 export const SET_SHARED_URL = 'SET_SHARED_URL';
 export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
 export const SET_CURRENT_URL = 'SET_CURRENT_URL';
+export const SET_USER = 'SET_USER';
 export const TOGGLE_INFO_DRAWER = 'TOGGLE_INFO_DRAWER';
 export const TOGGLE_DOCUMENT_DISPLAY_MODE = 'TOGGLE_DOCUMENT_DISPLAY_MODE';
 
@@ -69,6 +70,11 @@ export class SetCurrentFolderAction implements Action {
 export class SetCurrentUrlAction implements Action {
     readonly type = SET_CURRENT_URL;
     constructor(public payload: string) {}
+}
+
+export class SetUserAction implements Action {
+    readonly type = SET_USER;
+    constructor(public payload: Person) { }
 }
 
 export class ToggleInfoDrawerAction implements Action {

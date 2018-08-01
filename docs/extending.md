@@ -4,13 +4,34 @@
 
 # Extending
 
+## Format
+
+### Schema
+
+### Multiple files
+
+## Components
+
+| Key | Type | Description |
+| --- | --- | --- |
+| app.layout.main | LayoutComponent | --- |
+| app.components.trashcan | TrashcanComponent | --- |
+| app.toolbar.toggleInfoDrawer | ToggleInfoDrawerComponent | --- |
+| app.toolbar.toggleFavorite | ToggleFavoriteComponent | --- |
+
 ## Routes
 
 ### Authentication Guards
 
+| Key | Type | Description |
+| --- | --- | --- |
+| app.auth | AuthGuardEcm | --- |
+
 ## Actions
 
 ## Content Actions
+
+## Application Actions
 
 ## Rules
 
@@ -57,5 +78,3 @@
 | app.navigation.isNotRecentFiles | --- |
 | app.navigation.isSearchResults | --- |
 | app.navigation.isNotSearchResults | --- |
-
-## Components
