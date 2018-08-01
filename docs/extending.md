@@ -33,6 +33,47 @@
 
 ## Application Actions
 
+| Name | Payload | Description |
+| --- | --- | --- |
+| SET_APP_NAME | string | --- |
+| SET_HEADER_COLOR | string | --- |
+| SET_LOGO_PATH | string | --- |
+| SET_LANGUAGE_PICKER | boolean | --- |
+| SET_SHARED_URL | string | --- |
+| SET_CURRENT_FOLDER | Node | --- |
+| SET_CURRENT_URL | string | --- |
+| SET_USER | Person | --- |
+| TOGGLE_INFO_DRAWER | n/a | --- |
+| ADD_FAVORITE | MinimalNodeEntity[] | --- |
+| REMOVE_FAVORITE | MinimalNodeEntity[] | --- |
+| DELETE_LIBRARY | string | --- |
+| CREATE_LIBRARY | n/a | --- |
+| SET_SELECTED_NODES | MinimalNodeEntity[] | --- |
+| DELETE_NODES | MinimalNodeEntity[] | --- |
+| UNDO_DELETE_NODES | any[] | --- |
+| RESTORE_DELETED_NODES | MinimalNodeEntity[] | --- |
+| PURGE_DELETED_NODES | MinimalNodeEntity[] | --- |
+| DOWNLOAD_NODES | MinimalNodeEntity[] | --- |
+| CREATE_FOLDER | string | --- |
+| EDIT_FOLDER | MinimalNodeEntity | --- |
+| SHARE_NODE | MinimalNodeEntity | --- |
+| UNSHARE_NODES | MinimalNodeEntity[] | --- |
+| COPY_NODES | MinimalNodeEntity[] | --- |
+| MOVE_NODES | MinimalNodeEntity[] | --- |
+| MANAGE_PERMISSIONS | MinimalNodeEntity | --- |
+| MANAGE_VERSIONS | MinimalNodeEntity | --- |
+| NAVIGATE_URL | string | --- |
+| NAVIGATE_ROUTE | any[] | --- |
+| NAVIGATE_FOLDER | MinimalNodeEntity | --- |
+| NAVIGATE_PARENT_FOLDER | MinimalNodeEntity | --- |
+| SEARCH_BY_TERM | string | --- |
+| SNACKBAR_INFO | string | --- |
+| SNACKBAR_WARNING | string | --- |
+| SNACKBAR_ERROR | string | --- |
+| UPLOAD_FILES | n/a | --- |
+| UPLOAD_FOLDER | n/a | --- |
+| VIEW_FILE | MinimalNodeEntity | --- |
+
 ## Rules
 
 ### Core Evaluators
