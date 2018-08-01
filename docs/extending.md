@@ -4,11 +4,62 @@
 
 # Extending
 
+Application extensibility is preformed via the root `app.extensions.json`,
+and any number of external plugins that are references of the main entry point.
+
 ## Format
+
+The format is represented by a JSON file with at least the following structure:
+
+```json
+{
+    "$name": "app",
+    "$version": "1.0.0",
+
+    "actions": [],
+    "rules": [],
+    "features": {}
+}
+```
 
 ### Schema
 
+You can find the JSON schema at the project root folder: [extension.schema.json](https://github.com/Alfresco/alfresco-content-app/blob/master/extension.schema.json).
+
+<p class="tip">
+Schema allows validating extension files, provides code completion and documentation hints.
+</p>
+
+```json
+{
+    "$schema": "../../extension.schema.json",
+    "$name": "app",
+    "$version": "1.0.0",
+}
+```
+
 ### Multiple files
+
+You can have multiple extension files distributed separately.
+All additional files are linked via the `$references` property,
+the order of declaration defines also the order of loading.
+
+```json
+{
+    "$schema": "../../extension.schema.json",
+    "$name": "app",
+    "$version": "1.0.0",
+    "$references": [
+        "plugin1.json",
+        "plugin2.json"
+    ]
+}
+```
+
+<p class="warning">
+Always keep in mind that all extension files are merged together at runtime.
+That allows plugins overwriting the code from the main application or altering other plugins.
+</p>
 
 ## Components
 
