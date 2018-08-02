@@ -147,8 +147,10 @@ or [register](#registration) your custom implementations.
 | app.toolbar.toggleInfoDrawer | ToggleInfoDrawerComponent | The toolbar button component that toggles Info Drawer for the selection. |
 | app.toolbar.toggleFavorite | ToggleFavoriteComponent | The toolbar button component that toggles Favorite state for the selection. |
 
+<p class="tip">
 See [Registration](#registration) section for more details
-on how to register your own component for runtime reuse.
+on how to register your own entries to be re-used at runtime.
+</p>
 
 ## Actions
 
@@ -201,13 +203,110 @@ That simplifies declaring and invoking actions from the extension files.
 
 ## Rules
 
+Rules allow evaluating conditions for extension components.
+For example, you can disable or hide elements based on certain rules.
+
+Every rule is backed by a condition evaluator.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "rules": [
+        {
+            "id": "app.trashcan",
+            "type": "app.navigation.isTrashcan"
+        }
+    ]
+}
+```
+
+<p class="tip">
+You can also negate any rule by utilizing a `!` prefix:
+`!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
+</p>
+
+It is also possible to use inline references to registered evaluators without declaring rules,
+in case you do not need providing extra parameters, or chaining multiple rules together.
+
 ### Core Evaluators
+
+You can create new rules by chaining other rules and evaluators.
 
 | Key | Description |
 | --- | --- |
 | core.every | Evaluates to `true` if all chained rules evaluate to `true`. |
 | core.some | Evaluates to `true` if at least one of the chained rules evaluates to `true`. |
 | core.not | Evaluates to `true` if all chained rules evaluate to `false`. |
+
+Below is an example of the composite rule definition that combines the following conditions:
+
+* user has selected a single file
+* user is not using **Trashcan** page
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "rules": [
+        {
+            "id": "app.toolbar.canViewFile",
+            "type": "core.every",
+            "parameters": [
+                {
+                    "type": "rule",
+                    "value": "app.selection.file"
+                },
+                {
+                    "type": "rule",
+                    "value": "core.not",
+                    "parameters": [
+                        {
+                            "type": "rule",
+                            "value": "app.navigation.isTrashcan"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+You can now declare a toolbar button action that is based on the rule above.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "content": {
+            "actions": [
+                {
+                    "id": "app.toolbar.preview",
+                    "type": "button",
+                    "title": "View File",
+                    "icon": "open_in_browser",
+                    "actions": {
+                        "click": "VIEW_FILE"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canViewFile"
+                    }
+                },
+            ]
+        }
+    }
+}
+```
+
+The button will be visible only when the linked rule evaluates to `true`.
 
 ### Application Evaluators
 
@@ -231,11 +330,11 @@ That simplifies declaring and invoking actions from the extension files.
 The application exposes a set of navigation-related evaluators
 to help developers restrict or enable certain actions based on the route or page displayed.
 
-<p class="tip">
 The negated evaluators are provided just to simplify development,
 and to avoid having a complex rule trees just to negate the rules,
 for example mixing `core.every` and `core.not`.
-<br/><br/>
+
+<p class="tip">
 You can also negate any rule by utilizing a `!` prefix:
 `!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
 </p>
@@ -256,6 +355,11 @@ You can also negate any rule by utilizing a `!` prefix:
 | app.navigation.isNotRecentFiles | Current page is not **Recent Files**. |
 | app.navigation.isSearchResults | User is using **Search Results** page. |
 | app.navigation.isNotSearchResults | Current page is not **Search Results**. |
+
+<p class="tip">
+See [Registration](#registration) section for more details
+on how to register your own entries to be re-used at runtime.
+</p>
 
 #### Example
 
