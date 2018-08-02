@@ -82,7 +82,8 @@ To create a new route, populate the `routes` section with the corresponding entr
             "layout": "app.layout.main",
             "component": "app.components.trashcan"
         }
-    ],
+    ]
+}
 ```
 
 ### Route properties
@@ -121,7 +122,8 @@ You can define the full route schema like in the next example:
                 "title": "Custom Trashcan"
             }
         }
-    ],
+    ]
+}
 ```
 
 ### Authentication Guards
@@ -202,9 +204,9 @@ That simplifies declaring and invoking actions from the extension files.
 
 | Key | Description |
 | --- | --- |
-| core.every | --- |
-| core.some | --- |
-| core.not | --- |
+| core.every | Evaluates to `true` if all chained rules evaluate to `true`. |
+| core.some | Evaluates to `true` if at least one of the chained rules evaluates to `true`. |
+| core.not | Evaluates to `true` if all chained rules evaluate to `false`. |
 
 ### Application Evaluators
 
