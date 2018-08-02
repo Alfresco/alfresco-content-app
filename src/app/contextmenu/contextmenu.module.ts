@@ -23,30 +23,37 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavBarGroupRef } from './navbar.extensions';
-import { RouteRef } from './routing.extensions';
-import { RuleRef } from './rule.extensions';
-import { ActionRef, ContentActionRef } from './action.extensions';
+import { NgModule } from '@angular/core';
+import { MatMenuModule, MatListModule, MatIconModule, MatButtonModule } from '@angular/material';
+import { BrowserModule } from '@angular/platform-browser';
 
-export interface ExtensionConfig {
-    $name: string;
-    $version: string;
-    $description?: string;
-    $references?: Array<string>;
-    rules?: Array<RuleRef>;
-    routes?: Array<RouteRef>;
-    actions?: Array<ActionRef>;
-    features?: {
-        [key: string]: any;
-        create?: Array<ContentActionRef>;
-        viewer?: {
-            openWith?: Array<ContentActionRef>;
-            actions?: Array<ContentActionRef>;
-        };
-        navbar?: Array<NavBarGroupRef>;
-        content?: {
-            actions?: Array<ContentActionRef>;
-            contextActions?: Array<ContentActionRef>
-        };
-    };
-}
+import { ContextActionsDirective } from './contextmenu.directive';
+import { ContextmenuService } from './contextmenu.service';
+import { ContextmenuComponent } from './contextmenu.component';
+import { CoreModule } from '@alfresco/adf-core';
+
+@NgModule({
+    imports: [
+        MatMenuModule,
+        MatListModule,
+        MatIconModule,
+        MatButtonModule,
+        BrowserModule,
+        CoreModule
+    ],
+    declarations: [
+        ContextActionsDirective,
+        ContextmenuComponent
+    ],
+    exports: [
+        ContextActionsDirective,
+        ContextmenuComponent
+    ],
+    providers: [
+        ContextmenuService
+    ],
+    entryComponents: [
+        ContextmenuComponent
+    ]
+})
+export class ContextmenuModule {}
