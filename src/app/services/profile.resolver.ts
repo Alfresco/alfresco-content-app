@@ -29,7 +29,7 @@ import { Resolve, Router } from '@angular/router';
 import { Person } from 'alfresco-js-api';
 import { Observable } from 'rxjs/Observable';
 import { AppStore } from '../store/states/app.state';
-import { SetUserAction } from '../store/actions';
+import { SetUserProfileAction } from '../store/actions';
 import { ContentApiService } from './content-api.service';
 
 @Injectable()
@@ -44,7 +44,7 @@ export class ProfileResolver implements Resolve<Person> {
         return new Observable(observer => {
             this.contentApi.getPerson('-me-').subscribe(
                 person => {
-                    this.store.dispatch(new SetUserAction(person.entry));
+                    this.store.dispatch(new SetUserProfileAction(person.entry));
                     observer.next(person.entry);
                     observer.complete();
                 },

@@ -28,8 +28,8 @@ import { AppState, INITIAL_APP_STATE } from '../states/app.state';
 import {
     SET_SELECTED_NODES,
     SetSelectedNodesAction,
-    SET_USER,
-    SetUserAction,
+    SET_USER_PROFILE,
+    SetUserProfileAction,
     SET_LANGUAGE_PICKER,
     SetLanguagePickerAction,
     SET_CURRENT_FOLDER,
@@ -61,8 +61,8 @@ export function appReducer(
                 action
             ));
             break;
-        case SET_USER:
-            newState = updateUser(state, <SetUserAction>action);
+        case SET_USER_PROFILE:
+            newState = updateUser(state, <SetUserProfileAction>action);
             break;
         case SET_LANGUAGE_PICKER:
             newState = updateLanguagePicker(state, <SetLanguagePickerAction>(
@@ -101,7 +101,7 @@ function updateLanguagePicker(
     return newState;
 }
 
-function updateUser(state: AppState, action: SetUserAction): AppState {
+function updateUser(state: AppState, action: SetUserProfileAction): AppState {
     const newState = Object.assign({}, state);
     const user = action.payload;
 

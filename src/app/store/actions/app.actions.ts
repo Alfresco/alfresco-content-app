@@ -31,7 +31,7 @@ export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
 export const SET_LANGUAGE_PICKER = 'SET_LANGUAGE_PICKER';
 export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
 export const SET_CURRENT_URL = 'SET_CURRENT_URL';
-export const SET_USER = 'SET_USER';
+export const SET_USER_PROFILE = 'SET_USER_PROFILE';
 export const TOGGLE_INFO_DRAWER = 'TOGGLE_INFO_DRAWER';
 export const TOGGLE_DOCUMENT_DISPLAY_MODE = 'TOGGLE_DOCUMENT_DISPLAY_MODE';
 
@@ -55,8 +55,8 @@ export class SetCurrentUrlAction implements Action {
     constructor(public payload: string) {}
 }
 
-export class SetUserAction implements Action {
-    readonly type = SET_USER;
+export class SetUserProfileAction implements Action {
+    readonly type = SET_USER_PROFILE;
     constructor(public payload: Person) { }
 }
 
