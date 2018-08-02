@@ -446,3 +446,71 @@ need to be registered within the `entryComponents` section of the NgModule.
 
 The registration API is not limited to the custom content only.
 You can replace any existing entries by replacing the values from your module.
+
+## Creating custom evaluator
+
+Rule evaluators are plain JavaScript (or TypeScript) functions
+that take `RuleContext` reference and an optional list of `RuleParameter` instances.
+
+Application provides a special [RuleEvaluator](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app/extensions/rule.extensions.ts#L30) type alias for evaluator functions:
+
+```js
+export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
+```
+
+Create a function that is going to check if user has selected one or multiple nodes.
+
+```javascript
+export function hasSelection(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    return !context.selection.isEmpty;
+}
+```
+
+The `context` is a reference to a special instance of the [RuleContext](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app/extensions/rule.extensions.ts#L32) type,
+that provides each evaluator access to runtime entities.
+
+```javascript
+export interface RuleContext {
+    selection: SelectionState;
+    navigation: NavigationState;
+    permissions: NodePermissions;
+
+    getEvaluator(key: string): RuleEvaluator;
+}
+```
+
+The `SelectionState` interface exposes information about global selection state:
+
+```javascript
+export interface SelectionState {
+    count: number;
+    nodes: MinimalNodeEntity[];
+    libraries: SiteEntry[];
+    isEmpty: boolean;
+    first?: MinimalNodeEntity;
+    last?: MinimalNodeEntity;
+    folder?: MinimalNodeEntity;
+    file?: MinimalNodeEntity;
+    library?: SiteEntry;
+}
+```
+
+Next, register the function you have created earlier with the `ExtensionService` and give it a unique identifier:
+
+```js
+extensions.setEvaluators({
+    'plugin1.rules.hasSelection': hasSelection
+});
+```
+
+Now, the `plugin1.rules.hasSelection` evaluator can be used as an inline rule reference,
+or part of the composite rule like `core.every`.
+
+
+<p class="tip">
+See [Registration](#registration) section for more details
+on how to register your own entries to be re-used at runtime.
+</p>
