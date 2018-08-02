@@ -312,7 +312,7 @@
             "FILE_TYPE": "File Type",
             "CREATOR": "Creator",
             "MODIFIER": "Modifier",
-            "FILE_LIBRARY": "File Library"
+            "LOCATION": "Location"
         },
         "CATEGORIES": {
             "MODIFIED_DATE": "Modified date",

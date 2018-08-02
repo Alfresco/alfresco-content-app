@@ -188,7 +188,7 @@
             { "field": "content.mimetype", "mincount": 1, "label": "SEARCH.FACET_FIELDS.FILE_TYPE" },
             { "field": "creator", "mincount": 1, "label": "SEARCH.FACET_FIELDS.CREATOR" },
             { "field": "modifier", "mincount": 1, "label": "SEARCH.FACET_FIELDS.MODIFIER" },
-            { "field": "SITE", "mincount": 1, "label": "SEARCH.FACET_FIELDS.FILE_LIBRARY" }
+            { "field": "SITE", "mincount": 1, "label": "SEARCH.FACET_FIELDS.LOCATION" }
         ],
         "facetQueries": {
             "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
