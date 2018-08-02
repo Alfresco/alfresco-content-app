@@ -176,7 +176,7 @@ export class ExtensionService implements RuleContext {
     }
 
     protected loadContentContextmenuActions(config: ExtensionConfig): Array<ContentActionRef> {
-        if (config && config.features && config.features.content.contextActions) {
+        if (config && config.features && config.features.content) {
             return (config.features.content.contextActions || [])
                 .sort(this.sortByOrder);
         }
