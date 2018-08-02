@@ -100,6 +100,7 @@ To create a new route, populate the `routes` section with the corresponding entr
 <p class="tip">
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
 with header, navigation sidebar and main content area.
+<br/><br/>
 Do not set the `layout` property if you want your route component take the whole page.
 </p>
 
@@ -212,37 +213,77 @@ That simplifies declaring and invoking actions from the extension files.
 
 | Key | Description |
 | --- | --- |
-| app.selection.canDelete | --- |
-| app.selection.canDownload | --- |
-| app.selection.notEmpty | --- |
-| app.selection.canUnshare | --- |
-| app.selection.canAddFavorite | --- |
-| app.selection.canRemoveFavorite | --- |
-| app.selection.first.canUpdate | --- |
-| app.selection.file | --- |
-| app.selection.file.canShare | --- |
-| app.selection.library | --- |
-| app.selection.folder | --- |
-| app.selection.folder.canUpdate | --- |
+| app.selection.canDelete | User has permission to delete selected node(s). |
+| app.selection.canDownload | User can download selected node(s). |
+| app.selection.notEmpty | At least one node is selected. |
+| app.selection.canUnshare | User is able to remove selected node(s) from public sharing. |
+| app.selection.canAddFavorite | User can add selected node(s) to favorites. |
+| app.selection.canRemoveFavorite | User can remove selected node(s) from favorites. |
+| app.selection.first.canUpdate | User has permission to update selected node(s). |
+| app.selection.file | A single File node is selected. |
+| app.selection.file.canShare | User is able to remove selected file from public sharing. |
+| app.selection.library | A single Library node is selected. |
+| app.selection.folder | A single Folder node is selected. |
+| app.selection.folder.canUpdate | User has permissions to update selected folder. |
 
 ### Navigation Evaluators
 
+The application exposes a set of navigation-related evaluators
+to help developers restrict or enable certain actions based on the route or page displayed.
+
+<p class="tip">
+The negated evaluators are provided just to simplify development,
+and to avoid having a complex rule trees just to negate the rules,
+for example mixing `core.every` and `core.not`.
+<br/><br/>
+You can also negate any rule by utilizing a `!` prefix:
+`!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
+</p>
+
 | Key | Description |
 | --- | --- |
-| app.navigation.folder.canCreate | --- |
-| app.navigation.folder.canUpload | --- |
-| app.navigation.isTrashcan | --- |
-| app.navigation.isNotTrashcan | --- |
-| app.navigation.isLibraries | --- |
-| app.navigation.isNotLibraries | --- |
-| app.navigation.isSharedFiles | --- |
-| app.navigation.isNotSharedFiles | --- |
-| app.navigation.isFavorites | --- |
-| app.navigation.isNotFavorites | --- |
-| app.navigation.isRecentFiles | --- |
-| app.navigation.isNotRecentFiles | --- |
-| app.navigation.isSearchResults | --- |
-| app.navigation.isNotSearchResults | --- |
+| app.navigation.folder.canCreate | User can create content in the currently opened folder. |
+| app.navigation.folder.canUpload | User can upload content to the currently opened folder. |
+| app.navigation.isTrashcan | User is using **Trashcan** page. |
+| app.navigation.isNotTrashcan | Current page is not a **Trashcan**.  |
+| app.navigation.isLibraries | User is using **Libraries** page. |
+| app.navigation.isNotLibraries | Current page is not **Libraries**. |
+| app.navigation.isSharedFiles | User is using **Shared Files** page. |
+| app.navigation.isNotSharedFiles | Current page is not **Shared Files**. |
+| app.navigation.isFavorites | User is using **Favorites** page. |
+| app.navigation.isNotFavorites | Current page is not **Favorites** |
+| app.navigation.isRecentFiles | User is using **Recent Files** page. |
+| app.navigation.isNotRecentFiles | Current page is not **Recent Files**. |
+| app.navigation.isSearchResults | User is using **Search Results** page. |
+| app.navigation.isNotSearchResults | Current page is not **Search Results**. |
+
+#### Example
+
+The rule in the example below evaluates to `true` if all the conditions are met:
+
+- user has selected node(s)
+- user is not using **Trashcan** page
+- user is not using **Libraries** page
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "rules": [
+        {
+            "id": "app.toolbar.canCopyNode",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.notEmpty" },
+                { "type": "rule", "value": "app.navigation.isNotTrashcan" },
+                { "type": "rule", "value": "app.navigation.isNotLibraries" }
+            ]
+        }
+    ]
+}
+```
 
 ## Registration
 
