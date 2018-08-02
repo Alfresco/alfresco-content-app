@@ -153,13 +153,10 @@ on how to register your own component for runtime reuse.
 
 ## Application Actions
 
+Below is the list of public actions you can dispatch from any part of the code:
+
 | Name | Payload | Description |
 | --- | --- | --- |
-| SET_APP_NAME | string | --- |
-| SET_HEADER_COLOR | string | --- |
-| SET_LOGO_PATH | string | --- |
-| SET_LANGUAGE_PICKER | boolean | --- |
-| SET_SHARED_URL | string | --- |
 | SET_CURRENT_FOLDER | Node | --- |
 | SET_CURRENT_URL | string | --- |
 | SET_USER | Person | --- |

@@ -25,41 +25,24 @@
 
 import { Action } from '@ngrx/store';
 import { Node, Person } from 'alfresco-js-api';
+import { AppState } from '../states';
 
-export const SET_APP_NAME = 'SET_APP_NAME';
-export const SET_HEADER_COLOR = 'SET_HEADER_COLOR';
-export const SET_LOGO_PATH = 'SET_LOGO_PATH';
+export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
 export const SET_LANGUAGE_PICKER = 'SET_LANGUAGE_PICKER';
-export const SET_SHARED_URL = 'SET_SHARED_URL';
 export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
 export const SET_CURRENT_URL = 'SET_CURRENT_URL';
 export const SET_USER = 'SET_USER';
 export const TOGGLE_INFO_DRAWER = 'TOGGLE_INFO_DRAWER';
 export const TOGGLE_DOCUMENT_DISPLAY_MODE = 'TOGGLE_DOCUMENT_DISPLAY_MODE';
 
-export class SetAppNameAction implements Action {
-    readonly type = SET_APP_NAME;
-    constructor(public payload: string) {}
-}
-
-export class SetHeaderColorAction implements Action {
-    readonly type = SET_HEADER_COLOR;
-    constructor(public payload: string) {}
-}
-
-export class SetLogoPathAction implements Action {
-    readonly type = SET_LOGO_PATH;
-    constructor(public payload: string) {}
+export class SetInitialStateAction implements Action {
+    readonly type = SET_INITIAL_STATE;
+    constructor(public payload: AppState) {}
 }
 
 export class SetLanguagePickerAction implements Action {
     readonly type = SET_LANGUAGE_PICKER;
     constructor(public payload: boolean) {}
-}
-
-export class SetSharedUrlAction implements Action {
-    readonly type = SET_SHARED_URL;
-    constructor(public payload: string) {}
 }
 
 export class SetCurrentFolderAction implements Action {
