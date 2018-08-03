@@ -3,6 +3,7 @@
         <ng-container *ngFor="let entry of actions" [ngSwitch]="entry.type">
             <ng-container *ngSwitchCase="'button'">
                 <button mat-menu-item
+                    [id]="entry.id"
                     acaContextMenuItem
                     (click)="runAction(entry.actions.click)">
                     <mat-icon color="primary">{{ entry.icon }}</mat-icon>
@@ -17,10 +18,11 @@
 
             <ng-container *ngSwitchCase="'menu'">
                 <button mat-menu-item
-                    acaContextMenuItem>
+                    acaContextMenuItem
+                    [id]="entry.id"
+                    class="aca-context-menu__more-actions">
                     <mat-icon color="primary">{{ entry.icon }}</mat-icon>
                     <span>{{ entry.title | translate }}</span>
-                    <mat-icon color="primary" class="aca-context-menu__more-actions"></mat-icon>
                 </button>
             </ng-container>
 
