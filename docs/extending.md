@@ -184,6 +184,57 @@ besides registering a new one.
 
 ## Actions
 
+| Name | Description |
+| --- | --- |
+| **id** | Unique identifier. |
+| **type** | Action type, see [Application Actions](#application-actions) for more details. |
+| *payload* | Action payload, a string containing value or expression. |
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "actions": [
+        {
+            "id": "plugin1.actions.settings",
+            "type": "NAVIGATE_URL",
+            "payload": "/settings"
+        },
+        {
+            "id": "plugin1.actions.info",
+            "type": "SNACKBAR_INFO",
+            "payload": "I'm a nice little popup raised by extension."
+        },
+        {
+            "id": "plugin1.actions.node-name",
+            "type": "SNACKBAR_INFO",
+            "payload": "$('Action for ' + context.selection.first.entry.name)"
+        }
+    ]
+}
+```
+
+### Value expressions
+
+You can use light-weight expression syntax to provide custom parameters for the action payloads.
+
+```text
+$(<expression>)
+```
+
+Expressions are valid JavaScript blocks that evaluate to values.
+
+Examples:
+
+```text
+$('hello world')                //  'hello world'
+$('hello' + ', ' + 'world')     //  'hello, world'
+$(1 + 1)                        //  2
+$([1, 2, 1 + 2])                //  [1, 2, 3]
+```
+
 ## Content Actions
 
 ## Application Actions
@@ -196,7 +247,7 @@ To get more information on NxRx please refer to the following resources:
 Most of the application features are already exposed in the form of NgRx Actions and corresponding Effects.
 You can invoke any action via a single `Store` dispatcher, similar to the following:
 
-```javascript
+```typescript
 export class MyComponent {
 
     constructor(private store: Store<AppStore>) {}
@@ -213,7 +264,7 @@ and automatically redirects user to the **Search Results** page.
 
 Another example demonstrates viewing a node from a custom application service API:
 
-```javascript
+```typescript
 export class MyService {
 
     constructor(private store: Store<AppStore>) {}
@@ -499,7 +550,7 @@ In that case all plugins will be available right after main application componen
 Update the main application module `app.module.ts`, or create your own module,
 and use the following snippet to register custom content:
 
-```js
+```typescript
 export function setupExtensions(extensions: ExtensionService): Function {
     return () =>
         new Promise(resolve => {
@@ -552,13 +603,13 @@ that take `RuleContext` reference and an optional list of `RuleParameter` instan
 
 Application provides a special [RuleEvaluator](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app/extensions/rule.extensions.ts#L30) type alias for evaluator functions:
 
-```js
+```typescript
 export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
 ```
 
 Create a function that is going to check if user has selected one or multiple nodes.
 
-```javascript
+```typescript
 export function hasSelection(
     context: RuleContext,
     ...args: RuleParameter[]
@@ -570,7 +621,7 @@ export function hasSelection(
 The `context` is a reference to a special instance of the [RuleContext](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app/extensions/rule.extensions.ts#L32) type,
 that provides each evaluator access to runtime entities.
 
-```javascript
+```typescript
 export interface RuleContext {
     selection: SelectionState;
     navigation: NavigationState;
@@ -582,7 +633,7 @@ export interface RuleContext {
 
 The `SelectionState` interface exposes information about global selection state:
 
-```javascript
+```typescript
 export interface SelectionState {
     count: number;
     nodes: MinimalNodeEntity[];
@@ -598,7 +649,7 @@ export interface SelectionState {
 
 Next, register the function you have created earlier with the `ExtensionService` and give it a unique identifier:
 
-```js
+```typescript
 extensions.setEvaluators({
     'plugin1.rules.hasSelection': hasSelection
 });
@@ -612,3 +663,126 @@ or part of the composite rule like `core.every`.
 See [Registration](#registration) section for more details
 on how to register your own entries to be re-used at runtime.
 </p>
+
+## Tutorials
+
+### Custom route with parameters
+
+In this tutorial, we are going to implement the following features:
+
+* update the **Trashcan** component to receive and log route parameters
+* create a new route that points to the **Trashcan** component and uses main layout
+* create an action reference that allows redirecting to the new route
+* create a button in the **New** menu that invokes an action
+
+Update `src/app/components/trashcan/trashcan.component.ts` and append the following code to the `ngOnInit` body:
+
+```typescript
+import { ActivatedRoute, Params } from '@angular/router';
+
+@Component({...})
+export class TrashcanComponent {
+
+    constructor(
+        // ...
+        private route: ActivatedRoute
+    ) {}
+
+    ngOnInit() {
+        // ...
+
+        this.route.params.subscribe(({ nodeId }: Params) => {
+            console.log('node: ', nodeId);
+        });
+    }
+
+}
+```
+
+The code above logs current route parameters to the browser console
+and is a simple proof the integration works as expected.
+
+Next, add a new route definition as in the example below:
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "routes": [
+        {
+            "id": "custom.routes.trashcan",
+            "path": "ext/trashcan/:nodeId",
+            "component": "app.components.trashcan",
+            "layout": "app.layout.main",
+            "auth": [ "app.auth" ]
+        }
+    ]
+}
+```
+
+The template above creates a new route reference with the id `custom.routes.trashcan` that points to the `ext/trashcan/` route and accepts the `nodeId` parameter.
+
+Also, we are going to use default application layout (`app.layout.main`)
+and authentication guards (`app.auth`).
+
+Next, create an action reference for the `NAVIGATE_ROUTE` application action
+and pass route parameters: `/ext/trashcan` for the path, and `10` for the `nodeId` value.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "routes": [...],
+
+    "actions": [
+        {
+            "id": "custom.actions.trashcan",
+            "type": "NAVIGATE_ROUTE",
+            "payload": "$(['/ext/trashcan', '10'])"
+        }
+    ]
+}
+```
+
+Finally, declare a new menu item for the `NEW` button and use the `custom.actions.trashcan` action created above.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "routes": [...],
+    "actions": [...],
+
+    "features": {
+        "create": [
+            {
+                "id": "custom.create.trashcan",
+                "type": "default",
+                "icon": "build",
+                "title": "Custom trashcan route",
+                "actions": {
+                    "click": "custom.actions.trashcan"
+                }
+            }
+        ]
+    }
+}
+```
+
+Now, if you run the application, you should see a new menu item called "Custom Trashcan Route" in the "NEW" dropdown.
+Upon clicking this item you should navigate to the `/ext/trashcan/10` route containing a **Trashcan** component.
+
+Check the browser console output and ensure you have the following output:
+
+```text
+node:  10
+```
+
+You have successfully created a new menu button that invokes your custom action
+and redirects you to the extra application route.
