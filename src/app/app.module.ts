@@ -99,7 +99,7 @@ export function setupExtensionServiceFactory(service: ExtensionService): Functio
         ExtensionsModule,
 
         DirectivesModule,
-        ContextMenuModule,
+        ContextMenuModule.forRoot(),
         AppInfoDrawerModule
     ],
     declarations: [
