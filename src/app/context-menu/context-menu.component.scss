@@ -1,0 +1,22 @@
+.aca-context-menu {
+    &__more-actions {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        content: '';
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+    }
+
+    &__separator {
+        display: block;
+        margin: 0;
+        padding: 0;
+        border-top-width: 1px;
+        border-top-style: solid;
+    }
+}
