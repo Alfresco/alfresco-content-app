@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { MatMenuModule, MatListModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -39,7 +39,7 @@ import { CoreModule } from '@alfresco/adf-core';
         MatIconModule,
         MatButtonModule,
         BrowserModule,
-        CoreModule
+        CoreModule.forChild()
     ],
     declarations: [
         ContextActionsDirective,
@@ -49,11 +49,23 @@ import { CoreModule } from '@alfresco/adf-core';
         ContextActionsDirective,
         ContextMenuComponent
     ],
-    providers: [
-        ContextMenuService
-    ],
     entryComponents: [
         ContextMenuComponent
     ]
 })
-export class ContextMenuModule {}
+export class ContextMenuModule {
+    static forRoot(): ModuleWithProviders {
+        return {
+            ngModule: ContextMenuModule,
+            providers: [
+                ContextMenuService
+            ]
+        };
+    }
+
+    static forChild(): ModuleWithProviders {
+        return {
+            ngModule: ContextMenuModule
+        };
+    }
+}
