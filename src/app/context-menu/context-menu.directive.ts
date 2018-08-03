@@ -44,7 +44,7 @@ export class ContextActionsDirective {
     }
 
     @HostListener('contextmenu', ['$event'])
-    onContextmenu(event: MouseEvent) {
+    onContextMenuEvent(event: MouseEvent) {
         if (event) {
             event.preventDefault();
 
