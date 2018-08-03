@@ -1,12 +1,12 @@
 import { Injectable, Injector, ComponentRef, ElementRef } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
-import { ContextmenuOverlayRef } from './contextmenu-overlay';
-import { ContextmenuComponent } from './contextmenu.component';
+import { ContextMenuOverlayRef } from './context-menu-overlay';
+import { ContextMenuComponent } from './context-menu.component';
 import { ContextmenuOverlayConfig } from './interfaces';
 
 @Injectable()
-export class ContextmenuService {
+export class ContextMenuService {
     constructor(
         private injector: Injector,
         private overlay: Overlay) { }
@@ -15,7 +15,7 @@ export class ContextmenuService {
 
         const overlay = this.createOverlay(config);
 
-        const overlayRef = new ContextmenuOverlayRef(overlay);
+        const overlayRef = new ContextMenuOverlayRef(overlay);
 
         this.attachDialogContainer(overlay, config, overlayRef);
 
@@ -36,19 +36,19 @@ export class ContextmenuService {
         return this.overlay.create(overlayConfig);
     }
 
-    private attachDialogContainer(overlay: OverlayRef, config: ContextmenuOverlayConfig, contextmenuOverlayRef: ContextmenuOverlayRef) {
+    private attachDialogContainer(overlay: OverlayRef, config: ContextmenuOverlayConfig, contextmenuOverlayRef: ContextMenuOverlayRef) {
         const injector = this.createInjector(config, contextmenuOverlayRef);
 
-        const containerPortal = new ComponentPortal(ContextmenuComponent, null, injector);
-        const containerRef: ComponentRef<ContextmenuComponent> = overlay.attach(containerPortal);
+        const containerPortal = new ComponentPortal(ContextMenuComponent, null, injector);
+        const containerRef: ComponentRef<ContextMenuComponent> = overlay.attach(containerPortal);
 
         return containerRef.instance;
     }
 
-    private createInjector(config: ContextmenuOverlayConfig, contextmenuOverlayRef: ContextmenuOverlayRef): PortalInjector {
+    private createInjector(config: ContextmenuOverlayConfig, contextmenuOverlayRef: ContextMenuOverlayRef): PortalInjector {
         const injectionTokens = new WeakMap();
 
-        injectionTokens.set(ContextmenuOverlayRef, contextmenuOverlayRef);
+        injectionTokens.set(ContextMenuOverlayRef, contextmenuOverlayRef);
 
         return new PortalInjector(this.injector, injectionTokens);
     }

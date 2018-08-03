@@ -27,9 +27,9 @@ import { NgModule } from '@angular/core';
 import { MatMenuModule, MatListModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { ContextActionsDirective } from './contextmenu.directive';
-import { ContextmenuService } from './contextmenu.service';
-import { ContextmenuComponent } from './contextmenu.component';
+import { ContextActionsDirective } from './context-menu.directive';
+import { ContextMenuService } from './context-menu.service';
+import { ContextMenuComponent } from './context-menu.component';
 import { CoreModule } from '@alfresco/adf-core';
 
 @NgModule({
@@ -43,17 +43,17 @@ import { CoreModule } from '@alfresco/adf-core';
     ],
     declarations: [
         ContextActionsDirective,
-        ContextmenuComponent
+        ContextMenuComponent
     ],
     exports: [
         ContextActionsDirective,
-        ContextmenuComponent
+        ContextMenuComponent
     ],
     providers: [
-        ContextmenuService
+        ContextMenuService
     ],
     entryComponents: [
-        ContextmenuComponent
+        ContextMenuComponent
     ]
 })
-export class ContextmenuModule {}
+export class ContextMenuModule {}

@@ -25,7 +25,7 @@
 
 import { OverlayRef } from '@angular/cdk/overlay';
 
-export class ContextmenuOverlayRef {
+export class ContextMenuOverlayRef {
 
     constructor(private overlayRef: OverlayRef) { }
 

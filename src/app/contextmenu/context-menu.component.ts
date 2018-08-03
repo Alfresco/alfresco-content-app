@@ -33,28 +33,28 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Rx';
 import { takeUntil } from 'rxjs/operators';
 
-import { ContextmenuOverlayRef } from './contextmenu-overlay';
+import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContentActionRef } from '../extensions/action.extensions';
-import { contextmenuAnimation } from './animations';
+import { contextMenuAnimation } from './animations';
 
 @Component({
-    selector: 'aca-contextmenu',
-    templateUrl: './contextmenu.component.html',
+    selector: 'aca-context-menu',
+    templateUrl: './context-menu.component.html',
     host: { 'role': 'menu' },
     encapsulation: ViewEncapsulation.None,
     animations: [
-        trigger('panelAnimation', contextmenuAnimation)
+        trigger('panelAnimation', contextMenuAnimation)
     ]
 })
-export class ContextmenuComponent implements OnInit, OnDestroy {
+export class ContextMenuComponent implements OnInit, OnDestroy {
     private onDestroy$: Subject<boolean> = new Subject<boolean>();
     private selection: SelectionState;
     actions: Array<ContentActionRef> = [];
 
     constructor(
-        public contextmenuOverlayRef: ContextmenuOverlayRef,
+        private contextMenuOverlayRef: ContextMenuOverlayRef,
         private extensions: ExtensionService,
-        protected store: Store<AppStore>,
+        private store: Store<AppStore>,
     ) { }
 
     runAction(actionId: string) {
@@ -63,7 +63,7 @@ export class ContextmenuComponent implements OnInit, OnDestroy {
         };
 
         this.extensions.runActionById(actionId, context);
-        this.contextmenuOverlayRef.close();
+        this.contextMenuOverlayRef.close();
     }
 
     ngOnDestroy() {

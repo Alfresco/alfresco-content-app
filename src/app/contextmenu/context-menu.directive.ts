@@ -24,14 +24,14 @@
  */
 
 import { Directive, HostListener, Input } from '@angular/core';
-import { ContextmenuOverlayRef } from './contextmenu-overlay';
-import { ContextmenuService } from './contextmenu.service';
+import { ContextMenuOverlayRef } from './context-menu-overlay';
+import { ContextMenuService } from './context-menu.service';
 
 @Directive({
     selector: '[acaContextActions]'
 })
 export class ContextActionsDirective {
-    private overlayRef: ContextmenuOverlayRef = null;
+    private overlayRef: ContextMenuOverlayRef = null;
 
     // tslint:disable-next-line:no-input-rename
     @Input('acaContextEnable') enabled: boolean;
@@ -54,10 +54,10 @@ export class ContextActionsDirective {
         }
     }
 
-    constructor(private contextmenuService: ContextmenuService) { }
+    constructor(private contextMenuService: ContextMenuService) { }
 
     private render(event: MouseEvent) {
-        this.overlayRef = this.contextmenuService.open({
+        this.overlayRef = this.contextMenuService.open({
             source: event,
             hasBackdrop: true,
             panelClass: 'cdk-overlay-pane',

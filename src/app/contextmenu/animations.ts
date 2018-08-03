@@ -33,7 +33,7 @@ import {
     sequence
 } from '@angular/animations';
 
-export const contextmenuAnimation = [
+export const contextMenuAnimation = [
     state('void', style({
         opacity: 0,
         transform: 'scale(0.01, 0.01)'
