@@ -2,6 +2,7 @@
     <div class="mat-menu-content">
         <ng-container *ngFor="let entry of actions">
             <button mat-menu-item
+                acaContextMenuItem
                 (click)="runAction(entry.actions.click)">
                 <mat-icon>{{ entry.icon }}</mat-icon>
                 <span>{{ entry.title | translate }}</span>

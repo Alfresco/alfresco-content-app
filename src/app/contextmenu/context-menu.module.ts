@@ -30,6 +30,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ContextActionsDirective } from './context-menu.directive';
 import { ContextMenuService } from './context-menu.service';
 import { ContextMenuComponent } from './context-menu.component';
+import { ContextMenuItemDirective } from './context-menu-item.directive';
 import { CoreModule } from '@alfresco/adf-core';
 
 @NgModule({
@@ -43,7 +44,8 @@ import { CoreModule } from '@alfresco/adf-core';
     ],
     declarations: [
         ContextActionsDirective,
-        ContextMenuComponent
+        ContextMenuComponent,
+        ContextMenuItemDirective
     ],
     exports: [
         ContextActionsDirective,

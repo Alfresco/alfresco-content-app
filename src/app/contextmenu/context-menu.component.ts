@@ -23,8 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, OnDestroy, HostListener } from '@angular/core';
+import {
+    Component, ViewEncapsulation, OnInit, OnDestroy, HostListener,
+    ViewChildren, QueryList, AfterViewInit
+} from '@angular/core';
 import { trigger } from '@angular/animations';
+import { FocusKeyManager } from '@angular/cdk/a11y';
+import { DOWN_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 
 import { ExtensionService } from '../extensions/extension.service';
 import { AppStore, SelectionState } from '../store/states';
@@ -36,6 +41,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContentActionRef } from '../extensions/action.extensions';
 import { contextMenuAnimation } from './animations';
+import { ContextMenuItemDirective } from './context-menu-item.directive';
 
 @Component({
     selector: 'aca-context-menu',
@@ -46,15 +52,29 @@ import { contextMenuAnimation } from './animations';
         trigger('panelAnimation', contextMenuAnimation)
     ]
 })
-export class ContextMenuComponent implements OnInit, OnDestroy {
+export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
     private onDestroy$: Subject<boolean> = new Subject<boolean>();
     private selection: SelectionState;
+    private _keyManager: FocusKeyManager<ContextMenuItemDirective>;
     actions: Array<ContentActionRef> = [];
+
+    @ViewChildren(ContextMenuItemDirective)
+    private contextMenuItems: QueryList<ContextMenuItemDirective>;
 
     @HostListener('document:keydown.Escape', ['$event'])
     handleKeydownEscape(event: KeyboardEvent) {
         if (event) {
             this.contextMenuOverlayRef.close();
+        }
+    }
+
+    @HostListener('document:keydown', ['$event'])
+    handleKeydownEvent(event: KeyboardEvent) {
+        if (event) {
+            const keyCode = event.keyCode;
+            if (keyCode === UP_ARROW || keyCode === DOWN_ARROW) {
+                this._keyManager.onKeydown(event);
+            }
         }
     }
 
@@ -88,5 +108,10 @@ export class ContextMenuComponent implements OnInit, OnDestroy {
                     this.actions = this.extensions.getAllowedContentContextActions();
                 }
             });
+    }
+
+    ngAfterViewInit() {
+        this._keyManager = new FocusKeyManager<ContextMenuItemDirective>(this.contextMenuItems);
+        this._keyManager.setFirstItemActive();
     }
 }
