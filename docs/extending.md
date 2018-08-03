@@ -10,6 +10,25 @@ and any number of external plugins that are references of the main entry point.
 The application also comes with the `/src/assets/plugins/` folder
 already preconfigured to store external files.
 
+You can create plugins that change, toggle or extend the following areas:
+
+* Navigation sidebar links and groups
+* Context Menu
+* Toolbar entries
+  * buttons
+  * menu buttons
+  * separators
+* Viewer actions
+  * "Open With" entries
+  * "More actions" toolbar entries
+
+Extensions can also:
+
+* Overwrite or disable extension points of the main application or other plugins
+* Change rules, actions or any visual element
+* Register new application routes based on empty pages or layouts
+* Register new rule evaluators, components, guards, etc.
+
 ## Format
 
 The format is represented by a JSON file with the structure similar to the following one:
@@ -101,7 +120,7 @@ To create a new route, populate the `routes` section with the corresponding entr
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
 with header, navigation sidebar and main content area.
 <br/><br/>
-Do not set the `layout` property if you want your route component take the whole page.
+Leave the `layout` property empty if you want your route component take the whole page.
 </p>
 
 You can define the full route schema like in the next example:
@@ -140,6 +159,14 @@ or [register](#registration) your custom implementations.
 
 ## Components
 
+You can register any Angular component to participate in extensibility.
+
+The components are used to create custom:
+
+* routes and pages
+* toolbar buttons
+* menu items
+
 | Key | Type | Description |
 | --- | --- | --- |
 | app.layout.main | LayoutComponent | Main application layout with the menu bar, navigation sidebar and main content area to project your components. |
@@ -151,6 +178,9 @@ or [register](#registration) your custom implementations.
 See [Registration](#registration) section for more details
 on how to register your own entries to be re-used at runtime.
 </p>
+
+Note that custom extensions can also replace any existing component at runtime by a known identifier,
+besides registering a new one.
 
 ## Actions
 
