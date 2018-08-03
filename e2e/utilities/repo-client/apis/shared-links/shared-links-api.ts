@@ -23,55 +23,52 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoApi } from '../repo-api';
-import { NodesApi } from '../nodes/nodes-api';
-import { RepoClient } from './../../repo-client';
+import { RepoApiNew } from '../repo-api-new';
 import { Utils } from '../../../../utilities/utils';
 
-export class SharedLinksApi extends RepoApi {
+export class SharedLinksApi extends RepoApiNew {
 
-    shareFileById(id: string): Promise<any> {
-        const data = [{ nodeId: id }];
-
-        return this.post(`/shared-links`, { data })
-            .catch(this.handleError);
+    constructor(username?, password?) {
+        super(username, password);
     }
 
-    shareFilesByIds(ids: string[]): Promise<any[]> {
-        return ids.reduce((previous, current) => (
-            previous.then(() => this.shareFileById(current))
-        ), Promise.resolve());
+    async shareFileById(id: string) {
+        await this.apiAuth();
+        const data = { nodeId: id };
+        return await this.alfrescoJsApi.core.sharedlinksApi.addSharedLink(data);
     }
 
-    getSharedIdOfNode(name: string) {
-        return this.getSharedLinks()
-            .then(resp => resp.data.list.entries.find(entries => entries.entry.name === name))
-            .then(resp => resp.entry.id)
-            .catch(this.handleError);
+    async shareFilesByIds(ids: string[]) {
+        return await ids.reduce(async (previous: any, current: any) => {
+            await previous;
+            return await this.shareFileById(current);
+        }, Promise.resolve());
     }
 
-    unshareFile(name: string) {
-        return this.getSharedIdOfNode(name)
-            .then(id => this.delete(`/shared-links/${id}`))
-            .catch(this.handleError);
+    async getSharedIdOfNode(name: string) {
+        const sharedLinks = (await this.getSharedLinks()).list.entries;
+        const found = sharedLinks.find(sharedLink => sharedLink.entry.name === name);
+        return (found || { entry: { id: null } }).entry.id;
     }
 
-    getSharedLinks(): Promise<any> {
-        return this.get(`/shared-links`)
-            .catch(this.handleError);
+    async unshareFile(name: string) {
+        const id = await this.getSharedIdOfNode(name);
+        return await this.alfrescoJsApi.core.sharedlinksApi.deleteSharedLink(id);
     }
 
-    waitForApi(data) {
-        const sharedFiles = () => {
-            return this.getSharedLinks()
-                .then(response => response.data.list.pagination.totalItems)
-                .then(totalItems => {
-                    if ( totalItems < data.expect) {
-                        return Promise.reject(totalItems);
-                    } else {
-                        return Promise.resolve(totalItems);
-                    }
-                });
+    async getSharedLinks() {
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.sharedlinksApi.findSharedLinks();
+    }
+
+    async waitForApi(data) {
+        const sharedFiles = async () => {
+            const totalItems = (await this.getSharedLinks()).list.pagination.totalItems;
+            if ( totalItems < data.expect ) {
+                return Promise.reject(totalItems);
+            } else {
+                return Promise.resolve(totalItems);
+            }
         };
 
         return Utils.retryCall(sharedFiles);
