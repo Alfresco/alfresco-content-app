@@ -14,7 +14,10 @@
 
     <div class="inner-layout__content">
         <div class="inner-layout__panel">
-            <adf-document-list acaDocumentList #documentList
+            <adf-document-list #documentList
+                acaDocumentList
+                acaContextActions
+                [acaContextEnable]="selection.count"
                 [display]="documentDisplayMode$ | async"
                 currentFolderId="-recent-"
                 selectionMode="multiple"

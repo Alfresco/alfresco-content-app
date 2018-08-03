@@ -3,6 +3,7 @@
     "language": "en",
     "words": [
         "succes",
+        "sharedlinks",
 
         "ngrx",
         "ngstack",
@@ -38,7 +39,8 @@
         "unindent",
         "exif",
         "cardview",
-        "webm"
+        "webm",
+        "keycodes"
     ],
     "dictionaries": [
         "html",

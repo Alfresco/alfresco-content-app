@@ -34,14 +34,6 @@ import { TrashcanApi } from './apis/trashcan/trashcan-api';
 import { SearchApi } from './apis/search/search-api';
 
 export class RepoClient {
-    public people: PeopleApi = new PeopleApi(this.auth, this.config);
-    public nodes: NodesApi = new NodesApi(this.auth, this.config);
-    public sites: SitesApi = new SitesApi(this.auth, this.config);
-    public favorites: FavoritesApi = new FavoritesApi(this.auth, this.config);
-    public shared: SharedLinksApi = new SharedLinksApi(this.auth, this.config);
-    public trashcan: TrashcanApi = new TrashcanApi(this.auth, this.config);
-    public search: SearchApi = new SearchApi(this.auth, this.config);
-
     constructor(
         private username: string = RepoClientAuth.DEFAULT_USERNAME,
         private password: string = RepoClientAuth.DEFAULT_PASSWORD,
@@ -51,6 +43,34 @@ export class RepoClient {
     private get auth(): RepoClientAuth {
         const { username, password } = this;
         return { username, password };
+    }
+
+    get people () {
+        return new PeopleApi(this.auth, this.config);
+    }
+
+    get nodes() {
+        return new NodesApi(this.auth, this.config);
+    }
+
+    get sites() {
+        return new SitesApi(this.auth, this.config);
+    }
+
+    get favorites() {
+        return new FavoritesApi(this.auth, this.config);
+    }
+
+    get shared() {
+        return new SharedLinksApi(this.auth.username, this.auth.password);
+    }
+
+    get trashcan() {
+        return new TrashcanApi(this.auth, this.config);
+    }
+
+    get search() {
+        return new SearchApi(this.auth, this.config);
     }
 }
 
