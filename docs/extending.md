@@ -158,12 +158,80 @@ on how to register your own entries to be re-used at runtime.
 
 ## Application Actions
 
-Below is the list of public actions you can dispatch from any part of the code.
+Application is using NgRx (Reactive libraries for Angular, inspired by Redux).
+To get more information on NxRx please refer to the following resources:
+
+* [Comprehensive Introduction to @ngrx/store](https://gist.github.com/btroncone/a6e4347326749f938510)
+
+Most of the application features are already exposed in the form of NgRx Actions and corresponding Effects.
+You can invoke any action via a single `Store` dispatcher, similar to the following:
+
+```javascript
+export class MyComponent {
+
+    constructor(private store: Store<AppStore>) {}
+
+    onClick() {
+        this.store.dispatch(new SearchByTermAction('*'));
+    }
+
+}
+```
+
+The code above demonstrates a simple 'click' handler that invokes `Search by Term` feature
+and automatically redirects user to the **Search Results** page.
+
+Another example demonstrates viewing a node from a custom application service API:
+
+```javascript
+export class MyService {
+
+    constructor(private store: Store<AppStore>) {}
+
+    viewFile(node: MinimalNodeEntity) {
+        this.store.dispatch(new ViewFileAction(node));
+    }
+}
+```
+
+### Using with Extensions
+
+You can invoke every application action from the extensions, i.e. buttons, menus, etc.
 
 <p class="tip">
 Many of the actions take currently selected nodes if no payload provided.
 That simplifies declaring and invoking actions from the extension files.
 </p>
+
+In the example below, we create a new entry to the "NEW" menu dropdown
+and provide a new `Create Folder` command that invokes the `CREATE_FOLDER` application action.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "create": [
+            {
+                "id": "app.create.folder",
+                "type": "default",
+                "icon": "create_new_folder",
+                "title": "Create Folder",
+                "actions": {
+                    "click": "CREATE_FOLDER"
+                }
+            }
+        ]
+    }
+}
+```
+
+The `CREATE_FOLDER` action will trigger corresponding NgRx Effects to show the dialog
+and perform document list reload if needed.
+
+Below is the list of public actions types you can use in the plugin definitions as a reference to the action:
 
 | Name | Payload | Description |
 | --- | --- | --- |
