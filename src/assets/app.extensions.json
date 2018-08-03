@@ -638,7 +638,7 @@
                 {
                     "id": "app.contextmenu.restoreDeletedNodes",
                     "type": "button",
-                    "order": "1300",
+                    "order": 1300,
                     "title": "APP.ACTIONS.RESTORE",
                     "icon": "restore",
                     "actions": {
