@@ -452,6 +452,175 @@
                         }
                     ]
                 }
+            ],
+            "contextActions": [
+                {
+                    "id": "app.contextmenu.download",
+                    "type": "button",
+                    "order": 10,
+                    "title": "APP.ACTIONS.DOWNLOAD",
+                    "icon": "get_app",
+                    "actions": {
+                        "click": "DOWNLOAD_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canDownload"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.preview",
+                    "type": "button",
+                    "order": 15,
+                    "title": "APP.ACTIONS.VIEW",
+                    "icon": "open_in_browser",
+                    "actions": {
+                        "click": "VIEW_FILE"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canViewFile"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.editFolder",
+                    "type": "button",
+                    "order": 20,
+                    "title": "APP.ACTIONS.EDIT",
+                    "icon": "create",
+                    "actions": {
+                        "click": "EDIT_FOLDER"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canEditFolder"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.share",
+                    "type": "button",
+                    "title": "APP.ACTIONS.SHARE",
+                    "order": 25,
+                    "icon": "share",
+                    "actions": {
+                        "click": "SHARE_NODE"
+                    },
+                    "rules": {
+                        "visible": "app.selection.file.canShare"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.favorite.add",
+                    "type": "button",
+                    "title": "APP.ACTIONS.FAVORITE",
+                    "order": 30,
+                    "icon": "star_border",
+                    "actions": {
+                        "click": "ADD_FAVORITE"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.favorite.canAdd"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.favorite.remove",
+                    "type": "button",
+                    "title": "APP.ACTIONS.FAVORITE",
+                    "order": 30,
+                    "icon": "star",
+                    "actions": {
+                        "click": "REMOVE_FAVORITE"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.favorite.canRemove"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.copy",
+                    "type": "button",
+                    "title": "APP.ACTIONS.COPY",
+                    "order": 35,
+                    "icon": "content_copy",
+                    "actions": {
+                        "click": "COPY_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canCopyNode"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.move",
+                    "type": "button",
+                    "title": "APP.ACTIONS.MOVE",
+                    "order": 40,
+                    "icon": "library_books",
+                    "actions": {
+                        "click": "MOVE_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.selection.canDelete"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.delete",
+                    "type": "button",
+                    "title": "APP.ACTIONS.DELETE",
+                    "order": 45,
+                    "icon": "delete",
+                    "actions": {
+                        "click": "DELETE_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.selection.canDelete"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.versions",
+                    "type": "button",
+                    "title": "APP.ACTIONS.VERSIONS",
+                    "order": 50,
+                    "icon": "history",
+                    "actions": {
+                        "click": "MANAGE_VERSIONS"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.versions"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.permissions",
+                    "type": "button",
+                    "title": "APP.ACTIONS.PERMISSIONS",
+                    "icon": "settings_input_component",
+                    "order": 55,
+                    "actions": {
+                        "click": "MANAGE_PERMISSIONS"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.permissions"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.purgeDeletedNodes",
+                    "type": "button",
+                    "title": "APP.ACTIONS.DELETE_PERMANENT",
+                    "icon": "delete_forever",
+                    "actions": {
+                        "click": "PURGE_DELETED_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.trashcan.hasSelection"
+                    }
+                },
+                {
+                    "id": "app.contextmenu.restoreDeletedNodes",
+                    "type": "button",
+                    "title": "APP.ACTIONS.RESTORE",
+                    "icon": "restore",
+                    "actions": {
+                        "click": "RESTORE_DELETED_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.trashcan.hasSelection"
+                    }
+                }
             ]
         },
         "viewer": {

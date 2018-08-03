@@ -23,30 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavBarGroupRef } from './navbar.extensions';
-import { RouteRef } from './routing.extensions';
-import { RuleRef } from './rule.extensions';
-import { ActionRef, ContentActionRef } from './action.extensions';
-
-export interface ExtensionConfig {
-    $name: string;
-    $version: string;
-    $description?: string;
-    $references?: Array<string>;
-    rules?: Array<RuleRef>;
-    routes?: Array<RouteRef>;
-    actions?: Array<ActionRef>;
-    features?: {
-        [key: string]: any;
-        create?: Array<ContentActionRef>;
-        viewer?: {
-            openWith?: Array<ContentActionRef>;
-            actions?: Array<ContentActionRef>;
-        };
-        navbar?: Array<NavBarGroupRef>;
-        content?: {
-            actions?: Array<ContentActionRef>;
-            contextActions?: Array<ContentActionRef>
-        };
-    };
+export interface ContextmenuOverlayConfig {
+    panelClass?: string;
+    hasBackdrop?: boolean;
+    backdropClass?: string;
+    source?: MouseEvent;
+    data?: any;
 }

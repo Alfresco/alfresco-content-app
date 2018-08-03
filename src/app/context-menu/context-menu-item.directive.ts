@@ -23,30 +23,29 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavBarGroupRef } from './navbar.extensions';
-import { RouteRef } from './routing.extensions';
-import { RuleRef } from './rule.extensions';
-import { ActionRef, ContentActionRef } from './action.extensions';
+import { Directive, ElementRef, OnDestroy } from '@angular/core';
+import { FocusableOption, FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 
-export interface ExtensionConfig {
-    $name: string;
-    $version: string;
-    $description?: string;
-    $references?: Array<string>;
-    rules?: Array<RuleRef>;
-    routes?: Array<RouteRef>;
-    actions?: Array<ActionRef>;
-    features?: {
-        [key: string]: any;
-        create?: Array<ContentActionRef>;
-        viewer?: {
-            openWith?: Array<ContentActionRef>;
-            actions?: Array<ContentActionRef>;
-        };
-        navbar?: Array<NavBarGroupRef>;
-        content?: {
-            actions?: Array<ContentActionRef>;
-            contextActions?: Array<ContentActionRef>
-        };
-    };
+@Directive({
+    selector: '[acaContextMenuItem]',
+})
+export class ContextMenuItemDirective implements OnDestroy, FocusableOption {
+    constructor(
+        private elementRef: ElementRef,
+        private focusMonitor: FocusMonitor) {
+
+        focusMonitor.monitor(this.getHostElement(), false);
+    }
+
+    ngOnDestroy() {
+        this.focusMonitor.stopMonitoring(this.getHostElement());
+    }
+
+    focus(origin: FocusOrigin = 'keyboard'): void {
+        this.focusMonitor.focusVia(this.getHostElement(), origin);
+    }
+
+    private getHostElement(): HTMLElement {
+        return this.elementRef.nativeElement;
+    }
 }
