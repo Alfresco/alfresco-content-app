@@ -46,7 +46,14 @@ import { ContextMenuItemDirective } from './context-menu-item.directive';
 @Component({
     selector: 'aca-context-menu',
     templateUrl: './context-menu.component.html',
-    host: { 'role': 'menu' },
+    styleUrls: [
+        './context-menu.component.scss',
+        './context-menu.component.theme.scss'
+    ],
+    host: {
+        role: 'menu',
+        class: 'aca-context-menu'
+    },
     encapsulation: ViewEncapsulation.None,
     animations: [
         trigger('panelAnimation', contextMenuAnimation)

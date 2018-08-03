@@ -9,6 +9,7 @@
 @import '../components/current-user/current-user.component.theme';
 @import '../components/permission-manager/permissions-manager.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
+@import '../context-menu/context-menu.component.theme';
 
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
@@ -91,4 +92,5 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include sidenav-component-theme($theme);
     @include aca-about-component-theme($theme);
     @include aca-current-user-theme($theme);
+    @include aca-context-menu-theme($theme);
 }

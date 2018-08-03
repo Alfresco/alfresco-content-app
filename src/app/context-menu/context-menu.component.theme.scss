@@ -1,0 +1,17 @@
+@mixin aca-context-menu-theme($theme) {
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+
+    .aca-context-menu {
+        @include angular-material-theme($theme);
+
+        &__separator {
+            border-top-color: mat-color($foreground, divider);
+        }
+
+        &__more-actions::after {
+            border-color: transparent;
+            border-left-color: mat-color($primary);
+        }
+    }
+}
