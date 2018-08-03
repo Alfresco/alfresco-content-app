@@ -38,7 +38,8 @@
         "unindent",
         "exif",
         "cardview",
-        "webm"
+        "webm",
+        "keycodes"
     ],
     "dictionaries": [
         "html",
