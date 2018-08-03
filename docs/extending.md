@@ -1,3 +1,7 @@
+---
+title: Extending
+---
+
 <p class="danger">
   Work is still in progress, the documentation and examples may change.
 </p>
@@ -235,8 +239,6 @@ $(1 + 1)                        //  2
 $([1, 2, 1 + 2])                //  [1, 2, 3]
 ```
 
-## Content Actions
-
 ## Application Actions
 
 Application is using NgRx (Reactive libraries for Angular, inspired by Redux).
@@ -367,6 +369,29 @@ Every rule is backed by a condition evaluator.
         {
             "id": "app.trashcan",
             "type": "app.navigation.isTrashcan"
+        }
+    ]
+}
+```
+
+Rules can accept other rules as parameters:
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "rules": [
+        {
+            "id": "app.toolbar.favorite.canAdd",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.canAddFavorite" },
+                { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
+                { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
+                { "type": "rule", "value": "app.navigation.isNotSearchResults" }
+            ]
         }
     ]
 }
@@ -537,6 +562,22 @@ The rule in the example below evaluates to `true` if all the conditions are met:
     ]
 }
 ```
+
+## Application Features
+
+### Extending Create Menu
+
+### Extending Navigation Sidebar
+
+### Extending Toolbar
+
+### Extending Context Menu
+
+### Extending Viewer
+
+#### Open With actions
+
+#### Toolbar actions
 
 ## Registration
 
