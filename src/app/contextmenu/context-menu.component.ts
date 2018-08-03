@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ViewEncapsulation, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { trigger } from '@angular/animations';
 
 import { ExtensionService } from '../extensions/extension.service';
@@ -50,6 +50,13 @@ export class ContextMenuComponent implements OnInit, OnDestroy {
     private onDestroy$: Subject<boolean> = new Subject<boolean>();
     private selection: SelectionState;
     actions: Array<ContentActionRef> = [];
+
+    @HostListener('document:keydown.Escape', ['$event'])
+    handleKeydownEscape(event: KeyboardEvent) {
+        if (event) {
+            this.contextMenuOverlayRef.close();
+        }
+    }
 
     constructor(
         private contextMenuOverlayRef: ContextMenuOverlayRef,
