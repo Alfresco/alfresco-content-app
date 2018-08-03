@@ -81,6 +81,10 @@ export class SearchResultsRowComponent implements OnInit {
         return this.title;
     }
 
+    get showTitle() {
+        return this.name !== this.title;
+    }
+
     get hasSize() {
         return this.size;
     }
