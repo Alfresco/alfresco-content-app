@@ -36,15 +36,12 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ExtensionService } from './extensions/extension.service';
 import {
-    SetAppNameAction,
-    SetHeaderColorAction,
     SetLanguagePickerAction,
-    SetLogoPathAction,
-    SetSharedUrlAction,
     SnackbarErrorAction,
-    SetCurrentUrlAction
+    SetCurrentUrlAction,
+    SetInitialStateAction
 } from './store/actions';
-import { AppStore } from './store/states/app.state';
+import { AppStore, AppState, INITIAL_APP_STATE } from './store/states/app.state';
 
 @Component({
     selector: 'app-root',
@@ -103,24 +100,18 @@ export class AppComponent implements OnInit {
     }
 
     private loadAppSettings() {
-        const headerColor = this.config.get<string>('headerColor');
-        if (headerColor) {
-            this.store.dispatch(new SetHeaderColorAction(headerColor));
-        }
-        const appName = this.config.get<string>('application.name');
-        if (appName) {
-            this.store.dispatch(new SetAppNameAction(appName));
-        }
-        const logoPath = this.config.get<string>('application.logo');
-        if (logoPath) {
-            this.store.dispatch(new SetLogoPathAction(logoPath));
-        }
         const languagePicker = this.config.get<boolean>('languagePicker');
         this.store.dispatch(new SetLanguagePickerAction(languagePicker));
 
-        const sharedPreviewUrl =
-            this.config.get<string>('ecmHost') + '/#/preview/s/';
-        this.store.dispatch(new SetSharedUrlAction(sharedPreviewUrl));
+        const state: AppState = {
+            ... INITIAL_APP_STATE,
+            appName: this.config.get<string>('application.name'),
+            headerColor: this.config.get<string>('headerColor'),
+            logoPath: this.config.get<string>('application.logo'),
+            sharedUrl: this.config.get<string>('ecmHost') + '/#/preview/s/'
+        };
+
+        this.store.dispatch(new SetInitialStateAction(state));
     }
 
     onFileUploadedError(error: FileUploadErrorEvent) {

@@ -18,6 +18,7 @@
                     <adf-layout-header
                         [logo]="logo$ | async"
                         [color]="'accent'"
+                        [title]="appName$ | async"
                         (clicked)="toggleMenu($event)">
 
                         <div class="adf-toolbar--spacer"></div>

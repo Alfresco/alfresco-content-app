@@ -1,3 +1,7 @@
+---
+title: Get Help
+---
+
 # Where to get help
 
 There are several ways to get help with building applications using the Alfresco Application Development Framework:

@@ -26,20 +26,12 @@
 import { Action } from '@ngrx/store';
 import { AppState, INITIAL_APP_STATE } from '../states/app.state';
 import {
-    SET_HEADER_COLOR,
-    SetHeaderColorAction,
-    SET_APP_NAME,
-    SetAppNameAction,
-    SET_LOGO_PATH,
-    SetLogoPathAction,
     SET_SELECTED_NODES,
     SetSelectedNodesAction,
-    SET_USER,
-    SetUserAction,
+    SET_USER_PROFILE,
+    SetUserProfileAction,
     SET_LANGUAGE_PICKER,
     SetLanguagePickerAction,
-    SET_SHARED_URL,
-    SetSharedUrlAction,
     SET_CURRENT_FOLDER,
     SetCurrentFolderAction,
     SET_CURRENT_URL,
@@ -49,7 +41,9 @@ import {
     TOGGLE_INFO_DRAWER,
     ToggleInfoDrawerAction,
     TOGGLE_DOCUMENT_DISPLAY_MODE,
-    ToggleDocumentDisplayMode
+    ToggleDocumentDisplayMode,
+    SET_INITIAL_STATE,
+    SetInitialStateAction
 } from '../actions/app.actions';
 
 export function appReducer(
@@ -59,30 +53,21 @@ export function appReducer(
     let newState: AppState;
 
     switch (action.type) {
-        case SET_APP_NAME:
-            newState = updateAppName(state, <SetAppNameAction>action);
-            break;
-        case SET_HEADER_COLOR:
-            newState = updateHeaderColor(state, <SetHeaderColorAction>action);
-            break;
-        case SET_LOGO_PATH:
-            newState = updateLogoPath(state, <SetLogoPathAction>action);
+        case SET_INITIAL_STATE:
+            newState = Object.assign({}, (<SetInitialStateAction>action).payload);
             break;
         case SET_SELECTED_NODES:
             newState = updateSelectedNodes(state, <SetSelectedNodesAction>(
                 action
             ));
             break;
-        case SET_USER:
-            newState = updateUser(state, <SetUserAction>action);
+        case SET_USER_PROFILE:
+            newState = updateUser(state, <SetUserProfileAction>action);
             break;
         case SET_LANGUAGE_PICKER:
             newState = updateLanguagePicker(state, <SetLanguagePickerAction>(
                 action
             ));
-            break;
-        case SET_SHARED_URL:
-            newState = updateSharedUrl(state, <SetSharedUrlAction>action);
             break;
         case SET_CURRENT_FOLDER:
             newState = updateCurrentFolder(state, <SetCurrentFolderAction>(
@@ -107,15 +92,6 @@ export function appReducer(
     return newState;
 }
 
-function updateHeaderColor(
-    state: AppState,
-    action: SetHeaderColorAction
-): AppState {
-    const newState = Object.assign({}, state);
-    newState.headerColor = action.payload;
-    return newState;
-}
-
 function updateLanguagePicker(
     state: AppState,
     action: SetLanguagePickerAction
@@ -125,28 +101,7 @@ function updateLanguagePicker(
     return newState;
 }
 
-function updateAppName(state: AppState, action: SetAppNameAction): AppState {
-    const newState = Object.assign({}, state);
-    newState.appName = action.payload;
-    return newState;
-}
-
-function updateLogoPath(state: AppState, action: SetLogoPathAction): AppState {
-    const newState = Object.assign({}, state);
-    newState.logoPath = action.payload;
-    return newState;
-}
-
-function updateSharedUrl(
-    state: AppState,
-    action: SetSharedUrlAction
-): AppState {
-    const newState = Object.assign({}, state);
-    newState.sharedUrl = action.payload;
-    return newState;
-}
-
-function updateUser(state: AppState, action: SetUserAction): AppState {
+function updateUser(state: AppState, action: SetUserProfileAction): AppState {
     const newState = Object.assign({}, state);
     const user = action.payload;
 
