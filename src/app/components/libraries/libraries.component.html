@@ -60,6 +60,7 @@
                     </data-column>
 
                     <data-column
+                        *ngIf="!isSmallScreen"
                         key="visibility"
                         title="APP.DOCUMENT_LIST.COLUMNS.STATUS">
                         <ng-template let-value="value">
