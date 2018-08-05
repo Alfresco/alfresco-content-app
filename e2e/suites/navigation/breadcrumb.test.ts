@@ -85,7 +85,7 @@ describe('Breadcrumb', () => {
         .then(done);
     });
 
-    it('Personal Files breadcrumb main node [C260964]', () => {
+    it('Personal Files breadcrumb main node - [C260964]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => {
                 expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
@@ -93,7 +93,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('File Libraries breadcrumb main node [C260966]', () => {
+    it('File Libraries breadcrumb main node - [C260966]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
             .then(() => {
                 expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
@@ -101,7 +101,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('Recent Files breadcrumb main node [C260971]', () => {
+    it('Recent Files breadcrumb main node - [C260971]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
             .then(() => {
                 expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
@@ -109,7 +109,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('Shared Files breadcrumb main node [C260972]', () => {
+    it('Shared Files breadcrumb main node - [C260972]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
             .then(() => {
                 expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
@@ -117,7 +117,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('Favorites breadcrumb main node [C260973]', () => {
+    it('Favorites breadcrumb main node - [C260973]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
             .then(() => {
                 expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
@@ -125,7 +125,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('Trash breadcrumb main node [C260974]', () => {
+    it('Trash breadcrumb main node - [C260974]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
             .then(() => {
                 expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
@@ -133,7 +133,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('Personal Files breadcrumb for a folder hierarchy [C260965]', () => {
+    it('Personal Files breadcrumb for a folder hierarchy - [C260965]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnRowByName(parent))
@@ -145,7 +145,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('File Libraries breadcrumb for a folder hierarchy [C260967]', () => {
+    it('File Libraries breadcrumb for a folder hierarchy - [C260967]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnRowByName(siteName))
@@ -158,7 +158,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('User can navigate to any location by clicking on a step from the breadcrumb [C213235]', () => {
+    it('User can navigate to any location by clicking on a step from the breadcrumb - [C213235]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnRowByName(parent))
@@ -171,7 +171,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('Tooltip appears on hover on a step in breadcrumb [C213237]', () => {
+    it('Tooltip appears on hover on a step in breadcrumb - [C213237]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnRowByName(parent))
@@ -182,7 +182,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('Breadcrumb updates correctly when folder is renamed [C213238]', () => {
+    it('Breadcrumb updates correctly when folder is renamed - [C213238]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnRowByName(parent2))
@@ -196,7 +196,7 @@ describe('Breadcrumb', () => {
             });
     });
 
-    it('Browser back navigates to previous location regardless of breadcrumb steps [C213240]', () => {
+    it('Browser back navigates to previous location regardless of breadcrumb steps - [C213240]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => page.dataTable.waitForHeader())
             .then(() => page.dataTable.doubleClickOnRowByName(parent))
@@ -233,7 +233,7 @@ describe('Breadcrumb', () => {
             .then(done);
         });
 
-        it(`Breadcrumb on navigation to a user's home [C260970]`, () => {
+        it(`Breadcrumb on navigation to a user's home - [C260970]`, () => {
             page.dataTable.doubleClickOnRowByName('User Homes')
                 .then(() => page.dataTable.doubleClickOnRowByName(user2))
                 .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2 ]))

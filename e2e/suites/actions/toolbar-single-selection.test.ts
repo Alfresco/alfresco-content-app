@@ -99,14 +99,14 @@ describe('Toolbar actions - single selection : ', () => {
             done();
         });
 
-        it('actions not displayed for top level of File Libraries', async () => {
+        it('actions not displayed for top level of File Libraries - [C213135]', async () => {
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
             await dataTable.waitForHeader();
             await dataTable.clickOnRowByName(userSite);
             expect(await toolbar.actions.isEmpty()).toBe(true, 'toolbar not empty');
         });
 
-        it('selected row is marked with a check circle icon', async () => {
+        it('selected row is marked with a check circle icon - [C213134]', async () => {
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
             await dataTable.waitForHeader();
             await dataTable.clickOnRowByName(fileUser);
