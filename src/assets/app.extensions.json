@@ -607,7 +607,6 @@
                     "order": 1200,
                     "title": "APP.ACTIONS.DELETE_PERMANENT",
                     "icon": "delete_forever",
-                    "order": 1100,
                     "actions": {
                         "click": "PURGE_DELETED_NODES"
                     },
@@ -620,7 +619,6 @@
                     "order": 1300,
                     "title": "APP.ACTIONS.RESTORE",
                     "icon": "restore",
-                    "order": 1200,
                     "actions": {
                         "click": "RESTORE_DELETED_NODES"
                     },
