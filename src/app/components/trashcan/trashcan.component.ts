@@ -24,6 +24,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
@@ -37,11 +38,13 @@ import { Observable } from 'rxjs/Observable';
     templateUrl: './trashcan.component.html'
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
+    isSmallScreen = false;
     user$: Observable<ProfileState>;
 
     constructor(content: ContentManagementService,
                 extensions: ExtensionService,
-                store: Store<AppStore>) {
+                store: Store<AppStore>,
+                private breakpointObserver: BreakpointObserver) {
         super(store, extensions, content);
         this.user$ = this.store.select(selectUser);
     }
@@ -53,6 +56,15 @@ export class TrashcanComponent extends PageComponent implements OnInit {
             this.content.nodesRestored.subscribe(() => this.reload()),
             this.content.nodesPurged.subscribe(() => this.reload()),
             this.content.nodesRestored.subscribe(() => this.reload()),
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         );
     }
  }

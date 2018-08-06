@@ -59,6 +59,7 @@
                         </data-column>
 
                         <data-column
+                            *ngIf="!isSmallScreen"
                             key="content.sizeInBytes"
                             title="APP.DOCUMENT_LIST.COLUMNS.SIZE">
                             <ng-template let-value="value">
@@ -67,6 +68,7 @@
                         </data-column>
 
                         <data-column
+                            *ngIf="!isSmallScreen"
                             key="modifiedAt"
                             title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON">
                             <ng-template let-value="value">
@@ -75,6 +77,7 @@
                         </data-column>
 
                         <data-column
+                            *ngIf="!isSmallScreen"
                             class="adf-data-table-cell--ellipsis"
                             key="modifiedByUser.displayName"
                             title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY">

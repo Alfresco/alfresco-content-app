@@ -26,6 +26,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
     MinimalNodeEntity,
     MinimalNodeEntryEntity,
@@ -42,12 +43,15 @@ import { ExtensionService } from '../../extensions/extension.service';
     templateUrl: './favorites.component.html'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
+    isSmallScreen = false;
+
     constructor(
         private router: Router,
         store: Store<AppStore>,
         extensions: ExtensionService,
         private contentApi: ContentApiService,
-        content: ContentManagementService
+        content: ContentManagementService,
+        private breakpointObserver: BreakpointObserver
     ) {
         super(store, extensions, content);
     }
@@ -60,7 +64,16 @@ export class FavoritesComponent extends PageComponent implements OnInit {
             this.content.nodesRestored.subscribe(() => this.reload()),
             this.content.folderEdited.subscribe(() => this.reload()),
             this.content.nodesMoved.subscribe(() => this.reload()),
-            this.content.favoriteRemoved.subscribe(() => this.reload())
+            this.content.favoriteRemoved.subscribe(() => this.reload()),
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         ]);
     }
 

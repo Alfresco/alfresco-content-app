@@ -24,6 +24,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
@@ -35,10 +36,13 @@ import { ExtensionService } from '../../extensions/extension.service';
     templateUrl: './recent-files.component.html'
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
+    isSmallScreen = false;
+
     constructor(
         store: Store<AppStore>,
         extensions: ExtensionService,
-        content: ContentManagementService
+        content: ContentManagementService,
+        private breakpointObserver: BreakpointObserver
     ) {
         super(store, extensions, content);
     }
@@ -49,7 +53,16 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
         this.subscriptions = this.subscriptions.concat([
             this.content.nodesDeleted.subscribe(() => this.reload()),
             this.content.nodesMoved.subscribe(() => this.reload()),
-            this.content.nodesRestored.subscribe(() => this.reload())
+            this.content.nodesRestored.subscribe(() => this.reload()),
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         ]);
     }
 
