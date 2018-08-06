@@ -27,7 +27,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { MatMenuModule, MatListModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { CoreModule } from '@alfresco/adf-core';
-import { CoreExtensionsModule } from '../extensions/core.extensions.module';
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 
 import { ContextActionsDirective } from './context-menu.directive';
 import { ContextMenuService } from './context-menu.service';

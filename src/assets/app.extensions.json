@@ -135,7 +135,6 @@
         "create": [
             {
                 "id": "app.create.folder",
-                "type": "default",
                 "order": 100,
                 "icon": "create_new_folder",
                 "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
@@ -150,7 +149,6 @@
             },
             {
                 "id": "app.create.uploadFile",
-                "type": "default",
                 "order": 200,
                 "icon": "file_upload",
                 "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
@@ -165,7 +163,6 @@
             },
             {
                 "id": "app.create.uploadFolder",
-                "type": "default",
                 "order": 300,
                 "icon": "file_upload",
                 "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
@@ -243,7 +240,6 @@
             "actions": [
                 {
                     "id": "app.toolbar.preview",
-                    "type": "button",
                     "order": 100,
                     "title": "APP.ACTIONS.VIEW",
                     "icon": "open_in_browser",
@@ -256,7 +252,6 @@
                 },
                 {
                     "id": "app.toolbar.download",
-                    "type": "button",
                     "order": 200,
                     "title": "APP.ACTIONS.DOWNLOAD",
                     "icon": "get_app",
@@ -269,7 +264,6 @@
                 },
                 {
                     "id": "app.toolbar.editFolder",
-                    "type": "button",
                     "order": 300,
                     "title": "APP.ACTIONS.EDIT",
                     "icon": "create",
@@ -282,7 +276,6 @@
                 },
                 {
                     "id": "app.toolbar.purgeDeletedNodes",
-                    "type": "button",
                     "order": 400,
                     "title": "APP.ACTIONS.DELETE_PERMANENT",
                     "icon": "delete_forever",
@@ -295,7 +288,6 @@
                 },
                 {
                     "id": "app.toolbar.restoreDeletedNodes",
-                    "type": "button",
                     "order": 500,
                     "title": "APP.ACTIONS.RESTORE",
                     "icon": "restore",
@@ -308,7 +300,6 @@
                 },
                 {
                     "id": "app.toolbar.createLibrary",
-                    "type": "button",
                     "order": 600,
                     "title": "Create Library",
                     "icon": "create_new_folder",
@@ -347,7 +338,6 @@
                         },
                         {
                             "id": "app.toolbar.favorite.add",
-                            "type": "button",
                             "order": 200,
                             "title": "APP.ACTIONS.FAVORITE",
                             "icon": "star_border",
@@ -360,7 +350,6 @@
                         },
                         {
                             "id": "app.toolbar.favorite.remove",
-                            "type": "button",
                             "order": 300,
                             "title": "APP.ACTIONS.FAVORITE",
                             "icon": "star",
@@ -373,7 +362,6 @@
                         },
                         {
                             "id": "app.toolbar.copy",
-                            "type": "button",
                             "order": 400,
                             "title": "APP.ACTIONS.COPY",
                             "icon": "content_copy",
@@ -386,7 +374,6 @@
                         },
                         {
                             "id": "app.toolbar.move",
-                            "type": "button",
                             "order": 500,
                             "title": "APP.ACTIONS.MOVE",
                             "icon": "library_books",
@@ -399,7 +386,6 @@
                         },
                         {
                             "id": "app.toolbar.share",
-                            "type": "button",
                             "order": 600,
                             "title": "APP.ACTIONS.SHARE",
                             "icon": "share",
@@ -412,7 +398,6 @@
                         },
                         {
                             "id": "app.toolbar.unshare",
-                            "type": "button",
                             "order": 700,
                             "title": "APP.ACTIONS.UNSHARE",
                             "icon": "stop_screen_share",
@@ -425,7 +410,6 @@
                         },
                         {
                             "id": "app.toolbar.delete",
-                            "type": "button",
                             "order": 800,
                             "title": "APP.ACTIONS.DELETE",
                             "icon": "delete",
@@ -438,7 +422,6 @@
                         },
                         {
                             "id": "app.toolbar.deleteLibrary",
-                            "type": "button",
                             "order": 900,
                             "title": "APP.ACTIONS.DELETE",
                             "icon": "delete",
@@ -451,7 +434,6 @@
                         },
                         {
                             "id": "app.toolbar.versions",
-                            "type": "button",
                             "order": 1000,
                             "title": "APP.ACTIONS.VERSIONS",
                             "icon": "history",
@@ -464,7 +446,6 @@
                         },
                         {
                             "id": "app.toolbar.permissions",
-                            "type": "button",
                             "order": 1100,
                             "title": "APP.ACTIONS.PERMISSIONS",
                             "icon": "settings_input_component",
@@ -481,7 +462,6 @@
             "contextActions": [
                 {
                     "id": "app.contextmenu.download",
-                    "type": "button",
                     "order": 100,
                     "title": "APP.ACTIONS.DOWNLOAD",
                     "icon": "get_app",
@@ -494,7 +474,6 @@
                 },
                 {
                     "id": "app.contextmenu.preview",
-                    "type": "button",
                     "order": 200,
                     "title": "APP.ACTIONS.VIEW",
                     "icon": "open_in_browser",
@@ -507,7 +486,6 @@
                 },
                 {
                     "id": "app.contextmenu.editFolder",
-                    "type": "button",
                     "order": 300,
                     "title": "APP.ACTIONS.EDIT",
                     "icon": "create",
@@ -520,7 +498,6 @@
                 },
                 {
                     "id": "app.contextmenu.share",
-                    "type": "button",
                     "title": "APP.ACTIONS.SHARE",
                     "order": 400,
                     "icon": "share",
@@ -533,7 +510,6 @@
                 },
                 {
                     "id": "app.contextmenu.favorite.add",
-                    "type": "button",
                     "title": "APP.ACTIONS.FAVORITE",
                     "order": 500,
                     "icon": "star_border",
@@ -546,7 +522,6 @@
                 },
                 {
                     "id": "app.contextmenu.favorite.remove",
-                    "type": "button",
                     "title": "APP.ACTIONS.FAVORITE",
                     "order": 600,
                     "icon": "star",
@@ -559,7 +534,6 @@
                 },
                 {
                     "id": "app.contextmenu.copy",
-                    "type": "button",
                     "title": "APP.ACTIONS.COPY",
                     "order": 700,
                     "icon": "content_copy",
@@ -572,7 +546,6 @@
                 },
                 {
                     "id": "app.contextmenu.move",
-                    "type": "button",
                     "title": "APP.ACTIONS.MOVE",
                     "order": 800,
                     "icon": "library_books",
@@ -585,7 +558,6 @@
                 },
                 {
                     "id": "app.contextmenu.delete",
-                    "type": "button",
                     "title": "APP.ACTIONS.DELETE",
                     "order": 900,
                     "icon": "delete",
@@ -598,7 +570,6 @@
                 },
                 {
                     "id": "app.contextmenu.versions",
-                    "type": "button",
                     "title": "APP.ACTIONS.VERSIONS",
                     "order": 1000,
                     "icon": "history",
@@ -611,7 +582,6 @@
                 },
                 {
                     "id": "app.contextmenu.permissions",
-                    "type": "button",
                     "title": "APP.ACTIONS.PERMISSIONS",
                     "icon": "settings_input_component",
                     "order": 1100,
@@ -624,7 +594,6 @@
                 },
                 {
                     "id": "app.contextmenu.purgeDeletedNodes",
-                    "type": "button",
                     "order": 1200,
                     "title": "APP.ACTIONS.DELETE_PERMANENT",
                     "icon": "delete_forever",
@@ -637,7 +606,6 @@
                 },
                 {
                     "id": "app.contextmenu.restoreDeletedNodes",
-                    "type": "button",
                     "order": 1300,
                     "title": "APP.ACTIONS.RESTORE",
                     "icon": "restore",
@@ -654,7 +622,6 @@
             "actions": [
                 {
                     "id": "app.viewer.favorite.add",
-                    "type": "button",
                     "order": 100,
                     "title": "APP.ACTIONS.FAVORITE",
                     "icon": "star_border",
@@ -667,7 +634,6 @@
                 },
                 {
                     "id": "app.viewer.favorite.remove",
-                    "type": "button",
                     "order": 200,
                     "title": "APP.ACTIONS.FAVORITE",
                     "icon": "star",
@@ -680,7 +646,6 @@
                 },
                 {
                     "id": "app.viewer.share",
-                    "type": "button",
                     "order": 300,
                     "title": "APP.ACTIONS.SHARE",
                     "icon": "share",
@@ -693,7 +658,6 @@
                 },
                 {
                     "id": "app.viewer.copy",
-                    "type": "button",
                     "order": 400,
                     "title": "APP.ACTIONS.COPY",
                     "icon": "content_copy",
@@ -706,7 +670,6 @@
                 },
                 {
                     "id": "app.viewer.move",
-                    "type": "button",
                     "order": 500,
                     "title": "APP.ACTIONS.MOVE",
                     "icon": "library_books",
@@ -719,7 +682,6 @@
                 },
                 {
                     "id": "app.viewer.delete",
-                    "type": "button",
                     "order": 600,
                     "title": "APP.ACTIONS.DELETE",
                     "icon": "delete",
@@ -732,7 +694,6 @@
                 },
                 {
                     "id": "app.viewer.versions",
-                    "type": "button",
                     "order": 700,
                     "title": "APP.ACTIONS.VERSIONS",
                     "icon": "history",
@@ -745,7 +706,6 @@
                 },
                 {
                     "id": "app.viewer.permissions",
-                    "type": "button",
                     "order": 800,
                     "title": "APP.ACTIONS.PERMISSIONS",
                     "icon": "settings_input_component",
