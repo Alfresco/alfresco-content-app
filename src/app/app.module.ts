@@ -76,7 +76,7 @@ import { DirectivesModule } from './directives/directives.module';
 import { ToggleInfoDrawerComponent } from './components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { DocumentDisplayModeComponent } from './components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleFavoriteComponent } from './components/toolbar/toggle-favorite/toggle-favorite.component';
-import { ContextMenuModule } from './context-menu/context-menu.module';
+import { ContextMenuModule } from './components/context-menu/context-menu.module';
 
 export function setupExtensionServiceFactory(service: ExtensionService): Function {
     return () => service.load();

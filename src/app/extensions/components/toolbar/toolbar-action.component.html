@@ -1,4 +1,8 @@
 <ng-container [ngSwitch]="entry.type">
+    <ng-container *ngSwitchCase="'default'">
+        <app-toolbar-button [type]="type" [actionRef]="entry"></app-toolbar-button>
+    </ng-container>
+
     <ng-container *ngSwitchCase="'button'">
         <app-toolbar-button [type]="type" [actionRef]="entry"></app-toolbar-button>
     </ng-container>

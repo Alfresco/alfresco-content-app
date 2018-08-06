@@ -125,7 +125,7 @@ export class ExtensionService implements RuleContext {
         this.routes = this.loadRoutes(config);
         this.contentActions = this.loadContentActions(config);
         this.viewerActions = this.loadViewerActions(config);
-        this.contentContextmenuActions = this.loadContentContextmenuActions(config);
+        this.contentContextmenuActions = this.loadContentContextMenuActions(config);
         this.openWithActions = this.loadViewerOpenWith(config);
         this.createActions = this.loadCreateActions(config);
         this.navbar = this.loadNavBar(config);
@@ -159,26 +159,27 @@ export class ExtensionService implements RuleContext {
 
     protected loadContentActions(config: ExtensionConfig) {
         if (config && config.features && config.features.content) {
-            return (config.features.content.actions || []).sort(
-                this.sortByOrder
-            );
+            return (config.features.content.actions || [])
+                .sort(this.sortByOrder)
+                .map(this.setActionDefaults);
         }
         return [];
     }
 
     protected loadViewerActions(config: ExtensionConfig) {
         if (config && config.features && config.features.viewer) {
-            return (config.features.viewer.actions || []).sort(
-                this.sortByOrder
-            );
+            return (config.features.viewer.actions || [])
+                .sort(this.sortByOrder)
+                .map(this.setActionDefaults);
         }
         return [];
     }
 
-    protected loadContentContextmenuActions(config: ExtensionConfig): Array<ContentActionRef> {
+    protected loadContentContextMenuActions(config: ExtensionConfig): Array<ContentActionRef> {
         if (config && config.features && config.features.content) {
             return (config.features.content.contextActions || [])
-                .sort(this.sortByOrder);
+                .sort(this.sortByOrder)
+                .map(this.setActionDefaults);
         }
         return [];
     }
@@ -349,6 +350,14 @@ export class ExtensionService implements RuleContext {
         return this.contentContextmenuActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action));
+    }
+
+    setActionDefaults(action: ContentActionRef): ContentActionRef {
+        if (action) {
+            action.type = action.type || ContentActionType.default;
+            action.icon = action.icon || 'extension';
+        }
+        return action;
     }
 
     reduceSeparators(
