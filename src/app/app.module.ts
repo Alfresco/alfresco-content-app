@@ -69,7 +69,6 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
 import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
 import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
-import { ViewUtilService} from './services/view-util.service';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
 import { ToggleInfoDrawerComponent } from './components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
@@ -143,8 +142,7 @@ import { ContextMenuModule } from './components/context-menu/context-menu.module
         NodePermissionService,
         ProfileResolver,
         ExperimentalGuard,
-        ContentApiService,
-        ViewUtilService
+        ContentApiService
     ],
     entryComponents: [
         LibraryDialogComponent,
