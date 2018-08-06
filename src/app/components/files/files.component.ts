@@ -35,6 +35,7 @@ import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { SetCurrentFolderAction } from '../../store/actions';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
     templateUrl: './files.component.html'
@@ -42,6 +43,7 @@ import { SetCurrentFolderAction } from '../../store/actions';
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     isValidPath = true;
+    isSmallScreen = false;
 
     private nodePath: PathElement[];
 
@@ -52,7 +54,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
                 content: ContentManagementService,
-                extensions: ExtensionService) {
+                extensions: ExtensionService,
+                private breakpointObserver: BreakpointObserver) {
         super(store, extensions, content);
     }
 
@@ -95,6 +98,15 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
             content.nodesRestored.subscribe(() => this.documentList.reload()),
             uploadService.fileUploadComplete.debounceTime(300).subscribe(file => this.onFileUploadedEvent(file)),
             uploadService.fileUploadDeleted.debounceTime(300).subscribe((file) => this.onFileUploadedEvent(file)),
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         ]);
     }
 

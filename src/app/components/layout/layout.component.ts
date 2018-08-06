@@ -23,24 +23,38 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    OnDestroy,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../services/node-permission.service';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { currentFolder, selectAppName, selectHeaderColor, selectLogoPath } from '../../store/selectors/app.selectors';
+import {
+    currentFolder,
+    selectAppName,
+    selectHeaderColor,
+    selectLogoPath
+} from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-layout',
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    host: { class: 'app-layout' }
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-    @ViewChild(SidenavViewsManagerDirective) manager: SidenavViewsManagerDirective;
+    @ViewChild(SidenavViewsManagerDirective)
+    manager: SidenavViewsManagerDirective;
 
     onDestroy$: Subject<boolean> = new Subject<boolean>();
     expandedSidenav: boolean;
@@ -51,10 +65,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
     headerColor$: Observable<string>;
     logo$: Observable<string>;
 
+    isSmallScreen = false;
+
     constructor(
         protected store: Store<AppStore>,
-        private permission: NodePermissionService) {
-
+        private permission: NodePermissionService,
+        private breakpointObserver: BreakpointObserver
+    ) {
         this.headerColor$ = store.select(selectHeaderColor);
         this.appName$ = store.select(selectAppName);
         this.logo$ = store.select(selectLogoPath);
@@ -69,11 +86,22 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
         this.manager.run(true);
 
-        this.store.select(currentFolder)
+        this.store
+            .select(currentFolder)
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(node => {
                 this.node = node;
-                this.canUpload = node && this.permission.check(node, ['create']);
+                this.canUpload =
+                    node && this.permission.check(node, ['create']);
+            });
+
+        this.breakpointObserver
+            .observe([
+                Breakpoints.HandsetPortrait,
+                Breakpoints.HandsetLandscape
+            ])
+            .subscribe(result => {
+                this.isSmallScreen = result.matches;
             });
     }
 
