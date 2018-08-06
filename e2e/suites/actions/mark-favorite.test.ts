@@ -89,25 +89,25 @@ describe('Mark items as favorites', () => {
             toolbar.actions.closeMoreMenu().then(done);
         });
 
-        it('Favorite action has empty star icon for an item not marked as favorite', () => {
+        it('Favorite action has empty star icon for an item not marked as favorite - [C217186]', () => {
             dataTable.clickOnRowByName(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star_border'));
         });
 
-        it('Favorite action has empty star icon for multiple selection of items when some are not favorite', () => {
+        it('Favorite action has empty star icon for multiple selection of items when some are not favorite - [C217187]', () => {
             dataTable.selectMultipleItems([ file1NotFav, file3Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star_border'));
         });
 
-        it('Favorite action has full star icon for items marked as favorite', () => {
+        it('Favorite action has full star icon for items marked as favorite - [C217188]', () => {
             dataTable.clickOnRowByName(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star'));
         });
 
-        it('favorite a file', () => {
+        it('favorite a file - [C217189]', () => {
             dataTable.clickOnRowByName(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -118,7 +118,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(file1Id));
         });
 
-        it('favorite a folder', () => {
+        it('favorite a folder - [C280390]', () => {
             dataTable.clickOnRowByName(folder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -129,7 +129,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(folder1Id));
         });
 
-        it('unfavorite an item', () => {
+        it('unfavorite an item - [C217190]', () => {
             dataTable.clickOnRowByName(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -140,7 +140,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.addFavoriteById('file', file3Id));
         });
 
-        it('favorite multiple items - all unfavorite', () => {
+        it('favorite multiple items - all unfavorite - [C217192]', () => {
             dataTable.selectMultipleItems([ file1NotFav, file2NotFav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -158,7 +158,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(file2Id));
         });
 
-        it('favorite multiple items - some favorite and some unfavorite', () => {
+        it('favorite multiple items - some favorite and some unfavorite - [C217194]', () => {
             dataTable.selectMultipleItems([ file1NotFav, file3Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -175,7 +175,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(file1Id));
         });
 
-        it('unfavorite multiple items', () => {
+        it('unfavorite multiple items - [C217193]', () => {
             dataTable.selectMultipleItems([ file3Fav, file4Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -205,7 +205,7 @@ describe('Mark items as favorites', () => {
             toolbar.actions.closeMoreMenu().then(done);
         });
 
-        it('favorite a file', () => {
+        it('favorite a file - [C280352]', () => {
             dataTable.clickOnRowByName(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -216,7 +216,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(file1Id));
         });
 
-        it('unfavorite an item', () => {
+        it('unfavorite an item - [C280353]', () => {
             dataTable.clickOnRowByName(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -227,7 +227,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.addFavoriteById('file', file3Id));
         });
 
-        it('favorite multiple items - all unfavorite', () => {
+        it('favorite multiple items - all unfavorite - [C280355]', () => {
             dataTable.selectMultipleItems([ file1NotFav, file2NotFav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -245,7 +245,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(file2Id));
         });
 
-        it('favorite multiple items - some favorite and some unfavorite', () => {
+        it('favorite multiple items - some favorite and some unfavorite - [C280357]', () => {
             dataTable.selectMultipleItems([ file1NotFav, file3Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -262,7 +262,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(file1Id));
         });
 
-        it('unfavorite multiple items', () => {
+        it('unfavorite multiple items - [C280356]', () => {
             dataTable.selectMultipleItems([ file3Fav, file4Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -295,7 +295,7 @@ describe('Mark items as favorites', () => {
             browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform().then(done);
         });
 
-        it('favorite a file', () => {
+        it('favorite a file - [C280362]', () => {
             dataTable.clickOnRowByName(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -306,7 +306,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(file1Id));
         });
 
-        it('unfavorite an item', () => {
+        it('unfavorite an item - [C280363]', () => {
             dataTable.clickOnRowByName(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -317,7 +317,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.addFavoriteById('file', file3Id));
         });
 
-        it('favorite multiple items - all unfavorite', () => {
+        it('favorite multiple items - all unfavorite - [C280365]', () => {
             dataTable.selectMultipleItems([ file1NotFav, file2NotFav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -335,7 +335,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(file2Id));
         });
 
-        it('favorite multiple items - some favorite and some unfavorite', () => {
+        it('favorite multiple items - some favorite and some unfavorite - [C280367]', () => {
             dataTable.selectMultipleItems([ file1NotFav, file3Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -352,7 +352,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.removeFavoriteById(file1Id));
         });
 
-        it('unfavorite multiple items', () => {
+        it('unfavorite multiple items - [C280366]', () => {
             dataTable.selectMultipleItems([ file3Fav, file4Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -382,7 +382,7 @@ describe('Mark items as favorites', () => {
             page.refresh().then(done);
         });
 
-        it('unfavorite an item', () => {
+        it('unfavorite an item - [C280368]', () => {
             dataTable.clickOnRowByName(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -396,7 +396,7 @@ describe('Mark items as favorites', () => {
                 .then(() => apis.user.favorites.addFavoriteById('file', file3Id));
         });
 
-        it('unfavorite multiple items', () => {
+        it('unfavorite multiple items - [C280374]', () => {
             dataTable.selectMultipleItems([ file3Fav, file4Fav ])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
@@ -414,6 +414,12 @@ describe('Mark items as favorites', () => {
 
                 .then(() => apis.user.favorites.addFavoriteById('file', file3Id))
                 .then(() => apis.user.favorites.addFavoriteById('file', file4Id));
+        });
+
+        it('Favorite action has full star icon for items marked as favorite - [C280371]', () => {
+            dataTable.clickOnRowByName(file3Fav)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star'));
         });
     });
 
