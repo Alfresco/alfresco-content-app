@@ -105,6 +105,11 @@
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
+            "stylePreprocessorOptions": {
+                "includePaths": [
+                  "src/app/ui"
+                ]
+            },
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
               "node_modules/pdfjs-dist/build/pdf.js",
