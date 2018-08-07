@@ -25,7 +25,7 @@
 
 
 import { TestBed, fakeAsync } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { of, throwError } from 'rxjs';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Actions, ofType, EffectsModule } from '@ngrx/effects';
 import {
@@ -73,7 +73,7 @@ describe('ContentManagementService', () => {
         dialog = TestBed.get(MatDialog);
         spyOn(dialog, 'open').and.returnValue({
             afterClosed() {
-                return Observable.of(true);
+                return of(true);
             }
         });
     });
@@ -84,7 +84,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies successful copy of a node', () => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.COPY'));
 
             const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
             const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -97,7 +97,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies successful copy of multiple nodes', () => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.COPY'));
 
             const selection = [
                 { entry: { id: 'node-to-copy-1', name: 'name1' } },
@@ -114,7 +114,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies partially copy of one node out of a multiple selection of nodes', () => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.COPY'));
 
             const selection = [
                 { entry: { id: 'node-to-copy-1', name: 'name1' } },
@@ -130,7 +130,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies partially copy of more nodes out of a multiple selection of nodes', () => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.COPY'));
 
             const selection = [
                 { entry: { id: 'node-to-copy-0', name: 'name0' } },
@@ -148,7 +148,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies of failed copy of multiple nodes', () => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.COPY'));
 
             const selection = [
                 { entry: { id: 'node-to-copy-0', name: 'name0' } },
@@ -164,7 +164,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies of failed copy of one node', () => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.COPY'));
 
             const selection = [
                 { entry: { id: 'node-to-copy', name: 'name' } }];
@@ -178,7 +178,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies error if success message was not emitted', () => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of(''));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(of(''));
 
             const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
 
@@ -190,7 +190,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies permission error on copy of node', () => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(throwError(new Error(JSON.stringify({error: {statusCode: 403}}))));
 
             const selection = [{ entry: { id: '1', name: 'name' } }];
             store.dispatch(new CopyNodesAction(selection));
@@ -200,7 +200,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies generic error message on all errors, but 403', () => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 404}}))));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(throwError(new Error(JSON.stringify({error: {statusCode: 404}}))));
 
             const selection = [{ entry: { id: '1', name: 'name' } }];
 
@@ -213,15 +213,15 @@ describe('ContentManagementService', () => {
 
     describe('Undo Copy action', () => {
         beforeEach(() => {
-            spyOn(nodeActions, 'copyNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.COPY'));
+            spyOn(nodeActions, 'copyNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.COPY'));
 
             spyOn(snackBar, 'open').and.returnValue({
-                onAction: () => Observable.of({})
+                onAction: () => of({})
             });
         });
 
         it('should delete the newly created node on Undo action', () => {
-            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
             const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
             const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -236,7 +236,7 @@ describe('ContentManagementService', () => {
         });
 
         it('should delete also the node created inside an already existing folder from destination', () => {
-            const spyOnDeleteNode = spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
+            const spyOnDeleteNode = spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
             const selection = [
                 { entry: { id: 'node-to-copy-1', name: 'name1' } },
@@ -259,7 +259,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies when error occurs on Undo action', () => {
-            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
             const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
             const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -273,7 +273,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies when some error of type Error occurs on Undo action', () => {
-            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(new Error('oops!')));
+            spyOn(contentApi, 'deleteNode').and.returnValue(throwError(new Error('oops!')));
 
             const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
             const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -287,7 +287,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies permission error when it occurs on Undo action', () => {
-            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+            spyOn(contentApi, 'deleteNode').and.returnValue(throwError(new Error(JSON.stringify({error: {statusCode: 403}}))));
 
             const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
             const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
@@ -328,7 +328,7 @@ describe('ContentManagementService', () => {
                 partiallySucceeded: []
             };
 
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.MOVE'));
             spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
             const selection = node;
@@ -350,7 +350,7 @@ describe('ContentManagementService', () => {
                 partiallySucceeded: []
             };
 
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.MOVE'));
             spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
             const selection = nodes;
@@ -370,7 +370,7 @@ describe('ContentManagementService', () => {
                 partiallySucceeded: nodes
             };
 
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.MOVE'));
             spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
             const selection = nodes;
@@ -392,7 +392,7 @@ describe('ContentManagementService', () => {
                 partiallySucceeded: nodes
             };
 
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.MOVE'));
             spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
             const selection = nodes;
@@ -413,7 +413,7 @@ describe('ContentManagementService', () => {
                 partiallySucceeded: []
             };
 
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.MOVE'));
             spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
             store.dispatch(new MoveNodesAction(nodes));
@@ -434,7 +434,7 @@ describe('ContentManagementService', () => {
                 partiallySucceeded: [ nodes[1] ]
             };
 
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.MOVE'));
             spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
             store.dispatch(new MoveNodesAction(nodes));
@@ -453,7 +453,7 @@ describe('ContentManagementService', () => {
                 partiallySucceeded: []
             };
 
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of(''));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(of(''));
 
             store.dispatch(new MoveNodesAction(nodes));
             nodeActions.contentMoved.next(moveResponse);
@@ -463,7 +463,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies permission error on move of node', () => {
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(throwError(new Error(JSON.stringify({error: {statusCode: 403}}))));
 
             const selection = [{ entry: { id: '1', name: 'name' } }];
             store.dispatch(new MoveNodesAction(selection));
@@ -473,7 +473,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies generic error message on all errors, but 403', () => {
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 404}}))));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(throwError(new Error(JSON.stringify({error: {statusCode: 404}}))));
 
             const selection = [{ entry: { id: '1', name: 'name' } }];
             store.dispatch(new MoveNodesAction(selection));
@@ -483,7 +483,7 @@ describe('ContentManagementService', () => {
         });
 
         it('notifies conflict error message on 409', () => {
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 409}}))));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(throwError(new Error(JSON.stringify({error: {statusCode: 409}}))));
 
             const selection = [{ entry: { id: '1', name: 'name' } }];
             store.dispatch(new MoveNodesAction(selection));
@@ -500,7 +500,7 @@ describe('ContentManagementService', () => {
                 partiallySucceeded: []
             };
 
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.MOVE'));
             spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
             store.dispatch(new MoveNodesAction(nodes));
@@ -527,10 +527,10 @@ describe('ContentManagementService', () => {
         });
 
         beforeEach(() => {
-            spyOn(nodeActions, 'moveNodes').and.returnValue(Observable.of('OPERATION.SUCCES.CONTENT.MOVE'));
+            spyOn(nodeActions, 'moveNodes').and.returnValue(of('OPERATION.SUCCES.CONTENT.MOVE'));
 
             spyOn(snackBar, 'open').and.returnValue({
-                onAction: () => Observable.of({})
+                onAction: () => of({})
             });
 
             // spyOn(snackBar, 'open').and.callThrough();
@@ -541,7 +541,7 @@ describe('ContentManagementService', () => {
             const node = { entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent } };
             const selection = [ node ];
 
-            spyOn(nodeActions, 'moveNodeAction').and.returnValue(Observable.of({}));
+            spyOn(nodeActions, 'moveNodeAction').and.returnValue(of({}));
 
             store.dispatch(new MoveNodesAction(selection));
             const movedItems = {
@@ -561,7 +561,7 @@ describe('ContentManagementService', () => {
             const node = { entry: { id: 'node-to-move-id', name: 'name', isFolder: false, parentId: initialParent } };
             const selection = [ node ];
 
-            spyOn(nodeActions, 'moveNodeAction').and.returnValue(Observable.of({}));
+            spyOn(nodeActions, 'moveNodeAction').and.returnValue(of({}));
 
             const movedItems = {
                 failed: [],
@@ -578,7 +578,7 @@ describe('ContentManagementService', () => {
 
         it('should restore deleted folder back to initial parent, after succeeded moving all its files', () => {
             // when folder was deleted after all its children were moved to a folder with the same name from destination
-            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of(null));
+            spyOn(contentApi, 'restoreNode').and.returnValue(of(null));
 
             const initialParent = 'parent-id-0';
             const node = { entry: { id: 'folder-to-move-id', name: 'conflicting-name', parentId: initialParent, isFolder: true } };
@@ -601,7 +601,7 @@ describe('ContentManagementService', () => {
         });
 
         it('should notify when error occurs on Undo Move action', fakeAsync(done => {
-            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(null));
+            spyOn(contentApi, 'restoreNode').and.returnValue(throwError(null));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -629,7 +629,7 @@ describe('ContentManagementService', () => {
         }));
 
         it('should notify when some error of type Error occurs on Undo Move action', fakeAsync(done => {
-            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(new Error('oops!')));
+            spyOn(contentApi, 'restoreNode').and.returnValue(throwError(new Error('oops!')));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -656,7 +656,7 @@ describe('ContentManagementService', () => {
         }));
 
         it('should notify permission error when it occurs on Undo Move action', fakeAsync(done => {
-            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(new Error(JSON.stringify({error: {statusCode: 403}}))));
+            spyOn(contentApi, 'restoreNode').and.returnValue(throwError(new Error(JSON.stringify({error: {statusCode: 403}}))));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -686,7 +686,7 @@ describe('ContentManagementService', () => {
 
     describe('Delete action', () => {
         it('should raise info message on successful single file deletion', fakeAsync(done => {
-            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
             actions$.pipe(
                 ofType<SnackbarInfoAction>(SNACKBAR_INFO),
@@ -701,7 +701,7 @@ describe('ContentManagementService', () => {
         }));
 
         it('should raise error message on failed single file deletion', fakeAsync(done => {
-            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -716,7 +716,7 @@ describe('ContentManagementService', () => {
         }));
 
         it('should raise info message on successful multiple files deletion', fakeAsync(done => {
-            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
             actions$.pipe(
                 ofType<SnackbarInfoAction>(SNACKBAR_INFO),
@@ -734,7 +734,7 @@ describe('ContentManagementService', () => {
         }));
 
         it('should raise error message failed multiple files deletion', fakeAsync(done => {
-            spyOn(contentApi, 'deleteNode').and.returnValue(Observable.throw(null));
+            spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
             actions$.pipe(
                 ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -754,9 +754,9 @@ describe('ContentManagementService', () => {
         it('should raise warning message when only one file is successful', fakeAsync(done => {
             spyOn(contentApi, 'deleteNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Observable.throw(null);
+                    return throwError(null);
                 } else {
-                    return Observable.of(null);
+                    return of(null);
                 }
             });
 
@@ -778,15 +778,15 @@ describe('ContentManagementService', () => {
         it('should raise warning message when some files are successfully deleted', fakeAsync(done => {
             spyOn(contentApi, 'deleteNode').and.callFake((id) => {
                 if (id === '1') {
-                    return Observable.throw(null);
+                    return throwError(null);
                 }
 
                 if (id === '2') {
-                    return Observable.of(null);
+                    return of(null);
                 }
 
                 if (id === '3') {
-                    return Observable.of(null);
+                    return of(null);
                 }
             });
 
@@ -817,7 +817,7 @@ describe('ContentManagementService', () => {
         });
 
         it('call purge nodes if selection is not empty', fakeAsync(() => {
-            spyOn(contentApi, 'purgeDeletedNode').and.returnValue(Observable.of({}));
+            spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
 
             const selection = [ { entry: { id: '1' } } ];
             store.dispatch(new PurgeDeletedNodesAction(selection));
@@ -836,15 +836,15 @@ describe('ContentManagementService', () => {
 
                 spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                     if (id === '1') {
-                        return Observable.of({});
+                        return of({});
                     }
 
                     if (id === '2') {
-                        return Observable.throw({});
+                        return throwError({});
                     }
 
                     if (id === '3') {
-                        return Observable.throw({});
+                        return throwError({});
                     }
                 });
 
@@ -867,19 +867,19 @@ describe('ContentManagementService', () => {
 
                 spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                     if (id === '1') {
-                        return Observable.of({});
+                        return of({});
                     }
 
                     if (id === '2') {
-                        return Observable.throw({});
+                        return throwError({});
                     }
 
                     if (id === '3') {
-                        return Observable.throw({});
+                        return throwError({});
                     }
 
                     if (id === '4') {
-                        return Observable.of({});
+                        return of({});
                     }
                 });
 
@@ -901,7 +901,7 @@ describe('ContentManagementService', () => {
                     })
                 );
 
-                spyOn(contentApi, 'purgeDeletedNode').and.returnValue(Observable.of({}));
+                spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
 
                 const selection = [
                     { entry: { id: '1', name: 'name1' } }
@@ -918,7 +918,7 @@ describe('ContentManagementService', () => {
                     })
                 );
 
-                spyOn(contentApi, 'purgeDeletedNode').and.returnValue(Observable.throw({}));
+                spyOn(contentApi, 'purgeDeletedNode').and.returnValue(throwError({}));
 
                 const selection = [
                     { entry: { id: '1', name: 'name1' } }
@@ -936,11 +936,11 @@ describe('ContentManagementService', () => {
                 );
                 spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                     if (id === '1') {
-                        return Observable.of({});
+                        return of({});
                     }
 
                     if (id === '2') {
-                        return Observable.of({});
+                        return of({});
                     }
                 });
 
@@ -961,11 +961,11 @@ describe('ContentManagementService', () => {
                 );
                 spyOn(contentApi, 'purgeDeletedNode').and.callFake((id) => {
                     if (id === '1') {
-                        return Observable.throw({});
+                        return throwError({});
                     }
 
                     if (id === '2') {
-                        return Observable.throw({});
+                        return throwError({});
                     }
                 });
 
@@ -1000,8 +1000,8 @@ describe('ContentManagementService', () => {
         });
 
         it('call restore nodes if selection has nodes with path', fakeAsync(() => {
-            spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
-            spyOn(contentApi, 'getDeletedNodes').and.returnValue(Observable.of({
+            spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
+            spyOn(contentApi, 'getDeletedNodes').and.returnValue(of({
                 list: { entries: [] }
             }));
 
@@ -1030,8 +1030,8 @@ describe('ContentManagementService', () => {
 
         describe('refresh()', () => {
             it('dispatch event on finish', fakeAsync(done => {
-                spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
-                spyOn(contentApi, 'getDeletedNodes').and.returnValue(Observable.of({
+                spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
+                spyOn(contentApi, 'getDeletedNodes').and.returnValue(of({
                     list: { entries: [] }
                 }));
 
@@ -1061,7 +1061,7 @@ describe('ContentManagementService', () => {
 
         describe('notification', () => {
             beforeEach(() => {
-                spyOn(contentApi, 'getDeletedNodes').and.returnValue(Observable.of({
+                spyOn(contentApi, 'getDeletedNodes').and.returnValue(of({
                     list: { entries: [] }
                 }));
             });
@@ -1076,15 +1076,15 @@ describe('ContentManagementService', () => {
 
                 spyOn(contentApi, 'restoreNode').and.callFake((id) => {
                     if (id === '1') {
-                        return Observable.of({});
+                        return of({});
                     }
 
                     if (id === '2') {
-                        return Observable.throw(error);
+                        return throwError(error);
                     }
 
                     if (id === '3') {
-                        return Observable.throw(error);
+                        return throwError(error);
                     }
                 });
 
@@ -1108,7 +1108,7 @@ describe('ContentManagementService', () => {
 
             it('should raise error message when restored node exist, error 409', fakeAsync(done => {
                 const error = { message: '{ "error": { "statusCode": 409 } }' };
-                spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(error));
+                spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
                 actions$.pipe(
                     ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -1134,7 +1134,7 @@ describe('ContentManagementService', () => {
             it('should raise error message when restored node returns different statusCode', fakeAsync(done => {
                 const error = { message: '{ "error": { "statusCode": 404 } }' };
 
-                spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(error));
+                spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
                 actions$.pipe(
                     ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -1160,7 +1160,7 @@ describe('ContentManagementService', () => {
             it('should raise error message when restored node location is missing', fakeAsync(done => {
                 const error = { message: '{ "error": { } }' };
 
-                spyOn(contentApi, 'restoreNode').and.returnValue(Observable.throw(error));
+                spyOn(contentApi, 'restoreNode').and.returnValue(throwError(error));
 
                 actions$.pipe(
                     ofType<SnackbarErrorAction>(SNACKBAR_ERROR),
@@ -1186,11 +1186,11 @@ describe('ContentManagementService', () => {
             it('should raise info message when restore multiple nodes', fakeAsync(done => {
                 spyOn(contentApi, 'restoreNode').and.callFake((id) => {
                     if (id === '1') {
-                        return Observable.of({});
+                        return of({});
                     }
 
                     if (id === '2') {
-                        return Observable.of({});
+                        return of({});
                     }
                 });
 
@@ -1217,7 +1217,7 @@ describe('ContentManagementService', () => {
             }));
 
             xit('should raise info message when restore selected node', fakeAsync(done => {
-                spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
+                spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
 
                 actions$.pipe(
                     ofType<SnackbarInfoAction>(SNACKBAR_INFO),
@@ -1241,7 +1241,7 @@ describe('ContentManagementService', () => {
             }));
 
             it('navigate to restore selected node location onAction', fakeAsync(done => {
-                spyOn(contentApi, 'restoreNode').and.returnValue(Observable.of({}));
+                spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
 
                 actions$.pipe(
                     ofType<NavigateRouteAction>(NAVIGATE_ROUTE),
