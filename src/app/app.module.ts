@@ -24,7 +24,7 @@
  */
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -69,8 +69,6 @@ import { SearchResultsRowComponent } from './components/search/search-results-ro
 import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
 import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
-import { ViewUtilService} from './services/view-util.service';
-import { ExtensionService } from './extensions/extension.service';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
 import { ToggleInfoDrawerComponent } from './components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
@@ -78,9 +76,6 @@ import { DocumentDisplayModeComponent } from './components/toolbar/document-disp
 import { ToggleFavoriteComponent } from './components/toolbar/toggle-favorite/toggle-favorite.component';
 import { ContextMenuModule } from './components/context-menu/context-menu.module';
 
-export function setupExtensionServiceFactory(service: ExtensionService): Function {
-    return () => service.load();
-}
 @NgModule({
     imports: [
         BrowserModule,
@@ -147,14 +142,7 @@ export function setupExtensionServiceFactory(service: ExtensionService): Functio
         NodePermissionService,
         ProfileResolver,
         ExperimentalGuard,
-        ContentApiService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: setupExtensionServiceFactory,
-            deps: [ExtensionService],
-            multi: true
-        },
-        ViewUtilService
+        ContentApiService
     ],
     entryComponents: [
         LibraryDialogComponent,

@@ -33,8 +33,9 @@ import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
-import { ViewUtilService } from '../../services/view-util.service';
 import { ContentActionRef } from '../../extensions/action.extensions';
+import { ViewUtilService } from './view-util.service';
+
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
