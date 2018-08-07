@@ -38,6 +38,7 @@ import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
+import { map } from 'rxjs/operators';
 
 @Component({
     templateUrl: './favorites.component.html'
@@ -90,7 +91,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         if (isFolder) {
             this.contentApi
                 .getNode(id)
-                .map(node => node.entry)
+                .pipe(map(node => node.entry))
                 .subscribe(({ path }: MinimalNodeEntryEntity) => {
                     const routeUrl = isSitePath(path)
                         ? '/libraries'

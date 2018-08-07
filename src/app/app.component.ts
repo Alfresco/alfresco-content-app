@@ -42,6 +42,7 @@ import {
     SetInitialStateAction
 } from './store/actions';
 import { AppStore, AppState, INITIAL_APP_STATE } from './store/states/app.state';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
@@ -76,7 +77,7 @@ export class AppComponent implements OnInit {
         const { router, pageTitle, route } = this;
 
         router.events
-            .filter(event => event instanceof NavigationEnd)
+            .pipe(filter(event => event instanceof NavigationEnd))
             .subscribe(() => {
                 let currentRoute = route.root;
 

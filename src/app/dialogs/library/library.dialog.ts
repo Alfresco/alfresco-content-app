@@ -22,6 +22,7 @@ import { MatDialogRef } from '@angular/material';
 import { SiteBody, SiteEntry } from 'alfresco-js-api';
 import { ContentApiService } from '../../services/content-api.service';
 import { SiteIdValidator, forbidSpecialCharacters } from './form.validators';
+import { debounceTime } from 'rxjs/operators';
 
 
 @Component({
@@ -67,7 +68,7 @@ export class LibraryDialogComponent implements OnInit {
         this.visibilityOption = this.visibilityOptions[0].value;
 
         this.form.controls['title'].valueChanges
-            .debounceTime(300)
+            .pipe(debounceTime(300))
             .subscribe((titleValue: string) => {
                 if (!titleValue.trim().length) {
                     return;

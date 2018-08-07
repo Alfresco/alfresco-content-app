@@ -35,7 +35,7 @@ import { ExtensionService } from '../../extensions/extension.service';
 import { AppStore, SelectionState } from '../../store/states';
 import { appSelection } from '../../store/selectors/app.selectors';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ContextMenuOverlayRef } from './context-menu-overlay';

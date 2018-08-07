@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subject, Observable } from 'rxjs/Rx';
+import { Subject, Observable, forkJoin, of, zip } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { FolderDialogComponent, ConfirmDialogComponent, ShareDialogComponent } from '@alfresco/adf-content-services';
@@ -48,6 +48,7 @@ import { NodeActionsService } from './node-actions.service';
 import { TranslationService } from '@alfresco/adf-core';
 import { NodePermissionsDialogComponent } from '../dialogs/node-permissions/node-permissions.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
+import { take, map, tap, mergeMap, catchError } from 'rxjs/operators';
 
 interface RestoredNode {
     status: number;
@@ -158,7 +159,7 @@ export class ContentManagementService {
 
             this.store
                 .select(sharedUrl)
-                .take(1)
+                .pipe(take(1))
                 .subscribe(baseShareUrl => {
                     this.dialogRef.open(ShareDialogComponent, {
                         width: '600px',
@@ -314,11 +315,13 @@ export class ContentManagementService {
 
         let status: DeleteStatus;
 
-        Observable.forkJoin(nodesWithPath.map(node => this.restoreNode(node)))
-            .do(restoredNodes => {
-                status = this.processStatus(restoredNodes);
-            })
-            .flatMap(() => this.contentApi.getDeletedNodes())
+        forkJoin(nodesWithPath.map(node => this.restoreNode(node)))
+            .pipe(
+                tap(restoredNodes => {
+                    status = this.processStatus(restoredNodes);
+                }),
+                mergeMap(() => this.contentApi.getDeletedNodes())
+            )
             .subscribe((nodes: DeletedNodesPaging) => {
                 const selectedNodes = this.diff(status.fail, selection, false);
                 const remainingNodes = this.diff(
@@ -336,7 +339,7 @@ export class ContentManagementService {
     }
 
     copyNodes(nodes: Array<MinimalNodeEntity>) {
-        Observable.zip(
+        zip(
             this.nodeActionsService.copyNodes(nodes),
             this.nodeActionsService.contentCopied
         ).subscribe(
@@ -420,7 +423,7 @@ export class ContentManagementService {
                 this.contentApi.deleteNode(item.entry.id, { permanent: true })
             );
 
-        Observable.forkJoin(...batch).subscribe(
+        forkJoin(...batch).subscribe(
             () => {
                 this.nodesDeleted.next(null);
             },
@@ -448,7 +451,7 @@ export class ContentManagementService {
     moveNodes(nodes: Array<MinimalNodeEntity>) {
         const permissionForMove = '!';
 
-        Observable.zip(
+        zip(
             this.nodeActionsService.moveNodes(nodes, permissionForMove),
             this.nodeActionsService.contentMoved
         ).subscribe(
@@ -472,11 +475,11 @@ export class ContentManagementService {
             .map((folderEntry) => {
                 return this.contentApi
                     .restoreNode(folderEntry.nodeId || folderEntry.id)
-                    .map(node => node.entry);
+                    .pipe(map(node => node.entry));
             });
 
-        Observable.zip(...restoreDeletedNodesBatch, Observable.of(null))
-            .flatMap(() => {
+        zip(...restoreDeletedNodesBatch, of(null))
+            .pipe(mergeMap(() => {
 
                 const nodesToBeMovedBack = [...partiallyMovedNodes, ...movedNodes];
 
@@ -491,8 +494,8 @@ export class ContentManagementService {
                         }
                     });
 
-                return Observable.zip(...revertMoveBatch, Observable.of(null));
-            })
+                return zip(...revertMoveBatch, of(null));
+            }))
             .subscribe(
                 () => {
                     this.nodesMoved.next(null);
@@ -521,7 +524,7 @@ export class ContentManagementService {
             batch.push(this.deleteNode(node));
         });
 
-        Observable.forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
+        forkJoin(...batch).subscribe((data: DeletedNodeInfo[]) => {
             const status = this.processStatus(data);
             const message = this.getDeleteMessage(status);
 
@@ -548,7 +551,7 @@ export class ContentManagementService {
             batch.push(this.undoDeleteNode(item));
         });
 
-        Observable.forkJoin(...batch).subscribe(data => {
+        forkJoin(...batch).subscribe(data => {
             const processedData = this.processStatus(data);
 
             if (processedData.fail.length) {
@@ -567,20 +570,22 @@ export class ContentManagementService {
 
         return this.contentApi
             .restoreNode(id)
-            .map(() => {
-                return {
-                    id,
-                    name,
-                    status: 1
-                };
-            })
-            .catch((error: any) => {
-                return Observable.of({
-                    id,
-                    name,
-                    status: 0
-                });
-            });
+            .pipe(
+                map(() => {
+                    return {
+                        id,
+                        name,
+                        status: 1
+                    };
+                }),
+                catchError(() => {
+                    return of({
+                        id,
+                        name,
+                        status: 0
+                    });
+                })
+            );
     }
 
     private getUndoDeleteMessage(status: DeleteStatus): SnackbarAction {
@@ -604,19 +609,21 @@ export class ContentManagementService {
         const { entry } = node;
 
         return this.contentApi.restoreNode(entry.id)
-            .map(() => ({
-                status: 1,
-                entry
-            }))
-            .catch(error => {
-                const { statusCode } = JSON.parse(error.message).error;
-
-                return Observable.of({
-                    status: 0,
-                    statusCode,
+            .pipe(
+                map(() => ({
+                    status: 1,
                     entry
-                });
-            });
+                })),
+                catchError(error => {
+                    const { statusCode } = JSON.parse(error.message).error;
+
+                    return of({
+                        status: 0,
+                        statusCode,
+                        entry
+                    });
+                })
+            );
     }
 
     private purgeNodes(selection: NodeInfo[] = []) {
@@ -626,7 +633,7 @@ export class ContentManagementService {
 
         const batch = selection.map(node => this.purgeDeletedNode(node));
 
-        Observable.forkJoin(batch).subscribe(purgedNodes => {
+        forkJoin(batch).subscribe(purgedNodes => {
             const status = this.processStatus(purgedNodes);
 
             if (status.success.length) {
@@ -644,18 +651,20 @@ export class ContentManagementService {
 
         return this.contentApi
             .purgeDeletedNode(id)
-            .map(() => ({
-                status: 1,
-                id,
-                name
-            }))
-            .catch(error => {
-                return Observable.of({
-                    status: 0,
+            .pipe(
+                map(() => ({
+                    status: 1,
                     id,
                     name
-                });
-            });
+                })),
+                catchError(() => {
+                    return of({
+                        status: 0,
+                        id,
+                        name
+                    });
+                })
+            );
     }
 
     private processStatus(data: Array<{ status: number }> = []): DeleteStatus {
@@ -839,20 +848,22 @@ export class ContentManagementService {
 
         return this.contentApi
             .deleteNode(id)
-            .map(() => {
-                return {
-                    id,
-                    name,
-                    status: 1
-                };
-            })
-            .catch(() => {
-                return Observable.of({
-                    id,
-                    name,
-                    status: 0
-                });
-            });
+            .pipe(
+                map(() => {
+                    return {
+                        id,
+                        name,
+                        status: 1
+                    };
+                }),
+                catchError(() => {
+                    return of({
+                        id,
+                        name,
+                        status: 0
+                    });
+                })
+            );
     }
 
     private getDeleteMessage(status: DeleteStatus): SnackbarAction {

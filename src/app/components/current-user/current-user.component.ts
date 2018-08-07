@@ -25,7 +25,7 @@
 
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { selectUser, appLanguagePicker } from '../../store/selectors/app.selectors';
 import { AppStore, ProfileState } from '../../store/states';
 

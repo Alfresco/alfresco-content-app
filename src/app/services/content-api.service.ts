@@ -25,7 +25,7 @@
 
 import { Injectable } from '@angular/core';
 import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import {
     MinimalNodeEntity,
     NodePaging,
@@ -60,9 +60,7 @@ export class ContentApiService {
         nodeId: string,
         options: { permanent?: boolean } = {}
     ): Observable<void> {
-        return Observable.fromPromise(
-            this.api.nodesApi.deleteNode(nodeId, options)
-        );
+        return from(this.api.nodesApi.deleteNode(nodeId, options));
     }
 
     /**
@@ -82,9 +80,7 @@ export class ContentApiService {
         };
         const queryOptions = Object.assign(defaults, options);
 
-        return Observable.fromPromise(
-            this.api.nodesApi.getNode(nodeId, queryOptions)
-        );
+        return from(this.api.nodesApi.getNode(nodeId, queryOptions));
     }
 
     getNodeInfo(nodeId: string, options: any = {}): Observable<Node> {
@@ -93,9 +89,7 @@ export class ContentApiService {
         };
         const queryOptions = Object.assign(defaults, options);
 
-        return Observable.fromPromise(
-            this.api.nodesApi.getNodeInfo(nodeId, queryOptions)
-        );
+        return from(this.api.nodesApi.getNodeInfo(nodeId, queryOptions));
     }
 
     /**
@@ -118,15 +112,11 @@ export class ContentApiService {
         };
         const queryOptions = Object.assign(defaults, options);
 
-        return Observable.fromPromise(
-            this.api.nodesApi.getNodeChildren(nodeId, queryOptions)
-        );
+        return from(this.api.nodesApi.getNodeChildren(nodeId, queryOptions));
     }
 
     deleteSharedLink(linkId: string): Observable<any> {
-        return Observable.fromPromise(
-            this.api.sharedLinksApi.deleteSharedLink(linkId)
-        );
+        return from(this.api.sharedLinksApi.deleteSharedLink(linkId));
     }
 
     getDeletedNodes(options: any = {}): Observable<DeletedNodesPaging> {
@@ -135,19 +125,15 @@ export class ContentApiService {
         };
         const queryOptions = Object.assign(defaults, options);
 
-        return Observable.fromPromise(
-            this.api.nodesApi.getDeletedNodes(queryOptions)
-        );
+        return from(this.api.nodesApi.getDeletedNodes(queryOptions));
     }
 
     restoreNode(nodeId: string): Observable<MinimalNodeEntity> {
-        return Observable.fromPromise(this.api.nodesApi.restoreNode(nodeId));
+        return from(this.api.nodesApi.restoreNode(nodeId));
     }
 
     purgeDeletedNode(nodeId: string): Observable<any> {
-        return Observable.fromPromise(
-            this.api.nodesApi.purgeDeletedNode(nodeId)
-        );
+        return from(this.api.nodesApi.purgeDeletedNode(nodeId));
     }
 
     /**
@@ -159,9 +145,7 @@ export class ContentApiService {
         personId: string,
         options?: { fields?: Array<string> }
     ): Observable<PersonEntry> {
-        return Observable.fromPromise(
-            this.api.peopleApi.getPerson(personId, options)
-        );
+        return from(this.api.peopleApi.getPerson(personId, options));
     }
 
     /**
@@ -177,7 +161,7 @@ export class ContentApiService {
         name?: string,
         opts?: { include?: Array<string>; fields?: Array<string> }
     ): Observable<NodeEntry> {
-        return Observable.fromPromise(
+        return from(
             this.api.nodesApi.copyNode(nodeId, { targetParentId, name }, opts)
         );
     }
@@ -187,7 +171,7 @@ export class ContentApiService {
      * @returns ProductVersionModel containing product details
      */
     getRepositoryInformation(): Observable<DiscoveryEntry> {
-        return Observable.fromPromise(
+        return from(
             this.api
                 .getInstance()
                 .discovery.discoveryApi.getRepositoryInformation()
@@ -203,45 +187,44 @@ export class ContentApiService {
             fields?: Array<string>;
         }
     ): Observable<FavoritePaging> {
-        return Observable.fromPromise(
-            this.api.favoritesApi.getFavorites(personId, opts)
-        );
+        return from(this.api.favoritesApi.getFavorites(personId, opts));
     }
 
     findSharedLinks(opts?: any): Observable<SharedLinkPaging> {
-        return Observable.fromPromise(
-            this.api.sharedLinksApi.findSharedLinks(opts)
-        );
+        return from(this.api.sharedLinksApi.findSharedLinks(opts));
     }
 
     search(request: SearchRequest): Observable<ResultSetPaging> {
-        return Observable.fromPromise(
-            this.api.searchApi.search(request)
-        );
+        return from(this.api.searchApi.search(request));
     }
 
     getContentUrl(nodeId: string, attachment?: boolean): string {
         return this.api.contentApi.getContentUrl(nodeId, attachment);
     }
 
-    deleteSite(siteId?: string, opts?: { permanent?: boolean }): Observable<any> {
-        return Observable.fromPromise(
-            this.api.sitesApi.deleteSite(siteId, opts)
-        );
+    deleteSite(
+        siteId?: string,
+        opts?: { permanent?: boolean }
+    ): Observable<any> {
+        return from(this.api.sitesApi.deleteSite(siteId, opts));
     }
 
     createSite(
         siteBody: SiteBody,
-        opts?: {fields?: Array<string>, skipConfiguration?: boolean, skipAddToFavorites?: boolean}): Observable<SiteEntry> {
-        return Observable.fromPromise(
-            this.api.sitesApi.createSite(siteBody, opts)
-        );
+        opts?: {
+            fields?: Array<string>;
+            skipConfiguration?: boolean;
+            skipAddToFavorites?: boolean;
+        }
+    ): Observable<SiteEntry> {
+        return from(this.api.sitesApi.createSite(siteBody, opts));
     }
 
-    getSite(siteId?: string, opts?: { relations?: Array<string>, fields?: Array<string> }): Observable<SiteEntry> {
-        return Observable.fromPromise(
-            this.api.sitesApi.getSite(siteId, opts)
-        );
+    getSite(
+        siteId?: string,
+        opts?: { relations?: Array<string>; fields?: Array<string> }
+    ): Observable<SiteEntry> {
+        return from(this.api.sitesApi.getSite(siteId, opts));
     }
 
     addFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
@@ -260,13 +243,17 @@ export class ContentApiService {
             };
         });
 
-        return Observable.from(this.api.favoritesApi.addFavorite('-me-', <any>payload));
+        return from(this.api.favoritesApi.addFavorite('-me-', <any>payload));
     }
 
     removeFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
-        return Observable.from(Promise.all(nodes.map(node => {
-            const id = node.entry.nodeId || node.entry.id;
-            return this.api.favoritesApi.removeFavoriteSite('-me-', id);
-        })));
+        return from(
+            Promise.all(
+                nodes.map(node => {
+                    const id = node.entry.nodeId || node.entry.id;
+                    return this.api.favoritesApi.removeFavoriteSite('-me-', id);
+                })
+            )
+        );
     }
 }

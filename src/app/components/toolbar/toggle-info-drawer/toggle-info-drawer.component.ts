@@ -24,7 +24,7 @@
  */
 
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
 import { infoDrawerOpened } from '../../../store/selectors/app.selectors';

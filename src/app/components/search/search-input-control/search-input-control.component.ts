@@ -28,9 +28,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output,
     QueryList, ViewEncapsulation, ViewChild, ViewChildren, ElementRef, TemplateRef, ContentChild } from '@angular/core';
 import { MinimalNodeEntity, QueryBody } from 'alfresco-js-api';
-import { Observable ,  Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatListItem } from '@angular/material';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, filter } from 'rxjs/operators';
 import { EmptySearchResultComponent, SearchComponent } from '@alfresco/adf-content-services';
 
 @Component({
@@ -248,11 +248,12 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
     }
 
     private setupFocusEventHandlers() {
-        const focusEvents: Observable<FocusEvent> = this.focusSubject.asObservable()
-            .debounceTime(50);
-        focusEvents.filter(($event: any) => {
-            return this.isSearchBarActive() && ($event.type === 'blur' || $event.type === 'focusout');
-        }).subscribe(() => {
+        this.focusSubject.pipe(
+            debounceTime(50),
+            filter(($event: any) => {
+                return this.isSearchBarActive() && ($event.type === 'blur' || $event.type === 'focusout');
+            })
+        ).subscribe(() => {
             this.toggleSearchBar();
         });
     }

@@ -27,7 +27,7 @@ import { Directive, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
 import { SetSelectedNodesAction } from '../store/actions';

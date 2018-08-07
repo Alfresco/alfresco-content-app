@@ -28,7 +28,7 @@ import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { takeUntil } from 'rxjs/operators';
-import { Subject, Subscription ,  Observable } from 'rxjs/Rx';
+import { Subject, Subscription ,  Observable } from 'rxjs';
 import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
 import { appSelection, sharedUrl, currentFolder, infoDrawerOpened, documentDisplayMode } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';

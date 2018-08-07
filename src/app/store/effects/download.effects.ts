@@ -27,7 +27,7 @@ import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
 import { NodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
@@ -54,7 +54,7 @@ export class DownloadEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && !selection.isEmpty) {
                             this.downloadNodes(selection.nodes);

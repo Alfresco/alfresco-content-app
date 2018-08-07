@@ -28,7 +28,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { UploadFilesAction, UPLOAD_FILES } from '../actions';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { FileUtils, FileModel, UploadService } from '@alfresco/adf-core';
 import { currentFolder } from '../selectors/app.selectors';
 import { UploadFolderAction, UPLOAD_FOLDER } from '../actions/upload.actions';
@@ -85,7 +85,7 @@ export class UploadEffects {
     private upload(event: any): void {
         this.store
             .select(currentFolder)
-            .take(1)
+            .pipe(take(1))
             .subscribe(node => {
                 if (node && node.id) {
                     const input = <HTMLInputElement>event.currentTarget;
