@@ -41,7 +41,7 @@ import { ContentApiService } from '../../services/content-api.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { of, throwError } from 'rxjs';
 
-xdescribe('FilesComponent', () => {
+describe('FilesComponent', () => {
     let node;
     let fixture: ComponentFixture<FilesComponent>;
     let component: FilesComponent;
@@ -50,11 +50,6 @@ xdescribe('FilesComponent', () => {
     let router: Router;
     let nodeActionsService: NodeActionsService;
     let contentApi: ContentApiService;
-
-    beforeAll(() => {
-        // testing only functional-wise not time-wise
-        // Observable.prototype.debounceTime = function () { return this; };
-    });
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -199,41 +194,49 @@ xdescribe('FilesComponent', () => {
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('should call refresh on fileUploadComplete event if parent node match', () => {
+        it('should call refresh on fileUploadComplete event if parent node match', fakeAsync(() => {
             const file = { file: { options: { parentId: 'parentId' } } };
             component.node = { id: 'parentId' };
 
             uploadService.fileUploadComplete.next(<any>file);
 
-            expect(component.documentList.reload).toHaveBeenCalled();
-        });
+            tick(500);
 
-        it('should not call refresh on fileUploadComplete event if parent mismatch', () => {
+            expect(component.documentList.reload).toHaveBeenCalled();
+        }));
+
+        it('should not call refresh on fileUploadComplete event if parent mismatch', fakeAsync(() => {
             const file = { file: { options: { parentId: 'otherId' } } };
             component.node = { id: 'parentId' };
 
             uploadService.fileUploadComplete.next(<any>file);
 
-            expect(component.documentList.reload).not.toHaveBeenCalled();
-        });
+            tick(500);
 
-        it('should call refresh on fileUploadDeleted event if parent node match', () => {
+            expect(component.documentList.reload).not.toHaveBeenCalled();
+        }));
+
+        it('should call refresh on fileUploadDeleted event if parent node match', fakeAsync(() => {
             const file = { file: { options: { parentId: 'parentId' } } };
             component.node = { id: 'parentId' };
 
             uploadService.fileUploadDeleted.next(<any>file);
 
-            expect(component.documentList.reload).toHaveBeenCalled();
-        });
+            tick(500);
 
-        it('should not call refresh on fileUploadDeleted event if parent mismatch', () => {
+            expect(component.documentList.reload).toHaveBeenCalled();
+        }));
+
+        it('should not call refresh on fileUploadDeleted event if parent mismatch', fakeAsync(() => {
             const file: any = { file: { options: { parentId: 'otherId' } } };
             component.node = { id: 'parentId' };
 
             uploadService.fileUploadDeleted.next(file);
 
+            tick(500);
+
             expect(component.documentList.reload).not.toHaveBeenCalled();
-        });
+        }));
     });
 
 

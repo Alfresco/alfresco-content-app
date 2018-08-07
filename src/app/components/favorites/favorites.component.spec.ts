@@ -39,7 +39,7 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 
-xdescribe('FavoritesComponent', () => {
+describe('FavoritesComponent', () => {
     let fixture: ComponentFixture<FavoritesComponent>;
     let component: FavoritesComponent;
     let alfrescoApi: AlfrescoApiService;
@@ -48,11 +48,6 @@ xdescribe('FavoritesComponent', () => {
     let router: Router;
     let page;
     let node;
-
-    beforeAll(() => {
-        // testing only functional-wise not time-wise
-        // Observable.prototype.debounceTime = function () { return this; };
-    });
 
     beforeEach(() => {
         page = {
