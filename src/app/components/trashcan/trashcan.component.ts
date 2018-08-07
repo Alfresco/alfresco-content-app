@@ -32,7 +32,7 @@ import { selectUser } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states/app.state';
 import { ProfileState } from '../../store/states/profile.state';
 import { ExtensionService } from '../../extensions/extension.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
     templateUrl: './trashcan.component.html'

@@ -28,8 +28,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output,
     QueryList, ViewEncapsulation, ViewChild, ViewChildren, ElementRef, TemplateRef, ContentChild } from '@angular/core';
 import { MinimalNodeEntity, QueryBody } from 'alfresco-js-api';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable ,  Subject } from 'rxjs';
 import { MatListItem } from '@angular/material';
 import { debounceTime } from 'rxjs/operators';
 import { EmptySearchResultComponent, SearchComponent } from '@alfresco/adf-content-services';

@@ -25,7 +25,7 @@
 
 import { Injectable } from '@angular/core';
 import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import {
     MinimalNodeEntity,
     NodePaging,
