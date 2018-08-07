@@ -62,9 +62,7 @@ export const APP_ROUTES: Routes = [
     {
         path: 'preview/s/:id',
         component: SharedLinkViewComponent,
-        canActivate: [ ExperimentalGuard ],
         data: {
-            ifExperimentalKey: 'share',
             title: 'APP.PREVIEW.TITLE',
         }
     },
