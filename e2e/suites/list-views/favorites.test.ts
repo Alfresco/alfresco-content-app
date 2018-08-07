@@ -98,7 +98,7 @@ describe('Favorites', () => {
         done();
     });
 
-    it('has the correct columns', async () => {
+    it('has the correct columns - [C280482]', async () => {
         const labels = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
         const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
@@ -109,49 +109,49 @@ describe('Favorites', () => {
         });
     });
 
-    it('displays the favorite files and folders [C213226]', async () => {
+    it('displays the favorite files and folders - [C213226]', async () => {
         expect(await dataTable.countRows()).toEqual(4, 'Incorrect number of items displayed');
         expect(await dataTable.getRowByName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
         expect(await dataTable.getRowByName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
         expect(await dataTable.getRowByName(favFolderName).isPresent()).toBe(true, `${favFolderName} not displayed`);
     });
 
-    it(`file not displayed if it's in the Trashcan [C213228]`, async () => {
+    it(`deleted favorite file does not appear - [C213228]`, async () => {
         expect(await dataTable.getRowByName(fileName3).isPresent()).not.toBe(true, `${fileName3} is displayed`);
     });
 
-    it(`file is displayed after it is restored from Trashcan [C213229]`, async () => {
+    it(`file is displayed after it is restored from Trashcan - [C213229]`, async () => {
         expect(await dataTable.getRowByName(fileName4).isPresent()).toBe(true, `${fileName4} not displayed`);
     });
 
-    it('Location column displays the parent folder of the files [C213231]', async () => {
+    it('Location column displays the parent folder of the files - [C213231]', async () => {
         expect(await dataTable.getItemLocation(fileName1).getText()).toEqual(siteName);
         expect(await dataTable.getItemLocation(fileName2).getText()).toEqual(parentFolder);
         expect(await dataTable.getItemLocation(favFolderName).getText()).toEqual('Personal Files');
     });
 
-    it('Location column displays a tooltip with the entire path of the file [C213671]', async () => {
+    it('Location column displays a tooltip with the entire path of the file - [C213671]', async () => {
         expect(dataTable.getItemLocationTileAttr(fileName1)).toEqual(`File Libraries/${siteName}`);
         expect(dataTable.getItemLocationTileAttr(fileName2)).toEqual(`Personal Files/${parentFolder}`);
         expect(dataTable.getItemLocationTileAttr(favFolderName)).toEqual('Personal Files');
     });
 
-    it('Location column redirect - item in user Home [C213650] [C260968]', async () => {
+    it('Location column redirect - item in user Home - [C213650]', async () => {
         await dataTable.clickItemLocation(favFolderName);
         expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
     });
 
-    it('Location column redirect - file in folder [C213650] [C260968]', async () => {
+    it('Location column redirect - file in folder - [C280484]', async () => {
         await dataTable.clickItemLocation(fileName2);
         expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', parentFolder ]);
     });
 
-    it('Location column redirect - file in site [C213650] [C260969]', async () => {
+    it('Location column redirect - file in site - [C280485]', async () => {
         await dataTable.clickItemLocation(fileName1);
         expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
     });
 
-    it('Navigate into folder from Favorites [C213230]', async () => {
+    it('Navigate into folder from Favorites - [C213230]', async () => {
         await dataTable.doubleClickOnRowByName(favFolderName);
         await dataTable.waitForEmptyState();
         expect(await breadcrumb.getCurrentItemName()).toBe(favFolderName);

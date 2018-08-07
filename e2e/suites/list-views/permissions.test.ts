@@ -83,7 +83,7 @@ describe('Special permissions', () => {
             .then(done);
         });
 
-        it('on Recent Files [C213173]', () => {
+        it('on Recent Files - [C213173]', () => {
             recentFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -96,7 +96,7 @@ describe('Special permissions', () => {
                 });
         });
 
-        it('on Favorites [C213227]', () => {
+        it('on Favorites - [C213227]', () => {
             favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -109,7 +109,7 @@ describe('Special permissions', () => {
                 });
         });
 
-        it('on Shared Files [C213116]', () => {
+        it('on Shared Files - [C213116]', () => {
             sharedPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -151,7 +151,7 @@ describe('Special permissions', () => {
             .then(done);
         });
 
-        it(`on Recent Files [C213178]`, () => {
+        it(`on Recent Files - [C213178]`, () => {
             recentFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -160,7 +160,7 @@ describe('Special permissions', () => {
                 });
         });
 
-        it(`on Favorites [C213672]`, () => {
+        it(`on Favorites - [C213672]`, () => {
             favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -169,7 +169,7 @@ describe('Special permissions', () => {
                 });
         });
 
-        it(`on Shared Files [C213668]`, () => {
+        it(`on Shared Files - [C213668]`, () => {
             sharedPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {

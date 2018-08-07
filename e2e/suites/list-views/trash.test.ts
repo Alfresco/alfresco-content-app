@@ -41,6 +41,12 @@ describe('Trash', () => {
     const folderUser = `folder-${Utils.random()}`; let folderUserId;
     const fileUser = `file-${Utils.random()}.txt`; let fileUserId;
 
+    const folderDeleted = `folder-${Utils.random()}`; let folderDeletedId;
+    const fileDeleted = `file-${Utils.random()}.txt`; let fileDeletedId;
+
+    const folderNotDeleted = `folder-${Utils.random()}`; let folderNotDeletedId;
+    const fileInFolder = `file-${Utils.random()}.txt`; let fileInFolderId;
+
     const apis = {
         admin: new RepoClient(),
         user: new RepoClient(username, username)
@@ -62,9 +68,15 @@ describe('Trash', () => {
                 .then(resp => fileSiteId = resp.data.entry.id))
             .then(() => apis.user.nodes.createFiles([ fileUser ]).then(resp => fileUserId = resp.data.entry.id))
             .then(() => apis.user.nodes.createFolders([ folderUser ]).then(resp => folderUserId = resp.data.entry.id))
+            .then(() => apis.user.nodes.createFolder(folderDeleted).then(resp => folderDeletedId = resp.data.entry.id))
+            .then(() => apis.user.nodes.createFiles([ fileDeleted ], folderDeleted).then(resp => fileDeletedId = resp.data.entry.id))
+            .then(() => apis.user.nodes.createFolder(folderNotDeleted).then(resp => folderNotDeletedId = resp.data.entry.id))
+            .then(() => apis.user.nodes.createFiles([ fileInFolder ], folderNotDeleted).then(resp => fileInFolderId = resp.data.entry.id))
 
             .then(() => apis.admin.nodes.deleteNodesById([ fileAdminId, folderAdminId ], false))
-            .then(() => apis.user.nodes.deleteNodesById([ fileSiteId, fileUserId, folderUserId ], false))
+            .then(() => apis.user.nodes.deleteNodesById([ fileSiteId, fileUserId, folderUserId, fileInFolderId ], false))
+            .then(() => apis.user.nodes.deleteNodeById(fileDeletedId, false))
+            .then(() => apis.user.nodes.deleteNodeById(folderDeletedId, false))
 
             .then(done);
     });
@@ -72,6 +84,7 @@ describe('Trash', () => {
     afterAll(done => {
         Promise.all([
             apis.admin.sites.deleteSite(siteName),
+            apis.user.nodes.deleteNodeById(folderNotDeletedId),
             apis.admin.trashcan.emptyTrash()
         ])
         .then(done);
@@ -94,7 +107,7 @@ describe('Trash', () => {
             logoutPage.load().then(done);
         });
 
-        it('has the correct columns', () => {
+        it('has the correct columns - [C213217]', () => {
             const labels = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
             const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
@@ -105,8 +118,8 @@ describe('Trash', () => {
             });
         });
 
-        it('displays the files and folders deleted by everyone [C213217]', () => {
-            expect(dataTable.countRows()).toEqual(5, 'Incorrect number of deleted items displayed');
+        it('displays the files and folders deleted by everyone - [C280493]', () => {
+            expect(dataTable.countRows()).toEqual(8, 'Incorrect number of deleted items displayed');
 
             expect(dataTable.getRowByName(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
             expect(dataTable.getRowByName(folderAdmin).isPresent()).toBe(true, `${folderAdmin} not displayed`);
@@ -131,7 +144,7 @@ describe('Trash', () => {
             logoutPage.load().then(done);
         });
 
-        it('has the correct columns', () => {
+        it('has the correct columns - [C280494]', () => {
             const labels = [ 'Name', 'Location', 'Size', 'Deleted'];
             const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
@@ -142,8 +155,8 @@ describe('Trash', () => {
             });
         });
 
-        it('displays the files and folders deleted by the user [C213218]', () => {
-            expect(dataTable.countRows()).toEqual(3, 'Incorrect number of deleted items displayed');
+        it('displays the files and folders deleted by the user - [C213218]', () => {
+            expect(dataTable.countRows()).toEqual(6, 'Incorrect number of deleted items displayed');
 
             expect(dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
             expect(dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
@@ -151,17 +164,38 @@ describe('Trash', () => {
             expect(dataTable.getRowByName(fileAdmin).isPresent()).toBe(false, `${fileAdmin} is displayed`);
         });
 
-        it('default sorting column [C213219]', () => {
+        it('default sorting column - [C213219]', () => {
             expect(dataTable.getSortedColumnHeader().getText()).toBe('Deleted');
             expect(dataTable.getSortingOrder()).toBe('desc');
         });
 
-        it('Location column redirect - file in user Home [C217144] [C260968]', () => {
+        it('Location column displays the parent folder of the file - [C280498]', () => {
+            expect(dataTable.getItemLocation(fileInFolder).getText()).toEqual(folderNotDeleted);
+            expect(dataTable.getItemLocation(fileUser).getText()).toEqual('Personal Files');
+            expect(dataTable.getItemLocation(fileSite).getText()).toEqual(siteName);
+        });
+
+        it('Location column displays a tooltip with the entire path of the file - [C280499]', () => {
+            expect(dataTable.getItemLocationTileAttr(fileInFolder)).toEqual(`Personal Files/${folderNotDeleted}`);
+            expect(dataTable.getItemLocationTileAttr(fileUser)).toEqual('Personal Files');
+            expect(dataTable.getItemLocationTileAttr(fileSite)).toEqual(`File Libraries/${siteName}`);
+        });
+
+        it('Location column is empty if parent folder no longer exists - [C280500]', () => {
+            expect(dataTable.getItemLocation(fileDeleted).getText()).toEqual('');
+        });
+
+        it('Location column redirect - file in user Home - [C217144]', () => {
             dataTable.clickItemLocation(fileUser)
                 .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]));
         });
 
-        it('Location column redirect - file in site [C217144] [C260969]', () => {
+        it('Location column redirect - file in folder - [C280496]', () => {
+            dataTable.clickItemLocation(fileInFolder)
+                .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files', folderNotDeleted ]));
+        });
+
+        it('Location column redirect - file in site - [C280497]', () => {
             dataTable.clickItemLocation(fileSite)
                 .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]));
         });

@@ -85,7 +85,7 @@ describe('Recent Files', () => {
         .then(done);
     });
 
-    it('has the correct columns [C213168]', () => {
+    it('has the correct columns - [C213168]', () => {
         const labels = [ 'Name', 'Location', 'Size', 'Modified' ];
         const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
@@ -96,45 +96,45 @@ describe('Recent Files', () => {
         });
     });
 
-    it('default sorting column [C213171]', () => {
+    it('default sorting column - [C213171]', () => {
         expect(dataTable.getSortedColumnHeader().getText()).toBe('Modified');
         expect(dataTable.getSortingOrder()).toBe('desc');
     });
 
-    it('displays the files added by the current user in the last 30 days [C213170]', () => {
+    it('displays the files added by the current user in the last 30 days - [C213170]', () => {
         expect(dataTable.countRows()).toEqual(3, 'Incorrect number of files displayed');
         expect(dataTable.getRowByName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
         expect(dataTable.getRowByName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
         expect(dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
     });
 
-    it(`file not displayed if it's in the Trashcan [C213174]`, () => {
+    it(`file not displayed if it's been deleted - [C213174]`, () => {
         expect(dataTable.getRowByName(fileName3).isPresent()).not.toBe(true, `${fileName3} is displayed`);
     });
 
-    it('Location column displays the parent folder of the file [C213175]', () => {
+    it('Location column displays the parent folder of the file - [C213175]', () => {
         expect(dataTable.getItemLocation(fileName1).getText()).toEqual(folderName);
         expect(dataTable.getItemLocation(fileName2).getText()).toEqual('Personal Files');
         expect(dataTable.getItemLocation(fileSite).getText()).toEqual(folderSite);
     });
 
-    it('Location column displays a tooltip with the entire path of the file [C213177]', () => {
+    it('Location column displays a tooltip with the entire path of the file - [C213177]', () => {
         expect(dataTable.getItemLocationTileAttr(fileName1)).toEqual(`Personal Files/${folderName}`);
         expect(dataTable.getItemLocationTileAttr(fileName2)).toEqual('Personal Files');
         expect(dataTable.getItemLocationTileAttr(fileSite)).toEqual(`File Libraries/${siteName}/${folderSite}`);
     });
 
-    it('Location column redirect - file in user Home [C213176] [C260968]', () => {
+    it('Location column redirect - file in user Home - [C213176]', () => {
         dataTable.clickItemLocation(fileName2)
             .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]));
     });
 
-    it('Location column redirect - file in folder [C213176] [C260968]', () => {
+    it('Location column redirect - file in folder - [C280486]', () => {
         dataTable.clickItemLocation(fileName1)
             .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files', folderName ]));
     });
 
-    it('Location column redirect - file in site [C213176] [C260969]', () => {
+    it('Location column redirect - file in site - [C280487]', () => {
         dataTable.clickItemLocation(fileSite)
             .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName, folderSite ]));
     });
