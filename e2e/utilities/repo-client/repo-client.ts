@@ -54,7 +54,7 @@ export class RepoClient {
     }
 
     get sites() {
-        return new SitesApi(this.auth, this.config);
+        return new SitesApi(this.auth.username, this.auth.password);
     }
 
     get favorites() {
