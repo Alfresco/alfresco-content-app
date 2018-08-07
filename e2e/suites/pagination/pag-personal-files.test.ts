@@ -65,7 +65,7 @@ describe('Pagination on Personal Files', () => {
             logoutPage.load().then(done);
         });
 
-        it('pagination controls not displayed - [C213164]', () => {
+        it('pagination controls not displayed - [C280075]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
                 .then(() => {
                     expect(pagination.range.isPresent()).toBe(false);
@@ -93,7 +93,7 @@ describe('Pagination on Personal Files', () => {
             .then(done);
         });
 
-        it('page selector not displayed when having a single page - [C213165]', () => {
+        it('page selector not displayed when having a single page - [C280076]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => expect(pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed'));
@@ -126,7 +126,7 @@ describe('Pagination on Personal Files', () => {
             .then(done);
         });
 
-        it('Pagination control default values - [C213157]', () => {
+        it('Pagination control default values - [C280077]', () => {
             expect(pagination.range.getText()).toContain('1-25 of 101');
             expect(pagination.maxItems.getText()).toContain('25');
             expect(pagination.currentPage.getText()).toContain('Page 1');
@@ -135,7 +135,7 @@ describe('Pagination on Personal Files', () => {
             expect(pagination.nextButton.isEnabled()).toBe(true, 'Next button is not enabled');
         });
 
-        it('Items per page values - [C280074]', () => {
+        it('Items per page values - [C280078]', () => {
             pagination.openMaxItemsMenu()
                 .then(() => {
                     const [ first, second, third ] = [1, 2, 3]
@@ -147,7 +147,7 @@ describe('Pagination on Personal Files', () => {
             .then(() => pagination.menu.closeMenu());
         });
 
-        it('current page menu items - [C213158]', () => {
+        it('current page menu items - [C280079]', () => {
             pagination.openMaxItemsMenu()
                 .then(() => pagination.menu.clickMenuItem('25'))
                 .then(() => {
@@ -181,7 +181,7 @@ describe('Pagination on Personal Files', () => {
                 .then(() => pagination.resetToDefaultPageSize());
         });
 
-        it('change the current page from menu - [C260518]', () => {
+        it('change the current page from menu - [C280080]', () => {
             pagination.openCurrentPageMenu()
                 .then(() => pagination.menu.clickNthItem(3))
                 .then(() => dataTable.waitForHeader())
@@ -196,7 +196,7 @@ describe('Pagination on Personal Files', () => {
                 .then(() => pagination.resetToDefaultPageNumber());
         });
 
-        it('navigate to next and previous pages - [C213160]', () => {
+        it('navigate to next and previous pages - [C280083]', () => {
             pagination.clickNext()
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -219,12 +219,12 @@ describe('Pagination on Personal Files', () => {
                 .then(() => pagination.resetToDefaultPageNumber());
         });
 
-        it('Previous button is disabled on first page - [C260519]', () => {
+        it('Previous button is disabled on first page - [C280081]', () => {
             expect(pagination.currentPage.getText()).toContain('Page 1');
             expect(pagination.previousButton.isEnabled()).toBe(false, 'Previous button is enabled on first page');
         });
 
-        it('Next button is disabled on last page - [C280073]', () => {
+        it('Next button is disabled on last page - [C280082]', () => {
             pagination.openCurrentPageMenu()
                 .then(() => pagination.menu.clickNthItem(5))
                 .then(() => {
