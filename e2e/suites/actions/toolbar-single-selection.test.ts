@@ -156,7 +156,7 @@ describe('Toolbar actions - single selection : ', () => {
                 done();
             });
 
-            it('on File Libraries', async () => {
+            it('on File Libraries - [C280455]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
                 await dataTable.waitForHeader();
                 await dataTable.doubleClickOnRowByName(site);
@@ -186,7 +186,7 @@ describe('Toolbar actions - single selection : ', () => {
                 await toolbar.actions.closeMoreMenu();
             });
 
-            it('on Shared Files', async () => {
+            it('on Shared Files - [C280456]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
                 await page.dataTable.waitForHeader();
                 await page.dataTable.clickOnRowByName(file1);
@@ -215,7 +215,7 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             // disabled until ACA-1184 is done
-            xit('on Favorites', async () => {
+            xit('on Favorites - [C213121]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
                 await dataTable.waitForHeader();
                 await dataTable.clickOnRowByName(file1);
@@ -248,7 +248,7 @@ describe('Toolbar actions - single selection : ', () => {
                 done();
             });
 
-            it('on File Libraries', async () => {
+            it('on File Libraries - [C280476]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
                 await dataTable.waitForHeader();
                 await dataTable.doubleClickOnRowByName(site);
@@ -265,7 +265,7 @@ describe('Toolbar actions - single selection : ', () => {
                 await toolbar.actions.closeMoreMenu();
             });
 
-            xit('on Shared Files', async () => {
+            it('on Shared Files - [C280477]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
                 await dataTable.waitForHeader();
                 await dataTable.selectMultipleItems([ file1, file2 ]);
@@ -281,7 +281,7 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             // disabled until ACA-1184 is done
-            xit('on Favorites', async () => {
+            xit('on Favorites - [C280478]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
                 await dataTable.waitForHeader();
                 await dataTable.selectMultipleItems([ file1, file2 ]);
@@ -318,11 +318,11 @@ describe('Toolbar actions - single selection : ', () => {
             done();
         });
 
-        it('actions are not displayed when no item is selected', async () => {
+        it('actions are not displayed when no item is selected - [C213120]', async () => {
             expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
-        it('correct actions appear when a file is selected', async () => {
+        it('correct actions appear when a file is selected - [C213122]', async () => {
             await dataTable.clickOnRowByName(fileUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
@@ -336,7 +336,7 @@ describe('Toolbar actions - single selection : ', () => {
             await toolbar.actions.closeMoreMenu();
         });
 
-        it('correct actions appear when a folder is selected', async () => {
+        it('correct actions appear when a folder is selected - [C213123]', async () => {
             await dataTable.clickOnRowByName(folderUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
@@ -392,11 +392,11 @@ describe('Toolbar actions - single selection : ', () => {
                 done();
             });
 
-            it('actions are not displayed when no item is selected', async () => {
+            it('actions are not displayed when no item is selected - [C280439]', async () => {
                 expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
             });
 
-            it('correct actions appear when a file is selected', async () => {
+            it('correct actions appear when a file is selected - [C280440]', async () => {
                 await dataTable.clickOnRowByName(fileAdmin);
                 expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileAdmin}`);
@@ -410,7 +410,7 @@ describe('Toolbar actions - single selection : ', () => {
                 await toolbar.actions.closeMoreMenu();
             });
 
-            it('correct actions appear when a folder is selected', async () => {
+            it('correct actions appear when a folder is selected - [C280441]', async () => {
                 await dataTable.clickOnRowByName(folderAdmin);
                 expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderAdmin}`);
@@ -445,11 +445,11 @@ describe('Toolbar actions - single selection : ', () => {
                 done();
             });
 
-            it('actions are not displayed when no item is selected', async () => {
+            it('actions are not displayed when no item is selected - [C280442]', async () => {
                 expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
             });
 
-            it('correct actions appear when a file is selected', async () => {
+            it('correct actions appear when a file is selected - [C280443]', async () => {
                 await dataTable.clickOnRowByName(fileAdmin);
                 expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileAdmin}`);
@@ -463,7 +463,7 @@ describe('Toolbar actions - single selection : ', () => {
                 await toolbar.actions.closeMoreMenu();
             });
 
-            it('correct actions appear when a folder is selected', async () => {
+            it('correct actions appear when a folder is selected - [C280444]', async () => {
                 await dataTable.clickOnRowByName(folderAdmin);
                 expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderAdmin}`);
@@ -497,11 +497,11 @@ describe('Toolbar actions - single selection : ', () => {
             done();
         });
 
-        it('actions are not displayed when no item is selected', async () => {
+        it('actions are not displayed when no item is selected - [C280445]', async () => {
             expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
-        it('correct actions appear when a file is selected', async () => {
+        it('correct actions appear when a file is selected - [C280446]', async () => {
             await page.dataTable.clickOnRowByName(fileUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
@@ -534,11 +534,11 @@ describe('Toolbar actions - single selection : ', () => {
             done();
         });
 
-        it('actions are not displayed when no item is selected', async () => {
+        it('actions are not displayed when no item is selected - [C280447]', async () => {
             expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
-        it('correct actions appear when a file is selected', async () => {
+        it('correct actions appear when a file is selected - [C280448]', async () => {
             await dataTable.clickOnRowByName(fileUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
@@ -571,11 +571,11 @@ describe('Toolbar actions - single selection : ', () => {
             done();
         });
 
-        it('actions are not displayed when no item is selected', async () => {
+        it('actions are not displayed when no item is selected - [C280449]', async () => {
             expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
-        it('correct actions appear when a file is selected', async () => {
+        it('correct actions appear when a file is selected - [C280450]', async () => {
             await dataTable.clickOnRowByName(fileUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
@@ -589,7 +589,7 @@ describe('Toolbar actions - single selection : ', () => {
             await toolbar.actions.closeMoreMenu();
         });
 
-        it('correct actions appear when a folder is selected', async () => {
+        it('correct actions appear when a folder is selected - [C280451]', async () => {
             await dataTable.clickOnRowByName(folderUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
@@ -604,7 +604,6 @@ describe('Toolbar actions - single selection : ', () => {
         });
     });
 
-    // [C217090]
     describe('Trash', () => {
         beforeAll(async (done) => {
             await apis.user.nodes.deleteNodeById(fileForDeleteId, false);
@@ -629,18 +628,18 @@ describe('Toolbar actions - single selection : ', () => {
             done();
         });
 
-        it('actions are not displayed when no item is selected', async () => {
+        it('actions are not displayed when no item is selected - [C280452]', async () => {
             expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
-        it('correct actions appear when a file is selected', async () => {
+        it('correct actions appear when a file is selected - [C280453]', async () => {
             await dataTable.clickOnRowByName(fileForDelete);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileForDelete}`);
             expect(await toolbar.actions.isButtonPresent('Permanently delete')).toBe(true, `Permanently delete is not displayed for file`);
             expect(await toolbar.actions.isButtonPresent('Restore')).toBe(true, `Restore is not displayed for file`);
         });
 
-        it('correct actions appear when a folder is selected', async () => {
+        it('correct actions appear when a folder is selected - [C280454]', async () => {
             await dataTable.clickOnRowByName(folderForDelete);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderForDelete}`);
             expect(await toolbar.actions.isButtonPresent('Permanently delete')).toBe(true, `Permanently delete is displayed for folder`);

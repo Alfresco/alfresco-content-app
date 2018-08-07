@@ -79,7 +79,7 @@ describe('Restore from Trash', () => {
             apis.user.trashcan.emptyTrash().then(done);
         });
 
-        it('restore file', () => {
+        it('restore file - [C217177]', () => {
             dataTable.clickOnRowByName(file)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
@@ -97,7 +97,7 @@ describe('Restore from Trash', () => {
                 .then(() => apis.user.nodes.deleteNodeById(fileId, false));
         });
 
-        it('restore folder', () => {
+        it('restore folder - [C280438]', () => {
             dataTable.clickOnRowByName(folder)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
@@ -115,7 +115,7 @@ describe('Restore from Trash', () => {
                 .then(() => apis.user.nodes.deleteNodeById(folderId, false));
         });
 
-        it('restore multiple items', () => {
+        it('restore multiple items - [C217182]', () => {
             dataTable.selectMultipleItems([ file, folder ])
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
@@ -135,7 +135,7 @@ describe('Restore from Trash', () => {
                 .then(() => apis.user.nodes.deleteNodesById([ fileId, folderId ], false));
         });
 
-        it('View from notification', () => {
+        it('View from notification - [C217181]', () => {
             dataTable.clickOnRowByName(file)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.clickSnackBarAction())
@@ -184,7 +184,7 @@ describe('Restore from Trash', () => {
             .then(done);
         });
 
-        it('Restore a file when another file with same name exists on the restore location', () => {
+        it('Restore a file when another file with same name exists on the restore location - [C217178]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
                 .then(() => dataTable.clickOnRowByName(file1))
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
@@ -192,7 +192,7 @@ describe('Restore from Trash', () => {
                 .then(text => expect(text).toEqual(`Can't restore, ${file1} already exists`));
         });
 
-        it('Restore a file when original location no longer exists', () => {
+        it('Restore a file when original location no longer exists - [C217179]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
                 .then(() => dataTable.clickOnRowByName(file2))
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
@@ -251,14 +251,14 @@ describe('Restore from Trash', () => {
             .then(done);
         });
 
-        it('one failure', () => {
+        it('one failure - [C217183]', () => {
             dataTable.selectMultipleItems([ file1, file2 ])
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                     .then(text => expect(text).toEqual(`Can't restore ${file1}, the original location no longer exists`));
         });
 
-        it('multiple failures', () => {
+        it('multiple failures - [C217184]', () => {
             dataTable.selectMultipleItems([ file3, file4, file5 ])
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
