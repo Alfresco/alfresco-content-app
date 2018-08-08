@@ -95,42 +95,48 @@ describe('Sidebar', () => {
             });
     });
 
-    it('Personal Files tooltip - [C217151]', () => {
+    // TODO: incomplete test
+    xit('Personal Files tooltip - [C217151]', () => {
         sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => {
                 expect(sidenav.getLinkTooltip(SIDEBAR_LABELS.PERSONAL_FILES)).toContain('View your Personal Files');
             });
     });
 
-    it('File Libraries tooltip - [C217152]', () => {
+    // TODO: incomplete test
+    xit('File Libraries tooltip - [C217152]', () => {
         sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
             .then(() => {
                 expect(sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('Access File Libraries');
             });
     });
 
-    it('Shared Files tooltip - [C213111]', () => {
+    // TODO: incomplete test
+    xit('Shared Files tooltip - [C213111]', () => {
         sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
             .then(() => {
                 expect(sidenav.getLinkTooltip(SIDEBAR_LABELS.SHARED_FILES)).toContain('View files that have been shared');
             });
     });
 
-    it('Recent Files tooltip - [C213167]', () => {
+    // TODO: incomplete test
+    xit('Recent Files tooltip - [C213167]', () => {
         sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
             .then(() => {
                 expect(sidenav.getLinkTooltip(SIDEBAR_LABELS.RECENT_FILES)).toContain('View files you recently edited');
             });
     });
 
-    it('Favorites tooltip - [C217153]', () => {
+    // TODO: incomplete test
+    xit('Favorites tooltip - [C217153]', () => {
         sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
             .then(() => {
                 expect(sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITES)).toContain('View your favorite files and folders');
             });
     });
 
-    it('Trash tooltip - [C217154]', () => {
+    // TODO: incomplete test
+    xit('Trash tooltip - [C217154]', () => {
         sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
             .then(() => {
                 expect(sidenav.getLinkTooltip(SIDEBAR_LABELS.TRASH)).toContain('View deleted files in the trash');
