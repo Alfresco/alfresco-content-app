@@ -103,8 +103,11 @@ export abstract class Page {
     }
 
     clickSnackBarAction() {
-        return browser.executeScript(function (elem) {
-            elem.click();
-        }, this.snackBarAction);
+        return this.waitForSnackBarToAppear()
+            .then(() => {
+                return browser.executeScript(function (elem) {
+                    elem.click();
+                }, this.snackBarAction);
+            });
     }
 }
