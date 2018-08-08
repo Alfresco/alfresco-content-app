@@ -34,9 +34,9 @@ export abstract class Page {
         layout: by.css('app-layout'),
         overlay: by.css('.cdk-overlay-container'),
         dialogContainer: by.css('.mat-dialog-container'),
-        snackBarContainer: '.cdk-overlay-pane snack-bar-container.mat-snack-bar-container',
+        snackBarContainer: '.cdk-overlay-pane .mat-snack-bar-container',
         snackBar: '.mat-simple-snackbar',
-        snackBarAction: '.mat-simple-snackbar-action'
+        snackBarAction: '.mat-simple-snackbar-action button'
     };
 
     public app: ElementFinder = element(this.locators.app);
