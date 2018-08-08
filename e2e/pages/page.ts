@@ -36,7 +36,7 @@ export abstract class Page {
         dialogContainer: by.css('.mat-dialog-container'),
         snackBarContainer: '.cdk-overlay-pane snack-bar-container.mat-snack-bar-container',
         snackBar: '.mat-simple-snackbar',
-        snackBarAction: 'button.mat-simple-snackbar-action'
+        snackBarAction: '.mat-simple-snackbar-action'
     };
 
     public app: ElementFinder = element(this.locators.app);
