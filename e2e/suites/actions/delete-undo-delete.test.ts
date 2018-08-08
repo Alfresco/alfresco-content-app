@@ -29,7 +29,7 @@ import { SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
-describe('Delete content', () => {
+describe('Delete and undo delete', () => {
     const username = `user-${Utils.random()}`;
 
     const apis = {
@@ -94,10 +94,11 @@ describe('Delete content', () => {
                     .then(() => apis.user.nodes.unlockFile(fileLocked1Id))
                     .then(() => apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id, fileLocked1Id]))
             ])
+            .then(() => apis.user.search.waitForApi(username, {expect: 0}))
             .then(done);
         });
 
-        it('delete a file and check notification', () => {
+        it('delete a file and check notification - [C217125]', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
@@ -117,7 +118,7 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(file1Id));
         });
 
-        it('delete multiple files and check notification', () => {
+        it('delete multiple files and check notification - [C280502]', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
@@ -142,7 +143,7 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(file2Id));
         });
 
-        it('delete a folder with content', () => {
+        it('delete a folder with content - [C217126]', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
@@ -163,7 +164,7 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(folder1Id));
         });
 
-        it('delete a folder containing locked files', () => {
+        it('delete a folder containing locked files - [C217127]', () => {
             dataTable.clickOnRowByName(folder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
@@ -179,7 +180,7 @@ describe('Delete content', () => {
                 });
         });
 
-        it('notification on multiple items deletion - some items fail to delete', () => {
+        it('notification on multiple items deletion - some items fail to delete - [C217129]', () => {
             dataTable.selectMultipleItems([file1, folder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
@@ -189,13 +190,81 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(file1Id));
         });
 
-        // TODO: needs to operate on two folders containing locked items
-        xit('Notification on multiple items deletion - all items fail to delete', () => {
+        it('notification on multiple items deletion - all items fail to delete - [C217130]', () => {
             dataTable.selectMultipleItems([fileLocked1, folder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
                 .then(message => expect(message).toEqual(`2 items couldn't be deleted`));
+        });
+
+        it('successful delete notification shows Undo action - [C217131]', () => {
+            dataTable.clickOnRowByName(file1)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.getSnackBarMessage())
+                .then(message => {
+                    expect(message).toContain(`Undo`);
+                })
+
+                .then(() => apis.user.trashcan.restore(file1Id));
+        });
+
+        it('unsuccessful delete notification does not show Undo action - [C217134]', () => {
+            dataTable.clickOnRowByName(folder2)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.getSnackBarMessage())
+                .then(message => {
+                    expect(message).not.toContain(`Undo`);
+                });
+        });
+
+        it('undo delete of file - [C217132]', () => {
+            let items: number;
+            page.dataTable.countRows().then(number => { items = number; });
+
+            dataTable.clickOnRowByName(file1)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => {
+                    expect(dataTable.getRowByName(file1).isPresent()).toBe(true, 'Item was not restored');
+                    expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+                });
+        });
+
+        it('undo delete of folder with content - [C280503]', () => {
+            let items: number;
+            page.dataTable.countRows().then(number => { items = number; });
+
+            dataTable.clickOnRowByName(folder1)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => {
+                    expect(dataTable.getRowByName(folder1).isPresent()).toBe(true, 'Item was not restored');
+                    expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+                })
+                .then(() => dataTable.doubleClickOnRowByName(folder1))
+                .then(() => {
+                    expect(dataTable.getRowByName(file3).isPresent()).toBe(true, 'file from folder not restored');
+                });
+        });
+
+        it('undo delete of multiple files - [C280504]', () => {
+            let items: number;
+            page.dataTable.countRows().then(number => { items = number; });
+
+            dataTable.selectMultipleItems([file1, file2])
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => {
+                    expect(dataTable.getRowByName(file1).isPresent()).toBe(true, `${file1} was not removed from list`);
+                    expect(dataTable.getRowByName(file2).isPresent()).toBe(true, `${file2} was not removed from list`);
+                    expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+                });
         });
     });
 
@@ -203,13 +272,15 @@ describe('Delete content', () => {
         const sharedFile1 = `sharedFile1-${Utils.random()}.txt`; let sharedFile1Id;
         const sharedFile2 = `sharedFile2-${Utils.random()}.txt`; let sharedFile2Id;
         const sharedFile3 = `sharedFile3-${Utils.random()}.txt`; let sharedFile3Id;
+        const sharedFile4 = `sharedFile4-${Utils.random()}.txt`; let sharedFile4Id;
 
         beforeAll(done => {
             apis.user.nodes.createFile(sharedFile1).then(resp => sharedFile1Id = resp.data.entry.id)
                 .then(() => apis.user.nodes.createFile(sharedFile2).then(resp => sharedFile2Id = resp.data.entry.id))
                 .then(() => apis.user.nodes.createFile(sharedFile3).then(resp => sharedFile3Id = resp.data.entry.id))
-                .then(() => apis.user.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id]))
-                .then(() => apis.user.shared.waitForApi({ expect: 3 }))
+                .then(() => apis.user.nodes.createFile(sharedFile4).then(resp => sharedFile4Id = resp.data.entry.id))
+                .then(() => apis.user.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id]))
+                .then(() => apis.user.shared.waitForApi({ expect: 4 }))
 
                 .then(() => loginPage.loginWith(username))
                 .then(done);
@@ -228,12 +299,13 @@ describe('Delete content', () => {
         afterAll(done => {
             Promise.all([
                 logoutPage.load(),
-                apis.user.nodes.deleteNodesById([sharedFile1Id, sharedFile2Id, sharedFile3Id])
+                apis.user.nodes.deleteNodesById([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id])
             ])
+            .then(() => apis.user.search.waitForApi(username, {expect: 0}))
             .then(done);
         });
 
-        it('delete a file and check notification', () => {
+        it('delete a file and check notification - [C280316]', () => {
             dataTable.clickOnRowByName(sharedFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
@@ -245,10 +317,12 @@ describe('Delete content', () => {
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => expect(dataTable.getRowByName(sharedFile1).isPresent()).toBe(true, 'Item is not in trash'))
 
-                .then(() => apis.user.trashcan.restore(sharedFile1Id));
+                .then(() => apis.user.trashcan.restore(sharedFile1Id))
+                .then(() => apis.user.shared.shareFilesByIds([ sharedFile1Id ]))
+                .then(() => apis.user.shared.waitForApi({ expect: 4 }));
         });
 
-        it('delete multiple files and check notification', () => {
+        it('delete multiple files and check notification - [C280513]', () => {
             dataTable.selectMultipleItems([sharedFile2, sharedFile3])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
@@ -265,7 +339,40 @@ describe('Delete content', () => {
                 })
 
                 .then(() => apis.user.trashcan.restore(sharedFile2Id))
-                .then(() => apis.user.trashcan.restore(sharedFile3Id));
+                .then(() => apis.user.trashcan.restore(sharedFile3Id))
+                .then(() => apis.user.shared.shareFilesByIds([ sharedFile2Id, sharedFile3Id ]))
+                .then(() => apis.user.shared.waitForApi({ expect: 4 }));
+        });
+
+        it('successful delete notification shows Undo action - [C280323]', () => {
+            dataTable.clickOnRowByName(sharedFile1)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.getSnackBarMessage())
+                .then(message => expect(message).toContain(`Undo`))
+
+                .then(() => apis.user.trashcan.restore(sharedFile1Id));
+        });
+
+        it('undo delete of file - [C280324]', () => {
+            dataTable.clickOnRowByName(sharedFile2)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
+                .then(() => expect(dataTable.getRowByName(sharedFile2).isPresent()).toBe(false, 'Item was not restored'));
+        });
+
+        it('undo delete of multiple files - [C280514]', () => {
+            dataTable.selectMultipleItems([sharedFile3, sharedFile4])
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
+                .then(() => {
+                    expect(dataTable.getRowByName(sharedFile3).isPresent()).toBe(false, `${sharedFile3} was not restored`);
+                    expect(dataTable.getRowByName(sharedFile4).isPresent()).toBe(false, `${sharedFile4} was not restored`);
+                });
         });
     });
 
@@ -317,10 +424,11 @@ describe('Delete content', () => {
                         favoriteFile1Id, favoriteFile2Id, favoriteFolder1Id, favoriteFolder2Id, favoriteFileLocked1Id
                     ]))
             ])
+            .then(() => apis.user.search.waitForApi(username, {expect: 0}))
             .then(done);
         });
 
-        it('delete a file and check notification', () => {
+        it('delete a file and check notification - [C280516]', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
@@ -340,7 +448,7 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(favoriteFile1Id));
         });
 
-        it('delete multiple files and check notification', () => {
+        it('delete multiple files and check notification - [C280517]', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
@@ -365,7 +473,7 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(favoriteFile2Id));
         });
 
-        it('delete a folder with content', () => {
+        it('delete a folder with content - [C280518]', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
             dataTable.clickOnRowByName(favoriteFolder1)
@@ -385,7 +493,7 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(favoriteFolder1Id));
         });
 
-        it('delete a folder containing locked files', () => {
+        it('delete a folder containing locked files - [C280519]', () => {
             dataTable.clickOnRowByName(favoriteFolder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
@@ -401,7 +509,7 @@ describe('Delete content', () => {
                 });
         });
 
-        it('notification on multiple items deletion - some items fail to delete', () => {
+        it('notification on multiple items deletion - some items fail to delete - [C280520]', () => {
             dataTable.selectMultipleItems([favoriteFile1, favoriteFolder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
@@ -413,7 +521,7 @@ describe('Delete content', () => {
                 .then(() => apis.user.trashcan.restore(favoriteFile1Id));
         });
 
-        it('Notification on multiple items deletion - all items fail to delete', () => {
+        it('notification on multiple items deletion - all items fail to delete - [C280521]', () => {
             dataTable.selectMultipleItems([favoriteFileLocked1, favoriteFolder2])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
@@ -422,18 +530,84 @@ describe('Delete content', () => {
                     expect(message).toEqual(`2 items couldn't be deleted`);
                 });
         });
+
+        it('successful delete notification shows Undo action - [C280522]', () => {
+            dataTable.clickOnRowByName(favoriteFile1)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.getSnackBarMessage())
+                .then(message => expect(message).toContain(`Undo`))
+
+                .then(() => apis.user.trashcan.restore(favoriteFile1Id));
+        });
+
+        it('unsuccessful delete notification does not show Undo action - [C280523]', () => {
+            dataTable.clickOnRowByName(favoriteFolder2)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.getSnackBarMessage())
+                .then(message => expect(message).not.toContain(`Undo`));
+        });
+
+        it('undo delete of file - [C280524]', () => {
+            let items: number;
+            page.dataTable.countRows().then(number => { items = number; });
+
+            dataTable.clickOnRowByName(favoriteFile1)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => {
+                    expect(dataTable.getRowByName(favoriteFile1).isPresent()).toBe(true, 'Item was not restored');
+                    expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+                });
+        });
+
+        it('undo delete of folder with content - [C280526]', () => {
+            let items: number;
+            page.dataTable.countRows().then(number => { items = number; });
+
+            dataTable.clickOnRowByName(favoriteFolder1)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => {
+                    expect(dataTable.getRowByName(favoriteFolder1).isPresent()).toBe(true, 'Item was not restored');
+                    expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+                })
+                .then(() => dataTable.doubleClickOnRowByName(favoriteFolder1))
+                .then(() => expect(dataTable.getRowByName(favoriteFile3).isPresent()).toBe(true, 'file from folder not restored'));
+        });
+
+        it('undo delete of multiple files - [C280525]', () => {
+            let items: number;
+            page.dataTable.countRows().then(number => { items = number; });
+
+            dataTable.selectMultipleItems([favoriteFile1, favoriteFile2])
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => {
+                    expect(dataTable.getRowByName(favoriteFile1).isPresent()).toBe(true, `${favoriteFile1} was not removed from list`);
+                    expect(dataTable.getRowByName(favoriteFile2).isPresent()).toBe(true, `${favoriteFile2} was not removed from list`);
+                    expect(page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+                });
+        });
     });
 
-    describe('on Recent Files', () => {
+    // TODO: try to change search.waitForApi to wait for exact number of items
+    xdescribe('on Recent Files', () => {
         const recentFile1 = `recentFile1-${Utils.random()}.txt`; let recentFile1Id;
         const recentFile2 = `recentFile2-${Utils.random()}.txt`; let recentFile2Id;
         const recentFile3 = `recentFile3-${Utils.random()}.txt`; let recentFile3Id;
+        const recentFile4 = `recentFile4-${Utils.random()}.txt`; let recentFile4Id;
 
         beforeAll(done => {
             apis.user.nodes.createFile(recentFile1).then(resp => recentFile1Id = resp.data.entry.id)
                 .then(() => apis.user.nodes.createFile(recentFile2).then(resp => recentFile2Id = resp.data.entry.id))
                 .then(() => apis.user.nodes.createFile(recentFile3).then(resp => recentFile3Id = resp.data.entry.id))
-                .then(() => apis.user.search.waitForApi(username, { expect: 3 }))
+                .then(() => apis.user.nodes.createFile(recentFile4).then(resp => recentFile4Id = resp.data.entry.id))
+                .then(() => apis.user.search.waitForApi(username, { expect: 4 }))
 
                 .then(() => loginPage.loginWith(username))
 
@@ -461,12 +635,12 @@ describe('Delete content', () => {
         afterAll(done => {
             Promise.all([
                 logoutPage.load(),
-                apis.user.nodes.deleteNodesById([recentFile1Id, recentFile2Id, recentFile3Id])
+                apis.user.nodes.deleteNodesById([recentFile1Id, recentFile2Id, recentFile3Id, recentFile4Id])
             ])
             .then(done);
         });
 
-        xit('delete a file and check notification', () => {
+        it('delete a file and check notification - [C280528]', () => {
             dataTable.clickOnRowByName(recentFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
@@ -478,10 +652,11 @@ describe('Delete content', () => {
                 .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
                 .then(() => expect(dataTable.getRowByName(recentFile1).isPresent()).toBe(true, 'Item is not in trash'))
 
-                .then(() => apis.user.trashcan.restore(recentFile1Id));
+                .then(() => apis.user.trashcan.restore(recentFile1Id))
+                .then(() => apis.user.search.waitForApi(username, { expect: 4 }));
         });
 
-        xit('delete multiple files and check notification', () => {
+        it('delete multiple files and check notification - [C280529]', () => {
             dataTable.selectMultipleItems([recentFile2, recentFile3])
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
@@ -498,7 +673,48 @@ describe('Delete content', () => {
                 })
 
                 .then(() => apis.user.trashcan.restore(recentFile2Id))
-                .then(() => apis.user.trashcan.restore(recentFile3Id));
+                .then(() => apis.user.trashcan.restore(recentFile3Id))
+                .then(() => apis.user.search.waitForApi(username, { expect: 4 }));
+        });
+
+        it('successful delete notification shows Undo action - [C280534]', () => {
+            dataTable.clickOnRowByName(recentFile1)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.getSnackBarMessage())
+                .then(message => expect(message).toContain(`Undo`))
+
+                .then(() => apis.user.trashcan.restore(recentFile1Id))
+                .then(() => apis.user.search.waitForApi(username, { expect: 4 }));
+        });
+
+        // due to the fact that the search api is slow to update,
+        // we cannot test that the restored file is displayed in the Recent Files list
+        // without adding a very big browser.sleep followed by a page.refresh
+        // so for the moment we're testing that the restored file is not displayed in the Trash
+        it('undo delete of file - [C280536]', () => {
+            dataTable.clickOnRowByName(recentFile2)
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
+                .then(() => expect(dataTable.getRowByName(recentFile2).isPresent()).toBe(false, 'Item is in Trash'));
+        });
+
+        // due to the fact that the search api is slow to update,
+        // we cannot test that the restored file is displayed in the Recent Files list
+        // without adding a very big browser.sleep followed by a page.refresh
+        // so for the moment we're testing that the restored file is not displayed in the Trash
+        it('undo delete of multiple files - [C280537]', () => {
+            dataTable.selectMultipleItems([recentFile3, recentFile4])
+                .then(() => toolbar.actions.openMoreMenu())
+                .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
+                .then(() => page.clickSnackBarAction())
+                .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
+                .then(() => {
+                    expect(dataTable.getRowByName(recentFile3).isPresent()).toBe(false, `${recentFile3} is in Trash`);
+                    expect(dataTable.getRowByName(recentFile4).isPresent()).toBe(false, `${recentFile4} is in Trash`);
+                });
         });
     });
 });
