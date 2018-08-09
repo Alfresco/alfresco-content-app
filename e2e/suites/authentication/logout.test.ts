@@ -40,7 +40,7 @@ describe('Logout', () => {
 
     beforeAll((done) => {
         peopleApi
-            .createUser(johnDoe)
+            .createUser({ username: johnDoe })
             .then(done);
     });
 
