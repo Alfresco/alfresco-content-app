@@ -26,6 +26,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
     MinimalNodeEntity,
     MinimalNodeEntryEntity,
@@ -37,17 +38,21 @@ import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
+import { map } from 'rxjs/operators';
 
 @Component({
     templateUrl: './favorites.component.html'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
+    isSmallScreen = false;
+
     constructor(
         private router: Router,
         store: Store<AppStore>,
         extensions: ExtensionService,
         private contentApi: ContentApiService,
-        content: ContentManagementService
+        content: ContentManagementService,
+        private breakpointObserver: BreakpointObserver
     ) {
         super(store, extensions, content);
     }
@@ -60,7 +65,16 @@ export class FavoritesComponent extends PageComponent implements OnInit {
             this.content.nodesRestored.subscribe(() => this.reload()),
             this.content.folderEdited.subscribe(() => this.reload()),
             this.content.nodesMoved.subscribe(() => this.reload()),
-            this.content.favoriteRemoved.subscribe(() => this.reload())
+            this.content.favoriteRemoved.subscribe(() => this.reload()),
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         ]);
     }
 
@@ -77,7 +91,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         if (isFolder) {
             this.contentApi
                 .getNode(id)
-                .map(node => node.entry)
+                .pipe(map(node => node.entry))
                 .subscribe(({ path }: MinimalNodeEntryEntity) => {
                     const routeUrl = isSitePath(path)
                         ? '/libraries'

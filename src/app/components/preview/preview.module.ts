@@ -27,11 +27,12 @@ import { CoreModule } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { PreviewComponent } from './preview.component';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+import { ViewUtilService } from './view-util.service';
 
 import * as pdfjsLib from 'pdfjs-dist';
 pdfjsLib.PDFJS.workerSrc = 'pdf.worker.js';
@@ -56,6 +57,9 @@ const routes: Routes = [
     ],
     declarations: [
         PreviewComponent,
+    ],
+    providers: [
+        ViewUtilService
     ],
     exports: [
         PreviewComponent

@@ -42,7 +42,6 @@ import { SearchResultsComponent } from './components/search/search-results/searc
 import { SettingsComponent } from './components/settings/settings.component';
 
 import { ProfileResolver } from './services/profile.resolver';
-import { ExperimentalGuard } from './services/experimental-guard.service';
 
 export const APP_ROUTES: Routes = [
     {
@@ -62,9 +61,7 @@ export const APP_ROUTES: Routes = [
     {
         path: 'preview/s/:id',
         component: SharedLinkViewComponent,
-        canActivate: [ ExperimentalGuard ],
         data: {
-            ifExperimentalKey: 'share',
             title: 'APP.PREVIEW.TITLE',
         }
     },

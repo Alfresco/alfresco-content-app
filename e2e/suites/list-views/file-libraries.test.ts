@@ -57,11 +57,11 @@ describe('File Libraries', () => {
             .all([
                 apis.admin.people.createUser(username),
                 apis.admin.sites.createSite(sitePublic, SITE_VISIBILITY.PUBLIC),
-                apis.admin.sites.createSite(siteModerated, SITE_VISIBILITY.MODERATED, { description: siteDescription }),
-                apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE, { description: '' }),
+                apis.admin.sites.createSite(siteModerated, SITE_VISIBILITY.MODERATED, siteDescription),
+                apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE, null),
                 apis.admin.sites.createSite(adminSite, SITE_VISIBILITY.PUBLIC),
-                apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, { id: siteId1 }),
-                apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, { id: siteId2 })
+                apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId1),
+                apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId2)
             ])
             .then(() => apis.admin.sites.addSiteMember(sitePublic, username, SITE_ROLES.SITE_CONSUMER))
             .then(() => apis.admin.sites.addSiteMember(siteModerated, username, SITE_ROLES.SITE_MANAGER))

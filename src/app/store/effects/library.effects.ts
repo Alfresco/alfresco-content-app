@@ -25,7 +25,7 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import {
     DeleteLibraryAction, DELETE_LIBRARY,
     CreateLibraryAction, CREATE_LIBRARY
@@ -52,7 +52,7 @@ export class SiteEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && selection.library) {
                             this.content.deleteLibrary(selection.library.entry.id);

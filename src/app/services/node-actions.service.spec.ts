@@ -25,7 +25,7 @@
 
 import { TestBed, async } from '@angular/core/testing';
 import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs/Rx';
+import { of, throwError } from 'rxjs';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
@@ -179,8 +179,8 @@ describe('NodeActionsService', () => {
         it('should not throw error if entry in \'contentEntities\' does not have id, but has nodeId property', async(() => {
             const contentEntities = [ new TestNode(), {entry: {nodeId: '1234'}} ];
 
-            spyOn(service, 'getContentNodeSelection').and.returnValue(Observable.of([new TestNode().entry]));
-            spyOn(service, 'copyNodeAction').and.returnValue(Observable.of({}));
+            spyOn(service, 'getContentNodeSelection').and.returnValue(of([new TestNode().entry]));
+            spyOn(service, 'copyNodeAction').and.returnValue(of({}));
 
             const doCopyBatchOperation = service.copyNodes(contentEntities).asObservable();
 
@@ -271,8 +271,8 @@ describe('NodeActionsService', () => {
 
         it('should be called', () => {
             const spyOnBatchOperation = spyOn(service, 'doBatchOperation').and.callThrough();
-            spyOn(service, 'getContentNodeSelection').and.returnValue(Observable.of([destinationFolder.entry]));
-            spyOn(service, 'copyNodeAction').and.returnValue(Observable.of({}));
+            spyOn(service, 'getContentNodeSelection').and.returnValue(of([destinationFolder.entry]));
+            spyOn(service, 'copyNodeAction').and.returnValue(of({}));
 
             service.copyNodes([fileToCopy, folderToCopy]);
             expect(spyOnBatchOperation.calls.count()).toEqual(1);
@@ -514,7 +514,7 @@ describe('NodeActionsService', () => {
                     }
                 ];
                 spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
-                spyOn(service, 'getChildByName').and.returnValue(Observable.of(existingFolder));
+                spyOn(service, 'getChildByName').and.returnValue(of(existingFolder));
 
                 copyObservable.toPromise()
                     .then(
@@ -555,7 +555,7 @@ describe('NodeActionsService', () => {
                     }
                 ];
                 spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
-                spyOn(service, 'getChildByName').and.returnValue(Observable.of(existingFolder));
+                spyOn(service, 'getChildByName').and.returnValue(of(existingFolder));
 
                 copyObservable.toPromise()
                     .then(
@@ -594,7 +594,7 @@ describe('NodeActionsService', () => {
                     }
                 ];
                 spyOn(nodesApi, 'getNodeChildren').and.callFake(helper.fakeGetNodeChildren(testFamilyNodes));
-                spyOn(service, 'getChildByName').and.returnValue(Observable.of(existingFolder));
+                spyOn(service, 'getChildByName').and.returnValue(of(existingFolder));
 
                 copyObservable.toPromise()
                     .then(
@@ -649,9 +649,9 @@ describe('NodeActionsService', () => {
         it('should allow to select destination for nodes that have permission to be moved', () => {
             const spyOnDestinationPicker =
                 spyOn(service, 'getContentNodeSelection')
-                    .and.returnValue(Observable.of([destinationFolder.entry]));
-            spyOn(service, 'moveContentAction').and.returnValue(Observable.of({}));
-            spyOn(service, 'moveFolderAction').and.returnValue(Observable.of({}));
+                    .and.returnValue(of([destinationFolder.entry]));
+            spyOn(service, 'moveContentAction').and.returnValue(of({}));
+            spyOn(service, 'moveFolderAction').and.returnValue(of({}));
 
             fileToMove.entry['allowableOperations'] = [permissionToMove];
             folderToMove.entry['allowableOperations'] = [permissionToMove];
@@ -664,7 +664,7 @@ describe('NodeActionsService', () => {
         it('should not allow to select destination for nodes that do not have permission to be moved', () => {
             const spyOnDestinationPicker =
                 spyOn(service, 'getContentNodeSelection')
-                    .and.returnValue(Observable.of([destinationFolder.entry]));
+                    .and.returnValue(of([destinationFolder.entry]));
 
             fileToMove.entry['allowableOperations'] = [];
             folderToMove.entry['allowableOperations'] = [];
@@ -675,9 +675,9 @@ describe('NodeActionsService', () => {
         });
 
         it('should call the documentListService moveNode directly for moving a file that has permission to be moved', () => {
-            spyOn(service, 'getContentNodeSelection').and.returnValue(Observable.of([destinationFolder.entry]));
+            spyOn(service, 'getContentNodeSelection').and.returnValue(of([destinationFolder.entry]));
             fileToMove.entry['allowableOperations'] = [permissionToMove];
-            spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(Observable.of([fileToMove]));
+            spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.returnValue(of([fileToMove]));
             spyOn(service, 'moveNodeAction');
 
             service.moveNodes([fileToMove], permissionToMove);
@@ -694,7 +694,7 @@ describe('NodeActionsService', () => {
 
             it('should not throw error on conflict, to be able to show message in case of partial move of files', async(() => {
                 spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and
-                    .returnValue(Observable.throw(conflictError));
+                    .returnValue(throwError(conflictError));
 
                 const moveContentActionObservable = service.moveContentAction(fileToMove.entry, folderDestinationId);
                 moveContentActionObservable.toPromise()
@@ -716,7 +716,7 @@ describe('NodeActionsService', () => {
 
             it('should not throw permission error, to be able to show message in case of partial move of files', async(() => {
                 spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and
-                    .returnValue(Observable.throw(permissionError));
+                    .returnValue(throwError(permissionError));
 
                 const moveContentActionObservable = service.moveContentAction(fileToMove.entry, folderDestinationId);
                 moveContentActionObservable.toPromise()
@@ -741,7 +741,7 @@ describe('NodeActionsService', () => {
                 fileToMove.entry['parentId'] = parentID;
                 fileToMove.entry['allowableOperations'] = [permissionToMove];
                 spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and
-                    .returnValue(Observable.of(fileToMove));
+                    .returnValue(of(fileToMove));
 
                 const moveContentActionObservable = service.moveContentAction(fileToMove.entry, folderDestinationId);
                 moveContentActionObservable.toPromise()
@@ -772,7 +772,7 @@ describe('NodeActionsService', () => {
 
             it('should not throw permission error in case it occurs on folder move', async(() => {
                 spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and
-                    .returnValue(Observable.throw(permissionError));
+                    .returnValue(throwError(permissionError));
 
                 const moveFolderActionObservable = service.moveFolderAction(folderToMove.entry, folderDestinationId);
                 moveFolderActionObservable.toPromise()
@@ -793,11 +793,11 @@ describe('NodeActionsService', () => {
 
             it('should not throw error on conflict in case it occurs on folder move', async(() => {
                 spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and
-                    .returnValue(Observable.throw(conflictError));
+                    .returnValue(throwError(conflictError));
 
                 const newDestination = new TestNode('new-destination', !isFile, folderToMove.entry.name);
-                spyOn(service, 'getChildByName').and.returnValue(Observable.of(newDestination));
-                spyOn(service, 'getNodeChildren').and.returnValue(Observable.of(emptyChildrenList));
+                spyOn(service, 'getChildByName').and.returnValue(of(newDestination));
+                spyOn(service, 'getNodeChildren').and.returnValue(of(emptyChildrenList));
 
                 const moveFolderActionObservable = service.moveFolderAction(folderToMove.entry, folderDestinationId);
                 moveFolderActionObservable.toPromise()
@@ -821,17 +821,17 @@ describe('NodeActionsService', () => {
                 spyOnDocumentListServiceAction = spyOn(documentListService, 'moveNode').and.callFake(
                     (contentEntryId, selectionId) => {
                         if (contentEntryId === parentFolderToMove.entry.id) {
-                            return Observable.throw(conflictError);
+                            return throwError(conflictError);
 
                         }
-                        return Observable.of({});
+                        return of({});
                     });
-                spyOn(service, 'moveContentAction').and.returnValue(Observable.of({}));
+                spyOn(service, 'moveContentAction').and.returnValue(of({}));
 
                 const newDestination = new TestNode('new-destination', !isFile, 'conflicting-name');
-                spyOn(service, 'getChildByName').and.returnValue(Observable.of(newDestination));
+                spyOn(service, 'getChildByName').and.returnValue(of(newDestination));
                 const childrenNodes = [ fileToMove, folderToMove ];
-                spyOn(service, 'getNodeChildren').and.returnValue(Observable.of( {list: {entries: childrenNodes}} ));
+                spyOn(service, 'getNodeChildren').and.returnValue(of( {list: {entries: childrenNodes}} ));
 
                 const moveFolderActionObservable = service.moveFolderAction(parentFolderToMove.entry, folderDestinationId);
                 moveFolderActionObservable.toPromise()
@@ -860,7 +860,7 @@ describe('NodeActionsService', () => {
 
                 beforeEach(() => {
                     parentFolderToMove = new TestNode('parent-folder', !isFile, 'conflicting-name');
-                    spyOnDelete = spyOn(contentApi, 'deleteNode').and.returnValue(Observable.of(null));
+                    spyOnDelete = spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
                 });
 
                 afterEach(() => {
@@ -870,7 +870,7 @@ describe('NodeActionsService', () => {
                 });
 
                 it('should take no extra delete action, if folder was moved to the same location', async(() => {
-                    spyOn(service, 'moveFolderAction').and.returnValue(Observable.of(null));
+                    spyOn(service, 'moveFolderAction').and.returnValue(of(null));
 
                     parentFolderToMove.entry.parentId = folderDestinationId;
                     moveNodeActionPromise = service.moveNodeAction(parentFolderToMove.entry, folderDestinationId).toPromise();
@@ -892,7 +892,7 @@ describe('NodeActionsService', () => {
 
                 it('should take no extra delete action, if its children were partially moved', async(() => {
                     const movedChildrenNodes = [ fileToMove, folderToMove ];
-                    spyOn(service, 'moveFolderAction').and.returnValue(Observable.of(movedChildrenNodes));
+                    spyOn(service, 'moveFolderAction').and.returnValue(of(movedChildrenNodes));
                     spyOn(service, 'processResponse').and.returnValue({
                         succeeded: [ fileToMove ],
                         failed: [ folderToMove ],
@@ -919,14 +919,14 @@ describe('NodeActionsService', () => {
 
                 it('should take extra delete action, if children successfully moved and folder is still on location', async(() => {
                     const movedChildrenNodes = [ fileToMove, folderToMove ];
-                    spyOn(service, 'moveFolderAction').and.returnValue(Observable.of(movedChildrenNodes));
+                    spyOn(service, 'moveFolderAction').and.returnValue(of(movedChildrenNodes));
                     spyOn(service, 'processResponse').and.returnValue({
                         succeeded: [ movedChildrenNodes ],
                         failed: [],
                         partiallySucceeded: []
                     });
                     const folderOnLocation = parentFolderToMove;
-                    spyOn(service, 'getChildByName').and.returnValue(Observable.of(folderOnLocation));
+                    spyOn(service, 'getChildByName').and.returnValue(of(folderOnLocation));
 
                     parentFolderToMove.entry.parentId = `not-${folderDestinationId}`;
                     moveNodeActionPromise = service.moveNodeAction(parentFolderToMove.entry, folderDestinationId).toPromise();
@@ -948,13 +948,13 @@ describe('NodeActionsService', () => {
 
                 it('should take no extra delete action, if folder is no longer on location', async(() => {
                     const movedChildrenNodes = [ fileToMove, folderToMove ];
-                    spyOn(service, 'moveFolderAction').and.returnValue(Observable.of(movedChildrenNodes));
+                    spyOn(service, 'moveFolderAction').and.returnValue(of(movedChildrenNodes));
                     spyOn(service, 'processResponse').and.returnValue({
                         succeeded: [ movedChildrenNodes ],
                         failed: [],
                         partiallySucceeded: []
                     });
-                    spyOn(service, 'getChildByName').and.returnValue(Observable.of(null));
+                    spyOn(service, 'getChildByName').and.returnValue(of(null));
 
                     parentFolderToMove.entry.parentId = `not-${folderDestinationId}`;
                     moveNodeActionPromise = service.moveNodeAction(parentFolderToMove.entry, folderDestinationId).toPromise();

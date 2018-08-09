@@ -1,6 +1,16 @@
 <div mat-menu class="mat-menu-panel" @panelAnimation>
     <div class="mat-menu-content">
         <ng-container *ngFor="let entry of actions" [ngSwitch]="entry.type">
+            <ng-container *ngSwitchCase="'default'">
+                <button mat-menu-item
+                    [id]="entry.id"
+                    acaContextMenuItem
+                    (click)="runAction(entry.actions.click)">
+                    <mat-icon color="primary">{{ entry.icon }}</mat-icon>
+                    <span>{{ entry.title | translate }}</span>
+                </button>
+            </ng-container>
+
             <ng-container *ngSwitchCase="'button'">
                 <button mat-menu-item
                     [id]="entry.id"

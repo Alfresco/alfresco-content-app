@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AlfrescoApiService, LogService} from '@alfresco/adf-core';
 import {RenditionEntry} from 'alfresco-js-api';
-import {ContentApiService} from './content-api.service';
+import {ContentApiService} from './../../services/content-api.service';
 
 @Injectable()
 export class ViewUtilService {

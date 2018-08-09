@@ -25,7 +25,7 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states/app.state';
 import {
@@ -76,7 +76,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && selection.file) {
                             this.contentService.shareNode(selection.file);
@@ -95,7 +95,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && !selection.isEmpty) {
                             this.contentService.unshareNodes(selection.nodes);
@@ -114,7 +114,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && selection.count > 0) {
                             this.contentService.purgeDeletedNodes(
@@ -135,7 +135,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && selection.count > 0) {
                             this.contentService.restoreDeletedNodes(
@@ -156,7 +156,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && selection.count > 0) {
                             this.contentService.deleteNodes(selection.nodes);
@@ -185,7 +185,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(currentFolder)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(node => {
                         if (node && node.id) {
                             this.contentService.createFolder(node.id);
@@ -204,7 +204,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && selection.folder) {
                             this.contentService.editFolder(selection.folder);
@@ -223,7 +223,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && !selection.isEmpty) {
                             this.contentService.copyNodes(selection.nodes);
@@ -242,7 +242,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && !selection.isEmpty) {
                             this.contentService.moveNodes(selection.nodes);
@@ -261,7 +261,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && !selection.isEmpty) {
                             this.contentService.managePermissions(
@@ -282,7 +282,7 @@ export class NodeEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && selection.file) {
                             this.contentService.manageVersions(

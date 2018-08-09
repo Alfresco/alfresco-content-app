@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Observable } from 'rxjs/Rx';
 import { TestBed, fakeAsync, tick, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -40,6 +39,7 @@ import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
+import { of, throwError } from 'rxjs';
 
 describe('FilesComponent', () => {
     let node;
@@ -50,11 +50,6 @@ describe('FilesComponent', () => {
     let router: Router;
     let nodeActionsService: NodeActionsService;
     let contentApi: ContentApiService;
-
-    beforeAll(() => {
-        // testing only functional-wise not time-wise
-        Observable.prototype.debounceTime = function () { return this; };
-    });
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -73,7 +68,7 @@ describe('FilesComponent', () => {
             providers: [
                 { provide: ActivatedRoute, useValue: {
                     snapshot: { data: { preferencePrefix: 'prefix' } },
-                    params: Observable.of({ folderId: 'someId' })
+                    params: of({ folderId: 'someId' })
                 } }
             ],
             schemas: [ NO_ERRORS_SCHEMA ]
@@ -96,7 +91,7 @@ describe('FilesComponent', () => {
 
     describe('Current page is valid', () => {
         it('should be a valid current page', fakeAsync(() => {
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.throw(null));
+            spyOn(contentApi, 'getNode').and.returnValue(throwError(null));
 
             component.ngOnInit();
             fixture.detectChanges();
@@ -106,7 +101,7 @@ describe('FilesComponent', () => {
         }));
 
         it('should set current page as invalid path', fakeAsync(() => {
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
 
             component.ngOnInit();
             tick();
@@ -118,7 +113,7 @@ describe('FilesComponent', () => {
 
     describe('OnInit', () => {
         it('should set current node', () => {
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
             fixture.detectChanges();
             expect(component.node).toBe(node);
         });
@@ -126,7 +121,7 @@ describe('FilesComponent', () => {
         it('if should navigate to parent if node is not a folder', () => {
             node.isFolder = false;
             node.parentId = 'parent-id';
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
             spyOn(router, 'navigate');
 
             fixture.detectChanges();
@@ -137,7 +132,7 @@ describe('FilesComponent', () => {
 
     describe('refresh on events', () => {
         beforeEach(() => {
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
             spyOn(component.documentList, 'reload');
 
             fixture.detectChanges();
@@ -199,47 +194,55 @@ describe('FilesComponent', () => {
             expect(component.documentList.reload).toHaveBeenCalled();
         });
 
-        it('should call refresh on fileUploadComplete event if parent node match', () => {
+        it('should call refresh on fileUploadComplete event if parent node match', fakeAsync(() => {
             const file = { file: { options: { parentId: 'parentId' } } };
             component.node = { id: 'parentId' };
 
             uploadService.fileUploadComplete.next(<any>file);
 
-            expect(component.documentList.reload).toHaveBeenCalled();
-        });
+            tick(500);
 
-        it('should not call refresh on fileUploadComplete event if parent mismatch', () => {
+            expect(component.documentList.reload).toHaveBeenCalled();
+        }));
+
+        it('should not call refresh on fileUploadComplete event if parent mismatch', fakeAsync(() => {
             const file = { file: { options: { parentId: 'otherId' } } };
             component.node = { id: 'parentId' };
 
             uploadService.fileUploadComplete.next(<any>file);
 
-            expect(component.documentList.reload).not.toHaveBeenCalled();
-        });
+            tick(500);
 
-        it('should call refresh on fileUploadDeleted event if parent node match', () => {
+            expect(component.documentList.reload).not.toHaveBeenCalled();
+        }));
+
+        it('should call refresh on fileUploadDeleted event if parent node match', fakeAsync(() => {
             const file = { file: { options: { parentId: 'parentId' } } };
             component.node = { id: 'parentId' };
 
             uploadService.fileUploadDeleted.next(<any>file);
 
-            expect(component.documentList.reload).toHaveBeenCalled();
-        });
+            tick(500);
 
-        it('should not call refresh on fileUploadDeleted event if parent mismatch', () => {
+            expect(component.documentList.reload).toHaveBeenCalled();
+        }));
+
+        it('should not call refresh on fileUploadDeleted event if parent mismatch', fakeAsync(() => {
             const file: any = { file: { options: { parentId: 'otherId' } } };
             component.node = { id: 'parentId' };
 
             uploadService.fileUploadDeleted.next(file);
 
+            tick(500);
+
             expect(component.documentList.reload).not.toHaveBeenCalled();
-        });
+        }));
     });
 
 
     describe('onBreadcrumbNavigate()', () => {
         beforeEach(() => {
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
             fixture.detectChanges();
         });
 
@@ -255,7 +258,7 @@ describe('FilesComponent', () => {
 
     describe('Node navigation', () => {
         beforeEach(() => {
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node }));
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
             spyOn(router, 'navigate');
 
             fixture.detectChanges();

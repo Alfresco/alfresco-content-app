@@ -60,6 +60,7 @@ export class ContextActionsDirective {
         this.overlayRef = this.contextMenuService.open({
             source: event,
             hasBackdrop: true,
+            backdropClass: 'cdk-overlay-transparent-backdrop',
             panelClass: 'cdk-overlay-pane',
         });
     }

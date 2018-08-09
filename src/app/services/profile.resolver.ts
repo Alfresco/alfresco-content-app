@@ -27,7 +27,7 @@ import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Resolve, Router } from '@angular/router';
 import { Person } from 'alfresco-js-api';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AppStore } from '../store/states/app.state';
 import { SetUserProfileAction } from '../store/actions';
 import { ContentApiService } from './content-api.service';

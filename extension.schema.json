@@ -100,7 +100,7 @@
         },
         "contentActionRef": {
             "type": "object",
-            "required": ["id", "type"],
+            "required": ["id"],
             "properties": {
                 "id": {
                     "description": "Unique action identifier.",

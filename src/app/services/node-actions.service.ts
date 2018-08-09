@@ -25,12 +25,13 @@
 
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject, of, zip, from } from 'rxjs';
 
 import { AlfrescoApiService, ContentService, DataColumn, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService, ContentNodeSelectorComponent, ContentNodeSelectorComponentData } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity, MinimalNodeEntryEntity, SitePaging } from 'alfresco-js-api';
 import { ContentApiService } from '../services/content-api.service';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class NodeActionsService {
@@ -98,14 +99,12 @@ export class NodeActionsService {
                 let action$: Observable<any>;
 
                 if (action === 'move' && contentEntities.length === 1 && type === 'content') {
-                    action$ = this.documentListService[`${action}Node`].call(this.documentListService, contentEntryId, selection.id);
-                    action$ = action$.toArray();
-
+                    action$ = this.documentListService.moveNode(contentEntryId, selection.id);
                 } else {
                     contentEntities.forEach((node) => {
                         batch.push(this[`${action}NodeAction`](node.entry, selection.id));
                     });
-                    action$ = Observable.zip(...batch);
+                    action$ = zip(...batch);
                 }
 
                 action$
@@ -328,7 +327,7 @@ export class NodeActionsService {
 
         // use local method until new name parameter is added on ADF copyNode
         return this.copyNode(contentEntryId, selectionId, _oldName)
-            .catch((err) => {
+            .pipe(catchError((err) => {
                 let errStatusCode;
                 try {
                     const {error: {statusCode}} = JSON.parse(err.message);
@@ -340,9 +339,9 @@ export class NodeActionsService {
                     return this.copyContentAction(contentEntry, selectionId, this.getNewNameFrom(_oldName, contentEntry.name));
                 } else {
                     // do not throw error, to be able to show message in case of partial copy of files
-                    return Observable.of(err || 'Server error');
+                    return of(err || 'Server error');
                 }
-            });
+            }));
     }
 
     copyFolderAction(contentEntry, selectionId): Observable<any> {
@@ -353,46 +352,48 @@ export class NodeActionsService {
         let newDestinationFolder;
 
         return this.copyNode(contentEntryId, selectionId, contentEntry.name)
-            .catch((err) => {
-                let errStatusCode;
-                try {
-                    const {error: {statusCode}} = JSON.parse(err.message);
-                    errStatusCode = statusCode;
-                } catch (e) { //
-                }
+            .pipe(
+                catchError((err) => {
+                    let errStatusCode;
+                    try {
+                        const {error: {statusCode}} = JSON.parse(err.message);
+                        errStatusCode = statusCode;
+                    } catch {}
 
-                if (errStatusCode && errStatusCode === 409) {
+                    if (errStatusCode && errStatusCode === 409) {
 
-                    $destinationFolder = this.getChildByName(selectionId, contentEntry.name);
-                    $childrenToCopy = this.getNodeChildren(contentEntryId);
+                        $destinationFolder = this.getChildByName(selectionId, contentEntry.name);
+                        $childrenToCopy = this.getNodeChildren(contentEntryId);
 
-                    return $destinationFolder
-                        .flatMap((destination) => {
-                            newDestinationFolder = destination;
-                            return $childrenToCopy;
-                        })
-                        .flatMap((nodesToCopy) => {
-                            const batch = [];
-                            nodesToCopy.list.entries.forEach((node) => {
-                                if (node.entry.isFolder) {
-                                    batch.push(this.copyFolderAction(node.entry, newDestinationFolder.entry.id));
+                        return $destinationFolder
+                            .pipe(
+                                mergeMap((destination) => {
+                                    newDestinationFolder = destination;
+                                    return $childrenToCopy;
+                                }),
+                                mergeMap((nodesToCopy) => {
+                                    const batch = [];
+                                    nodesToCopy.list.entries.forEach((node) => {
+                                        if (node.entry.isFolder) {
+                                            batch.push(this.copyFolderAction(node.entry, newDestinationFolder.entry.id));
+                                        } else {
+                                            batch.push(this.copyContentAction(node.entry, newDestinationFolder.entry.id));
+                                        }
+                                    });
 
-                                } else {
-                                    batch.push(this.copyContentAction(node.entry, newDestinationFolder.entry.id));
-                                }
-                            });
+                                    if (!batch.length) {
+                                        return of({});
+                                    }
+                                    return zip(...batch);
+                                })
+                            );
 
-                            if (!batch.length) {
-                                return Observable.of({});
-                            }
-                            return Observable.zip(...batch);
-                        });
-
-                } else {
-                    // do not throw error, to be able to show message in case of partial copy of files
-                    return Observable.of(err || 'Server error');
-                }
-            });
+                    } else {
+                        // do not throw error, to be able to show message in case of partial copy of files
+                        return of(err || 'Server error');
+                    }
+                })
+            );
     }
 
     moveNodeAction(nodeEntry, selectionId): Observable<any> {
@@ -402,11 +403,11 @@ export class NodeActionsService {
             const initialParentId = nodeEntry.parentId;
 
             return this.moveFolderAction(nodeEntry, selectionId)
-                .flatMap((newContent) => {
+                .pipe(mergeMap((newContent) => {
 
                     // take no extra action, if folder is moved to the same location
                     if (initialParentId === selectionId) {
-                        return Observable.of(newContent);
+                        return of(newContent);
                     }
 
                     const flattenResponse = this.flatten(newContent);
@@ -417,24 +418,28 @@ export class NodeActionsService {
 
                         // check if folder still exists on location
                         return this.getChildByName(initialParentId, nodeEntry.name)
-                            .flatMap((folderOnInitialLocation) => {
-
-                                if (folderOnInitialLocation) {
-                                    // Check if there's nodeId for Shared Files
-                                    const nodeEntryId = nodeEntry.nodeId || nodeEntry.id;
-                                    // delete it from location
-                                    return this.contentApi.deleteNode(nodeEntryId)
-                                        .flatMap(() => {
-                                            this.moveDeletedEntries.push(nodeEntry);
-                                            return Observable.of(newContent);
-                                        });
-                                }
-                                return Observable.of(newContent);
-                            });
+                            .pipe(
+                                mergeMap(folderOnInitialLocation => {
+                                    if (folderOnInitialLocation) {
+                                        // Check if there's nodeId for Shared Files
+                                        const nodeEntryId = nodeEntry.nodeId || nodeEntry.id;
+                                        // delete it from location
+                                        return this.contentApi
+                                            .deleteNode(nodeEntryId)
+                                            .pipe(
+                                                mergeMap(() => {
+                                                    this.moveDeletedEntries.push(nodeEntry);
+                                                    return of(newContent);
+                                                })
+                                            );
+                                    }
+                                    return of(newContent);
+                                })
+                            );
 
                     }
-                    return Observable.of(newContent);
-                });
+                    return of(newContent);
+                }));
 
         } else {
             // any other type is treated as 'content'
@@ -451,48 +456,51 @@ export class NodeActionsService {
         let newDestinationFolder;
 
         return this.documentListService.moveNode(contentEntryId, selectionId)
-            .map((itemMoved) => {
-                return { itemMoved, initialParentId };
-            })
-            .catch((err) => {
-                let errStatusCode;
-                try {
-                    const {error: {statusCode}} = JSON.parse(err.message);
-                    errStatusCode = statusCode;
-                } catch (e) { //
-                }
+            .pipe(
+                map((itemMoved) => {
+                    return { itemMoved, initialParentId };
+                }),
+                catchError(err => {
+                    let errStatusCode;
+                    try {
+                        const {error: {statusCode}} = JSON.parse(err.message);
+                        errStatusCode = statusCode;
+                    } catch (e) { //
+                    }
 
-                if (errStatusCode && errStatusCode === 409) {
+                    if (errStatusCode && errStatusCode === 409) {
 
-                    $destinationFolder = this.getChildByName(selectionId, contentEntry.name);
-                    $childrenToMove = this.getNodeChildren(contentEntryId);
+                        $destinationFolder = this.getChildByName(selectionId, contentEntry.name);
+                        $childrenToMove = this.getNodeChildren(contentEntryId);
 
-                    return $destinationFolder
-                        .flatMap((destination) => {
-                            newDestinationFolder = destination;
-                            return $childrenToMove;
-                        })
-                        .flatMap((childrenToMove) => {
-                            const batch = [];
-                            childrenToMove.list.entries.forEach((node) => {
-                                if (node.entry.isFolder) {
-                                    batch.push(this.moveFolderAction(node.entry, newDestinationFolder.entry.id));
+                        return $destinationFolder
+                            .pipe(
+                                mergeMap((destination) => {
+                                    newDestinationFolder = destination;
+                                    return $childrenToMove;
+                                }),
+                                mergeMap((childrenToMove) => {
+                                    const batch = [];
+                                    childrenToMove.list.entries.forEach((node) => {
+                                        if (node.entry.isFolder) {
+                                            batch.push(this.moveFolderAction(node.entry, newDestinationFolder.entry.id));
+                                        } else {
+                                            batch.push(this.moveContentAction(node.entry, newDestinationFolder.entry.id));
+                                        }
+                                    });
 
-                                } else {
-                                    batch.push(this.moveContentAction(node.entry, newDestinationFolder.entry.id));
-                                }
-                            });
-
-                            if (!batch.length) {
-                                return Observable.of(batch);
-                            }
-                            return Observable.zip(...batch);
-                        });
-                } else {
-                    // do not throw error, to be able to show message in case of partial move of files
-                    return Observable.of(err);
-                }
-            });
+                                    if (!batch.length) {
+                                        return of(batch);
+                                    }
+                                    return zip(...batch);
+                                })
+                            );
+                    } else {
+                        // do not throw error, to be able to show message in case of partial move of files
+                        return of(err);
+                    }
+                })
+            );
     }
 
     moveContentAction(contentEntry, selectionId) {
@@ -500,14 +508,17 @@ export class NodeActionsService {
         const contentEntryId = contentEntry.nodeId || contentEntry.id;
         const initialParentId = this.getEntryParentId(contentEntry);
 
-        return this.documentListService.moveNode(contentEntryId, selectionId)
-            .map((itemMoved) => {
-                return { itemMoved, initialParentId };
-            })
-            .catch((err) => {
-                // do not throw error, to be able to show message in case of partial move of files
-                return Observable.of(err);
-            });
+        return this.documentListService
+            .moveNode(contentEntryId, selectionId)
+            .pipe(
+                map((itemMoved) => {
+                    return { itemMoved, initialParentId };
+                }),
+                catchError((err) => {
+                    // do not throw error, to be able to show message in case of partial move of files
+                    return of(err);
+                })
+            );
     }
 
     getChildByName(parentId, name) {
@@ -525,7 +536,7 @@ export class NodeActionsService {
                 }
             },
             (err) => {
-                return Observable.of(err || 'Server error');
+                return of(err || 'Server error');
             });
         return matchedNodes;
     }
@@ -599,7 +610,7 @@ export class NodeActionsService {
      * @param params optional parameters
      */
     getNodeChildren(nodeId: string, params?) {
-        return Observable.fromPromise(this.apiService.getInstance().nodes.getNodeChildren(nodeId, params));
+        return from(this.apiService.getInstance().nodes.getNodeChildren(nodeId, params));
     }
 
     // Copied from ADF document-list.service, and added the name parameter
@@ -611,7 +622,7 @@ export class NodeActionsService {
      * @param name The new name for the copy that would be added on the destination folder
      */
     copyNode(nodeId: string, targetParentId: string, name?: string) {
-        return Observable.fromPromise(this.apiService.getInstance().nodes.copyNode(nodeId, {targetParentId, name}));
+        return from(this.apiService.getInstance().nodes.copyNode(nodeId, {targetParentId, name}));
     }
 
     public flatten(nDimArray) {

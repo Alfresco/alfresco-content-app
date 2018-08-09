@@ -4,7 +4,7 @@
 
 <mat-dialog-content>
     <form novalidate [formGroup]="form" (submit)="submit()">
-        <mat-input-container>
+        <mat-form-field>
             <input
             placeholder="{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}"
                 required
@@ -15,9 +15,9 @@
             <mat-error *ngIf="form.controls['title'].hasError('maxlength')">
                 {{ 'LIBRARY.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
             </mat-error>
-        </mat-input-container>
+        </mat-form-field>
 
-        <mat-input-container>
+        <mat-form-field>
             <input
                 required
                 placeholder="{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}"
@@ -32,9 +32,9 @@
             <mat-error *ngIf="form.controls['id'].hasError('maxlength')">
                 {{ 'LIBRARY.ERRORS.ID_TOO_LONG' | translate }}
             </mat-error>
-        </mat-input-container>
+        </mat-form-field>
 
-        <mat-input-container>
+        <mat-form-field>
             <textarea
                 matInput
                 placeholder="{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}"
@@ -44,7 +44,7 @@
             <mat-error *ngIf="form.controls['description'].hasError('maxlength')">
                 {{ 'LIBRARY.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
             </mat-error>
-        </mat-input-container>
+        </mat-form-field>
 
         <mat-radio-group
             [ngModelOptions]="{ standalone: true }"

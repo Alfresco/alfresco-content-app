@@ -23,102 +23,78 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoApi } from '../repo-api';
-import { Site } from './sites-api-models';
+import { RepoApiNew } from '../repo-api-new';
+import { SiteBody, SiteMemberRoleBody, SiteMemberBody } from 'alfresco-js-api-node';
+import { SITE_VISIBILITY } from '../../../../configs';
 
-export class SitesApi extends RepoApi {
-    getSite(id: string): Promise<any> {
-        return this
-            .get(`/sites/${id}`)
-            .catch(this.handleError);
+export class SitesApi extends RepoApiNew {
+
+    constructor(username?, password?) {
+        super(username, password);
     }
 
-    getSiteContainers(siteId: string): Promise<any> {
-        return this
-            .get(`/sites/${siteId}/containers`)
-            .then(resp => resp.data.list.entries)
-            .catch(this.handleError);
+    async getSite(siteId: string) {
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.sitesApi.getSite(siteId);
     }
 
-    getDocLibId(siteId: string) {
-        return this.getSiteContainers(siteId)
-            .then(resp => resp[0].entry.id)
-            .catch(this.handleError);
+    async getDocLibId(siteId: string) {
+        await this.apiAuth();
+        return (await this.alfrescoJsApi.core.sitesApi.getSiteContainers(siteId)).list.entries[0].entry.id;
     }
 
-    updateSite(id: string, details?: Site): Promise<any> {
-        if (details.id) {
-            delete details.id;
-        }
-
-        return this
-            .put(`/sites/${id}`, { data: details })
-            .catch(this.handleError);
-    }
-
-    createOrUpdateSite(title: string, visibility: string, details?: Site): Promise<any> {
-        const site: Site = new Site(title, visibility, details);
-        const onSuccess = (response) => response;
-        const onError = (response) => {
-            return (response.statusCode === 409)
-                ? Promise.resolve(this.updateSite(site.id, site))
-                : Promise.reject(response);
+    async createSite(title: string, visibility?: string, description?: string, siteId?: string) {
+        const site = <SiteBody>{
+            title,
+            visibility: visibility || SITE_VISIBILITY.PUBLIC,
+            description: description,
+            id: siteId || title
         };
 
-        return this
-            .post(`/sites`, { data: site })
-            .then(onSuccess, onError)
-            .catch(this.handleError);
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.sitesApi.createSite(site);
     }
 
-    createSite(title: string, visibility: string, details?: Site): Promise<any> {
-        const site: Site = new Site(title, visibility, details);
-        return this
-            .post(`/sites`, { data: site })
-            .catch(this.handleError);
+    async createSites(titles: string[], visibility: string) {
+        return await titles.reduce(async (previous: any, current: any) => {
+            await previous;
+            return await this.createSite(current, visibility);
+        }, Promise.resolve());
     }
 
-    createSites(titles: string[], visibility: string): Promise<any[]> {
-        return titles.reduce((previous, current) => (
-            previous.then(() => this.createSite(current, visibility))
-        ), Promise.resolve());
+    async deleteSite(siteId: string, permanent: boolean = true) {
+        await this.apiAuth();
+        return this.alfrescoJsApi.core.sitesApi.deleteSite(siteId, { permanent });
     }
 
-    deleteSite(id: string, permanent: boolean = true): Promise<any> {
-        return this
-            .delete(`/sites/${id}?permanent=${permanent}`)
-            .catch(this.handleError);
+    async deleteSites(siteIds: string[], permanent: boolean = true) {
+        return await siteIds.reduce(async (previous, current) => {
+            await previous;
+            return await this.deleteSite(current);
+        }, Promise.resolve());
     }
 
-    deleteSites(ids: string[], permanent: boolean = true): Promise<any[]> {
-        return ids.reduce((previous, current) => (
-            previous.then(() => this.deleteSite(current))
-        ), Promise.resolve());
-    }
-
-    updateSiteMember(siteId: string, userId: string, role: string): Promise<any> {
-        return this
-            .put(`/sites/${siteId}/members/${userId}`, { data: { role } })
-            .catch(this.handleError);
-    }
-
-    addSiteMember(siteId: string, userId: string, role: string): Promise<any> {
-        const onSuccess = (response) => response;
-        const onError = (response) => {
-            return (response.statusCode === 409)
-                ? Promise.resolve(this.updateSiteMember(siteId, userId, role))
-                : Promise.reject(response);
+    async updateSiteMember(siteId: string, userId: string, role: string) {
+        const siteRole = <SiteMemberRoleBody>{
+            role: role
         };
 
-        return this
-            .post(`/sites/${siteId}/members`, { data: { role, id: userId } })
-            .then(onSuccess, onError)
-            .catch(this.handleError);
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.sitesApi.updateSiteMember(siteId, userId, siteRole);
     }
 
-    deleteSiteMember(siteId: string, userId: string): Promise<any> {
-        return this
-            .delete(`/sites/${siteId}/members/${userId}`)
-            .catch(this.handleError);
+    async addSiteMember(siteId: string, userId: string, role: string) {
+        const memberBody = <SiteMemberBody>{
+            id: userId,
+            role: role
+        };
+
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.sitesApi.addSiteMember(siteId, memberBody);
+    }
+
+    async deleteSiteMember(siteId: string, userId: string) {
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.sitesApi.removeSiteMember(siteId, userId);
     }
 }

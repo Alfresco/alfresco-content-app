@@ -25,7 +25,7 @@
 
 import { Component, Input, ChangeDetectionStrategy, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
 import { PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
-import { Observable, BehaviorSubject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
@@ -96,12 +96,12 @@ export class LocationLinkComponent implements OnInit {
 
         // for admin users
         if (elements.length === 1 && elements[0] === 'Company Home') {
-            return Observable.of('Personal Files');
+            return of('Personal Files');
         }
 
         // for non-admin users
         if (elements.length === 3 && elements[0] === 'Company Home' && elements[1] === 'User Homes') {
-            return Observable.of('Personal Files');
+            return of('Personal Files');
         }
 
         const result = elements[elements.length - 1];
@@ -123,7 +123,7 @@ export class LocationLinkComponent implements OnInit {
             });
         }
 
-        return Observable.of(result);
+        return of(result);
     }
 
     // todo: review once 5.2.3 is out

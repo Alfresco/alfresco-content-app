@@ -34,5 +34,11 @@
             line-height: 1.43;
             letter-spacing: -0.2px;
         }
+
+        @media screen and ($mat-small) {
+            .current-user__full-name {
+                display: none;
+            }
+        }
     }
 }
