@@ -43,7 +43,7 @@ describe('Restore from Trash', () => {
     const { dataTable, toolbar } = page;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => loginPage.loginWith(username))
             .then(done);
     });

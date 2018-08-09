@@ -51,7 +51,7 @@ describe('Mark items as favorites', () => {
     const { dataTable, toolbar } = page;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => apis.user.nodes.createFile( file1NotFav ).then(resp => file1Id = resp.data.entry.id))
             .then(() => apis.user.nodes.createFile( file2NotFav ).then(resp => file2Id = resp.data.entry.id))
             .then(() => apis.user.nodes.createFile( file3Fav ).then(resp => file3Id = resp.data.entry.id))

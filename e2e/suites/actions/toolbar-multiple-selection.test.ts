@@ -66,7 +66,7 @@ describe('Toolbar actions - multiple selection : ', () => {
     const { toolbar } = page;
 
     beforeAll(done => {
-        apis.admin.people.createUser(user1)
+        apis.admin.people.createUser({ username: user1 })
             .then(() => apis.user.nodes.createFiles([ file1 ]).then(resp => file1Id = resp.data.entry.id))
             .then(() => apis.user.nodes.createFiles([ file2 ]).then(resp => file2Id = resp.data.entry.id))
             .then(() => apis.user.nodes.createFolders([ folder1 ]).then(resp => folder1Id = resp.data.entry.id))
@@ -198,7 +198,7 @@ describe('Toolbar actions - multiple selection : ', () => {
     describe('File Libraries', () => {
         beforeAll(done => {
             apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC)
-                .then(() => apis.admin.people.createUser(user2))
+                .then(() => apis.admin.people.createUser({ username: user2 }))
                 .then(() => apis.admin.sites.addSiteMember(siteName, user1, SITE_ROLES.SITE_MANAGER))
                 .then(() => apis.admin.sites.addSiteMember(siteName, user2, SITE_ROLES.SITE_CONSUMER))
                 .then(() => apis.admin.nodes.createFiles([ file1Admin, file2Admin ], `Sites/${siteName}/documentLibrary`))

@@ -47,7 +47,7 @@ describe('Special permissions', () => {
     xit('');
 
     beforeAll(done => {
-        apis.admin.people.createUser(username).then(done);
+        apis.admin.people.createUser({ username: username }).then(done);
     });
 
     describe('file not displayed if user no longer has permissions on it', () => {

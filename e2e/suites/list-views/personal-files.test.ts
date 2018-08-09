@@ -51,7 +51,7 @@ describe('Personal Files', () => {
     beforeAll(done => {
         Promise
             .all([
-                apis.admin.people.createUser(username),
+                apis.admin.people.createUser({ username: username }),
                 apis.admin.nodes.createFolders([ adminFolder ])
             ])
             .then(() => apis.user.nodes.createFolders([ userFolder ]))

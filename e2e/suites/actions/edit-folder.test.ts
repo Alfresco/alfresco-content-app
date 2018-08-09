@@ -58,7 +58,7 @@ describe('Edit folder', () => {
     const editButton = personalFilesPage.toolbar.actions.getButtonByTitleAttribute('Edit');
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE))
             .then(() => apis.admin.nodes.createFolders([ folderName ], `Sites/${siteName}/documentLibrary`))
             .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))

@@ -55,7 +55,7 @@ describe('Breadcrumb', () => {
     };
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => apis.user.nodes.createFolder(parent)).then(resp => parentId = resp.data.entry.id)
             .then(() => apis.user.nodes.createFolder(subFolder1, parentId)).then(resp => subFolder1Id = resp.data.entry.id)
             .then(() => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then(resp => subFolder2Id = resp.data.entry.id)
@@ -219,7 +219,7 @@ describe('Breadcrumb', () => {
 
         beforeAll(done => {
             logoutPage.load()
-                .then(() => apis.admin.people.createUser(user2))
+                .then(() => apis.admin.people.createUser({ username: user2 }))
                 .then(() => user2Api.nodes.createFolder(userFolder).then(resp => userFolderId = resp.data.entry.id))
                 .then(() => loginPage.loginWithAdmin())
                 .then(done);

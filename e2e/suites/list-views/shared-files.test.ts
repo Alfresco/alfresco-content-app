@@ -53,7 +53,7 @@ describe('Shared Files', () => {
     const { breadcrumb } = sharedFilesPage.toolbar;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
             .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
             .then(() => apis.admin.nodes.createFiles([ fileAdmin ], `Sites/${siteName}/documentLibrary`))

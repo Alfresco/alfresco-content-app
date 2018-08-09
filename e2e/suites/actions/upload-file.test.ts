@@ -45,7 +45,7 @@ describe('Upload files', () => {
     const { dataTable } = page;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.data.entry.id))
 
             .then(() => loginPage.loginWith(username))

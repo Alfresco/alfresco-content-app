@@ -59,7 +59,7 @@ describe('Trash', () => {
     const { breadcrumb } = trashPage.toolbar;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => apis.admin.nodes.createFiles([ fileAdmin ]).then(resp => fileAdminId = resp.data.entry.id))
             .then(() => apis.admin.nodes.createFolders([ folderAdmin ]).then(resp => folderAdminId = resp.data.entry.id))
             .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))

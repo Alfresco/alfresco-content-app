@@ -50,7 +50,7 @@ describe('Permanently delete from Trash', () => {
     const { dataTable, toolbar } = trashPage;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => apis.user.nodes.createFiles([ file1, file2 ]))
             .then(resp => filesIds = resp.data.list.entries.map(entries => entries.entry.id))
             .then(() => apis.user.nodes.createFolders([ folder1, folder2 ]))

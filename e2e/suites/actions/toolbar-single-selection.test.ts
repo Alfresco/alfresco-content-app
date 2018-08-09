@@ -53,7 +53,7 @@ describe('Toolbar actions - single selection : ', () => {
     const { dataTable, toolbar } = page;
 
     beforeAll(async (done) => {
-        await apis.admin.people.createUser(username);
+        await apis.admin.people.createUser({ username: username });
 
         fileUserId = (await apis.user.nodes.createFiles([fileUser])).data.entry.id;
         fileForDeleteId = (await apis.user.nodes.createFiles([fileForDelete])).data.entry.id;
@@ -356,7 +356,7 @@ describe('Toolbar actions - single selection : ', () => {
             await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
             const docLibId = await apis.admin.sites.getDocLibId(siteName);
 
-            await apis.admin.people.createUser(username2);
+            await apis.admin.people.createUser({ username: username2 });
             await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER);
             await apis.admin.sites.addSiteMember(siteName, username2, SITE_ROLES.SITE_CONSUMER);
 

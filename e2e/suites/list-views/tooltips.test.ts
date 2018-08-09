@@ -57,7 +57,7 @@ describe('File / folder tooltips', () => {
     const { dataTable } = page;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => apis.user.nodes.createFolder( parent ))
             .then(resp => parentId = resp.data.entry.id)
 

@@ -52,7 +52,7 @@ describe('Favorites', () => {
     const { breadcrumb } = favoritesPage.toolbar;
 
     beforeAll(async (done) => {
-        await apis.admin.people.createUser(username);
+        await apis.admin.people.createUser({ username: username });
 
         await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
         const docLibId = await apis.admin.sites.getDocLibId(siteName);

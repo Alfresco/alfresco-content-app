@@ -43,7 +43,7 @@ describe('Empty list views', () => {
     const { dataTable } = page;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => loginPage.loginWith(username))
             .then(done);
     });

@@ -61,14 +61,12 @@ describe('Login', () => {
     beforeAll(done => {
         Promise
             .all([
-                peopleApi.createUser(testUser),
-                peopleApi.createUser(russianUser.username, russianUser.password),
-                peopleApi.createUser(johnDoe.username, johnDoe.password, {
-                    firstName: johnDoe.firstName,
-                    lastName: johnDoe.lastName
-                }),
-                peopleApi.createUser(disabledUser).then(() => peopleApi.disableUser(disabledUser)),
-                peopleApi.createUser(testUser2.username, testUser2.password)
+                peopleApi.createUser({ username: testUser }),
+                peopleApi.createUser(russianUser),
+                peopleApi.createUser(johnDoe),
+                peopleApi.createUser({ username: disabledUser })
+                    .then(() => peopleApi.disableUser(disabledUser)),
+                peopleApi.createUser(testUser2)
             ])
             .then(done);
     });

@@ -52,7 +52,7 @@ describe('Pagination on Shared Files', () => {
     const file = `file-${Utils.random()}.txt`; let fileId;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username).then(done);
+        apis.admin.people.createUser({ username: username }).then(done);
     });
 
     xit('');

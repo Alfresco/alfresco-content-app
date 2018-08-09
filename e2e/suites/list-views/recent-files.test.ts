@@ -52,7 +52,7 @@ describe('Recent Files', () => {
     const { breadcrumb } = recentFilesPage.toolbar;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username: username })
             .then(() => apis.user.nodes.createFolders([ folderName ])).then(resp => folderId = resp.data.entry.id)
             .then(() => apis.user.nodes.createFiles([ fileName1 ], folderName))
             .then(() => apis.user.nodes.createFiles([ fileName2 ])).then(resp => file2Id = resp.data.entry.id)
