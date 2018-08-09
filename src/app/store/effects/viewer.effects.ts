@@ -25,7 +25,7 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { VIEW_FILE, ViewFileAction } from '../actions';
 import { Router } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
@@ -64,7 +64,7 @@ export class ViewerEffects {
             } else {
                 this.store
                     .select(fileToPreview)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(result => {
                         if (result.selection && result.selection.file) {
                             const {

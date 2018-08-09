@@ -44,8 +44,8 @@ export class Menu extends Component {
     }
 
     waitForMenuToOpen() {
-        return browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT)
-            .then(() => browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT))
+        return browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT)
+            .then(() => browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT))
             .then(() => browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT));
     }
 

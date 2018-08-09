@@ -24,7 +24,7 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -155,7 +155,7 @@ describe('LibrariesComponent', () => {
 
         it('navigates to node id', () => {
             const document = { id: 'documentId' };
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: document }));
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: document }));
 
             component.navigate(node.id);
 

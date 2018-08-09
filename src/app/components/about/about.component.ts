@@ -28,6 +28,7 @@ import { HttpClient } from '@angular/common/http';
 import { ObjectDataTableAdapter  } from '@alfresco/adf-core';
 import { ContentApiService } from '../../services/content-api.service';
 import { RepositoryInfo } from 'alfresco-js-api';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-about',
@@ -49,7 +50,7 @@ export class AboutComponent implements OnInit {
 
     ngOnInit() {
         this.contentApi.getRepositoryInformation()
-            .map(node => node.entry.repository)
+            .pipe(map(node => node.entry.repository))
             .subscribe(repository => {
             this.repository = repository;
 

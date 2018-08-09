@@ -25,7 +25,7 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { ADD_FAVORITE, AddFavoriteAction, RemoveFavoriteAction, REMOVE_FAVORITE } from '../actions/favorite.actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
@@ -49,7 +49,7 @@ export class FavoriteEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && !selection.isEmpty) {
                             this.content.addFavorite(selection.nodes);
@@ -68,7 +68,7 @@ export class FavoriteEffects {
             } else {
                 this.store
                     .select(appSelection)
-                    .take(1)
+                    .pipe(take(1))
                     .subscribe(selection => {
                         if (selection && !selection.isEmpty) {
                             this.content.removeFavorite(selection.nodes);

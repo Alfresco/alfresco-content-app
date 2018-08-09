@@ -33,6 +33,7 @@ import { SearchInputControlComponent } from '../search-input-control/search-inpu
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 import { SearchByTermAction, NavigateToFolder, ViewFileAction } from '../../../store/actions';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'aca-search-input',
@@ -55,11 +56,13 @@ export class SearchInputComponent implements OnInit {
     ngOnInit() {
         this.showInputValue();
 
-        this.router.events.filter(e => e instanceof RouterEvent).subscribe(event => {
-            if (event instanceof NavigationEnd) {
-                this.showInputValue();
-            }
-        });
+        this.router.events
+            .pipe(filter(e => e instanceof RouterEvent))
+            .subscribe(event => {
+                if (event instanceof NavigationEnd) {
+                    this.showInputValue();
+                }
+            });
     }
 
     showInputValue() {

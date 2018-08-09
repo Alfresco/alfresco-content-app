@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ExtensionService } from '../../extensions/extension.service';
 import { Store } from '@ngrx/store';

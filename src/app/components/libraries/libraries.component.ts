@@ -35,6 +35,7 @@ import { SiteEntry } from 'alfresco-js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
+import { map } from 'rxjs/operators';
 
 @Component({
     templateUrl: './libraries.component.html'
@@ -106,7 +107,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
         if (libraryId) {
             this.contentApi
                 .getNode(libraryId, { relativePath: '/documentLibrary' })
-                .map(node => node.entry)
+                .pipe(map(node => node.entry))
                 .subscribe(documentLibrary => {
                     this.router.navigate([ './', documentLibrary.id ], { relativeTo: this.route });
                 });

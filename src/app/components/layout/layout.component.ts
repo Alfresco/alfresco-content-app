@@ -30,7 +30,7 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../services/node-permission.service';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';

@@ -29,6 +29,7 @@ import { ExtensionService } from '../../extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
+import { take } from 'rxjs/operators';
 
 export enum ToolbarButtonType {
     ICON_BUTTON = 'icon-button',
@@ -80,7 +81,7 @@ export class ToolbarButtonComponent {
     runAction() {
         this.store
             .select(appSelection)
-            .take(1)
+            .pipe(take(1))
             .subscribe(selection => {
                 this.extensions.runActionById(this.actionRef.actions.click, {
                     selection

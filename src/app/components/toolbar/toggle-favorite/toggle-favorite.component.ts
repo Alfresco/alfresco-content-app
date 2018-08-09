@@ -27,7 +27,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore, SelectionState } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-toggle-favorite',

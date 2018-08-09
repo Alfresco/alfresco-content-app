@@ -30,7 +30,7 @@ import {
     PaginationModel,
     AppConfigService
 } from '@alfresco/adf-core';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription } from 'rxjs';
 
 @Directive({
     selector: '[acaPagination]'
