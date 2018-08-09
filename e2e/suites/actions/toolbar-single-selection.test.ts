@@ -53,7 +53,7 @@ describe('Toolbar actions - single selection : ', () => {
     const { dataTable, toolbar } = page;
 
     beforeAll(async (done) => {
-        await apis.admin.people.createUser({ username: username });
+        await apis.admin.people.createUser({ username });
 
         fileUserId = (await apis.user.nodes.createFiles([fileUser])).data.entry.id;
         fileForDeleteId = (await apis.user.nodes.createFiles([fileForDelete])).data.entry.id;

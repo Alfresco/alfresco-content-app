@@ -43,7 +43,7 @@ describe('Delete and undo delete', () => {
     const { dataTable, toolbar } = page;
 
     beforeAll(done => {
-        apis.admin.people.createUser({ username: username }).then(done);
+        apis.admin.people.createUser({ username }).then(done);
     });
 
     afterAll(done => {

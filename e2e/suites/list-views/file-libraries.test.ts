@@ -55,7 +55,7 @@ describe('File Libraries', () => {
     beforeAll(done => {
         Promise
             .all([
-                apis.admin.people.createUser({ username: username }),
+                apis.admin.people.createUser({ username }),
                 apis.admin.sites.createSite(sitePublic, SITE_VISIBILITY.PUBLIC),
                 apis.admin.sites.createSite(siteModerated, SITE_VISIBILITY.MODERATED, siteDescription),
                 apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE, null),
