@@ -65,7 +65,7 @@ describe('Pagination on Recent Files', () => {
             logoutPage.load().then(done);
         });
 
-        it('pagination controls not displayed [C213164]', () => {
+        it('pagination controls not displayed - [C280102]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
                 .then(() => {
                     expect(pagination.range.isPresent()).toBe(false);
@@ -94,7 +94,7 @@ describe('Pagination on Recent Files', () => {
             .then(done);
         });
 
-        it('page selector not displayed when having a single page [C213165]', () => {
+        it('page selector not displayed when having a single page - [C280103]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => expect(pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed'));
@@ -128,7 +128,7 @@ describe('Pagination on Recent Files', () => {
             .then(done);
         });
 
-        it('default values [C213157]', () => {
+        it('Pagination control default values - [C280104]', () => {
             expect(pagination.range.getText()).toContain('1-25 of 101');
             expect(pagination.maxItems.getText()).toContain('25');
             expect(pagination.currentPage.getText()).toContain('Page 1');
@@ -137,7 +137,7 @@ describe('Pagination on Recent Files', () => {
             expect(pagination.nextButton.isEnabled()).toBe(true, 'Next button is not enabled');
         });
 
-        it('page sizes [C213157]', () => {
+        it('Items per page values - [C280105]', () => {
             pagination.openMaxItemsMenu()
                 .then(() => {
                     const [ first, second, third ] = [1, 2, 3]
@@ -146,33 +146,44 @@ describe('Pagination on Recent Files', () => {
                     expect(second).toBe('50');
                     expect(third).toBe('100');
                 })
-                .then(() => pagination.menu.closeMenu());
+            .then(() => pagination.menu.closeMenu());
         });
 
-        it('change the page size [C213158]', () => {
+        it('current page menu items - [C280106]', () => {
             pagination.openMaxItemsMenu()
-                .then(() => pagination.menu.clickMenuItem('50'))
-                .then(() => dataTable.waitForHeader())
+                .then(() => pagination.menu.clickMenuItem('25'))
                 .then(() => {
-                    expect(pagination.maxItems.getText()).toContain('50');
-                    expect(pagination.totalPages.getText()).toContain('of 3');
+                    expect(pagination.getText(pagination.maxItems)).toContain('25');
+                    expect(pagination.getText(pagination.totalPages)).toContain('of 5');
                 })
+                .then(() => pagination.openCurrentPageMenu())
+                .then(() => expect(pagination.menu.getItemsCount()).toBe(5))
+                .then(() => pagination.menu.closeMenu())
+
+                .then(() => pagination.openMaxItemsMenu())
+                .then(() => pagination.menu.clickMenuItem('50'))
+                .then(() => {
+                    expect(pagination.getText(pagination.maxItems)).toContain('50');
+                    expect(pagination.getText(pagination.totalPages)).toContain('of 3');
+                })
+                .then(() => pagination.openCurrentPageMenu())
+                .then(() => expect(pagination.menu.getItemsCount()).toBe(3))
+                .then(() => pagination.menu.closeMenu())
+
                 .then(() => pagination.openMaxItemsMenu())
                 .then(() => pagination.menu.clickMenuItem('100'))
                 .then(() => {
                     expect(pagination.getText(pagination.maxItems)).toContain('100');
                     expect(pagination.getText(pagination.totalPages)).toContain('of 2');
                 })
+                .then(() => pagination.openCurrentPageMenu())
+                .then(() => expect(pagination.menu.getItemsCount()).toBe(2))
+                .then(() => pagination.menu.closeMenu())
+
                 .then(() => pagination.resetToDefaultPageSize());
         });
 
-        it('current page menu items', () => {
-            pagination.openCurrentPageMenu()
-                .then(() => expect(pagination.menu.getItemsCount()).toBe(5))
-                .then(() => pagination.menu.closeMenu());
-        });
-
-        it('change the current page from menu [C260518]', () => {
+        it('change the current page from menu - [C280107]', () => {
             pagination.openCurrentPageMenu()
                 .then(() => pagination.menu.clickNthItem(3))
                 .then(() => dataTable.waitForHeader())
@@ -187,7 +198,7 @@ describe('Pagination on Recent Files', () => {
                 .then(() => pagination.resetToDefaultPageNumber());
         });
 
-        it('navigate to next page [C213160]', () => {
+        it('navigate to next and previous pages - [C280110]', () => {
             pagination.nextButton.click()
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -195,29 +206,27 @@ describe('Pagination on Recent Files', () => {
                     expect(dataTable.getRowByName('file-70.txt').isPresent()).toBe(true, 'File not found on page');
                 })
 
-                .then(() => pagination.resetToDefaultPageNumber());
-        });
+                .then(() => pagination.resetToDefaultPageNumber())
 
-        it('navigate to previous page [C213160]', () => {
-            pagination.openCurrentPageMenu()
+                .then(() => pagination.openCurrentPageMenu())
                 .then(() => pagination.menu.clickNthItem(2))
                 .then(() => dataTable.waitForHeader())
                 .then(() => pagination.previousButton.click())
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
                     expect(pagination.range.getText()).toContain('1-25 of 101');
-                    expect(dataTable.getRowByName('file-88.txt').isPresent()).toBe(true, 'File not found on page');
+                    expect(dataTable.getRowByName('file-88.txt').isPresent())
+                        .toBe(true, 'File not found on page');
                 })
-
                 .then(() => pagination.resetToDefaultPageNumber());
         });
 
-        it('Previous button is disabled on first page [C260519]', () => {
+        it('Previous button is disabled on first page - [C280108]', () => {
             expect(pagination.currentPage.getText()).toContain('Page 1');
             expect(pagination.previousButton.isEnabled()).toBe(false, 'Previous button is enabled on first page');
         });
 
-        it('Next button is disabled on last page [C260519]', () => {
+        it('Next button is disabled on last page - [C280109]', () => {
             pagination.openCurrentPageMenu()
                 .then(() => pagination.menu.clickNthItem(5))
                 .then(() => {

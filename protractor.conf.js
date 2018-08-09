@@ -11,7 +11,7 @@ const width = 1366;
 const height = 768;
 
 exports.config = {
-    allScriptsTimeout: 60000,
+    allScriptsTimeout: 40000,
 
     specs: [
         './e2e/suites/authentication/*.test.ts',
@@ -39,7 +39,7 @@ exports.config = {
     framework: 'jasmine2',
     jasmineNodeOpts: {
         showColors: true,
-        defaultTimeoutInterval: 90000,
+        defaultTimeoutInterval: 60000,
         print: function() {}
     },
 

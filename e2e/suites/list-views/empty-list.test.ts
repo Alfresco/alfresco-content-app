@@ -52,7 +52,7 @@ describe('Empty list views', () => {
         logoutPage.load().then(done);
     });
 
-    it('empty Personal Files', () => {
+    it('empty Personal Files - [C280131]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => {
                 expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
@@ -60,7 +60,7 @@ describe('Empty list views', () => {
             });
     });
 
-    it('empty File Libraries [C217099]', () => {
+    it('empty File Libraries - [C217099]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
             .then(() => {
                 expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
@@ -69,7 +69,7 @@ describe('Empty list views', () => {
             });
     });
 
-    it('empty Shared Files', () => {
+    it('empty Shared Files - [C280132]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
             .then(() => {
                 expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
@@ -78,7 +78,7 @@ describe('Empty list views', () => {
             });
     });
 
-    it('empty Recent Files [C213169]', () => {
+    it('empty Recent Files - [C213169]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
             .then(() => {
                 expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
@@ -87,7 +87,7 @@ describe('Empty list views', () => {
             });
     });
 
-    it('empty Favorites', () => {
+    it('empty Favorites - [C280133]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
             .then(() => {
                 expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
@@ -96,7 +96,7 @@ describe('Empty list views', () => {
             });
     });
 
-    it('empty Trash', () => {
+    it('empty Trash - [C280134]', () => {
         page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
         .then(() => {
             expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
