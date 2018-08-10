@@ -4,7 +4,7 @@
     "authType" : "BASIC",
     "application": {
         "name": "Alfresco",
-        "logo": "assets/images/alfresco-logo.svg",
+        "logo": "assets/images/alfresco-logo-flower.svg",
         "copyright":
             "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
     },
