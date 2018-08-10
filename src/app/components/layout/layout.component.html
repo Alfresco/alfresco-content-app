@@ -17,7 +17,9 @@
                 <ng-template let-toggleMenu="toggleMenu">
                     <adf-layout-header
                         [logo]="logo$ | async"
-                        [color]="'accent'"
+                        [redirectUrl]="'/personal-files'"
+                        [tooltip]="appName$ | async"
+                        [color]="headerColor$ | async"
                         [title]="appName$ | async"
                         (clicked)="toggleMenu($event)">
 

@@ -13,8 +13,13 @@
             .adf-app-title {
                 letter-spacing: -0.3px;
             }
-            .mat-icon-button .mat-icon {
-                font-size: 29px;
+            .mat-icon-button {
+                margin-right: 0;
+
+                .mat-icon {
+                    font-size: 29px;
+                    padding: 0 5px 0 0;
+                }
             }
         }
 
