@@ -1,6 +1,6 @@
 @mixin aca-current-user-theme($theme) {
     $background: map-get($theme, background);
-    $am-avatar-size: 40px;
+    $am-avatar-size: 35px;
 
     .aca-current-user {
         font-weight: lighter;
@@ -15,7 +15,7 @@
             width: $am-avatar-size;
             height: $am-avatar-size;
             line-height: $am-avatar-size;
-            font-size: 1.2em;
+            font-size: 1em;
             text-align: center;
             color: inherit;
             border-radius: 100%;
@@ -29,10 +29,10 @@
             overflow: hidden;
             text-overflow: ellipsis;
             display:inline-block;
-            height: 20px;
+            height: 18px;
             font-size: 14px;
             line-height: 1.43;
-            letter-spacing: -0.2px;
+            letter-spacing: -0.3px;
         }
 
         @media screen and ($mat-small) {

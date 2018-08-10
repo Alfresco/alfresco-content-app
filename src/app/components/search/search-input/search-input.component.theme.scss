@@ -15,14 +15,22 @@
             .mat-form-field-underline {
                 background-color: mat-color($background, card);
             }
+
+            .adf-input-form-field-divider {
+                font-size: 14px;
+            }
         }
 
-        .adf-search-button {
+        .adf-search-button.mat-icon-button {
             left: -15px;
             margin-left: 15px;
             align-items: flex-start;
             font: 400 11px system-ui;
             color: mat-color($background, card);
+
+            .mat-icon {
+                font-size: 24px;
+            }
         }
     }
 }

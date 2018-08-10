@@ -3,10 +3,23 @@
 
     .adf-layout-header {
         .mat-toolbar-single-row {
+            color: #ffffff !important;
+
             .adf-app-logo {
-                width: 100px;
-                height: 50px;
-                margin-left: 40px;
+                margin-left: 6px;
+                vertical-align: middle;
+                margin-top: -3px;
+            }
+            .adf-app-title {
+                letter-spacing: -0.3px;
+            }
+            .mat-icon-button {
+                margin-right: 0;
+
+                .mat-icon {
+                    font-size: 29px;
+                    padding: 0 5px 0 0;
+                }
             }
         }
 
