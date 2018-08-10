@@ -70,7 +70,7 @@ export class RepoClient {
     }
 
     get search() {
-        return new SearchApi(this.auth, this.config);
+        return new SearchApi(this.auth.username, this.auth.password);
     }
 }
 
