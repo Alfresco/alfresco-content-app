@@ -66,7 +66,7 @@ export class RepoClient {
     }
 
     get trashcan() {
-        return new TrashcanApi(this.auth, this.config);
+        return new TrashcanApi(this.auth.username, this.auth.password);
     }
 
     get search() {

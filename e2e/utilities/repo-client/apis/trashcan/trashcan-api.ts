@@ -23,54 +23,52 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoApi } from '../repo-api';
+import { RepoApiNew } from '../repo-api-new';
 import { Utils } from '../../../../utilities/utils';
 
-export class TrashcanApi extends RepoApi {
-    permanentlyDelete(id: string): Promise<any> {
-        return this
-            .delete(`/deleted-nodes/${id}`)
-            .catch(this.handleError);
+export class TrashcanApi extends RepoApiNew {
+
+    constructor(username?, password?) {
+        super(username, password);
     }
 
-    restore(id: string) {
-        return this
-            .post(`/deleted-nodes/${id}/restore`)
-            .catch(this.handleError);
+    async permanentlyDelete(id: string) {
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.nodesApi.purgeDeletedNode(id);
     }
 
-    getDeletedNodes(): Promise<any> {
-        return this
-            .get(`/deleted-nodes?maxItems=1000`)
-            .catch(this.handleError);
+    async restore(id: string) {
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.nodesApi.restoreNode(id);
     }
 
-    emptyTrash(): Promise<any> {
-        return this.getDeletedNodes()
-            .then(resp => {
-                return resp.data.list.entries.map(entries => entries.entry.id);
-            })
-            .then(ids => {
-                return ids.reduce((previous, current) => (
-                    previous.then(() => this.permanentlyDelete(current))
-                ), Promise.resolve());
-            })
-            .catch(this.handleError);
+    async getDeletedNodes() {
+        const opts = {
+            maxItems: 1000
+        };
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.nodesApi.getDeletedNodes(opts);
     }
 
-    waitForApi(data) {
-        const deletedFiles = () => {
-            return this.getDeletedNodes()
-                .then(response => response.data.list.pagination.totalItems)
-                .then(totalItems => {
-                    if ( totalItems < data.expect) {
-                        return Promise.reject(totalItems);
-                    } else {
-                        return Promise.resolve(totalItems);
-                    }
-                });
+    async emptyTrash() {
+        const ids = (await this.getDeletedNodes()).list.entries.map(entries => entries.entry.id);
+
+        return await ids.reduce(async (previous, current) => {
+            await previous;
+            return await this.permanentlyDelete(current);
+        }, Promise.resolve());
+    }
+
+    async waitForApi(data) {
+        const deletedFiles = async () => {
+            const totalItems = (await this.getDeletedNodes()).list.pagination.totalItems;
+            if ( totalItems < data.expect) {
+                return Promise.reject(totalItems);
+            } else {
+                return Promise.resolve(totalItems);
+            }
         };
 
-        return Utils.retryCall(deletedFiles);
+        return await Utils.retryCall(deletedFiles);
     }
 }
