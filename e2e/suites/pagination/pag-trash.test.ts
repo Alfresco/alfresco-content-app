@@ -80,7 +80,7 @@ describe('Pagination on Trash', () => {
 
     describe('on single page', () => {
         beforeAll(done => {
-            nodesApi.createFile(file).then(resp => fileId = resp.data.entry.id)
+            nodesApi.createFile(file).then(resp => fileId = resp.entry.id)
                 .then(() => nodesApi.deleteNodeById(fileId, false))
                 .then(() => trashApi.waitForApi({ expect: 1 }))
                 .then(() => loginPage.loginWith(username))
@@ -105,7 +105,7 @@ describe('Pagination on Trash', () => {
     describe('on multiple pages', () => {
         beforeAll(done => {
             nodesApi.createFiles(filesForDelete)
-                .then(resp => filesDeletedIds = resp.data.list.entries.map(entries => entries.entry.id))
+                .then(resp => filesDeletedIds = resp.list.entries.map(entries => entries.entry.id))
                 .then(() => nodesApi.deleteNodesById(filesDeletedIds, false))
                 .then(() => trashApi.waitForApi({expect: 101}))
 

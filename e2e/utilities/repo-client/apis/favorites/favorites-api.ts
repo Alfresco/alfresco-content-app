@@ -23,96 +23,82 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { promise } from 'protractor';
-import { RepoApi } from '../repo-api';
-import { NodesApi } from '../nodes/nodes-api';
+import { RepoApiNew } from '../repo-api-new';
 import { RepoClient } from './../../repo-client';
 import { Utils } from '../../../../utilities/utils';
 
-export class FavoritesApi extends RepoApi {
+export class FavoritesApi extends RepoApiNew {
 
-    addFavorite(api: RepoClient, nodeType: string, name: string): Promise<any> {
-        return api.nodes.getNodeByPath(name)
-            .then((response) => {
-                const { id } = response.data.entry;
-                return ([{
-                    target: {
-                        [nodeType]: {
-                            guid: id
-                        }
-                    }
-                }]);
-            })
-            .then((data) => {
-                return this.post(`/people/-me-/favorites`, { data });
-            })
-            .catch(this.handleError);
+    constructor(username?, password?) {
+        super(username, password);
     }
 
-    addFavoriteById(nodeType: 'file' | 'folder', id: string): Promise<any> {
-        const data = [{
+    async addFavorite(api: RepoClient, nodeType: string, name: string) {
+        const nodeId = (await api.nodes.getNodeByPath(name)).entry.id;
+        const data = {
+            target: {
+                [nodeType]: {
+                    guid: nodeId
+                }
+            }
+        };
+        return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
+    }
+
+    async addFavoriteById(nodeType: 'file' | 'folder', id: string) {
+        const data = {
             target: {
                 [nodeType]: {
                     guid: id
                 }
             }
-        }];
-        return this
-            .post(`/people/-me-/favorites`, { data })
-            .catch(this.handleError);
+        };
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
     }
 
-    addFavoritesByIds(nodeType: 'file' | 'folder', ids: string[]): Promise<any[]> {
-        return ids.reduce((previous, current) => (
-            previous.then(() => this.addFavoriteById(nodeType, current))
-        ), Promise.resolve());
+    async addFavoritesByIds(nodeType: 'file' | 'folder', ids: string[]) {
+        await this.apiAuth();
+        return await ids.reduce(async (previous, current) => {
+            await previous;
+            await this.addFavoriteById(nodeType, current);
+        }, Promise.resolve());
     }
 
-    getFavorites(): Promise<any> {
-        return this
-            .get('/people/-me-/favorites')
-            .catch(this.handleError);
+    async getFavorites() {
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.favoritesApi.getFavorites(this.getUsername());
     }
 
-    getFavoriteById(nodeId: string): Promise<any> {
-        return this
-            .get(`/people/-me-/favorites/${nodeId}`)
-            .catch(this.handleError);
+    async getFavoriteById(nodeId: string) {
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.favoritesApi.getFavorite('-me', nodeId);
     }
 
-    isFavorite(nodeId: string) {
-        return this.getFavorites()
-            .then(resp => JSON.stringify(resp.data.list.entries).includes(nodeId));
+    async isFavorite(nodeId: string) {
+        return JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
     }
 
-    removeFavorite(api: RepoClient, nodeType: string, name: string): Promise<any> {
-        return api.nodes.getNodeByPath(name)
-            .then((response) => {
-                const { id } = response.data.entry;
-                return this.delete(`/people/-me-/favorites/${id}`);
-            })
-            .catch(this.handleError);
+    async removeFavoriteById(nodeId: string) {
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.peopleApi.removeFavoriteSite('-me-', nodeId);
     }
 
-    removeFavoriteById(nodeId: string) {
-        return this
-            .delete(`/people/-me-/favorites/${nodeId}`)
-            .catch(this.handleError);
+    async removeFavorite(api: RepoClient, name: string) {
+        const nodeId = (await api.nodes.getNodeByPath(name)).entry.id;
+        return await this.removeFavoriteById(nodeId);
     }
 
-    waitForApi(data) {
-        const favoriteFiles = () => {
-            return this.getFavorites()
-                .then(response => response.data.list.pagination.totalItems)
-                .then(totalItems => {
-                    if ( totalItems < data.expect) {
-                        return Promise.reject(totalItems);
-                    } else {
-                        return Promise.resolve(totalItems);
-                    }
-                });
+    async waitForApi(data) {
+        const favoriteFiles = async () => {
+            const totalItems = (await this.getFavorites()).list.pagination.totalItems;
+            if ( totalItems < data.expect) {
+                return Promise.reject(totalItems);
+            } else {
+                return Promise.resolve(totalItems);
+            }
         };
 
-        return Utils.retryCall(favoriteFiles);
+        return await Utils.retryCall(favoriteFiles);
     }
 }

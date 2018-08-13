@@ -58,22 +58,22 @@ describe('Favorites', () => {
         const docLibId = await apis.admin.sites.getDocLibId(siteName);
         await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER);
 
-        const file1Id = (await apis.admin.nodes.createFile(fileName1, docLibId)).data.entry.id;
+        const file1Id = (await apis.admin.nodes.createFile(fileName1, docLibId)).entry.id;
         await apis.user.favorites.addFavoriteById('file', file1Id);
 
-        const folderId = (await apis.user.nodes.createFolder(favFolderName)).data.entry.id;
+        const folderId = (await apis.user.nodes.createFolder(favFolderName)).entry.id;
         await apis.user.favorites.addFavoriteById('folder', folderId);
 
-        const parentId = (await apis.user.nodes.createFolder(parentFolder)).data.entry.id;
+        const parentId = (await apis.user.nodes.createFolder(parentFolder)).entry.id;
 
-        const file2Id = (await apis.user.nodes.createFile(fileName2, parentId)).data.entry.id;
+        const file2Id = (await apis.user.nodes.createFile(fileName2, parentId)).entry.id;
         await apis.user.favorites.addFavoriteById('file', file2Id);
 
-        const file3Id = (await apis.user.nodes.createFile(fileName3, parentId)).data.entry.id;
+        const file3Id = (await apis.user.nodes.createFile(fileName3, parentId)).entry.id;
         await apis.user.favorites.addFavoriteById('file', file3Id);
         await apis.user.nodes.deleteNodeById(file3Id, false);
 
-        const file4Id = (await apis.user.nodes.createFile(fileName4, parentId)).data.entry.id;
+        const file4Id = (await apis.user.nodes.createFile(fileName4, parentId)).entry.id;
         await apis.user.favorites.addFavoriteById('file', file4Id);
         await apis.user.nodes.deleteNodeById(file4Id, false);
         await apis.user.trashcan.restore(file4Id);

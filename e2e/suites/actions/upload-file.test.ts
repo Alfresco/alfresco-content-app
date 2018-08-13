@@ -46,7 +46,7 @@ describe('Upload files', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser({ username })
-            .then(() => apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.data.entry.id))
+            .then(() => apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.entry.id))
 
             .then(() => loginPage.loginWith(username))
             .then(done);

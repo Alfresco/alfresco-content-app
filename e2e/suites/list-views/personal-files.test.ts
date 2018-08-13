@@ -129,7 +129,7 @@ describe('Personal Files', () => {
         it('navigates to folder - [C213244]', () => {
             const getNodeIdPromise = apis.user.nodes
                 .getNodeByPath(`/${userFolder}`)
-                .then(response => response.data.entry.id);
+                .then(response => response.entry.id);
 
             const navigatePromise = dataTable
                 .doubleClickOnRowByName(userFolder)

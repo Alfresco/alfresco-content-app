@@ -50,7 +50,7 @@ export class RepoClient {
     }
 
     get nodes() {
-        return new NodesApi(this.auth, this.config);
+        return new NodesApi(this.auth.username, this.auth.password);
     }
 
     get sites() {
@@ -58,7 +58,7 @@ export class RepoClient {
     }
 
     get favorites() {
-        return new FavoritesApi(this.auth, this.config);
+        return new FavoritesApi(this.auth.username, this.auth.password);
     }
 
     get shared() {

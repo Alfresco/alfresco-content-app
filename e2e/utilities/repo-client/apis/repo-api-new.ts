@@ -43,4 +43,8 @@ export abstract class RepoApiNew {
         return this.alfrescoJsApi.login(this.username, this.password);
     }
 
+    getUsername() {
+        return this.username;
+    }
+
 }

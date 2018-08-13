@@ -63,8 +63,8 @@ describe('Restore from Trash', () => {
         const folder = `folder-${Utils.random()}`; let folderId;
 
         beforeAll(done => {
-            apis.user.nodes.createFile(file).then(resp => fileId = resp.data.entry.id)
-                .then(() => apis.user.nodes.createFolder(folder).then(resp => folderId = resp.data.entry.id))
+            apis.user.nodes.createFile(file).then(resp => fileId = resp.entry.id)
+                .then(() => apis.user.nodes.createFolder(folder).then(resp => folderId = resp.entry.id))
                 .then(() => apis.user.nodes.deleteNodesById([ fileId, folderId ], false))
                 .then(done);
         });
@@ -157,13 +157,13 @@ describe('Restore from Trash', () => {
         const folder2 = `folder-${Utils.random()}`; let folder2Id;
 
         beforeAll(done => {
-            apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.data.entry.id)
-                .then(() => apis.user.nodes.createFile(file1, folder1Id).then(resp => file1Id1 = resp.data.entry.id))
+            apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.entry.id)
+                .then(() => apis.user.nodes.createFile(file1, folder1Id).then(resp => file1Id1 = resp.entry.id))
                 .then(() => apis.user.nodes.deleteNodeById(file1Id1, false))
-                .then(() => apis.user.nodes.createFile(file1, folder1Id).then(resp => file1Id2 = resp.data.entry.id))
+                .then(() => apis.user.nodes.createFile(file1, folder1Id).then(resp => file1Id2 = resp.entry.id))
 
-                .then(() => apis.user.nodes.createFolder(folder2).then(resp => folder2Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFile(file2, folder2Id).then(resp => file2Id = resp.data.entry.id))
+                .then(() => apis.user.nodes.createFolder(folder2).then(resp => folder2Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFile(file2, folder2Id).then(resp => file2Id = resp.entry.id))
                 .then(() => apis.user.nodes.deleteNodeById(file2Id, false))
                 .then(() => apis.user.nodes.deleteNodeById(folder2Id, false))
 
@@ -215,19 +215,19 @@ describe('Restore from Trash', () => {
         const file5 = `file5-${Utils.random()}.txt`; let file5Id;
 
         beforeAll(done => {
-            apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.data.entry.id)
-                .then(() => apis.user.nodes.createFile(file1, folder1Id).then(resp => file1Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFolder(folder2).then(resp => folder2Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFile(file2, folder2Id).then(resp => file2Id = resp.data.entry.id))
+            apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.entry.id)
+                .then(() => apis.user.nodes.createFile(file1, folder1Id).then(resp => file1Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFolder(folder2).then(resp => folder2Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFile(file2, folder2Id).then(resp => file2Id = resp.entry.id))
                 .then(() => apis.user.nodes.deleteNodeById(file1Id, false))
                 .then(() => apis.user.nodes.deleteNodeById(folder1Id, false))
                 .then(() => apis.user.nodes.deleteNodeById(file2Id, false))
 
-                .then(() => apis.user.nodes.createFolder(folder3).then(resp => folder3Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFile(file3, folder3Id).then(resp => file3Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFile(file4, folder3Id).then(resp => file4Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFolder(folder4).then(resp => folder4Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFile(file5, folder4Id).then(resp => file5Id = resp.data.entry.id))
+                .then(() => apis.user.nodes.createFolder(folder3).then(resp => folder3Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFile(file3, folder3Id).then(resp => file3Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFile(file4, folder3Id).then(resp => file4Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFolder(folder4).then(resp => folder4Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFile(file5, folder4Id).then(resp => file5Id = resp.entry.id))
                 .then(() => apis.user.nodes.deleteNodeById(file3Id, false))
                 .then(() => apis.user.nodes.deleteNodeById(file4Id, false))
                 .then(() => apis.user.nodes.deleteNodeById(folder3Id, false))

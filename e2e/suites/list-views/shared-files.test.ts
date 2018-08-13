@@ -57,13 +57,13 @@ describe('Shared Files', () => {
             .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
             .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
             .then(() => apis.admin.nodes.createFiles([ fileAdmin ], `Sites/${siteName}/documentLibrary`))
-            .then(resp => apis.admin.shared.shareFileById(resp.data.entry.id))
+            .then(resp => apis.admin.shared.shareFileById(resp.entry.id))
 
             .then(() => apis.user.nodes.createFolders([ folderUser ]))
-            .then(() => apis.user.nodes.createFiles([ file1User ], folderUser)).then(resp => file1Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFile(file2User)).then(resp => file2Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFile(file3User)).then(resp => file3Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFile(file4User)).then(resp => file4Id = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFiles([ file1User ], folderUser)).then(resp => file1Id = resp.entry.id)
+            .then(() => apis.user.nodes.createFile(file2User)).then(resp => file2Id = resp.entry.id)
+            .then(() => apis.user.nodes.createFile(file3User)).then(resp => file3Id = resp.entry.id)
+            .then(() => apis.user.nodes.createFile(file4User)).then(resp => file4Id = resp.entry.id)
             .then(() => apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]))
 
             .then(() => apis.user.shared.waitForApi({ expect: 5 }))
