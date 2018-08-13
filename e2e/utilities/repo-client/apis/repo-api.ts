@@ -23,49 +23,28 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RestClient, RestClientArgs, RestClientResponse } from '../../rest-client/rest-client';
-import { RepoClientAuth, RepoClientConfig } from '../repo-client-models';
+import * as AlfrescoApi from 'alfresco-js-api-node';
+import { REPO_API_HOST } from '../../../configs';
+import { RepoClientAuth } from '../repo-client-models';
 
 export abstract class RepoApi {
-    private client: RestClient;
-    private defaults: RepoClientConfig = new RepoClientConfig();
+
+    alfrescoJsApi = new AlfrescoApi({
+        provider: 'ECM',
+        hostEcm: REPO_API_HOST
+    });
 
     constructor(
-        auth: RepoClientAuth = new RepoClientAuth(),
-        private config?: RepoClientConfig
-    ) {
-        const { username, password } = auth;
+        private username: string = RepoClientAuth.DEFAULT_USERNAME,
+        private password: string = RepoClientAuth.DEFAULT_PASSWORD
+    ) {}
 
-        this.client = new RestClient(username, password);
+    apiAuth() {
+        return this.alfrescoJsApi.login(this.username, this.password);
     }
 
-    private createEndpointUri(endpoint: string, apiDefinition: string = 'alfresco'): string {
-        const { defaults, config } = this;
-        const { host, tenant } = Object.assign(defaults, config);
-
-        return `${host}/alfresco/api/${tenant}/public/${apiDefinition}/versions/1${endpoint}`;
+    getUsername() {
+        return this.username;
     }
 
-    protected handleError(response: RestClientResponse) {
-        const { request: { method, path, data }, data: error } = response;
-
-        console.log(`ERROR on ${method}\n${path}\n${data}`);
-        console.log(error);
-    }
-
-    protected get(endpoint: string, args: RestClientArgs = {}, apiDefinition: string = 'alfresco') {
-        return this.client.get(this.createEndpointUri(endpoint, apiDefinition), args);
-    }
-
-    protected post(endpoint: string, args: RestClientArgs = {}, apiDefinition: string = 'alfresco') {
-        return this.client.post(this.createEndpointUri(endpoint, apiDefinition), args);
-    }
-
-    protected put(endpoint: string, args: RestClientArgs = {}, apiDefinition: string = 'alfresco') {
-        return this.client.put(this.createEndpointUri(endpoint, apiDefinition), args);
-    }
-
-    protected delete(endpoint: string, args: RestClientArgs = {}, apiDefinition: string = 'alfresco') {
-        return this.client.delete(this.createEndpointUri(endpoint, apiDefinition), args);
-    }
 }

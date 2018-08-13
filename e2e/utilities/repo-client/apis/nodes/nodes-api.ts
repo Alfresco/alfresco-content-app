@@ -24,11 +24,11 @@
  */
 
 import { NodeBodyLock } from 'alfresco-js-api-node';
-import { RepoApiNew } from '../repo-api-new';
+import { RepoApi } from '../repo-api';
 import { NodeBodyCreate } from './node-body-create';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
 
-export class NodesApi extends RepoApiNew {
+export class NodesApi extends RepoApi {
 
     constructor(username?, password?) {
         super(username, password);

@@ -23,11 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoApiNew } from '../repo-api-new';
+import { RepoApi } from '../repo-api';
 import { SiteBody, SiteMemberRoleBody, SiteMemberBody } from 'alfresco-js-api-node';
 import { SITE_VISIBILITY } from '../../../../configs';
 
-export class SitesApi extends RepoApiNew {
+export class SitesApi extends RepoApi {
 
     constructor(username?, password?) {
         super(username, password);

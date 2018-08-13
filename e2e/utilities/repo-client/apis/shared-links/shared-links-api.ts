@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoApiNew } from '../repo-api-new';
+import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
 
-export class SharedLinksApi extends RepoApiNew {
+export class SharedLinksApi extends RepoApi {
 
     constructor(username?, password?) {
         super(username, password);
