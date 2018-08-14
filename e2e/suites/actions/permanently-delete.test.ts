@@ -52,9 +52,9 @@ describe('Permanently delete from Trash', () => {
     beforeAll(done => {
         apis.admin.people.createUser({ username })
             .then(() => apis.user.nodes.createFiles([ file1, file2 ]))
-            .then(resp => filesIds = resp.data.list.entries.map(entries => entries.entry.id))
+            .then(resp => filesIds = resp.list.entries.map(entries => entries.entry.id))
             .then(() => apis.user.nodes.createFolders([ folder1, folder2 ]))
-            .then(resp => foldersIds = resp.data.list.entries.map(entries => entries.entry.id))
+            .then(resp => foldersIds = resp.list.entries.map(entries => entries.entry.id))
 
             .then(() => apis.user.nodes.deleteNodesById(filesIds, false))
             .then(() => apis.user.nodes.deleteNodesById(foldersIds, false))

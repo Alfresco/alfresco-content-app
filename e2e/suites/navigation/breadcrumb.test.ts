@@ -56,19 +56,19 @@ describe('Breadcrumb', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser({ username })
-            .then(() => apis.user.nodes.createFolder(parent)).then(resp => parentId = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFolder(subFolder1, parentId)).then(resp => subFolder1Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then(resp => subFolder2Id = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFolder(parent)).then(resp => parentId = resp.entry.id)
+            .then(() => apis.user.nodes.createFolder(subFolder1, parentId)).then(resp => subFolder1Id = resp.entry.id)
+            .then(() => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then(resp => subFolder2Id = resp.entry.id)
             .then(() => apis.user.nodes.createFile(fileName1, subFolder2Id))
 
-            .then(() => apis.user.nodes.createFolder(parent2)).then(resp => parent2Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFolder(folder1, parent2Id)).then(resp => folder1Id = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFolder(parent2)).then(resp => parent2Id = resp.entry.id)
+            .then(() => apis.user.nodes.createFolder(folder1, parent2Id)).then(resp => folder1Id = resp.entry.id)
 
             .then(() => apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
             .then(() => apis.user.sites.getDocLibId(siteName))
-            .then(resp => apis.user.nodes.createFolder(parent, resp)).then(resp => parentId = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFolder(subFolder1, parentId)).then(resp => subFolder1Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then(resp => subFolder2Id = resp.data.entry.id)
+            .then(resp => apis.user.nodes.createFolder(parent, resp)).then(resp => parentId = resp.entry.id)
+            .then(() => apis.user.nodes.createFolder(subFolder1, parentId)).then(resp => subFolder1Id = resp.entry.id)
+            .then(() => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then(resp => subFolder2Id = resp.entry.id)
             .then(() => apis.user.nodes.createFile(fileName1, subFolder2Id))
 
             .then(() => loginPage.loginWith(username))
@@ -220,7 +220,7 @@ describe('Breadcrumb', () => {
         beforeAll(done => {
             logoutPage.load()
                 .then(() => apis.admin.people.createUser({ username: user2 }))
-                .then(() => user2Api.nodes.createFolder(userFolder).then(resp => userFolderId = resp.data.entry.id))
+                .then(() => user2Api.nodes.createFolder(userFolder).then(resp => userFolderId = resp.entry.id))
                 .then(() => loginPage.loginWithAdmin())
                 .then(done);
         });

@@ -80,7 +80,7 @@ describe('Pagination on Recent Files', () => {
 
     describe('on single page', () => {
         beforeAll(done => {
-            nodesApi.createFile(file).then(resp => fileId = resp.data.entry.id)
+            nodesApi.createFile(file).then(resp => fileId = resp.entry.id)
                 .then(() => searchApi.waitForApi(username, { expect: 1 }))
                 .then(() => loginPage.loginWith(username))
                 .then(done);

@@ -81,7 +81,7 @@ describe('Pagination on Shared Files', () => {
 
     describe('on single page', () => {
         beforeAll(done => {
-            nodesApi.createFile(file).then(resp => fileId = resp.data.entry.id)
+            nodesApi.createFile(file).then(resp => fileId = resp.entry.id)
                 .then(() => sharedApi.shareFileById(fileId))
                 .then(() => sharedApi.waitForApi({ expect: 1 }))
                 .then(() => loginPage.loginWith(username))
@@ -106,7 +106,7 @@ describe('Pagination on Shared Files', () => {
     describe('on multiple pages', () => {
         beforeAll(done => {
             nodesApi.createFiles(files, parent)
-                .then(resp => filesIds = resp.data.list.entries.map(entries => entries.entry.id))
+                .then(resp => filesIds = resp.list.entries.map(entries => entries.entry.id))
 
                 .then(() => sharedApi.shareFilesByIds(filesIds))
                 .then(() => sharedApi.waitForApi({ expect: 101 }))

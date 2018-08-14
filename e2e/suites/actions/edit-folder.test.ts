@@ -64,7 +64,7 @@ describe('Edit folder', () => {
             .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
 
             .then(() => apis.user.nodes.createFolder( parent ))
-            .then(resp => apis.user.nodes.createFolder( folderName, resp.data.entry.id, '', folderDescription ))
+            .then(resp => apis.user.nodes.createFolder( folderName, resp.entry.id, '', folderDescription ))
             .then(() => apis.user.nodes.createFolders([ folderNameToEdit, duplicateFolderName ], parent))
 
             .then(() => loginPage.loginWith(username))
