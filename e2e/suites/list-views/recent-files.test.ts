@@ -53,14 +53,14 @@ describe('Recent Files', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser({ username })
-            .then(() => apis.user.nodes.createFolders([ folderName ])).then(resp => folderId = resp.data.entry.id)
+            .then(() => apis.user.nodes.createFolders([ folderName ])).then(resp => folderId = resp.entry.id)
             .then(() => apis.user.nodes.createFiles([ fileName1 ], folderName))
-            .then(() => apis.user.nodes.createFiles([ fileName2 ])).then(resp => file2Id = resp.data.entry.id)
-            .then(() => apis.user.nodes.createFiles([ fileName3 ]).then(resp => apis.user.nodes.deleteNodeById(resp.data.entry.id, false)))
+            .then(() => apis.user.nodes.createFiles([ fileName2 ])).then(resp => file2Id = resp.entry.id)
+            .then(() => apis.user.nodes.createFiles([ fileName3 ]).then(resp => apis.user.nodes.deleteNodeById(resp.entry.id, false)))
 
             .then(() => apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
             .then(() => apis.user.sites.getDocLibId(siteName))
-            .then(resp => apis.user.nodes.createFolder(folderSite, resp)).then(resp => folderSiteId = resp.data.entry.id)
+            .then(resp => apis.user.nodes.createFolder(folderSite, resp)).then(resp => folderSiteId = resp.entry.id)
             .then(() => apis.user.nodes.createFile(fileSite, folderSiteId))
 
             .then(() => apis.user.search.waitForApi(username, { expect: 3 }))

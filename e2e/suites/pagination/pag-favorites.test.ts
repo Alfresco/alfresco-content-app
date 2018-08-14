@@ -81,7 +81,7 @@ describe('Pagination on Favorites', () => {
 
     describe('on single page', () => {
         beforeAll(done => {
-            nodesApi.createFile(file).then(resp => fileId = resp.data.entry.id)
+            nodesApi.createFile(file).then(resp => fileId = resp.entry.id)
                 .then(() => favoritesApi.addFavoriteById('file', fileId))
                 .then(() => loginPage.loginWith(username))
                 .then(done);
@@ -105,7 +105,7 @@ describe('Pagination on Favorites', () => {
     describe('on multiple pages', () => {
         beforeAll(done => {
             nodesApi.createFiles(files, parent)
-                .then(resp => filesIds = resp.data.list.entries.map(entries => entries.entry.id))
+                .then(resp => filesIds = resp.list.entries.map(entries => entries.entry.id))
                 .then(() => favoritesApi.addFavoritesByIds('file', filesIds))
                 .then(() => favoritesApi.waitForApi({ expect: 101 }))
                 .then(() => loginPage.loginWith(username))

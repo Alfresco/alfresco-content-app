@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClientAuth, RepoClientConfig } from './repo-client-models';
+import { RepoClientAuth } from './repo-client-models';
 
 import { PeopleApi } from './apis/people/people-api';
 import { NodesApi } from './apis/nodes/nodes-api';
@@ -36,8 +36,7 @@ import { SearchApi } from './apis/search/search-api';
 export class RepoClient {
     constructor(
         private username: string = RepoClientAuth.DEFAULT_USERNAME,
-        private password: string = RepoClientAuth.DEFAULT_PASSWORD,
-        private config?: RepoClientConfig
+        private password: string = RepoClientAuth.DEFAULT_PASSWORD
     ) {}
 
     private get auth(): RepoClientAuth {
@@ -50,7 +49,7 @@ export class RepoClient {
     }
 
     get nodes() {
-        return new NodesApi(this.auth, this.config);
+        return new NodesApi(this.auth.username, this.auth.password);
     }
 
     get sites() {
@@ -58,7 +57,7 @@ export class RepoClient {
     }
 
     get favorites() {
-        return new FavoritesApi(this.auth, this.config);
+        return new FavoritesApi(this.auth.username, this.auth.password);
     }
 
     get shared() {

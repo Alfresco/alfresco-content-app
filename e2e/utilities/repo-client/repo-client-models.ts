@@ -25,9 +25,7 @@
 
 import {
     ADMIN_USERNAME,
-    ADMIN_PASSWORD,
-    REPO_API_HOST,
-    REPO_API_TENANT
+    ADMIN_PASSWORD
 } from '../../configs';
 
 export class RepoClientAuth {
@@ -38,9 +36,4 @@ export class RepoClientAuth {
         public username: string = RepoClientAuth.DEFAULT_USERNAME,
         public password: string = RepoClientAuth.DEFAULT_PASSWORD
     ) {}
-}
-
-export class RepoClientConfig {
-    host?: string = REPO_API_HOST;
-    tenant?: string = REPO_API_TENANT;
 }

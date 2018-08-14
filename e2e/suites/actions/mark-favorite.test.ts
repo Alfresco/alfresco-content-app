@@ -52,11 +52,11 @@ describe('Mark items as favorites', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser({ username })
-            .then(() => apis.user.nodes.createFile( file1NotFav ).then(resp => file1Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFile( file2NotFav ).then(resp => file2Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFile( file3Fav ).then(resp => file3Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFile( file4Fav ).then(resp => file4Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFolder( folder1 ).then(resp => folder1Id = resp.data.entry.id))
+            .then(() => apis.user.nodes.createFile( file1NotFav ).then(resp => file1Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFile( file2NotFav ).then(resp => file2Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFile( file3Fav ).then(resp => file3Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFile( file4Fav ).then(resp => file4Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFolder( folder1 ).then(resp => folder1Id = resp.entry.id))
 
             .then(() => apis.user.favorites.addFavoriteById('file', file3Id))
             .then(() => apis.user.favorites.addFavoriteById('file', file4Id))

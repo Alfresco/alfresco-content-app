@@ -80,7 +80,7 @@ describe('Pagination on Personal Files', () => {
 
     describe('on single page', () => {
         beforeAll(done => {
-            nodesApi.createFile(file).then(resp => fileId = resp.data.entry.id)
+            nodesApi.createFile(file).then(resp => fileId = resp.entry.id)
                 .then(() => loginPage.loginWith(username))
                 .then(done);
         });

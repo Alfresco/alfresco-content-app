@@ -67,14 +67,14 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     beforeAll(done => {
         apis.admin.people.createUser({ username: user1 })
-            .then(() => apis.user.nodes.createFiles([ file1 ]).then(resp => file1Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFiles([ file2 ]).then(resp => file2Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folder1 ]).then(resp => folder1Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folder2 ]).then(resp => folder2Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFiles([ fileForDelete1 ]).then(resp => fileForDelete1Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFiles([ fileForDelete2 ]).then(resp => fileForDelete2Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folderForDelete1 ]).then(resp => folderForDelete1Id = resp.data.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folderForDelete2 ]).then(resp => folderForDelete2Id = resp.data.entry.id))
+            .then(() => apis.user.nodes.createFiles([ file1 ]).then(resp => file1Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFiles([ file2 ]).then(resp => file2Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFolders([ folder1 ]).then(resp => folder1Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFolders([ folder2 ]).then(resp => folder2Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFiles([ fileForDelete1 ]).then(resp => fileForDelete1Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFiles([ fileForDelete2 ]).then(resp => fileForDelete2Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFolders([ folderForDelete1 ]).then(resp => folderForDelete1Id = resp.entry.id))
+            .then(() => apis.user.nodes.createFolders([ folderForDelete2 ]).then(resp => folderForDelete2Id = resp.entry.id))
 
             .then(() => apis.user.shared.shareFilesByIds([ file1Id, file2Id ]))
             .then(() => apis.user.shared.waitForApi({ expect: 2 }))
