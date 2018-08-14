@@ -25,13 +25,23 @@
 
 import { browser } from 'protractor';
 
-import { SIDEBAR_LABELS } from '../../configs';
+import { SIDEBAR_LABELS, PAGE_TITLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { Utils } from '../../utilities/utils';
+import { protractor } from '../../../node_modules/protractor/built/ptor';
 
 describe('Page titles', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
+    const apis = {
+        admin: new RepoClient()
+    };
+    const { nodes: nodesApi } = apis.admin;
+    const file = `file-${Utils.random()}.txt`; let fileId;
+    const header = page.header;
+    const enterText = `text-${Utils.random()}`;
 
     xit('');
 
@@ -124,5 +134,53 @@ describe('Page titles', () => {
                     expect(browser.getTitle()).toContain(label);
                 });
         });
+
     });
+
+    describe('on viewer mode', () => {
+        beforeAll(done => {
+            nodesApi.createFile(file).then(resp => fileId = resp.data.entry.id)
+                .then(() => loginPage.loginWithAdmin())
+                .then(done);
+        });
+
+        afterAll(done => {
+            logoutPage.load()
+                .then(() => apis.admin.nodes.deleteNodeById(fileId))
+                .then(done);
+        });
+
+        it('File Preview page - [C280415]', () => {
+            page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
+                .then(() => page.dataTable.waitForHeader())
+                .then(() => page.dataTable.doubleClickOnRowByName(file))
+                .then(() => { 
+                    expect(browser.getTitle()).toContain(PAGE_TITLES.VIEWER);       
+                });
+        });
+    });
+
+    describe ('on Search query', () => {
+        beforeAll(done => {
+            loginPage.loginWithAdmin()
+                .then(done);
+        });
+
+        afterAll(done => {
+            logoutPage.load()
+                .then(done);
+        })
+
+        it('Search Results page - [C280413]', () => {
+            header.searchIcon.click()
+            .then(() => page.dataTable.waitForHeader())
+            .then(() => header.searchBar.sendKeys(enterText))
+            .then(() => header.searchBar.sendKeys(protractor.Key.ENTER))
+            .then(() => {
+                    expect(browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
+                })
+        })
+
+    })
+
 });
