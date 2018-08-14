@@ -62,15 +62,15 @@ describe('Delete and undo delete', () => {
         const fileLocked1 = `fileLocked-${Utils.random()}.txt`; let fileLocked1Id;
 
         beforeAll(done => {
-            apis.user.nodes.createFile(file1).then(resp => file1Id = resp.data.entry.id)
-                .then(() => apis.user.nodes.createFile(file2).then(resp => file2Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFolder(folder2).then(resp => folder2Id = resp.data.entry.id))
+            apis.user.nodes.createFile(file1).then(resp => file1Id = resp.entry.id)
+                .then(() => apis.user.nodes.createFile(file2).then(resp => file2Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFolder(folder2).then(resp => folder2Id = resp.entry.id))
                 .then(() => apis.user.nodes.createFile(file3, folder1Id))
-                .then(() => apis.user.nodes.createFile(file4, folder2Id).then(resp => file4Id = resp.data.entry.id))
+                .then(() => apis.user.nodes.createFile(file4, folder2Id).then(resp => file4Id = resp.entry.id))
                 .then(() => apis.user.nodes.lockFile(file4Id))
 
-                .then(() => apis.user.nodes.createFile(fileLocked1).then(resp => fileLocked1Id = resp.data.entry.id))
+                .then(() => apis.user.nodes.createFile(fileLocked1).then(resp => fileLocked1Id = resp.entry.id))
                 .then(() => apis.user.nodes.lockFile(fileLocked1Id))
 
                 .then(() => loginPage.loginWith(username))
@@ -275,10 +275,10 @@ describe('Delete and undo delete', () => {
         const sharedFile4 = `sharedFile4-${Utils.random()}.txt`; let sharedFile4Id;
 
         beforeAll(done => {
-            apis.user.nodes.createFile(sharedFile1).then(resp => sharedFile1Id = resp.data.entry.id)
-                .then(() => apis.user.nodes.createFile(sharedFile2).then(resp => sharedFile2Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFile(sharedFile3).then(resp => sharedFile3Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFile(sharedFile4).then(resp => sharedFile4Id = resp.data.entry.id))
+            apis.user.nodes.createFile(sharedFile1).then(resp => sharedFile1Id = resp.entry.id)
+                .then(() => apis.user.nodes.createFile(sharedFile2).then(resp => sharedFile2Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFile(sharedFile3).then(resp => sharedFile3Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFile(sharedFile4).then(resp => sharedFile4Id = resp.entry.id))
                 .then(() => apis.user.shared.shareFilesByIds([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id]))
                 .then(() => apis.user.shared.waitForApi({ expect: 4 }))
 
@@ -386,15 +386,15 @@ describe('Delete and undo delete', () => {
         const favoriteFileLocked1 = `favFileLocked-${Utils.random()}.txt`; let favoriteFileLocked1Id;
 
         beforeAll(done => {
-            apis.user.nodes.createFile(favoriteFile1).then(resp => favoriteFile1Id = resp.data.entry.id)
-                .then(() => apis.user.nodes.createFile(favoriteFile2).then(resp => favoriteFile2Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFolder(favoriteFolder1).then(resp => favoriteFolder1Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFolder(favoriteFolder2).then(resp => favoriteFolder2Id = resp.data.entry.id))
+            apis.user.nodes.createFile(favoriteFile1).then(resp => favoriteFile1Id = resp.entry.id)
+                .then(() => apis.user.nodes.createFile(favoriteFile2).then(resp => favoriteFile2Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFolder(favoriteFolder1).then(resp => favoriteFolder1Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFolder(favoriteFolder2).then(resp => favoriteFolder2Id = resp.entry.id))
                 .then(() => apis.user.nodes.createFile(favoriteFile3, favoriteFolder1Id))
-                .then(() => apis.user.nodes.createFile(favoriteFile4, favoriteFolder2Id).then(resp => favoriteFile4Id = resp.data.entry.id))
+                .then(() => apis.user.nodes.createFile(favoriteFile4, favoriteFolder2Id).then(resp => favoriteFile4Id = resp.entry.id))
                 .then(() => apis.user.nodes.lockFile(favoriteFile4Id))
 
-                .then(() => apis.user.nodes.createFile(favoriteFileLocked1).then(resp => favoriteFileLocked1Id = resp.data.entry.id))
+                .then(() => apis.user.nodes.createFile(favoriteFileLocked1).then(resp => favoriteFileLocked1Id = resp.entry.id))
                 .then(() => apis.user.nodes.lockFile(favoriteFileLocked1Id))
 
                 .then(() => apis.user.favorites.addFavoritesByIds('file', [favoriteFile1Id, favoriteFile2Id, favoriteFileLocked1Id]))
@@ -603,10 +603,10 @@ describe('Delete and undo delete', () => {
         const recentFile4 = `recentFile4-${Utils.random()}.txt`; let recentFile4Id;
 
         beforeAll(done => {
-            apis.user.nodes.createFile(recentFile1).then(resp => recentFile1Id = resp.data.entry.id)
-                .then(() => apis.user.nodes.createFile(recentFile2).then(resp => recentFile2Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFile(recentFile3).then(resp => recentFile3Id = resp.data.entry.id))
-                .then(() => apis.user.nodes.createFile(recentFile4).then(resp => recentFile4Id = resp.data.entry.id))
+            apis.user.nodes.createFile(recentFile1).then(resp => recentFile1Id = resp.entry.id)
+                .then(() => apis.user.nodes.createFile(recentFile2).then(resp => recentFile2Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFile(recentFile3).then(resp => recentFile3Id = resp.entry.id))
+                .then(() => apis.user.nodes.createFile(recentFile4).then(resp => recentFile4Id = resp.entry.id))
                 .then(() => apis.user.search.waitForApi(username, { expect: 4 }))
 
                 .then(() => loginPage.loginWith(username))

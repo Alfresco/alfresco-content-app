@@ -55,10 +55,10 @@ describe('Toolbar actions - single selection : ', () => {
     beforeAll(async (done) => {
         await apis.admin.people.createUser({ username });
 
-        fileUserId = (await apis.user.nodes.createFiles([fileUser])).data.entry.id;
-        fileForDeleteId = (await apis.user.nodes.createFiles([fileForDelete])).data.entry.id;
-        folderForDeleteId = (await apis.user.nodes.createFolders([ folderForDelete ])).data.entry.id;
-        folderUserId = (await apis.user.nodes.createFolders([ folderUser ])).data.entry.id;
+        fileUserId = (await apis.user.nodes.createFiles([fileUser])).entry.id;
+        fileForDeleteId = (await apis.user.nodes.createFiles([fileForDelete])).entry.id;
+        folderForDeleteId = (await apis.user.nodes.createFolders([ folderForDelete ])).entry.id;
+        folderUserId = (await apis.user.nodes.createFolders([ folderUser ])).entry.id;
 
         await apis.user.shared.shareFileById(fileUserId);
         await apis.user.shared.waitForApi({ expect: 1 });
@@ -123,8 +123,8 @@ describe('Toolbar actions - single selection : ', () => {
             await apis.admin.sites.createSite(site, SITE_VISIBILITY.PRIVATE);
             const docLibId = await apis.admin.sites.getDocLibId(site);
 
-            file1Id = (await apis.admin.nodes.createFile(file1, docLibId)).data.entry.id;
-            file2Id = (await apis.admin.nodes.createFile(file2, docLibId)).data.entry.id;
+            file1Id = (await apis.admin.nodes.createFile(file1, docLibId)).entry.id;
+            file2Id = (await apis.admin.nodes.createFile(file2, docLibId)).entry.id;
 
             await apis.admin.sites.addSiteMember(site, username, SITE_ROLES.SITE_CONSUMER);
             await apis.admin.nodes.setGranularPermission(file1Id, false, username, SITE_ROLES.SITE_CONSUMER);

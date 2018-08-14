@@ -24,9 +24,9 @@
  */
 
 import { PersonModel, Person } from './people-api-models';
-import { RepoApiNew } from '../repo-api-new';
+import { RepoApi } from '../repo-api';
 
-export class PeopleApi extends RepoApiNew {
+export class PeopleApi extends RepoApi {
 
     constructor(username?, password?) {
         super(username, password);
