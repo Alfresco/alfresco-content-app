@@ -5,5 +5,5 @@ LABEL maintainer="Denys Vuika <denys.vuika@alfresco.com>"
 COPY nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /usr/share/nginx/html
-COPY dist/ .
+COPY dist/app/ .
 

@@ -4,7 +4,8 @@
     "$version": "1.0.0",
     "$references": [
         "plugin1.json",
-        "plugin2.json"
+        "plugin2.json",
+        "dev.tools.json"
     ],
 
     "rules": [
