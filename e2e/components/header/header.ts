@@ -26,17 +26,28 @@
 import { ElementFinder, by } from 'protractor';
 import { Component } from '../component';
 import { UserInfo } from './user-info';
+import { Utils } from '../../utilities/utils';
 
 export class Header extends Component {
     private locators = {
         logoLink: by.css('.app-menu__title'),
-        userInfo: by.css('aca-current-user')
+        userInfo: by.css('aca-current-user'),
+        searchIcon: by.css("button[class*='adf-search-button']"),
+        searchBar: by.css('#adf-control-input')
     };
 
     logoLink: ElementFinder = this.component.element(this.locators.logoLink);
     userInfo: UserInfo = new UserInfo(this.component);
+    searchIcon: ElementFinder = this.component.element(this.locators.searchIcon);
+    searchBar: ElementFinder = this.component.element(this.locators.searchBar);
 
     constructor(ancestor?: ElementFinder) {
         super('adf-layout-header', ancestor);
     }
+
+    enterText (name: string) {
+        return this.searchBar.clear()
+            .then(() => Utils.typeInField(this.searchBar, name));
+    }
 }
+
