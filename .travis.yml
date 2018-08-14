@@ -28,4 +28,5 @@ jobs:
     - stage: test
       script: npm run test:ci
     - stage: e2e
-      script: npm run build:dev && npm run e2e:docker
+      # script: npm run build:dev && npm run e2e:docker
+      script: NODE_OPTIONS=--max-old-space-size=4096 && npm run build && npm run e2e:docker
