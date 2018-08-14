@@ -62,6 +62,12 @@ export const SIDEBAR_LABELS = {
     TRASH: 'Trash'
 };
 
+// Page titles
+export const PAGE_TITLES = {
+    VIEWER: 'Preview',
+    SEARCH: 'Search Results'
+}
+
 // Site visibility
 export const SITE_VISIBILITY = {
     PUBLIC: 'PUBLIC',
