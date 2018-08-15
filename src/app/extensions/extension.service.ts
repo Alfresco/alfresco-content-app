@@ -94,7 +94,9 @@ export class ExtensionService implements RuleContext {
                     config = JSON.parse(override);
                 }
 
-                if (config.$references && config.$references.length > 0) {
+                const externalPlugins = localStorage.getItem('experimental.external-plugins') === 'true';
+
+                if (externalPlugins && config.$references && config.$references.length > 0) {
                     const plugins = config.$references.map(
                         (name, idx) => this.loadConfig(`${this.pluginsPath}/${name}`, idx)
                     );
