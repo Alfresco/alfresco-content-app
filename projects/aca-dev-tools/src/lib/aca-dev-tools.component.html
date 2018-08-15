@@ -4,8 +4,17 @@
         <adf-toolbar class="inline">
             <button
                 mat-icon-button
-                color="primary">
+                color="primary"
+                title="Save changes"
+                (click)="saveChanges()">
                 <mat-icon>save_alt</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                color="primary"
+                title="Revert changes"
+                (click)="revertChanges()">
+                <mat-icon>history</mat-icon>
             </button>
         </adf-toolbar>
     </div>
@@ -16,7 +25,9 @@
                 <div fxLayout fxFlex>
                     <div fxFlex="100">
                         <ng-container *ngIf="model">
-                            <ngs-code-editor [codeModel]="model">
+                            <ngs-code-editor
+                                [codeModel]="model"
+                                (valueChanged)="onCodeChanged($event)">
                             </ngs-code-editor>
                         </ng-container>
                     </div>

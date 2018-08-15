@@ -88,6 +88,12 @@ export class ExtensionService implements RuleContext {
             this.loadConfig(this.configPath, 0).then(result => {
                 let config = result.config;
 
+                const override = sessionStorage.getItem('aca.extension.config');
+                if (override) {
+                    console.log('overriding extension config');
+                    config = JSON.parse(override);
+                }
+
                 if (config.$references && config.$references.length > 0) {
                     const plugins = config.$references.map(
                         (name, idx) => this.loadConfig(`${this.pluginsPath}/${name}`, idx)
