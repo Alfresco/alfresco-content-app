@@ -4,13 +4,10 @@
   "license": "LGPL-3.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run server-versions && ng serve --open",
+    "start": "npm run server-versions && ng build aca-dev-tools && ng serve --open",
     "start:prod": "npm run server-versions && ng serve --prod --open",
-    "build": "npm run server-versions && ng build --prod",
-    "build:prod": "npm run server-versions && ng build --prod",
-    "build:dev": "npm run server-versions && ng build",
-    "build:tomcat": "npm run server-versions && ng build --base-href ./",
-    "build:electron": "npm run server-versions && ng build --output-path www --base-href ./",
+    "build": "npm run server-versions && ng build aca-dev-tools --prod && ng build --prod",
+    "build:dev": "npm run server-versions && ng build aca-dev-tools && ng build",
     "test": "ng test alfresco-content-app --code-coverage",
     "test:ci": "ng test alfresco-content-app --code-coverage --watch=false && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",
     "lint": "ng lint",
@@ -21,7 +18,7 @@
     "start:docker": "docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:4000",
     "stop:docker": "docker-compose stop",
     "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",
-    "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts'"
+    "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts' 'projects/**/*.ts'"
   },
   "private": true,
   "dependencies": {
