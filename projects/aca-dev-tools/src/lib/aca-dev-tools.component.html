@@ -15,8 +15,10 @@
             <div fxLayout="column" fxFill>
                 <div fxLayout fxFlex>
                     <div fxFlex="100">
-                        <ngs-code-editor [codeModel]="model">
-                        </ngs-code-editor>
+                        <ng-container *ngIf="model">
+                            <ngs-code-editor [codeModel]="model">
+                            </ngs-code-editor>
+                        </ng-container>
                     </div>
                 </div>
             </div>

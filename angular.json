@@ -45,6 +45,16 @@
                 "glob": "pdf.worker.js",
                 "input": "node_modules/pdfjs-dist/build",
                 "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor/min",
+                "output": "./assets/monaco"
+              },
+              {
+                "glob": "**/*.js",
+                "input": "node_modules/@ngstack/code-editor/workers",
+                "output": "./assets/workers"
               }
             ],
             "styles": [
