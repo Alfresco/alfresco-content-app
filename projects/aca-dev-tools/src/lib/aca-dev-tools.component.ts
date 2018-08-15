@@ -1,19 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { CodeModel } from '@ngstack/code-editor';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'lib-aca-dev-tools',
-  template: `
-    <p>
-      aca-dev-tools works!
-    </p>
-  `,
-  styles: []
+    selector: 'lib-aca-dev-tools',
+    encapsulation: ViewEncapsulation.None,
+    host: { class: 'lib-aca-dev-tools' },
+    templateUrl: './aca-dev-tools.component.html',
+    styleUrls: ['./aca-dev-tools.component.scss']
 })
 export class AcaDevToolsComponent implements OnInit {
+    model: CodeModel = null;
 
-  constructor() { }
+    constructor(private route: ActivatedRoute, private http: HttpClient) {}
 
-  ngOnInit() {
-  }
-
+    ngOnInit() {
+        const routeData = this.route.snapshot.data;
+        if (routeData) {
+            console.log(routeData);
+            this.http.get(routeData.configPath, {responseType: 'text'}).subscribe(
+                config => {
+                    this.model = {
+                        language: 'json',
+                        uri: 'app.extensions.json',
+                        value: config
+                    };
+                },
+                err => {
+                    console.log(err);
+                }
+            );
+        }
+    }
 }

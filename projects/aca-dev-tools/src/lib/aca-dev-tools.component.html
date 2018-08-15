@@ -1,0 +1,26 @@
+<div class="inner-layout">
+    <div class="inner-layout__header">
+        <adf-breadcrumb root="app.extensions.json"></adf-breadcrumb>
+        <adf-toolbar class="inline">
+            <button
+                mat-icon-button
+                color="primary">
+                <mat-icon>save_alt</mat-icon>
+            </button>
+        </adf-toolbar>
+    </div>
+    <div class="inner-layout__content">
+        <div class="inner-layout__panel">
+
+            <div fxLayout="column" fxFill>
+                <div fxLayout fxFlex>
+                    <div fxFlex="100">
+                        <ngs-code-editor [codeModel]="model">
+                        </ngs-code-editor>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

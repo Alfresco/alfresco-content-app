@@ -88,7 +88,7 @@ import { ContextMenuModule } from './components/context-menu/context-menu.module
         }),
         MaterialModule,
         CoreModule.forRoot(),
-        ContentModule,
+        ContentModule.forRoot(),
         AppStoreModule,
         CoreExtensionsModule.forRoot(),
         ExtensionsModule,

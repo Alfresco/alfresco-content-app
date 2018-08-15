@@ -8,7 +8,11 @@
         {
             "id": "app.dev.tools",
             "component": "app.dev.tools.component",
-            "path": "dev-tools"
+            "path": "dev-tools",
+            "data": {
+                "configPath": "assets/app.extensions.json",
+                "pluginsPath": "assets/plugins"
+            }
         }
     ],
 

@@ -46,6 +46,7 @@
     "@ngrx/router-store": "^6.1.0",
     "@ngrx/store": "^6.1.0",
     "@ngrx/store-devtools": "^6.1.0",
+    "@ngstack/code-editor": "^0.4.1",
     "@ngx-translate/core": "^10.0.2",
     "alfresco-js-api": "2.5.0",
     "core-js": "^2.5.7",
