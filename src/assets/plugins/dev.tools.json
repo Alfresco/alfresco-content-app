@@ -11,7 +11,9 @@
             "path": "dev-tools",
             "data": {
                 "configPath": "assets/app.extensions.json",
-                "pluginsPath": "assets/plugins"
+                "pluginsPath": "assets/plugins",
+                "schemaUri": "../../extension.schema.json",
+                "schemaPath": "assets/extension.schema.json"
             }
         }
     ],

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CodeModel } from '@ngstack/code-editor';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'lib-aca-dev-tools',
@@ -23,8 +24,12 @@ export class AcaDevToolsComponent implements OnInit {
             return;
         }
 
-        this.http.get(routeData.configPath, { responseType: 'text' }).subscribe(
-            config => {
+        const schemaUri = routeData.schemaUri;
+        const getSchema = this.http.get(routeData.schemaPath);
+        const getConfig = this.http.get(routeData.configPath, { responseType: 'text' });
+
+        forkJoin([getSchema, getConfig]).subscribe(
+            ([schema, config]) => {
                 let code = config;
 
                 const override = sessionStorage.getItem('aca.extension.config');
@@ -35,7 +40,13 @@ export class AcaDevToolsComponent implements OnInit {
                 this.model = {
                     language: 'json',
                     uri: 'app.extensions.json',
-                    value: code
+                    value: code,
+                    schemas: [
+                        {
+                            uri: schemaUri,
+                            schema
+                        }
+                    ]
                 };
                 this.code = code;
             },
