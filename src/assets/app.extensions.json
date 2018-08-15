@@ -728,6 +728,23 @@
                     }
                 }
             ]
-        }
+        },
+        "sidebar": [
+            {
+                "id": "app.sidebar.properties",
+                "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
+                "component": "app.components.tabs.properties"
+            },
+            {
+                "id": "app.sidebar.comments",
+                "title": "APP.INFO_DRAWER.TABS.COMMENTS",
+                "component": "app.components.tabs.comments"
+            },
+            {
+                "id": "app.sidebar.versions",
+                "title": "APP.INFO_DRAWER.TABS.VERSIONS",
+                "component": "app.components.tabs.versions"
+            }
+        ]
     }
 }

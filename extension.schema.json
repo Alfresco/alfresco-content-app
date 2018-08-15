@@ -228,6 +228,46 @@
                     "type": "boolean"
                 }
             }
+        },
+        "sidebarTabRef": {
+            "type": "object",
+            "required": ["id", "component"],
+            "properties": {
+                "id": {
+                    "description": "Unique identifier for the navigation group",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "Element title",
+                    "type": "string"
+                },
+                "component": {
+                    "description": "Component id",
+                    "type": "string"
+                },
+                "icon": {
+                    "description": "Material icon name",
+                    "type": "string"
+                },
+                "disabled": {
+                    "description": "Toggles disabled state",
+                    "type": "boolean"
+                },
+                "order": {
+                    "description": "Element order",
+                    "type": "number"
+                },
+                "rules": {
+                    "description": "Element rules",
+                    "type": "object",
+                    "properties": {
+                        "visible": {
+                            "description": "Rule to evaluate the visibility state",
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
 
@@ -304,6 +344,12 @@
                     "description": "Navigation bar extensions",
                     "type": "array",
                     "items": { "$ref": "#/definitions/navBarGroupRef" },
+                    "minItems": 1
+                },
+                "sidebar": {
+                    "description": "Sidebar extensions",
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/sidebarTabRef" },
                     "minItems": 1
                 },
                 "content": {
