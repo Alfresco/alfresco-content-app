@@ -26,7 +26,7 @@
 export const BROWSER_RESOLUTION_WIDTH = 1200;
 export const BROWSER_RESOLUTION_HEIGHT = 800;
 
-export const BROWSER_WAIT_TIMEOUT = 30000;
+export const BROWSER_WAIT_TIMEOUT = 10000;
 
 // Application configs
 export const APP_HOST = 'http://localhost:4000';
@@ -39,6 +39,8 @@ export const REPO_API_TENANT = '-default-';
 export const ADMIN_USERNAME = 'admin';
 export const ADMIN_PASSWORD = 'admin';
 export const ADMIN_FULL_NAME = 'Administrator';
+
+export const E2E_ROOT_PATH = __dirname;
 
 // Application Routes
 export const APP_ROUTES = {
@@ -75,4 +77,10 @@ export const SITE_ROLES = {
     SITE_COLLABORATOR: 'SiteCollaborator',
     SITE_CONTRIBUTOR: 'SiteContributor',
     SITE_MANAGER: 'SiteManager'
+};
+
+export const FILES = {
+    docxFile: 'file-docx.docx',
+    xlsxFile: 'file-xlsx.xlsx',
+    unsupportedFile: 'file_unsupported.3DS'
 };
