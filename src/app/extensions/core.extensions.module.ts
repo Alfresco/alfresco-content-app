@@ -36,11 +36,17 @@ import { CustomExtensionComponent } from './components/custom-component/custom.c
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
 import { ToolbarButtonComponent } from './components/toolbar/toolbar-button.component';
+import { MetadataTabComponent } from '../components/info-drawer/metadata-tab/metadata-tab.component';
+import { CommentsTabComponent } from '../components/info-drawer/comments-tab/comments-tab.component';
+import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 
 export function setupExtensions(extensions: ExtensionService): Function {
     extensions.setComponents({
         'app.layout.main': LayoutComponent,
         'app.components.trashcan': TrashcanComponent,
+        'app.components.tabs.metadata': MetadataTabComponent,
+        'app.components.tabs.comments': CommentsTabComponent,
+        'app.components.tabs.versions': VersionsTabComponent,
         'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
         'app.toolbar.toggleFavorite': ToggleFavoriteComponent
     });

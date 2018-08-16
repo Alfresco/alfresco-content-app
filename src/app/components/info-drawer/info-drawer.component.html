@@ -3,20 +3,11 @@
 </div>
 <ng-container *ngIf="!isLoading && !!displayNode">
     <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
-        <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
-            <app-metadata-tab [node]="displayNode"></app-metadata-tab>
+        <adf-info-drawer-tab
+            *ngFor="let tab of tabs"
+            [label]="tab.title | translate">
+            <app-dynamic-tab [node]="displayNode" [id]="tab.component">
+            </app-dynamic-tab>
         </adf-info-drawer-tab>
-
-        <ng-container *ifExperimental="'comments'; else versions">
-            <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.COMMENTS' | translate">
-                <app-comments-tab [node]="displayNode"></app-comments-tab>
-            </adf-info-drawer-tab>
-        </ng-container>
-
-        <ng-template #versions>
-            <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
-                <app-versions-tab [node]="displayNode"></app-versions-tab>
-            </adf-info-drawer-tab>
-        </ng-template>
     </adf-info-drawer>
 </ng-container>

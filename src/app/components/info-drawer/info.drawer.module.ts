@@ -33,6 +33,17 @@ import { MaterialModule } from '../../material.module';
 import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from './comments-tab/comments-tab.component';
 import { VersionsTabComponent } from './versions-tab/versions-tab.component';
+import { DynamicTabComponent } from './dynamic-tab/dynamic-tab.component';
+
+export function components() {
+    return [
+        InfoDrawerComponent,
+        MetadataTabComponent,
+        CommentsTabComponent,
+        VersionsTabComponent,
+        DynamicTabComponent
+    ];
+}
 
 @NgModule({
     imports: [
@@ -44,16 +55,13 @@ import { VersionsTabComponent } from './versions-tab/versions-tab.component';
         DirectivesModule
     ],
     declarations: [
-        InfoDrawerComponent,
-        MetadataTabComponent,
-        CommentsTabComponent,
-        VersionsTabComponent
+        ...components()
     ],
     exports: [
-        InfoDrawerComponent,
-        MetadataTabComponent,
-        CommentsTabComponent,
-        VersionsTabComponent
+        ...components()
+    ],
+    entryComponents: [
+        ...components()
     ]
 })
 export class AppInfoDrawerModule {}

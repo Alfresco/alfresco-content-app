@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Component({
@@ -45,13 +45,21 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
         </ng-template>
     `
 })
-export class VersionsTabComponent implements OnChanges {
+export class VersionsTabComponent implements OnInit, OnChanges {
     @Input()
     node: MinimalNodeEntryEntity;
 
     isFileSelected = false;
 
+    ngOnInit() {
+        this.updateState();
+    }
+
     ngOnChanges() {
+        this.updateState();
+    }
+
+    private updateState() {
         if (this.node && this.node.nodeId) {
             // workaround for shared files type.
             this.isFileSelected = true;
