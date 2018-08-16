@@ -5,6 +5,7 @@
     <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
         <adf-info-drawer-tab
             *ngFor="let tab of tabs"
+            [icon]="tab.icon"
             [label]="tab.title | translate">
             <app-dynamic-tab [node]="displayNode" [id]="tab.component">
             </app-dynamic-tab>
