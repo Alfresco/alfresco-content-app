@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { NodePermissionService } from '../../services/node-permission.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '../../extensions/sidebar.extensions';
@@ -40,23 +39,9 @@ export class InfoDrawerComponent implements OnChanges, OnInit {
 
     isLoading = false;
     displayNode: MinimalNodeEntryEntity;
-    canUpdateNode = false;
     tabs:  Array<SidebarTabRef> = [];
 
-    get isFileSelected(): boolean {
-        if (this.node && this.node.entry) {
-            // workaround for shared files type.
-            if (this.node.entry.nodeId) {
-                return true;
-            } else {
-                return this.node.entry.isFile;
-            }
-        }
-        return false;
-    }
-
     constructor(
-        public permission: NodePermissionService,
         private contentApi: ContentApiService,
         private extensions: ExtensionService
     ) {}
@@ -65,7 +50,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit {
         this.tabs = this.extensions.getSidebarTabs();
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges() {
         if (this.node) {
             const entry = this.node.entry;
             if (entry.nodeId) {
@@ -111,6 +96,5 @@ export class InfoDrawerComponent implements OnChanges, OnInit {
 
     private setDisplayNode(node: MinimalNodeEntryEntity) {
         this.displayNode = node;
-        this.canUpdateNode = node && this.permission.check(node, ['update']);
     }
 }

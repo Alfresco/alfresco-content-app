@@ -30,6 +30,9 @@ import { ContentMetadataModule, VersionManagerModule } from '@alfresco/adf-conte
 import { InfoDrawerComponent } from './info-drawer.component';
 import { DirectivesModule } from '../../directives/directives.module';
 import { MaterialModule } from '../../material.module';
+import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
+import { CommentsTabComponent } from './comments-tab/comments-tab.component';
+import { VersionsTabComponent } from './versions-tab/versions-tab.component';
 
 @NgModule({
     imports: [
@@ -41,10 +44,16 @@ import { MaterialModule } from '../../material.module';
         DirectivesModule
     ],
     declarations: [
-        InfoDrawerComponent
+        InfoDrawerComponent,
+        MetadataTabComponent,
+        CommentsTabComponent,
+        VersionsTabComponent
     ],
     exports: [
-        InfoDrawerComponent
+        InfoDrawerComponent,
+        MetadataTabComponent,
+        CommentsTabComponent,
+        VersionsTabComponent
     ]
 })
 export class AppInfoDrawerModule {}
