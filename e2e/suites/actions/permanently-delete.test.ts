@@ -78,7 +78,7 @@ describe('Permanently delete from Trash', () => {
     });
 
     it('delete file - [C217091]', () => {
-        dataTable.clickOnRowByName(file1)
+        dataTable.selectItem(file1)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
             .then(() => trashPage.waitForDialog())
             .then(() => trashPage.getDialogActionByLabel('Delete'))
@@ -92,7 +92,7 @@ describe('Permanently delete from Trash', () => {
     });
 
     it('delete folder - [C280416]', () => {
-        dataTable.clickOnRowByName(folder1)
+        dataTable.selectItem(folder1)
             .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
             .then(() => trashPage.waitForDialog())
             .then(() => trashPage.getDialogActionByLabel('Delete'))

@@ -102,14 +102,14 @@ describe('Toolbar actions - single selection : ', () => {
         it('actions not displayed for top level of File Libraries - [C213135]', async () => {
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
             await dataTable.waitForHeader();
-            await dataTable.clickOnRowByName(userSite);
+            await dataTable.selectItem(userSite);
             expect(await toolbar.actions.isEmpty()).toBe(true, 'toolbar not empty');
         });
 
         it('selected row is marked with a check circle icon - [C213134]', async () => {
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
             await dataTable.waitForHeader();
-            await dataTable.clickOnRowByName(fileUser);
+            await dataTable.selectItem(fileUser);
             expect(await dataTable.hasCheckMarkIcon(fileUser)).toBe(true, 'check mark missing');
         });
     });
@@ -161,7 +161,7 @@ describe('Toolbar actions - single selection : ', () => {
                 await dataTable.waitForHeader();
                 await dataTable.doubleClickOnRowByName(site);
                 await dataTable.waitForHeader();
-                await dataTable.clickOnRowByName(file1);
+                await dataTable.selectItem(file1);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
                 expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
@@ -173,7 +173,7 @@ describe('Toolbar actions - single selection : ', () => {
                 expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
                 await toolbar.actions.closeMoreMenu();
 
-                await dataTable.clickOnRowByName(file2);
+                await dataTable.selectItem(file2);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file2}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file2}`);
                 expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${file2}`);
@@ -189,7 +189,7 @@ describe('Toolbar actions - single selection : ', () => {
             it('on Shared Files - [C280456]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
                 await page.dataTable.waitForHeader();
-                await page.dataTable.clickOnRowByName(file1);
+                await page.dataTable.selectItem(file1);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
                 expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
@@ -201,7 +201,7 @@ describe('Toolbar actions - single selection : ', () => {
                 expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
                 await toolbar.actions.closeMoreMenu();
 
-                await page.dataTable.clickOnRowByName(file2);
+                await page.dataTable.selectItem(file2);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file2}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file2}`);
                 expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${file2}`);
@@ -218,7 +218,7 @@ describe('Toolbar actions - single selection : ', () => {
             xit('on Favorites - [C213121]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
                 await dataTable.waitForHeader();
-                await dataTable.clickOnRowByName(file1);
+                await dataTable.selectItem(file1);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
                 expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
@@ -229,7 +229,7 @@ describe('Toolbar actions - single selection : ', () => {
                 expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
                 await toolbar.actions.closeMoreMenu();
 
-                await dataTable.clickOnRowByName(file2);
+                await dataTable.selectItem(file2);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${file2}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file2}`);
                 expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${file2}`);
@@ -323,7 +323,7 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a file is selected - [C213122]', async () => {
-            await dataTable.clickOnRowByName(fileUser);
+            await dataTable.selectItem(fileUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
@@ -337,7 +337,7 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a folder is selected - [C213123]', async () => {
-            await dataTable.clickOnRowByName(folderUser);
+            await dataTable.selectItem(folderUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
             expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
@@ -397,7 +397,7 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             it('correct actions appear when a file is selected - [C280440]', async () => {
-                await dataTable.clickOnRowByName(fileAdmin);
+                await dataTable.selectItem(fileAdmin);
                 expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileAdmin}`);
@@ -411,7 +411,7 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             it('correct actions appear when a folder is selected - [C280441]', async () => {
-                await dataTable.clickOnRowByName(folderAdmin);
+                await dataTable.selectItem(folderAdmin);
                 expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderAdmin}`);
@@ -450,7 +450,7 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             it('correct actions appear when a file is selected - [C280443]', async () => {
-                await dataTable.clickOnRowByName(fileAdmin);
+                await dataTable.selectItem(fileAdmin);
                 expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileAdmin}`);
@@ -464,7 +464,7 @@ describe('Toolbar actions - single selection : ', () => {
             });
 
             it('correct actions appear when a folder is selected - [C280444]', async () => {
-                await dataTable.clickOnRowByName(folderAdmin);
+                await dataTable.selectItem(folderAdmin);
                 expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderAdmin}`);
                 expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderAdmin}`);
@@ -502,7 +502,7 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a file is selected - [C280446]', async () => {
-            await page.dataTable.clickOnRowByName(fileUser);
+            await page.dataTable.selectItem(fileUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
@@ -539,7 +539,7 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a file is selected - [C280448]', async () => {
-            await dataTable.clickOnRowByName(fileUser);
+            await dataTable.selectItem(fileUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
@@ -576,7 +576,7 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a file is selected - [C280450]', async () => {
-            await dataTable.clickOnRowByName(fileUser);
+            await dataTable.selectItem(fileUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
             expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
@@ -590,7 +590,7 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a folder is selected - [C280451]', async () => {
-            await dataTable.clickOnRowByName(folderUser);
+            await dataTable.selectItem(folderUser);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
             expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
             expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
@@ -633,14 +633,14 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('correct actions appear when a file is selected - [C280453]', async () => {
-            await dataTable.clickOnRowByName(fileForDelete);
+            await dataTable.selectItem(fileForDelete);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileForDelete}`);
             expect(await toolbar.actions.isButtonPresent('Permanently delete')).toBe(true, `Permanently delete is not displayed for file`);
             expect(await toolbar.actions.isButtonPresent('Restore')).toBe(true, `Restore is not displayed for file`);
         });
 
         it('correct actions appear when a folder is selected - [C280454]', async () => {
-            await dataTable.clickOnRowByName(folderForDelete);
+            await dataTable.selectItem(folderForDelete);
             expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderForDelete}`);
             expect(await toolbar.actions.isButtonPresent('Permanently delete')).toBe(true, `Permanently delete is displayed for folder`);
             expect(await toolbar.actions.isButtonPresent('Restore')).toBe(true, `Restore is not enabled for folder`);
