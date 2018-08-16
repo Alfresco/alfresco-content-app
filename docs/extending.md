@@ -573,13 +573,163 @@ The rule in the example below evaluates to `true` if all the conditions are met:
 
 ## Application Features
 
-### Extending Create Menu
+This section contains application-specific features that may vary depending on the final implementation.
 
-### Extending Navigation Bar
+### Content Actions
 
-### Extending Sidebar
+Most of the UI elements that operate with content, like toolbar buttons or menus,
+are based on `ContentActionRef` interface implementation:
 
-You can provide the following customisations for the Sidebar (aka Info Drawer):
+```ts
+interface ContentActionRef {
+    id: string;
+    type: ContentActionType;
+
+    title?: string;
+    description?: string;
+    order?: number;
+    icon?: string;
+    disabled?: boolean;
+    children?: Array<ContentActionRef>;
+    component?: string;
+    actions?: {
+        click?: string;
+        [key: string]: string;
+    };
+    rules?: {
+        enabled?: string;
+        visible?: string;
+        [key: string]: string;
+    };
+}
+```
+
+You can define content actions in the `app.extensions.json` file using the structure above.
+
+### Create Menu
+
+Provides extension endpoint for the "NEW" menu options.
+
+You can populate the menu with an extra entries like in the example below:
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "create": [
+            {
+                "id": "app.create.folder",
+                "icon": "create_new_folder",
+                "title": "Create Folder",
+                "actions": {
+                    "click": "CREATE_FOLDER"
+                },
+                "rules": {
+                    "enabled": "app.navigation.folder.canCreate"
+                }
+            },
+            {
+                "id": "app.create.uploadFile",
+                "icon": "file_upload",
+                "title": "Upload Files",
+                "actions": {
+                    "click": "UPLOAD_FILES"
+                },
+                "rules": {
+                    "enabled": "app.navigation.folder.canUpload"
+                }
+            }
+        ]
+    }
+}
+```
+
+Please refer to the [Content Actions](#content-actions) section for more details on supported properties.
+
+<p class="tip">
+It is also possible to update or disable existing entries from within the external extension files. You will need to know the `id` of the target element to customise.
+</p>
+
+### Navigation Bar
+
+Navigation bar consists of Link elements (`NavBarLinkRef`) organized into Groups (`NavBarGroupRef`).
+
+```ts
+export interface NavBarGroupRef {
+    id: string;
+    items: Array<NavBarLinkRef>;
+
+    order?: number;
+    disabled?: boolean;
+}
+
+export interface NavBarLinkRef {
+    id: string;
+    icon: string;
+    title: string;
+    route: string;
+
+    url?: string; // evaluated at runtime based on route ref
+    description?: string;
+    order?: number;
+    disabled?: boolean;
+}
+```
+
+You extensions can perform the following actions at runtime:
+
+* Register new groups with links
+* Insert new links into existing groups
+* Update properties of the existing links
+* Disable existing links or entire groups
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "navbar": [
+            {
+                "id": "app.navbar.primary",
+                "items": [
+                    {
+                        "id": "app.navbar.personalFiles",
+                        "icon": "folder",
+                        "title": "Personal Files",
+                        "route": "personal-files"
+                    },
+                    {
+                        "id": "app.navbar.libraries",
+                        "icon": "group_work",
+                        "title": "Libraries",
+                        "route": "libraries"
+                    }
+                ]
+            },
+            {
+                "id": "app.navbar.secondary",
+                "items": [
+                    {
+                        "id": "app.navbar.shared",
+                        "icon": "people",
+                        "title": "Shared",
+                        "route": "shared"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+
+### Sidebar (Info Drawer)
+
+You can provide the following customisations for the Sidebar (aka Info Drawer) component:
 
 * Add extra tabs with custom components
 * Disable tabs from the main application or extensions
@@ -633,11 +783,11 @@ on how to register your own entries to be re-used at runtime.
 | disabled | Toggles disabled state. Can be assigned from other plugins. |
 | order | The order of the element. |
 
-### Extending Toolbar
+### Toolbar
 
-### Extending Context Menu
+### Context Menu
 
-### Extending Viewer
+### Viewer
 
 #### Open With actions
 
