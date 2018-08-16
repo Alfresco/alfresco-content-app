@@ -1,0 +1,36 @@
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "dev.tools",
+    "$description": "ACA dev tools",
+
+    "routes": [
+        {
+            "id": "app.dev.tools",
+            "component": "app.dev.tools.component",
+            "path": "dev-tools",
+            "data": {
+                "configPath": "assets/app.extensions.json",
+                "pluginsPath": "assets/plugins",
+                "schemaUri": "../../extension.schema.json",
+                "schemaPath": "assets/extension.schema.json"
+            }
+        }
+    ],
+
+    "features": {
+        "navbar": [
+            {
+                "id": "app.navbar.dev.tools",
+                "items": [
+                    {
+                        "id": "app.navbar.dev.tools.main",
+                        "icon": "build",
+                        "title": "dev tools",
+                        "route": "app.dev.tools"
+                    }
+                ]
+            }
+        ]
+    }
+}

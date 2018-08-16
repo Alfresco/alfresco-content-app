@@ -23,32 +23,33 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavBarGroupRef } from './navbar.extensions';
-import { RouteRef } from './routing.extensions';
-import { RuleRef } from './rule.extensions';
-import { ActionRef, ContentActionRef } from './action.extensions';
-import { SidebarTabRef } from './sidebar.extensions';
+import { Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { NodePermissionService } from '../../../services/node-permission.service';
 
-export interface ExtensionConfig {
-    $name: string;
-    $version: string;
-    $description?: string;
-    $references?: Array<string>;
-    rules?: Array<RuleRef>;
-    routes?: Array<RouteRef>;
-    actions?: Array<ActionRef>;
-    features?: {
-        [key: string]: any;
-        create?: Array<ContentActionRef>;
-        viewer?: {
-            openWith?: Array<ContentActionRef>;
-            actions?: Array<ContentActionRef>;
-        };
-        navbar?: Array<NavBarGroupRef>;
-        sidebar?: Array<SidebarTabRef>;
-        content?: {
-            actions?: Array<ContentActionRef>;
-            contextActions?: Array<ContentActionRef>
-        };
-    };
+@Component({
+    selector: 'app-metadata-tab',
+    template: `
+        <adf-content-metadata-card
+            [readOnly]="!canUpdateNode"
+            [displayEmpty]="canUpdateNode"
+            [preset]="'custom'"
+            [node]="node">
+        </adf-content-metadata-card>
+    `,
+    encapsulation: ViewEncapsulation.None,
+    host: { 'class': 'app-metadata-tab' }
+})
+export class MetadataTabComponent implements OnChanges {
+    @Input()
+    node: MinimalNodeEntryEntity;
+
+    canUpdateNode = false;
+
+    constructor(public permission: NodePermissionService) {}
+
+    ngOnChanges() {
+        this.canUpdateNode =
+            this.node && this.permission.check(this.node, ['update']);
+    }
 }

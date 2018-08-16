@@ -23,32 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavBarGroupRef } from './navbar.extensions';
-import { RouteRef } from './routing.extensions';
-import { RuleRef } from './rule.extensions';
-import { ActionRef, ContentActionRef } from './action.extensions';
-import { SidebarTabRef } from './sidebar.extensions';
+import { Component, Input } from '@angular/core';
+import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
-export interface ExtensionConfig {
-    $name: string;
-    $version: string;
-    $description?: string;
-    $references?: Array<string>;
-    rules?: Array<RuleRef>;
-    routes?: Array<RouteRef>;
-    actions?: Array<ActionRef>;
-    features?: {
-        [key: string]: any;
-        create?: Array<ContentActionRef>;
-        viewer?: {
-            openWith?: Array<ContentActionRef>;
-            actions?: Array<ContentActionRef>;
-        };
-        navbar?: Array<NavBarGroupRef>;
-        sidebar?: Array<SidebarTabRef>;
-        content?: {
-            actions?: Array<ContentActionRef>;
-            contextActions?: Array<ContentActionRef>
-        };
-    };
+@Component({
+    selector: 'app-comments-tab',
+    template: `
+        <adf-comments [nodeId]="node?.id"></adf-comments>
+    `
+})
+export class CommentsTabComponent {
+    @Input()
+    node: MinimalNodeEntryEntity;
 }

@@ -37,6 +37,7 @@ import { RuleContext, RuleRef, RuleEvaluator, RuleParameter } from './rule.exten
 import { ActionRef, ContentActionRef, ContentActionType } from './action.extensions';
 import * as core from './evaluators/core.evaluators';
 import { NodePermissionService } from '../services/node-permission.service';
+import { SidebarTabRef } from './sidebar.extensions';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
@@ -58,6 +59,7 @@ export class ExtensionService implements RuleContext {
     openWithActions: Array<ContentActionRef> = [];
     createActions: Array<ContentActionRef> = [];
     navbar: Array<NavBarGroupRef> = [];
+    sidebar: Array<SidebarTabRef> = [];
 
     authGuards: { [key: string]: Type<{}> } = {};
     components: { [key: string]: Type<{}> } = {};
@@ -88,7 +90,15 @@ export class ExtensionService implements RuleContext {
             this.loadConfig(this.configPath, 0).then(result => {
                 let config = result.config;
 
-                if (config.$references && config.$references.length > 0) {
+                const override = sessionStorage.getItem('aca.extension.config');
+                if (override) {
+                    console.log('overriding extension config');
+                    config = JSON.parse(override);
+                }
+
+                const externalPlugins = localStorage.getItem('experimental.external-plugins') === 'true';
+
+                if (externalPlugins && config.$references && config.$references.length > 0) {
                     const plugins = config.$references.map(
                         (name, idx) => this.loadConfig(`${this.pluginsPath}/${name}`, idx)
                     );
@@ -129,6 +139,7 @@ export class ExtensionService implements RuleContext {
         this.openWithActions = this.loadViewerOpenWith(config);
         this.createActions = this.loadCreateActions(config);
         this.navbar = this.loadNavBar(config);
+        this.sidebar = this.loadSidebar(config);
     }
 
     protected loadConfig(url: string, order: number): Promise<{ order: number, config: ExtensionConfig }> {
@@ -166,7 +177,7 @@ export class ExtensionService implements RuleContext {
         return [];
     }
 
-    protected loadViewerActions(config: ExtensionConfig) {
+    protected loadViewerActions(config: ExtensionConfig): Array<ContentActionRef> {
         if (config && config.features && config.features.viewer) {
             return (config.features.viewer.actions || [])
                 .sort(this.sortByOrder)
@@ -184,7 +195,7 @@ export class ExtensionService implements RuleContext {
         return [];
     }
 
-    protected loadNavBar(config: ExtensionConfig): any {
+    protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {
         if (config && config.features) {
             return (config.features.navbar || [])
                 .filter(entry => !entry.disabled)
@@ -206,7 +217,16 @@ export class ExtensionService implements RuleContext {
                     };
                 });
         }
-        return {};
+        return [];
+    }
+
+    protected loadSidebar(config: ExtensionConfig): Array<SidebarTabRef> {
+        if (config && config.features) {
+            return (config.features.sidebar || [])
+                .filter(entry => !entry.disabled)
+                .sort(this.sortByOrder);
+        }
+        return [];
     }
 
     protected loadViewerOpenWith(config: ExtensionConfig): Array<ContentActionRef> {
@@ -269,6 +289,10 @@ export class ExtensionService implements RuleContext {
 
     getNavigationGroups(): Array<NavBarGroupRef> {
         return this.navbar;
+    }
+
+    getSidebarTabs(): Array<SidebarTabRef> {
+        return this.sidebar;
     }
 
     getComponentById(id: string): Type<{}> {

@@ -4,7 +4,8 @@
     "$version": "1.0.0",
     "$references": [
         "plugin1.json",
-        "plugin2.json"
+        "plugin2.json",
+        "dev.tools.json"
     ],
 
     "rules": [
@@ -727,6 +728,27 @@
                     }
                 }
             ]
-        }
+        },
+        "sidebar": [
+            {
+                "id": "app.sidebar.properties",
+                "order": 100,
+                "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
+                "component": "app.components.tabs.metadata"
+            },
+            {
+                "id": "app.sidebar.comments",
+                "order": 200,
+                "title": "APP.INFO_DRAWER.TABS.COMMENTS",
+                "component": "app.components.tabs.comments"
+            },
+            {
+                "id": "app.sidebar.versions",
+                "order": 300,
+                "disabled": true,
+                "title": "APP.INFO_DRAWER.TABS.VERSIONS",
+                "component": "app.components.tabs.versions"
+            }
+        ]
     }
 }

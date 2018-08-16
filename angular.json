@@ -11,7 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist",
+            "outputPath": "dist/app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -45,6 +45,16 @@
                 "glob": "pdf.worker.js",
                 "input": "node_modules/pdfjs-dist/build",
                 "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor/min",
+                "output": "./assets/monaco"
+              },
+              {
+                "glob": "**/*.js",
+                "input": "node_modules/@ngstack/code-editor/workers",
+                "output": "./assets/workers"
               }
             ],
             "styles": [
@@ -106,9 +116,9 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "stylePreprocessorOptions": {
-                "includePaths": [
-                  "src/app/ui"
-                ]
+              "includePaths": [
+                "src/app/ui"
+              ]
             },
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
@@ -181,6 +191,46 @@
           "options": {
             "tsConfig": [
               "e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "aca-dev-tools": {
+      "root": "projects/aca-dev-tools",
+      "sourceRoot": "projects/aca-dev-tools/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/aca-dev-tools/tsconfig.lib.json",
+            "project": "projects/aca-dev-tools/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/aca-dev-tools/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/aca-dev-tools/src/test.ts",
+            "tsConfig": "projects/aca-dev-tools/tsconfig.spec.json",
+            "karmaConfig": "projects/aca-dev-tools/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/aca-dev-tools/tsconfig.lib.json",
+              "projects/aca-dev-tools/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

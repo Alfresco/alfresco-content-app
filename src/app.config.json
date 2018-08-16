@@ -13,7 +13,8 @@
         "cardview": false,
         "permissions": false,
         "share": false,
-        "extensions": false
+        "extensions": false,
+        "external-plugins": false
     },
     "headerColor": "#2196F3",
     "languagePicker": false,
