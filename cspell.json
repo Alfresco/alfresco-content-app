@@ -40,7 +40,9 @@
         "exif",
         "cardview",
         "webm",
-        "keycodes"
+        "keycodes",
+
+        "docx"
     ],
     "dictionaries": [
         "html",
