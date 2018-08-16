@@ -2,6 +2,8 @@
 title: Extending
 ---
 
+<!-- markdownlint-disable MD033 -->
+
 <p class="danger">
   Work is still in progress, the documentation and examples may change.
 </p>
@@ -18,6 +20,7 @@ You can create plugins that change, toggle or extend the following areas:
 
 * Navigation sidebar links and groups
 * Context Menu
+* Sidebar (aka Info Drawer)
 * Toolbar entries
   * buttons
   * menu buttons
@@ -116,9 +119,9 @@ To create a new route, populate the `routes` section with the corresponding entr
 | **id** | Unique identifier. |
 | **path** | Runtime path of the route. |
 | **component** | The main [component](#components) to use for the route. |
-| *layout* | The layout [component](#components) to use for the route. |
-| *auth* | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
-| *data* | Custom property bag to carry with the route. |
+| layout | The layout [component](#components) to use for the route. |
+| auth | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
+| data | Custom property bag to carry with the route. |
 
 <p class="tip">
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
@@ -149,6 +152,11 @@ You can define the full route schema like in the next example:
     ]
 }
 ```
+
+<p class="warning">
+All application routes require at least one authentication guard.
+If you do not provide a guard the default `['app.auth`]` will be used at runtime.
+</p>
 
 ### Authentication Guards
 
@@ -539,9 +547,9 @@ on how to register your own entries to be re-used at runtime.
 
 The rule in the example below evaluates to `true` if all the conditions are met:
 
-- user has selected node(s)
-- user is not using **Trashcan** page
-- user is not using **Libraries** page
+* user has selected node(s)
+* user is not using **Trashcan** page
+* user is not using **Libraries** page
 
 ```json
 {
@@ -567,7 +575,63 @@ The rule in the example below evaluates to `true` if all the conditions are met:
 
 ### Extending Create Menu
 
-### Extending Navigation Sidebar
+### Extending Navigation Bar
+
+### Extending Sidebar
+
+You can provide the following customisations for the Sidebar (aka Info Drawer):
+
+* Add extra tabs with custom components
+* Disable tabs from the main application or extensions
+* Replace content or properties of existing tabs
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "sidebar": {
+            {
+                "id": "app.sidebar.properties",
+                "order": 100,
+                "title": "Properties",
+                "component": "app.components.tabs.metadata"
+            },
+            {
+                "id": "app.sidebar.comments",
+                "order": 200,
+                "title": "Comments",
+                "component": "app.components.tabs.comments"
+            }
+        }
+    }
+}
+```
+
+The example above renders two tabs:
+
+* `Properties` tab that references `app.components.tabs.metadata` component
+* `Comments` tab that references `app.components.tabs.comments` component
+
+All corresponding components must be registered for runtime use.
+
+<p class="tip">
+See [Registration](#registration) section for more details
+on how to register your own entries to be re-used at runtime.
+</p>
+
+#### Tab properties
+
+| Name | Description |
+| --- | --- |
+| **id** | Unique identifier. |
+| **component** | The main [component](#components) to use for the route. |
+| **title** | Tab title or resource key. |
+| icon | Tab icon |
+| disabled | Toggles disabled state. Can be assigned from other plugins. |
+| order | The order of the element. |
 
 ### Extending Toolbar
 
@@ -698,7 +762,6 @@ extensions.setEvaluators({
 
 Now, the `plugin1.rules.hasSelection` evaluator can be used as an inline rule reference,
 or part of the composite rule like `core.every`.
-
 
 <p class="tip">
 See [Registration](#registration) section for more details

@@ -38,6 +38,7 @@ import { ActionRef, ContentActionRef, ContentActionType } from './action.extensi
 import * as core from './evaluators/core.evaluators';
 import { NodePermissionService } from '../services/node-permission.service';
 import { SidebarTabRef } from './sidebar.extensions';
+import { ProfileResolver } from '../services/profile.resolver';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
@@ -312,6 +313,7 @@ export class ExtensionService implements RuleContext {
                 component: this.getComponentById(route.layout || this.defaults.layout),
                 canActivateChild: guards,
                 canActivate: guards,
+                resolve: { profile: ProfileResolver },
                 children: [
                     {
                         path: '',
