@@ -39,6 +39,9 @@ describe('Viewer general', () => {
     const fileAdmin = FILES.docxFile; let fileAdminId;
 
     const siteAdmin = `siteAdmin-${Utils.random()}`; let docLibId;
+    const siteUser = `siteUser-${Utils.random()}`; let docLibSiteUserId;
+
+    const fileInSite = FILES.docxFile;
 
     const apis = {
         admin: new RepoClient(),
@@ -59,6 +62,15 @@ describe('Viewer general', () => {
         await apis.admin.sites.createSite(siteAdmin, SITE_VISIBILITY.PRIVATE);
         docLibId = await apis.admin.sites.getDocLibId(siteAdmin);
         fileAdminId = (await apis.admin.upload.uploadFile(fileAdmin, docLibId)).entry.id;
+
+        await apis.user.sites.createSite(siteUser, SITE_VISIBILITY.PUBLIC);
+        docLibSiteUserId = await apis.user.sites.getDocLibId(siteUser);
+        await apis.user.upload.uploadFile(fileInSite, docLibSiteUserId);
+
+        await apis.user.shared.shareFileById(xlsxFileId);
+        await apis.user.shared.waitForApi({ expect: 1 });
+        await apis.user.favorites.addFavoriteById('file', xlsxFileId);
+        await apis.user.favorites.waitForApi({ expect: 1 });
 
         await loginPage.loginWith(username);
         done();
@@ -82,12 +94,13 @@ describe('Viewer general', () => {
             .all([
                 apis.user.nodes.deleteNodeById(parentId),
                 apis.admin.sites.deleteSite(siteAdmin),
+                apis.user.sites.deleteSite(siteUser),
                 logoutPage.load()
             ])
             .then(done);
     });
 
-    it('Viewer opens on double clicking on a file - [C279269]', async () => {
+    it('Viewer opens on double clicking on a file from Personal Files - [C279269]', async () => {
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     });
@@ -129,6 +142,48 @@ describe('Viewer general', () => {
         const previewURL = `libraries/${docLibId}/preview/${fileAdminId}`;
         await page.load(previewURL);
         expect(await viewer.isViewerOpened()).toBe(false, 'Viewer should not be opened!');
+    });
+
+    it('Viewer opens for a file from File Libraries - [C284633]', async () => {
+        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+        await dataTable.waitForHeader();
+        await dataTable.doubleClickOnRowByName(siteUser);
+        await dataTable.waitForHeader();
+        await dataTable.doubleClickOnRowByName(fileInSite);
+        expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+        expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
+        expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
+        expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
+    });
+
+    it('Viewer opens for a file from Recent Files - [C284636]', async () => {
+        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
+        await dataTable.waitForHeader();
+        await dataTable.doubleClickOnRowByName(xlsxFile);
+        expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+        expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
+        expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
+        expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
+    });
+
+    it('Viewer opens for a file from Shared Files - [C284635]', async () => {
+        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+        await dataTable.waitForHeader();
+        await dataTable.doubleClickOnRowByName(xlsxFile);
+        expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+        expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
+        expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
+        expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
+    });
+
+    it('Viewer opens for a file from Favorites - [C284634]', async () => {
+        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+        await dataTable.waitForHeader();
+        await dataTable.doubleClickOnRowByName(xlsxFile);
+        expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+        expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
+        expect(await viewer.isCloseButtonDisplayed()).toBe(true, 'Close button is not displayed');
+        expect(await viewer.isFileTitleDisplayed()).toBe(true, 'File title is not displayed');
     });
 
 });
