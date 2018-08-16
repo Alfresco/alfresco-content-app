@@ -291,6 +291,10 @@ export class ExtensionService implements RuleContext {
         return this.navbar;
     }
 
+    getSidebarTabs(): Array<SidebarTabRef> {
+        return this.sidebar;
+    }
+
     getComponentById(id: string): Type<{}> {
         return this.components[id];
     }
