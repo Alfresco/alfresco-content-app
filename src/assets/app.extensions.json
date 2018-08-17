@@ -237,400 +237,398 @@
                 ]
             }
         ],
-        "content": {
-            "actions": [
-                {
-                    "id": "app.toolbar.preview",
-                    "order": 100,
-                    "title": "APP.ACTIONS.VIEW",
-                    "icon": "open_in_browser",
-                    "actions": {
-                        "click": "VIEW_FILE"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.canViewFile"
-                    }
+        "toolbar": [
+            {
+                "id": "app.toolbar.preview",
+                "order": 100,
+                "title": "APP.ACTIONS.VIEW",
+                "icon": "open_in_browser",
+                "actions": {
+                    "click": "VIEW_FILE"
                 },
-                {
-                    "id": "app.toolbar.download",
-                    "order": 200,
-                    "title": "APP.ACTIONS.DOWNLOAD",
-                    "icon": "get_app",
-                    "actions": {
-                        "click": "DOWNLOAD_NODES"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.canDownload"
-                    }
+                "rules": {
+                    "visible": "app.toolbar.canViewFile"
+                }
+            },
+            {
+                "id": "app.toolbar.download",
+                "order": 200,
+                "title": "APP.ACTIONS.DOWNLOAD",
+                "icon": "get_app",
+                "actions": {
+                    "click": "DOWNLOAD_NODES"
                 },
-                {
-                    "id": "app.toolbar.editFolder",
-                    "order": 300,
-                    "title": "APP.ACTIONS.EDIT",
-                    "icon": "create",
-                    "actions": {
-                        "click": "EDIT_FOLDER"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.canEditFolder"
-                    }
+                "rules": {
+                    "visible": "app.toolbar.canDownload"
+                }
+            },
+            {
+                "id": "app.toolbar.editFolder",
+                "order": 300,
+                "title": "APP.ACTIONS.EDIT",
+                "icon": "create",
+                "actions": {
+                    "click": "EDIT_FOLDER"
                 },
-                {
-                    "id": "app.toolbar.purgeDeletedNodes",
-                    "order": 400,
-                    "title": "APP.ACTIONS.DELETE_PERMANENT",
-                    "icon": "delete_forever",
-                    "actions": {
-                        "click": "PURGE_DELETED_NODES"
-                    },
-                    "rules": {
-                        "visible": "app.trashcan.hasSelection"
-                    }
+                "rules": {
+                    "visible": "app.toolbar.canEditFolder"
+                }
+            },
+            {
+                "id": "app.toolbar.purgeDeletedNodes",
+                "order": 400,
+                "title": "APP.ACTIONS.DELETE_PERMANENT",
+                "icon": "delete_forever",
+                "actions": {
+                    "click": "PURGE_DELETED_NODES"
                 },
-                {
-                    "id": "app.toolbar.restoreDeletedNodes",
-                    "order": 500,
-                    "title": "APP.ACTIONS.RESTORE",
-                    "icon": "restore",
-                    "actions": {
-                        "click": "RESTORE_DELETED_NODES"
-                    },
-                    "rules": {
-                        "visible": "app.trashcan.hasSelection"
-                    }
+                "rules": {
+                    "visible": "app.trashcan.hasSelection"
+                }
+            },
+            {
+                "id": "app.toolbar.restoreDeletedNodes",
+                "order": 500,
+                "title": "APP.ACTIONS.RESTORE",
+                "icon": "restore",
+                "actions": {
+                    "click": "RESTORE_DELETED_NODES"
                 },
-                {
-                    "id": "app.toolbar.createLibrary",
-                    "order": 600,
-                    "title": "Create Library",
-                    "icon": "create_new_folder",
-                    "actions": {
-                        "click": "CREATE_LIBRARY"
-                    },
-                    "rules": {
-                        "visible": "app.navigation.isLibraries"
-                    }
+                "rules": {
+                    "visible": "app.trashcan.hasSelection"
+                }
+            },
+            {
+                "id": "app.toolbar.createLibrary",
+                "order": 600,
+                "title": "Create Library",
+                "icon": "create_new_folder",
+                "actions": {
+                    "click": "CREATE_LIBRARY"
                 },
-                {
-                    "id": "app.toolbar.info",
-                    "type": "custom",
-                    "order": 700,
-                    "component": "app.toolbar.toggleInfoDrawer",
-                    "rules": {
-                        "visible": "app.toolbar.info"
-                    }
-                },
-                {
-                    "id": "app.toolbar.more",
-                    "type": "menu",
-                    "order": 10000,
-                    "icon": "more_vert",
-                    "title": "APP.ACTIONS.MORE",
-                    "children": [
-                        {
-                            "id": "app.toolbar.favorite",
-                            "comment": "workaround for Recent Files and Search API issue",
-                            "type": "custom",
-                            "order": 100,
-                            "component": "app.toolbar.toggleFavorite",
-                            "rules": {
-                                "visible": "app.toolbar.favorite.canToggle"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.favorite.add",
-                            "order": 200,
-                            "title": "APP.ACTIONS.FAVORITE",
-                            "icon": "star_border",
-                            "actions": {
-                                "click": "ADD_FAVORITE"
-                            },
-                            "rules": {
-                                "visible": "app.toolbar.favorite.canAdd"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.favorite.remove",
-                            "order": 300,
-                            "title": "APP.ACTIONS.FAVORITE",
-                            "icon": "star",
-                            "actions": {
-                                "click": "REMOVE_FAVORITE"
-                            },
-                            "rules": {
-                                "visible": "app.toolbar.favorite.canRemove"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.copy",
-                            "order": 400,
-                            "title": "APP.ACTIONS.COPY",
-                            "icon": "content_copy",
-                            "actions": {
-                                "click": "COPY_NODES"
-                            },
-                            "rules": {
-                                "visible": "app.toolbar.canCopyNode"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.move",
-                            "order": 500,
-                            "title": "APP.ACTIONS.MOVE",
-                            "icon": "library_books",
-                            "actions": {
-                                "click": "MOVE_NODES"
-                            },
-                            "rules": {
-                                "visible": "app.selection.canDelete"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.share",
-                            "order": 600,
-                            "title": "APP.ACTIONS.SHARE",
-                            "icon": "share",
-                            "actions": {
-                                "click": "SHARE_NODE"
-                            },
-                            "rules": {
-                                "visible": "app.selection.file.canShare"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.unshare",
-                            "order": 700,
-                            "title": "APP.ACTIONS.UNSHARE",
-                            "icon": "stop_screen_share",
-                            "actions": {
-                                "click": "UNSHARE_NODES"
-                            },
-                            "rules": {
-                                "visible": "app.selection.canUnshare"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.delete",
-                            "order": 800,
-                            "title": "APP.ACTIONS.DELETE",
-                            "icon": "delete",
-                            "actions": {
-                                "click": "DELETE_NODES"
-                            },
-                            "rules": {
-                                "visible": "app.selection.canDelete"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.deleteLibrary",
-                            "order": 900,
-                            "title": "APP.ACTIONS.DELETE",
-                            "icon": "delete",
-                            "actions": {
-                                "click": "DELETE_LIBRARY"
-                            },
-                            "rules": {
-                                "visible": "app.selection.library"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.versions",
-                            "order": 1000,
-                            "title": "APP.ACTIONS.VERSIONS",
-                            "icon": "history",
-                            "actions": {
-                                "click": "MANAGE_VERSIONS"
-                            },
-                            "rules": {
-                                "visible": "app.toolbar.versions"
-                            }
-                        },
-                        {
-                            "id": "app.toolbar.permissions",
-                            "order": 1100,
-                            "title": "APP.ACTIONS.PERMISSIONS",
-                            "icon": "settings_input_component",
-                            "actions": {
-                                "click": "MANAGE_PERMISSIONS"
-                            },
-                            "rules": {
-                                "visible": "app.toolbar.permissions"
-                            }
+                "rules": {
+                    "visible": "app.navigation.isLibraries"
+                }
+            },
+            {
+                "id": "app.toolbar.info",
+                "type": "custom",
+                "order": 700,
+                "component": "app.toolbar.toggleInfoDrawer",
+                "rules": {
+                    "visible": "app.toolbar.info"
+                }
+            },
+            {
+                "id": "app.toolbar.more",
+                "type": "menu",
+                "order": 10000,
+                "icon": "more_vert",
+                "title": "APP.ACTIONS.MORE",
+                "children": [
+                    {
+                        "id": "app.toolbar.favorite",
+                        "comment": "workaround for Recent Files and Search API issue",
+                        "type": "custom",
+                        "order": 100,
+                        "component": "app.toolbar.toggleFavorite",
+                        "rules": {
+                            "visible": "app.toolbar.favorite.canToggle"
                         }
-                    ]
+                    },
+                    {
+                        "id": "app.toolbar.favorite.add",
+                        "order": 200,
+                        "title": "APP.ACTIONS.FAVORITE",
+                        "icon": "star_border",
+                        "actions": {
+                            "click": "ADD_FAVORITE"
+                        },
+                        "rules": {
+                            "visible": "app.toolbar.favorite.canAdd"
+                        }
+                    },
+                    {
+                        "id": "app.toolbar.favorite.remove",
+                        "order": 300,
+                        "title": "APP.ACTIONS.FAVORITE",
+                        "icon": "star",
+                        "actions": {
+                            "click": "REMOVE_FAVORITE"
+                        },
+                        "rules": {
+                            "visible": "app.toolbar.favorite.canRemove"
+                        }
+                    },
+                    {
+                        "id": "app.toolbar.copy",
+                        "order": 400,
+                        "title": "APP.ACTIONS.COPY",
+                        "icon": "content_copy",
+                        "actions": {
+                            "click": "COPY_NODES"
+                        },
+                        "rules": {
+                            "visible": "app.toolbar.canCopyNode"
+                        }
+                    },
+                    {
+                        "id": "app.toolbar.move",
+                        "order": 500,
+                        "title": "APP.ACTIONS.MOVE",
+                        "icon": "library_books",
+                        "actions": {
+                            "click": "MOVE_NODES"
+                        },
+                        "rules": {
+                            "visible": "app.selection.canDelete"
+                        }
+                    },
+                    {
+                        "id": "app.toolbar.share",
+                        "order": 600,
+                        "title": "APP.ACTIONS.SHARE",
+                        "icon": "share",
+                        "actions": {
+                            "click": "SHARE_NODE"
+                        },
+                        "rules": {
+                            "visible": "app.selection.file.canShare"
+                        }
+                    },
+                    {
+                        "id": "app.toolbar.unshare",
+                        "order": 700,
+                        "title": "APP.ACTIONS.UNSHARE",
+                        "icon": "stop_screen_share",
+                        "actions": {
+                            "click": "UNSHARE_NODES"
+                        },
+                        "rules": {
+                            "visible": "app.selection.canUnshare"
+                        }
+                    },
+                    {
+                        "id": "app.toolbar.delete",
+                        "order": 800,
+                        "title": "APP.ACTIONS.DELETE",
+                        "icon": "delete",
+                        "actions": {
+                            "click": "DELETE_NODES"
+                        },
+                        "rules": {
+                            "visible": "app.selection.canDelete"
+                        }
+                    },
+                    {
+                        "id": "app.toolbar.deleteLibrary",
+                        "order": 900,
+                        "title": "APP.ACTIONS.DELETE",
+                        "icon": "delete",
+                        "actions": {
+                            "click": "DELETE_LIBRARY"
+                        },
+                        "rules": {
+                            "visible": "app.selection.library"
+                        }
+                    },
+                    {
+                        "id": "app.toolbar.versions",
+                        "order": 1000,
+                        "title": "APP.ACTIONS.VERSIONS",
+                        "icon": "history",
+                        "actions": {
+                            "click": "MANAGE_VERSIONS"
+                        },
+                        "rules": {
+                            "visible": "app.toolbar.versions"
+                        }
+                    },
+                    {
+                        "id": "app.toolbar.permissions",
+                        "order": 1100,
+                        "title": "APP.ACTIONS.PERMISSIONS",
+                        "icon": "settings_input_component",
+                        "actions": {
+                            "click": "MANAGE_PERMISSIONS"
+                        },
+                        "rules": {
+                            "visible": "app.toolbar.permissions"
+                        }
+                    }
+                ]
+            }
+        ],
+        "contextMenu": [
+            {
+                "id": "app.context.menu.download",
+                "order": 100,
+                "title": "APP.ACTIONS.DOWNLOAD",
+                "icon": "get_app",
+                "actions": {
+                    "click": "DOWNLOAD_NODES"
+                },
+                "rules": {
+                    "visible": "app.toolbar.canDownload"
                 }
-            ],
-            "contextActions": [
-                {
-                    "id": "app.contextmenu.download",
-                    "order": 100,
-                    "title": "APP.ACTIONS.DOWNLOAD",
-                    "icon": "get_app",
-                    "actions": {
-                        "click": "DOWNLOAD_NODES"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.canDownload"
-                    }
+            },
+            {
+                "id": "app.context.menu.preview",
+                "order": 200,
+                "title": "APP.ACTIONS.VIEW",
+                "icon": "open_in_browser",
+                "actions": {
+                    "click": "VIEW_FILE"
                 },
-                {
-                    "id": "app.contextmenu.preview",
-                    "order": 200,
-                    "title": "APP.ACTIONS.VIEW",
-                    "icon": "open_in_browser",
-                    "actions": {
-                        "click": "VIEW_FILE"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.canViewFile"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.editFolder",
-                    "order": 300,
-                    "title": "APP.ACTIONS.EDIT",
-                    "icon": "create",
-                    "actions": {
-                        "click": "EDIT_FOLDER"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.canEditFolder"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.share",
-                    "title": "APP.ACTIONS.SHARE",
-                    "order": 400,
-                    "icon": "share",
-                    "actions": {
-                        "click": "SHARE_NODE"
-                    },
-                    "rules": {
-                        "visible": "app.selection.file.canShare"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.favorite.add",
-                    "title": "APP.ACTIONS.FAVORITE",
-                    "order": 500,
-                    "icon": "star_border",
-                    "actions": {
-                        "click": "ADD_FAVORITE"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.favorite.canAdd"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.favorite.remove",
-                    "title": "APP.ACTIONS.FAVORITE",
-                    "order": 600,
-                    "icon": "star",
-                    "actions": {
-                        "click": "REMOVE_FAVORITE"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.favorite.canRemove"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.favorite",
-                    "comment": "workaround for Recent Files and Search API issue",
-                    "type": "custom",
-                    "order": 501,
-                    "component": "app.toolbar.toggleFavorite",
-                    "rules": {
-                        "visible": "app.toolbar.favorite.canToggle"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.copy",
-                    "title": "APP.ACTIONS.COPY",
-                    "order": 700,
-                    "icon": "content_copy",
-                    "actions": {
-                        "click": "COPY_NODES"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.canCopyNode"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.move",
-                    "title": "APP.ACTIONS.MOVE",
-                    "order": 800,
-                    "icon": "library_books",
-                    "actions": {
-                        "click": "MOVE_NODES"
-                    },
-                    "rules": {
-                        "visible": "app.selection.canDelete"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.delete",
-                    "title": "APP.ACTIONS.DELETE",
-                    "order": 900,
-                    "icon": "delete",
-                    "actions": {
-                        "click": "DELETE_NODES"
-                    },
-                    "rules": {
-                        "visible": "app.selection.canDelete"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.versions",
-                    "title": "APP.ACTIONS.VERSIONS",
-                    "order": 1000,
-                    "icon": "history",
-                    "actions": {
-                        "click": "MANAGE_VERSIONS"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.versions"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.permissions",
-                    "title": "APP.ACTIONS.PERMISSIONS",
-                    "icon": "settings_input_component",
-                    "order": 1100,
-                    "actions": {
-                        "click": "MANAGE_PERMISSIONS"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.permissions"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.purgeDeletedNodes",
-                    "order": 1200,
-                    "title": "APP.ACTIONS.DELETE_PERMANENT",
-                    "icon": "delete_forever",
-                    "actions": {
-                        "click": "PURGE_DELETED_NODES"
-                    },
-                    "rules": {
-                        "visible": "app.trashcan.hasSelection"
-                    }
-                },
-                {
-                    "id": "app.contextmenu.restoreDeletedNodes",
-                    "order": 1300,
-                    "title": "APP.ACTIONS.RESTORE",
-                    "icon": "restore",
-                    "actions": {
-                        "click": "RESTORE_DELETED_NODES"
-                    },
-                    "rules": {
-                        "visible": "app.trashcan.hasSelection"
-                    }
+                "rules": {
+                    "visible": "app.toolbar.canViewFile"
                 }
-            ]
-        },
+            },
+            {
+                "id": "app.context.menu.editFolder",
+                "order": 300,
+                "title": "APP.ACTIONS.EDIT",
+                "icon": "create",
+                "actions": {
+                    "click": "EDIT_FOLDER"
+                },
+                "rules": {
+                    "visible": "app.toolbar.canEditFolder"
+                }
+            },
+            {
+                "id": "app.context.menu.share",
+                "title": "APP.ACTIONS.SHARE",
+                "order": 400,
+                "icon": "share",
+                "actions": {
+                    "click": "SHARE_NODE"
+                },
+                "rules": {
+                    "visible": "app.selection.file.canShare"
+                }
+            },
+            {
+                "id": "app.context.menu.favorite.add",
+                "title": "APP.ACTIONS.FAVORITE",
+                "order": 500,
+                "icon": "star_border",
+                "actions": {
+                    "click": "ADD_FAVORITE"
+                },
+                "rules": {
+                    "visible": "app.toolbar.favorite.canAdd"
+                }
+            },
+            {
+                "id": "app.context.menu.favorite.remove",
+                "title": "APP.ACTIONS.FAVORITE",
+                "order": 600,
+                "icon": "star",
+                "actions": {
+                    "click": "REMOVE_FAVORITE"
+                },
+                "rules": {
+                    "visible": "app.toolbar.favorite.canRemove"
+                }
+            },
+            {
+                "id": "app.context.menu.favorite",
+                "comment": "workaround for Recent Files and Search API issue",
+                "type": "custom",
+                "order": 501,
+                "component": "app.toolbar.toggleFavorite",
+                "rules": {
+                    "visible": "app.toolbar.favorite.canToggle"
+                }
+            },
+            {
+                "id": "app.context.menu.copy",
+                "title": "APP.ACTIONS.COPY",
+                "order": 700,
+                "icon": "content_copy",
+                "actions": {
+                    "click": "COPY_NODES"
+                },
+                "rules": {
+                    "visible": "app.toolbar.canCopyNode"
+                }
+            },
+            {
+                "id": "app.context.menu.move",
+                "title": "APP.ACTIONS.MOVE",
+                "order": 800,
+                "icon": "library_books",
+                "actions": {
+                    "click": "MOVE_NODES"
+                },
+                "rules": {
+                    "visible": "app.selection.canDelete"
+                }
+            },
+            {
+                "id": "app.context.menu.delete",
+                "title": "APP.ACTIONS.DELETE",
+                "order": 900,
+                "icon": "delete",
+                "actions": {
+                    "click": "DELETE_NODES"
+                },
+                "rules": {
+                    "visible": "app.selection.canDelete"
+                }
+            },
+            {
+                "id": "app.context.menu.versions",
+                "title": "APP.ACTIONS.VERSIONS",
+                "order": 1000,
+                "icon": "history",
+                "actions": {
+                    "click": "MANAGE_VERSIONS"
+                },
+                "rules": {
+                    "visible": "app.toolbar.versions"
+                }
+            },
+            {
+                "id": "app.context.menu.permissions",
+                "title": "APP.ACTIONS.PERMISSIONS",
+                "icon": "settings_input_component",
+                "order": 1100,
+                "actions": {
+                    "click": "MANAGE_PERMISSIONS"
+                },
+                "rules": {
+                    "visible": "app.toolbar.permissions"
+                }
+            },
+            {
+                "id": "app.context.menu.purgeDeletedNodes",
+                "order": 1200,
+                "title": "APP.ACTIONS.DELETE_PERMANENT",
+                "icon": "delete_forever",
+                "actions": {
+                    "click": "PURGE_DELETED_NODES"
+                },
+                "rules": {
+                    "visible": "app.trashcan.hasSelection"
+                }
+            },
+            {
+                "id": "app.context.menu.restoreDeletedNodes",
+                "order": 1300,
+                "title": "APP.ACTIONS.RESTORE",
+                "icon": "restore",
+                "actions": {
+                    "click": "RESTORE_DELETED_NODES"
+                },
+                "rules": {
+                    "visible": "app.trashcan.hasSelection"
+                }
+            }
+        ],
         "viewer": {
-            "actions": [
+            "toolbar": [
                 {
                     "id": "app.viewer.favorite.add",
                     "order": 100,

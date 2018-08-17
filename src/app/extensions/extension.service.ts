@@ -38,6 +38,7 @@ import { ActionRef, ContentActionRef, ContentActionType } from './action.extensi
 import * as core from './evaluators/core.evaluators';
 import { NodePermissionService } from '../services/node-permission.service';
 import { SidebarTabRef } from './sidebar.extensions';
+import { ProfileResolver } from '../services/profile.resolver';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
@@ -53,9 +54,9 @@ export class ExtensionService implements RuleContext {
     routes: Array<RouteRef> = [];
     actions: Array<ActionRef> = [];
 
-    contentActions: Array<ContentActionRef> = [];
-    viewerActions: Array<ContentActionRef> = [];
-    contentContextmenuActions: Array<ContentActionRef> = [];
+    toolbarActions: Array<ContentActionRef> = [];
+    viewerToolbarActions: Array<ContentActionRef> = [];
+    contextMenuActions: Array<ContentActionRef> = [];
     openWithActions: Array<ContentActionRef> = [];
     createActions: Array<ContentActionRef> = [];
     navbar: Array<NavBarGroupRef> = [];
@@ -133,9 +134,9 @@ export class ExtensionService implements RuleContext {
         this.rules = this.loadRules(config);
         this.actions = this.loadActions(config);
         this.routes = this.loadRoutes(config);
-        this.contentActions = this.loadContentActions(config);
-        this.viewerActions = this.loadViewerActions(config);
-        this.contentContextmenuActions = this.loadContentContextMenuActions(config);
+        this.toolbarActions = this.loadToolbarActions(config);
+        this.viewerToolbarActions = this.loadViewerToolbarActions(config);
+        this.contextMenuActions = this.loadContextMenuActions(config);
         this.openWithActions = this.loadViewerOpenWith(config);
         this.createActions = this.loadCreateActions(config);
         this.navbar = this.loadNavBar(config);
@@ -168,27 +169,27 @@ export class ExtensionService implements RuleContext {
         return [];
     }
 
-    protected loadContentActions(config: ExtensionConfig) {
-        if (config && config.features && config.features.content) {
-            return (config.features.content.actions || [])
+    protected loadToolbarActions(config: ExtensionConfig) {
+        if (config && config.features && config.features.toolbar) {
+            return (config.features.toolbar || [])
                 .sort(this.sortByOrder)
                 .map(this.setActionDefaults);
         }
         return [];
     }
 
-    protected loadViewerActions(config: ExtensionConfig): Array<ContentActionRef> {
+    protected loadViewerToolbarActions(config: ExtensionConfig): Array<ContentActionRef> {
         if (config && config.features && config.features.viewer) {
-            return (config.features.viewer.actions || [])
+            return (config.features.viewer.toolbar || [])
                 .sort(this.sortByOrder)
                 .map(this.setActionDefaults);
         }
         return [];
     }
 
-    protected loadContentContextMenuActions(config: ExtensionConfig): Array<ContentActionRef> {
-        if (config && config.features && config.features.content) {
-            return (config.features.content.contextActions || [])
+    protected loadContextMenuActions(config: ExtensionConfig): Array<ContentActionRef> {
+        if (config && config.features && config.features.contextMenu) {
+            return (config.features.contextMenu || [])
                 .sort(this.sortByOrder)
                 .map(this.setActionDefaults);
         }
@@ -312,6 +313,7 @@ export class ExtensionService implements RuleContext {
                 component: this.getComponentById(route.layout || this.defaults.layout),
                 canActivateChild: guards,
                 canActivate: guards,
+                resolve: { profile: ProfileResolver },
                 children: [
                     {
                         path: '',
@@ -342,8 +344,8 @@ export class ExtensionService implements RuleContext {
     }
 
     // evaluates content actions for the selection and parent folder node
-    getAllowedContentActions(): Array<ContentActionRef> {
-        return this.contentActions
+    getAllowedToolbarActions(): Array<ContentActionRef> {
+        return this.toolbarActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action))
             .map(action => {
@@ -364,14 +366,14 @@ export class ExtensionService implements RuleContext {
             .reduce(this.reduceSeparators, []);
     }
 
-    getViewerActions(): Array<ContentActionRef> {
-        return this.viewerActions
+    getViewerToolbarActions(): Array<ContentActionRef> {
+        return this.viewerToolbarActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action));
     }
 
-    getAllowedContentContextActions(): Array<ContentActionRef> {
-        return this.contentContextmenuActions
+    getAllowedContextMenuActions(): Array<ContentActionRef> {
+        return this.contextMenuActions
             .filter(this.filterEnabled)
             .filter(action => this.filterByRules(action));
     }
