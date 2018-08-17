@@ -3,13 +3,12 @@
     $am-avatar-size: 35px;
 
     .aca-current-user {
-        font-weight: lighter;
         position: relative;
         color: mat-color($background, card);
         line-height: 20px;
 
         .am-avatar {
-            margin-left: 5px;
+            margin-left: 9px;
             cursor: pointer;
             display: inline-block;
             width: $am-avatar-size;
@@ -33,6 +32,7 @@
             font-size: 14px;
             line-height: 1.43;
             letter-spacing: -0.3px;
+            cursor: default;
         }
 
         @media screen and ($mat-small) {
