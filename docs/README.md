@@ -1,5 +1,7 @@
 # Alfresco Example Content Application
 
+<!-- markdownlint-disable MD033 -->
+
 ## Introduction
 
 The Alfresco Content Application is an example application built using
@@ -287,7 +289,7 @@ The Header & Toolbar section of the viewer contains a number of features that re
 
 The File Viewer consists of four separate views that handle displaying the content based on four types of content, covering various [file/mime](https://alfresco.github.io/adf-component-catalog/components/ViewerComponent.html#supported-file-formats) types:
 
-- Document View: PDFs are displayed in the application File Viewer, for other document types (DOCX etc) then a PDF rendition is automatically retrieved.
+- Document View: PDF files are displayed in the application File Viewer, for other document types (DOCX etc) then a PDF rendition is automatically retrieved.
 - Image View: JPEG, PNG, GIF, BMP and SVG images are natively displayed in the application File Viewer.
 - Media View: MP4, MP3, WAV, OGG and WEBM files are played natively application File Viewer. The File Viewer will download, by default, 50MB of the content at a time to ensure a smooth playback of the content.
 - Text View: TXT, XML, JS, HTML, JSON and TS files are natively displayed as text in the application File Viewer.
@@ -313,7 +315,7 @@ At the bottom of the content the Viewer Controls allow users to interact with th
 - Media View:
   - Play/pause
   - Timeline position
-  - Audio mute/unmute
+  - Toggle audio
   - Audio volume
   - Full screen
 
@@ -329,7 +331,7 @@ The Properties tab displays the node's metadata info by using the [ContentMetada
 
 ![](images/content-metadata.png)
 
-For more information, please check also the ADF's [ContentMetadataComponent](https://alfresco.github.io/adf-component-catalog/components/ContentMetadataComponent.html).
+For more information, please check also the [ContentMetadataComponent](https://alfresco.github.io/adf-component-catalog/components/ContentMetadataComponent.html).
 
 #### Versions tab
 
@@ -357,7 +359,7 @@ There are 2 ways users can access the Version Manager:
 
 #### Upload new version
 
-A new version for the selected file can be added by using this button. Users can upload a new file version using a file that is does not have the same name, or mimetype as the current version, whilst allowing the user to choose the type of version (minor or major) and inputting supporting comments. 
+A new version for the selected file can be added by using this button. Users can upload a new file version using a file that is does not have the same name, or mime type as the current version, whilst allowing the user to choose the type of version (minor or major) and inputting supporting comments.
 Please also check the [UploadVersionButtonComponent](https://alfresco.github.io/adf-component-catalog/components/UploadVersionButtonComponent.html).
 
 #### Actions Menu
