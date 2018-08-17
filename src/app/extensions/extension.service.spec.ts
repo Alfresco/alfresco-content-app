@@ -290,26 +290,24 @@ describe('ExtensionService', () => {
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
-                    content: {
-                        actions: [
-                            {
-                                id: 'aca:toolbar/separator-1',
-                                order: 1,
-                                type: ContentActionType.separator,
-                                title: 'action1',
-                            },
-                            {
-                                id: 'aca:toolbar/separator-2',
-                                order: 2,
-                                type: ContentActionType.separator,
-                                title: 'action2'
-                            }
-                        ]
-                    }
+                    toolbar: [
+                        {
+                            id: 'aca:toolbar/separator-1',
+                            order: 1,
+                            type: ContentActionType.separator,
+                            title: 'action1',
+                        },
+                        {
+                            id: 'aca:toolbar/separator-2',
+                            order: 2,
+                            type: ContentActionType.separator,
+                            title: 'action2'
+                        }
+                    ]
                 }
             });
 
-            expect(extensions.contentActions.length).toBe(2);
+            expect(extensions.toolbarActions.length).toBe(2);
         });
 
         it('should sort content actions by order', () => {
@@ -317,30 +315,28 @@ describe('ExtensionService', () => {
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
-                    content: {
-                        actions: [
-                            {
-                                id: 'aca:toolbar/separator-2',
-                                order: 2,
-                                type: ContentActionType.separator,
-                                title: 'action2'
-                            },
-                            {
-                                id: 'aca:toolbar/separator-1',
-                                order: 1,
-                                type: ContentActionType.separator,
-                                title: 'action1'
-                            }
-                        ]
-                    }
+                    toolbar: [
+                        {
+                            id: 'aca:toolbar/separator-2',
+                            order: 2,
+                            type: ContentActionType.separator,
+                            title: 'action2'
+                        },
+                        {
+                            id: 'aca:toolbar/separator-1',
+                            order: 1,
+                            type: ContentActionType.separator,
+                            title: 'action1'
+                        }
+                    ]
                 }
             });
 
-            expect(extensions.contentActions.length).toBe(2);
-            expect(extensions.contentActions[0].id).toBe(
+            expect(extensions.toolbarActions.length).toBe(2);
+            expect(extensions.toolbarActions[0].id).toBe(
                 'aca:toolbar/separator-1'
             );
-            expect(extensions.contentActions[1].id).toBe(
+            expect(extensions.toolbarActions[1].id).toBe(
                 'aca:toolbar/separator-2'
             );
         });
