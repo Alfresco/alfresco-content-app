@@ -172,7 +172,7 @@ export class DataTable extends Component {
             .then(() => browser.actions().mouseMove(item).click().click().perform());
     }
 
-    clickOnRowByName(name: string): promise.Promise<any> {
+    selectItem(name: string): promise.Promise<any> {
         const item = this.getRowFirstCell(name);
         return Utils.waitUntilElementClickable(item)
                 .then(() => item.click());
@@ -183,7 +183,7 @@ export class DataTable extends Component {
             .then(() => browser.actions().sendKeys(protractor.Key.COMMAND).perform())
             .then(() => {
                 names.forEach(name => {
-                    this.clickOnRowByName(name);
+                    this.selectItem(name);
                 });
             })
             .then(() => browser.actions().sendKeys(protractor.Key.NULL).perform());

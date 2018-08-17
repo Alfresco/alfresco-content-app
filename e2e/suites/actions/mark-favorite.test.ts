@@ -90,7 +90,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('Favorite action has empty star icon for an item not marked as favorite - [C217186]', () => {
-            dataTable.clickOnRowByName(file1NotFav)
+            dataTable.selectItem(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star_border'));
         });
@@ -102,13 +102,13 @@ describe('Mark items as favorites', () => {
         });
 
         it('Favorite action has full star icon for items marked as favorite - [C217188]', () => {
-            dataTable.clickOnRowByName(file3Fav)
+            dataTable.selectItem(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star'));
         });
 
         it('favorite a file - [C217189]', () => {
-            dataTable.clickOnRowByName(file1NotFav)
+            dataTable.selectItem(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -119,7 +119,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite a folder - [C280390]', () => {
-            dataTable.clickOnRowByName(folder1)
+            dataTable.selectItem(folder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -130,7 +130,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite an item - [C217190]', () => {
-            dataTable.clickOnRowByName(file3Fav)
+            dataTable.selectItem(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 1 }))
@@ -206,7 +206,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite a file - [C280352]', () => {
-            dataTable.clickOnRowByName(file1NotFav)
+            dataTable.selectItem(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -217,7 +217,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite an item - [C280353]', () => {
-            dataTable.clickOnRowByName(file3Fav)
+            dataTable.selectItem(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 1 }))
@@ -296,7 +296,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('favorite a file - [C280362]', () => {
-            dataTable.clickOnRowByName(file1NotFav)
+            dataTable.selectItem(file1NotFav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 3 }))
@@ -307,7 +307,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite an item - [C280363]', () => {
-            dataTable.clickOnRowByName(file3Fav)
+            dataTable.selectItem(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 1 }))
@@ -383,7 +383,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('unfavorite an item - [C280368]', () => {
-            dataTable.clickOnRowByName(file3Fav)
+            dataTable.selectItem(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Favorite'))
                 .then(() => apis.user.favorites.waitForApi({ expect: 1 }))
@@ -417,7 +417,7 @@ describe('Mark items as favorites', () => {
         });
 
         it('Favorite action has full star icon for items marked as favorite - [C280371]', () => {
-            dataTable.clickOnRowByName(file3Fav)
+            dataTable.selectItem(file3Fav)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => expect(toolbar.actions.menu.getItemIconText('Favorite')).toEqual('star'));
         });

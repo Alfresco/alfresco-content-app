@@ -102,7 +102,7 @@ describe('Delete and undo delete', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnRowByName(file1)
+            dataTable.selectItem(file1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -147,7 +147,7 @@ describe('Delete and undo delete', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnRowByName(folder1)
+            dataTable.selectItem(folder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => {
@@ -165,7 +165,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('delete a folder containing locked files - [C217127]', () => {
-            dataTable.clickOnRowByName(folder2)
+            dataTable.selectItem(folder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -199,7 +199,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('successful delete notification shows Undo action - [C217131]', () => {
-            dataTable.clickOnRowByName(file1)
+            dataTable.selectItem(file1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -211,7 +211,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('unsuccessful delete notification does not show Undo action - [C217134]', () => {
-            dataTable.clickOnRowByName(folder2)
+            dataTable.selectItem(folder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -224,7 +224,7 @@ describe('Delete and undo delete', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnRowByName(file1)
+            dataTable.selectItem(file1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -238,7 +238,7 @@ describe('Delete and undo delete', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnRowByName(folder1)
+            dataTable.selectItem(folder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -306,7 +306,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('delete a file and check notification - [C280316]', () => {
-            dataTable.clickOnRowByName(sharedFile1)
+            dataTable.selectItem(sharedFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -345,7 +345,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('successful delete notification shows Undo action - [C280323]', () => {
-            dataTable.clickOnRowByName(sharedFile1)
+            dataTable.selectItem(sharedFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -355,7 +355,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('undo delete of file - [C280324]', () => {
-            dataTable.clickOnRowByName(sharedFile2)
+            dataTable.selectItem(sharedFile2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -432,7 +432,7 @@ describe('Delete and undo delete', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnRowByName(favoriteFile1)
+            dataTable.selectItem(favoriteFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -476,7 +476,7 @@ describe('Delete and undo delete', () => {
         it('delete a folder with content - [C280518]', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
-            dataTable.clickOnRowByName(favoriteFolder1)
+            dataTable.selectItem(favoriteFolder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => {
@@ -494,7 +494,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('delete a folder containing locked files - [C280519]', () => {
-            dataTable.clickOnRowByName(favoriteFolder2)
+            dataTable.selectItem(favoriteFolder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -532,7 +532,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('successful delete notification shows Undo action - [C280522]', () => {
-            dataTable.clickOnRowByName(favoriteFile1)
+            dataTable.selectItem(favoriteFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -542,7 +542,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('unsuccessful delete notification does not show Undo action - [C280523]', () => {
-            dataTable.clickOnRowByName(favoriteFolder2)
+            dataTable.selectItem(favoriteFolder2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -553,7 +553,7 @@ describe('Delete and undo delete', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnRowByName(favoriteFile1)
+            dataTable.selectItem(favoriteFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -567,7 +567,7 @@ describe('Delete and undo delete', () => {
             let items: number;
             page.dataTable.countRows().then(number => { items = number; });
 
-            dataTable.clickOnRowByName(favoriteFolder1)
+            dataTable.selectItem(favoriteFolder1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
@@ -641,7 +641,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('delete a file and check notification - [C280528]', () => {
-            dataTable.clickOnRowByName(recentFile1)
+            dataTable.selectItem(recentFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -678,7 +678,7 @@ describe('Delete and undo delete', () => {
         });
 
         it('successful delete notification shows Undo action - [C280534]', () => {
-            dataTable.clickOnRowByName(recentFile1)
+            dataTable.selectItem(recentFile1)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.getSnackBarMessage())
@@ -693,7 +693,7 @@ describe('Delete and undo delete', () => {
         // without adding a very big browser.sleep followed by a page.refresh
         // so for the moment we're testing that the restored file is not displayed in the Trash
         it('undo delete of file - [C280536]', () => {
-            dataTable.clickOnRowByName(recentFile2)
+            dataTable.selectItem(recentFile2)
                 .then(() => toolbar.actions.openMoreMenu())
                 .then(() => toolbar.actions.menu.clickMenuItem('Delete'))
                 .then(() => page.clickSnackBarAction())
