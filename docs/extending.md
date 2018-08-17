@@ -575,6 +575,40 @@ The rule in the example below evaluates to `true` if all the conditions are met:
 
 This section contains application-specific features that may vary depending on the final implementation.
 
+The ACA supports the following set of extension points:
+
+* Create menu
+* Navigation Bar
+* Toolbar
+* Context Menu
+* Viewer
+* Sidebar (aka Info Drawer)
+
+All the customisations are stored in the `features` section of the configuration file:
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "create": [],
+        "navbar": [],
+        "toolbar": [],
+        "contextMenu": [],
+        "viewer": {
+            "toolbar:": [],
+            "openWith": []
+        },
+        "sidebar": []
+    }
+}
+```
+
+Other applications or external plugins can utilise different subsets of the configuration above.
+Also, extra entries can be added to the configuration schema.
+
 ### Content Actions
 
 Most of the UI elements that operate with content, like toolbar buttons or menus,
@@ -785,13 +819,197 @@ on how to register your own entries to be re-used at runtime.
 
 ### Toolbar
 
+The toolbar extension point is represented by an array of Content Action references.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "toolbar": [
+            {
+                "id": "app.toolbar.preview",
+                "title": "View",
+                "icon": "open_in_browser",
+                "actions": {
+                    "click": "VIEW_FILE"
+                },
+                "rules": {
+                    "visible": "app.toolbar.canViewFile"
+                }
+            },
+            {
+                "id": "app.toolbar.download",
+                "title": "Download",
+                "icon": "get_app",
+                "actions": {
+                    "click": "DOWNLOAD_NODES"
+                },
+                "rules": {
+                    "visible": "app.toolbar.canDownload"
+                }
+            }
+        ]
+    }
+}
+```
+
+The content actions are applied to the toolbars for the following Views:
+
+* Personal Files
+* Libraries
+* Shared
+* Recent Files
+* Favorites
+* Trash
+* Search Results
+
 ### Context Menu
+
+Context Menu extensibility is similar to the one of the Toolbar.
+You may want to define a list of content actions backed by Rules and wired with Application Actions.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "contextMenu": [
+            {
+                "id": "app.context.menu.download",
+                "order": 100,
+                "title": "Download",
+                "icon": "get_app",
+                "actions": {
+                    "click": "DOWNLOAD_NODES"
+                },
+                "rules": {
+                    "visible": "app.toolbar.canDownload"
+                }
+            },
+        ]
+    }
+}
+```
+
+Note that you can re-use any rules and evaluators available.
+
+In the example above, the context menu action `Download` utilizes the `app.toolbar.canDownload` rule,
+declared in the `rules` section:
+
+```json
+{
+    "rules": [
+        {
+            "id": "app.toolbar.canDownload",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.canDownload" },
+                { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+            ]
+        }
+    ]
+}
+```
 
 ### Viewer
 
-#### Open With actions
+Viewer component in ACA supports the following extension points:
+
+* `More` toolbar actions
+* `Open With` actions
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "viewer": {
+            "toolbar:": [],
+            "openWith": []
+        }
+    }
+}
+```
 
 #### Toolbar actions
+
+The ADF Viewer component allows providing custom entries for the `More` menu button on the toolbar.
+The ACA provides an extension point for this menu that you can utilise to populate custom menu items:
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "viewer": {
+            "toolbar:": [
+                {
+                    "id": "app.viewer.share",
+                    "order": 300,
+                    "title": "Share",
+                    "icon": "share",
+                    "actions": {
+                        "click": "SHARE_NODE"
+                    },
+                    "rules": {
+                        "visible": "app.selection.file.canShare"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+#### Open With actions
+
+You can provide a list of `Open With` actions to render with every instance of the Viewer.
+
+In the following example, we create a simple `Snackbar` action reference,
+and invoke it from the custom `Open With` menu entry called `Snackbar`.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "actions": [
+        {
+            "id": "plugin1.actions.info",
+            "type": "SNACKBAR_INFO",
+            "payload": "I'm a nice little popup raised by extension."
+        },
+    ],
+
+    "features": {
+        "viewer": {
+            "openWith": [
+                {
+                    "id": "plugin1.viewer.openWith.action1",
+                    "type": "button",
+                    "icon": "build",
+                    "title": "Snackbar",
+                    "actions": {
+                        "click": "plugin1.actions.info"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+As with other content actions, custom plugins can disable, update or extend `Open With` actions.
 
 ## Registration
 

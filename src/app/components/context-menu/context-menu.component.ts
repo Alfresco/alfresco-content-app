@@ -112,7 +112,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
             .subscribe(selection => {
                 if (selection.count) {
                     this.selection = selection;
-                    this.actions = this.extensions.getAllowedContentContextActions();
+                    this.actions = this.extensions.getAllowedContextMenuActions();
                 }
             });
     }

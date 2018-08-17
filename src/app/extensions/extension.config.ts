@@ -42,13 +42,11 @@ export interface ExtensionConfig {
         create?: Array<ContentActionRef>;
         viewer?: {
             openWith?: Array<ContentActionRef>;
-            actions?: Array<ContentActionRef>;
+            toolbar?: Array<ContentActionRef>;
         };
         navbar?: Array<NavBarGroupRef>;
         sidebar?: Array<SidebarTabRef>;
-        content?: {
-            actions?: Array<ContentActionRef>;
-            contextActions?: Array<ContentActionRef>
-        };
+        toolbar?: Array<ContentActionRef>;
+        contextMenu?: Array<ContentActionRef>;
     };
 }

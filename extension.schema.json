@@ -332,8 +332,8 @@
                             "items": { "$ref": "#/definitions/contentActionRef" },
                             "minItems": 1
                         },
-                        "actions": {
-                            "description": "Content actions (toolbar, context menus, etc.)",
+                        "toolbar": {
+                            "description": "Toolbar entries",
                             "type": "array",
                             "items": { "$ref": "#/definitions/contentActionRef" },
                             "minItems": 1
@@ -352,23 +352,17 @@
                     "items": { "$ref": "#/definitions/sidebarTabRef" },
                     "minItems": 1
                 },
-                "content": {
-                    "description": "Main application content extensions",
-                    "type": "object",
-                    "properties": {
-                        "actions": {
-                            "description": "Content actions (toolbar, context menus, etc.)",
-                            "type": "array",
-                            "items": { "$ref": "#/definitions/contentActionRef" },
-                            "minItems": 1
-                        },
-                        "contextActions": {
-                            "description": "Content actions (toolbar, context menus, etc.)",
-                            "type": "array",
-                            "items": { "$ref": "#/definitions/contentActionRef" },
-                            "minItems": 1
-                        }
-                    }
+                "toolbar": {
+                    "description": "Toolbar entries",
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/contentActionRef" },
+                    "minItems": 1
+                },
+                "contextMenu": {
+                    "description": "Context menu entries",
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/contentActionRef" },
+                    "minItems": 1
                 }
             }
         }
