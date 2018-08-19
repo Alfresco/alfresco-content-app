@@ -28,5 +28,19 @@
                 <aca-toolbar-action type="menu-item" [entry]="action"></aca-toolbar-action>
             </ng-container>
         </adf-viewer-more-actions>
+
+        <ng-container *ngFor="let ext of contentExtensions">
+            <adf-viewer-extension [supportedExtensions]="[ext.fileExtension]">
+                <ng-template let-url="urlFileContent" let-extension="extension">
+                    <app-preview-extension
+                        [id]="ext.component"
+                        [node]="selection.file?.entry"
+                        [url]="url"
+                        [extension]="extension">
+                    </app-preview-extension>
+                </ng-template>
+            </adf-viewer-extension>
+        </ng-container>
+
     </adf-viewer>
 </ng-container>

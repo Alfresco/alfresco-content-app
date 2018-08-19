@@ -725,6 +725,20 @@
                         "visible": "app.toolbar.permissions"
                     }
                 }
+            ],
+            "content": [
+                {
+                    "id": "app.viewer.pdf",
+                    "disabled": true,
+                    "fileExtension": "pdf",
+                    "component": "app.components.tabs.metadata"
+                },
+                {
+                    "id": "app.viewer.docx",
+                    "disabled": true,
+                    "fileExtension": "docx",
+                    "component": "app.components.tabs.comments"
+                }
             ]
         },
         "sidebar": [
