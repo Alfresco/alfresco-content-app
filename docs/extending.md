@@ -817,6 +817,14 @@ on how to register your own entries to be re-used at runtime.
 | disabled | Toggles disabled state. Can be assigned from other plugins. |
 | order | The order of the element. |
 
+#### Tab components
+
+Every component you assign for the tab content receives the following additional properties at runtime:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| node | MinimalNodeEntryEntity | Node entry to be displayed. |
+
 ### Toolbar
 
 The toolbar extension point is represented by an array of Content Action references.
@@ -920,6 +928,7 @@ declared in the `rules` section:
 
 Viewer component in ACA supports the following extension points:
 
+* Content Viewers
 * `More` toolbar actions
 * `Open With` actions
 
@@ -931,12 +940,53 @@ Viewer component in ACA supports the following extension points:
 
     "features": {
         "viewer": {
+            "content": [],
             "toolbar:": [],
             "openWith": []
         }
     }
 }
 ```
+
+#### Content View
+
+You can provide custom components that render particular type of the content based on extensions.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "viewer": {
+            "content": [
+                {
+                    "id": "app.viewer.pdf",
+                    "fileExtension": "pdf",
+                    "component": "app.components.tabs.metadata"
+                },
+                {
+                    "id": "app.viewer.docx",
+                    "fileExtension": "docx",
+                    "component": "app.components.tabs.comments"
+                }
+            ]
+        }
+    }
+}
+```
+
+In the example above we replace `PDF` view with the `metadata` tab
+and `DOCX` view with the `comments` tab.
+
+Every custom component receives the following properties at runtime:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| node | MinimalNodeEntryEntity | Node entry to be displayed. |
+| url | string | File content URL. |
+| extension | string | File name extension. |
 
 #### Toolbar actions
 

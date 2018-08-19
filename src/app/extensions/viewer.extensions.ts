@@ -23,32 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NavBarGroupRef } from './navbar.extensions';
-import { RouteRef } from './routing.extensions';
-import { RuleRef } from './rule.extensions';
-import { ActionRef, ContentActionRef } from './action.extensions';
-import { SidebarTabRef } from './sidebar.extensions';
-import { ViewerExtensionRef } from './viewer.extensions';
+export interface ViewerExtensionRef {
+    id: string;
+    fileExtension: string;
+    component: string;
 
-export interface ExtensionConfig {
-    $name: string;
-    $version: string;
-    $description?: string;
-    $references?: Array<string>;
-    rules?: Array<RuleRef>;
-    routes?: Array<RouteRef>;
-    actions?: Array<ActionRef>;
-    features?: {
-        [key: string]: any;
-        create?: Array<ContentActionRef>;
-        viewer?: {
-            openWith?: Array<ContentActionRef>;
-            toolbar?: Array<ContentActionRef>;
-            content?: Array<ViewerExtensionRef>;
-        };
-        navbar?: Array<NavBarGroupRef>;
-        sidebar?: Array<SidebarTabRef>;
-        toolbar?: Array<ContentActionRef>;
-        contextMenu?: Array<ContentActionRef>;
-    };
+    disabled?: boolean;
+    order?: number;
 }

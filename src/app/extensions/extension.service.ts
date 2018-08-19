@@ -39,6 +39,7 @@ import * as core from './evaluators/core.evaluators';
 import { NodePermissionService } from '../services/node-permission.service';
 import { SidebarTabRef } from './sidebar.extensions';
 import { ProfileResolver } from '../services/profile.resolver';
+import { ViewerExtensionRef } from './viewer.extensions';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
@@ -56,6 +57,7 @@ export class ExtensionService implements RuleContext {
 
     toolbarActions: Array<ContentActionRef> = [];
     viewerToolbarActions: Array<ContentActionRef> = [];
+    viewerContentExtensions: Array<ViewerExtensionRef> = [];
     contextMenuActions: Array<ContentActionRef> = [];
     openWithActions: Array<ContentActionRef> = [];
     createActions: Array<ContentActionRef> = [];
@@ -136,6 +138,7 @@ export class ExtensionService implements RuleContext {
         this.routes = this.loadRoutes(config);
         this.toolbarActions = this.loadToolbarActions(config);
         this.viewerToolbarActions = this.loadViewerToolbarActions(config);
+        this.viewerContentExtensions = this.loadViewerContentExtensions(config);
         this.contextMenuActions = this.loadContextMenuActions(config);
         this.openWithActions = this.loadViewerOpenWith(config);
         this.createActions = this.loadCreateActions(config);
@@ -183,6 +186,15 @@ export class ExtensionService implements RuleContext {
             return (config.features.viewer.toolbar || [])
                 .sort(this.sortByOrder)
                 .map(this.setActionDefaults);
+        }
+        return [];
+    }
+
+    protected loadViewerContentExtensions(config: ExtensionConfig): Array<ViewerExtensionRef> {
+        if (config && config.features && config.features.viewer) {
+            return (config.features.viewer.content || [])
+                .filter(entry => !entry.disabled)
+                .sort(this.sortByOrder);
         }
         return [];
     }
