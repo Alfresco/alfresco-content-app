@@ -40,7 +40,7 @@ import { SidebarTabRef } from './sidebar.extensions';
 import { ProfileResolver } from '../services/profile.resolver';
 import { ViewerExtensionRef } from './viewer.extensions';
 import { ExtensionLoaderService } from './extension-loader.service';
-import { sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus, mergeObjects } from './extension-utils';
+import { sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus } from './extension-utils';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
@@ -89,43 +89,9 @@ export class ExtensionService implements RuleContext {
         });
     }
 
-    load(): Promise<boolean> {
-        return new Promise<any>(resolve => {
-            this.loader.loadConfig(this.configPath, 0).then(result => {
-                let config = result.config;
-
-                const override = sessionStorage.getItem('aca.extension.config');
-                if (override) {
-                    console.log('overriding extension config');
-                    config = JSON.parse(override);
-                }
-
-                const externalPlugins = localStorage.getItem('experimental.external-plugins') === 'true';
-
-                if (externalPlugins && config.$references && config.$references.length > 0) {
-                    const plugins = config.$references.map(
-                        (name, idx) => this.loader.loadConfig(`${this.pluginsPath}/${name}`, idx)
-                    );
-
-                    Promise.all(plugins).then((results => {
-                        const configs = results
-                            .filter(entry => entry)
-                            .sort(sortByOrder)
-                            .map(entry => entry.config);
-
-                        if (configs.length > 0) {
-                            config = mergeObjects(config, ...configs);
-                        }
-
-                        this.setup(config);
-                        resolve(true);
-                    }));
-                } else {
-                    this.setup(config);
-                    resolve(true);
-                }
-            });
-        });
+    async load() {
+        const config = await this.loader.load(this.configPath, this.pluginsPath);
+        this.setup(config);
     }
 
     setup(config: ExtensionConfig) {

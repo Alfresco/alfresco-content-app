@@ -30,13 +30,50 @@ import { ExtensionElement } from './extension-element';
 import { ContentActionRef, ContentActionType, ActionRef } from './action.extensions';
 import { RuleRef } from './rule.extensions';
 import { RouteRef } from './routing.extensions';
-import { sortByOrder, filterEnabled, getValue } from './extension-utils';
+import { sortByOrder, filterEnabled, getValue, mergeObjects } from './extension-utils';
 
 @Injectable()
 export class ExtensionLoaderService {
     constructor(private http: HttpClient) {}
 
-    loadConfig(
+    load(configPath: string, pluginsPath: string): Promise<ExtensionConfig> {
+        return new Promise<any>(resolve => {
+            this.loadConfig(configPath, 0).then(result => {
+                let config = result.config;
+
+                const override = sessionStorage.getItem('aca.extension.config');
+                if (override) {
+                    console.log('overriding extension config');
+                    config = JSON.parse(override);
+                }
+
+                const externalPlugins = localStorage.getItem('experimental.external-plugins') === 'true';
+
+                if (externalPlugins && config.$references && config.$references.length > 0) {
+                    const plugins = config.$references.map(
+                        (name, idx) => this.loadConfig(`${pluginsPath}/${name}`, idx)
+                    );
+
+                    Promise.all(plugins).then((results => {
+                        const configs = results
+                            .filter(entry => entry)
+                            .sort(sortByOrder)
+                            .map(entry => entry.config);
+
+                        if (configs.length > 0) {
+                            config = mergeObjects(config, ...configs);
+                        }
+
+                        resolve(config);
+                    }));
+                } else {
+                    resolve(config);
+                }
+            });
+        });
+    }
+
+    protected loadConfig(
         url: string,
         order: number
     ): Promise<{ order: number; config: ExtensionConfig }> {
