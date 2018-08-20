@@ -27,6 +27,7 @@ import { ElementFinder, by } from 'protractor';
 import { Component } from '../component';
 import { UserInfo } from './user-info';
 import { Utils } from '../../utilities/utils';
+import { protractor } from '../../../node_modules/protractor/built/ptor';
 
 export class Header extends Component {
     private locators = {
@@ -45,9 +46,10 @@ export class Header extends Component {
         super('adf-layout-header', ancestor);
     }
 
-    enterText (name: string) {
+    searchInput (textinput: string) {
         return this.searchBar.clear()
-            .then(() => Utils.typeInField(this.searchBar, name));
+            .then(() => this.searchBar.sendKeys(textinput))
+            .then(() => this.searchBar.sendKeys(protractor.Key.ENTER))
     }
 }
 
