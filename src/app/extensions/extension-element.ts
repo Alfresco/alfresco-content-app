@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ExtensionElement } from './extension-element';
+export interface ExtensionElement {
+    id: string;
 
-export interface ViewerExtensionRef extends ExtensionElement {
-    fileExtension: string;
-    component: string;
+    order?: number;
+    disabled?: boolean;
 }

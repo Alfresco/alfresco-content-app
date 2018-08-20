@@ -24,7 +24,6 @@
  */
 
 import { Injectable, Type } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
 import { ExtensionConfig } from './extension.config';
@@ -40,6 +39,8 @@ import { NodePermissionService } from '../services/node-permission.service';
 import { SidebarTabRef } from './sidebar.extensions';
 import { ProfileResolver } from '../services/profile.resolver';
 import { ViewerExtensionRef } from './viewer.extensions';
+import { ExtensionLoaderService } from './extension-loader.service';
+import { sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus, mergeObjects } from './extension-utils';
 
 @Injectable()
 export class ExtensionService implements RuleContext {
@@ -72,8 +73,8 @@ export class ExtensionService implements RuleContext {
     navigation: NavigationState;
 
     constructor(
-        private http: HttpClient,
         private store: Store<AppStore>,
+        private loader: ExtensionLoaderService,
         public permissions: NodePermissionService) {
 
         this.evaluators = {
@@ -90,7 +91,7 @@ export class ExtensionService implements RuleContext {
 
     load(): Promise<boolean> {
         return new Promise<any>(resolve => {
-            this.loadConfig(this.configPath, 0).then(result => {
+            this.loader.loadConfig(this.configPath, 0).then(result => {
                 let config = result.config;
 
                 const override = sessionStorage.getItem('aca.extension.config');
@@ -103,17 +104,17 @@ export class ExtensionService implements RuleContext {
 
                 if (externalPlugins && config.$references && config.$references.length > 0) {
                     const plugins = config.$references.map(
-                        (name, idx) => this.loadConfig(`${this.pluginsPath}/${name}`, idx)
+                        (name, idx) => this.loader.loadConfig(`${this.pluginsPath}/${name}`, idx)
                     );
 
                     Promise.all(plugins).then((results => {
                         const configs = results
                             .filter(entry => entry)
-                            .sort(this.sortByOrder)
+                            .sort(sortByOrder)
                             .map(entry => entry.config);
 
                         if (configs.length > 0) {
-                            config = this.mergeObjects(config, ...configs);
+                            config = mergeObjects(config, ...configs);
                         }
 
                         this.setup(config);
@@ -133,143 +134,38 @@ export class ExtensionService implements RuleContext {
             return;
         }
 
-        this.rules = this.loadRules(config);
-        this.actions = this.loadActions(config);
-        this.routes = this.loadRoutes(config);
-        this.toolbarActions = this.loadToolbarActions(config);
-        this.viewerToolbarActions = this.loadViewerToolbarActions(config);
-        this.viewerContentExtensions = this.loadViewerContentExtensions(config);
-        this.contextMenuActions = this.loadContextMenuActions(config);
-        this.openWithActions = this.loadViewerOpenWith(config);
-        this.createActions = this.loadCreateActions(config);
+        this.rules = this.loader.getRules(config);
+        this.actions = this.loader.getActions(config);
+        this.routes = this.loader.getRoutes(config);
+        this.toolbarActions = this.loader.getContentActions(config, 'features.toolbar');
+        this.viewerToolbarActions = this.loader.getContentActions(config, 'features.viewer.toolbar');
+        this.viewerContentExtensions = this.loader.getElements<ViewerExtensionRef>(config, 'features.viewer.content');
+        this.contextMenuActions = this.loader.getContentActions(config, 'features.contextMenu');
+        this.openWithActions = this.loader.getContentActions(config, 'features.viewer.openWith');
+        this.createActions = this.loader.getElements<ContentActionRef>(config, 'features.create');
         this.navbar = this.loadNavBar(config);
-        this.sidebar = this.loadSidebar(config);
-    }
-
-    protected loadConfig(url: string, order: number): Promise<{ order: number, config: ExtensionConfig }> {
-        return new Promise(resolve => {
-            this.http.get<ExtensionConfig>(url).subscribe(
-                config => {
-                    resolve({
-                        order,
-                        config
-                    });
-                },
-                error => {
-                    console.log(error);
-                    resolve(null);
-                }
-            );
-        });
-    }
-
-    protected loadCreateActions(config: ExtensionConfig): Array<ContentActionRef> {
-        if (config && config.features) {
-            return (config.features.create || []).sort(
-                this.sortByOrder
-            );
-        }
-        return [];
-    }
-
-    protected loadToolbarActions(config: ExtensionConfig) {
-        if (config && config.features && config.features.toolbar) {
-            return (config.features.toolbar || [])
-                .sort(this.sortByOrder)
-                .map(this.setActionDefaults);
-        }
-        return [];
-    }
-
-    protected loadViewerToolbarActions(config: ExtensionConfig): Array<ContentActionRef> {
-        if (config && config.features && config.features.viewer) {
-            return (config.features.viewer.toolbar || [])
-                .sort(this.sortByOrder)
-                .map(this.setActionDefaults);
-        }
-        return [];
-    }
-
-    protected loadViewerContentExtensions(config: ExtensionConfig): Array<ViewerExtensionRef> {
-        if (config && config.features && config.features.viewer) {
-            return (config.features.viewer.content || [])
-                .filter(entry => !entry.disabled)
-                .sort(this.sortByOrder);
-        }
-        return [];
-    }
-
-    protected loadContextMenuActions(config: ExtensionConfig): Array<ContentActionRef> {
-        if (config && config.features && config.features.contextMenu) {
-            return (config.features.contextMenu || [])
-                .sort(this.sortByOrder)
-                .map(this.setActionDefaults);
-        }
-        return [];
+        this.sidebar = this.loader.getElements<SidebarTabRef>(config, 'features.sidebar');
     }
 
     protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {
-        if (config && config.features) {
-            return (config.features.navbar || [])
-                .filter(entry => !entry.disabled)
-                .sort(this.sortByOrder)
-                .map(group => {
-                    return {
-                        ...group,
-                        items: (group.items || [])
-                            .filter(item => !item.disabled)
-                            .sort(this.sortByOrder)
-                            .map(item => {
-                                const routeRef = this.getRouteById(item.route);
-                                const url = `/${routeRef ? routeRef.path : item.route}`;
-                                return {
-                                    ...item,
-                                    url
-                                };
-                            })
-                    };
-                });
-        }
-        return [];
-    }
+        const elements = this.loader.getElements<NavBarGroupRef>(config, 'features.navbar');
 
-    protected loadSidebar(config: ExtensionConfig): Array<SidebarTabRef> {
-        if (config && config.features) {
-            return (config.features.sidebar || [])
-                .filter(entry => !entry.disabled)
-                .sort(this.sortByOrder);
-        }
-        return [];
-    }
-
-    protected loadViewerOpenWith(config: ExtensionConfig): Array<ContentActionRef> {
-        if (config && config.features && config.features.viewer) {
-            return (config.features.viewer.openWith || [])
-                .filter(entry => !entry.disabled)
-                .sort(this.sortByOrder);
-        }
-        return [];
-    }
-
-    protected loadRules(config: ExtensionConfig): Array<RuleRef> {
-        if (config && config.rules) {
-            return config.rules;
-        }
-        return [];
-    }
-
-    protected loadRoutes(config: ExtensionConfig): Array<RouteRef> {
-        if (config) {
-            return config.routes || [];
-        }
-        return [];
-    }
-
-    protected loadActions(config: ExtensionConfig): Array<ActionRef> {
-        if (config) {
-            return config.actions || [];
-        }
-        return [];
+        return elements.map(group => {
+            return {
+                ...group,
+                items: (group.items || [])
+                    .filter(item => !item.disabled)
+                    .sort(sortByOrder)
+                    .map(item => {
+                        const routeRef = this.getRouteById(item.route);
+                        const url = `/${routeRef ? routeRef.path : item.route}`;
+                        return {
+                            ...item,
+                            url
+                        };
+                    })
+            };
+        });
     }
 
     setEvaluators(values: { [key: string]: RuleEvaluator }) {
@@ -339,7 +235,7 @@ export class ExtensionService implements RuleContext {
 
     getCreateActions(): Array<ContentActionRef> {
         return this.createActions
-            .filter(this.filterEnabled)
+            .filter(filterEnabled)
             .filter(action => this.filterByRules(action))
             .map(action => {
                 let disabled = false;
@@ -358,7 +254,7 @@ export class ExtensionService implements RuleContext {
     // evaluates content actions for the selection and parent folder node
     getAllowedToolbarActions(): Array<ContentActionRef> {
         return this.toolbarActions
-            .filter(this.filterEnabled)
+            .filter(filterEnabled)
             .filter(action => this.filterByRules(action))
             .map(action => {
                 if (action.type === ContentActionType.menu) {
@@ -368,92 +264,26 @@ export class ExtensionService implements RuleContext {
                             .filter(childAction =>
                                 this.filterByRules(childAction)
                             )
-                            .reduce(this.reduceSeparators, []);
+                            .reduce(reduceSeparators, []);
                     }
                     return copy;
                 }
                 return action;
             })
-            .reduce(this.reduceEmptyMenus, [])
-            .reduce(this.reduceSeparators, []);
+            .reduce(reduceEmptyMenus, [])
+            .reduce(reduceSeparators, []);
     }
 
     getViewerToolbarActions(): Array<ContentActionRef> {
         return this.viewerToolbarActions
-            .filter(this.filterEnabled)
+            .filter(filterEnabled)
             .filter(action => this.filterByRules(action));
     }
 
     getAllowedContextMenuActions(): Array<ContentActionRef> {
         return this.contextMenuActions
-            .filter(this.filterEnabled)
+            .filter(filterEnabled)
             .filter(action => this.filterByRules(action));
-    }
-
-    setActionDefaults(action: ContentActionRef): ContentActionRef {
-        if (action) {
-            action.type = action.type || ContentActionType.default;
-            action.icon = action.icon || 'extension';
-        }
-        return action;
-    }
-
-    reduceSeparators(
-        acc: ContentActionRef[],
-        el: ContentActionRef,
-        i: number,
-        arr: ContentActionRef[]
-    ): ContentActionRef[] {
-        // remove leading separator
-        if (i === 0) {
-            if (arr[i].type === ContentActionType.separator) {
-                return acc;
-            }
-        }
-        // remove duplicate separators
-        if (i > 0) {
-            const prev = arr[i - 1];
-            if (
-                prev.type === ContentActionType.separator &&
-                el.type === ContentActionType.separator
-            ) {
-                return acc;
-            }
-
-            // remove trailing separator
-            if (i === arr.length - 1) {
-                if (el.type === ContentActionType.separator) {
-                    return acc;
-                }
-            }
-        }
-
-        return acc.concat(el);
-    }
-
-    reduceEmptyMenus(
-        acc: ContentActionRef[],
-        el: ContentActionRef
-    ): ContentActionRef[] {
-        if (el.type === ContentActionType.menu) {
-            if ((el.children || []).length === 0) {
-                return acc;
-            }
-        }
-        return acc.concat(el);
-    }
-
-    sortByOrder(
-        a: { order?: number | undefined },
-        b: { order?: number | undefined }
-    ) {
-        const left = a.order === undefined ? Number.MAX_SAFE_INTEGER : a.order;
-        const right = b.order === undefined ? Number.MAX_SAFE_INTEGER : b.order;
-        return left - right;
-    }
-
-    filterEnabled(entry: { disabled?: boolean }): boolean {
-        return !entry.disabled;
     }
 
     copyAction(action: ContentActionRef): ContentActionRef {
@@ -528,52 +358,5 @@ export class ExtensionService implements RuleContext {
             }
         }
         return false;
-    }
-
-    mergeObjects(...objects): any {
-        const result = {};
-
-        objects.forEach(source => {
-            Object.keys(source).forEach(prop => {
-                if (!prop.startsWith('$')) {
-                    if (prop in result && Array.isArray(result[prop])) {
-                        // result[prop] = result[prop].concat(source[prop]);
-                        result[prop] = this.mergeArrays(result[prop], source[prop]);
-                    } else if (prop in result && typeof result[prop] === 'object') {
-                        result[prop] = this.mergeObjects(result[prop], source[prop]);
-                    } else {
-                        result[prop] = source[prop];
-                    }
-                }
-            });
-        });
-
-        return result;
-    }
-
-    mergeArrays(left: any[], right: any[]): any[] {
-        const result = [];
-        const map = {};
-
-        (left || []).forEach(entry => {
-            const element = entry;
-            if (element && element.hasOwnProperty('id')) {
-                map[element.id] = element;
-            } else {
-                result.push(element);
-            }
-        });
-
-        (right || []).forEach(entry => {
-            const element = entry;
-            if (element && element.hasOwnProperty('id') && map[element.id]) {
-                const merged = this.mergeObjects(map[element.id], element);
-                map[element.id] = merged;
-            } else {
-                result.push(element);
-            }
-        });
-
-        return Object.values(map).concat(result);
     }
 }

@@ -61,6 +61,7 @@ import { NodePermissionService } from '../services/node-permission.service';
 import { ContentApiService } from '../services/content-api.service';
 import { ExtensionService } from '../extensions/extension.service';
 import { ViewUtilService } from '../components/preview/view-util.service';
+import { ExtensionLoaderService } from '../extensions/extension-loader.service';
 
 @NgModule({
     imports: [
@@ -114,6 +115,7 @@ import { ViewUtilService } from '../components/preview/view-util.service';
         NodePermissionService,
         ContentApiService,
         ExtensionService,
+        ExtensionLoaderService,
         ViewUtilService
     ]
 })
