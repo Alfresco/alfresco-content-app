@@ -26,7 +26,6 @@
 import { ElementFinder, by } from 'protractor';
 import { Component } from '../component';
 import { UserInfo } from './user-info';
-import { Utils } from '../../utilities/utils';
 import { protractor } from '../../../node_modules/protractor/built/ptor';
 
 export class Header extends Component {
