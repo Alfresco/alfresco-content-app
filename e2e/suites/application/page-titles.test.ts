@@ -29,19 +29,17 @@ import { SIDEBAR_LABELS, PAGE_TITLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
-import { protractor } from '../../../node_modules/protractor/built/ptor';
+
 
 describe('Page titles', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
-    const apis = {
-        admin: new RepoClient()
-    };
-    const { nodes: nodesApi } = apis.admin;
+    const adminapi = new RepoClient()
+    
+    const { nodes: nodesApi } = adminapi;
     const file = `file-${Utils.random()}.txt`; let fileId;
     const header = page.header;
-    const enterText = `text-${Utils.random()}`;
 
     xit('');
 
@@ -138,49 +136,43 @@ describe('Page titles', () => {
     });
 
     describe('on viewer mode', () => {
-        beforeAll(done => {
-            nodesApi.createFile(file).then(resp => fileId = resp.data.entry.id)
-                .then(() => loginPage.loginWithAdmin())
-                .then(done);
+        beforeAll( async (done) => {
+           const resp = (await nodesApi.createFile(file));
+            fileId = resp.data.entry.id
+            await loginPage.loginWithAdmin()
+            done();
         });
 
-        afterAll(done => {
+        afterAll( async (done) => {
             logoutPage.load()
-                .then(() => apis.admin.nodes.deleteNodeById(fileId))
-                .then(done);
+            await adminapi.nodes.deleteNodeById(fileId)
+            done();
         });
 
-        it('File Preview page - [C280415]', () => {
-            page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-                .then(() => page.dataTable.waitForHeader())
-                .then(() => page.dataTable.doubleClickOnRowByName(file))
-                .then(() => { 
-                    expect(browser.getTitle()).toContain(PAGE_TITLES.VIEWER);       
-                });
+        it('File Preview page - [C280415]', async () => {
+           await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
+           await page.dataTable.waitForHeader()
+           await page.dataTable.doubleClickOnRowByName(file)
+           expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);       
         });
     });
 
     describe ('on Search query', () => {
-        beforeAll(done => {
-            loginPage.loginWithAdmin()
-                .then(done);
+        beforeAll( async (done) => {
+            await loginPage.loginWithAdmin()
+            done();
         });
 
-        afterAll(done => {
-            logoutPage.load()
-                .then(done);
+        afterAll( async (done) => {
+           await logoutPage.load()
+           done();
         })
 
-        it('Search Results page - [C280413]', () => {
-            header.searchIcon.click()
-            .then(() => page.dataTable.waitForHeader())
-            .then(() => header.searchBar.sendKeys(enterText))
-            .then(() => header.searchBar.sendKeys(protractor.Key.ENTER))
-            .then(() => {
-                    expect(browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
-                })
-        })
-
+        it('Search Results page - [C280413]', async () => {
+           await header.searchIcon.click()
+           await page.dataTable.waitForHeader()
+           await header.searchInput(file)
+           expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
+        });
     })
-
-});
+})
