@@ -23,14 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export class SidebarTabRef {
-    id: string;
+import { ExtensionElement } from './extension-element';
+
+export interface SidebarTabRef extends ExtensionElement {
     title: string;
     component: string;
 
     icon?: string;
-    disabled?: boolean;
-    order?: number;
     rules?: {
         visible?: string;
         [key: string]: string;

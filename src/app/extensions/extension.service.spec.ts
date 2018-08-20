@@ -29,6 +29,7 @@ import { ExtensionService } from './extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
 import { ContentActionType } from './action.extensions';
+import { mergeArrays, sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus } from './extension-utils';
 
 describe('ExtensionService', () => {
     let extensions: ExtensionService;
@@ -70,7 +71,7 @@ describe('ExtensionService', () => {
                 }
             ];
 
-            const result = extensions.mergeArrays(left, right);
+            const result = mergeArrays(left, right);
             expect(result).toEqual([
                 {
                     id: '#1',
@@ -501,7 +502,7 @@ describe('ExtensionService', () => {
                 { id: '1', order: 10 },
                 { id: '2', order: 1 },
                 { id: '3', order: 5 }
-            ].sort(extensions.sortByOrder);
+            ].sort(sortByOrder);
 
             expect(sorted[0].id).toBe('2');
             expect(sorted[1].id).toBe('3');
@@ -513,7 +514,7 @@ describe('ExtensionService', () => {
                 { id: '3'},
                 { id: '2' },
                 { id: '1', order: 1 }
-            ].sort(extensions.sortByOrder);
+            ].sort(sortByOrder);
 
             expect(sorted[0].id).toBe('1');
             expect(sorted[1].id).toBe('3');
@@ -527,7 +528,7 @@ describe('ExtensionService', () => {
                 { id: 1, disabled: true },
                 { id: 2 },
                 { id: 3, disabled: true }
-            ].filter(extensions.filterEnabled);
+            ].filter(filterEnabled);
 
             expect(items.length).toBe(1);
             expect(items[0].id).toBe(2);
@@ -543,7 +544,7 @@ describe('ExtensionService', () => {
             { id: '5', type: ContentActionType.button }
         ];
 
-        const result = actions.reduce(extensions.reduceSeparators, []);
+        const result = actions.reduce(reduceSeparators, []);
         expect(result.length).toBe(3);
         expect(result[0].id).toBe('1');
         expect(result[1].id).toBe('2');
@@ -556,7 +557,7 @@ describe('ExtensionService', () => {
             { id: '2', type: ContentActionType.separator }
         ];
 
-        const result = actions.reduce(extensions.reduceSeparators, []);
+        const result = actions.reduce(reduceSeparators, []);
         expect(result.length).toBe(1);
         expect(result[0].id).toBe('1');
     });
@@ -575,7 +576,7 @@ describe('ExtensionService', () => {
             }
         ];
 
-        const result = actions.reduce(extensions.reduceEmptyMenus, []);
+        const result = actions.reduce(reduceEmptyMenus, []);
 
         expect(result.length).toBe(2);
         expect(result[0].id).toBe('1');

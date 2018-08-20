@@ -39,6 +39,7 @@ import { ToolbarButtonComponent } from './components/toolbar/toolbar-button.comp
 import { MetadataTabComponent } from '../components/info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../components/info-drawer/comments-tab/comments-tab.component';
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
+import { ExtensionLoaderService } from './extension-loader.service';
 
 export function setupExtensions(extensions: ExtensionService): Function {
     extensions.setComponents({
@@ -106,6 +107,7 @@ export class CoreExtensionsModule {
         return {
             ngModule: CoreExtensionsModule,
             providers: [
+                ExtensionLoaderService,
                 ExtensionService,
                 {
                     provide: APP_INITIALIZER,
