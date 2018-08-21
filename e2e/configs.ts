@@ -66,7 +66,7 @@ export const SIDEBAR_LABELS = {
 export const PAGE_TITLES = {
     VIEWER: 'Preview',
     SEARCH: 'Search Results'
-}
+};
 
 // Site visibility
 export const SITE_VISIBILITY = {
