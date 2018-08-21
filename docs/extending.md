@@ -130,11 +130,13 @@ exposed by the application with a custom one coming with the plugin.
         "create": [
             {
                 "id": "app.create.folder",
-                "disabled": true
+                "disabled": true,
+                ...
             },
             {
                 "id": "plugin1.create.folder",
-                "title": "Create Folder"
+                "title": "Create Folder",
+                ...
             }
         ]
     }
