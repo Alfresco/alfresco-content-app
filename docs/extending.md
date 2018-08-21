@@ -554,7 +554,7 @@ The button will be visible only when the linked rule evaluates to `true`.
 | app.selection.canRemoveFavorite | User can remove selected node(s) from favorites. |
 | app.selection.first.canUpdate | User has permission to update selected node(s). |
 | app.selection.file | A single File node is selected. |
-| app.selection.file.canShare | User is able to remove selected file from public sharing. |
+| app.selection.file.canShare | User is able share selected file. |
 | app.selection.library | A single Library node is selected. |
 | app.selection.folder | A single Folder node is selected. |
 | app.selection.folder.canUpdate | User has permissions to update selected folder. |
