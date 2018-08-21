@@ -347,7 +347,7 @@ That simplifies declaring and invoking actions from the extension files.
 </p>
 
 In the example below, we create a new entry to the "NEW" menu dropdown
-and provide a new `Create Folder` command that invokes the `CREATE_FOLDER` application action.
+and provide a new `Create Folder (plugin1)` command that invokes the `CREATE_FOLDER` application action.
 
 ```json
 {
@@ -358,10 +358,10 @@ and provide a new `Create Folder` command that invokes the `CREATE_FOLDER` appli
     "features": {
         "create": [
             {
-                "id": "app.create.folder",
+                "id": "plugin1.create.folder",
                 "type": "default",
                 "icon": "create_new_folder",
-                "title": "Create Folder",
+                "title": "Create Folder (plugin1)",
                 "actions": {
                     "click": "CREATE_FOLDER"
                 }
@@ -520,22 +520,20 @@ You can now declare a toolbar button action that is based on the rule above.
     "$name": "plugin1",
 
     "features": {
-        "content": {
-            "actions": [
-                {
-                    "id": "app.toolbar.preview",
-                    "type": "button",
-                    "title": "View File",
-                    "icon": "open_in_browser",
-                    "actions": {
-                        "click": "VIEW_FILE"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.canViewFile"
-                    }
+        "toolbar": [
+            {
+                "id": "app.toolbar.preview",
+                "type": "button",
+                "title": "View File",
+                "icon": "open_in_browser",
+                "actions": {
+                    "click": "VIEW_FILE"
                 },
-            ]
-        }
+                "rules": {
+                    "visible": "app.toolbar.canViewFile"
+                }
+            },
+        ]
     }
 }
 ```
