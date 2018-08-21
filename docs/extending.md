@@ -123,11 +123,13 @@ To create a new route, populate the `routes` section with the corresponding entr
 | auth | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
 | data | Custom property bag to carry with the route. |
 
-<p class="tip">
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
 with header, navigation sidebar and main content area.
-<br/><br/>
-Leave the `layout` property empty if you want your route component take the whole page.
+You can register any component to back the `app.layout.main` value.
+
+<p class="tip">
+By default, the `app.layout.main` is used if you do not specify any custom values.
+Use `blank` if you want your route component take the whole page.
 </p>
 
 You can define the full route schema like in the next example:
@@ -155,7 +157,7 @@ You can define the full route schema like in the next example:
 
 <p class="warning">
 All application routes require at least one authentication guard.
-If you do not provide a guard the default `['app.auth`]` will be used at runtime.
+Defaults to the `['app.auth']` value.
 </p>
 
 ### Authentication Guards
