@@ -35,9 +35,8 @@ describe('Page titles', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
-    const adminapi = new RepoClient()
-    
-    const { nodes: nodesApi } = adminapi;
+    const adminApi = new RepoClient();
+    const { nodes: nodesApi } = adminApi;
     const file = `file-${Utils.random()}.txt`; let fileId;
     const header = page.header;
 
@@ -135,44 +134,43 @@ describe('Page titles', () => {
 
     });
 
-    describe('on viewer mode', () => {
+    describe('on File Viewer', () => {
         beforeAll( async (done) => {
-           const resp = (await nodesApi.createFile(file));
-            fileId = resp.data.entry.id
-            await loginPage.loginWithAdmin()
+            fileId = (await nodesApi.createFile(file)).entry.id;
+            await loginPage.loginWithAdmin();
             done();
         });
 
         afterAll( async (done) => {
-            logoutPage.load()
-            await adminapi.nodes.deleteNodeById(fileId)
+            await logoutPage.load();
+            await adminApi.nodes.deleteNodeById(fileId);
             done();
         });
 
         it('File Preview page - [C280415]', async () => {
-           await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-           await page.dataTable.waitForHeader()
-           await page.dataTable.doubleClickOnRowByName(file)
-           expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);       
+           await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+           await page.dataTable.waitForHeader();
+           await page.dataTable.doubleClickOnRowByName(file);
+           expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);
         });
     });
 
     describe ('on Search query', () => {
         beforeAll( async (done) => {
-            await loginPage.loginWithAdmin()
+            await loginPage.loginWithAdmin();
             done();
         });
 
         afterAll( async (done) => {
-           await logoutPage.load()
+           await logoutPage.load();
            done();
-        })
+        });
 
         it('Search Results page - [C280413]', async () => {
-           await header.searchIcon.click()
-           await page.dataTable.waitForHeader()
-           await header.searchInput(file)
+           await header.searchButton.click();
+           await page.dataTable.waitForHeader();
+           await header.searchForText(file);
            expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
         });
-    })
-})
+    });
+});
