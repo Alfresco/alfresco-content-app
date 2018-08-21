@@ -91,6 +91,58 @@ Always keep in mind that all extension files are merged together at runtime.
 That allows plugins overwriting the code from the main application or altering other plugins.
 </p>
 
+### Disabling content
+
+Most of the schema elements can be switched off by using the `disabled` property:
+
+```json
+{
+    "$schema": "../../extension.schema.json",
+    "$name": "app",
+    "$version": "1.0.0",
+
+    "features": {
+        "create": [
+            {
+                "id": "app.create.folder",
+                "disabled": true,
+                "order": 100,
+                "icon": "create_new_folder",
+                "title": "Create Folder"
+            }
+        ]
+    }
+}
+```
+
+This feature becomes handy when you want to disable existing functionality from within the external plugin.
+
+In the example below, the plugin called `plugin1` replaces standard `app.create.folder` menu
+exposed by the application with a custom one coming with the plugin.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "create": [
+            {
+                "id": "app.create.folder",
+                "disabled": true,
+                ...
+            },
+            {
+                "id": "plugin1.create.folder",
+                "title": "Create Folder",
+                ...
+            }
+        ]
+    }
+}
+```
+
 ## Routes
 
 To create a new route, populate the `routes` section with the corresponding entries.
@@ -123,11 +175,13 @@ To create a new route, populate the `routes` section with the corresponding entr
 | auth | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
 | data | Custom property bag to carry with the route. |
 
-<p class="tip">
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
 with header, navigation sidebar and main content area.
-<br/><br/>
-Leave the `layout` property empty if you want your route component take the whole page.
+You can register any component to back the `app.layout.main` value.
+
+<p class="tip">
+By default, the `app.layout.main` is used if you do not specify any custom values.
+Use `blank` if you want your route component take the whole page.
 </p>
 
 You can define the full route schema like in the next example:
@@ -155,7 +209,7 @@ You can define the full route schema like in the next example:
 
 <p class="warning">
 All application routes require at least one authentication guard.
-If you do not provide a guard the default `['app.auth`]` will be used at runtime.
+Defaults to the `['app.auth']` value.
 </p>
 
 ### Authentication Guards
@@ -295,7 +349,7 @@ That simplifies declaring and invoking actions from the extension files.
 </p>
 
 In the example below, we create a new entry to the "NEW" menu dropdown
-and provide a new `Create Folder` command that invokes the `CREATE_FOLDER` application action.
+and provide a new `Create Folder (plugin1)` command that invokes the `CREATE_FOLDER` application action.
 
 ```json
 {
@@ -306,10 +360,10 @@ and provide a new `Create Folder` command that invokes the `CREATE_FOLDER` appli
     "features": {
         "create": [
             {
-                "id": "app.create.folder",
+                "id": "plugin1.create.folder",
                 "type": "default",
                 "icon": "create_new_folder",
-                "title": "Create Folder",
+                "title": "Create Folder (plugin1)",
                 "actions": {
                     "click": "CREATE_FOLDER"
                 }
@@ -468,22 +522,20 @@ You can now declare a toolbar button action that is based on the rule above.
     "$name": "plugin1",
 
     "features": {
-        "content": {
-            "actions": [
-                {
-                    "id": "app.toolbar.preview",
-                    "type": "button",
-                    "title": "View File",
-                    "icon": "open_in_browser",
-                    "actions": {
-                        "click": "VIEW_FILE"
-                    },
-                    "rules": {
-                        "visible": "app.toolbar.canViewFile"
-                    }
+        "toolbar": [
+            {
+                "id": "app.toolbar.preview",
+                "type": "button",
+                "title": "View File",
+                "icon": "open_in_browser",
+                "actions": {
+                    "click": "VIEW_FILE"
                 },
-            ]
-        }
+                "rules": {
+                    "visible": "app.toolbar.canViewFile"
+                }
+            },
+        ]
     }
 }
 ```
