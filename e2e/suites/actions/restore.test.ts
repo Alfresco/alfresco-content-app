@@ -80,7 +80,7 @@ describe('Restore from Trash', () => {
         });
 
         it('restore file - [C217177]', () => {
-            dataTable.clickOnRowByName(file)
+            dataTable.selectItem(file)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
@@ -98,7 +98,7 @@ describe('Restore from Trash', () => {
         });
 
         it('restore folder - [C280438]', () => {
-            dataTable.clickOnRowByName(folder)
+            dataTable.selectItem(folder)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
@@ -136,7 +136,7 @@ describe('Restore from Trash', () => {
         });
 
         it('View from notification - [C217181]', () => {
-            dataTable.clickOnRowByName(file)
+            dataTable.selectItem(file)
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.clickSnackBarAction())
                 .then(() => page.dataTable.waitForHeader())
@@ -186,7 +186,7 @@ describe('Restore from Trash', () => {
 
         it('Restore a file when another file with same name exists on the restore location - [C217178]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-                .then(() => dataTable.clickOnRowByName(file1))
+                .then(() => dataTable.selectItem(file1))
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual(`Can't restore, ${file1} already exists`));
@@ -194,7 +194,7 @@ describe('Restore from Trash', () => {
 
         it('Restore a file when original location no longer exists - [C217179]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-                .then(() => dataTable.clickOnRowByName(file2))
+                .then(() => dataTable.selectItem(file2))
                 .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual(`Can't restore ${file2}, the original location no longer exists`));

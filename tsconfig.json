@@ -17,7 +17,15 @@
       "dom"
     ],
     "module": "es2015",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "aca-dev-tools": [
+        "dist/aca-dev-tools"
+      ],
+      "aca-dev-tools/*": [
+        "dist/aca-dev-tools/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"

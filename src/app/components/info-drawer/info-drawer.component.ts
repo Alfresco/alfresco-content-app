@@ -23,41 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { NodePermissionService } from '../../services/node-permission.service';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExtensionService } from '../../extensions/extension.service';
+import { SidebarTabRef } from '../../extensions/sidebar.extensions';
 
 @Component({
     selector: 'aca-info-drawer',
     templateUrl: './info-drawer.component.html'
 })
-export class InfoDrawerComponent implements OnChanges {
+export class InfoDrawerComponent implements OnChanges, OnInit {
     @Input() nodeId: string;
     @Input() node: MinimalNodeEntity;
 
     isLoading = false;
     displayNode: MinimalNodeEntryEntity;
-    canUpdateNode = false;
-
-    get isFileSelected(): boolean {
-        if (this.node && this.node.entry) {
-            // workaround for shared files type.
-            if (this.node.entry.nodeId) {
-                return true;
-            } else {
-                return this.node.entry.isFile;
-            }
-        }
-        return false;
-    }
+    tabs:  Array<SidebarTabRef> = [];
 
     constructor(
-        public permission: NodePermissionService,
-        private contentApi: ContentApiService
+        private contentApi: ContentApiService,
+        private extensions: ExtensionService
     ) {}
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnInit() {
+        this.tabs = this.extensions.getSidebarTabs();
+    }
+
+    ngOnChanges() {
         if (this.node) {
             const entry = this.node.entry;
             if (entry.nodeId) {
@@ -103,6 +96,5 @@ export class InfoDrawerComponent implements OnChanges {
 
     private setDisplayNode(node: MinimalNodeEntryEntity) {
         this.displayNode = node;
-        this.canUpdateNode = node && this.permission.check(node, ['update']);
     }
 }

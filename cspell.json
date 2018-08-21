@@ -24,6 +24,13 @@
         "unfavorite",
         "Snackbar",
         "devtools",
+        "gitter",
+        "jira",
+        "markdownlint",
+        "uploader",
+        "nginx",
+        "docx",
+        "SOLR",
 
         "unshare",
         "validators",
@@ -40,7 +47,9 @@
         "exif",
         "cardview",
         "webm",
-        "keycodes"
+        "keycodes",
+
+        "docx"
     ],
     "dictionaries": [
         "html",

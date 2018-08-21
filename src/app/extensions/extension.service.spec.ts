@@ -29,6 +29,7 @@ import { ExtensionService } from './extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
 import { ContentActionType } from './action.extensions';
+import { mergeArrays, sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus } from './extension-utils';
 
 describe('ExtensionService', () => {
     let extensions: ExtensionService;
@@ -70,7 +71,7 @@ describe('ExtensionService', () => {
                 }
             ];
 
-            const result = extensions.mergeArrays(left, right);
+            const result = mergeArrays(left, right);
             expect(result).toEqual([
                 {
                     id: '#1',
@@ -290,26 +291,24 @@ describe('ExtensionService', () => {
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
-                    content: {
-                        actions: [
-                            {
-                                id: 'aca:toolbar/separator-1',
-                                order: 1,
-                                type: ContentActionType.separator,
-                                title: 'action1',
-                            },
-                            {
-                                id: 'aca:toolbar/separator-2',
-                                order: 2,
-                                type: ContentActionType.separator,
-                                title: 'action2'
-                            }
-                        ]
-                    }
+                    toolbar: [
+                        {
+                            id: 'aca:toolbar/separator-1',
+                            order: 1,
+                            type: ContentActionType.separator,
+                            title: 'action1',
+                        },
+                        {
+                            id: 'aca:toolbar/separator-2',
+                            order: 2,
+                            type: ContentActionType.separator,
+                            title: 'action2'
+                        }
+                    ]
                 }
             });
 
-            expect(extensions.contentActions.length).toBe(2);
+            expect(extensions.toolbarActions.length).toBe(2);
         });
 
         it('should sort content actions by order', () => {
@@ -317,30 +316,28 @@ describe('ExtensionService', () => {
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
-                    content: {
-                        actions: [
-                            {
-                                id: 'aca:toolbar/separator-2',
-                                order: 2,
-                                type: ContentActionType.separator,
-                                title: 'action2'
-                            },
-                            {
-                                id: 'aca:toolbar/separator-1',
-                                order: 1,
-                                type: ContentActionType.separator,
-                                title: 'action1'
-                            }
-                        ]
-                    }
+                    toolbar: [
+                        {
+                            id: 'aca:toolbar/separator-2',
+                            order: 2,
+                            type: ContentActionType.separator,
+                            title: 'action2'
+                        },
+                        {
+                            id: 'aca:toolbar/separator-1',
+                            order: 1,
+                            type: ContentActionType.separator,
+                            title: 'action1'
+                        }
+                    ]
                 }
             });
 
-            expect(extensions.contentActions.length).toBe(2);
-            expect(extensions.contentActions[0].id).toBe(
+            expect(extensions.toolbarActions.length).toBe(2);
+            expect(extensions.toolbarActions[0].id).toBe(
                 'aca:toolbar/separator-1'
             );
-            expect(extensions.contentActions[1].id).toBe(
+            expect(extensions.toolbarActions[1].id).toBe(
                 'aca:toolbar/separator-2'
             );
         });
@@ -505,7 +502,7 @@ describe('ExtensionService', () => {
                 { id: '1', order: 10 },
                 { id: '2', order: 1 },
                 { id: '3', order: 5 }
-            ].sort(extensions.sortByOrder);
+            ].sort(sortByOrder);
 
             expect(sorted[0].id).toBe('2');
             expect(sorted[1].id).toBe('3');
@@ -517,7 +514,7 @@ describe('ExtensionService', () => {
                 { id: '3'},
                 { id: '2' },
                 { id: '1', order: 1 }
-            ].sort(extensions.sortByOrder);
+            ].sort(sortByOrder);
 
             expect(sorted[0].id).toBe('1');
             expect(sorted[1].id).toBe('3');
@@ -531,7 +528,7 @@ describe('ExtensionService', () => {
                 { id: 1, disabled: true },
                 { id: 2 },
                 { id: 3, disabled: true }
-            ].filter(extensions.filterEnabled);
+            ].filter(filterEnabled);
 
             expect(items.length).toBe(1);
             expect(items[0].id).toBe(2);
@@ -547,7 +544,7 @@ describe('ExtensionService', () => {
             { id: '5', type: ContentActionType.button }
         ];
 
-        const result = actions.reduce(extensions.reduceSeparators, []);
+        const result = actions.reduce(reduceSeparators, []);
         expect(result.length).toBe(3);
         expect(result[0].id).toBe('1');
         expect(result[1].id).toBe('2');
@@ -560,7 +557,7 @@ describe('ExtensionService', () => {
             { id: '2', type: ContentActionType.separator }
         ];
 
-        const result = actions.reduce(extensions.reduceSeparators, []);
+        const result = actions.reduce(reduceSeparators, []);
         expect(result.length).toBe(1);
         expect(result[0].id).toBe('1');
     });
@@ -579,7 +576,7 @@ describe('ExtensionService', () => {
             }
         ];
 
-        const result = actions.reduce(extensions.reduceEmptyMenus, []);
+        const result = actions.reduce(reduceEmptyMenus, []);
 
         expect(result.length).toBe(2);
         expect(result[0].id).toBe('1');

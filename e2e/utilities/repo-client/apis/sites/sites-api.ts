@@ -26,6 +26,7 @@
 import { RepoApi } from '../repo-api';
 import { SiteBody, SiteMemberRoleBody, SiteMemberBody } from 'alfresco-js-api-node';
 import { SITE_VISIBILITY } from '../../../../configs';
+import { Utils } from '../../../../utilities/utils';
 
 export class SitesApi extends RepoApi {
 
@@ -36,6 +37,11 @@ export class SitesApi extends RepoApi {
     async getSite(siteId: string) {
         await this.apiAuth();
         return await this.alfrescoJsApi.core.sitesApi.getSite(siteId);
+    }
+
+    async getSites() {
+        await this.apiAuth();
+        return await this.alfrescoJsApi.core.peopleApi.getSiteMembership(this.getUsername());
     }
 
     async getDocLibId(siteId: string) {
@@ -55,8 +61,8 @@ export class SitesApi extends RepoApi {
         return await this.alfrescoJsApi.core.sitesApi.createSite(site);
     }
 
-    async createSites(titles: string[], visibility: string) {
-        return await titles.reduce(async (previous: any, current: any) => {
+   async createSites(titles: string[], visibility?: string) {
+        return titles.reduce(async (previous: any, current: any) => {
             await previous;
             return await this.createSite(current, visibility);
         }, Promise.resolve());
@@ -64,13 +70,13 @@ export class SitesApi extends RepoApi {
 
     async deleteSite(siteId: string, permanent: boolean = true) {
         await this.apiAuth();
-        return this.alfrescoJsApi.core.sitesApi.deleteSite(siteId, { permanent });
+        return await this.alfrescoJsApi.core.sitesApi.deleteSite(siteId, { permanent });
     }
 
     async deleteSites(siteIds: string[], permanent: boolean = true) {
-        return await siteIds.reduce(async (previous, current) => {
+        return siteIds.reduce(async (previous, current) => {
             await previous;
-            return await this.deleteSite(current);
+            return await this.deleteSite(current, permanent);
         }, Promise.resolve());
     }
 
@@ -96,5 +102,18 @@ export class SitesApi extends RepoApi {
     async deleteSiteMember(siteId: string, userId: string) {
         await this.apiAuth();
         return await this.alfrescoJsApi.core.sitesApi.removeSiteMember(siteId, userId);
+    }
+
+    async waitForApi(data) {
+        const sites = async () => {
+            const totalItems = (await this.getSites()).list.pagination.totalItems;
+            if ( totalItems < data.expect ) {
+                return Promise.reject(totalItems);
+            } else {
+                return Promise.resolve(totalItems);
+            }
+        };
+
+        return await Utils.retryCall(sites);
     }
 }

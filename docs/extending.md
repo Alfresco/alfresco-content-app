@@ -2,6 +2,8 @@
 title: Extending
 ---
 
+<!-- markdownlint-disable MD033 -->
+
 <p class="danger">
   Work is still in progress, the documentation and examples may change.
 </p>
@@ -18,6 +20,7 @@ You can create plugins that change, toggle or extend the following areas:
 
 * Navigation sidebar links and groups
 * Context Menu
+* Sidebar (aka Info Drawer)
 * Toolbar entries
   * buttons
   * menu buttons
@@ -116,9 +119,9 @@ To create a new route, populate the `routes` section with the corresponding entr
 | **id** | Unique identifier. |
 | **path** | Runtime path of the route. |
 | **component** | The main [component](#components) to use for the route. |
-| *layout* | The layout [component](#components) to use for the route. |
-| *auth* | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
-| *data* | Custom property bag to carry with the route. |
+| layout | The layout [component](#components) to use for the route. |
+| auth | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
+| data | Custom property bag to carry with the route. |
 
 <p class="tip">
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
@@ -149,6 +152,11 @@ You can define the full route schema like in the next example:
     ]
 }
 ```
+
+<p class="warning">
+All application routes require at least one authentication guard.
+If you do not provide a guard the default `['app.auth`]` will be used at runtime.
+</p>
 
 ### Authentication Guards
 
@@ -539,9 +547,9 @@ on how to register your own entries to be re-used at runtime.
 
 The rule in the example below evaluates to `true` if all the conditions are met:
 
-- user has selected node(s)
-- user is not using **Trashcan** page
-- user is not using **Libraries** page
+* user has selected node(s)
+* user is not using **Trashcan** page
+* user is not using **Libraries** page
 
 ```json
 {
@@ -565,19 +573,493 @@ The rule in the example below evaluates to `true` if all the conditions are met:
 
 ## Application Features
 
-### Extending Create Menu
+This section contains application-specific features that may vary depending on the final implementation.
 
-### Extending Navigation Sidebar
+The ACA supports the following set of extension points:
 
-### Extending Toolbar
+* Create menu
+* Navigation Bar
+* Toolbar
+* Context Menu
+* Viewer
+* Sidebar (aka Info Drawer)
 
-### Extending Context Menu
+All the customisations are stored in the `features` section of the configuration file:
 
-### Extending Viewer
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "create": [],
+        "navbar": [],
+        "toolbar": [],
+        "contextMenu": [],
+        "viewer": {
+            "toolbar:": [],
+            "openWith": []
+        },
+        "sidebar": []
+    }
+}
+```
+
+Other applications or external plugins can utilise different subsets of the configuration above.
+Also, extra entries can be added to the configuration schema.
+
+### Content Actions
+
+Most of the UI elements that operate with content, like toolbar buttons or menus,
+are based on `ContentActionRef` interface implementation:
+
+```ts
+interface ContentActionRef {
+    id: string;
+    type: ContentActionType;
+
+    title?: string;
+    description?: string;
+    order?: number;
+    icon?: string;
+    disabled?: boolean;
+    children?: Array<ContentActionRef>;
+    component?: string;
+    actions?: {
+        click?: string;
+        [key: string]: string;
+    };
+    rules?: {
+        enabled?: string;
+        visible?: string;
+        [key: string]: string;
+    };
+}
+```
+
+You can define content actions in the `app.extensions.json` file using the structure above.
+
+### Create Menu
+
+Provides extension endpoint for the "NEW" menu options.
+
+You can populate the menu with an extra entries like in the example below:
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "create": [
+            {
+                "id": "app.create.folder",
+                "icon": "create_new_folder",
+                "title": "Create Folder",
+                "actions": {
+                    "click": "CREATE_FOLDER"
+                },
+                "rules": {
+                    "enabled": "app.navigation.folder.canCreate"
+                }
+            },
+            {
+                "id": "app.create.uploadFile",
+                "icon": "file_upload",
+                "title": "Upload Files",
+                "actions": {
+                    "click": "UPLOAD_FILES"
+                },
+                "rules": {
+                    "enabled": "app.navigation.folder.canUpload"
+                }
+            }
+        ]
+    }
+}
+```
+
+Please refer to the [Content Actions](#content-actions) section for more details on supported properties.
+
+<p class="tip">
+It is also possible to update or disable existing entries from within the external extension files. You will need to know the `id` of the target element to customise.
+</p>
+
+### Navigation Bar
+
+Navigation bar consists of Link elements (`NavBarLinkRef`) organized into Groups (`NavBarGroupRef`).
+
+```ts
+export interface NavBarGroupRef {
+    id: string;
+    items: Array<NavBarLinkRef>;
+
+    order?: number;
+    disabled?: boolean;
+}
+
+export interface NavBarLinkRef {
+    id: string;
+    icon: string;
+    title: string;
+    route: string;
+
+    url?: string; // evaluated at runtime based on route ref
+    description?: string;
+    order?: number;
+    disabled?: boolean;
+}
+```
+
+You extensions can perform the following actions at runtime:
+
+* Register new groups with links
+* Insert new links into existing groups
+* Update properties of the existing links
+* Disable existing links or entire groups
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "navbar": [
+            {
+                "id": "app.navbar.primary",
+                "items": [
+                    {
+                        "id": "app.navbar.personalFiles",
+                        "icon": "folder",
+                        "title": "Personal Files",
+                        "route": "personal-files"
+                    },
+                    {
+                        "id": "app.navbar.libraries",
+                        "icon": "group_work",
+                        "title": "Libraries",
+                        "route": "libraries"
+                    }
+                ]
+            },
+            {
+                "id": "app.navbar.secondary",
+                "items": [
+                    {
+                        "id": "app.navbar.shared",
+                        "icon": "people",
+                        "title": "Shared",
+                        "route": "shared"
+                    }
+                ]
+            }
+        ]
+    }
+}
+```
+
+### Sidebar (Info Drawer)
+
+You can provide the following customisations for the Sidebar (aka Info Drawer) component:
+
+* Add extra tabs with custom components
+* Disable tabs from the main application or extensions
+* Replace content or properties of existing tabs
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "sidebar": {
+            {
+                "id": "app.sidebar.properties",
+                "order": 100,
+                "title": "Properties",
+                "component": "app.components.tabs.metadata"
+            },
+            {
+                "id": "app.sidebar.comments",
+                "order": 200,
+                "title": "Comments",
+                "component": "app.components.tabs.comments"
+            }
+        }
+    }
+}
+```
+
+The example above renders two tabs:
+
+* `Properties` tab that references `app.components.tabs.metadata` component
+* `Comments` tab that references `app.components.tabs.comments` component
+
+All corresponding components must be registered for runtime use.
+
+<p class="tip">
+See [Registration](#registration) section for more details
+on how to register your own entries to be re-used at runtime.
+</p>
+
+#### Tab properties
+
+| Name | Description |
+| --- | --- |
+| **id** | Unique identifier. |
+| **component** | The main [component](#components) to use for the route. |
+| **title** | Tab title or resource key. |
+| icon | Tab icon |
+| disabled | Toggles disabled state. Can be assigned from other plugins. |
+| order | The order of the element. |
+
+#### Tab components
+
+Every component you assign for the tab content receives the following additional properties at runtime:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| node | MinimalNodeEntryEntity | Node entry to be displayed. |
+
+### Toolbar
+
+The toolbar extension point is represented by an array of Content Action references.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "toolbar": [
+            {
+                "id": "app.toolbar.preview",
+                "title": "View",
+                "icon": "open_in_browser",
+                "actions": {
+                    "click": "VIEW_FILE"
+                },
+                "rules": {
+                    "visible": "app.toolbar.canViewFile"
+                }
+            },
+            {
+                "id": "app.toolbar.download",
+                "title": "Download",
+                "icon": "get_app",
+                "actions": {
+                    "click": "DOWNLOAD_NODES"
+                },
+                "rules": {
+                    "visible": "app.toolbar.canDownload"
+                }
+            }
+        ]
+    }
+}
+```
+
+The content actions are applied to the toolbars for the following Views:
+
+* Personal Files
+* Libraries
+* Shared
+* Recent Files
+* Favorites
+* Trash
+* Search Results
+
+### Context Menu
+
+Context Menu extensibility is similar to the one of the Toolbar.
+You may want to define a list of content actions backed by Rules and wired with Application Actions.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "contextMenu": [
+            {
+                "id": "app.context.menu.download",
+                "order": 100,
+                "title": "Download",
+                "icon": "get_app",
+                "actions": {
+                    "click": "DOWNLOAD_NODES"
+                },
+                "rules": {
+                    "visible": "app.toolbar.canDownload"
+                }
+            },
+        ]
+    }
+}
+```
+
+Note that you can re-use any rules and evaluators available.
+
+In the example above, the context menu action `Download` utilizes the `app.toolbar.canDownload` rule,
+declared in the `rules` section:
+
+```json
+{
+    "rules": [
+        {
+            "id": "app.toolbar.canDownload",
+            "type": "core.every",
+            "parameters": [
+                { "type": "rule", "value": "app.selection.canDownload" },
+                { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+            ]
+        }
+    ]
+}
+```
+
+### Viewer
+
+Viewer component in ACA supports the following extension points:
+
+* Content Viewers
+* `More` toolbar actions
+* `Open With` actions
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "viewer": {
+            "content": [],
+            "toolbar:": [],
+            "openWith": []
+        }
+    }
+}
+```
+
+#### Content View
+
+You can provide custom components that render particular type of the content based on extensions.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "viewer": {
+            "content": [
+                {
+                    "id": "app.viewer.pdf",
+                    "fileExtension": "pdf",
+                    "component": "app.components.tabs.metadata"
+                },
+                {
+                    "id": "app.viewer.docx",
+                    "fileExtension": "docx",
+                    "component": "app.components.tabs.comments"
+                }
+            ]
+        }
+    }
+}
+```
+
+In the example above we replace `PDF` view with the `metadata` tab
+and `DOCX` view with the `comments` tab.
+
+Every custom component receives the following properties at runtime:
+
+| Name | Type | Description |
+| --- | --- | --- |
+| node | MinimalNodeEntryEntity | Node entry to be displayed. |
+| url | string | File content URL. |
+| extension | string | File name extension. |
+
+#### Toolbar actions
+
+The ADF Viewer component allows providing custom entries for the `More` menu button on the toolbar.
+The ACA provides an extension point for this menu that you can utilise to populate custom menu items:
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "features": {
+        "viewer": {
+            "toolbar:": [
+                {
+                    "id": "app.viewer.share",
+                    "order": 300,
+                    "title": "Share",
+                    "icon": "share",
+                    "actions": {
+                        "click": "SHARE_NODE"
+                    },
+                    "rules": {
+                        "visible": "app.selection.file.canShare"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
 
 #### Open With actions
 
-#### Toolbar actions
+You can provide a list of `Open With` actions to render with every instance of the Viewer.
+
+In the following example, we create a simple `Snackbar` action reference,
+and invoke it from the custom `Open With` menu entry called `Snackbar`.
+
+```json
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+
+    "actions": [
+        {
+            "id": "plugin1.actions.info",
+            "type": "SNACKBAR_INFO",
+            "payload": "I'm a nice little popup raised by extension."
+        },
+    ],
+
+    "features": {
+        "viewer": {
+            "openWith": [
+                {
+                    "id": "plugin1.viewer.openWith.action1",
+                    "type": "button",
+                    "icon": "build",
+                    "title": "Snackbar",
+                    "actions": {
+                        "click": "plugin1.actions.info"
+                    }
+                }
+            ]
+        }
+    }
+}
+```
+
+As with other content actions, custom plugins can disable, update or extend `Open With` actions.
 
 ## Registration
 
@@ -698,7 +1180,6 @@ extensions.setEvaluators({
 
 Now, the `plugin1.rules.hasSelection` evaluator can be used as an inline rule reference,
 or part of the composite rule like `core.every`.
-
 
 <p class="tip">
 See [Registration](#registration) section for more details

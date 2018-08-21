@@ -35,6 +35,7 @@ import { ExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef } from '../../extensions/action.extensions';
 import { ViewUtilService } from './view-util.service';
+import { ViewerExtensionRef } from '../../extensions/viewer.extensions';
 
 @Component({
     selector: 'app-preview',
@@ -55,6 +56,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
     nextNodeId: string;
     navigateMultiple = false;
     openWith: Array<ContentActionRef> = [];
+    contentExtensions: Array<ViewerExtensionRef> = [];
 
     constructor(
         private contentApi: ContentApiService,
@@ -97,6 +99,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
         });
 
         this.openWith = this.extensions.openWithActions;
+        this.contentExtensions = this.extensions.viewerContentExtensions;
     }
 
     /**

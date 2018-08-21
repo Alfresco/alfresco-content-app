@@ -90,7 +90,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -120,7 +120,7 @@ export const APP_ROUTES: Routes = [
                 },
                 {
                     path: ':folderId/preview/:nodeId',
-                    loadChildren: 'app/components/preview/preview.module#PreviewModule',
+                    loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                     data: {
                         title: 'APP.PREVIEW.TITLE',
                         navigateMultiple: true,
@@ -152,7 +152,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -161,7 +161,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: ':folderId/preview/:nodeId',
-                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -185,7 +185,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -209,7 +209,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -228,7 +228,7 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'about',
-                loadChildren: 'app/components/about/about.module#AboutModule',
+                loadChildren: 'src/app/components/about/about.module#AboutModule',
                 data: {
                     title: 'APP.BROWSE.ABOUT.TITLE'
                 }
@@ -246,7 +246,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        loadChildren: 'app/components/preview/preview.module#PreviewModule',
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
