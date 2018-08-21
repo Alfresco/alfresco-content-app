@@ -26,29 +26,29 @@
 import { ElementFinder, by } from 'protractor';
 import { Component } from '../component';
 import { UserInfo } from './user-info';
-import { protractor } from '../../../node_modules/protractor/built/ptor';
+import { protractor } from 'protractor';
 
 export class Header extends Component {
     private locators = {
         logoLink: by.css('.app-menu__title'),
         userInfo: by.css('aca-current-user'),
-        searchIcon: by.css("button[class*='adf-search-button']"),
+        searchButton: by.css('#adf-search-button'),
         searchBar: by.css('#adf-control-input')
     };
 
     logoLink: ElementFinder = this.component.element(this.locators.logoLink);
     userInfo: UserInfo = new UserInfo(this.component);
-    searchIcon: ElementFinder = this.component.element(this.locators.searchIcon);
+    searchButton: ElementFinder = this.component.element(this.locators.searchButton);
     searchBar: ElementFinder = this.component.element(this.locators.searchBar);
 
     constructor(ancestor?: ElementFinder) {
         super('adf-layout-header', ancestor);
     }
 
-    searchInput (textinput: string) {
+    searchForText(text: string) {
         return this.searchBar.clear()
-            .then(() => this.searchBar.sendKeys(textinput))
-            .then(() => this.searchBar.sendKeys(protractor.Key.ENTER))
+            .then(() => this.searchBar.sendKeys(text))
+            .then(() => this.searchBar.sendKeys(protractor.Key.ENTER));
     }
 }
 
