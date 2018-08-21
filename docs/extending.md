@@ -651,7 +651,8 @@ All the customisations are stored in the `features` section of the configuration
         "contextMenu": [],
         "viewer": {
             "toolbar:": [],
-            "openWith": []
+            "openWith": [],
+            "content": []
         },
         "sidebar": []
     }
@@ -707,9 +708,9 @@ You can populate the menu with an extra entries like in the example below:
     "features": {
         "create": [
             {
-                "id": "app.create.folder",
+                "id": "plugin1.create.folder",
                 "icon": "create_new_folder",
-                "title": "Create Folder",
+                "title": "Create Folder (plugin1)",
                 "actions": {
                     "click": "CREATE_FOLDER"
                 },
@@ -718,9 +719,9 @@ You can populate the menu with an extra entries like in the example below:
                 }
             },
             {
-                "id": "app.create.uploadFile",
+                "id": "plugin1.create.uploadFile",
                 "icon": "file_upload",
-                "title": "Upload Files",
+                "title": "Upload Files (plugin1)",
                 "actions": {
                     "click": "UPLOAD_FILES"
                 },
@@ -828,7 +829,7 @@ You can provide the following customisations for the Sidebar (aka Info Drawer) c
     "$name": "plugin1",
 
     "features": {
-        "sidebar": {
+        "sidebar": [
             {
                 "id": "app.sidebar.properties",
                 "order": 100,
@@ -841,7 +842,7 @@ You can provide the following customisations for the Sidebar (aka Info Drawer) c
                 "title": "Comments",
                 "component": "app.components.tabs.comments"
             }
-        }
+        ]
     }
 }
 ```
