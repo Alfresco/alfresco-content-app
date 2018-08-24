@@ -43,7 +43,6 @@ describe('Mark items as favorites', () => {
     const folderSite = `folder-${Utils.random()}`;
     const fileSiteFav1 = `file-${Utils.random()}.txt`;
     const fileSiteFav2 = `file-${Utils.random()}.txt`;
-    
 
     let file1Id, file2Id, file3Id, file4Id, folder1Id, fileSiteNotFav1Id, fileSiteNotFav2Id, folderSiteId, fileSiteFav1Id, fileSiteFav2Id;
 
@@ -431,7 +430,7 @@ describe('Mark items as favorites', () => {
         });
     });
 
-    fdescribe ('on File Libraries', () => {
+    describe ('on File Libraries', () => {
         const fileLibrariesPage = new BrowsingPage();
 
         beforeAll( async (done) => {
@@ -459,7 +458,7 @@ describe('Mark items as favorites', () => {
             await browser.refresh();
             await fileLibrariesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
             done();
-        })
+        });
 
         it('Favorite a folder - [C280391]', async  () => {
             await fileLibrariesPage.dataTable.doubleClickOnRowByName(siteName);
@@ -483,7 +482,7 @@ describe('Mark items as favorites', () => {
                const isFavorite = await apis.user.favorites.isFavorite(fileSiteNotFav1Id);
                expect(await isFavorite).toBe(true, `${fileSiteNotFav1} not marked as favorite`);
             await apis.user.favorites.removeFavoriteById(fileSiteNotFav1Id);
-        })
+        });
 
         it('Unfavorite an item - [C280343]', async () => {
             await fileLibrariesPage.dataTable.doubleClickOnRowByName(siteName);
@@ -512,7 +511,7 @@ describe('Mark items as favorites', () => {
                 expect(listItems1[0]).toBe(true, 'item not marked as favorite');
                 expect(listItems1[1]).toBe(true, 'item not marked as favorite');
 
-            await apis.user.favorites.removeFavoriteById(fileSiteNotFav1Id)
+            await apis.user.favorites.removeFavoriteById(fileSiteNotFav1Id);
             await apis.user.favorites.removeFavoriteById(fileSiteNotFav2Id);
         });
 
@@ -528,7 +527,7 @@ describe('Mark items as favorites', () => {
                 ]);
                 expect(listItems2[0]).toBe(false, 'item marked as favorite');
                 expect(listItems2[1]).toBe(false, 'item marked as favorite');
-            
+
             await apis.user.favorites.addFavoriteById('file', fileSiteFav1Id);
             await apis.user.favorites.addFavoriteById('file', fileSiteFav2Id);
         });
