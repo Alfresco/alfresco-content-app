@@ -23,10 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './login/login';
-export * from './header/header';
-export * from './header/user-info';
+export * from './code-editor/code-editor';
 export * from './data-table/data-table';
+export * from './dialog/create-edit-folder-dialog';
+export * from './header/header';
+export * from './login/login';
+export * from './menu/menu';
 export * from './pagination/pagination';
 export * from './sidenav/sidenav';
 export * from './toolbar/toolbar';
+export * from './viewer/viewer';
