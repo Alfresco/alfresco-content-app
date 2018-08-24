@@ -233,7 +233,7 @@ describe('Breadcrumb', () => {
             .then(done);
         });
 
-        it(`Breadcrumb on navigation to a user's home - [C260970]`, () => {
+        xit(`Breadcrumb on navigation to a user's home - [C260970]`, () => {
             page.dataTable.doubleClickOnRowByName('User Homes')
                 .then(() => page.dataTable.doubleClickOnRowByName(user2))
                 .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2 ]))

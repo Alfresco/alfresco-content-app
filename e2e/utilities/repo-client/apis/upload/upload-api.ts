@@ -25,6 +25,7 @@
 
 import { RepoApi } from '../repo-api';
 import { E2E_ROOT_PATH } from '../../../../configs';
+
 const fs = require('fs');
 
 export class UploadApi extends RepoApi {
@@ -34,7 +35,7 @@ export class UploadApi extends RepoApi {
     }
 
     async uploadFile(fileName: string, parentFolderId: string = '-my-') {
-        const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/${fileName}`);
+        const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
         const opts = {
             mane: file.name,
             nodeType: 'cm:content'

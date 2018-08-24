@@ -20,7 +20,9 @@ exports.config = {
         './e2e/suites/navigation/*.test.ts',
         './e2e/suites/pagination/*.test.ts',
         './e2e/suites/actions/*.test.ts',
-        './e2e/suites/viewer/*.test.ts'
+        './e2e/suites/viewer/*.test.ts',
+
+        './e2e/suites/extensions/*.test.ts'
     ],
 
     capabilities: {
