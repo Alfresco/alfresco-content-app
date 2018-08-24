@@ -29,8 +29,6 @@ import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { SIDEBAR_LABELS, EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
 
-xit('');
-
 describe('Extensions - Info Drawer', () => {
     const username = `user-${Utils.random()}`;
 

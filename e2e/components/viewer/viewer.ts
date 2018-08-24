@@ -35,13 +35,16 @@ export class Viewer extends Component {
         layout: '.adf-viewer-layout-content',
         contentContainer: '.adf-viewer-content-container',
         closeBtn: '.adf-viewer-close-button',
-        fileTitle: '.adf-viewer__file-title'
+        fileTitle: '.adf-viewer__file-title',
+
+        viewerExtensionContent: 'app-preview-extension'
     };
 
     viewerLayout: ElementFinder = this.component.element(by.css(Viewer.selectors.layout));
     viewerContainer: ElementFinder = this.component.element(by.css(Viewer.selectors.contentContainer));
     closeButton: ElementFinder = this.component.element(by.css(Viewer.selectors.closeBtn));
     fileTitle: ElementFinder = this.component.element(by.css(Viewer.selectors.fileTitle));
+    viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
 
     toolbar = new ToolbarActions(this.component);
 
@@ -84,5 +87,15 @@ export class Viewer extends Component {
 
     async getFileTitle() {
         return await this.fileTitle.getText();
+    }
+
+    async isCustomContentPresent() {
+        return await browser.isElementPresent(this.viewerExtensionContent);
+    }
+
+    async getComponentIdOfView() {
+        if (await this.isCustomContentPresent()) {
+            return await this.viewerExtensionContent.getAttribute('data-automation-id');
+        }
     }
 }
