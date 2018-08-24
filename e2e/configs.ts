@@ -92,6 +92,7 @@ export const FILES = {
 };
 
 export const EXTENSIBILITY_CONFIGS = {
+    DEFAULT_EXTENSIONS_CONFIG: 'extensions-default.json',
     INFO_DRAWER: 'info-drawer-ext.json',
     INFO_DRAWER_EMPTY: 'info-drawer-no-tabs-ext.json'
 };
