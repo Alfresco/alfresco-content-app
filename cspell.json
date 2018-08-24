@@ -22,7 +22,6 @@
         "promisify",
         "xdescribe",
         "unfavorite",
-        "Snackbar",
         "devtools",
         "gitter",
         "jira",
@@ -47,9 +46,7 @@
         "exif",
         "cardview",
         "webm",
-        "keycodes",
-
-        "docx"
+        "keycodes"
     ],
     "dictionaries": [
         "html",

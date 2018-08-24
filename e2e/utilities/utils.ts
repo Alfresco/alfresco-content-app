@@ -24,7 +24,9 @@
  */
 
 import { browser, promise, ElementFinder, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../configs';
+import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
+
+const fs = require('fs');
 
 export class Utils {
     // generate a random value
@@ -40,6 +42,23 @@ export class Utils {
     // session storage
     static clearSessionStorage(): promise.Promise<any> {
         return browser.executeScript('window.sessionStorage.clear();');
+    }
+
+    static getSessionStorage() {
+        return browser.executeScript('return window.sessionStorage.getItem("aca.extension.config");');
+    }
+
+    static async setSessionStorageFromConfig(key: string, configFileName: string) {
+        const configFile = `${E2E_ROOT_PATH}/resources/extensibility-configs/${configFileName}`;
+        const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
+
+        return await browser.executeScript(`window.sessionStorage.setItem(${key}, ${fileContent});`);
+    }
+
+    static async resetExtensionConfig() {
+        const defConfig = `${E2E_ROOT_PATH}/resources/extensibility-configs/${EXTENSIBILITY_CONFIGS.DEFAULT_EXTENSIONS_CONFIG}`;
+
+        return await this.setSessionStorageFromConfig('"aca.extension.config"', defConfig);
     }
 
     static retryCall(fn: () => Promise <any>, retry: number = 30, delay: number = 1000): Promise<any> {
