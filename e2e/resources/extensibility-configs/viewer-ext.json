@@ -736,11 +736,6 @@
                     "id": "app.viewer.docx",
                     "fileExtension": "docx",
                     "component": "app.components.tabs.comments"
-                },
-                {
-                    "id": "app.viewer.xlsx",
-                    "fileExtension": "xlsx",
-                    "component": ""
                 }
             ]
         },
