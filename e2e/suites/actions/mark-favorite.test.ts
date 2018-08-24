@@ -385,8 +385,8 @@ describe('Mark items as favorites', () => {
                 .then(done);
         });
 
-        beforeEach(done => {
-            toolbar.actions.closeMoreMenu().then(done);
+        afterEach(done => {
+            page.refresh().then(done);
         });
 
         it('unfavorite an item - [C280368]', () => {
