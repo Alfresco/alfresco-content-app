@@ -435,8 +435,8 @@ describe('Mark items as favorites', () => {
 
         beforeAll(async (done) => {
             await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-            const DocLibId = (await apis.user.sites.getDocLibId(siteName));
-            folderSiteId = (await apis.user.nodes.createFolder(folderSite, DocLibId)).entry.id;
+            const docLibId = (await apis.user.sites.getDocLibId(siteName));
+            folderSiteId = (await apis.user.nodes.createFolder(folderSite, docLibId)).entry.id;
             fileSiteNotFav1Id = (await apis.user.nodes.createFile(fileSiteNotFav1, folderSiteId)).entry.id;
             fileSiteFav1Id = (await apis.user.nodes.createFile(fileSiteFav1, folderSiteId)).entry.id;
             fileSiteNotFav2Id = (await apis.user.nodes.createFile(fileSiteNotFav2, folderSiteId)).entry.id;
