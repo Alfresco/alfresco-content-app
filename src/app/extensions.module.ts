@@ -17,7 +17,7 @@ import { CodeEditorModule } from '@ngstack/code-editor';
         AcaDevToolsModule
     ]
 })
-export class ExtensionsModule {
+export class AppExtensionsModule {
     constructor(extensions: ExtensionService) {
         extensions.setComponents({
             'app.dev.tools.component': AcaDevToolsComponent

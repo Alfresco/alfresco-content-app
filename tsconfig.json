@@ -24,6 +24,12 @@
       ],
       "aca-dev-tools/*": [
         "dist/aca-dev-tools/*"
+      ],
+      "@alfresco/adf-extensions": [
+        "dist/@alfresco/adf-extensions"
+      ],
+      "@alfresco/adf-extensions/*": [
+        "dist/@alfresco/adf-extensions/*"
       ]
     }
   },
