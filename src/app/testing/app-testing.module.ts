@@ -61,7 +61,7 @@ import { NodePermissionService } from '../services/node-permission.service';
 import { ContentApiService } from '../services/content-api.service';
 import { AppExtensionService } from '../extensions/extension.service';
 import { ViewUtilService } from '../components/preview/view-util.service';
-import { ExtensionLoaderService } from '@alfresco/adf-extensions';
+import { ExtensionLoaderService, ExtensionService } from '@alfresco/adf-extensions';
 
 @NgModule({
     imports: [
@@ -115,6 +115,7 @@ import { ExtensionLoaderService } from '@alfresco/adf-extensions';
         NodePermissionService,
         ContentApiService,
         AppExtensionService,
+        ExtensionService,
         ExtensionLoaderService,
         ViewUtilService
     ]
