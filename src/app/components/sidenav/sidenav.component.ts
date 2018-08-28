@@ -30,8 +30,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
-import { NavBarGroupRef } from '../../extensions/navbar.extensions';
-import { ContentActionRef } from '../../extensions/action.extensions';
+import { ContentActionRef, NavBarGroupRef } from '@alfresco/adf-extensions';
 
 @Component({
     selector: 'app-sidenav',

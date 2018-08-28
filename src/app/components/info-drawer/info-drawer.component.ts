@@ -27,7 +27,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
-import { SidebarTabRef } from '../../extensions/sidebar.extensions';
+import { SidebarTabRef } from '@alfresco/adf-extensions';
 
 @Component({
     selector: 'aca-info-drawer',

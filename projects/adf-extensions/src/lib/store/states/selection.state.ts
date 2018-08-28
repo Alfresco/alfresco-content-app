@@ -15,25 +15,16 @@
  * limitations under the License.
  */
 
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { ExtensionLoaderService } from './services/extension-loader.service';
+import { MinimalNodeEntity, SiteEntry } from 'alfresco-js-api';
 
-@NgModule({
-    imports: [],
-    declarations: [],
-    exports: []
-})
-export class ExtensionsModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: ExtensionsModule,
-            providers: [ExtensionLoaderService]
-        };
-    }
-
-    static forChild(): ModuleWithProviders {
-        return {
-            ngModule: ExtensionsModule
-        };
-    }
+export interface SelectionState {
+    count: number;
+    nodes: MinimalNodeEntity[];
+    libraries: SiteEntry[];
+    isEmpty: boolean;
+    first?: MinimalNodeEntity;
+    last?: MinimalNodeEntity;
+    folder?: MinimalNodeEntity;
+    file?: MinimalNodeEntity;
+    library?: SiteEntry;
 }

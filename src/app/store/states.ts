@@ -24,5 +24,3 @@
  */
 
 export * from './states/app.state';
-export * from './states/profile.state';
-export * from './states/selection.state';

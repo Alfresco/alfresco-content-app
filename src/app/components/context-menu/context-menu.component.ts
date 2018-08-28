@@ -32,14 +32,14 @@ import { FocusKeyManager } from '@angular/cdk/a11y';
 import { DOWN_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 
 import { ExtensionService } from '../../extensions/extension.service';
-import { AppStore, SelectionState } from '../../store/states';
+import { AppStore } from '../../store/states';
 import { appSelection } from '../../store/selectors/app.selectors';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SelectionState, ContentActionRef } from '@alfresco/adf-extensions';
 
 import { ContextMenuOverlayRef } from './context-menu-overlay';
-import { ContentActionRef } from '../../extensions/action.extensions';
 import { contextMenuAnimation } from './animations';
 import { ContextMenuItemDirective } from './context-menu-item.directive';
 

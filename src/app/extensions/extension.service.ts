@@ -26,21 +26,19 @@
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
-import { ExtensionConfig } from './extension.config';
-import { AppStore, SelectionState } from '../store/states';
-import { NavigationState } from '../store/states/navigation.state';
+import { AppStore } from '../store/states';
 import { selectionWithFolder } from '../store/selectors/app.selectors';
-import { NavBarGroupRef } from './navbar.extensions';
-import { RouteRef } from './routing.extensions';
-import { RuleContext, RuleRef, RuleEvaluator, RuleParameter } from './rule.extensions';
-import { ActionRef, ContentActionRef, ContentActionType } from './action.extensions';
 import * as core from './evaluators/core.evaluators';
 import { NodePermissionService } from '../services/node-permission.service';
-import { SidebarTabRef } from './sidebar.extensions';
 import { ProfileResolver } from '../services/profile.resolver';
-import { ViewerExtensionRef } from './viewer.extensions';
-import { ExtensionLoaderService } from './extension-loader.service';
-import { sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus } from './extension-utils';
+import {
+    SelectionState, NavigationState, ExtensionConfig, RouteRef,
+    RuleContext, RuleRef, RuleEvaluator, RuleParameter, ViewerExtensionRef,
+    ActionRef, ContentActionRef, ContentActionType,
+    ExtensionLoaderService,
+    SidebarTabRef, NavBarGroupRef,
+    sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus
+} from '@alfresco/adf-extensions';
 
 @Injectable()
 export class ExtensionService implements RuleContext {

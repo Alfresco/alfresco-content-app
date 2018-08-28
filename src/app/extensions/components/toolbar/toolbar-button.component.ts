@@ -24,7 +24,7 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { ContentActionRef } from '../../action.extensions';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 import { ExtensionService } from '../../extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';

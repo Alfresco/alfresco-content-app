@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleContext, RuleParameter } from '../rule.extensions';
+import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
 import {
     isNotTrashcan,
     isNotSharedFiles,

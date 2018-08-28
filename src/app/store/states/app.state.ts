@@ -23,9 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SelectionState } from './selection.state';
-import { ProfileState } from './profile.state';
-import { NavigationState } from './navigation.state';
+import { SelectionState, ProfileState, NavigationState } from '@alfresco/adf-extensions';
 
 export interface AppState {
     appName: string;

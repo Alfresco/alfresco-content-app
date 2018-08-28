@@ -24,7 +24,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { NodePermissions } from '../extensions/permission.extensions';
+import { NodePermissions } from '@alfresco/adf-extensions';
 
 @Injectable()
 export class NodePermissionService implements NodePermissions {

@@ -32,7 +32,7 @@ import {
 import { AppStore } from '../../../store/states';
 import { Store } from '@ngrx/store';
 import { ExtensionService } from '../../extension.service';
-import { ContentActionRef } from '../../action.extensions';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
     selector: 'aca-toolbar-action',

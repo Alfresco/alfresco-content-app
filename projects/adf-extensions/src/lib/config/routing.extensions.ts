@@ -15,25 +15,12 @@
  * limitations under the License.
  */
 
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { ExtensionLoaderService } from './services/extension-loader.service';
+export interface RouteRef {
+    id: string;
+    path: string;
+    component: string;
 
-@NgModule({
-    imports: [],
-    declarations: [],
-    exports: []
-})
-export class ExtensionsModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: ExtensionsModule,
-            providers: [ExtensionLoaderService]
-        };
-    }
-
-    static forChild(): ModuleWithProviders {
-        return {
-            ngModule: ExtensionsModule
-        };
-    }
+    layout?: string;
+    auth?: string[];
+    data?: { [key: string]: string };
 }

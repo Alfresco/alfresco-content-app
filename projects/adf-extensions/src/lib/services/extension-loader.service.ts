@@ -23,16 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
-import { ExtensionConfig } from './extension.config';
 import { HttpClient } from '@angular/common/http';
-import { ExtensionElement } from './extension-element';
-import { ContentActionRef, ContentActionType, ActionRef } from './action.extensions';
-import { RuleRef } from './rule.extensions';
-import { RouteRef } from './routing.extensions';
-import { sortByOrder, filterEnabled, getValue, mergeObjects } from './extension-utils';
+import { Injectable } from '@angular/core';
+import { ActionRef, ContentActionRef, ContentActionType } from '../config/action.extensions';
+import { ExtensionElement } from '../config/extension-element';
+import { filterEnabled, getValue, mergeObjects, sortByOrder } from '../config/extension-utils';
+import { ExtensionConfig } from '../config/extension.config';
+import { RouteRef } from '../config/routing.extensions';
+import { RuleRef } from '../config/rule.extensions';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ExtensionLoaderService {
     constructor(private http: HttpClient) {}
 
@@ -47,14 +49,20 @@ export class ExtensionLoaderService {
                     config = JSON.parse(override);
                 }
 
-                const externalPlugins = localStorage.getItem('experimental.external-plugins') === 'true';
+                const externalPlugins =
+                    localStorage.getItem('experimental.external-plugins') ===
+                    'true';
 
-                if (externalPlugins && config.$references && config.$references.length > 0) {
-                    const plugins = config.$references.map(
-                        (name, idx) => this.loadConfig(`${pluginsPath}/${name}`, idx)
+                if (
+                    externalPlugins &&
+                    config.$references &&
+                    config.$references.length > 0
+                ) {
+                    const plugins = config.$references.map((name, idx) =>
+                        this.loadConfig(`${pluginsPath}/${name}`, idx)
                     );
 
-                    Promise.all(plugins).then((results => {
+                    Promise.all(plugins).then(results => {
                         const configs = results
                             .filter(entry => entry)
                             .sort(sortByOrder)
@@ -65,7 +73,7 @@ export class ExtensionLoaderService {
                         }
 
                         resolve(config);
-                    }));
+                    });
                 } else {
                     resolve(config);
                 }

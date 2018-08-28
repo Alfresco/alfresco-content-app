@@ -33,9 +33,8 @@ import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
-import { ContentActionRef } from '../../extensions/action.extensions';
+import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { ViewUtilService } from './view-util.service';
-import { ViewerExtensionRef } from '../../extensions/viewer.extensions';
 
 @Component({
     selector: 'app-preview',

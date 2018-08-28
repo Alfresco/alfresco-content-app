@@ -15,25 +15,15 @@
  * limitations under the License.
  */
 
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { ExtensionLoaderService } from './services/extension-loader.service';
+import { ExtensionElement } from './extension-element';
 
-@NgModule({
-    imports: [],
-    declarations: [],
-    exports: []
-})
-export class ExtensionsModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: ExtensionsModule,
-            providers: [ExtensionLoaderService]
-        };
-    }
+export interface SidebarTabRef extends ExtensionElement {
+    title: string;
+    component: string;
 
-    static forChild(): ModuleWithProviders {
-        return {
-            ngModule: ExtensionsModule
-        };
-    }
+    icon?: string;
+    rules?: {
+        visible?: string;
+        [key: string]: string;
+    };
 }

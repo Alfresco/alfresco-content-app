@@ -15,25 +15,17 @@
  * limitations under the License.
  */
 
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { ExtensionLoaderService } from './services/extension-loader.service';
+import { ExtensionElement } from './extension-element';
 
-@NgModule({
-    imports: [],
-    declarations: [],
-    exports: []
-})
-export class ExtensionsModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: ExtensionsModule,
-            providers: [ExtensionLoaderService]
-        };
-    }
+export interface NavBarGroupRef extends ExtensionElement {
+    items: Array<NavBarLinkRef>;
+}
 
-    static forChild(): ModuleWithProviders {
-        return {
-            ngModule: ExtensionsModule
-        };
-    }
+export interface NavBarLinkRef extends ExtensionElement {
+    icon: string;
+    title: string;
+    route: string;
+
+    url?: string; // evaluated at runtime based on route ref
+    description?: string;
 }

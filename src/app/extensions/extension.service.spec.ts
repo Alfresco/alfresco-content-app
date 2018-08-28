@@ -28,8 +28,7 @@ import { AppTestingModule } from '../testing/app-testing.module';
 import { ExtensionService } from './extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
-import { ContentActionType } from './action.extensions';
-import { mergeArrays, sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus } from './extension-utils';
+import { ContentActionType, mergeArrays, sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus } from '@alfresco/adf-extensions';
 
 describe('ExtensionService', () => {
     let extensions: ExtensionService;
