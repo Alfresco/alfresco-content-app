@@ -34,7 +34,7 @@ import {
     OnDestroy,
     OnChanges
 } from '@angular/core';
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '../../extensions/extension.service';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Component({
@@ -60,7 +60,7 @@ export class PreviewExtensionComponent implements OnInit, OnChanges, OnDestroy {
     private componentRef: ComponentRef<any>;
 
     constructor(
-        private extensions: ExtensionService,
+        private extensions: AppExtensionService,
         private componentFactoryResolver: ComponentFactoryResolver
     ) {}
 

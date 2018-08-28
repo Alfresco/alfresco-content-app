@@ -34,7 +34,7 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ExtensionService } from './extensions/extension.service';
+import { AppExtensionService } from './extensions/extension.service';
 import {
     SetLanguagePickerAction,
     SnackbarErrorAction,
@@ -59,7 +59,7 @@ export class AppComponent implements OnInit {
         private alfrescoApiService: AlfrescoApiService,
         private authenticationService: AuthenticationService,
         private uploadService: UploadService,
-        private extensions: ExtensionService
+        private extensions: AppExtensionService
     ) {}
 
     ngOnInit() {

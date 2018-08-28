@@ -33,7 +33,7 @@ import {
     ViewContainerRef,
     OnDestroy
 } from '@angular/core';
-import { ExtensionService } from '../../extension.service';
+import { AppExtensionService } from '../../extension.service';
 
 @Component({
     selector: 'app-custom-component',
@@ -48,7 +48,7 @@ export class CustomExtensionComponent implements OnInit, OnDestroy {
     private componentRef: ComponentRef<any>;
 
     constructor(
-        private extensions: ExtensionService,
+        private extensions: AppExtensionService,
         private componentFactoryResolver: ComponentFactoryResolver
     ) {}
 

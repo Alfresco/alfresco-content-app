@@ -25,13 +25,13 @@
 
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../testing/app-testing.module';
-import { ExtensionService } from './extension.service';
+import { AppExtensionService } from './extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
 import { ContentActionType, mergeArrays, sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus } from '@alfresco/adf-extensions';
 
 describe('ExtensionService', () => {
-    let extensions: ExtensionService;
+    let extensions: AppExtensionService;
     let store: Store<AppStore>;
 
     beforeEach(() => {
@@ -40,7 +40,7 @@ describe('ExtensionService', () => {
         });
 
         store = TestBed.get(Store);
-        extensions = TestBed.get(ExtensionService);
+        extensions = TestBed.get(AppExtensionService);
     });
 
     describe('configs', () => {

@@ -31,7 +31,7 @@ import { TrashcanComponent } from '../components/trashcan/trashcan.component';
 import { ToolbarActionComponent } from './components/toolbar/toolbar-action.component';
 import * as app from './evaluators/app.evaluators';
 import * as nav from './evaluators/navigation.evaluators';
-import { ExtensionService } from './extension.service';
+import { AppExtensionService } from './extension.service';
 import { CustomExtensionComponent } from './components/custom-component/custom.component';
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
@@ -40,7 +40,7 @@ import { MetadataTabComponent } from '../components/info-drawer/metadata-tab/met
 import { CommentsTabComponent } from '../components/info-drawer/comments-tab/comments-tab.component';
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 
-export function setupExtensions(extensions: ExtensionService): Function {
+export function setupExtensions(extensions: AppExtensionService): Function {
     extensions.setComponents({
         'app.layout.main': LayoutComponent,
         'app.components.trashcan': TrashcanComponent,
@@ -106,11 +106,11 @@ export class CoreExtensionsModule {
         return {
             ngModule: CoreExtensionsModule,
             providers: [
-                ExtensionService,
+                AppExtensionService,
                 {
                     provide: APP_INITIALIZER,
                     useFactory: setupExtensions,
-                    deps: [ExtensionService],
+                    deps: [AppExtensionService],
                     multi: true
                 }
             ]

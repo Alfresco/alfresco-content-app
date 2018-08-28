@@ -25,7 +25,7 @@
 
 import { Subject } from 'rxjs';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '../../extensions/extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import { currentFolder } from '../../store/selectors/app.selectors';
@@ -46,7 +46,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     constructor(
         private store: Store<AppStore>,
-        private extensions: ExtensionService
+        private extensions: AppExtensionService
     ) {}
 
     ngOnInit() {

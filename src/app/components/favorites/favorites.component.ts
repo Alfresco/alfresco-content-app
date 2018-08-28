@@ -37,7 +37,7 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '../../extensions/extension.service';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -49,7 +49,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     constructor(
         private router: Router,
         store: Store<AppStore>,
-        extensions: ExtensionService,
+        extensions: AppExtensionService,
         private contentApi: ContentApiService,
         content: ContentManagementService,
         private breakpointObserver: BreakpointObserver

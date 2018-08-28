@@ -31,7 +31,7 @@ import { trigger } from '@angular/animations';
 import { FocusKeyManager } from '@angular/cdk/a11y';
 import { DOWN_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
 
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '../../extensions/extension.service';
 import { AppStore } from '../../store/states';
 import { appSelection } from '../../store/selectors/app.selectors';
 import { Store } from '@ngrx/store';
@@ -87,7 +87,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
     constructor(
         private contextMenuOverlayRef: ContextMenuOverlayRef,
-        private extensions: ExtensionService,
+        private extensions: AppExtensionService,
         private store: Store<AppStore>,
     ) { }
 

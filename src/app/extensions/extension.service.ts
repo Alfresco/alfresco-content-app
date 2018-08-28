@@ -41,7 +41,7 @@ import {
 } from '@alfresco/adf-extensions';
 
 @Injectable()
-export class ExtensionService implements RuleContext {
+export class AppExtensionService implements RuleContext {
     configPath = 'assets/app.extensions.json';
     pluginsPath = 'assets/plugins';
 

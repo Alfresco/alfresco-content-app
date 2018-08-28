@@ -33,7 +33,7 @@ import { NodeActionsService } from '../../services/node-actions.service';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '../../extensions/extension.service';
 import { SetCurrentFolderAction } from '../../store/actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime } from 'rxjs/operators';
@@ -55,7 +55,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
                 content: ContentManagementService,
-                extensions: ExtensionService,
+                extensions: AppExtensionService,
                 private breakpointObserver: BreakpointObserver) {
         super(store, extensions, content);
     }

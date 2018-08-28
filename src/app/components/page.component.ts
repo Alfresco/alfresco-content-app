@@ -30,7 +30,7 @@ import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ExtensionService } from '../extensions/extension.service';
+import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
 import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
 import { appSelection, currentFolder, documentDisplayMode, infoDrawerOpened, sharedUrl } from '../store/selectors/app.selectors';
@@ -62,7 +62,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     constructor(
         protected store: Store<AppStore>,
-        protected extensions: ExtensionService,
+        protected extensions: AppExtensionService,
         protected content: ContentManagementService) {}
 
     ngOnInit() {

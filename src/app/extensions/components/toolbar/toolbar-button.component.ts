@@ -25,7 +25,7 @@
 
 import { Component, Input } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { ExtensionService } from '../../extension.service';
+import { AppExtensionService } from '../../extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
@@ -75,7 +75,7 @@ export class ToolbarButtonComponent {
 
     constructor(
         protected store: Store<AppStore>,
-        private extensions: ExtensionService
+        private extensions: AppExtensionService
     ) {}
 
     runAction() {

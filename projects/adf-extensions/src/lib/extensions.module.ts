@@ -17,6 +17,7 @@
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ExtensionLoaderService } from './services/extension-loader.service';
+import { ExtensionService } from './services/extension.service';
 
 @NgModule({
     imports: [],
@@ -27,7 +28,10 @@ export class ExtensionsModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: ExtensionsModule,
-            providers: [ExtensionLoaderService]
+            providers: [
+                ExtensionLoaderService,
+                ExtensionService
+            ]
         };
     }
 

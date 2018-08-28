@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { AppStore } from '../../../store/states';
 import { Store } from '@ngrx/store';
-import { ExtensionService } from '../../extension.service';
+import { AppExtensionService } from '../../extension.service';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
@@ -47,7 +47,7 @@ export class ToolbarActionComponent {
 
     constructor(
         protected store: Store<AppStore>,
-        protected extensions: ExtensionService
+        protected extensions: AppExtensionService
     ) {}
 
     trackByActionId(index: number, action: ContentActionRef) {

@@ -30,7 +30,7 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 @Component({
     templateUrl: './recent-files.component.html'
@@ -40,7 +40,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
     constructor(
         store: Store<AppStore>,
-        extensions: ExtensionService,
+        extensions: AppExtensionService,
         content: ContentManagementService,
         private breakpointObserver: BreakpointObserver
     ) {
