@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import { ExtensionElement } from './extension-element';
+
 export enum ContentActionType {
     default = 'default',
     button = 'button',
@@ -23,15 +25,12 @@ export enum ContentActionType {
     custom = 'custom'
 }
 
-export interface ContentActionRef {
-    id: string;
+export interface ContentActionRef extends ExtensionElement {
     type: ContentActionType;
 
     title?: string;
     description?: string;
-    order?: number;
     icon?: string;
-    disabled?: boolean;
     children?: Array<ContentActionRef>;
     component?: string;
     actions?: {

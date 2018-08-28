@@ -36,7 +36,7 @@ import {
     ContentActionRef, ContentActionType,
     ExtensionLoaderService,
     SidebarTabRef, NavBarGroupRef,
-    sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus,
+    sortByOrder, reduceSeparators, reduceEmptyMenus,
     ExtensionService
 } from '@alfresco/adf-extensions';
 
@@ -113,18 +113,6 @@ export class AppExtensionService implements RuleContext {
         });
     }
 
-    setEvaluators(values: { [key: string]: RuleEvaluator }) {
-        this.extensions.setEvaluators(values);
-    }
-
-    setAuthGuards(values: { [key: string]: Type<{}> }) {
-        this.extensions.setAuthGuards(values);
-    }
-
-    setComponents(values: { [key: string]: Type<{}> }) {
-        this.extensions.setComponents(values);
-    }
-
     getNavigationGroups(): Array<NavBarGroupRef> {
         return this.navbar;
     }
@@ -164,13 +152,12 @@ export class AppExtensionService implements RuleContext {
 
     getCreateActions(): Array<ContentActionRef> {
         return this.createActions
-            .filter(filterEnabled)
             .filter(action => this.filterByRules(action))
             .map(action => {
                 let disabled = false;
 
                 if (action.rules && action.rules.enabled) {
-                    disabled = !this.evaluateRule(action.rules.enabled);
+                    disabled = !this.extensions.evaluateRule(action.rules.enabled, this);
                 }
 
                 return {
@@ -183,7 +170,6 @@ export class AppExtensionService implements RuleContext {
     // evaluates content actions for the selection and parent folder node
     getAllowedToolbarActions(): Array<ContentActionRef> {
         return this.toolbarActions
-            .filter(filterEnabled)
             .filter(action => this.filterByRules(action))
             .map(action => {
                 if (action.type === ContentActionType.menu) {
@@ -205,13 +191,11 @@ export class AppExtensionService implements RuleContext {
 
     getViewerToolbarActions(): Array<ContentActionRef> {
         return this.viewerToolbarActions
-            .filter(filterEnabled)
             .filter(action => this.filterByRules(action));
     }
 
     getAllowedContextMenuActions(): Array<ContentActionRef> {
         return this.contextMenuActions
-            .filter(filterEnabled)
             .filter(action => this.filterByRules(action));
     }
 
@@ -226,7 +210,7 @@ export class AppExtensionService implements RuleContext {
 
     filterByRules(action: ContentActionRef): boolean {
         if (action && action.rules && action.rules.visible) {
-            return this.evaluateRule(action.rules.visible);
+            return this.extensions.evaluateRule(action.rules.visible, this);
         }
         return true;
     }
@@ -245,9 +229,5 @@ export class AppExtensionService implements RuleContext {
 
     getEvaluator(key: string): RuleEvaluator {
         return this.extensions.getEvaluator(key);
-    }
-
-    evaluateRule(ruleId: string): boolean {
-        return this.extensions.evaluateRule(ruleId, this);
     }
 }
