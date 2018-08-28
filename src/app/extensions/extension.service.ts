@@ -27,7 +27,7 @@ import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
 import { AppStore } from '../store/states';
-import { selectionWithFolder } from '../store/selectors/app.selectors';
+import { ruleContext } from '../store/selectors/app.selectors';
 import { NodePermissionService } from '../services/node-permission.service';
 import { ProfileResolver } from '../services/profile.resolver';
 import {
@@ -37,7 +37,8 @@ import {
     ExtensionLoaderService,
     SidebarTabRef, NavBarGroupRef,
     sortByOrder, reduceSeparators, reduceEmptyMenus,
-    ExtensionService
+    ExtensionService,
+    ProfileState
 } from '@alfresco/adf-extensions';
 
 @Injectable()
@@ -58,6 +59,7 @@ export class AppExtensionService implements RuleContext {
 
     selection: SelectionState;
     navigation: NavigationState;
+    profile: ProfileState;
 
     constructor(
         private store: Store<AppStore>,
@@ -65,9 +67,10 @@ export class AppExtensionService implements RuleContext {
         private extensions: ExtensionService,
         public permissions: NodePermissionService) {
 
-        this.store.select(selectionWithFolder).subscribe(result => {
+        this.store.select(ruleContext).subscribe(result => {
             this.selection = result.selection;
             this.navigation = result.navigation;
+            this.profile = result.profile;
         });
     }
 

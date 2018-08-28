@@ -18,12 +18,14 @@
 import { SelectionState } from '../store/states/selection.state';
 import { NavigationState } from '../store/states/navigation.state';
 import { NodePermissions } from './permission.extensions';
+import { ProfileState } from '../store/states/profile.state';
 
 export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
 
 export interface RuleContext {
     selection: SelectionState;
     navigation: NavigationState;
+    profile: ProfileState;
     permissions: NodePermissions;
 
     getEvaluator(key: string): RuleEvaluator;
