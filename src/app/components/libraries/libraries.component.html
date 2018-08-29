@@ -19,7 +19,6 @@
             <adf-document-list #documentList
                 acaDocumentList
                 acaContextActions
-                [acaContextEnable]="selection.count"
                 [display]="documentDisplayMode$ | async"
                 currentFolderId="-mysites-"
                 selectionMode="single"

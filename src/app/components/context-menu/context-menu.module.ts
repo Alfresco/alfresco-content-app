@@ -34,6 +34,7 @@ import { ContextMenuService } from './context-menu.service';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuItemDirective } from './context-menu-item.directive';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { OutsideEventDirective } from './context-menu-outside-event.directive';
 
 @NgModule({
     imports: [
@@ -49,9 +50,11 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
     declarations: [
         ContextActionsDirective,
         ContextMenuComponent,
-        ContextMenuItemDirective
+        ContextMenuItemDirective,
+        OutsideEventDirective
     ],
     exports: [
+        OutsideEventDirective,
         ContextActionsDirective,
         ContextMenuComponent
     ],

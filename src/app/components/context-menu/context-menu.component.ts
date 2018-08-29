@@ -68,10 +68,22 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChildren(ContextMenuItemDirective)
     private contextMenuItems: QueryList<ContextMenuItemDirective>;
 
+    @HostListener('contextmenu', ['$event'])
+    handleContextMenu(event: MouseEvent) {
+        if (event) {
+            event.preventDefault();
+            if (this.contextMenuOverlayRef) {
+                this.contextMenuOverlayRef.close();
+            }
+        }
+    }
+
     @HostListener('document:keydown.Escape', ['$event'])
     handleKeydownEscape(event: KeyboardEvent) {
         if (event) {
-            this.contextMenuOverlayRef.close();
+            if (this.contextMenuOverlayRef) {
+                this.contextMenuOverlayRef.close();
+            }
         }
     }
 
@@ -90,6 +102,12 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
         private extensions: AppExtensionService,
         private store: Store<AppStore>,
     ) { }
+
+    onClickOutsideEvent() {
+        if (this.contextMenuOverlayRef) {
+            this.contextMenuOverlayRef.close();
+        }
+    }
 
     runAction(actionId: string) {
         const context = {
