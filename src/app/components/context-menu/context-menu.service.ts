@@ -22,11 +22,13 @@ export class ContextMenuService {
         overlay.backdropClick().subscribe(() => overlayRef.close());
 
         // prevent native contextmenu on overlay element if config.hasBackdrop is true
-        (<any>overlay)._backdropElement
-            .addEventListener('contextmenu', () => {
-                event.preventDefault();
-                (<any>overlay)._backdropClick.next(null);
-            }, true);
+        if (config.hasBackdrop) {
+            (<any>overlay)._backdropElement
+                .addEventListener('contextmenu', () => {
+                    event.preventDefault();
+                    (<any>overlay)._backdropClick.next(null);
+                }, true);
+        }
 
         return overlayRef;
     }
