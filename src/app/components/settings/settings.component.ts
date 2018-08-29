@@ -28,10 +28,11 @@ import { AppConfigService, StorageService, SettingsService } from '@alfresco/adf
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppStore, ProfileState } from '../../store/states';
+import { AppStore } from '../../store/states';
 import { appLanguagePicker, selectHeaderColor, selectAppName, selectUser } from '../../store/selectors/app.selectors';
 import { MatCheckboxChange } from '@angular/material';
 import { SetLanguagePickerAction } from '../../store/actions';
+import { ProfileState } from '@alfresco/adf-extensions';
 
 @Component({
     selector: 'aca-settings',

@@ -239,6 +239,46 @@
           }
         }
       }
+    },
+    "adf-extensions": {
+      "root": "projects/adf-extensions",
+      "sourceRoot": "projects/adf-extensions/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/adf-extensions/tsconfig.lib.json",
+            "project": "projects/adf-extensions/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/adf-extensions/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/adf-extensions/src/test.ts",
+            "tsConfig": "projects/adf-extensions/tsconfig.spec.json",
+            "karmaConfig": "projects/adf-extensions/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/adf-extensions/tsconfig.lib.json",
+              "projects/adf-extensions/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "alfresco-content-app",

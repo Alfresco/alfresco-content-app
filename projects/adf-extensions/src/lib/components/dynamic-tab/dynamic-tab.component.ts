@@ -26,24 +26,31 @@
 import {
     Component,
     Input,
-    ComponentRef,
     OnInit,
-    ComponentFactoryResolver,
+    OnDestroy,
     ViewChild,
     ViewContainerRef,
-    OnDestroy
+    ComponentRef,
+    ComponentFactoryResolver,
+    OnChanges,
+    SimpleChanges
 } from '@angular/core';
-import { ExtensionService } from '../../extension.service';
+import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { ExtensionService } from '../../services/extension.service';
 
 @Component({
-    selector: 'app-custom-component',
+    selector: 'adf-dynamic-tab',
     template: `<div #content></div>`
 })
-export class CustomExtensionComponent implements OnInit, OnDestroy {
+export class DynamicTabComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild('content', { read: ViewContainerRef })
     content: ViewContainerRef;
 
-    @Input() id: string;
+    @Input()
+    id: string;
+
+    @Input()
+    node: MinimalNodeEntryEntity;
 
     private componentRef: ComponentRef<any>;
 
@@ -61,8 +68,14 @@ export class CustomExtensionComponent implements OnInit, OnDestroy {
             if (factory) {
                 this.content.clear();
                 this.componentRef = this.content.createComponent(factory, 0);
-                // this.setupWidget(this.componentRef);
+                this.updateInstance();
             }
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (changes.node) {
+            this.updateInstance();
         }
     }
 
@@ -70,6 +83,12 @@ export class CustomExtensionComponent implements OnInit, OnDestroy {
         if (this.componentRef) {
             this.componentRef.destroy();
             this.componentRef = null;
+        }
+    }
+
+    private updateInstance() {
+        if (this.componentRef && this.componentRef.instance) {
+            this.componentRef.instance.node = this.node;
         }
     }
 }

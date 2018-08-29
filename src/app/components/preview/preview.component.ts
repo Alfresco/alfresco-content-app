@@ -31,11 +31,10 @@ import { AppStore } from '../../store/states/app.state';
 import { SetSelectedNodesAction } from '../../store/actions';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
-import { ContentActionRef } from '../../extensions/action.extensions';
+import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { ViewUtilService } from './view-util.service';
-import { ViewerExtensionRef } from '../../extensions/viewer.extensions';
 
 @Component({
     selector: 'app-preview',
@@ -65,7 +64,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
         private router: Router,
         private viewUtils: ViewUtilService,
         store: Store<AppStore>,
-        extensions: ExtensionService,
+        extensions: AppExtensionService,
         content: ContentManagementService) {
         super(store, extensions, content);
     }

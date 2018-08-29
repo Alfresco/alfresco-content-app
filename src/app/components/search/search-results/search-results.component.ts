@@ -31,7 +31,7 @@ import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
-import { ExtensionService } from '../../../extensions/extension.service';
+import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
 
 @Component({
@@ -56,7 +56,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         private queryBuilder: SearchQueryBuilderService,
         private route: ActivatedRoute,
         store: Store<AppStore>,
-        extensions: ExtensionService,
+        extensions: AppExtensionService,
         content: ContentManagementService
     ) {
         super(store, extensions, content);

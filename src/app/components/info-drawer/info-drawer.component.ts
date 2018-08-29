@@ -26,8 +26,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExtensionService } from '../../extensions/extension.service';
-import { SidebarTabRef } from '../../extensions/sidebar.extensions';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { SidebarTabRef } from '@alfresco/adf-extensions';
 
 @Component({
     selector: 'aca-info-drawer',
@@ -43,7 +43,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit {
 
     constructor(
         private contentApi: ContentApiService,
-        private extensions: ExtensionService
+        private extensions: AppExtensionService
     ) {}
 
     ngOnInit() {

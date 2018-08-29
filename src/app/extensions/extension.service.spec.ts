@@ -25,24 +25,33 @@
 
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../testing/app-testing.module';
-import { ExtensionService } from './extension.service';
+import { AppExtensionService } from './extension.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
-import { ContentActionType } from './action.extensions';
-import { mergeArrays, sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus } from './extension-utils';
+import { ContentActionType, mergeArrays,
+    sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus, ExtensionService, ExtensionConfig } from '@alfresco/adf-extensions';
 
-describe('ExtensionService', () => {
-    let extensions: ExtensionService;
+describe('AppExtensionService', () => {
+    let service: AppExtensionService;
     let store: Store<AppStore>;
+    let extensions: ExtensionService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [AppTestingModule]
+            imports: [
+                AppTestingModule
+            ]
         });
 
         store = TestBed.get(Store);
+        service = TestBed.get(AppExtensionService);
         extensions = TestBed.get(ExtensionService);
     });
+
+    const applyConfig = (config: ExtensionConfig) => {
+        extensions.setup(config);
+        service.setup(config);
+    };
 
     describe('configs', () => {
         it('should merge two arrays based on [id] keys', () => {
@@ -94,7 +103,7 @@ describe('ExtensionService', () => {
 
     describe('actions', () => {
         beforeEach(() => {
-            extensions.setup({
+            applyConfig({
                 $name: 'test',
                 $version: '1.0.0',
                 actions: [
@@ -128,7 +137,7 @@ describe('ExtensionService', () => {
         it('should run the action via store', () => {
             spyOn(store, 'dispatch').and.stub();
 
-            extensions.runActionById('aca:actions/create-folder');
+            service.runActionById('aca:actions/create-folder');
             expect(store.dispatch).toHaveBeenCalledWith({
                 type: 'CREATE_FOLDER',
                 payload: 'folder-name'
@@ -138,7 +147,7 @@ describe('ExtensionService', () => {
         it('should still invoke store if action is missing', () => {
             spyOn(store, 'dispatch').and.stub();
 
-            extensions.runActionById('missing');
+            service.runActionById('missing');
             expect(store.dispatch).toHaveBeenCalled();
         });
     });
@@ -213,12 +222,12 @@ describe('ExtensionService', () => {
         });
 
         it('should fetch registered component', () => {
-            const component = extensions.getComponentById('component-1');
+            const component = service.getComponentById('component-1');
             expect(component).toEqual(component1);
         });
 
         it('should not fetch registered component', () => {
-            const component = extensions.getComponentById('missing');
+            const component = service.getComponentById('missing');
             expect(component).toBeFalsy();
         });
     });
@@ -228,7 +237,7 @@ describe('ExtensionService', () => {
         let guard1;
 
         beforeEach(() => {
-            extensions.setup({
+            applyConfig({
                 $name: 'test',
                 $version: '1.0.0',
                 routes: [
@@ -270,7 +279,7 @@ describe('ExtensionService', () => {
         });
 
         it('should build application routes', () => {
-            const routes = extensions.getApplicationRoutes();
+            const routes = service.getApplicationRoutes();
 
             expect(routes.length).toBe(1);
 
@@ -287,7 +296,7 @@ describe('ExtensionService', () => {
 
     describe('content actions', () => {
         it('should load content actions from the config', () => {
-            extensions.setup({
+            applyConfig({
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
@@ -308,11 +317,11 @@ describe('ExtensionService', () => {
                 }
             });
 
-            expect(extensions.toolbarActions.length).toBe(2);
+            expect(service.toolbarActions.length).toBe(2);
         });
 
         it('should sort content actions by order', () => {
-            extensions.setup({
+            applyConfig({
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
@@ -333,11 +342,11 @@ describe('ExtensionService', () => {
                 }
             });
 
-            expect(extensions.toolbarActions.length).toBe(2);
-            expect(extensions.toolbarActions[0].id).toBe(
+            expect(service.toolbarActions.length).toBe(2);
+            expect(service.toolbarActions[0].id).toBe(
                 'aca:toolbar/separator-1'
             );
-            expect(extensions.toolbarActions[1].id).toBe(
+            expect(service.toolbarActions[1].id).toBe(
                 'aca:toolbar/separator-2'
             );
         });
@@ -345,7 +354,7 @@ describe('ExtensionService', () => {
 
     describe('open with', () => {
         it('should load [open with] actions for the viewer', () => {
-            extensions.setup({
+            applyConfig({
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
@@ -367,11 +376,11 @@ describe('ExtensionService', () => {
                 }
             });
 
-            expect(extensions.openWithActions.length).toBe(1);
+            expect(service.openWithActions.length).toBe(1);
         });
 
         it('should load only enabled [open with] actions for the viewer', () => {
-            extensions.setup({
+            applyConfig({
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
@@ -403,12 +412,12 @@ describe('ExtensionService', () => {
                 }
             });
 
-            expect(extensions.openWithActions.length).toBe(1);
-            expect(extensions.openWithActions[0].id).toBe('aca:viewer/action2');
+            expect(service.openWithActions.length).toBe(1);
+            expect(service.openWithActions[0].id).toBe('aca:viewer/action2');
         });
 
         it('should sort [open with] actions by order', () => {
-            extensions.setup({
+            applyConfig({
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
@@ -439,15 +448,15 @@ describe('ExtensionService', () => {
                 }
             });
 
-            expect(extensions.openWithActions.length).toBe(2);
-            expect(extensions.openWithActions[0].id).toBe('aca:viewer/action1');
-            expect(extensions.openWithActions[1].id).toBe('aca:viewer/action2');
+            expect(service.openWithActions.length).toBe(2);
+            expect(service.openWithActions[0].id).toBe('aca:viewer/action1');
+            expect(service.openWithActions[1].id).toBe('aca:viewer/action2');
         });
     });
 
     describe('create', () => {
         it('should load [create] actions from config', () => {
-            extensions.setup({
+            applyConfig({
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
@@ -463,11 +472,11 @@ describe('ExtensionService', () => {
                 }
             });
 
-            expect(extensions.createActions.length).toBe(1);
+            expect(service.createActions.length).toBe(1);
         });
 
         it('should sort [create] actions by order', () => {
-            extensions.setup({
+            applyConfig({
                 $name: 'test',
                 $version: '1.0.0',
                 features: {
@@ -490,9 +499,9 @@ describe('ExtensionService', () => {
                 }
             });
 
-            expect(extensions.createActions.length).toBe(2);
-            expect(extensions.createActions[0].id).toBe('aca:create/folder-2');
-            expect(extensions.createActions[1].id).toBe('aca:create/folder');
+            expect(service.createActions.length).toBe(2);
+            expect(service.createActions[0].id).toBe('aca:create/folder-2');
+            expect(service.createActions[1].id).toBe('aca:create/folder');
         });
     });
 

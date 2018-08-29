@@ -26,35 +26,27 @@
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
-import { ExtensionConfig } from './extension.config';
-import { AppStore, SelectionState } from '../store/states';
-import { NavigationState } from '../store/states/navigation.state';
-import { selectionWithFolder } from '../store/selectors/app.selectors';
-import { NavBarGroupRef } from './navbar.extensions';
-import { RouteRef } from './routing.extensions';
-import { RuleContext, RuleRef, RuleEvaluator, RuleParameter } from './rule.extensions';
-import { ActionRef, ContentActionRef, ContentActionType } from './action.extensions';
-import * as core from './evaluators/core.evaluators';
+import { AppStore } from '../store/states';
+import { ruleContext } from '../store/selectors/app.selectors';
 import { NodePermissionService } from '../services/node-permission.service';
-import { SidebarTabRef } from './sidebar.extensions';
 import { ProfileResolver } from '../services/profile.resolver';
-import { ViewerExtensionRef } from './viewer.extensions';
-import { ExtensionLoaderService } from './extension-loader.service';
-import { sortByOrder, filterEnabled, reduceSeparators, reduceEmptyMenus } from './extension-utils';
+import {
+    SelectionState, NavigationState, ExtensionConfig,
+    RuleContext, RuleEvaluator, ViewerExtensionRef,
+    ContentActionRef, ContentActionType,
+    ExtensionLoaderService,
+    SidebarTabRef, NavBarGroupRef,
+    sortByOrder, reduceSeparators, reduceEmptyMenus,
+    ExtensionService,
+    ProfileState
+} from '@alfresco/adf-extensions';
 
 @Injectable()
-export class ExtensionService implements RuleContext {
-    configPath = 'assets/app.extensions.json';
-    pluginsPath = 'assets/plugins';
-
+export class AppExtensionService implements RuleContext {
     defaults = {
         layout: 'app.layout.main',
         auth: ['app.auth']
     };
-
-    rules: Array<RuleRef> = [];
-    routes: Array<RouteRef> = [];
-    actions: Array<ActionRef> = [];
 
     toolbarActions: Array<ContentActionRef> = [];
     viewerToolbarActions: Array<ContentActionRef> = [];
@@ -65,32 +57,25 @@ export class ExtensionService implements RuleContext {
     navbar: Array<NavBarGroupRef> = [];
     sidebar: Array<SidebarTabRef> = [];
 
-    authGuards: { [key: string]: Type<{}> } = {};
-    components: { [key: string]: Type<{}> } = {};
-
-    evaluators: { [key: string]: RuleEvaluator } = {};
     selection: SelectionState;
     navigation: NavigationState;
+    profile: ProfileState;
 
     constructor(
         private store: Store<AppStore>,
         private loader: ExtensionLoaderService,
+        private extensions: ExtensionService,
         public permissions: NodePermissionService) {
 
-        this.evaluators = {
-            'core.every': core.every,
-            'core.some': core.some,
-            'core.not': core.not
-        };
-
-        this.store.select(selectionWithFolder).subscribe(result => {
+        this.store.select(ruleContext).subscribe(result => {
             this.selection = result.selection;
             this.navigation = result.navigation;
+            this.profile = result.profile;
         });
     }
 
     async load() {
-        const config = await this.loader.load(this.configPath, this.pluginsPath);
+        const config = await this.extensions.load();
         this.setup(config);
     }
 
@@ -100,9 +85,6 @@ export class ExtensionService implements RuleContext {
             return;
         }
 
-        this.rules = this.loader.getRules(config);
-        this.actions = this.loader.getActions(config);
-        this.routes = this.loader.getRoutes(config);
         this.toolbarActions = this.loader.getContentActions(config, 'features.toolbar');
         this.viewerToolbarActions = this.loader.getContentActions(config, 'features.viewer.toolbar');
         this.viewerContentExtensions = this.loader.getElements<ViewerExtensionRef>(config, 'features.viewer.content');
@@ -123,7 +105,7 @@ export class ExtensionService implements RuleContext {
                     .filter(item => !item.disabled)
                     .sort(sortByOrder)
                     .map(item => {
-                        const routeRef = this.getRouteById(item.route);
+                        const routeRef = this.extensions.getRouteById(item.route);
                         const url = `/${routeRef ? routeRef.path : item.route}`;
                         return {
                             ...item,
@@ -132,34 +114,6 @@ export class ExtensionService implements RuleContext {
                     })
             };
         });
-    }
-
-    setEvaluators(values: { [key: string]: RuleEvaluator }) {
-        if (values) {
-            this.evaluators = Object.assign({}, this.evaluators, values);
-        }
-    }
-
-    setAuthGuards(values: { [key: string]: Type<{}> }) {
-        if (values) {
-            this.authGuards = Object.assign({}, this.authGuards, values);
-        }
-    }
-
-    setComponents(values: { [key: string]: Type<{}> }) {
-        if (values) {
-            this.components = Object.assign({}, this.components, values);
-        }
-    }
-
-    getRouteById(id: string): RouteRef {
-        return this.routes.find(route => route.id === id);
-    }
-
-    getAuthGuards(ids: string[]): Array<Type<{}>> {
-        return (ids || [])
-            .map(id => this.authGuards[id])
-            .filter(guard => guard);
     }
 
     getNavigationGroups(): Array<NavBarGroupRef> {
@@ -171,12 +125,12 @@ export class ExtensionService implements RuleContext {
     }
 
     getComponentById(id: string): Type<{}> {
-        return this.components[id];
+        return this.extensions.getComponentById(id);
     }
 
     getApplicationRoutes(): Array<Route> {
-        return this.routes.map(route => {
-            const guards = this.getAuthGuards(
+        return this.extensions.routes.map(route => {
+            const guards = this.extensions.getAuthGuards(
                 route.auth && route.auth.length > 0
                     ? route.auth
                     : this.defaults.auth
@@ -201,13 +155,12 @@ export class ExtensionService implements RuleContext {
 
     getCreateActions(): Array<ContentActionRef> {
         return this.createActions
-            .filter(filterEnabled)
             .filter(action => this.filterByRules(action))
             .map(action => {
                 let disabled = false;
 
                 if (action.rules && action.rules.enabled) {
-                    disabled = !this.evaluateRule(action.rules.enabled);
+                    disabled = !this.extensions.evaluateRule(action.rules.enabled, this);
                 }
 
                 return {
@@ -220,7 +173,6 @@ export class ExtensionService implements RuleContext {
     // evaluates content actions for the selection and parent folder node
     getAllowedToolbarActions(): Array<ContentActionRef> {
         return this.toolbarActions
-            .filter(filterEnabled)
             .filter(action => this.filterByRules(action))
             .map(action => {
                 if (action.type === ContentActionType.menu) {
@@ -242,13 +194,11 @@ export class ExtensionService implements RuleContext {
 
     getViewerToolbarActions(): Array<ContentActionRef> {
         return this.viewerToolbarActions
-            .filter(filterEnabled)
             .filter(action => this.filterByRules(action));
     }
 
     getAllowedContextMenuActions(): Array<ContentActionRef> {
         return this.contextMenuActions
-            .filter(filterEnabled)
             .filter(action => this.filterByRules(action));
     }
 
@@ -263,20 +213,16 @@ export class ExtensionService implements RuleContext {
 
     filterByRules(action: ContentActionRef): boolean {
         if (action && action.rules && action.rules.visible) {
-            return this.evaluateRule(action.rules.visible);
+            return this.extensions.evaluateRule(action.rules.visible, this);
         }
         return true;
     }
 
-    getActionById(id: string): ActionRef {
-        return this.actions.find(action => action.id === id);
-    }
-
     runActionById(id: string, context?: any) {
-        const action = this.getActionById(id);
+        const action = this.extensions.getActionById(id);
         if (action) {
             const { type, payload } = action;
-            const expression = this.runExpression(payload, context);
+            const expression = this.extensions.runExpression(payload, context);
 
             this.store.dispatch({ type, payload: expression });
         } else {
@@ -284,45 +230,7 @@ export class ExtensionService implements RuleContext {
         }
     }
 
-    runExpression(value: string, context?: any) {
-        const pattern = new RegExp(/\$\((.*\)?)\)/g);
-        const matches = pattern.exec(value);
-
-        if (matches && matches.length > 1) {
-            const expression = matches[1];
-            const fn = new Function('context', `return ${expression}`);
-            const result = fn(context);
-
-            return result;
-        }
-
-        return value;
-    }
-
     getEvaluator(key: string): RuleEvaluator {
-        if (key && key.startsWith('!')) {
-            const fn = this.evaluators[key.substring(1)];
-            return (context: RuleContext, ...args: RuleParameter[]): boolean => {
-                return !fn(context, ...args);
-            };
-        }
-        return this.evaluators[key];
-    }
-
-    evaluateRule(ruleId: string): boolean {
-        const ruleRef = this.rules.find(ref => ref.id === ruleId);
-
-        if (ruleRef) {
-            const evaluator = this.getEvaluator(ruleRef.type);
-            if (evaluator) {
-                return evaluator(this, ...ruleRef.parameters);
-            }
-        } else {
-            const evaluator = this.getEvaluator(ruleId);
-            if (evaluator) {
-                return evaluator(this);
-            }
-        }
-        return false;
+        return this.extensions.getEvaluator(key);
     }
 }

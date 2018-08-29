@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { AcaDevToolsModule, AcaDevToolsComponent } from 'aca-dev-tools';
-import { ExtensionService } from './extensions/extension.service';
+import { AcaDevToolsModule } from 'aca-dev-tools';
 import { CodeEditorModule } from '@ngstack/code-editor';
 
 // Main entry point for external extensions only.
@@ -17,10 +16,4 @@ import { CodeEditorModule } from '@ngstack/code-editor';
         AcaDevToolsModule
     ]
 })
-export class ExtensionsModule {
-    constructor(extensions: ExtensionService) {
-        extensions.setComponents({
-            'app.dev.tools.component': AcaDevToolsComponent
-        });
-    }
-}
+export class AppExtensionsModule {}

@@ -24,18 +24,17 @@
  */
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
+import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Subject, Subscription ,  Observable } from 'rxjs';
-import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
-import { appSelection, sharedUrl, currentFolder, infoDrawerOpened, documentDisplayMode } from '../store/selectors/app.selectors';
-import { AppStore } from '../store/states/app.state';
-import { SelectionState } from '../store/states/selection.state';
-import { ExtensionService } from '../extensions/extension.service';
+import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
-import { ContentActionRef } from '../extensions/action.extensions';
+import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
+import { appSelection, currentFolder, documentDisplayMode, infoDrawerOpened, sharedUrl } from '../store/selectors/app.selectors';
+import { AppStore } from '../store/states/app.state';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
@@ -63,7 +62,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     constructor(
         protected store: Store<AppStore>,
-        protected extensions: ExtensionService,
+        protected extensions: AppExtensionService,
         protected content: ContentManagementService) {}
 
     ngOnInit() {

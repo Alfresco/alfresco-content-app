@@ -30,9 +30,9 @@ import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { selectUser } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states/app.state';
-import { ProfileState } from '../../store/states/profile.state';
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '../../extensions/extension.service';
 import { Observable } from 'rxjs';
+import { ProfileState } from '@alfresco/adf-extensions';
 
 @Component({
     templateUrl: './trashcan.component.html'
@@ -42,7 +42,7 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     user$: Observable<ProfileState>;
 
     constructor(content: ContentManagementService,
-                extensions: ExtensionService,
+                extensions: AppExtensionService,
                 store: Store<AppStore>,
                 private breakpointObserver: BreakpointObserver) {
         super(store, extensions, content);

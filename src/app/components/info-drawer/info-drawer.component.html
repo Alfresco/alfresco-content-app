@@ -7,8 +7,8 @@
             *ngFor="let tab of tabs"
             [icon]="tab.icon"
             [label]="tab.title | translate">
-            <app-dynamic-tab [node]="displayNode" [id]="tab.component" [attr.data-automation-id]="tab.component">
-            </app-dynamic-tab>
+            <adf-dynamic-tab [node]="displayNode" [id]="tab.component" [attr.data-automation-id]="tab.component">
+            </adf-dynamic-tab>
         </adf-info-drawer-tab>
     </adf-info-drawer>
 </ng-container>

@@ -34,7 +34,7 @@ import { AppStore } from '../../store/states/app.state';
 import { SiteEntry } from 'alfresco-js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExtensionService } from '../../extensions/extension.service';
+import { AppExtensionService } from '../../extensions/extension.service';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -48,7 +48,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
                 content: ContentManagementService,
                 private contentApi: ContentApiService,
                 store: Store<AppStore>,
-                extensions: ExtensionService,
+                extensions: AppExtensionService,
                 private router: Router,
                 private breakpointObserver: BreakpointObserver) {
         super(store, extensions, content);

@@ -39,13 +39,15 @@ export const currentFolder = createSelector(selectApp, state => state.navigation
 export const infoDrawerOpened = createSelector(selectApp, state => state.infoDrawerOpened);
 export const documentDisplayMode = createSelector(selectApp, state => state.documentDisplayMode);
 
-export const selectionWithFolder = createSelector(
+export const ruleContext = createSelector(
     appSelection,
     appNavigation,
-    (selection, navigation) => {
+    selectUser,
+    (selection, navigation, profile) => {
         return {
             selection,
-            navigation
+            navigation,
+            profile
         };
     }
 );

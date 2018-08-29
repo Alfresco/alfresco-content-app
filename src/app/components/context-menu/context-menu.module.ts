@@ -33,6 +33,7 @@ import { ContextActionsDirective } from './context-menu.directive';
 import { ContextMenuService } from './context-menu.service';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuItemDirective } from './context-menu-item.directive';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 
 @NgModule({
@@ -43,7 +44,8 @@ import { OutsideEventDirective } from './context-menu-outside-event.directive';
         MatButtonModule,
         BrowserModule,
         CoreExtensionsModule.forChild(),
-        CoreModule.forChild()
+        CoreModule.forChild(),
+        ExtensionsModule.forChild()
     ],
     declarations: [
         ContextActionsDirective,

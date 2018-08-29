@@ -63,7 +63,7 @@ import { ExperimentalGuard } from './services/experimental-guard.service';
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
 import { ContentApiService } from './services/content-api.service';
-import { ExtensionsModule } from './extensions.module';
+import { AppExtensionsModule } from './extensions.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
@@ -75,6 +75,7 @@ import { ToggleInfoDrawerComponent } from './components/toolbar/toggle-info-draw
 import { DocumentDisplayModeComponent } from './components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleFavoriteComponent } from './components/toolbar/toggle-favorite/toggle-favorite.component';
 import { ContextMenuModule } from './components/context-menu/context-menu.module';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 
 @NgModule({
     imports: [
@@ -91,7 +92,8 @@ import { ContextMenuModule } from './components/context-menu/context-menu.module
         ContentModule.forRoot(),
         AppStoreModule,
         CoreExtensionsModule.forRoot(),
-        ExtensionsModule,
+        ExtensionsModule.forRoot(),
+        AppExtensionsModule,
 
         DirectivesModule,
         ContextMenuModule.forRoot(),

@@ -25,9 +25,10 @@
 
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore, SelectionState } from '../../../store/states';
+import { AppStore } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
 import { Observable } from 'rxjs';
+import { SelectionState } from '@alfresco/adf-extensions';
 
 @Component({
     selector: 'app-toggle-favorite',

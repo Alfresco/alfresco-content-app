@@ -59,9 +59,9 @@ import { ContentManagementService } from '../services/content-management.service
 import { NodeActionsService } from '../services/node-actions.service';
 import { NodePermissionService } from '../services/node-permission.service';
 import { ContentApiService } from '../services/content-api.service';
-import { ExtensionService } from '../extensions/extension.service';
+import { AppExtensionService } from '../extensions/extension.service';
 import { ViewUtilService } from '../components/preview/view-util.service';
-import { ExtensionLoaderService } from '../extensions/extension-loader.service';
+import { ExtensionLoaderService, ExtensionService } from '@alfresco/adf-extensions';
 
 @NgModule({
     imports: [
@@ -114,6 +114,7 @@ import { ExtensionLoaderService } from '../extensions/extension-loader.service';
         NodeActionsService,
         NodePermissionService,
         ContentApiService,
+        AppExtensionService,
         ExtensionService,
         ExtensionLoaderService,
         ViewUtilService
