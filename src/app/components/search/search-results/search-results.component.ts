@@ -106,7 +106,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         }
 
         const suffix = userInput.lastIndexOf('*') >= 0 ? '' : '*';
-        const query = `${userInput}${suffix} OR name:${userInput}${suffix}`;
+        const query = `=cm:name:${userInput}${suffix}`;
 
         return query;
     }
