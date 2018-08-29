@@ -9,8 +9,7 @@ import { delay } from 'rxjs/operators';
 export class OutsideEventDirective implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
-    // tslint:disable-next-line:no-output-rename
-    @Output('clickOutside') clickOutside: EventEmitter<null> = new EventEmitter();
+    @Output() clickOutside: EventEmitter<null> = new EventEmitter();
 
     constructor() {}
 
