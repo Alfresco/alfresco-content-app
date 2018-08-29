@@ -27,7 +27,6 @@
                 <adf-document-list #documentList
                     acaDocumentList
                     acaContextActions
-                    [acaContextEnable]="selection.count"
                     [display]="documentDisplayMode$ | async"
                     [sorting]="[ 'modifiedAt', 'desc' ]"
                     selectionMode="multiple"

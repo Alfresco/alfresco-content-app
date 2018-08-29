@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:stable-alpine
 LABEL version="1.3"
 LABEL maintainer="Denys Vuika <denys.vuika@alfresco.com>"
 
