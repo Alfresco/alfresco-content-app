@@ -38,7 +38,7 @@ export class InfoDrawer extends Component {
         tabLabel: '.mat-tab-label-content',
         tabActiveLabel: '.mat-tab-label-active',
 
-        activeTabContent: '.mat-tab-body-active .mat-tab-body-content app-dynamic-tab',
+        activeTabContent: '.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab',
         next: '.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron',
         previous: '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron'
     };
