@@ -32,7 +32,6 @@ import { ToolbarActionComponent } from './components/toolbar/toolbar-action.comp
 import * as app from './evaluators/app.evaluators';
 import * as nav from './evaluators/navigation.evaluators';
 import { AppExtensionService } from './extension.service';
-import { CustomExtensionComponent } from './components/custom-component/custom.component';
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
 import { ToolbarButtonComponent } from './components/toolbar/toolbar-button.component';
@@ -53,13 +52,11 @@ export function setupExtensions(service: AppExtensionService): Function {
     ],
     declarations: [
         ToolbarActionComponent,
-        ToolbarButtonComponent,
-        CustomExtensionComponent
+        ToolbarButtonComponent
     ],
     exports: [
         ToolbarActionComponent,
-        ToolbarButtonComponent,
-        CustomExtensionComponent
+        ToolbarButtonComponent
     ]
 })
 export class CoreExtensionsModule {

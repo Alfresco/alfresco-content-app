@@ -23,25 +23,27 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+    ContentMetadataModule,
+    VersionManagerModule
+} from '@alfresco/adf-content-services';
 import { CoreModule } from '@alfresco/adf-core';
-import { ContentMetadataModule, VersionManagerModule } from '@alfresco/adf-content-services';
-import { InfoDrawerComponent } from './info-drawer.component';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { DirectivesModule } from '../../directives/directives.module';
 import { MaterialModule } from '../../material.module';
-import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from './comments-tab/comments-tab.component';
+import { InfoDrawerComponent } from './info-drawer.component';
+import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
 import { VersionsTabComponent } from './versions-tab/versions-tab.component';
-import { DynamicTabComponent } from './dynamic-tab/dynamic-tab.component';
 
 export function components() {
     return [
         InfoDrawerComponent,
         MetadataTabComponent,
         CommentsTabComponent,
-        VersionsTabComponent,
-        DynamicTabComponent
+        VersionsTabComponent
     ];
 }
 
@@ -50,18 +52,13 @@ export function components() {
         CommonModule,
         MaterialModule,
         CoreModule.forChild(),
+        ExtensionsModule.forChild(),
         ContentMetadataModule,
         VersionManagerModule,
         DirectivesModule
     ],
-    declarations: [
-        ...components()
-    ],
-    exports: [
-        ...components()
-    ],
-    entryComponents: [
-        ...components()
-    ]
+    declarations: [...components()],
+    exports: [...components()],
+    entryComponents: [...components()]
 })
 export class AppInfoDrawerModule {}

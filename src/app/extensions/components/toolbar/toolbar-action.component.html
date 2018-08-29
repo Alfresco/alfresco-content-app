@@ -26,7 +26,7 @@
             <ng-container *ngFor="let child of entry.children; trackBy: trackByActionId">
                 <ng-container [ngSwitch]="child.type">
                     <ng-container *ngSwitchCase="'custom'">
-                        <app-custom-component [id]="child.component"></app-custom-component>
+                        <adf-dynamic-component [id]="child.component"></adf-dynamic-component>
                     </ng-container>
                     <ng-container *ngSwitchDefault>
                         <app-toolbar-button type="menu-item" [actionRef]="child"></app-toolbar-button>
@@ -37,7 +37,7 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'custom'">
-        <app-custom-component [id]="entry.component"></app-custom-component>
+        <adf-dynamic-component [id]="entry.component"></adf-dynamic-component>
     </ng-container>
 </ng-container>
 

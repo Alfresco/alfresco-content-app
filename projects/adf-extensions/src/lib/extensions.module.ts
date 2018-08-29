@@ -18,20 +18,19 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { ExtensionLoaderService } from './services/extension-loader.service';
 import { ExtensionService } from './services/extension.service';
+import { DynamicExtensionComponent } from './components/dynamic-component/dynamic.component';
+import { DynamicTabComponent } from './components/dynamic-tab/dynamic-tab.component';
 
 @NgModule({
     imports: [],
-    declarations: [],
-    exports: []
+    declarations: [DynamicExtensionComponent, DynamicTabComponent],
+    exports: [DynamicExtensionComponent, DynamicTabComponent]
 })
 export class ExtensionsModule {
     static forRoot(): ModuleWithProviders {
         return {
             ngModule: ExtensionsModule,
-            providers: [
-                ExtensionLoaderService,
-                ExtensionService
-            ]
+            providers: [ExtensionLoaderService, ExtensionService]
         };
     }
 

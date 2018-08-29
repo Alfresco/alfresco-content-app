@@ -36,10 +36,10 @@ import {
     SimpleChanges
 } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { AppExtensionService } from '../../../extensions/extension.service';
+import { ExtensionService } from '../../services/extension.service';
 
 @Component({
-    selector: 'app-dynamic-tab',
+    selector: 'adf-dynamic-tab',
     template: `<div #content></div>`
 })
 export class DynamicTabComponent implements OnInit, OnChanges, OnDestroy {
@@ -55,7 +55,7 @@ export class DynamicTabComponent implements OnInit, OnChanges, OnDestroy {
     private componentRef: ComponentRef<any>;
 
     constructor(
-        private extensions: AppExtensionService,
+        private extensions: ExtensionService,
         private componentFactoryResolver: ComponentFactoryResolver
     ) {}
 
