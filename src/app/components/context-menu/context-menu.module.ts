@@ -33,6 +33,7 @@ import { ContextActionsDirective } from './context-menu.directive';
 import { ContextMenuService } from './context-menu.service';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextMenuItemDirective } from './context-menu-item.directive';
+import { OutsideEventDirective } from './context-menu-outside-event.directive';
 
 @NgModule({
     imports: [
@@ -47,9 +48,11 @@ import { ContextMenuItemDirective } from './context-menu-item.directive';
     declarations: [
         ContextActionsDirective,
         ContextMenuComponent,
-        ContextMenuItemDirective
+        ContextMenuItemDirective,
+        OutsideEventDirective
     ],
     exports: [
+        OutsideEventDirective,
         ContextActionsDirective,
         ContextMenuComponent
     ],
