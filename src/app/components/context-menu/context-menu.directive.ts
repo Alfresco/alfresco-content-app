@@ -34,11 +34,12 @@ export class ContextActionsDirective {
     private overlayRef: ContextMenuOverlayRef = null;
 
     // tslint:disable-next-line:no-input-rename
-    @Input('acaContextEnable') enabled: boolean;
+    @Input('acaContextEnable') enabled = true;
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         if (event && this.overlayRef) {
+            this.clearSelection();
             this.overlayRef.close();
         }
     }
