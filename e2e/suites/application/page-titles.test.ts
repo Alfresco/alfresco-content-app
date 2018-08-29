@@ -167,9 +167,11 @@ describe('Page titles', () => {
         });
 
         it('Search Results page - [C280413]', async () => {
-           await header.searchButton.click();
-           await page.dataTable.waitForHeader();
-           await header.searchForText(file);
+            await header.waitForSearchButton();
+            await header.searchButton.click();
+            await page.dataTable.waitForHeader();
+            await header.waitForSearchBar();
+            await header.searchForText(file);
            expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
         });
     });

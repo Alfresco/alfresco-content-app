@@ -27,6 +27,7 @@ import { ElementFinder, by } from 'protractor';
 import { Component } from '../component';
 import { UserInfo } from './user-info';
 import { protractor } from 'protractor';
+import { Utils } from '../../utilities/utils';
 
 export class Header extends Component {
     private locators = {
@@ -49,6 +50,14 @@ export class Header extends Component {
         return this.searchBar.clear()
             .then(() => this.searchBar.sendKeys(text))
             .then(() => this.searchBar.sendKeys(protractor.Key.ENTER));
+    }
+
+    async waitForSearchButton() {
+        return await Utils.waitUntilElementClickable(this.searchButton);
+    }
+
+    async waitForSearchBar() {
+        return await Utils.waitUntilElementClickable(this.searchBar);
     }
 }
 
