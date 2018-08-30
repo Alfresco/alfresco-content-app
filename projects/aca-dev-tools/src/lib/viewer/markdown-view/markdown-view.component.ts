@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+// import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Converter } from 'showdown';
 
 @Component({
@@ -48,11 +48,12 @@ export class MarkdownViewComponent implements OnInit {
     @Input()
     node: MinimalNodeEntryEntity;
 
-    content: SafeHtml = null;
+    // content: SafeHtml = null;
+    content: string = null;
 
     constructor(
-        private apiService: AlfrescoApiService,
-        private sanitizer: DomSanitizer
+        private apiService: AlfrescoApiService
+        // private sanitizer: DomSanitizer
         ) {}
 
     ngOnInit() {
@@ -68,7 +69,8 @@ export class MarkdownViewComponent implements OnInit {
                 converter.setFlavor('github');
 
                 const html = converter.makeHtml(result);
-                this.content = this.sanitizer.bypassSecurityTrustHtml(html);
+                // this.content = this.sanitizer.bypassSecurityTrustHtml(html);
+                this.content = html;
             },
             err => console.log(err)
         );
