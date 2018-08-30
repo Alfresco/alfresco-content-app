@@ -65,7 +65,7 @@ export class MarkdownViewComponent implements OnInit {
                     simplifiedAutoLink: true
                 });
                 converter.setOption('metadata', true);
-                // converter.setFlavor('github');
+                converter.setFlavor('github');
 
                 const html = converter.makeHtml(result);
                 this.content = this.sanitizer.bypassSecurityTrustHtml(html);
