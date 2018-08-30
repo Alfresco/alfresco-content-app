@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 
 @Component({
-    selector: 'lib-aca-dev-tools',
+    selector: 'aca-dev-tools-main',
     encapsulation: ViewEncapsulation.None,
     host: { class: 'lib-aca-dev-tools' },
     templateUrl: './aca-dev-tools.component.html',
