@@ -6,8 +6,8 @@
 
     "routes": [
         {
-            "id": "app.dev.tools",
-            "component": "app.dev.tools.component",
+            "id": "dev.tools",
+            "component": "dev.tools.component",
             "path": "dev-tools",
             "data": {
                 "configPath": "assets/app.extensions.json",
@@ -27,10 +27,20 @@
                         "id": "app.navbar.dev.tools.main",
                         "icon": "build",
                         "title": "dev tools",
-                        "route": "app.dev.tools"
+                        "route": "dev.tools"
                     }
                 ]
             }
-        ]
+        ],
+
+        "viewer": {
+            "content": [
+                {
+                    "id": "dev.tools.viewer.markdown",
+                    "fileExtension": "md",
+                    "component": "dev.tools.viewer.markdown"
+                }
+            ]
+        }
     }
 }
