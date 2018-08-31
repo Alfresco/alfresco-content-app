@@ -68,7 +68,7 @@ export class ContextActionsDirective {
     ) { }
 
     private execute(event: MouseEvent) {
-        const selected = this.getSelectedRow();
+        const selected = this.getSelectedRow(event);
 
         if (selected) {
             if (!this.isInSelection(selected)) {
@@ -108,7 +108,7 @@ export class ContextActionsDirective {
             row.getValue('name') === selected.entry.name);
     }
 
-    private getSelectedRow(): DataRow {
+    private getSelectedRow(event): DataRow {
         const rowElement = this.findAncestor(<HTMLElement>event.target, 'adf-datatable-row');
 
         if (!rowElement) {
