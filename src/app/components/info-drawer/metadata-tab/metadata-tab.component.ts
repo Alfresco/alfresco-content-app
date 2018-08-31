@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../../services/node-permission.service';
 
@@ -40,16 +40,13 @@ import { NodePermissionService } from '../../../services/node-permission.service
     encapsulation: ViewEncapsulation.None,
     host: { 'class': 'app-metadata-tab' }
 })
-export class MetadataTabComponent implements OnChanges {
+export class MetadataTabComponent {
     @Input()
     node: MinimalNodeEntryEntity;
 
-    canUpdateNode = false;
+    constructor(private permission: NodePermissionService) {}
 
-    constructor(public permission: NodePermissionService) {}
-
-    ngOnChanges() {
-        this.canUpdateNode =
-            this.node && this.permission.check(this.node, ['update']);
+    get canUpdateNode() {
+        return this.node && this.permission.check(this.node, ['update']);
     }
 }
