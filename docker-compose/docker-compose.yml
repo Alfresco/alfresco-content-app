@@ -68,7 +68,7 @@ services:
             - 8983:8983 #Browser port
 
     content-app:
-        image: alfresco/alfresco-content-app:master
+        image: alfresco/alfresco-content-app:master-latest
         depends_on:
             - alfresco
         networks:
