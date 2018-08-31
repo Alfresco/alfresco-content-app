@@ -4,6 +4,7 @@
     "SIGN_IN": "Connexion",
     "SIGN_OUT": "Déconnexion",
     "SETTINGS": {
+      "TITLE": "Paramètres",
       "APPLICATION-SETTINGS": "Paramètres de l'application",
       "REPOSITORY-SETTINGS": "Paramètres de l'entrepôt",
       "EXPERIMENTAL-FEATURES": "Fonctionnalités expérimentales",
@@ -25,11 +26,11 @@
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Créer un nouveau filtre",
-        "CREATE_FOLDER_NOT_ALLOWED": "Impossible de créer un dossier ici. Vous n'avez peut-être pas les droits d'accès requis, contactez le service informatique.",
+        "CREATE_FOLDER_NOT_ALLOWED": "Impossible de créer des dossiers pendant l'affichage des éléments actuels.",
         "UPLOAD_FILES": "Sélectionner les fichiers à ajouter",
-        "UPLOAD_FILES_NOT_ALLOWED": "Vous avez besoin de droits d'accès spécifiques pour importer un élément ici, contactez le service informatique.",
+        "UPLOAD_FILES_NOT_ALLOWED": "Impossible de charger les fichiers pendant l'affichage des éléments actuels",
         "UPLOAD_FOLDERS": "Sélectionner les fichiers à ajouter",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Vous avez besoin de droits d'accès spécifiques pour importer un élément ici, contactez le service informatique."
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Impossible de charger les dossier pendant l'affichage des éléments actuels"
       }
     },
     "BROWSE": {
@@ -48,7 +49,7 @@
         },
         "EMPTY_STATE": {
           "TITLE": "Vous n'êtes actuellement membre d'aucune Bibliothèque de fichiers",
-          "TEXT": "Rejoignez des sites pour importer, consulter et partager des fichiers."
+          "TEXT": "Abonnez-vous à des Bibliothèques pour charger, afficher et partager des fichiers."
         }
       },
       "SHARED": {
@@ -106,7 +107,8 @@
           "MODIFIED": "Modifié",
           "LOCATION": "Emplacement",
           "SIZE": "Taille"
-        }
+        },
+        "NO_RESULTS": "Votre recherche a renvoyé 0 résultat"
       }
     },
     "ACTIONS": {
@@ -119,12 +121,14 @@
       "DELETE_PERMANENT": "Supprimer définitivement",
       "MORE": "Plus d'actions",
       "UNDO": "Annuler",
+      "PERMISSIONS": "Permissions",
       "RESTORE": "Restaurer",
       "FAVORITE": "Favori",
       "UNSHARE": "Ne pas partager",
       "DETAILS": "Afficher les détails",
       "VERSIONS": "Gérer les versions",
-      "TOGGLE-SIDENAV": "Activer/désactiver la barre de navigation latérale"
+      "TOGGLE-SIDENAV": "Activer/désactiver la barre de navigation latérale",
+      "SHARE": "Partager"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -146,6 +150,10 @@
         "SHARED_BY": "Partagé(s) par",
         "DELETED_ON": "Supprimé",
         "DELETED_BY": "Supprimé(s) par"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "Mode d'affichage Carte",
+        "LISTVIEW": "Mode Liste"
       }
     },
     "SITES_VISIBILITY": {
@@ -232,7 +240,8 @@
       "TITLE": "Détails",
       "TABS": {
         "PROPERTIES": "Propriétés",
-        "VERSIONS": "Versions"
+        "VERSIONS": "Versions",
+        "COMMENTS": "Commentaires"
       }
     }
   },
@@ -243,6 +252,14 @@
     "MOVE_ITEMS": "Déplacer {{ number }} éléments vers...",
     "SEARCH": "Rechercher"
   },
+  "PERMISSIONS": {
+    "DIALOG": {
+      "TITLE": "Gérer les droits d'accès",
+      "CLOSE": "Fermer",
+      "INHERIT_PERMISSIONS_BUTTON": "Hériter les droits d'accès",
+      "INHERITED_PERMISSIONS_BUTTON": "Droits d'accès hérités"
+    }
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Gérer les versions",
@@ -251,6 +268,32 @@
     "SELECTION": {
       "EMPTY": "Choisissez un document pour en voir les versions.",
       "NO_PERMISSION": "Vous n'êtes pas autorisé(e) à gérer les versions de ce contenu."
+    }
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "Créer une Bibliothèque",
+      "CREATE": "Créer",
+      "CANCEL": "Annuler",
+      "FORM": {
+        "DESCRIPTION": "Description",
+        "SITE_ID": "ID de Bibliothèque",
+        "NAME": "Nom"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "Liste privée",
+      "PUBLIC": "Public",
+      "MODERATED": "Modéré"
+    },
+    "ERRORS": {
+      "GENERIC": "Une erreur est survenue",
+      "EXISTENT_SITE": "Cet ID de Bibliothèque est indisponible. Essayez avec une autre Bibliothèque.",
+      "CONFLICT": "Cet ID de Bibliothèque est déjà utilisé. Vérifiez la corbeille.",
+      "ID_TOO_LONG": "L'URL doit contenir 72 caractères maximum",
+      "DESCRIPTION_TOO_LONG": "La description doit contenir 512 caractères maximum",
+      "TITLE_TOO_LONG": "Le titre doit contenir 256 caractères maximum",
+      "ILLEGAL_CHARACTERS": "Utilisez uniquement des chiffres et des lettres"
     }
   },
   "SEARCH": {
@@ -268,7 +311,7 @@
       "FILE_TYPE": "Type de fichier",
       "CREATOR": "Créateur",
       "MODIFIER": "Modificateur",
-      "FILE_LIBRARY": "Bibliothèque de fichiers"
+      "LOCATION": "Emplacement"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Date de Modification",

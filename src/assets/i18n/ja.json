@@ -4,6 +4,7 @@
     "SIGN_IN": "サインイン",
     "SIGN_OUT": "サインアウト",
     "SETTINGS": {
+      "TITLE": "設定",
       "APPLICATION-SETTINGS": "アプリケーションの設定",
       "REPOSITORY-SETTINGS": "リポジトリの設定",
       "EXPERIMENTAL-FEATURES": "試験的な機能",
@@ -25,11 +26,11 @@
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "新しいフォルダを作成します",
-        "CREATE_FOLDER_NOT_ALLOWED": "ここにフォルダを作成できません。必要な権限がない可能性があります。IT 担当者に確認してください。",
+        "CREATE_FOLDER_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダを作成できません",
         "UPLOAD_FILES": "アップロードするファイルを選択します",
-        "UPLOAD_FILES_NOT_ALLOWED": "ここにアップロードするための権限が必要です。IT 担当者に確認してください。",
+        "UPLOAD_FILES_NOT_ALLOWED": "現在のアイテムを表示している間はファイルをアップロードできません",
         "UPLOAD_FOLDERS": "アップロードするフォルダを選択します",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "ここにアップロードするための権限が必要です。IT 担当者に確認してください。"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダをアップロードできません"
       }
     },
     "BROWSE": {
@@ -48,7 +49,7 @@
         },
         "EMPTY_STATE": {
           "TITLE": "あなたはまだファイルライブラリのメンバーではありません",
-          "TEXT": "ファイルをアップロード、表示、共有するサイトに参加してください。"
+          "TEXT": "ファイルをアップロード、表示、共有するライブラリに参加してください"
         }
       },
       "SHARED": {
@@ -106,7 +107,8 @@
           "MODIFIED": "変更日",
           "LOCATION": "場所",
           "SIZE": "サイズ"
-        }
+        },
+        "NO_RESULTS": "検索結果は 0 件です"
       }
     },
     "ACTIONS": {
@@ -119,12 +121,14 @@
       "DELETE_PERMANENT": "完全に削除する",
       "MORE": "その他の処理",
       "UNDO": "元に戻す",
+      "PERMISSIONS": "権限",
       "RESTORE": "復元",
       "FAVORITE": "お気に入り",
       "UNSHARE": "共有の解除",
       "DETAILS": "詳細の表示",
       "VERSIONS": "バージョンの管理",
-      "TOGGLE-SIDENAV": "サイドナビゲーションバーの切り替え"
+      "TOGGLE-SIDENAV": "サイドナビゲーションバーの切り替え",
+      "SHARE": "共有"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -146,6 +150,10 @@
         "SHARED_BY": "共有者",
         "DELETED_ON": "削除日",
         "DELETED_BY": "削除者"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "カード表示モード",
+        "LISTVIEW": "一覧表示モード"
       }
     },
     "SITES_VISIBILITY": {
@@ -232,7 +240,8 @@
       "TITLE": "詳細",
       "TABS": {
         "PROPERTIES": "プロパティ",
-        "VERSIONS": "バージョン"
+        "VERSIONS": "バージョン",
+        "COMMENTS": "コメント"
       }
     }
   },
@@ -243,6 +252,14 @@
     "MOVE_ITEMS": "{{ number }} 件のアイテムの移動先...",
     "SEARCH": "検索"
   },
+  "PERMISSIONS": {
+    "DIALOG": {
+      "TITLE": "権限の管理",
+      "CLOSE": "閉じる",
+      "INHERIT_PERMISSIONS_BUTTON": "権限の継承",
+      "INHERITED_PERMISSIONS_BUTTON": "継承された権限"
+    }
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "バージョンの管理",
@@ -251,6 +268,32 @@
     "SELECTION": {
       "EMPTY": "バージョンを表示する文書を選択してください。",
       "NO_PERMISSION": "このコンテンツのバージョンを管理するための権限がありません。"
+    }
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "ライブラリの作成",
+      "CREATE": "作成",
+      "CANCEL": "キャンセル",
+      "FORM": {
+        "DESCRIPTION": "説明",
+        "SITE_ID": "ライブラリ ID",
+        "NAME": "名前"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "非公開",
+      "PUBLIC": "公開",
+      "MODERATED": "条件付き公開"
+    },
+    "ERRORS": {
+      "GENERIC": "問題が発生しました",
+      "EXISTENT_SITE": "このライブラリ ID は使用できません。別のライブラリを使用してください。",
+      "CONFLICT": "このライブラリ ID は既に使われています。ごみ箱をチェックしてください。",
+      "ID_TOO_LONG": "URL 名は 72 文字以内で入力してください",
+      "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
+      "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
+      "ILLEGAL_CHARACTERS": "英数字だけを使用してください"
     }
   },
   "SEARCH": {
@@ -268,7 +311,7 @@
       "FILE_TYPE": "ファイルの種類",
       "CREATOR": "作成者",
       "MODIFIER": "変更者",
-      "FILE_LIBRARY": "ファイルライブラリ"
+      "LOCATION": "場所"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "変更日",
@@ -292,7 +335,7 @@
   "ADF_VERSION_LIST": {
     "ACTIONS": {
       "UPLOAD": {
-        "TOOLTIP": "新しいバージョンのアップロード"
+        "TOOLTIP": "新しいバージョンをアップロードします"
       }
     }
   }

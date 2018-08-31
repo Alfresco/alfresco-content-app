@@ -26,7 +26,7 @@
             },
             "TOOLTIPS": {
                 "CREATE_FOLDER": "Create new folder",
-                "CREATE_FOLDER_NOT_ALLOWED": "Folders cannot be created whilst viewing the current items.",
+                "CREATE_FOLDER_NOT_ALLOWED": "Folders cannot be created whilst viewing the current items",
                 "UPLOAD_FILES": "Select files to upload",
                 "UPLOAD_FILES_NOT_ALLOWED": "Files cannot be uploaded whilst viewing the current items",
                 "UPLOAD_FOLDERS": "Select folders to upload",
@@ -49,7 +49,7 @@
                 },
                 "EMPTY_STATE": {
                     "TITLE": "You aren't a member of any File Libraries yet",
-                    "TEXT": "Join sites to upload, view, and share files."
+                    "TEXT": "Join libraries to upload, view, and share files."
                 }
             },
             "SHARED": {
@@ -272,12 +272,12 @@
     },
     "LIBRARY": {
         "DIALOG": {
-            "CREATE_TITLE": "Create Site",
+            "CREATE_TITLE": "Create Library",
             "CREATE": "Create",
             "CANCEL": "Cancel",
             "FORM": {
                 "DESCRIPTION": "Description",
-                "SITE_ID": "Site ID",
+                "SITE_ID": "Library ID",
                 "NAME": "Name"
             }
         },
@@ -287,13 +287,13 @@
             "MODERATED": "Moderated"
         },
         "ERRORS": {
-            "GENERIC": "There was an error",
-            "EXISTENT_SITE": "This Site ID isn't available. Try a different one",
-            "CONFLICT": "ID already used (it might be in the trashcan).",
+            "GENERIC": "We hit a problem",
+            "EXISTENT_SITE": "This Library ID isn't available. Try a different Library.",
+            "CONFLICT": "This Library ID is already used. Check the trashcan.",
             "ID_TOO_LONG": "Use 72 characters or less for the URL name",
             "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",
             "TITLE_TOO_LONG": "Use 256 characters or less for title",
-            "ILLEGAL_CHARACTERS": "Use characters a-z, A-Z, 0-9 and - only"
+            "ILLEGAL_CHARACTERS": "Use numbers and letters only"
         }
     },
 
