@@ -15,7 +15,7 @@ export class OutsideEventDirective implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscriptions = this.subscriptions.concat([
-            fromEvent(document, 'click')
+            fromEvent(document.body, 'click')
                 .pipe(delay(1))
                 .subscribe(() => this.clickOutside.next())
         ]);
