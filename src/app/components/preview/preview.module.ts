@@ -33,11 +33,7 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { PreviewComponent } from './preview.component';
 import { ViewUtilService } from './view-util.service';
-
-import * as pdfjsLib from 'pdfjs-dist';
 import { PreviewExtensionComponent } from './preview-extension.component';
-pdfjsLib.PDFJS.workerSrc = 'pdf.worker.js';
-pdfjsLib.PDFJS.disableFontFace = true;
 
 const routes: Routes = [
     {
