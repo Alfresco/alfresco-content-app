@@ -4,6 +4,7 @@
     "SIGN_IN": "Entrar",
     "SIGN_OUT": "Sair",
     "SETTINGS": {
+      "TITLE": "Configurações",
       "APPLICATION-SETTINGS": "Configurações do aplicativo",
       "REPOSITORY-SETTINGS": "Configurações do repositório",
       "EXPERIMENTAL-FEATURES": "Recursos Experimentais",
@@ -25,11 +26,11 @@
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Criar nova pasta",
-        "CREATE_FOLDER_NOT_ALLOWED": "Você não pode criar uma pasta aqui. Talvez você não tenha as permissões necessárias, verifique com sua Equipe de TI.",
+        "CREATE_FOLDER_NOT_ALLOWED": "Não é possível criar pastas durante a visualização dos itens atuais",
         "UPLOAD_FILES": "Selecionar arquivos para carregar",
-        "UPLOAD_FILES_NOT_ALLOWED": "Você precisa de permissões para carregar aqui, verifique com sua Equipe de TI.",
+        "UPLOAD_FILES_NOT_ALLOWED": "Não é possível carregar arquivos durante a visualização dos itens atuais",
         "UPLOAD_FOLDERS": "Selecionar pastas para carregar",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Você precisa de permissões para carregar aqui, verifique com sua Equipe de TI."
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Não é possível carregar pastas durante a visualização dos itens atuais"
       }
     },
     "BROWSE": {
@@ -48,7 +49,7 @@
         },
         "EMPTY_STATE": {
           "TITLE": "Você ainda não é membro de nenhuma biblioteca de arquivos",
-          "TEXT": "Entre em sites para carregar, visualizar e compartilhar arquivos."
+          "TEXT": "Acesse as bibliotecas para carregar, visualizar e compartilhar arquivos."
         }
       },
       "SHARED": {
@@ -106,7 +107,8 @@
           "MODIFIED": "Modificado",
           "LOCATION": "Localização",
           "SIZE": "Tamanho"
-        }
+        },
+        "NO_RESULTS": "Sua pesquisa retornou 0 resultados"
       }
     },
     "ACTIONS": {
@@ -119,12 +121,14 @@
       "DELETE_PERMANENT": "Excluir permanentemente",
       "MORE": "Mais ações",
       "UNDO": "Desfazer",
+      "PERMISSIONS": "Permissões",
       "RESTORE": "Restaurar",
       "FAVORITE": "Favoritos",
       "UNSHARE": "Descompartilhar",
       "DETAILS": "Exibir detalhes",
       "VERSIONS": "Gerenciar versões",
-      "TOGGLE-SIDENAV": "Alternar a barra de navegação lateral"
+      "TOGGLE-SIDENAV": "Alternar a barra de navegação lateral",
+      "SHARE": "Compartilhar"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -146,6 +150,10 @@
         "SHARED_BY": "Compartilhado por",
         "DELETED_ON": "Excluído",
         "DELETED_BY": "Excluído por"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "Modo de visualização de cartão",
+        "LISTVIEW": "Modo de exibição em lista"
       }
     },
     "SITES_VISIBILITY": {
@@ -232,7 +240,8 @@
       "TITLE": "Detalhes",
       "TABS": {
         "PROPERTIES": "Propriedades",
-        "VERSIONS": "Versões"
+        "VERSIONS": "Versões",
+        "COMMENTS": "Comentários"
       }
     }
   },
@@ -243,6 +252,14 @@
     "MOVE_ITEMS": "Mover {{ number }} itens para...",
     "SEARCH": "Pesquisar"
   },
+  "PERMISSIONS": {
+    "DIALOG": {
+      "TITLE": "Gerenciar Permissões",
+      "CLOSE": "Fechar",
+      "INHERIT_PERMISSIONS_BUTTON": "Herdar permissão",
+      "INHERITED_PERMISSIONS_BUTTON": "Permissão herdada"
+    }
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Gerenciar versões",
@@ -251,6 +268,32 @@
     "SELECTION": {
       "EMPTY": "Escolha um documento para ver suas versões.",
       "NO_PERMISSION": "Você não tem permissão para gerenciar as versões deste conteúdo."
+    }
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "Criar Biblioteca",
+      "CREATE": "Criar",
+      "CANCEL": "Cancelar",
+      "FORM": {
+        "DESCRIPTION": "Descrição",
+        "SITE_ID": "ID de Biblioteca",
+        "NAME": "Nome"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "Privado",
+      "PUBLIC": "Público",
+      "MODERATED": "Moderado"
+    },
+    "ERRORS": {
+      "GENERIC": "Ocorreu um erro",
+      "EXISTENT_SITE": "Este ID de Biblioteca não está disponível. Tente uma Biblioteca diferente.",
+      "CONFLICT": "Este ID de Biblioteca já foi usado. Verifique a lixeira.",
+      "ID_TOO_LONG": "Use 72 caracteres ou menos para o nome da URL",
+      "DESCRIPTION_TOO_LONG": "Use 512 caracteres ou menos para a descrição",
+      "TITLE_TOO_LONG": "Use 256 caracteres ou menos para o título",
+      "ILLEGAL_CHARACTERS": "Use somente números e letras"
     }
   },
   "SEARCH": {
@@ -268,7 +311,7 @@
       "FILE_TYPE": "Tipo de arquivo",
       "CREATOR": "Criador",
       "MODIFIER": "Modificador",
-      "FILE_LIBRARY": "Biblioteca de arquivo"
+      "LOCATION": "Localização"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Data de modificação",
@@ -286,7 +329,7 @@
   },
   "ADF_VIEWER": {
     "ACTIONS": {
-    "INFO": "Exibir detalhes"
+      "INFO": "Exibir detalhes"
     }
   },
   "ADF_VERSION_LIST": {

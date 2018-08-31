@@ -65,7 +65,7 @@ describe('Empty list views', () => {
             .then(() => {
                 expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
                 expect(dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
-                expect(dataTable.getEmptyStateSubtitle()).toContain('Join sites to upload, view, and share files.');
+                expect(dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
             });
     });
 
