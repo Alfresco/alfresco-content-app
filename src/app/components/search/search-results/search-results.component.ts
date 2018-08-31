@@ -26,7 +26,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent } from '@alfresco/adf-content-services';
+import { SearchQueryBuilderService, SearchComponent as AdfSearchComponent, SearchFilterComponent } from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
@@ -45,10 +45,14 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     @ViewChild('search')
     search: AdfSearchComponent;
 
+    @ViewChild('searchFilter')
+    searchFilter: SearchFilterComponent;
+
     searchedWord: string;
     queryParamName = 'q';
     data: NodePaging;
     totalResults = 0;
+    hasSelectedFilters = false;
     sorting = ['name', 'asc'];
     isLoading = false;
 
@@ -114,6 +118,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     onSearchResultLoaded(nodePaging: NodePaging) {
         this.data = nodePaging;
         this.totalResults = this.getNumberOfResults();
+        this.hasSelectedFilters = this.isFiltered();
     }
 
     getNumberOfResults() {
@@ -121,6 +126,18 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
             return this.data.list.pagination.totalItems;
         }
         return 0;
+    }
+
+    isFiltered(): boolean {
+        return this.searchFilter.selectedFacetQueries.length > 0
+            || this.searchFilter.selectedBuckets.length > 0
+            || this.hasCheckedCategories();
+    }
+
+    hasCheckedCategories() {
+        const checkedCategory = this.queryBuilder.categories
+            .find(category => !!this.queryBuilder.queryFragments[category.id]);
+        return !!checkedCategory;
     }
 
     onPaginationChanged(pagination: Pagination) {
@@ -155,5 +172,9 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
             this.showPreview(node);
         }
+    }
+
+    hideSearchFilter() {
+        return !this.totalResults && !this.hasSelectedFilters;
     }
 }

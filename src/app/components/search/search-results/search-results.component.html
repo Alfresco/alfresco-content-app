@@ -14,7 +14,7 @@
             <div class="adf-search-results">
                 <adf-search-filter
                     #searchFilter
-                    [ngClass]="{ 'adf-search-filter--hidden': !searchedWord }"></adf-search-filter>
+                    [ngClass]="{ 'adf-search-filter--hidden': hideSearchFilter() }"></adf-search-filter>
                 <div class="adf-search-results__content">
                     <mat-progress-bar
                         *ngIf="isLoading"
