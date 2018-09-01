@@ -26,7 +26,9 @@ export class AcaDevToolsComponent implements OnInit {
 
         const schemaUri = routeData.schemaUri;
         const getSchema = this.http.get(routeData.schemaPath);
-        const getConfig = this.http.get(routeData.configPath, { responseType: 'text' });
+        const getConfig = this.http.get(routeData.configPath, {
+            responseType: 'text'
+        });
 
         forkJoin([getSchema, getConfig]).subscribe(
             ([schema, config]) => {
@@ -68,5 +70,20 @@ export class AcaDevToolsComponent implements OnInit {
     revertChanges() {
         sessionStorage.removeItem('aca.extension.config');
         window.location.reload(true);
+    }
+
+    download() {
+        const element = document.createElement('a');
+        element.setAttribute(
+            'href',
+            'data:text/plain;charset=utf-8,' + encodeURIComponent(this.code)
+        );
+        element.setAttribute('download', 'plugin.json');
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
     }
 }
