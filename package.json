@@ -20,7 +20,8 @@
     "start:docker": "docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:4000",
     "stop:docker": "docker-compose stop",
     "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",
-    "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts' 'projects/**/*.ts'"
+    "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts' 'projects/**/*.ts'",
+    "inspect.bundle": "ng build alfresco-content-app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json"
   },
   "private": true,
   "dependencies": {
