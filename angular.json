@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "alfresco-content-app": {
+    "app": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -92,21 +92,21 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "alfresco-content-app:build",
+            "browserTarget": "app:build",
             "port": 4200,
             "host": "0.0.0.0",
             "proxyConfig": "proxy.conf.js"
           },
           "configurations": {
             "production": {
-              "browserTarget": "alfresco-content-app:build:production"
+              "browserTarget": "app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "alfresco-content-app:build"
+            "browserTarget": "app:build"
           }
         },
         "test": {
@@ -175,7 +175,7 @@
         }
       }
     },
-    "alfresco-content-app-e2e": {
+    "app-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -184,7 +184,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "alfresco-content-app:serve"
+            "devServerTarget": "app:serve"
           }
         },
         "lint": {
@@ -281,7 +281,7 @@
       }
     }
   },
-  "defaultProject": "alfresco-content-app",
+  "defaultProject": "app",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "aca",

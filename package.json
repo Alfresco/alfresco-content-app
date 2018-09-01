@@ -10,8 +10,8 @@
     "build.libs.prod": "ng build adf-extensions --prod && ng build aca-dev-tools --prod",
     "build": "npm run server-versions && npm run build.libs.prod && ng build --prod",
     "build:dev": "npm run server-versions && npm run build.libs.dev && ng build",
-    "test": "npm run build.libs.dev && ng test alfresco-content-app --code-coverage",
-    "test:ci": "npm run build.libs.dev && ng test alfresco-content-app --code-coverage --watch=false && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",
+    "test": "npm run build.libs.dev && ng test app --code-coverage",
+    "test:ci": "npm run build.libs.dev && ng test app --code-coverage --watch=false && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage",
     "lint": "ng lint",
     "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0",
     "_e2e": "ng e2e",
@@ -21,7 +21,7 @@
     "stop:docker": "docker-compose stop",
     "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",
     "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts' 'projects/**/*.ts'",
-    "inspect.bundle": "ng build alfresco-content-app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json"
+    "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json"
   },
   "private": true,
   "dependencies": {
