@@ -23,34 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-    Component,
-    ViewEncapsulation,
-    ChangeDetectionStrategy,
-    Input
-} from '@angular/core';
-import { AppStore } from '../../../store/states';
-import { Store } from '@ngrx/store';
-import { AppExtensionService } from '../../extension.service';
+import { Component, Input } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../../store/states';
+import { appSelection } from '../../../store/selectors/app.selectors';
+import { take } from 'rxjs/operators';
+import { AppExtensionService } from '../../../extensions/extension.service';
+
+export enum ToolbarButtonType {
+    ICON_BUTTON = 'icon-button',
+    MENU_ITEM = 'menu-item'
+}
 
 @Component({
-    selector: 'aca-toolbar-action',
-    templateUrl: './toolbar-action.component.html',
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'aca-toolbar-action' }
+    selector: 'app-toolbar-button',
+    templateUrl: 'toolbar-button.component.html'
 })
-export class ToolbarActionComponent {
-    @Input() type = 'icon-button';
-    @Input() entry: ContentActionRef;
+export class ToolbarButtonComponent {
+    @Input() type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
+    @Input() actionRef: ContentActionRef;
 
     constructor(
         protected store: Store<AppStore>,
-        protected extensions: AppExtensionService
+        private extensions: AppExtensionService
     ) {}
 
-    trackByActionId(index: number, action: ContentActionRef) {
-        return action.id;
+    runAction() {
+        this.store
+            .select(appSelection)
+            .pipe(take(1))
+            .subscribe(selection => {
+                this.extensions.runActionById(this.actionRef.actions.click, {
+                    selection
+                });
+            });
     }
 }
