@@ -56,7 +56,6 @@ import { ContentManagementService } from './services/content-management.service'
 import { NodeActionsService } from './services/node-actions.service';
 import { NodePermissionService } from './services/node-permission.service';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { ProfileResolver } from './services/profile.resolver';
 import { ExperimentalGuard } from './services/experimental-guard.service';
 
@@ -121,7 +120,6 @@ import { AppToolbarModule } from './components/toolbar/toolbar.module';
         NodePermissionsDialogComponent,
         PermissionsManagerComponent,
         SearchResultsComponent,
-        SettingsComponent,
         SharedLinkViewComponent
     ],
     providers: [
