@@ -34,6 +34,7 @@ import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { PreviewComponent } from './preview.component';
 import { ViewUtilService } from './view-util.service';
 import { PreviewExtensionComponent } from './preview-extension.component';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
 
 const routes: Routes = [
     {
@@ -50,7 +51,8 @@ const routes: Routes = [
         ContentDirectiveModule,
         DirectivesModule,
         AppInfoDrawerModule,
-        CoreExtensionsModule.forChild()
+        CoreExtensionsModule.forChild(),
+        AppToolbarModule
     ],
     declarations: [
         PreviewComponent,
