@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
@@ -36,6 +36,7 @@ import { SelectionState } from '@alfresco/adf-extensions';
     <button
         mat-menu-item
         #favorites="adfFavorite"
+        (toggle)="onToggleEvent()"
         [adf-node-favorite]="(selection$ | async).nodes">
         <mat-icon *ngIf="favorites.hasFavorites()">star</mat-icon>
         <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
@@ -47,7 +48,14 @@ export class ToggleFavoriteComponent {
 
     selection$: Observable<SelectionState>;
 
-    constructor(private store: Store<AppStore>) {
+    constructor(
+        private store: Store<AppStore>,
+        private changeDetection: ChangeDetectorRef) {
+
         this.selection$ = this.store.select(appSelection);
+    }
+
+    onToggleEvent() {
+        this.changeDetection.detectChanges();
     }
 }
