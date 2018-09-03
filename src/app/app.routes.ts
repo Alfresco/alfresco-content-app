@@ -39,7 +39,6 @@ import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { LoginComponent } from './components/login/login.component';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
-import { SettingsComponent } from './components/settings/settings.component';
 
 import { ProfileResolver } from './services/profile.resolver';
 
@@ -53,7 +52,7 @@ export const APP_ROUTES: Routes = [
     },
     {
         path: 'settings',
-        component: SettingsComponent,
+        loadChildren: 'src/app/components/settings/settings.module#AppSettingsModule',
         data: {
             title: 'Settings'
         }

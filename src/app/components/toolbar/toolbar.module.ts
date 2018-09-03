@@ -23,46 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
-import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
-import { DirectivesModule } from '../../directives/directives.module';
-import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { PreviewComponent } from './preview.component';
-import { ViewUtilService } from './view-util.service';
-import { PreviewExtensionComponent } from './preview-extension.component';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { DocumentDisplayModeComponent } from './document-display-mode/document-display-mode.component';
+import { ToggleFavoriteComponent } from './toggle-favorite/toggle-favorite.component';
+import { ToggleInfoDrawerComponent } from './toggle-info-drawer/toggle-info-drawer.component';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
+import { ToolbarButtonComponent } from './toolbar-button/toolbar-button.component';
+import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 
-const routes: Routes = [
-    {
-        path: '',
-        component: PreviewComponent
-    }
-];
+export function components() {
+    return [
+        DocumentDisplayModeComponent,
+        ToggleFavoriteComponent,
+        ToggleInfoDrawerComponent,
+        ToolbarButtonComponent,
+        ToolbarActionComponent
+    ];
+}
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(routes),
         CoreModule.forChild(),
-        ContentDirectiveModule,
-        DirectivesModule,
-        AppInfoDrawerModule,
-        CoreExtensionsModule.forChild(),
-        AppToolbarModule
+        ExtensionsModule.forChild()
     ],
-    declarations: [
-        PreviewComponent,
-        PreviewExtensionComponent
-    ],
-    providers: [
-        ViewUtilService
-    ],
-    exports: [
-        PreviewComponent
-    ]
+    declarations: components(),
+    exports: components(),
+    entryComponents: components()
 })
-export class PreviewModule {}
+export class AppToolbarModule {}

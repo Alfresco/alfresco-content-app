@@ -56,7 +56,6 @@ import { ContentManagementService } from './services/content-management.service'
 import { NodeActionsService } from './services/node-actions.service';
 import { NodePermissionService } from './services/node-permission.service';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
-import { SettingsComponent } from './components/settings/settings.component';
 import { ProfileResolver } from './services/profile.resolver';
 import { ExperimentalGuard } from './services/experimental-guard.service';
 
@@ -71,11 +70,9 @@ import { PermissionsManagerComponent } from './components/permission-manager/per
 import { AppRouteReuseStrategy } from './app.routes.strategy';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
-import { ToggleInfoDrawerComponent } from './components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
-import { DocumentDisplayModeComponent } from './components/toolbar/document-display-mode/document-display-mode.component';
-import { ToggleFavoriteComponent } from './components/toolbar/toggle-favorite/toggle-favorite.component';
 import { ContextMenuModule } from './components/context-menu/context-menu.module';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { AppToolbarModule } from './components/toolbar/toolbar.module';
 
 @NgModule({
     imports: [
@@ -97,7 +94,8 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 
         DirectivesModule,
         ContextMenuModule.forRoot(),
-        AppInfoDrawerModule
+        AppInfoDrawerModule,
+        AppToolbarModule
     ],
     declarations: [
         AppComponent,
@@ -122,11 +120,7 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
         NodePermissionsDialogComponent,
         PermissionsManagerComponent,
         SearchResultsComponent,
-        SettingsComponent,
-        SharedLinkViewComponent,
-        ToggleInfoDrawerComponent,
-        DocumentDisplayModeComponent,
-        ToggleFavoriteComponent
+        SharedLinkViewComponent
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -149,10 +143,7 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
     entryComponents: [
         LibraryDialogComponent,
         NodeVersionsDialogComponent,
-        NodePermissionsDialogComponent,
-        ToggleInfoDrawerComponent,
-        DocumentDisplayModeComponent,
-        ToggleFavoriteComponent
+        NodePermissionsDialogComponent
     ],
     bootstrap: [AppComponent]
 })

@@ -23,46 +23,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SettingsComponent } from './settings.component';
 import { Routes, RouterModule } from '@angular/router';
-import { ContentDirectiveModule } from '@alfresco/adf-content-services';
-import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
-import { DirectivesModule } from '../../directives/directives.module';
-import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
-import { PreviewComponent } from './preview.component';
-import { ViewUtilService } from './view-util.service';
-import { PreviewExtensionComponent } from './preview-extension.component';
-import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
 
 const routes: Routes = [
     {
         path: '',
-        component: PreviewComponent
+        component: SettingsComponent
     }
 ];
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forChild(routes),
         CoreModule.forChild(),
-        ContentDirectiveModule,
-        DirectivesModule,
-        AppInfoDrawerModule,
-        CoreExtensionsModule.forChild(),
-        AppToolbarModule
+        RouterModule.forChild(routes)
     ],
-    declarations: [
-        PreviewComponent,
-        PreviewExtensionComponent
-    ],
-    providers: [
-        ViewUtilService
-    ],
-    exports: [
-        PreviewComponent
-    ]
+    declarations: [SettingsComponent]
 })
-export class PreviewModule {}
+export class AppSettingsModule {}

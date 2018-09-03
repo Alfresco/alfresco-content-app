@@ -28,13 +28,11 @@ import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { LayoutComponent } from '../components/layout/layout.component';
 import { TrashcanComponent } from '../components/trashcan/trashcan.component';
-import { ToolbarActionComponent } from './components/toolbar/toolbar-action.component';
 import * as app from './evaluators/app.evaluators';
 import * as nav from './evaluators/navigation.evaluators';
 import { AppExtensionService } from './extension.service';
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
-import { ToolbarButtonComponent } from './components/toolbar/toolbar-button.component';
 import { MetadataTabComponent } from '../components/info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../components/info-drawer/comments-tab/comments-tab.component';
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
@@ -49,14 +47,6 @@ export function setupExtensions(service: AppExtensionService): Function {
         CommonModule,
         CoreModule.forChild(),
         ExtensionsModule.forChild()
-    ],
-    declarations: [
-        ToolbarActionComponent,
-        ToolbarButtonComponent
-    ],
-    exports: [
-        ToolbarActionComponent,
-        ToolbarButtonComponent
     ]
 })
 export class CoreExtensionsModule {
