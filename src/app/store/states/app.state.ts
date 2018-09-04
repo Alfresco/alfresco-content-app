@@ -45,7 +45,7 @@ export const INITIAL_APP_STATE: AppState = {
     languagePicker: false,
     sharedUrl: '',
     user: {
-        isAdmin: true, // 5.2.x
+        isAdmin: null,
         id: null,
         firstName: '',
         lastName: ''

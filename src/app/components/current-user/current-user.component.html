@@ -25,7 +25,7 @@
         {{ 'APP.SETTINGS.TITLE' | translate }}
     </button>
 
-    <button mat-menu-item adf-logout>
+    <button mat-menu-item (click)="onLogoutEvent()" adf-logout>
         {{ 'APP.SIGN_OUT' | translate }}
     </button>
 </mat-menu>
