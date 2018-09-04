@@ -28,7 +28,8 @@
                     "parameters": [
                         { "type": "rule", "value": "app.navigation.isRecentFiles" },
                         { "type": "rule", "value": "app.navigation.isSharedFiles" },
-                        { "type": "rule", "value": "app.navigation.isSearchResults" }
+                        { "type": "rule", "value": "app.navigation.isSearchResults" },
+                        { "type": "rule", "value": "app.navigation.isPreview" }
                     ]
                 }
             ]
