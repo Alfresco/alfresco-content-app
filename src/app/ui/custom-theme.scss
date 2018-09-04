@@ -24,6 +24,7 @@
 @import './overrides/adf-search-sorting-picker.theme';
 @import './overrides/adf-content-node-selector.theme';
 @import './overrides/adf-layout-header.theme';
+@import './overrides/adf-version-manager.theme';
 
 @import 'layout';
 @import 'snackbar';
@@ -81,6 +82,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
     @include adf-search-sorting-picker-theme($theme);
     @include adf-content-node-selector-theme($theme);
     @include adf-layout-header-theme($theme);
+    @include adf-version-manager-theme($theme);
 
     @include aca-layout-theme($theme);
     @include aca-search-input-theme($theme);
