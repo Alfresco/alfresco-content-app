@@ -113,7 +113,8 @@ export class CoreExtensionsModule {
             'app.navigation.isRecentFiles': nav.isRecentFiles,
             'app.navigation.isNotRecentFiles': nav.isNotRecentFiles,
             'app.navigation.isSearchResults': nav.isSearchResults,
-            'app.navigation.isNotSearchResults': nav.isNotSearchResults
+            'app.navigation.isNotSearchResults': nav.isNotSearchResults,
+            'app.navigation.isPreview': nav.isPreview
         });
     }
 }

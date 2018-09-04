@@ -114,3 +114,11 @@ export function isNotSearchResults(
 ): boolean {
     return !isSearchResults(context, ...args);
 }
+
+export function isPreview(
+    context: RuleContext,
+    ...args: RuleParameter[]
+): boolean {
+    const { url } = context.navigation;
+    return url && url.includes('/preview/');
+}
