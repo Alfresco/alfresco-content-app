@@ -8,7 +8,7 @@
     "start:prod": "npm run server-versions && npm run build.libs.prod && ng serve --prod --open",
     "build.libs.dev": "ng build adf-extensions && ng build aca-dev-tools",
     "build.libs.prod": "ng build adf-extensions --prod && ng build aca-dev-tools --prod",
-    "build": "npm run server-versions && npm run build.libs.prod && ng build --prod",
+    "build": "npm run server-versions && npm run build.libs.prod && node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build app --prod",
     "build:dev": "npm run server-versions && npm run build.libs.dev && ng build",
     "test": "npm run build.libs.dev && ng test app --code-coverage",
     "test:ci": "npm run build.libs.dev && ng test app --code-coverage --watch=false",
