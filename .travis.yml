@@ -26,10 +26,8 @@ jobs:
     - stage: test
       script: npm run lint && npm run spellcheck
     - stage: test
-      script: npm run test:ci
+      script:
+        - npm run test:ci
+        - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
-      script: npm run build:dev && npm run e2e:docker
-
-# Send coverage data to codecov
-after_success:
-  bash <(curl -s https://codecov.io/bash) -X gcov
+      script: npm run build && npm run e2e:docker

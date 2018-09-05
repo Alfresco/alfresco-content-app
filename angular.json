@@ -185,6 +185,11 @@
           "options": {
             "protractorConfig": "./protractor.conf.js",
             "devServerTarget": "app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "app:serve:production"
+            }
           }
         },
         "lint": {
