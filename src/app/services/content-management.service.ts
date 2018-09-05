@@ -126,9 +126,12 @@ export class ContentManagementService {
 
     manageVersions(node: MinimalNodeEntity) {
         if (node && node.entry) {
-            if (node.entry.nodeId) {
+            // shared and favorite
+            const id = node.entry.nodeId || (<any>node).entry.guid;
+
+            if (id) {
                 this.contentApi
-                    .getNodeInfo(node.entry.nodeId)
+                    .getNodeInfo(id)
                     .subscribe(entry => {
                         this.openVersionManagerDialog(entry);
                     });
