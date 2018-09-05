@@ -11,7 +11,7 @@
     "build": "npm run server-versions && npm run build.libs.prod && ng build --prod",
     "build:dev": "npm run server-versions && npm run build.libs.dev && ng build",
     "test": "npm run build.libs.dev && ng test app --code-coverage",
-    "test:ci": "npm run build.libs.dev && ng test app --watch=false",
+    "test:ci": "npm run build.libs.dev && ng test app --code-coverage --watch=false",
     "lint": "ng lint",
     "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0",
     "e2e": "ng e2e --prod",
