@@ -29,7 +29,7 @@
                         { "type": "rule", "value": "app.navigation.isRecentFiles" },
                         { "type": "rule", "value": "app.navigation.isSharedFiles" },
                         { "type": "rule", "value": "app.navigation.isSearchResults" },
-                        { "type": "rule", "value": "app.navigation.isPreview" }
+                        { "type": "rule", "value": "app.navigation.isFavorites" }
                     ]
                 }
             ]
@@ -41,7 +41,8 @@
                 { "type": "rule", "value": "app.selection.canAddFavorite" },
                 { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
                 { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-                { "type": "rule", "value": "app.navigation.isNotSearchResults" }
+                { "type": "rule", "value": "app.navigation.isNotSearchResults" },
+                { "type": "rule", "value": "app.navigation.isNotFavorites" }
             ]
         },
         {
@@ -51,7 +52,8 @@
                 { "type": "rule", "value": "app.selection.canRemoveFavorite" },
                 { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
                 { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-                { "type": "rule", "value": "app.navigation.isNotSearchResults" }
+                { "type": "rule", "value": "app.navigation.isNotSearchResults" },
+                { "type": "rule", "value": "app.navigation.isNotFavorites" }
             ]
         },
         {
