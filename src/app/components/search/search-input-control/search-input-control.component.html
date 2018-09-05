@@ -9,28 +9,30 @@
             <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
         </button>
         <mat-form-field class="adf-input-form-field-divider">
-            <input matInput #searchInput
-                   *ngIf="liveSearchEnabled"
-                   [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
-                   [type]="inputType"
-                   [autocomplete]="getAutoComplete()"
-                   id="adf-control-input"
-                   [(ngModel)]="searchTerm"
-                   (focus)="activateToolbar()"
-                   (blur)="onBlur($event)"
-                   (keyup.escape)="toggleSearchBar()"
-                   (keyup.arrowdown)="selectFirstResult()"
-                   (ngModelChange)="inputChange($event)"
-                   [searchAutocomplete]="auto"
-                   (keyup.enter)="searchSubmit($event)">
-            <input matInput
-                   *ngIf="!liveSearchEnabled"
-                   [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
-                   [type]="inputType"
-                   [autocomplete]="getAutoComplete()"
-                   [(ngModel)]="searchTerm"
-                   (ngModelChange)="inputChange($event)"
-                   (keyup.enter)="searchSubmit($event)">
+            <ng-container [ngSwitch]="liveSearchEnabled">
+                <input matInput #searchInput
+                    *ngSwitchCase="liveSearchEnabled"
+                    [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
+                    [type]="inputType"
+                    [autocomplete]="getAutoComplete()"
+                    id="adf-control-input"
+                    [(ngModel)]="searchTerm"
+                    (focus)="activateToolbar()"
+                    (blur)="onBlur($event)"
+                    (keyup.escape)="toggleSearchBar()"
+                    (keyup.arrowdown)="selectFirstResult()"
+                    (ngModelChange)="inputChange($event)"
+                    [searchAutocomplete]="auto"
+                    (keyup.enter)="searchSubmit($event)">
+                <input matInput
+                    *ngSwitchDefault
+                    [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
+                    [type]="inputType"
+                    [autocomplete]="getAutoComplete()"
+                    [(ngModel)]="searchTerm"
+                    (ngModelChange)="inputChange($event)"
+                    (keyup.enter)="searchSubmit($event)">
+            </ng-container>
 
             <div matSuffix class="adf-clear-search-icon-wrapper">
                 <mat-icon *ngIf="searchTerm.length > 0"
