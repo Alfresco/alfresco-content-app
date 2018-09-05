@@ -30,5 +30,7 @@ jobs:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
-      script: node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build dist --prod && npm run e2e:docker
+      script:
+        - node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build app --prod
+        - npm run e2e:docker
       # script: npm run build:dev && npm run e2e:docker
