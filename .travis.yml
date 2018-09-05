@@ -29,3 +29,7 @@ jobs:
       script: npm run test:ci
     - stage: e2e
       script: npm run build:dev && npm run e2e:docker
+
+# Send coverage data to codecov
+after_success:
+  bash <(curl -s https://codecov.io/bash) -X gcov
