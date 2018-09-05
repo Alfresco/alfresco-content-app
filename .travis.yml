@@ -30,4 +30,4 @@ jobs:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
-      script: npm run build:dev && npm run e2e:docker
+      script: npm run build && npm run e2e:docker
