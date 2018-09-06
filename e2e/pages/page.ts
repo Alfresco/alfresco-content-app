@@ -33,10 +33,14 @@ export abstract class Page {
         app: by.css('app-root'),
         layout: by.css('app-layout'),
         overlay: by.css('.cdk-overlay-container'),
-        dialogContainer: by.css('.mat-dialog-container'),
+        dialogContainer: by.css('.mat-dialog-container[role]'),
         snackBarContainer: '.cdk-overlay-pane .mat-snack-bar-container',
         snackBar: '.mat-simple-snackbar',
-        snackBarAction: '.mat-simple-snackbar-action button'
+        snackBarAction: '.mat-simple-snackbar-action button',
+
+        genericError: 'aca-generic-error',
+        genericErrorIcon: 'aca-generic-error .mat-icon',
+        genericErrorTitle: '.generic-error__title'
     };
 
     public app: ElementFinder = element(this.locators.app);
@@ -46,6 +50,10 @@ export abstract class Page {
     dialogContainer: ElementFinder = element(this.locators.dialogContainer);
     snackBarContainer: ElementFinder = browser.$(this.locators.snackBarContainer);
     snackBarAction: ElementFinder = browser.$(this.locators.snackBarAction);
+
+    genericError: ElementFinder = browser.$(this.locators.genericError);
+    genericErrorIcon: ElementFinder = browser.$(this.locators.genericErrorIcon);
+    genericErrorTitle: ElementFinder = browser.$(this.locators.genericErrorTitle);
 
     constructor(public url: string = '') {}
 
@@ -109,5 +117,13 @@ export abstract class Page {
                     elem.click();
                 }, this.snackBarAction);
             });
+    }
+
+    isGenericErrorDisplayed() {
+        return this.genericError.isDisplayed();
+    }
+
+    getGenericErrorTitle() {
+        return this.genericErrorTitle.getText();
     }
 }
