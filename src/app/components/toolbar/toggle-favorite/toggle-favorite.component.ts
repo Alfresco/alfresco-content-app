@@ -23,12 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
+import { ContentManagementService } from '../../../services/content-management.service';
 
 @Component({
     selector: 'app-toggle-favorite',
@@ -50,12 +51,11 @@ export class ToggleFavoriteComponent {
 
     constructor(
         private store: Store<AppStore>,
-        private changeDetection: ChangeDetectorRef) {
-
+        private content: ContentManagementService) {
         this.selection$ = this.store.select(appSelection);
     }
 
     onToggleEvent() {
-        this.changeDetection.detectChanges();
+        this.content.favoriteToggle.next();
     }
 }
