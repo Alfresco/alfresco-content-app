@@ -9,10 +9,7 @@
             "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
     },
     "experimental": {
-        "comments": false,
         "cardview": false,
-        "permissions": false,
-        "share": false,
         "extensions": false,
         "external-plugins": false
     },
