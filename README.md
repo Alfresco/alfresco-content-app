@@ -1,6 +1,6 @@
    <p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - make business flow"></p>
    
-# Alfresco Example Content Application
+# Example Content Application
 
 ## Introduction
 
