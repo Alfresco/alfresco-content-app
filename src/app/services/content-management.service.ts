@@ -69,6 +69,7 @@ export class ContentManagementService {
     linksUnshared = new Subject<any>();
     favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
     favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
+    favoriteToggle = new Subject<Array<MinimalNodeEntity>>();
 
     constructor(
         private store: Store<AppStore>,
@@ -88,6 +89,7 @@ export class ContentManagementService {
                 });
                 this.store.dispatch(new SetSelectedNodesAction(nodes));
                 this.favoriteAdded.next(nodes);
+                this.favoriteToggle.next(nodes);
             });
         }
     }
@@ -100,6 +102,7 @@ export class ContentManagementService {
                 });
                 this.store.dispatch(new SetSelectedNodesAction(nodes));
                 this.favoriteRemoved.next(nodes);
+                this.favoriteToggle.next(nodes);
             });
         }
     }
