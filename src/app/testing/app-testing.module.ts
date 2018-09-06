@@ -34,7 +34,6 @@ import {
     UserPreferencesService,
     AppConfigService,
     StorageService,
-    CookieService,
     AlfrescoApiService,
     LogService,
     NotificationService,
@@ -42,7 +41,6 @@ import {
     ContentService,
     ThumbnailService,
     UploadService,
-    PeopleContentService,
     AlfrescoApiMock
 } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
@@ -57,11 +55,13 @@ import {
     DocumentListService
 } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../material.module';
-import { ContentManagementService } from '../common/services/content-management.service';
-import { NodeActionsService } from '../common/services/node-actions.service';
-import { NodePermissionService } from '../common/services/node-permission.service';
-import { BrowsingFilesService } from '../common/services/browsing-files.service';
+import { ContentManagementService } from '../services/content-management.service';
+import { NodeActionsService } from '../services/node-actions.service';
+import { NodePermissionService } from '../services/node-permission.service';
 import { ContentApiService } from '../services/content-api.service';
+import { AppExtensionService } from '../extensions/extension.service';
+import { ViewUtilService } from '../components/preview/view-util.service';
+import { ExtensionLoaderService, ExtensionService } from '@alfresco/adf-extensions';
 
 @NgModule({
     imports: [
@@ -76,7 +76,11 @@ import { ContentApiService } from '../services/content-api.service';
         EffectsModule.forRoot([])
     ],
     declarations: [TranslatePipeMock],
-    exports: [TranslatePipeMock, RouterTestingModule, MaterialModule],
+    exports: [
+        TranslatePipeMock,
+        RouterTestingModule,
+        MaterialModule,
+    ],
     providers: [
         { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
         { provide: TranslationService, useClass: TranslationMock },
@@ -96,7 +100,6 @@ import { ContentApiService } from '../services/content-api.service';
         UserPreferencesService,
         AppConfigService,
         StorageService,
-        CookieService,
         AlfrescoApiService,
         LogService,
         NotificationService,
@@ -106,13 +109,15 @@ import { ContentApiService } from '../services/content-api.service';
         UploadService,
         CustomResourcesService,
         DocumentListService,
-        PeopleContentService,
 
         ContentManagementService,
         NodeActionsService,
         NodePermissionService,
-        BrowsingFilesService,
-        ContentApiService
+        ContentApiService,
+        AppExtensionService,
+        ExtensionService,
+        ExtensionLoaderService,
+        ViewUtilService
     ]
 })
 export class AppTestingModule {}

@@ -30,10 +30,11 @@ import {
     TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('RecentFilesComponent', () => {
     let fixture: ComponentFixture<RecentFilesComponent>;
@@ -63,7 +64,8 @@ describe('RecentFilesComponent', () => {
                     NodeFavoriteDirective,
                     DocumentListComponent,
                     RecentFilesComponent,
-                    AppConfigPipe
+                    AppConfigPipe,
+                    ExperimentalDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         });

@@ -1,0 +1,48 @@
+<div mat-menu class="mat-menu-panel"
+    @panelAnimation
+    acaContextMenuOutsideEvent
+    (clickOutside)="onClickOutsideEvent()">
+
+    <div class="mat-menu-content">
+        <ng-container *ngFor="let entry of actions" [ngSwitch]="entry.type">
+            <ng-container *ngSwitchCase="'default'">
+                <button mat-menu-item
+                    [id]="entry.id"
+                    acaContextMenuItem
+                    (click)="runAction(entry.actions.click)">
+                    <mat-icon color="primary">{{ entry.icon }}</mat-icon>
+                    <span>{{ entry.title | translate }}</span>
+                </button>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'button'">
+                <button mat-menu-item
+                    [id]="entry.id"
+                    acaContextMenuItem
+                    (click)="runAction(entry.actions.click)">
+                    <mat-icon color="primary">{{ entry.icon }}</mat-icon>
+                    <span>{{ entry.title | translate }}</span>
+                </button>
+            </ng-container>
+
+            <span *ngSwitchCase="'separator'"
+                class="aca-context-menu__separator"
+                [id]="entry.id">
+            </span>
+
+            <ng-container *ngSwitchCase="'menu'">
+                <button mat-menu-item
+                    acaContextMenuItem
+                    [id]="entry.id"
+                    class="aca-context-menu__more-actions">
+                    <mat-icon color="primary">{{ entry.icon }}</mat-icon>
+                    <span>{{ entry.title | translate }}</span>
+                </button>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'custom'">
+                <adf-dynamic-component [id]="entry.component"></adf-dynamic-component>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

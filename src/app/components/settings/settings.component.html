@@ -53,16 +53,18 @@
         </mat-checkbox>
     </mat-expansion-panel>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="(profile$ | async)?.isAdmin">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 {{ 'APP.SETTINGS.EXPERIMENTAL-FEATURES' | translate }}
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-checkbox
-            [(ngModel)]="libraries"
-            (change)="onChangeLibrariesFeature($event)">
-            Library Management
-        </mat-checkbox>
+        <div *ngFor="let flag of experimental">
+            <mat-checkbox
+                [(ngModel)]="flag.value"
+                (change)="onToggleExperimentalFeature(flag.key, $event)">
+                {{ flag.key }}
+            </mat-checkbox>
+        </div>
     </mat-expansion-panel>
 </mat-accordion>

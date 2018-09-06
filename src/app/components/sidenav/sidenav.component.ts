@@ -23,14 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subscription } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { AppConfigService } from '@alfresco/adf-core';
-
-
-import { BrowsingFilesService } from '../../common/services/browsing-files.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states';
+import { currentFolder } from '../../store/selectors/app.selectors';
+import { takeUntil } from 'rxjs/operators';
+import { ContentActionRef, NavBarGroupRef } from '@alfresco/adf-extensions';
 
 @Component({
     selector: 'app-sidenav',
@@ -40,34 +40,32 @@ import { NodePermissionService } from '../../common/services/node-permission.ser
 export class SidenavComponent implements OnInit, OnDestroy {
     @Input() showLabel: boolean;
 
-    node: MinimalNodeEntryEntity = null;
-    navigation = [];
-
-    private subscriptions: Subscription[] = [];
+    groups: Array<NavBarGroupRef> = [];
+    createActions: Array<ContentActionRef> = [];
+    onDestroy$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
-        private browsingFilesService: BrowsingFilesService,
-        private appConfig: AppConfigService,
-        public permission: NodePermissionService
+        private store: Store<AppStore>,
+        private extensions: AppExtensionService
     ) {}
 
     ngOnInit() {
-        this.navigation = this.buildMenu();
+        this.groups = this.extensions.getNavigationGroups();
 
-        this.subscriptions.concat([
-            this.browsingFilesService.onChangeParent
-                .subscribe((node: MinimalNodeEntryEntity) => this.node = node)
-        ]);
+        this.store
+            .select(currentFolder)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(() => {
+                this.createActions = this.extensions.getCreateActions();
+            });
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach(s => s.unsubscribe());
+        this.onDestroy$.next(true);
+        this.onDestroy$.complete();
     }
 
-    private buildMenu() {
-        const schema = this.appConfig.get('navigation');
-        const data = Array.isArray(schema) ? { main: schema } : schema;
-
-        return Object.keys(data).map((key) => data[key]);
+    trackById(index: number, obj: { id: string }) {
+        return obj.id;
     }
 }

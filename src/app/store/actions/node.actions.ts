@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { NodeInfo } from '../models';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
 export const SET_SELECTED_NODES = 'SET_SELECTED_NODES';
 export const DELETE_NODES = 'DELETE_NODES';
@@ -32,15 +32,23 @@ export const UNDO_DELETE_NODES = 'UNDO_DELETE_NODES';
 export const RESTORE_DELETED_NODES = 'RESTORE_DELETED_NODES';
 export const PURGE_DELETED_NODES = 'PURGE_DELETED_NODES';
 export const DOWNLOAD_NODES = 'DOWNLOAD_NODES';
+export const CREATE_FOLDER = 'CREATE_FOLDER';
+export const EDIT_FOLDER = 'EDIT_FOLDER';
+export const SHARE_NODE = 'SHARE_NODE';
+export const UNSHARE_NODES = 'UNSHARE_NODES';
+export const COPY_NODES = 'COPY_NODES';
+export const MOVE_NODES = 'MOVE_NODES';
+export const MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS';
+export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
 
 export class SetSelectedNodesAction implements Action {
     readonly type = SET_SELECTED_NODES;
-    constructor(public payload: any[] = []) {}
+    constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class DeleteNodesAction implements Action {
     readonly type = DELETE_NODES;
-    constructor(public payload: NodeInfo[] = []) {}
+    constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class UndoDeleteNodesAction implements Action {
@@ -50,15 +58,55 @@ export class UndoDeleteNodesAction implements Action {
 
 export class RestoreDeletedNodesAction implements Action {
     readonly type = RESTORE_DELETED_NODES;
-    constructor(public payload: any[] = []) {}
+    constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class PurgeDeletedNodesAction implements Action {
     readonly type = PURGE_DELETED_NODES;
-    constructor(public payload: NodeInfo[] = []) {}
+    constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class DownloadNodesAction implements Action {
     readonly type = DOWNLOAD_NODES;
-    constructor(public payload: NodeInfo[] = []) {}
+    constructor(public payload: MinimalNodeEntity[] = []) {}
+}
+
+export class CreateFolderAction implements Action {
+    readonly type = CREATE_FOLDER;
+    constructor(public payload: string) {}
+}
+
+export class EditFolderAction implements Action {
+    readonly type = EDIT_FOLDER;
+    constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class ShareNodeAction implements Action {
+    readonly type = SHARE_NODE;
+    constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class UnshareNodesAction implements Action {
+    readonly type = UNSHARE_NODES;
+    constructor(public payload: Array<MinimalNodeEntity>) {}
+}
+
+export class CopyNodesAction implements Action {
+    readonly type = COPY_NODES;
+    constructor(public payload: Array<MinimalNodeEntity>) {}
+}
+
+export class MoveNodesAction implements Action {
+    readonly type = MOVE_NODES;
+    constructor(public payload: Array<MinimalNodeEntity>) {}
+}
+
+export class ManagePermissionsAction implements Action {
+    readonly type = MANAGE_PERMISSIONS;
+    constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class ManageVersionsAction implements Action {
+    readonly type = MANAGE_VERSIONS;
+    constructor(public payload: MinimalNodeEntity) {}
 }

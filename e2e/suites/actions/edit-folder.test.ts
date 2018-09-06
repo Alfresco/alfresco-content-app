@@ -58,13 +58,13 @@ describe('Edit folder', () => {
     const editButton = personalFilesPage.toolbar.actions.getButtonByTitleAttribute('Edit');
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
+        apis.admin.people.createUser({ username })
             .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE))
             .then(() => apis.admin.nodes.createFolders([ folderName ], `Sites/${siteName}/documentLibrary`))
             .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
 
             .then(() => apis.user.nodes.createFolder( parent ))
-            .then(resp => apis.user.nodes.createFolder( folderName, resp.data.entry.id, '', folderDescription ))
+            .then(resp => apis.user.nodes.createFolder( folderName, resp.entry.id, '', folderDescription ))
             .then(() => apis.user.nodes.createFolders([ folderNameToEdit, duplicateFolderName ], parent))
 
             .then(() => loginPage.loginWith(username))
@@ -74,7 +74,7 @@ describe('Edit folder', () => {
     beforeEach(done => {
         personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
             .then(() => dataTable.waitForHeader())
-            .then(() => dataTable.doubleClickOnItemName(parent))
+            .then(() => dataTable.doubleClickOnRowByName(parent))
             .then(() => dataTable.waitForHeader())
             .then(done);
     });
@@ -93,8 +93,8 @@ describe('Edit folder', () => {
             .then(done);
     });
 
-    it('dialog UI defaults', () => {
-        dataTable.clickOnItemName(folderName)
+    it('dialog UI defaults - [C216331]', () => {
+        dataTable.selectItem(folderName)
             .then(() => editButton.click())
             .then(() => {
                 expect(editDialog.getTitle()).toEqual('Edit folder');
@@ -105,8 +105,8 @@ describe('Edit folder', () => {
             });
     });
 
-    it('properties are modified when pressing OK', () => {
-        dataTable.clickOnItemName(folderNameToEdit)
+    it('properties are modified when pressing OK - [C216335]', () => {
+        dataTable.selectItem(folderNameToEdit)
             .then(() => editButton.click())
             .then(() => editDialog.waitForDialogToOpen())
             .then(() => editDialog.enterDescription(folderDescriptionEdited))
@@ -114,13 +114,13 @@ describe('Edit folder', () => {
             .then(() => editDialog.clickUpdate())
             .then(() => editDialog.waitForDialogToClose())
             .then(() => dataTable.waitForHeader())
-            .then(() => expect(dataTable.getRowName(folderNameEdited).isPresent()).toBe(true, 'Folder not displayed'))
+            .then(() => expect(dataTable.getRowByName(folderNameEdited).isPresent()).toBe(true, 'Folder not displayed'))
             .then(() => apis.user.nodes.getNodeDescription(folderNameEdited, parent))
             .then(desc => expect(desc).toEqual(folderDescriptionEdited));
     });
 
-    it('with empty folder name', () => {
-        dataTable.clickOnItemName(folderName)
+    it('with empty folder name - [C216332]', () => {
+        dataTable.selectItem(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.deleteNameWithBackspace())
             .then(() => {
@@ -129,10 +129,10 @@ describe('Edit folder', () => {
             });
     });
 
-    it('with name with special characters', () => {
+    it('with name with special characters - [C216333]', () => {
         const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-        dataTable.clickOnItemName(folderName)
+        dataTable.selectItem(folderName)
             .then(() => editButton.click())
             .then(() => namesWithSpecialChars.forEach(name => {
                 editDialog.enterName(name);
@@ -142,8 +142,8 @@ describe('Edit folder', () => {
             }));
     });
 
-    it('with name ending with a dot', () => {
-        dataTable.clickOnItemName(folderName)
+    it('with name ending with a dot - [C216334]', () => {
+        dataTable.selectItem(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.nameInput.sendKeys('.'))
             .then(() => {
@@ -152,8 +152,8 @@ describe('Edit folder', () => {
             });
     });
 
-    it('Cancel button', () => {
-        dataTable.clickOnItemName(folderName)
+    it('Cancel button - [C216336]', () => {
+        dataTable.selectItem(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.clickCancel())
             .then(() => {
@@ -161,8 +161,8 @@ describe('Edit folder', () => {
             });
     });
 
-    it('with duplicate folder name', () => {
-        dataTable.clickOnItemName(folderName)
+    it('with duplicate folder name - [C216337]', () => {
+        dataTable.selectItem(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.enterName(duplicateFolderName))
             .then(() => editDialog.clickUpdate())
@@ -173,15 +173,15 @@ describe('Edit folder', () => {
             });
     });
 
-    it('trim ending spaces', () => {
-        dataTable.clickOnItemName(folderName)
+    it('trim ending spaces - [C216338]', () => {
+        dataTable.selectItem(folderName)
             .then(() => editButton.click())
             .then(() => editDialog.nameInput.sendKeys('   '))
             .then(() => editDialog.clickUpdate())
             .then(() => editDialog.waitForDialogToClose())
             .then(() => {
                 expect(personalFilesPage.snackBar.isPresent()).not.toBe(true, 'notification appears');
-                expect(dataTable.getRowName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
+                expect(dataTable.getRowByName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
             });
     });
 });

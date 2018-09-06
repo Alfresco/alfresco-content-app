@@ -25,14 +25,17 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, UrlTree, UrlSegmentGroup, UrlSegment, PRIMARY_OUTLET } from '@angular/router';
-import { UserPreferencesService, ObjectUtils, UploadService } from '@alfresco/adf-core';
-import { Node, MinimalNodeEntity } from 'alfresco-js-api';
-import { NodePermissionService } from '../../common/services/node-permission.service';
+import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { DeleteNodesAction } from '../../store/actions';
+import { SetSelectedNodesAction } from '../../store/actions';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { ContentManagementService } from '../../services/content-management.service';
+import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
+import { ViewUtilService } from './view-util.service';
+
 @Component({
     selector: 'app-preview',
     templateUrl: 'preview.component.html',
@@ -42,33 +45,33 @@ import { ContentApiService } from '../../services/content-api.service';
 })
 export class PreviewComponent extends PageComponent implements OnInit {
 
-    node: Node;
     previewLocation: string = null;
     routesSkipNavigation = [ 'shared', 'recent-files', 'favorites' ];
     navigateSource: string = null;
     navigationSources = ['favorites', 'libraries', 'personal-files', 'recent-files', 'shared'];
-
     folderId: string = null;
     nodeId: string = null;
     previousNodeId: string;
     nextNodeId: string;
     navigateMultiple = false;
-
-    selectedEntities: MinimalNodeEntity[] = [];
+    openWith: Array<ContentActionRef> = [];
+    contentExtensions: Array<ViewerExtensionRef> = [];
 
     constructor(
         private contentApi: ContentApiService,
-        private uploadService: UploadService,
         private preferences: UserPreferencesService,
         private route: ActivatedRoute,
         private router: Router,
+        private viewUtils: ViewUtilService,
         store: Store<AppStore>,
-        public permission: NodePermissionService) {
-
-        super(store);
+        extensions: AppExtensionService,
+        content: ContentManagementService) {
+        super(store, extensions, content);
     }
 
     ngOnInit() {
+        super.ngOnInit();
+
         this.previewLocation = this.router.url
             .substr(0, this.router.url.indexOf('/', 1))
             .replace(/\//g, '');
@@ -94,9 +97,8 @@ export class PreviewComponent extends PageComponent implements OnInit {
             }
         });
 
-        this.subscriptions = this.subscriptions.concat([
-            this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
-        ]);
+        this.openWith = this.extensions.openWithActions;
+        this.contentExtensions = this.extensions.viewerContentExtensions;
     }
 
     /**
@@ -107,7 +109,7 @@ export class PreviewComponent extends PageComponent implements OnInit {
         if (id) {
             try {
                 this.node = await this.contentApi.getNodeInfo(id).toPromise();
-                this.selectedEntities = [{ entry: this.node }];
+                this.store.dispatch(new SetSelectedNodesAction([{ entry: this.node }]));
 
                 if (this.node && this.node.isFile) {
                     const nearest = await this.getNearestNodes(this.node.id, this.node.parentId);
@@ -118,8 +120,10 @@ export class PreviewComponent extends PageComponent implements OnInit {
                     return;
                 }
                 this.router.navigate([this.previewLocation, id]);
-            } catch {
-                this.router.navigate([this.previewLocation, id]);
+            } catch (err) {
+                if (!err || err.status !== 401) {
+                    this.router.navigate([this.previewLocation, id]);
+                }
             }
         }
     }
@@ -334,14 +338,8 @@ export class PreviewComponent extends PageComponent implements OnInit {
         return path;
     }
 
-    deleteFile() {
-        this.store.dispatch(new DeleteNodesAction([
-            {
-                id: this.node.nodeId || this.node.id,
-                name: this.node.name
-            }
-        ]));
-        this.onVisibilityChanged(false);
+    printFile() {
+        this.viewUtils.printFileGeneric(this.nodeId, this.node.content.mimeType);
     }
 
     private getNavigationCommands(url: string): any[] {

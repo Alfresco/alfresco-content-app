@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, promise } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, promise, protractor, browser } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
@@ -40,25 +40,34 @@ export class ToolbarActions extends Component {
         super(ToolbarActions.selectors.root, ancestor);
     }
 
-    isEmpty(): promise.Promise<boolean> {
-        return this.buttons.count().then(count => (count === 0));
+    async isEmpty() {
+        return await this.buttons.count() === 0;
     }
 
-    isButtonPresent(title: string): promise.Promise<boolean> {
-        return this.component.element(by.css(`${ToolbarActions.selectors.button}[title="${title}"]`)).isPresent();
+    async isButtonPresent(title: string) {
+        return await this.component.element(by.css(`${ToolbarActions.selectors.button}[title="${title}"]`)).isPresent();
     }
 
-    getButtonByLabel(label: string): ElementFinder {
+    getButtonByLabel(label: string) {
         return this.component.element(by.cssContainingText(ToolbarActions.selectors.button, label));
     }
 
-    getButtonByTitleAttribute(title: string): ElementFinder {
+    getButtonByTitleAttribute(title: string) {
         return this.component.element(by.css(`${ToolbarActions.selectors.button}[title="${title}"]`));
     }
 
-    openMoreMenu() {
-        return this.getButtonByTitleAttribute('More actions').click()
-            .then(() => this.menu.waitForMenuToOpen())
-            .then(() => this.menu);
+    async openMoreMenu() {
+        await this.getButtonByTitleAttribute('More actions').click();
+        await this.menu.waitForMenuToOpen();
+        return this.menu;
     }
+
+    async closeMoreMenu() {
+        return await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+    }
+
+    async getButtonTooltip(button: ElementFinder) {
+        return await button.getAttribute('title');
+    }
+
 }

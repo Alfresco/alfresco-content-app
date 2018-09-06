@@ -40,7 +40,7 @@ describe('Logout', () => {
 
     beforeAll((done) => {
         peopleApi
-            .createUser(johnDoe)
+            .createUser({ username: johnDoe })
             .then(done);
     });
 
@@ -52,19 +52,19 @@ describe('Logout', () => {
         logoutPage.load().then(done);
     });
 
-    it('Sign out option is available [C213143]', () => {
+    it('Sign out option is available - [C213143]', () => {
         page.header.userInfo.openMenu()
             .then(() => expect(page.header.userInfo.menu.isMenuItemPresent('Sign out')).toBe(true, 'Sign out option not displayed'));
     });
 
-    it('redirects to Login page on sign out [C213144]', () => {
+    it('redirects to Login page on sign out - [C213144]', () => {
         page.signOut()
             .then(() => {
                 expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
             });
     });
 
-    it('redirects to Login page when pressing browser Back after logout [C213145]', () => {
+    it('redirects to Login page when pressing browser Back after logout - [C213145]', () => {
         page.signOut()
             .then(() => browser.navigate().back())
             .then(() => {
@@ -72,7 +72,7 @@ describe('Logout', () => {
             });
     });
 
-    it('redirects to Login page when trying to access a part of the app after logout [C213146]', () => {
+    it('redirects to Login page when trying to access a part of the app after logout - [C213146]', () => {
         page.signOut()
             .then(() => page.load('/favorites'))
             .then(() => {

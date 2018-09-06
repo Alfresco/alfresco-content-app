@@ -1,0 +1,8 @@
+<app-search-input-control #searchInputControl
+    [highlight]="true"
+    (optionClicked)="onItemClicked($event)"
+    [expandable]="!onSearchResults"
+    [liveSearchEnabled]="enableLiveSearch"
+    (submit)="onSearchSubmit($event)"
+    (searchChange)="onSearchChange($event)">
+</app-search-input-control>

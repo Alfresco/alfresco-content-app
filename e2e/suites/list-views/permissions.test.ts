@@ -47,7 +47,7 @@ describe('Special permissions', () => {
     xit('');
 
     beforeAll(done => {
-        apis.admin.people.createUser(username).then(done);
+        apis.admin.people.createUser({ username }).then(done);
     });
 
     describe('file not displayed if user no longer has permissions on it', () => {
@@ -59,7 +59,7 @@ describe('Special permissions', () => {
             apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE)
                 .then(() => apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR))
                 .then(() => apis.admin.nodes.createFiles([ fileName ], `Sites/${sitePrivate}/documentLibrary`)
-                    .then(resp => fileId = resp.data.entry.id))
+                    .then(resp => fileId = resp.entry.id))
                 .then(() => apis.user.favorites.addFavoriteById('file', fileId))
                 .then(() => apis.admin.shared.shareFileById(fileId))
                 .then(() => apis.user.nodes.editNodeContent(fileId, 'edited by user'))
@@ -83,7 +83,7 @@ describe('Special permissions', () => {
             .then(done);
         });
 
-        it('on Recent Files [C213173]', () => {
+        it('on Recent Files - [C213173]', () => {
             recentFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -96,7 +96,7 @@ describe('Special permissions', () => {
                 });
         });
 
-        it('on Favorites [C213227]', () => {
+        it('on Favorites - [C213227]', () => {
             favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -109,7 +109,7 @@ describe('Special permissions', () => {
                 });
         });
 
-        it('on Shared Files [C213116]', () => {
+        it('on Shared Files - [C213116]', () => {
             sharedPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -133,7 +133,7 @@ describe('Special permissions', () => {
                 .then(() => apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR))
                 .then(() => apis.admin.sites.getDocLibId(sitePrivate))
                 .then(resp => apis.user.nodes.createFile(fileName, resp))
-                .then(resp => fileId = resp.data.entry.id)
+                .then(resp => fileId = resp.entry.id)
                 .then(() => apis.user.favorites.addFavoriteById('file', fileId))
                 .then(() => apis.user.shared.shareFileById(fileId))
                 .then(() => apis.user.shared.waitForApi({ expect: 1 }))
@@ -151,7 +151,7 @@ describe('Special permissions', () => {
             .then(done);
         });
 
-        it(`on Recent Files [C213178]`, () => {
+        it(`on Recent Files - [C213178]`, () => {
             recentFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -160,7 +160,7 @@ describe('Special permissions', () => {
                 });
         });
 
-        it(`on Favorites [C213672]`, () => {
+        it(`on Favorites - [C213672]`, () => {
             favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {
@@ -169,7 +169,7 @@ describe('Special permissions', () => {
                 });
         });
 
-        it(`on Shared Files [C213668]`, () => {
+        it(`on Shared Files - [C213668]`, () => {
             sharedPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
                 .then(() => dataTable.waitForHeader())
                 .then(() => {

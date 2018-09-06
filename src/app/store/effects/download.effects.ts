@@ -27,14 +27,19 @@ import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
 import { NodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
+import { MinimalNodeEntity } from 'alfresco-js-api';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../states';
+import { appSelection } from '../selectors/app.selectors';
 
 @Injectable()
 export class DownloadEffects {
     constructor(
+        private store: Store<AppStore>,
         private actions$: Actions,
         private contentApi: ContentApiService,
         private dialog: MatDialog
@@ -42,15 +47,35 @@ export class DownloadEffects {
 
     @Effect({ dispatch: false })
     downloadNode$ = this.actions$.pipe(
-      ofType<DownloadNodesAction>(DOWNLOAD_NODES),
-      map(action => {
-          if (action.payload && action.payload.length > 0) {
-            this.downloadNodes(action.payload);
-          }
-      })
+        ofType<DownloadNodesAction>(DOWNLOAD_NODES),
+        map(action => {
+            if (action.payload && action.payload.length > 0) {
+                this.downloadNodes(action.payload);
+            } else {
+                this.store
+                    .select(appSelection)
+                    .pipe(take(1))
+                    .subscribe(selection => {
+                        if (selection && !selection.isEmpty) {
+                            this.downloadNodes(selection.nodes);
+                        }
+                    });
+            }
+        })
     );
 
-    private downloadNodes(nodes: Array<NodeInfo>) {
+    private downloadNodes(toDownload: Array<MinimalNodeEntity>) {
+        const nodes = toDownload.map(node => {
+            const { id, nodeId, name, isFile, isFolder } = node.entry;
+
+            return {
+                id: nodeId || id,
+                name,
+                isFile,
+                isFolder
+            };
+        });
+
         if (!nodes || nodes.length === 0) {
             return;
         }

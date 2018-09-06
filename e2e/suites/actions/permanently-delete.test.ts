@@ -23,7 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { browser, protractor } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { ConfirmDialog } from './../../components/components';
 import { SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -31,12 +33,13 @@ import { Utils } from '../../utilities/utils';
 describe('Permanently delete from Trash', () => {
     const username = `user-${Utils.random()}`;
 
-    const file1 = `file-${Utils.random()}.txt`;
-    const file2 = `file-${Utils.random()}.txt`;
+    const file1 = `file1-${Utils.random()}.txt`;
+    const file2 = `file2-${Utils.random()}.txt`;
+    const file3 = `file3-${Utils.random()}.txt`;
     let filesIds;
 
-    const folder1 = `folder-${Utils.random()}`;
-    const folder2 = `folder-${Utils.random()}`;
+    const folder1 = `folder1-${Utils.random()}`;
+    const folder2 = `folder2-${Utils.random()}`;
     let foldersIds;
 
     const apis = {
@@ -49,74 +52,91 @@ describe('Permanently delete from Trash', () => {
     const trashPage = new BrowsingPage();
     const { dataTable, toolbar } = trashPage;
 
-    beforeAll(done => {
-        apis.admin.people.createUser(username)
-            .then(() => apis.user.nodes.createFiles([ file1, file2 ]))
-            .then(resp => filesIds = resp.data.list.entries.map(entries => entries.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folder1, folder2 ]))
-            .then(resp => foldersIds = resp.data.list.entries.map(entries => entries.entry.id))
+    const confirmDialog = new ConfirmDialog();
 
-            .then(() => apis.user.nodes.deleteNodesById(filesIds, false))
-            .then(() => apis.user.nodes.deleteNodesById(foldersIds, false))
+    beforeAll(async (done) => {
+        await apis.admin.people.createUser({ username });
+        filesIds = (await apis.user.nodes.createFiles([ file1, file2, file3 ])).list.entries.map(entries => entries.entry.id);
+        foldersIds = (await apis.user.nodes.createFolders([ folder1, folder2 ])).list.entries.map(entries => entries.entry.id);
+        await apis.user.nodes.deleteNodesById(filesIds, false);
+        await apis.user.nodes.deleteNodesById(foldersIds, false);
 
-            .then(() => loginPage.loginWith(username))
-            .then(done);
+        await loginPage.loginWith(username);
+        done();
     });
 
-    beforeEach(done => {
-        trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-            .then(() => dataTable.waitForHeader())
-            .then(done);
+    beforeEach(async (done) => {
+        await trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+        await dataTable.waitForHeader();
+        done();
     });
 
-    afterAll(done => {
-        Promise.all([
-            apis.admin.trashcan.emptyTrash(),
+    afterAll(async (done) => {
+        await Promise.all([
+            apis.user.trashcan.emptyTrash(),
             logoutPage.load()
-        ])
-        .then(done);
+        ]);
+        done();
     });
 
-    it('delete file [C217094] [C217091] [C217092]', () => {
-        dataTable.clickOnItemName(file1)
-            .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
-            .then(() => trashPage.waitForDialog())
-            .then(() => trashPage.getDialogActionByLabel('Delete'))
-            .then((elm) => elm.click())
-            .then(() => trashPage.waitForDialogToClose())
-            .then(() => trashPage.getSnackBarMessage())
-            .then(text => {
-                expect(text).toEqual(`${file1} deleted`);
-                expect(dataTable.getRowName(file1).isPresent()).toBe(false, 'Item was not deleted');
-            });
+    it('delete file - [C217091]', async () => {
+        await dataTable.selectItem(file1);
+        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await trashPage.waitForDialog();
+        await trashPage.getDialogActionByLabel('Delete').click();
+        await trashPage.waitForDialogToClose();
+        const text = await trashPage.getSnackBarMessage();
+
+        expect(text).toEqual(`${file1} deleted`);
+        expect(dataTable.getRowByName(file1).isPresent()).toBe(false, 'Item was not deleted');
     });
 
-    it('delete folder [C217091] [C217092]', () => {
-        dataTable.clickOnItemName(folder1)
-            .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
-            .then(() => trashPage.waitForDialog())
-            .then(() => trashPage.getDialogActionByLabel('Delete'))
-            .then((elm) => elm.click())
-            .then(() => trashPage.waitForDialogToClose())
-            .then(() => trashPage.getSnackBarMessage())
-            .then(text => {
-                expect(text).toEqual(`${folder1} deleted`);
-                expect(dataTable.getRowName(folder1).isPresent()).toBe(false, 'Item was not deleted');
-            });
+    it('delete folder - [C280416]', async () => {
+        await dataTable.selectItem(folder1);
+        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await trashPage.waitForDialog();
+        await trashPage.getDialogActionByLabel('Delete').click();
+        await trashPage.waitForDialogToClose();
+        const text = await trashPage.getSnackBarMessage();
+
+        expect(text).toEqual(`${folder1} deleted`);
+        expect(dataTable.getRowByName(folder1).isPresent()).toBe(false, 'Item was not deleted');
     });
 
-    it('delete multiple items [C217093]', () => {
-        dataTable.selectMultipleItems([ file2, folder2 ])
-            .then(() => toolbar.actions.getButtonByTitleAttribute('Permanently delete').click())
-            .then(() => trashPage.waitForDialog())
-            .then(() => trashPage.getDialogActionByLabel('Delete'))
-            .then((elm) => elm.click())
-            .then(() => trashPage.waitForDialogToClose())
-            .then(() => trashPage.getSnackBarMessage())
-            .then(text => {
-                expect(text).toEqual(`2 items deleted`);
-                expect(dataTable.getRowName(file2).isPresent()).toBe(false, 'Item was not deleted');
-                expect(dataTable.getRowName(folder2).isPresent()).toBe(false, 'Item was not deleted');
-            });
+    it('delete multiple items - [C280417]', async () => {
+        await dataTable.selectMultipleItems([ file2, folder2 ]);
+        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await trashPage.waitForDialog();
+        await trashPage.getDialogActionByLabel('Delete').click();
+        await trashPage.waitForDialogToClose();
+        const text = await trashPage.getSnackBarMessage();
+
+        expect(text).toEqual(`2 items deleted`);
+        expect(dataTable.getRowByName(file2).isPresent()).toBe(false, 'Item was not deleted');
+        expect(dataTable.getRowByName(folder2).isPresent()).toBe(false, 'Item was not deleted');
+    });
+
+    it('Confirmation dialog UI - [C269113]', async () => {
+        await dataTable.selectItem(file3);
+        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await trashPage.waitForDialog();
+
+        expect(await confirmDialog.getTitle()).toContain('Delete from trash');
+        expect(await confirmDialog.getText()).toContain('This will permanently remove the selected item(s)');
+        expect(await confirmDialog.deleteButton.isEnabled()).toBe(true, 'DELETE button is not enabled');
+        expect(await confirmDialog.keepButton.isEnabled()).toBe(true, 'KEEP button is not enabled');
+
+        await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+        await dataTable.clearSelection();
+    });
+
+    it('"Keep" action cancels the deletion - [C269115]', async () => {
+        await dataTable.selectItem(file3);
+        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await trashPage.waitForDialog();
+
+        expect(await confirmDialog.keepButton.isEnabled()).toBe(true, 'KEEP button is not enabled');
+        await confirmDialog.clickKeep();
+        expect(dataTable.getRowByName(file3).isPresent()).toBe(true, 'Item was deleted');
     });
 });

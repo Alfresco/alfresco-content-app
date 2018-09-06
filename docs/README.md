@@ -1,5 +1,7 @@
 # Alfresco Example Content Application
 
+<!-- markdownlint-disable MD033 -->
+
 ## Introduction
 
 The Alfresco Content Application is an example application built using
@@ -15,11 +17,11 @@ with a simple and easy to use interface for working with files stored in the Alf
 
 ### Prerequisites
 
-This application uses the latest releases from Alfresco:
+This application was created based on the latest releases from Alfresco:
 
-- [Alfresco ADF (2.4.0)](https://community.alfresco.com/community/application-development-framework/pages/get-started)
-- [Alfresco Content Services (5.2.3)](https://www.alfresco.com/platform/content-services-ecm)
-  or [Alfresco Community Edition (201802 EA)](https://www.alfresco.com/products/community/download)
+- [Alfresco ADF (2.5.0)](https://community.alfresco.com/community/application-development-framework/pages/get-started)
+- [Alfresco Content Services (6.0.0)](https://www.alfresco.com/platform/content-services-ecm)
+  or [Alfresco Community Edition (6.0 - General Release: 201806)](https://www.alfresco.com/products/community/download)
 
 <p class="warning">
 You also need <a href="https://nodejs.org/en/" target="_blank">node.js</a> (LTS) installed to build it locally from source code.
@@ -190,8 +192,9 @@ For more information on the [SearchComponent](https://github.com/Alfresco/alfres
 #### Actions and the Actions Toolbar
 
 All the views incorporate the [toolbar](https://alfresco.github.io/adf-component-catalog/components/ToolbarComponent.html)
-component from the Alfresco Application Development Framework;
-apart from the Trash view they all display the following actions when the current user has the necessary permissions,
+component from the Alfresco Application Development Framework. 
+
+Actions are displayed in the toolbar when item(s) are selected, or a right click is performed; apart from the Trash view they all display the following actions when the current user has the necessary permissions,
 actions are automatically hidden when the user does not have permission.
 
 <table>
@@ -243,6 +246,15 @@ actions are automatically hidden when the user does not have permission.
         </td>
     </tr>
     <tr>
+        <td>Share</td>
+        <td>
+            Create and copy a link to a file that can be shared, the links are accessible without granting permissions to the file, and do not require users to login to the application. 
+        </td>
+        <td>
+            Not applicable.
+        </td>
+    </tr>
+    <tr>
         <td>Delete</td>
         <td colspan="2">
             Files and folders can be deleted from their location in the content repository;
@@ -257,11 +269,20 @@ actions are automatically hidden when the user does not have permission.
         </td>
         <td>Not applicable</td>
     </tr>
+     <tr>
+        <td>Permissions</td>
+        <td>
+            Permissions on a file can be adjusted as required in a number of ways; disable inheritance from the parent folder, change a user or groups role and grant users/groups access.
+        </td>
+        <td>Not available</td>
+    </tr>
 </tbody>
 </table>
 
-Besides the actions available in the toolbar users can single click an item to select it,
-or double click on a file to view it, and a folder to open it.
+Besides the actions available in the toolbar users can
+* single click on a file to view it, and a folder to open it
+* single click an item to select it
+* double click on a file to view it, and a folder to open it
 
 ### File Viewer
 
@@ -287,7 +308,7 @@ The Header & Toolbar section of the viewer contains a number of features that re
 
 The File Viewer consists of four separate views that handle displaying the content based on four types of content, covering various [file/mime](https://alfresco.github.io/adf-component-catalog/components/ViewerComponent.html#supported-file-formats) types:
 
-- Document View: PDFs are displayed in the application File Viewer, for other document types (DOCX etc) then a PDF rendition is automatically retrieved.
+- Document View: PDF files are displayed in the application File Viewer, for other document types (DOCX etc) then a PDF rendition is automatically retrieved.
 - Image View: JPEG, PNG, GIF, BMP and SVG images are natively displayed in the application File Viewer.
 - Media View: MP4, MP3, WAV, OGG and WEBM files are played natively application File Viewer. The File Viewer will download, by default, 50MB of the content at a time to ensure a smooth playback of the content.
 - Text View: TXT, XML, JS, HTML, JSON and TS files are natively displayed as text in the application File Viewer.
@@ -306,14 +327,16 @@ At the bottom of the content the Viewer Controls allow users to interact with th
   - Jump to page number
   - Zoom in/out
   - Fit to page
+  - Print
 - Image View:
   - Zoom in/out
   - Rotate left/right (does not alter content in the repository)
   - Reset image
+  - Print
 - Media View:
   - Play/pause
   - Timeline position
-  - Audio mute/unmute
+  - Toggle audio
   - Audio volume
   - Full screen
 
@@ -329,16 +352,11 @@ The Properties tab displays the node's metadata info by using the [ContentMetada
 
 ![](images/content-metadata.png)
 
-For more information, please check also the ADF's [ContentMetadataComponent](https://alfresco.github.io/adf-component-catalog/components/ContentMetadataComponent.html).
+For more information, please check also the [ContentMetadataComponent](https://alfresco.github.io/adf-component-catalog/components/ContentMetadataComponent.html).
 
-#### Versions tab
+#### Comments tab
 
-The Versions tab displays info about the node's versions and allows users to [manage versions](#version-manager), according to their permissions. Only the file nodes have version data available.
-
-![Version Manager Tab](images/version-manager-tab.png)
-
-It uses the [VersionManagerComponent](https://alfresco.github.io/adf-component-catalog/components/VersionManagerComponent.html) from ADF framework.
-Managing versions of a file can be possible also by accessing the 'Manage Versions' option from the 'More actions' menu.
+The Comments tab displays all comments made on the selected node in the respoistory by using the [CommentsComponent](https://alfresco.github.io/adf-component-catalog/components/CommentsComponent.html).  Users can post new comments that will be displayed immediately.
 
 ### Version Manager
 
@@ -357,7 +375,8 @@ There are 2 ways users can access the Version Manager:
 
 #### Upload new version
 
-A new version for the selected file can be added by using this button. Users can upload a new file version using a file that is does not have the same name, or mimetype as the current version, whilst allowing the user to choose the type of version (minor or major) and inputting supporting comments. 
+A new version for the selected file can be added by using this button. Users can upload a new file version using a file that is does not have the same name, or mime type as the current version, whilst allowing the user to choose the type of version (minor or major) and inputting supporting comments.
+
 Please also check the [UploadVersionButtonComponent](https://alfresco.github.io/adf-component-catalog/components/UploadVersionButtonComponent.html).
 
 #### Actions Menu

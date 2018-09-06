@@ -61,14 +61,12 @@ describe('Login', () => {
     beforeAll(done => {
         Promise
             .all([
-                peopleApi.createUser(testUser),
-                peopleApi.createUser(russianUser.username, russianUser.password),
-                peopleApi.createUser(johnDoe.username, johnDoe.password, {
-                    firstName: johnDoe.firstName,
-                    lastName: johnDoe.lastName
-                }),
-                peopleApi.createUser(disabledUser).then(() => peopleApi.disableUser(disabledUser)),
-                peopleApi.createUser(testUser2.username, testUser2.password)
+                peopleApi.createUser({ username: testUser }),
+                peopleApi.createUser(russianUser),
+                peopleApi.createUser(johnDoe),
+                peopleApi.createUser({ username: disabledUser })
+                    .then(() => peopleApi.disableUser(disabledUser)),
+                peopleApi.createUser(testUser2)
             ])
             .then(done);
     });
@@ -86,14 +84,14 @@ describe('Login', () => {
             loginPage.load().then(done);
         });
 
-        it('login page default values', () => {
+        it('login page layout - [C213089]', () => {
             expect(loginPage.login.usernameInput.isEnabled()).toBe(true, 'username input is not enabled');
             expect(loginPage.login.passwordInput.isEnabled()).toBe(true, 'password input is not enabled');
             expect(loginPage.login.submitButton.isEnabled()).toBe(false, 'SIGN IN button is enabled');
             expect(loginPage.login.getPasswordVisibility()).toBe(false, 'Password is not hidden by default');
         });
 
-        it('change password visibility', () => {
+        it('change password visibility - [C213091]', () => {
             loginPage.login.enterPassword('some password');
             expect(loginPage.login.isPasswordShown()).toBe(false, 'password is visible');
             loginPage.login.passwordVisibility.click()
@@ -105,7 +103,7 @@ describe('Login', () => {
     });
 
     describe('with valid credentials', () => {
-        it('navigate to "Personal Files"', () => {
+        it('navigate to "Personal Files" - [C213092]', () => {
             const { username } = johnDoe;
 
             loginPage.loginWith(username)
@@ -114,7 +112,7 @@ describe('Login', () => {
                 });
         });
 
-        it(`displays user's name in header`, () => {
+        it(`displays user's name in header - [C213108]`, () => {
             const { userInfo } = new BrowsingPage(APP_ROUTES.PERSONAL_FILES).header;
             const { username, firstName, lastName } = johnDoe;
 
@@ -124,7 +122,7 @@ describe('Login', () => {
                 });
         });
 
-        it(`logs in with user having username containing "@"`, () => {
+        it(`logs in with user having username containing "@" - [C213096]`, () => {
             loginPage
                 .loginWith(testUser)
                 .then(() => {
@@ -132,7 +130,7 @@ describe('Login', () => {
                 });
         });
 
-        it('logs in with user with non-latin characters', () => {
+        it('logs in with user with non-latin characters - [C213097]', () => {
             const { username, password } = russianUser;
 
             loginPage
@@ -142,7 +140,7 @@ describe('Login', () => {
                 });
         });
 
-        it('redirects to Home Page when navigating to the Login page while already logged in', () => {
+        it('redirects to Home Page when navigating to the Login page while already logged in - [C213107]', () => {
             const { username } = johnDoe;
 
             loginPage
@@ -154,7 +152,7 @@ describe('Login', () => {
                 );
         });
 
-        it('redirects to Personal Files when pressing browser Back while already logged in ', () => {
+        it('redirects to Personal Files when pressing browser Back while already logged in - [C213109]', () => {
             const { username } = johnDoe;
 
             loginPage
@@ -165,7 +163,7 @@ describe('Login', () => {
                 });
         });
 
-        it('user is able to login after changing his password', () => {
+        it('user is able to login after changing his password - [C213104]', () => {
             loginPage.loginWith(testUser2.username, testUser2.password)
                 .then(() => logoutPage.load())
                 .then(() => peopleApi.changePassword(testUser2.username, newPassword))
@@ -184,21 +182,17 @@ describe('Login', () => {
             loginPage.load().then(done);
         });
 
-        it('disabled submit button when no credentials are entered', () => {
-            expect(submitButton.isEnabled()).toBe(false);
-        });
-
-        it('disabled submit button when password is empty', () => {
+        it('disabled submit button when password is empty - [C280072]', () => {
             loginComponent.enterUsername('any-username');
             expect(submitButton.isEnabled()).toBe(false);
         });
 
-        it('disabled submit button when username is empty', () => {
+        it('disabled submit button when username is empty - [C280070]', () => {
             loginPage.login.enterPassword('any-password');
             expect(submitButton.isEnabled()).toBe(false);
         });
 
-        it('shows error when entering nonexistent user', () => {
+        it('shows error when entering nonexistent user - [C213093]', () => {
             loginPage
                 .tryLoginWith('nonexistent-user', 'any-password')
                 .then(() => {
@@ -208,7 +202,7 @@ describe('Login', () => {
                 });
         });
 
-        it('shows error when entering invalid password', () => {
+        it('shows error when entering invalid password - [C280071]', () => {
             const { username } = johnDoe;
 
             loginPage
@@ -220,14 +214,14 @@ describe('Login', () => {
                 });
         });
 
-        it('unauthenticated user is redirected to Login page', () => {
+        it('unauthenticated user is redirected to Login page - [C213106]', () => {
             browser.get(APP_ROUTES.PERSONAL_FILES)
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
                 });
         });
 
-        it('disabled user is not logged in', () => {
+        it('disabled user is not logged in - [C213100]', () => {
             loginPage.tryLoginWith(disabledUser)
                 .then(() => {
                     expect(browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);

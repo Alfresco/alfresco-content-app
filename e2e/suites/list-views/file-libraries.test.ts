@@ -23,8 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { by } from 'protractor';
-
 import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
@@ -57,13 +55,13 @@ describe('File Libraries', () => {
     beforeAll(done => {
         Promise
             .all([
-                apis.admin.people.createUser(username),
+                apis.admin.people.createUser({ username }),
                 apis.admin.sites.createSite(sitePublic, SITE_VISIBILITY.PUBLIC),
-                apis.admin.sites.createSite(siteModerated, SITE_VISIBILITY.MODERATED, { description: siteDescription }),
-                apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE, { description: '' }),
+                apis.admin.sites.createSite(siteModerated, SITE_VISIBILITY.MODERATED, siteDescription),
+                apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE, null),
                 apis.admin.sites.createSite(adminSite, SITE_VISIBILITY.PUBLIC),
-                apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, { id: siteId1 }),
-                apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, { id: siteId2 })
+                apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId1),
+                apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId2)
             ])
             .then(() => apis.admin.sites.addSiteMember(sitePublic, username, SITE_ROLES.SITE_CONSUMER))
             .then(() => apis.admin.sites.addSiteMember(siteModerated, username, SITE_ROLES.SITE_MANAGER))
@@ -96,7 +94,7 @@ describe('File Libraries', () => {
         .then(done);
     });
 
-    it('has the correct columns', () => {
+    it('has the correct columns - [C217095]', () => {
         const labels = [ 'Title', 'Status' ];
         const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
@@ -107,7 +105,7 @@ describe('File Libraries', () => {
         });
     });
 
-    it('User can see only the sites he is a member of [C217095]', () => {
+    it('User can see only the sites he is a member of - [C280501]', () => {
         const sitesCount = dataTable.countRows();
 
         const expectedSites = {
@@ -117,7 +115,7 @@ describe('File Libraries', () => {
         };
 
         expect(sitesCount).toEqual(5, 'Incorrect number of sites displayed');
-        expect(dataTable.getRowName(adminSite).isPresent()).toBe(false, 'Incorrect site appears in list');
+        expect(dataTable.getRowByName(adminSite).isPresent()).toBe(false, 'Incorrect site appears in list');
 
         dataTable.getRows()
             .map((row) => {
@@ -136,7 +134,7 @@ describe('File Libraries', () => {
             });
     });
 
-    it('Site ID is displayed when two sites have the same name [C217098]', () => {
+    it('Site ID is displayed when two sites have the same name - [C217098]', () => {
         const expectedSites = [
             `${siteName} (${siteId1})`,
             `${siteName} (${siteId2})`
@@ -149,12 +147,12 @@ describe('File Libraries', () => {
             });
     });
 
-    it('Tooltip for sites without description [C217096]', () => {
+    it('Tooltip for sites without description - [C217096]', () => {
         const tooltip = dataTable.getItemNameTooltip(sitePrivate);
         expect(tooltip).toBe(`${sitePrivate}`);
     });
 
-    it('Tooltip for sites with description [C217097]', () => {
+    it('Tooltip for sites with description - [C217097]', () => {
         const tooltip = dataTable.getItemNameTooltip(siteModerated);
         expect(tooltip).toBe(`${siteDescription}`);
     });

@@ -24,7 +24,7 @@
  */
 
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -34,9 +34,9 @@ import {
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ShareDataTableAdapter } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('LibrariesComponent', () => {
     let fixture: ComponentFixture<LibrariesComponent>;
@@ -155,7 +155,7 @@ describe('LibrariesComponent', () => {
 
         it('navigates to node id', () => {
             const document = { id: 'documentId' };
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: document }));
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: document }));
 
             component.navigate(node.id);
 
@@ -163,35 +163,23 @@ describe('LibrariesComponent', () => {
         });
     });
 
-    describe('onNodeDoubleClick', () => {
-        it('navigates to document', () => {
+    describe('navigateTo', () => {
+        it('navigates into library folder', () => {
             spyOn(component, 'navigate');
 
-            const event: any = {
-                detail: {
-                    node: {
-                        entry: { guid: 'node-guid' }
-                    }
-                }
+            const site: any = {
+                entry: { guid: 'node-guid' }
             };
 
-            component.onNodeDoubleClick(event);
+            component.navigateTo(site);
 
             expect(component.navigate).toHaveBeenCalledWith('node-guid');
         });
 
-        it(' does not navigate when document is not provided', () => {
+        it(' does not navigate when library is not provided', () => {
             spyOn(component, 'navigate');
 
-            const event: any = {
-                detail: {
-                    node: {
-                        entry: null
-                    }
-                }
-            };
-
-            component.onNodeDoubleClick(event);
+            component.navigateTo(null);
 
             expect(component.navigate).not.toHaveBeenCalled();
         });

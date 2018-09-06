@@ -18,6 +18,16 @@
     .adf-data-table {
         border: none !important;
 
+        .dl-link {
+            text-decoration: none;
+            color: mat-color($foreground, text);
+
+            &:hover {
+                color: #2196F3;
+                text-decoration: underline;
+            }
+        }
+
         .adf-datatable-selected > svg {
             // fill: mat-color($primary);
             fill: #2196f3;

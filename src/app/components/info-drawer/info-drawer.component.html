@@ -3,30 +3,12 @@
 </div>
 <ng-container *ngIf="!isLoading && !!displayNode">
     <adf-info-drawer [title]="'APP.INFO_DRAWER.TITLE' | translate">
-        <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.PROPERTIES' | translate">
-            <adf-content-metadata-card
-                [readOnly]="!canUpdateNode()"
-                [displayEmpty]="canUpdateNode()"
-                [preset]="'custom'"
-                [node]="displayNode">
-            </adf-content-metadata-card>
-        </adf-info-drawer-tab>
-
-        <adf-info-drawer-tab [label]="'APP.INFO_DRAWER.TABS.VERSIONS' | translate">
-            <ng-container *ngIf="isFileSelected;else empty">
-                <adf-version-manager
-                    [showComments]="'adf-version-manager.allowComments' | adfAppConfig:true"
-                    [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig:true"
-                    [node]="displayNode">
-                </adf-version-manager>
-            </ng-container>
-
-            <ng-template #empty>
-                <div class="adf-manage-versions-empty">
-                    <mat-icon class="adf-manage-versions-empty-icon">face</mat-icon>
-                    {{ 'VERSION.SELECTION.EMPTY' | translate }}
-                </div>
-            </ng-template>
+        <adf-info-drawer-tab
+            *ngFor="let tab of tabs"
+            [icon]="tab.icon"
+            [label]="tab.title | translate">
+            <adf-dynamic-tab [node]="displayNode" [id]="tab.component" [attr.data-automation-id]="tab.component">
+            </adf-dynamic-tab>
         </adf-info-drawer-tab>
     </adf-info-drawer>
 </ng-container>

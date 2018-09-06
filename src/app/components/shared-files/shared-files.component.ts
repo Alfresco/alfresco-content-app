@@ -24,24 +24,26 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { UploadService } from '@alfresco/adf-core';
-
-import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 @Component({
     templateUrl: './shared-files.component.html'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
+    isSmallScreen = false;
 
-    constructor(store: Store<AppStore>,
-                private uploadService: UploadService,
-                private content: ContentManagementService,
-                public permission: NodePermissionService) {
-        super(store);
+    constructor(
+        store: Store<AppStore>,
+        extensions: AppExtensionService,
+        content: ContentManagementService,
+        private breakpointObserver: BreakpointObserver
+    ) {
+        super(store, extensions, content);
     }
 
     ngOnInit() {
@@ -52,7 +54,15 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
             this.content.nodesMoved.subscribe(() => this.reload()),
             this.content.nodesRestored.subscribe(() => this.reload()),
             this.content.linksUnshared.subscribe(() => this.reload()),
-            this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         ]);
     }
 }

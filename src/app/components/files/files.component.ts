@@ -27,15 +27,16 @@ import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity, NodePaging, PathElement, PathElementEntity } from 'alfresco-js-api';
-import { Observable } from 'rxjs/Rx';
-import { BrowsingFilesService } from '../../common/services/browsing-files.service';
-import { ContentManagementService } from '../../common/services/content-management.service';
-import { NodeActionsService } from '../../common/services/node-actions.service';
-import { NodePermissionService } from '../../common/services/node-permission.service';
+import { MinimalNodeEntity, MinimalNodeEntryEntity, PathElement, PathElementEntity } from 'alfresco-js-api';
+import { ContentManagementService } from '../../services/content-management.service';
+import { NodeActionsService } from '../../services/node-actions.service';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { SetCurrentFolderAction } from '../../store/actions';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     templateUrl: './files.component.html'
@@ -43,6 +44,7 @@ import { ContentApiService } from '../../services/content-api.service';
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     isValidPath = true;
+    isSmallScreen = false;
 
     private nodePath: PathElement[];
 
@@ -52,16 +54,16 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
                 store: Store<AppStore>,
                 private nodeActionsService: NodeActionsService,
                 private uploadService: UploadService,
-                private contentManagementService: ContentManagementService,
-                private browsingFilesService: BrowsingFilesService,
-                public permission: NodePermissionService) {
-        super(store);
+                content: ContentManagementService,
+                extensions: AppExtensionService,
+                private breakpointObserver: BreakpointObserver) {
+        super(store, extensions, content);
     }
 
     ngOnInit() {
         super.ngOnInit();
 
-        const { route, contentManagementService, nodeActionsService, uploadService } = this;
+        const { route, content, nodeActionsService, uploadService } = this;
         const { data } = route.snapshot;
 
         this.title = data.title;
@@ -69,43 +71,49 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         route.params.subscribe(({ folderId }: Params) => {
             const nodeId = folderId || data.defaultNodeId;
 
-            this.contentApi.getNode(nodeId)
-                .map(node => node.entry)
-                .do(node => {
-                    if (node.isFolder) {
-                        this.updateCurrentNode(node);
-                    } else {
-                        this.router.navigate(['/personal-files', node.parentId], { replaceUrl: true });
-                    }
-                })
-                .skipWhile(node => !node.isFolder)
-                .flatMap(node => this.fetchNodes(node.id))
+            this.contentApi
+                .getNode(nodeId)
                 .subscribe(
-                    () => this.isValidPath = true,
+                    node => {
+                        this.isValidPath = true;
+
+                        if (node.entry && node.entry.isFolder) {
+                            this.updateCurrentNode(node.entry);
+                        } else {
+                            this.router.navigate(
+                                ['/personal-files', node.entry.parentId],
+                                { replaceUrl: true }
+                            );
+                        }
+                    },
                     () => this.isValidPath = false
                 );
         });
 
         this.subscriptions = this.subscriptions.concat([
             nodeActionsService.contentCopied.subscribe((nodes) => this.onContentCopied(nodes)),
-            contentManagementService.folderCreated.subscribe(() => this.documentList.reload()),
-            contentManagementService.folderEdited.subscribe(() => this.documentList.reload()),
-            contentManagementService.nodesDeleted.subscribe(() => this.documentList.reload()),
-            contentManagementService.nodesMoved.subscribe(() => this.documentList.reload()),
-            contentManagementService.nodesRestored.subscribe(() => this.documentList.reload()),
-            uploadService.fileUploadComplete.debounceTime(300).subscribe(file => this.onFileUploadedEvent(file)),
-            uploadService.fileUploadDeleted.debounceTime(300).subscribe((file) => this.onFileUploadedEvent(file)),
-            uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
+            content.folderCreated.subscribe(() => this.documentList.reload()),
+            content.folderEdited.subscribe(() => this.documentList.reload()),
+            content.nodesDeleted.subscribe(() => this.documentList.reload()),
+            content.nodesMoved.subscribe(() => this.documentList.reload()),
+            content.nodesRestored.subscribe(() => this.documentList.reload()),
+            uploadService.fileUploadComplete.pipe(debounceTime(300)).subscribe(file => this.onFileUploadedEvent(file)),
+            uploadService.fileUploadDeleted.pipe(debounceTime(300)).subscribe((file) => this.onFileUploadedEvent(file)),
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         ]);
     }
 
     ngOnDestroy() {
         super.ngOnDestroy();
-        this.browsingFilesService.onChangeParent.next(null);
-    }
-
-    fetchNodes(parentNodeId?: string): Observable<NodePaging> {
-       return this.contentApi.getNodeChildren(parentNodeId);
+        this.store.dispatch(new SetCurrentFolderAction(null));
     }
 
     navigate(nodeId: string = null) {
@@ -120,7 +128,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         });
     }
 
-    onNodeDoubleClick(node: MinimalNodeEntity) {
+    navigateTo(node: MinimalNodeEntity) {
         if (node && node.entry) {
             const { id, isFolder } = node.entry;
 
@@ -220,7 +228,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         }
 
         this.node = node;
-        this.browsingFilesService.onChangeParent.next(node);
+        this.store.dispatch(new SetCurrentFolderAction(node));
     }
 
     // todo: review this approach once 5.2.3 is out

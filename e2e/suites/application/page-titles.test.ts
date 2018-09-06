@@ -25,25 +25,32 @@
 
 import { browser } from 'protractor';
 
-import { SIDEBAR_LABELS } from '../../configs';
+import { SIDEBAR_LABELS, PAGE_TITLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { Utils } from '../../utilities/utils';
+
 
 describe('Page titles', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
+    const adminApi = new RepoClient();
+    const { nodes: nodesApi } = adminApi;
+    const file = `file-${Utils.random()}.txt`; let fileId;
+    const header = page.header;
 
     xit('');
 
     describe('on Login / Logout pages', () => {
-        it('on Login page', () => {
+        it('on Login page - [C217155]', () => {
             loginPage.load()
                 .then(() => {
                     expect(browser.getTitle()).toContain('Sign in');
                 });
         });
 
-        it('after logout', () => {
+        it('after logout - [C217156]', () => {
             loginPage.loginWithAdmin()
                 .then(() => page.signOut())
                 .then(() => {
@@ -51,7 +58,7 @@ describe('Page titles', () => {
                 });
         });
 
-        it('when pressing Back after Logout', () => {
+        it('when pressing Back after Logout - [C280414]', () => {
             loginPage.loginWithAdmin()
                 .then(() => page.signOut())
                 .then(() => browser.navigate().back())
@@ -71,7 +78,7 @@ describe('Page titles', () => {
                 .then(done);
         });
 
-        it('Personal Files page', () => {
+        it('Personal Files page - [C217157]', () => {
             const label = SIDEBAR_LABELS.PERSONAL_FILES;
 
             page.sidenav.navigateToLinkByLabel(label)
@@ -80,7 +87,7 @@ describe('Page titles', () => {
                 });
         });
 
-        it('File Libraries page', () => {
+        it('File Libraries page - [C217158]', () => {
             const label = SIDEBAR_LABELS.FILE_LIBRARIES;
 
             page.sidenav.navigateToLinkByLabel(label)
@@ -89,7 +96,7 @@ describe('Page titles', () => {
                 });
         });
 
-        it('Shared Files page', () => {
+        it('Shared Files page - [C217159]', () => {
             const label = SIDEBAR_LABELS.SHARED_FILES;
 
             page.sidenav.navigateToLinkByLabel(label)
@@ -98,7 +105,7 @@ describe('Page titles', () => {
                 });
         });
 
-        it('Recent Files page', () => {
+        it('Recent Files page - [C217160]', () => {
             const label = SIDEBAR_LABELS.RECENT_FILES;
 
             page.sidenav.navigateToLinkByLabel(label)
@@ -107,7 +114,7 @@ describe('Page titles', () => {
                 });
         });
 
-        it('Favorites page', () => {
+        it('Favorites page - [C217161]', () => {
             const label = SIDEBAR_LABELS.FAVORITES;
 
             page.sidenav.navigateToLinkByLabel(label)
@@ -116,13 +123,56 @@ describe('Page titles', () => {
                 });
         });
 
-        it('Trash page', () => {
+        it('Trash page - [C217162]', () => {
             const label = SIDEBAR_LABELS.TRASH;
 
             page.sidenav.navigateToLinkByLabel(label)
                 .then(() => {
                     expect(browser.getTitle()).toContain(label);
                 });
+        });
+
+    });
+
+    describe('on File Viewer', () => {
+        beforeAll( async (done) => {
+            fileId = (await nodesApi.createFile(file)).entry.id;
+            await loginPage.loginWithAdmin();
+            done();
+        });
+
+        afterAll( async (done) => {
+            await logoutPage.load();
+            await adminApi.nodes.deleteNodeById(fileId);
+            done();
+        });
+
+        it('File Preview page - [C280415]', async () => {
+           await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+           await page.dataTable.waitForHeader();
+           await page.dataTable.doubleClickOnRowByName(file);
+           expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);
+        });
+    });
+
+    describe ('on Search query', () => {
+        beforeAll( async (done) => {
+            await loginPage.loginWithAdmin();
+            done();
+        });
+
+        afterAll( async (done) => {
+           await logoutPage.load();
+           done();
+        });
+
+        it('Search Results page - [C280413]', async () => {
+            await header.waitForSearchButton();
+            await header.searchButton.click();
+            await page.dataTable.waitForHeader();
+            await header.waitForSearchBar();
+            await header.searchForText(file);
+           expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
         });
     });
 });

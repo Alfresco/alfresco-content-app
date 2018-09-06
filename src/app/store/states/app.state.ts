@@ -23,16 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SelectionState } from './selection.state';
-import { ProfileState } from './profile.state';
+import { SelectionState, ProfileState, NavigationState } from '@alfresco/adf-extensions';
 
 export interface AppState {
     appName: string;
     headerColor: string;
     logoPath: string;
     languagePicker: boolean;
+    sharedUrl: string;
     selection: SelectionState;
     user: ProfileState;
+    navigation: NavigationState;
+    infoDrawerOpened: boolean;
+    documentDisplayMode: string;
 }
 
 export const INITIAL_APP_STATE: AppState = {
@@ -40,17 +43,24 @@ export const INITIAL_APP_STATE: AppState = {
     headerColor: '#2196F3',
     logoPath: 'assets/images/alfresco-logo-white.svg',
     languagePicker: false,
+    sharedUrl: '',
     user: {
-        isAdmin: true, // 5.2.x
+        isAdmin: null,
         id: null,
         firstName: '',
         lastName: ''
     },
     selection: {
         nodes: [],
+        libraries: [],
         isEmpty: true,
         count: 0
-    }
+    },
+    navigation: {
+        currentFolder: null
+    },
+    infoDrawerOpened: false,
+    documentDisplayMode: 'list'
 };
 
 export interface AppStore {

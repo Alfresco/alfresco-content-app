@@ -51,7 +51,7 @@ describe('Personal Files', () => {
     beforeAll(done => {
         Promise
             .all([
-                apis.admin.people.createUser(username),
+                apis.admin.people.createUser({ username }),
                 apis.admin.nodes.createFolders([ adminFolder ])
             ])
             .then(() => apis.user.nodes.createFolders([ userFolder ]))
@@ -85,12 +85,9 @@ describe('Personal Files', () => {
             logoutPage.load().then(done);
         });
 
-        it('has "Data Dictionary" folder [C213241]', () => {
-            expect(dataTable.getRowName('Data Dictionary').isPresent()).toBe(true);
-        });
-
-        it('has created content', () => {
-            expect(dataTable.getRowName(adminFolder).isPresent()).toBe(true);
+        it('has Data Dictionary and created content - [C213241]', () => {
+            expect(dataTable.getRowByName('Data Dictionary').isPresent()).toBe(true);
+            expect(dataTable.getRowByName(adminFolder).isPresent()).toBe(true);
         });
     });
 
@@ -109,7 +106,7 @@ describe('Personal Files', () => {
             logoutPage.load().then(done);
         });
 
-        it('has the correct columns [C217142]', () => {
+        it('has the correct columns - [C217142]', () => {
             const labels = [ 'Name', 'Size', 'Modified', 'Modified by' ];
             const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
@@ -120,22 +117,22 @@ describe('Personal Files', () => {
             });
         });
 
-        it('has default sorted column [C217143]', () => {
+        it('has default sorted column - [C217143]', () => {
             expect(dataTable.getSortedColumnHeader().getText()).toBe('Modified');
         });
 
-        it('has user created content [C213242]', () => {
-            expect(dataTable.getRowName(userFolder).isPresent())
+        it('has user created content - [C213242]', () => {
+            expect(dataTable.getRowByName(userFolder).isPresent())
                 .toBe(true);
         });
 
-        it('navigates to folder [C213244]', () => {
+        it('navigates to folder - [C213244]', () => {
             const getNodeIdPromise = apis.user.nodes
                 .getNodeByPath(`/${userFolder}`)
-                .then(response => response.data.entry.id);
+                .then(response => response.entry.id);
 
             const navigatePromise = dataTable
-                .doubleClickOnItemName(userFolder)
+                .doubleClickOnRowByName(userFolder)
                 .then(() => dataTable.waitForHeader());
 
             Promise
@@ -147,24 +144,24 @@ describe('Personal Files', () => {
                     expect(browser.getCurrentUrl())
                         .toContain(nodeId, 'Node ID is not in the URL');
 
-                    expect(dataTable.getRowName(userFile).isPresent())
+                    expect(dataTable.getRowByName(userFile).isPresent())
                         .toBe(true, 'user file is missing');
                 });
         });
 
-        it('redirects to Personal Files on clicking the link from sidebar [C213245]', () => {
-            personalFilesPage.dataTable.doubleClickOnItemName(userFolder)
+        it('redirects to Personal Files on clicking the link from sidebar - [C213245]', () => {
+            personalFilesPage.dataTable.doubleClickOnRowByName(userFolder)
                 .then(() => personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
                 .then(() => browser.getCurrentUrl())
                 .then(url => expect(url.endsWith(APP_ROUTES.PERSONAL_FILES)).toBe(true, 'incorrect url'));
         });
 
-        it('page loads correctly after browser refresh [C213246]', () => {
+        it('page loads correctly after browser refresh - [C213246]', () => {
             personalFilesPage.refresh()
                 .then(() => expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES));
         });
 
-        it('page load by URL [C213247]', () => {
+        it('page load by URL - [C213247]', () => {
             let url;
             browser.getCurrentUrl()
                 .then(resp => url = resp)

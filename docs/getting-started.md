@@ -1,3 +1,7 @@
+---
+title: Getting Started
+---
+
 # Getting Started
 
 ## Prerequisites
@@ -478,7 +482,7 @@ In the `app.config.json` define a link entry which will point to the custom page
         {
           "icon": "work",
           "label": "Link",
-          "title": "My custome link",
+          "title": "My custom link",
           "route": {
               "url": "/custom-route"
           }

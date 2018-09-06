@@ -24,32 +24,47 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { selectUser } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states/app.state';
-import { ProfileState } from '../../store/states/profile.state';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { Observable } from 'rxjs';
+import { ProfileState } from '@alfresco/adf-extensions';
 
 @Component({
     templateUrl: './trashcan.component.html'
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
-    user: ProfileState;
+    isSmallScreen = false;
+    user$: Observable<ProfileState>;
 
-    constructor(private contentManagementService: ContentManagementService,
-                store: Store<AppStore>) {
-        super(store);
+    constructor(content: ContentManagementService,
+                extensions: AppExtensionService,
+                store: Store<AppStore>,
+                private breakpointObserver: BreakpointObserver) {
+        super(store, extensions, content);
+        this.user$ = this.store.select(selectUser);
     }
 
     ngOnInit() {
         super.ngOnInit();
 
         this.subscriptions.push(
-            this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
-            this.contentManagementService.nodesPurged.subscribe(() => this.reload()),
-            this.contentManagementService.nodesRestored.subscribe(() => this.reload()),
-            this.store.select(selectUser).subscribe((user) => this.user = user)
+            this.content.nodesRestored.subscribe(() => this.reload()),
+            this.content.nodesPurged.subscribe(() => this.reload()),
+            this.content.nodesRestored.subscribe(() => this.reload()),
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         );
     }
  }

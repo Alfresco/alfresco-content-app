@@ -25,10 +25,10 @@
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, PageTitleService, DebugAppConfigService } from '@alfresco/adf-core';
+import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 
 import { AppComponent } from './app.component';
@@ -36,7 +36,6 @@ import { APP_ROUTES } from './app.routes';
 
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { LoginComponent } from './components/login/login.component';
-import { PreviewComponent } from './components/preview/preview.component';
 import { FilesComponent } from './components/files/files.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
@@ -45,41 +44,35 @@ import { SharedFilesComponent } from './components/shared-files/shared-files.com
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { SidenavViewsManagerDirective } from './components/layout/sidenav-views-manager.directive';
-import { HeaderComponent } from './components/header/header.component';
 import { CurrentUserComponent } from './components/current-user/current-user.component';
-import { SearchInputComponent } from './components/search-input/search-input.component';
-import { SearchInputControlComponent } from './components/search-input-control/search-input-control.component';
+import { SearchInputComponent } from './components/search/search-input/search-input.component';
+import { SearchInputControlComponent } from './components/search/search-input-control/search-input-control.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { AboutComponent } from './components/about/about.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
-import { CustomDlRowComponent } from './components/custom-dl-row/custom-dl-row.component';
-import { NodeCopyDirective } from './common/directives/node-copy.directive';
-import { NodeDeleteDirective } from './common/directives/node-delete.directive';
-import { NodeMoveDirective } from './common/directives/node-move.directive';
-import { NodeRestoreDirective } from './common/directives/node-restore.directive';
-import { NodePermanentDeleteDirective } from './common/directives/node-permanent-delete.directive';
-import { NodeUnshareDirective } from './common/directives/node-unshare.directive';
-import { NodeVersionsDirective } from './common/directives/node-versions.directive';
+import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
-import { BrowsingFilesService } from './common/services/browsing-files.service';
-import { ContentManagementService } from './common/services/content-management.service';
-import { NodeActionsService } from './common/services/node-actions.service';
-import { NodePermissionService } from './common/services/node-permission.service';
-import { SearchComponent } from './components/search/search.component';
-import { SettingsComponent } from './components/settings/settings.component';
-import { PageTitleService as AcaPageTitleService } from './common/services/page-title.service';
-import { ProfileResolver } from './common/services/profile.resolver';
+import { LibraryDialogComponent } from './dialogs/library/library.dialog';
+import { ContentManagementService } from './services/content-management.service';
+import { NodeActionsService } from './services/node-actions.service';
+import { NodePermissionService } from './services/node-permission.service';
+import { SearchResultsComponent } from './components/search/search-results/search-results.component';
+import { ProfileResolver } from './services/profile.resolver';
+import { ExperimentalGuard } from './services/experimental-guard.service';
 
-import { InfoDrawerComponent } from './components/info-drawer/info-drawer.component';
-import { EditFolderDirective } from './directives/edit-folder.directive';
-import { CreateFolderDirective } from './directives/create-folder.directive';
-import { DownloadNodesDirective } from './directives/download-nodes.directive';
 import { AppStoreModule } from './store/app-store.module';
-import { PaginationDirective } from './directives/pagination.directive';
-import { DocumentListDirective } from './directives/document-list.directive';
 import { MaterialModule } from './material.module';
-import { ExperimentalDirective } from './directives/experimental.directive';
 import { ContentApiService } from './services/content-api.service';
+import { AppExtensionsModule } from './extensions.module';
+import { CoreExtensionsModule } from './extensions/core.extensions.module';
+import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
+import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
+import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
+import { AppRouteReuseStrategy } from './app.routes.strategy';
+import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
+import { DirectivesModule } from './directives/directives.module';
+import { ContextMenuModule } from './components/context-menu/context-menu.module';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { AppToolbarModule } from './components/toolbar/toolbar.module';
 
 @NgModule({
     imports: [
@@ -92,9 +85,17 @@ import { ContentApiService } from './services/content-api.service';
             enableTracing: false // enable for debug only
         }),
         MaterialModule,
-        CoreModule,
-        ContentModule,
-        AppStoreModule
+        CoreModule.forRoot(),
+        ContentModule.forRoot(),
+        AppStoreModule,
+        CoreExtensionsModule.forRoot(),
+        ExtensionsModule.forRoot(),
+        AppExtensionsModule,
+
+        DirectivesModule,
+        ContextMenuModule.forRoot(),
+        AppInfoDrawerModule,
+        AppToolbarModule
     ],
     declarations: [
         AppComponent,
@@ -102,7 +103,6 @@ import { ContentApiService } from './services/content-api.service';
         LoginComponent,
         LayoutComponent,
         SidenavViewsManagerDirective,
-        HeaderComponent,
         CurrentUserComponent,
         SearchInputComponent,
         SearchInputControlComponent,
@@ -113,30 +113,17 @@ import { ContentApiService } from './services/content-api.service';
         RecentFilesComponent,
         SharedFilesComponent,
         TrashcanComponent,
-        PreviewComponent,
-        AboutComponent,
         LocationLinkComponent,
-        CustomDlRowComponent,
-        NodeCopyDirective,
-        NodeDeleteDirective,
-        NodeMoveDirective,
-        NodeRestoreDirective,
-        NodePermanentDeleteDirective,
-        NodeUnshareDirective,
-        NodeVersionsDirective,
+        SearchResultsRowComponent,
         NodeVersionsDialogComponent,
-        SearchComponent,
-        SettingsComponent,
-        InfoDrawerComponent,
-        EditFolderDirective,
-        CreateFolderDirective,
-        DownloadNodesDirective,
-        PaginationDirective,
-        DocumentListDirective,
-        ExperimentalDirective
+        LibraryDialogComponent,
+        NodePermissionsDialogComponent,
+        PermissionsManagerComponent,
+        SearchResultsComponent,
+        SharedLinkViewComponent
     ],
     providers: [
-        { provide: PageTitleService, useClass: AcaPageTitleService },
+        { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
         { provide: AppConfigService, useClass: DebugAppConfigService },
         {
             provide: TRANSLATION_PROVIDER,
@@ -146,15 +133,17 @@ import { ContentApiService } from './services/content-api.service';
                 source: 'assets'
             }
         },
-        BrowsingFilesService,
         ContentManagementService,
         NodeActionsService,
         NodePermissionService,
         ProfileResolver,
+        ExperimentalGuard,
         ContentApiService
     ],
     entryComponents: [
-        NodeVersionsDialogComponent
+        LibraryDialogComponent,
+        NodeVersionsDialogComponent,
+        NodePermissionsDialogComponent
     ],
     bootstrap: [AppComponent]
 })

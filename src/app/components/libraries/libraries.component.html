@@ -2,35 +2,29 @@
     <div class="inner-layout__header">
         <adf-breadcrumb root="APP.BROWSE.LIBRARIES.TITLE">
         </adf-breadcrumb>
-        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
-            <ng-container *ifExperimental="'libraries'">
-                <button
-                    color="primary"
-                    mat-icon-button
-                    title="{{ 'APP.ACTIONS.MORE' | translate }}"
-                    [matMenuTriggerFor]="actionsMenu">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #actionsMenu="matMenu" [overlapTrigger]="false">
-                    <button
-                        mat-menu-item
-                        (click)="deleteLibrary(selection.first)">
-                        <mat-icon>delete</mat-icon>
-                        <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
-                    </button>
-                </mat-menu>
+
+        <adf-toolbar class="inline">
+            <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
+
+            <ng-container *ifExperimental="'extensions'">
+                <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
+                </ng-container>
             </ng-container>
         </adf-toolbar>
     </div>
 
     <div class="inner-layout__content">
         <div class="inner-layout__panel">
-            <adf-document-list acaDocumentList #documentList
+            <adf-document-list #documentList
+                acaDocumentList
+                acaContextActions
+                [display]="documentDisplayMode$ | async"
                 currentFolderId="-mysites-"
                 selectionMode="single"
                 [navigate]="false"
                 [sorting]="[ 'title', 'asc' ]"
-                (node-dblclick)="onNodeDoubleClick($event)">
+                (node-dblclick)="navigateTo($event.detail?.node)">
 
                 <empty-folder-content>
                     <ng-template>
@@ -55,13 +49,17 @@
                         key="title"
                         title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
                         <ng-template let-context>
-                            <span class="adf-datatable-cell" title="{{ makeLibraryTooltip(context.row.obj.entry) }}">
+                            <span
+                                class="adf-datatable-cell dl-link"
+                                title="{{ makeLibraryTooltip(context.row.obj.entry) }}"
+                                (click)="navigateTo(context?.row?.obj)">
                                 {{ makeLibraryTitle(context.row.obj.entry) }}
                             </span>
                         </ng-template>
                     </data-column>
 
                     <data-column
+                        *ngIf="!isSmallScreen"
                         key="visibility"
                         title="APP.DOCUMENT_LIST.COLUMNS.STATUS">
                         <ng-template let-value="value">

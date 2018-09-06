@@ -1,0 +1,36 @@
+@mixin adf-layout-header-theme($theme) {
+    $background: map-get($theme, background);
+
+    .adf-layout-header {
+        .mat-toolbar-single-row {
+            color: #ffffff !important;
+
+            .adf-app-logo {
+                margin-left: 6px;
+                vertical-align: middle;
+                margin-top: -3px;
+            }
+            .adf-app-title {
+                letter-spacing: -0.3px;
+                font-weight: 100;
+                cursor: pointer;
+            }
+            .mat-icon-button {
+                margin-right: 0;
+
+                .mat-icon {
+                    font-size: 29px;
+                    padding: 0 5px 0 0;
+                }
+            }
+        }
+
+        .adf-toolbar-divider {
+            margin: 0 5px;
+
+            & > div {
+                background-color: mat-color($background, card, 1);
+            }
+        }
+    }
+}

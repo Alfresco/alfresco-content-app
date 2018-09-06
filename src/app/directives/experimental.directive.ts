@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, TemplateRef, ViewContainerRef, Input } from '@angular/core';
+import { Directive, TemplateRef, ViewContainerRef, Input, EmbeddedViewRef } from '@angular/core';
 import { AppConfigService, StorageService } from '@alfresco/adf-core';
 import { environment } from '../../environments/environment';
 
@@ -32,6 +32,10 @@ import { environment } from '../../environments/environment';
     selector: '[ifExperimental]'
 })
 export class ExperimentalDirective {
+    private elseTemplateRef: TemplateRef<any>;
+    private elseViewRef: EmbeddedViewRef<any>;
+    private shouldRender: boolean;
+
     constructor(
         private templateRef: TemplateRef<any>,
         private viewContainerRef: ViewContainerRef,
@@ -43,19 +47,49 @@ export class ExperimentalDirective {
         const key = `experimental.${featureKey}`;
 
         const override = this.storage.getItem(key);
+
         if (override === 'true') {
-            this.viewContainerRef.createEmbeddedView(this.templateRef);
-            return;
+            this.shouldRender = true;
         }
 
         if (!environment.production) {
             const value = this.config.get(key);
             if (value === true || value === 'true') {
-                this.viewContainerRef.createEmbeddedView(this.templateRef);
-                return;
+                this.shouldRender = true;
             }
         }
 
-        this.viewContainerRef.clear();
+        if (override !== 'true' && environment.production) {
+            this.shouldRender = false;
+        }
+
+        this.updateView();
+    }
+
+    @Input() set ifExperimentalElse(templateRef: TemplateRef<any>) {
+        this.elseTemplateRef = templateRef;
+        this.elseViewRef = null;
+        this.updateView();
+    }
+
+    private updateView() {
+        if (this.shouldRender) {
+            this.viewContainerRef.clear();
+            this.elseViewRef = null;
+
+            if (this.templateRef) {
+                this.viewContainerRef.createEmbeddedView(this.templateRef);
+            }
+        } else {
+            if (this.elseViewRef) {
+                return;
+            }
+
+            this.viewContainerRef.clear();
+
+            if (this.elseTemplateRef) {
+                this.elseViewRef = this.viewContainerRef.createEmbeddedView(this.elseTemplateRef);
+            }
+        }
     }
 }

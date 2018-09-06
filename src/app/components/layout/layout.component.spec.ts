@@ -25,10 +25,7 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { PeopleContentService, AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
-import { Observable } from 'rxjs/Observable';
-import { BrowsingFilesService } from '../../common/services/browsing-files.service';
+import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { LayoutComponent } from './layout.component';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -36,16 +33,8 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 describe('LayoutComponent', () => {
     let fixture: ComponentFixture<LayoutComponent>;
     let component: LayoutComponent;
-    let browsingFilesService: BrowsingFilesService;
     let appConfig: AppConfigService;
     let userPreference: UserPreferencesService;
-
-    const navItem = {
-        label: 'some-label',
-        route: {
-            url: '/some-url'
-        }
-    };
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -54,36 +43,13 @@ describe('LayoutComponent', () => {
                 LayoutComponent,
                 SidenavViewsManagerDirective
             ],
-            providers: [
-                {
-                    provide: PeopleContentService,
-                    useValue: {
-                        getCurrentPerson: () => Observable.of({ entry: {} })
-                    }
-                }
-            ],
             schemas: [ NO_ERRORS_SCHEMA ]
         });
 
         fixture = TestBed.createComponent(LayoutComponent);
         component = fixture.componentInstance;
-        browsingFilesService = TestBed.get(BrowsingFilesService);
         appConfig = TestBed.get(AppConfigService);
         userPreference = TestBed.get(UserPreferencesService);
-    });
-
-    it('sets current node', () => {
-        appConfig.config = {
-            navigation: [navItem]
-        };
-
-        const currentNode = <MinimalNodeEntryEntity>{ id: 'someId' };
-
-        fixture.detectChanges();
-
-        browsingFilesService.onChangeParent.next(currentNode);
-
-        expect(component.node).toEqual(currentNode);
     });
 
     describe('sidenav state', () => {

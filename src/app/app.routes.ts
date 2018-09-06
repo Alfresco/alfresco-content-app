@@ -25,6 +25,7 @@
 
 import { Routes } from '@angular/router';
 import { AuthGuardEcm } from '@alfresco/adf-core';
+import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 
 import { LayoutComponent } from './components/layout/layout.component';
 
@@ -34,15 +35,12 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
-import { AboutComponent } from './components/about/about.component';
 
 import { LoginComponent } from './components/login/login.component';
-import { PreviewComponent } from './components/preview/preview.component';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
-import { SearchComponent } from './components/search/search.component';
-import { SettingsComponent } from './components/settings/settings.component';
+import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 
-import { ProfileResolver } from './common/services/profile.resolver';
+import { ProfileResolver } from './services/profile.resolver';
 
 export const APP_ROUTES: Routes = [
     {
@@ -54,9 +52,16 @@ export const APP_ROUTES: Routes = [
     },
     {
         path: 'settings',
-        component: SettingsComponent,
+        loadChildren: 'src/app/components/settings/settings.module#AppSettingsModule',
         data: {
             title: 'Settings'
+        }
+    },
+    {
+        path: 'preview/s/:id',
+        component: SharedLinkViewComponent,
+        data: {
+            title: 'APP.PREVIEW.TITLE',
         }
     },
     {
@@ -84,7 +89,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -114,7 +119,7 @@ export const APP_ROUTES: Routes = [
                 },
                 {
                     path: ':folderId/preview/:nodeId',
-                    component: PreviewComponent,
+                    loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                     data: {
                         title: 'APP.PREVIEW.TITLE',
                         navigateMultiple: true,
@@ -146,7 +151,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -155,7 +160,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: ':folderId/preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -179,7 +184,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -203,7 +208,7 @@ export const APP_ROUTES: Routes = [
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,
@@ -222,7 +227,7 @@ export const APP_ROUTES: Routes = [
             },
             {
                 path: 'about',
-                component: AboutComponent,
+                loadChildren: 'src/app/components/about/about.module#AboutModule',
                 data: {
                     title: 'APP.BROWSE.ABOUT.TITLE'
                 }
@@ -232,14 +237,15 @@ export const APP_ROUTES: Routes = [
                 children: [
                     {
                         path: '',
-                        component: SearchComponent,
+                        component: SearchResultsComponent,
                         data: {
-                            title: 'APP.BROWSE.SEARCH.TITLE'
+                            title: 'APP.BROWSE.SEARCH.TITLE',
+                            reuse: true
                         }
                     },
                     {
                         path: 'preview/:nodeId',
-                        component: PreviewComponent,
+                        loadChildren: 'src/app/components/preview/preview.module#PreviewModule',
                         data: {
                             title: 'APP.PREVIEW.TITLE',
                             navigateMultiple: true,

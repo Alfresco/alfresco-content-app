@@ -27,15 +27,12 @@ import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
 
 export class SearchApi extends RepoApi {
-    apiDefinition = 'search';
 
-    search(data: any[]): Promise<any> {
-        return this
-            .post(`/search`, { data }, this.apiDefinition)
-            .catch(this.handleError);
+    constructor(username?, password?) {
+        super(username, password);
     }
 
-    queryRecentFiles(username: string): Promise<any> {
+    async queryRecentFiles(username: string) {
         const data = {
             query: {
                 query: '*',
@@ -48,24 +45,21 @@ export class SearchApi extends RepoApi {
             ]
         };
 
-        return this
-            .post(`/search`, { data }, this.apiDefinition)
-            .catch(this.handleError);
+        await this.apiAuth();
+        return this.alfrescoJsApi.search.searchApi.search(data);
+
     }
 
-    waitForApi(username, data) {
-        const recentFiles = () => {
-            return this.queryRecentFiles(username)
-                .then(response => response.data.list.pagination.totalItems)
-                .then(totalItems => {
-                    if ( totalItems < data.expect) {
-                        return Promise.reject(totalItems);
-                    } else {
-                        return Promise.resolve(totalItems);
-                    }
-                });
+    async waitForApi(username, data) {
+        const recentFiles = async () => {
+            const totalItems = (await this.queryRecentFiles(username)).list.pagination.totalItems;
+            if ( totalItems < data.expect) {
+                return Promise.reject(totalItems);
+            } else {
+                return Promise.resolve(totalItems);
+            }
         };
 
-        return Utils.retryCall(recentFiles);
+        return await Utils.retryCall(recentFiles);
     }
 }

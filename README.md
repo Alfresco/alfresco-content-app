@@ -1,6 +1,6 @@
    <p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - make business flow"></p>
    
-# Alfresco Example Content Application
+# Example Content Application
 
 ## Introduction
 
@@ -24,11 +24,19 @@ To get help on Angular CLI use ng help or read the [Angular CLI README](https://
 Isuses can be raised in GitHub or in the Alfresco JIRA project. 
 Please include a clear description, steps to reproduce and screenshots where appropriate.All issues will be reviewed; bugs will be categorized if reproducible and enhancement/feature suggestions will be considered against existing priorities if the use case serves a general-purpose need.
 
-#### High level features planned for Q3 2018 (July - September)
-* Library Management - create, find, join and manage file libraries.
-* Commenting - View and add comments to files and folders
-* Sharing Files - activate and deactivate shared file both manually and automatically.
+#### Features added in the latest release
+* Application Extensibility	- first phase of extensibilty, see [Documentation](https://alfresco.github.io/alfresco-content-app/#/extending) for details.
+* Sharing Files - activate and deactivate shared file links.
+* Commenting - View and add comments to files and folders.
 * Permissions - update file and folder permissions.
+* Print - print action from the file viewer
+* Improved UX - single click to open folders and files, and right click actions menu
+
+Please refer to the [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details of all changes.
+
+#### High level features planned for H2 2018 (July - December)
+* Library Management - create, find, join and manage file libraries.
+* Sharing Files - add an expiry date to a sharable link.
 * Application Extensibility	- Extension framework to provide simple ways to extend the application.
 
 ### Want to help?

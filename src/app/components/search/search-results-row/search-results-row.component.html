@@ -1,0 +1,17 @@
+<div class="line">
+    <span *ngIf="isFile" (click)="showPreview()" class="link"> {{ name }} </span>
+    <span *ngIf="!isFile" (click)="navigate()" class="bold link"> {{ name }} </span>
+    <span *ngIf="hasTitle && showTitle"> ( {{ title }} ) </span>
+</div>
+
+<div *ngIf="hasDescription" class="line">  {{ description }} </div>
+
+<div class="line">
+    {{ 'APP.BROWSE.SEARCH.CUSTOM_ROW.MODIFIED' | translate }}: {{ modifiedAt | date:'medium' }}
+
+    by <span> {{ user }}  </span>
+
+    <span *ngIf="size">| {{ 'APP.BROWSE.SEARCH.CUSTOM_ROW.SIZE' | translate }}: {{ size | adfFileSize }} </span>
+</div>
+
+<div class="line">{{ 'APP.BROWSE.SEARCH.CUSTOM_ROW.LOCATION' | translate }}: <aca-location-link [context]="context"></aca-location-link></div>

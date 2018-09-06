@@ -31,9 +31,6 @@ import { environment } from './environments/environment';
 
 import 'hammerjs';
 
-import * as pdfjsLib from 'pdfjs-dist';
-pdfjsLib.PDFJS.workerSrc = 'pdf.worker.js';
-
 if (environment.production) {
   enableProdMode();
 }

@@ -32,20 +32,20 @@ export class Menu extends Component {
         root: '.mat-menu-panel',
         item: '.mat-menu-item',
         icon: '.mat-icon',
-        uploadFiles: 'input[id="upload-multiple-files"]'
+        uploadFiles: 'app-upload-files'
     };
 
     items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
     backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
-    uploadFiles: ElementFinder = this.component.element(by.css(Menu.selectors.uploadFiles));
+    uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
 
     constructor(ancestor?: ElementFinder) {
         super(Menu.selectors.root, ancestor);
     }
 
     waitForMenuToOpen() {
-        return browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT)
-            .then(() => browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT))
+        return browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT)
+            .then(() => browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT))
             .then(() => browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT));
     }
 

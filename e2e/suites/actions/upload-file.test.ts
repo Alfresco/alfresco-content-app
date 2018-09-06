@@ -45,8 +45,8 @@ describe('Upload files', () => {
     const { dataTable } = page;
 
     beforeAll(done => {
-        apis.admin.people.createUser(username)
-            .then(() => apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.data.entry.id))
+        apis.admin.people.createUser({ username })
+            .then(() => apis.user.nodes.createFolder(folder1).then(resp => folder1Id = resp.entry.id))
 
             .then(() => loginPage.loginWith(username))
             .then(done);
@@ -67,7 +67,7 @@ describe('Upload files', () => {
     });
 
     it('Upload a file', () => {
-        dataTable.doubleClickOnItemName(folder1)
+        dataTable.doubleClickOnRowByName(folder1)
             .then(() => page.sidenav.openNewMenu())
             .then(() => page.sidenav.menu.uploadFile().sendKeys(`${__dirname}/create-folder.test.ts`));
     });

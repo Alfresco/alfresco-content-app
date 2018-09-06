@@ -26,33 +26,51 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ShareDataRow } from '@alfresco/adf-content-services';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
-import { DeleteLibraryAction } from '../../store/actions';
 import { SiteEntry } from 'alfresco-js-api';
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { map } from 'rxjs/operators';
 
 @Component({
     templateUrl: './libraries.component.html'
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
 
+    isSmallScreen = false;
+
     constructor(private route: ActivatedRoute,
-                private content: ContentManagementService,
+                content: ContentManagementService,
                 private contentApi: ContentApiService,
                 store: Store<AppStore>,
-                private router: Router) {
-        super(store);
+                extensions: AppExtensionService,
+                private router: Router,
+                private breakpointObserver: BreakpointObserver) {
+        super(store, extensions, content);
     }
 
     ngOnInit() {
         super.ngOnInit();
 
         this.subscriptions.push(
-            this.content.siteDeleted.subscribe(() => this.reload())
+            this.content.libraryDeleted.subscribe(() => this.reload()),
+            this.content.libraryCreated.subscribe((node: SiteEntry) => {
+                this.navigate(node.entry.guid);
+            }),
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         );
     }
 
@@ -79,11 +97,9 @@ export class LibrariesComponent extends PageComponent implements OnInit {
         return isDuplicate ? `${title} (${id})` : `${title}`;
     }
 
-    onNodeDoubleClick(e: CustomEvent) {
-        const node: any = e.detail.node.entry;
-
-        if (node && node.guid) {
-            this.navigate(node.guid);
+    navigateTo(node: SiteEntry) {
+        if (node && node.entry.guid) {
+            this.navigate(node.entry.guid);
         }
     }
 
@@ -91,16 +107,10 @@ export class LibrariesComponent extends PageComponent implements OnInit {
         if (libraryId) {
             this.contentApi
                 .getNode(libraryId, { relativePath: '/documentLibrary' })
-                .map(node => node.entry)
+                .pipe(map(node => node.entry))
                 .subscribe(documentLibrary => {
                     this.router.navigate([ './', documentLibrary.id ], { relativeTo: this.route });
                 });
-        }
-    }
-
-    deleteLibrary(node: SiteEntry) {
-        if (node && node.entry) {
-            this.store.dispatch(new DeleteLibraryAction(node.entry.id));
         }
     }
 }

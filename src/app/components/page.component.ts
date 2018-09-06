@@ -24,16 +24,17 @@
  */
 
 import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
-import { FileUploadErrorEvent } from '@alfresco/adf-core';
+import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Subject, Subscription } from 'rxjs/Rx';
-import { SnackbarErrorAction, ViewNodeAction, SetSelectedNodesAction } from '../store/actions';
-import { appSelection } from '../store/selectors/app.selectors';
+import { AppExtensionService } from '../extensions/extension.service';
+import { ContentManagementService } from '../services/content-management.service';
+import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
+import { appSelection, currentFolder, documentDisplayMode, infoDrawerOpened, sharedUrl } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
-import { SelectionState } from '../store/states/selection.state';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
 
@@ -43,9 +44,15 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     documentList: DocumentListComponent;
 
     title = 'Page';
-    infoDrawerOpened = false;
+    infoDrawerOpened$: Observable<boolean>;
     node: MinimalNodeEntryEntity;
     selection: SelectionState;
+    documentDisplayMode$: Observable<string>;
+    sharedPreviewUrl$: Observable<string>;
+    actions: Array<ContentActionRef> = [];
+    viewerToolbarActions: Array<ContentActionRef> = [];
+    canUpdateNode = false;
+    canUpload = false;
 
     protected subscriptions: Subscription[] = [];
 
@@ -53,17 +60,30 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
     }
 
-    constructor(protected store: Store<AppStore>) {}
+    constructor(
+        protected store: Store<AppStore>,
+        protected extensions: AppExtensionService,
+        protected content: ContentManagementService) {}
 
     ngOnInit() {
+        this.sharedPreviewUrl$ = this.store.select(sharedUrl);
+        this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
+        this.documentDisplayMode$ = this.store.select(documentDisplayMode);
+
         this.store
             .select(appSelection)
             .pipe(takeUntil(this.onDestroy$))
             .subscribe(selection => {
                 this.selection = selection;
-                if (selection.isEmpty) {
-                    this.infoDrawerOpened = false;
-                }
+                this.actions = this.extensions.getAllowedToolbarActions();
+                this.viewerToolbarActions = this.extensions.getViewerToolbarActions();
+                this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
+            });
+
+        this.store.select(currentFolder)
+            .pipe(takeUntil(this.onDestroy$))
+            .subscribe(node => {
+                this.canUpload = node && this.content.canUploadContent(node);
             });
     }
 
@@ -77,16 +97,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
     showPreview(node: MinimalNodeEntity) {
         if (node && node.entry) {
-            const { id, nodeId, name, isFile, isFolder } = node.entry;
             const parentId = this.node ? this.node.id : null;
-
-            this.store.dispatch(new ViewNodeAction({
-                parentId,
-                id: nodeId || id,
-                name,
-                isFile,
-                isFolder
-            }));
+           this.store.dispatch(new ViewFileAction(node, parentId));
         }
     }
 
@@ -103,14 +115,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    toggleSidebar(event) {
-        if (event) {
-            return;
-        }
-
-        this.infoDrawerOpened = !this.infoDrawerOpened;
-    }
-
     reload(): void {
         if (this.documentList) {
             this.documentList.resetSelection();
@@ -119,19 +123,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         }
     }
 
-    onFileUploadedError(error: FileUploadErrorEvent) {
-        let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
-
-        if (error.error.status === 409) {
-           message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
-        }
-
-        if (error.error.status === 500) {
-            message = 'APP.MESSAGES.UPLOAD.ERROR.500';
-         }
-
-        const action = new SnackbarErrorAction(message);
-
-        this.store.dispatch(action);
+    trackByActionId(index: number, action: ContentActionRef) {
+        return action.id;
     }
 }

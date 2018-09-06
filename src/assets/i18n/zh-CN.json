@@ -4,6 +4,7 @@
     "SIGN_IN": "登录",
     "SIGN_OUT": "退出",
     "SETTINGS": {
+      "TITLE": "设置",
       "APPLICATION-SETTINGS": "应用程序设置",
       "REPOSITORY-SETTINGS": "存储库设置",
       "EXPERIMENTAL-FEATURES": "试验性功能",
@@ -25,11 +26,11 @@
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "新建文件夹",
-        "CREATE_FOLDER_NOT_ALLOWED": "您无法在此创建文件夹。您可能没有所需的权限，请与您的 IT 团队联系。",
+        "CREATE_FOLDER_NOT_ALLOWED": "查看当前项目时无法创建文件夹",
         "UPLOAD_FILES": "选择要上传的文件",
-        "UPLOAD_FILES_NOT_ALLOWED": "您需要在此上传的权限，请与您的 IT 团队联系。",
+        "UPLOAD_FILES_NOT_ALLOWED": "查看当前项目时无法上传文件",
         "UPLOAD_FOLDERS": "选择要上传的文件夹",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "您需要在此上传的权限，请与您的 IT 团队联系。"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "查看当前项目时无法上传文件夹"
       }
     },
     "BROWSE": {
@@ -48,7 +49,7 @@
         },
         "EMPTY_STATE": {
           "TITLE": "您还不是任何文件库的成员",
-          "TEXT": "加入站点以上传、查看和共享文件。"
+          "TEXT": "加入文件库以上传、查看和共享文件。"
         }
       },
       "SHARED": {
@@ -106,7 +107,8 @@
           "MODIFIED": "已修改",
           "LOCATION": "位置",
           "SIZE": "字号(&S)"
-        }
+        },
+        "NO_RESULTS": "您的搜索返回了 0 个结果"
       }
     },
     "ACTIONS": {
@@ -119,12 +121,14 @@
       "DELETE_PERMANENT": "永久删除",
       "MORE": "更多操作",
       "UNDO": "撤消",
+      "PERMISSIONS": "权限",
       "RESTORE": "恢复",
       "FAVORITE": "收藏",
       "UNSHARE": "取消共享",
       "DETAILS": "查看详细信息",
       "VERSIONS": "管理版本",
-      "TOGGLE-SIDENAV": "切换侧导航栏"
+      "TOGGLE-SIDENAV": "切换侧导航栏",
+      "SHARE": "共享"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -146,6 +150,10 @@
         "SHARED_BY": "分享人",
         "DELETED_ON": "已删除",
         "DELETED_BY": "删除人"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "卡查看模式",
+        "LISTVIEW": "列表视图模式"
       }
     },
     "SITES_VISIBILITY": {
@@ -232,7 +240,8 @@
       "TITLE": "详细信息",
       "TABS": {
         "PROPERTIES": "属性",
-        "VERSIONS": "版本"
+        "VERSIONS": "版本",
+        "COMMENTS": "注释"
       }
     }
   },
@@ -243,6 +252,14 @@
     "MOVE_ITEMS": "将 {{ number }} 项移动到...",
     "SEARCH": "搜索"
   },
+  "PERMISSIONS": {
+    "DIALOG": {
+      "TITLE": "管理权限",
+      "CLOSE": "关闭",
+      "INHERIT_PERMISSIONS_BUTTON": "继承权限",
+      "INHERITED_PERMISSIONS_BUTTON": "已继承权限"
+    }
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "管理版本",
@@ -251,6 +268,32 @@
     "SELECTION": {
       "EMPTY": "请选定一个文件去看它的版本。",
       "NO_PERMISSION": "你没有权限管理此内容的版本。"
+    }
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "创建库",
+      "CREATE": "创建",
+      "CANCEL": "取消",
+      "FORM": {
+        "DESCRIPTION": "说明",
+        "SITE_ID": "库 ID",
+        "NAME": "名称"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "私有",
+      "PUBLIC": "公共",
+      "MODERATED": "适中"
+    },
+    "ERRORS": {
+      "GENERIC": "我们遇到了问题",
+      "EXISTENT_SITE": "此库 ID 不可用。请尝试使用其他库。",
+      "CONFLICT": "此库 ID 已被使用。请检查回收站。",
+      "ID_TOO_LONG": "对 URL 名称使用 72 个字符或更少字符",
+      "DESCRIPTION_TOO_LONG": "对描述使用 512 个字符或更少字符",
+      "TITLE_TOO_LONG": "对标题使用 256 个字符或更少字符",
+      "ILLEGAL_CHARACTERS": "仅使用数字和字母"
     }
   },
   "SEARCH": {
@@ -268,7 +311,7 @@
       "FILE_TYPE": "文件类型",
       "CREATOR": "创建者",
       "MODIFIER": "修改者",
-      "FILE_LIBRARY": "文件库"
+      "LOCATION": "位置"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "修改日期",

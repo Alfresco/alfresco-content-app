@@ -43,7 +43,8 @@ export class DataTable extends Component {
         row: '.adf-datatable-row[role]',
         selectedRow: '.adf-datatable-row.is-selected',
         cell: '.adf-data-table-cell',
-        locationLink: 'aca-location-link',
+        locationLink: '.aca-location-link',
+        linkCell: '.adf-location-cell',
 
         selectedIcon: '.mat-icon',
 
@@ -59,6 +60,7 @@ export class DataTable extends Component {
     body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
     cell = by.css(DataTable.selectors.cell);
     locationLink = by.css(DataTable.selectors.locationLink);
+    linkCell: ElementFinder = this.component.element(by.css(DataTable.selectors.linkCell));
     emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
     emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
     emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
@@ -123,6 +125,10 @@ export class DataTable extends Component {
         return this.body.all(by.css(DataTable.selectors.row));
     }
 
+    countRows(): promise.Promise<number> {
+        return this.getRows().count();
+    }
+
     getSelectedRows(): ElementArrayFinder {
         return this.body.all(by.css(DataTable.selectors.selectedRow));
     }
@@ -135,37 +141,41 @@ export class DataTable extends Component {
         return this.getRows().get(nth - 1);
     }
 
-    getRowName(name: string): ElementFinder {
-        return this.body.element(by.cssContainingText(`.adf-data-table-cell span`, name));
+    getRowByName(name: string): ElementFinder {
+        return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
+    }
+
+    getRowFirstCell(name: string) {
+        return this.getRowByName(name).all(by.css(DataTable.selectors.cell)).get(0);
+    }
+
+    getRowNameCell(name: string) {
+        return this.getRowByName(name).all(by.css(DataTable.selectors.cell)).get(1);
+    }
+
+    getRowNameCellText(name: string) {
+        return this.getRowNameCell(name).$('span');
     }
 
     getItemNameTooltip(name: string): promise.Promise<string> {
-        return this.getRowName(name).getAttribute('title');
-    }
-
-    countRows(): promise.Promise<number> {
-        return this.getRows().count();
+        return this.getRowNameCellText(name).getAttribute('title');
     }
 
     hasCheckMarkIcon(itemName: string) {
-        return this.getRowName(itemName).element(by.xpath(`./ancestor::div[contains(@class, 'adf-datatable-row')]`))
-            .element(by.css(DataTable.selectors.selectedIcon)).isPresent();
+        return this.getRowByName(itemName).element(by.css(DataTable.selectors.selectedIcon)).isPresent();
     }
 
     // Navigation/selection methods
-    doubleClickOnItemName(name: string): promise.Promise<any> {
-        const dblClick = browser.actions()
-            .mouseMove(this.getRowName(name))
-            .click()
-            .click();
-
-        return dblClick.perform();
+    doubleClickOnRowByName(name: string): promise.Promise<any> {
+        const item = this.getRowFirstCell(name);
+        return Utils.waitUntilElementClickable(item)
+            .then(() => browser.actions().mouseMove(item).click().click().perform());
     }
 
-    clickOnItemName(name: string): promise.Promise<any> {
-        const item = this.getRowName(name);
+    selectItem(name: string): promise.Promise<any> {
+        const item = this.getRowFirstCell(name);
         return Utils.waitUntilElementClickable(item)
-            .then(() => this.getRowName(name).click());
+                .then(() => item.click());
     }
 
     selectMultipleItems(names: string[]): promise.Promise<void> {
@@ -173,7 +183,7 @@ export class DataTable extends Component {
             .then(() => browser.actions().sendKeys(protractor.Key.COMMAND).perform())
             .then(() => {
                 names.forEach(name => {
-                    this.clickOnItemName(name);
+                    this.selectItem(name);
                 });
             })
             .then(() => browser.actions().sendKeys(protractor.Key.NULL).perform());
@@ -187,12 +197,23 @@ export class DataTable extends Component {
     }
 
     getItemLocation(name: string) {
-        return this.getRowName(name).element(by.xpath(`./ancestor::div[contains(@class, 'adf-datatable-row')]`))
-            .element(this.locationLink);
+        return this.getRowByName(name).element(this.locationLink);
     }
 
     getItemLocationTooltip(name: string): promise.Promise<string> {
         return this.getItemLocation(name).$('a').getAttribute('title');
+    }
+
+    getItemLocationTileAttr(name: string) {
+        const location = this.getItemLocation(name).$('a');
+        const condition = () => location.getAttribute('title').then((value) => value && value.length > 0);
+
+        browser.actions()
+            .mouseMove(location)
+            .perform();
+
+        browser.wait(condition, BROWSER_WAIT_TIMEOUT);
+        return location.getAttribute('title');
     }
 
     clickItemLocation(name: string) {

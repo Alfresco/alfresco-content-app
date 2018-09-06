@@ -4,6 +4,7 @@
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
         "SETTINGS": {
+            "TITLE": "Settings",
             "APPLICATION-SETTINGS": "Application Settings",
             "REPOSITORY-SETTINGS": "Repository Settings",
             "EXPERIMENTAL-FEATURES": "Experimental Features",
@@ -25,11 +26,11 @@
             },
             "TOOLTIPS": {
                 "CREATE_FOLDER": "Create new folder",
-                "CREATE_FOLDER_NOT_ALLOWED": "You can't create a folder here. You might not have the required permissions, check with your IT Team.",
+                "CREATE_FOLDER_NOT_ALLOWED": "Folders cannot be created whilst viewing the current items",
                 "UPLOAD_FILES": "Select files to upload",
-                "UPLOAD_FILES_NOT_ALLOWED": "You need permissions to upload here, check with your IT Team.",
+                "UPLOAD_FILES_NOT_ALLOWED": "Files cannot be uploaded whilst viewing the current items",
                 "UPLOAD_FOLDERS": "Select folders to upload",
-                "UPLOAD_FOLDERS_NOT_ALLOWED": "You need permissions to upload here, check with your IT Team."
+                "UPLOAD_FOLDERS_NOT_ALLOWED": "Folders cannot be uploaded whilst viewing the current items"
             }
         },
         "BROWSE": {
@@ -48,7 +49,7 @@
                 },
                 "EMPTY_STATE": {
                     "TITLE": "You aren't a member of any File Libraries yet",
-                    "TEXT": "Join sites to upload, view, and share files."
+                    "TEXT": "Join libraries to upload, view, and share files."
                 }
             },
             "SHARED": {
@@ -106,7 +107,8 @@
                     "MODIFIED": "Modified",
                     "LOCATION": "Location",
                     "SIZE": "Size"
-                }
+                },
+                "NO_RESULTS": "Your search returned 0 results"
             }
         },
         "ACTIONS": {
@@ -119,12 +121,14 @@
             "DELETE_PERMANENT": "Permanently delete",
             "MORE": "More actions",
             "UNDO": "Undo",
+            "PERMISSIONS": "Permissions",
             "RESTORE": "Restore",
             "FAVORITE": "Favorite",
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions",
-            "TOGGLE-SIDENAV": "Toggle side navigation bar"
+            "TOGGLE-SIDENAV": "Toggle side navigation bar",
+            "SHARE": "Share"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -146,6 +150,10 @@
                 "SHARED_BY": "Shared by",
                 "DELETED_ON": "Deleted",
                 "DELETED_BY": "Deleted by"
+            },
+            "TOOLBAR": {
+                "CARDVIEW": "Card view mode",
+                "LISTVIEW": "List view mode"
             }
         },
         "SITES_VISIBILITY": {
@@ -232,7 +240,8 @@
             "TITLE": "Details",
             "TABS": {
                 "PROPERTIES": "Properties",
-                "VERSIONS": "Versions"
+                "VERSIONS": "Versions",
+                "COMMENTS": "Comments"
             }
         }
     },
@@ -242,6 +251,14 @@
         "MOVE_ITEM": "Move '{{ name }}' to...",
         "MOVE_ITEMS": "Move {{ number }} items to...",
         "SEARCH": "Search"
+    },
+    "PERMISSIONS": {
+        "DIALOG": {
+            "TITLE": "Manage Permissons",
+            "CLOSE": "Close",
+            "INHERIT_PERMISSIONS_BUTTON": "Inherit Permission",
+            "INHERITED_PERMISSIONS_BUTTON": "Permission Inherited"
+        }
     },
     "VERSION": {
         "DIALOG": {
@@ -253,6 +270,33 @@
             "NO_PERMISSION": "You don't have permission to manage the versions of this content."
         }
     },
+    "LIBRARY": {
+        "DIALOG": {
+            "CREATE_TITLE": "Create Library",
+            "CREATE": "Create",
+            "CANCEL": "Cancel",
+            "FORM": {
+                "DESCRIPTION": "Description",
+                "SITE_ID": "Library ID",
+                "NAME": "Name"
+            }
+        },
+        "VISIBILITY": {
+            "PRIVATE": "Private",
+            "PUBLIC": "Public",
+            "MODERATED": "Moderated"
+        },
+        "ERRORS": {
+            "GENERIC": "We hit a problem",
+            "EXISTENT_SITE": "This Library ID isn't available. Try a different Library.",
+            "CONFLICT": "This Library ID is already used. Check the trashcan.",
+            "ID_TOO_LONG": "Use 72 characters or less for the URL name",
+            "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",
+            "TITLE_TOO_LONG": "Use 256 characters or less for title",
+            "ILLEGAL_CHARACTERS": "Use numbers and letters only"
+        }
+    },
+
     "SEARCH": {
         "SORT": {
             "RELEVANCE": "Relevance",
@@ -268,7 +312,7 @@
             "FILE_TYPE": "File Type",
             "CREATOR": "Creator",
             "MODIFIER": "Modifier",
-            "FILE_LIBRARY": "File Library"
+            "LOCATION": "Location"
         },
         "CATEGORIES": {
             "MODIFIED_DATE": "Modified date",

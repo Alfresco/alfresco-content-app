@@ -3,95 +3,21 @@
         <adf-breadcrumb root="APP.BROWSE.SHARED.TITLE">
         </adf-breadcrumb>
 
-        <adf-toolbar class="inline" *ngIf="!selection.isEmpty">
-            <button
-                *ngIf="selection.count === 1"
-                color="primary"
-                mat-icon-button
-                title="{{ 'APP.ACTIONS.VIEW' | translate }}"
-                (click)="showPreview(selection.nodes[0])">
-                <mat-icon>open_in_browser</mat-icon>
-            </button>
+        <adf-toolbar class="inline">
+            <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
 
-            <button
-                color="primary"
-                mat-icon-button
-                title="{{ 'APP.ACTIONS.DOWNLOAD' | translate }}"
-                [adfNodeDownload]="selection.nodes">
-                <mat-icon>get_app</mat-icon>
-            </button>
-
-            <button mat-icon-button
-                [color]="infoDrawerOpened ? 'accent' : 'primary'"
-                title="{{ 'APP.ACTIONS.DETAILS' | translate }}"
-                (click)="toggleSidebar()">
-                <mat-icon>info_outline</mat-icon>
-            </button>
-
-            <button
-                color="primary"
-                mat-icon-button
-                title="{{ 'APP.ACTIONS.MORE' | translate }}"
-                [matMenuTriggerFor]="actionsMenu">
-                <mat-icon>more_vert</mat-icon>
-            </button>
-
-            <mat-menu #actionsMenu="matMenu"
-                [overlapTrigger]="false">
-                <button
-                    mat-menu-item
-                    #favorites="adfFavorite"
-                    [adf-node-favorite]="selection.nodes">
-                    <mat-icon color="primary" *ngIf="favorites.hasFavorites()">star</mat-icon>
-                    <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
-                    <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
-                </button>
-
-                <button
-                    mat-menu-item
-                    [acaCopyNode]="selection.nodes">
-                    <mat-icon>content_copy</mat-icon>
-                    <span>{{ 'APP.ACTIONS.COPY' | translate }}</span>
-                </button>
-
-                <button
-                    mat-menu-item
-                    *ngIf="permission.check(selection.nodes, ['delete'], { target: 'allowableOperationsOnTarget' })"
-                    [acaMoveNode]="selection.nodes">
-                    <mat-icon>library_books</mat-icon>
-                    <span>{{ 'APP.ACTIONS.MOVE' | translate }}</span>
-                </button>
-
-                <button
-                    mat-menu-item
-                    *ngIf="permission.check(selection.nodes, ['delete'])"
-                    [acaUnshareNode]="selection.nodes">
-                    <mat-icon>stop_screen_share</mat-icon>
-                    <span>{{ 'APP.ACTIONS.UNSHARE' | translate }}</span>
-                </button>
-
-                <button
-                    mat-menu-item
-                    *ngIf="permission.check(selection.nodes, ['delete'], { target: 'allowableOperationsOnTarget' })"
-                    [acaDeleteNode]="selection.nodes">
-                    <mat-icon>delete</mat-icon>
-                    <span>{{ 'APP.ACTIONS.DELETE' | translate }}</span>
-                </button>
-
-                <button
-                    mat-menu-item
-                    *ngIf="selection.file && permission.check(selection.file, ['update'], { target: 'allowableOperationsOnTarget' })"
-                    [acaNodeVersions]="selection.file">
-                    <mat-icon>history</mat-icon>
-                    <span>{{ 'APP.ACTIONS.VERSIONS' | translate }}</span>
-                </button>
-            </mat-menu>
+            <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+                <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
+            </ng-container>
         </adf-toolbar>
     </div>
 
     <div class="inner-layout__content">
         <div class="inner-layout__panel">
-            <adf-document-list acaDocumentList #documentList
+            <adf-document-list #documentList
+                acaDocumentList
+                acaContextActions
+                [display]="documentDisplayMode$ | async"
                 currentFolderId="-sharedlinks-"
                 selectionMode="multiple"
                 [sorting]="[ 'modifiedAt', 'desc' ]"
@@ -120,11 +46,17 @@
                         key="name"
                         title="APP.DOCUMENT_LIST.COLUMNS.NAME">
                         <ng-template let-value="value" let-context>
-                            <span class="adf-datatable-cell" title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
+                            <span
+                                class="adf-datatable-cell dl-link"
+                                title="{{ context?.row?.obj | adfNodeNameTooltip }}"
+                                (click)="showPreview(context?.row?.obj)">
+                                {{ value }}
+                            </span>
                         </ng-template>
                     </data-column>
 
                     <data-column
+                        *ngIf="!isSmallScreen"
                         key="path.name"
                         title="APP.DOCUMENT_LIST.COLUMNS.LOCATION">
                         <ng-template let-context>
@@ -133,12 +65,14 @@
                     </data-column>
 
                     <data-column
+                        *ngIf="!isSmallScreen"
                         key="content.sizeInBytes"
                         title="APP.DOCUMENT_LIST.COLUMNS.SIZE"
                         type="fileSize">
                     </data-column>
 
                     <data-column
+                        *ngIf="!isSmallScreen"
                         key="modifiedAt"
                         title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON">
                         <ng-template let-value="value">
@@ -147,12 +81,14 @@
                     </data-column>
 
                     <data-column
+                        *ngIf="!isSmallScreen"
                         class="adf-data-table-cell--ellipsis"
                         key="modifiedByUser.displayName"
                         title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY">
                     </data-column>
 
                     <data-column
+                        *ngIf="!isSmallScreen"
                         class="adf-data-table-cell--ellipsis"
                         key="sharedByUser.displayName"
                         title="APP.DOCUMENT_LIST.COLUMNS.SHARED_BY">
@@ -165,7 +101,7 @@
             </adf-pagination>
         </div>
 
-        <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened">
+        <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened$ | async">
             <aca-info-drawer [node]="selection.last"></aca-info-drawer>
         </div>
     </div>

@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Observable } from 'rxjs/Rx';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
@@ -33,11 +32,12 @@ import {
     NodeFavoriteDirective, DataTableComponent, AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../common/services/content-management.service';
-
+import { ContentManagementService } from '../../services/content-management.service';
+import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
+import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('FavoritesComponent', () => {
     let fixture: ComponentFixture<FavoritesComponent>;
@@ -48,11 +48,6 @@ describe('FavoritesComponent', () => {
     let router: Router;
     let page;
     let node;
-
-    beforeAll(() => {
-        // testing only functional-wise not time-wise
-        Observable.prototype.debounceTime = function () { return this; };
-    });
 
     beforeEach(() => {
         page = {
@@ -85,7 +80,8 @@ describe('FavoritesComponent', () => {
                     NodeFavoriteDirective,
                     DocumentListComponent,
                     FavoritesComponent,
-                    AppConfigPipe
+                    AppConfigPipe,
+                    ExperimentalDirective
                 ],
                 schemas: [ NO_ERRORS_SCHEMA ]
         });
@@ -136,7 +132,7 @@ describe('FavoritesComponent', () => {
 
     describe('Node navigation', () => {
         beforeEach(() => {
-            spyOn(contentApi, 'getNode').and.returnValue(Observable.of({ entry: node}));
+            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node}));
             spyOn(router, 'navigate');
             fixture.detectChanges();
         });

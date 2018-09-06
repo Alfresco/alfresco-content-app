@@ -24,26 +24,27 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MinimalNodeEntity } from 'alfresco-js-api';
-import { UploadService } from '@alfresco/adf-core';
-
-import { ContentManagementService } from '../../common/services/content-management.service';
+import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 @Component({
     templateUrl: './recent-files.component.html'
 })
 export class RecentFilesComponent extends PageComponent implements OnInit {
+    isSmallScreen = false;
 
     constructor(
         store: Store<AppStore>,
-        private uploadService: UploadService,
-        private content: ContentManagementService,
-        public permission: NodePermissionService) {
-        super(store);
+        extensions: AppExtensionService,
+        content: ContentManagementService,
+        private breakpointObserver: BreakpointObserver
+    ) {
+        super(store, extensions, content);
     }
 
     ngOnInit() {
@@ -53,7 +54,15 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
             this.content.nodesDeleted.subscribe(() => this.reload()),
             this.content.nodesMoved.subscribe(() => this.reload()),
             this.content.nodesRestored.subscribe(() => this.reload()),
-            this.uploadService.fileUploadError.subscribe((error) => this.onFileUploadedError(error))
+
+            this.breakpointObserver
+                .observe([
+                    Breakpoints.HandsetPortrait,
+                    Breakpoints.HandsetLandscape
+                ])
+                .subscribe(result => {
+                    this.isSmallScreen = result.matches;
+                })
         ]);
     }
 

@@ -23,49 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { NodePermissionService } from '../../common/services/node-permission.service';
 import { ContentApiService } from '../../services/content-api.service';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { SidebarTabRef } from '@alfresco/adf-extensions';
 
 @Component({
     selector: 'aca-info-drawer',
     templateUrl: './info-drawer.component.html'
 })
-export class InfoDrawerComponent implements OnChanges {
+export class InfoDrawerComponent implements OnChanges, OnInit {
     @Input() nodeId: string;
-
     @Input() node: MinimalNodeEntity;
 
     isLoading = false;
     displayNode: MinimalNodeEntryEntity;
-
-    canUpdateNode(): boolean {
-        if (this.displayNode) {
-            return this.permission.check(this.displayNode, ['update']);
-        }
-
-        return false;
-    }
-
-    get isFileSelected(): boolean {
-        if (this.node && this.node.entry) {
-            // workaround for shared files type.
-            if (this.node.entry.nodeId) {
-                return true;
-            } else {
-                return this.node.entry.isFile;
-            }
-        }
-        return false;
-    }
+    tabs:  Array<SidebarTabRef> = [];
 
     constructor(
-        public permission: NodePermissionService,
-        private contentApi: ContentApiService
+        private contentApi: ContentApiService,
+        private extensions: AppExtensionService
     ) {}
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnInit() {
+        this.tabs = this.extensions.getSidebarTabs();
+    }
+
+    ngOnChanges() {
         if (this.node) {
             const entry = this.node.entry;
             if (entry.nodeId) {
@@ -78,7 +63,7 @@ export class InfoDrawerComponent implements OnChanges {
                 if (this.isTypeImage(entry) && !this.hasAspectNames(entry)) {
                     this.loadNodeInfo(this.node.entry.id);
                 } else {
-                    this.displayNode = this.node.entry;
+                    this.setDisplayNode(this.node.entry);
                 }
             }
         }
@@ -101,11 +86,15 @@ export class InfoDrawerComponent implements OnChanges {
 
             this.contentApi.getNodeInfo(nodeId).subscribe(
                 entity => {
-                    this.displayNode = entity;
+                    this.setDisplayNode(entity);
                     this.isLoading = false;
                 },
                 () => this.isLoading = false
             );
         }
+    }
+
+    private setDisplayNode(node: MinimalNodeEntryEntity) {
+        this.displayNode = node;
     }
 }

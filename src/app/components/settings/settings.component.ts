@@ -26,12 +26,13 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { AppConfigService, StorageService, SettingsService } from '@alfresco/adf-core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { appLanguagePicker, selectHeaderColor, selectAppName } from '../../store/selectors/app.selectors';
+import { appLanguagePicker, selectHeaderColor, selectAppName, selectUser } from '../../store/selectors/app.selectors';
 import { MatCheckboxChange } from '@angular/material';
 import { SetLanguagePickerAction } from '../../store/actions';
+import { ProfileState } from '@alfresco/adf-extensions';
 
 @Component({
     selector: 'aca-settings',
@@ -45,10 +46,11 @@ export class SettingsComponent implements OnInit {
 
     form: FormGroup;
 
+    profile$: Observable<ProfileState>;
     appName$: Observable<string>;
     headerColor$: Observable<string>;
     languagePicker$: Observable<boolean>;
-    libraries: boolean;
+    experimental: Array<{ key: string, value: boolean }> = [];
 
     constructor(
         private store: Store<AppStore>,
@@ -56,6 +58,7 @@ export class SettingsComponent implements OnInit {
         private settingsService: SettingsService,
         private storage: StorageService,
         private fb: FormBuilder) {
+            this.profile$ = store.select(selectUser);
             this.appName$ = store.select(selectAppName);
             this.languagePicker$ = store.select(appLanguagePicker);
             this.headerColor$ = store.select(selectHeaderColor);
@@ -72,8 +75,14 @@ export class SettingsComponent implements OnInit {
 
         this.reset();
 
-        const libraries = this.appConfig.get('experimental.libraries');
-        this.libraries = (libraries === true || libraries === 'true');
+        const settings = this.appConfig.get('experimental');
+        this.experimental = Object.keys(settings).map(key => {
+            const value = this.appConfig.get(`experimental.${key}`);
+            return {
+                key,
+                value: (value === true || value === 'true')
+            };
+        });
     }
 
     apply(model: any, isValid: boolean) {
@@ -94,7 +103,7 @@ export class SettingsComponent implements OnInit {
         this.store.dispatch(new SetLanguagePickerAction(event.checked));
     }
 
-    onChangeLibrariesFeature(event: MatCheckboxChange) {
-        this.storage.setItem('experimental.libraries', event.checked.toString());
+    onToggleExperimentalFeature(key: string, event: MatCheckboxChange) {
+        this.storage.setItem(`experimental.${key}`, event.checked.toString());
     }
 }

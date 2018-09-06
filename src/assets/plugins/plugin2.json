@@ -1,0 +1,42 @@
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin2",
+    "$description": "demo plugin",
+
+    "routes": [
+        {
+            "id": "plugin2.routes.about",
+            "path": "ext/bin",
+            "component": "app.components.trashcan",
+            "data": {
+                "title": "Custom Trashcan"
+            }
+        }
+    ],
+
+    "features": {
+        "navbar": [
+            {
+                "id": "plugin2.navbar.group1",
+                "disabled": true,
+                "items": [
+                    {
+                        "id": "plugin2.navbar.group1.link1",
+                        "icon": "build",
+                        "title": "Trashcan (native)",
+                        "description": "Uses native application route",
+                        "route": "trashcan"
+                    },
+                    {
+                        "id": "plugin2.navbar.group1.link2",
+                        "icon": "build",
+                        "title": "Trashcan (custom)",
+                        "description": "Uses custom defined route",
+                        "route": "plugin2.routes.about"
+                    }
+                ]
+            }
+        ]
+    }
+}

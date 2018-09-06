@@ -4,6 +4,7 @@
     "SIGN_IN": "Logg på",
     "SIGN_OUT": "Logg ut",
     "SETTINGS": {
+      "TITLE": "Innstillinger",
       "APPLICATION-SETTINGS": "Programinnstillinger",
       "REPOSITORY-SETTINGS": "Databaseinnstillinger",
       "EXPERIMENTAL-FEATURES": "Eksperimentelle funksjoner",
@@ -25,11 +26,11 @@
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Opprett ny mappe",
-        "CREATE_FOLDER_NOT_ALLOWED": "Du kan ikke opprette ny mappe her. Du har kanskje ikke de nødvendige tillatelsene. Kontakt IT-teamet.",
+        "CREATE_FOLDER_NOT_ALLOWED": "Mapper kan ikke opprettes mens du viser de gjeldende elementene",
         "UPLOAD_FILES": "Velg filene som skal lastes opp",
-        "UPLOAD_FILES_NOT_ALLOWED": "Du må ha tillatelse for å laste opp her. Kontakt IT-teamet.",
+        "UPLOAD_FILES_NOT_ALLOWED": "Filer kan ikke lastes opp mens du viser de gjeldende elementene",
         "UPLOAD_FOLDERS": "Velg mappene som skal lastes opp",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Du må ha tillatelse for å laste opp her. Kontakt IT-teamet."
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Mapper kan ikke lastes opp mens du viser de gjeldende elementene"
       }
     },
     "BROWSE": {
@@ -48,7 +49,7 @@
         },
         "EMPTY_STATE": {
           "TITLE": "Du er ikke medlem av noen filbiblioteker ennå",
-          "TEXT": "Bli med i områder for å laste opp, vise og dele filer."
+          "TEXT": "Slutt deg til biblioteker for å laste opp, vise og dele filer."
         }
       },
       "SHARED": {
@@ -106,7 +107,8 @@
           "MODIFIED": "Endret",
           "LOCATION": "Sted",
           "SIZE": "Størrelse"
-        }
+        },
+        "NO_RESULTS": "Søket ditt ga 0 resultater"
       }
     },
     "ACTIONS": {
@@ -119,12 +121,14 @@
       "DELETE_PERMANENT": "Slett permanent",
       "MORE": "Flere handlinger",
       "UNDO": "Angre",
+      "PERMISSIONS": "Tillatelser",
       "RESTORE": "Gjenopprett",
       "FAVORITE": "Favoritt",
       "UNSHARE": "Opphev deling",
       "DETAILS": "Visningsdetaljer",
       "VERSIONS": "Administrer versjoner",
-      "TOGGLE-SIDENAV": "Aktiver/deaktiver sidenavigasjonsfelt"
+      "TOGGLE-SIDENAV": "Aktiver/deaktiver sidenavigasjonsfelt",
+      "SHARE": "Del"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -146,6 +150,10 @@
         "SHARED_BY": "Delt av",
         "DELETED_ON": "Slettet",
         "DELETED_BY": "Slettet av"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "Kortvisningsmodus",
+        "LISTVIEW": "Listevisningsmodus"
       }
     },
     "SITES_VISIBILITY": {
@@ -232,7 +240,8 @@
       "TITLE": "Detaljer",
       "TABS": {
         "PROPERTIES": "Egenskaper",
-        "VERSIONS": "Versjoner"
+        "VERSIONS": "Versjoner",
+        "COMMENTS": "Kommentarer"
       }
     }
   },
@@ -243,6 +252,14 @@
     "MOVE_ITEMS": "Flytt {{ number }} elementer til...",
     "SEARCH": "Søk"
   },
+  "PERMISSIONS": {
+    "DIALOG": {
+      "TITLE": "Administrer tillatelser",
+      "CLOSE": "Lukk",
+      "INHERIT_PERMISSIONS_BUTTON": "Arv tillatelse",
+      "INHERITED_PERMISSIONS_BUTTON": "Tillatelse arvet"
+    }
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Administrer versjoner",
@@ -251,6 +268,32 @@
     "SELECTION": {
       "EMPTY": "Velg et dokument for å se versjonene av det.",
       "NO_PERMISSION": "Du har ikke tillatelse til å administrere versjonene av dette innholdet."
+    }
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "Opprett bibliotek",
+      "CREATE": "Opprett",
+      "CANCEL": "Avbryt",
+      "FORM": {
+        "DESCRIPTION": "Beskrivelse",
+        "SITE_ID": "Biblioteks-ID",
+        "NAME": "Navn"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "Privat",
+      "PUBLIC": "Offentlig",
+      "MODERATED": "Moderert"
+    },
+    "ERRORS": {
+      "GENERIC": "Vi støtte på et problem",
+      "EXISTENT_SITE": "Denne biblioteks-ID-en er ikke tilgjengelig. Prøv et annet bibliotek.",
+      "CONFLICT": "Denne biblioteks-ID-en er alt brukt. Sjekk papirkurven.",
+      "ID_TOO_LONG": "Bruk 72 tegn eller mindre i URL-navnet",
+      "DESCRIPTION_TOO_LONG": "Bruk 512 tegn eller mindre i beskrivelsen",
+      "TITLE_TOO_LONG": "Bruk 256 tegn eller mindre i tittelen",
+      "ILLEGAL_CHARACTERS": "Bruk kun tall og bokstaver"
     }
   },
   "SEARCH": {
@@ -268,7 +311,7 @@
       "FILE_TYPE": "Filtype",
       "CREATOR": "Oppretter",
       "MODIFIER": "Modifikator",
-      "FILE_LIBRARY": "Filbibliotek"
+      "LOCATION": "Sted"
     },
     "CATEGORIES": {
       "MODIFIED_DATE": "Endringsdato",

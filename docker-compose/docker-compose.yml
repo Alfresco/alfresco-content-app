@@ -35,7 +35,7 @@ services:
         networks:
             - internal
         ports:
-            - 8081:8080
+            - 8083:8080
 
     postgres:
         image: postgres:10.1
@@ -68,7 +68,7 @@ services:
             - 8983:8983 #Browser port
 
     content-app:
-        image: alfresco/alfresco-content-app:master
+        image: alfresco/alfresco-content-app:master-latest
         depends_on:
             - alfresco
         networks:
