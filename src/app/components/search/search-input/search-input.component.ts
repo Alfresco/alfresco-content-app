@@ -46,6 +46,7 @@ export class SearchInputComponent implements OnInit {
     hasOneChange = false;
     hasNewChange = false;
     navigationTimer: any;
+    enableLiveSearch = true;
 
     @ViewChild('searchInputControl')
     searchInputControl: SearchInputControlComponent;
@@ -78,6 +79,7 @@ export class SearchInputComponent implements OnInit {
             }
 
             if (this.searchInputControl) {
+                this.enableLiveSearch = false;
                 this.searchInputControl.searchTerm = searchedWord;
                 this.searchInputControl.subscriptAnimationState = 'no-animation';
             }
@@ -87,6 +89,12 @@ export class SearchInputComponent implements OnInit {
                 this.searchInputControl.subscriptAnimationState = 'active';
                 this.searchInputControl.searchTerm = '';
                 this.searchInputControl.toggleSearchBar();
+            }
+
+            if (!this.enableLiveSearch) {
+                setTimeout(() => {
+                    this.enableLiveSearch = true;
+                }, this.searchInputControl.toggleDebounceTime + 100);
             }
         }
     }

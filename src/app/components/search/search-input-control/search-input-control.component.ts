@@ -117,13 +117,14 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
     subscriptAnimationState: string;
     noSearchResultTemplate: TemplateRef <any> = null;
     skipToggle = false;
+    toggleDebounceTime = 200;
 
     private toggleSearch = new Subject<any>();
     private focusSubject = new Subject<FocusEvent>();
 
     constructor(private thumbnailService: ThumbnailService) {
 
-        this.toggleSearch.asObservable().pipe(debounceTime(200)).subscribe(() => {
+        this.toggleSearch.asObservable().pipe(debounceTime(this.toggleDebounceTime)).subscribe(() => {
             if (this.expandable && !this.skipToggle) {
                 this.subscriptAnimationState = this.subscriptAnimationState === 'inactive' ? 'active' : 'inactive';
 

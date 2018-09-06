@@ -2,7 +2,7 @@
     [highlight]="true"
     (optionClicked)="onItemClicked($event)"
     [expandable]="!onSearchResults"
-    [liveSearchEnabled]="!onSearchResults"
+    [liveSearchEnabled]="enableLiveSearch"
     (submit)="onSearchSubmit($event)"
     (searchChange)="onSearchChange($event)">
 </app-search-input-control>
