@@ -331,7 +331,7 @@ describe('Delete and undo delete', () => {
             expect(dataTable.getRowByName(sharedFile2).isPresent()).toBe(false, 'Item was not restored');
         });
 
-        it('undo delete of multiple files - [C280514]', async () => {
+        xit('undo delete of multiple files - [C280514]', async () => {
             await dataTable.selectMultipleItems([sharedFile3, sharedFile4]);
             await toolbar.actions.openMoreMenu();
             await toolbar.actions.menu.clickMenuItem('Delete');
