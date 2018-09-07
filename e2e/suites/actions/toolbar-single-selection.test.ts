@@ -214,7 +214,7 @@ describe('Toolbar actions - single selection : ', () => {
                 await toolbar.actions.closeMoreMenu();
             });
 
-            // disabled until ACA-1184 is done
+            // disabled until ACA-1737 is done
             xit('on Favorites - [C213121]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
                 await dataTable.waitForHeader();
@@ -280,7 +280,7 @@ describe('Toolbar actions - single selection : ', () => {
                 await toolbar.actions.closeMoreMenu();
             });
 
-            // disabled until ACA-1184 is done
+            // disabled until ACA-1737 is done
             xit('on Favorites - [C280478]', async () => {
                 await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
                 await dataTable.waitForHeader();

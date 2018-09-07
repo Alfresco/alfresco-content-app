@@ -44,7 +44,7 @@ export class DataTable extends Component {
         selectedRow: '.adf-datatable-row.is-selected',
         cell: '.adf-data-table-cell',
         locationLink: '.aca-location-link',
-        linkCell: '.adf-location-cell',
+        nameLink: '.dl-link',
 
         selectedIcon: '.mat-icon',
 
@@ -60,7 +60,7 @@ export class DataTable extends Component {
     body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
     cell = by.css(DataTable.selectors.cell);
     locationLink = by.css(DataTable.selectors.locationLink);
-    linkCell: ElementFinder = this.component.element(by.css(DataTable.selectors.linkCell));
+    nameLink: ElementFinder = browser.element(by.css(DataTable.selectors.nameLink));
     emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
     emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
     emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
@@ -165,6 +165,14 @@ export class DataTable extends Component {
         return this.getRowByName(itemName).element(by.css(DataTable.selectors.selectedIcon)).isPresent();
     }
 
+    getNameLink(itemName: string) {
+        return this.getRowNameCell(itemName).$(DataTable.selectors.nameLink);
+    }
+
+    hasLinkOnName(itemName: string) {
+        return this.getNameLink(itemName).isPresent();
+    }
+
     // Navigation/selection methods
     doubleClickOnRowByName(name: string): promise.Promise<any> {
         const item = this.getRowFirstCell(name);
@@ -176,6 +184,10 @@ export class DataTable extends Component {
         const item = this.getRowFirstCell(name);
         return Utils.waitUntilElementClickable(item)
                 .then(() => item.click());
+    }
+
+    clickNameLink(itemName: string) {
+        return this.getNameLink(itemName).click();
     }
 
     selectMultipleItems(names: string[]): promise.Promise<void> {
