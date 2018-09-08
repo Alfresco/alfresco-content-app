@@ -31,7 +31,8 @@
       "@alfresco/adf-extensions/*": [
         "dist/@alfresco/adf-extensions/*"
       ]
-    }
+    },
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules"
