@@ -157,7 +157,7 @@ describe('Login', () => {
             expect(url).toContain('/personal-files', 'user is not redirected back to personal files');
         });
 
-        it('user is able to login after changing his password - [C213104]', async () => {
+        xit('user is able to login after changing his password - [C213104]', async () => {
             await login(testUser2.username, testUser2.password);
 
             let url = await page.url();
@@ -240,7 +240,7 @@ describe('Login', () => {
             expect(err).toBe(`You've entered an unknown username or password`);
         });
 
-        it('unauthenticated user is redirected to Login page - [C213106]', async () => {
+        xit('unauthenticated user is redirected to Login page - [C213106]', async () => {
             await page.goto(settings.appUrl + '/personal-files');
             await page.waitForNavigation();
 
