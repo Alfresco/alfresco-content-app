@@ -5,7 +5,8 @@
     "$references": [
         "plugin1.json",
         "plugin2.json",
-        "dev.tools.json"
+        "dev.tools.json",
+        "my-extension.json"
     ],
 
     "rules": [

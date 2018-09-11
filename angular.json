@@ -55,6 +55,11 @@
                 "glob": "**/*.js",
                 "input": "node_modules/@ngstack/code-editor/workers",
                 "output": "./assets/workers"
+              },
+              {
+                "glob": "**/*.json",
+                "input": "dist/my-extension/assets",
+                "output": "/assets/plugins"
               }
             ],
             "styles": [
@@ -277,6 +282,41 @@
             "tsConfig": [
               "projects/adf-extensions/tsconfig.lib.json",
               "projects/adf-extensions/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "my-extension": {
+      "root": "projects/my-extension",
+      "sourceRoot": "projects/my-extension/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "targets": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/my-extension/tsconfig.lib.json",
+            "project": "projects/my-extension/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/my-extension/src/test.ts",
+            "tsConfig": "projects/my-extension/tsconfig.spec.json",
+            "karmaConfig": "projects/my-extension/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/my-extension/tsconfig.lib.json",
+              "projects/my-extension/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

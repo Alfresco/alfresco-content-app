@@ -1,0 +1,30 @@
+{
+    "$schema": "../../../extension.schema.json",
+    "$version": "1.0.0",
+    "$name": "plugin1",
+    "$description": "demo plugin",
+
+    "routes": [
+        {
+            "id": "my.extension.route",
+            "path": "ext/my/route",
+            "component": "my-extension.main.component"
+        }
+    ],
+
+    "features": {
+        "navbar": [
+            {
+                "id": "my.extension.nav",
+                "items": [
+                    {
+                        "id": "my.extension.main",
+                        "icon": "extension",
+                        "title": "My Extension",
+                        "route": "my.extension.route"
+                    }
+                ]
+            }
+        ]
+    }
+}
