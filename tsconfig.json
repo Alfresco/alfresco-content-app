@@ -30,6 +30,12 @@
       ],
       "@alfresco/adf-extensions/*": [
         "dist/@alfresco/adf-extensions/*"
+      ],
+      "my-extension": [
+        "dist/my-extension"
+      ],
+      "my-extension/*": [
+        "dist/my-extension/*"
       ]
     }
   },
