@@ -68,10 +68,9 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/pdfjs-dist/build/pdf.js",
-              "node_modules/pdfjs-dist/lib/shared/compatibility.js",
-              "node_modules/pdfjs-dist/web/pdf_viewer.js",
-              "node_modules/moment/min/moment.min.js"
+                "node_modules/pdfjs-dist/build/pdf.js",
+                "node_modules/pdfjs-dist/web/pdf_viewer.js",
+                "node_modules/moment/min/moment.min.js"
             ]
           },
           "configurations": {
@@ -129,7 +128,6 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
               "node_modules/pdfjs-dist/build/pdf.js",
-              "node_modules/pdfjs-dist/lib/shared/compatibility.js",
               "node_modules/pdfjs-dist/web/pdf_viewer.js",
               "node_modules/moment/min/moment.min.js"
             ],
@@ -159,7 +157,7 @@
                 "output": "/assets"
               },
               {
-                "glob": "pdf.worker.js",
+                "glob": "pdf.worker.min.js",
                 "input": "node_modules/pdfjs-dist/build",
                 "output": "/"
               }
