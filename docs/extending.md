@@ -1695,7 +1695,7 @@ Be sure to mention that developers should have a build rule to copy your plugin 
 You should rebuild the library every time before publishing:
 
 ```sh
-ng build my-extension
+npm run build:my-extension
 ```
 
 Go to the output folder and run the publish command.
