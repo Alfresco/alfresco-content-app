@@ -271,7 +271,8 @@
           "options": {
             "main": "projects/adf-extensions/src/test.ts",
             "tsConfig": "projects/adf-extensions/tsconfig.spec.json",
-            "karmaConfig": "projects/adf-extensions/karma.conf.js"
+            "karmaConfig": "projects/adf-extensions/karma.conf.js",
+            "sourceMap": true
           }
         },
         "lint": {
