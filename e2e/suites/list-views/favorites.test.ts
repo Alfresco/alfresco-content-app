@@ -48,8 +48,7 @@ describe('Favorites', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const favoritesPage = new BrowsingPage();
-    const { dataTable } = favoritesPage;
-    const { breadcrumb } = favoritesPage.toolbar;
+    const { dataTable, breadcrumb } = favoritesPage;
 
     beforeAll(async (done) => {
         await apis.admin.people.createUser({ username });

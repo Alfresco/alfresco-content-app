@@ -97,7 +97,7 @@ describe('Toolbar actions - single selection : ', () => {
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
             await dataTable.waitForHeader();
             await dataTable.selectItem(siteName);
-            expect(await toolbar.actions.isEmpty()).toBe(true, 'toolbar not empty');
+            expect(await toolbar.isEmpty()).toBe(true, 'toolbar not empty');
         });
 
         it('selected row is marked with a check circle icon - [C213134]', async () => {
@@ -118,35 +118,35 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are not displayed when no item is selected - [C213120]', async () => {
-            expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
+            expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
         it('correct actions appear when a file is selected - [C213122]', async () => {
             await dataTable.selectItem(fileUser);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-            const menu = await toolbar.actions.openMoreMenu();
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
+            const menu = await toolbar.openMoreMenu();
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-            await toolbar.actions.closeMoreMenu();
+            await toolbar.closeMoreMenu();
         });
 
         it('correct actions appear when a folder is selected - [C213123]', async () => {
             await dataTable.selectItem(folderUser);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
-            expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
-            expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
-            expect(await toolbar.actions.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
-            const menu = await toolbar.actions.openMoreMenu();
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
+            expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
+            expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
+            expect(await toolbar.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
+            const menu = await toolbar.openMoreMenu();
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
             expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
-            await toolbar.actions.closeMoreMenu();
+            await toolbar.closeMoreMenu();
         });
     });
 
@@ -161,35 +161,35 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are not displayed when no item is selected - [C280439]', async () => {
-            expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
+            expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
         it('correct actions appear when a file is selected - [C280440]', async () => {
             await dataTable.selectItem(fileInSite);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileInSite}`);
-            expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileInSite}`);
-            expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileInSite}`);
-            expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileInSite}`);
-            const menu = await toolbar.actions.openMoreMenu();
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileInSite}`);
+            expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileInSite}`);
+            expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileInSite}`);
+            expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileInSite}`);
+            const menu = await toolbar.openMoreMenu();
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileInSite}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileInSite}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileInSite}`);
             expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileInSite}`);
-            await toolbar.actions.closeMoreMenu();
+            await toolbar.closeMoreMenu();
         });
 
         it('correct actions appear when a folder is selected - [C280441]', async () => {
             await dataTable.selectItem(folderInSite);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderInSite}`);
-            expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderInSite}`);
-            expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderInSite}`);
-            expect(await toolbar.actions.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderInSite}`);
-            const menu = await toolbar.actions.openMoreMenu();
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderInSite}`);
+            expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for ${folderInSite}`);
+            expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderInSite}`);
+            expect(await toolbar.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderInSite}`);
+            const menu = await toolbar.openMoreMenu();
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderInSite}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderInSite}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderInSite}`);
             expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderInSite}`);
-            await toolbar.actions.closeMoreMenu();
+            await toolbar.closeMoreMenu();
         });
     });
 
@@ -202,21 +202,21 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are not displayed when no item is selected - [C280445]', async () => {
-            expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
+            expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
         it('correct actions appear when a file is selected - [C286265]', async () => {
             await page.dataTable.selectItem(fileUser);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-            const menu = await toolbar.actions.openMoreMenu();
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
+            const menu = await toolbar.openMoreMenu();
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-            await toolbar.actions.closeMoreMenu();
+            await toolbar.closeMoreMenu();
         });
 
     });
@@ -230,21 +230,21 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are not displayed when no item is selected - [C280447]', async () => {
-            expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
+            expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
         it('correct actions appear when a file is selected - [C280448]', async () => {
             await dataTable.selectItem(fileUser);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-            const menu = await toolbar.actions.openMoreMenu();
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
+            const menu = await toolbar.openMoreMenu();
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-            await toolbar.actions.closeMoreMenu();
+            await toolbar.closeMoreMenu();
         });
     });
 
@@ -257,35 +257,35 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are not displayed when no item is selected - [C280449]', async () => {
-            expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
+            expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
         it('correct actions appear when a file is selected - [C280450]', async () => {
             await dataTable.selectItem(fileUser);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
-            expect(await toolbar.actions.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-            const menu = await toolbar.actions.openMoreMenu();
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
+            expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
+            const menu = await toolbar.openMoreMenu();
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
             expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-            await toolbar.actions.closeMoreMenu();
+            await toolbar.closeMoreMenu();
         });
 
         it('correct actions appear when a folder is selected - [C280451]', async () => {
             await dataTable.selectItem(folderUser);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
-            expect(await toolbar.actions.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
-            expect(await toolbar.actions.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
-            expect(await toolbar.actions.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
-            const menu = await toolbar.actions.openMoreMenu();
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
+            expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
+            expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
+            expect(await toolbar.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
+            const menu = await toolbar.openMoreMenu();
             expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
             expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
             expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
             expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
-            await toolbar.actions.closeMoreMenu();
+            await toolbar.closeMoreMenu();
         });
     });
 
@@ -298,21 +298,21 @@ describe('Toolbar actions - single selection : ', () => {
         });
 
         it('actions are not displayed when no item is selected - [C280452]', async () => {
-            expect(await toolbar.actions.isEmpty()).toBe(true, `actions displayed though nothing selected`);
+            expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
         });
 
         it('correct actions appear when a file is selected - [C280453]', async () => {
             await dataTable.selectItem(fileForDelete);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${fileForDelete}`);
-            expect(await toolbar.actions.isButtonPresent('Permanently delete')).toBe(true, `Permanently delete is not displayed for file`);
-            expect(await toolbar.actions.isButtonPresent('Restore')).toBe(true, `Restore is not displayed for file`);
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileForDelete}`);
+            expect(await toolbar.isButtonPresent('Permanently delete')).toBe(true, `Permanently delete is not displayed for file`);
+            expect(await toolbar.isButtonPresent('Restore')).toBe(true, `Restore is not displayed for file`);
         });
 
         it('correct actions appear when a folder is selected - [C280454]', async () => {
             await dataTable.selectItem(folderForDelete);
-            expect(await toolbar.actions.isEmpty()).toBe(false, `actions not displayed for ${folderForDelete}`);
-            expect(await toolbar.actions.isButtonPresent('Permanently delete')).toBe(true, `Permanently delete is displayed for folder`);
-            expect(await toolbar.actions.isButtonPresent('Restore')).toBe(true, `Restore is not enabled for folder`);
+            expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderForDelete}`);
+            expect(await toolbar.isButtonPresent('Permanently delete')).toBe(true, `Permanently delete is displayed for folder`);
+            expect(await toolbar.isButtonPresent('Restore')).toBe(true, `Restore is not enabled for folder`);
         });
     });
 });

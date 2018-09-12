@@ -32,4 +32,5 @@ export * from './dialog/create-edit-folder-dialog';
 export * from './pagination/pagination';
 export * from './sidenav/sidenav';
 export * from './toolbar/toolbar';
+export * from './breadcrumb/breadcrumb';
 export * from './viewer/viewer';

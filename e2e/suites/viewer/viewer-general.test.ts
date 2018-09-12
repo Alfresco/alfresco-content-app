@@ -90,14 +90,13 @@ describe('Viewer general', () => {
     });
 
     afterAll(async (done) => {
-        await Promise
-            .all([
-                apis.user.nodes.deleteNodeById(parentId),
-                apis.admin.sites.deleteSite(siteAdmin),
-                apis.user.sites.deleteSite(siteUser),
-                logoutPage.load()
-            ])
-            .then(done);
+        await Promise.all([
+            apis.user.nodes.deleteNodeById(parentId),
+            apis.admin.sites.deleteSite(siteAdmin),
+            apis.user.sites.deleteSite(siteUser),
+            logoutPage.load()
+        ]);
+        done();
     });
 
     it('Viewer opens on double clicking on a file from Personal Files - [C279269]', async () => {
@@ -107,7 +106,7 @@ describe('Viewer general', () => {
 
     it('Viewer opens when clicking the View action for a file - [C279270]', async () => {
         await dataTable.selectItem(xlsxFile);
-        await page.toolbar.actions.getButtonByTitleAttribute('View').click();
+        await page.toolbar.getButtonByTitleAttribute('View').click();
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     });
 

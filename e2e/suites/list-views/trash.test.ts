@@ -55,8 +55,7 @@ describe('Trash', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const trashPage = new BrowsingPage();
-    const { dataTable } = trashPage;
-    const { breadcrumb } = trashPage.toolbar;
+    const { dataTable, breadcrumb } = trashPage;
 
     beforeAll(done => {
         apis.admin.people.createUser({ username })
