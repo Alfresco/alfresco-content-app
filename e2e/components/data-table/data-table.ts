@@ -26,6 +26,7 @@
 import { ElementFinder, ElementArrayFinder, promise, by, browser, ExpectedConditions as EC, protractor } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
+import { Menu } from '../menu/menu';
 import { Utils } from '../../utilities/utils';
 
 export class DataTable extends Component {
@@ -66,6 +67,8 @@ export class DataTable extends Component {
     emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
     emptyListSubtitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListSubtitle));
     emptyListText: ElementArrayFinder = this.component.all(by.css(DataTable.selectors.emptyListText));
+
+    menu: Menu = new Menu();
 
     constructor(ancestor?: ElementFinder) {
         super(DataTable.selectors.root, ancestor);
@@ -208,6 +211,16 @@ export class DataTable extends Component {
             });
     }
 
+    async rightClickOnItem(itemName: string) {
+        const item = this.getRowFirstCell(itemName);
+        await browser.actions().click(item, protractor.Button.RIGHT).perform();
+    }
+
+    async rightClickOnMultipleSelection() {
+        const itemFromSelection = this.getSelectedRows().get(0);
+        await browser.actions().click(itemFromSelection, protractor.Button.RIGHT).perform();
+    }
+
     getItemLocation(name: string) {
         return this.getRowByName(name).element(this.locationLink);
     }
@@ -272,5 +285,9 @@ export class DataTable extends Component {
     getCellsContainingName(name: string) {
         return this.getRows().all(by.cssContainingText(DataTable.selectors.cell, name))
             .map(cell => cell.getText());
+    }
+
+    async hasContextMenu() {
+        return (await this.menu.getItemsCount()) > 0;
     }
 }
