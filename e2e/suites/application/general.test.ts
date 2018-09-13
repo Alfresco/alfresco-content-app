@@ -74,10 +74,8 @@ describe('General', () => {
 
             await createDialog.clickCreate();
             const message = await page.getSnackBarMessage();
-            expect(message).not.toEqual(`There's already a folder with this name. Try a different name.`);
             expect(message).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
 
-            await createDialog.waitForDialogToClose();
             expect(createDialog.component.isPresent()).not.toBe(true, 'dialog is present');
         });
 
