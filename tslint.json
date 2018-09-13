@@ -12,7 +12,12 @@
     "member-ordering": [
       true,
       {
-        "order": ["static-field", "instance-field", "static-method", "instance-method"]
+        "order": [
+          "static-field",
+          "instance-field",
+          "static-method",
+          "instance-method"
+        ]
       }
     ],
     "no-arg": true,
@@ -40,7 +45,14 @@
     "triple-equals": [true, "allow-null-check"],
     "unified-signatures": true,
     "variable-name": false,
-    "whitespace": [true, "check-branch", "check-decl", "check-operator", "check-separator", "check-type"],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-separator",
+      "check-type"
+    ],
     "directive-selector": [true, "attribute", "aca", "camelCase"],
     "component-selector": [true, "element", ["app", "aca"], "kebab-case"],
     "use-input-property-decorator": true,
