@@ -9,7 +9,7 @@ addons:
 
 language: node_js
 node_js:
-  - "8"
+  - '8'
 
 before_script:
   # Disable services enabled by default
@@ -24,7 +24,10 @@ before_install:
 jobs:
   include:
     - stage: test
-      script: npm run lint && npm run spellcheck
+      script:
+        - npm run lint
+        - npm run spellcheck
+        - npm run format:check
     - stage: test
       script:
         - npm run test:ci
