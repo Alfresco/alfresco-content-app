@@ -219,11 +219,6 @@
           "options": {
             "tsConfig": "projects/aca-dev-tools/tsconfig.lib.json",
             "project": "projects/aca-dev-tools/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/aca-dev-tools/ng-package.prod.json"
-            }
           }
         },
         "test": {
@@ -259,11 +254,6 @@
           "options": {
             "tsConfig": "projects/adf-extensions/tsconfig.lib.json",
             "project": "projects/adf-extensions/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/adf-extensions/ng-package.prod.json"
-            }
           }
         },
         "test": {
