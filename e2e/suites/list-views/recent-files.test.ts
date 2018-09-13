@@ -48,8 +48,7 @@ describe('Recent Files', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const recentFilesPage = new BrowsingPage();
-    const { dataTable } = recentFilesPage;
-    const { breadcrumb } = recentFilesPage.toolbar;
+    const { dataTable, breadcrumb } = recentFilesPage;
 
     beforeAll(done => {
         apis.admin.people.createUser({ username })

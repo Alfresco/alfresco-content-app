@@ -55,7 +55,7 @@ describe('Edit folder', () => {
     const personalFilesPage = new BrowsingPage();
     const editDialog = new CreateOrEditFolderDialog();
     const { dataTable } = personalFilesPage;
-    const editButton = personalFilesPage.toolbar.actions.getButtonByTitleAttribute('Edit');
+    const editButton = personalFilesPage.toolbar.getButtonByTitleAttribute('Edit');
 
     beforeAll(done => {
         apis.admin.people.createUser({ username })

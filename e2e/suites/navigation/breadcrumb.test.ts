@@ -47,7 +47,7 @@ describe('Breadcrumb', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
-    const { breadcrumb } = page.toolbar;
+    const { breadcrumb } = page;
 
     const apis = {
         admin: new RepoClient(),

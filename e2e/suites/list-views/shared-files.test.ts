@@ -49,8 +49,7 @@ describe('Shared Files', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const sharedFilesPage = new BrowsingPage();
-    const { dataTable } = sharedFilesPage;
-    const { breadcrumb } = sharedFilesPage.toolbar;
+    const { dataTable, breadcrumb } = sharedFilesPage;
 
     beforeAll(done => {
         apis.admin.people.createUser({ username })

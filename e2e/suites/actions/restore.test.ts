@@ -81,7 +81,7 @@ describe('Restore from Trash', () => {
 
         it('restore file - [C217177]', () => {
             dataTable.selectItem(file)
-                .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
+                .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
                     expect(text).toContain(`${file} restored`);
@@ -99,7 +99,7 @@ describe('Restore from Trash', () => {
 
         it('restore folder - [C280438]', () => {
             dataTable.selectItem(folder)
-                .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
+                .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
                     expect(text).toContain(`${folder} restored`);
@@ -117,7 +117,7 @@ describe('Restore from Trash', () => {
 
         it('restore multiple items - [C217182]', () => {
             dataTable.selectMultipleItems([ file, folder ])
-                .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
+                .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => {
                     expect(text).toContain(`Restore successful`);
@@ -137,7 +137,7 @@ describe('Restore from Trash', () => {
 
         it('View from notification - [C217181]', () => {
             dataTable.selectItem(file)
-                .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
+                .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.clickSnackBarAction())
                 .then(() => page.dataTable.waitForHeader())
                 .then(() => {
@@ -187,7 +187,7 @@ describe('Restore from Trash', () => {
         it('Restore a file when another file with same name exists on the restore location - [C217178]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
                 .then(() => dataTable.selectItem(file1))
-                .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
+                .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual(`Can't restore, ${file1} already exists`));
         });
@@ -195,7 +195,7 @@ describe('Restore from Trash', () => {
         it('Restore a file when original location no longer exists - [C217179]', () => {
             page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
                 .then(() => dataTable.selectItem(file2))
-                .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
+                .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual(`Can't restore ${file2}, the original location no longer exists`));
         });
@@ -253,14 +253,14 @@ describe('Restore from Trash', () => {
 
         it('one failure - [C217183]', () => {
             dataTable.selectMultipleItems([ file1, file2 ])
-                .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
+                .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                     .then(text => expect(text).toEqual(`Can't restore ${file1}, the original location no longer exists`));
         });
 
         it('multiple failures - [C217184]', () => {
             dataTable.selectMultipleItems([ file3, file4, file5 ])
-                .then(() => toolbar.actions.getButtonByTitleAttribute('Restore').click())
+                .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
                 .then(() => page.getSnackBarMessage())
                 .then(text => expect(text).toEqual('2 items not restored because of issues with the restore location'));
         });

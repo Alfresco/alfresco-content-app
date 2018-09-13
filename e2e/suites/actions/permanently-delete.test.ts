@@ -81,7 +81,7 @@ describe('Permanently delete from Trash', () => {
 
     it('delete file - [C217091]', async () => {
         await dataTable.selectItem(file1);
-        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
         await trashPage.getDialogActionByLabel('Delete').click();
         await trashPage.waitForDialogToClose();
@@ -93,7 +93,7 @@ describe('Permanently delete from Trash', () => {
 
     it('delete folder - [C280416]', async () => {
         await dataTable.selectItem(folder1);
-        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
         await trashPage.getDialogActionByLabel('Delete').click();
         await trashPage.waitForDialogToClose();
@@ -105,7 +105,7 @@ describe('Permanently delete from Trash', () => {
 
     it('delete multiple items - [C280417]', async () => {
         await dataTable.selectMultipleItems([ file2, folder2 ]);
-        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
         await trashPage.getDialogActionByLabel('Delete').click();
         await trashPage.waitForDialogToClose();
@@ -118,7 +118,7 @@ describe('Permanently delete from Trash', () => {
 
     it('Confirmation dialog UI - [C269113]', async () => {
         await dataTable.selectItem(file3);
-        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
 
         expect(await confirmDialog.getTitle()).toContain('Delete from trash');
@@ -132,7 +132,7 @@ describe('Permanently delete from Trash', () => {
 
     it('"Keep" action cancels the deletion - [C269115]', async () => {
         await dataTable.selectItem(file3);
-        await toolbar.actions.getButtonByTitleAttribute('Permanently delete').click();
+        await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
 
         expect(await confirmDialog.keepButton.isEnabled()).toBe(true, 'KEEP button is not enabled');

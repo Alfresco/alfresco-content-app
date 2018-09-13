@@ -23,20 +23,51 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, promise, protractor, browser } from 'protractor';
+import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { ToolbarActions } from './toolbar-actions';
-import { ToolbarBreadcrumb } from './toolbar-breadcrumb';
 
 export class Toolbar extends Component {
     private static selectors = {
-        root: '.inner-layout__header'
+        root: 'adf-toolbar',
+        button: '.mat-icon-button'
     };
 
-    actions: ToolbarActions = new ToolbarActions(this.component);
-    breadcrumb: ToolbarBreadcrumb = new ToolbarBreadcrumb(this.component);
+    menu: Menu = new Menu();
+    buttons: ElementArrayFinder = this.component.all(by.css(Toolbar.selectors.button));
 
     constructor(ancestor?: ElementFinder) {
         super(Toolbar.selectors.root, ancestor);
     }
+
+    async isEmpty() {
+        return await this.buttons.count() === 0;
+    }
+
+    async isButtonPresent(title: string) {
+        return await this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`)).isPresent();
+    }
+
+    getButtonByLabel(label: string) {
+        return this.component.element(by.cssContainingText(Toolbar.selectors.button, label));
+    }
+
+    getButtonByTitleAttribute(title: string) {
+        return this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
+    }
+
+    async openMoreMenu() {
+        await this.getButtonByTitleAttribute('More actions').click();
+        await this.menu.waitForMenuToOpen();
+        return this.menu;
+    }
+
+    async closeMoreMenu() {
+        return await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+    }
+
+    async getButtonTooltip(button: ElementFinder) {
+        return await button.getAttribute('title');
+    }
+
 }

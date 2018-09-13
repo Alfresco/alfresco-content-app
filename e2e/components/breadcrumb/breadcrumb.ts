@@ -26,18 +26,18 @@
 import { ElementFinder, ElementArrayFinder, by, promise } from 'protractor';
 import { Component } from '../component';
 
-export class ToolbarBreadcrumb extends Component {
+export class Breadcrumb extends Component {
     private static selectors = {
         root: 'adf-breadcrumb',
         item: '.adf-breadcrumb-item',
         currentItem: '.adf-breadcrumb-item-current'
     };
 
-    items: ElementArrayFinder = this.component.all(by.css(ToolbarBreadcrumb.selectors.item));
-    currentItem: ElementFinder = this.component.element(by.css(ToolbarBreadcrumb.selectors.currentItem));
+    items: ElementArrayFinder = this.component.all(by.css(Breadcrumb.selectors.item));
+    currentItem: ElementFinder = this.component.element(by.css(Breadcrumb.selectors.currentItem));
 
     constructor(ancestor?: ElementFinder) {
-        super(ToolbarBreadcrumb.selectors.root, ancestor);
+        super(Breadcrumb.selectors.root, ancestor);
     }
 
     getNthItem(nth: number): ElementFinder {
@@ -69,7 +69,7 @@ export class ToolbarBreadcrumb extends Component {
     }
 
     clickItem(name: string) {
-        return this.component.element(by.css(`${ToolbarBreadcrumb.selectors.item}[title=${name}]`)).click();
+        return this.component.element(by.css(`${Breadcrumb.selectors.item}[title=${name}]`)).click();
     }
 
     clickNthItem(nth: number) {

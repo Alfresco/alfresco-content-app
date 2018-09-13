@@ -26,7 +26,7 @@
 import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { ToolbarActions } from '../toolbar/toolbar-actions';
+import { Toolbar } from '../toolbar/toolbar';
 
 export class Viewer extends Component {
     private static selectors = {
@@ -46,7 +46,7 @@ export class Viewer extends Component {
     fileTitle: ElementFinder = this.component.element(by.css(Viewer.selectors.fileTitle));
     viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
 
-    toolbar = new ToolbarActions(this.component);
+    toolbar = new Toolbar(this.component);
 
     constructor(ancestor?: ElementFinder) {
         super(Viewer.selectors.root, ancestor);

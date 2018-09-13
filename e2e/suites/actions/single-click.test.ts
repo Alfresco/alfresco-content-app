@@ -50,8 +50,7 @@ describe('Single click on item name', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
-    const { dataTable } = page;
-    const { breadcrumb } = page.toolbar;
+    const { dataTable, breadcrumb } = page;
     const viewer = new Viewer();
 
     beforeAll(async (done) => {
