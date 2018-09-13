@@ -32,37 +32,34 @@ import { AppStore } from '../../store/states/app.state';
 import { AppExtensionService } from '../../extensions/extension.service';
 
 @Component({
-    templateUrl: './shared-files.component.html'
+  templateUrl: './shared-files.component.html'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
-    isSmallScreen = false;
+  isSmallScreen = false;
 
-    constructor(
-        store: Store<AppStore>,
-        extensions: AppExtensionService,
-        content: ContentManagementService,
-        private breakpointObserver: BreakpointObserver
-    ) {
-        super(store, extensions, content);
-    }
+  constructor(
+    store: Store<AppStore>,
+    extensions: AppExtensionService,
+    content: ContentManagementService,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    super(store, extensions, content);
+  }
 
-    ngOnInit() {
-        super.ngOnInit();
+  ngOnInit() {
+    super.ngOnInit();
 
-        this.subscriptions = this.subscriptions.concat([
-            this.content.nodesDeleted.subscribe(() => this.reload()),
-            this.content.nodesMoved.subscribe(() => this.reload()),
-            this.content.nodesRestored.subscribe(() => this.reload()),
-            this.content.linksUnshared.subscribe(() => this.reload()),
+    this.subscriptions = this.subscriptions.concat([
+      this.content.nodesDeleted.subscribe(() => this.reload()),
+      this.content.nodesMoved.subscribe(() => this.reload()),
+      this.content.nodesRestored.subscribe(() => this.reload()),
+      this.content.linksUnshared.subscribe(() => this.reload()),
 
-            this.breakpointObserver
-                .observe([
-                    Breakpoints.HandsetPortrait,
-                    Breakpoints.HandsetLandscape
-                ])
-                .subscribe(result => {
-                    this.isSmallScreen = result.matches;
-                })
-        ]);
-    }
+      this.breakpointObserver
+        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+        .subscribe(result => {
+          this.isSmallScreen = result.matches;
+        })
+    ]);
+  }
 }

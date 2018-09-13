@@ -24,65 +24,74 @@
  */
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TestBed, async, ComponentFixture, fakeAsync, tick } from '@angular/core/testing';
+import {
+  TestBed,
+  async,
+  ComponentFixture,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import { NAVIGATE_FOLDER, NavigateToFolder, VIEW_FILE, ViewFileAction } from '../../../store/actions';
+import {
+  NAVIGATE_FOLDER,
+  NavigateToFolder,
+  VIEW_FILE,
+  ViewFileAction
+} from '../../../store/actions';
 import { map } from 'rxjs/operators';
 
 describe('SearchInputComponent', () => {
-    let fixture: ComponentFixture<SearchInputComponent>;
-    let component: SearchInputComponent;
-    let actions$: Actions;
+  let fixture: ComponentFixture<SearchInputComponent>;
+  let component: SearchInputComponent;
+  let actions$: Actions;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                AppTestingModule
-            ],
-            declarations: [
-                SearchInputComponent
-            ],
-            schemas: [ NO_ERRORS_SCHEMA ]
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule],
+      declarations: [SearchInputComponent],
+      schemas: [NO_ERRORS_SCHEMA]
+    })
+      .compileComponents()
+      .then(() => {
+        actions$ = TestBed.get(Actions);
+        fixture = TestBed.createComponent(SearchInputComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      });
+  }));
+
+  describe('onItemClicked()', () => {
+    it('opens preview if node is file', fakeAsync(done => {
+      actions$.pipe(
+        ofType<ViewFileAction>(VIEW_FILE),
+        map(action => {
+          expect(action.payload.entry.id).toBe('node-id');
+          done();
         })
-        .compileComponents()
-        .then(() => {
-            actions$ = TestBed.get(Actions);
-            fixture = TestBed.createComponent(SearchInputComponent);
-            component = fixture.componentInstance;
-            fixture.detectChanges();
-        });
+      );
+
+      const node = {
+        entry: { isFile: true, id: 'node-id', parentId: 'parent-id' }
+      };
+
+      component.onItemClicked(node);
+      tick();
     }));
 
-    describe('onItemClicked()', () => {
-        it('opens preview if node is file', fakeAsync(done => {
-            actions$.pipe(
-                ofType<ViewFileAction>(VIEW_FILE),
-                map(action => {
-                    expect(action.payload.entry.id).toBe('node-id');
-                    done();
-                })
-            );
-
-            const node = { entry: { isFile: true, id: 'node-id', parentId: 'parent-id' } };
-
-            component.onItemClicked(node);
-            tick();
-        }));
-
-        it('navigates if node is folder', fakeAsync(done => {
-            actions$.pipe(
-                ofType<NavigateToFolder>(NAVIGATE_FOLDER),
-                map(action => {
-                    expect(action.payload.entry.id).toBe('folder-id');
-                    done();
-                })
-            );
-            const node = { entry: { id: 'folder-id', isFolder: true } };
-            component.onItemClicked(node);
-            tick();
-        }));
-    });
+    it('navigates if node is folder', fakeAsync(done => {
+      actions$.pipe(
+        ofType<NavigateToFolder>(NAVIGATE_FOLDER),
+        map(action => {
+          expect(action.payload.entry.id).toBe('folder-id');
+          done();
+        })
+      );
+      const node = { entry: { id: 'folder-id', isFolder: true } };
+      component.onItemClicked(node);
+      tick();
+    }));
+  });
 });

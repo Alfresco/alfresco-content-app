@@ -32,38 +32,35 @@ import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {
-    SnackbarEffects,
-    NodeEffects,
-    RouterEffects,
-    DownloadEffects,
-    ViewerEffects,
-    SearchEffects,
-    SiteEffects,
-    UploadEffects,
-    FavoriteEffects
+  SnackbarEffects,
+  NodeEffects,
+  RouterEffects,
+  DownloadEffects,
+  ViewerEffects,
+  SearchEffects,
+  SiteEffects,
+  UploadEffects,
+  FavoriteEffects
 } from './effects';
 
 @NgModule({
-    imports: [
-        StoreModule.forRoot(
-            { app: appReducer },
-            { initialState: INITIAL_STATE }
-        ),
-        StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-        EffectsModule.forRoot([
-            SnackbarEffects,
-            NodeEffects,
-            RouterEffects,
-            DownloadEffects,
-            ViewerEffects,
-            SearchEffects,
-            SiteEffects,
-            UploadEffects,
-            FavoriteEffects
-        ]),
-        !environment.production
-            ? StoreDevtoolsModule.instrument({ maxAge: 25 })
-            : []
-    ]
+  imports: [
+    StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
+    StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+    EffectsModule.forRoot([
+      SnackbarEffects,
+      NodeEffects,
+      RouterEffects,
+      DownloadEffects,
+      ViewerEffects,
+      SearchEffects,
+      SiteEffects,
+      UploadEffects,
+      FavoriteEffects
+    ]),
+    !environment.production
+      ? StoreDevtoolsModule.instrument({ maxAge: 25 })
+      : []
+  ]
 })
 export class AppStoreModule {}

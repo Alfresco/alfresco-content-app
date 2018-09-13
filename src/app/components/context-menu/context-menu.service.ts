@@ -7,96 +7,115 @@ import { ContextmenuOverlayConfig } from './interfaces';
 
 @Injectable()
 export class ContextMenuService {
-    constructor(
-        private injector: Injector,
-        private overlay: Overlay) { }
+  constructor(private injector: Injector, private overlay: Overlay) {}
 
-    open(config: ContextmenuOverlayConfig) {
+  open(config: ContextmenuOverlayConfig) {
+    const overlay = this.createOverlay(config);
 
-        const overlay = this.createOverlay(config);
+    const overlayRef = new ContextMenuOverlayRef(overlay);
 
-        const overlayRef = new ContextMenuOverlayRef(overlay);
+    this.attachDialogContainer(overlay, config, overlayRef);
 
-        this.attachDialogContainer(overlay, config, overlayRef);
+    overlay.backdropClick().subscribe(() => overlayRef.close());
 
-        overlay.backdropClick().subscribe(() => overlayRef.close());
-
-        // prevent native contextmenu on overlay element if config.hasBackdrop is true
-        if (config.hasBackdrop) {
-            (<any>overlay)._backdropElement
-                .addEventListener('contextmenu', () => {
-                    event.preventDefault();
-                    (<any>overlay)._backdropClick.next(null);
-                }, true);
-        }
-
-        return overlayRef;
+    // prevent native contextmenu on overlay element if config.hasBackdrop is true
+    if (config.hasBackdrop) {
+      (<any>overlay)._backdropElement.addEventListener(
+        'contextmenu',
+        () => {
+          event.preventDefault();
+          (<any>overlay)._backdropClick.next(null);
+        },
+        true
+      );
     }
 
-    private createOverlay(config: ContextmenuOverlayConfig) {
-        const overlayConfig = this.getOverlayConfig(config);
-        return this.overlay.create(overlayConfig);
-    }
+    return overlayRef;
+  }
 
-    private attachDialogContainer(overlay: OverlayRef, config: ContextmenuOverlayConfig, contextmenuOverlayRef: ContextMenuOverlayRef) {
-        const injector = this.createInjector(config, contextmenuOverlayRef);
+  private createOverlay(config: ContextmenuOverlayConfig) {
+    const overlayConfig = this.getOverlayConfig(config);
+    return this.overlay.create(overlayConfig);
+  }
 
-        const containerPortal = new ComponentPortal(ContextMenuComponent, null, injector);
-        const containerRef: ComponentRef<ContextMenuComponent> = overlay.attach(containerPortal);
+  private attachDialogContainer(
+    overlay: OverlayRef,
+    config: ContextmenuOverlayConfig,
+    contextmenuOverlayRef: ContextMenuOverlayRef
+  ) {
+    const injector = this.createInjector(config, contextmenuOverlayRef);
 
-        return containerRef.instance;
-    }
+    const containerPortal = new ComponentPortal(
+      ContextMenuComponent,
+      null,
+      injector
+    );
+    const containerRef: ComponentRef<ContextMenuComponent> = overlay.attach(
+      containerPortal
+    );
 
-    private createInjector(config: ContextmenuOverlayConfig, contextmenuOverlayRef: ContextMenuOverlayRef): PortalInjector {
-        const injectionTokens = new WeakMap();
+    return containerRef.instance;
+  }
 
-        injectionTokens.set(ContextMenuOverlayRef, contextmenuOverlayRef);
+  private createInjector(
+    config: ContextmenuOverlayConfig,
+    contextmenuOverlayRef: ContextMenuOverlayRef
+  ): PortalInjector {
+    const injectionTokens = new WeakMap();
 
-        return new PortalInjector(this.injector, injectionTokens);
-    }
+    injectionTokens.set(ContextMenuOverlayRef, contextmenuOverlayRef);
 
-    private getOverlayConfig(config: ContextmenuOverlayConfig): OverlayConfig {
-        const fakeElement: any = {
-            getBoundingClientRect: (): ClientRect => ({
-                bottom: config.source.clientY,
-                height: 0,
-                left: config.source.clientX,
-                right: config.source.clientX,
-                top: config.source.clientY,
-                width: 0
-            })
-        };
+    return new PortalInjector(this.injector, injectionTokens);
+  }
 
-        const positionStrategy = this.overlay.position()
-            .connectedTo(
-                new ElementRef(fakeElement),
-                { originX: 'start', originY: 'bottom' },
-                { overlayX: 'start', overlayY: 'top' })
-            .withFallbackPosition(
-                { originX: 'start', originY: 'top' },
-                { overlayX: 'start', overlayY: 'bottom' })
-            .withFallbackPosition(
-                { originX: 'end', originY: 'top' },
-                { overlayX: 'start', overlayY: 'top' })
-            .withFallbackPosition(
-                { originX: 'start', originY: 'top' },
-                { overlayX: 'end', overlayY: 'top' })
-            .withFallbackPosition(
-                { originX: 'end', originY: 'center' },
-                { overlayX: 'start', overlayY: 'center' })
-            .withFallbackPosition(
-                { originX: 'start', originY: 'center' },
-                { overlayX: 'end', overlayY: 'center' }
-            );
+  private getOverlayConfig(config: ContextmenuOverlayConfig): OverlayConfig {
+    const fakeElement: any = {
+      getBoundingClientRect: (): ClientRect => ({
+        bottom: config.source.clientY,
+        height: 0,
+        left: config.source.clientX,
+        right: config.source.clientX,
+        top: config.source.clientY,
+        width: 0
+      })
+    };
 
-        const overlayConfig = new OverlayConfig({
-            hasBackdrop: config.hasBackdrop,
-            backdropClass: config.backdropClass,
-            panelClass: config.panelClass,
-            scrollStrategy: this.overlay.scrollStrategies.close(),
-            positionStrategy
-        });
+    const positionStrategy = this.overlay
+      .position()
+      .connectedTo(
+        new ElementRef(fakeElement),
+        { originX: 'start', originY: 'bottom' },
+        { overlayX: 'start', overlayY: 'top' }
+      )
+      .withFallbackPosition(
+        { originX: 'start', originY: 'top' },
+        { overlayX: 'start', overlayY: 'bottom' }
+      )
+      .withFallbackPosition(
+        { originX: 'end', originY: 'top' },
+        { overlayX: 'start', overlayY: 'top' }
+      )
+      .withFallbackPosition(
+        { originX: 'start', originY: 'top' },
+        { overlayX: 'end', overlayY: 'top' }
+      )
+      .withFallbackPosition(
+        { originX: 'end', originY: 'center' },
+        { overlayX: 'start', overlayY: 'center' }
+      )
+      .withFallbackPosition(
+        { originX: 'start', originY: 'center' },
+        { overlayX: 'end', overlayY: 'center' }
+      );
 
-        return overlayConfig;
-    }
+    const overlayConfig = new OverlayConfig({
+      hasBackdrop: config.hasBackdrop,
+      backdropClass: config.backdropClass,
+      panelClass: config.panelClass,
+      scrollStrategy: this.overlay.scrollStrategies.close(),
+      positionStrategy
+    });
+
+    return overlayConfig;
+  }
 }

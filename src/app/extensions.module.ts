@@ -7,15 +7,15 @@ import { MyExtensionModule } from 'my-extension';
 // For any application-specific code use CoreExtensionsModule instead.
 
 @NgModule({
-    imports: [
-        CodeEditorModule.forRoot({
-            // use local Monaco installation
-            baseUrl: 'assets/monaco',
-            // use local Typings Worker
-            typingsWorkerUrl: 'assets/workers/typings-worker.js'
-        }),
-        AcaDevToolsModule,
-        MyExtensionModule
-    ]
+  imports: [
+    CodeEditorModule.forRoot({
+      // use local Monaco installation
+      baseUrl: 'assets/monaco',
+      // use local Typings Worker
+      typingsWorkerUrl: 'assets/workers/typings-worker.js'
+    }),
+    AcaDevToolsModule,
+    MyExtensionModule
+  ]
 })
 export class AppExtensionsModule {}

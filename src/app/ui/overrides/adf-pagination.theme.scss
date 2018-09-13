@@ -1,22 +1,22 @@
 @mixin adf-pagination-theme($theme) {
+  .adf-pagination {
+    &.adf-pagination__empty {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 599px) {
     .adf-pagination {
-        &.adf-pagination__empty {
-            display: none;
-        }
+      padding: 0;
+
+      &__range-block,
+      &__perpage-block {
+        display: none;
+      }
+
+      &__actualinfo-block {
+        border-right: none;
+      }
     }
-
-    @media screen and (max-width: 599px) {
-        .adf-pagination {
-            padding: 0;
-
-            &__range-block,
-            &__perpage-block {
-                display: none;
-            }
-
-            &__actualinfo-block {
-                border-right: none;
-            }
-        }
-    }
+  }
 }

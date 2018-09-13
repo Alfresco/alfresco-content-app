@@ -19,33 +19,35 @@ import { AbstractControl, FormControl } from '@angular/forms';
 import { ContentApiService } from '../../services/content-api.service';
 
 export class SiteIdValidator {
-    static createValidator(contentApiService: ContentApiService) {
-        let timer;
+  static createValidator(contentApiService: ContentApiService) {
+    let timer;
 
-        return (control: AbstractControl) => {
-            if (timer) {
-                clearTimeout(timer);
-            }
+    return (control: AbstractControl) => {
+      if (timer) {
+        clearTimeout(timer);
+      }
 
-            return new Promise(resolve => {
-                timer = setTimeout(() => {
-                    return contentApiService
-                        .getSite(control.value)
-                        .subscribe(
-                            () => resolve({ message: 'LIBRARY.ERRORS.EXISTENT_SITE' }),
-                            () => resolve(null)
-                        );
-                }, 300);
-            });
-        };
-    }
+      return new Promise(resolve => {
+        timer = setTimeout(() => {
+          return contentApiService
+            .getSite(control.value)
+            .subscribe(
+              () => resolve({ message: 'LIBRARY.ERRORS.EXISTENT_SITE' }),
+              () => resolve(null)
+            );
+        }, 300);
+      });
+    };
+  }
 }
 
 export function forbidSpecialCharacters({ value }: FormControl) {
-    const validCharacters: RegExp = /[^A-Za-z0-9-]/;
-    const isValid: boolean = !validCharacters.test(value);
+  const validCharacters: RegExp = /[^A-Za-z0-9-]/;
+  const isValid: boolean = !validCharacters.test(value);
 
-    return (isValid) ? null : {
+  return isValid
+    ? null
+    : {
         message: 'LIBRARY.ERRORS.ILLEGAL_CHARACTERS'
-    };
+      };
 }

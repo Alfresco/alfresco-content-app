@@ -29,15 +29,11 @@ import { DocumentListDirective } from './document-list.directive';
 import { PaginationDirective } from './pagination.directive';
 
 @NgModule({
-    declarations: [
-        ExperimentalDirective,
-        DocumentListDirective,
-        PaginationDirective
-    ],
-    exports: [
-        ExperimentalDirective,
-        DocumentListDirective,
-        PaginationDirective
-    ]
+  declarations: [
+    ExperimentalDirective,
+    DocumentListDirective,
+    PaginationDirective
+  ],
+  exports: [ExperimentalDirective, DocumentListDirective, PaginationDirective]
 })
 export class DirectivesModule {}

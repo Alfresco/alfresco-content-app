@@ -30,11 +30,11 @@ export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
 
 export class AddFavoriteAction implements Action {
-    readonly type = ADD_FAVORITE;
-    constructor(public payload: Array<MinimalNodeEntity>) {}
+  readonly type = ADD_FAVORITE;
+  constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class RemoveFavoriteAction implements Action {
-    readonly type = REMOVE_FAVORITE;
-    constructor(public payload: Array<MinimalNodeEntity>) {}
+  readonly type = REMOVE_FAVORITE;
+  constructor(public payload: Array<MinimalNodeEntity>) {}
 }

@@ -30,71 +30,73 @@ import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
 
 @Component({
-    selector: 'aca-info-drawer',
-    templateUrl: './info-drawer.component.html'
+  selector: 'aca-info-drawer',
+  templateUrl: './info-drawer.component.html'
 })
 export class InfoDrawerComponent implements OnChanges, OnInit {
-    @Input() nodeId: string;
-    @Input() node: MinimalNodeEntity;
+  @Input()
+  nodeId: string;
+  @Input()
+  node: MinimalNodeEntity;
 
-    isLoading = false;
-    displayNode: MinimalNodeEntryEntity;
-    tabs:  Array<SidebarTabRef> = [];
+  isLoading = false;
+  displayNode: MinimalNodeEntryEntity;
+  tabs: Array<SidebarTabRef> = [];
 
-    constructor(
-        private contentApi: ContentApiService,
-        private extensions: AppExtensionService
-    ) {}
+  constructor(
+    private contentApi: ContentApiService,
+    private extensions: AppExtensionService
+  ) {}
 
-    ngOnInit() {
-        this.tabs = this.extensions.getSidebarTabs();
-    }
+  ngOnInit() {
+    this.tabs = this.extensions.getSidebarTabs();
+  }
 
-    ngOnChanges() {
-        if (this.node) {
-            const entry = this.node.entry;
-            if (entry.nodeId) {
-                this.loadNodeInfo(entry.nodeId);
-            } else if ((<any>entry).guid) {
-                // workaround for Favorite files
-                this.loadNodeInfo(entry.id);
-            } else {
-                // workaround Recent
-                if (this.isTypeImage(entry) && !this.hasAspectNames(entry)) {
-                    this.loadNodeInfo(this.node.entry.id);
-                } else {
-                    this.setDisplayNode(this.node.entry);
-                }
-            }
+  ngOnChanges() {
+    if (this.node) {
+      const entry = this.node.entry;
+      if (entry.nodeId) {
+        this.loadNodeInfo(entry.nodeId);
+      } else if ((<any>entry).guid) {
+        // workaround for Favorite files
+        this.loadNodeInfo(entry.id);
+      } else {
+        // workaround Recent
+        if (this.isTypeImage(entry) && !this.hasAspectNames(entry)) {
+          this.loadNodeInfo(this.node.entry.id);
+        } else {
+          this.setDisplayNode(this.node.entry);
         }
+      }
     }
+  }
 
-    private hasAspectNames(entry: MinimalNodeEntryEntity): boolean {
-        return entry.aspectNames && entry.aspectNames.includes('exif:exif');
+  private hasAspectNames(entry: MinimalNodeEntryEntity): boolean {
+    return entry.aspectNames && entry.aspectNames.includes('exif:exif');
+  }
+
+  private isTypeImage(entry: MinimalNodeEntryEntity): boolean {
+    if (entry && entry.content && entry.content.mimeType) {
+      return entry.content.mimeType.includes('image/');
     }
+    return false;
+  }
 
-    private isTypeImage(entry: MinimalNodeEntryEntity): boolean {
-        if (entry && entry.content && entry.content.mimeType) {
-            return entry.content.mimeType.includes('image/');
-        }
-        return false;
+  private loadNodeInfo(nodeId: string) {
+    if (nodeId) {
+      this.isLoading = true;
+
+      this.contentApi.getNodeInfo(nodeId).subscribe(
+        entity => {
+          this.setDisplayNode(entity);
+          this.isLoading = false;
+        },
+        () => (this.isLoading = false)
+      );
     }
+  }
 
-    private loadNodeInfo(nodeId: string) {
-        if (nodeId) {
-            this.isLoading = true;
-
-            this.contentApi.getNodeInfo(nodeId).subscribe(
-                entity => {
-                    this.setDisplayNode(entity);
-                    this.isLoading = false;
-                },
-                () => this.isLoading = false
-            );
-        }
-    }
-
-    private setDisplayNode(node: MinimalNodeEntryEntity) {
-        this.displayNode = node;
-    }
+  private setDisplayNode(node: MinimalNodeEntryEntity) {
+    this.displayNode = node;
+  }
 }

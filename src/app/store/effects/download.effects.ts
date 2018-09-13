@@ -38,99 +38,96 @@ import { appSelection } from '../selectors/app.selectors';
 
 @Injectable()
 export class DownloadEffects {
-    constructor(
-        private store: Store<AppStore>,
-        private actions$: Actions,
-        private contentApi: ContentApiService,
-        private dialog: MatDialog
-    ) {}
+  constructor(
+    private store: Store<AppStore>,
+    private actions$: Actions,
+    private contentApi: ContentApiService,
+    private dialog: MatDialog
+  ) {}
 
-    @Effect({ dispatch: false })
-    downloadNode$ = this.actions$.pipe(
-        ofType<DownloadNodesAction>(DOWNLOAD_NODES),
-        map(action => {
-            if (action.payload && action.payload.length > 0) {
-                this.downloadNodes(action.payload);
-            } else {
-                this.store
-                    .select(appSelection)
-                    .pipe(take(1))
-                    .subscribe(selection => {
-                        if (selection && !selection.isEmpty) {
-                            this.downloadNodes(selection.nodes);
-                        }
-                    });
+  @Effect({ dispatch: false })
+  downloadNode$ = this.actions$.pipe(
+    ofType<DownloadNodesAction>(DOWNLOAD_NODES),
+    map(action => {
+      if (action.payload && action.payload.length > 0) {
+        this.downloadNodes(action.payload);
+      } else {
+        this.store
+          .select(appSelection)
+          .pipe(take(1))
+          .subscribe(selection => {
+            if (selection && !selection.isEmpty) {
+              this.downloadNodes(selection.nodes);
             }
-        })
-    );
+          });
+      }
+    })
+  );
 
-    private downloadNodes(toDownload: Array<MinimalNodeEntity>) {
-        const nodes = toDownload.map(node => {
-            const { id, nodeId, name, isFile, isFolder } = node.entry;
+  private downloadNodes(toDownload: Array<MinimalNodeEntity>) {
+    const nodes = toDownload.map(node => {
+      const { id, nodeId, name, isFile, isFolder } = node.entry;
 
-            return {
-                id: nodeId || id,
-                name,
-                isFile,
-                isFolder
-            };
-        });
+      return {
+        id: nodeId || id,
+        name,
+        isFile,
+        isFolder
+      };
+    });
 
-        if (!nodes || nodes.length === 0) {
-            return;
-        }
-
-        if (nodes.length === 1) {
-            this.downloadNode(nodes[0]);
-        } else {
-            this.downloadZip(nodes);
-        }
+    if (!nodes || nodes.length === 0) {
+      return;
     }
 
-    private downloadNode(node: NodeInfo) {
-        if (node) {
-            if (node.isFolder) {
-                this.downloadZip([node]);
-            } else {
-                this.downloadFile(node);
-            }
-        }
+    if (nodes.length === 1) {
+      this.downloadNode(nodes[0]);
+    } else {
+      this.downloadZip(nodes);
     }
+  }
 
-    private downloadFile(node: NodeInfo) {
-        if (node) {
-            this.download(
-                this.contentApi.getContentUrl(node.id, true),
-                node.name
-            );
-        }
+  private downloadNode(node: NodeInfo) {
+    if (node) {
+      if (node.isFolder) {
+        this.downloadZip([node]);
+      } else {
+        this.downloadFile(node);
+      }
     }
+  }
 
-    private downloadZip(nodes: Array<NodeInfo>) {
-        if (nodes && nodes.length > 0) {
-            const nodeIds = nodes.map(node => node.id);
-
-            this.dialog.open(DownloadZipDialogComponent, {
-                width: '600px',
-                disableClose: true,
-                data: {
-                    nodeIds
-                }
-            });
-        }
+  private downloadFile(node: NodeInfo) {
+    if (node) {
+      this.download(this.contentApi.getContentUrl(node.id, true), node.name);
     }
+  }
 
-    private download(url: string, fileName: string) {
-        if (url && fileName) {
-            const link = document.createElement('a');
+  private downloadZip(nodes: Array<NodeInfo>) {
+    if (nodes && nodes.length > 0) {
+      const nodeIds = nodes.map(node => node.id);
 
-            link.style.display = 'none';
-            link.download = fileName;
-            link.href = url;
-
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+      this.dialog.open(DownloadZipDialogComponent, {
+        width: '600px',
+        disableClose: true,
+        data: {
+          nodeIds
         }
+      });
     }
+  }
+
+  private download(url: string, fileName: string) {
+    if (url && fileName) {
+      const link = document.createElement('a');
+
+      link.style.display = 'none';
+      link.download = fileName;
+      link.href = url;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
 }

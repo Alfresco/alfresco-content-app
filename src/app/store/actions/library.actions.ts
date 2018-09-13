@@ -29,11 +29,11 @@ export const DELETE_LIBRARY = 'DELETE_LIBRARY';
 export const CREATE_LIBRARY = 'CREATE_LIBRARY';
 
 export class DeleteLibraryAction implements Action {
-    readonly type = DELETE_LIBRARY;
-    constructor(public payload?: string) {}
+  readonly type = DELETE_LIBRARY;
+  constructor(public payload?: string) {}
 }
 
 export class CreateLibraryAction implements Action {
-    readonly type = CREATE_LIBRARY;
-    constructor() {}
+  readonly type = CREATE_LIBRARY;
+  constructor() {}
 }

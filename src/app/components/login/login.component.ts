@@ -28,17 +28,17 @@ import { Location } from '@angular/common';
 import { AuthenticationService } from '@alfresco/adf-core';
 
 @Component({
-    templateUrl: './login.component.html'
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
-    constructor(
-        private location: Location,
-        private auth: AuthenticationService,
-    ) {}
+  constructor(
+    private location: Location,
+    private auth: AuthenticationService
+  ) {}
 
-    ngOnInit() {
-        if (this.auth.isEcmLoggedIn()) {
-            this.location.forward();
-        }
+  ngOnInit() {
+    if (this.auth.isEcmLoggedIn()) {
+      this.location.forward();
     }
+  }
 }

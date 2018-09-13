@@ -24,112 +24,119 @@
  */
 
 import {
-    AlfrescoApiService,
-    AppConfigService,
-    AuthenticationService,
-    FileUploadErrorEvent,
-    PageTitleService,
-    UploadService
+  AlfrescoApiService,
+  AppConfigService,
+  AuthenticationService,
+  FileUploadErrorEvent,
+  PageTitleService,
+  UploadService
 } from '@alfresco/adf-core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppExtensionService } from './extensions/extension.service';
 import {
-    SetLanguagePickerAction,
-    SnackbarErrorAction,
-    SetCurrentUrlAction,
-    SetInitialStateAction
+  SetLanguagePickerAction,
+  SnackbarErrorAction,
+  SetCurrentUrlAction,
+  SetInitialStateAction
 } from './store/actions';
-import { AppStore, AppState, INITIAL_APP_STATE } from './store/states/app.state';
+import {
+  AppStore,
+  AppState,
+  INITIAL_APP_STATE
+} from './store/states/app.state';
 import { filter } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private pageTitle: PageTitleService,
-        private store: Store<AppStore>,
-        private config: AppConfigService,
-        private alfrescoApiService: AlfrescoApiService,
-        private authenticationService: AuthenticationService,
-        private uploadService: UploadService,
-        private extensions: AppExtensionService,
-        private dialogRef: MatDialog
-    ) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private pageTitle: PageTitleService,
+    private store: Store<AppStore>,
+    private config: AppConfigService,
+    private alfrescoApiService: AlfrescoApiService,
+    private authenticationService: AuthenticationService,
+    private uploadService: UploadService,
+    private extensions: AppExtensionService,
+    private dialogRef: MatDialog
+  ) {}
 
-    ngOnInit() {
-        this.alfrescoApiService.getInstance().on('error', error => {
-            if (error.status === 401) {
-                if (!this.authenticationService.isLoggedIn()) {
-                    this.authenticationService.setRedirect({ provider: 'ECM', url: this.router.url });
-                    this.router.navigate(['/login']);
+  ngOnInit() {
+    this.alfrescoApiService.getInstance().on('error', error => {
+      if (error.status === 401) {
+        if (!this.authenticationService.isLoggedIn()) {
+          this.authenticationService.setRedirect({
+            provider: 'ECM',
+            url: this.router.url
+          });
+          this.router.navigate(['/login']);
 
-                    this.dialogRef.closeAll();
-                }
-            }
-        });
+          this.dialogRef.closeAll();
+        }
+      }
+    });
 
-        this.loadAppSettings();
+    this.loadAppSettings();
 
-        const { router, pageTitle, route } = this;
+    const { router, pageTitle, route } = this;
 
-        router.events
-            .pipe(filter(event => event instanceof NavigationEnd))
-            .subscribe(() => {
-                let currentRoute = route.root;
+    router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        let currentRoute = route.root;
 
-                while (currentRoute.firstChild) {
-                    currentRoute = currentRoute.firstChild;
-                }
-
-                const snapshot: any = currentRoute.snapshot || {};
-                const data: any = snapshot.data || {};
-
-                pageTitle.setTitle(data.title || '');
-
-                this.store.dispatch(new SetCurrentUrlAction(router.url));
-            });
-
-        this.router.config.unshift(...this.extensions.getApplicationRoutes());
-
-        this.uploadService.fileUploadError.subscribe(error =>
-            this.onFileUploadedError(error)
-        );
-    }
-
-    private loadAppSettings() {
-        const languagePicker = this.config.get<boolean>('languagePicker');
-        this.store.dispatch(new SetLanguagePickerAction(languagePicker));
-
-        const state: AppState = {
-            ... INITIAL_APP_STATE,
-            appName: this.config.get<string>('application.name'),
-            headerColor: this.config.get<string>('headerColor'),
-            logoPath: this.config.get<string>('application.logo'),
-            sharedUrl: this.config.get<string>('ecmHost') + '/#/preview/s/'
-        };
-
-        this.store.dispatch(new SetInitialStateAction(state));
-    }
-
-    onFileUploadedError(error: FileUploadErrorEvent) {
-        let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
-
-        if (error.error.status === 409) {
-            message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
+        while (currentRoute.firstChild) {
+          currentRoute = currentRoute.firstChild;
         }
 
-        if (error.error.status === 500) {
-            message = 'APP.MESSAGES.UPLOAD.ERROR.500';
-        }
+        const snapshot: any = currentRoute.snapshot || {};
+        const data: any = snapshot.data || {};
 
-        this.store.dispatch(new SnackbarErrorAction(message));
+        pageTitle.setTitle(data.title || '');
+
+        this.store.dispatch(new SetCurrentUrlAction(router.url));
+      });
+
+    this.router.config.unshift(...this.extensions.getApplicationRoutes());
+
+    this.uploadService.fileUploadError.subscribe(error =>
+      this.onFileUploadedError(error)
+    );
+  }
+
+  private loadAppSettings() {
+    const languagePicker = this.config.get<boolean>('languagePicker');
+    this.store.dispatch(new SetLanguagePickerAction(languagePicker));
+
+    const state: AppState = {
+      ...INITIAL_APP_STATE,
+      appName: this.config.get<string>('application.name'),
+      headerColor: this.config.get<string>('headerColor'),
+      logoPath: this.config.get<string>('application.logo'),
+      sharedUrl: this.config.get<string>('ecmHost') + '/#/preview/s/'
+    };
+
+    this.store.dispatch(new SetInitialStateAction(state));
+  }
+
+  onFileUploadedError(error: FileUploadErrorEvent) {
+    let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
+
+    if (error.error.status === 409) {
+      message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
     }
+
+    if (error.error.status === 500) {
+      message = 'APP.MESSAGES.UPLOAD.ERROR.500';
+    }
+
+    this.store.dispatch(new SnackbarErrorAction(message));
+  }
 }

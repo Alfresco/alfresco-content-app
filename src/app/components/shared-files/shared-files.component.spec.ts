@@ -26,8 +26,12 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
-    AlfrescoApiService,
-    TimeAgoPipe, NodeNameTooltipPipe, NodeFavoriteDirective, DataTableComponent, AppConfigPipe
+  AlfrescoApiService,
+  TimeAgoPipe,
+  NodeNameTooltipPipe,
+  NodeFavoriteDirective,
+  DataTableComponent,
+  AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../services/content-management.service';
@@ -36,86 +40,87 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('SharedFilesComponent', () => {
-    let fixture: ComponentFixture<SharedFilesComponent>;
-    let component: SharedFilesComponent;
-    let contentService: ContentManagementService;
-    let alfrescoApi: AlfrescoApiService;
-    let page;
+  let fixture: ComponentFixture<SharedFilesComponent>;
+  let component: SharedFilesComponent;
+  let contentService: ContentManagementService;
+  let alfrescoApi: AlfrescoApiService;
+  let page;
 
+  beforeEach(() => {
+    page = {
+      list: {
+        entries: [{ entry: { id: 1 } }, { entry: { id: 2 } }],
+        pagination: { data: 'data' }
+      }
+    };
+  });
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule],
+      declarations: [
+        DataTableComponent,
+        TimeAgoPipe,
+        NodeNameTooltipPipe,
+        NodeFavoriteDirective,
+        DocumentListComponent,
+        SharedFilesComponent,
+        AppConfigPipe,
+        ExperimentalDirective
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
+
+    fixture = TestBed.createComponent(SharedFilesComponent);
+    component = fixture.componentInstance;
+
+    contentService = TestBed.get(ContentManagementService);
+    alfrescoApi = TestBed.get(AlfrescoApiService);
+    alfrescoApi.reset();
+
+    spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(
+      Promise.resolve(page)
+    );
+  });
+
+  describe('OnInit', () => {
     beforeEach(() => {
-        page = {
-            list: {
-                entries: [ { entry: { id: 1 } }, { entry: { id: 2 } } ],
-                pagination: { data: 'data'}
-            }
-        };
+      spyOn(component, 'reload').and.callFake(val => val);
     });
 
-    beforeEach(() => {
-        TestBed
-            .configureTestingModule({
-                imports: [ AppTestingModule ],
-                declarations: [
-                    DataTableComponent,
-                    TimeAgoPipe,
-                    NodeNameTooltipPipe,
-                    NodeFavoriteDirective,
-                    DocumentListComponent,
-                    SharedFilesComponent,
-                    AppConfigPipe,
-                    ExperimentalDirective
-                ],
-                schemas: [ NO_ERRORS_SCHEMA ]
-            });
+    it('should refresh on deleteNode event', () => {
+      fixture.detectChanges();
 
-            fixture = TestBed.createComponent(SharedFilesComponent);
-            component = fixture.componentInstance;
+      contentService.nodesDeleted.next();
 
-            contentService = TestBed.get(ContentManagementService);
-            alfrescoApi = TestBed.get(AlfrescoApiService);
-            alfrescoApi.reset();
-
-            spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(Promise.resolve(page));
+      expect(component.reload).toHaveBeenCalled();
     });
 
-    describe('OnInit', () => {
-        beforeEach(() => {
-            spyOn(component, 'reload').and.callFake(val => val);
-        });
+    it('should refresh on restoreNode event', () => {
+      fixture.detectChanges();
 
-        it('should refresh on deleteNode event', () => {
-            fixture.detectChanges();
+      contentService.nodesRestored.next();
 
-            contentService.nodesDeleted.next();
-
-            expect(component.reload).toHaveBeenCalled();
-        });
-
-        it('should refresh on restoreNode event', () => {
-            fixture.detectChanges();
-
-            contentService.nodesRestored.next();
-
-            expect(component.reload).toHaveBeenCalled();
-        });
-
-        it('should reload on move node event', () => {
-            fixture.detectChanges();
-
-            contentService.nodesMoved.next();
-
-            expect(component.reload).toHaveBeenCalled();
-        });
+      expect(component.reload).toHaveBeenCalled();
     });
 
-    describe('refresh', () => {
-        it('should call document list reload', () => {
-            spyOn(component.documentList, 'reload');
-            fixture.detectChanges();
+    it('should reload on move node event', () => {
+      fixture.detectChanges();
 
-            component.reload();
+      contentService.nodesMoved.next();
 
-            expect(component.documentList.reload).toHaveBeenCalled();
-        });
+      expect(component.reload).toHaveBeenCalled();
     });
+  });
+
+  describe('refresh', () => {
+    it('should call document list reload', () => {
+      spyOn(component.documentList, 'reload');
+      fixture.detectChanges();
+
+      component.reload();
+
+      expect(component.documentList.reload).toHaveBeenCalled();
+    });
+  });
 });

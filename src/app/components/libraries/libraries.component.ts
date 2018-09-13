@@ -38,79 +38,78 @@ import { AppExtensionService } from '../../extensions/extension.service';
 import { map } from 'rxjs/operators';
 
 @Component({
-    templateUrl: './libraries.component.html'
+  templateUrl: './libraries.component.html'
 })
 export class LibrariesComponent extends PageComponent implements OnInit {
+  isSmallScreen = false;
 
-    isSmallScreen = false;
+  constructor(
+    private route: ActivatedRoute,
+    content: ContentManagementService,
+    private contentApi: ContentApiService,
+    store: Store<AppStore>,
+    extensions: AppExtensionService,
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    super(store, extensions, content);
+  }
 
-    constructor(private route: ActivatedRoute,
-                content: ContentManagementService,
-                private contentApi: ContentApiService,
-                store: Store<AppStore>,
-                extensions: AppExtensionService,
-                private router: Router,
-                private breakpointObserver: BreakpointObserver) {
-        super(store, extensions, content);
+  ngOnInit() {
+    super.ngOnInit();
+
+    this.subscriptions.push(
+      this.content.libraryDeleted.subscribe(() => this.reload()),
+      this.content.libraryCreated.subscribe((node: SiteEntry) => {
+        this.navigate(node.entry.guid);
+      }),
+
+      this.breakpointObserver
+        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+        .subscribe(result => {
+          this.isSmallScreen = result.matches;
+        })
+    );
+  }
+
+  makeLibraryTooltip(library: any): string {
+    const { description, title } = library;
+
+    return description || title || '';
+  }
+
+  makeLibraryTitle(library: any): string {
+    const rows = this.documentList.data.getRows();
+    const entries = rows.map((r: ShareDataRow) => r.node.entry);
+    const { title, id } = library;
+
+    let isDuplicate = false;
+
+    if (entries) {
+      isDuplicate = entries.some((entry: any) => {
+        return entry.id !== id && entry.title === title;
+      });
     }
 
-    ngOnInit() {
-        super.ngOnInit();
+    return isDuplicate ? `${title} (${id})` : `${title}`;
+  }
 
-        this.subscriptions.push(
-            this.content.libraryDeleted.subscribe(() => this.reload()),
-            this.content.libraryCreated.subscribe((node: SiteEntry) => {
-                this.navigate(node.entry.guid);
-            }),
-
-            this.breakpointObserver
-                .observe([
-                    Breakpoints.HandsetPortrait,
-                    Breakpoints.HandsetLandscape
-                ])
-                .subscribe(result => {
-                    this.isSmallScreen = result.matches;
-                })
-        );
+  navigateTo(node: SiteEntry) {
+    if (node && node.entry.guid) {
+      this.navigate(node.entry.guid);
     }
+  }
 
-    makeLibraryTooltip(library: any): string {
-        const { description, title } = library;
-
-        return description || title || '';
+  navigate(libraryId: string) {
+    if (libraryId) {
+      this.contentApi
+        .getNode(libraryId, { relativePath: '/documentLibrary' })
+        .pipe(map(node => node.entry))
+        .subscribe(documentLibrary => {
+          this.router.navigate(['./', documentLibrary.id], {
+            relativeTo: this.route
+          });
+        });
     }
-
-    makeLibraryTitle(library: any): string {
-        const rows = this.documentList.data.getRows();
-        const entries  = rows.map((r: ShareDataRow) => r.node.entry);
-        const { title, id } = library;
-
-        let isDuplicate = false;
-
-        if (entries) {
-            isDuplicate = entries
-                .some((entry: any) => {
-                    return (entry.id !== id && entry.title === title);
-                });
-        }
-
-        return isDuplicate ? `${title} (${id})` : `${title}`;
-    }
-
-    navigateTo(node: SiteEntry) {
-        if (node && node.entry.guid) {
-            this.navigate(node.entry.guid);
-        }
-    }
-
-    navigate(libraryId: string) {
-        if (libraryId) {
-            this.contentApi
-                .getNode(libraryId, { relativePath: '/documentLibrary' })
-                .pipe(map(node => node.entry))
-                .subscribe(documentLibrary => {
-                    this.router.navigate([ './', documentLibrary.id ], { relativeTo: this.route });
-                });
-        }
-    }
+  }
 }

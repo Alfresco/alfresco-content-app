@@ -26,165 +26,201 @@
 import { NodePermissionService } from './node-permission.service';
 
 describe('NodePermissionService', () => {
-    let permission: NodePermissionService;
+  let permission: NodePermissionService;
 
-    beforeEach(() => {
-        permission = new NodePermissionService();
+  beforeEach(() => {
+    permission = new NodePermissionService();
+  });
+
+  it('should return false when source is null', () => {
+    const source = null;
+
+    expect(permission.check(source, ['update'])).toBe(false);
+  });
+
+  describe('Multiple source permission', () => {
+    it('should return true when source has allowableOperations permission', () => {
+      const source = [
+        { entry: { allowableOperations: ['update'] } },
+        { entry: { allowableOperations: ['update'] } },
+        { entry: { allowableOperations: ['update'] } }
+      ];
+
+      expect(permission.check(source, ['update'])).toBe(true);
     });
 
+    it('should return true when source has allowableOperationsOnTarget permission', () => {
+      const source = [
+        { entry: { allowableOperationsOnTarget: ['update'] } },
+        { entry: { allowableOperationsOnTarget: ['update'] } },
+        { entry: { allowableOperationsOnTarget: ['update'] } }
+      ];
 
-    it('should return false when source is null', () => {
-        const source = null;
-
-        expect(permission.check(source, ['update'])).toBe(false);
+      expect(
+        permission.check(source, ['update'], {
+          target: 'allowableOperationsOnTarget'
+        })
+      ).toBe(true);
     });
 
-    describe('Multiple source permission', () => {
-        it('should return true when source has allowableOperations permission', () => {
-            const source = [
-                { entry: { allowableOperations: ['update'] } },
-                { entry: { allowableOperations: ['update'] } },
-                { entry: { allowableOperations: ['update'] } }
-            ];
+    it('should return false when source does not have allowableOperations permission', () => {
+      const source = [
+        { entry: { allowableOperations: ['update'] } },
+        { entry: { allowableOperations: ['update'] } },
+        { entry: { allowableOperations: ['delete'] } }
+      ];
 
-            expect(permission.check(source, ['update'])).toBe(true);
-        });
-
-        it('should return true when source has allowableOperationsOnTarget permission', () => {
-            const source = [
-                { entry: { allowableOperationsOnTarget: ['update'] } },
-                { entry: { allowableOperationsOnTarget: ['update'] } },
-                { entry: { allowableOperationsOnTarget: ['update'] } }
-            ];
-
-            expect(permission.check(source, ['update'], { target: 'allowableOperationsOnTarget' })).toBe(true);
-        });
-
-        it('should return false when source does not have allowableOperations permission', () => {
-            const source = [
-                { entry: { allowableOperations: ['update'] } },
-                { entry: { allowableOperations: ['update'] } },
-                { entry: { allowableOperations: ['delete'] } }
-            ];
-
-            expect(permission.check(source, ['update'], { target: 'allowableOperationsOnTarget' })).toBe(false);
-        });
-
-        it('should return false when source does not have allowableOperationsOnTarget permission', () => {
-            const source = [
-                { entry: { allowableOperationsOnTarget: ['update'] } },
-                { entry: { allowableOperationsOnTarget: ['update'] } },
-                { entry: { allowableOperationsOnTarget: ['delete'] } }
-            ];
-
-            expect(permission.check(source, ['update'], { target: 'allowableOperationsOnTarget' })).toBe(false);
-        });
-
-        it('should return true when source has `OR` allowableOperations permission', () => {
-            const source = [
-                { entry: { allowableOperations: ['update' , 'delete'] } },
-                { entry: { allowableOperations: ['update', 'create'] } },
-                { entry: { allowableOperations: ['update', 'updatePermissions'] } }
-            ];
-
-            expect(permission.check(source, ['update', 'create'])).toBe(true);
-        });
-
-        it('should return true when source has `AND` allowableOperations permission', () => {
-            const source = [
-                { entry: { allowableOperations: ['update' , 'delete', 'other'] } },
-                { entry: { allowableOperations: ['update', 'create', 'other'] } },
-                { entry: { allowableOperations: ['update', 'updatePermissions', 'other'] } }
-            ];
-
-            expect(permission.check(source, ['update', 'other'], { operation: 'AND' })).toBe(true);
-        });
-
-        it('should return false when source has no `AND` allowableOperations permission', () => {
-            const source = [
-                { entry: { allowableOperations: ['update' , 'delete', 'other'] } },
-                { entry: { allowableOperations: ['update', 'create', 'other'] } },
-                { entry: { allowableOperations: ['update', 'updatePermissions', 'other'] } }
-            ];
-
-            expect(permission.check(source, ['update', 'bogus'], { operation: 'AND' })).toBe(false);
-        });
-
-        it('should return false when source has no allowableOperations', () => {
-            const source = [
-                { entry: { allowableOperations: [] } },
-                { entry: { allowableOperations: [] } },
-                { entry: { allowableOperations: ['update'] } }
-            ];
-
-            expect(permission.check(source, ['update'])).toBe(false);
-        });
-
-        it('should return false when source has no allowableOperations property', () => {
-            const source = [
-                { entry: { } },
-                { entry: { } },
-                { entry: { allowableOperations: ['update'] } }
-            ];
-
-            expect(permission.check(source, ['update'])).toBe(false);
-        });
+      expect(
+        permission.check(source, ['update'], {
+          target: 'allowableOperationsOnTarget'
+        })
+      ).toBe(false);
     });
 
+    it('should return false when source does not have allowableOperationsOnTarget permission', () => {
+      const source = [
+        { entry: { allowableOperationsOnTarget: ['update'] } },
+        { entry: { allowableOperationsOnTarget: ['update'] } },
+        { entry: { allowableOperationsOnTarget: ['delete'] } }
+      ];
 
-    describe('Single source permission', () => {
-        it('should return true when source has allowableOperations permission', () => {
-            const source = { entry: { allowableOperations: ['update'] } };
-
-            expect(permission.check(source, ['update'])).toBe(true);
-        });
-
-        it('should return true when source has allowableOperationsOnTarget permission', () => {
-            const source = { entry: { allowableOperationsOnTarget: ['update'] } };
-
-            expect(permission.check(source, ['update'], { target: 'allowableOperationsOnTarget' })).toBe(true);
-        });
-
-        it('should return false when source does not have allowableOperations permission', () => {
-            const source = { entry: { allowableOperations: ['delete'] } };
-
-            expect(permission.check(source, ['update'])).toBe(false);
-        });
-
-        it('should return false when source does not have allowableOperationsOnTarget permission', () => {
-            const source = { entry: { allowableOperationsOnTarget: ['delete'] } };
-
-            expect(permission.check(source, ['update'], { target: 'allowableOperationsOnTarget' })).toBe(false);
-        });
-
-        it('should return true when source has `OR` allowableOperations permission', () => {
-            const source = { entry: { allowableOperations: ['update'] } };
-
-            expect(permission.check(source, ['update', 'create'])).toBe(true);
-        });
-
-        it('should return true when source has `AND` allowableOperations permission', () => {
-            const source = { entry: { allowableOperations: ['update', 'other'] } };
-
-            expect(permission.check(source, ['update', 'other'], { operation: 'AND' })).toBe(true);
-        });
-
-        it('should return false when source has no `AND` allowableOperations permission', () => {
-            const source = { entry: { allowableOperations: ['update', 'updatePermissions', 'other'] } };
-
-            expect(permission.check(source, ['update', 'bogus'], { operation: 'AND' })).toBe(false);
-        });
-
-        it('should return false when source has no allowableOperations', () => {
-            const source = { entry: { allowableOperations: [] } };
-
-            expect(permission.check(source, ['update'])).toBe(false);
-        });
-
-        it('should return false when source has no allowableOperations property', () => {
-            const source = { entry: { } };
-
-            expect(permission.check(source, ['update'])).toBe(false);
-        });
+      expect(
+        permission.check(source, ['update'], {
+          target: 'allowableOperationsOnTarget'
+        })
+      ).toBe(false);
     });
+
+    it('should return true when source has `OR` allowableOperations permission', () => {
+      const source = [
+        { entry: { allowableOperations: ['update', 'delete'] } },
+        { entry: { allowableOperations: ['update', 'create'] } },
+        { entry: { allowableOperations: ['update', 'updatePermissions'] } }
+      ];
+
+      expect(permission.check(source, ['update', 'create'])).toBe(true);
+    });
+
+    it('should return true when source has `AND` allowableOperations permission', () => {
+      const source = [
+        { entry: { allowableOperations: ['update', 'delete', 'other'] } },
+        { entry: { allowableOperations: ['update', 'create', 'other'] } },
+        {
+          entry: {
+            allowableOperations: ['update', 'updatePermissions', 'other']
+          }
+        }
+      ];
+
+      expect(
+        permission.check(source, ['update', 'other'], { operation: 'AND' })
+      ).toBe(true);
+    });
+
+    it('should return false when source has no `AND` allowableOperations permission', () => {
+      const source = [
+        { entry: { allowableOperations: ['update', 'delete', 'other'] } },
+        { entry: { allowableOperations: ['update', 'create', 'other'] } },
+        {
+          entry: {
+            allowableOperations: ['update', 'updatePermissions', 'other']
+          }
+        }
+      ];
+
+      expect(
+        permission.check(source, ['update', 'bogus'], { operation: 'AND' })
+      ).toBe(false);
+    });
+
+    it('should return false when source has no allowableOperations', () => {
+      const source = [
+        { entry: { allowableOperations: [] } },
+        { entry: { allowableOperations: [] } },
+        { entry: { allowableOperations: ['update'] } }
+      ];
+
+      expect(permission.check(source, ['update'])).toBe(false);
+    });
+
+    it('should return false when source has no allowableOperations property', () => {
+      const source = [
+        { entry: {} },
+        { entry: {} },
+        { entry: { allowableOperations: ['update'] } }
+      ];
+
+      expect(permission.check(source, ['update'])).toBe(false);
+    });
+  });
+
+  describe('Single source permission', () => {
+    it('should return true when source has allowableOperations permission', () => {
+      const source = { entry: { allowableOperations: ['update'] } };
+
+      expect(permission.check(source, ['update'])).toBe(true);
+    });
+
+    it('should return true when source has allowableOperationsOnTarget permission', () => {
+      const source = { entry: { allowableOperationsOnTarget: ['update'] } };
+
+      expect(
+        permission.check(source, ['update'], {
+          target: 'allowableOperationsOnTarget'
+        })
+      ).toBe(true);
+    });
+
+    it('should return false when source does not have allowableOperations permission', () => {
+      const source = { entry: { allowableOperations: ['delete'] } };
+
+      expect(permission.check(source, ['update'])).toBe(false);
+    });
+
+    it('should return false when source does not have allowableOperationsOnTarget permission', () => {
+      const source = { entry: { allowableOperationsOnTarget: ['delete'] } };
+
+      expect(
+        permission.check(source, ['update'], {
+          target: 'allowableOperationsOnTarget'
+        })
+      ).toBe(false);
+    });
+
+    it('should return true when source has `OR` allowableOperations permission', () => {
+      const source = { entry: { allowableOperations: ['update'] } };
+
+      expect(permission.check(source, ['update', 'create'])).toBe(true);
+    });
+
+    it('should return true when source has `AND` allowableOperations permission', () => {
+      const source = { entry: { allowableOperations: ['update', 'other'] } };
+
+      expect(
+        permission.check(source, ['update', 'other'], { operation: 'AND' })
+      ).toBe(true);
+    });
+
+    it('should return false when source has no `AND` allowableOperations permission', () => {
+      const source = {
+        entry: { allowableOperations: ['update', 'updatePermissions', 'other'] }
+      };
+
+      expect(
+        permission.check(source, ['update', 'bogus'], { operation: 'AND' })
+      ).toBe(false);
+    });
+
+    it('should return false when source has no allowableOperations', () => {
+      const source = { entry: { allowableOperations: [] } };
+
+      expect(permission.check(source, ['update'])).toBe(false);
+    });
+
+    it('should return false when source has no allowableOperations property', () => {
+      const source = { entry: {} };
+
+      expect(permission.check(source, ['update'])).toBe(false);
+    });
+  });
 });

@@ -35,82 +35,79 @@ import { UploadFolderAction, UPLOAD_FOLDER } from '../actions/upload.actions';
 
 @Injectable()
 export class UploadEffects {
-    private fileInput: HTMLInputElement;
-    private folderInput: HTMLInputElement;
+  private fileInput: HTMLInputElement;
+  private folderInput: HTMLInputElement;
 
-    constructor(
-        private store: Store<AppStore>,
-        private actions$: Actions,
-        private ngZone: NgZone,
-        private uploadService: UploadService,
-        rendererFactory: RendererFactory2
-    ) {
-        const renderer = rendererFactory.createRenderer(null, null);
+  constructor(
+    private store: Store<AppStore>,
+    private actions$: Actions,
+    private ngZone: NgZone,
+    private uploadService: UploadService,
+    rendererFactory: RendererFactory2
+  ) {
+    const renderer = rendererFactory.createRenderer(null, null);
 
-        this.fileInput = renderer.createElement('input') as HTMLInputElement;
-        this.fileInput.id = 'app-upload-files';
-        this.fileInput.type = 'file';
-        this.fileInput.style.display = 'none';
-        this.fileInput.setAttribute('multiple', '');
-        this.fileInput.addEventListener('change', event => this.upload(event));
-        renderer.appendChild(document.body, this.fileInput);
+    this.fileInput = renderer.createElement('input') as HTMLInputElement;
+    this.fileInput.id = 'app-upload-files';
+    this.fileInput.type = 'file';
+    this.fileInput.style.display = 'none';
+    this.fileInput.setAttribute('multiple', '');
+    this.fileInput.addEventListener('change', event => this.upload(event));
+    renderer.appendChild(document.body, this.fileInput);
 
+    this.folderInput = renderer.createElement('input') as HTMLInputElement;
+    this.folderInput.id = 'app-upload-folder';
+    this.folderInput.type = 'file';
+    this.folderInput.style.display = 'none';
+    this.folderInput.setAttribute('directory', '');
+    this.folderInput.setAttribute('webkitdirectory', '');
+    this.folderInput.addEventListener('change', event => this.upload(event));
+    renderer.appendChild(document.body, this.folderInput);
+  }
 
-        this.folderInput = renderer.createElement('input') as HTMLInputElement;
-        this.folderInput.id = 'app-upload-folder';
-        this.folderInput.type = 'file';
-        this.folderInput.style.display = 'none';
-        this.folderInput.setAttribute('directory', '');
-        this.folderInput.setAttribute('webkitdirectory', '');
-        this.folderInput.addEventListener('change', event => this.upload(event));
-        renderer.appendChild(document.body, this.folderInput);
-    }
+  @Effect({ dispatch: false })
+  uploadFiles$ = this.actions$.pipe(
+    ofType<UploadFilesAction>(UPLOAD_FILES),
+    map(() => {
+      this.fileInput.click();
+    })
+  );
 
-    @Effect({ dispatch: false })
-    uploadFiles$ = this.actions$.pipe(
-        ofType<UploadFilesAction>(UPLOAD_FILES),
-        map(() => {
-            this.fileInput.click();
-        })
-    );
+  @Effect({ dispatch: false })
+  uploadFolder$ = this.actions$.pipe(
+    ofType<UploadFolderAction>(UPLOAD_FOLDER),
+    map(() => {
+      this.folderInput.click();
+    })
+  );
 
-    @Effect({ dispatch: false })
-    uploadFolder$ = this.actions$.pipe(
-        ofType<UploadFolderAction>(UPLOAD_FOLDER),
-        map(() => {
-            this.folderInput.click();
-        })
-    );
-
-    private upload(event: any): void {
-        this.store
-            .select(currentFolder)
-            .pipe(take(1))
-            .subscribe(node => {
-                if (node && node.id) {
-                    const input = <HTMLInputElement>event.currentTarget;
-                    const files = FileUtils.toFileArray(input.files).map(
-                        file => {
-                            return new FileModel(file, {
-                                parentId: node.id,
-                                path: (file.webkitRelativePath || '').replace(/\/[^\/]*$/, ''),
-                                nodeType: 'cm:content'
-                            });
-                        }
-                    );
-
-                    this.uploadQueue(files);
-                    event.target.value = '';
-                }
+  private upload(event: any): void {
+    this.store
+      .select(currentFolder)
+      .pipe(take(1))
+      .subscribe(node => {
+        if (node && node.id) {
+          const input = <HTMLInputElement>event.currentTarget;
+          const files = FileUtils.toFileArray(input.files).map(file => {
+            return new FileModel(file, {
+              parentId: node.id,
+              path: (file.webkitRelativePath || '').replace(/\/[^\/]*$/, ''),
+              nodeType: 'cm:content'
             });
-    }
+          });
 
-    private uploadQueue(files: FileModel[]) {
-        if (files.length > 0) {
-            this.ngZone.run(() => {
-                this.uploadService.addToQueue(...files);
-                this.uploadService.uploadFilesInTheQueue();
-            });
+          this.uploadQueue(files);
+          event.target.value = '';
         }
+      });
+  }
+
+  private uploadQueue(files: FileModel[]) {
+    if (files.length > 0) {
+      this.ngZone.run(() => {
+        this.uploadService.addToQueue(...files);
+        this.uploadService.uploadFilesInTheQueue();
+      });
     }
+  }
 }

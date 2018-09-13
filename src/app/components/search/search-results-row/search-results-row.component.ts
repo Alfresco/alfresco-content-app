@@ -23,7 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 import { ViewFileAction } from '../../../store/actions';
 import { Store } from '@ngrx/store';
@@ -31,85 +37,84 @@ import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
 
 @Component({
-    selector: 'aca-search-results-row',
-    templateUrl: './search-results-row.component.html',
-    styleUrls: ['./search-results-row.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'aca-search-results-row' }
+  selector: 'aca-search-results-row',
+  templateUrl: './search-results-row.component.html',
+  styleUrls: ['./search-results-row.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'aca-search-results-row' }
 })
 export class SearchResultsRowComponent implements OnInit {
-    private node: MinimalNodeEntity;
+  private node: MinimalNodeEntity;
 
-    @Input() context: any;
+  @Input()
+  context: any;
 
-    constructor(private store: Store<AppStore>) {}
+  constructor(private store: Store<AppStore>) {}
 
-    ngOnInit() {
-        this.node = this.context.row.node;
-    }
+  ngOnInit() {
+    this.node = this.context.row.node;
+  }
 
-    get name() {
-        return this.getValue('name');
-    }
+  get name() {
+    return this.getValue('name');
+  }
 
-    get title() {
-        return this.getValue('properties["cm:title"]');
-    }
+  get title() {
+    return this.getValue('properties["cm:title"]');
+  }
 
-    get description() {
-        return this.getValue('properties["cm:description"]');
-    }
+  get description() {
+    return this.getValue('properties["cm:description"]');
+  }
 
-    get modifiedAt() {
-        return this.getValue('modifiedAt');
-    }
+  get modifiedAt() {
+    return this.getValue('modifiedAt');
+  }
 
-    get size() {
-        return this.getValue('content.sizeInBytes');
-    }
+  get size() {
+    return this.getValue('content.sizeInBytes');
+  }
 
-    get user() {
-        return this.getValue('modifiedByUser.displayName');
-    }
+  get user() {
+    return this.getValue('modifiedByUser.displayName');
+  }
 
-    get hasDescription() {
-        return this.description;
-    }
+  get hasDescription() {
+    return this.description;
+  }
 
-    get hasTitle() {
-        return this.title;
-    }
+  get hasTitle() {
+    return this.title;
+  }
 
-    get showTitle() {
-        return this.name !== this.title;
-    }
+  get showTitle() {
+    return this.name !== this.title;
+  }
 
-    get hasSize() {
-        return this.size;
-    }
+  get hasSize() {
+    return this.size;
+  }
 
-    get isFile() {
-        return this.getValue('isFile');
-    }
+  get isFile() {
+    return this.getValue('isFile');
+  }
 
-    showPreview() {
-        this.store.dispatch(
-            new ViewFileAction(this.node)
-        );
-    }
+  showPreview() {
+    this.store.dispatch(new ViewFileAction(this.node));
+  }
 
-    navigate() {
-        this.store.dispatch(new NavigateToFolder(this.node));
-    }
+  navigate() {
+    this.store.dispatch(new NavigateToFolder(this.node));
+  }
 
-    private getValue(path) {
-        return path
-            .replace('["', '.')
-            .replace('"]', '')
-            .replace('[', '.')
-            .replace(']', '')
-            .split('.')
-            .reduce((acc, part) => (acc ? acc[part] : null), this.node.entry);
-    }
+  private getValue(path) {
+    return path
+      .replace('["', '.')
+      .replace('"]', '')
+      .replace('[', '.')
+      .replace(']', '')
+      .split('.')
+      .reduce((acc, part) => (acc ? acc[part] : null), this.node.entry);
+  }
 }

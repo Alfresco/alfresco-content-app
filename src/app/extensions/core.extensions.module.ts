@@ -39,82 +39,78 @@ import { VersionsTabComponent } from '../components/info-drawer/versions-tab/ver
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 
 export function setupExtensions(service: AppExtensionService): Function {
-    return () => service.load();
+  return () => service.load();
 }
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CoreModule.forChild(),
-        ExtensionsModule.forChild()
-    ]
+  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule.forChild()]
 })
 export class CoreExtensionsModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: CoreExtensionsModule,
-            providers: [
-                AppExtensionService,
-                {
-                    provide: APP_INITIALIZER,
-                    useFactory: setupExtensions,
-                    deps: [AppExtensionService],
-                    multi: true
-                }
-            ]
-        };
-    }
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: CoreExtensionsModule,
+      providers: [
+        AppExtensionService,
+        {
+          provide: APP_INITIALIZER,
+          useFactory: setupExtensions,
+          deps: [AppExtensionService],
+          multi: true
+        }
+      ]
+    };
+  }
 
-    static forChild(): ModuleWithProviders {
-        return {
-            ngModule: CoreExtensionsModule
-        };
-    }
+  static forChild(): ModuleWithProviders {
+    return {
+      ngModule: CoreExtensionsModule
+    };
+  }
 
-    constructor(extensions: ExtensionService) {
-        extensions.setComponents({
-            'app.layout.main': LayoutComponent,
-            'app.components.trashcan': TrashcanComponent,
-            'app.components.tabs.metadata': MetadataTabComponent,
-            'app.components.tabs.comments': CommentsTabComponent,
-            'app.components.tabs.versions': VersionsTabComponent,
-            'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
-            'app.toolbar.toggleFavorite': ToggleFavoriteComponent
-        });
+  constructor(extensions: ExtensionService) {
+    extensions.setComponents({
+      'app.layout.main': LayoutComponent,
+      'app.components.trashcan': TrashcanComponent,
+      'app.components.tabs.metadata': MetadataTabComponent,
+      'app.components.tabs.comments': CommentsTabComponent,
+      'app.components.tabs.versions': VersionsTabComponent,
+      'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
+      'app.toolbar.toggleFavorite': ToggleFavoriteComponent
+    });
 
-        extensions.setAuthGuards({
-            'app.auth': AuthGuardEcm
-        });
+    extensions.setAuthGuards({
+      'app.auth': AuthGuardEcm
+    });
 
-        extensions.setEvaluators({
-            'app.selection.canDelete': app.canDeleteSelection,
-            'app.selection.canDownload': app.canDownloadSelection,
-            'app.selection.notEmpty': app.hasSelection,
-            'app.selection.canUnshare': app.canUnshareNodes,
-            'app.selection.canAddFavorite': app.canAddFavorite,
-            'app.selection.canRemoveFavorite': app.canRemoveFavorite,
-            'app.selection.first.canUpdate': app.canUpdateSelectedNode,
-            'app.selection.file': app.hasFileSelected,
-            'app.selection.file.canShare': app.canShareFile,
-            'app.selection.library': app.hasLibrarySelected,
-            'app.selection.folder': app.hasFolderSelected,
-            'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
+    extensions.setEvaluators({
+      'app.selection.canDelete': app.canDeleteSelection,
+      'app.selection.canDownload': app.canDownloadSelection,
+      'app.selection.notEmpty': app.hasSelection,
+      'app.selection.canUnshare': app.canUnshareNodes,
+      'app.selection.canAddFavorite': app.canAddFavorite,
+      'app.selection.canRemoveFavorite': app.canRemoveFavorite,
+      'app.selection.first.canUpdate': app.canUpdateSelectedNode,
+      'app.selection.file': app.hasFileSelected,
+      'app.selection.file.canShare': app.canShareFile,
+      'app.selection.library': app.hasLibrarySelected,
+      'app.selection.folder': app.hasFolderSelected,
+      'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
 
-            'app.navigation.folder.canCreate': app.canCreateFolder,
-            'app.navigation.folder.canUpload': app.canUpload,
-            'app.navigation.isTrashcan': nav.isTrashcan,
-            'app.navigation.isNotTrashcan': nav.isNotTrashcan,
-            'app.navigation.isLibraries': nav.isLibraries,
-            'app.navigation.isNotLibraries': nav.isNotLibraries,
-            'app.navigation.isSharedFiles': nav.isSharedFiles,
-            'app.navigation.isNotSharedFiles': nav.isNotSharedFiles,
-            'app.navigation.isFavorites': nav.isFavorites,
-            'app.navigation.isNotFavorites': nav.isNotFavorites,
-            'app.navigation.isRecentFiles': nav.isRecentFiles,
-            'app.navigation.isNotRecentFiles': nav.isNotRecentFiles,
-            'app.navigation.isSearchResults': nav.isSearchResults,
-            'app.navigation.isNotSearchResults': nav.isNotSearchResults,
-            'app.navigation.isPreview': nav.isPreview
-        });
-    }
+      'app.navigation.folder.canCreate': app.canCreateFolder,
+      'app.navigation.folder.canUpload': app.canUpload,
+      'app.navigation.isTrashcan': nav.isTrashcan,
+      'app.navigation.isNotTrashcan': nav.isNotTrashcan,
+      'app.navigation.isLibraries': nav.isLibraries,
+      'app.navigation.isNotLibraries': nav.isNotLibraries,
+      'app.navigation.isSharedFiles': nav.isSharedFiles,
+      'app.navigation.isNotSharedFiles': nav.isNotSharedFiles,
+      'app.navigation.isFavorites': nav.isFavorites,
+      'app.navigation.isNotFavorites': nav.isNotFavorites,
+      'app.navigation.isRecentFiles': nav.isRecentFiles,
+      'app.navigation.isNotRecentFiles': nav.isNotRecentFiles,
+      'app.navigation.isSearchResults': nav.isSearchResults,
+      'app.navigation.isNotSearchResults': nav.isNotSearchResults,
+      'app.navigation.isPreview': nav.isPreview
+    });
+  }
 }

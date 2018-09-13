@@ -28,25 +28,25 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../../services/node-permission.service';
 
 @Component({
-    selector: 'app-metadata-tab',
-    template: `
-        <adf-content-metadata-card
-            [readOnly]="!canUpdateNode"
-            [displayEmpty]="canUpdateNode"
-            [preset]="'custom'"
-            [node]="node">
-        </adf-content-metadata-card>
+  selector: 'app-metadata-tab',
+  template: `
+    <adf-content-metadata-card
+      [readOnly]="!canUpdateNode"
+      [displayEmpty]="canUpdateNode"
+      [preset]="'custom'"
+      [node]="node">
+    </adf-content-metadata-card>
     `,
-    encapsulation: ViewEncapsulation.None,
-    host: { 'class': 'app-metadata-tab' }
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-metadata-tab' }
 })
 export class MetadataTabComponent {
-    @Input()
-    node: MinimalNodeEntryEntity;
+  @Input()
+  node: MinimalNodeEntryEntity;
 
-    constructor(private permission: NodePermissionService) {}
+  constructor(private permission: NodePermissionService) {}
 
-    get canUpdateNode() {
-        return this.node && this.permission.check(this.node, ['update']);
-    }
+  get canUpdateNode() {
+    return this.node && this.permission.check(this.node, ['update']);
+  }
 }

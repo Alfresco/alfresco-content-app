@@ -33,39 +33,40 @@ import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef, NavBarGroupRef } from '@alfresco/adf-extensions';
 
 @Component({
-    selector: 'app-sidenav',
-    templateUrl: './sidenav.component.html',
-    styleUrls: ['./sidenav.component.scss']
+  selector: 'app-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit, OnDestroy {
-    @Input() showLabel: boolean;
+  @Input()
+  showLabel: boolean;
 
-    groups: Array<NavBarGroupRef> = [];
-    createActions: Array<ContentActionRef> = [];
-    onDestroy$: Subject<boolean> = new Subject<boolean>();
+  groups: Array<NavBarGroupRef> = [];
+  createActions: Array<ContentActionRef> = [];
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-    constructor(
-        private store: Store<AppStore>,
-        private extensions: AppExtensionService
-    ) {}
+  constructor(
+    private store: Store<AppStore>,
+    private extensions: AppExtensionService
+  ) {}
 
-    ngOnInit() {
-        this.groups = this.extensions.getNavigationGroups();
+  ngOnInit() {
+    this.groups = this.extensions.getNavigationGroups();
 
-        this.store
-            .select(currentFolder)
-            .pipe(takeUntil(this.onDestroy$))
-            .subscribe(() => {
-                this.createActions = this.extensions.getCreateActions();
-            });
-    }
+    this.store
+      .select(currentFolder)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.createActions = this.extensions.getCreateActions();
+      });
+  }
 
-    ngOnDestroy() {
-        this.onDestroy$.next(true);
-        this.onDestroy$.complete();
-    }
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
 
-    trackById(index: number, obj: { id: string }) {
-        return obj.id;
-    }
+  trackById(index: number, obj: { id: string }) {
+    return obj.id;
+  }
 }
