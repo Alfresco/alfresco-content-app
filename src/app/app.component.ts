@@ -43,6 +43,7 @@ import {
 } from './store/actions';
 import { AppStore, AppState, INITIAL_APP_STATE } from './store/states/app.state';
 import { filter } from 'rxjs/operators';
+import { MatDialog } from '@angular/material';
 
 @Component({
     selector: 'app-root',
@@ -59,7 +60,8 @@ export class AppComponent implements OnInit {
         private alfrescoApiService: AlfrescoApiService,
         private authenticationService: AuthenticationService,
         private uploadService: UploadService,
-        private extensions: AppExtensionService
+        private extensions: AppExtensionService,
+        private dialogRef: MatDialog
     ) {}
 
     ngOnInit() {
@@ -68,6 +70,8 @@ export class AppComponent implements OnInit {
                 if (!this.authenticationService.isLoggedIn()) {
                     this.authenticationService.setRedirect({ provider: 'ECM', url: this.router.url });
                     this.router.navigate(['/login']);
+
+                    this.dialogRef.closeAll();
                 }
             }
         });
