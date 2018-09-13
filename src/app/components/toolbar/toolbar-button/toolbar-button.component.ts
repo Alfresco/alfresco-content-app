@@ -32,31 +32,33 @@ import { take } from 'rxjs/operators';
 import { AppExtensionService } from '../../../extensions/extension.service';
 
 export enum ToolbarButtonType {
-    ICON_BUTTON = 'icon-button',
-    MENU_ITEM = 'menu-item'
+  ICON_BUTTON = 'icon-button',
+  MENU_ITEM = 'menu-item'
 }
 
 @Component({
-    selector: 'app-toolbar-button',
-    templateUrl: 'toolbar-button.component.html'
+  selector: 'app-toolbar-button',
+  templateUrl: 'toolbar-button.component.html'
 })
 export class ToolbarButtonComponent {
-    @Input() type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
-    @Input() actionRef: ContentActionRef;
+  @Input()
+  type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
+  @Input()
+  actionRef: ContentActionRef;
 
-    constructor(
-        protected store: Store<AppStore>,
-        private extensions: AppExtensionService
-    ) {}
+  constructor(
+    protected store: Store<AppStore>,
+    private extensions: AppExtensionService
+  ) {}
 
-    runAction() {
-        this.store
-            .select(appSelection)
-            .pipe(take(1))
-            .subscribe(selection => {
-                this.extensions.runActionById(this.actionRef.actions.click, {
-                    selection
-                });
-            });
-    }
+  runAction() {
+    this.store
+      .select(appSelection)
+      .pipe(take(1))
+      .subscribe(selection => {
+        this.extensions.runActionById(this.actionRef.actions.click, {
+          selection
+        });
+      });
+  }
 }

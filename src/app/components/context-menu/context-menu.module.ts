@@ -24,7 +24,12 @@
  */
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
-import { MatMenuModule, MatListModule, MatIconModule, MatButtonModule } from '@angular/material';
+import {
+  MatMenuModule,
+  MatListModule,
+  MatIconModule,
+  MatButtonModule
+} from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { CoreModule } from '@alfresco/adf-core';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
@@ -37,44 +42,40 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 
 @NgModule({
-    imports: [
-        MatMenuModule,
-        MatListModule,
-        MatIconModule,
-        MatButtonModule,
-        BrowserModule,
-        CoreExtensionsModule.forChild(),
-        CoreModule.forChild(),
-        ExtensionsModule.forChild()
-    ],
-    declarations: [
-        ContextActionsDirective,
-        ContextMenuComponent,
-        ContextMenuItemDirective,
-        OutsideEventDirective
-    ],
-    exports: [
-        OutsideEventDirective,
-        ContextActionsDirective,
-        ContextMenuComponent
-    ],
-    entryComponents: [
-        ContextMenuComponent
-    ]
+  imports: [
+    MatMenuModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    BrowserModule,
+    CoreExtensionsModule.forChild(),
+    CoreModule.forChild(),
+    ExtensionsModule.forChild()
+  ],
+  declarations: [
+    ContextActionsDirective,
+    ContextMenuComponent,
+    ContextMenuItemDirective,
+    OutsideEventDirective
+  ],
+  exports: [
+    OutsideEventDirective,
+    ContextActionsDirective,
+    ContextMenuComponent
+  ],
+  entryComponents: [ContextMenuComponent]
 })
 export class ContextMenuModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: ContextMenuModule,
-            providers: [
-                ContextMenuService
-            ]
-        };
-    }
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: ContextMenuModule,
+      providers: [ContextMenuService]
+    };
+  }
 
-    static forChild(): ModuleWithProviders {
-        return {
-            ngModule: ContextMenuModule
-        };
-    }
+  static forChild(): ModuleWithProviders {
+    return {
+      ngModule: ContextMenuModule
+    };
+  }
 }

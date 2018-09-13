@@ -31,8 +31,8 @@ import { infoDrawerOpened } from '../../../store/selectors/app.selectors';
 import { ToggleInfoDrawerAction } from '../../../store/actions';
 
 @Component({
-    selector: 'app-toggle-info-drawer',
-    template: `
+  selector: 'app-toggle-info-drawer',
+  template: `
         <button
             mat-icon-button
             [color]="(infoDrawerOpened$ | async) ? 'accent' : 'primary'"
@@ -43,13 +43,13 @@ import { ToggleInfoDrawerAction } from '../../../store/actions';
     `
 })
 export class ToggleInfoDrawerComponent {
-    infoDrawerOpened$: Observable<boolean>;
+  infoDrawerOpened$: Observable<boolean>;
 
-    constructor(private store: Store<AppStore>) {
-        this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
-    }
+  constructor(private store: Store<AppStore>) {
+    this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
+  }
 
-    onClick() {
-        this.store.dispatch(new ToggleInfoDrawerAction());
-    }
+  onClick() {
+    this.store.dispatch(new ToggleInfoDrawerAction());
+  }
 }

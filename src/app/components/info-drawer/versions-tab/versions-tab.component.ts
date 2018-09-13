@@ -27,8 +27,8 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Component({
-    selector: 'app-versions-tab',
-    template: `
+  selector: 'app-versions-tab',
+  template: `
         <ng-container *ngIf="isFileSelected;else empty">
             <adf-version-manager
                 [showComments]="'adf-version-manager.allowComments' | adfAppConfig:true"
@@ -46,25 +46,25 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
     `
 })
 export class VersionsTabComponent implements OnInit, OnChanges {
-    @Input()
-    node: MinimalNodeEntryEntity;
+  @Input()
+  node: MinimalNodeEntryEntity;
 
-    isFileSelected = false;
+  isFileSelected = false;
 
-    ngOnInit() {
-        this.updateState();
+  ngOnInit() {
+    this.updateState();
+  }
+
+  ngOnChanges() {
+    this.updateState();
+  }
+
+  private updateState() {
+    if (this.node && this.node.nodeId) {
+      // workaround for shared files type.
+      this.isFileSelected = true;
+    } else {
+      this.isFileSelected = this.node.isFile;
     }
-
-    ngOnChanges() {
-        this.updateState();
-    }
-
-    private updateState() {
-        if (this.node && this.node.nodeId) {
-            // workaround for shared files type.
-            this.isFileSelected = true;
-        } else {
-            this.isFileSelected = this.node.isFile;
-        }
-    }
+  }
 }

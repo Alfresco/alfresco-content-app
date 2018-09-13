@@ -32,21 +32,21 @@ export const NAVIGATE_FOLDER = 'NAVIGATE_FOLDER';
 export const NAVIGATE_PARENT_FOLDER = 'NAVIGATE_PARENT_FOLDER';
 
 export class NavigateUrlAction implements Action {
-    readonly type = NAVIGATE_URL;
-    constructor(public payload: string) {}
+  readonly type = NAVIGATE_URL;
+  constructor(public payload: string) {}
 }
 
 export class NavigateRouteAction implements Action {
-    readonly type = NAVIGATE_ROUTE;
-    constructor(public payload: any[]) {}
+  readonly type = NAVIGATE_ROUTE;
+  constructor(public payload: any[]) {}
 }
 
 export class NavigateToFolder implements Action {
-    readonly type = NAVIGATE_FOLDER;
-    constructor(public payload: MinimalNodeEntity) {}
+  readonly type = NAVIGATE_FOLDER;
+  constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class NavigateToParentFolder implements Action {
-    readonly type = NAVIGATE_PARENT_FOLDER;
-    constructor(public payload: MinimalNodeEntity) {}
+  readonly type = NAVIGATE_PARENT_FOLDER;
+  constructor(public payload: MinimalNodeEntity) {}
 }

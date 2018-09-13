@@ -29,6 +29,6 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 export const VIEW_FILE = 'VIEW_FILE';
 
 export class ViewFileAction implements Action {
-    readonly type = VIEW_FILE;
-    constructor(public payload: MinimalNodeEntity, public parentId?: string) {}
+  readonly type = VIEW_FILE;
+  constructor(public payload: MinimalNodeEntity, public parentId?: string) {}
 }

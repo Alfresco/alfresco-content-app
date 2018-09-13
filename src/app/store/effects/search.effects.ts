@@ -31,13 +31,13 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class SearchEffects {
-    constructor(private actions$: Actions, private router: Router) {}
+  constructor(private actions$: Actions, private router: Router) {}
 
-    @Effect({ dispatch: false })
-    searchByTerm$ = this.actions$.pipe(
-        ofType<SearchByTermAction>(SEARCH_BY_TERM),
-        map(action => {
-            this.router.navigateByUrl('/search;q=' + action.payload);
-        })
-    );
+  @Effect({ dispatch: false })
+  searchByTerm$ = this.actions$.pipe(
+    ofType<SearchByTermAction>(SEARCH_BY_TERM),
+    map(action => {
+      this.router.navigateByUrl('/search;q=' + action.payload);
+    })
+  );
 }

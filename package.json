@@ -22,7 +22,8 @@
     "stop:docker": "docker-compose stop",
     "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",
     "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts' 'projects/**/*.ts'",
-    "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json"
+    "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
+    "format:check": "prettier --list-different \"src/{app,environments}/**/*{.ts,.js,.json,.css,.scss}\""
   },
   "private": true,
   "dependencies": {
@@ -89,6 +90,7 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "ng-packagr": "^4.1.1",
+    "prettier": "^1.14.2",
     "protractor": "^5.4.0",
     "rimraf": "2.6.2",
     "selenium-webdriver": "4.0.0-alpha.1",

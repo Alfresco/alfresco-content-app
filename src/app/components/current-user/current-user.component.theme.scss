@@ -1,44 +1,44 @@
 @mixin aca-current-user-theme($theme) {
-    $background: map-get($theme, background);
-    $am-avatar-size: 35px;
+  $background: map-get($theme, background);
+  $am-avatar-size: 35px;
 
-    .aca-current-user {
-        position: relative;
-        color: mat-color($background, card);
-        line-height: 20px;
+  .aca-current-user {
+    position: relative;
+    color: mat-color($background, card);
+    line-height: 20px;
 
-        .am-avatar {
-            margin-left: 9px;
-            cursor: pointer;
-            display: inline-block;
-            width: $am-avatar-size;
-            height: $am-avatar-size;
-            line-height: $am-avatar-size;
-            font-size: 1em;
-            text-align: center;
-            color: inherit;
-            border-radius: 100%;
-            background-color: mat-color($background, card, .15);
-        }
-
-        .current-user__full-name {
-            width: 100px;
-            text-align: right;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display:inline-block;
-            height: 18px;
-            font-size: 14px;
-            line-height: 1.43;
-            letter-spacing: -0.3px;
-            cursor: default;
-        }
-
-        @media screen and ($mat-small) {
-            .current-user__full-name {
-                display: none;
-            }
-        }
+    .am-avatar {
+      margin-left: 9px;
+      cursor: pointer;
+      display: inline-block;
+      width: $am-avatar-size;
+      height: $am-avatar-size;
+      line-height: $am-avatar-size;
+      font-size: 1em;
+      text-align: center;
+      color: inherit;
+      border-radius: 100%;
+      background-color: mat-color($background, card, 0.15);
     }
+
+    .current-user__full-name {
+      width: 100px;
+      text-align: right;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      height: 18px;
+      font-size: 14px;
+      line-height: 1.43;
+      letter-spacing: -0.3px;
+      cursor: default;
+    }
+
+    @media screen and ($mat-small) {
+      .current-user__full-name {
+        display: none;
+      }
+    }
+  }
 }

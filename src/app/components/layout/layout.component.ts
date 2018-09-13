@@ -24,11 +24,11 @@
  */
 
 import {
-    Component,
-    OnInit,
-    OnDestroy,
-    ViewChild,
-    ViewEncapsulation
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
@@ -37,76 +37,72 @@ import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive'
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import {
-    currentFolder,
-    selectAppName,
-    selectHeaderColor,
-    selectLogoPath
+  currentFolder,
+  selectAppName,
+  selectHeaderColor,
+  selectLogoPath
 } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
-    selector: 'app-layout',
-    templateUrl: './layout.component.html',
-    styleUrls: ['./layout.component.scss'],
-    encapsulation: ViewEncapsulation.None,
-    host: { class: 'app-layout' }
+  selector: 'app-layout',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-layout' }
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-    @ViewChild(SidenavViewsManagerDirective)
-    manager: SidenavViewsManagerDirective;
+  @ViewChild(SidenavViewsManagerDirective)
+  manager: SidenavViewsManagerDirective;
 
-    onDestroy$: Subject<boolean> = new Subject<boolean>();
-    expandedSidenav: boolean;
-    node: MinimalNodeEntryEntity;
-    canUpload = false;
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
+  expandedSidenav: boolean;
+  node: MinimalNodeEntryEntity;
+  canUpload = false;
 
-    appName$: Observable<string>;
-    headerColor$: Observable<string>;
-    logo$: Observable<string>;
+  appName$: Observable<string>;
+  headerColor$: Observable<string>;
+  logo$: Observable<string>;
 
-    isSmallScreen = false;
+  isSmallScreen = false;
 
-    constructor(
-        protected store: Store<AppStore>,
-        private permission: NodePermissionService,
-        private breakpointObserver: BreakpointObserver
-    ) {
-        this.headerColor$ = store.select(selectHeaderColor);
-        this.appName$ = store.select(selectAppName);
-        this.logo$ = store.select(selectLogoPath);
+  constructor(
+    protected store: Store<AppStore>,
+    private permission: NodePermissionService,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    this.headerColor$ = store.select(selectHeaderColor);
+    this.appName$ = store.select(selectAppName);
+    this.logo$ = store.select(selectLogoPath);
+  }
+
+  ngOnInit() {
+    if (!this.manager.minimizeSidenav) {
+      this.expandedSidenav = this.manager.sidenavState;
+    } else {
+      this.expandedSidenav = false;
     }
 
-    ngOnInit() {
-        if (!this.manager.minimizeSidenav) {
-            this.expandedSidenav = this.manager.sidenavState;
-        } else {
-            this.expandedSidenav = false;
-        }
+    this.manager.run(true);
 
-        this.manager.run(true);
+    this.store
+      .select(currentFolder)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(node => {
+        this.node = node;
+        this.canUpload = node && this.permission.check(node, ['create']);
+      });
 
-        this.store
-            .select(currentFolder)
-            .pipe(takeUntil(this.onDestroy$))
-            .subscribe(node => {
-                this.node = node;
-                this.canUpload =
-                    node && this.permission.check(node, ['create']);
-            });
+    this.breakpointObserver
+      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .subscribe(result => {
+        this.isSmallScreen = result.matches;
+      });
+  }
 
-        this.breakpointObserver
-            .observe([
-                Breakpoints.HandsetPortrait,
-                Breakpoints.HandsetLandscape
-            ])
-            .subscribe(result => {
-                this.isSmallScreen = result.matches;
-            });
-    }
-
-    ngOnDestroy() {
-        this.onDestroy$.next(true);
-        this.onDestroy$.complete();
-    }
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
 }

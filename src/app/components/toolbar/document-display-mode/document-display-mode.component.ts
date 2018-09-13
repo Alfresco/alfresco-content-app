@@ -31,26 +31,25 @@ import { documentDisplayMode } from '../../../store/selectors/app.selectors';
 import { ToggleDocumentDisplayMode } from '../../../store/actions';
 
 @Component({
-    selector: 'app-document-display-mode',
-    template: `
-        <button
-            mat-icon-button
-            color="primary"
-            (click)="onClick()">
-            <mat-icon *ngIf="(displayMode$ | async) === 'list'">view_comfy</mat-icon>
-            <mat-icon *ngIf="(displayMode$ | async) === 'gallery'">list</mat-icon>
-        </button>
-    `
+  selector: 'app-document-display-mode',
+  template: `
+    <button
+      mat-icon-button
+      color="primary"
+      (click)="onClick()">
+      <mat-icon *ngIf="(displayMode$ | async) === 'list'">view_comfy</mat-icon>
+      <mat-icon *ngIf="(displayMode$ | async) === 'gallery'">list</mat-icon>
+    </button>
+  `
 })
 export class DocumentDisplayModeComponent {
+  displayMode$: Observable<string>;
 
-    displayMode$: Observable<string>;
+  constructor(private store: Store<AppStore>) {
+    this.displayMode$ = store.select(documentDisplayMode);
+  }
 
-    constructor(private store: Store<AppStore>) {
-        this.displayMode$ = store.select(documentDisplayMode);
-    }
-
-    onClick() {
-        this.store.dispatch(new ToggleDocumentDisplayMode());
-    }
+  onClick() {
+    this.store.dispatch(new ToggleDocumentDisplayMode());
+  }
 }

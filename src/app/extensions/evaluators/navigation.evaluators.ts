@@ -26,99 +26,99 @@
 import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
 
 export function isFavorites(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    const { url } = context.navigation;
-    return url && url.startsWith('/favorites');
+  const { url } = context.navigation;
+  return url && url.startsWith('/favorites');
 }
 
 export function isNotFavorites(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-   return !isFavorites(context, ...args);
+  return !isFavorites(context, ...args);
 }
 
 export function isSharedFiles(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    const { url } = context.navigation;
-    return url && url.startsWith('/shared');
+  const { url } = context.navigation;
+  return url && url.startsWith('/shared');
 }
 
 export function isNotSharedFiles(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    return !isSharedFiles(context, ...args);
+  return !isSharedFiles(context, ...args);
 }
 
 export function isTrashcan(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    const { url } = context.navigation;
-    return url && url.startsWith('/trashcan');
+  const { url } = context.navigation;
+  return url && url.startsWith('/trashcan');
 }
 
 export function isNotTrashcan(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    return !isTrashcan(context, ...args);
+  return !isTrashcan(context, ...args);
 }
 
 export function isLibraries(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    const { url } = context.navigation;
-    return url && url.endsWith('/libraries');
+  const { url } = context.navigation;
+  return url && url.endsWith('/libraries');
 }
 
 export function isNotLibraries(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    return !isLibraries(context, ...args);
+  return !isLibraries(context, ...args);
 }
 
 export function isRecentFiles(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    const { url } = context.navigation;
-    return url && url.startsWith('/recent-files');
+  const { url } = context.navigation;
+  return url && url.startsWith('/recent-files');
 }
 
 export function isNotRecentFiles(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    return !isRecentFiles(context, ...args);
+  return !isRecentFiles(context, ...args);
 }
 
 export function isSearchResults(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    const { url } = context.navigation;
-    return url && url.startsWith('/search');
+  const { url } = context.navigation;
+  return url && url.startsWith('/search');
 }
 
 export function isNotSearchResults(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    return !isSearchResults(context, ...args);
+  return !isSearchResults(context, ...args);
 }
 
 export function isPreview(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    const { url } = context.navigation;
-    return url && url.includes('/preview/');
+  const { url } = context.navigation;
+  return url && url.includes('/preview/');
 }

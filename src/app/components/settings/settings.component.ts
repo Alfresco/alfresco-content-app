@@ -24,86 +24,98 @@
  */
 
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { AppConfigService, StorageService, SettingsService } from '@alfresco/adf-core';
+import {
+  AppConfigService,
+  StorageService,
+  SettingsService
+} from '@alfresco/adf-core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { appLanguagePicker, selectHeaderColor, selectAppName, selectUser } from '../../store/selectors/app.selectors';
+import {
+  appLanguagePicker,
+  selectHeaderColor,
+  selectAppName,
+  selectUser
+} from '../../store/selectors/app.selectors';
 import { MatCheckboxChange } from '@angular/material';
 import { SetLanguagePickerAction } from '../../store/actions';
 import { ProfileState } from '@alfresco/adf-extensions';
 
 @Component({
-    selector: 'aca-settings',
-    templateUrl: './settings.component.html',
-    encapsulation: ViewEncapsulation.None,
-    host: { class: 'aca-settings' }
+  selector: 'aca-settings',
+  templateUrl: './settings.component.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'aca-settings' }
 })
 export class SettingsComponent implements OnInit {
+  private defaultPath = '/assets/images/alfresco-logo-white.svg';
 
-    private defaultPath = '/assets/images/alfresco-logo-white.svg';
+  form: FormGroup;
 
-    form: FormGroup;
+  profile$: Observable<ProfileState>;
+  appName$: Observable<string>;
+  headerColor$: Observable<string>;
+  languagePicker$: Observable<boolean>;
+  experimental: Array<{ key: string; value: boolean }> = [];
 
-    profile$: Observable<ProfileState>;
-    appName$: Observable<string>;
-    headerColor$: Observable<string>;
-    languagePicker$: Observable<boolean>;
-    experimental: Array<{ key: string, value: boolean }> = [];
+  constructor(
+    private store: Store<AppStore>,
+    private appConfig: AppConfigService,
+    private settingsService: SettingsService,
+    private storage: StorageService,
+    private fb: FormBuilder
+  ) {
+    this.profile$ = store.select(selectUser);
+    this.appName$ = store.select(selectAppName);
+    this.languagePicker$ = store.select(appLanguagePicker);
+    this.headerColor$ = store.select(selectHeaderColor);
+  }
 
-    constructor(
-        private store: Store<AppStore>,
-        private appConfig: AppConfigService,
-        private settingsService: SettingsService,
-        private storage: StorageService,
-        private fb: FormBuilder) {
-            this.profile$ = store.select(selectUser);
-            this.appName$ = store.select(selectAppName);
-            this.languagePicker$ = store.select(appLanguagePicker);
-            this.headerColor$ = store.select(selectHeaderColor);
-        }
+  get logo() {
+    return this.appConfig.get('application.logo', this.defaultPath);
+  }
 
-    get logo() {
-        return this.appConfig.get('application.logo', this.defaultPath);
+  ngOnInit() {
+    this.form = this.fb.group({
+      ecmHost: [
+        '',
+        [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]
+      ]
+    });
+
+    this.reset();
+
+    const settings = this.appConfig.get('experimental');
+    this.experimental = Object.keys(settings).map(key => {
+      const value = this.appConfig.get(`experimental.${key}`);
+      return {
+        key,
+        value: value === true || value === 'true'
+      };
+    });
+  }
+
+  apply(model: any, isValid: boolean) {
+    if (isValid) {
+      this.storage.setItem('ecmHost', model.ecmHost);
+      // window.location.reload(true);
     }
+  }
 
-    ngOnInit() {
-        this.form = this.fb.group({
-            ecmHost: ['', [Validators.required, Validators.pattern('^(http|https):\/\/.*[^/]$')]]
-        });
+  reset() {
+    this.form.reset({
+      ecmHost: this.storage.getItem('ecmHost') || this.settingsService.ecmHost
+    });
+  }
 
-        this.reset();
+  onLanguagePickerValueChanged(event: MatCheckboxChange) {
+    this.storage.setItem('languagePicker', event.checked.toString());
+    this.store.dispatch(new SetLanguagePickerAction(event.checked));
+  }
 
-        const settings = this.appConfig.get('experimental');
-        this.experimental = Object.keys(settings).map(key => {
-            const value = this.appConfig.get(`experimental.${key}`);
-            return {
-                key,
-                value: (value === true || value === 'true')
-            };
-        });
-    }
-
-    apply(model: any, isValid: boolean) {
-        if (isValid) {
-            this.storage.setItem('ecmHost', model.ecmHost);
-            // window.location.reload(true);
-        }
-    }
-
-    reset() {
-        this.form.reset({
-            ecmHost: this.storage.getItem('ecmHost') || this.settingsService.ecmHost
-        });
-    }
-
-    onLanguagePickerValueChanged(event: MatCheckboxChange) {
-        this.storage.setItem('languagePicker', event.checked.toString());
-        this.store.dispatch(new SetLanguagePickerAction(event.checked));
-    }
-
-    onToggleExperimentalFeature(key: string, event: MatCheckboxChange) {
-        this.storage.setItem(`experimental.${key}`, event.checked.toString());
-    }
+  onToggleExperimentalFeature(key: string, event: MatCheckboxChange) {
+    this.storage.setItem(`experimental.${key}`, event.checked.toString());
+  }
 }

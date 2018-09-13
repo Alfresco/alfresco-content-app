@@ -31,21 +31,21 @@ import { AppStore } from '../../store/states/app.state';
 import { SnackbarErrorAction } from '../../store/actions';
 
 @Component({
-    templateUrl: './node-versions.dialog.html',
-    encapsulation: ViewEncapsulation.None,
-    host: { class: 'aca-node-versions-dialog' }
+  templateUrl: './node-versions.dialog.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'aca-node-versions-dialog' }
 })
 export class NodeVersionsDialogComponent {
-    node: MinimalNodeEntryEntity;
+  node: MinimalNodeEntryEntity;
 
-    constructor(
-        @Inject(MAT_DIALOG_DATA) data: any,
-        private store: Store<AppStore>
-    ) {
-        this.node = data.node;
-    }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) data: any,
+    private store: Store<AppStore>
+  ) {
+    this.node = data.node;
+  }
 
-    uploadError(errorMessage: string) {
-        this.store.dispatch(new SnackbarErrorAction(errorMessage));
-    }
+  uploadError(errorMessage: string) {
+    this.store.dispatch(new SnackbarErrorAction(errorMessage));
+  }
 }

@@ -28,7 +28,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TRANSLATION_PROVIDER, CoreModule, AppConfigService, DebugAppConfigService } from '@alfresco/adf-core';
+import {
+  TRANSLATION_PROVIDER,
+  CoreModule,
+  AppConfigService,
+  DebugAppConfigService
+} from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 
 import { AppComponent } from './app.component';
@@ -75,76 +80,76 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule.forRoot(APP_ROUTES, {
-            useHash: true,
-            enableTracing: false // enable for debug only
-        }),
-        MaterialModule,
-        CoreModule.forRoot(),
-        ContentModule.forRoot(),
-        AppStoreModule,
-        CoreExtensionsModule.forRoot(),
-        ExtensionsModule.forRoot(),
-        AppExtensionsModule,
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule.forRoot(APP_ROUTES, {
+      useHash: true,
+      enableTracing: false // enable for debug only
+    }),
+    MaterialModule,
+    CoreModule.forRoot(),
+    ContentModule.forRoot(),
+    AppStoreModule,
+    CoreExtensionsModule.forRoot(),
+    ExtensionsModule.forRoot(),
+    AppExtensionsModule,
 
-        DirectivesModule,
-        ContextMenuModule.forRoot(),
-        AppInfoDrawerModule,
-        AppToolbarModule
-    ],
-    declarations: [
-        AppComponent,
-        GenericErrorComponent,
-        LoginComponent,
-        LayoutComponent,
-        SidenavViewsManagerDirective,
-        CurrentUserComponent,
-        SearchInputComponent,
-        SearchInputControlComponent,
-        SidenavComponent,
-        FilesComponent,
-        FavoritesComponent,
-        LibrariesComponent,
-        RecentFilesComponent,
-        SharedFilesComponent,
-        TrashcanComponent,
-        LocationLinkComponent,
-        SearchResultsRowComponent,
-        NodeVersionsDialogComponent,
-        LibraryDialogComponent,
-        NodePermissionsDialogComponent,
-        PermissionsManagerComponent,
-        SearchResultsComponent,
-        SharedLinkViewComponent
-    ],
-    providers: [
-        { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
-        { provide: AppConfigService, useClass: DebugAppConfigService },
-        {
-            provide: TRANSLATION_PROVIDER,
-            multi: true,
-            useValue: {
-                name: 'app',
-                source: 'assets'
-            }
-        },
-        ContentManagementService,
-        NodeActionsService,
-        NodePermissionService,
-        ProfileResolver,
-        ExperimentalGuard,
-        ContentApiService
-    ],
-    entryComponents: [
-        LibraryDialogComponent,
-        NodeVersionsDialogComponent,
-        NodePermissionsDialogComponent
-    ],
-    bootstrap: [AppComponent]
+    DirectivesModule,
+    ContextMenuModule.forRoot(),
+    AppInfoDrawerModule,
+    AppToolbarModule
+  ],
+  declarations: [
+    AppComponent,
+    GenericErrorComponent,
+    LoginComponent,
+    LayoutComponent,
+    SidenavViewsManagerDirective,
+    CurrentUserComponent,
+    SearchInputComponent,
+    SearchInputControlComponent,
+    SidenavComponent,
+    FilesComponent,
+    FavoritesComponent,
+    LibrariesComponent,
+    RecentFilesComponent,
+    SharedFilesComponent,
+    TrashcanComponent,
+    LocationLinkComponent,
+    SearchResultsRowComponent,
+    NodeVersionsDialogComponent,
+    LibraryDialogComponent,
+    NodePermissionsDialogComponent,
+    PermissionsManagerComponent,
+    SearchResultsComponent,
+    SharedLinkViewComponent
+  ],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
+    { provide: AppConfigService, useClass: DebugAppConfigService },
+    {
+      provide: TRANSLATION_PROVIDER,
+      multi: true,
+      useValue: {
+        name: 'app',
+        source: 'assets'
+      }
+    },
+    ContentManagementService,
+    NodeActionsService,
+    NodePermissionService,
+    ProfileResolver,
+    ExperimentalGuard,
+    ContentApiService
+  ],
+  entryComponents: [
+    LibraryDialogComponent,
+    NodeVersionsDialogComponent,
+    NodePermissionsDialogComponent
+  ],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

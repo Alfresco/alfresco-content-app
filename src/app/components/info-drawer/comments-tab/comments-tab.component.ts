@@ -28,18 +28,18 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../../services/node-permission.service';
 
 @Component({
-    selector: 'app-comments-tab',
-    template: `
+  selector: 'app-comments-tab',
+  template: `
         <adf-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-comments>
     `
 })
 export class CommentsTabComponent {
-    @Input()
-    node: MinimalNodeEntryEntity;
+  @Input()
+  node: MinimalNodeEntryEntity;
 
-    constructor(private permission: NodePermissionService) {}
+  constructor(private permission: NodePermissionService) {}
 
-    get canUpdateNode() {
-        return this.node && this.permission.check(this.node, ['update']);
-    }
+  get canUpdateNode() {
+    return this.node && this.permission.check(this.node, ['update']);
+  }
 }

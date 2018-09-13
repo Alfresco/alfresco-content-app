@@ -34,28 +34,28 @@ import { ContentApiService } from './content-api.service';
 
 @Injectable()
 export class ProfileResolver implements Resolve<Person> {
-    constructor(
-        private store: Store<AppStore>,
-        private contentApi: ContentApiService,
-        private router: Router
-    ) {}
+  constructor(
+    private store: Store<AppStore>,
+    private contentApi: ContentApiService,
+    private router: Router
+  ) {}
 
-    resolve(): Observable<Person> {
-        return new Observable(observer => {
-            this.contentApi.getPerson('-me-').subscribe(
-                person => {
-                    this.store.dispatch(new SetUserProfileAction(person.entry));
-                    observer.next(person.entry);
-                    observer.complete();
-                },
-                err => {
-                    if (err && err.status === 401) {
-                        observer.next(null);
-                        observer.complete();
-                        this.router.navigate(['login']);
-                    }
-                }
-            );
-        });
-    }
+  resolve(): Observable<Person> {
+    return new Observable(observer => {
+      this.contentApi.getPerson('-me-').subscribe(
+        person => {
+          this.store.dispatch(new SetUserProfileAction(person.entry));
+          observer.next(person.entry);
+          observer.complete();
+        },
+        err => {
+          if (err && err.status === 401) {
+            observer.next(null);
+            observer.complete();
+            this.router.navigate(['login']);
+          }
+        }
+      );
+    });
+  }
 }

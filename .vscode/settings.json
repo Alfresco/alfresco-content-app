@@ -1,4 +1,5 @@
 {
     "javascript.preferences.quoteStyle": "single",
-    "typescript.preferences.quoteStyle": "single"
+    "typescript.preferences.quoteStyle": "single",
+    "editor.formatOnSave": true
 }

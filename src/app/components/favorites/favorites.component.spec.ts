@@ -27,9 +27,12 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
-    AlfrescoApiService,
-    TimeAgoPipe, NodeNameTooltipPipe,
-    NodeFavoriteDirective, DataTableComponent, AppConfigPipe
+  AlfrescoApiService,
+  TimeAgoPipe,
+  NodeNameTooltipPipe,
+  NodeFavoriteDirective,
+  DataTableComponent,
+  AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../services/content-management.service';
@@ -40,136 +43,144 @@ import { ContentApiService } from '../../services/content-api.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('FavoritesComponent', () => {
-    let fixture: ComponentFixture<FavoritesComponent>;
-    let component: FavoritesComponent;
-    let alfrescoApi: AlfrescoApiService;
-    let contentService: ContentManagementService;
-    let contentApi: ContentApiService;
-    let router: Router;
-    let page;
-    let node;
+  let fixture: ComponentFixture<FavoritesComponent>;
+  let component: FavoritesComponent;
+  let alfrescoApi: AlfrescoApiService;
+  let contentService: ContentManagementService;
+  let contentApi: ContentApiService;
+  let router: Router;
+  let page;
+  let node;
 
+  beforeEach(() => {
+    page = {
+      list: {
+        entries: [
+          { entry: { id: 1, target: { file: {} } } },
+          { entry: { id: 2, target: { folder: {} } } }
+        ],
+        pagination: { data: 'data' }
+      }
+    };
+
+    node = <any>{
+      id: 'folder-node',
+      isFolder: true,
+      isFile: false,
+      path: {
+        elements: []
+      }
+    };
+  });
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule],
+      declarations: [
+        DataTableComponent,
+        TimeAgoPipe,
+        NodeNameTooltipPipe,
+        NodeFavoriteDirective,
+        DocumentListComponent,
+        FavoritesComponent,
+        AppConfigPipe,
+        ExperimentalDirective
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
+
+    fixture = TestBed.createComponent(FavoritesComponent);
+    component = fixture.componentInstance;
+
+    alfrescoApi = TestBed.get(AlfrescoApiService);
+    alfrescoApi.reset();
+    spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(
+      Promise.resolve(page)
+    );
+
+    contentApi = TestBed.get(ContentApiService);
+
+    contentService = TestBed.get(ContentManagementService);
+    router = TestBed.get(Router);
+  });
+
+  describe('Events', () => {
     beforeEach(() => {
-        page = {
-            list: {
-                entries: [
-                    { entry: { id: 1, target: { file: {} } } },
-                    { entry: { id: 2, target: { folder: {} } } }
-                ],
-                pagination: { data: 'data'}
-            }
-        };
-
-        node = <any> {
-            id: 'folder-node',
-            isFolder: true,
-            isFile: false,
-            path: {
-                elements: []
-            }
-        };
+      spyOn(component, 'reload');
+      fixture.detectChanges();
     });
 
+    it('should refresh on editing folder event', () => {
+      contentService.folderEdited.next(null);
+
+      expect(component.reload).toHaveBeenCalled();
+    });
+
+    it('should refresh on move node event', () => {
+      contentService.nodesMoved.next(null);
+
+      expect(component.reload).toHaveBeenCalled();
+    });
+
+    it('should refresh on node deleted event', () => {
+      contentService.nodesDeleted.next(null);
+
+      expect(component.reload).toHaveBeenCalled();
+    });
+
+    it('should refresh on node restore event', () => {
+      contentService.nodesRestored.next(null);
+
+      expect(component.reload).toHaveBeenCalled();
+    });
+  });
+
+  describe('Node navigation', () => {
     beforeEach(() => {
-        TestBed.configureTestingModule({
-                imports: [ AppTestingModule ],
-                declarations: [
-                    DataTableComponent,
-                    TimeAgoPipe,
-                    NodeNameTooltipPipe,
-                    NodeFavoriteDirective,
-                    DocumentListComponent,
-                    FavoritesComponent,
-                    AppConfigPipe,
-                    ExperimentalDirective
-                ],
-                schemas: [ NO_ERRORS_SCHEMA ]
-        });
-
-        fixture = TestBed.createComponent(FavoritesComponent);
-        component = fixture.componentInstance;
-
-        alfrescoApi = TestBed.get(AlfrescoApiService);
-        alfrescoApi.reset();
-        spyOn(alfrescoApi.favoritesApi, 'getFavorites').and.returnValue(Promise.resolve(page));
-
-        contentApi = TestBed.get(ContentApiService);
-
-        contentService = TestBed.get(ContentManagementService);
-        router = TestBed.get(Router);
+      spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
+      spyOn(router, 'navigate');
+      fixture.detectChanges();
     });
 
-    describe('Events', () => {
-        beforeEach(() => {
-            spyOn(component, 'reload');
-            fixture.detectChanges();
-        });
+    it('navigates to `/libraries` if node path has `Sites`', () => {
+      node.path.elements = [{ name: 'Sites' }];
 
-        it('should refresh on editing folder event', () => {
-            contentService.folderEdited.next(null);
+      component.navigate(node);
 
-            expect(component.reload).toHaveBeenCalled();
-        });
-
-        it('should refresh on move node event', () => {
-            contentService.nodesMoved.next(null);
-
-            expect(component.reload).toHaveBeenCalled();
-        });
-
-        it('should refresh on node deleted event', () => {
-            contentService.nodesDeleted.next(null);
-
-            expect(component.reload).toHaveBeenCalled();
-        });
-
-        it('should refresh on node restore event', () => {
-            contentService.nodesRestored.next(null);
-
-            expect(component.reload).toHaveBeenCalled();
-        });
+      expect(router.navigate).toHaveBeenCalledWith([
+        '/libraries',
+        'folder-node'
+      ]);
     });
 
-    describe('Node navigation', () => {
-        beforeEach(() => {
-            spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node}));
-            spyOn(router, 'navigate');
-            fixture.detectChanges();
-        });
+    it('navigates to `/personal-files` if node path has no `Sites`', () => {
+      node.path.elements = [{ name: 'something else' }];
 
-        it('navigates to `/libraries` if node path has `Sites`', () => {
-            node.path.elements = [{ name: 'Sites' }];
+      component.navigate(node);
 
-            component.navigate(node);
-
-            expect(router.navigate).toHaveBeenCalledWith([ '/libraries', 'folder-node' ]);
-        });
-
-        it('navigates to `/personal-files` if node path has no `Sites`', () => {
-            node.path.elements = [{ name: 'something else' }];
-
-            component.navigate(node);
-
-            expect(router.navigate).toHaveBeenCalledWith([ '/personal-files', 'folder-node' ]);
-        });
-
-        it('does not navigate when node is not folder', () => {
-            node.isFolder = false;
-
-            component.navigate(node);
-
-            expect(router.navigate).not.toHaveBeenCalled();
-        });
+      expect(router.navigate).toHaveBeenCalledWith([
+        '/personal-files',
+        'folder-node'
+      ]);
     });
 
-    describe('refresh', () => {
-        it('should call document list reload', () => {
-            spyOn(component.documentList, 'reload');
-            fixture.detectChanges();
+    it('does not navigate when node is not folder', () => {
+      node.isFolder = false;
 
-            component.reload();
+      component.navigate(node);
 
-            expect(component.documentList.reload).toHaveBeenCalled();
-        });
+      expect(router.navigate).not.toHaveBeenCalled();
     });
+  });
+
+  describe('refresh', () => {
+    it('should call document list reload', () => {
+      spyOn(component.documentList, 'reload');
+      fixture.detectChanges();
+
+      component.reload();
+
+      expect(component.documentList.reload).toHaveBeenCalled();
+    });
+  });
 });

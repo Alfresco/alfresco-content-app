@@ -32,8 +32,8 @@ import { SelectionState } from '@alfresco/adf-extensions';
 import { ContentManagementService } from '../../../services/content-management.service';
 
 @Component({
-    selector: 'app-toggle-favorite',
-    template: `
+  selector: 'app-toggle-favorite',
+  template: `
     <button
         mat-menu-item
         #favorites="adfFavorite"
@@ -46,16 +46,16 @@ import { ContentManagementService } from '../../../services/content-management.s
     `
 })
 export class ToggleFavoriteComponent {
+  selection$: Observable<SelectionState>;
 
-    selection$: Observable<SelectionState>;
+  constructor(
+    private store: Store<AppStore>,
+    private content: ContentManagementService
+  ) {
+    this.selection$ = this.store.select(appSelection);
+  }
 
-    constructor(
-        private store: Store<AppStore>,
-        private content: ContentManagementService) {
-        this.selection$ = this.store.select(appSelection);
-    }
-
-    onToggleEvent() {
-        this.content.favoriteToggle.next();
-    }
+  onToggleEvent() {
+    this.content.favoriteToggle.next();
+  }
 }

@@ -27,25 +27,25 @@ import { Directive, ElementRef, OnDestroy } from '@angular/core';
 import { FocusableOption, FocusMonitor, FocusOrigin } from '@angular/cdk/a11y';
 
 @Directive({
-    selector: '[acaContextMenuItem]',
+  selector: '[acaContextMenuItem]'
 })
 export class ContextMenuItemDirective implements OnDestroy, FocusableOption {
-    constructor(
-        private elementRef: ElementRef,
-        private focusMonitor: FocusMonitor) {
+  constructor(
+    private elementRef: ElementRef,
+    private focusMonitor: FocusMonitor
+  ) {
+    focusMonitor.monitor(this.getHostElement(), false);
+  }
 
-        focusMonitor.monitor(this.getHostElement(), false);
-    }
+  ngOnDestroy() {
+    this.focusMonitor.stopMonitoring(this.getHostElement());
+  }
 
-    ngOnDestroy() {
-        this.focusMonitor.stopMonitoring(this.getHostElement());
-    }
+  focus(origin: FocusOrigin = 'keyboard'): void {
+    this.focusMonitor.focusVia(this.getHostElement(), origin);
+  }
 
-    focus(origin: FocusOrigin = 'keyboard'): void {
-        this.focusMonitor.focusVia(this.getHostElement(), origin);
-    }
-
-    private getHostElement(): HTMLElement {
-        return this.elementRef.nativeElement;
-    }
+  private getHostElement(): HTMLElement {
+    return this.elementRef.nativeElement;
+  }
 }

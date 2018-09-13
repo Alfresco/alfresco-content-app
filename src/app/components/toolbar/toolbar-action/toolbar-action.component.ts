@@ -24,10 +24,10 @@
  */
 
 import {
-    Component,
-    ViewEncapsulation,
-    ChangeDetectionStrategy,
-    Input
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+  Input
 } from '@angular/core';
 import { AppStore } from '../../../store/states';
 import { Store } from '@ngrx/store';
@@ -35,22 +35,24 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../../extensions/extension.service';
 
 @Component({
-    selector: 'aca-toolbar-action',
-    templateUrl: './toolbar-action.component.html',
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'aca-toolbar-action' }
+  selector: 'aca-toolbar-action',
+  templateUrl: './toolbar-action.component.html',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'aca-toolbar-action' }
 })
 export class ToolbarActionComponent {
-    @Input() type = 'icon-button';
-    @Input() entry: ContentActionRef;
+  @Input()
+  type = 'icon-button';
+  @Input()
+  entry: ContentActionRef;
 
-    constructor(
-        protected store: Store<AppStore>,
-        protected extensions: AppExtensionService
-    ) {}
+  constructor(
+    protected store: Store<AppStore>,
+    protected extensions: AppExtensionService
+  ) {}
 
-    trackByActionId(index: number, action: ContentActionRef) {
-        return action.id;
-    }
+  trackByActionId(index: number, action: ContentActionRef) {
+    return action.id;
+  }
 }
