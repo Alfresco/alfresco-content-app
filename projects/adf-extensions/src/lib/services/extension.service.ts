@@ -49,7 +49,7 @@ export class ExtensionService {
 
     setup(config: ExtensionConfig) {
         if (!config) {
-            console.error('Extension configuration not found');
+            console.warn('Extension configuration not found');
             return;
         }
 

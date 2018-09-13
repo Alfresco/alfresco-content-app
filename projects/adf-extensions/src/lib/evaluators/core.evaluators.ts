@@ -27,6 +27,7 @@ export function not(context: RuleContext, ...args: RuleParameter[]): boolean {
             const evaluator = context.getEvaluator(arg.value);
             if (!evaluator) {
                 console.warn('evaluator not found: ' + arg.value);
+                return false;
             }
             return !evaluator(context, ...(arg.parameters || []));
         });
@@ -42,6 +43,7 @@ export function every(context: RuleContext, ...args: RuleParameter[]): boolean {
             const evaluator = context.getEvaluator(arg.value);
             if (!evaluator) {
                 console.warn('evaluator not found: ' + arg.value);
+                return false;
             }
             return evaluator(context, ...(arg.parameters || []));
         });
@@ -57,6 +59,7 @@ export function some(context: RuleContext, ...args: RuleParameter[]): boolean {
             const evaluator = context.getEvaluator(arg.value);
             if (!evaluator) {
                 console.warn('evaluator not found: ' + arg.value);
+                return false;
             }
             return evaluator(context, ...(arg.parameters || []));
         });
