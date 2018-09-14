@@ -60,7 +60,6 @@ import { NodeActionsService } from '../services/node-actions.service';
 import { NodePermissionService } from '../services/node-permission.service';
 import { ContentApiService } from '../services/content-api.service';
 import { AppExtensionService } from '../extensions/extension.service';
-import { ViewUtilService } from '../components/preview/view-util.service';
 import {
   ExtensionLoaderService,
   ExtensionService
@@ -112,8 +111,7 @@ import {
     ContentApiService,
     AppExtensionService,
     ExtensionService,
-    ExtensionLoaderService,
-    ViewUtilService
+    ExtensionLoaderService
   ]
 })
 export class AppTestingModule {}
