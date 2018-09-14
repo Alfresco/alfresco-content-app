@@ -626,7 +626,7 @@
       }
     ],
     "viewer": {
-      "toolbar": [
+      "toolbarMoreMenu": [
         {
           "id": "app.viewer.favorite.add",
           "order": 100,

@@ -23,7 +23,7 @@
         </adf-viewer-open-with>
 
         <adf-viewer-more-actions>
-            <ng-container *ngFor="let action of viewerToolbarActions; trackBy: trackByActionId">
+            <ng-container *ngFor="let action of viewerToolbarMoreActions; trackBy: trackByActionId">
                 <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
             </ng-container>
         </adf-viewer-more-actions>
