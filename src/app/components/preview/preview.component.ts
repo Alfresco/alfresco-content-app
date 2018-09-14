@@ -41,7 +41,6 @@ import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
-import { ViewUtilService } from './view-util.service';
 
 @Component({
   selector: 'app-preview',
@@ -74,7 +73,6 @@ export class PreviewComponent extends PageComponent implements OnInit {
     private preferences: UserPreferencesService,
     private route: ActivatedRoute,
     private router: Router,
-    private viewUtils: ViewUtilService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
@@ -376,10 +374,6 @@ export class PreviewComponent extends PageComponent implements OnInit {
       return path.split('.')[0];
     }
     return path;
-  }
-
-  printFile() {
-    this.viewUtils.printFileGeneric(this.nodeId, this.node.content.mimeType);
   }
 
   private getNavigationCommands(url: string): any[] {
