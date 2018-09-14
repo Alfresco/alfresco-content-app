@@ -249,7 +249,7 @@ export class NodeEffects {
   );
 
   @Effect({ dispatch: false })
-  managePermissions = this.actions$.pipe(
+  managePermissions$ = this.actions$.pipe(
     ofType<ManagePermissionsAction>(MANAGE_PERMISSIONS),
     map(action => {
       if (action && action.payload) {
