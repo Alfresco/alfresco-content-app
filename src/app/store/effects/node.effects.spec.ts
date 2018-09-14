@@ -47,7 +47,7 @@ import {
 } from '../actions/node.actions';
 import { SetCurrentFolderAction } from '../actions/app.actions';
 
-fdescribe('NodeEffects', () => {
+describe('NodeEffects', () => {
   let store: Store<AppStore>;
   // let actions$: Actions;
   let contentService: ContentManagementService;
