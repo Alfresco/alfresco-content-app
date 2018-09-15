@@ -65,6 +65,10 @@
     .mat-menu-item[disabled],
     .mat-menu-item[disabled]:hover {
       color: mat-color($foreground, text, 0.38);
+
+      .mat-icon {
+        color: mat-color($foreground, text, 0.38);
+      }
     }
   }
 }
