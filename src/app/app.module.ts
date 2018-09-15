@@ -40,7 +40,6 @@ import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
 
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
-import { LoginComponent } from './components/login/login.component';
 import { FilesComponent } from './components/files/files.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
@@ -108,7 +107,6 @@ import { AppSidenavModule } from './components/sidenav/sidenav.module';
   declarations: [
     AppComponent,
     GenericErrorComponent,
-    LoginComponent,
     LayoutComponent,
     SidenavViewsManagerDirective,
     CurrentUserComponent,
