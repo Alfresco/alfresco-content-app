@@ -23,25 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
-  selector: 'aca-toolbar-action',
-  templateUrl: './toolbar-action.component.html',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'aca-toolbar-action' }
+  selector: 'app-toolbar-menu',
+  templateUrl: 'toolbar-menu.component.html'
 })
-export class ToolbarActionComponent {
+export class ToolbarMenuComponent {
   @Input()
-  type = 'icon-button';
+  actionRef: ContentActionRef;
 
-  @Input()
-  entry: ContentActionRef;
+  get hasChildren(): boolean {
+    return (
+      this.actionRef &&
+      this.actionRef.children &&
+      this.actionRef.children.length > 0
+    );
+  }
+
+  trackById(index: number, obj: { id: string }) {
+    return obj.id;
+  }
 }

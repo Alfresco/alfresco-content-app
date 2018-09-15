@@ -33,6 +33,7 @@ import { ToolbarButtonComponent } from './toolbar-button/toolbar-button.componen
 import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { ToolbarMenuItemComponent } from './toolbar-menu-item/toolbar-menu-item.component';
+import { ToolbarMenuComponent } from './toolbar-menu/toolbar-menu.component';
 
 export function components() {
   return [
@@ -41,7 +42,8 @@ export function components() {
     ToggleInfoDrawerComponent,
     ToolbarButtonComponent,
     ToolbarActionComponent,
-    ToolbarMenuItemComponent
+    ToolbarMenuItemComponent,
+    ToolbarMenuComponent
   ];
 }
 
