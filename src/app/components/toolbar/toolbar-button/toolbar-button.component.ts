@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
@@ -38,7 +38,9 @@ export enum ToolbarButtonType {
 
 @Component({
   selector: 'app-toolbar-button',
-  templateUrl: 'toolbar-button.component.html'
+  templateUrl: 'toolbar-button.component.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-toolbar-button' }
 })
 export class ToolbarButtonComponent {
   @Input()

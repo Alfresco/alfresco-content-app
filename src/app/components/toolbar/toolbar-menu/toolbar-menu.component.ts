@@ -23,12 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 
 @Component({
   selector: 'app-toolbar-menu',
-  templateUrl: 'toolbar-menu.component.html'
+  templateUrl: 'toolbar-menu.component.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-toolbar-menu' }
 })
 export class ToolbarMenuComponent {
   @Input()
