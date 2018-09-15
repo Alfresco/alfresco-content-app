@@ -4,7 +4,7 @@
         </adf-breadcrumb>
         <adf-toolbar class="inline">
             <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-                <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
+                <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
             </ng-container>
         </adf-toolbar>
     </div>

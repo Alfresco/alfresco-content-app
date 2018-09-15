@@ -43,5 +43,5 @@ export class ToolbarActionComponent {
   type = 'icon-button';
 
   @Input()
-  entry: ContentActionRef;
+  actionRef: ContentActionRef;
 }
