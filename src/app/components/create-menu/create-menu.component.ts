@@ -25,23 +25,53 @@
 
 import {
   Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input
+  Input,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation
 } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
+import { AppStore } from '../../store/states';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { Store } from '@ngrx/store';
+import { currentFolder } from '../../store/selectors/app.selectors';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'aca-toolbar-action',
-  templateUrl: './toolbar-action.component.html',
+  selector: 'app-create-menu',
+  templateUrl: 'create-menu.component.html',
+  styleUrls: ['./create-menu.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'aca-toolbar-action' }
+  host: { class: 'app-create-menu' }
 })
-export class ToolbarActionComponent {
-  @Input()
-  type = 'icon-button';
+export class CreateMenuComponent implements OnInit, OnDestroy {
+  createActions: Array<ContentActionRef> = [];
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input()
-  actionRef: ContentActionRef;
+  showLabel: boolean;
+
+  constructor(
+    private store: Store<AppStore>,
+    private extensions: AppExtensionService
+  ) {}
+
+  ngOnInit() {
+    this.store
+      .select(currentFolder)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.createActions = this.extensions.getCreateActions();
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
+
+  trackById(index: number, obj: { id: string }) {
+    return obj.id;
+  }
 }

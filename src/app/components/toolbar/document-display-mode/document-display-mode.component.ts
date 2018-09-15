@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
@@ -40,7 +40,9 @@ import { ToggleDocumentDisplayMode } from '../../../store/actions';
       <mat-icon *ngIf="(displayMode$ | async) === 'list'">view_comfy</mat-icon>
       <mat-icon *ngIf="(displayMode$ | async) === 'gallery'">list</mat-icon>
     </button>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-document-display-mode' }
 })
 export class DocumentDisplayModeComponent {
   displayMode$: Observable<string>;

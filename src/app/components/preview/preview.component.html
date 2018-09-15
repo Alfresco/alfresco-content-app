@@ -18,13 +18,13 @@
 
         <adf-viewer-open-with *ifExperimental="'extensions'">
             <ng-container *ngFor="let action of openWith; trackBy: trackByActionId">
-                <aca-toolbar-action type="menu-item" [entry]="action"></aca-toolbar-action>
+                <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
             </ng-container>
         </adf-viewer-open-with>
 
         <adf-viewer-more-actions>
             <ng-container *ngFor="let action of viewerToolbarActions; trackBy: trackByActionId">
-                <aca-toolbar-action type="menu-item" [entry]="action"></aca-toolbar-action>
+                <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
             </ng-container>
         </adf-viewer-more-actions>
 
