@@ -27,23 +27,15 @@ import { Component, Input } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
+import { AppExtensionService } from '../../../extensions/extension.service';
 import { appSelection } from '../../../store/selectors/app.selectors';
 import { take } from 'rxjs/operators';
-import { AppExtensionService } from '../../../extensions/extension.service';
-
-export enum ToolbarButtonType {
-  ICON_BUTTON = 'icon-button',
-  MENU_ITEM = 'menu-item'
-}
 
 @Component({
-  selector: 'app-toolbar-button',
-  templateUrl: 'toolbar-button.component.html'
+  selector: 'app-toolbar-menu-item',
+  templateUrl: 'toolbar-menu-item.component.html'
 })
-export class ToolbarButtonComponent {
-  @Input()
-  type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
-
+export class ToolbarMenuItemComponent {
   @Input()
   actionRef: ContentActionRef;
 

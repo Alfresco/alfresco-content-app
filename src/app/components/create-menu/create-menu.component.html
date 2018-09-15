@@ -8,10 +8,7 @@
   </div>
   <div sidebar-menu-options>
     <ng-container *ngFor="let action of createActions; trackBy: trackById">
-      <app-toolbar-button
-        type="menu-item"
-        [actionRef]="action">
-      </app-toolbar-button>
+      <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
     </ng-container>
   </div>
 </adf-sidebar-action-menu>

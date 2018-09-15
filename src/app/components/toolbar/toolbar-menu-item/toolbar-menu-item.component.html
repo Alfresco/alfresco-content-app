@@ -1,0 +1,14 @@
+<button
+  [id]="actionRef.id"
+  mat-menu-item
+  color="primary"
+  [disabled]="actionRef.disabled"
+  [attr.title]="(
+    actionRef.disabled
+    ? actionRef['description-disabled']
+    : actionRef.description || actionRef.title
+  ) | translate"
+  (click)="runAction()">
+  <mat-icon>{{ actionRef.icon }}</mat-icon>
+  <span>{{ actionRef.title | translate }}</span>
+</button>

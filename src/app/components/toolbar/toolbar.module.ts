@@ -32,6 +32,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { ToolbarButtonComponent } from './toolbar-button/toolbar-button.component';
 import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { ToolbarMenuItemComponent } from './toolbar-menu-item/toolbar-menu-item.component';
 
 export function components() {
   return [
@@ -39,7 +40,8 @@ export function components() {
     ToggleFavoriteComponent,
     ToggleInfoDrawerComponent,
     ToolbarButtonComponent,
-    ToolbarActionComponent
+    ToolbarActionComponent,
+    ToolbarMenuItemComponent
   ];
 }
 
