@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private uploadService: UploadService,
     private extensions: AppExtensionService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.alfrescoApiService.getInstance().on('error', error => {
