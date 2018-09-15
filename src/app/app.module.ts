@@ -152,4 +152,4 @@ import { AppToolbarModule } from './components/toolbar/toolbar.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

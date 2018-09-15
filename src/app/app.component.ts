@@ -47,7 +47,6 @@ import {
   INITIAL_APP_STATE
 } from './store/states/app.state';
 import { filter } from 'rxjs/operators';
-import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -64,9 +63,8 @@ export class AppComponent implements OnInit {
     private alfrescoApiService: AlfrescoApiService,
     private authenticationService: AuthenticationService,
     private uploadService: UploadService,
-    private extensions: AppExtensionService,
-    private dialogRef: MatDialog
-  ) {}
+    private extensions: AppExtensionService
+  ) { }
 
   ngOnInit() {
     this.alfrescoApiService.getInstance().on('error', error => {
@@ -77,8 +75,6 @@ export class AppComponent implements OnInit {
             url: this.router.url
           });
           this.router.navigate(['/login']);
-
-          this.dialogRef.closeAll();
         }
       }
     });
