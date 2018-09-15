@@ -52,7 +52,6 @@ import { SidenavViewsManagerDirective } from './components/layout/sidenav-views-
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { SearchInputComponent } from './components/search/search-input/search-input.component';
 import { SearchInputControlComponent } from './components/search/search-input-control/search-input-control.component';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { LocationLinkComponent } from './components/location-link/location-link.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
@@ -78,6 +77,8 @@ import { DirectivesModule } from './directives/directives.module';
 import { ContextMenuModule } from './components/context-menu/context-menu.module';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
+import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
+import { AppSidenavModule } from './components/sidenav/sidenav.module';
 
 @NgModule({
   imports: [
@@ -100,7 +101,9 @@ import { AppToolbarModule } from './components/toolbar/toolbar.module';
     DirectivesModule,
     ContextMenuModule.forRoot(),
     AppInfoDrawerModule,
-    AppToolbarModule
+    AppToolbarModule,
+    AppSidenavModule,
+    AppCreateMenuModule
   ],
   declarations: [
     AppComponent,
@@ -111,7 +114,6 @@ import { AppToolbarModule } from './components/toolbar/toolbar.module';
     CurrentUserComponent,
     SearchInputComponent,
     SearchInputControlComponent,
-    SidenavComponent,
     FilesComponent,
     FavoritesComponent,
     LibrariesComponent,

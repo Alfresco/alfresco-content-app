@@ -23,28 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
-import { AppExtensionService } from '../../extensions/extension.service';
-import { NavBarGroupRef } from '@alfresco/adf-extensions';
+import { NgModule } from '@angular/core';
+import { CreateMenuComponent } from './create-menu.component';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
 
-@Component({
-  selector: 'app-sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+@NgModule({
+  imports: [CommonModule, CoreModule.forChild(), AppToolbarModule],
+  declarations: [CreateMenuComponent],
+  exports: [CreateMenuComponent]
 })
-export class SidenavComponent implements OnInit {
-  @Input()
-  showLabel: boolean;
-
-  groups: Array<NavBarGroupRef> = [];
-
-  constructor(private extensions: AppExtensionService) {}
-
-  ngOnInit() {
-    this.groups = this.extensions.getNavigationGroups();
-  }
-
-  trackById(index: number, obj: { id: string }) {
-    return obj.id;
-  }
-}
+export class AppCreateMenuModule {}

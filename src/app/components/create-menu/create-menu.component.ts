@@ -23,25 +23,52 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation
+} from '@angular/core';
+import { ContentActionRef } from '@alfresco/adf-extensions';
+import { AppStore } from '../../store/states';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { NavBarGroupRef } from '@alfresco/adf-extensions';
+import { Store } from '@ngrx/store';
+import { currentFolder } from '../../store/selectors/app.selectors';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-sidenav',
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss']
+  selector: 'app-create-menu',
+  templateUrl: 'create-menu.component.html',
+  styleUrls: ['./create-menu.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-create-menu' }
 })
-export class SidenavComponent implements OnInit {
+export class CreateMenuComponent implements OnInit, OnDestroy {
+  createActions: Array<ContentActionRef> = [];
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
+
   @Input()
   showLabel: boolean;
 
-  groups: Array<NavBarGroupRef> = [];
-
-  constructor(private extensions: AppExtensionService) {}
+  constructor(
+    private store: Store<AppStore>,
+    private extensions: AppExtensionService
+  ) {}
 
   ngOnInit() {
-    this.groups = this.extensions.getNavigationGroups();
+    this.store
+      .select(currentFolder)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.createActions = this.extensions.getCreateActions();
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   trackById(index: number, obj: { id: string }) {
