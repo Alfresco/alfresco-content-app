@@ -43,7 +43,7 @@ import { appSelection } from '../../store/selectors/app.selectors';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SelectionState, ContentActionRef } from '@alfresco/adf-extensions';
+import { ContentActionRef } from '@alfresco/adf-extensions';
 
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { contextMenuAnimation } from './animations';
@@ -65,7 +65,6 @@ import { ContextMenuItemDirective } from './context-menu-item.directive';
 })
 export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
-  private selection: SelectionState;
   private _keyManager: FocusKeyManager<ContextMenuItemDirective>;
   actions: Array<ContentActionRef> = [];
 
@@ -114,11 +113,7 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   runAction(actionId: string) {
-    const context = {
-      selection: this.selection
-    };
-
-    this.extensions.runActionById(actionId, context);
+    this.extensions.runActionById(actionId);
     this.contextMenuOverlayRef.close();
   }
 
@@ -133,7 +128,6 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(selection => {
         if (selection.count) {
-          this.selection = selection;
           this.actions = this.extensions.getAllowedContextMenuActions();
         }
       });

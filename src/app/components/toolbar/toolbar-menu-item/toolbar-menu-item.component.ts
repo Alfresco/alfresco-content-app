@@ -23,37 +23,25 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
 import { AppExtensionService } from '../../../extensions/extension.service';
-import { appSelection } from '../../../store/selectors/app.selectors';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-toolbar-menu-item',
-  templateUrl: 'toolbar-menu-item.component.html'
+  templateUrl: 'toolbar-menu-item.component.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-toolbar-menu-item' }
 })
 export class ToolbarMenuItemComponent {
   @Input()
   actionRef: ContentActionRef;
 
-  constructor(
-    protected store: Store<AppStore>,
-    private extensions: AppExtensionService
-  ) {}
+  constructor(private extensions: AppExtensionService) {}
 
   runAction() {
     if (this.hasClickAction(this.actionRef)) {
-      this.store
-        .select(appSelection)
-        .pipe(take(1))
-        .subscribe(selection => {
-          this.extensions.runActionById(this.actionRef.actions.click, {
-            selection
-          });
-        });
+      this.extensions.runActionById(this.actionRef.actions.click);
     }
   }
 

@@ -25,10 +25,6 @@
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
-import { appSelection } from '../../../store/selectors/app.selectors';
-import { take } from 'rxjs/operators';
 import { AppExtensionService } from '../../../extensions/extension.service';
 
 export enum ToolbarButtonType {
@@ -49,21 +45,11 @@ export class ToolbarButtonComponent {
   @Input()
   actionRef: ContentActionRef;
 
-  constructor(
-    protected store: Store<AppStore>,
-    private extensions: AppExtensionService
-  ) {}
+  constructor(private extensions: AppExtensionService) {}
 
   runAction() {
     if (this.hasClickAction(this.actionRef)) {
-      this.store
-        .select(appSelection)
-        .pipe(take(1))
-        .subscribe(selection => {
-          this.extensions.runActionById(this.actionRef.actions.click, {
-            selection
-          });
-        });
+      this.extensions.runActionById(this.actionRef.actions.click);
     }
   }
 

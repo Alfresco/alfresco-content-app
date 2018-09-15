@@ -244,10 +244,13 @@ export class AppExtensionService implements RuleContext {
     return true;
   }
 
-  runActionById(id: string, context?: any) {
+  runActionById(id: string) {
     const action = this.extensions.getActionById(id);
     if (action) {
       const { type, payload } = action;
+      const context = {
+        selection: this.selection
+      };
       const expression = this.extensions.runExpression(payload, context);
 
       this.store.dispatch({ type, payload: expression });
