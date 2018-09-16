@@ -39,7 +39,8 @@ import {
   SetLanguagePickerAction,
   SnackbarErrorAction,
   SetCurrentUrlAction,
-  SetInitialStateAction
+  SetInitialStateAction,
+  ModalsCloseAction
 } from './store/actions';
 import {
   AppStore,
@@ -74,6 +75,8 @@ export class AppComponent implements OnInit {
             provider: 'ECM',
             url: this.router.url
           });
+
+          this.store.dispatch(new ModalsCloseAction());
           this.router.navigate(['/login']);
         }
       }
