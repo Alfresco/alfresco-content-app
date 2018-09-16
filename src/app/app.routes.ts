@@ -36,7 +36,6 @@ import { RecentFilesComponent } from './components/recent-files/recent-files.com
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 
-import { LoginComponent } from './components/login/login.component';
 import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 
@@ -45,7 +44,7 @@ import { ProfileResolver } from './services/profile.resolver';
 export const APP_ROUTES: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
+    loadChildren: 'src/app/components/login/login.module#AppLoginModule',
     data: {
       title: 'APP.SIGN_IN'
     }

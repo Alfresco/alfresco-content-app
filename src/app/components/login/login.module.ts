@@ -24,33 +24,20 @@
  */
 
 import { NgModule } from '@angular/core';
-import { DocumentDisplayModeComponent } from './document-display-mode/document-display-mode.component';
-import { ToggleFavoriteComponent } from './toggle-favorite/toggle-favorite.component';
-import { ToggleInfoDrawerComponent } from './toggle-info-drawer/toggle-info-drawer.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { ToolbarButtonComponent } from './toolbar-button/toolbar-button.component';
-import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
-import { ExtensionsModule } from '@alfresco/adf-extensions';
-import { ToolbarMenuItemComponent } from './toolbar-menu-item/toolbar-menu-item.component';
-import { ToolbarMenuComponent } from './toolbar-menu/toolbar-menu.component';
+import { LoginComponent } from './login.component';
+import { Routes, RouterModule } from '@angular/router';
 
-export function components() {
-  return [
-    DocumentDisplayModeComponent,
-    ToggleFavoriteComponent,
-    ToggleInfoDrawerComponent,
-    ToolbarButtonComponent,
-    ToolbarActionComponent,
-    ToolbarMenuItemComponent,
-    ToolbarMenuComponent
-  ];
-}
+const routes: Routes = [
+  {
+    path: '',
+    component: LoginComponent
+  }
+];
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule.forChild()],
-  declarations: components(),
-  exports: components(),
-  entryComponents: components()
+  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes)],
+  declarations: [LoginComponent]
 })
-export class AppToolbarModule {}
+export class AppLoginModule {}
