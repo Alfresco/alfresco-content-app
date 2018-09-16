@@ -26,7 +26,7 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { ModalsCloseAction, CLOSE_ALL } from '../actions';
+import { CloseModalDialogsAction, CLOSE_MODAL_DIALOGS } from '../actions';
 import { MatDialog } from '@angular/material';
 
 @Injectable()
@@ -35,7 +35,7 @@ export class ModalsEffects {
 
   @Effect({ dispatch: false })
   closeAll$ = this.actions$.pipe(
-    ofType<ModalsCloseAction>(CLOSE_ALL),
+    ofType<CloseModalDialogsAction>(CLOSE_MODAL_DIALOGS),
     map(() => this.matDialog.closeAll())
   );
 }

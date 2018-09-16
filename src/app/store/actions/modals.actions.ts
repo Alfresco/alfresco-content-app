@@ -25,9 +25,9 @@
 
 import { Action } from '@ngrx/store';
 
-export const CLOSE_ALL = 'CLOSE_ALL';
+export const CLOSE_MODAL_DIALOGS = 'CLOSE_MODAL_DIALOGS';
 
-export class ModalsCloseAction implements Action {
-  readonly type = CLOSE_ALL;
+export class CloseModalDialogsAction implements Action {
+  readonly type = CLOSE_MODAL_DIALOGS;
   constructor() {}
 }

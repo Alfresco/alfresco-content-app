@@ -40,7 +40,7 @@ import {
   SnackbarErrorAction,
   SetCurrentUrlAction,
   SetInitialStateAction,
-  ModalsCloseAction
+  CloseModalDialogsAction
 } from './store/actions';
 import {
   AppStore,
@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
             url: this.router.url
           });
 
-          this.store.dispatch(new ModalsCloseAction());
+          this.store.dispatch(new CloseModalDialogsAction());
           this.router.navigate(['/login']);
         }
       }
