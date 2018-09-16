@@ -69,7 +69,6 @@ import { AppExtensionsModule } from './extensions.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
-import { PermissionsManagerComponent } from './components/permission-manager/permissions-manager.component';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
@@ -78,6 +77,7 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
 import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
+import { AppPermissionManagerModule } from './components/permission-manager/permission-manager.module';
 
 @NgModule({
   imports: [
@@ -102,7 +102,8 @@ import { AppSidenavModule } from './components/sidenav/sidenav.module';
     AppInfoDrawerModule,
     AppToolbarModule,
     AppSidenavModule,
-    AppCreateMenuModule
+    AppCreateMenuModule,
+    AppPermissionManagerModule
   ],
   declarations: [
     AppComponent,
@@ -123,7 +124,6 @@ import { AppSidenavModule } from './components/sidenav/sidenav.module';
     NodeVersionsDialogComponent,
     LibraryDialogComponent,
     NodePermissionsDialogComponent,
-    PermissionsManagerComponent,
     SearchResultsComponent,
     SharedLinkViewComponent
   ],
