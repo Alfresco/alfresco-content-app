@@ -30,7 +30,6 @@ import {
   MatIconModule,
   MatButtonModule
 } from '@angular/material';
-import { BrowserModule } from '@angular/platform-browser';
 import { CoreModule } from '@alfresco/adf-core';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 
