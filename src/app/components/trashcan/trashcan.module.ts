@@ -32,6 +32,7 @@ import { ContentModule } from '@alfresco/adf-content-services';
 import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { DirectivesModule } from '../../directives/directives.module';
+import { ContextMenuModule } from '../context-menu/context-menu.module';
 
 const routes: Routes = [
   {
@@ -52,7 +53,8 @@ const routes: Routes = [
     ContentModule.forChild(),
     DirectivesModule,
     AppCommonModule,
-    AppToolbarModule
+    AppToolbarModule,
+    ContextMenuModule.forChild()
   ],
   declarations: [TrashcanComponent],
   exports: [TrashcanComponent]
