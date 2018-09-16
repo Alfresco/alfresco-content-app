@@ -34,7 +34,6 @@ import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
-import { TrashcanComponent } from './components/trashcan/trashcan.component';
 
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
@@ -227,18 +226,12 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'trashcan',
-        component: TrashcanComponent,
-        data: {
-          title: 'APP.BROWSE.TRASHCAN.TITLE',
-          sortingPreferenceKey: 'trashcan'
-        }
+        loadChildren:
+          'src/app/components/trashcan/trashcan.module#AppTrashcanModule'
       },
       {
         path: 'about',
-        loadChildren: 'src/app/components/about/about.module#AboutModule',
-        data: {
-          title: 'APP.BROWSE.ABOUT.TITLE'
-        }
+        loadChildren: 'src/app/components/about/about.module#AboutModule'
       },
       {
         path: 'search',

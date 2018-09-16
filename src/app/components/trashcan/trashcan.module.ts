@@ -24,23 +24,37 @@
  */
 
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AboutComponent } from './about.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
+import { TrashcanComponent } from './trashcan.component';
+import { Routes, RouterModule } from '@angular/router';
+import { ContentModule } from '@alfresco/adf-content-services';
+import { AppCommonModule } from '../common/common.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { DirectivesModule } from '../../directives/directives.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: AboutComponent,
+    component: TrashcanComponent,
     data: {
-      title: 'APP.BROWSE.ABOUT.TITLE'
+      title: 'APP.BROWSE.TRASHCAN.TITLE',
+      sortingPreferenceKey: 'trashcan'
     }
   }
 ];
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes)],
-  declarations: [AboutComponent]
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    RouterModule.forChild(routes),
+    ContentModule.forChild(),
+    DirectivesModule,
+    AppCommonModule,
+    AppToolbarModule
+  ],
+  declarations: [TrashcanComponent],
+  exports: [TrashcanComponent]
 })
-export class AboutModule {}
+export class AppTrashcanModule {}

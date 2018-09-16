@@ -27,7 +27,6 @@ import { AuthGuardEcm, CoreModule } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { LayoutComponent } from '../components/layout/layout.component';
-import { TrashcanComponent } from '../components/trashcan/trashcan.component';
 import * as app from './evaluators/app.evaluators';
 import * as nav from './evaluators/navigation.evaluators';
 import { AppExtensionService } from './extension.service';
@@ -70,7 +69,6 @@ export class CoreExtensionsModule {
   constructor(extensions: ExtensionService) {
     extensions.setComponents({
       'app.layout.main': LayoutComponent,
-      'app.components.trashcan': TrashcanComponent,
       'app.components.tabs.metadata': MetadataTabComponent,
       'app.components.tabs.comments': CommentsTabComponent,
       'app.components.tabs.versions': VersionsTabComponent,

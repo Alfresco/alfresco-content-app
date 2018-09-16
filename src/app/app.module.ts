@@ -44,7 +44,6 @@ import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
-import { TrashcanComponent } from './components/trashcan/trashcan.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { LibraryDialogComponent } from './dialogs/library/library.dialog';
@@ -112,7 +111,6 @@ import { AppSearchResultsModule } from './components/search/search-results.modul
     LibrariesComponent,
     RecentFilesComponent,
     SharedFilesComponent,
-    TrashcanComponent,
     NodeVersionsDialogComponent,
     LibraryDialogComponent,
     SharedLinkViewComponent
