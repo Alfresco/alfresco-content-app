@@ -31,7 +31,6 @@ import { LayoutComponent } from './components/layout/layout.component';
 
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
-import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
@@ -184,16 +183,11 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'shared',
-        data: {
-          sortingPreferenceKey: 'shared-files'
-        },
         children: [
           {
             path: '',
-            component: SharedFilesComponent,
-            data: {
-              title: 'APP.BROWSE.SHARED.TITLE'
-            }
+            loadChildren:
+              'src/app/components/shared-files/shared-files.module#AppSharedFilesModule'
           },
           {
             path: 'preview/:nodeId',
