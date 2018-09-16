@@ -45,18 +45,12 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
-import { LayoutComponent } from './components/layout/layout.component';
-import { SidenavViewsManagerDirective } from './components/layout/sidenav-views-manager.directive';
-import { CurrentUserComponent } from './components/current-user/current-user.component';
-import { SearchInputComponent } from './components/search/search-input/search-input.component';
-import { SearchInputControlComponent } from './components/search/search-input-control/search-input-control.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { LibraryDialogComponent } from './dialogs/library/library.dialog';
 import { ContentManagementService } from './services/content-management.service';
 import { NodeActionsService } from './services/node-actions.service';
 import { NodePermissionService } from './services/node-permission.service';
-import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { ProfileResolver } from './services/profile.resolver';
 import { ExperimentalGuard } from './services/experimental-guard.service';
 
@@ -65,7 +59,6 @@ import { MaterialModule } from './material.module';
 import { ContentApiService } from './services/content-api.service';
 import { AppExtensionsModule } from './extensions.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
-import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
@@ -76,6 +69,10 @@ import { AppCreateMenuModule } from './components/create-menu/create-menu.module
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { AppPermissionsModule } from './components/permissions/permissions.module';
 import { AppCommonModule } from './components/common/common.module';
+import { AppLayoutModule } from './components/layout/layout.module';
+import { AppCurrentUserModule } from './components/current-user/current-user.module';
+import { AppSearchInputModule } from './components/search/search-input.module';
+import { AppSearchResultsModule } from './components/search/search-results.module';
 
 @NgModule({
   imports: [
@@ -96,31 +93,28 @@ import { AppCommonModule } from './components/common/common.module';
     AppExtensionsModule,
 
     AppCommonModule,
+    AppLayoutModule,
+    AppCurrentUserModule,
     DirectivesModule,
     ContextMenuModule.forRoot(),
     AppInfoDrawerModule,
     AppToolbarModule,
     AppSidenavModule,
     AppCreateMenuModule,
-    AppPermissionsModule
+    AppPermissionsModule,
+    AppSearchInputModule,
+    AppSearchResultsModule
   ],
   declarations: [
     AppComponent,
-    LayoutComponent,
-    SidenavViewsManagerDirective,
-    CurrentUserComponent,
-    SearchInputComponent,
-    SearchInputControlComponent,
     FilesComponent,
     FavoritesComponent,
     LibrariesComponent,
     RecentFilesComponent,
     SharedFilesComponent,
     TrashcanComponent,
-    SearchResultsRowComponent,
     NodeVersionsDialogComponent,
     LibraryDialogComponent,
-    SearchResultsComponent,
     SharedLinkViewComponent
   ],
   providers: [
