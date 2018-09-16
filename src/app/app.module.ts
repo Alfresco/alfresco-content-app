@@ -39,7 +39,6 @@ import { ContentModule } from '@alfresco/adf-content-services';
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
 
-import { GenericErrorComponent } from './components/generic-error/generic-error.component';
 import { FilesComponent } from './components/files/files.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
@@ -51,7 +50,6 @@ import { SidenavViewsManagerDirective } from './components/layout/sidenav-views-
 import { CurrentUserComponent } from './components/current-user/current-user.component';
 import { SearchInputComponent } from './components/search/search-input/search-input.component';
 import { SearchInputControlComponent } from './components/search/search-input-control/search-input-control.component';
-import { LocationLinkComponent } from './components/location-link/location-link.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { LibraryDialogComponent } from './dialogs/library/library.dialog';
@@ -77,6 +75,7 @@ import { AppToolbarModule } from './components/toolbar/toolbar.module';
 import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
 import { AppPermissionsModule } from './components/permissions/permissions.module';
+import { AppCommonModule } from './components/common/common.module';
 
 @NgModule({
   imports: [
@@ -96,6 +95,7 @@ import { AppPermissionsModule } from './components/permissions/permissions.modul
     ExtensionsModule.forRoot(),
     AppExtensionsModule,
 
+    AppCommonModule,
     DirectivesModule,
     ContextMenuModule.forRoot(),
     AppInfoDrawerModule,
@@ -106,7 +106,6 @@ import { AppPermissionsModule } from './components/permissions/permissions.modul
   ],
   declarations: [
     AppComponent,
-    GenericErrorComponent,
     LayoutComponent,
     SidenavViewsManagerDirective,
     CurrentUserComponent,
@@ -118,7 +117,6 @@ import { AppPermissionsModule } from './components/permissions/permissions.modul
     RecentFilesComponent,
     SharedFilesComponent,
     TrashcanComponent,
-    LocationLinkComponent,
     SearchResultsRowComponent,
     NodeVersionsDialogComponent,
     LibraryDialogComponent,

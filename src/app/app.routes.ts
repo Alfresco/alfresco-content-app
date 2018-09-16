@@ -36,7 +36,7 @@ import { RecentFilesComponent } from './components/recent-files/recent-files.com
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { TrashcanComponent } from './components/trashcan/trashcan.component';
 
-import { GenericErrorComponent } from './components/generic-error/generic-error.component';
+import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 
 import { ProfileResolver } from './services/profile.resolver';
