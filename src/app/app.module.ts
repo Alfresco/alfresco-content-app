@@ -40,7 +40,6 @@ import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
 
 import { FilesComponent } from './components/files/files.component';
-import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
@@ -71,6 +70,7 @@ import { AppLayoutModule } from './components/layout/layout.module';
 import { AppCurrentUserModule } from './components/current-user/current-user.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
+import { AppFavoritesModule } from './components/favorites/favorites.module';
 
 @NgModule({
   imports: [
@@ -101,12 +101,12 @@ import { AppSearchResultsModule } from './components/search/search-results.modul
     AppCreateMenuModule,
     AppPermissionsModule,
     AppSearchInputModule,
-    AppSearchResultsModule
+    AppSearchResultsModule,
+    AppFavoritesModule
   ],
   declarations: [
     AppComponent,
     FilesComponent,
-    FavoritesComponent,
     LibrariesComponent,
     SharedFilesComponent,
     NodeVersionsDialogComponent,

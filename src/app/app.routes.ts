@@ -30,7 +30,6 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
 import { LayoutComponent } from './components/layout/layout.component';
 
 import { FilesComponent } from './components/files/files.component';
-import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 
@@ -68,16 +67,11 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'favorites',
-        data: {
-          sortingPreferenceKey: 'favorites'
-        },
         children: [
           {
             path: '',
-            component: FavoritesComponent,
-            data: {
-              title: 'APP.BROWSE.FAVORITES.TITLE'
-            }
+            loadChildren:
+              'src/app/components/favorites/favorites.module#AppFavoritesModule'
           },
           {
             path: 'preview/:nodeId',
@@ -93,15 +87,13 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'libraries',
-        data: {
-          sortingPreferenceKey: 'libraries'
-        },
         children: [
           {
             path: '',
             component: LibrariesComponent,
             data: {
-              title: 'APP.BROWSE.LIBRARIES.TITLE'
+              title: 'APP.BROWSE.LIBRARIES.TITLE',
+              sortingPreferenceKey: 'libraries'
             }
           },
           {
