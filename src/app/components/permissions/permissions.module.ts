@@ -26,12 +26,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { PermissionsManagerComponent } from './permissions-manager.component';
 import { ContentModule } from '@alfresco/adf-content-services';
+import { NodePermissionsDialogComponent } from './permission-dialog/node-permissions.dialog';
+import { PermissionsManagerComponent } from './permission-manager/permission-manager.component';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild(), ContentModule.forChild()],
-  declarations: [PermissionsManagerComponent],
-  exports: [PermissionsManagerComponent]
+  declarations: [PermissionsManagerComponent, NodePermissionsDialogComponent],
+  exports: [PermissionsManagerComponent, NodePermissionsDialogComponent],
+  entryComponents: [NodePermissionsDialogComponent]
 })
-export class AppPermissionManagerModule {}
+export class AppPermissionsModule {}

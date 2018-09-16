@@ -68,7 +68,6 @@ import { ContentApiService } from './services/content-api.service';
 import { AppExtensionsModule } from './extensions.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { SearchResultsRowComponent } from './components/search/search-results-row/search-results-row.component';
-import { NodePermissionsDialogComponent } from './dialogs/node-permissions/node-permissions.dialog';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
 import { AppInfoDrawerModule } from './components/info-drawer/info.drawer.module';
 import { DirectivesModule } from './directives/directives.module';
@@ -77,7 +76,7 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { AppToolbarModule } from './components/toolbar/toolbar.module';
 import { AppCreateMenuModule } from './components/create-menu/create-menu.module';
 import { AppSidenavModule } from './components/sidenav/sidenav.module';
-import { AppPermissionManagerModule } from './components/permission-manager/permission-manager.module';
+import { AppPermissionsModule } from './components/permissions/permissions.module';
 
 @NgModule({
   imports: [
@@ -103,7 +102,7 @@ import { AppPermissionManagerModule } from './components/permission-manager/perm
     AppToolbarModule,
     AppSidenavModule,
     AppCreateMenuModule,
-    AppPermissionManagerModule
+    AppPermissionsModule
   ],
   declarations: [
     AppComponent,
@@ -123,7 +122,6 @@ import { AppPermissionManagerModule } from './components/permission-manager/perm
     SearchResultsRowComponent,
     NodeVersionsDialogComponent,
     LibraryDialogComponent,
-    NodePermissionsDialogComponent,
     SearchResultsComponent,
     SharedLinkViewComponent
   ],
@@ -145,11 +143,7 @@ import { AppPermissionManagerModule } from './components/permission-manager/perm
     ExperimentalGuard,
     ContentApiService
   ],
-  entryComponents: [
-    LibraryDialogComponent,
-    NodeVersionsDialogComponent,
-    NodePermissionsDialogComponent
-  ],
+  entryComponents: [LibraryDialogComponent, NodeVersionsDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
