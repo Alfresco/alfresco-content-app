@@ -32,7 +32,6 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { FilesComponent } from './components/files/files.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
-import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
@@ -43,18 +42,12 @@ import { ProfileResolver } from './services/profile.resolver';
 export const APP_ROUTES: Routes = [
   {
     path: 'login',
-    loadChildren: 'src/app/components/login/login.module#AppLoginModule',
-    data: {
-      title: 'APP.SIGN_IN'
-    }
+    loadChildren: 'src/app/components/login/login.module#AppLoginModule'
   },
   {
     path: 'settings',
     loadChildren:
-      'src/app/components/settings/settings.module#AppSettingsModule',
-    data: {
-      title: 'Settings'
-    }
+      'src/app/components/settings/settings.module#AppSettingsModule'
   },
   {
     path: 'preview/s/:id',
@@ -182,10 +175,8 @@ export const APP_ROUTES: Routes = [
         children: [
           {
             path: '',
-            component: RecentFilesComponent,
-            data: {
-              title: 'APP.BROWSE.RECENT.TITLE'
-            }
+            loadChildren:
+              'src/app/components/recent-files/recent-files.module#AppRecentFilesModule'
           },
           {
             path: 'preview/:nodeId',

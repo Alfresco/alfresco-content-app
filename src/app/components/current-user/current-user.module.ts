@@ -27,9 +27,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { CurrentUserComponent } from './current-user.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
+  imports: [CommonModule, CoreModule.forChild(), RouterModule],
   declarations: [CurrentUserComponent],
   exports: [CurrentUserComponent]
 })

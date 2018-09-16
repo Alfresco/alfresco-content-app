@@ -26,21 +26,38 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { LoginComponent } from './login.component';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { ContentModule } from '@alfresco/adf-content-services';
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppCommonModule } from '../common/common.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { ContextMenuModule } from '../context-menu/context-menu.module';
+import { RecentFilesComponent } from './recent-files.component';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    component: RecentFilesComponent,
     data: {
-      title: 'APP.SIGN_IN'
+      title: 'APP.BROWSE.RECENT.TITLE'
     }
   }
 ];
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes)],
-  declarations: [LoginComponent]
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    RouterModule.forChild(routes),
+    ContentModule.forChild(),
+    DirectivesModule,
+    AppCommonModule,
+    AppToolbarModule,
+    ContextMenuModule.forChild(),
+    AppInfoDrawerModule
+  ],
+  declarations: [RecentFilesComponent],
+  exports: [RecentFilesComponent]
 })
-export class AppLoginModule {}
+export class AppRecentFilesModule {}

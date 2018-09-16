@@ -42,7 +42,6 @@ import { APP_ROUTES } from './app.routes';
 import { FilesComponent } from './components/files/files.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
-import { RecentFilesComponent } from './components/recent-files/recent-files.component';
 import { SharedFilesComponent } from './components/shared-files/shared-files.component';
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
@@ -109,7 +108,6 @@ import { AppSearchResultsModule } from './components/search/search-results.modul
     FilesComponent,
     FavoritesComponent,
     LibrariesComponent,
-    RecentFilesComponent,
     SharedFilesComponent,
     NodeVersionsDialogComponent,
     LibraryDialogComponent,
