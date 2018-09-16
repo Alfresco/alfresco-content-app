@@ -25,16 +25,11 @@
 
 import { Routes } from '@angular/router';
 import { AuthGuardEcm } from '@alfresco/adf-core';
-import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
-
 import { LayoutComponent } from './components/layout/layout.component';
-
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
-
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
-
 import { ProfileResolver } from './services/profile.resolver';
 
 export const APP_ROUTES: Routes = [
@@ -49,10 +44,8 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'preview/s/:id',
-    component: SharedLinkViewComponent,
-    data: {
-      title: 'APP.PREVIEW.TITLE'
-    }
+    loadChildren:
+      'src/app/components/shared-link-view/shared-link-view.module#AppSharedLinkViewModule'
   },
   {
     path: '',
