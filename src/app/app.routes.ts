@@ -31,11 +31,15 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { ProfileResolver } from './services/profile.resolver';
+import { LoginComponent } from './components/login/login.component';
 
 export const APP_ROUTES: Routes = [
   {
     path: 'login',
-    loadChildren: 'src/app/components/login/login.module#AppLoginModule'
+    component: LoginComponent,
+    data: {
+      title: 'APP.SIGN_IN'
+    }
   },
   {
     path: 'settings',

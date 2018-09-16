@@ -68,9 +68,7 @@ import { AppLayoutModule } from './components/layout/layout.module';
 import { AppCurrentUserModule } from './components/current-user/current-user.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
-import { AppFavoritesModule } from './components/favorites/favorites.module';
-import { AppSharedFilesModule } from './components/shared-files/shared-files.module';
-import { AppSharedLinkViewModule } from './components/shared-link-view/shared-link-view.module';
+import { AppLoginModule } from './components/login/login.module';
 
 @NgModule({
   imports: [
@@ -89,7 +87,7 @@ import { AppSharedLinkViewModule } from './components/shared-link-view/shared-li
     CoreExtensionsModule.forRoot(),
     ExtensionsModule.forRoot(),
     AppExtensionsModule,
-
+    AppLoginModule,
     AppCommonModule,
     AppLayoutModule,
     AppCurrentUserModule,
@@ -101,10 +99,7 @@ import { AppSharedLinkViewModule } from './components/shared-link-view/shared-li
     AppCreateMenuModule,
     AppPermissionsModule,
     AppSearchInputModule,
-    AppSearchResultsModule,
-    AppFavoritesModule,
-    AppSharedFilesModule,
-    AppSharedLinkViewModule
+    AppSearchResultsModule
   ],
   declarations: [
     AppComponent,
