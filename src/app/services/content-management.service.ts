@@ -58,9 +58,9 @@ import { ContentApiService } from './content-api.service';
 import { sharedUrl } from '../store/selectors/app.selectors';
 import { NodeActionsService } from './node-actions.service';
 import { TranslationService } from '@alfresco/adf-core';
-import { NodePermissionsDialogComponent } from '../dialogs/node-permissions/node-permissions.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { take, map, tap, mergeMap, catchError } from 'rxjs/operators';
+import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
 
 interface RestoredNode {
   status: number;

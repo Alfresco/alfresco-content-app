@@ -26,10 +26,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { LoginComponent } from './login.component';
+import { ContentModule } from '@alfresco/adf-content-services';
+import { SearchResultsComponent } from './search-results/search-results.component';
+import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { AppCommonModule } from '../common/common.module';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
-  declarations: [LoginComponent]
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    ContentModule.forChild(),
+    AppCommonModule,
+    AppInfoDrawerModule,
+    AppToolbarModule
+  ],
+  declarations: [SearchResultsComponent, SearchResultsRowComponent],
+  exports: [SearchResultsComponent, SearchResultsRowComponent]
 })
-export class AppLoginModule {}
+export class AppSearchResultsModule {}

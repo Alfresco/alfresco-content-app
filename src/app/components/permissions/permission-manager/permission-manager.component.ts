@@ -23,22 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   NodePermissionDialogService,
   PermissionListComponent
 } from '@alfresco/adf-content-services';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { SnackbarErrorAction } from '../../store/actions/snackbar.actions';
-import { NodePermissionsDialogComponent } from '../../dialogs/node-permissions/node-permissions.dialog';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { ContentApiService } from '../../services/content-api.service';
+import { Store } from '@ngrx/store';
+import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { ContentApiService } from '../../../services/content-api.service';
+import { SnackbarErrorAction } from '../../../store/actions/snackbar.actions';
+import { AppStore } from '../../../store/states/app.state';
+import { NodePermissionsDialogComponent } from '../permission-dialog/node-permissions.dialog';
 
 @Component({
-  selector: 'aca-permissions-manager',
-  templateUrl: './permissions-manager.component.html'
+  selector: 'app-permission-manager',
+  templateUrl: './permission-manager.component.html'
 })
 export class PermissionsManagerComponent implements OnInit {
   @ViewChild('permissionList')
