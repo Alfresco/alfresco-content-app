@@ -32,7 +32,10 @@ import { CoreModule } from '@alfresco/adf-core';
 const routes: Routes = [
   {
     path: '',
-    component: AboutComponent
+    component: AboutComponent,
+    data: {
+      title: 'APP.BROWSE.ABOUT.TITLE'
+    }
   }
 ];
 

@@ -25,11 +25,13 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GenericErrorComponent } from './generic-error/generic-error.component';
 import { CoreModule } from '@alfresco/adf-core';
-import { LoginComponent } from './login.component';
+import { LocationLinkComponent } from './location-link/location-link.component';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild()],
-  declarations: [LoginComponent]
+  declarations: [GenericErrorComponent, LocationLinkComponent],
+  exports: [GenericErrorComponent, LocationLinkComponent]
 })
-export class AppLoginModule {}
+export class AppCommonModule {}

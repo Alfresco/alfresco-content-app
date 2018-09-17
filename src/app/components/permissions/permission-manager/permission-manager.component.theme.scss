@@ -1,4 +1,4 @@
-@mixin aca-permissions-manager-theme($theme) {
+@mixin app-permission-manager-theme($theme) {
   $foreground: map-get($theme, foreground);
   $accent: map-get($theme, accent);
 

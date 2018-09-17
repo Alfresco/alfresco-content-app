@@ -18,23 +18,23 @@ already preconfigured to store external files.
 
 You can create plugins that change, toggle or extend the following areas:
 
-* Navigation sidebar links and groups
-* Context Menu
-* Sidebar (aka Info Drawer)
-* Toolbar entries
-  * buttons
-  * menu buttons
-  * separators
-* Viewer actions
-  * "Open With" entries
-  * "More actions" toolbar entries
+- Navigation sidebar links and groups
+- Context Menu
+- Sidebar (aka Info Drawer)
+- Toolbar entries
+  - buttons
+  - menu buttons
+  - separators
+- Viewer actions
+  - "Open With" entries
+  - "More actions" toolbar entries
 
 Extensions can also:
 
-* Overwrite or disable extension points of the main application or other plugins
-* Change rules, actions or any visual element
-* Register new application routes based on empty pages or layouts
-* Register new rule evaluators, components, guards, etc.
+- Overwrite or disable extension points of the main application or other plugins
+- Change rules, actions or any visual element
+- Register new application routes based on empty pages or layouts
+- Register new rule evaluators, components, guards, etc.
 
 ## Format
 
@@ -42,13 +42,13 @@ The format is represented by a JSON file with the structure similar to the follo
 
 ```json
 {
-    "$name": "app",
-    "$version": "1.0.0",
+  "$name": "app",
+  "$version": "1.0.0",
 
-    "routes": [],
-    "actions": [],
-    "rules": [],
-    "features": {}
+  "routes": [],
+  "actions": [],
+  "rules": [],
+  "features": {}
 }
 ```
 
@@ -62,9 +62,9 @@ Schema allows validating extension files, provides code completion and documenta
 
 ```json
 {
-    "$schema": "../../extension.schema.json",
-    "$name": "app",
-    "$version": "1.0.0",
+  "$schema": "../../extension.schema.json",
+  "$name": "app",
+  "$version": "1.0.0"
 }
 ```
 
@@ -76,13 +76,10 @@ the order of declaration defines also the order of loading.
 
 ```json
 {
-    "$schema": "../../extension.schema.json",
-    "$name": "app",
-    "$version": "1.0.0",
-    "$references": [
-        "plugin1.json",
-        "plugin2.json"
-    ]
+  "$schema": "../../extension.schema.json",
+  "$name": "app",
+  "$version": "1.0.0",
+  "$references": ["plugin1.json", "plugin2.json"]
 }
 ```
 
@@ -119,9 +116,9 @@ Before: Plugin 1
 
 ```json
 {
-    "$name": "plugin1",
-    "plugin1.key": "value",
-    "plugin1.text": "string"
+  "$name": "plugin1",
+  "plugin1.key": "value",
+  "plugin1.text": "string"
 }
 ```
 
@@ -129,9 +126,9 @@ Before: Plugin 2
 
 ```json
 {
-    "$name": "plugin2",
-    "plugin2.key": "value",
-    "plugin1.text": "custom string"
+  "$name": "plugin2",
+  "plugin2.key": "value",
+  "plugin1.text": "custom string"
 }
 ```
 
@@ -139,9 +136,9 @@ Final result:
 
 ```json
 {
-    "plugin1.key": "value",
-    "plugin1.text": "custom string",
-    "plugin2.key": "value"
+  "plugin1.key": "value",
+  "plugin1.text": "custom string",
+  "plugin2.key": "value"
 }
 ```
 
@@ -161,13 +158,13 @@ Before: Plugin 1
 
 ```json
 {
-    "$name": "plugin1",
-    "features": {
-        "title": "some title",
-        "page1": {
-            "title": "page 1"
-        }
+  "$name": "plugin1",
+  "features": {
+    "title": "some title",
+    "page1": {
+      "title": "page 1"
     }
+  }
 }
 ```
 
@@ -175,15 +172,15 @@ Before: Plugin 2
 
 ```json
 {
-    "$name": "plugin2",
-    "features": {
-        "page1": {
-            "title": "custom title"
-        },
-        "page2": {
-            "title": "page 2"
-        }
+  "$name": "plugin2",
+  "features": {
+    "page1": {
+      "title": "custom title"
+    },
+    "page2": {
+      "title": "page 2"
     }
+  }
 }
 ```
 
@@ -191,15 +188,15 @@ Final result:
 
 ```json
 {
-    "features": {
-        "title": "some title",
-        "page1": {
-            "title": "custom title"
-        },
-        "page2": {
-            "title": "page 2"
-        }
+  "features": {
+    "title": "some title",
+    "page1": {
+      "title": "custom title"
+    },
+    "page2": {
+      "title": "page 2"
     }
+  }
 }
 ```
 
@@ -214,12 +211,12 @@ Before: Plugin 1
 
 ```json
 {
-    "$name": "plugin1",
-    "feature1": {
-        "disabled": false,
-        "text": "some-feature",
-        "icon": "some-icon"
-    }
+  "$name": "plugin1",
+  "feature1": {
+    "disabled": false,
+    "text": "some-feature",
+    "icon": "some-icon"
+  }
 }
 ```
 
@@ -227,10 +224,10 @@ Before: Plugin 2
 
 ```json
 {
-    "$name": "plugin2",
-    "feature1": {
-        "disabled": true
-    }
+  "$name": "plugin2",
+  "feature1": {
+    "disabled": true
+  }
 }
 ```
 
@@ -238,11 +235,11 @@ Final result:
 
 ```json
 {
-    "feature1": {
-        "disabled": true,
-        "text": "some-feature",
-        "icon": "some-icon"
-    }
+  "feature1": {
+    "disabled": true,
+    "text": "some-feature",
+    "icon": "some-icon"
+  }
 }
 ```
 
@@ -261,14 +258,14 @@ Before: Plugin 1
 
 ```json
 {
-    "$name": "plugin1",
-    "features": [
-        { "text": "common 1" },
-        {
-            "id": "page1",
-            "text": "page 1"
-        }
-    ]
+  "$name": "plugin1",
+  "features": [
+    { "text": "common 1" },
+    {
+      "id": "page1",
+      "text": "page 1"
+    }
+  ]
 }
 ```
 
@@ -276,14 +273,14 @@ Before: Plugin 2
 
 ```json
 {
-    "$name": "plugin2",
-    "features": [
-        { "text": "common 2" },
-        {
-            "id": "page1",
-            "text": "custom page"
-        }
-    ]
+  "$name": "plugin2",
+  "features": [
+    { "text": "common 2" },
+    {
+      "id": "page1",
+      "text": "custom page"
+    }
+  ]
 }
 ```
 
@@ -291,14 +288,14 @@ Final result:
 
 ```json
 {
-    "features": [
-        { "text": "common 1" },
-        { "text": "common 2" },
-        {
-            "id": "page1",
-            "text": "custom page"
-        }
-    ]
+  "features": [
+    { "text": "common 1" },
+    { "text": "common 2" },
+    {
+      "id": "page1",
+      "text": "custom page"
+    }
+  ]
 }
 ```
 
@@ -310,21 +307,21 @@ Most of the schema elements can be switched off by using the `disabled` property
 
 ```json
 {
-    "$schema": "../../extension.schema.json",
-    "$name": "app",
-    "$version": "1.0.0",
+  "$schema": "../../extension.schema.json",
+  "$name": "app",
+  "$version": "1.0.0",
 
-    "features": {
-        "create": [
-            {
-                "id": "app.create.folder",
-                "disabled": true,
-                "order": 100,
-                "icon": "create_new_folder",
-                "title": "Create Folder"
-            }
-        ]
-    }
+  "features": {
+    "create": [
+      {
+        "id": "app.create.folder",
+        "disabled": true,
+        "order": 100,
+        "icon": "create_new_folder",
+        "title": "Create Folder"
+      }
+    ]
+  }
 }
 ```
 
@@ -362,31 +359,31 @@ To create a new route, populate the `routes` section with the corresponding entr
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "routes": [
-        {
-            "id": "plugin1.routes.bin",
-            "path": "ext/bin",
-            "layout": "app.layout.main",
-            "component": "app.components.trashcan"
-        }
-    ]
+  "routes": [
+    {
+      "id": "plugin1.routes.bin",
+      "path": "ext/bin",
+      "layout": "app.layout.main",
+      "component": "your.component.id"
+    }
+  ]
 }
 ```
 
 ### Route properties
 
-| Name | Description |
-| --- | --- |
-| **id** | Unique identifier. |
-| **path** | Runtime path of the route. |
-| **component** | The main [component](#components) to use for the route. |
-| layout | The layout [component](#components) to use for the route. |
-| auth | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
-| data | Custom property bag to carry with the route. |
+| Name          | Description                                                                            |
+| ------------- | -------------------------------------------------------------------------------------- |
+| **id**        | Unique identifier.                                                                     |
+| **path**      | Runtime path of the route.                                                             |
+| **component** | The main [component](#components) to use for the route.                                |
+| layout        | The layout [component](#components) to use for the route.                              |
+| auth          | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
+| data          | Custom property bag to carry with the route.                                           |
 
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
 with header, navigation sidebar and main content area.
@@ -401,22 +398,22 @@ You can define the full route schema like in the next example:
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "routes": [
-        {
-            "id": "plugin1.routes.bin",
-            "path": "ext/bin",
-            "component": "app.components.trashcan",
-            "layout": "app.layout.main",
-            "auth": [ "app.auth" ],
-            "data": {
-                "title": "Custom Trashcan"
-            }
-        }
-    ]
+  "routes": [
+    {
+      "id": "plugin1.routes.bin",
+      "path": "ext/bin",
+      "component": "your.component.id",
+      "layout": "app.layout.main",
+      "auth": ["app.auth"],
+      "data": {
+        "title": "Custom Trashcan"
+      }
+    }
+  ]
 }
 ```
 
@@ -429,8 +426,8 @@ Defaults to the `['app.auth']` value.
 
 Below is the list of the authentication guards main application registers on startup.
 
-| Key | Type | Description |
-| --- | --- | --- |
+| Key      | Type         | Description                                                               |
+| -------- | ------------ | ------------------------------------------------------------------------- |
 | app.auth | AuthGuardEcm | ADF guard, validates ACS authentication and redirects to Login if needed. |
 
 You can refer those guards from within your custom extensions,
@@ -442,16 +439,15 @@ You can register any Angular component to participate in extensibility.
 
 The components are used to create custom:
 
-* routes and pages
-* toolbar buttons
-* menu items
+- routes and pages
+- toolbar buttons
+- menu items
 
-| Key | Type | Description |
-| --- | --- | --- |
-| app.layout.main | LayoutComponent | Main application layout with the menu bar, navigation sidebar and main content area to project your components. |
-| app.components.trashcan | TrashcanComponent | Trashcan component, used for demo purposes. |
-| app.toolbar.toggleInfoDrawer | ToggleInfoDrawerComponent | The toolbar button component that toggles Info Drawer for the selection. |
-| app.toolbar.toggleFavorite | ToggleFavoriteComponent | The toolbar button component that toggles Favorite state for the selection. |
+| Key                          | Type                      | Description                                                                                                     |
+| ---------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| app.layout.main              | LayoutComponent           | Main application layout with the menu bar, navigation sidebar and main content area to project your components. |
+| app.toolbar.toggleInfoDrawer | ToggleInfoDrawerComponent | The toolbar button component that toggles Info Drawer for the selection.                                        |
+| app.toolbar.toggleFavorite   | ToggleFavoriteComponent   | The toolbar button component that toggles Favorite state for the selection.                                     |
 
 <p class="tip">
 See [Registration](#registration) section for more details
@@ -463,35 +459,35 @@ besides registering a new one.
 
 ## Actions
 
-| Name | Description |
-| --- | --- |
-| **id** | Unique identifier. |
-| **type** | Action type, see [Application Actions](#application-actions) for more details. |
-| *payload* | Action payload, a string containing value or expression. |
+| Name      | Description                                                                    |
+| --------- | ------------------------------------------------------------------------------ |
+| **id**    | Unique identifier.                                                             |
+| **type**  | Action type, see [Application Actions](#application-actions) for more details. |
+| _payload_ | Action payload, a string containing value or expression.                       |
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "actions": [
-        {
-            "id": "plugin1.actions.settings",
-            "type": "NAVIGATE_URL",
-            "payload": "/settings"
-        },
-        {
-            "id": "plugin1.actions.info",
-            "type": "SNACKBAR_INFO",
-            "payload": "I'm a nice little popup raised by extension."
-        },
-        {
-            "id": "plugin1.actions.node-name",
-            "type": "SNACKBAR_INFO",
-            "payload": "$('Action for ' + context.selection.first.entry.name)"
-        }
-    ]
+  "actions": [
+    {
+      "id": "plugin1.actions.settings",
+      "type": "NAVIGATE_URL",
+      "payload": "/settings"
+    },
+    {
+      "id": "plugin1.actions.info",
+      "type": "SNACKBAR_INFO",
+      "payload": "I'm a nice little popup raised by extension."
+    },
+    {
+      "id": "plugin1.actions.node-name",
+      "type": "SNACKBAR_INFO",
+      "payload": "$('Action for ' + context.selection.first.entry.name)"
+    }
+  ]
 }
 ```
 
@@ -519,20 +515,18 @@ $([1, 2, 1 + 2])                //  [1, 2, 3]
 Application is using NgRx (Reactive libraries for Angular, inspired by Redux).
 To get more information on NxRx please refer to the following resources:
 
-* [Comprehensive Introduction to @ngrx/store](https://gist.github.com/btroncone/a6e4347326749f938510)
+- [Comprehensive Introduction to @ngrx/store](https://gist.github.com/btroncone/a6e4347326749f938510)
 
 Most of the application features are already exposed in the form of NgRx Actions and corresponding Effects.
 You can invoke any action via a single `Store` dispatcher, similar to the following:
 
 ```typescript
 export class MyComponent {
+  constructor(private store: Store<AppStore>) {}
 
-    constructor(private store: Store<AppStore>) {}
-
-    onClick() {
-        this.store.dispatch(new SearchByTermAction('*'));
-    }
-
+  onClick() {
+    this.store.dispatch(new SearchByTermAction('*'));
+  }
 }
 ```
 
@@ -543,12 +537,11 @@ Another example demonstrates viewing a node from a custom application service AP
 
 ```typescript
 export class MyService {
+  constructor(private store: Store<AppStore>) {}
 
-    constructor(private store: Store<AppStore>) {}
-
-    viewFile(node: MinimalNodeEntity) {
-        this.store.dispatch(new ViewFileAction(node));
-    }
+  viewFile(node: MinimalNodeEntity) {
+    this.store.dispatch(new ViewFileAction(node));
+  }
 }
 ```
 
@@ -566,23 +559,23 @@ and provide a new `Create Folder (plugin1)` command that invokes the `CREATE_FOL
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "create": [
-            {
-                "id": "plugin1.create.folder",
-                "type": "default",
-                "icon": "create_new_folder",
-                "title": "Create Folder (plugin1)",
-                "actions": {
-                    "click": "CREATE_FOLDER"
-                }
-            }
-        ]
-    }
+  "features": {
+    "create": [
+      {
+        "id": "plugin1.create.folder",
+        "type": "default",
+        "icon": "create_new_folder",
+        "title": "Create Folder (plugin1)",
+        "actions": {
+          "click": "CREATE_FOLDER"
+        }
+      }
+    ]
+  }
 }
 ```
 
@@ -591,41 +584,41 @@ and perform document list reload if needed.
 
 Below is the list of public actions types you can use in the plugin definitions as a reference to the action:
 
-| Name | Payload | Description |
-| --- | --- | --- |
-| SET_CURRENT_FOLDER | Node | Notify components about currently opened folder. |
-| SET_CURRENT_URL | string | Notify components about current browser URL. |
-| SET_USER_PROFILE | Person | Assign current user profile. |
-| TOGGLE_INFO_DRAWER | n/a | Toggle info drawer for the selected node. |
-| ADD_FAVORITE | MinimalNodeEntity[] | Add nodes (or selection) to favorites. |
-| REMOVE_FAVORITE | MinimalNodeEntity[] | Removes nodes (or selection) from favorites. |
-| DELETE_LIBRARY | string | Delete a Library by id. Takes selected node if payload not provided. |
-| CREATE_LIBRARY | n/a | Invoke a "Create Library" dialog. |
-| SET_SELECTED_NODES | MinimalNodeEntity[] | Notify components about selected nodes. |
-| DELETE_NODES | MinimalNodeEntity[] | Delete the nodes (or selection). Supports undo actions. |
-| UNDO_DELETE_NODES | any[] | Reverts deletion of nodes (or selection). |
-| RESTORE_DELETED_NODES | MinimalNodeEntity[] | Restores deleted nodes (or selection). Typically used with Trashcan. |
-| PURGE_DELETED_NODES | MinimalNodeEntity[] | Permanently delete nodes (or selection). Typically used with Trashcan. |
-| DOWNLOAD_NODES | MinimalNodeEntity[] | Download nodes (or selections). Creates a ZIP archive for folders or multiple items. |
-| CREATE_FOLDER | string | Invoke a "Create Folder" dialog for the opened folder (or the parent folder id in the payload). |
-| EDIT_FOLDER | MinimalNodeEntity | Invoke an "Edit Folder" dialog for the node (or selection). |
-| SHARE_NODE | MinimalNodeEntity | Invoke a "Share" dialog for the node (or selection). |
-| UNSHARE_NODES | MinimalNodeEntity[] | Remove nodes (or selection) from the shared nodes (does not remove content). |
-| COPY_NODES | MinimalNodeEntity[] | Invoke a "Copy" dialog for the nodes (or selection). Supports undo actions. |
-| MOVE_NODES | MinimalNodeEntity[] | Invoke a "Move" dialog for the nodes (or selection). Supports undo actions. |
-| MANAGE_PERMISSIONS | MinimalNodeEntity | Invoke a "Manage Permissions" dialog for the node (or selection). |
-| MANAGE_VERSIONS | MinimalNodeEntity | Invoke a "Manage Versions" dialog for the node (or selection). |
-| NAVIGATE_URL | string | Navigate to a given route URL within the application. |
-| NAVIGATE_ROUTE | any[] | Navigate to a particular Route (supports parameters) |
-| NAVIGATE_FOLDER | MinimalNodeEntity | Navigate to a folder based on the Node properties. |
-| NAVIGATE_PARENT_FOLDER | MinimalNodeEntity | Navigate to a containing folder based on the Node properties. |
-| SEARCH_BY_TERM | string | Perform a simple search by the term and navigate to Search results. |
-| SNACKBAR_INFO | string | Show information snackbar with the message provided. |
-| SNACKBAR_WARNING | string | Show warning snackbar with the message provided. |
-| SNACKBAR_ERROR | string | Show error snackbar with the message provided. |
-| UPLOAD_FILES | n/a | Invoke "Upload Files" dialog and upload files to the currently opened folder. |
-| UPLOAD_FOLDER | n/a | Invoke "Upload Folder" dialog and upload selected folder to the currently opened one. |
-| VIEW_FILE | MinimalNodeEntity | Preview the file (or selection) in the Viewer. |
+| Name                   | Payload             | Description                                                                                     |
+| ---------------------- | ------------------- | ----------------------------------------------------------------------------------------------- |
+| SET_CURRENT_FOLDER     | Node                | Notify components about currently opened folder.                                                |
+| SET_CURRENT_URL        | string              | Notify components about current browser URL.                                                    |
+| SET_USER_PROFILE       | Person              | Assign current user profile.                                                                    |
+| TOGGLE_INFO_DRAWER     | n/a                 | Toggle info drawer for the selected node.                                                       |
+| ADD_FAVORITE           | MinimalNodeEntity[] | Add nodes (or selection) to favorites.                                                          |
+| REMOVE_FAVORITE        | MinimalNodeEntity[] | Removes nodes (or selection) from favorites.                                                    |
+| DELETE_LIBRARY         | string              | Delete a Library by id. Takes selected node if payload not provided.                            |
+| CREATE_LIBRARY         | n/a                 | Invoke a "Create Library" dialog.                                                               |
+| SET_SELECTED_NODES     | MinimalNodeEntity[] | Notify components about selected nodes.                                                         |
+| DELETE_NODES           | MinimalNodeEntity[] | Delete the nodes (or selection). Supports undo actions.                                         |
+| UNDO_DELETE_NODES      | any[]               | Reverts deletion of nodes (or selection).                                                       |
+| RESTORE_DELETED_NODES  | MinimalNodeEntity[] | Restores deleted nodes (or selection). Typically used with Trashcan.                            |
+| PURGE_DELETED_NODES    | MinimalNodeEntity[] | Permanently delete nodes (or selection). Typically used with Trashcan.                          |
+| DOWNLOAD_NODES         | MinimalNodeEntity[] | Download nodes (or selections). Creates a ZIP archive for folders or multiple items.            |
+| CREATE_FOLDER          | string              | Invoke a "Create Folder" dialog for the opened folder (or the parent folder id in the payload). |
+| EDIT_FOLDER            | MinimalNodeEntity   | Invoke an "Edit Folder" dialog for the node (or selection).                                     |
+| SHARE_NODE             | MinimalNodeEntity   | Invoke a "Share" dialog for the node (or selection).                                            |
+| UNSHARE_NODES          | MinimalNodeEntity[] | Remove nodes (or selection) from the shared nodes (does not remove content).                    |
+| COPY_NODES             | MinimalNodeEntity[] | Invoke a "Copy" dialog for the nodes (or selection). Supports undo actions.                     |
+| MOVE_NODES             | MinimalNodeEntity[] | Invoke a "Move" dialog for the nodes (or selection). Supports undo actions.                     |
+| MANAGE_PERMISSIONS     | MinimalNodeEntity   | Invoke a "Manage Permissions" dialog for the node (or selection).                               |
+| MANAGE_VERSIONS        | MinimalNodeEntity   | Invoke a "Manage Versions" dialog for the node (or selection).                                  |
+| NAVIGATE_URL           | string              | Navigate to a given route URL within the application.                                           |
+| NAVIGATE_ROUTE         | any[]               | Navigate to a particular Route (supports parameters)                                            |
+| NAVIGATE_FOLDER        | MinimalNodeEntity   | Navigate to a folder based on the Node properties.                                              |
+| NAVIGATE_PARENT_FOLDER | MinimalNodeEntity   | Navigate to a containing folder based on the Node properties.                                   |
+| SEARCH_BY_TERM         | string              | Perform a simple search by the term and navigate to Search results.                             |
+| SNACKBAR_INFO          | string              | Show information snackbar with the message provided.                                            |
+| SNACKBAR_WARNING       | string              | Show warning snackbar with the message provided.                                                |
+| SNACKBAR_ERROR         | string              | Show error snackbar with the message provided.                                                  |
+| UPLOAD_FILES           | n/a                 | Invoke "Upload Files" dialog and upload files to the currently opened folder.                   |
+| UPLOAD_FOLDER          | n/a                 | Invoke "Upload Folder" dialog and upload selected folder to the currently opened one.           |
+| VIEW_FILE              | MinimalNodeEntity   | Preview the file (or selection) in the Viewer.                                                  |
 
 ## Rules
 
@@ -636,16 +629,16 @@ Every rule is backed by a condition evaluator.
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "rules": [
-        {
-            "id": "app.trashcan",
-            "type": "app.navigation.isTrashcan"
-        }
-    ]
+  "rules": [
+    {
+      "id": "app.trashcan",
+      "type": "app.navigation.isTrashcan"
+    }
+  ]
 }
 ```
 
@@ -653,22 +646,22 @@ Rules can accept other rules as parameters:
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "rules": [
-        {
-            "id": "app.toolbar.favorite.canAdd",
-            "type": "core.every",
-            "parameters": [
-                { "type": "rule", "value": "app.selection.canAddFavorite" },
-                { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
-                { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-                { "type": "rule", "value": "app.navigation.isNotSearchResults" }
-            ]
-        }
-    ]
+  "rules": [
+    {
+      "id": "app.toolbar.favorite.canAdd",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.canAddFavorite" },
+        { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
+        { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
+        { "type": "rule", "value": "app.navigation.isNotSearchResults" }
+      ]
+    }
+  ]
 }
 ```
 
@@ -684,45 +677,45 @@ in case you do not need providing extra parameters, or chaining multiple rules t
 
 You can create new rules by chaining other rules and evaluators.
 
-| Key | Description |
-| --- | --- |
-| core.every | Evaluates to `true` if all chained rules evaluate to `true`. |
-| core.some | Evaluates to `true` if at least one of the chained rules evaluates to `true`. |
-| core.not | Evaluates to `true` if all chained rules evaluate to `false`. |
+| Key        | Description                                                                   |
+| ---------- | ----------------------------------------------------------------------------- |
+| core.every | Evaluates to `true` if all chained rules evaluate to `true`.                  |
+| core.some  | Evaluates to `true` if at least one of the chained rules evaluates to `true`. |
+| core.not   | Evaluates to `true` if all chained rules evaluate to `false`.                 |
 
 Below is an example of the composite rule definition that combines the following conditions:
 
-* user has selected a single file
-* user is not using **Trashcan** page
+- user has selected a single file
+- user is not using **Trashcan** page
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "rules": [
+  "rules": [
+    {
+      "id": "app.toolbar.canViewFile",
+      "type": "core.every",
+      "parameters": [
         {
-            "id": "app.toolbar.canViewFile",
-            "type": "core.every",
-            "parameters": [
-                {
-                    "type": "rule",
-                    "value": "app.selection.file"
-                },
-                {
-                    "type": "rule",
-                    "value": "core.not",
-                    "parameters": [
-                        {
-                            "type": "rule",
-                            "value": "app.navigation.isTrashcan"
-                        }
-                    ]
-                }
-            ]
+          "type": "rule",
+          "value": "app.selection.file"
+        },
+        {
+          "type": "rule",
+          "value": "core.not",
+          "parameters": [
+            {
+              "type": "rule",
+              "value": "app.navigation.isTrashcan"
+            }
+          ]
         }
-    ]
+      ]
+    }
+  ]
 }
 ```
 
@@ -730,26 +723,26 @@ You can now declare a toolbar button action that is based on the rule above.
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "toolbar": [
-            {
-                "id": "app.toolbar.preview",
-                "type": "button",
-                "title": "View File",
-                "icon": "open_in_browser",
-                "actions": {
-                    "click": "VIEW_FILE"
-                },
-                "rules": {
-                    "visible": "app.toolbar.canViewFile"
-                }
-            },
-        ]
-    }
+  "features": {
+    "toolbar": [
+      {
+        "id": "app.toolbar.preview",
+        "type": "button",
+        "title": "View File",
+        "icon": "open_in_browser",
+        "actions": {
+          "click": "VIEW_FILE"
+        },
+        "rules": {
+          "visible": "app.toolbar.canViewFile"
+        }
+      }
+    ]
+  }
 }
 ```
 
@@ -757,20 +750,20 @@ The button will be visible only when the linked rule evaluates to `true`.
 
 ### Application Evaluators
 
-| Key | Description |
-| --- | --- |
-| app.selection.canDelete | User has permission to delete selected node(s). |
-| app.selection.canDownload | User can download selected node(s). |
-| app.selection.notEmpty | At least one node is selected. |
-| app.selection.canUnshare | User is able to remove selected node(s) from public sharing. |
-| app.selection.canAddFavorite | User can add selected node(s) to favorites. |
-| app.selection.canRemoveFavorite | User can remove selected node(s) from favorites. |
-| app.selection.first.canUpdate | User has permission to update selected node(s). |
-| app.selection.file | A single File node is selected. |
-| app.selection.file.canShare | User is able share selected file. |
-| app.selection.library | A single Library node is selected. |
-| app.selection.folder | A single Folder node is selected. |
-| app.selection.folder.canUpdate | User has permissions to update selected folder. |
+| Key                             | Description                                                  |
+| ------------------------------- | ------------------------------------------------------------ |
+| app.selection.canDelete         | User has permission to delete selected node(s).              |
+| app.selection.canDownload       | User can download selected node(s).                          |
+| app.selection.notEmpty          | At least one node is selected.                               |
+| app.selection.canUnshare        | User is able to remove selected node(s) from public sharing. |
+| app.selection.canAddFavorite    | User can add selected node(s) to favorites.                  |
+| app.selection.canRemoveFavorite | User can remove selected node(s) from favorites.             |
+| app.selection.first.canUpdate   | User has permission to update selected node(s).              |
+| app.selection.file              | A single File node is selected.                              |
+| app.selection.file.canShare     | User is able share selected file.                            |
+| app.selection.library           | A single Library node is selected.                           |
+| app.selection.folder            | A single Folder node is selected.                            |
+| app.selection.folder.canUpdate  | User has permissions to update selected folder.              |
 
 ### Navigation Evaluators
 
@@ -786,22 +779,22 @@ You can also negate any rule by utilizing a `!` prefix:
 `!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
 </p>
 
-| Key | Description |
-| --- | --- |
-| app.navigation.folder.canCreate | User can create content in the currently opened folder. |
-| app.navigation.folder.canUpload | User can upload content to the currently opened folder. |
-| app.navigation.isTrashcan | User is using **Trashcan** page. |
-| app.navigation.isNotTrashcan | Current page is not a **Trashcan**.  |
-| app.navigation.isLibraries | User is using **Libraries** page. |
-| app.navigation.isNotLibraries | Current page is not **Libraries**. |
-| app.navigation.isSharedFiles | User is using **Shared Files** page. |
-| app.navigation.isNotSharedFiles | Current page is not **Shared Files**. |
-| app.navigation.isFavorites | User is using **Favorites** page. |
-| app.navigation.isNotFavorites | Current page is not **Favorites** |
-| app.navigation.isRecentFiles | User is using **Recent Files** page. |
-| app.navigation.isNotRecentFiles | Current page is not **Recent Files**. |
-| app.navigation.isSearchResults | User is using **Search Results** page. |
-| app.navigation.isNotSearchResults | Current page is not **Search Results**. |
+| Key                               | Description                                             |
+| --------------------------------- | ------------------------------------------------------- |
+| app.navigation.folder.canCreate   | User can create content in the currently opened folder. |
+| app.navigation.folder.canUpload   | User can upload content to the currently opened folder. |
+| app.navigation.isTrashcan         | User is using **Trashcan** page.                        |
+| app.navigation.isNotTrashcan      | Current page is not a **Trashcan**.                     |
+| app.navigation.isLibraries        | User is using **Libraries** page.                       |
+| app.navigation.isNotLibraries     | Current page is not **Libraries**.                      |
+| app.navigation.isSharedFiles      | User is using **Shared Files** page.                    |
+| app.navigation.isNotSharedFiles   | Current page is not **Shared Files**.                   |
+| app.navigation.isFavorites        | User is using **Favorites** page.                       |
+| app.navigation.isNotFavorites     | Current page is not **Favorites**                       |
+| app.navigation.isRecentFiles      | User is using **Recent Files** page.                    |
+| app.navigation.isNotRecentFiles   | Current page is not **Recent Files**.                   |
+| app.navigation.isSearchResults    | User is using **Search Results** page.                  |
+| app.navigation.isNotSearchResults | Current page is not **Search Results**.                 |
 
 <p class="tip">
 See [Registration](#registration) section for more details
@@ -812,27 +805,27 @@ on how to register your own entries to be re-used at runtime.
 
 The rule in the example below evaluates to `true` if all the conditions are met:
 
-* user has selected node(s)
-* user is not using **Trashcan** page
-* user is not using **Libraries** page
+- user has selected node(s)
+- user is not using **Trashcan** page
+- user is not using **Libraries** page
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "rules": [
-        {
-            "id": "app.toolbar.canCopyNode",
-            "type": "core.every",
-            "parameters": [
-                { "type": "rule", "value": "app.selection.notEmpty" },
-                { "type": "rule", "value": "app.navigation.isNotTrashcan" },
-                { "type": "rule", "value": "app.navigation.isNotLibraries" }
-            ]
-        }
-    ]
+  "rules": [
+    {
+      "id": "app.toolbar.canCopyNode",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.notEmpty" },
+        { "type": "rule", "value": "app.navigation.isNotTrashcan" },
+        { "type": "rule", "value": "app.navigation.isNotLibraries" }
+      ]
+    }
+  ]
 }
 ```
 
@@ -842,33 +835,33 @@ This section contains application-specific features that may vary depending on t
 
 The ACA supports the following set of extension points:
 
-* Create menu
-* Navigation Bar
-* Toolbar
-* Context Menu
-* Viewer
-* Sidebar (aka Info Drawer)
+- Create menu
+- Navigation Bar
+- Toolbar
+- Context Menu
+- Viewer
+- Sidebar (aka Info Drawer)
 
 All the customisations are stored in the `features` section of the configuration file:
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "create": [],
-        "navbar": [],
-        "toolbar": [],
-        "contextMenu": [],
-        "viewer": {
-            "toolbar:": [],
-            "openWith": [],
-            "content": []
-        },
-        "sidebar": []
-    }
+  "features": {
+    "create": [],
+    "navbar": [],
+    "toolbar": [],
+    "contextMenu": [],
+    "viewer": {
+      "toolbar:": [],
+      "openWith": [],
+      "content": []
+    },
+    "sidebar": []
+  }
 }
 ```
 
@@ -882,25 +875,25 @@ are based on `ContentActionRef` interface implementation:
 
 ```ts
 interface ContentActionRef {
-    id: string;
-    type: ContentActionType;
+  id: string;
+  type: ContentActionType;
 
-    title?: string;
-    description?: string;
-    order?: number;
-    icon?: string;
-    disabled?: boolean;
-    children?: Array<ContentActionRef>;
-    component?: string;
-    actions?: {
-        click?: string;
-        [key: string]: string;
-    };
-    rules?: {
-        enabled?: string;
-        visible?: string;
-        [key: string]: string;
-    };
+  title?: string;
+  description?: string;
+  order?: number;
+  icon?: string;
+  disabled?: boolean;
+  children?: Array<ContentActionRef>;
+  component?: string;
+  actions?: {
+    click?: string;
+    [key: string]: string;
+  };
+  rules?: {
+    enabled?: string;
+    visible?: string;
+    [key: string]: string;
+  };
 }
 ```
 
@@ -914,36 +907,36 @@ You can populate the menu with an extra entries like in the example below:
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "create": [
-            {
-                "id": "plugin1.create.folder",
-                "icon": "create_new_folder",
-                "title": "Create Folder (plugin1)",
-                "actions": {
-                    "click": "CREATE_FOLDER"
-                },
-                "rules": {
-                    "enabled": "app.navigation.folder.canCreate"
-                }
-            },
-            {
-                "id": "plugin1.create.uploadFile",
-                "icon": "file_upload",
-                "title": "Upload Files (plugin1)",
-                "actions": {
-                    "click": "UPLOAD_FILES"
-                },
-                "rules": {
-                    "enabled": "app.navigation.folder.canUpload"
-                }
-            }
-        ]
-    }
+  "features": {
+    "create": [
+      {
+        "id": "plugin1.create.folder",
+        "icon": "create_new_folder",
+        "title": "Create Folder (plugin1)",
+        "actions": {
+          "click": "CREATE_FOLDER"
+        },
+        "rules": {
+          "enabled": "app.navigation.folder.canCreate"
+        }
+      },
+      {
+        "id": "plugin1.create.uploadFile",
+        "icon": "file_upload",
+        "title": "Upload Files (plugin1)",
+        "actions": {
+          "click": "UPLOAD_FILES"
+        },
+        "rules": {
+          "enabled": "app.navigation.folder.canUpload"
+        }
+      }
+    ]
+  }
 }
 ```
 
@@ -959,71 +952,71 @@ Navigation bar consists of Link elements (`NavBarLinkRef`) organized into Groups
 
 ```ts
 export interface NavBarGroupRef {
-    id: string;
-    items: Array<NavBarLinkRef>;
+  id: string;
+  items: Array<NavBarLinkRef>;
 
-    order?: number;
-    disabled?: boolean;
+  order?: number;
+  disabled?: boolean;
 }
 
 export interface NavBarLinkRef {
-    id: string;
-    icon: string;
-    title: string;
-    route: string;
+  id: string;
+  icon: string;
+  title: string;
+  route: string;
 
-    url?: string; // evaluated at runtime based on route ref
-    description?: string;
-    order?: number;
-    disabled?: boolean;
+  url?: string; // evaluated at runtime based on route ref
+  description?: string;
+  order?: number;
+  disabled?: boolean;
 }
 ```
 
 You extensions can perform the following actions at runtime:
 
-* Register new groups with links
-* Insert new links into existing groups
-* Update properties of the existing links
-* Disable existing links or entire groups
+- Register new groups with links
+- Insert new links into existing groups
+- Update properties of the existing links
+- Disable existing links or entire groups
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "navbar": [
-            {
-                "id": "app.navbar.primary",
-                "items": [
-                    {
-                        "id": "app.navbar.personalFiles",
-                        "icon": "folder",
-                        "title": "Personal Files",
-                        "route": "personal-files"
-                    },
-                    {
-                        "id": "app.navbar.libraries",
-                        "icon": "group_work",
-                        "title": "Libraries",
-                        "route": "libraries"
-                    }
-                ]
-            },
-            {
-                "id": "app.navbar.secondary",
-                "items": [
-                    {
-                        "id": "app.navbar.shared",
-                        "icon": "people",
-                        "title": "Shared",
-                        "route": "shared"
-                    }
-                ]
-            }
+  "features": {
+    "navbar": [
+      {
+        "id": "app.navbar.primary",
+        "items": [
+          {
+            "id": "app.navbar.personalFiles",
+            "icon": "folder",
+            "title": "Personal Files",
+            "route": "personal-files"
+          },
+          {
+            "id": "app.navbar.libraries",
+            "icon": "group_work",
+            "title": "Libraries",
+            "route": "libraries"
+          }
         ]
-    }
+      },
+      {
+        "id": "app.navbar.secondary",
+        "items": [
+          {
+            "id": "app.navbar.shared",
+            "icon": "people",
+            "title": "Shared",
+            "route": "shared"
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -1031,39 +1024,39 @@ You extensions can perform the following actions at runtime:
 
 You can provide the following customisations for the Sidebar (aka Info Drawer) component:
 
-* Add extra tabs with custom components
-* Disable tabs from the main application or extensions
-* Replace content or properties of existing tabs
+- Add extra tabs with custom components
+- Disable tabs from the main application or extensions
+- Replace content or properties of existing tabs
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "sidebar": [
-            {
-                "id": "app.sidebar.properties",
-                "order": 100,
-                "title": "Properties",
-                "component": "app.components.tabs.metadata"
-            },
-            {
-                "id": "app.sidebar.comments",
-                "order": 200,
-                "title": "Comments",
-                "component": "app.components.tabs.comments"
-            }
-        ]
-    }
+  "features": {
+    "sidebar": [
+      {
+        "id": "app.sidebar.properties",
+        "order": 100,
+        "title": "Properties",
+        "component": "app.components.tabs.metadata"
+      },
+      {
+        "id": "app.sidebar.comments",
+        "order": 200,
+        "title": "Comments",
+        "component": "app.components.tabs.comments"
+      }
+    ]
+  }
 }
 ```
 
 The example above renders two tabs:
 
-* `Properties` tab that references `app.components.tabs.metadata` component
-* `Comments` tab that references `app.components.tabs.comments` component
+- `Properties` tab that references `app.components.tabs.metadata` component
+- `Comments` tab that references `app.components.tabs.comments` component
 
 All corresponding components must be registered for runtime use.
 
@@ -1074,21 +1067,21 @@ on how to register your own entries to be re-used at runtime.
 
 #### Tab properties
 
-| Name | Description |
-| --- | --- |
-| **id** | Unique identifier. |
-| **component** | The main [component](#components) to use for the route. |
-| **title** | Tab title or resource key. |
-| icon | Tab icon |
-| disabled | Toggles disabled state. Can be assigned from other plugins. |
-| order | The order of the element. |
+| Name          | Description                                                 |
+| ------------- | ----------------------------------------------------------- |
+| **id**        | Unique identifier.                                          |
+| **component** | The main [component](#components) to use for the route.     |
+| **title**     | Tab title or resource key.                                  |
+| icon          | Tab icon                                                    |
+| disabled      | Toggles disabled state. Can be assigned from other plugins. |
+| order         | The order of the element.                                   |
 
 #### Tab components
 
 Every component you assign for the tab content receives the following additional properties at runtime:
 
-| Name | Type | Description |
-| --- | --- | --- |
+| Name | Type                   | Description                 |
+| ---- | ---------------------- | --------------------------- |
 | node | MinimalNodeEntryEntity | Node entry to be displayed. |
 
 ### Toolbar
@@ -1097,48 +1090,48 @@ The toolbar extension point is represented by an array of Content Action referen
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "toolbar": [
-            {
-                "id": "app.toolbar.preview",
-                "title": "View",
-                "icon": "open_in_browser",
-                "actions": {
-                    "click": "VIEW_FILE"
-                },
-                "rules": {
-                    "visible": "app.toolbar.canViewFile"
-                }
-            },
-            {
-                "id": "app.toolbar.download",
-                "title": "Download",
-                "icon": "get_app",
-                "actions": {
-                    "click": "DOWNLOAD_NODES"
-                },
-                "rules": {
-                    "visible": "app.toolbar.canDownload"
-                }
-            }
-        ]
-    }
+  "features": {
+    "toolbar": [
+      {
+        "id": "app.toolbar.preview",
+        "title": "View",
+        "icon": "open_in_browser",
+        "actions": {
+          "click": "VIEW_FILE"
+        },
+        "rules": {
+          "visible": "app.toolbar.canViewFile"
+        }
+      },
+      {
+        "id": "app.toolbar.download",
+        "title": "Download",
+        "icon": "get_app",
+        "actions": {
+          "click": "DOWNLOAD_NODES"
+        },
+        "rules": {
+          "visible": "app.toolbar.canDownload"
+        }
+      }
+    ]
+  }
 }
 ```
 
 The content actions are applied to the toolbars for the following Views:
 
-* Personal Files
-* Libraries
-* Shared
-* Recent Files
-* Favorites
-* Trash
-* Search Results
+- Personal Files
+- Libraries
+- Shared
+- Recent Files
+- Favorites
+- Trash
+- Search Results
 
 ### Context Menu
 
@@ -1147,26 +1140,26 @@ You may want to define a list of content actions backed by Rules and wired with 
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "contextMenu": [
-            {
-                "id": "app.context.menu.download",
-                "order": 100,
-                "title": "Download",
-                "icon": "get_app",
-                "actions": {
-                    "click": "DOWNLOAD_NODES"
-                },
-                "rules": {
-                    "visible": "app.toolbar.canDownload"
-                }
-            },
-        ]
-    }
+  "features": {
+    "contextMenu": [
+      {
+        "id": "app.context.menu.download",
+        "order": 100,
+        "title": "Download",
+        "icon": "get_app",
+        "actions": {
+          "click": "DOWNLOAD_NODES"
+        },
+        "rules": {
+          "visible": "app.toolbar.canDownload"
+        }
+      }
+    ]
+  }
 }
 ```
 
@@ -1177,16 +1170,16 @@ declared in the `rules` section:
 
 ```json
 {
-    "rules": [
-        {
-            "id": "app.toolbar.canDownload",
-            "type": "core.every",
-            "parameters": [
-                { "type": "rule", "value": "app.selection.canDownload" },
-                { "type": "rule", "value": "app.navigation.isNotTrashcan" }
-            ]
-        }
-    ]
+  "rules": [
+    {
+      "id": "app.toolbar.canDownload",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.canDownload" },
+        { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+      ]
+    }
+  ]
 }
 ```
 
@@ -1194,23 +1187,23 @@ declared in the `rules` section:
 
 Viewer component in ACA supports the following extension points:
 
-* Content Viewers
-* `More` toolbar actions
-* `Open With` actions
+- Content Viewers
+- `More` toolbar actions
+- `Open With` actions
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "viewer": {
-            "content": [],
-            "toolbar:": [],
-            "openWith": []
-        }
+  "features": {
+    "viewer": {
+      "content": [],
+      "toolbar:": [],
+      "openWith": []
     }
+  }
 }
 ```
 
@@ -1220,26 +1213,26 @@ You can provide custom components that render particular type of the content bas
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "viewer": {
-            "content": [
-                {
-                    "id": "app.viewer.pdf",
-                    "fileExtension": "pdf",
-                    "component": "app.components.tabs.metadata"
-                },
-                {
-                    "id": "app.viewer.docx",
-                    "fileExtension": "docx",
-                    "component": "app.components.tabs.comments"
-                }
-            ]
+  "features": {
+    "viewer": {
+      "content": [
+        {
+          "id": "app.viewer.pdf",
+          "fileExtension": "pdf",
+          "component": "app.components.tabs.metadata"
+        },
+        {
+          "id": "app.viewer.docx",
+          "fileExtension": "docx",
+          "component": "app.components.tabs.comments"
         }
+      ]
     }
+  }
 }
 ```
 
@@ -1248,11 +1241,11 @@ and `DOCX` view with the `comments` tab.
 
 Every custom component receives the following properties at runtime:
 
-| Name | Type | Description |
-| --- | --- | --- |
-| node | MinimalNodeEntryEntity | Node entry to be displayed. |
-| url | string | File content URL. |
-| extension | string | File name extension. |
+| Name      | Type                   | Description                 |
+| --------- | ---------------------- | --------------------------- |
+| node      | MinimalNodeEntryEntity | Node entry to be displayed. |
+| url       | string                 | File content URL.           |
+| extension | string                 | File name extension.        |
 
 #### Toolbar actions
 
@@ -1261,28 +1254,28 @@ The ACA provides an extension point for this menu that you can utilise to popula
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "features": {
-        "viewer": {
-            "toolbar:": [
-                {
-                    "id": "app.viewer.share",
-                    "order": 300,
-                    "title": "Share",
-                    "icon": "share",
-                    "actions": {
-                        "click": "SHARE_NODE"
-                    },
-                    "rules": {
-                        "visible": "app.selection.file.canShare"
-                    }
-                }
-            ]
+  "features": {
+    "viewer": {
+      "toolbar:": [
+        {
+          "id": "app.viewer.share",
+          "order": 300,
+          "title": "Share",
+          "icon": "share",
+          "actions": {
+            "click": "SHARE_NODE"
+          },
+          "rules": {
+            "visible": "app.selection.file.canShare"
+          }
         }
+      ]
     }
+  }
 }
 ```
 
@@ -1295,33 +1288,33 @@ and invoke it from the custom `Open With` menu entry called `Snackbar`.
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "actions": [
-        {
-            "id": "plugin1.actions.info",
-            "type": "SNACKBAR_INFO",
-            "payload": "I'm a nice little popup raised by extension."
-        },
-    ],
-
-    "features": {
-        "viewer": {
-            "openWith": [
-                {
-                    "id": "plugin1.viewer.openWith.action1",
-                    "type": "button",
-                    "icon": "build",
-                    "title": "Snackbar",
-                    "actions": {
-                        "click": "plugin1.actions.info"
-                    }
-                }
-            ]
-        }
+  "actions": [
+    {
+      "id": "plugin1.actions.info",
+      "type": "SNACKBAR_INFO",
+      "payload": "I'm a nice little popup raised by extension."
     }
+  ],
+
+  "features": {
+    "viewer": {
+      "openWith": [
+        {
+          "id": "plugin1.viewer.openWith.action1",
+          "type": "button",
+          "icon": "build",
+          "title": "Snackbar",
+          "actions": {
+            "click": "plugin1.actions.info"
+          }
+        }
+      ]
+    }
+  }
 }
 ```
 
@@ -1393,10 +1386,10 @@ Create a function that is going to check if user has selected one or multiple no
 
 ```typescript
 export function hasSelection(
-    context: RuleContext,
-    ...args: RuleParameter[]
+  context: RuleContext,
+  ...args: RuleParameter[]
 ): boolean {
-    return !context.selection.isEmpty;
+  return !context.selection.isEmpty;
 }
 ```
 
@@ -1405,11 +1398,11 @@ that provides each evaluator access to runtime entities.
 
 ```typescript
 export interface RuleContext {
-    selection: SelectionState;
-    navigation: NavigationState;
-    permissions: NodePermissions;
+  selection: SelectionState;
+  navigation: NavigationState;
+  permissions: NodePermissions;
 
-    getEvaluator(key: string): RuleEvaluator;
+  getEvaluator(key: string): RuleEvaluator;
 }
 ```
 
@@ -1417,15 +1410,15 @@ The `SelectionState` interface exposes information about global selection state:
 
 ```typescript
 export interface SelectionState {
-    count: number;
-    nodes: MinimalNodeEntity[];
-    libraries: SiteEntry[];
-    isEmpty: boolean;
-    first?: MinimalNodeEntity;
-    last?: MinimalNodeEntity;
-    folder?: MinimalNodeEntity;
-    file?: MinimalNodeEntity;
-    library?: SiteEntry;
+  count: number;
+  nodes: MinimalNodeEntity[];
+  libraries: SiteEntry[];
+  isEmpty: boolean;
+  first?: MinimalNodeEntity;
+  last?: MinimalNodeEntity;
+  folder?: MinimalNodeEntity;
+  file?: MinimalNodeEntity;
+  library?: SiteEntry;
 }
 ```
 
@@ -1433,7 +1426,7 @@ Next, register the function you have created earlier with the `ExtensionService`
 
 ```typescript
 extensions.setEvaluators({
-    'plugin1.rules.hasSelection': hasSelection
+  'plugin1.rules.hasSelection': hasSelection
 });
 ```
 
@@ -1451,10 +1444,10 @@ on how to register your own entries to be re-used at runtime.
 
 In this tutorial, we are going to implement the following features:
 
-* update the **Trashcan** component to receive and log route parameters
-* create a new route that points to the **Trashcan** component and uses main layout
-* create an action reference that allows redirecting to the new route
-* create a button in the **New** menu that invokes an action
+- update the **Trashcan** component to receive and log route parameters
+- create a new route that points to the **Trashcan** component and uses main layout
+- create an action reference that allows redirecting to the new route
+- create a button in the **New** menu that invokes an action
 
 Update `src/app/components/trashcan/trashcan.component.ts` and append the following code to the `ngOnInit` body:
 
@@ -1487,19 +1480,19 @@ Next, add a new route definition as in the example below:
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
 
-    "routes": [
-        {
-            "id": "custom.routes.trashcan",
-            "path": "ext/trashcan/:nodeId",
-            "component": "app.components.trashcan",
-            "layout": "app.layout.main",
-            "auth": [ "app.auth" ]
-        }
-    ]
+  "routes": [
+    {
+      "id": "custom.routes.trashcan",
+      "path": "ext/trashcan/:nodeId",
+      "component": "your.component.id",
+      "layout": "app.layout.main",
+      "auth": ["app.auth"]
+    }
+  ]
 }
 ```
 
@@ -1587,9 +1580,9 @@ ng generate library my-extension
 You will get a new project in the `projects/my-extensions` folder.
 By default, the project contains at least the following content:
 
-* Example component `my-extension.component.ts`
-* Example service `my-extension.service.ts`
-* Angular Module example `my-extension.module.ts`
+- Example component `my-extension.component.ts`
+- Example service `my-extension.service.ts`
+- Angular Module example `my-extension.module.ts`
 
 Next, build the project with the following command:
 
@@ -1611,7 +1604,7 @@ Update `my-extension.module.ts` and put all the content you plan to use at runti
   exports: [MyExtensionComponent],
   entryComponents: [MyExtensionComponent]
 })
-export class MyExtensionModule { }
+export class MyExtensionModule {}
 ```
 
 Let's now register `MyExtensionComponent` as an extension component.
@@ -1639,34 +1632,34 @@ Create a new `assets/my-extension.json` file in the library project root folder 
 
 ```json
 {
-    "$schema": "../../../extension.schema.json",
-    "$version": "1.0.0",
-    "$name": "plugin1",
-    "$description": "demo plugin",
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
+  "$description": "demo plugin",
 
-    "routes": [
-        {
-            "id": "my.extension.route",
-            "path": "ext/my/route",
-            "component": "my-extension.main.component"
-        }
-    ],
-
-    "features": {
-        "navbar": [
-            {
-                "id": "my.extension.nav",
-                "items": [
-                    {
-                        "id": "my.extension.main",
-                        "icon": "extension",
-                        "title": "My Extension",
-                        "route": "my.extension.route"
-                    }
-                ]
-            }
-        ]
+  "routes": [
+    {
+      "id": "my.extension.route",
+      "path": "ext/my/route",
+      "component": "my-extension.main.component"
     }
+  ],
+
+  "features": {
+    "navbar": [
+      {
+        "id": "my.extension.nav",
+        "items": [
+          {
+            "id": "my.extension.main",
+            "icon": "extension",
+            "title": "My Extension",
+            "route": "my.extension.route"
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -1733,9 +1726,9 @@ Edit `angular.json` configuration file and add the following rule if you develop
 
 ```json
 {
-    "glob": "**/*.json",
-    "input": "dist/my-extension/assets",
-    "output": "/assets/plugins"
+  "glob": "**/*.json",
+  "input": "dist/my-extension/assets",
+  "output": "/assets/plugins"
 }
 ```
 
@@ -1743,9 +1736,9 @@ Use the following rule in case you are installing extension from NPM:
 
 ```json
 {
-    "glob": "**/*.json",
-    "input": "node_modules/my-extension/assets",
-    "output": "/assets/plugins"
+  "glob": "**/*.json",
+  "input": "node_modules/my-extension/assets",
+  "output": "/assets/plugins"
 }
 ```
 

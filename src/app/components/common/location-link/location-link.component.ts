@@ -35,9 +35,9 @@ import { PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { NavigateToParentFolder } from '../../store/actions';
-import { ContentApiService } from '../../services/content-api.service';
+import { AppStore } from '../../../store/states/app.state';
+import { NavigateToParentFolder } from '../../../store/actions';
+import { ContentApiService } from '../../../services/content-api.service';
 
 @Component({
   selector: 'aca-location-link',

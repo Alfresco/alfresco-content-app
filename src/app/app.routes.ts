@@ -25,26 +25,18 @@
 
 import { Routes } from '@angular/router';
 import { AuthGuardEcm } from '@alfresco/adf-core';
-import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
-
 import { LayoutComponent } from './components/layout/layout.component';
-
 import { FilesComponent } from './components/files/files.component';
-import { FavoritesComponent } from './components/favorites/favorites.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
-import { RecentFilesComponent } from './components/recent-files/recent-files.component';
-import { SharedFilesComponent } from './components/shared-files/shared-files.component';
-import { TrashcanComponent } from './components/trashcan/trashcan.component';
-
-import { GenericErrorComponent } from './components/generic-error/generic-error.component';
+import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
-
 import { ProfileResolver } from './services/profile.resolver';
+import { LoginComponent } from './components/login/login.component';
 
 export const APP_ROUTES: Routes = [
   {
     path: 'login',
-    loadChildren: 'src/app/components/login/login.module#AppLoginModule',
+    component: LoginComponent,
     data: {
       title: 'APP.SIGN_IN'
     }
@@ -52,17 +44,12 @@ export const APP_ROUTES: Routes = [
   {
     path: 'settings',
     loadChildren:
-      'src/app/components/settings/settings.module#AppSettingsModule',
-    data: {
-      title: 'Settings'
-    }
+      'src/app/components/settings/settings.module#AppSettingsModule'
   },
   {
     path: 'preview/s/:id',
-    component: SharedLinkViewComponent,
-    data: {
-      title: 'APP.PREVIEW.TITLE'
-    }
+    loadChildren:
+      'src/app/components/shared-link-view/shared-link-view.module#AppSharedLinkViewModule'
   },
   {
     path: '',
@@ -76,16 +63,11 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'favorites',
-        data: {
-          sortingPreferenceKey: 'favorites'
-        },
         children: [
           {
             path: '',
-            component: FavoritesComponent,
-            data: {
-              title: 'APP.BROWSE.FAVORITES.TITLE'
-            }
+            loadChildren:
+              'src/app/components/favorites/favorites.module#AppFavoritesModule'
           },
           {
             path: 'preview/:nodeId',
@@ -101,15 +83,13 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'libraries',
-        data: {
-          sortingPreferenceKey: 'libraries'
-        },
         children: [
           {
             path: '',
             component: LibrariesComponent,
             data: {
-              title: 'APP.BROWSE.LIBRARIES.TITLE'
+              title: 'APP.BROWSE.LIBRARIES.TITLE',
+              sortingPreferenceKey: 'libraries'
             }
           },
           {
@@ -183,10 +163,8 @@ export const APP_ROUTES: Routes = [
         children: [
           {
             path: '',
-            component: RecentFilesComponent,
-            data: {
-              title: 'APP.BROWSE.RECENT.TITLE'
-            }
+            loadChildren:
+              'src/app/components/recent-files/recent-files.module#AppRecentFilesModule'
           },
           {
             path: 'preview/:nodeId',
@@ -202,16 +180,11 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'shared',
-        data: {
-          sortingPreferenceKey: 'shared-files'
-        },
         children: [
           {
             path: '',
-            component: SharedFilesComponent,
-            data: {
-              title: 'APP.BROWSE.SHARED.TITLE'
-            }
+            loadChildren:
+              'src/app/components/shared-files/shared-files.module#AppSharedFilesModule'
           },
           {
             path: 'preview/:nodeId',
@@ -227,18 +200,12 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'trashcan',
-        component: TrashcanComponent,
-        data: {
-          title: 'APP.BROWSE.TRASHCAN.TITLE',
-          sortingPreferenceKey: 'trashcan'
-        }
+        loadChildren:
+          'src/app/components/trashcan/trashcan.module#AppTrashcanModule'
       },
       {
         path: 'about',
-        loadChildren: 'src/app/components/about/about.module#AboutModule',
-        data: {
-          title: 'APP.BROWSE.ABOUT.TITLE'
-        }
+        loadChildren: 'src/app/components/about/about.module#AboutModule'
       },
       {
         path: 'search',

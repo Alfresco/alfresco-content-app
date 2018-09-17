@@ -24,12 +24,41 @@
  */
 
 import { NgModule } from '@angular/core';
+import { SharedFilesComponent } from './shared-files.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { LoginComponent } from './login.component';
+import { RouterModule, Routes } from '@angular/router';
+import { ContentModule } from '@alfresco/adf-content-services';
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppCommonModule } from '../common/common.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { ContextMenuModule } from '../context-menu/context-menu.module';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: SharedFilesComponent,
+    data: {
+      title: 'APP.BROWSE.SHARED.TITLE',
+      sortingPreferenceKey: 'shared-files'
+    }
+  }
+];
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
-  declarations: [LoginComponent]
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    RouterModule.forChild(routes),
+    ContentModule.forChild(),
+    DirectivesModule,
+    AppCommonModule,
+    AppToolbarModule,
+    ContextMenuModule.forChild(),
+    AppInfoDrawerModule
+  ],
+  declarations: [SharedFilesComponent],
+  exports: [SharedFilesComponent]
 })
-export class AppLoginModule {}
+export class AppSharedFilesModule {}
