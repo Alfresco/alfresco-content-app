@@ -31,7 +31,8 @@ import {
   MatDialogModule,
   MatInputModule,
   MatSnackBarModule,
-  MatProgressBarModule
+  MatProgressBarModule,
+  MAT_DIALOG_DEFAULT_OPTIONS
 } from '@angular/material';
 
 @NgModule({
@@ -52,6 +53,12 @@ import {
     MatInputModule,
     MatSnackBarModule,
     MatProgressBarModule
+  ],
+  providers: [
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: { closeOnNavigation: true, hasBackdrop: true }
+    }
   ]
 })
 export class MaterialModule {}

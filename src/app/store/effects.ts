@@ -32,3 +32,4 @@ export * from './effects/viewer.effects';
 export * from './effects/search.effects';
 export * from './effects/library.effects';
 export * from './effects/upload.effects';
+export * from './effects/modals.effects';

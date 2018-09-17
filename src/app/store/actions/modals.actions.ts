@@ -23,13 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './actions/app.actions';
-export * from './actions/favorite.actions';
-export * from './actions/node.actions';
-export * from './actions/snackbar.actions';
-export * from './actions/router.actions';
-export * from './actions/viewer.actions';
-export * from './actions/search.actions';
-export * from './actions/library.actions';
-export * from './actions/upload.actions';
-export * from './actions/modals.actions';
+import { Action } from '@ngrx/store';
+
+export const CLOSE_MODAL_DIALOGS = 'CLOSE_MODAL_DIALOGS';
+
+export class CloseModalDialogsAction implements Action {
+  readonly type = CLOSE_MODAL_DIALOGS;
+  constructor() {}
+}

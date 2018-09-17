@@ -39,7 +39,8 @@ import {
   SetLanguagePickerAction,
   SnackbarErrorAction,
   SetCurrentUrlAction,
-  SetInitialStateAction
+  SetInitialStateAction,
+  CloseModalDialogsAction
 } from './store/actions';
 import {
   AppStore,
@@ -47,7 +48,6 @@ import {
   INITIAL_APP_STATE
 } from './store/states/app.state';
 import { filter } from 'rxjs/operators';
-import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -64,8 +64,7 @@ export class AppComponent implements OnInit {
     private alfrescoApiService: AlfrescoApiService,
     private authenticationService: AuthenticationService,
     private uploadService: UploadService,
-    private extensions: AppExtensionService,
-    private dialogRef: MatDialog
+    private extensions: AppExtensionService
   ) {}
 
   ngOnInit() {
@@ -76,9 +75,9 @@ export class AppComponent implements OnInit {
             provider: 'ECM',
             url: this.router.url
           });
-          this.router.navigate(['/login']);
 
-          this.dialogRef.closeAll();
+          this.store.dispatch(new CloseModalDialogsAction());
+          this.router.navigate(['/login']);
         }
       }
     });
