@@ -58,6 +58,7 @@ export class AppExtensionService implements RuleContext {
 
   toolbarActions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
+  viewerToolbarMoreActions: Array<ContentActionRef> = [];
   viewerContentExtensions: Array<ViewerExtensionRef> = [];
   contextMenuActions: Array<ContentActionRef> = [];
   openWithActions: Array<ContentActionRef> = [];
@@ -99,7 +100,11 @@ export class AppExtensionService implements RuleContext {
     );
     this.viewerToolbarActions = this.loader.getContentActions(
       config,
-      'features.viewer.toolbar'
+      'features.viewer.toolbarActions'
+    );
+    this.viewerToolbarMoreActions = this.loader.getContentActions(
+      config,
+      'features.viewer.toolbarMoreMenu'
     );
     this.viewerContentExtensions = this.loader.getElements<ViewerExtensionRef>(
       config,
@@ -222,6 +227,12 @@ export class AppExtensionService implements RuleContext {
 
   getViewerToolbarActions(): Array<ContentActionRef> {
     return this.viewerToolbarActions.filter(action =>
+      this.filterByRules(action)
+    );
+  }
+
+  getViewerToolbarMoreActions(): Array<ContentActionRef> {
+    return this.viewerToolbarMoreActions.filter(action =>
       this.filterByRules(action)
     );
   }

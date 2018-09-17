@@ -626,7 +626,21 @@
       }
     ],
     "viewer": {
-      "toolbar": [
+      "toolbarActions": [
+        {
+          "id": "app.viewer.share",
+          "order": 100,
+          "title": "APP.ACTIONS.SHARE",
+          "icon": "share",
+          "actions": {
+            "click": "SHARE_NODE"
+          },
+          "rules": {
+            "visible": "app.selection.file.canShare"
+          }
+        }
+      ],
+      "toolbarMoreMenu": [
         {
           "id": "app.viewer.favorite.add",
           "order": 100,
