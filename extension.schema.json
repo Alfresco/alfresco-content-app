@@ -364,7 +364,7 @@
                             "items": { "$ref": "#/definitions/contentActionRef" },
                             "minItems": 1
                         },
-                        "toolbar": {
+                        "toolbarActions": {
                             "description": "Toolbar entries from outside the More menu",
                             "type": "array",
                             "items": { "$ref": "#/definitions/contentActionRef" },

@@ -58,6 +58,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   documentDisplayMode$: Observable<string>;
   sharedPreviewUrl$: Observable<string>;
   actions: Array<ContentActionRef> = [];
+  viewerToolbarActions: Array<ContentActionRef> = [];
   viewerToolbarMoreActions: Array<ContentActionRef> = [];
   canUpdateNode = false;
   canUpload = false;
@@ -88,6 +89,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
       .subscribe(selection => {
         this.selection = selection;
         this.actions = this.extensions.getAllowedToolbarActions();
+        this.viewerToolbarActions = this.extensions.getViewerToolbarActions();
         this.viewerToolbarMoreActions = this.extensions.getViewerToolbarMoreActions();
         this.canUpdateNode =
           this.selection.count === 1 &&
