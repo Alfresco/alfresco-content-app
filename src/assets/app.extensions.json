@@ -628,8 +628,20 @@
     "viewer": {
       "toolbarActions": [
         {
-          "id": "app.viewer.share",
+          "id": "app.toolbar.download",
           "order": 100,
+          "title": "APP.ACTIONS.DOWNLOAD",
+          "icon": "get_app",
+          "actions": {
+            "click": "DOWNLOAD_NODES"
+          },
+          "rules": {
+            "visible": "app.toolbar.canDownload"
+          }
+        },
+        {
+          "id": "app.viewer.share",
+          "order": 200,
           "title": "APP.ACTIONS.SHARE",
           "icon": "share",
           "actions": {
