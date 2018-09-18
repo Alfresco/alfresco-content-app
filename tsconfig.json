@@ -9,39 +9,18 @@
     "experimentalDecorators": true,
     "noUnusedLocals": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
     "module": "es2015",
     "baseUrl": "./",
     "paths": {
-      "aca-dev-tools": [
-        "dist/aca-dev-tools"
-      ],
-      "aca-dev-tools/*": [
-        "dist/aca-dev-tools/*"
-      ],
-      "@alfresco/adf-extensions": [
-        "dist/@alfresco/adf-extensions"
-      ],
-      "@alfresco/adf-extensions/*": [
-        "dist/@alfresco/adf-extensions/*"
-      ],
-      "my-extension": [
-        "dist/my-extension"
-      ],
-      "my-extension/*": [
-        "dist/my-extension/*"
-      ]
+      "aca-dev-tools": ["dist/aca-dev-tools"],
+      "aca-dev-tools/*": ["dist/aca-dev-tools/*"],
+      "my-extension": ["dist/my-extension"],
+      "my-extension/*": ["dist/my-extension/*"]
     }
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "angularCompilerOptions": {
     "preserveWhitespaces": false
   }
