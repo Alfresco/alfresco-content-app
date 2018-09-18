@@ -640,8 +640,20 @@
           }
         },
         {
-          "id": "app.viewer.share",
+          "id": "app.viewer.print",
           "order": 200,
+          "title": "APP.ACTIONS.PRINT",
+          "icon": "print",
+          "actions": {
+            "click": "PRINT_FILE"
+          },
+          "rules": {
+            "visible": "app.toolbar.canViewFile"
+          }
+        },
+        {
+          "id": "app.viewer.share",
+          "order": 300,
           "title": "APP.ACTIONS.SHARE",
           "icon": "share",
           "actions": {

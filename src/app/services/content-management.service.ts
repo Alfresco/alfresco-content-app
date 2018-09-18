@@ -57,7 +57,7 @@ import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
 import { ContentApiService } from './content-api.service';
 import { sharedUrl } from '../store/selectors/app.selectors';
 import { NodeActionsService } from './node-actions.service';
-import { TranslationService } from '@alfresco/adf-core';
+import { TranslationService, ViewUtilService } from '@alfresco/adf-core';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { take, map, tap, mergeMap, catchError } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
@@ -90,7 +90,8 @@ export class ContentManagementService {
     private dialogRef: MatDialog,
     private nodeActionsService: NodeActionsService,
     private translation: TranslationService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private viewUtils: ViewUtilService
   ) {}
 
   addFavorite(nodes: Array<MinimalNodeEntity>) {
@@ -1049,5 +1050,17 @@ export class ContentManagementService {
     }
 
     return i18nMessageString;
+  }
+
+  printFile(node: MinimalNodeEntity) {
+    if (node && node.entry) {
+      // shared and favorite
+      const id = node.entry.nodeId || (<any>node).entry.guid || node.entry.id;
+      const mimeType = node.entry.content.mimeType;
+
+      if (id) {
+        this.viewUtils.printFileGeneric(id, mimeType);
+      }
+    }
   }
 }

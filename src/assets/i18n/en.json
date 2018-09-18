@@ -128,7 +128,8 @@
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions",
             "TOGGLE-SIDENAV": "Toggle side navigation bar",
-            "SHARE": "Share"
+            "SHARE": "Share",
+            "PRINT": "Print"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {

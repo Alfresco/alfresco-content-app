@@ -40,6 +40,7 @@ export const COPY_NODES = 'COPY_NODES';
 export const MOVE_NODES = 'MOVE_NODES';
 export const MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS';
 export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
+export const PRINT_FILE = 'PRINT_FILE';
 
 export class SetSelectedNodesAction implements Action {
   readonly type = SET_SELECTED_NODES;
@@ -108,5 +109,10 @@ export class ManagePermissionsAction implements Action {
 
 export class ManageVersionsAction implements Action {
   readonly type = MANAGE_VERSIONS;
+  constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class PrintFileAction implements Action {
+  readonly type = PRINT_FILE;
   constructor(public payload: MinimalNodeEntity) {}
 }
