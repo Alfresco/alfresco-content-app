@@ -5,7 +5,8 @@ LABEL maintainer="Denys Vuika <denys.vuika@alfresco.com>"
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY --chown=nginx:nginx ./docker-entrypoint.sh /
+#COPY --chown=nginx:nginx ./docker-entrypoint.sh /
+COPY ./docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
 
 WORKDIR /usr/share/nginx/html
