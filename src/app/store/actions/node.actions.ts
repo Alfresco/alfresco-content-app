@@ -41,6 +41,7 @@ export const MOVE_NODES = 'MOVE_NODES';
 export const MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS';
 export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
 export const PRINT_FILE = 'PRINT_FILE';
+export const FULLSCREEN_VIEWER = 'FULLSCREEN_VIEWER';
 
 export class SetSelectedNodesAction implements Action {
   readonly type = SET_SELECTED_NODES;
@@ -114,5 +115,10 @@ export class ManageVersionsAction implements Action {
 
 export class PrintFileAction implements Action {
   readonly type = PRINT_FILE;
+  constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class FullscreenViewerAction implements Action {
+  readonly type = FULLSCREEN_VIEWER;
   constructor(public payload: MinimalNodeEntity) {}
 }

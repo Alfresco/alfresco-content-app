@@ -662,6 +662,18 @@
           "rules": {
             "visible": "app.selection.file.canShare"
           }
+        },
+        {
+          "id": "app.viewer.fullscreen",
+          "order": 400,
+          "title": "APP.ACTIONS.FULLSCREEN",
+          "icon": "fullscreen",
+          "actions": {
+            "click": "FULLSCREEN_VIEWER"
+          },
+          "rules": {
+            "visible": "app.toolbar.canViewFile"
+          }
         }
       ],
       "toolbarMoreMenu": [

@@ -129,7 +129,8 @@
             "VERSIONS": "Manage Versions",
             "TOGGLE-SIDENAV": "Toggle side navigation bar",
             "SHARE": "Share",
-            "PRINT": "Print"
+            "PRINT": "Print",
+            "FULLSCREEN": "Activate full-screen mode"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {

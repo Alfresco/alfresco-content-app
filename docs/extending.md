@@ -620,6 +620,7 @@ Below is the list of public actions types you can use in the plugin definitions 
 | UPLOAD_FOLDER          | n/a                 | Invoke "Upload Folder" dialog and upload selected folder to the currently opened one.           |
 | VIEW_FILE              | MinimalNodeEntity   | Preview the file (or selection) in the Viewer.                                                  |
 | PRINT_FILE             | MinimalNodeEntity   | Print the file opened in the Viewer (or selected).                                                  |
+| FULLSCREEN_VIEWER      | n/a                 | Enters fullscreen mode to view the file opened in the Viewer.                                                  |
 
 ## Rules
 

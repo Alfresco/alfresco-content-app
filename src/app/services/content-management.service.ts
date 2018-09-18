@@ -1063,4 +1063,22 @@ export class ContentManagementService {
       }
     }
   }
+
+  /**
+   * Triggers full screen mode with a main content area displayed.
+   */
+  fullscreenViewer() {
+    const container = <any>document.documentElement.querySelector('.adf-viewer__fullscreen-container');
+    if (container) {
+      if (container.requestFullscreen) {
+        container.requestFullscreen();
+      } else if (container.webkitRequestFullscreen) {
+        container.webkitRequestFullscreen();
+      } else if (container.mozRequestFullScreen) {
+        container.mozRequestFullScreen();
+      } else if (container.msRequestFullscreen) {
+        container.msRequestFullscreen();
+      }
+    }
+  }
 }

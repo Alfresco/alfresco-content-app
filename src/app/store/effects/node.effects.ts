@@ -58,7 +58,9 @@ import {
   ManageVersionsAction,
   MANAGE_VERSIONS,
   PRINT_FILE,
-  PrintFileAction
+  PrintFileAction,
+  FULLSCREEN_VIEWER,
+  FullscreenViewerAction
 } from '../actions/node.actions';
 
 @Injectable()
@@ -304,6 +306,14 @@ export class NodeEffects {
             }
           });
       }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  fullscreenViewer$ = this.actions$.pipe(
+    ofType<FullscreenViewerAction>(FULLSCREEN_VIEWER),
+    map(() => {
+        this.contentService.fullscreenViewer();
     })
   );
 }
