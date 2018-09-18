@@ -56,7 +56,11 @@ import {
   ManagePermissionsAction,
   MANAGE_PERMISSIONS,
   ManageVersionsAction,
-  MANAGE_VERSIONS
+  MANAGE_VERSIONS,
+  PRINT_FILE,
+  PrintFileAction,
+  FULLSCREEN_VIEWER,
+  FullscreenViewerAction
 } from '../actions/node.actions';
 
 @Injectable()
@@ -283,6 +287,33 @@ export class NodeEffects {
             }
           });
       }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  printFile$ = this.actions$.pipe(
+    ofType<PrintFileAction>(PRINT_FILE),
+    map(action => {
+      if (action && action.payload) {
+        this.contentService.printFile(action.payload);
+      } else {
+        this.store
+          .select(appSelection)
+          .pipe(take(1))
+          .subscribe(selection => {
+            if (selection && selection.file) {
+              this.contentService.printFile(selection.file);
+            }
+          });
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  fullscreenViewer$ = this.actions$.pipe(
+    ofType<FullscreenViewerAction>(FULLSCREEN_VIEWER),
+    map(() => {
+      this.contentService.fullscreenViewer();
     })
   );
 }

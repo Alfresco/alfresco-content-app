@@ -628,8 +628,32 @@
     "viewer": {
       "toolbarActions": [
         {
-          "id": "app.viewer.share",
+          "id": "app.toolbar.download",
           "order": 100,
+          "title": "APP.ACTIONS.DOWNLOAD",
+          "icon": "get_app",
+          "actions": {
+            "click": "DOWNLOAD_NODES"
+          },
+          "rules": {
+            "visible": "app.toolbar.canDownload"
+          }
+        },
+        {
+          "id": "app.viewer.print",
+          "order": 200,
+          "title": "APP.ACTIONS.PRINT",
+          "icon": "print",
+          "actions": {
+            "click": "PRINT_FILE"
+          },
+          "rules": {
+            "visible": "app.toolbar.canViewFile"
+          }
+        },
+        {
+          "id": "app.viewer.share",
+          "order": 300,
           "title": "APP.ACTIONS.SHARE",
           "icon": "share",
           "actions": {
@@ -637,6 +661,18 @@
           },
           "rules": {
             "visible": "app.selection.file.canShare"
+          }
+        },
+        {
+          "id": "app.viewer.fullscreen",
+          "order": 400,
+          "title": "APP.ACTIONS.FULLSCREEN",
+          "icon": "fullscreen",
+          "actions": {
+            "click": "FULLSCREEN_VIEWER"
+          },
+          "rules": {
+            "visible": "app.toolbar.canViewFile"
           }
         }
       ],
