@@ -74,7 +74,7 @@ Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github
 ## Running end-to-end tests
 
 Run the local instance of the application packaged into the docker image together with the ACS images:
-
+## Running end-to-end testing md
 ```sh
 npm run build
 npm run start:docker
