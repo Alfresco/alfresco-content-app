@@ -24,7 +24,7 @@
  */
 
 import { Routes } from '@angular/router';
-import { AuthGuardEcm } from '@alfresco/adf-core';
+// import { AuthGuardEcm } from '@alfresco/adf-core';
 import { LayoutComponent } from './components/layout/layout.component';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
@@ -32,6 +32,7 @@ import { GenericErrorComponent } from './components/common/generic-error/generic
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { ProfileResolver } from './services/profile.resolver';
 import { LoginComponent } from './components/login/login.component';
+import { AppAuthGuard } from './guards/auth.guard';
 
 export const APP_ROUTES: Routes = [
   {
@@ -235,7 +236,7 @@ export const APP_ROUTES: Routes = [
         component: GenericErrorComponent
       }
     ],
-    canActivateChild: [AuthGuardEcm],
-    canActivate: [AuthGuardEcm]
+    canActivateChild: [AppAuthGuard],
+    canActivate: [AppAuthGuard]
   }
 ];
