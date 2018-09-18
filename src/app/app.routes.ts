@@ -24,7 +24,6 @@
  */
 
 import { Routes } from '@angular/router';
-// import { AuthGuardEcm } from '@alfresco/adf-core';
 import { LayoutComponent } from './components/layout/layout.component';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
