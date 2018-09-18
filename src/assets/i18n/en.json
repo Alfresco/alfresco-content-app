@@ -128,7 +128,9 @@
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions",
             "TOGGLE-SIDENAV": "Toggle side navigation bar",
-            "SHARE": "Share"
+            "SHARE": "Share",
+            "PRINT": "Print",
+            "FULLSCREEN": "Activate full-screen mode"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
