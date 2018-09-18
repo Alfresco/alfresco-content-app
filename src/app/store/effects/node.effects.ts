@@ -313,7 +313,7 @@ export class NodeEffects {
   fullscreenViewer$ = this.actions$.pipe(
     ofType<FullscreenViewerAction>(FULLSCREEN_VIEWER),
     map(() => {
-        this.contentService.fullscreenViewer();
+      this.contentService.fullscreenViewer();
     })
   );
 }

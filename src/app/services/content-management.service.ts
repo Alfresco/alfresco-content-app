@@ -1068,7 +1068,11 @@ export class ContentManagementService {
    * Triggers full screen mode with a main content area displayed.
    */
   fullscreenViewer() {
-    const container = <any>document.documentElement.querySelector('.adf-viewer__fullscreen-container');
+    const container = <any>(
+      document.documentElement.querySelector(
+        '.adf-viewer__fullscreen-container'
+      )
+    );
     if (container) {
       if (container.requestFullscreen) {
         container.requestFullscreen();
