@@ -51,6 +51,7 @@
     "@ngrx/store-devtools": "^6.1.0",
     "@ngstack/code-editor": "^0.4.3",
     "@ngx-translate/core": "^10.0.2",
+    "chrome-remote-interface": "^0.26.1",
     "alfresco-js-api": "2.6.0-e0035744611f12f4f0067495615fa37ce392c810",
     "core-js": "^2.5.7",
     "hammerjs": "2.0.8",
