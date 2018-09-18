@@ -40,6 +40,7 @@ export class Viewer extends Component {
         viewerExtensionContent: 'app-preview-extension'
     };
 
+    root: ElementFinder = browser.$(Viewer.selectors.root);
     viewerLayout: ElementFinder = this.component.element(by.css(Viewer.selectors.layout));
     viewerContainer: ElementFinder = this.component.element(by.css(Viewer.selectors.contentContainer));
     closeButton: ElementFinder = this.component.element(by.css(Viewer.selectors.closeBtn));

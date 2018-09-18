@@ -30,264 +30,298 @@ import { Menu } from '../menu/menu';
 import { Utils } from '../../utilities/utils';
 
 export class DataTable extends Component {
-    private static selectors = {
-        root: 'adf-datatable',
+  private static selectors = {
+    root: 'adf-datatable',
 
-        head: '.adf-datatable-header',
-        columnHeader: '.adf-datatable-row .adf-datatable-table-cell-header',
-        sortedColumnHeader: `
+    head: '.adf-datatable-header',
+    columnHeader: '.adf-datatable-row .adf-datatable-table-cell-header',
+    sortedColumnHeader: `
             .adf-data-table__header--sorted-asc,
             .adf-data-table__header--sorted-desc
         `,
 
-        body: '.adf-datatable-body',
-        row: '.adf-datatable-row[role]',
-        selectedRow: '.adf-datatable-row.is-selected',
-        cell: '.adf-data-table-cell',
-        locationLink: '.aca-location-link',
-        nameLink: '.dl-link',
+    body: '.adf-datatable-body',
+    row: '.adf-datatable-row[role]',
+    selectedRow: '.adf-datatable-row.is-selected',
+    cell: '.adf-data-table-cell',
+    locationLink: '.aca-location-link',
+    nameLink: '.dl-link',
 
-        selectedIcon: '.mat-icon',
+    selectedIcon: '.mat-icon',
 
-        emptyListContainer: 'div.adf-no-content-container',
-        emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
+    emptyListContainer: 'div.adf-no-content-container',
+    emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
 
-        emptyListTitle: '.adf-empty-content__title',
-        emptyListSubtitle: '.adf-empty-content__subtitle',
-        emptyListText: '.adf-empty-content__text'
-    };
+    emptyListTitle: '.adf-empty-content__title',
+    emptyListSubtitle: '.adf-empty-content__subtitle',
+    emptyListText: '.adf-empty-content__text'
+  };
 
-    head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
-    body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
-    cell = by.css(DataTable.selectors.cell);
-    locationLink = by.css(DataTable.selectors.locationLink);
-    nameLink: ElementFinder = browser.element(by.css(DataTable.selectors.nameLink));
-    emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
-    emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
-    emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
-    emptyListSubtitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListSubtitle));
-    emptyListText: ElementArrayFinder = this.component.all(by.css(DataTable.selectors.emptyListText));
+  head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
+  body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
+  cell = by.css(DataTable.selectors.cell);
+  locationLink = by.css(DataTable.selectors.locationLink);
+  nameLink: ElementFinder = browser.element(by.css(DataTable.selectors.nameLink));
+  emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
+  emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
+  emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
+  emptyListSubtitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListSubtitle));
+  emptyListText: ElementArrayFinder = this.component.all(by.css(DataTable.selectors.emptyListText));
 
-    menu: Menu = new Menu();
+  menu: Menu = new Menu();
 
-    constructor(ancestor?: ElementFinder) {
-        super(DataTable.selectors.root, ancestor);
-    }
+  constructor(ancestor?: ElementFinder) {
+    super(DataTable.selectors.root, ancestor);
+  }
 
-    // Wait methods (waits for elements)
-    waitForHeader() {
-        return browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT);
-    }
+  // Wait methods (waits for elements)
+  waitForHeader() {
+    return browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT);
+  }
 
-    waitForEmptyState() {
-        return browser.wait(EC.presenceOf(this.emptyList), BROWSER_WAIT_TIMEOUT);
-    }
+  waitForEmptyState() {
+    return browser.wait(EC.presenceOf(this.emptyList), BROWSER_WAIT_TIMEOUT);
+  }
 
-    // Header/Column methods
-    getColumnHeaders(): ElementArrayFinder {
-        const locator = by.css(DataTable.selectors.columnHeader);
-        return this.head.all(locator);
-    }
+  // Header/Column methods
+  getColumnHeaders(): ElementArrayFinder {
+    const locator = by.css(DataTable.selectors.columnHeader);
+    return this.head.all(locator);
+  }
 
-    getNthColumnHeader(nth: number): ElementFinder {
-        return this.getColumnHeaders().get(nth - 1);
-    }
+  getNthColumnHeader(nth: number): ElementFinder {
+    return this.getColumnHeaders().get(nth - 1);
+  }
 
-    getColumnHeaderByLabel(label: string): ElementFinder {
-        const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
-        return this.head.element(locator);
-    }
+  getColumnHeaderByLabel(label: string): ElementFinder {
+    const locator = by.cssContainingText(DataTable.selectors.columnHeader, label);
+    return this.head.element(locator);
+  }
 
-    getSortedColumnHeader(): ElementFinder {
-        const locator = by.css(DataTable.selectors.sortedColumnHeader);
-        return this.head.element(locator);
-    }
+  getSortedColumnHeader(): ElementFinder {
+    const locator = by.css(DataTable.selectors.sortedColumnHeader);
+    return this.head.element(locator);
+  }
 
-    getSortingOrder() {
-        return this.getSortedColumnHeader().getAttribute('class')
-            .then(str => {
-                if (str.includes('asc')) {
-                    return 'asc';
-                } else {
-                    if (str.includes('desc')) {
-                        return 'desc';
-                    }
-                }
-            });
-    }
+  getSortingOrder() {
+    return this.getSortedColumnHeader()
+      .getAttribute('class')
+      .then(str => {
+        if (str.includes('asc')) {
+          return 'asc';
+        } else {
+          if (str.includes('desc')) {
+            return 'desc';
+          }
+        }
+      });
+  }
 
-    sortByColumn(columnName: string): promise.Promise<void> {
-        const column = this.getColumnHeaderByLabel(columnName);
-        const click = browser.actions().mouseMove(column).click();
+  sortByColumn(columnName: string): promise.Promise<void> {
+    const column = this.getColumnHeaderByLabel(columnName);
+    const click = browser
+      .actions()
+      .mouseMove(column)
+      .click();
 
-        return click.perform();
-    }
+    return click.perform();
+  }
 
-    // Rows methods
-    getRows(): ElementArrayFinder {
-        return this.body.all(by.css(DataTable.selectors.row));
-    }
+  // Rows methods
+  getRows(): ElementArrayFinder {
+    return this.body.all(by.css(DataTable.selectors.row));
+  }
 
-    countRows(): promise.Promise<number> {
-        return this.getRows().count();
-    }
+  countRows(): promise.Promise<number> {
+    return this.getRows().count();
+  }
 
-    getSelectedRows(): ElementArrayFinder {
-        return this.body.all(by.css(DataTable.selectors.selectedRow));
-    }
+  getSelectedRows(): ElementArrayFinder {
+    return this.body.all(by.css(DataTable.selectors.selectedRow));
+  }
 
-    countSelectedRows(): promise.Promise<number> {
-        return this.getSelectedRows().count();
-    }
+  countSelectedRows(): promise.Promise<number> {
+    return this.getSelectedRows().count();
+  }
 
-    getNthRow(nth: number): ElementFinder {
-        return this.getRows().get(nth - 1);
-    }
+  getNthRow(nth: number): ElementFinder {
+    return this.getRows().get(nth - 1);
+  }
 
-    getRowByName(name: string): ElementFinder {
-        return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
-    }
+  getRowByName(name: string): ElementFinder {
+    return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
+  }
 
-    getRowFirstCell(name: string) {
-        return this.getRowByName(name).all(by.css(DataTable.selectors.cell)).get(0);
-    }
+  getRowFirstCell(name: string) {
+    return this.getRowByName(name)
+      .all(by.css(DataTable.selectors.cell))
+      .get(0);
+  }
 
-    getRowNameCell(name: string) {
-        return this.getRowByName(name).all(by.css(DataTable.selectors.cell)).get(1);
-    }
+  getRowNameCell(name: string) {
+    return this.getRowByName(name)
+      .all(by.css(DataTable.selectors.cell))
+      .get(1);
+  }
 
-    getRowNameCellText(name: string) {
-        return this.getRowNameCell(name).$('span');
-    }
+  getRowNameCellText(name: string) {
+    return this.getRowNameCell(name).$('span');
+  }
 
-    getItemNameTooltip(name: string): promise.Promise<string> {
-        return this.getRowNameCellText(name).getAttribute('title');
-    }
+  getItemNameTooltip(name: string): promise.Promise<string> {
+    return this.getRowNameCellText(name).getAttribute('title');
+  }
 
-    hasCheckMarkIcon(itemName: string) {
-        return this.getRowByName(itemName).element(by.css(DataTable.selectors.selectedIcon)).isPresent();
-    }
+  hasCheckMarkIcon(itemName: string) {
+    return this.getRowByName(itemName)
+      .element(by.css(DataTable.selectors.selectedIcon))
+      .isPresent();
+  }
 
-    getNameLink(itemName: string) {
-        return this.getRowNameCell(itemName).$(DataTable.selectors.nameLink);
-    }
+  getNameLink(itemName: string) {
+    return this.getRowNameCell(itemName).$(DataTable.selectors.nameLink);
+  }
 
-    hasLinkOnName(itemName: string) {
-        return this.getNameLink(itemName).isPresent();
-    }
+  hasLinkOnName(itemName: string) {
+    return this.getNameLink(itemName).isPresent();
+  }
 
-    // Navigation/selection methods
-    doubleClickOnRowByName(name: string): promise.Promise<any> {
-        const item = this.getRowFirstCell(name);
-        return Utils.waitUntilElementClickable(item)
-            .then(() => browser.actions().mouseMove(item).click().click().perform());
-    }
+  // Navigation/selection methods
+  doubleClickOnRowByName(name: string): promise.Promise<any> {
+    const item = this.getRowFirstCell(name);
+    return Utils.waitUntilElementClickable(item).then(() =>
+      browser
+        .actions()
+        .mouseMove(item)
+        .click()
+        .click()
+        .perform()
+    );
+  }
 
-    selectItem(name: string): promise.Promise<any> {
-        const item = this.getRowFirstCell(name);
-        return Utils.waitUntilElementClickable(item)
-                .then(() => item.click());
-    }
+  selectItem(name: string): promise.Promise<any> {
+    const item = this.getRowFirstCell(name);
+    return Utils.waitUntilElementClickable(item).then(() => item.click());
+  }
 
-    clickNameLink(itemName: string) {
-        return this.getNameLink(itemName).click();
-    }
+  clickNameLink(itemName: string) {
+    return this.getNameLink(itemName).click();
+  }
 
-    selectMultipleItems(names: string[]): promise.Promise<void> {
-        return this.clearSelection()
-            .then(() => browser.actions().sendKeys(protractor.Key.COMMAND).perform())
-            .then(() => {
-                names.forEach(name => {
-                    this.selectItem(name);
-                });
-            })
-            .then(() => browser.actions().sendKeys(protractor.Key.NULL).perform());
-    }
+  selectMultipleItems(names: string[]): promise.Promise<void> {
+    return this.clearSelection()
+      .then(() =>
+        browser
+          .actions()
+          .sendKeys(protractor.Key.COMMAND)
+          .perform()
+      )
+      .then(() => {
+        names.forEach(name => {
+          this.selectItem(name);
+        });
+      })
+      .then(() =>
+        browser
+          .actions()
+          .sendKeys(protractor.Key.NULL)
+          .perform()
+      );
+  }
 
-    clearSelection(): promise.Promise<void> {
-        return this.getSelectedRows().count()
-            .then(count => {
-                if (count !== 0) { browser.refresh().then(() => this.waitForHeader()); }
-            });
-    }
+  clearSelection(): promise.Promise<void> {
+    return this.getSelectedRows()
+      .count()
+      .then(count => {
+        if (count !== 0) {
+          browser.refresh().then(() => this.waitForHeader());
+        }
+      });
+  }
 
-    async rightClickOnItem(itemName: string) {
-        const item = this.getRowFirstCell(itemName);
-        await browser.actions().click(item, protractor.Button.RIGHT).perform();
-    }
+  async rightClickOnItem(itemName: string) {
+    const item = this.getRowFirstCell(itemName);
+    await browser
+      .actions()
+      .click(item, protractor.Button.RIGHT)
+      .perform();
+  }
 
-    async rightClickOnMultipleSelection() {
-        const itemFromSelection = this.getSelectedRows().get(0);
-        await browser.actions().click(itemFromSelection, protractor.Button.RIGHT).perform();
-    }
+  async rightClickOnMultipleSelection() {
+    const itemFromSelection = this.getSelectedRows().get(0);
+    await browser
+      .actions()
+      .click(itemFromSelection, protractor.Button.RIGHT)
+      .perform();
+  }
 
-    getItemLocation(name: string) {
-        return this.getRowByName(name).element(this.locationLink);
-    }
+  getItemLocation(name: string) {
+    return this.getRowByName(name).element(this.locationLink);
+  }
 
-    getItemLocationTooltip(name: string): promise.Promise<string> {
-        return this.getItemLocation(name).$('a').getAttribute('title');
-    }
+  getItemLocationTooltip(name: string): promise.Promise<string> {
+    return this.getItemLocation(name)
+      .$('a')
+      .getAttribute('title');
+  }
 
-    getItemLocationTileAttr(name: string) {
-        const location = this.getItemLocation(name).$('a');
-        const condition = () => location.getAttribute('title').then((value) => value && value.length > 0);
+  getItemLocationTileAttr(name: string) {
+    const location = this.getItemLocation(name).$('a');
+    const condition = () => location.getAttribute('title').then(value => value && value.length > 0);
 
-        browser.actions()
-            .mouseMove(location)
-            .perform();
+    browser
+      .actions()
+      .mouseMove(location)
+      .perform();
 
-        browser.wait(condition, BROWSER_WAIT_TIMEOUT);
-        return location.getAttribute('title');
-    }
+    browser.wait(condition, BROWSER_WAIT_TIMEOUT);
+    return location.getAttribute('title');
+  }
 
-    clickItemLocation(name: string) {
-        return this.getItemLocation(name).click();
-    }
+  clickItemLocation(name: string) {
+    return this.getItemLocation(name).click();
+  }
 
-    // empty state methods
-    isEmptyList(): promise.Promise<boolean> {
-        return this.emptyList.isPresent();
-    }
+  // empty state methods
+  isEmptyList(): promise.Promise<boolean> {
+    return this.emptyList.isPresent();
+  }
 
-    isEmptyWithDragAndDrop(): promise.Promise<boolean> {
-        return this.emptyFolderDragAndDrop.isDisplayed();
-    }
+  isEmptyWithDragAndDrop(): promise.Promise<boolean> {
+    return this.emptyFolderDragAndDrop.isDisplayed();
+  }
 
-    getEmptyDragAndDropText(): promise.Promise<string> {
-        return this.isEmptyWithDragAndDrop()
-            .then(() => {
-                return this.emptyFolderDragAndDrop.getText();
-            });
-    }
+  getEmptyDragAndDropText(): promise.Promise<string> {
+    return this.isEmptyWithDragAndDrop().then(() => {
+      return this.emptyFolderDragAndDrop.getText();
+    });
+  }
 
-    getEmptyStateTitle(): promise.Promise<string> {
-        return this.isEmptyList()
-            .then(() => {
-                return this.emptyListTitle.getText();
-            });
-    }
+  getEmptyStateTitle(): promise.Promise<string> {
+    return this.isEmptyList().then(() => {
+      return this.emptyListTitle.getText();
+    });
+  }
 
-    getEmptyStateSubtitle(): promise.Promise<string> {
-        return this.isEmptyList()
-            .then(() => {
-                return this.emptyListSubtitle.getText();
-            });
-    }
+  getEmptyStateSubtitle(): promise.Promise<string> {
+    return this.isEmptyList().then(() => {
+      return this.emptyListSubtitle.getText();
+    });
+  }
 
-    getEmptyStateText(): promise.Promise<string> {
-        return this.isEmptyList()
-            .then(() => {
-                return this.emptyListText.getText();
-            });
-    }
+  getEmptyStateText(): promise.Promise<string> {
+    return this.isEmptyList().then(() => {
+      return this.emptyListText.getText();
+    });
+  }
 
-    getCellsContainingName(name: string) {
-        return this.getRows().all(by.cssContainingText(DataTable.selectors.cell, name))
-            .map(cell => cell.getText());
-    }
+  getCellsContainingName(name: string) {
+    return this.getRows()
+      .all(by.cssContainingText(DataTable.selectors.cell, name))
+      .map(cell => cell.getText());
+  }
 
-    async hasContextMenu() {
-        return (await this.menu.getItemsCount()) > 0;
-    }
+  async hasContextMenu() {
+    return (await this.menu.getItemsCount()) > 0;
+  }
 }

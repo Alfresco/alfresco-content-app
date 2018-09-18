@@ -44,57 +44,57 @@ export const E2E_ROOT_PATH = __dirname;
 
 // Application Routes
 export const APP_ROUTES = {
-    FAVORITES: '/favorites',
-    FILE_LIBRARIES: '/libraries',
-    LOGIN: '/login',
-    LOGOUT: '/logout',
-    PERSONAL_FILES: '/personal-files',
-    RECENT_FILES: '/recent-files',
-    SHARED_FILES: '/shared',
-    TRASHCAN: '/trashcan'
+  FAVORITES: '/favorites',
+  FILE_LIBRARIES: '/libraries',
+  LOGIN: '/login',
+  LOGOUT: '/logout',
+  PERSONAL_FILES: '/personal-files',
+  RECENT_FILES: '/recent-files',
+  SHARED_FILES: '/shared',
+  TRASHCAN: '/trashcan'
 };
 
 // Sidebar labels
 export const SIDEBAR_LABELS = {
-    PERSONAL_FILES: 'Personal Files',
-    FILE_LIBRARIES: 'File Libraries',
-    SHARED_FILES: 'Shared',
-    RECENT_FILES: 'Recent Files',
-    FAVORITES: 'Favorites',
-    TRASH: 'Trash'
+  PERSONAL_FILES: 'Personal Files',
+  FILE_LIBRARIES: 'File Libraries',
+  SHARED_FILES: 'Shared',
+  RECENT_FILES: 'Recent Files',
+  FAVORITES: 'Favorites',
+  TRASH: 'Trash'
 };
 
 // Page titles
 export const PAGE_TITLES = {
-    VIEWER: 'Preview',
-    SEARCH: 'Search Results'
+  VIEWER: 'Preview',
+  SEARCH: 'Search Results'
 };
 
 // Site visibility
 export const SITE_VISIBILITY = {
-    PUBLIC: 'PUBLIC',
-    MODERATED: 'MODERATED',
-    PRIVATE: 'PRIVATE'
+  PUBLIC: 'PUBLIC',
+  MODERATED: 'MODERATED',
+  PRIVATE: 'PRIVATE'
 };
 
 // Site roles
 export const SITE_ROLES = {
-    SITE_CONSUMER: 'SiteConsumer',
-    SITE_COLLABORATOR: 'SiteCollaborator',
-    SITE_CONTRIBUTOR: 'SiteContributor',
-    SITE_MANAGER: 'SiteManager'
+  SITE_CONSUMER: 'SiteConsumer',
+  SITE_COLLABORATOR: 'SiteCollaborator',
+  SITE_CONTRIBUTOR: 'SiteContributor',
+  SITE_MANAGER: 'SiteManager'
 };
 
 export const FILES = {
-    docxFile: 'file-docx.docx',
-    xlsxFile: 'file-xlsx.xlsx',
-    pdfFile: 'file-pdf.pdf',
-    unsupportedFile: 'file_unsupported.3DS'
+  docxFile: 'file-docx.docx',
+  xlsxFile: 'file-xlsx.xlsx',
+  pdfFile: 'file-pdf.pdf',
+  unsupportedFile: 'file_unsupported.3DS'
 };
 
 export const EXTENSIBILITY_CONFIGS = {
-    DEFAULT_EXTENSIONS_CONFIG: 'extensions-default.json',
-    INFO_DRAWER: 'info-drawer-ext.json',
-    INFO_DRAWER_EMPTY: 'info-drawer-no-tabs-ext.json',
-    VIEWER: 'viewer-ext.json'
+  DEFAULT_EXTENSIONS_CONFIG: 'extensions-default.json',
+  INFO_DRAWER: 'info-drawer-ext.json',
+  INFO_DRAWER_EMPTY: 'info-drawer-no-tabs-ext.json',
+  VIEWER: 'viewer-ext.json'
 };

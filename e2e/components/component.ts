@@ -30,11 +30,11 @@ export abstract class Component {
     component: ElementFinder;
 
     constructor(selector: string, ancestor?: ElementFinder) {
-        const locator = by.css(selector);
+        const locator = selector;
 
         this.component = ancestor
-            ? ancestor.element(locator)
-            : element(locator);
+            ? ancestor.$$(locator).first()
+            : browser.$$(locator).first();
     }
 
     wait() {

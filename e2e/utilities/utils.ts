@@ -23,64 +23,102 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, promise, ElementFinder, ExpectedConditions as EC } from 'protractor';
+import { browser, protractor, promise, ElementFinder, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
-
+const path = require('path');
 const fs = require('fs');
 
 export class Utils {
-    // generate a random value
-    static random(): string {
-        return Math.random().toString(36).substring(3, 10).toLowerCase();
+  // generate a random value
+  static random(): string {
+    return Math.random()
+      .toString(36)
+      .substring(3, 10)
+      .toLowerCase();
+  }
+
+  // local storage
+  static clearLocalStorage(): promise.Promise<any> {
+    return browser.executeScript('window.localStorage.clear();');
+  }
+
+  // session storage
+  static clearSessionStorage(): promise.Promise<any> {
+    return browser.executeScript('window.sessionStorage.clear();');
+  }
+
+  static getSessionStorage() {
+    return browser.executeScript('return window.sessionStorage.getItem("aca.extension.config");');
+  }
+
+  static async setSessionStorageFromConfig(key: string, configFileName: string) {
+    const configFile = `${E2E_ROOT_PATH}/resources/extensibility-configs/${configFileName}`;
+    const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
+
+    return await browser.executeScript(`window.sessionStorage.setItem(${key}, ${fileContent});`);
+  }
+
+  static async resetExtensionConfig() {
+    const defConfig = `${E2E_ROOT_PATH}/resources/extensibility-configs/${EXTENSIBILITY_CONFIGS.DEFAULT_EXTENSIONS_CONFIG}`;
+
+    return await this.setSessionStorageFromConfig('"aca.extension.config"', defConfig);
+  }
+
+  static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
+    const pause = duration => new Promise(res => setTimeout(res, duration));
+
+    const run = retries => fn().catch(err => (retries > 1 ? pause(delay).then(() => run(retries - 1)) : Promise.reject(err)));
+
+    return run(retry);
+  }
+
+  static waitUntilElementClickable(element: ElementFinder) {
+    return browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT);
+  }
+
+  static typeInField(elem: ElementFinder, value: string) {
+    for (let i = 0; i < value.length; i++) {
+      const c = value.charAt(i);
+      elem.sendKeys(c);
+      browser.sleep(100);
     }
+  }
 
-    // local storage
-    static clearLocalStorage(): promise.Promise<any> {
-        return browser.executeScript('window.localStorage.clear();');
-    }
+  static async fileExistsOnOS(fileName: string) {
+    const filePath = path.join((await browser.getProcessedConfig()).params.downloadFolder, fileName);
 
-    // session storage
-    static clearSessionStorage(): promise.Promise<any> {
-        return browser.executeScript('window.sessionStorage.clear();');
-    }
+    let tries = 5;
 
-    static getSessionStorage() {
-        return browser.executeScript('return window.sessionStorage.getItem("aca.extension.config");');
-    }
+    return new Promise(function(resolve) {
+      const checkExist = setInterval(() => {
+        fs.stat(filePath, function(error) {
+          tries--;
 
-    static async setSessionStorageFromConfig(key: string, configFileName: string) {
-        const configFile = `${E2E_ROOT_PATH}/resources/extensibility-configs/${configFileName}`;
-        const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
+          if (error && tries === 0) {
+            clearInterval(checkExist);
+            resolve(false);
+          }
 
-        return await browser.executeScript(`window.sessionStorage.setItem(${key}, ${fileContent});`);
-    }
+          if (!error) {
+            clearInterval(checkExist);
+            resolve(true);
+          }
+        });
+      }, 500);
+    });
+  }
 
-    static async resetExtensionConfig() {
-        const defConfig = `${E2E_ROOT_PATH}/resources/extensibility-configs/${EXTENSIBILITY_CONFIGS.DEFAULT_EXTENSIONS_CONFIG}`;
+  static async pressEscape() {
+    return await browser
+      .actions()
+      .sendKeys(protractor.Key.ESCAPE)
+      .perform();
+  }
 
-        return await this.setSessionStorageFromConfig('"aca.extension.config"', defConfig);
-    }
-
-    static retryCall(fn: () => Promise <any>, retry: number = 30, delay: number = 1000): Promise<any> {
-        const pause = (duration) => new Promise(res => setTimeout(res, duration));
-
-        const run = (retries) =>
-            fn().catch(err => retries > 1
-                ? pause(delay).then(() => run(retries - 1))
-                : Promise.reject(err));
-
-        return run(retry);
-    }
-
-    static waitUntilElementClickable(element: ElementFinder) {
-        return browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT);
-    }
-
-    static typeInField(elem: ElementFinder, value: string) {
-        for ( let i = 0; i < value.length; i++ ) {
-            const c = value.charAt(i);
-            elem.sendKeys(c);
-            browser.sleep(100);
-        }
-    }
+  static async getBrowserLog() {
+    return await browser
+      .manage()
+      .logs()
+      .get('browser');
+  }
 }
