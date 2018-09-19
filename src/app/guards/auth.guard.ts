@@ -23,29 +23,34 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { AuthenticationService } from '@alfresco/adf-core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  AuthenticationService,
+  AppConfigService,
+  AuthGuardEcm
+} from '@alfresco/adf-core';
 
-@Component({
-  templateUrl: './login.component.html'
-})
-export class LoginComponent implements OnInit {
+@Injectable()
+export class AppAuthGuard extends AuthGuardEcm {
   constructor(
-    private location: Location,
-    private auth: AuthenticationService,
-    private route: ActivatedRoute
-  ) {}
+    private _auth: AuthenticationService,
+    private _router: Router,
+    config: AppConfigService
+  ) {
+    super(_auth, _router, config);
+  }
 
-  ngOnInit() {
-    if (this.auth.isEcmLoggedIn()) {
-      this.location.forward();
-    } else {
-      this.route.queryParams.subscribe((params: Params) => {
-        const redirectUrl = params['redirectUrl'];
-        this.auth.setRedirect({ provider: 'ECM', url: redirectUrl });
-      });
+  checkLogin(redirectUrl: string): boolean {
+    if (this._auth.isEcmLoggedIn()) {
+      return true;
     }
+
+    if (!this._auth.isOauth() || this.isOAuthWithoutSilentLogin()) {
+      this._auth.setRedirect({ provider: 'ECM', url: redirectUrl });
+      this._router.navigateByUrl('/login?redirectUrl=' + redirectUrl);
+    }
+
+    return false;
   }
 }
