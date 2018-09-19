@@ -48,7 +48,8 @@
     "cardview",
     "webm",
     "keycodes",
-    "denysvuika"
+    "denysvuika",
+    "fdescribe"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }
