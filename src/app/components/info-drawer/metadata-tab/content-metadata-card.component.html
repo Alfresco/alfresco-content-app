@@ -1,0 +1,34 @@
+<mat-card *ngIf="node">
+  <mat-card-content>
+    <adf-content-metadata
+      [displayDefaultProperties]="displayDefaultProperties"
+      [expanded]="expanded"
+      [node]="node"
+      [displayEmpty]="displayEmpty"
+      [editable]="editable"
+      [multi]="multi"
+      [preset]="preset">
+    </adf-content-metadata>
+  </mat-card-content>
+  <mat-card-footer class="adf-content-metadata-card-footer" fxLayout="row" fxLayoutAlign="space-between stretch">
+    <div>
+      <button *ngIf="!readOnly && hasPermission()"
+              mat-icon-button
+              (click)="toggleEdit()"
+              [attr.title]="'CORE.METADATA.ACTIONS.EDIT' | translate"
+              data-automation-id="meta-data-card-toggle-edit">
+        <mat-icon>mode_edit</mat-icon>
+      </button>
+    </div>
+    <button *ngIf="displayDefaultProperties" mat-button (click)="toggleExpanded()" data-automation-id="meta-data-card-toggle-expand">
+      <ng-container *ngIf="!expanded">
+        <span data-automation-id="meta-data-card-toggle-expand-label">{{ 'ADF_VIEWER.SIDEBAR.METADATA.MORE_INFORMATION' | translate }}</span>
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </ng-container>
+      <ng-container *ngIf="expanded">
+        <span data-automation-id="meta-data-card-toggle-expand-label">{{ 'ADF_VIEWER.SIDEBAR.METADATA.LESS_INFORMATION' | translate }}</span>
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </ng-container>
+    </button>
+  </mat-card-footer>
+</mat-card>

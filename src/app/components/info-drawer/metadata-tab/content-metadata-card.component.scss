@@ -1,0 +1,15 @@
+.app-content-metadata-card {
+
+  .mat-card {
+    padding: 0;
+
+    .mat-card-content {
+      margin-bottom: 0;
+    }
+  }
+
+  .mat-card-footer {
+    display: flex;
+    place-content: stretch space-between;
+  }
+}

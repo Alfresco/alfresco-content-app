@@ -37,13 +37,15 @@ import { CommentsTabComponent } from './comments-tab/comments-tab.component';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
 import { VersionsTabComponent } from './versions-tab/versions-tab.component';
+import { ContentMetadataCardComponent } from './metadata-tab/content-metadata-card.component';
 
 export function components() {
   return [
     InfoDrawerComponent,
     MetadataTabComponent,
     CommentsTabComponent,
-    VersionsTabComponent
+    VersionsTabComponent,
+    ContentMetadataCardComponent
   ];
 }
 
