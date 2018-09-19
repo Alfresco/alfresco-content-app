@@ -85,6 +85,12 @@ export class NodesApi extends RepoApi {
         return await this.alfrescoJsApi.core.nodesApi.getNodeChildren(nodeId);
     }
 
+    async deleteNodeChildren(parentId: string) {
+      const nodeIds = (await this.getNodeChildren(parentId)).list.entries
+        .map(entries => entries.entry.id);
+      return await this.deleteNodesById(nodeIds);
+    }
+
     async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '') {
         const nodeBody = {
             name,
