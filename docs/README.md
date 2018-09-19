@@ -27,8 +27,7 @@ This application was created based on the latest releases from Alfresco:
 You also need <a href="https://nodejs.org/en/" target="_blank">node.js</a> (LTS) installed to build it locally from source code.
 </p>
 
-The latest version of the Alfresco Content platform is required
-due to the application using the latest [REST APIs](https://docs.alfresco.com/5.2/pra/1/topics/pra-welcome.html) developments.
+**Note:** The latest version of the Alfresco Content platform is required due to the application using the latest [REST APIs](https://docs.alfresco.com/5.2/pra/1/topics/pra-welcome.html) developments.
 
 ## Features
 
@@ -71,8 +70,8 @@ Please refer to the [Application Configuration](/getting-started#application-log
 #### Search
 
 The application [Search](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/search) -
-uses the [ADF Search Component](https://github.com/Alfresco/alfresco-ng2-components/tree/master/lib/content-services/search)
-the app provides a 'live' search feature, where users can open files and folders directly from the Search API results.
+uses the [ADF Search Component](https://github.com/Alfresco/alfresco-ng2-components/tree/master/lib/content-services/search).
+The app provides a 'live' search feature, where users can open files and folders directly from the Search API results.
 
 ![Search Input](images/search.png)
 
@@ -120,10 +119,10 @@ See [Navigation](/getting-started#navigation) for more information about configu
 
 The main area of the application is composed of several individual ADF components:
 
-- (1) [Breadcrumb](https://alfresco.github.io/adf-component-catalog/components/BreadcrumbComponent.html)
-- (2) [Toolbar](https://alfresco.github.io/adf-component-catalog/components/ToolbarComponent.html)
-- (3) [Document List](https://alfresco.github.io/adf-component-catalog/components/DocumentListComponent.html)
-- (4) [Pagination](https://alfresco.github.io/adf-component-catalog/components/PaginationComponent.html)
+1. [Breadcrumb](https://alfresco.github.io/adf-component-catalog/components/BreadcrumbComponent.html)
+2. [Toolbar](https://alfresco.github.io/adf-component-catalog/components/ToolbarComponent.html)
+3. [Document List](https://alfresco.github.io/adf-component-catalog/components/DocumentListComponent.html)
+4. [Pagination](https://alfresco.github.io/adf-component-catalog/components/PaginationComponent.html)
 
 ![](images/doclist.png)
 
