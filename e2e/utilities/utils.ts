@@ -33,7 +33,7 @@ export class Utils {
   static random(): string {
     return Math.random()
       .toString(36)
-      .substring(3, 10)
+      .substring(5, 10)
       .toLowerCase();
   }
 

@@ -37,12 +37,23 @@ export class UploadApi extends RepoApi {
     async uploadFile(fileName: string, parentFolderId: string = '-my-') {
         const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
         const opts = {
-            mane: file.name,
+            name: file.name,
             nodeType: 'cm:content'
         };
 
         await this.apiAuth();
         return await this.alfrescoJsApi.upload.uploadFile(file, '', parentFolderId, null, opts);
     }
+
+    async uploadFileWithRename(fileName: string, parentFolderId: string = '-my-', newName: string) {
+      const file = fs.createReadStream(`${E2E_ROOT_PATH}/resources/test-files/${fileName}`);
+      const opts = {
+          name: newName,
+          nodeType: 'cm:content'
+      };
+
+      await this.apiAuth();
+      return await this.alfrescoJsApi.upload.uploadFile(file, '', parentFolderId, null, opts);
+  }
 
 }
