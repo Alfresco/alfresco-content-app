@@ -13,12 +13,7 @@
     "lib": ["es2017", "dom"],
     "module": "es2015",
     "baseUrl": "./",
-    "paths": {
-      "aca-dev-tools": ["dist/aca-dev-tools"],
-      "aca-dev-tools/*": ["dist/aca-dev-tools/*"],
-      "my-extension": ["dist/my-extension"],
-      "my-extension/*": ["dist/my-extension/*"]
-    }
+    "paths": {}
   },
   "exclude": ["node_modules"],
   "angularCompilerOptions": {

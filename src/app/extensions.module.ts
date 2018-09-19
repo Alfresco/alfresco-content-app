@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { AcaDevToolsModule } from 'aca-dev-tools';
+import { AcaDevToolsModule } from '@denysvuika/aca-dev-tools';
 import { CodeEditorModule } from '@ngstack/code-editor';
-import { MyExtensionModule } from 'my-extension';
 
 // Main entry point for external extensions only.
 // For any application-specific code use CoreExtensionsModule instead.
@@ -14,8 +13,7 @@ import { MyExtensionModule } from 'my-extension';
       // use local Typings Worker
       typingsWorkerUrl: 'assets/workers/typings-worker.js'
     }),
-    AcaDevToolsModule,
-    MyExtensionModule
+    AcaDevToolsModule
   ]
 })
 export class AppExtensionsModule {}
