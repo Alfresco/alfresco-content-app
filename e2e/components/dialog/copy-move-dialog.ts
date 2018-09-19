@@ -92,12 +92,10 @@ export class CopyMoveDialog extends Component {
 
   async clickCopy() {
     await this.copyButton.click();
-    await this.waitForDialogToClose();
   }
 
   async clickMove() {
     await this.moveButton.click();
-    await this.waitForDialogToClose();
   }
 
   getRow(folderName: string) {
