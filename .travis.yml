@@ -30,12 +30,11 @@ jobs:
       deploy:
         skip_cleanup: true
         provider: s3
-        access_key_id: AKIAYRB6VNHR4ECDP4GB
-        secret_access_key:
-          secure: Iega8oaijqWZ2KAwyV2qo7OI/+wXTi1zDNag4SK7uDoyogeBvsVd0yV2GNl8BLdytFUxkfsvSVF7fTcSA8QOYBqBSNVcwb+ei73HbXfrBopkIgs44RgpykeLHlfw0FYnJVh+7KJhXmojvN3IAx12ic13EXFwD0N3/AdxbLEiM9eeFj49M9USAgelN2Vs70s0ybbvaG18OSn7A/tzYyV8acWUr+pDXk6yrcea8A79zPzqfa/I+uvmrAf5jPdp8PLUDwC3J3OXRRG/W1VKocG71kA2wt994rCQ7RLhGffF4Z5f6W2KFvjTDRVPFnbIc9vFhNHglFfko7NejtNwLMuqwhCOwIURTMraSr4P/3fPkOdHn72d+jBBjYIYguhbzdezKY33AFJ/d1XiEJr/NRkWWLPK8xstBjWlBxgnEMN/DPgd6kiF9y5sYvxUW6A/ECenstN/WI9oSQDAICSZhBFI7ik5mYFeEGSCGNDghlyRP2duw/klQnndwsd89ZY6oNySNEaoVmzXDjhZhiYNhGgfde2OITQJ/jujDLCawHQovsbEf4VOHYiPu/ywhoNhy0lvO5Qn5qfsatCo1xMflAXXHCoSu3CF2gt+XJU5kw1doxiMCGaub6Z2jwZf42mVkkG9Amlfm+InbYZtTfe6EabVjJut3/zYWEQI+UQOXrYCSis=
-        bucket: aca-tests
+        access_key_id: $AWS_ACCESS_KEY_ID
+        secret_access_key: $AWS_SECRET_ACCESS_KEY
+        bucket: $AWS_BUCKET
         local-dir: e2e-output
-        region: eu-west-2
+        region: $AWS_DEFAULT_REGION
         on:
           repo: Alfresco/alfresco-content-app
           branch: development
