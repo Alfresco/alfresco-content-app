@@ -7,6 +7,8 @@ addons:
   artifacts:
     paths:
       - e2e-output
+    target_paths:
+      - /e2e/${TRAVIS_BUILD_NUMBER}
     debug: false
 language: node_js
 node_js:
