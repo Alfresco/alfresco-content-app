@@ -32,3 +32,16 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
       script: npm run build && npm run e2e:docker
+      before_deploy: 'npm run build:war'
+      deploy:
+        provider: s3
+        region: $ARTIFACTS_REGION
+        access_key_id: $ARTIFACTS_KEY
+        secret_access_key: $ARTIFACTS_SECRET
+        bucket: $ARTIFACTS_BUCKET
+        skip_cleanup: true
+        local-dir: dist/tomcat
+        upload-dir: /${TRAVIS_BUILD_NUMBER}/tomcat
+        on:
+          repo: Alfresco/alfresco-content-app
+          branch: development
