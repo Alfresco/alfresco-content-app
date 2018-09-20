@@ -5,7 +5,9 @@ services:
 addons:
   chrome: stable
   artifacts:
-    working_dir: e2e-output
+    #working_dir: e2e-output
+    paths:
+      - e2e-output
     debug: true
 language: node_js
 node_js:
