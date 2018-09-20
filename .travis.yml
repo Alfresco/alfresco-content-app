@@ -4,6 +4,9 @@ services:
   - docker
 addons:
   chrome: stable
+  artifacts: true
+    working_dir: e2e-output
+    debug: true
 language: node_js
 node_js:
   - '8'
@@ -27,14 +30,14 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
       script: npm run build && npm run e2e:docker
-      deploy:
-        skip_cleanup: true
-        provider: s3
-        access_key_id: $AWS_ACCESS_KEY_ID
-        secret_access_key: $AWS_SECRET_ACCESS_KEY
-        bucket: $AWS_BUCKET
-        local-dir: e2e-output
-        region: $AWS_DEFAULT_REGION
-        on:
-          repo: Alfresco/alfresco-content-app
-          branch: development
+      # deploy:
+      #   skip_cleanup: true
+      #   provider: s3
+      #   access_key_id: $AWS_ACCESS_KEY_ID
+      #   secret_access_key: $AWS_SECRET_ACCESS_KEY
+      #   bucket: $AWS_BUCKET
+      #   local-dir: e2e-output
+      #   region: $AWS_DEFAULT_REGION
+      #   on:
+      #     repo: Alfresco/alfresco-content-app
+      #     branch: development
