@@ -31,7 +31,7 @@ import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
 
-fdescribe('Page titles', () => {
+describe('Page titles', () => {
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
@@ -48,7 +48,6 @@ fdescribe('Page titles', () => {
             loginPage.load()
                 .then(() => {
                     expect(browser.getTitle()).toContain('Sign in');
-                    expect(true).toBe(false);
                 });
         });
 
