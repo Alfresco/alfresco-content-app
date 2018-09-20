@@ -8,8 +8,7 @@ addons:
     paths:
       - e2e-output
     target_paths:
-      - /e2e/${TRAVIS_BUILD_NUMBER}
-    debug: false
+      - /${TRAVIS_BUILD_NUMBER}
 language: node_js
 node_js:
   - '8'
