@@ -5,6 +5,7 @@ services:
 addons:
   chrome: stable
   artifacts:
+    s3_region: 'eu-west-2'
     paths:
       - e2e-output
     debug: true
