@@ -42,11 +42,13 @@ fdescribe('Page titles', () => {
 
     xit('');
 
+
     describe('on Login / Logout pages', () => {
         it('on Login page - [C217155]', () => {
             loginPage.load()
                 .then(() => {
                     expect(browser.getTitle()).toContain('Sign in');
+                    expect(true).toBe(false);
                 });
         });
 
