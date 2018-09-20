@@ -114,12 +114,16 @@ export class AppComponent implements OnInit {
     const languagePicker = this.config.get<boolean>('languagePicker');
     this.store.dispatch(new SetLanguagePickerAction(languagePicker));
 
+    const baseShareUrl =
+      this.config.get<string>('baseShareUrl') ||
+      this.config.get<string>('ecmHost');
+
     const state: AppState = {
       ...INITIAL_APP_STATE,
       appName: this.config.get<string>('application.name'),
       headerColor: this.config.get<string>('headerColor'),
       logoPath: this.config.get<string>('application.logo'),
-      sharedUrl: this.config.get<string>('ecmHost') + '/#/preview/s/'
+      sharedUrl: `${baseShareUrl}/#/preview/s/`
     };
 
     this.store.dispatch(new SetInitialStateAction(state));
