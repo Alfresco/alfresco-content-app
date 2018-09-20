@@ -1,0 +1,54 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "metadata-plugin",
+  "$description": "metadata card configuration plugin - testing purpose",
+  "routes": [
+    {
+      "id": "my.metadata.route",
+      "path": "ext/metadata/plugin",
+      "component": "dev.tools.component",
+      "data": {
+        "configPath": "assets/plugins/metadata-plugin.json",
+        "schemaUri": "../../../extension.schema.json",
+        "schemaPath": "assets/extension.schema.json"
+      }
+    }
+  ],
+  "features": {
+    "navbar": [
+      {
+        "id": "app.metadata.config",
+        "items": [
+          {
+            "id": "app.metadata.test",
+            "icon": "extension",
+            "title": "Metadata test",
+            "route": "my.metadata.route"
+          }
+        ]
+      }
+    ],
+    "content-metadata": [
+      {
+        "presets": {
+          "custom": [
+            {
+              "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
+              "items": [
+                {
+                  "aspect": "exif:exif",
+                  "properties": [
+                    "exif:pixelXDimension",
+                    "exif:pixelYDimension",
+                    "exif:dateTimeOriginal"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

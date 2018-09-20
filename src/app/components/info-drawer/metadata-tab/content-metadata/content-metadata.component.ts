@@ -36,6 +36,7 @@ import {
 import { switchMap } from 'rxjs/operators';
 import { ContentMetadataService } from '@alfresco/adf-content-services';
 import { CardViewGroup } from '@alfresco/adf-content-services/content-metadata/interfaces/card-view-group.interface';
+import { AppExtensionService } from '../../../../extensions/extension.service';
 
 @Component({
   selector: 'app-content-metadata',
@@ -78,13 +79,15 @@ export class ContentMetadataComponent implements OnChanges, OnInit, OnDestroy {
   basicProperties$: Observable<CardViewItem[]>;
   groupedProperties$: Observable<CardViewGroup[]>;
   disposableNodeUpdate: Subscription;
+  contentMetadataExtension: any;
 
   constructor(
     private contentMetadataService: ContentMetadataService,
     private cardViewUpdateService: CardViewUpdateService,
     private nodesApiService: NodesApiService,
     private logService: LogService,
-    private alfrescoApiService: AlfrescoApiService
+    private alfrescoApiService: AlfrescoApiService,
+    protected extensions: AppExtensionService
   ) {}
 
   ngOnInit() {
@@ -108,6 +111,7 @@ export class ContentMetadataComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   private loadProperties(node: MinimalNodeEntryEntity) {
+    this.contentMetadataExtension = this.extensions.contentMetadata;
     if (node) {
       this.basicProperties$ = this.contentMetadataService.getBasicProperties(
         node
@@ -116,11 +120,26 @@ export class ContentMetadataComponent implements OnChanges, OnInit, OnDestroy {
         node,
         this.preset
       );
+
+      if (this.contentMetadataExtension) {
+        this.groupedProperties$ = this.getExtendedGroupedProperties(
+          this.groupedProperties$,
+          this.contentMetadataExtension
+        );
+      }
     }
   }
 
   private saveNode({ changed: nodeBody }): Observable<MinimalNodeEntryEntity> {
     return this.nodesApiService.updateNode(this.node.id, nodeBody);
+  }
+
+  private getExtendedGroupedProperties(appConfigProps, extensionProps): any {
+    console.log(
+      extensionProps,
+      'should have code to merge the extensionProps with the appConfigProps'
+    );
+    return appConfigProps;
   }
 
   ngOnDestroy() {
