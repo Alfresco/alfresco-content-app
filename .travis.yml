@@ -41,7 +41,7 @@ jobs:
         bucket: $ARTIFACTS_BUCKET
         skip_cleanup: true
         local-dir: dist/tomcat
-        upload-dir: /${TRAVIS_BUILD_NUMBER}/tomcat
+        upload-dir: ${TRAVIS_BUILD_NUMBER}/tomcat
         on:
           repo: Alfresco/alfresco-content-app
           branch: development
