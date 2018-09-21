@@ -32,7 +32,7 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
       script: npm run build && npm run e2e:docker
-      before_deploy: 'npm run build:tomcat'
+      before_deploy: 'npm run build.tomcat'
       deploy:
         provider: s3
         region: $ARTIFACTS_REGION
