@@ -173,7 +173,7 @@
           "key": "score",
           "type": "FIELD",
           "field": "score",
-          "ascending": true
+          "ascending": false
         }
       ]
     },
