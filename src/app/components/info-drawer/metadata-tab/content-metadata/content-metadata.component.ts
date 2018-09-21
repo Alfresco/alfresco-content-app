@@ -121,7 +121,7 @@ export class ContentMetadataComponent implements OnChanges, OnInit, OnDestroy {
         node
       );
 
-      if (this.contentMetadataExtension) {
+      if (this.contentMetadataExtension.length) {
         try {
           this.appConfig.config[
             'content-metadata'
