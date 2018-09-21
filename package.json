@@ -8,7 +8,7 @@
     "start:prod": "npm run server-versions && ng serve --prod --open",
     "build": "npm run server-versions && node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build app --prod",
     "build:dev": "npm run server-versions && ng build",
-    "build:war": "mkdir -p dist/tomcat && jar -cvf dist/tomcat/alfresco-content-app.war -C dist/app/ .",
+    "build:war": "npm run build -- --base-href ./ && mkdir -p dist/tomcat && jar -cvf dist/tomcat/content-app.war -C dist/app/ .",
     "test": "ng test app --code-coverage",
     "test:ci": "ng test app --code-coverage --watch=false",
     "lint": "ng lint",
