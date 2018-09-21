@@ -31,7 +31,9 @@ import {
   NodesApiService,
   LogService,
   CardViewUpdateService,
-  AlfrescoApiService
+  AlfrescoApiService,
+  AppConfigService,
+  NotificationService
 } from '@alfresco/adf-core';
 import { switchMap } from 'rxjs/operators';
 import { ContentMetadataService } from '@alfresco/adf-content-services';
@@ -87,7 +89,9 @@ export class ContentMetadataComponent implements OnChanges, OnInit, OnDestroy {
     private nodesApiService: NodesApiService,
     private logService: LogService,
     private alfrescoApiService: AlfrescoApiService,
-    protected extensions: AppExtensionService
+    protected extensions: AppExtensionService,
+    private appConfig: AppConfigService,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -116,30 +120,29 @@ export class ContentMetadataComponent implements OnChanges, OnInit, OnDestroy {
       this.basicProperties$ = this.contentMetadataService.getBasicProperties(
         node
       );
+
+      if (this.contentMetadataExtension) {
+        try {
+          this.appConfig.config[
+            'content-metadata'
+          ] = this.contentMetadataExtension[0];
+        } catch (error) {
+          this.notificationService.openSnackMessage(
+            'Wrong metadata configuration',
+            4000
+          );
+        }
+      }
+
       this.groupedProperties$ = this.contentMetadataService.getGroupedProperties(
         node,
         this.preset
       );
-
-      if (this.contentMetadataExtension) {
-        this.groupedProperties$ = this.getExtendedGroupedProperties(
-          this.groupedProperties$,
-          this.contentMetadataExtension
-        );
-      }
     }
   }
 
   private saveNode({ changed: nodeBody }): Observable<MinimalNodeEntryEntity> {
     return this.nodesApiService.updateNode(this.node.id, nodeBody);
-  }
-
-  private getExtendedGroupedProperties(appConfigProps, extensionProps): any {
-    console.log(
-      extensionProps,
-      'should have code to merge the extensionProps with the appConfigProps'
-    );
-    return appConfigProps;
   }
 
   ngOnDestroy() {

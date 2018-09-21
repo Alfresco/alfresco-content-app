@@ -34,7 +34,7 @@
         "presets": {
           "custom": [
             {
-              "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
+              "title": "testing extension props",
               "items": [
                 {
                   "aspect": "exif:exif",
