@@ -23,14 +23,32 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './effects/app.effects';
-export * from './effects/download.effects';
-export * from './effects/favorite.effects';
-export * from './effects/node.effects';
-export * from './effects/router.effects';
-export * from './effects/snackbar.effects';
-export * from './effects/viewer.effects';
-export * from './effects/search.effects';
-export * from './effects/library.effects';
-export * from './effects/upload.effects';
-export * from './effects/modals.effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { LogoutAction, LOGOUT } from '../actions/app.actions';
+import { AuthenticationService } from '@alfresco/adf-core';
+import { Router } from '@angular/router';
+
+@Injectable()
+export class AppEffects {
+  constructor(
+    private actions$: Actions,
+    private auth: AuthenticationService,
+    private router: Router
+  ) {}
+
+  @Effect({ dispatch: false })
+  logout$ = this.actions$.pipe(
+    ofType<LogoutAction>(LOGOUT),
+    map(() => {
+      this.auth
+        .logout()
+        .subscribe(() => this.redirectToLogin(), () => this.redirectToLogin());
+    })
+  );
+
+  private redirectToLogin() {
+    this.router.navigate(['login']);
+  }
+}
