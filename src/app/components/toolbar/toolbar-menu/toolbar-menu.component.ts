@@ -36,6 +36,9 @@ export class ToolbarMenuComponent {
   @Input()
   actionRef: ContentActionRef;
 
+  @Input()
+  color = 'primary';
+
   get hasChildren(): boolean {
     return (
       this.actionRef &&
