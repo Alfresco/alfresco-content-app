@@ -59,16 +59,22 @@ export const documentDisplayMode = createSelector(
   selectApp,
   state => state.documentDisplayMode
 );
+export const repositoryStatus = createSelector(
+  selectApp,
+  state => state.repository
+);
 
 export const ruleContext = createSelector(
   appSelection,
   appNavigation,
   selectUser,
-  (selection, navigation, profile) => {
+  repositoryStatus,
+  (selection, navigation, profile, repository) => {
     return {
       selection,
       navigation,
-      profile
+      profile,
+      repository
     };
   }
 );
