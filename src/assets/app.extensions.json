@@ -14,18 +14,36 @@
           "type": "rule",
           "value": "core.some",
           "parameters": [
-            { "type": "rule", "value": "app.selection.canAddFavorite" },
-            { "type": "rule", "value": "app.selection.canRemoveFavorite" }
+            {
+              "type": "rule",
+              "value": "app.selection.canAddFavorite"
+            },
+            {
+              "type": "rule",
+              "value": "app.selection.canRemoveFavorite"
+            }
           ]
         },
         {
           "type": "rule",
           "value": "core.some",
           "parameters": [
-            { "type": "rule", "value": "app.navigation.isRecentFiles" },
-            { "type": "rule", "value": "app.navigation.isSharedFiles" },
-            { "type": "rule", "value": "app.navigation.isSearchResults" },
-            { "type": "rule", "value": "app.navigation.isFavorites" }
+            {
+              "type": "rule",
+              "value": "app.navigation.isRecentFiles"
+            },
+            {
+              "type": "rule",
+              "value": "app.navigation.isSharedFiles"
+            },
+            {
+              "type": "rule",
+              "value": "app.navigation.isSearchResults"
+            },
+            {
+              "type": "rule",
+              "value": "app.navigation.isFavorites"
+            }
           ]
         }
       ]
@@ -37,7 +55,10 @@
         { "type": "rule", "value": "app.selection.canAddFavorite" },
         { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
         { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSearchResults" },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSearchResults"
+        },
         { "type": "rule", "value": "app.navigation.isNotFavorites" }
       ]
     },
@@ -48,7 +69,10 @@
         { "type": "rule", "value": "app.selection.canRemoveFavorite" },
         { "type": "rule", "value": "app.navigation.isNotRecentFiles" },
         { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
-        { "type": "rule", "value": "app.navigation.isNotSearchResults" },
+        {
+          "type": "rule",
+          "value": "app.navigation.isNotSearchResults"
+        },
         { "type": "rule", "value": "app.navigation.isNotFavorites" }
       ]
     },
@@ -206,7 +230,10 @@
             "icon": "people",
             "title": "APP.BROWSE.SHARED.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.SHARED.SIDENAV_LINK.TOOLTIP",
-            "route": "shared"
+            "route": "shared",
+            "rules": {
+              "visible": "repository.isQuickShareEnabled"
+            }
           },
           {
             "id": "app.navbar.recentFiles",
