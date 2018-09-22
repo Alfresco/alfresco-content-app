@@ -23,28 +23,39 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { LayoutComponent } from './layout.component';
-import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { RouterModule } from '@angular/router';
-import { AppSidenavModule } from '../sidenav/sidenav.module';
-import { AppCommonModule } from '../common/common.module';
-import { AppHeaderModule } from '../header/header.module';
+import {
+  Component,
+  ViewEncapsulation,
+  Output,
+  EventEmitter
+} from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppStore } from 'src/app/store/states';
+import { Observable } from 'rxjs';
+import {
+  selectHeaderColor,
+  selectAppName,
+  selectLogoPath
+} from 'src/app/store/selectors/app.selectors';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    CoreModule.forChild(),
-    ContentModule.forChild(),
-    AppCommonModule,
-    AppSidenavModule,
-    AppHeaderModule
-  ],
-  declarations: [LayoutComponent, SidenavViewsManagerDirective],
-  exports: [LayoutComponent]
+@Component({
+  selector: 'app-header',
+  templateUrl: 'header.component.html',
+  styleUrls: ['header.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-header' }
 })
-export class AppLayoutModule {}
+export class AppHeaderComponent {
+  @Output()
+  toggleClicked = new EventEmitter();
+
+  appName$: Observable<string>;
+  headerColor$: Observable<string>;
+  logo$: Observable<string>;
+
+  constructor(protected store: Store<AppStore>) {
+    this.headerColor$ = store.select(selectHeaderColor);
+    this.appName$ = store.select(selectAppName);
+    this.logo$ = store.select(selectLogoPath);
+  }
+}

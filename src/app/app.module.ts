@@ -70,6 +70,7 @@ import { AppSearchInputModule } from './components/search/search-input.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
 import { AppAuthGuard } from './guards/auth.guard';
+import { AppHeaderModule } from './components/header/header.module';
 
 @NgModule({
   imports: [
@@ -100,7 +101,8 @@ import { AppAuthGuard } from './guards/auth.guard';
     AppCreateMenuModule,
     AppPermissionsModule,
     AppSearchInputModule,
-    AppSearchResultsModule
+    AppSearchResultsModule,
+    AppHeaderModule
   ],
   declarations: [
     AppComponent,

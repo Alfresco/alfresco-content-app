@@ -26,25 +26,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { LayoutComponent } from './layout.component';
-import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
-import { ContentModule } from '@alfresco/adf-content-services';
-import { RouterModule } from '@angular/router';
-import { AppSidenavModule } from '../sidenav/sidenav.module';
-import { AppCommonModule } from '../common/common.module';
-import { AppHeaderModule } from '../header/header.module';
+import { AppHeaderComponent } from './header.component';
+import { AppCurrentUserModule } from '../current-user/current-user.module';
+import { AppSearchInputModule } from '../search/search-input.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
     CoreModule.forChild(),
-    ContentModule.forChild(),
-    AppCommonModule,
-    AppSidenavModule,
-    AppHeaderModule
+    AppCurrentUserModule,
+    AppSearchInputModule
   ],
-  declarations: [LayoutComponent, SidenavViewsManagerDirective],
-  exports: [LayoutComponent]
+  declarations: [AppHeaderComponent],
+  exports: [AppHeaderComponent]
 })
-export class AppLayoutModule {}
+export class AppHeaderModule {}
