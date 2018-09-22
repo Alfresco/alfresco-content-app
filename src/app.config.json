@@ -108,6 +108,17 @@
     }
   },
   "search": {
+    "aca:fields": [
+      "cm:name",
+      "cm:title",
+      "cm:description",
+      "ia:whatEvent",
+      "ia:descriptionEvent",
+      "lnk:title",
+      "lnk:description",
+      "TEXT",
+      "TAG"
+    ],
     "include": ["path", "allowableOperations", "properties"],
     "sorting": {
       "options": [
