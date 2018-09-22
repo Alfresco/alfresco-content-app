@@ -38,7 +38,6 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-layout',
@@ -56,12 +55,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
   node: MinimalNodeEntryEntity;
   canUpload = false;
 
-  isSmallScreen = false;
-
   constructor(
     protected store: Store<AppStore>,
-    private permission: NodePermissionService,
-    private breakpointObserver: BreakpointObserver
+    private permission: NodePermissionService
   ) {}
 
   ngOnInit() {
@@ -79,12 +75,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
       .subscribe(node => {
         this.node = node;
         this.canUpload = node && this.permission.check(node, ['create']);
-      });
-
-    this.breakpointObserver
-      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-      .subscribe(result => {
-        this.isSmallScreen = result.matches;
       });
   }
 

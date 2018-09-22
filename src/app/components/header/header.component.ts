@@ -27,7 +27,8 @@ import {
   Component,
   ViewEncapsulation,
   Output,
-  EventEmitter
+  EventEmitter,
+  OnInit
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore } from 'src/app/store/states';
@@ -37,6 +38,7 @@ import {
   selectAppName,
   selectLogoPath
 } from 'src/app/store/selectors/app.selectors';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-header',
@@ -45,7 +47,7 @@ import {
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-header' }
 })
-export class AppHeaderComponent {
+export class AppHeaderComponent implements OnInit {
   @Output()
   toggleClicked = new EventEmitter();
 
@@ -53,9 +55,22 @@ export class AppHeaderComponent {
   headerColor$: Observable<string>;
   logo$: Observable<string>;
 
-  constructor(protected store: Store<AppStore>) {
+  isSmallScreen = false;
+
+  constructor(
+    protected store: Store<AppStore>,
+    private breakpointObserver: BreakpointObserver
+  ) {
     this.headerColor$ = store.select(selectHeaderColor);
     this.appName$ = store.select(selectAppName);
     this.logo$ = store.select(selectLogoPath);
+  }
+
+  ngOnInit() {
+    this.breakpointObserver
+      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .subscribe(result => {
+        this.isSmallScreen = result.matches;
+      });
   }
 }
