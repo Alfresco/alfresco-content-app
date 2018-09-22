@@ -108,6 +108,17 @@
     }
   },
   "search": {
+    "aca:fields": [
+      "cm:name",
+      "cm:title",
+      "cm:description",
+      "ia:whatEvent",
+      "ia:descriptionEvent",
+      "lnk:title",
+      "lnk:description",
+      "TEXT",
+      "TAG"
+    ],
     "include": ["path", "allowableOperations", "properties"],
     "sorting": {
       "options": [
@@ -178,11 +189,19 @@
       ]
     },
     "filterQueries": [
-      { "query": "TYPE:'cm:folder' OR TYPE:'cm:content'" },
-      { "query": "NOT cm:creator:System" },
+      { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content'" },
       {
-        "query": "NOT TYPE:'dl:dataList' AND NOT TYPE:'dl:todoList' AND NOT TYPE:'dl:issue' AND NOT TYPE:'fm:topic' AND NOT TYPE:'lnk:link' AND NOT TYPE:'fm:post'"
-      }
+        "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
+      },
+      { "query": "-cm:creator:System AND -QNAME:comment" },
+      {
+        "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
+      },
+      {
+        "query": "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
+      },
+      { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
+      { "query": "-TYPE:'lnk:link'" }
     ],
     "facetFields": {
       "expanded": true,

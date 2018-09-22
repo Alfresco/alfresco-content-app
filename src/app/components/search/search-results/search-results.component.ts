@@ -37,6 +37,7 @@ import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
+import { AppConfigService } from '@alfresco/adf-core';
 
 @Component({
   selector: 'aca-search-results',
@@ -62,6 +63,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   constructor(
     private queryBuilder: SearchQueryBuilderService,
     private route: ActivatedRoute,
+    private config: AppConfigService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
@@ -116,8 +118,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       return null;
     }
 
-    const suffix = userInput.lastIndexOf('*') >= 0 ? '' : '*';
-    const query = `${userInput}${suffix} OR name:${userInput}${suffix}`;
+    const fields = this.config.get<string[]>('search.aca:fields', ['cm:name']);
+    const query = fields.map(field => `${field}:"${userInput}*"`).join(' OR ');
 
     return query;
   }
