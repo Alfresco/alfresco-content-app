@@ -103,7 +103,7 @@ describe('Delete and undo delete', () => {
             done();
         });
 
-        it('delete a file and check notification - [C217125]', async () => {
+        xit('delete a file and check notification - [C217125]', async () => {
             let items = await page.dataTable.countRows();
 
             await dataTable.selectItem(file1);
