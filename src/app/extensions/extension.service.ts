@@ -26,7 +26,7 @@
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
-import { AppStore } from '../store/states';
+import { AppStore, RepositoryState } from '../store/states';
 import { ruleContext } from '../store/selectors/app.selectors';
 import { NodePermissionService } from '../services/node-permission.service';
 import { ProfileResolver } from '../services/profile.resolver';
@@ -72,6 +72,7 @@ export class AppExtensionService implements RuleContext {
   selection: SelectionState;
   navigation: NavigationState;
   profile: ProfileState;
+  repository: RepositoryState;
 
   constructor(
     private store: Store<AppStore>,
@@ -83,6 +84,7 @@ export class AppExtensionService implements RuleContext {
       this.selection = result.selection;
       this.navigation = result.navigation;
       this.profile = result.profile;
+      this.repository = result.repository;
     });
   }
 
@@ -136,16 +138,17 @@ export class AppExtensionService implements RuleContext {
   }
 
   protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {
-    const elements = this.loader.getElements<NavBarGroupRef>(
-      config,
-      'features.navbar'
-    );
+    return this.loader.getElements<NavBarGroupRef>(config, 'features.navbar');
+  }
 
+  getApplicationNavigation(elements) {
     return elements.map(group => {
       return {
         ...group,
         items: (group.items || [])
-          .filter(item => !item.disabled)
+          .filter(item => {
+            return this.filterByRules(item);
+          })
           .sort(sortByOrder)
           .map(item => {
             const routeRef = this.extensions.getRouteById(item.route);
