@@ -26,7 +26,9 @@
 import { Injectable } from '@angular/core';
 import { NodePermissions } from '@alfresco/adf-extensions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NodePermissionService implements NodePermissions {
   static DEFAULT_OPERATION = 'OR';
 

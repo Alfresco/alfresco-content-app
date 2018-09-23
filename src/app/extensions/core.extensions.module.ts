@@ -50,7 +50,7 @@ export class CoreExtensionsModule {
     return {
       ngModule: CoreExtensionsModule,
       providers: [
-        AppExtensionService,
+        // AppExtensionService,
         {
           provide: APP_INITIALIZER,
           useFactory: setupExtensions,
