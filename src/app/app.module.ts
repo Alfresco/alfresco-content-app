@@ -86,7 +86,7 @@ import { AppLoginModule } from './components/login/login.module';
     AppLayoutModule,
     AppCurrentUserModule,
     DirectivesModule,
-    ContextMenuModule.forRoot(),
+    ContextMenuModule,
     AppInfoDrawerModule,
     AppToolbarModule,
     AppSidenavModule,
