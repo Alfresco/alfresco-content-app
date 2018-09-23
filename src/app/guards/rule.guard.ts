@@ -23,43 +23,41 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Inject } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot
-} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { AppExtensionService as RuleContext } from '../extensions/extension.service';
 import { ExtensionService } from '@alfresco/adf-extensions';
+import { LogService } from '@alfresco/adf-core';
 
-export class AppGuardFactory {
-  static guards = [];
+@Injectable()
+export class AppRuleGuard implements CanActivate {
+  constructor(
+    private extensionService: ExtensionService,
+    private ruleContext: RuleContext,
+    private logService: LogService
+  ) {}
 
-  static guard(evaluator: string) {
-    class AuthGuard implements CanActivate {
-      constructor(
-        @Inject(ExtensionService) private extensionService: ExtensionService,
-        @Inject(RuleContext) private ruleContext: RuleContext
-      ) {}
-
-      canActivate(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-      ): Observable<boolean> | Promise<boolean> | boolean {
-        return this.extensionService.evaluateRule(evaluator, this.ruleContext);
-      }
-
-      canActivateChild(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-      ): Observable<boolean> | Promise<boolean> | boolean {
-        return this.canActivate(route, state);
-      }
+  canActivate(
+    route: ActivatedRouteSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    if (!route.data.guardRule) {
+      this.logService.warn(
+        'AppRuleGuard must have defined a guardRule on route data property'
+      );
+      return false;
     }
 
-    this.guards.push(AuthGuard);
+    return this.extensionService.evaluateRule(
+      route.data.guardRule,
+      this.ruleContext
+    );
+  }
 
-    return AuthGuard;
+  canActivateChild(
+    route: ActivatedRouteSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return this.canActivate(route);
   }
 }
