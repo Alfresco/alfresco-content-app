@@ -43,14 +43,14 @@ export function setupExtensions(service: AppExtensionService): Function {
 }
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule.forChild()]
+  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
 })
 export class CoreExtensionsModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreExtensionsModule,
       providers: [
-        AppExtensionService,
+        // AppExtensionService,
         {
           provide: APP_INITIALIZER,
           useFactory: setupExtensions,

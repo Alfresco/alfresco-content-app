@@ -55,7 +55,7 @@ const routes: Routes = [
     DirectivesModule,
     AppCommonModule,
     AppToolbarModule,
-    ContextMenuModule.forChild(),
+    ContextMenuModule,
     AppInfoDrawerModule
   ],
   declarations: [FavoritesComponent],

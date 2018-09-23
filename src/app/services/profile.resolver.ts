@@ -32,7 +32,9 @@ import { AppStore } from '../store/states/app.state';
 import { SetUserProfileAction } from '../store/actions';
 import { ContentApiService } from './content-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ProfileResolver implements Resolve<Person> {
   constructor(
     private store: Store<AppStore>,

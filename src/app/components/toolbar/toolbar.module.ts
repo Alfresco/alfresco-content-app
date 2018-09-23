@@ -48,7 +48,7 @@ export function components() {
 }
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule.forChild()],
+  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule],
   declarations: components(),
   exports: components(),
   entryComponents: components()

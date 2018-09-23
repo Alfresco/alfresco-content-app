@@ -49,7 +49,9 @@ import {
   ProfileState
 } from '@alfresco/adf-extensions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AppExtensionService implements RuleContext {
   defaults = {
     layout: 'app.layout.main',

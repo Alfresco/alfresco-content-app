@@ -46,7 +46,9 @@ import {
 import { ContentApiService } from '../services/content-api.service';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NodeActionsService {
   static SNACK_MESSAGE_DURATION_WITH_UNDO = 10000;
   static SNACK_MESSAGE_DURATION = 3000;
