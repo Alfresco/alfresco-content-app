@@ -70,8 +70,6 @@ import { AppCurrentUserModule } from './components/current-user/current-user.mod
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
-import { AppAuthGuard } from './guards/auth.guard';
-import { AppRuleGuard } from './guards/rule.guard';
 
 @NgModule({
   imports: [
@@ -122,8 +120,6 @@ import { AppRuleGuard } from './guards/rule.guard';
         source: 'assets'
       }
     },
-    AppRuleGuard,
-    AppAuthGuard,
     ContentManagementService,
     NodeActionsService,
     NodePermissionService,

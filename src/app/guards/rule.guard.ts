@@ -31,7 +31,9 @@ import { AppExtensionService as RuleContext } from '../extensions/extension.serv
 import { ExtensionService } from '@alfresco/adf-extensions';
 import { LogService } from '@alfresco/adf-core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AppRuleGuard implements CanActivate {
   constructor(
     private extensionService: ExtensionService,
