@@ -31,7 +31,7 @@ import {
   SET_USER_PROFILE,
   SetUserProfileAction,
   SET_REPOSITORY_STATUS,
-  SetRepositoryStatus,
+  SetRepositoryStatusAction,
   SET_LANGUAGE_PICKER,
   SetLanguagePickerAction,
   SET_CURRENT_FOLDER,
@@ -82,7 +82,9 @@ export function appReducer(
       ));
       break;
     case SET_REPOSITORY_STATUS:
-      newState = updateRepositoryStatus(state, <SetRepositoryStatus>action);
+      newState = updateRepositoryStatus(state, <SetRepositoryStatusAction>(
+        action
+      ));
       break;
     default:
       newState = Object.assign({}, state);
@@ -213,7 +215,10 @@ function updateSelectedNodes(
   return newState;
 }
 
-function updateRepositoryStatus(state: AppState, action: SetRepositoryStatus) {
+function updateRepositoryStatus(
+  state: AppState,
+  action: SetRepositoryStatusAction
+) {
   const newState = Object.assign({}, state);
   newState.repository = action.payload;
   return newState;

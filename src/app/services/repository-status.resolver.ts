@@ -30,7 +30,7 @@ import { DiscoveryEntry } from 'alfresco-js-api';
 import { Observable } from 'rxjs';
 import { AppStore } from '../store/states/app.state';
 import { RepositoryState } from '../store/states';
-import { SetRepositoryStatus } from '../store/actions';
+import { SetRepositoryStatusAction } from '../store/actions';
 import { ContentApiService } from './content-api.service';
 
 @Injectable()
@@ -47,7 +47,7 @@ export class RepositoryStatusResolver implements Resolve<RepositoryState> {
         (response: DiscoveryEntry) => {
           const { status } = response.entry.repository;
 
-          this.store.dispatch(new SetRepositoryStatus(status));
+          this.store.dispatch(new SetRepositoryStatusAction(status));
           observer.next(status);
           observer.complete();
         },
