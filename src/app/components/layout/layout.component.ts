@@ -30,20 +30,14 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { NodePermissionService } from '../../services/node-permission.service';
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import {
-  currentFolder,
-  selectAppName,
-  selectHeaderColor,
-  selectLogoPath
-} from '../../store/selectors/app.selectors';
+import { currentFolder } from '../../store/selectors/app.selectors';
 import { takeUntil } from 'rxjs/operators';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-layout',
@@ -61,21 +55,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
   node: MinimalNodeEntryEntity;
   canUpload = false;
 
-  appName$: Observable<string>;
-  headerColor$: Observable<string>;
-  logo$: Observable<string>;
-
-  isSmallScreen = false;
-
   constructor(
     protected store: Store<AppStore>,
-    private permission: NodePermissionService,
-    private breakpointObserver: BreakpointObserver
-  ) {
-    this.headerColor$ = store.select(selectHeaderColor);
-    this.appName$ = store.select(selectAppName);
-    this.logo$ = store.select(selectLogoPath);
-  }
+    private permission: NodePermissionService
+  ) {}
 
   ngOnInit() {
     if (!this.manager.minimizeSidenav) {
@@ -92,12 +75,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
       .subscribe(node => {
         this.node = node;
         this.canUpload = node && this.permission.check(node, ['create']);
-      });
-
-    this.breakpointObserver
-      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-      .subscribe(result => {
-        this.isSmallScreen = result.matches;
       });
   }
 

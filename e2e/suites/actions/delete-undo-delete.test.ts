@@ -414,7 +414,7 @@ describe('Delete and undo delete', () => {
             await apis.user.trashcan.restore(favoriteFile1Id);
         });
 
-        it('delete multiple files and check notification - [C280517]', async () => {
+        xit('delete multiple files and check notification - [C280517]', async () => {
             let items = await page.dataTable.countRows();
 
             await dataTable.selectMultipleItems([favoriteFile1, favoriteFile2]);

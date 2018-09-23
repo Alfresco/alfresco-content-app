@@ -1,0 +1,59 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$name": "app",
+  "$version": "1.0.0",
+
+  "actions": [
+    {
+      "id": "app.actions.about",
+      "type": "NAVIGATE_URL",
+      "payload": "/about"
+    },
+    {
+      "id": "app.actions.settings",
+      "type": "NAVIGATE_URL",
+      "payload": "/settings"
+    }
+  ],
+
+  "features": {
+    "header": [
+      {
+        "id": "app.header.more",
+        "type": "menu",
+        "order": 10000,
+        "icon": "more_vert",
+        "title": "APP.ACTIONS.MORE",
+        "children": [
+          {
+            "id": "app.header.settings",
+            "title": "APP.SETTINGS.TITLE",
+            "description": "APP.SETTINGS.TITLE",
+            "icon": "settings",
+            "actions": {
+              "click": "app.actions.settings"
+            }
+          },
+          {
+            "id": "app.header.about",
+            "title": "APP.BROWSE.ABOUT.TITLE",
+            "description": "APP.BROWSE.ABOUT.TITLE",
+            "icon": "info",
+            "actions": {
+              "click": "app.actions.about"
+            }
+          },
+          {
+            "id": "app.header.logout",
+            "title": "APP.SIGN_OUT",
+            "description": "APP.SIGN_OUT",
+            "icon": "exit_to_app",
+            "actions": {
+              "click": "LOGOUT"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

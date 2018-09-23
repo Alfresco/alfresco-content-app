@@ -3,7 +3,7 @@
         <button
             [id]="actionRef.id"
             mat-icon-button
-            color="primary"
+            [color]="color"
             [attr.title]="(actionRef.description || actionRef.title) | translate"
             (click)="runAction()">
             <mat-icon>{{ actionRef.icon }}</mat-icon>

@@ -13,18 +13,6 @@
         {{ 'APP.LANGUAGE' | translate }}
     </button>
 
-    <button *ngIf="(profile$ | async)?.isAdmin"
-        mat-menu-item
-        routerLink="/about">
-        {{ 'APP.BROWSE.ABOUT.TITLE' | translate }}
-    </button>
-
-    <button *ngIf="(profile$ | async)?.isAdmin"
-        mat-menu-item
-        routerLink="/settings">
-        {{ 'APP.SETTINGS.TITLE' | translate }}
-    </button>
-
     <button mat-menu-item (click)="onLogoutEvent()" adf-logout>
         {{ 'APP.SIGN_OUT' | translate }}
     </button>

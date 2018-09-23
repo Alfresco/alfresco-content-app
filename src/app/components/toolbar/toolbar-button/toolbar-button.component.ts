@@ -43,6 +43,9 @@ export class ToolbarButtonComponent {
   type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
 
   @Input()
+  color = 'primary';
+
+  @Input()
   actionRef: ContentActionRef;
 
   constructor(private extensions: AppExtensionService) {}

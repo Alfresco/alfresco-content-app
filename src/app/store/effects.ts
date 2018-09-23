@@ -23,6 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+export * from './effects/app.effects';
 export * from './effects/download.effects';
 export * from './effects/favorite.effects';
 export * from './effects/node.effects';

@@ -32,6 +32,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { environment } from '../../environments/environment';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {
+  AppEffects,
   SnackbarEffects,
   NodeEffects,
   RouterEffects,
@@ -49,6 +50,7 @@ import {
     StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     EffectsModule.forRoot([
+      AppEffects,
       SnackbarEffects,
       NodeEffects,
       RouterEffects,

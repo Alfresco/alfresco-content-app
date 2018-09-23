@@ -32,8 +32,7 @@ import { ContentModule } from '@alfresco/adf-content-services';
 import { RouterModule } from '@angular/router';
 import { AppSidenavModule } from '../sidenav/sidenav.module';
 import { AppCommonModule } from '../common/common.module';
-import { AppCurrentUserModule } from '../current-user/current-user.module';
-import { AppSearchInputModule } from '../search/search-input.module';
+import { AppHeaderModule } from '../header/header.module';
 
 @NgModule({
   imports: [
@@ -43,8 +42,7 @@ import { AppSearchInputModule } from '../search/search-input.module';
     ContentModule.forChild(),
     AppCommonModule,
     AppSidenavModule,
-    AppCurrentUserModule,
-    AppSearchInputModule
+    AppHeaderModule
   ],
   declarations: [LayoutComponent, SidenavViewsManagerDirective],
   exports: [LayoutComponent]

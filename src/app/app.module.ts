@@ -63,6 +63,7 @@ import { AppCurrentUserModule } from './components/current-user/current-user.mod
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
+import { AppHeaderModule } from './components/header/header.module';
 
 @NgModule({
   imports: [
@@ -93,7 +94,8 @@ import { AppLoginModule } from './components/login/login.module';
     AppCreateMenuModule,
     AppPermissionsModule,
     AppSearchInputModule,
-    AppSearchResultsModule
+    AppSearchResultsModule,
+    AppHeaderModule
   ],
   declarations: [
     AppComponent,

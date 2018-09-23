@@ -1,0 +1,25 @@
+<adf-layout-header
+  [logo]="logo$ | async"
+  [redirectUrl]="'/personal-files'"
+  [tooltip]="appName$ | async"
+  [color]="headerColor$ | async"
+  [title]="appName$ | async"
+  (clicked)="toggleClicked.emit($event)">
+
+  <div class="adf-toolbar--spacer"></div>
+
+  <ng-container *ngIf="!isSmallScreen">
+    <aca-search-input></aca-search-input>
+    <adf-toolbar-divider></adf-toolbar-divider>
+  </ng-container>
+
+  <aca-current-user></aca-current-user>
+
+  <ng-container *ngFor="let actionRef of actions; trackBy: trackByActionId">
+    <aca-toolbar-action
+      [actionRef]="actionRef"
+      color="default">
+    </aca-toolbar-action>
+  </ng-container>
+
+</adf-layout-header>

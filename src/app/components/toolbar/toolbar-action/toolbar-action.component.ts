@@ -43,5 +43,8 @@ export class ToolbarActionComponent {
   type = 'icon-button';
 
   @Input()
+  color = 'primary';
+
+  @Input()
   actionRef: ContentActionRef;
 }
