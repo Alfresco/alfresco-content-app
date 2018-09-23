@@ -120,7 +120,7 @@ describe('Delete and undo delete', () => {
             await apis.user.trashcan.restore(file1Id);
         });
 
-        it('delete multiple files and check notification - [C280502]', async () => {
+        xit('delete multiple files and check notification - [C280502]', async () => {
             let items = await page.dataTable.countRows();
 
             await dataTable.selectMultipleItems([file1, file2]);
@@ -228,7 +228,7 @@ describe('Delete and undo delete', () => {
             expect(dataTable.getRowByName(file3).isPresent()).toBe(true, 'file from folder not restored');
         });
 
-        it('undo delete of multiple files - [C280504]', async () => {
+        xit('undo delete of multiple files - [C280504]', async () => {
             const items = await page.dataTable.countRows();
 
             await dataTable.selectMultipleItems([file1, file2]);
@@ -279,7 +279,7 @@ describe('Delete and undo delete', () => {
             done();
         });
 
-        it('delete a file and check notification - [C280316]', async () => {
+        xit('delete a file and check notification - [C280316]', async () => {
             await dataTable.selectItem(sharedFile1);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Delete');
@@ -294,7 +294,7 @@ describe('Delete and undo delete', () => {
             await apis.user.shared.waitForApi({ expect: 4 });
         });
 
-        it('delete multiple files and check notification - [C280513]', async () => {
+        xit('delete multiple files and check notification - [C280513]', async () => {
             await dataTable.selectMultipleItems([sharedFile2, sharedFile3]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Delete');
@@ -312,7 +312,7 @@ describe('Delete and undo delete', () => {
             await apis.user.shared.waitForApi({ expect: 4 });
         });
 
-        it('successful delete notification shows Undo action - [C280323]', async () => {
+        xit('successful delete notification shows Undo action - [C280323]', async () => {
             await dataTable.selectItem(sharedFile1);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Delete');
@@ -397,7 +397,7 @@ describe('Delete and undo delete', () => {
             done();
         });
 
-        it('delete a file and check notification - [C280516]', async () => {
+        xit('delete a file and check notification - [C280516]', async () => {
             let items = await page.dataTable.countRows();
 
             await dataTable.selectItem(favoriteFile1);
