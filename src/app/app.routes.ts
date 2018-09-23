@@ -33,7 +33,7 @@ import { ProfileResolver } from './services/profile.resolver';
 import { RepositoryStatusResolver } from './services/repository-status.resolver';
 import { LoginComponent } from './components/login/login.component';
 import { AppAuthGuard } from './guards/auth.guard';
-import { AppGuardFactory } from './guards/guard.factory';
+import { AppRuleGuard } from './guards/rule.guard';
 
 export const APP_ROUTES: Routes = [
   {
@@ -202,10 +202,11 @@ export const APP_ROUTES: Routes = [
             }
           }
         ],
-        canActivate: [AppGuardFactory.guard('repository.isQuickShareEnabled')],
-        canActivateChild: [
-          AppGuardFactory.guard('repository.isQuickShareEnabled')
-        ]
+        data: {
+          guardRule: 'repository.isQuickShareEnabled'
+        },
+        canActivate: [AppRuleGuard],
+        canActivateChild: [AppRuleGuard]
       },
       {
         path: 'trashcan',
