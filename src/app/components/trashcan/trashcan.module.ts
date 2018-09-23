@@ -54,7 +54,7 @@ const routes: Routes = [
     DirectivesModule,
     AppCommonModule,
     AppToolbarModule,
-    ContextMenuModule.forChild()
+    ContextMenuModule
   ],
   declarations: [TrashcanComponent],
   exports: [TrashcanComponent]

@@ -43,7 +43,9 @@ import {
   FavoriteBody
 } from 'alfresco-js-api';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ContentApiService {
   constructor(
     private api: AlfrescoApiService,

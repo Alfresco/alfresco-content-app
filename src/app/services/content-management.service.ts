@@ -68,7 +68,9 @@ interface RestoredNode {
   statusCode?: number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ContentManagementService {
   nodesMoved = new Subject<any>();
   nodesDeleted = new Subject<any>();
