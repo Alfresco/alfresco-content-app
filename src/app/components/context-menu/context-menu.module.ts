@@ -47,7 +47,7 @@ import { OutsideEventDirective } from './context-menu-outside-event.directive';
     MatButtonModule,
     CoreExtensionsModule.forChild(),
     CoreModule.forChild(),
-    ExtensionsModule.forChild()
+    ExtensionsModule
   ],
   declarations: [
     ContextActionsDirective,

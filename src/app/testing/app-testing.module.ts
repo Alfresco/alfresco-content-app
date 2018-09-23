@@ -55,10 +55,6 @@ import {
   DocumentListService
 } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../material.module';
-import {
-  ExtensionLoaderService,
-  ExtensionService
-} from '@alfresco/adf-extensions';
 
 @NgModule({
   imports: [
@@ -98,10 +94,7 @@ import {
     ThumbnailService,
     UploadService,
     CustomResourcesService,
-    DocumentListService,
-
-    ExtensionService,
-    ExtensionLoaderService
+    DocumentListService
   ]
 })
 export class AppTestingModule {}

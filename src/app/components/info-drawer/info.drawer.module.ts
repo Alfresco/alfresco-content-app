@@ -52,7 +52,7 @@ export function components() {
     CommonModule,
     MaterialModule,
     CoreModule.forChild(),
-    ExtensionsModule.forChild(),
+    ExtensionsModule,
     ContentMetadataModule,
     VersionManagerModule,
     DirectivesModule

@@ -79,7 +79,7 @@ import { AppLoginModule } from './components/login/login.module';
     ContentModule.forRoot(),
     AppStoreModule,
     CoreExtensionsModule.forRoot(),
-    ExtensionsModule.forRoot(),
+    ExtensionsModule,
     AppExtensionsModule,
     AppLoginModule,
     AppCommonModule,
