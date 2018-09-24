@@ -33,7 +33,9 @@ import { RepositoryState } from '../store/states';
 import { SetRepositoryStatusAction } from '../store/actions';
 import { ContentApiService } from './content-api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RepositoryStatusResolver implements Resolve<RepositoryState> {
   constructor(
     private store: Store<AppStore>,

@@ -43,16 +43,9 @@ import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { LibraryDialogComponent } from './dialogs/library/library.dialog';
-import { ContentManagementService } from './services/content-management.service';
-import { NodeActionsService } from './services/node-actions.service';
-import { NodePermissionService } from './services/node-permission.service';
-import { ProfileResolver } from './services/profile.resolver';
-import { RepositoryStatusResolver } from './services/repository-status.resolver';
-import { ExperimentalGuard } from './services/experimental-guard.service';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
-import { ContentApiService } from './services/content-api.service';
 import { AppExtensionsModule } from './extensions.module';
 import { CoreExtensionsModule } from './extensions/core.extensions.module';
 import { AppRouteReuseStrategy } from './app.routes.strategy';
@@ -70,6 +63,7 @@ import { AppCurrentUserModule } from './components/current-user/current-user.mod
 import { AppSearchInputModule } from './components/search/search-input.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
+import { AppHeaderModule } from './components/header/header.module';
 
 @NgModule({
   imports: [
@@ -86,21 +80,22 @@ import { AppLoginModule } from './components/login/login.module';
     ContentModule.forRoot(),
     AppStoreModule,
     CoreExtensionsModule.forRoot(),
-    ExtensionsModule.forRoot(),
+    ExtensionsModule,
     AppExtensionsModule,
     AppLoginModule,
     AppCommonModule,
     AppLayoutModule,
     AppCurrentUserModule,
     DirectivesModule,
-    ContextMenuModule.forRoot(),
+    ContextMenuModule,
     AppInfoDrawerModule,
     AppToolbarModule,
     AppSidenavModule,
     AppCreateMenuModule,
     AppPermissionsModule,
     AppSearchInputModule,
-    AppSearchResultsModule
+    AppSearchResultsModule,
+    AppHeaderModule
   ],
   declarations: [
     AppComponent,
@@ -119,14 +114,7 @@ import { AppLoginModule } from './components/login/login.module';
         name: 'app',
         source: 'assets'
       }
-    },
-    ContentManagementService,
-    NodeActionsService,
-    NodePermissionService,
-    ProfileResolver,
-    RepositoryStatusResolver,
-    ExperimentalGuard,
-    ContentApiService
+    }
   ],
   entryComponents: [LibraryDialogComponent, NodeVersionsDialogComponent],
   bootstrap: [AppComponent]
