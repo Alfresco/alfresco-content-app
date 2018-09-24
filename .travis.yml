@@ -30,8 +30,6 @@ jobs:
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
-    - stage: e2e
-      script: npm run build && npm run e2e:docker
       before_deploy: 'npm run build.tomcat'
       deploy:
         provider: s3
@@ -45,3 +43,5 @@ jobs:
         on:
           repo: Alfresco/alfresco-content-app
           branch: development
+    - stage: e2e
+      script: npm run build && npm run e2e:docker
