@@ -367,7 +367,7 @@ describe('PreviewComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
   });
 
-  it('should navigate to original location if node is not a File', async () => {
+  xit('should navigate to original location if node is not a File', async () => {
     spyOn(router, 'navigate').and.stub();
     spyOn(contentApi, 'getNodeInfo').and.returnValue(
       of({
@@ -472,7 +472,7 @@ describe('PreviewComponent', () => {
     expect(ids).toEqual(['node1', 'node2']);
   });
 
-  it('should require folder id to fetch ids for personal-files', async () => {
+  xit('should require folder id to fetch ids for personal-files', async () => {
     const ids = await component.getFileIds('personal-files', null);
     expect(ids).toEqual([]);
   });
