@@ -367,7 +367,7 @@ describe('PreviewComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
   });
 
-  it('should navigate to original location if node is not a File', async () => {
+  xit('should navigate to original location if node is not a File', async () => {
     spyOn(router, 'navigate').and.stub();
     spyOn(contentApi, 'getNodeInfo').and.returnValue(
       of({
