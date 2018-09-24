@@ -472,7 +472,7 @@ describe('PreviewComponent', () => {
     expect(ids).toEqual(['node1', 'node2']);
   });
 
-  it('should require folder id to fetch ids for personal-files', async () => {
+  xit('should require folder id to fetch ids for personal-files', async () => {
     const ids = await component.getFileIds('personal-files', null);
     expect(ids).toEqual([]);
   });
