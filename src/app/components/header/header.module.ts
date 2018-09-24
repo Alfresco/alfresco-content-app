@@ -23,31 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
+import { AppHeaderComponent } from './header.component';
+import { AppCurrentUserModule } from '../current-user/current-user.module';
+import { AppSearchInputModule } from '../search/search-input.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
 
-@Component({
-  selector: 'app-toolbar-menu',
-  templateUrl: 'toolbar-menu.component.html',
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toolbar-menu' }
+@NgModule({
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    AppCurrentUserModule,
+    AppSearchInputModule,
+    AppToolbarModule
+  ],
+  declarations: [AppHeaderComponent],
+  exports: [AppHeaderComponent]
 })
-export class ToolbarMenuComponent {
-  @Input()
-  actionRef: ContentActionRef;
-
-  @Input()
-  color = 'primary';
-
-  get hasChildren(): boolean {
-    return (
-      this.actionRef &&
-      this.actionRef.children &&
-      this.actionRef.children.length > 0
-    );
-  }
-
-  trackById(index: number, obj: { id: string }) {
-    return obj.id;
-  }
-}
+export class AppHeaderModule {}

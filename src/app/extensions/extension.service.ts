@@ -49,13 +49,16 @@ import {
   ProfileState
 } from '@alfresco/adf-extensions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AppExtensionService implements RuleContext {
   defaults = {
     layout: 'app.layout.main',
     auth: ['app.auth']
   };
 
+  headerActions: Array<ContentActionRef> = [];
   toolbarActions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
   viewerToolbarMoreActions: Array<ContentActionRef> = [];
@@ -93,7 +96,10 @@ export class AppExtensionService implements RuleContext {
       console.error('Extension configuration not found');
       return;
     }
-
+    this.headerActions = this.loader.getContentActions(
+      config,
+      'features.header'
+    );
     this.toolbarActions = this.loader.getContentActions(
       config,
       'features.toolbar'
@@ -229,6 +235,10 @@ export class AppExtensionService implements RuleContext {
     return this.viewerToolbarActions.filter(action =>
       this.filterByRules(action)
     );
+  }
+
+  getHeaderActions(): Array<ContentActionRef> {
+    return this.headerActions.filter(action => this.filterByRules(action));
   }
 
   getViewerToolbarMoreActions(): Array<ContentActionRef> {

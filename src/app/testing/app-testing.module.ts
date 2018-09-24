@@ -55,15 +55,6 @@ import {
   DocumentListService
 } from '@alfresco/adf-content-services';
 import { MaterialModule } from '../material.module';
-import { ContentManagementService } from '../services/content-management.service';
-import { NodeActionsService } from '../services/node-actions.service';
-import { NodePermissionService } from '../services/node-permission.service';
-import { ContentApiService } from '../services/content-api.service';
-import { AppExtensionService } from '../extensions/extension.service';
-import {
-  ExtensionLoaderService,
-  ExtensionService
-} from '@alfresco/adf-extensions';
 
 @NgModule({
   imports: [
@@ -103,15 +94,7 @@ import {
     ThumbnailService,
     UploadService,
     CustomResourcesService,
-    DocumentListService,
-
-    ContentManagementService,
-    NodeActionsService,
-    NodePermissionService,
-    ContentApiService,
-    AppExtensionService,
-    ExtensionService,
-    ExtensionLoaderService
+    DocumentListService
   ]
 })
 export class AppTestingModule {}

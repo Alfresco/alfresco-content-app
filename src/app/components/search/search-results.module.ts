@@ -32,6 +32,7 @@ import { SearchResultsRowComponent } from './search-results-row/search-results-r
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppCommonModule } from '../common/common.module';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { AppCommonModule } from '../common/common.module';
     ContentModule.forChild(),
     AppCommonModule,
     AppInfoDrawerModule,
-    AppToolbarModule
+    AppToolbarModule,
+    DirectivesModule
   ],
   declarations: [SearchResultsComponent, SearchResultsRowComponent],
   exports: [SearchResultsComponent, SearchResultsRowComponent]

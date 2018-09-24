@@ -5,7 +5,9 @@ import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContextMenuComponent } from './context-menu.component';
 import { ContextmenuOverlayConfig } from './interfaces';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ContextMenuService {
   constructor(private injector: Injector, private overlay: Overlay) {}
 

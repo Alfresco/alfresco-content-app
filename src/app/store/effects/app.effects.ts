@@ -23,31 +23,32 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { LogoutAction, LOGOUT } from '../actions/app.actions';
+import { AuthenticationService } from '@alfresco/adf-core';
+import { Router } from '@angular/router';
 
-@Component({
-  selector: 'app-toolbar-menu',
-  templateUrl: 'toolbar-menu.component.html',
-  encapsulation: ViewEncapsulation.None,
-  host: { class: 'app-toolbar-menu' }
-})
-export class ToolbarMenuComponent {
-  @Input()
-  actionRef: ContentActionRef;
+@Injectable()
+export class AppEffects {
+  constructor(
+    private actions$: Actions,
+    private auth: AuthenticationService,
+    private router: Router
+  ) {}
 
-  @Input()
-  color = 'primary';
+  @Effect({ dispatch: false })
+  logout$ = this.actions$.pipe(
+    ofType<LogoutAction>(LOGOUT),
+    map(() => {
+      this.auth
+        .logout()
+        .subscribe(() => this.redirectToLogin(), () => this.redirectToLogin());
+    })
+  );
 
-  get hasChildren(): boolean {
-    return (
-      this.actionRef &&
-      this.actionRef.children &&
-      this.actionRef.children.length > 0
-    );
-  }
-
-  trackById(index: number, obj: { id: string }) {
-    return obj.id;
+  private redirectToLogin() {
+    this.router.navigate(['login']);
   }
 }

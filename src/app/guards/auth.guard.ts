@@ -31,7 +31,9 @@ import {
   AuthGuardEcm
 } from '@alfresco/adf-core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AppAuthGuard extends AuthGuardEcm {
   constructor(
     private _auth: AuthenticationService,
