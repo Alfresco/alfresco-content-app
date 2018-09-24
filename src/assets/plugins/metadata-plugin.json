@@ -6,6 +6,11 @@
   "features": {
     "content-metadata": [
       {
+        "id": "app.content.metadata.presets",
+        "disabled": true
+      },
+      {
+        "id": "app.content.metadata.presets2",
         "presets": {
           "custom": [
             {
