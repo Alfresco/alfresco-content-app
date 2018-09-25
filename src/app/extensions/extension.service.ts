@@ -169,9 +169,26 @@ export class AppExtensionService implements RuleContext {
       'features.content-metadata-presets'
     );
     let presets = {};
-    presets = mergeObjects(presets, ...elements);
+    presets = this.filterDisabled(mergeObjects(presets, ...elements));
 
     return { presets };
+  }
+
+  filterDisabled(object) {
+    if (Array.isArray(object)) {
+      return object
+        .filter(item => !item.disabled)
+        .map(item => this.filterDisabled(item));
+    } else if (typeof object === 'object') {
+      if (!object.disabled) {
+        Object.keys(object).forEach(prop => {
+          object[prop] = this.filterDisabled(object[prop]);
+        });
+        return object;
+      }
+    } else {
+      return object;
+    }
   }
 
   getNavigationGroups(): Array<NavBarGroupRef> {

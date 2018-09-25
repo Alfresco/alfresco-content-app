@@ -825,9 +825,11 @@
         "id": "app.content.metadata.custom",
         "custom": [
           {
+            "id": "app.content.metadata.customGroup",
             "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
             "items": [
               {
+                "id": "app.content.metadata.exifAspect",
                 "aspect": "exif:exif",
                 "properties": [
                   "exif:pixelXDimension",

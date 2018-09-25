@@ -7,15 +7,33 @@
     "content-metadata-presets": [
       {
         "id": "app.content.metadata.custom",
-        "disabled": true
-      },
-      {
-        "id": "app.content.metadata.custom2",
         "custom": [
           {
+            "id": "app.content.metadata.customGroup",
             "title": "testing extension props",
             "items": [
               {
+                "id": "app.content.metadata.exifAspect",
+                "disabled": true
+              },
+              {
+                "id": "app.content.metadata.exifAspect2",
+                "aspect": "exif:exif",
+                "properties": [
+                  "exif:orientation",
+                  "exif:manufacturer",
+                  "exif:model",
+                  "exif:software"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "app.content.metadata.customGroup2",
+            "title": "testing extension props2",
+            "items": [
+              {
+                "id": "app.content.metadata.exifAspect",
                 "aspect": "exif:exif",
                 "properties": [
                   "exif:pixelXDimension",
@@ -26,6 +44,12 @@
             ]
           }
         ]
+      },
+      {
+        "kitten-images": {
+          "custom:aspect": "*",
+          "exif:exif": [ "exif:pixelXDimension", "exif:pixelYDimension"]
+        }
       }
     ]
   }
