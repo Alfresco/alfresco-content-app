@@ -628,7 +628,70 @@
             }
         ],
         "viewer": {
-            "toolbar": [
+            "toolbarActions": [
+                {
+                    "id": "app.toolbar.download",
+                    "order": 100,
+                    "title": "My custom title",
+                    "icon": "get_app",
+                    "actions": {
+                        "click": "DOWNLOAD_NODES"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canDownload"
+                    }
+                },
+                {
+                    "id": "app.toolbar.my-action",
+                    "order": 150,
+                    "title": "My action",
+                    "icon": "http",
+                    "actions": {
+                        "click": "SHARE_NODE"
+                    },
+                    "rules": {
+                        "visible": "app.selection.file.canShare"
+                    }
+                },
+                {
+                    "id": "app.viewer.print",
+                    "order": 200,
+                    "title": "APP.ACTIONS.PRINT",
+                    "icon": "print",
+                    "disabled": true,
+                    "actions": {
+                        "click": "PRINT_FILE"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canViewFile"
+                    }
+                },
+                {
+                    "id": "app.viewer.share",
+                    "order": 300,
+                    "title": "APP.ACTIONS.SHARE",
+                    "icon": "share",
+                    "actions": {
+                        "click": "SHARE_NODE"
+                    },
+                    "rules": {
+                        "visible": "app.selection.file.canShare"
+                    }
+                },
+                {
+                    "id": "app.viewer.fullscreen",
+                    "order": 400,
+                    "title": "APP.ACTIONS.FULLSCREEN",
+                    "icon": "fullscreen",
+                    "actions": {
+                        "click": "FULLSCREEN_VIEWER"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canViewFile"
+                    }
+                }
+            ],
+            "toolbarMoreMenu": [
                 {
                     "id": "app.viewer.favorite.add",
                     "order": 100,
@@ -651,6 +714,28 @@
                     },
                     "rules": {
                         "visible": "app.toolbar.favorite.canRemove"
+                    }
+                },
+                {
+                    "id": "app.viewer.favorite",
+                    "comment": "workaround for Recent Files and Search API issue",
+                    "type": "custom",
+                    "order": 101,
+                    "component": "app.toolbar.toggleFavorite",
+                    "rules": {
+                        "visible": "app.toolbar.favorite.canToggle"
+                    }
+                },
+                {
+                    "id": "app.toolbar.my-secondary-action",
+                    "order": 150,
+                    "title": "My secondary action",
+                    "icon": "alarm",
+                    "actions": {
+                        "click": "PRINT_FILE"
+                    },
+                    "rules": {
+                        "visible": "app.toolbar.canViewFile"
                     }
                 },
                 {
@@ -680,7 +765,7 @@
                 {
                     "id": "app.viewer.move",
                     "order": 500,
-                    "title": "APP.ACTIONS.MOVE",
+                    "title": "My new title",
                     "icon": "library_books",
                     "actions": {
                         "click": "MOVE_NODES"
@@ -717,6 +802,7 @@
                     "id": "app.viewer.permissions",
                     "order": 800,
                     "title": "APP.ACTIONS.PERMISSIONS",
+                    "disabled": true,
                     "icon": "settings_input_component",
                     "actions": {
                         "click": "MANAGE_PERMISSIONS"
