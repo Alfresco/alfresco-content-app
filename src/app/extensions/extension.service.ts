@@ -48,6 +48,7 @@ import {
   ExtensionService,
   ProfileState
 } from '@alfresco/adf-extensions';
+import { mergeObjects } from '../../../projects/adf-extensions/src/lib/config/extension-utils';
 import { MetadataRef } from '../../../projects/adf-extensions/src/lib/config/metadata.extensions';
 
 @Injectable({
@@ -135,10 +136,7 @@ export class AppExtensionService implements RuleContext {
       config,
       'features.sidebar'
     );
-    this.contentMetadata = this.loader.getElements<MetadataRef>(
-      config,
-      'features.content-metadata'
-    );
+    this.contentMetadata = this.loadContentMetadata(config);
   }
 
   protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {
@@ -163,6 +161,17 @@ export class AppExtensionService implements RuleContext {
           })
       };
     });
+  }
+
+  loadContentMetadata(config: ExtensionConfig): MetadataRef {
+    const elements = this.loader.getElements<any>(
+      config,
+      'features.content-metadata-presets'
+    );
+    let presets = {};
+    presets = mergeObjects(presets, ...elements);
+
+    return { presets };
   }
 
   getNavigationGroups(): Array<NavBarGroupRef> {

@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-import { ExtensionElement } from './extension-element';
-
-export interface MetadataRef extends ExtensionElement {
+export interface MetadataRef {
   presets: any;
 }

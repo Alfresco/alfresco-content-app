@@ -4,30 +4,28 @@
   "$name": "metadata-plugin",
   "$description": "metadata card configuration plugin - testing purpose",
   "features": {
-    "content-metadata": [
+    "content-metadata-presets": [
       {
-        "id": "app.content.metadata.presets",
+        "id": "app.content.metadata.custom",
         "disabled": true
       },
       {
-        "id": "app.content.metadata.presets2",
-        "presets": {
-          "custom": [
-            {
-              "title": "testing extension props",
-              "items": [
-                {
-                  "aspect": "exif:exif",
-                  "properties": [
-                    "exif:pixelXDimension",
-                    "exif:pixelYDimension",
-                    "exif:dateTimeOriginal"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
+        "id": "app.content.metadata.custom2",
+        "custom": [
+          {
+            "title": "testing extension props",
+            "items": [
+              {
+                "aspect": "exif:exif",
+                "properties": [
+                  "exif:pixelXDimension",
+                  "exif:pixelYDimension",
+                  "exif:dateTimeOriginal"
+                ]
+              }
+            ]
+          }
+        ]
       }
     ]
   }
