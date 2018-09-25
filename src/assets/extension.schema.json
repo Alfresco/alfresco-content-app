@@ -294,6 +294,127 @@
           "type": "boolean"
         }
       }
+    },
+    "content-metadata-aspect": {
+      "description": "Content metadata's aspect definition",
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "oneOf": [
+            {
+              "description": "Wildcard for every property",
+              "type": "string",
+              "pattern": "^\\*$"
+            },
+            {
+              "description": "Properties array",
+              "type": "array",
+              "items": {
+                "description": "Property name",
+                "type": "string"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "content-metadata-layout-group": {
+      "description": "Content metadata's layout groups definition",
+      "type": "array",
+      "items": [
+        {
+          "description": "Content metadata's one layout group definition",
+          "type": "object",
+          "required": [
+            "title",
+            "items"
+          ],
+          "properties": {
+            "title": {
+              "type": "string",
+              "description": "Content metadata's one layout group definition's title"
+            },
+            "items": {
+              "type": "array",
+              "description": "Content metadata's one layout group definition's items",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "aspect",
+                      "properties"
+                    ],
+                    "properties": {
+                      "aspect": {
+                        "description": "Aspect group",
+                        "type": "string"
+                      },
+                      "properties": {
+                        "description": "Wildcard character",
+                        "type": "string",
+                        "pattern": "^\\*$"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "aspect",
+                      "properties"
+                    ],
+                    "properties": {
+                      "aspect": {
+                        "description": "Aspect group",
+                        "type": "string"
+                      },
+                      "properties": {
+                        "description": "list of aspect properties",
+                        "type": "array"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "type",
+                      "properties"
+                    ],
+                    "properties": {
+                      "type": {
+                        "description": "Type group",
+                        "type": "string"
+                      },
+                      "properties": {
+                        "description": "Wildcard character",
+                        "type": "string",
+                        "pattern": "^\\*$"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "type",
+                      "properties"
+                    ],
+                    "properties": {
+                      "type": {
+                        "description": "Type group",
+                        "type": "string"
+                      },
+                      "properties": {
+                        "description": "list of type properties",
+                        "type": "array"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   },
 
@@ -407,6 +528,27 @@
           "type": "array",
           "items": { "$ref": "#/definitions/contentActionRef" },
           "minItems": 1
+        },
+        "content-metadata-presets": {
+          "description": "Configuration for the presets for content metadata component",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id"],
+            "patternProperties": {
+              ".*": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^\\*$",
+                    "description": "Wildcard for every aspect"
+                  },
+                  { "$ref": "#/definitions/content-metadata-aspect" },
+                  { "$ref": "#/definitions/content-metadata-layout-group" }
+                ]
+              }
+            }
+          }
         }
       }
     }

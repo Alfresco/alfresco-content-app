@@ -121,11 +121,11 @@ export class ContentMetadataComponent implements OnChanges, OnInit, OnDestroy {
         node
       );
 
-      if (this.contentMetadataExtension.length) {
+      if (this.contentMetadataExtension) {
         try {
           this.appConfig.config[
             'content-metadata'
-          ] = this.contentMetadataExtension[0];
+          ] = this.contentMetadataExtension;
         } catch (error) {
           this.notificationService.openSnackMessage(
             'Wrong metadata configuration',

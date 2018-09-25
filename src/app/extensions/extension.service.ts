@@ -46,10 +46,9 @@ import {
   reduceSeparators,
   reduceEmptyMenus,
   ExtensionService,
-  ProfileState
+  ProfileState,
+  mergeObjects
 } from '@alfresco/adf-extensions';
-import { mergeObjects } from '../../../projects/adf-extensions/src/lib/config/extension-utils';
-import { MetadataRef } from '../../../projects/adf-extensions/src/lib/config/metadata.extensions';
 
 @Injectable({
   providedIn: 'root'
@@ -163,7 +162,7 @@ export class AppExtensionService implements RuleContext {
     });
   }
 
-  loadContentMetadata(config: ExtensionConfig): MetadataRef {
+  loadContentMetadata(config: ExtensionConfig): any {
     const elements = this.loader.getElements<any>(
       config,
       'features.content-metadata-presets'
