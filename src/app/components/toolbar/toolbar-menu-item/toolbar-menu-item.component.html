@@ -3,6 +3,7 @@
   <ng-container *ngSwitchCase="'menu'">
     <button
       mat-menu-item
+      [disabled]="actionRef.disabled"
       [matMenuTriggerFor]="childMenu">
       <mat-icon>{{ actionRef.icon }}</mat-icon>
       <span>{{ actionRef.title | translate }}</span>
