@@ -3,9 +3,10 @@
 @import '~@alfresco/adf-core/prebuilt-themes/adf-blue-orange.css';
 @import 'app/ui/application';
 
-body, html {
+body,
+html {
   height: 100%;
-  font-family: 'Muli', "Helvetica", "Arial", sans-serif !important;
+  font-family: 'Muli', 'Helvetica', 'Arial', sans-serif !important;
 }
 
 body {

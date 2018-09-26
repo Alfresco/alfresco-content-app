@@ -52,6 +52,9 @@ export class CreateMenuComponent implements OnInit, OnDestroy {
   @Input()
   showLabel: boolean;
 
+  @Input()
+  expanded: boolean;
+
   constructor(
     private store: Store<AppStore>,
     private extensions: AppExtensionService
