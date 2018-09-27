@@ -63,7 +63,6 @@
     "pdfjs-dist": "^2.0.489",
     "rxjs": "^6.3.2",
     "showdown": "^1.8.6",
-    "web-animations-js": "2.3.1",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
