@@ -41,6 +41,8 @@ import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
+import { EffectsModule } from '@ngrx/effects';
+import { LibraryEffects } from 'src/app/store/effects';
 
 describe('LibrariesComponent', () => {
   let fixture: ComponentFixture<LibrariesComponent>;
@@ -69,7 +71,7 @@ describe('LibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule],
+      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects])],
       declarations: [
         DataTableComponent,
         TimeAgoPipe,
@@ -153,13 +155,8 @@ describe('LibrariesComponent', () => {
   });
 
   describe('Node navigation', () => {
-    let routerSpy;
-
-    beforeEach(() => {
-      routerSpy = spyOn(router, 'navigate');
-    });
-
     it('does not navigate when id is not passed', () => {
+      spyOn(router, 'navigate').and.stub();
       component.navigate(null);
 
       expect(router.navigate).not.toHaveBeenCalled();
@@ -167,11 +164,12 @@ describe('LibrariesComponent', () => {
 
     it('navigates to node id', () => {
       const document = { id: 'documentId' };
+      spyOn(router, 'navigate').and.stub();
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: document }));
 
       component.navigate(node.id);
 
-      expect(routerSpy.calls.argsFor(0)[0]).toEqual(['./', document.id]);
+      expect(router.navigate).toHaveBeenCalledWith(['libraries', 'documentId']);
     });
   });
 

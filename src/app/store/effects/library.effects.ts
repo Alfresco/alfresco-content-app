@@ -42,7 +42,7 @@ import { ContentApiService } from '../../services/content-api.service';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class SiteEffects {
+export class LibraryEffects {
   constructor(
     private store: Store<AppStore>,
     private actions$: Actions,
