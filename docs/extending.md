@@ -612,6 +612,7 @@ Below is the list of public actions types you can use in the plugin definitions 
 | NAVIGATE_ROUTE         | any[]               | Navigate to a particular Route (supports parameters)                                            |
 | NAVIGATE_FOLDER        | MinimalNodeEntity   | Navigate to a folder based on the Node properties.                                              |
 | NAVIGATE_PARENT_FOLDER | MinimalNodeEntity   | Navigate to a containing folder based on the Node properties.                                   |
+| NAVIGATE_LIBRARY       | string              | Navigate to library                                                                             |
 | SEARCH_BY_TERM         | string              | Perform a simple search by the term and navigate to Search results.                             |
 | SNACKBAR_INFO          | string              | Show information snackbar with the message provided.                                            |
 | SNACKBAR_WARNING       | string              | Show warning snackbar with the message provided.                                                |

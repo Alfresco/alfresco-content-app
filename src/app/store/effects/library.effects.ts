@@ -25,24 +25,30 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map, take } from 'rxjs/operators';
+import { map, take, switchMap } from 'rxjs/operators';
 import {
   DeleteLibraryAction,
   DELETE_LIBRARY,
   CreateLibraryAction,
-  CREATE_LIBRARY
+  CREATE_LIBRARY,
+  NavigateLibraryAction,
+  NAVIGATE_LIBRARY
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
+import { ContentApiService } from '../../services/content-api.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class SiteEffects {
   constructor(
     private store: Store<AppStore>,
     private actions$: Actions,
-    private content: ContentManagementService
+    private content: ContentManagementService,
+    private contentApi: ContentApiService,
+    private router: Router
   ) {}
 
   @Effect({ dispatch: false })
@@ -64,11 +70,26 @@ export class SiteEffects {
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   createLibrary$ = this.actions$.pipe(
     ofType<CreateLibraryAction>(CREATE_LIBRARY),
+    switchMap(() => this.content.createLibrary()),
+    map(node => new NavigateLibraryAction(node.entry.guid))
+  );
+
+  @Effect({ dispatch: false })
+  navigateLibrary$ = this.actions$.pipe(
+    ofType<NavigateLibraryAction>(NAVIGATE_LIBRARY),
     map(action => {
-      this.content.createLibrary();
+      const libraryId = action.payload;
+      if (libraryId) {
+        this.contentApi
+          .getNode(libraryId, { relativePath: '/documentLibrary' })
+          .pipe(map(node => node.entry))
+          .subscribe(documentLibrary => {
+            this.router.navigate(['libraries', documentLibrary.id]);
+          });
+      }
     })
   );
 }
