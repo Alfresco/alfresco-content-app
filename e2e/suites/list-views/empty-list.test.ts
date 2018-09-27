@@ -29,80 +29,69 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Empty list views', () => {
-    const username = `user-${Utils.random()}`;
-    const password = username;
+  const username = `user-${Utils.random()}`;
+  const password = username;
 
-    const apis = {
-        admin: new RepoClient(),
-        user: new RepoClient(username, password)
-    };
+  const apis = {
+    admin: new RepoClient(),
+    user: new RepoClient(username, password)
+  };
 
-    const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
-    const page = new BrowsingPage();
-    const { dataTable } = page;
+  const loginPage = new LoginPage();
+  const logoutPage = new LogoutPage();
+  const page = new BrowsingPage();
+  const { dataTable } = page;
 
-    beforeAll(done => {
-        apis.admin.people.createUser({ username })
-            .then(() => loginPage.loginWith(username))
-            .then(done);
-    });
+  beforeAll(async (done) => {
+    await apis.admin.people.createUser({ username });
+    await loginPage.loginWith(username);
+    done();
+  });
 
-    afterAll(done => {
-        logoutPage.load().then(done);
-    });
+  afterAll(async (done) => {
+    await logoutPage.load();
+    done();
+  });
 
-    it('empty Personal Files - [C280131]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-            .then(() => {
-                expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
-                expect(dataTable.getEmptyDragAndDropText()).toContain('Drag and drop');
-            });
-    });
+  it('empty Personal Files - [C280131]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.getEmptyDragAndDropText()).toContain('Drag and drop');
+  });
 
-    it('empty File Libraries - [C217099]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
-            .then(() => {
-                expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
-                expect(dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
-                expect(dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
-            });
-    });
+  it('empty File Libraries - [C217099]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
+    expect(await dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
+  });
 
-    it('empty Shared Files - [C280132]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
-            .then(() => {
-                expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
-                expect(dataTable.getEmptyStateTitle()).toContain('No shared files or folders');
-                expect(dataTable.getEmptyStateSubtitle()).toContain('Items you share using the Share option are shown here.');
-            });
-    });
+  it('empty Shared Files - [C280132]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.getEmptyStateTitle()).toContain('No shared files or folders');
+    expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you share using the Share option are shown here.');
+  });
 
-    it('empty Recent Files - [C213169]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
-            .then(() => {
-                expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
-                expect(dataTable.getEmptyStateTitle()).toContain('No recent files');
-                expect(dataTable.getEmptyStateSubtitle()).toContain('Items you upload or edit in the last 30 days are shown here.');
-            });
-    });
+  it('empty Recent Files - [C213169]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
+    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.getEmptyStateTitle()).toContain('No recent files');
+    expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you upload or edit in the last 30 days are shown here.');
+  });
 
-    it('empty Favorites - [C280133]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
-            .then(() => {
-                expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
-                expect(dataTable.getEmptyStateTitle()).toContain('No favorite files or folders');
-                expect(dataTable.getEmptyStateSubtitle()).toContain('Favorite items that you want to easily find later.');
-            });
-    });
+  it('empty Favorites - [C280133]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.getEmptyStateTitle()).toContain('No favorite files or folders');
+    expect(await dataTable.getEmptyStateSubtitle()).toContain('Favorite items that you want to easily find later.');
+  });
 
-    it('empty Trash - [C280134]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-        .then(() => {
-            expect(dataTable.isEmptyList()).toBe(true, 'list is not empty');
-            expect(dataTable.getEmptyStateTitle()).toContain('Trash is empty');
-            expect(dataTable.getEmptyStateText()).toContain('Items you delete are moved to the Trash.');
-            expect(dataTable.getEmptyStateText()).toContain('Empty Trash to permanently delete items.');
-        });
-    });
+  it('empty Trash - [C280134]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.getEmptyStateTitle()).toContain('Trash is empty');
+    expect(await dataTable.getEmptyStateText()).toContain('Items you delete are moved to the Trash.');
+    expect(await dataTable.getEmptyStateText()).toContain('Empty Trash to permanently delete items.');
+  });
 });
