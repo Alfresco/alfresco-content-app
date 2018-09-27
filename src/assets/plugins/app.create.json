@@ -1,0 +1,50 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$name": "app.create",
+  "$version": "1.0.0",
+
+
+  "features": {
+    "create": [
+      {
+        "id": "app.test.create1",
+        "order": 10,
+        "icon": "extension",
+        "title": "Custom Create",
+        "type": "menu",
+        "children": [
+          {
+            "id": "level1.1",
+            "icon": "extension",
+            "title": "Level 1.1"
+          },
+          {
+            "id": "level1.separator",
+            "type": "separator"
+          },
+          {
+            "id": "level1.2",
+            "icon": "extension",
+            "title": "Level 1.2",
+            "type": "menu",
+            "children": [
+              {
+                "id": "level2.1",
+                "icon": "extension",
+                "title": "Level 2.1"
+              }
+            ],
+            "rules": {
+              "enabled": "app.navigation.folder.canCreate"
+            }
+          }
+        ]
+      },
+      {
+        "id": "app.create.separator",
+        "order": 20,
+        "type": "separator"
+      }
+    ]
+  }
+}

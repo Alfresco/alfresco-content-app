@@ -235,7 +235,8 @@ export class AppExtensionService implements RuleContext {
 
   getCreateActions(): Array<ContentActionRef> {
     return this.createActions
-      .filter(action => this.filterByRules(action))
+      .map(action => this.copyAction(action))
+      .map(action => this.buildMenu(action))
       .map(action => {
         let disabled = false;
 
@@ -248,6 +249,39 @@ export class AppExtensionService implements RuleContext {
           disabled
         };
       });
+  }
+
+  private buildMenu(actionRef: ContentActionRef): ContentActionRef {
+    if (
+      actionRef.type === ContentActionType.menu &&
+      actionRef.children &&
+      actionRef.children.length > 0
+    ) {
+      const children = actionRef.children
+        .filter(action => this.filterByRules(action))
+        .map(action => this.buildMenu(action));
+
+      actionRef.children = children
+        .map(action => {
+          let disabled = false;
+
+          if (action.rules && action.rules.enabled) {
+            disabled = !this.extensions.evaluateRule(
+              action.rules.enabled,
+              this
+            );
+          }
+
+          return {
+            ...action,
+            disabled
+          };
+        })
+        .reduce(reduceEmptyMenus, [])
+        .reduce(reduceSeparators, []);
+    }
+
+    return actionRef;
   }
 
   // evaluates content actions for the selection and parent folder node
