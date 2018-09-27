@@ -46,8 +46,10 @@ import {
   reduceSeparators,
   reduceEmptyMenus,
   ExtensionService,
-  ProfileState
+  ProfileState,
+  mergeObjects
 } from '@alfresco/adf-extensions';
+import { AppConfigService } from '@alfresco/adf-core';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +70,7 @@ export class AppExtensionService implements RuleContext {
   createActions: Array<ContentActionRef> = [];
   navbar: Array<NavBarGroupRef> = [];
   sidebar: Array<SidebarTabRef> = [];
+  contentMetadata: any;
 
   selection: SelectionState;
   navigation: NavigationState;
@@ -77,7 +80,8 @@ export class AppExtensionService implements RuleContext {
     private store: Store<AppStore>,
     private loader: ExtensionLoaderService,
     private extensions: ExtensionService,
-    public permissions: NodePermissionService
+    public permissions: NodePermissionService,
+    private appConfig: AppConfigService
   ) {
     this.store.select(ruleContext).subscribe(result => {
       this.selection = result.selection;
@@ -133,6 +137,7 @@ export class AppExtensionService implements RuleContext {
       config,
       'features.sidebar'
     );
+    this.contentMetadata = this.loadContentMetadata(config);
   }
 
   protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {
@@ -157,6 +162,40 @@ export class AppExtensionService implements RuleContext {
           })
       };
     });
+  }
+
+  loadContentMetadata(config: ExtensionConfig): any {
+    const elements = this.loader.getElements<any>(
+      config,
+      'features.content-metadata-presets'
+    );
+    let presets = {};
+    presets = this.filterDisabled(mergeObjects(presets, ...elements));
+
+    try {
+      this.appConfig.config['content-metadata'] = { presets };
+    } catch (error) {
+      console.error(error);
+    }
+
+    return presets;
+  }
+
+  filterDisabled(object) {
+    if (Array.isArray(object)) {
+      return object
+        .filter(item => !item.disabled)
+        .map(item => this.filterDisabled(item));
+    } else if (typeof object === 'object') {
+      if (!object.disabled) {
+        Object.keys(object).forEach(prop => {
+          object[prop] = this.filterDisabled(object[prop]);
+        });
+        return object;
+      }
+    } else {
+      return object;
+    }
   }
 
   getNavigationGroups(): Array<NavBarGroupRef> {
