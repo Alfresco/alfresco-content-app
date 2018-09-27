@@ -49,6 +49,7 @@ import {
   ProfileState,
   mergeObjects
 } from '@alfresco/adf-extensions';
+import { AppConfigService } from '@alfresco/adf-core';
 
 @Injectable({
   providedIn: 'root'
@@ -79,7 +80,8 @@ export class AppExtensionService implements RuleContext {
     private store: Store<AppStore>,
     private loader: ExtensionLoaderService,
     private extensions: ExtensionService,
-    public permissions: NodePermissionService
+    public permissions: NodePermissionService,
+    private appConfig: AppConfigService
   ) {
     this.store.select(ruleContext).subscribe(result => {
       this.selection = result.selection;
@@ -170,7 +172,13 @@ export class AppExtensionService implements RuleContext {
     let presets = {};
     presets = this.filterDisabled(mergeObjects(presets, ...elements));
 
-    return { presets };
+    try {
+      this.appConfig.config['content-metadata'] = { presets };
+    } catch (error) {
+      console.error(error);
+    }
+
+    return presets;
   }
 
   filterDisabled(object) {

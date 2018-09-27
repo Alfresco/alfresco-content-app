@@ -30,12 +30,12 @@ import { NodePermissionService } from '../../../services/node-permission.service
 @Component({
   selector: 'app-metadata-tab',
   template: `
-    <app-content-metadata-card
+    <adf-content-metadata-card
       [readOnly]="!canUpdateNode"
       [displayEmpty]="canUpdateNode"
       [preset]="'custom'"
       [node]="node">
-    </app-content-metadata-card>
+    </adf-content-metadata-card>
     `,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-metadata-tab' }
