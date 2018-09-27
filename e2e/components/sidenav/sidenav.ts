@@ -33,7 +33,7 @@ export class Sidenav extends Component {
         link: '.sidenav-menu__item',
         label: '.menu__item--label',
         activeLink: '.menu__item--active',
-        newButton: '.adf-sidebar-action-menu-button'
+        newButton: '[data-automation-id="create-button"]'
     };
 
     links: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.link));

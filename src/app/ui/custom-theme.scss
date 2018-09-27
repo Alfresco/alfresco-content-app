@@ -10,12 +10,12 @@
 @import '../components/permissions/permission-manager/permission-manager.component.theme';
 @import '../components/context-menu/context-menu.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
+@import '../components/create-menu/create-menu.component.scss';
 
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
 @import './overrides/adf-info-drawer.theme';
 @import './overrides/adf-upload-button.theme';
-@import './overrides/adf-sidebar-action-menu.theme';
 @import './overrides/adf-upload-dialog.theme';
 @import './overrides/adf-pagination.theme';
 @import './overrides/adf-sidenav-layout.theme';
@@ -74,7 +74,6 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
   @include adf-search-filter-theme($theme);
   @include adf-info-drawer-theme($theme);
   @include adf-upload-button-theme($theme);
-  @include adf-sidebar-action-menu-theme($theme);
   @include adf-pagination-theme($theme);
   @include adf-sidenav-layout-theme($theme);
   @include adf-document-list-theme($theme);
@@ -95,4 +94,5 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
   @include aca-about-component-theme($theme);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
+  @include app-create-menu-theme($theme);
 }
