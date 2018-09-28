@@ -42,7 +42,8 @@ import {
   SiteEffects,
   UploadEffects,
   FavoriteEffects,
-  ModalsEffects
+  ModalsEffects,
+  RepositoryEffects
 } from './effects';
 
 @NgModule({
@@ -60,7 +61,8 @@ import {
       SiteEffects,
       UploadEffects,
       FavoriteEffects,
-      ModalsEffects
+      ModalsEffects,
+      RepositoryEffects
     ]),
     !environment.production
       ? StoreDevtoolsModule.instrument({ maxAge: 25 })
