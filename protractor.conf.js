@@ -2,9 +2,7 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const path = require('path');
-const {
-  SpecReporter
-} = require('jasmine-spec-reporter');
+const { SpecReporter } = require('jasmine-spec-reporter');
 const jasmineReporters = require('jasmine-reporters');
 const CDP = require('chrome-remote-interface');
 
@@ -25,13 +23,11 @@ function rmDir(dirPath) {
   if (files.length > 0)
     for (var i = 0; i < files.length; i++) {
       var filePath = dirPath + '/' + files[i];
-      if (fs.statSync(filePath).isFile())
-        fs.unlinkSync(filePath);
-      else
-        rmDir(filePath);
+      if (fs.statSync(filePath).isFile()) fs.unlinkSync(filePath);
+      else rmDir(filePath);
     }
   fs.rmdirSync(dirPath);
-};
+}
 
 exports.config = {
   allScriptsTimeout: 40000,
@@ -56,10 +52,10 @@ exports.config = {
     browserName: 'chrome',
     chromeOptions: {
       prefs: {
-        'credentials_enable_service': false,
-        'download': {
-          'prompt_for_download': false,
-          'default_directory': downloadFolder
+        credentials_enable_service: false,
+        download: {
+          prompt_for_download: false,
+          default_directory: downloadFolder
         }
       },
       args: ['--incognito', '--headless', '--remote-debugging-port=9222']
@@ -68,58 +64,68 @@ exports.config = {
 
   directConnect: true,
 
-  baseUrl: 'http://localhost:4000',
+  // baseUrl: 'http://localhost:4000',
 
   framework: 'jasmine2',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 60000,
-    print: function () {}
+    print: function() {}
   },
 
-  plugins: [{
-    package: 'jasmine2-protractor-utils',
-    disableHTMLReport: false,
-    disableScreenshot: false,
-    screenshotOnExpectFailure: true,
-    screenshotOnSpecFailure: false,
-    clearFoldersBeforeTest: true,
-    htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
-    screenshotPath: `${projectRoot}/e2e-output/screenshots/`
-  }],
+  plugins: [
+    {
+      package: 'jasmine2-protractor-utils',
+      disableHTMLReport: false,
+      disableScreenshot: false,
+      screenshotOnExpectFailure: true,
+      screenshotOnSpecFailure: false,
+      clearFoldersBeforeTest: true,
+      htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
+      screenshotPath: `${projectRoot}/e2e-output/screenshots/`
+    }
+  ],
 
   onPrepare() {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
     });
 
-    browser.manage().window().setSize(width, height);
+    browser
+      .manage()
+      .window()
+      .setSize(width, height);
 
-    jasmine.getEnv().addReporter(new SpecReporter({
-      spec: {
-        displayStacktrace: true
-      }
-    }));
+    jasmine.getEnv().addReporter(
+      new SpecReporter({
+        spec: {
+          displayStacktrace: true
+        }
+      })
+    );
 
-    jasmine.getEnv().addReporter(new jasmineReporters.JUnitXmlReporter({
-      consolidateAll: true,
-      savePath: `${projectRoot}/e2e-output/junit-report`,
-      filePrefix: 'results.xml',
-      useDotNotation: false,
-      useFullTestName: false,
-      reportFailedUrl: true
-    }));
+    jasmine.getEnv().addReporter(
+      new jasmineReporters.JUnitXmlReporter({
+        consolidateAll: true,
+        savePath: `${projectRoot}/e2e-output/junit-report`,
+        filePrefix: 'results.xml',
+        useDotNotation: false,
+        useFullTestName: false,
+        reportFailedUrl: true
+      })
+    );
 
     rmDir(downloadFolder);
 
-    CDP().then(client => {
+    CDP()
+      .then(client => {
         client.send('Page.setDownloadBehavior', {
           behavior: 'allow',
           downloadPath: downloadFolder
-        })
+        });
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
       });
   }
-}
+};

@@ -15,7 +15,7 @@
     "__e2e": "ng e2e",
     "__wd:update": "webdriver-manager update --gecko=false --versions.chrome=2.38",
     "wd:update": "webdriver-manager update --gecko=false",
-    "e2e": "npm run wd:update && protractor protractor.conf.js",
+    "e2e": "npm run wd:update && protractor --baseUrl=http://localhost:4000",
     "start:docker": "docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:4000",
     "stop:docker": "docker-compose stop",
     "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",
@@ -23,7 +23,7 @@
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
     "format:check": "prettier --list-different \"src/{app,environments}/**/*{.ts,.js,.css,.scss}\"",
     "build.tomcat": "npm run build -- --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
-    "e2e.tomcat": "npm run wd:update && protractor protractor-tomcat.conf.js",
+    "e2e.tomcat": "npm run wd:update && protractor --baseUrl=http://localhost:4000/content-app/",
     "docker.tomcat.start": "cd docker/tomcat && docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:4000",
     "docker.tomcat.stop": "cd docker/tomcat && docker-compose stop",
     "docker.tomcat.e2e": "npm run docker.tomcat.start && npm run e2e.tomcat"
