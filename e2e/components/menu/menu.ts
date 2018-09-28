@@ -69,6 +69,10 @@ export class Menu extends Component {
         return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
     }
 
+    getItemById(id: string) {
+        return this.component.element(by.id(id));
+    }
+
     getItemTooltip(menuItem: string): promise.Promise<string> {
         return this.getItemByLabel(menuItem).getAttribute('title');
     }
@@ -76,6 +80,10 @@ export class Menu extends Component {
     getItemIconText(menuItem: string) {
         return this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
 
+    }
+
+    getItemIdAttribute(menuItem: string) {
+        return this.getItemByLabel(menuItem).getAttribute('id');
     }
 
     getItemsCount(): promise.Promise<number> {

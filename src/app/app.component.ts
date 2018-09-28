@@ -29,7 +29,8 @@ import {
   AuthenticationService,
   FileUploadErrorEvent,
   PageTitleService,
-  UploadService
+  UploadService,
+  TranslationService
 } from '@alfresco/adf-core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -64,10 +65,16 @@ export class AppComponent implements OnInit {
     private alfrescoApiService: AlfrescoApiService,
     private authenticationService: AuthenticationService,
     private uploadService: UploadService,
-    private extensions: AppExtensionService
+    private extensions: AppExtensionService,
+    private translationService: TranslationService
   ) {}
 
   ngOnInit() {
+    // workaround for https://github.com/ngx-translate/core/issues/575
+    this.translationService.translate.getTranslation('en').subscribe(() => {
+      this.translationService.translate.setDefaultLang('en');
+    });
+
     this.alfrescoApiService.getInstance().on('error', error => {
       if (error.status === 401) {
         if (!this.authenticationService.isLoggedIn()) {

@@ -42,15 +42,18 @@ describe('Restore from Trash', () => {
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
-  beforeAll(done => {
-    apis.admin.people
-      .createUser({ username })
-      .then(() => loginPage.loginWith(username))
-      .then(done);
+  beforeAll(async (done) => {
+    await apis.admin.people.createUser({ username });
+    await loginPage.loginWith(username);
+    done();
   });
 
-  afterAll(done => {
-    Promise.all([apis.admin.trashcan.emptyTrash(), logoutPage.load()]).then(done);
+  afterAll(async (done) => {
+    await Promise.all([
+      apis.admin.trashcan.emptyTrash(),
+      logoutPage.load()
+    ]);
+    done();
   });
 
   xit('');
@@ -61,97 +64,77 @@ describe('Restore from Trash', () => {
     const folder = `folder-${Utils.random()}`;
     let folderId;
 
-    beforeAll(done => {
-      apis.user.nodes
-        .createFile(file)
-        .then(resp => (fileId = resp.entry.id))
-        .then(() => apis.user.nodes.createFolder(folder).then(resp => (folderId = resp.entry.id)))
-        .then(() => apis.user.nodes.deleteNodesById([fileId, folderId], false))
-        .then(done);
+    beforeAll(async (done) => {
+      fileId = (await apis.user.nodes.createFile(file)).entry.id;
+      folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
+      await apis.user.nodes.deleteNodesById([fileId, folderId], false);
+      done();
     });
 
-    beforeEach(done => {
-      page.sidenav
-        .navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-        .then(() => dataTable.waitForHeader())
-        .then(done);
+    beforeEach(async (done) => {
+      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await dataTable.waitForHeader();
+      done();
     });
 
-    afterAll(done => {
-      apis.user.trashcan.emptyTrash().then(done);
+    afterAll(async (done) => {
+      await apis.user.trashcan.emptyTrash();
+      done();
     });
 
-    it('restore file - [C217177]', () => {
-      dataTable
-        .selectItem(file)
-        .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
-        .then(() => page.getSnackBarMessage())
-        .then(text => {
-          expect(text).toContain(`${file} restored`);
-          expect(text).toContain(`View`);
-          expect(dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
-        })
-        .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
-        .then(() => page.dataTable.waitForHeader())
-        .then(() => {
-          expect(page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
-        })
+    it('restore file - [C217177]', async () => {
+      await dataTable.selectItem(file);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      const text = await page.getSnackBarMessage();
+      expect(text).toContain(`${file} restored`);
+      expect(text).toContain(`View`);
+      expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
+      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+      await page.dataTable.waitForHeader();
+      expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
 
-        .then(() => apis.user.nodes.deleteNodeById(fileId, false));
+      await apis.user.nodes.deleteNodeById(fileId, false);
     });
 
-    it('restore folder - [C280438]', () => {
-      dataTable
-        .selectItem(folder)
-        .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
-        .then(() => page.getSnackBarMessage())
-        .then(text => {
-          expect(text).toContain(`${folder} restored`);
-          expect(text).toContain(`View`);
-          expect(dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
-        })
-        .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
-        .then(() => page.dataTable.waitForHeader())
-        .then(() => {
-          expect(page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
-        })
+    it('restore folder - [C280438]', async () => {
+      await dataTable.selectItem(folder);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      const text = await page.getSnackBarMessage();
+      expect(text).toContain(`${folder} restored`);
+      expect(text).toContain(`View`);
+      expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
+      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+      await page.dataTable.waitForHeader();
+      expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
 
-        .then(() => apis.user.nodes.deleteNodeById(folderId, false));
+      await apis.user.nodes.deleteNodeById(folderId, false);
     });
 
-    it('restore multiple items - [C217182]', () => {
-      dataTable
-        .selectMultipleItems([file, folder])
-        .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
-        .then(() => page.getSnackBarMessage())
-        .then(text => {
-          expect(text).toContain(`Restore successful`);
-          expect(text).not.toContain(`View`);
-          expect(dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
-          expect(dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
-        })
-        .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES))
-        .then(() => page.dataTable.waitForHeader())
-        .then(() => {
-          expect(page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
-          expect(page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
-        })
+    it('restore multiple items - [C217182]', async () => {
+      await dataTable.selectMultipleItems([file, folder]);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      const text = await page.getSnackBarMessage();
+      expect(text).toContain(`Restore successful`);
+      expect(text).not.toContain(`View`);
+      expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
+      expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
+      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+      await page.dataTable.waitForHeader();
+      expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
+      expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
 
-        .then(() => apis.user.nodes.deleteNodesById([fileId, folderId], false));
+      await apis.user.nodes.deleteNodesById([fileId, folderId], false);
     });
 
-    it('View from notification - [C217181]', () => {
-      dataTable
-        .selectItem(file)
-        .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
-        .then(() => page.clickSnackBarAction())
-        .then(() => page.dataTable.waitForHeader())
-        .then(() => {
-          expect(page.sidenav.isActiveByLabel('Personal Files')).toBe(true, 'Personal Files sidebar link not active');
-          expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
-        })
+    it('View from notification - [C217181]', async () => {
+      await dataTable.selectItem(file);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      await page.clickSnackBarAction();
+      await page.dataTable.waitForHeader();
+      expect(await page.sidenav.isActiveByLabel('Personal Files')).toBe(true, 'Personal Files sidebar link not active');
+      expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
 
-        .then(() => apis.user.nodes.deleteNodeById(fileId, false));
+      await apis.user.nodes.deleteNodeById(fileId, false);
     });
   });
 
@@ -166,49 +149,48 @@ describe('Restore from Trash', () => {
     const folder2 = `folder-${Utils.random()}`;
     let folder2Id;
 
-    beforeAll(done => {
-      apis.user.nodes
-        .createFolder(folder1)
-        .then(resp => (folder1Id = resp.entry.id))
-        .then(() => apis.user.nodes.createFile(file1, folder1Id).then(resp => (file1Id1 = resp.entry.id)))
-        .then(() => apis.user.nodes.deleteNodeById(file1Id1, false))
-        .then(() => apis.user.nodes.createFile(file1, folder1Id).then(resp => (file1Id2 = resp.entry.id)))
+    beforeAll(async (done) => {
+      folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+      file1Id1 = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
+      await apis.user.nodes.deleteNodeById(file1Id1, false);
+      file1Id2 = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
 
-        .then(() => apis.user.nodes.createFolder(folder2).then(resp => (folder2Id = resp.entry.id)))
-        .then(() => apis.user.nodes.createFile(file2, folder2Id).then(resp => (file2Id = resp.entry.id)))
-        .then(() => apis.user.nodes.deleteNodeById(file2Id, false))
-        .then(() => apis.user.nodes.deleteNodeById(folder2Id, false))
+      folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
+      file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
+      await apis.user.nodes.deleteNodeById(file2Id, false);
+      await apis.user.nodes.deleteNodeById(folder2Id, false);
 
-        .then(done);
+      done();
     });
 
-    beforeEach(done => {
-      page.sidenav
-        .navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-        .then(() => dataTable.waitForHeader())
-        .then(done);
+    beforeEach(async (done) => {
+      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await dataTable.waitForHeader();
+      done();
     });
 
-    afterAll(done => {
-      Promise.all([apis.user.nodes.deleteNodeById(file1Id2), apis.user.trashcan.emptyTrash()]).then(done);
+    afterAll(async (done) => {
+      await Promise.all([
+        apis.user.nodes.deleteNodeById(file1Id2),
+        apis.user.trashcan.emptyTrash()
+      ]);
+      done();
     });
 
-    it('Restore a file when another file with same name exists on the restore location - [C217178]', () => {
-      page.sidenav
-        .navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-        .then(() => dataTable.selectItem(file1))
-        .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
-        .then(() => page.getSnackBarMessage())
-        .then(text => expect(text).toEqual(`Can't restore, ${file1} already exists`));
+    it('Restore a file when another file with same name exists on the restore location - [C217178]', async () => {
+      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await dataTable.selectItem(file1);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      const text = await page.getSnackBarMessage();
+      expect(text).toEqual(`Can't restore, ${file1} already exists`);
     });
 
-    it('Restore a file when original location no longer exists - [C217179]', () => {
-      page.sidenav
-        .navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-        .then(() => dataTable.selectItem(file2))
-        .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
-        .then(() => page.getSnackBarMessage())
-        .then(text => expect(text).toEqual(`Can't restore ${file2}, the original location no longer exists`));
+    it('Restore a file when original location no longer exists - [C217179]', async () => {
+      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await dataTable.selectItem(file2);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      const text = await page.getSnackBarMessage();
+      expect(text).toEqual(`Can't restore ${file2}, the original location no longer exists`);
     });
   });
 
@@ -233,56 +215,55 @@ describe('Restore from Trash', () => {
     const file5 = `file5-${Utils.random()}.txt`;
     let file5Id;
 
-    beforeAll(done => {
-      apis.user.nodes
-        .createFolder(folder1)
-        .then(resp => (folder1Id = resp.entry.id))
-        .then(() => apis.user.nodes.createFile(file1, folder1Id).then(resp => (file1Id = resp.entry.id)))
-        .then(() => apis.user.nodes.createFolder(folder2).then(resp => (folder2Id = resp.entry.id)))
-        .then(() => apis.user.nodes.createFile(file2, folder2Id).then(resp => (file2Id = resp.entry.id)))
-        .then(() => apis.user.nodes.deleteNodeById(file1Id, false))
-        .then(() => apis.user.nodes.deleteNodeById(folder1Id, false))
-        .then(() => apis.user.nodes.deleteNodeById(file2Id, false))
+    beforeAll(async (done) => {
+      folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+      file1Id = (await apis.user.nodes.createFile(file1, folder1Id)).entry.id;
+      folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
+      file2Id = (await apis.user.nodes.createFile(file2, folder2Id)).entry.id;
+      await apis.user.nodes.deleteNodeById(file1Id, false);
+      await apis.user.nodes.deleteNodeById(folder1Id, false);
+      await apis.user.nodes.deleteNodeById(file2Id, false);
 
-        .then(() => apis.user.nodes.createFolder(folder3).then(resp => (folder3Id = resp.entry.id)))
-        .then(() => apis.user.nodes.createFile(file3, folder3Id).then(resp => (file3Id = resp.entry.id)))
-        .then(() => apis.user.nodes.createFile(file4, folder3Id).then(resp => (file4Id = resp.entry.id)))
-        .then(() => apis.user.nodes.createFolder(folder4).then(resp => (folder4Id = resp.entry.id)))
-        .then(() => apis.user.nodes.createFile(file5, folder4Id).then(resp => (file5Id = resp.entry.id)))
-        .then(() => apis.user.nodes.deleteNodeById(file3Id, false))
-        .then(() => apis.user.nodes.deleteNodeById(file4Id, false))
-        .then(() => apis.user.nodes.deleteNodeById(folder3Id, false))
-        .then(() => apis.user.nodes.deleteNodeById(file5Id, false))
+      folder3Id = (await apis.user.nodes.createFolder(folder3)).entry.id;
+      file3Id = (await apis.user.nodes.createFile(file3, folder3Id)).entry.id;
+      file4Id = (await apis.user.nodes.createFile(file4, folder3Id)).entry.id;
+      folder4Id = (await apis.user.nodes.createFolder(folder4)).entry.id;
+      file5Id = (await apis.user.nodes.createFile(file5, folder4Id)).entry.id;
+      await apis.user.nodes.deleteNodeById(file3Id, false);
+      await apis.user.nodes.deleteNodeById(file4Id, false);
+      await apis.user.nodes.deleteNodeById(folder3Id, false);
+      await apis.user.nodes.deleteNodeById(file5Id, false);
 
-        .then(() => loginPage.loginWith(username))
-        .then(done);
+      await loginPage.loginWith(username);
+      done();
     });
 
-    beforeEach(done => {
-      page.sidenav
-        .navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-        .then(() => dataTable.waitForHeader())
-        .then(done);
+    beforeEach(async (done) => {
+      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await dataTable.waitForHeader();
+      done();
     });
 
-    afterAll(done => {
-      Promise.all([apis.user.trashcan.emptyTrash(), logoutPage.load()]).then(done);
+    afterAll(async (done) => {
+      await Promise.all([
+        apis.user.trashcan.emptyTrash(),
+        logoutPage.load()
+      ]);
+      done();
     });
 
-    it('one failure - [C217183]', () => {
-      dataTable
-        .selectMultipleItems([file1, file2])
-        .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
-        .then(() => page.getSnackBarMessage())
-        .then(text => expect(text).toEqual(`Can't restore ${file1}, the original location no longer exists`));
+    it('one failure - [C217183]', async () => {
+      await dataTable.selectMultipleItems([file1, file2]);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      const text = await page.getSnackBarMessage();
+      expect(text).toEqual(`Can't restore ${file1}, the original location no longer exists`);
     });
 
-    it('multiple failures - [C217184]', () => {
-      dataTable
-        .selectMultipleItems([file3, file4, file5])
-        .then(() => toolbar.getButtonByTitleAttribute('Restore').click())
-        .then(() => page.getSnackBarMessage())
-        .then(text => expect(text).toEqual('2 items not restored because of issues with the restore location'));
+    it('multiple failures - [C217184]', async () => {
+      await dataTable.selectMultipleItems([file3, file4, file5]);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      const text = await page.getSnackBarMessage();
+      expect(text).toEqual('2 items not restored because of issues with the restore location');
     });
   });
 });

@@ -2,7 +2,13 @@
   "$schema": "../../extension.schema.json",
   "$name": "app",
   "$version": "1.0.0",
-  "$references": ["plugin1.json", "dev.tools.json", "app.header.json"],
+  "$references": [
+    "plugin1.json",
+    "dev.tools.json",
+    "app.header.json",
+    "app.create.json",
+    "metadata-plugin.json"
+  ],
 
   "rules": [
     {
@@ -157,22 +163,8 @@
   "features": {
     "create": [
       {
-        "id": "app.create.folder",
-        "order": 100,
-        "icon": "create_new_folder",
-        "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
-        "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
-        "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
-        "actions": {
-          "click": "CREATE_FOLDER"
-        },
-        "rules": {
-          "enabled": "app.navigation.folder.canCreate"
-        }
-      },
-      {
         "id": "app.create.uploadFile",
-        "order": 200,
+        "order": 100,
         "icon": "file_upload",
         "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FILE",
         "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FILES",
@@ -186,7 +178,7 @@
       },
       {
         "id": "app.create.uploadFolder",
-        "order": 300,
+        "order": 200,
         "icon": "file_upload",
         "title": "APP.NEW_MENU.MENU_ITEMS.UPLOAD_FOLDER",
         "description": "APP.NEW_MENU.TOOLTIPS.UPLOAD_FOLDERS",
@@ -196,6 +188,35 @@
         },
         "rules": {
           "enabled": "app.navigation.folder.canUpload"
+        }
+      },
+      {
+        "id": "app.create.separator.1",
+        "type": "separator",
+        "order": 300
+      },
+      {
+        "id": "app.create.folder",
+        "order": 400,
+        "icon": "create_new_folder",
+        "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_FOLDER",
+        "description": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER",
+        "description-disabled": "APP.NEW_MENU.TOOLTIPS.CREATE_FOLDER_NOT_ALLOWED",
+        "actions": {
+          "click": "CREATE_FOLDER"
+        },
+        "rules": {
+          "enabled": "app.navigation.folder.canCreate"
+        }
+      },
+      {
+        "id": "app.create.library",
+        "order": 600,
+        "title": "APP.NEW_MENU.MENU_ITEMS.CREATE_LIBRARY",
+        "description": "APP.NEW_MENU.TOOLTIPS.CREATE_LIBRARY",
+        "icon": "create_new_folder",
+        "actions": {
+          "click": "CREATE_LIBRARY"
         }
       }
     ],
@@ -321,18 +342,6 @@
         },
         "rules": {
           "visible": "app.trashcan.hasSelection"
-        }
-      },
-      {
-        "id": "app.toolbar.createLibrary",
-        "order": 600,
-        "title": "Create Library",
-        "icon": "create_new_folder",
-        "actions": {
-          "click": "CREATE_LIBRARY"
-        },
-        "rules": {
-          "visible": "app.navigation.isLibraries"
         }
       },
       {
@@ -845,6 +854,37 @@
         "disabled": true,
         "title": "APP.INFO_DRAWER.TABS.VERSIONS",
         "component": "app.components.tabs.versions"
+      }
+    ],
+    "content-metadata-presets": [
+      {
+        "id": "app.content.metadata.custom",
+        "custom": [
+          {
+            "id": "app.content.metadata.customGroup",
+            "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
+            "items": [
+              {
+                "id": "app.content.metadata.exifAspect",
+                "aspect": "exif:exif",
+                "properties": [
+                  "exif:pixelXDimension",
+                  "exif:pixelYDimension",
+                  "exif:dateTimeOriginal",
+                  "exif:exposureTime",
+                  "exif:fNumber",
+                  "exif:flash",
+                  "exif:focalLength",
+                  "exif:isoSpeedRatings",
+                  "exif:orientation",
+                  "exif:manufacturer",
+                  "exif:model",
+                  "exif:software"
+                ]
+              }
+            ]
+          }
+        ]
       }
     ]
   }

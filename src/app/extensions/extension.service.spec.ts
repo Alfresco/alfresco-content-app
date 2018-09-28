@@ -540,6 +540,35 @@ describe('AppExtensionService', () => {
       expect(items.length).toBe(1);
       expect(items[0].id).toBe(2);
     });
+
+    it('should filter out all disabled items', () => {
+      const items = [
+        { id: '1', disabled: true },
+        {
+          id: '2',
+          someItems: [
+            { id: '21', disabled: true },
+            { id: '22', disabled: false },
+            { id: '23' }
+          ],
+          someObjectProp: {
+            innerItems: [{ id: '24' }, { id: '25', disabled: true }]
+          }
+        },
+        { id: 3, disabled: true }
+      ];
+
+      const result = service.filterDisabled(items);
+
+      expect(result.length).toBe(1);
+      expect(result[0].id).toBe('2');
+      expect(result[0].someItems.length).toBe(2);
+      expect(result[0].someItems[0].id).toBe('22');
+      expect(result[0].someItems[1].id).toBe('23');
+      expect(result[0].someObjectProp).not.toBeNull();
+      expect(result[0].someObjectProp.innerItems.length).toBe(1);
+      expect(result[0].someObjectProp.innerItems[0].id).toBe('24');
+    });
   });
 
   it('should reduce duplicate separators', () => {

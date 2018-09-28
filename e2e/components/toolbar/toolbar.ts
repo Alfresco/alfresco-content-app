@@ -56,6 +56,10 @@ export class Toolbar extends Component {
         return this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
     }
 
+    getButtonById(id: string) {
+        return this.component.element(by.id(id));
+    }
+
     async openMoreMenu() {
         await this.getButtonByTitleAttribute('More actions').click();
         await this.menu.waitForMenuToOpen();

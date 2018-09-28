@@ -234,7 +234,7 @@ export class ContentManagementService {
     });
   }
 
-  createLibrary() {
+  createLibrary(): Observable<SiteEntry> {
     const dialogInstance = this.dialogRef.open(LibraryDialogComponent, {
       width: '400px'
     });
@@ -243,11 +243,9 @@ export class ContentManagementService {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
-    dialogInstance.afterClosed().subscribe((node: SiteEntry) => {
-      if (node) {
-        this.libraryCreated.next(node);
-      }
-    });
+    return dialogInstance
+      .afterClosed()
+      .pipe(tap(node => this.libraryCreated.next(node)));
   }
 
   deleteLibrary(id: string): void {
