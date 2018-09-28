@@ -31,11 +31,9 @@ import {
   promise,
   ExpectedConditions as EC
 } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from './../configs';
+import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 
 export abstract class Page {
-  private static USE_HASH_STRATEGY = true;
-
   private locators = {
     app: by.css('app-root'),
     layout: by.css('app-layout'),
@@ -69,7 +67,7 @@ export abstract class Page {
   }
 
   load(relativeUrl: string = ''): promise.Promise<void> {
-    const hash = Page.USE_HASH_STRATEGY ? '/#' : '';
+    const hash = USE_HASH_STRATEGY ? '/#' : '';
     const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
 
     return browser.get(path);

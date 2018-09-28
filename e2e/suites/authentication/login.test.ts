@@ -29,6 +29,7 @@ import { APP_ROUTES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
+import { navigate } from '../../utilities/browser-utils';
 
 describe('Login', () => {
   const peopleApi = new RepoClient().people;
@@ -132,7 +133,8 @@ describe('Login', () => {
       const { username } = johnDoe;
 
       await loginPage.loginWith(username);
-      await browser.get(APP_ROUTES.LOGIN);
+
+      await navigate(APP_ROUTES.LOGIN);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
@@ -189,7 +191,7 @@ describe('Login', () => {
     });
 
     it('unauthenticated user is redirected to Login page - [C213106]', async () => {
-      await browser.get(APP_ROUTES.PERSONAL_FILES);
+      await navigate(APP_ROUTES.PERSONAL_FILES);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.LOGIN);
     });
 
