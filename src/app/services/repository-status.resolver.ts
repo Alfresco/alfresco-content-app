@@ -25,42 +25,46 @@
 
 import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { Resolve, Router } from '@angular/router';
-import { DiscoveryEntry } from 'alfresco-js-api';
+import { Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AppStore } from '../store/states/app.state';
 import { RepositoryState } from '../store/states';
-import { SetRepositoryStatusAction } from '../store/actions';
-import { ContentApiService } from './content-api.service';
+import { repositoryStatus } from '../store/selectors/app.selectors';
+import { filter, take } from 'rxjs/operators';
+import { GetRepositoryStatusAction } from '../store/actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RepositoryStatusResolver implements Resolve<RepositoryState> {
-  constructor(
-    private store: Store<AppStore>,
-    private contentApi: ContentApiService,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppStore>) {}
 
   resolve(): Observable<RepositoryState> {
-    return new Observable(observer => {
-      this.contentApi.getRepositoryInformation().subscribe(
-        (response: DiscoveryEntry) => {
-          const { status } = response.entry.repository;
+    this.init();
+    return this.wait();
+  }
 
-          this.store.dispatch(new SetRepositoryStatusAction(status));
-          observer.next(status);
-          observer.complete();
-        },
-        err => {
-          if (err) {
-            observer.next(null);
-            observer.complete();
-            this.router.navigate(['login']);
-          }
+  wait(): Observable<any> {
+    return this.store.select(repositoryStatus).pipe(
+      filter(state => this.hasValuesSet(state)),
+      take(1)
+    );
+  }
+
+  init() {
+    this.store
+      .select(repositoryStatus)
+      .pipe(take(1))
+      .subscribe(state => {
+        if (!this.hasValuesSet(state)) {
+          this.store.dispatch(new GetRepositoryStatusAction());
         }
-      );
-    });
+      });
+  }
+
+  private hasValuesSet(object): boolean {
+    return Object.keys(object)
+      .map(key => object[key])
+      .every(value => value !== null);
   }
 }
