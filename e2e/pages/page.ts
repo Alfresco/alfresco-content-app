@@ -70,7 +70,7 @@ export abstract class Page {
 
   load(relativeUrl: string = ''): promise.Promise<void> {
     const hash = Page.USE_HASH_STRATEGY ? '/#' : '';
-    const path = `${hash}${this.url}${relativeUrl}`;
+    const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
 
     return browser.get(path);
   }
