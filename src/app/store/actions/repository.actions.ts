@@ -23,15 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-export * from './effects/app.effects';
-export * from './effects/download.effects';
-export * from './effects/favorite.effects';
-export * from './effects/node.effects';
-export * from './effects/router.effects';
-export * from './effects/snackbar.effects';
-export * from './effects/viewer.effects';
-export * from './effects/search.effects';
-export * from './effects/library.effects';
-export * from './effects/upload.effects';
-export * from './effects/modals.effects';
-export * from './effects/repository.effects';
+import { Action } from '@ngrx/store';
+
+export const SET_REPOSITORY_STATUS = 'SET_REPOSITORY_STATUS';
+export const GET_REPOSITORY_STATUS = 'GET_REPOSITORY_STATUS';
+
+export class SetRepositoryStatusAction implements Action {
+  readonly type = SET_REPOSITORY_STATUS;
+  constructor(public payload: any) {}
+}
+
+export class GetRepositoryStatusAction implements Action {
+  readonly type = GET_REPOSITORY_STATUS;
+}

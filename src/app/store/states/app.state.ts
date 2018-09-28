@@ -28,6 +28,7 @@ import {
   ProfileState,
   NavigationState
 } from '@alfresco/adf-extensions';
+import { RepositoryState } from '../states';
 
 export interface AppState {
   appName: string;
@@ -40,6 +41,7 @@ export interface AppState {
   navigation: NavigationState;
   infoDrawerOpened: boolean;
   documentDisplayMode: string;
+  repository: RepositoryState;
 }
 
 export const INITIAL_APP_STATE: AppState = {
@@ -64,7 +66,10 @@ export const INITIAL_APP_STATE: AppState = {
     currentFolder: null
   },
   infoDrawerOpened: false,
-  documentDisplayMode: 'list'
+  documentDisplayMode: 'list',
+  repository: {
+    isQuickShareEnabled: null
+  }
 };
 
 export interface AppStore {

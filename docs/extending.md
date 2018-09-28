@@ -27,7 +27,9 @@ You can create plugins that change, toggle or extend the following areas:
   - separators
 - Viewer actions
   - "Open With" entries
-  - "More actions" toolbar entries
+  - toolbar entries
+    - buttons
+    - "More actions" buttons
 
 Extensions can also:
 
@@ -860,7 +862,8 @@ All the customisations are stored in the `features` section of the configuration
     "toolbar": [],
     "contextMenu": [],
     "viewer": {
-      "toolbar:": [],
+      "toolbarActions:": [],
+      "toolbarMoreMenu:": [],
       "openWith": [],
       "content": []
     },
@@ -1192,6 +1195,7 @@ declared in the `rules` section:
 Viewer component in ACA supports the following extension points:
 
 - Content Viewers
+- toolbar actions
 - `More` toolbar actions
 - `Open With` actions
 
@@ -1204,7 +1208,8 @@ Viewer component in ACA supports the following extension points:
   "features": {
     "viewer": {
       "content": [],
-      "toolbar:": [],
+      "toolbarActions:": [],
+      "toolbarMoreMenu:": [],
       "openWith": []
     }
   }
@@ -1253,6 +1258,37 @@ Every custom component receives the following properties at runtime:
 
 #### Toolbar actions
 
+The default toolbar actions from the ACA viewer can be customised through extensions to be replaced, modified or disabled.
+New viewer toolbar actions can also be added from the extensions config:
+
+```json
+{
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
+
+  "features": {
+    "viewer": {
+      "toolbarActions": [
+        {
+          "id": "app.viewer.versions",
+          "order": 500,
+          "title": "APP.ACTIONS.VERSIONS",
+          "icon": "history",
+          "actions": {
+            "click": "MANAGE_VERSIONS"
+          },
+          "rules": {
+            "visible": "app.toolbar.versions"
+          }
+        }
+      ],
+      "toolbarMoreMenu": [...]
+    }
+  }
+}
+```
+
 The ADF Viewer component allows providing custom entries for the `More` menu button on the toolbar.
 The ACA provides an extension point for this menu that you can utilise to populate custom menu items:
 
@@ -1264,7 +1300,8 @@ The ACA provides an extension point for this menu that you can utilise to popula
 
   "features": {
     "viewer": {
-      "toolbar:": [
+      "toolbarActions": [...],
+      "toolbarMoreMenu": [
         {
           "id": "app.viewer.share",
           "order": 300,
