@@ -23,8 +23,10 @@
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
     "format:check": "prettier --list-different \"src/{app,environments}/**/*{.ts,.js,.css,.scss}\"",
     "build.tomcat": "npm run build -- --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
+    "e2e.tomcat": "npm run e2e -- --baseUrl=http://localhost:4000/content-app/",
     "docker.tomcat.start": "cd docker/tomcat && docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:4000",
-    "docker.tomcat.stop": "cd docker/tomcat && docker-compose stop"
+    "docker.tomcat.stop": "cd docker/tomcat && docker-compose stop",
+    "docker.tomcat.e2e": "npm run docker.tomcat.start && npm run e2e.tomcat"
   },
   "private": true,
   "dependencies": {

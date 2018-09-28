@@ -44,4 +44,8 @@ jobs:
       #     repo: Alfresco/alfresco-content-app
       #     branch: development
     - stage: e2e
+      name: 'Nginx'
       script: npm run build && npm run e2e:docker
+    - stage: e2e
+      name: 'Tomcat'
+      script: npm run build.tomcat && npm run docker.tomcat.e2e
