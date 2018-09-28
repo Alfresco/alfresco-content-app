@@ -49,7 +49,7 @@ import {
 import { MinimalNodeEntity, QueryBody } from 'alfresco-js-api';
 import { Subject } from 'rxjs';
 import { MatListItem } from '@angular/material';
-import { debounceTime, filter } from 'rxjs/operators';
+import { debounceTime, filter, takeUntil } from 'rxjs/operators';
 import {
   EmptySearchResultComponent,
   SearchComponent
@@ -84,6 +84,8 @@ import {
   host: { class: 'adf-search-control' }
 })
 export class SearchInputControlComponent implements OnInit, OnDestroy {
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
+
   /** Toggles whether to use an expanding search control. If false
    * then a regular input is used.
    */
@@ -156,7 +158,10 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
   constructor(private thumbnailService: ThumbnailService) {
     this.toggleSearch
       .asObservable()
-      .pipe(debounceTime(this.toggleDebounceTime))
+      .pipe(
+        debounceTime(this.toggleDebounceTime),
+        takeUntil(this.onDestroy$)
+      )
       .subscribe(() => {
         if (this.expandable && !this.skipToggle) {
           this.subscriptAnimationState =
@@ -194,15 +199,8 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.focusSubject) {
-      this.focusSubject.unsubscribe();
-      this.focusSubject = null;
-    }
-
-    if (this.toggleSearch) {
-      this.toggleSearch.unsubscribe();
-      this.toggleSearch = null;
-    }
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   searchSubmit(event: any) {
@@ -299,7 +297,8 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
             this.isSearchBarActive() &&
             ($event.type === 'blur' || $event.type === 'focusout')
           );
-        })
+        }),
+        takeUntil(this.onDestroy$)
       )
       .subscribe(() => {
         this.toggleSearchBar();

@@ -1,5 +1,6 @@
 {
   "rulesDirectory": ["node_modules/codelyzer"],
+  "extends": ["rxjs-tslint-rules"],
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
@@ -63,6 +64,51 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true
+    "directive-class-suffix": true,
+
+    "rxjs-ban-operators": {
+      "severity": "error"
+    },
+    "rxjs-no-unsafe-takeuntil": {
+      "severity": "error"
+    },
+    "rxjs-no-create": {
+      "severity": "error"
+    },
+    "rxjs-no-ignored-subscribe": {
+      "severity": "error"
+    },
+    "rxjs-no-subject-unsubscribe": {
+      "severity": "error"
+    },
+    "rxjs-no-subject-value": {
+      "severity": "error"
+    },
+    "rxjs-no-unsafe-catch": {
+      "options": [
+        {
+          "observable": "action(s|\\$)?"
+        }
+      ],
+      "severity": "error"
+    },
+    "rxjs-no-unsafe-switchmap": {
+      "options": [
+        {
+          "disallow": [
+            "add",
+            "create",
+            "delete",
+            "post",
+            "put",
+            "remove",
+            "set",
+            "update"
+          ],
+          "observable": "action(s|\\$)?"
+        }
+      ],
+      "severity": "error"
+    }
   }
 }

@@ -25,7 +25,7 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map, take, switchMap } from 'rxjs/operators';
+import { map, take, mergeMap } from 'rxjs/operators';
 import {
   DeleteLibraryAction,
   DELETE_LIBRARY,
@@ -73,7 +73,7 @@ export class LibraryEffects {
   @Effect()
   createLibrary$ = this.actions$.pipe(
     ofType<CreateLibraryAction>(CREATE_LIBRARY),
-    switchMap(() => this.content.createLibrary()),
+    mergeMap(() => this.content.createLibrary()),
     map(node => new NavigateLibraryAction(node.entry.guid))
   );
 
