@@ -199,9 +199,15 @@
           "description": "Element order",
           "type": "number"
         },
-        "disabled": {
-          "description": "Toggles the disabled state",
-          "type": "boolean"
+        "rules": {
+          "description": "Element rules",
+          "type": "object",
+          "properties": {
+            "visible": {
+              "description": "Rule to evaluate the visibility state",
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -223,9 +229,15 @@
           "description": "Group order",
           "type": "number"
         },
-        "disabled": {
-          "description": "Toggles the disabled state",
-          "type": "boolean"
+        "rules": {
+          "description": "Element rules",
+          "type": "object",
+          "properties": {
+            "visible": {
+              "description": "Rule to evaluate the visibility state",
+              "type": "string"
+            }
+          }
         }
       }
     },

@@ -30,8 +30,10 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { ProfileResolver } from './services/profile.resolver';
+import { RepositoryStatusResolver } from './services/repository-status.resolver';
 import { LoginComponent } from './components/login/login.component';
 import { AppAuthGuard } from './guards/auth.guard';
+import { AppSharedRuleGuard } from './guards/shared.guard';
 
 export const APP_ROUTES: Routes = [
   {
@@ -54,7 +56,10 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    resolve: { profile: ProfileResolver },
+    resolve: {
+      profile: ProfileResolver,
+      repository: RepositoryStatusResolver
+    },
     children: [
       {
         path: '',
@@ -196,7 +201,9 @@ export const APP_ROUTES: Routes = [
               navigateSource: 'shared'
             }
           }
-        ]
+        ],
+        canActivateChild: [AppSharedRuleGuard],
+        canActivate: [AppSharedRuleGuard]
       },
       {
         path: 'trashcan',

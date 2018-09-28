@@ -30,6 +30,8 @@ import {
   SetSelectedNodesAction,
   SET_USER_PROFILE,
   SetUserProfileAction,
+  SET_REPOSITORY_STATUS,
+  SetRepositoryStatusAction,
   SET_LANGUAGE_PICKER,
   SetLanguagePickerAction,
   SET_CURRENT_FOLDER,
@@ -76,6 +78,11 @@ export function appReducer(
       break;
     case TOGGLE_DOCUMENT_DISPLAY_MODE:
       newState = updateDocumentDisplayMode(state, <ToggleDocumentDisplayMode>(
+        action
+      ));
+      break;
+    case SET_REPOSITORY_STATUS:
+      newState = updateRepositoryStatus(state, <SetRepositoryStatusAction>(
         action
       ));
       break;
@@ -205,5 +212,14 @@ function updateSelectedNodes(
     libraries,
     library
   };
+  return newState;
+}
+
+function updateRepositoryStatus(
+  state: AppState,
+  action: SetRepositoryStatusAction
+) {
+  const newState = Object.assign({}, state);
+  newState.repository = action.payload;
   return newState;
 }

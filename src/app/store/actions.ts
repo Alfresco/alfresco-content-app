@@ -33,3 +33,4 @@ export * from './actions/search.actions';
 export * from './actions/library.actions';
 export * from './actions/upload.actions';
 export * from './actions/modals.actions';
+export * from './actions/repository.actions';

@@ -23,9 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+  OnDestroy
+} from '@angular/core';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states';
+import { ruleContext } from '../../store/selectors/app.selectors';
+import { Subject } from 'rxjs';
+import { takeUntil, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidenav',
@@ -34,19 +45,40 @@ import { NavBarGroupRef } from '@alfresco/adf-extensions';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-sidenav' }
 })
-export class SidenavComponent implements OnInit {
+export class SidenavComponent implements OnInit, OnDestroy {
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+
   @Input()
   showLabel: boolean;
 
   groups: Array<NavBarGroupRef> = [];
 
-  constructor(private extensions: AppExtensionService) {}
+  constructor(
+    private store: Store<AppStore>,
+    private extensions: AppExtensionService
+  ) {}
 
   ngOnInit() {
-    this.groups = this.extensions.getNavigationGroups();
+    this.store
+      .select(ruleContext)
+      .pipe(
+        takeUntil(this.onDestroy$),
+        map(rules => rules.repository),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.groups = this.extensions.getApplicationNavigation(
+          this.extensions.navbar
+        );
+      });
   }
 
   trackById(index: number, obj: { id: string }) {
     return obj.id;
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 }

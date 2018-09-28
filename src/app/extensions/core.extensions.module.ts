@@ -27,6 +27,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { LayoutComponent } from '../components/layout/layout.component';
+import * as repository from './evaluators/repository.evaluators';
 import * as app from './evaluators/app.evaluators';
 import * as nav from './evaluators/navigation.evaluators';
 import { AppExtensionService } from './extension.service';
@@ -109,7 +110,9 @@ export class CoreExtensionsModule {
       'app.navigation.isNotRecentFiles': nav.isNotRecentFiles,
       'app.navigation.isSearchResults': nav.isSearchResults,
       'app.navigation.isNotSearchResults': nav.isNotSearchResults,
-      'app.navigation.isPreview': nav.isPreview
+      'app.navigation.isPreview': nav.isPreview,
+
+      'repository.isQuickShareEnabled': repository.hasQuickShareEnabled
     });
   }
 }
