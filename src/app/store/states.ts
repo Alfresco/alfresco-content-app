@@ -24,3 +24,4 @@
  */
 
 export * from './states/app.state';
+export * from './states/repository.state';
