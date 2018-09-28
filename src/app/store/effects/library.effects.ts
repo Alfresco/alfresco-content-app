@@ -73,8 +73,8 @@ export class LibraryEffects {
   @Effect()
   createLibrary$ = this.actions$.pipe(
     ofType<CreateLibraryAction>(CREATE_LIBRARY),
-    mergeMap(() => this.content.createLibrary()),
-    map(node => new NavigateLibraryAction(node.entry.guid))
+    switchMap(() => this.content.createLibrary()),
+    map(libraryId => new NavigateLibraryAction(libraryId))
   );
 
   @Effect({ dispatch: false })
