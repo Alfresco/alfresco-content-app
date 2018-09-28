@@ -27,39 +27,53 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { AppExtensionService as RuleContext } from '../extensions/extension.service';
-import { ExtensionService } from '@alfresco/adf-extensions';
-import { LogService } from '@alfresco/adf-core';
+import { tap, map, filter, take } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../store/states/app.state';
+import { GetRepositoryStatusAction } from '../store/actions';
+import { repositoryStatus } from '../store/selectors/app.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AppRuleGuard implements CanActivate {
-  constructor(
-    private extensionService: ExtensionService,
-    private ruleContext: RuleContext,
-    private logService: LogService
-  ) {}
+export class AppSharedRuleGuard implements CanActivate {
+  constructor(private store: Store<AppStore>, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    if (!route.data.guardRule) {
-      this.logService.warn(
-        'AppRuleGuard must have defined a guardRule on route data property'
-      );
-      return false;
-    }
-
-    return this.extensionService.evaluateRule(
-      route.data.guardRule,
-      this.ruleContext
-    );
+    this.init();
+    return this.wait();
   }
 
   canActivateChild(
     route: ActivatedRouteSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.canActivate(route);
+  }
+
+  wait(): Observable<boolean> {
+    return this.store.select(repositoryStatus).pipe(
+      map(state => state.isQuickShareEnabled),
+      filter(value => value !== null),
+      tap(value => {
+        if (value === false) {
+          this.router.navigate(['']);
+        }
+      }),
+      take(1)
+    );
+  }
+
+  init() {
+    this.store
+      .select(repositoryStatus)
+      .pipe(take(1))
+      .subscribe(state => {
+        if (state.isQuickShareEnabled === null) {
+          this.store.dispatch(new GetRepositoryStatusAction());
+        }
+      });
   }
 }
