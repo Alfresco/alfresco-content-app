@@ -129,7 +129,7 @@ describe('Login', () => {
       expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
-    it('redirects to Home Page when navigating to the Login page while already logged in - [C213107]', async () => {
+    xit('redirects to Home Page when navigating to the Login page while already logged in - [C213107]', async () => {
       const { username } = johnDoe;
 
       await loginPage.loginWith(username);
