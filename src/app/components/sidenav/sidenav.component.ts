@@ -62,9 +62,9 @@ export class SidenavComponent implements OnInit, OnDestroy {
     this.store
       .select(ruleContext)
       .pipe(
-        takeUntil(this.onDestroy$),
         map(rules => rules.repository),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        takeUntil(this.onDestroy$)
       )
       .subscribe(() => {
         this.groups = this.extensions.getApplicationNavigation(

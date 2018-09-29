@@ -93,6 +93,7 @@
     "prettier": "^1.14.2",
     "protractor": "^5.4.0",
     "rimraf": "2.6.2",
+    "rxjs-tslint-rules": "^4.8.0",
     "selenium-webdriver": "4.0.0-alpha.1",
     "ts-node": "~4.1.0",
     "tsickle": ">=0.29.0",
