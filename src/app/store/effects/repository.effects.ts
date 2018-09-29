@@ -26,13 +26,12 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { DiscoveryEntry } from 'alfresco-js-api';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import {
   GET_REPOSITORY_STATUS,
   GetRepositoryStatusAction
 } from '../actions/repository.actions';
-import { Router } from '@angular/router';
 import { ContentApiService } from '../../services/content-api.service';
 import { SetRepositoryStatusAction } from '../actions';
 
@@ -40,28 +39,21 @@ import { SetRepositoryStatusAction } from '../actions';
 export class RepositoryEffects {
   constructor(
     private actions$: Actions,
-    private router: Router,
     private contentApi: ContentApiService
   ) {}
 
   @Effect()
   getRepositoryStatus$ = this.actions$.pipe(
     ofType<GetRepositoryStatusAction>(GET_REPOSITORY_STATUS),
-    switchMap(() => {
+    mergeMap(() => {
       return this.contentApi.getRepositoryInformation().pipe(
         map(
           (response: DiscoveryEntry) =>
             new SetRepositoryStatusAction(response.entry.repository.status)
         ),
-        catchError(error => {
-          this.redirectToLogin();
-          return of(error);
-        })
+        // needs proper error handling
+        catchError(() => of({ type: 'noop' }))
       );
     })
   );
-
-  private redirectToLogin() {
-    this.router.navigate(['login']);
-  }
 }
