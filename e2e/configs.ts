@@ -29,7 +29,7 @@ export const BROWSER_RESOLUTION_HEIGHT = 800;
 export const BROWSER_WAIT_TIMEOUT = 10000;
 
 // Application configs
-export const APP_HOST = 'http://localhost:4000';
+export const USE_HASH_STRATEGY = true;
 
 // Repository configs
 export const REPO_API_HOST = 'http://localhost:8080';
