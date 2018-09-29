@@ -25,7 +25,7 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map, take, mergeMap } from 'rxjs/operators';
+import { map, take, switchMap } from 'rxjs/operators';
 import {
   DeleteLibraryAction,
   DELETE_LIBRARY,
