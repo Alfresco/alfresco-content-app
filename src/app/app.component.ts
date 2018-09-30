@@ -37,11 +37,11 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppExtensionService } from './extensions/extension.service';
 import {
-  SetLanguagePickerAction,
   SnackbarErrorAction,
   SetCurrentUrlAction,
   SetInitialStateAction,
-  CloseModalDialogsAction
+  CloseModalDialogsAction,
+  SetRepositoryStatusAction
 } from './store/actions';
 import {
   AppStore,
@@ -49,6 +49,9 @@ import {
   INITIAL_APP_STATE
 } from './store/states/app.state';
 import { filter } from 'rxjs/operators';
+import { ContentApiService } from './services/content-api.service';
+import { DiscoveryEntry } from 'alfresco-js-api';
+import { AppService } from './services/app.service';
 
 @Component({
   selector: 'app-root',
@@ -66,7 +69,9 @@ export class AppComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private uploadService: UploadService,
     private extensions: AppExtensionService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
+    private contentApi: ContentApiService,
+    private appService: AppService
   ) {}
 
   ngOnInit() {
@@ -115,18 +120,31 @@ export class AppComponent implements OnInit {
     this.uploadService.fileUploadError.subscribe(error =>
       this.onFileUploadedError(error)
     );
+
+    this.appService.waitForAuth().subscribe(() => {
+      this.loadRepositoryStatus();
+      // todo: load external auth-enabled plugins here
+    });
+  }
+
+  private loadRepositoryStatus() {
+    this.contentApi
+      .getRepositoryInformation()
+      .subscribe((response: DiscoveryEntry) => {
+        this.store.dispatch(
+          new SetRepositoryStatusAction(response.entry.repository.status)
+        );
+      });
   }
 
   private loadAppSettings() {
-    const languagePicker = this.config.get<boolean>('languagePicker');
-    this.store.dispatch(new SetLanguagePickerAction(languagePicker));
-
     const baseShareUrl =
       this.config.get<string>('baseShareUrl') ||
       this.config.get<string>('ecmHost');
 
     const state: AppState = {
       ...INITIAL_APP_STATE,
+      languagePicker: this.config.get<boolean>('languagePicker'),
       appName: this.config.get<string>('application.name'),
       headerColor: this.config.get<string>('headerColor'),
       logoPath: this.config.get<string>('application.logo'),

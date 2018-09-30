@@ -27,53 +27,29 @@ import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { tap, map, filter, take } from 'rxjs/operators';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
-import { GetRepositoryStatusAction } from '../store/actions';
-import { repositoryStatus } from '../store/selectors/app.selectors';
+import { isQuickShareEnabled } from '../store/selectors/app.selectors';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppSharedRuleGuard implements CanActivate {
-  constructor(private store: Store<AppStore>, private router: Router) {}
+  isQuickShareEnabled$: Observable<boolean>;
+
+  constructor(store: Store<AppStore>) {
+    this.isQuickShareEnabled$ = store.select(isQuickShareEnabled);
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    this.init();
-    return this.wait();
+    return this.isQuickShareEnabled$;
   }
 
   canActivateChild(
     route: ActivatedRouteSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.canActivate(route);
-  }
-
-  wait(): Observable<boolean> {
-    return this.store.select(repositoryStatus).pipe(
-      map(state => state.isQuickShareEnabled),
-      filter(value => value !== null),
-      tap(value => {
-        if (value === false) {
-          this.router.navigate(['']);
-        }
-      }),
-      take(1)
-    );
-  }
-
-  init() {
-    this.store
-      .select(repositoryStatus)
-      .pipe(take(1))
-      .subscribe(state => {
-        if (state.isQuickShareEnabled === null) {
-          this.store.dispatch(new GetRepositoryStatusAction());
-        }
-      });
   }
 }

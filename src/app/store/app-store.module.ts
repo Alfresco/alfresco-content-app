@@ -42,8 +42,7 @@ import {
   LibraryEffects,
   UploadEffects,
   FavoriteEffects,
-  ModalsEffects,
-  RepositoryEffects
+  ModalsEffects
 } from './effects';
 
 @NgModule({
@@ -61,8 +60,7 @@ import {
       LibraryEffects,
       UploadEffects,
       FavoriteEffects,
-      ModalsEffects,
-      RepositoryEffects
+      ModalsEffects
     ]),
     !environment.production
       ? StoreDevtoolsModule.instrument({ maxAge: 25 })
