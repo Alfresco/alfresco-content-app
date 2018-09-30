@@ -90,6 +90,11 @@ export class AppComponent implements OnInit {
 
           this.store.dispatch(new CloseModalDialogsAction());
           this.router.navigate(['/login']);
+
+          this.appService.waitForAuth().subscribe(() => {
+            this.loadRepositoryStatus();
+            // todo: load external auth-enabled plugins here
+          });
         }
       }
     });
