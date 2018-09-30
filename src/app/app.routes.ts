@@ -79,8 +79,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'favorites'
             }
           }
@@ -110,8 +108,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'libraries'
             }
           }
@@ -143,8 +139,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'personal-files'
             }
           },
@@ -153,8 +147,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'personal-files'
             }
           }
@@ -176,8 +168,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'recent-files'
             }
           }
@@ -196,8 +186,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'shared'
             }
           }
@@ -230,8 +218,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'search'
             }
           }

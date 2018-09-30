@@ -38,7 +38,11 @@ import { AppToolbarModule } from '../toolbar/toolbar.module';
 const routes: Routes = [
   {
     path: '',
-    component: PreviewComponent
+    component: PreviewComponent,
+    data: {
+      title: 'APP.PREVIEW.TITLE',
+      navigateMultiple: true
+    }
   }
 ];
 
