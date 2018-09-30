@@ -24,9 +24,50 @@
  */
 
 import { AppAuthGuard } from './auth.guard';
+import { TestBed } from '@angular/core/testing';
+import { AppTestingModule } from '../testing/app-testing.module';
+import { AuthenticationService } from '@alfresco/adf-core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 describe('AppAuthGuard', () => {
-  it('should be defined', () => {
-    expect(AppAuthGuard).toBeDefined();
+  let auth: AuthenticationService;
+  let guard: AppAuthGuard;
+  let router: Router;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule, RouterTestingModule],
+      providers: [AppAuthGuard]
+    });
+
+    auth = TestBed.get(AuthenticationService);
+    guard = TestBed.get(AppAuthGuard);
+    router = TestBed.get(Router);
+
+    spyOn(router, 'navigateByUrl').and.stub();
+  });
+
+  it('should evaluate to [true] if logged in already', () => {
+    spyOn(auth, 'isEcmLoggedIn').and.returnValue(true);
+
+    expect(guard.checkLogin(null)).toBe(true);
+  });
+
+  it('should navigate to login with the redirect url', () => {
+    spyOn(auth, 'isEcmLoggedIn').and.returnValue(false);
+    expect(guard.checkLogin('test/url')).toBe(false);
+    expect(router.navigateByUrl).toHaveBeenCalledWith(
+      '/login?redirectUrl=test/url'
+    );
+  });
+
+  it('should evaluate to [false] with OAuth enabled', () => {
+    spyOn(auth, 'isEcmLoggedIn').and.returnValue(false);
+    spyOn(auth, 'isOauth').and.returnValue(true);
+    spyOn(guard, 'isOAuthWithoutSilentLogin').and.returnValue(false);
+
+    expect(guard.checkLogin(null)).toBe(false);
+    expect(router.navigateByUrl).not.toHaveBeenCalled();
   });
 });

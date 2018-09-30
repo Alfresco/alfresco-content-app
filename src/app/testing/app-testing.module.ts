@@ -80,6 +80,13 @@ import { MaterialModule } from '../material.module';
         },
         getRedirect(): string {
           return null;
+        },
+        setRedirect() {},
+        isOauth(): boolean {
+          return false;
+        },
+        isOAuthWithoutSilentLogin(): boolean {
+          return false;
         }
       }
     },
