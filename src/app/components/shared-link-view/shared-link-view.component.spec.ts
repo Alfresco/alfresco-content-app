@@ -24,9 +24,39 @@
  */
 
 import { SharedLinkViewComponent } from './shared-link-view.component';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { AppTestingModule } from '../../testing/app-testing.module';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('SharedLinkViewComponent', () => {
-  it('should be defined', () => {
-    expect(SharedLinkViewComponent).toBeDefined();
+  let component: SharedLinkViewComponent;
+  let fixture: ComponentFixture<SharedLinkViewComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule],
+      declarations: [SharedLinkViewComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: { data: { preferencePrefix: 'prefix' } },
+            params: of({ id: '123' })
+          }
+        }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
+
+    fixture = TestBed.createComponent(SharedLinkViewComponent);
+    component = fixture.componentInstance;
+
+    fixture.detectChanges();
+  });
+
+  it('should fetch link id from the active route', () => {
+    expect(component.sharedLinkId).toBe('123');
   });
 });

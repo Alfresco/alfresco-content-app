@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: 'shared-link-view.component.html',
   styleUrls: ['shared-link-view.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  // tslint:disable-next-line:use-host-property-decorator
   host: { class: 'app-shared-link-view' }
 })
 export class SharedLinkViewComponent implements OnInit {
