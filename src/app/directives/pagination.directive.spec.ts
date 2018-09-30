@@ -24,9 +24,57 @@
  */
 
 import { PaginationDirective } from './pagination.directive';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { AppTestingModule } from '../testing/app-testing.module';
+import { DirectivesModule } from './directives.module';
+import {
+  UserPreferencesService,
+  AppConfigService,
+  PaginationComponent,
+  CoreModule,
+  PaginationModel
+} from '@alfresco/adf-core';
 
 describe('PaginationDirective', () => {
-  it('should be defined', () => {
-    expect(PaginationDirective).toBeDefined();
+  let preferences: UserPreferencesService;
+  let config: AppConfigService;
+  let pagination: PaginationComponent;
+  let fixture: ComponentFixture<PaginationComponent>;
+  let directive: PaginationDirective;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule, DirectivesModule, CoreModule.forRoot()]
+    });
+
+    preferences = TestBed.get(UserPreferencesService);
+    config = TestBed.get(AppConfigService);
+    fixture = TestBed.createComponent(PaginationComponent);
+    pagination = fixture.componentInstance;
+    directive = new PaginationDirective(pagination, preferences, config);
+  });
+
+  afterEach(() => {
+    fixture.destroy();
+    directive.ngOnDestroy();
+  });
+
+  it('should setup supported page sizes from app config', () => {
+    spyOn(config, 'get').and.returnValue([21, 31, 41]);
+
+    directive.ngOnInit();
+
+    expect(pagination.supportedPageSizes).toEqual([21, 31, 41]);
+  });
+
+  it('should update preferences on page size change', () => {
+    directive.ngOnInit();
+
+    pagination.changePageSize.emit(
+      new PaginationModel({
+        maxItems: 100
+      })
+    );
+    expect(preferences.paginationSize).toBe(100);
   });
 });
