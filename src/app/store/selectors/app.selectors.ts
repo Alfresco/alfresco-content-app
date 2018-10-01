@@ -63,6 +63,10 @@ export const repositoryStatus = createSelector(
   selectApp,
   state => state.repository
 );
+export const isQuickShareEnabled = createSelector(
+  repositoryStatus,
+  status => status.isQuickShareEnabled
+);
 
 export const ruleContext = createSelector(
   appSelection,

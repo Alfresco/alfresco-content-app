@@ -24,15 +24,12 @@
  */
 
 import { Action } from '@ngrx/store';
+import { RepositoryState } from '../states';
 
 export const SET_REPOSITORY_STATUS = 'SET_REPOSITORY_STATUS';
 export const GET_REPOSITORY_STATUS = 'GET_REPOSITORY_STATUS';
 
 export class SetRepositoryStatusAction implements Action {
   readonly type = SET_REPOSITORY_STATUS;
-  constructor(public payload: any) {}
-}
-
-export class GetRepositoryStatusAction implements Action {
-  readonly type = GET_REPOSITORY_STATUS;
+  constructor(public payload: RepositoryState) {}
 }

@@ -30,7 +30,6 @@ import { LibrariesComponent } from './components/libraries/libraries.component';
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { ProfileResolver } from './services/profile.resolver';
-import { RepositoryStatusResolver } from './services/repository-status.resolver';
 import { LoginComponent } from './components/login/login.component';
 import { AppAuthGuard } from './guards/auth.guard';
 import { AppSharedRuleGuard } from './guards/shared.guard';
@@ -57,8 +56,7 @@ export const APP_ROUTES: Routes = [
     path: '',
     component: LayoutComponent,
     resolve: {
-      profile: ProfileResolver,
-      repository: RepositoryStatusResolver
+      profile: ProfileResolver
     },
     children: [
       {
@@ -79,8 +77,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'favorites'
             }
           }
@@ -110,8 +106,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'libraries'
             }
           }
@@ -143,8 +137,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'personal-files'
             }
           },
@@ -153,8 +145,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'personal-files'
             }
           }
@@ -176,8 +166,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'recent-files'
             }
           }
@@ -196,8 +184,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'shared'
             }
           }
@@ -230,8 +216,6 @@ export const APP_ROUTES: Routes = [
             loadChildren:
               'src/app/components/preview/preview.module#PreviewModule',
             data: {
-              title: 'APP.PREVIEW.TITLE',
-              navigateMultiple: true,
               navigateSource: 'search'
             }
           }

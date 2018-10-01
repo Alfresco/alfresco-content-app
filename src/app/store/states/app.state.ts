@@ -68,7 +68,7 @@ export const INITIAL_APP_STATE: AppState = {
   infoDrawerOpened: false,
   documentDisplayMode: 'list',
   repository: {
-    isQuickShareEnabled: null
+    isQuickShareEnabled: false
   }
 };
 

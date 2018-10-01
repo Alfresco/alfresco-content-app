@@ -23,48 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AppStore } from '../store/states/app.state';
-import { RepositoryState } from '../store/states';
-import { repositoryStatus } from '../store/selectors/app.selectors';
-import { filter, take } from 'rxjs/operators';
-import { GetRepositoryStatusAction } from '../store/actions';
+import { AuthenticationService } from '@alfresco/adf-core';
+import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RepositoryStatusResolver implements Resolve<RepositoryState> {
-  constructor(private store: Store<AppStore>) {}
+export class AppService {
+  constructor(private auth: AuthenticationService) {}
 
-  resolve(): Observable<RepositoryState> {
-    this.init();
-    return this.wait();
-  }
-
-  wait(): Observable<any> {
-    return this.store.select(repositoryStatus).pipe(
-      filter(state => this.hasValuesSet(state)),
-      take(1)
-    );
-  }
-
-  init() {
-    this.store
-      .select(repositoryStatus)
-      .pipe(take(1))
-      .subscribe(state => {
-        if (!this.hasValuesSet(state)) {
-          this.store.dispatch(new GetRepositoryStatusAction());
-        }
-      });
-  }
-
-  private hasValuesSet(object): boolean {
-    return Object.keys(object)
-      .map(key => object[key])
-      .every(value => value !== null);
+  waitForAuth(): Observable<any> {
+    const isLoggedIn = this.auth.isLoggedIn();
+    if (isLoggedIn) {
+      return of(true);
+    } else {
+      return this.auth.onLogin.pipe(take(1));
+    }
   }
 }

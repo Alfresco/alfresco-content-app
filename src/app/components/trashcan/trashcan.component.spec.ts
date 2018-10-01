@@ -89,6 +89,13 @@ describe('TrashcanComponent', () => {
     );
   });
 
+  it('should reload on nodes purged', () => {
+    component.ngOnInit();
+    spyOn(component, 'reload').and.stub();
+    contentService.nodesPurged.next({});
+    expect(component.reload).toHaveBeenCalled();
+  });
+
   describe('onRestoreNode()', () => {
     it('should call refresh()', () => {
       spyOn(component, 'reload');
