@@ -39,37 +39,37 @@ export class LoginPage extends Page {
 
     /** @override */
     constructor() {
-        super(APP_ROUTES.LOGIN);
+      super(APP_ROUTES.LOGIN);
     }
 
     /** @override */
-    load(): promise.Promise<any> {
-        return super.load().then(() => {
-            const { submitButton } = this.login;
-            const hasSubmitButton = EC.presenceOf(submitButton);
-
-            return browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT)
-                .then(() => Utils.clearLocalStorage())
-                .then(() => browser.manage().deleteAllCookies());
-        });
+    async load() {
+      await super.load();
+      const { submitButton } = this.login;
+      const hasSubmitButton = EC.presenceOf(submitButton);
+      await browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
+      await Utils.clearLocalStorage();
+      await browser.manage().deleteAllCookies();
     }
 
-    loginWith(username: string, password?: string): promise.Promise<any> {
-        const pass = password || username;
-        return this.load()
-            .then(() => this.login.enterCredentials(username, pass).submit())
-            .then(() => super.waitForApp());
+    async loginWith(username: string, password?: string) {
+      const pass = password || username;
+      await this.load();
+      await this.login.enterCredentials(username, pass)
+      await this.login.submit();
+      await super.waitForApp();
     }
 
-    loginWithAdmin(): promise.Promise<any> {
-        return this.load()
-            .then(() => this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD));
+    async loginWithAdmin() {
+      await this.load();
+      await this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
     }
 
-    tryLoginWith(username: string, password?: string): promise.Promise<void> {
-        const pass = password || username;
-        return this.load()
-            .then(() => this.login.enterCredentials(username, pass).submit())
-            .then(() => browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT));
+    async tryLoginWith(username: string, password?: string) {
+      const pass = password || username;
+      await this.load();
+      await this.login.enterCredentials(username, pass);
+      await this.login.submit();
+      await browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
     }
 }

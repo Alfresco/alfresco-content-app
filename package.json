@@ -13,7 +13,7 @@
     "lint": "ng lint",
     "server-versions": "rimraf ./src/versions.json && npm list --depth=0 --json=true --prod=true > ./src/versions.json  || exit 0",
     "wd:update": "webdriver-manager update --gecko=false",
-    "e2e": "npm run wd:update && protractor --baseUrl=http://localhost:4000",
+    "e2e": "npm run wd:update && protractor protractor.conf.js --baseUrl=http://localhost:4000",
     "start:docker": "docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:4000",
     "stop:docker": "docker-compose stop",
     "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",

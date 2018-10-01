@@ -31,7 +31,7 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { navigate } from '../../utilities/browser-utils';
 
-describe('Login', () => {
+fdescribe('Login', () => {
   const peopleApi = new RepoClient().people;
   const loginPage = new LoginPage();
   const logoutPage = new LogoutPage();
@@ -93,7 +93,7 @@ describe('Login', () => {
     });
 
     it('change password visibility - [C213091]', async () => {
-      await loginPage.login.enterPassword('some password');
+      loginPage.login.enterPassword('some password');
       expect(await loginPage.login.isPasswordShown()).toBe(false, 'password is visible');
       await loginPage.login.passwordVisibility.click();
       expect(await loginPage.login.getPasswordVisibility()).toBe(true, 'Password visibility not changed');
@@ -114,7 +114,7 @@ describe('Login', () => {
       const { username, firstName, lastName } = johnDoe;
 
       await loginPage.loginWith(username);
-      expect(userInfo.name).toEqual(`${firstName} ${lastName}`);
+      expect(await userInfo.getName()).toEqual(`${firstName} ${lastName}`);
     });
 
     it(`logs in with user having username containing "@" - [C213096]`, async () => {
@@ -129,6 +129,7 @@ describe('Login', () => {
       expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
+    // TODO: ACA-245
     xit('redirects to Home Page when navigating to the Login page while already logged in - [C213107]', async () => {
       const { username } = johnDoe;
 
@@ -165,12 +166,12 @@ describe('Login', () => {
     });
 
     it('disabled submit button when password is empty - [C280072]', async () => {
-      await loginComponent.enterUsername('any-username');
+      loginComponent.enterUsername('any-username');
       expect(await submitButton.isEnabled()).toBe(false, 'submit button is enabled');
     });
 
     it('disabled submit button when username is empty - [C280070]', async () => {
-      await loginPage.login.enterPassword('any-password');
+      loginPage.login.enterPassword('any-password');
       expect(await submitButton.isEnabled()).toBe(false, 'submit button is enabled');
     });
 

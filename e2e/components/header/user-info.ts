@@ -43,22 +43,20 @@ export class UserInfo extends Component {
         super('aca-current-user', ancestor);
     }
 
-    openMenu(): promise.Promise<Menu> {
-        const { menu, avatar } = this;
+    async openMenu() {
+      const { menu, avatar } = this;
 
-        return avatar.click()
-            .then(() => menu.wait())
-            .then(() => menu);
+      await avatar.click();
+      await menu.wait();
+      return menu;
     }
 
-    get name(): promise.Promise<string> {
-        return this.fullName.getText();
+    async getName() {
+      return await this.fullName.getText();
     }
 
-    signOut(): promise.Promise<void> {
-        return this.openMenu()
-            .then(menu => {
-                menu.clickMenuItem('Sign out');
-            });
+    async signOut() {
+      const menu = await this.openMenu();
+      await menu.clickMenuItem('Sign out');
     }
 }
