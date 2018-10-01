@@ -31,6 +31,7 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { navigate } from '../../utilities/browser-utils';
 
+/* cspell:disable-next-line */
 fdescribe('Login', () => {
   const peopleApi = new RepoClient().people;
   const loginPage = new LoginPage();

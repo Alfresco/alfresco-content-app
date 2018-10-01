@@ -62,84 +62,67 @@ export abstract class Page {
 
   constructor(public url: string = '') {}
 
-  get title(): promise.Promise<string> {
-    return browser.getTitle();
+  async getTitle() {
+    return await browser.getTitle();
   }
 
-  load(relativeUrl: string = ''): promise.Promise<void> {
+  async load(relativeUrl: string = '') {
     const hash = USE_HASH_STRATEGY ? '/#' : '';
     const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
 
-    return browser.get(path);
+    await browser.get(path);
   }
 
-  waitForApp() {
-    return browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
+  async waitForApp() {
+    await browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
   }
 
-  waitForSnackBarToAppear() {
-    return browser.wait(
-      EC.visibilityOf(this.snackBarContainer),
-      BROWSER_WAIT_TIMEOUT
-    );
+  async waitForSnackBarToAppear() {
+    await browser.wait(EC.visibilityOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
   }
 
-  waitForSnackBarToClose() {
-    return browser.wait(
-      EC.not(EC.visibilityOf(this.snackBarContainer)),
-      BROWSER_WAIT_TIMEOUT
-    );
+  async waitForSnackBarToClose() {
+    await browser.wait(EC.not(EC.visibilityOf(this.snackBarContainer)), BROWSER_WAIT_TIMEOUT);
   }
 
-  waitForDialog() {
-    return browser.wait(
-      EC.visibilityOf(this.dialogContainer),
-      BROWSER_WAIT_TIMEOUT
-    );
+  async waitForDialog() {
+    await browser.wait(EC.visibilityOf(this.dialogContainer), BROWSER_WAIT_TIMEOUT);
   }
 
-  waitForDialogToClose() {
-    return browser.wait(
-      EC.not(EC.visibilityOf(this.dialogContainer)),
-      BROWSER_WAIT_TIMEOUT
-    );
+  async waitForDialogToClose() {
+    await browser.wait(EC.not(EC.visibilityOf(this.dialogContainer)), BROWSER_WAIT_TIMEOUT);
   }
 
-  refresh(): promise.Promise<void> {
-    return browser.refresh();
+  async refresh() {
+    await browser.refresh();
   }
 
   getDialogActionByLabel(label) {
     return element(by.cssContainingText('.mat-button-wrapper', label));
   }
 
-  isSnackBarDisplayed(): promise.Promise<boolean> {
-    return this.snackBar.isDisplayed();
+  async isSnackBarDisplayed() {
+    return await this.snackBar.isDisplayed();
   }
 
-  getSnackBarMessage(): promise.Promise<string> {
-    return this.waitForSnackBarToAppear().then(() =>
-      this.snackBar.getAttribute('innerText')
-    );
+  async getSnackBarMessage() {
+    await this.waitForSnackBarToAppear();
+    return await this.snackBar.getAttribute('innerText');
   }
 
-  getSnackBarAction() {
-    return this.waitForSnackBarToAppear().then(() => this.snackBarAction);
+  async clickSnackBarAction() {
+    await this.waitForSnackBarToAppear();
+    // return browser.executeScript(function (elem) {
+    //   elem.click();
+    // }, this.snackBarAction);
+    await this.snackBarAction.click();
   }
 
-  clickSnackBarAction() {
-    return this.waitForSnackBarToAppear().then(() => {
-      return browser.executeScript(function(elem) {
-        elem.click();
-      }, this.snackBarAction);
-    });
+  async isGenericErrorDisplayed() {
+    return await this.genericError.isDisplayed();
   }
 
-  isGenericErrorDisplayed() {
-    return this.genericError.isDisplayed();
-  }
-
-  getGenericErrorTitle() {
-    return this.genericErrorTitle.getText();
+  async getGenericErrorTitle() {
+    return await this.genericErrorTitle.getText();
   }
 }
