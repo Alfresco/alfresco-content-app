@@ -16,7 +16,7 @@ and any number of external plugins that are references of the main entry point.
 The application also comes with the `/src/assets/plugins/` folder
 already preconfigured to store external files.
 
-You can create plugins that change, toggle or extend the following areas:
+You can create plugins that change, toggle, or extend the following areas:
 
 - Navigation sidebar links and groups
 - Context Menu
@@ -37,11 +37,11 @@ Extensions can also:
 - Overwrite or disable extension points of the main application or other plugins
 - Change rules, actions or any visual element
 - Register new application routes based on empty pages or layouts
-- Register new rule evaluators, components, guards, etc.
+- Register new rule evaluators, components, guards
 
 ## Format
 
-The format is represented by a JSON file with the structure similar to the following one:
+The format is represented by a JSON file with the structure similar to the following:
 
 ```json
 {
@@ -74,8 +74,8 @@ Schema allows validating extension files, provides code completion and documenta
 ### Multiple files
 
 You can have multiple extension files distributed separately.
-All additional files are linked via the `$references` property,
-the order of declaration defines also the order of loading.
+All additional files are linked via the `$references` property.
+The order of declaration defines the order of loading.
 
 ```json
 {
@@ -87,27 +87,25 @@ the order of declaration defines also the order of loading.
 ```
 
 <p class="warning">
-Always keep in mind that all extension files are merged together at runtime.
+Keep in mind all extension files are merged together at runtime.
 That allows plugins overwriting the code from the main application or altering other plugins.
 </p>
 
-### Startup behaviour
+### Startup behavior
 
 First, the root `app.extensions.json` is loaded by means of the special `Loader` service.
 The file can contain all the necessary declarations for an application to function,
 and having extra plugin files is fully optional.
 
 Next, the `Loader` traverses the `$references` metadata and loads additional files if provided.
-For the sake of speed the files are loaded in parallel,
-however, once everything is loaded, they are applied in the order of declaration.
+For the sake of speed the files are loaded in parallel, however once everything is loaded, they are applied in the order of declaration.
 
 After all the external files are fetched, the `Loader` sorts them, removes the metadata properties
 and stacks the resulting JSON objects on top of each other.
 
 <p class="tip">
-Any top-level property name that starts with the `$` symbol is considered a metadata and does not participate in merge process.
-That allows a plugin to carry extra information for maintenance and visualisation purposes,
-for example: `$name`, `$version`, `$description`, `$license`, etc.
+Any top-level property name that starts with the `$` symbol is considered a metadata and does not participate in the merge process.
+That allows a plugin to carry extra information for maintenance and visualisation purposes, for example: `$name`, `$version`, `$description`, `$license`, etc.
 </p>
 
 #### Merging properties
