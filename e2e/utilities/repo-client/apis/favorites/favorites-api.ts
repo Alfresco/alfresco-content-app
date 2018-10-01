@@ -92,7 +92,7 @@ export class FavoritesApi extends RepoApi {
     async waitForApi(data) {
         const favoriteFiles = async () => {
             const totalItems = (await this.getFavorites()).list.pagination.totalItems;
-            if ( totalItems < data.expect) {
+            if ( totalItems !== data.expect) {
                 return Promise.reject(totalItems);
             } else {
                 return Promise.resolve(totalItems);

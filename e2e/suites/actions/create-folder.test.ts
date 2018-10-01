@@ -28,6 +28,7 @@ import { browser } from 'protractor';
 import { SIDEBAR_LABELS, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
+import { Menu } from '../../components/menu/menu';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -53,6 +54,7 @@ describe('Create folder', () => {
   const personalFilesPage = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const { dataTable } = personalFilesPage;
+  const menu = new Menu();
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -89,7 +91,7 @@ describe('Create folder', () => {
 
     it('option is enabled when having enough permissions - [C216339]', async () => {
       await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      const menu = await personalFilesPage.sidenav.openNewMenu();
+      await personalFilesPage.sidenav.openNewMenu();
       const isEnabled = await menu.getItemByLabel('Create folder').isEnabled();
       expect(isEnabled).toBe(true, 'Create folder is not enabled');
     });
@@ -123,7 +125,7 @@ describe('Create folder', () => {
 
     it('enabled option tooltip - [C216342]', async () => {
       await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      const menu = await personalFilesPage.sidenav.openNewMenu();
+      await personalFilesPage.sidenav.openNewMenu();
       await browser.actions().mouseMove(menu.getItemByLabel('Create folder')).perform();
       expect(await menu.getItemTooltip('Create folder')).toContain('Create new folder');
     });
@@ -246,7 +248,7 @@ describe('Create folder', () => {
     it('option is disabled when not enough permissions - [C280397]', async () => {
       await fileLibrariesPage.dataTable.doubleClickOnRowByName(siteName);
       await fileLibrariesPage.dataTable.doubleClickOnRowByName(folderName1);
-      const menu = await fileLibrariesPage.sidenav.openNewMenu();
+      await fileLibrariesPage.sidenav.openNewMenu();
       const isEnabled = await menu.getItemByLabel('Create folder').isEnabled();
       expect(isEnabled).toBe(false, 'Create folder is not disabled');
     });
@@ -254,7 +256,7 @@ describe('Create folder', () => {
     it('disabled option tooltip - [C280398]', async () => {
       await fileLibrariesPage.dataTable.doubleClickOnRowByName(siteName);
       await fileLibrariesPage.dataTable.doubleClickOnRowByName(folderName1);
-      const menu = await fileLibrariesPage.sidenav.openNewMenu();
+      await fileLibrariesPage.sidenav.openNewMenu();
       await browser.actions().mouseMove(menu.getItemByLabel('Create folder')).perform();
       const tooltip = await menu.getItemTooltip('Create folder');
       expect(tooltip).toContain(`Folders cannot be created whilst viewing the current items`);

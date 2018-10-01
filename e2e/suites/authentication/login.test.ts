@@ -93,7 +93,7 @@ describe('Login', () => {
     });
 
     it('change password visibility - [C213091]', async () => {
-      loginPage.login.enterPassword('some password');
+      await loginPage.login.enterPassword('some password');
       expect(await loginPage.login.isPasswordShown()).toBe(false, 'password is visible');
       await loginPage.login.passwordVisibility.click();
       expect(await loginPage.login.getPasswordVisibility()).toBe(true, 'Password visibility not changed');
@@ -166,12 +166,12 @@ describe('Login', () => {
     });
 
     it('disabled submit button when password is empty - [C280072]', async () => {
-      loginComponent.enterUsername('any-username');
+      await loginComponent.enterUsername('any-username');
       expect(await submitButton.isEnabled()).toBe(false, 'submit button is enabled');
     });
 
     it('disabled submit button when username is empty - [C280070]', async () => {
-      loginPage.login.enterPassword('any-password');
+      await loginPage.login.enterPassword('any-password');
       expect(await submitButton.isEnabled()).toBe(false, 'submit button is enabled');
     });
 

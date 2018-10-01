@@ -28,55 +28,54 @@ import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class Sidenav extends Component {
-    private static selectors = {
-        root: 'app-sidenav',
-        link: '.sidenav-menu__item',
-        label: '.menu__item--label',
-        activeLink: '.menu__item--active',
-        newButton: '[data-automation-id="create-button"]'
-    };
+  private static selectors = {
+    root: 'app-sidenav',
+    link: '.sidenav-menu__item',
+    label: '.menu__item--label',
+    activeLink: '.menu__item--active',
+    newButton: '[data-automation-id="create-button"]'
+  };
 
-    links: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.link));
-    activeLink: ElementFinder = this.component.element(by.css(Sidenav.selectors.activeLink));
-    newButton: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.newButton));
+  links: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.link));
+  activeLink: ElementFinder = this.component.element(by.css(Sidenav.selectors.activeLink));
+  newButton: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.newButton));
 
-    menu: Menu = new Menu();
+  menu: Menu = new Menu();
 
-    constructor(ancestor?: ElementFinder) {
-        super(Sidenav.selectors.root, ancestor);
-    }
+  constructor(ancestor?: ElementFinder) {
+    super(Sidenav.selectors.root, ancestor);
+  }
 
-    openNewMenu(): promise.Promise<Menu> {
-        const { menu, newButton } = this;
+  async openNewMenu() {
+    const { menu, newButton } = this;
 
-        return newButton.click()
-            .then(() => menu.waitForMenuToOpen())
-            .then(() => menu);
-    }
+    await newButton.click();
+    await menu.waitForMenuToOpen();
+  }
 
-    openCreateDialog(): any {
-        return this.openNewMenu()
-            .then(() => this.menu.clickMenuItem('Create folder'));
-    }
+  async openCreateDialog() {
+    await this.openNewMenu();
+    await this.menu.clickMenuItem('Create folder');
+  }
 
-    isActiveByLabel(label: string): promise.Promise<boolean> {
-        return this.getLinkByLabel(label).getAttribute('class')
-            .then(className => className.includes(Sidenav.selectors.activeLink.replace('.', '')));
-    }
+  async isActiveByLabel(label: string) {
+    const className = await this.getLinkByLabel(label).getAttribute('class');
+    return className.includes(Sidenav.selectors.activeLink.replace('.', ''));
+  }
 
-    getLink(label: string): ElementFinder {
-        return this.component.element(by.cssContainingText(Sidenav.selectors.link, label));
-    }
+  getLink(label: string) {
+    return this.component.element(by.cssContainingText(Sidenav.selectors.link, label));
+  }
 
-    getLinkByLabel(label: string): ElementFinder {
-        return this.component.element(by.cssContainingText(Sidenav.selectors.label, label));
-    }
+  getLinkByLabel(label: string) {
+    return this.component.element(by.cssContainingText(Sidenav.selectors.label, label));
+  }
 
-    getLinkTooltip(label: string): promise.Promise<string> {
-        return this.getLink(label).getAttribute('title');
-    }
+  async getLinkTooltip(label: string) {
+    return await this.getLink(label).getAttribute('title');
+  }
 
-    navigateToLinkByLabel(label: string): promise.Promise<any> {
-        return this.getLinkByLabel(label).click();
-    }
+  async navigateToLinkByLabel(label: string) {
+    await this.getLinkByLabel(label).click();
+  }
 }
