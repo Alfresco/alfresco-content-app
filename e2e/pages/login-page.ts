@@ -22,54 +22,49 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-import { browser, ExpectedConditions as EC, promise } from 'protractor';
+import { browser, ExpectedConditions as EC } from 'protractor';
 import { LoginComponent } from '../components/components';
 import { Page } from './page';
 import { Utils } from '../utilities/utils';
 
-import {
-    ADMIN_USERNAME,
-    ADMIN_PASSWORD,
-    BROWSER_WAIT_TIMEOUT,
-    APP_ROUTES
-} from '../configs';
+import { ADMIN_USERNAME, ADMIN_PASSWORD, BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
 
 export class LoginPage extends Page {
-    login: LoginComponent = new LoginComponent(this.app);
+  login: LoginComponent = new LoginComponent(this.app);
 
-    /** @override */
-    constructor() {
-      super(APP_ROUTES.LOGIN);
-    }
+  /** @override */
+  constructor() {
+    super(APP_ROUTES.LOGIN);
+  }
 
-    /** @override */
-    async load() {
-      await super.load();
-      const { submitButton } = this.login;
-      const hasSubmitButton = EC.presenceOf(submitButton);
-      await browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
-      await Utils.clearLocalStorage();
-      await browser.manage().deleteAllCookies();
-    }
+  /** @override */
+  async load() {
+    await super.load();
+    const { submitButton } = this.login;
+    const hasSubmitButton = EC.presenceOf(submitButton);
+    await browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
+    await Utils.clearLocalStorage();
+    await browser.manage().deleteAllCookies();
+  }
 
-    async loginWith(username: string, password?: string) {
-      const pass = password || username;
-      await this.load();
-      await this.login.enterCredentials(username, pass)
-      await this.login.submit();
-      await super.waitForApp();
-    }
+  async loginWith(username: string, password?: string) {
+    const pass = password || username;
+    await this.load();
+    await this.login.enterCredentials(username, pass)
+    await this.login.submit();
+    await super.waitForApp();
+  }
 
-    async loginWithAdmin() {
-      await this.load();
-      await this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
-    }
+  async loginWithAdmin() {
+    await this.load();
+    await this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
+  }
 
-    async tryLoginWith(username: string, password?: string) {
-      const pass = password || username;
-      await this.load();
-      await this.login.enterCredentials(username, pass);
-      await this.login.submit();
-      await browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
-    }
+  async tryLoginWith(username: string, password?: string) {
+    const pass = password || username;
+    await this.load();
+    await this.login.enterCredentials(username, pass);
+    await this.login.submit();
+    await browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
+  }
 }

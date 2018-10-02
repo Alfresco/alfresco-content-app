@@ -45,7 +45,7 @@ export class ShareDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    return await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
   }
 
   async isDialogOpen() {

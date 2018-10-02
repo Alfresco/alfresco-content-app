@@ -23,40 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, promise } from 'protractor';
+import { ElementFinder, by } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class UserInfo extends Component {
-    private locators = {
-        avatar: by.css('.current-user__avatar'),
-        fullName: by.css('.current-user__full-name'),
-        menuItems: by.css('[mat-menu-item]')
-    };
+  private locators = {
+    avatar: by.css('.current-user__avatar'),
+    fullName: by.css('.current-user__full-name'),
+    menuItems: by.css('[mat-menu-item]')
+  };
 
-    fullName: ElementFinder = this.component.element(this.locators.fullName);
-    avatar: ElementFinder = this.component.element(this.locators.avatar);
+  fullName: ElementFinder = this.component.element(this.locators.fullName);
+  avatar: ElementFinder = this.component.element(this.locators.avatar);
 
-    menu: Menu = new Menu();
+  menu: Menu = new Menu();
 
-    constructor(ancestor?: ElementFinder) {
-        super('aca-current-user', ancestor);
-    }
+  constructor(ancestor?: ElementFinder) {
+    super('aca-current-user', ancestor);
+  }
 
-    async openMenu() {
-      const { menu, avatar } = this;
+  async openMenu() {
+    const { menu, avatar } = this;
 
-      await avatar.click();
-      await menu.wait();
-      return menu;
-    }
+    await avatar.click();
+    await menu.wait();
+    return menu;
+  }
 
-    async getName() {
-      return await this.fullName.getText();
-    }
+  async getName() {
+    return await this.fullName.getText();
+  }
 
-    async signOut() {
-      const menu = await this.openMenu();
-      await menu.clickMenuItem('Sign out');
-    }
+  async signOut() {
+    const menu = await this.openMenu();
+    await menu.clickMenuItem('Sign out');
+  }
 }

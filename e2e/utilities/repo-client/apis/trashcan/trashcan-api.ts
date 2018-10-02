@@ -69,6 +69,6 @@ export class TrashcanApi extends RepoApi {
             }
         };
 
-        return await Utils.retryCall(deletedFiles);
+        return Utils.retryCall(deletedFiles);
     }
 }

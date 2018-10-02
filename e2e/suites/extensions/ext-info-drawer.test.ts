@@ -95,6 +95,7 @@ describe('Extensions - Info Drawer', () => {
         });
 
         afterAll(async (done) => {
+            console.log('after all 1');
             await logoutPage.load();
             done();
         });
@@ -104,8 +105,9 @@ describe('Extensions - Info Drawer', () => {
             await page.toolbar.getButtonByTitleAttribute('View details').click();
             await infoDrawer.waitForInfoDrawerToOpen();
 
+            const val = await infoDrawer.getTabTitle(custom_tab.order);
             expect(await infoDrawer.isTabPresent(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not present`);
-            expect(await infoDrawer.getTabTitle(custom_tab.order)).toEqual(`${custom_tab.icon}\n${custom_tab.title}\n`);
+            expect(val).toEqual(`${custom_tab.icon}\n${custom_tab.title}\n`);
         });
 
         it('Remove existing tab - [C284647]', async () => {
@@ -157,6 +159,7 @@ describe('Extensions - Info Drawer', () => {
 
         afterAll(async (done) => {
             await logoutPage.load();
+            console.log('after all 2');
             done();
         });
 

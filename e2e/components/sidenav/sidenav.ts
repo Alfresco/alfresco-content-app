@@ -76,6 +76,7 @@ export class Sidenav extends Component {
   }
 
   async navigateToLinkByLabel(label: string) {
-    await this.getLinkByLabel(label).click();
+    const link = this.getLinkByLabel(label);
+    await link.click();
   }
 }

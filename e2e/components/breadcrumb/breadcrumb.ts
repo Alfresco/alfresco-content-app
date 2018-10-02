@@ -27,56 +27,60 @@ import { ElementFinder, ElementArrayFinder, by, promise } from 'protractor';
 import { Component } from '../component';
 
 export class Breadcrumb extends Component {
-    private static selectors = {
-        root: 'adf-breadcrumb',
-        item: '.adf-breadcrumb-item',
-        currentItem: '.adf-breadcrumb-item-current'
-    };
+  private static selectors = {
+    root: 'adf-breadcrumb',
+    item: '.adf-breadcrumb-item',
+    currentItem: '.adf-breadcrumb-item-current'
+  };
 
-    items: ElementArrayFinder = this.component.all(by.css(Breadcrumb.selectors.item));
-    currentItem: ElementFinder = this.component.element(by.css(Breadcrumb.selectors.currentItem));
+  items: ElementArrayFinder = this.component.all(by.css(Breadcrumb.selectors.item));
+  currentItem: ElementFinder = this.component.element(by.css(Breadcrumb.selectors.currentItem));
 
-    constructor(ancestor?: ElementFinder) {
-        super(Breadcrumb.selectors.root, ancestor);
-    }
+  constructor(ancestor?: ElementFinder) {
+    super(Breadcrumb.selectors.root, ancestor);
+  }
 
-    getNthItem(nth: number): ElementFinder {
-        return this.items.get(nth - 1);
-    }
+  getNthItem(nth: number): ElementFinder {
+    return this.items.get(nth - 1);
+  }
 
-    getNthItemName(nth: number) {
-        return this.getNthItem(nth).getText();
-    }
+  async getNthItemName(nth: number) {
+      return await this.getNthItem(nth).getText();
+  }
 
-    getItemsCount(): promise.Promise<number> {
-        return this.items.count();
-    }
+  async getItemsCount() {
+    return await this.items.count();
+  }
 
-    getAllItems() {
-        return this.items.map(elem => elem.getText().then(str => str.split('\nchevron_right')[0]));
-    }
+  async getAllItems() {
+    return this.items.map(async elem => {
+      const str = await elem.getText();
+      return str.split('\nchevron_right')[0];
+    });
+  }
 
-    getFirstItemName(): promise.Promise<string> {
-        return this.items.get(0).getText();
-    }
+  async getFirstItemName() {
+    return await this.items.get(0).getText();
+  }
 
-    getCurrentItem() {
-        return this.currentItem;
-    }
+  getCurrentItem() {
+    return this.currentItem;
+  }
 
-    getCurrentItemName(): promise.Promise<string> {
-        return this.currentItem.getText();
-    }
+  async getCurrentItemName() {
+    return await this.currentItem.getText();
+  }
 
-    clickItem(name: string) {
-        return this.component.element(by.css(`${Breadcrumb.selectors.item}[title=${name}]`)).click();
-    }
+  async clickItem(name: string) {
+    const elem = this.component.element(by.css(`${Breadcrumb.selectors.item}[title=${name}]`));
+    await elem.click();
+  }
 
-    clickNthItem(nth: number) {
-        return this.getNthItem(nth).click();
-    }
+  async clickNthItem(nth: number) {
+    await this.getNthItem(nth).click();
+  }
 
-    getNthItemTooltip(nth: number) {
-        return this.getNthItem(nth).getAttribute('title');
-    }
+  async getNthItemTooltip(nth: number) {
+    return await this.getNthItem(nth).getAttribute('title');
+  }
 }

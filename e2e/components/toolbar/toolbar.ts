@@ -28,54 +28,56 @@ import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class Toolbar extends Component {
-    private static selectors = {
-        root: '.adf-toolbar',
-        button: '.mat-icon-button'
-    };
+  private static selectors = {
+    root: '.adf-toolbar',
+    button: '.mat-icon-button'
+  };
 
-    menu: Menu = new Menu();
-    buttons: ElementArrayFinder = this.component.all(by.css(Toolbar.selectors.button));
+  menu: Menu = new Menu();
+  buttons: ElementArrayFinder = this.component.all(by.css(Toolbar.selectors.button));
 
-    constructor(ancestor?: ElementFinder) {
-        super(Toolbar.selectors.root, ancestor);
-    }
+  constructor(ancestor?: ElementFinder) {
+    super(Toolbar.selectors.root, ancestor);
+  }
 
-    async isEmpty() {
-        return await this.buttons.count() === 0;
-    }
+  async isEmpty() {
+    const count = await this.buttons.count();
+    return count === 0;
+  }
 
-    async isButtonPresent(title: string) {
-        return await this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`)).isPresent();
-    }
+  async isButtonPresent(title: string) {
+    const elem = this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
+    return await elem.isPresent();
+  }
 
-    getButtonByLabel(label: string) {
-        return this.component.element(by.cssContainingText(Toolbar.selectors.button, label));
-    }
+  getButtonByLabel(label: string) {
+    return this.component.element(by.cssContainingText(Toolbar.selectors.button, label));
+  }
 
-    getButtonByTitleAttribute(title: string) {
-        return this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
-    }
+  getButtonByTitleAttribute(title: string) {
+    return this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
+  }
 
-    getButtonById(id: string) {
-        return this.component.element(by.id(id));
-    }
+  getButtonById(id: string) {
+    return this.component.element(by.id(id));
+  }
 
-    async openMoreMenu() {
-        await this.getButtonByTitleAttribute('More actions').click();
-        await this.menu.waitForMenuToOpen();
-        return this.menu;
-    }
+  async openMoreMenu() {
+    await this.getButtonByTitleAttribute('More actions').click();
+    await this.menu.waitForMenuToOpen();
+    // return this.menu;
+  }
 
-    async closeMoreMenu() {
-        return await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-    }
+  async closeMoreMenu() {
+    await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+  }
 
-    async getButtonTooltip(button: ElementFinder) {
-        return await button.getAttribute('title');
-    }
+  async getButtonTooltip(button: ElementFinder) {
+    return await button.getAttribute('title');
+  }
 
-    async clickButton(title: string) {
-        const btn = this.getButtonByTitleAttribute(title);
-        await btn.click();
-    }
+  async clickButton(title: string) {
+    const btn = this.getButtonByTitleAttribute(title);
+    await btn.click();
+  }
 }

@@ -23,14 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor, promise, ElementFinder, ExpectedConditions as EC } from 'protractor';
+import { browser, protractor, ElementFinder, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
 const path = require('path');
 const fs = require('fs');
 
 export class Utils {
   // generate a random value
-  static random(): string {
+  static random() {
     return Math.random().toString(36).substring(5, 10).toLowerCase();
   }
 
@@ -40,7 +40,7 @@ export class Utils {
   }
 
   // session storage
-  static async clearSessionStorage(): promise.Promise<any> {
+  static async clearSessionStorage() {
     await browser.executeScript('window.sessionStorage.clear();');
   }
 
@@ -61,7 +61,7 @@ export class Utils {
     await this.setSessionStorageFromConfig('"aca.extension.config"', defConfig);
   }
 
-  static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
+  static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000) {
     const pause = duration => new Promise(res => setTimeout(res, duration));
 
     const run = retries => fn()
@@ -85,7 +85,8 @@ export class Utils {
   }
 
   static async fileExistsOnOS(fileName: string) {
-    const filePath = path.join((await browser.getProcessedConfig()).params.downloadFolder, fileName);
+    const config = await browser.getProcessedConfig();
+    const filePath = path.join(config.params.downloadFolder, fileName);
 
     let tries = 5;
 

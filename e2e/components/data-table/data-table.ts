@@ -179,7 +179,8 @@ export class DataTable extends Component {
   async doubleClickOnRowByName(name: string) {
     const item = this.getRowFirstCell(name);
     await Utils.waitUntilElementClickable(item);
-    await browser.actions().mouseMove(item).click().click().perform();
+    await browser.actions().mouseMove(item).perform();
+    await browser.actions().click().click().perform();
   }
 
   async selectItem(name: string) {
@@ -284,6 +285,7 @@ export class DataTable extends Component {
   }
 
   async hasContextMenu() {
-    return (await this.menu.getItemsCount()) > 0;
+    const count = await this.menu.getItemsCount();
+    return count > 0;
   }
 }

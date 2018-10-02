@@ -288,7 +288,7 @@ describe('Mark items as favorites', () => {
         });
 
         afterEach(async (done) => {
-            // browser.actions().sendKeys(protractor.Key.ESCAPE).perform().then(done);
+            // browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
             await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
             done();
         });

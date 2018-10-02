@@ -71,6 +71,6 @@ export class SharedLinksApi extends RepoApi {
             }
         };
 
-        return await Utils.retryCall(sharedFiles);
+        return Utils.retryCall(sharedFiles);
     }
 }

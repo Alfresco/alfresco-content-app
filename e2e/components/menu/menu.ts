@@ -28,87 +28,86 @@ import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
 export class Menu extends Component {
-    private static selectors = {
-        root: '.mat-menu-panel',
-        item: '.mat-menu-item',
-        icon: '.mat-icon',
-        uploadFiles: 'app-upload-files'
-    };
+  private static selectors = {
+    root: '.mat-menu-panel',
+    item: '.mat-menu-item',
+    icon: '.mat-icon',
+    uploadFiles: 'app-upload-files'
+  };
 
-    items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
-    backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
-    uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
+  items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
+  backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
+  uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
 
-    constructor(ancestor?: ElementFinder) {
-        super(Menu.selectors.root, ancestor);
+  constructor(ancestor?: ElementFinder) {
+    super(Menu.selectors.root, ancestor);
+  }
+
+  async waitForMenuToOpen() {
+    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async waitForMenuToClose() {
+    await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async closeMenu() {
+    if (await this.backdrop.isPresent()) {
+      return await this.backdrop.click();
+    } else {
+      return await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
     }
+  }
 
-    waitForMenuToOpen() {
-        return browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT)
-            .then(() => browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT))
-            .then(() => browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT));
-    }
+  getNthItem(nth: number) {
+    return this.items.get(nth - 1);
+  }
 
-    waitForMenuToClose() {
-        return browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
-    }
+  getItemByLabel(menuItem: string) {
+    return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
+  }
 
-    closeMenu() {
-        if (this.backdrop.isPresent()) {
-            return this.backdrop.click();
-        } else {
-            return browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-        }
-    }
+  getItemById(id: string) {
+    return this.component.element(by.id(id));
+  }
 
-    getNthItem(nth: number): ElementFinder {
-        return this.items.get(nth - 1);
-    }
+  async getItemTooltip(menuItem: string) {
+    return await this.getItemByLabel(menuItem).getAttribute('title');
+  }
 
-    getItemByLabel(menuItem: string): ElementFinder {
-        return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
-    }
+  async getItemIconText(menuItem: string) {
+    return await this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
+  }
 
-    getItemById(id: string) {
-        return this.component.element(by.id(id));
-    }
+  async getItemIdAttribute(menuItem: string) {
+    return await this.getItemByLabel(menuItem).getAttribute('id');
+  }
 
-    getItemTooltip(menuItem: string): promise.Promise<string> {
-        return this.getItemByLabel(menuItem).getAttribute('title');
-    }
+  async getItemsCount() {
+    return await this.items.count();
+  }
 
-    getItemIconText(menuItem: string) {
-        return this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
+  async clickNthItem(nth: number) {
+    const elem = this.getNthItem(nth);
+    await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+    await browser.actions().mouseMove(elem).click().perform();
+    await this.waitForMenuToClose();
+  }
 
-    }
+  async clickMenuItem(menuItem: string) {
+    const elem = this.getItemByLabel(menuItem);
+    await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+    await elem.click();
+    await this.waitForMenuToClose();
+  }
 
-    getItemIdAttribute(menuItem: string) {
-        return this.getItemByLabel(menuItem).getAttribute('id');
-    }
+  async isMenuItemPresent(title: string) {
+    return await this.component.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
+  }
 
-    getItemsCount(): promise.Promise<number> {
-        return this.items.count();
-    }
-
-    clickNthItem(nth: number): promise.Promise<any> {
-        const elem = this.getNthItem(nth);
-        return browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT)
-            .then(() => browser.actions().mouseMove(elem).click().perform())
-            .then(() => this.waitForMenuToClose());
-    }
-
-    clickMenuItem(menuItem: string): promise.Promise<any> {
-        const elem = this.getItemByLabel(menuItem);
-        return browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT)
-            .then(() => elem.click())
-            .then(() => this.waitForMenuToClose());
-    }
-
-    isMenuItemPresent(title: string): promise.Promise<boolean> {
-        return this.component.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
-    }
-
-    uploadFile() {
-        return this.uploadFiles;
-    }
+  uploadFile() {
+    return this.uploadFiles;
+  }
 }

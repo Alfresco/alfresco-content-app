@@ -90,23 +90,24 @@ describe('Extensions - Viewer', () => {
     });
 
     afterAll(async (done) => {
-        await Promise.all([
-            apis.user.nodes.deleteNodesById([ pdfFileId, docxFileId ]),
-            logoutPage.load()
-        ]);
+        await apis.user.nodes.deleteNodesById([ pdfFileId, docxFileId ]);
+        await logoutPage.load();
+        console.log('after all 3');
         done();
     });
 
     beforeEach(async (done) => {
+      console.log('before each 1');
         await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-        await page.dataTable.waitForHeader();
+        // await page.dataTable.waitForHeader();
         done();
     });
 
     afterEach(async (done) => {
+      console.log('after each 1');
         await Utils.pressEscape();
         done();
-    })
+    });
 
     xit('');
 
