@@ -60,7 +60,7 @@ The format is represented by a JSON file with the structure similar to the follo
 You can find the JSON schema at the project root folder: [extension.schema.json](https://github.com/Alfresco/alfresco-content-app/blob/master/extension.schema.json).
 
 <p class="tip">
-Schema allows validating extension files, provides code completion and documentation hints.
+The Schema allows you to validate extension files, provides code completion and documentation hints.
 </p>
 
 ```json
@@ -87,24 +87,22 @@ The order of declaration defines the order of loading.
 ```
 
 <p class="warning">
-Keep in mind all extension files are merged together at runtime.
-That allows plugins overwriting the code from the main application or altering other plugins.
+All extension files are merged together at runtime.
+This allows plugins to overwrite the code from the main application or to alter other plugins.
 </p>
 
 ### Startup behavior
 
 First, the root `app.extensions.json` is loaded by means of the special `Loader` service.
-The file can contain all the necessary declarations for an application to function,
-and having extra plugin files is fully optional.
+The file can contain all the necessary declarations for an application to function. Extra plugin files are fully optional.
 
 Next, the `Loader` traverses the `$references` metadata and loads additional files if provided.
 For the sake of speed the files are loaded in parallel, however once everything is loaded, they are applied in the order of declaration.
 
-After all the external files are fetched, the `Loader` sorts them, removes the metadata properties
-and stacks the resulting JSON objects on top of each other.
+After all the external files are fetched, the `Loader` sorts them, removes the metadata properties and stacks the resulting JSON objects on top of each other.
 
 <p class="tip">
-Any top-level property name that starts with the `$` symbol is considered a metadata and does not participate in the merge process.
+Any top-level property name that starts with the `$` symbol is considered metadata and does not participate in the merge process.
 That allows a plugin to carry extra information for maintenance and visualisation purposes, for example: `$name`, `$version`, `$description`, `$license`, etc.
 </p>
 
@@ -147,7 +145,7 @@ Note that as a result we have two unique properties `plugin1.key` and `plugin2.k
 and also a `plugin1.text` that was first defined in the `Plugin 1`, but then overwritten by the `Plugin 2`.
 
 <p class="tip">
-JSON merging is very powerful concept as it gives you abilities to alter any base application settings,
+JSON merging is a very powerful concept as it gives you the ability to alter any base application settings,
 or toggle features in other plugins without rebuilding the application or corresponding plugin libraries.
 </p>
 
@@ -201,12 +199,11 @@ Final result:
 }
 ```
 
-As you can see, the unique properties get merged together in a single object.
-However the last non-unique property always wins and overwrites the previous value.
+You can see the unique properties get merged together in a single object.
+However the last non-unique property overwrites the previous value.
 
-As per current design it is not possible to delete any application property from the plugin.
-The loader engine supports only overwriting values on purpose.
-Many components however support the `disabled` property you can change from external definition:
+Using the current design it is not possible to delete any application property from the plugin.
+The loader engine only supports overwriting values. Many components however support the `disabled` property you can change using an external definition:
 
 Before: Plugin 1
 
