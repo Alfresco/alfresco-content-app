@@ -310,6 +310,13 @@
     "content-metadata-aspect": {
       "description": "Content metadata's aspect definition",
       "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        }
+      },
       "patternProperties": {
         ".*": {
           "oneOf": [
@@ -338,10 +345,15 @@
           "description": "Content metadata's one layout group definition",
           "type": "object",
           "required": [
+            "id",
             "title",
             "items"
           ],
           "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique identifier"
+            },
             "title": {
               "type": "string",
               "description": "Content metadata's one layout group definition's title"
@@ -354,10 +366,15 @@
                   {
                     "type": "object",
                     "required": [
+                      "id",
                       "aspect",
                       "properties"
                     ],
                     "properties": {
+                      "id": {
+                        "description": "Unique identifier",
+                        "type": "string"
+                      },
                       "aspect": {
                         "description": "Aspect group",
                         "type": "string"
@@ -372,10 +389,15 @@
                   {
                     "type": "object",
                     "required": [
+                      "id",
                       "aspect",
                       "properties"
                     ],
                     "properties": {
+                      "id": {
+                        "description": "Unique identifier",
+                        "type": "string"
+                      },
                       "aspect": {
                         "description": "Aspect group",
                         "type": "string"
@@ -389,10 +411,15 @@
                   {
                     "type": "object",
                     "required": [
+                      "id",
                       "type",
                       "properties"
                     ],
                     "properties": {
+                      "id": {
+                        "description": "Unique identifier",
+                        "type": "string"
+                      },
                       "type": {
                         "description": "Type group",
                         "type": "string"
@@ -407,10 +434,15 @@
                   {
                     "type": "object",
                     "required": [
+                      "id",
                       "type",
                       "properties"
                     ],
                     "properties": {
+                      "id": {
+                        "description": "Unique identifier",
+                        "type": "string"
+                      },
                       "type": {
                         "description": "Type group",
                         "type": "string"
@@ -547,6 +579,12 @@
           "items": {
             "type": "object",
             "required": ["id"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier"
+              }
+            },
             "patternProperties": {
               ".*": {
                 "oneOf": [
