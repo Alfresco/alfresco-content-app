@@ -95,7 +95,6 @@ describe('Extensions - Info Drawer', () => {
         });
 
         afterAll(async (done) => {
-            console.log('after all 1');
             await logoutPage.load();
             done();
         });
@@ -159,7 +158,6 @@ describe('Extensions - Info Drawer', () => {
 
         afterAll(async (done) => {
             await logoutPage.load();
-            console.log('after all 2');
             done();
         });
 

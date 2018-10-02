@@ -33,9 +33,9 @@ describe('Shared Files', () => {
   const password = username;
 
   const siteName = `site-${Utils.random()}`;
-  const fileAdmin = `file-${Utils.random()}.txt`;
+  const fileAdmin = `fileSite-${Utils.random()}.txt`;
 
-  const folderUser = `folder-${Utils.random()}`;
+  const folderUser = `folder-${Utils.random()}`; let folderId;
   const file1User = `file1-${Utils.random()}.txt`; let file1Id;
   const file2User = `file2-${Utils.random()}.txt`; let file2Id;
   const file3User = `file3-${Utils.random()}.txt`; let file3Id;
@@ -59,16 +59,17 @@ describe('Shared Files', () => {
     const nodeId = (await apis.admin.nodes.createFile(fileAdmin, docLibId)).entry.id;
     await apis.admin.shared.shareFileById(nodeId);
 
-    const folderId = (await apis.user.nodes.createFolder(folderUser)).entry.id;
+    folderId = (await apis.user.nodes.createFolder(folderUser)).entry.id;
     file1Id = (await apis.user.nodes.createFile(file1User, folderId)).entry.id;
     file2Id = (await apis.user.nodes.createFile(file2User)).entry.id;
     file3Id = (await apis.user.nodes.createFile(file3User)).entry.id;
     file4Id = (await apis.user.nodes.createFile(file4User)).entry.id;
     await apis.user.shared.shareFilesByIds([file1Id, file2Id, file3Id, file4Id]);
 
-    await apis.user.shared.waitForApi({ expect: 5 });
+    await apis.admin.shared.waitForApi({ expect: 5 });
     await apis.user.nodes.deleteNodeById(file2Id);
     await apis.user.shared.unshareFile(file3User);
+    await apis.admin.shared.waitForApi({ expect: 3 });
 
     await loginPage.loginWith(username);
     done();
@@ -86,23 +87,20 @@ describe('Shared Files', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.admin.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodes([ folderUser ]),
-      logoutPage.load()
-    ]);
+    await apis.admin.sites.deleteSite(siteName);
+    await apis.user.nodes.deleteNodeById(folderId);
+    await apis.user.nodes.deleteNodeById(file4Id);
+    await logoutPage.load();
     done();
   });
 
   it('has the correct columns - [C213113]', async () => {
-    const labels = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
-    const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+    const expectedHeader = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
+    const headers = dataTable.getColumnHeaders();
+    const count = await headers.count();
+    expect(count).toBe(6 + 1, 'Incorrect number of columns');
 
-    expect(await dataTable.getColumnHeaders().count()).toBe(6 + 1, 'Incorrect number of columns');
-
-    await elements.forEach(async (element, index) => {
-      expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-    });
+    expect(await dataTable.getHeaderText()).toEqual(expectedHeader);
   });
 
   it('default sorting column - [C213115]', async () => {
@@ -119,9 +117,7 @@ describe('Shared Files', () => {
     expect(await dataTable.getRowByName(file2User).isPresent()).toBe(false, `${file2User} is displayed`);
   });
 
-  // TODO: disabled cause the api is slow to update. Find a way to wait until the file is unshared
-  xit('unshared file is not displayed - [C213118]', async (done) => {
-    await apis.user.shared.waitForApi({ expect: 4 });
+  it('unshared file is not displayed - [C213118]', async (done) => {
     expect(await dataTable.getRowByName(file3User).isPresent()).toBe(false, `${file3User} is displayed`);
     done();
   });

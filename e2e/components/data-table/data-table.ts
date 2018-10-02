@@ -89,6 +89,11 @@ export class DataTable extends Component {
     return this.head.all(locator);
   }
 
+  async getHeaderText() {
+    const el = this.getColumnHeaders();
+    return await el.getText();
+  }
+
   getNthColumnHeader(nth: number) {
     return this.getColumnHeaders().get(nth - 1);
   }

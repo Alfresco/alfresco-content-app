@@ -86,8 +86,8 @@ export class NodesApi extends RepoApi {
     }
 
     async deleteNodeChildren(parentId: string) {
-      const nodeIds = (await this.getNodeChildren(parentId)).list.entries
-        .map(entries => entries.entry.id);
+      const listEntries = (await this.getNodeChildren(parentId)).list.entries;
+      const nodeIds = listEntries.map(entries => entries.entry.id);
       return await this.deleteNodesById(nodeIds);
     }
 
