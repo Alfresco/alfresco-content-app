@@ -306,6 +306,159 @@
           "type": "boolean"
         }
       }
+    },
+    "content-metadata-aspect": {
+      "description": "Content metadata's aspect definition",
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier"
+        }
+      },
+      "patternProperties": {
+        ".*": {
+          "oneOf": [
+            {
+              "description": "Wildcard for every property",
+              "type": "string",
+              "pattern": "^\\*$"
+            },
+            {
+              "description": "Properties array",
+              "type": "array",
+              "items": {
+                "description": "Property name",
+                "type": "string"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "content-metadata-layout-group": {
+      "description": "Content metadata's layout groups definition",
+      "type": "array",
+      "items": [
+        {
+          "description": "Content metadata's one layout group definition",
+          "type": "object",
+          "required": [
+            "id",
+            "title",
+            "items"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "Unique identifier"
+            },
+            "title": {
+              "type": "string",
+              "description": "Content metadata's one layout group definition's title"
+            },
+            "items": {
+              "type": "array",
+              "description": "Content metadata's one layout group definition's items",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "aspect",
+                      "properties"
+                    ],
+                    "properties": {
+                      "id": {
+                        "description": "Unique identifier",
+                        "type": "string"
+                      },
+                      "aspect": {
+                        "description": "Aspect group",
+                        "type": "string"
+                      },
+                      "properties": {
+                        "description": "Wildcard character",
+                        "type": "string",
+                        "pattern": "^\\*$"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "aspect",
+                      "properties"
+                    ],
+                    "properties": {
+                      "id": {
+                        "description": "Unique identifier",
+                        "type": "string"
+                      },
+                      "aspect": {
+                        "description": "Aspect group",
+                        "type": "string"
+                      },
+                      "properties": {
+                        "description": "list of aspect properties",
+                        "type": "array"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "type",
+                      "properties"
+                    ],
+                    "properties": {
+                      "id": {
+                        "description": "Unique identifier",
+                        "type": "string"
+                      },
+                      "type": {
+                        "description": "Type group",
+                        "type": "string"
+                      },
+                      "properties": {
+                        "description": "Wildcard character",
+                        "type": "string",
+                        "pattern": "^\\*$"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "type",
+                      "properties"
+                    ],
+                    "properties": {
+                      "id": {
+                        "description": "Unique identifier",
+                        "type": "string"
+                      },
+                      "type": {
+                        "description": "Type group",
+                        "type": "string"
+                      },
+                      "properties": {
+                        "description": "list of type properties",
+                        "type": "array"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
     }
   },
 
@@ -419,6 +572,33 @@
           "type": "array",
           "items": { "$ref": "#/definitions/contentActionRef" },
           "minItems": 1
+        },
+        "content-metadata-presets": {
+          "description": "Configuration for the presets for content metadata component",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier"
+              }
+            },
+            "patternProperties": {
+              ".*": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^\\*$",
+                    "description": "Wildcard for every aspect"
+                  },
+                  { "$ref": "#/definitions/content-metadata-aspect" },
+                  { "$ref": "#/definitions/content-metadata-layout-group" }
+                ]
+              }
+            }
+          }
         }
       }
     }
