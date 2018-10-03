@@ -118,11 +118,15 @@ export class AppComponent implements OnInit, OnDestroy {
       this.onFileUploadedError(error)
     );
 
-    this.appService.ready$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.loadRepositoryStatus();
-      this.loadUserProfile();
-      // todo: load external auth-enabled plugins here
-    });
+    this.appService.ready$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(isReady => {
+        if (isReady) {
+          this.loadRepositoryStatus();
+          this.loadUserProfile();
+          // todo: load external auth-enabled plugins here
+        }
+      });
   }
 
   ngOnDestroy() {
