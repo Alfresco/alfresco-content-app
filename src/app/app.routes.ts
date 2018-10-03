@@ -54,9 +54,6 @@ export const APP_ROUTES: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    // resolve: {
-    //   profile: ProfileResolver
-    // },
     children: [
       {
         path: '',

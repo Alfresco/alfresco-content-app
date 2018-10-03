@@ -84,8 +84,6 @@ export class AppComponent implements OnInit {
 
           this.store.dispatch(new CloseModalDialogsAction());
           this.router.navigate(['/login']);
-
-          this.setupAuthState();
         }
       }
     });
@@ -117,16 +115,8 @@ export class AppComponent implements OnInit {
       this.onFileUploadedError(error)
     );
 
-    // this.setupAuthState();
-    this.appService.waitForAuth().subscribe(() => {
-      this.loadRepositoryStatus();
-      this.loadUserProfile();
-      // todo: load external auth-enabled plugins here
-    });
-  }
-
-  private setupAuthState() {
-    this.appService.waitForAuth().subscribe(() => {
+    this.appService.ready$.subscribe(() => {
+      console.log('ready');
       this.loadRepositoryStatus();
       this.loadUserProfile();
       // todo: load external auth-enabled plugins here
