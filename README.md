@@ -2,6 +2,9 @@
    
 # Example Content Application
 
+Testing Supported By<br/>
+<img width="160" src="docs/images/Browserstack-logo.svg" alt="BrowserStack"/>
+
 ## Introduction
 
 The Alfresco Content Application is an example application built using
