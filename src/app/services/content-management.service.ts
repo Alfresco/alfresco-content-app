@@ -180,7 +180,7 @@ export class ContentManagementService {
         .subscribe(baseShareUrl => {
           this.dialogRef.open(ShareDialogComponent, {
             width: '600px',
-            disableClose: true,
+            panelClass: 'adf-share-link-dialog',
             data: {
               node,
               baseShareUrl
