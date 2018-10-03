@@ -40,7 +40,8 @@ import {
   SetCurrentUrlAction,
   SetInitialStateAction,
   CloseModalDialogsAction,
-  SetRepositoryStatusAction
+  SetRepositoryStatusAction,
+  SetUserProfileAction
 } from './store/actions';
 import {
   AppStore,
@@ -84,10 +85,7 @@ export class AppComponent implements OnInit {
           this.store.dispatch(new CloseModalDialogsAction());
           this.router.navigate(['/login']);
 
-          this.appService.waitForAuth().subscribe(() => {
-            this.loadRepositoryStatus();
-            // todo: load external auth-enabled plugins here
-          });
+          this.setupAuthState();
         }
       }
     });
@@ -119,13 +117,24 @@ export class AppComponent implements OnInit {
       this.onFileUploadedError(error)
     );
 
+    // this.setupAuthState();
     this.appService.waitForAuth().subscribe(() => {
       this.loadRepositoryStatus();
+      this.loadUserProfile();
+      // todo: load external auth-enabled plugins here
+    });
+  }
+
+  private setupAuthState() {
+    this.appService.waitForAuth().subscribe(() => {
+      this.loadRepositoryStatus();
+      this.loadUserProfile();
       // todo: load external auth-enabled plugins here
     });
   }
 
   private loadRepositoryStatus() {
+    console.log('loading repo status');
     this.contentApi
       .getRepositoryInformation()
       .subscribe((response: DiscoveryEntry) => {
@@ -133,6 +142,14 @@ export class AppComponent implements OnInit {
           new SetRepositoryStatusAction(response.entry.repository.status)
         );
       });
+  }
+
+  private loadUserProfile() {
+    console.log('loading profile');
+    this.contentApi.getPerson('-me-').subscribe(person => {
+      console.log(person);
+      this.store.dispatch(new SetUserProfileAction(person.entry));
+    });
   }
 
   private loadAppSettings() {

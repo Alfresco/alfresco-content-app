@@ -26,20 +26,29 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from '@alfresco/adf-core';
 import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
-  constructor(private auth: AuthenticationService) {}
+  constructor(private auth: AuthenticationService) {
+    auth.onLogin.subscribe(e => {
+      console.log(e);
+    });
+  }
 
   waitForAuth(): Observable<any> {
+    console.log('wait auth');
     const isLoggedIn = this.auth.isLoggedIn();
     if (isLoggedIn) {
+      console.log('is logged in');
       return of(true);
     } else {
-      return this.auth.onLogin.pipe(take(1));
+      return this.auth.onLogin.pipe(
+        tap(e => console.log(e)),
+        take(1)
+      );
     }
   }
 }
