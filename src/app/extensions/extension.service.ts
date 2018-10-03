@@ -29,7 +29,6 @@ import { Route } from '@angular/router';
 import { AppStore, RepositoryState } from '../store/states';
 import { ruleContext } from '../store/selectors/app.selectors';
 import { NodePermissionService } from '../services/node-permission.service';
-import { ProfileResolver } from '../services/profile.resolver';
 import {
   SelectionState,
   NavigationState,
@@ -224,7 +223,6 @@ export class AppExtensionService implements RuleContext {
         component: this.getComponentById(route.layout || this.defaults.layout),
         canActivateChild: guards,
         canActivate: guards,
-        resolve: { profile: ProfileResolver },
         children: [
           {
             path: '',

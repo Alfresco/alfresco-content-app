@@ -31,7 +31,7 @@ import {
   PageTitleService,
   UploadService
 } from '@alfresco/adf-core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppExtensionService } from './extensions/extension.service';
@@ -40,24 +40,28 @@ import {
   SetCurrentUrlAction,
   SetInitialStateAction,
   CloseModalDialogsAction,
-  SetRepositoryStatusAction
+  SetRepositoryStatusAction,
+  SetUserProfileAction
 } from './store/actions';
 import {
   AppStore,
   AppState,
   INITIAL_APP_STATE
 } from './store/states/app.state';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { ContentApiService } from './services/content-api.service';
 import { DiscoveryEntry } from 'alfresco-js-api';
 import { AppService } from './services/app.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -83,11 +87,6 @@ export class AppComponent implements OnInit {
 
           this.store.dispatch(new CloseModalDialogsAction());
           this.router.navigate(['/login']);
-
-          this.appService.waitForAuth().subscribe(() => {
-            this.loadRepositoryStatus();
-            // todo: load external auth-enabled plugins here
-          });
         }
       }
     });
@@ -119,10 +118,16 @@ export class AppComponent implements OnInit {
       this.onFileUploadedError(error)
     );
 
-    this.appService.waitForAuth().subscribe(() => {
+    this.appService.ready$.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
       this.loadRepositoryStatus();
+      this.loadUserProfile();
       // todo: load external auth-enabled plugins here
     });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   private loadRepositoryStatus() {
@@ -133,6 +138,12 @@ export class AppComponent implements OnInit {
           new SetRepositoryStatusAction(response.entry.repository.status)
         );
       });
+  }
+
+  private loadUserProfile() {
+    this.contentApi.getPerson('-me-').subscribe(person => {
+      this.store.dispatch(new SetUserProfileAction(person.entry));
+    });
   }
 
   private loadAppSettings() {
