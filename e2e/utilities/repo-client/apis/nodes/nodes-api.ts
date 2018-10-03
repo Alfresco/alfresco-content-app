@@ -113,7 +113,7 @@ export class NodesApi extends RepoApi {
         return await this.createNode('cm:folder', name, parentId, title, description);
     }
 
-    async createChildren(data: NodeBodyCreate[]) {
+    async createChildren(data: NodeBodyCreate[]): Promise<any> {
         await this.apiAuth();
         return await this.alfrescoJsApi.core.nodesApi.addNode('-my-', data);
     }

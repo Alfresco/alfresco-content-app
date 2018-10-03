@@ -99,6 +99,6 @@ export class FavoritesApi extends RepoApi {
             }
         };
 
-        return Utils.retryCall(favoriteFiles);
+        return await Utils.retryCall(favoriteFiles);
     }
 }

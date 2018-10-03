@@ -60,6 +60,6 @@ export class SearchApi extends RepoApi {
             }
         };
 
-        return Utils.retryCall(recentFiles);
+        return await Utils.retryCall(recentFiles);
     }
 }

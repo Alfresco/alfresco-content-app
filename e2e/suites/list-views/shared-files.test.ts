@@ -104,7 +104,7 @@ describe('Shared Files', () => {
   });
 
   it('default sorting column - [C213115]', async () => {
-    expect(await dataTable.getSortedColumnHeader().getText()).toBe('Modified');
+    expect(await dataTable.getSortedColumnHeaderText()).toBe('Modified');
     expect(await dataTable.getSortingOrder()).toBe('desc');
   });
 
@@ -124,8 +124,8 @@ describe('Shared Files', () => {
 
   it('Location column displays the parent folder of the file - [C213665]', async () => {
     expect(await dataTable.getItemLocationTileAttr(file4User)).toEqual('Personal Files');
-    expect(await dataTable.getItemLocation(fileAdmin).getText()).toEqual(siteName);
-    expect(await dataTable.getItemLocation(file1User).getText()).toEqual(folderUser);
+    expect(await dataTable.getItemLocation(fileAdmin)).toEqual(siteName);
+    expect(await dataTable.getItemLocation(file1User)).toEqual(folderUser);
   });
 
   it('Location column redirect - file in user Home - [C213666]', async () => {

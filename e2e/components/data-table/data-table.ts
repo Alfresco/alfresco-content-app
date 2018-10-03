@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, promise, by, browser, ExpectedConditions as EC, protractor } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, protractor } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Menu } from '../menu/menu';
@@ -106,6 +106,10 @@ export class DataTable extends Component {
   getSortedColumnHeader() {
     const locator = by.css(DataTable.selectors.sortedColumnHeader);
     return this.head.element(locator);
+  }
+
+  async getSortedColumnHeaderText() {
+    return await this.getSortedColumnHeader().getText();
   }
 
   async getSortingOrder() {
@@ -225,16 +229,20 @@ export class DataTable extends Component {
     await browser.actions().click(itemFromSelection, protractor.Button.RIGHT).perform();
   }
 
-  getItemLocation(name: string) {
+  getItemLocationEl(name: string) {
     return this.getRowByName(name).element(this.locationLink);
   }
 
+  async getItemLocation(name: string) {
+    return await this.getItemLocationEl(name).getText();
+  }
+
   async getItemLocationTooltip(name: string) {
-    return await this.getItemLocation(name).$('a').getAttribute('title');
+    return await this.getItemLocationEl(name).$('a').getAttribute('title');
   }
 
   async getItemLocationTileAttr(name: string) {
-    const location = this.getItemLocation(name).$('a');
+    const location = this.getItemLocationEl(name).$('a');
     const condition = () => location.getAttribute('title').then(value => value && value.length > 0);
 
     await browser.actions().mouseMove(location).perform();
@@ -244,7 +252,7 @@ export class DataTable extends Component {
   }
 
   async clickItemLocation(name: string) {
-    await this.getItemLocation(name).click();
+    await this.getItemLocationEl(name).click();
   }
 
   // empty state methods

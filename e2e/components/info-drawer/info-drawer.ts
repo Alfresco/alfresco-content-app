@@ -58,7 +58,7 @@ export class InfoDrawer extends Component {
   }
 
   async waitForInfoDrawerToOpen() {
-    return browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
+    return await browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
   }
 
   async isEmpty() {

@@ -114,6 +114,6 @@ export class SitesApi extends RepoApi {
             }
         };
 
-        return Utils.retryCall(sites);
+        return await Utils.retryCall(sites);
     }
 }
