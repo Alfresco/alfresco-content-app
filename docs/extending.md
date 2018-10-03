@@ -16,7 +16,7 @@ and any number of external plugins that are references of the main entry point.
 The application also comes with the `/src/assets/plugins/` folder
 already preconfigured to store external files.
 
-You can create plugins that change, toggle or extend the following areas:
+You can create plugins that change, toggle, or extend the following areas:
 
 - Navigation sidebar links and groups
 - Context Menu
@@ -37,11 +37,11 @@ Extensions can also:
 - Overwrite or disable extension points of the main application or other plugins
 - Change rules, actions or any visual element
 - Register new application routes based on empty pages or layouts
-- Register new rule evaluators, components, guards, etc.
+- Register new rule evaluators, components, guards
 
 ## Format
 
-The format is represented by a JSON file with the structure similar to the following one:
+The format is represented by a JSON file with the structure similar to the following:
 
 ```json
 {
@@ -60,7 +60,7 @@ The format is represented by a JSON file with the structure similar to the follo
 You can find the JSON schema at the project root folder: [extension.schema.json](https://github.com/Alfresco/alfresco-content-app/blob/master/extension.schema.json).
 
 <p class="tip">
-Schema allows validating extension files, provides code completion and documentation hints.
+The Schema allows you to validate extension files, provides code completion and documentation hints.
 </p>
 
 ```json
@@ -74,8 +74,8 @@ Schema allows validating extension files, provides code completion and documenta
 ### Multiple files
 
 You can have multiple extension files distributed separately.
-All additional files are linked via the `$references` property,
-the order of declaration defines also the order of loading.
+All additional files are linked via the `$references` property.
+The order of declaration defines the order of loading.
 
 ```json
 {
@@ -87,27 +87,23 @@ the order of declaration defines also the order of loading.
 ```
 
 <p class="warning">
-Always keep in mind that all extension files are merged together at runtime.
-That allows plugins overwriting the code from the main application or altering other plugins.
+All extension files are merged together at runtime.
+This allows plugins to overwrite the code from the main application or to alter other plugins.
 </p>
 
-### Startup behaviour
+### Startup behavior
 
 First, the root `app.extensions.json` is loaded by means of the special `Loader` service.
-The file can contain all the necessary declarations for an application to function,
-and having extra plugin files is fully optional.
+The file can contain all the necessary declarations for an application to function. Extra plugin files are fully optional.
 
 Next, the `Loader` traverses the `$references` metadata and loads additional files if provided.
-For the sake of speed the files are loaded in parallel,
-however, once everything is loaded, they are applied in the order of declaration.
+For the sake of speed the files are loaded in parallel, however once everything is loaded, they are applied in the order of declaration.
 
-After all the external files are fetched, the `Loader` sorts them, removes the metadata properties
-and stacks the resulting JSON objects on top of each other.
+After all the external files are fetched, the `Loader` sorts them, removes the metadata properties and stacks the resulting JSON objects on top of each other.
 
 <p class="tip">
-Any top-level property name that starts with the `$` symbol is considered a metadata and does not participate in merge process.
-That allows a plugin to carry extra information for maintenance and visualisation purposes,
-for example: `$name`, `$version`, `$description`, `$license`, etc.
+Any top-level property name that starts with the `$` symbol is considered metadata and does not participate in the merge process.
+That allows a plugin to carry extra information for maintenance and visualisation purposes, for example: `$name`, `$version`, `$description`, `$license`, etc.
 </p>
 
 #### Merging properties
@@ -149,7 +145,7 @@ Note that as a result we have two unique properties `plugin1.key` and `plugin2.k
 and also a `plugin1.text` that was first defined in the `Plugin 1`, but then overwritten by the `Plugin 2`.
 
 <p class="tip">
-JSON merging is very powerful concept as it gives you abilities to alter any base application settings,
+JSON merging is a very powerful concept as it gives you the ability to alter any base application settings,
 or toggle features in other plugins without rebuilding the application or corresponding plugin libraries.
 </p>
 
@@ -203,12 +199,11 @@ Final result:
 }
 ```
 
-As you can see, the unique properties get merged together in a single object.
-However the last non-unique property always wins and overwrites the previous value.
+You can see the unique properties get merged together in a single object.
+However the last non-unique property overwrites the previous value.
 
-As per current design it is not possible to delete any application property from the plugin.
-The loader engine supports only overwriting values on purpose.
-Many components however support the `disabled` property you can change from external definition:
+Using the current design it is not possible to delete any application property from the plugin.
+The loader engine only supports overwriting values. Many components however support the `disabled` property you can change using an external definition:
 
 Before: Plugin 1
 
@@ -1710,6 +1705,159 @@ node:  10
 
 You have successfully created a new menu button that invokes your custom action
 and redirects you to the extra application route.
+
+### Dialog actions
+
+In this tutorial, we are going to create an action that invokes a custom material dialog.
+
+<p class="tip">
+Please read more details on Dialog components here: [Dialog Overview](https://material.angular.io/components/dialog/overview)
+</p>
+
+#### Create a dialog
+
+```sh
+ng g component dialogs/my-extension-dialog --module=app
+```
+
+According to Angular rules, the component needs to also be registered within the `entryComponents` section of the module.
+
+Update the `src/app/app.module.ts` file according to the example below:
+
+```ts
+@NgModule({
+  imports: [...],
+  declarations: [
+    ...,
+    MyExtensionDialogComponent
+  ],
+  entryComponents: [
+    ...,
+    MyExtensionDialogComponent
+  ]
+})
+```
+
+Update `my-extension-dialog.component.ts`:
+
+```ts
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
+
+@Component({
+  selector: 'aca-my-extension-dialog',
+  templateUrl: './my-extension-dialog.component.html',
+  styleUrls: ['./my-extension-dialog.component.scss']
+})
+export class MyExtensionDialogComponent {
+  constructor(public dialogRef: MatDialogRef<MyExtensionDialogComponent>) {}
+}
+```
+
+Update `my-extension-dialog.component.html`:
+
+```html
+<h2 mat-dialog-title>Delete all</h2>
+<mat-dialog-content>Are you sure?</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>No</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button [mat-dialog-close]="true">Yes</button>
+</mat-dialog-actions>
+```
+
+#### Create an action
+
+Append the following code to the `src/app/store/actions/app.actions.ts`:
+
+```ts
+export const SHOW_MY_DIALOG = 'SHOW_MY_DIALOG';
+
+export class ShowMydDialogAction implements Action {
+  readonly type = SHOW_MY_DIALOG;
+}
+```
+
+See also:
+
+- [Comprehensive Introduction to @ngrx/store](https://gist.github.com/btroncone/a6e4347326749f938510)
+
+#### Create an effect
+
+Update `src/app/store/effects/app.effects.ts`:
+
+```ts
+import { ShowMydDialogAction, SHOW_MY_DIALOG } from '../actions/app.actions';
+
+@Injectable()
+export class AppEffects {
+  constructor(...) {}
+
+  @Effect({ dispatch: false })
+  showMyDialog$ = this.actions$.pipe(
+    ofType<ShowMydDialogAction>(SHOW_MY_DIALOG),
+    map(() => {})
+  );
+
+  // ...
+}
+```
+
+See also:
+
+- [Comprehensive Introduction to @ngrx/store](https://gist.github.com/btroncone/a6e4347326749f938510)
+
+Update to raise a dialog
+
+```ts
+import { MatDialog } from '@angular/material';
+import { MyExtensionDialogComponent } from '../../dialogs/my-extension-dialog/my-extension-dialog.component';
+
+@Injectable()
+export class AppEffects {
+  constructor(
+    ...,
+    private dialog: MatDialog
+  ) {}
+
+  @Effect({ dispatch: false })
+  showMyDialog$ = this.actions$.pipe(
+    ofType<ShowMydDialogAction>(SHOW_MY_DIALOG),
+    map(() => {
+      this.dialog.open(MyExtensionDialogComponent)
+    })
+  );
+
+  ...
+
+}
+```
+
+#### Register a toolbar action
+
+Update the `src/assets/app.extensions.json` file, and insert a new entry to the `features.toolbar` section:
+
+```json
+{
+  ...,
+
+  "features": {
+    "toolbar": [
+      {
+        "id": "my.custom.toolbar.button",
+        "order": 10,
+        "title": "Custom action",
+        "icon": "extension",
+        "actions": {
+          "click": "SHOW_MY_DIALOG"
+        }
+      }
+    ]
+  }
+}
+```
+
+Now, once you run the application, you should see an extra button that invokes your dialog on every click.
 
 ## Redistributable libraries
 
