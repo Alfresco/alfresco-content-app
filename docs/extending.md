@@ -326,7 +326,7 @@ Most of the schema elements can be switched off by using the `disabled` property
 }
 ```
 
-This feature becomes handy when you want to disable existing functionality from within the external plugin.
+This feature allows you to disable existing functionality from within the external plugin.
 
 In the example below, the plugin called `plugin1` replaces standard `app.create.folder` menu
 exposed by the application with a custom one coming with the plugin.
@@ -382,9 +382,9 @@ To create a new route, populate the `routes` section with the corresponding entr
 | **id**        | Unique identifier.                                                                     |
 | **path**      | Runtime path of the route.                                                             |
 | **component** | The main [component](#components) to use for the route.                                |
-| layout        | The layout [component](#components) to use for the route.                              |
-| auth          | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
-| data          | Custom property bag to carry with the route.                                           |
+| **layout**    | The layout [component](#components) to use for the route.                              |
+| **auth**      | List of [authentication guards](#authentication-guards). Defaults to `[ "app.auth" ]`. |
+| **data**      | Custom property bag to carry with the route.                                           |
 
 Use the `app.layout.main` value for the `layout` property to get the default application layout,
 with header, navigation sidebar and main content area.
@@ -392,10 +392,10 @@ You can register any component to back the `app.layout.main` value.
 
 <p class="tip">
 By default, the `app.layout.main` is used if you do not specify any custom values.
-Use `blank` if you want your route component take the whole page.
+Use `blank` if you want your route component use the whole page.
 </p>
 
-You can define the full route schema like in the next example:
+You can define the full route schema, see the following for an example configuration:
 
 ```json
 {
@@ -431,8 +431,7 @@ Below is the list of the authentication guards main application registers on sta
 | -------- | ------------ | ------------------------------------------------------------------------- |
 | app.auth | AuthGuardEcm | ADF guard, validates ACS authentication and redirects to Login if needed. |
 
-You can refer those guards from within your custom extensions,
-or [register](#registration) your custom implementations.
+You can refer those guards from within your custom extensions, or [register](#registration) your custom implementations.
 
 ## Components
 
@@ -447,24 +446,22 @@ The components are used to create custom:
 | Key                          | Type                      | Description                                                                                                     |
 | ---------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | app.layout.main              | LayoutComponent           | Main application layout with the menu bar, navigation sidebar and main content area to project your components. |
-| app.toolbar.toggleInfoDrawer | ToggleInfoDrawerComponent | The toolbar button component that toggles Info Drawer for the selection.                                        |
-| app.toolbar.toggleFavorite   | ToggleFavoriteComponent   | The toolbar button component that toggles Favorite state for the selection.                                     |
+| app.toolbar.toggleInfoDrawer | ToggleInfoDrawerComponent | The toolbar button component that toggles the Info Drawer for the selection.                                        |
+| app.toolbar.toggleFavorite   | ToggleFavoriteComponent   | The toolbar button component that toggles the Favorite state for the selection.                                     |
 
 <p class="tip">
-See [Registration](#registration) section for more details
-on how to register your own entries to be re-used at runtime.
+See [Registration](#registration) section for more details on how to register your own entries to be re-used at runtime.
 </p>
 
-Note that custom extensions can also replace any existing component at runtime by a known identifier,
-besides registering a new one.
+Note that custom extensions can also replace any existing component at runtime by a known identifier, besides registering a new one.
 
 ## Actions
 
-| Name      | Description                                                                    |
-| --------- | ------------------------------------------------------------------------------ |
-| **id**    | Unique identifier.                                                             |
-| **type**  | Action type, see [Application Actions](#application-actions) for more details. |
-| _payload_ | Action payload, a string containing value or expression.                       |
+| Name          | Description                                                                    |
+| ---------     | ------------------------------------------------------------------------------ |
+| **id**        | Unique identifier.                                                             |
+| **type**      | Action type, see [Application Actions](#application-actions) for more details. |
+| **_payload_** | Action payload, a string containing value or expression.                       |
 
 ```json
 {
@@ -513,8 +510,8 @@ $([1, 2, 1 + 2])                //  [1, 2, 3]
 
 ## Application Actions
 
-Application is using NgRx (Reactive libraries for Angular, inspired by Redux).
-To get more information on NxRx please refer to the following resources:
+The application uses NgRx (Reactive libraries for Angular, inspired by Redux).
+To get more information on NgRx please refer to the following resources:
 
 - [Comprehensive Introduction to @ngrx/store](https://gist.github.com/btroncone/a6e4347326749f938510)
 
@@ -531,8 +528,8 @@ export class MyComponent {
 }
 ```
 
-The code above demonstrates a simple 'click' handler that invokes `Search by Term` feature
-and automatically redirects user to the **Search Results** page.
+The code above demonstrates a simple 'click' handler that invokes the `Search by Term` feature
+and automatically redirects a user to the **Search Results** page.
 
 Another example demonstrates viewing a node from a custom application service API:
 
@@ -551,7 +548,7 @@ export class MyService {
 You can invoke every application action from the extensions, i.e. buttons, menus, etc.
 
 <p class="tip">
-Many of the actions take currently selected nodes if no payload provided.
+Many of the actions take the currently selected nodes if no payload is provided.
 That simplifies declaring and invoking actions from the extension files.
 </p>
 
@@ -580,10 +577,9 @@ and provide a new `Create Folder (plugin1)` command that invokes the `CREATE_FOL
 }
 ```
 
-The `CREATE_FOLDER` action will trigger corresponding NgRx Effects to show the dialog
-and perform document list reload if needed.
+The `CREATE_FOLDER` action will trigger the corresponding NgRx Effects to show the dialog and perform a document list reload if needed.
 
-Below is the list of public actions types you can use in the plugin definitions as a reference to the action:
+Below is the list of public action types you can use in the plugin definitions as a reference to the action:
 
 | Name                   | Payload             | Description                                                                                     |
 | ---------------------- | ------------------- | ----------------------------------------------------------------------------------------------- |
@@ -613,7 +609,7 @@ Below is the list of public actions types you can use in the plugin definitions 
 | NAVIGATE_ROUTE         | any[]               | Navigate to a particular Route (supports parameters)                                            |
 | NAVIGATE_FOLDER        | MinimalNodeEntity   | Navigate to a folder based on the Node properties.                                              |
 | NAVIGATE_PARENT_FOLDER | MinimalNodeEntity   | Navigate to a containing folder based on the Node properties.                                   |
-| NAVIGATE_LIBRARY       | string              | Navigate to library                                                                             |
+| NAVIGATE_LIBRARY       | string              | Navigate to library.                                                                             |
 | SEARCH_BY_TERM         | string              | Perform a simple search by the term and navigate to Search results.                             |
 | SNACKBAR_INFO          | string              | Show information snackbar with the message provided.                                            |
 | SNACKBAR_WARNING       | string              | Show warning snackbar with the message provided.                                                |
@@ -676,7 +672,7 @@ You can also negate any rule by utilizing a `!` prefix:
 </p>
 
 It is also possible to use inline references to registered evaluators without declaring rules,
-in case you do not need providing extra parameters, or chaining multiple rules together.
+in case you do not need to provide extra parameters, or chaining multiple rules together.
 
 ### Core Evaluators
 
