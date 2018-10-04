@@ -38,7 +38,7 @@ export class ShareDialog extends Component {
 
   title: ElementFinder = this.component.element(by.css(ShareDialog.selectors.title));
   content: ElementFinder = this.component.element(by.css(ShareDialog.selectors.content));
-  closeButton: ElementFinder = this.component.element(by.cssContainingText(ShareDialog.selectors.button, 'CLOSE'));
+  closeButton: ElementFinder = this.component.element(by.cssContainingText(ShareDialog.selectors.button, 'Close'));
 
   constructor(ancestor?: ElementFinder) {
     super(ShareDialog.selectors.root, ancestor);

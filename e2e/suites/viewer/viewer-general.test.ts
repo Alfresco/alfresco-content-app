@@ -70,7 +70,7 @@ describe('Viewer general', () => {
         await apis.user.shared.shareFileById(xlsxFileId);
         await apis.user.shared.waitForApi({ expect: 1 });
         await apis.user.favorites.addFavoriteById('file', xlsxFileId);
-        await apis.user.favorites.waitForApi({ expect: 1 });
+        await apis.user.favorites.waitForApi({ expect: 2 });
 
         await loginPage.loginWith(username);
         done();
