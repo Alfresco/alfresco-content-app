@@ -71,10 +71,9 @@ describe('Pagination on multiple pages on Favorites', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(parentId),
-      logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodeById(parentId);
+    await logoutPage.load();
+    await apis.user.favorites.waitForApi({ expect: 0 });
     done();
   });
 
