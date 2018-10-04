@@ -98,7 +98,8 @@ describe('Granular permissions available actions : ', () => {
   });
 
   afterAll(async done => {
-    await Promise.all([apis.admin.sites.deleteSite(siteName), logoutPage.load()]);
+    await apis.admin.sites.deleteSite(siteName);
+    await logoutPage.load();
     done();
   });
 

@@ -80,13 +80,11 @@ describe('Context menu actions - single selection : ', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(fileUserId),
-      apis.user.nodes.deleteNodeById(folderUserId),
-      apis.user.sites.deleteSite(siteName),
-      apis.user.trashcan.emptyTrash(),
-      logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodeById(fileUserId);
+    await apis.user.nodes.deleteNodeById(folderUserId);
+    await apis.user.sites.deleteSite(siteName);
+    await apis.user.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 

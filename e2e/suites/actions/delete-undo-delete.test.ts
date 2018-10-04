@@ -91,14 +91,10 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        apis.user.nodes.unlockFile(file4Id),
-        apis.user.nodes.unlockFile(fileLocked1Id)
-      ]);
-      await Promise.all([
-        logoutPage.load(),
-        apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id, fileLocked1Id])
-      ]);
+      await apis.user.nodes.unlockFile(file4Id);
+      await apis.user.nodes.unlockFile(fileLocked1Id);
+      await logoutPage.load();
+      await apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id, fileLocked1Id]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
     });
@@ -271,10 +267,8 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-          logoutPage.load(),
-          apis.user.nodes.deleteNodesById([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id])
-      ]);
+      await logoutPage.load();
+      await apis.user.nodes.deleteNodesById([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
     });
@@ -383,15 +377,11 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-          apis.user.nodes.unlockFile(favoriteFile4Id),
-          apis.user.nodes.unlockFile(favoriteFileLocked1Id)
-      ]);
-      await Promise.all([
-          logoutPage.load(),
-          apis.user.nodes.deleteNodesById([
-              favoriteFile1Id, favoriteFile2Id, favoriteFolder1Id, favoriteFolder2Id, favoriteFileLocked1Id
-          ])
+      await apis.user.nodes.unlockFile(favoriteFile4Id);
+      await apis.user.nodes.unlockFile(favoriteFileLocked1Id);
+      await logoutPage.load();
+      await apis.user.nodes.deleteNodesById([
+        favoriteFile1Id, favoriteFile2Id, favoriteFolder1Id, favoriteFolder2Id, favoriteFileLocked1Id
       ]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
@@ -571,10 +561,8 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-          logoutPage.load(),
-          apis.user.nodes.deleteNodesById([recentFile1Id, recentFile2Id, recentFile3Id, recentFile4Id])
-      ]);
+      await logoutPage.load();
+      await apis.user.nodes.deleteNodesById([recentFile1Id, recentFile2Id, recentFile3Id, recentFile4Id]);
       done();
     });
 

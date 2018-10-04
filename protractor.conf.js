@@ -30,7 +30,7 @@ function rmDir(dirPath) {
 }
 
 exports.config = {
-  allScriptsTimeout: 40000,
+  allScriptsTimeout: 50000,
 
   params: {
     downloadFolder: downloadFolder
@@ -59,13 +59,14 @@ exports.config = {
           default_directory: downloadFolder
         }
       },
-      args: ['--incognito', '--headless', '--remote-debugging-port=9222']
+      args: ['--incognito', '--headless', '--remote-debugging-port=9222', '--disable-gpu', '--no-sandbox']
     }
   },
 
   directConnect: true,
 
   // baseUrl: 'http://localhost:4000',
+  getPageTimeout: 50000,
 
   framework: 'jasmine2',
   jasmineNodeOpts: {

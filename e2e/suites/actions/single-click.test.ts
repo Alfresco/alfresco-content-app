@@ -79,13 +79,11 @@ describe('Single click on item name', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-        apis.user.sites.deleteSite(siteName),
-        apis.user.nodes.deleteNodeById(folder1Id),
-        apis.user.nodes.deleteNodeById(file1Id),
-        apis.user.trashcan.emptyTrash(),
-        logoutPage.load()
-    ]);
+    await apis.user.sites.deleteSite(siteName);
+    await apis.user.nodes.deleteNodeById(folder1Id);
+    await apis.user.nodes.deleteNodeById(file1Id);
+    await apis.user.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 

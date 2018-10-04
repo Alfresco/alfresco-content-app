@@ -62,23 +62,23 @@ export abstract class Page {
 
   constructor(public url: string = '') {}
 
-  async getTitle() {
-    return await browser.getTitle();
+  getTitle() {
+    return browser.getTitle();
   }
 
-  async load(relativeUrl: string = '') {
+  load(relativeUrl: string = '') {
     const hash = USE_HASH_STRATEGY ? '/#' : '';
     const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
-
-    await browser.get(path);
+    console.log('====> path: ', path);
+    return browser.get(path);
   }
 
-  async waitForApp() {
-    await browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
+  waitForApp() {
+    return browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
   }
 
-  async waitForSnackBarToAppear() {
-    await browser.wait(EC.visibilityOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
+  waitForSnackBarToAppear() {
+    return browser.wait(EC.visibilityOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
   }
 
   async waitForSnackBarToClose() {
@@ -93,8 +93,8 @@ export abstract class Page {
     await browser.wait(EC.not(EC.visibilityOf(this.dialogContainer)), BROWSER_WAIT_TIMEOUT);
   }
 
-  async refresh() {
-    await browser.refresh();
+  refresh() {
+    return browser.refresh();
   }
 
   getDialogActionByLabel(label) {

@@ -393,6 +393,7 @@ describe('Viewer actions', () => {
     const pdfRecentFiles = `pdfRF-${Utils.random()}.pdf`;
 
     beforeAll(async (done) => {
+      await apis.user.search.waitForApi(username, {expect: 0});
       parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
       destinationId = (await apis.user.nodes.createFolder(destination)).entry.id;
       docxFileId = (await apis.user.upload.uploadFileWithRename(docxFile, parentId, docxRecentFiles)).entry.id;

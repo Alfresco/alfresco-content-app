@@ -34,9 +34,9 @@ export class LogoutPage extends Page {
   }
 
   /** @override */
-  async load() {
-    await Utils.clearLocalStorage();
-    await Utils.clearSessionStorage();
-    await super.load();
+  load() {
+    // await Utils.clearLocalStorage();
+    // await Utils.clearSessionStorage();
+    return super.load();
   }
 }

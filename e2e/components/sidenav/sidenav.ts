@@ -23,9 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, promise } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
+import { Utils } from '../../utilities/utils';
 
 export class Sidenav extends Component {
   private static selectors = {
@@ -69,6 +70,7 @@ export class Sidenav extends Component {
 
   getLinkByLabel(label: string) {
     return this.component.element(by.cssContainingText(Sidenav.selectors.label, label));
+    // return browser.element(by.xpath(`.//*[.="${label}" and class="${Sidenav.selectors.label}"]`))
   }
 
   async getLinkTooltip(label: string) {
@@ -77,6 +79,7 @@ export class Sidenav extends Component {
 
   async navigateToLinkByLabel(label: string) {
     const link = this.getLinkByLabel(label);
-    await link.click();
+    await Utils.waitUntilElementClickable(link);
+    return await link.click();
   }
 }

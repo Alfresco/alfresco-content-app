@@ -69,11 +69,9 @@ describe('Create folder', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.admin.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodeById(parentId),
-      logoutPage.load()
-    ]);
+    await apis.admin.sites.deleteSite(siteName);
+    await apis.user.nodes.deleteNodeById(parentId);
+    await logoutPage.load();
     done();
   });
 

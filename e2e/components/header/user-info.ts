@@ -51,8 +51,8 @@ export class UserInfo extends Component {
     return menu;
   }
 
-  async getName() {
-    return await this.fullName.getText();
+  getName() {
+    return this.fullName.getText();
   }
 
   async signOut() {

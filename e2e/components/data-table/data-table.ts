@@ -75,8 +75,8 @@ export class DataTable extends Component {
   }
 
   // Wait methods (waits for elements)
-  async waitForHeader() {
-    await browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT);
+  waitForHeader() {
+    return browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT);
   }
 
   async waitForEmptyState() {

@@ -42,9 +42,7 @@ export class LoginPage extends Page {
     await super.load();
     const { submitButton } = this.login;
     const hasSubmitButton = EC.presenceOf(submitButton);
-    await browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
-    await Utils.clearLocalStorage();
-    await browser.manage().deleteAllCookies();
+    return browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
   }
 
   async loginWith(username: string, password?: string) {
@@ -52,12 +50,12 @@ export class LoginPage extends Page {
     await this.load();
     await this.login.enterCredentials(username, pass)
     await this.login.submit();
-    await super.waitForApp();
+    return super.waitForApp();
   }
 
   async loginWithAdmin() {
     await this.load();
-    await this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
+    return this.loginWith(ADMIN_USERNAME, ADMIN_PASSWORD);
   }
 
   async tryLoginWith(username: string, password?: string) {
@@ -65,6 +63,6 @@ export class LoginPage extends Page {
     await this.load();
     await this.login.enterCredentials(username, pass);
     await this.login.submit();
-    await browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
+    return browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
   }
 }

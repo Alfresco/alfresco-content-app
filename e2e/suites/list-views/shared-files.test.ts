@@ -81,11 +81,6 @@ describe('Shared Files', () => {
     done();
   });
 
-  afterEach(async (done) => {
-    await sharedFilesPage.refresh();
-    done();
-  });
-
   afterAll(async (done) => {
     await apis.admin.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(folderId);
@@ -117,9 +112,8 @@ describe('Shared Files', () => {
     expect(await dataTable.getRowByName(file2User).isPresent()).toBe(false, `${file2User} is displayed`);
   });
 
-  it('unshared file is not displayed - [C213118]', async (done) => {
+  it('unshared file is not displayed - [C213118]', async () => {
     expect(await dataTable.getRowByName(file3User).isPresent()).toBe(false, `${file3User} is displayed`);
-    done();
   });
 
   it('Location column displays the parent folder of the file - [C213665]', async () => {

@@ -92,12 +92,10 @@ describe('Context menu actions - multiple selection : ', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-        apis.user.nodes.deleteNodesById([ file1Id, file2Id, folder1Id, folder2Id ]),
-        apis.user.sites.deleteSite(siteName),
-        apis.user.trashcan.emptyTrash(),
-        logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodesById([ file1Id, file2Id, folder1Id, folder2Id ]);
+    await apis.user.sites.deleteSite(siteName);
+    await apis.user.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 

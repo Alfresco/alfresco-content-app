@@ -68,8 +68,8 @@ export class LoginComponent extends Component {
     await this.enterPassword(password);
   }
 
-  async submit() {
-    await this.submitButton.click();
+  submit() {
+    return this.submitButton.click();
   }
 
   async getPasswordVisibility() {
