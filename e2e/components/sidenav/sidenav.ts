@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
@@ -78,8 +78,12 @@ export class Sidenav extends Component {
   }
 
   async navigateToLinkByLabel(label: string) {
-    const link = this.getLinkByLabel(label);
-    await Utils.waitUntilElementClickable(link);
-    return await link.click();
+    try{
+      const link = this.getLinkByLabel(label);
+      await Utils.waitUntilElementClickable(link);
+      return await link.click();
+
+    } catch (e){
+    }
   }
 }

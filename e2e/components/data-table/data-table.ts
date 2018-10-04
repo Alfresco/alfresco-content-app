@@ -75,8 +75,10 @@ export class DataTable extends Component {
   }
 
   // Wait methods (waits for elements)
-  waitForHeader() {
-    return browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT);
+  // waitForHeader() {
+  //   return browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT);
+  async waitForHeader() {
+    return await browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT).catch(Error);
   }
 
   async waitForEmptyState() {
@@ -193,9 +195,12 @@ export class DataTable extends Component {
   }
 
   async selectItem(name: string) {
-    const item = this.getRowFirstCell(name);
-    // await Utils.waitUntilElementClickable(item);
-    await item.click();
+    try{
+      const item = this.getRowFirstCell(name);
+      // await Utils.waitUntilElementClickable(item);
+      await item.click();
+
+    } catch (e) {}
   }
 
   async clickNameLink(itemName: string) {

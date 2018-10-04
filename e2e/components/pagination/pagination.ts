@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, promise, by } from 'protractor';
+import { ElementFinder, by } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
