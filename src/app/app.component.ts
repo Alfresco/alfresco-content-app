@@ -80,13 +80,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.alfrescoApiService.getInstance().on('error', error => {
       if (error.status === 401) {
         if (!this.authenticationService.isLoggedIn()) {
-          this.authenticationService.setRedirect({
-            provider: 'ECM',
-            url: this.router.url
-          });
-
           this.store.dispatch(new CloseModalDialogsAction());
-          this.router.navigate(['/login']);
+          this.router.navigate(['/login'], {
+            queryParams: { returnUrl: 'personal-files' }
+          });
         }
       }
     });
