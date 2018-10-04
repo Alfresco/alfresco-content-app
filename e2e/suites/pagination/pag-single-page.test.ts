@@ -58,18 +58,14 @@ describe('Pagination on single page', () => {
     fileInTrashId = fileInTrashP.entry.id;
     siteId = siteP.entry.id;
 
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(fileInTrashId, false),
-      apis.user.favorites.addFavoriteById('file', fileId),
-      apis.user.shared.shareFileById(fileId)
-    ]);
+    await apis.user.nodes.deleteNodeById(fileInTrashId, false);
+    await apis.user.favorites.addFavoriteById('file', fileId);
+    await apis.user.shared.shareFileById(fileId);
 
-    await Promise.all([
-      apis.user.favorites.waitForApi({ expect: 1 }),
-      apis.user.search.waitForApi(username, { expect: 1 }),
-      apis.user.shared.waitForApi({ expect: 1 }),
-      apis.user.trashcan.waitForApi({ expect: 1 })
-    ]);
+    await apis.user.favorites.waitForApi({ expect: 2 });
+    await apis.user.search.waitForApi(username, { expect: 1 });
+    await apis.user.shared.waitForApi({ expect: 1 });
+    await apis.user.trashcan.waitForApi({ expect: 1 });
 
     await loginPage.loginWith(username);
     done();

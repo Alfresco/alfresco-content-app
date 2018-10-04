@@ -105,9 +105,10 @@ export class SitesApi extends RepoApi {
     }
 
     async waitForApi(data) {
-        const sites = async () => {
+        try {
+          const sites = async () => {
             const totalItems = (await this.getSites()).list.pagination.totalItems;
-            if ( totalItems < data.expect ) {
+            if ( totalItems !== data.expect ) {
                 return Promise.reject(totalItems);
             } else {
                 return Promise.resolve(totalItems);
@@ -115,5 +116,8 @@ export class SitesApi extends RepoApi {
         };
 
         return await Utils.retryCall(sites);
+        } catch (error) {
+          console.log('-----> catch sites: ', error);
+        }
     }
 }

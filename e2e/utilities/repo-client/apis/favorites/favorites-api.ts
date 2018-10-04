@@ -90,15 +90,20 @@ export class FavoritesApi extends RepoApi {
     }
 
     async waitForApi(data) {
+      try {
         const favoriteFiles = async () => {
-            const totalItems = (await this.getFavorites()).list.pagination.totalItems;
-            if ( totalItems < data.expect) {
-                return Promise.reject(totalItems);
-            } else {
-                return Promise.resolve(totalItems);
-            }
+          const totalItems = (await this.getFavorites()).list.pagination.totalItems;
+          if ( totalItems !== data.expect) {
+              return Promise.reject(totalItems);
+          } else {
+              return Promise.resolve(totalItems);
+          }
         };
 
         return await Utils.retryCall(favoriteFiles);
+      } catch (error) {
+        console.log('-----> catch favorites: ', error);
+      }
+
     }
 }
