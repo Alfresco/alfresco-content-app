@@ -69,7 +69,6 @@ export abstract class Page {
   load(relativeUrl: string = '') {
     const hash = USE_HASH_STRATEGY ? '/#' : '';
     const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
-    console.log('====> path: ', path);
     return browser.get(path);
   }
 
