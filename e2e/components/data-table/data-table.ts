@@ -194,7 +194,7 @@ export class DataTable extends Component {
 
   async selectItem(name: string) {
     const item = this.getRowFirstCell(name);
-    await Utils.waitUntilElementClickable(item);
+    // await Utils.waitUntilElementClickable(item);
     await item.click();
   }
 

@@ -69,8 +69,10 @@ export class Utils {
     return run(retry);
   }
 
-  static waitUntilElementClickable(element: ElementFinder) {
-    return browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT);
+  static async waitUntilElementClickable(element: ElementFinder) {
+    return await browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT).catch(Error);
+  // static waitUntilElementClickable(element: ElementFinder) {
+  //   return browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT);
   }
 
   static async typeInField(elem: ElementFinder, value: string) {

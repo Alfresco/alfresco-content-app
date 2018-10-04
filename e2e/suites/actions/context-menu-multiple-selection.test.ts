@@ -79,7 +79,7 @@ describe('Context menu actions - multiple selection : ', () => {
 
     await apis.user.favorites.addFavoritesByIds('file', [ file1Id, file2Id ]);
     await apis.user.favorites.addFavoritesByIds('folder', [ folder1Id, folder2Id ]);
-    await apis.user.favorites.waitForApi({ expect: 4 });
+    await apis.user.favorites.waitForApi({ expect: 4 + 1 });
 
     fileInTrash1Id = (await apis.user.nodes.createFile(fileInTrash1)).entry.id;
     fileInTrash2Id = (await apis.user.nodes.createFile(fileInTrash2)).entry.id;
