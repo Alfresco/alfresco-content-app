@@ -71,10 +71,8 @@ describe('Pagination on multiple pages on Shared Files', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(parentId),
-      logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodeById(parentId);
+    await logoutPage.load();
     done();
   });
 

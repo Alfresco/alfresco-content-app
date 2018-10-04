@@ -67,10 +67,8 @@ describe('Pagination on multiple pages on Trash', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.trashcan.emptyTrash(),
-      logoutPage.load()
-    ]);
+    await apis.user.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 

@@ -2,7 +2,9 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const path = require('path');
-const { SpecReporter } = require('jasmine-spec-reporter');
+const {
+  SpecReporter
+} = require('jasmine-spec-reporter');
 const jasmineReporters = require('jasmine-reporters');
 const CDP = require('chrome-remote-interface');
 
@@ -41,7 +43,7 @@ exports.config = {
     './e2e/suites/list-views/*.test.ts',
     './e2e/suites/application/*.test.ts',
     './e2e/suites/navigation/*.test.ts',
-    './e2e/suites/pagination/*.test.ts',
+    // './e2e/suites/pagination/*.test.ts',
     './e2e/suites/actions/*.test.ts',
     './e2e/suites/viewer/*.test.ts',
 
@@ -72,21 +74,19 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 60000,
-    print: function() {}
+    print: function () {}
   },
 
-  plugins: [
-    {
-      package: 'jasmine2-protractor-utils',
-      disableHTMLReport: false,
-      disableScreenshot: false,
-      screenshotOnExpectFailure: true,
-      screenshotOnSpecFailure: false,
-      clearFoldersBeforeTest: true,
-      htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
-      screenshotPath: `${projectRoot}/e2e-output/screenshots/`
-    }
-  ],
+  plugins: [{
+    package: 'jasmine2-protractor-utils',
+    disableHTMLReport: false,
+    disableScreenshot: false,
+    screenshotOnExpectFailure: true,
+    screenshotOnSpecFailure: false,
+    clearFoldersBeforeTest: true,
+    htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
+    screenshotPath: `${projectRoot}/e2e-output/screenshots/`
+  }],
 
   onPrepare() {
     require('ts-node').register({
