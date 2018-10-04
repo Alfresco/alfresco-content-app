@@ -28,7 +28,6 @@ import {
   element,
   by,
   ElementFinder,
-  promise,
   ExpectedConditions as EC
 } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
@@ -110,11 +109,17 @@ export abstract class Page {
   }
 
   async clickSnackBarAction() {
-    await this.waitForSnackBarToAppear();
-    // return browser.executeScript(function (elem) {
-    //   elem.click();
-    // }, this.snackBarAction);
-    await this.snackBarAction.click();
+    try {
+
+      // await this.waitForSnackBarToAppear();
+
+      // return browser.executeScript(function (elem) {
+      //   elem.click();
+      // }, this.snackBarAction);
+      return await this.snackBarAction.click();
+    } catch (e) {
+      console.log(e, '.......failed on click snack bar action.........');
+    }
   }
 
   async isGenericErrorDisplayed() {

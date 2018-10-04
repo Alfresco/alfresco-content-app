@@ -97,10 +97,14 @@ export class Menu extends Component {
   }
 
   async clickMenuItem(menuItem: string) {
-    const elem = this.getItemByLabel(menuItem);
-    await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
-    await elem.click();
-    await this.waitForMenuToClose();
+    try {
+      const elem = this.getItemByLabel(menuItem);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await elem.click();
+      await this.waitForMenuToClose();
+    } catch (e) {
+      console.log(e, '___caught error___');
+    }
   }
 
   async isMenuItemPresent(title: string) {

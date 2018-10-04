@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
+import { browser, ExpectedConditions as EC } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS } from '../../configs';
+import { BROWSER_WAIT_TIMEOUT, SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -205,7 +205,12 @@ describe('Delete and undo delete', () => {
 
       await dataTable.selectItem(file1);
       await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+
+      // await toolbar.menu.clickMenuItem('Delete');
+      const elem = toolbar.menu.getItemByLabel('Delete');
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await elem.click();
+
       await page.clickSnackBarAction();
       expect(await dataTable.getRowByName(file1).isPresent()).toBe(true, 'Item was not restored');
       expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
