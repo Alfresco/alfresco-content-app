@@ -33,12 +33,12 @@ export class ShareDialog extends Component {
 
     title: '.mat-dialog-title',
     content: '.mat-dialog-content',
-    button: '.mat-button'
+    button: `[data-automation-id='adf-share-dialog-close']`
   };
 
   title: ElementFinder = this.component.element(by.css(ShareDialog.selectors.title));
   content: ElementFinder = this.component.element(by.css(ShareDialog.selectors.content));
-  closeButton: ElementFinder = this.component.element(by.cssContainingText(ShareDialog.selectors.button, 'CLOSE'));
+  closeButton: ElementFinder = this.component.element(by.css(ShareDialog.selectors.button));
 
   constructor(ancestor?: ElementFinder) {
     super(ShareDialog.selectors.root, ancestor);
