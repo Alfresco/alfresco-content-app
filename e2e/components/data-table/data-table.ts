@@ -220,7 +220,7 @@ export class DataTable extends Component {
     const count = await this.countSelectedRows();
     if (count !== 0) {
       await browser.refresh();
-      await this.waitForHeader();
+      await this.wait();
     }
   }
 
