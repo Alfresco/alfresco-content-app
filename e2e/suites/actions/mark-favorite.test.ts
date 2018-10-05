@@ -27,7 +27,6 @@ import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
-import { browser } from 'protractor';
 
 describe('Mark items as favorites', () => {
     const username = `user-${Utils.random()}`;
@@ -284,10 +283,10 @@ describe('Mark items as favorites', () => {
     });
 
     describe('on Shared Files', () => {
-        // beforeAll(async (done) => {
-        //   await browser.refresh();
-        //   done();
-        // });
+        beforeAll(async (done) => {
+          await page.refresh();
+          done();
+        });
 
         beforeEach(async (done) => {
             await Utils.pressEscape();
@@ -367,8 +366,7 @@ describe('Mark items as favorites', () => {
 
     describe('on Favorites', () => {
         beforeEach(async (done) => {
-            await browser.refresh();
-            await page.waitForApp();
+            await Utils.pressEscape();
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
             await dataTable.waitForHeader();
             done();

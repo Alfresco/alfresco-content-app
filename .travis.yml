@@ -22,11 +22,13 @@ before_install:
 jobs:
   include:
     - stage: test
+      name: 'Code quality checks'
       script:
         - npm run lint
         - npm run spellcheck
         - npm run format:check
     - stage: test
+      name: 'Unit tests'
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
