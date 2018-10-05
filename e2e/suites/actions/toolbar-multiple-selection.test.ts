@@ -115,9 +115,10 @@ describe('Toolbar actions - multiple selection : ', () => {
 
   describe('Personal Files', () => {
     beforeEach(async done => {
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -187,11 +188,12 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('File Libraries', () => {
     beforeEach(async done => {
       // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -235,9 +237,10 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('Shared Files', () => {
     beforeEach(async done => {
       // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -257,9 +260,10 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('Recent Files', () => {
     beforeEach(async done => {
       // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -279,9 +283,10 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('Favorites', () => {
     beforeEach(async done => {
       // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -324,9 +329,10 @@ describe('Toolbar actions - multiple selection : ', () => {
 
   describe('Trash', () => {
     beforeEach(async done => {
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 

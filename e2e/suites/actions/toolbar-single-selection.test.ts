@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY, SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -110,10 +109,10 @@ describe('Toolbar actions - single selection : ', () => {
 
   describe('Personal Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -152,11 +151,12 @@ describe('Toolbar actions - single selection : ', () => {
 
   describe('File Libraries', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -195,9 +195,10 @@ describe('Toolbar actions - single selection : ', () => {
 
   describe('Shared Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       await page.dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -222,9 +223,10 @@ describe('Toolbar actions - single selection : ', () => {
 
   describe('Recent Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -249,9 +251,10 @@ describe('Toolbar actions - single selection : ', () => {
 
   describe('Favorites', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -290,9 +293,10 @@ describe('Toolbar actions - single selection : ', () => {
 
   describe('Trash', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE);
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
