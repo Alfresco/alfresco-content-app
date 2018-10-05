@@ -75,10 +75,12 @@ export class DataTable extends Component {
   }
 
   // Wait methods (waits for elements)
-  // waitForHeader() {
-  //   return browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT);
-  async waitForHeader() {
-    return await browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT).catch(Error);
+  waitForHeader() {
+    try {
+      return browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT);
+    } catch (error) {
+      console.log('----- wait for header catch : ', error);
+    }
   }
 
   async waitForEmptyState() {
@@ -200,7 +202,9 @@ export class DataTable extends Component {
       // await Utils.waitUntilElementClickable(item);
       await item.click();
 
-    } catch (e) {}
+    } catch (e) {
+      console.log('--- select item catch : ', e);
+    }
   }
 
   async clickNameLink(itemName: string) {
@@ -217,10 +221,14 @@ export class DataTable extends Component {
   }
 
   async clearSelection() {
-    const count = await this.countSelectedRows();
-    if (count !== 0) {
-      await browser.refresh();
-      await this.wait();
+    try {
+      const count = await this.countSelectedRows();
+      if (count !== 0) {
+        await browser.refresh();
+        await this.waitForHeader();
+      }
+    } catch (error) {
+      console.log('------ clearSelection catch : ', error);
     }
   }
 
@@ -230,9 +238,9 @@ export class DataTable extends Component {
   }
 
   async rightClickOnMultipleSelection() {
-    await this.wait();
+    await this.waitForHeader();
     const itemFromSelection = this.getSelectedRows().get(0);
-    await browser.actions().click(await itemFromSelection, protractor.Button.RIGHT).perform();
+    await browser.actions().click(itemFromSelection, protractor.Button.RIGHT).perform();
   }
 
   getItemLocationEl(name: string) {

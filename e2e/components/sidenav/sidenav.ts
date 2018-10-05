@@ -84,6 +84,7 @@ export class Sidenav extends Component {
       return await link.click();
 
     } catch (e){
+      console.log('---- sidebar navigation catch : ', e);
     }
   }
 }

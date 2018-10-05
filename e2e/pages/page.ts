@@ -91,8 +91,9 @@ export abstract class Page {
     await browser.wait(EC.not(EC.visibilityOf(this.dialogContainer)), BROWSER_WAIT_TIMEOUT);
   }
 
-  refresh() {
-    return browser.refresh();
+  async refresh() {
+    await browser.refresh();
+    await this.waitForApp();
   }
 
   getDialogActionByLabel(label) {

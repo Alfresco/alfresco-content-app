@@ -101,9 +101,8 @@ export class Menu extends Component {
       const elem = this.getItemByLabel(menuItem);
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
       await elem.click();
-      await this.waitForMenuToClose();
     } catch (e) {
-      console.log(e, '___caught error___');
+      console.log('___click menu item catch___', e);
     }
   }
 

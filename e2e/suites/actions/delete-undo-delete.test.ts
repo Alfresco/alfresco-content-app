@@ -206,10 +206,7 @@ describe('Delete and undo delete', () => {
       await dataTable.selectItem(file1);
       await toolbar.openMoreMenu();
 
-      // await toolbar.menu.clickMenuItem('Delete');
-      const elem = toolbar.menu.getItemByLabel('Delete');
-      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
-      await elem.click();
+      await toolbar.menu.clickMenuItem('Delete');
 
       await page.clickSnackBarAction();
       expect(await dataTable.getRowByName(file1).isPresent()).toBe(true, 'Item was not restored');
@@ -550,6 +547,7 @@ describe('Delete and undo delete', () => {
       if (empty) {
         await browser.sleep(6000);
         await browser.refresh();
+        await page.waitForApp();
       }
       done();
     });
