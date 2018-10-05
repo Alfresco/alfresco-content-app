@@ -252,10 +252,10 @@ describe('Context menu actions - multiple selection : ', () => {
 
   describe('Recent Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 

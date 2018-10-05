@@ -230,8 +230,9 @@ export class DataTable extends Component {
   }
 
   async rightClickOnMultipleSelection() {
+    await this.wait();
     const itemFromSelection = this.getSelectedRows().get(0);
-    await browser.actions().click(itemFromSelection, protractor.Button.RIGHT).perform();
+    await browser.actions().click(await itemFromSelection, protractor.Button.RIGHT).perform();
   }
 
   getItemLocationEl(name: string) {
