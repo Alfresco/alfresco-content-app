@@ -210,9 +210,9 @@ export class DataTable extends Component {
   async selectMultipleItems(names: string[]) {
     await this.clearSelection();
     await browser.actions().sendKeys(protractor.Key.COMMAND).perform();
-    names.forEach(async name => {
+    for (const name of names) {
       await this.selectItem(name);
-    });
+    }
     await browser.actions().sendKeys(protractor.Key.NULL).perform();
   }
 

@@ -32,14 +32,14 @@ import { Utils } from '../../utilities/utils';
 describe('Toolbar actions - multiple selection : ', () => {
   const username = `user-${Utils.random()}`;
 
-  const file1 = `file-${Utils.random()}.txt`;
+  const file1 = `file1-${Utils.random()}.txt`;
   let file1Id;
-  const file2 = `file-${Utils.random()}.txt`;
+  const file2 = `file2-${Utils.random()}.txt`;
   let file2Id;
 
-  const folder1 = `folder-${Utils.random()}`;
+  const folder1 = `folder1-${Utils.random()}`;
   let folder1Id;
-  const folder2 = `folder-${Utils.random()}`;
+  const folder2 = `folder2-${Utils.random()}`;
   let folder2Id;
 
   const fileForDelete1 = `file-${Utils.random()}.txt`;
@@ -87,15 +87,16 @@ describe('Toolbar actions - multiple selection : ', () => {
     await apis.user.favorites.waitForApi({ expect: 4 });
 
     await apis.user.nodes.deleteNodesById([fileForDelete1Id, fileForDelete2Id, folderForDelete1Id, folderForDelete2Id], false);
+    await apis.user.trashcan.waitForApi({ expect: 4 });
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
-    await Promise.all([
-      apis.user.nodes.createFile(file1InSite, docLibId),
-      apis.user.nodes.createFile(file2InSite, docLibId),
-      apis.user.nodes.createFolder(folder1InSite, docLibId),
-      apis.user.nodes.createFolder(folder2InSite, docLibId)
-    ]);
+    await apis.user.nodes.createFile(file1InSite, docLibId);
+    await apis.user.nodes.createFile(file2InSite, docLibId);
+    await apis.user.nodes.createFolder(folder1InSite, docLibId);
+    await apis.user.nodes.createFolder(folder2InSite, docLibId);
+    await apis.user.search.waitForApi(username, { expect: 4 });
+
     await loginPage.loginWith(username);
     done();
   });
@@ -185,7 +186,7 @@ describe('Toolbar actions - multiple selection : ', () => {
 
   describe('File Libraries', () => {
     beforeEach(async done => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
       await dataTable.clearSelection();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
       await dataTable.waitForHeader();
@@ -233,7 +234,7 @@ describe('Toolbar actions - multiple selection : ', () => {
 
   describe('Shared Files', () => {
     beforeEach(async done => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
       await dataTable.clearSelection();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       await dataTable.waitForHeader();
@@ -255,7 +256,7 @@ describe('Toolbar actions - multiple selection : ', () => {
 
   describe('Recent Files', () => {
     beforeEach(async done => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
       await dataTable.clearSelection();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
       await dataTable.waitForHeader();
@@ -277,7 +278,7 @@ describe('Toolbar actions - multiple selection : ', () => {
 
   describe('Favorites', () => {
     beforeEach(async done => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
       await dataTable.clearSelection();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
