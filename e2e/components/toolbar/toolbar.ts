@@ -63,7 +63,9 @@ export class Toolbar extends Component {
   }
 
   async openMoreMenu() {
-    await this.getButtonByTitleAttribute('More actions').click();
+    await this.isButtonPresent('More actions');
+    const moreMenu = this.getButtonByTitleAttribute('More actions');
+    await moreMenu.click();
     await this.menu.waitForMenuToOpen();
     // return this.menu;
   }
