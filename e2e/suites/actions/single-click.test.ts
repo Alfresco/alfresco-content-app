@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Viewer } from '../../components/viewer/viewer';
 import { SIDEBAR_LABELS } from '../../configs';
@@ -72,7 +71,7 @@ describe('Single click on item name', () => {
 
     await apis.user.favorites.addFavoriteById('file', file1Id);
     await apis.user.favorites.addFavoriteById('folder', folder1Id);
-    await apis.user.favorites.waitForApi({ expect: 2 });
+    await apis.user.favorites.waitForApi({ expect: 2 + 1 });
 
     await loginPage.loginWith(username);
     done();
@@ -111,7 +110,7 @@ describe('Single click on item name', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
     });
 
     it('Navigate inside the folder when clicking the hyperlink - [C280034]', async () => {
@@ -156,7 +155,7 @@ describe('Single click on item name', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
     });
   });
 
@@ -176,7 +175,7 @@ describe('Single click on item name', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
     });
   });
 
@@ -196,7 +195,7 @@ describe('Single click on item name', () => {
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
     });
 
     it('Navigate inside the folder when clicking the hyperlink - [C284911]', async () => {

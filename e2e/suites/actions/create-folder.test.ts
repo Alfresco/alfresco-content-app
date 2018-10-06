@@ -83,7 +83,7 @@ describe('Create folder', () => {
     });
 
     afterEach(async (done) => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      await Utils.pressEscape();
       done();
     });
 
@@ -239,7 +239,7 @@ describe('Create folder', () => {
     });
 
     afterEach(async (done) => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      await Utils.pressEscape();
       done();
     });
 

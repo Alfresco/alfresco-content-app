@@ -26,6 +26,7 @@
 import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
+import { Utils } from '../../utilities/utils'
 
 export class Menu extends Component {
   private static selectors = {
@@ -54,11 +55,12 @@ export class Menu extends Component {
   }
 
   async closeMenu() {
-    if (await this.backdrop.isPresent()) {
-      return await this.backdrop.click();
-    } else {
-      return await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-    }
+    // if (await this.backdrop.isPresent()) {
+    //   return await this.backdrop.click();
+    // } else {
+    //   return await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+    // }
+    return Utils.pressEscape();
   }
 
   getNthItem(nth: number) {
