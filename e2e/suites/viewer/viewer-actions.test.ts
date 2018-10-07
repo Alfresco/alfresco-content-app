@@ -32,7 +32,7 @@ import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
 import { ShareDialog } from './../../components/dialog/share-dialog';
 import { ManageVersionsDialog } from './../../components/dialog/manage-versions-dialog';
 
-describe('Viewer actions', () => {
+fdescribe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
 
   const docxFile = FILES.docxFile;
@@ -177,10 +177,10 @@ describe('Viewer actions', () => {
 
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
-      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       await viewer.clickClose();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
+      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       expect(await dataTable.getRowByName(docxPersonalFiles).isPresent()).toBe(true, 'Item is not present in Favorites list');
     });
 
@@ -341,11 +341,11 @@ describe('Viewer actions', () => {
 
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
-      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       await viewer.clickClose();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
-      expect(await dataTable.getRowByName(docxLibraries).isPresent()).toBe(true, 'Item is not present in Favorites list');
+      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, `${docxLibraries} is not favorite`);
+      expect(await dataTable.getRowByName(docxLibraries).isPresent()).toBe(true, `${docxLibraries} is not present in Favorites list`);
     });
 
     it('Delete action - [C286373]', async () => {
@@ -481,10 +481,10 @@ describe('Viewer actions', () => {
 
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
-      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       await viewer.clickClose();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
+      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       expect(await dataTable.getRowByName(docxRecentFiles).isPresent()).toBe(true, 'Item is not present in Favorites list');
     });
 
@@ -621,10 +621,10 @@ describe('Viewer actions', () => {
 
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
-      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       await viewer.clickClose();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
+      expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       expect(await dataTable.getRowByName(docxSharedFiles).isPresent()).toBe(true, 'Item is not present in Favorites list');
     });
 
@@ -764,10 +764,10 @@ describe('Viewer actions', () => {
 
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
-      expect(await apis.user.favorites.isFavorite(xlsxFileId)).toBe(false, 'Item is still favorite');
       await viewer.clickClose();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
+      expect(await apis.user.favorites.isFavorite(xlsxFileId)).toBe(false, 'Item is still favorite');
       expect(await dataTable.getRowByName(xlsxFavorites).isPresent()).toBe(false, 'Item is still present in Favorites list');
     });
 

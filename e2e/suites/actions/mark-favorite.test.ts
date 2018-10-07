@@ -28,7 +28,7 @@ import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
-describe('Mark items as favorites', () => {
+fdescribe('Mark items as favorites', () => {
     const username = `user-${Utils.random()}`;
 
     const file1NotFav = `file1-${Utils.random()}.txt`;
@@ -367,6 +367,7 @@ describe('Mark items as favorites', () => {
     describe('on Favorites', () => {
         beforeEach(async (done) => {
             await Utils.pressEscape();
+            await page.refresh();
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
             await dataTable.waitForHeader();
             done();
@@ -391,10 +392,10 @@ describe('Mark items as favorites', () => {
             await toolbar.menu.clickMenuItem('Favorite');
             await apis.user.favorites.waitForApi({ expect: 3 });
             const isFavorite3 = await apis.user.favorites.isFavorite(file3Id);
-            expect(isFavorite3).toBe(false, 'file3 marked as favorite');
-            expect(await dataTable.getRowByName(file3Fav).isPresent()).toBe(false, 'file3 still displayed');
             const isFavorite4 = await apis.user.favorites.isFavorite(file4Id);
+            expect(isFavorite3).toBe(false, 'file3 marked as favorite');
             expect(isFavorite4).toBe(false, 'file4 marked as favorite');
+            expect(await dataTable.getRowByName(file3Fav).isPresent()).toBe(false, 'file3 still displayed');
             expect(await dataTable.getRowByName(file4Fav).isPresent()).toBe(false, 'file4 still displayed');
 
             await apis.user.favorites.addFavoriteById('file', file3Id);
