@@ -28,7 +28,7 @@ import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
-fdescribe('Mark items as favorites', () => {
+describe('Mark items as favorites', () => {
     const username = `user-${Utils.random()}`;
 
     const file1NotFav = `file1-${Utils.random()}.txt`;

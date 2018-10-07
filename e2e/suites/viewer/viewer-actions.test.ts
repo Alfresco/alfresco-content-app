@@ -32,7 +32,7 @@ import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
 import { ShareDialog } from './../../components/dialog/share-dialog';
 import { ManageVersionsDialog } from './../../components/dialog/manage-versions-dialog';
 
-fdescribe('Viewer actions', () => {
+describe('Viewer actions', () => {
   const username = `user-${Utils.random()}`;
 
   const docxFile = FILES.docxFile;
