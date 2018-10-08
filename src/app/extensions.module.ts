@@ -7,9 +7,6 @@ import { CodeEditorModule } from '@ngstack/code-editor';
 
 @NgModule({
   imports: [
-    // Provides entry point for dynamic module registration,
-    // do not remove the line below
-    // $DYNAMIC_MODULES_PLACEHOLDER$
     CodeEditorModule.forRoot({
       // use local Monaco installation
       baseUrl: 'assets/monaco',
