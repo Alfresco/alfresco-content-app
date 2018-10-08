@@ -30,34 +30,34 @@ import { protractor } from 'protractor';
 import { Utils } from '../../utilities/utils';
 
 export class Header extends Component {
-    private locators = {
-        logoLink: by.css('.app-menu__title'),
-        userInfo: by.css('aca-current-user'),
-        searchButton: by.css('#adf-search-button'),
-        searchBar: by.css('#adf-control-input')
-    };
+  private locators = {
+    logoLink: by.css('.app-menu__title'),
+    userInfo: by.css('aca-current-user'),
+    searchButton: by.css('#adf-search-button'),
+    searchBar: by.css('#adf-control-input')
+  };
 
-    logoLink: ElementFinder = this.component.element(this.locators.logoLink);
-    userInfo: UserInfo = new UserInfo(this.component);
-    searchButton: ElementFinder = this.component.element(this.locators.searchButton);
-    searchBar: ElementFinder = this.component.element(this.locators.searchBar);
+  logoLink: ElementFinder = this.component.element(this.locators.logoLink);
+  userInfo: UserInfo = new UserInfo(this.component);
+  searchButton: ElementFinder = this.component.element(this.locators.searchButton);
+  searchBar: ElementFinder = this.component.element(this.locators.searchBar);
 
-    constructor(ancestor?: ElementFinder) {
-        super('adf-layout-header', ancestor);
-    }
+  constructor(ancestor?: ElementFinder) {
+    super('adf-layout-header', ancestor);
+  }
 
-    searchForText(text: string) {
-        return this.searchBar.clear()
-            .then(() => this.searchBar.sendKeys(text))
-            .then(() => this.searchBar.sendKeys(protractor.Key.ENTER));
-    }
+  async searchForText(text: string) {
+    await this.searchBar.clear();
+    await this.searchBar.sendKeys(text);
+    await this.searchBar.sendKeys(protractor.Key.ENTER);
+  }
 
-    async waitForSearchButton() {
-        return await Utils.waitUntilElementClickable(this.searchButton);
-    }
+  async waitForSearchButton() {
+    await Utils.waitUntilElementClickable(this.searchButton);
+  }
 
-    async waitForSearchBar() {
-        return await Utils.waitUntilElementClickable(this.searchBar);
-    }
+  async waitForSearchBar() {
+    await Utils.waitUntilElementClickable(this.searchBar);
+  }
 }
 

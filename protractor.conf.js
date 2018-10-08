@@ -2,7 +2,9 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const path = require('path');
-const { SpecReporter } = require('jasmine-spec-reporter');
+const {
+  SpecReporter
+} = require('jasmine-spec-reporter');
 const jasmineReporters = require('jasmine-reporters');
 const CDP = require('chrome-remote-interface');
 
@@ -30,7 +32,7 @@ function rmDir(dirPath) {
 }
 
 exports.config = {
-  allScriptsTimeout: 40000,
+  allScriptsTimeout: 50000,
 
   params: {
     downloadFolder: downloadFolder
@@ -48,6 +50,7 @@ exports.config = {
     './e2e/suites/extensions/*.test.ts'
   ],
 
+  SELENIUM_PROMISE_MANAGER: true,
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
@@ -58,33 +61,32 @@ exports.config = {
           default_directory: downloadFolder
         }
       },
-      args: ['--incognito', '--headless', '--remote-debugging-port=9222']
+      args: ['--incognito', '--headless', '--remote-debugging-port=9222', '--disable-gpu', '--no-sandbox']
     }
   },
 
   directConnect: true,
 
   // baseUrl: 'http://localhost:4000',
+  getPageTimeout: 50000,
 
   framework: 'jasmine2',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 60000,
-    print: function() {}
+    print: function () {}
   },
 
-  plugins: [
-    {
-      package: 'jasmine2-protractor-utils',
-      disableHTMLReport: false,
-      disableScreenshot: false,
-      screenshotOnExpectFailure: true,
-      screenshotOnSpecFailure: false,
-      clearFoldersBeforeTest: true,
-      htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
-      screenshotPath: `${projectRoot}/e2e-output/screenshots/`
-    }
-  ],
+  plugins: [{
+    package: 'jasmine2-protractor-utils',
+    disableHTMLReport: false,
+    disableScreenshot: false,
+    screenshotOnExpectFailure: true,
+    screenshotOnSpecFailure: false,
+    clearFoldersBeforeTest: true,
+    htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
+    screenshotPath: `${projectRoot}/e2e-output/screenshots/`
+  }],
 
   onPrepare() {
     require('ts-node').register({

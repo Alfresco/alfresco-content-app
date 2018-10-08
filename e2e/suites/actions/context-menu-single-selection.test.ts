@@ -73,20 +73,18 @@ describe('Context menu actions - single selection : ', () => {
 
     await apis.user.favorites.addFavoriteById('file', fileUserId);
     await apis.user.favorites.addFavoriteById('folder', folderUserId);
-    await apis.user.favorites.waitForApi({ expect: 2 });
+    await apis.user.favorites.waitForApi({ expect: 3 });
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(fileUserId),
-      apis.user.nodes.deleteNodeById(folderUserId),
-      apis.user.sites.deleteSite(siteName),
-      apis.user.trashcan.emptyTrash(),
-      logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodeById(fileUserId);
+    await apis.user.nodes.deleteNodeById(folderUserId);
+    await apis.user.sites.deleteSite(siteName);
+    await apis.user.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 
@@ -94,7 +92,7 @@ describe('Context menu actions - single selection : ', () => {
 
   describe('Generic tests', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
       await dataTable.waitForHeader();
       done();
@@ -142,10 +140,10 @@ describe('Context menu actions - single selection : ', () => {
 
   describe('on Personal Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -181,7 +179,7 @@ describe('Context menu actions - single selection : ', () => {
 
   describe('File Libraries', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(siteName);
@@ -221,7 +219,7 @@ describe('Context menu actions - single selection : ', () => {
 
   describe('Shared Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       await dataTable.waitForHeader();
       done();
@@ -246,7 +244,7 @@ describe('Context menu actions - single selection : ', () => {
 
   describe('Recent Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
       await dataTable.waitForHeader();
       done();
@@ -270,7 +268,7 @@ describe('Context menu actions - single selection : ', () => {
 
   describe('Favorites', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
       done();
@@ -310,7 +308,7 @@ describe('Context menu actions - single selection : ', () => {
 
   describe('Trash', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
       await dataTable.waitForHeader();
       done();

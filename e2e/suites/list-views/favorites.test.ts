@@ -63,13 +63,11 @@ describe('Favorites', () => {
     const file3Id = (await apis.user.nodes.createFile(fileName3, parentId)).entry.id;
     const file4Id = (await apis.user.nodes.createFile(fileName4, parentId)).entry.id;
 
-    await Promise.all([
-      apis.user.favorites.addFavoriteById('file', file1Id),
-      apis.user.favorites.addFavoriteById('folder', folderId),
-      apis.user.favorites.addFavoriteById('file', file2Id),
-      apis.user.favorites.addFavoriteById('file', file3Id),
-      apis.user.favorites.addFavoriteById('file', file4Id)
-    ]);
+    await apis.user.favorites.addFavoriteById('file', file1Id);
+    await apis.user.favorites.addFavoriteById('folder', folderId);
+    await apis.user.favorites.addFavoriteById('file', file2Id);
+    await apis.user.favorites.addFavoriteById('file', file3Id);
+    await apis.user.favorites.addFavoriteById('file', file4Id);
     await apis.user.nodes.deleteNodeById(file3Id, false);
     await apis.user.nodes.deleteNodeById(file4Id, false);
     await apis.user.trashcan.restore(file4Id);
@@ -85,24 +83,20 @@ describe('Favorites', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.admin.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodes([ favFolderName, parentFolder ]),
-      apis.admin.trashcan.emptyTrash(),
-      logoutPage.load()
-    ]);
+    await apis.admin.sites.deleteSite(siteName);
+    await apis.user.nodes.deleteNodes([ favFolderName, parentFolder ]);
+    await apis.admin.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 
   it('has the correct columns - [C280482]', async () => {
-    const labels = [ 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
-    const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+    const expectedHeader = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
+    const headers = dataTable.getColumnHeaders();
+    const count = await headers.count();
+    expect(count).toBe(5 + 1, 'Incorrect number of columns');
 
-    expect(await dataTable.getColumnHeaders().count()).toBe(5 + 1, 'Incorrect number of columns');
-
-    await elements.forEach(async (element, index) => {
-        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-    });
+    expect(await dataTable.getHeaderText()).toEqual(expectedHeader);
   });
 
   it('displays the favorite files and folders - [C213226]', async () => {
@@ -121,9 +115,9 @@ describe('Favorites', () => {
   });
 
   it('Location column displays the parent folder of the files - [C213231]', async () => {
-    expect(await dataTable.getItemLocation(fileName1).getText()).toEqual(siteName);
-    expect(await dataTable.getItemLocation(fileName2).getText()).toEqual(parentFolder);
-    expect(await dataTable.getItemLocation(favFolderName).getText()).toEqual('Personal Files');
+    expect(await dataTable.getItemLocation(fileName1)).toEqual(siteName);
+    expect(await dataTable.getItemLocation(fileName2)).toEqual(parentFolder);
+    expect(await dataTable.getItemLocation(favFolderName)).toEqual('Personal Files');
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213671]', async () => {
@@ -133,23 +127,23 @@ describe('Favorites', () => {
   });
 
   it('Location column redirect - item in user Home - [C213650]', async () => {
-      await dataTable.clickItemLocation(favFolderName);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
+    await dataTable.clickItemLocation(favFolderName);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
   });
 
   it('Location column redirect - file in folder - [C280484]', async () => {
-      await dataTable.clickItemLocation(fileName2);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', parentFolder ]);
+    await dataTable.clickItemLocation(fileName2);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', parentFolder ]);
   });
 
   it('Location column redirect - file in site - [C280485]', async () => {
-      await dataTable.clickItemLocation(fileName1);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+    await dataTable.clickItemLocation(fileName1);
+    expect(breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
   });
 
   it('Navigate into folder from Favorites - [C213230]', async () => {
-      await dataTable.doubleClickOnRowByName(favFolderName);
-      await dataTable.waitForEmptyState();
-      expect(await breadcrumb.getCurrentItemName()).toBe(favFolderName);
+    await dataTable.doubleClickOnRowByName(favFolderName);
+    await dataTable.waitForEmptyState();
+    expect(await breadcrumb.getCurrentItemName()).toBe(favFolderName);
   });
 });

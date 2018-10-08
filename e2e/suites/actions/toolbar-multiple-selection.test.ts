@@ -32,14 +32,14 @@ import { Utils } from '../../utilities/utils';
 describe('Toolbar actions - multiple selection : ', () => {
   const username = `user-${Utils.random()}`;
 
-  const file1 = `file-${Utils.random()}.txt`;
+  const file1 = `file1-${Utils.random()}.txt`;
   let file1Id;
-  const file2 = `file-${Utils.random()}.txt`;
+  const file2 = `file2-${Utils.random()}.txt`;
   let file2Id;
 
-  const folder1 = `folder-${Utils.random()}`;
+  const folder1 = `folder1-${Utils.random()}`;
   let folder1Id;
-  const folder2 = `folder-${Utils.random()}`;
+  const folder2 = `folder2-${Utils.random()}`;
   let folder2Id;
 
   const fileForDelete1 = `file-${Utils.random()}.txt`;
@@ -87,15 +87,16 @@ describe('Toolbar actions - multiple selection : ', () => {
     await apis.user.favorites.waitForApi({ expect: 4 });
 
     await apis.user.nodes.deleteNodesById([fileForDelete1Id, fileForDelete2Id, folderForDelete1Id, folderForDelete2Id], false);
+    await apis.user.trashcan.waitForApi({ expect: 4 });
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
-    await Promise.all([
-      apis.user.nodes.createFile(file1InSite, docLibId),
-      apis.user.nodes.createFile(file2InSite, docLibId),
-      apis.user.nodes.createFolder(folder1InSite, docLibId),
-      apis.user.nodes.createFolder(folder2InSite, docLibId)
-    ]);
+    await apis.user.nodes.createFile(file1InSite, docLibId);
+    await apis.user.nodes.createFile(file2InSite, docLibId);
+    await apis.user.nodes.createFolder(folder1InSite, docLibId);
+    await apis.user.nodes.createFolder(folder2InSite, docLibId);
+    await apis.user.search.waitForApi(username, { expect: 4 });
+
     await loginPage.loginWith(username);
     done();
   });
@@ -114,9 +115,10 @@ describe('Toolbar actions - multiple selection : ', () => {
 
   describe('Personal Files', () => {
     beforeEach(async done => {
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -148,11 +150,11 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
 
@@ -161,11 +163,11 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
 
@@ -174,23 +176,24 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
   });
 
   describe('File Libraries', () => {
     beforeEach(async done => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-      await dataTable.clearSelection();
+      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -199,11 +202,11 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed for selected files');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed for selected files');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
     });
 
     it('correct actions appear when multiple folders are selected - [C280462]', async () => {
@@ -211,11 +214,11 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
     });
 
     it('correct actions appear when both files and folders are selected - [C280463]', async () => {
@@ -223,20 +226,21 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
     });
   });
 
   describe('Shared Files', () => {
     beforeEach(async done => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-      await dataTable.clearSelection();
+      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -245,20 +249,21 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed for selected files');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
     });
   });
 
   describe('Recent Files', () => {
     beforeEach(async done => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-      await dataTable.clearSelection();
+      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -267,20 +272,21 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
     });
   });
 
   describe('Favorites', () => {
     beforeEach(async done => {
-      await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-      await dataTable.clearSelection();
+      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -289,11 +295,11 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
     });
 
     it('correct actions appear when multiple folders are selected - [C280470]', async () => {
@@ -301,11 +307,11 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
     });
 
     it('correct actions appear when both files and folders are selected - [C280471]', async () => {
@@ -313,19 +319,20 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
       expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed for selected files');
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for selected files`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
     });
   });
 
   describe('Trash', () => {
     beforeEach(async done => {
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 

@@ -23,21 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { promise } from 'protractor';
 import { Page } from './page';
 import { APP_ROUTES } from '../configs';
 import { Utils } from '../utilities/utils';
 
 export class LogoutPage extends Page {
-    /** @override */
-    constructor() {
-        super(APP_ROUTES.LOGIN);
-    }
+  /** @override */
+  constructor() {
+    super(APP_ROUTES.LOGIN);
+  }
 
-    /** @override */
-    load(): promise.Promise<any> {
-        return Utils.clearLocalStorage()
-            .then(() => Utils.clearSessionStorage())
-            .then(() => super.load());
-    }
+  /** @override */
+  load() {
+    // await Utils.clearLocalStorage();
+    // await Utils.clearSessionStorage();
+    return super.load();
+  }
 }

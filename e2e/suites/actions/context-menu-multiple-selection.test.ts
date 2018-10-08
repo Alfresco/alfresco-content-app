@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY, SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -79,7 +78,7 @@ describe('Context menu actions - multiple selection : ', () => {
 
     await apis.user.favorites.addFavoritesByIds('file', [ file1Id, file2Id ]);
     await apis.user.favorites.addFavoritesByIds('folder', [ folder1Id, folder2Id ]);
-    await apis.user.favorites.waitForApi({ expect: 4 });
+    await apis.user.favorites.waitForApi({ expect: 4 + 1 });
 
     fileInTrash1Id = (await apis.user.nodes.createFile(fileInTrash1)).entry.id;
     fileInTrash2Id = (await apis.user.nodes.createFile(fileInTrash2)).entry.id;
@@ -92,12 +91,10 @@ describe('Context menu actions - multiple selection : ', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-        apis.user.nodes.deleteNodesById([ file1Id, file2Id, folder1Id, folder2Id ]),
-        apis.user.sites.deleteSite(siteName),
-        apis.user.trashcan.emptyTrash(),
-        logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodesById([ file1Id, file2Id, folder1Id, folder2Id ]);
+    await apis.user.sites.deleteSite(siteName);
+    await apis.user.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 
@@ -105,7 +102,7 @@ describe('Context menu actions - multiple selection : ', () => {
 
   describe('Generic tests', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
       await dataTable.waitForHeader();
       await dataTable.clearSelection();
@@ -133,6 +130,7 @@ describe('Context menu actions - multiple selection : ', () => {
 
   describe('on Personal Files', () => {
     beforeEach(async (done) => {
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
       await dataTable.waitForHeader();
       await dataTable.clearSelection();
@@ -180,12 +178,12 @@ describe('Context menu actions - multiple selection : ', () => {
 
   describe('on File Libraries', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -231,10 +229,10 @@ describe('Context menu actions - multiple selection : ', () => {
 
   describe('on Shared Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -254,10 +252,10 @@ describe('Context menu actions - multiple selection : ', () => {
 
   describe('Recent Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -277,10 +275,10 @@ describe('Context menu actions - multiple selection : ', () => {
 
   describe('Favorites', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -329,10 +327,10 @@ describe('Context menu actions - multiple selection : ', () => {
 
   describe('Trash', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 

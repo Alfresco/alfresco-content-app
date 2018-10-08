@@ -144,21 +144,21 @@ describe('Special permissions', () => {
       await recentFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
       await dataTable.waitForHeader();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
-      expect(await dataTable.getItemLocation(fileName).getText()).toEqual('');
+      expect(await dataTable.getItemLocation(fileName)).toEqual('');
     });
 
     it(`on Favorites - [C213672]`, async () => {
       await favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
-      expect(await dataTable.getItemLocation(fileName).getText()).toEqual('');
+      expect(await dataTable.getItemLocation(fileName)).toEqual('');
     });
 
     it(`on Shared Files - [C213668]`, async () => {
       await sharedPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       await dataTable.waitForHeader();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
-      expect(await dataTable.getItemLocation(fileName).getText()).toEqual('');
+      expect(await dataTable.getItemLocation(fileName)).toEqual('');
     });
   });
 });

@@ -66,15 +66,13 @@ describe('Pagination on multiple pages on Shared Files', () => {
   });
 
   afterEach(async (done) => {
-    await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+    await Utils.pressEscape();
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(parentId),
-      logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodeById(parentId);
+    await logoutPage.load();
     done();
   });
 

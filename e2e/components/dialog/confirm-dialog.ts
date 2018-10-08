@@ -28,42 +28,42 @@ import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
 export class ConfirmDialog extends Component {
-    private static selectors = {
-        root: 'adf-confirm-dialog',
+  private static selectors = {
+    root: 'adf-confirm-dialog',
 
-        title: '.mat-dialog-title',
-        content: '.mat-dialog-content',
-        delete: 'adf-confirm-accept',
-        keep: 'adf-confirm-cancel'
-    };
+    title: '.mat-dialog-title',
+    content: '.mat-dialog-content',
+    delete: 'adf-confirm-accept',
+    keep: 'adf-confirm-cancel'
+  };
 
-    title: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.title));
-    content: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.content));
-    deleteButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.delete));
-    keepButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.keep));
+  title: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.title));
+  content: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.content));
+  deleteButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.delete));
+  keepButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.keep));
 
-    constructor(ancestor?: ElementFinder) {
-        super(ConfirmDialog.selectors.root, ancestor);
-    }
+  constructor(ancestor?: ElementFinder) {
+    super(ConfirmDialog.selectors.root, ancestor);
+  }
 
-    async waitForDialogToClose() {
-        return await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
-    }
+  async waitForDialogToClose() {
+    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+  }
 
-    async getTitle() {
-        return await this.title.getText();
-    }
+  async getTitle() {
+    return await this.title.getText();
+  }
 
-    async getText() {
-        return await this.content.getText();
-    }
+  async getText() {
+    return await this.content.getText();
+  }
 
-    async clickDelete() {
-        await this.deleteButton.click();
-    }
+  async clickDelete() {
+    await this.deleteButton.click();
+  }
 
-    async clickKeep() {
-        await this.keepButton.click();
-        await this.waitForDialogToClose();
-    }
+  async clickKeep() {
+    await this.keepButton.click();
+    await this.waitForDialogToClose();
+  }
 }

@@ -60,13 +60,11 @@ describe('Login', () => {
   const newPassword = 'new password';
 
   beforeAll(async (done) => {
-    await Promise.all([
-      peopleApi.createUser({ username: testUser }),
-      peopleApi.createUser(russianUser),
-      peopleApi.createUser(johnDoe),
-      peopleApi.createUser({ username: disabledUser }),
-      peopleApi.createUser(testUser2)
-    ]);
+    await peopleApi.createUser({ username: testUser });
+    await peopleApi.createUser(russianUser);
+    await peopleApi.createUser(johnDoe);
+    await peopleApi.createUser({ username: disabledUser });
+    await peopleApi.createUser(testUser2);
     await peopleApi.disableUser(disabledUser);
     done();
   });
@@ -114,7 +112,7 @@ describe('Login', () => {
       const { username, firstName, lastName } = johnDoe;
 
       await loginPage.loginWith(username);
-      expect(userInfo.name).toEqual(`${firstName} ${lastName}`);
+      expect(await userInfo.getName()).toEqual(`${firstName} ${lastName}`);
     });
 
     it(`logs in with user having username containing "@" - [C213096]`, async () => {
@@ -126,9 +124,10 @@ describe('Login', () => {
       const { username, password } = russianUser;
 
       await loginPage.loginWith(username, password);
-      expect(browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
+      expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
+    // TODO: ACA-245
     xit('redirects to Home Page when navigating to the Login page while already logged in - [C213107]', async () => {
       const { username } = johnDoe;
 

@@ -169,7 +169,6 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(folder1);
     await page.dataTable.wait();
     await apis.user.nodes.renameNode(folder1Id, folder1Renamed)
-      // .then(done => done)
     await page.refresh();
     await page.dataTable.wait();
     expect(await breadcrumb.getCurrentItemName()).toEqual(folder1Renamed);

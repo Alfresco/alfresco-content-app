@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY, SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -110,10 +109,10 @@ describe('Toolbar actions - single selection : ', () => {
 
   describe('Personal Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
-      await dataTable.clearSelection();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -127,11 +126,11 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
       await toolbar.closeMoreMenu();
     });
 
@@ -141,22 +140,23 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
       await toolbar.closeMoreMenu();
     });
   });
 
   describe('File Libraries', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -170,11 +170,11 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileInSite}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileInSite}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileInSite}`);
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileInSite}`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileInSite}`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileInSite}`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileInSite}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileInSite}`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileInSite}`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileInSite}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileInSite}`);
       await toolbar.closeMoreMenu();
     });
 
@@ -184,20 +184,21 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for ${folderInSite}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderInSite}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderInSite}`);
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderInSite}`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderInSite}`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderInSite}`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderInSite}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderInSite}`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderInSite}`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderInSite}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderInSite}`);
       await toolbar.closeMoreMenu();
     });
   });
 
   describe('Shared Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       await page.dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -211,20 +212,21 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
       await toolbar.closeMoreMenu();
     });
   });
 
   describe('Recent Files', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -238,20 +240,21 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
       await toolbar.closeMoreMenu();
     });
   });
 
   describe('Favorites', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 
@@ -265,11 +268,11 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
       await toolbar.closeMoreMenu();
     });
 
@@ -279,20 +282,21 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
-      const menu = await toolbar.openMoreMenu();
-      expect(await menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
-      expect(await menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
-      expect(await menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
-      expect(await menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
       await toolbar.closeMoreMenu();
     });
   });
 
   describe('Trash', () => {
     beforeEach(async (done) => {
-      await browser.actions().sendKeys(protractor.Key.ESCAPE);
+      await Utils.pressEscape();
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
       await dataTable.waitForHeader();
+      await dataTable.clearSelection();
       done();
     });
 

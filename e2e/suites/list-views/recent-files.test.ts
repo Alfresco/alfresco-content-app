@@ -76,12 +76,10 @@ describe('Recent Files', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodesById([ folderId, file2Id ]),
-      apis.user.sites.deleteSite(siteName),
-      apis.admin.trashcan.emptyTrash(),
-      logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodesById([ folderId, file2Id ]);
+    await apis.user.sites.deleteSite(siteName);
+    await apis.admin.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 
@@ -113,9 +111,9 @@ describe('Recent Files', () => {
   });
 
   it('Location column displays the parent folder of the file - [C213175]', async () => {
-    expect(await dataTable.getItemLocation(fileName1).getText()).toEqual(folderName);
-    expect(await dataTable.getItemLocation(fileName2).getText()).toEqual('Personal Files');
-    expect(await dataTable.getItemLocation(fileSite).getText()).toEqual(folderSite);
+    expect(await dataTable.getItemLocation(fileName1)).toEqual(folderName);
+    expect(await dataTable.getItemLocation(fileName2)).toEqual('Personal Files');
+    expect(await dataTable.getItemLocation(fileSite)).toEqual(folderSite);
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213177]', async () => {

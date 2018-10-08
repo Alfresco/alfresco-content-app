@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
+import { browser, ExpectedConditions as EC } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS } from '../../configs';
+import { BROWSER_WAIT_TIMEOUT, SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -91,14 +91,10 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        apis.user.nodes.unlockFile(file4Id),
-        apis.user.nodes.unlockFile(fileLocked1Id)
-      ]);
-      await Promise.all([
-        logoutPage.load(),
-        apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id, fileLocked1Id])
-      ]);
+      await apis.user.nodes.unlockFile(file4Id);
+      await apis.user.nodes.unlockFile(fileLocked1Id);
+      await logoutPage.load();
+      await apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id, fileLocked1Id]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
     });
@@ -209,7 +205,9 @@ describe('Delete and undo delete', () => {
 
       await dataTable.selectItem(file1);
       await toolbar.openMoreMenu();
+
       await toolbar.menu.clickMenuItem('Delete');
+
       await page.clickSnackBarAction();
       expect(await dataTable.getRowByName(file1).isPresent()).toBe(true, 'Item was not restored');
       expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
@@ -271,10 +269,8 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-          logoutPage.load(),
-          apis.user.nodes.deleteNodesById([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id])
-      ]);
+      await logoutPage.load();
+      await apis.user.nodes.deleteNodesById([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
     });
@@ -383,15 +379,11 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-          apis.user.nodes.unlockFile(favoriteFile4Id),
-          apis.user.nodes.unlockFile(favoriteFileLocked1Id)
-      ]);
-      await Promise.all([
-          logoutPage.load(),
-          apis.user.nodes.deleteNodesById([
-              favoriteFile1Id, favoriteFile2Id, favoriteFolder1Id, favoriteFolder2Id, favoriteFileLocked1Id
-          ])
+      await apis.user.nodes.unlockFile(favoriteFile4Id);
+      await apis.user.nodes.unlockFile(favoriteFileLocked1Id);
+      await logoutPage.load();
+      await apis.user.nodes.deleteNodesById([
+        favoriteFile1Id, favoriteFile2Id, favoriteFolder1Id, favoriteFolder2Id, favoriteFileLocked1Id
       ]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
@@ -555,6 +547,7 @@ describe('Delete and undo delete', () => {
       if (empty) {
         await browser.sleep(6000);
         await browser.refresh();
+        await page.waitForApp();
       }
       done();
     });
@@ -571,10 +564,8 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-          logoutPage.load(),
-          apis.user.nodes.deleteNodesById([recentFile1Id, recentFile2Id, recentFile3Id, recentFile4Id])
-      ]);
+      await logoutPage.load();
+      await apis.user.nodes.deleteNodesById([recentFile1Id, recentFile2Id, recentFile3Id, recentFile4Id]);
       done();
     });
 
