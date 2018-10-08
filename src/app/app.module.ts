@@ -22,7 +22,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
@@ -35,15 +34,12 @@ import {
   DebugAppConfigService
 } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
-
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
-
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { LibraryDialogComponent } from './dialogs/library/library.dialog';
-
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
 import { AppExtensionsModule } from './extensions.module';
@@ -64,7 +60,7 @@ import { AppSearchInputModule } from './components/search/search-input.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
-
+import { AcaDevToolsModule } from '@denysvuika/aca-dev-tools';
 @NgModule({
   imports: [
     BrowserModule,
@@ -95,7 +91,8 @@ import { AppHeaderModule } from './components/header/header.module';
     AppPermissionsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
-    AppHeaderModule
+    AppHeaderModule,
+    AcaDevToolsModule
   ],
   declarations: [
     AppComponent,

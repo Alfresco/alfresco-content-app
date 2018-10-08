@@ -57,11 +57,6 @@
                 "output": "./assets/workers"
               },
               {
-                "glob": "dev.tools.json",
-                "input": "node_modules/@denysvuika/aca-dev-tools/assets",
-                "output": "./assets/plugins"
-              },
-              {
                 "glob": "extension.schema.json",
                 "input": ".",
                 "output": "./assets"
