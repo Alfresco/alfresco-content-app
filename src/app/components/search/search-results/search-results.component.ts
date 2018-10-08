@@ -88,6 +88,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       }),
 
       this.queryBuilder.executed.subscribe(data => {
+        this.queryBuilder.paging.skipCount = 0;
+
         this.onSearchResultLoaded(data);
         this.isLoading = false;
       })
