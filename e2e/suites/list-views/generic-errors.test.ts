@@ -60,11 +60,9 @@ describe('Generic errors', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(parentId),
-      apis.user.trashcan.emptyTrash(),
-      logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodeById(parentId);
+    await apis.user.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 
@@ -82,7 +80,7 @@ describe('Generic errors', () => {
   });
 
   it('Invalid URL - [C217315]', async () => {
-    await page.load('invalid page');
+    await page.load('/invalid page');
 
     expect(await page.isGenericErrorDisplayed()).toBe(true, 'Generic error page not displayed');
     expect(await page.getGenericErrorTitle()).toContain(`This file or folder no longer exists or you don't have permission to view it.`);

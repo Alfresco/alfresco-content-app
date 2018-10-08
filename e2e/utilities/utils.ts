@@ -30,11 +30,8 @@ const fs = require('fs');
 
 export class Utils {
   // generate a random value
-  static random(): string {
-    return Math.random()
-      .toString(36)
-      .substring(5, 10)
-      .toLowerCase();
+  static random() {
+    return Math.random().toString(36).substring(5, 10).toLowerCase();
   }
 
   // local storage
@@ -51,17 +48,17 @@ export class Utils {
     return browser.executeScript('return window.sessionStorage.getItem("aca.extension.config");');
   }
 
-  static async setSessionStorageFromConfig(key: string, configFileName: string) {
+  static setSessionStorageFromConfig(key: string, configFileName: string) {
     const configFile = `${E2E_ROOT_PATH}/resources/extensibility-configs/${configFileName}`;
     const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
 
-    return await browser.executeScript(`window.sessionStorage.setItem(${key}, ${fileContent});`);
+    return browser.executeScript(`window.sessionStorage.setItem(${key}, ${fileContent});`);
   }
 
-  static async resetExtensionConfig() {
+  static resetExtensionConfig() {
     const defConfig = `${E2E_ROOT_PATH}/resources/extensibility-configs/${EXTENSIBILITY_CONFIGS.DEFAULT_EXTENSIONS_CONFIG}`;
 
-    return await this.setSessionStorageFromConfig('"aca.extension.config"', defConfig);
+    return this.setSessionStorageFromConfig('"aca.extension.config"', defConfig);
   }
 
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {
@@ -72,20 +69,23 @@ export class Utils {
     return run(retry);
   }
 
-  static waitUntilElementClickable(element: ElementFinder) {
-    return browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT);
+  static async waitUntilElementClickable(element: ElementFinder) {
+    return await browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT).catch(Error);
+  // static waitUntilElementClickable(element: ElementFinder) {
+  //   return browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT);
   }
 
-  static typeInField(elem: ElementFinder, value: string) {
+  static async typeInField(elem: ElementFinder, value: string) {
     for (let i = 0; i < value.length; i++) {
       const c = value.charAt(i);
-      elem.sendKeys(c);
-      browser.sleep(100);
+      await elem.sendKeys(c);
+      await browser.sleep(100);
     }
   }
 
   static async fileExistsOnOS(fileName: string) {
-    const filePath = path.join((await browser.getProcessedConfig()).params.downloadFolder, fileName);
+    const config = await browser.getProcessedConfig();
+    const filePath = path.join(config.params.downloadFolder, fileName);
 
     let tries = 5;
 
@@ -108,17 +108,11 @@ export class Utils {
     });
   }
 
-  static async pressEscape() {
-    return await browser
-      .actions()
-      .sendKeys(protractor.Key.ESCAPE)
-      .perform();
+  static pressEscape() {
+    return browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
   }
 
-  static async getBrowserLog() {
-    return await browser
-      .manage()
-      .logs()
-      .get('browser');
+  static getBrowserLog() {
+    return browser.manage().logs().get('browser');
   }
 }

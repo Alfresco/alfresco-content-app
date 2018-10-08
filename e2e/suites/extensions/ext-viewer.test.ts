@@ -90,10 +90,8 @@ describe('Extensions - Viewer', () => {
     });
 
     afterAll(async (done) => {
-        await Promise.all([
-            apis.user.nodes.deleteNodesById([ pdfFileId, docxFileId ]),
-            logoutPage.load()
-        ]);
+        await apis.user.nodes.deleteNodesById([ pdfFileId, docxFileId ]);
+        await logoutPage.load();
         done();
     });
 
@@ -106,7 +104,7 @@ describe('Extensions - Viewer', () => {
     afterEach(async (done) => {
         await Utils.pressEscape();
         done();
-    })
+    });
 
     xit('');
 

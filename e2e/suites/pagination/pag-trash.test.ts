@@ -62,15 +62,13 @@ describe('Pagination on multiple pages on Trash', () => {
   });
 
   afterEach(async (done) => {
-    await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+    await Utils.pressEscape();
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.trashcan.emptyTrash(),
-      logoutPage.load()
-    ]);
+    await apis.user.trashcan.emptyTrash();
+    await logoutPage.load();
     done();
   });
 

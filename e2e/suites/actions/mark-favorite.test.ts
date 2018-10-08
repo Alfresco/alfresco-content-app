@@ -27,22 +27,22 @@ import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
-import { browser } from 'protractor';
 
 describe('Mark items as favorites', () => {
     const username = `user-${Utils.random()}`;
 
-    const file1NotFav = `file-${Utils.random()}.txt`;
-    const file2NotFav = `file-${Utils.random()}.txt`;
-    const file3Fav = `file-${Utils.random()}.txt`;
-    const file4Fav = `file-${Utils.random()}.txt`;
+    const file1NotFav = `file1-${Utils.random()}.txt`;
+    const file2NotFav = `file2-${Utils.random()}.txt`;
+    const file3Fav = `file3-${Utils.random()}.txt`;
+    const file4Fav = `file4-${Utils.random()}.txt`;
     const folder1 = `folder-${Utils.random()}`;
+
     const siteName = `site-public-${Utils.random()}`;
-    const fileSiteNotFav1 = `file-site${Utils.random()}.txt`;
-    const fileSiteNotFav2 = `file-site${Utils.random()}.txt`;
-    const folderSite = `folder-${Utils.random()}`;
-    const fileSiteFav1 = `file-${Utils.random()}.txt`;
-    const fileSiteFav2 = `file-${Utils.random()}.txt`;
+    const fileSiteNotFav1 = `file1-site-${Utils.random()}.txt`;
+    const fileSiteNotFav2 = `file2-site-${Utils.random()}.txt`;
+    const folderSite = `folder-site-${Utils.random()}`;
+    const fileSiteFav1 = `file3-${Utils.random()}.txt`;
+    const fileSiteFav2 = `file4-${Utils.random()}.txt`;
 
     let file1Id, file2Id, file3Id, file4Id, folder1Id, fileSiteNotFav1Id, fileSiteNotFav2Id, folderSiteId, fileSiteFav1Id, fileSiteFav2Id;
 
@@ -67,8 +67,21 @@ describe('Mark items as favorites', () => {
         await apis.user.favorites.addFavoriteById('file', file3Id);
         await apis.user.favorites.addFavoriteById('file', file4Id);
 
-        await apis.user.search.waitForApi(username, { expect: 4 });
-        await apis.user.favorites.waitForApi({ expect: 2 });
+        await apis.user.shared.shareFilesByIds([ file1Id, file2Id, file3Id, file4Id ]);
+
+        await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+        const docLibId = await apis.user.sites.getDocLibId(siteName);
+        folderSiteId = (await apis.user.nodes.createFolder(folderSite, docLibId)).entry.id;
+        fileSiteNotFav1Id = (await apis.user.nodes.createFile(fileSiteNotFav1, folderSiteId)).entry.id;
+        fileSiteFav1Id = (await apis.user.nodes.createFile(fileSiteFav1, folderSiteId)).entry.id;
+        fileSiteNotFav2Id = (await apis.user.nodes.createFile(fileSiteNotFav2, folderSiteId)).entry.id;
+        fileSiteFav2Id = (await apis.user.nodes.createFile(fileSiteFav2, folderSiteId)).entry.id;
+        await apis.user.favorites.addFavoriteById('file', fileSiteFav1Id);
+        await apis.user.favorites.addFavoriteById('file', fileSiteFav2Id);
+
+        await apis.user.favorites.waitForApi({ expect: 5 });
+        await apis.user.search.waitForApi(username, { expect: 8 });
+        await apis.user.shared.waitForApi({ expect: 4 });
 
         await loginPage.loginWith(username);
         done();
@@ -86,14 +99,10 @@ describe('Mark items as favorites', () => {
     xit('');
 
     describe('on Personal Files', () => {
-        beforeAll(async (done) => {
+        beforeEach(async (done) => {
+            await Utils.pressEscape();
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
             await dataTable.waitForHeader();
-            done();
-        });
-
-        beforeEach(async (done) => {
-            await toolbar.closeMoreMenu();
             done();
         });
 
@@ -119,92 +128,88 @@ describe('Mark items as favorites', () => {
             await dataTable.selectItem(file1NotFav);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
+            await apis.user.favorites.waitForApi({ expect: 6 });
             const isFavorite = await apis.user.favorites.isFavorite(file1Id);
             expect(isFavorite).toBe(true, `${file1NotFav} not marked as favorite`);
 
             await apis.user.favorites.removeFavoriteById(file1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('favorite a folder - [C280390]', async () => {
             await dataTable.selectItem(folder1);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
+            await apis.user.favorites.waitForApi({ expect: 6 });
             const isFavorite = await apis.user.favorites.isFavorite(folder1Id);
             expect(isFavorite).toBe(true, `${folder1} not marked as favorite`);
 
             await apis.user.favorites.removeFavoriteById(folder1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('unfavorite an item - [C217190]', async () => {
             await dataTable.selectItem(file3Fav);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 1 });
+            await apis.user.favorites.waitForApi({ expect: 4 });
             const isFavorite = await apis.user.favorites.isFavorite(file3Id);
             expect(isFavorite).toBe(false, `${file3Fav} is marked as favorite`);
 
             await apis.user.favorites.addFavoriteById('file', file3Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('favorite multiple items - all unfavorite - [C217192]', async () => {
             await dataTable.selectMultipleItems([ file1NotFav, file2NotFav ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 4 });
-            const resp = await Promise.all([
-                apis.user.favorites.isFavorite(file1Id),
-                apis.user.favorites.isFavorite(file2Id)
-            ]);
-            expect(resp[0]).toBe(true, 'item not marked as favorite');
-            expect(resp[1]).toBe(true, 'item not marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 7 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(file1Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(file2Id);
+            expect(isFile1Fav).toBe(true, 'item not marked as favorite');
+            expect(isFile2Fav).toBe(true, 'item not marked as favorite');
 
             await apis.user.favorites.removeFavoriteById(file1Id);
             await apis.user.favorites.removeFavoriteById(file2Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('favorite multiple items - some favorite and some unfavorite - [C217194]', async () => {
             await dataTable.selectMultipleItems([ file1NotFav, file3Fav ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
-            const resp = await Promise.all([
-                apis.user.favorites.isFavorite(file1Id),
-                apis.user.favorites.isFavorite(file3Id)
-            ]);
-            expect(resp[0]).toBe(true, 'item not marked as favorite');
-            expect(resp[1]).toBe(true, 'item not marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 6 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(file1Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(file3Id);
+            expect(isFile1Fav).toBe(true, 'item not marked as favorite');
+            expect(isFile2Fav).toBe(true, 'item not marked as favorite');
 
             await apis.user.favorites.removeFavoriteById(file1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('unfavorite multiple items - [C217193]', async () => {
             await dataTable.selectMultipleItems([ file3Fav, file4Fav ])
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await browser.sleep(2000);
-            const resp = await Promise.all([
-                apis.user.favorites.isFavorite(file3Id),
-                apis.user.favorites.isFavorite(file4Id)
-            ]);
-            expect(resp[0]).toBe(false, 'item marked as favorite');
-            expect(resp[1]).toBe(false, 'item marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 3 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(file3Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(file4Id);
+            expect(isFile1Fav).toBe(false, 'item marked as favorite');
+            expect(isFile2Fav).toBe(false, 'item marked as favorite');
 
             await apis.user.favorites.addFavoriteById('file', file3Id);
             await apis.user.favorites.addFavoriteById('file', file4Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
     });
 
     describe('on Recent Files', () => {
-        beforeAll(async (done) => {
+        beforeEach(async (done) => {
+            await Utils.pressEscape();
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
             await dataTable.waitForHeader();
-            done();
-        });
-
-        beforeEach(async (done) => {
-            await toolbar.closeMoreMenu();
             done();
         });
 
@@ -212,166 +217,159 @@ describe('Mark items as favorites', () => {
             await dataTable.selectItem(file1NotFav);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
+            await apis.user.favorites.waitForApi({ expect: 6 });
             const isFavorite = await apis.user.favorites.isFavorite(file1Id);
             expect(isFavorite).toBe(true, `${file1NotFav} not marked as favorite`);
 
             await apis.user.favorites.removeFavoriteById(file1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('unfavorite an item - [C280353]', async () => {
             await dataTable.selectItem(file3Fav);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 1 });
+            await apis.user.favorites.waitForApi({ expect: 4 });
             const isFavorite = await apis.user.favorites.isFavorite(file3Id);
             expect(isFavorite).toBe(false, `${file3Fav} is marked as favorite`);
 
             await apis.user.favorites.addFavoriteById('file', file3Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('favorite multiple items - all unfavorite - [C280355]', async () => {
             await dataTable.selectMultipleItems([ file1NotFav, file2NotFav ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 4 });
-            const resp = await Promise.all([
-                apis.user.favorites.isFavorite(file1Id),
-                apis.user.favorites.isFavorite(file2Id)
-            ]);
-            expect(resp[0]).toBe(true, 'item not marked as favorite');
-            expect(resp[1]).toBe(true, 'item not marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 7 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(file1Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(file2Id);
+            expect(isFile1Fav).toBe(true, 'item not marked as favorite');
+            expect(isFile2Fav).toBe(true, 'item not marked as favorite');
 
             await apis.user.favorites.removeFavoriteById(file1Id);
             await apis.user.favorites.removeFavoriteById(file2Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('favorite multiple items - some favorite and some unfavorite - [C280357]', async () => {
             await dataTable.selectMultipleItems([ file1NotFav, file3Fav ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
-            const resp = await Promise.all([
-                apis.user.favorites.isFavorite(file1Id),
-                apis.user.favorites.isFavorite(file3Id)
-            ]);
-            expect(resp[0]).toBe(true, 'item not marked as favorite');
-            expect(resp[1]).toBe(true, 'item not marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 6 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(file1Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(file3Id);
+            expect(isFile1Fav).toBe(true, 'item not marked as favorite');
+            expect(isFile2Fav).toBe(true, 'item not marked as favorite');
 
             await apis.user.favorites.removeFavoriteById(file1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('unfavorite multiple items - [C280356]', async () => {
             await dataTable.selectMultipleItems([ file3Fav, file4Fav ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await browser.sleep(2000);
-            const resp = await Promise.all([
-                apis.user.favorites.isFavorite(file3Id),
-                apis.user.favorites.isFavorite(file4Id)
-            ]);
-            expect(resp[0]).toBe(false, 'item marked as favorite');
-            expect(resp[1]).toBe(false, 'item marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 3 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(file3Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(file4Id);
+            expect(isFile1Fav).toBe(false, 'item marked as favorite');
+            expect(isFile2Fav).toBe(false, 'item marked as favorite');
 
             await apis.user.favorites.addFavoriteById('file', file3Id);
             await apis.user.favorites.addFavoriteById('file', file4Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
     });
 
     describe('on Shared Files', () => {
         beforeAll(async (done) => {
-            await apis.user.shared.shareFilesByIds([ file1Id, file2Id, file3Id, file4Id ]);
-            await apis.user.shared.waitForApi({ expect: 4 });
+          await page.refresh();
+          done();
+        });
+
+        beforeEach(async (done) => {
+            await Utils.pressEscape();
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
             await dataTable.waitForHeader();
             done();
         });
 
-        afterEach(async (done) => {
-            // browser.actions().sendKeys(protractor.Key.ESCAPE).perform().then(done);
-            await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-            done();
-        });
-
         it('favorite a file - [C280362]', async () => {
-            await dataTable.selectItem(file1NotFav)
+            await dataTable.selectItem(file1NotFav);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
+            await apis.user.favorites.waitForApi({ expect: 6 });
             const isFavorite = await apis.user.favorites.isFavorite(file1Id);
             expect(isFavorite).toBe(true, `${file1NotFav} not marked as favorite`);
 
             await apis.user.favorites.removeFavoriteById(file1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('unfavorite an item - [C280363]', async () => {
             await dataTable.selectItem(file3Fav);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 1 });
+            await apis.user.favorites.waitForApi({ expect: 4 });
             const isFavorite = await apis.user.favorites.isFavorite(file3Id);
             expect(isFavorite).toBe(false, `${file3Fav} is marked as favorite`);
 
             await apis.user.favorites.addFavoriteById('file', file3Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('favorite multiple items - all unfavorite - [C280365]', async () => {
             await dataTable.selectMultipleItems([ file1NotFav, file2NotFav ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 4 });
-            const resp = await Promise.all([
-                apis.user.favorites.isFavorite(file1Id),
-                apis.user.favorites.isFavorite(file2Id)
-            ]);
-            expect(resp[0]).toBe(true, 'item not marked as favorite');
-            expect(resp[1]).toBe(true, 'item not marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 7 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(file1Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(file2Id);
+            expect(isFile1Fav).toBe(true, 'item not marked as favorite');
+            expect(isFile2Fav).toBe(true, 'item not marked as favorite');
 
             await apis.user.favorites.removeFavoriteById(file1Id);
             await apis.user.favorites.removeFavoriteById(file2Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('favorite multiple items - some favorite and some unfavorite - [C280367]', async () => {
             await dataTable.selectMultipleItems([ file1NotFav, file3Fav ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
-            const resp = await Promise.all([
-                    apis.user.favorites.isFavorite(file1Id),
-                    apis.user.favorites.isFavorite(file3Id)
-            ]);
-            expect(resp[0]).toBe(true, 'item not marked as favorite');
-            expect(resp[1]).toBe(true, 'item not marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 6 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(file1Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(file3Id);
+            expect(isFile1Fav).toBe(true, 'item not marked as favorite');
+            expect(isFile2Fav).toBe(true, 'item not marked as favorite');
 
             await apis.user.favorites.removeFavoriteById(file1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('unfavorite multiple items - [C280366]', async () => {
             await dataTable.selectMultipleItems([ file3Fav, file4Fav ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await browser.sleep(2000);
-            const resp = await Promise.all([
-                apis.user.favorites.isFavorite(file3Id),
-                apis.user.favorites.isFavorite(file4Id)
-            ]);
-            expect(resp[0]).toBe(false, 'item marked as favorite');
-            expect(resp[1]).toBe(false, 'item marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 3 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(file3Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(file4Id);
+            expect(isFile1Fav).toBe(false, 'item marked as favorite');
+            expect(isFile2Fav).toBe(false, 'item marked as favorite');
 
             await apis.user.favorites.addFavoriteById('file', file3Id);
             await apis.user.favorites.addFavoriteById('file', file4Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
     });
 
     describe('on Favorites', () => {
-        beforeAll(async (done) => {
+        beforeEach(async (done) => {
+            await Utils.pressEscape();
+            await page.refresh();
             await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
             await dataTable.waitForHeader();
-            done();
-        });
-
-        afterEach(async (done) => {
-            await page.refresh();
             done();
         });
 
@@ -379,28 +377,30 @@ describe('Mark items as favorites', () => {
             await dataTable.selectItem(file3Fav);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 1 });
+            await apis.user.favorites.waitForApi({ expect: 4 });
             const isFavorite = await apis.user.favorites.isFavorite(file3Id);
             expect(isFavorite).toBe(false, 'item is marked as favorite');
             expect(await dataTable.getRowByName(file3Fav).isPresent()).toBe(false, 'item still displayed');
 
             await apis.user.favorites.addFavoriteById('file', file3Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('unfavorite multiple items - [C280374]', async () => {
             await dataTable.selectMultipleItems([ file3Fav, file4Fav ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await browser.sleep(2000);
+            await apis.user.favorites.waitForApi({ expect: 3 });
             const isFavorite3 = await apis.user.favorites.isFavorite(file3Id);
-            expect(isFavorite3).toBe(false, 'file3 marked as favorite');
-            expect(await dataTable.getRowByName(file3Fav).isPresent()).toBe(false, 'file3 still displayed');
             const isFavorite4 = await apis.user.favorites.isFavorite(file4Id);
+            expect(isFavorite3).toBe(false, 'file3 marked as favorite');
             expect(isFavorite4).toBe(false, 'file4 marked as favorite');
+            expect(await dataTable.getRowByName(file3Fav).isPresent()).toBe(false, 'file3 still displayed');
             expect(await dataTable.getRowByName(file4Fav).isPresent()).toBe(false, 'file4 still displayed');
 
             await apis.user.favorites.addFavoriteById('file', file3Id);
             await apis.user.favorites.addFavoriteById('file', file4Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('Favorite action has full star icon for items marked as favorite - [C280371]', async () => {
@@ -411,32 +411,12 @@ describe('Mark items as favorites', () => {
     });
 
     describe ('on File Libraries', () => {
-        const fileLibrariesPage = new BrowsingPage();
-
-        beforeAll(async (done) => {
-            await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-            const docLibId = await apis.user.sites.getDocLibId(siteName);
-            folderSiteId = (await apis.user.nodes.createFolder(folderSite, docLibId)).entry.id;
-            fileSiteNotFav1Id = (await apis.user.nodes.createFile(fileSiteNotFav1, folderSiteId)).entry.id;
-            fileSiteFav1Id = (await apis.user.nodes.createFile(fileSiteFav1, folderSiteId)).entry.id;
-            fileSiteNotFav2Id = (await apis.user.nodes.createFile(fileSiteNotFav2, folderSiteId)).entry.id;
-            fileSiteFav2Id = (await apis.user.nodes.createFile(fileSiteFav2, folderSiteId)).entry.id;
-            await apis.user.favorites.addFavoriteById('file', fileSiteFav1Id);
-            await apis.user.favorites.addFavoriteById('file', fileSiteFav2Id);
-            done();
-        });
-
         beforeEach(async (done) => {
-            await fileLibrariesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-            await fileLibrariesPage.dataTable.waitForHeader();
-            await fileLibrariesPage.dataTable.doubleClickOnRowByName(siteName);
-            await fileLibrariesPage.dataTable.waitForHeader();
-            await toolbar.closeMoreMenu();
-            done();
-        });
-
-        afterEach(async (done) => {
-            await browser.refresh();
+            await Utils.pressEscape();
+            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+            await page.dataTable.waitForHeader();
+            await page.dataTable.doubleClickOnRowByName(siteName);
+            await page.dataTable.waitForHeader();
             done();
         });
 
@@ -444,78 +424,81 @@ describe('Mark items as favorites', () => {
             await dataTable.selectItem(folderSite);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
+            await apis.user.favorites.waitForApi({ expect: 6 });
             const isFavorite = await apis.user.favorites.isFavorite(folderSiteId);
             expect(isFavorite).toBe(true, `${folderSite} not marked as favorite`);
             await apis.user.favorites.removeFavoriteById(folderSiteId);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('Favorite a file - [C280342]', async () => {
-            await fileLibrariesPage.dataTable.doubleClickOnRowByName(folderSite);
+            await page.dataTable.doubleClickOnRowByName(folderSite);
             await dataTable.selectItem(fileSiteNotFav1);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
+            await apis.user.favorites.waitForApi({ expect: 6 });
             const isFavorite = await apis.user.favorites.isFavorite(fileSiteNotFav1Id);
             expect(isFavorite).toBe(true, `${fileSiteNotFav1} not marked as favorite`);
             await apis.user.favorites.removeFavoriteById(fileSiteNotFav1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('Unfavorite an item - [C280343]', async () => {
-            await fileLibrariesPage.dataTable.doubleClickOnRowByName(folderSite);
+            await page.dataTable.doubleClickOnRowByName(folderSite);
             await dataTable.selectItem(fileSiteFav1);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
+            await apis.user.favorites.waitForApi({ expect: 4 });
             const isFavorite = await apis.user.favorites.isFavorite(fileSiteFav1Id);
             expect(isFavorite).toBe(false, `${fileSiteFav1} is marked as favorite`);
             await apis.user.favorites.addFavoriteById('file', fileSiteFav1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('Favorite multiple items - all unfavorite - [C280345]', async () => {
-            await fileLibrariesPage.dataTable.doubleClickOnRowByName(folderSite);
+            await page.dataTable.doubleClickOnRowByName(folderSite);
             await dataTable.selectMultipleItems([ fileSiteNotFav1, fileSiteNotFav2 ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 4 });
-            const listItems1 = await Promise.all([
-                apis.user.favorites.isFavorite(fileSiteNotFav1Id),
-                apis.user.favorites.isFavorite(fileSiteNotFav2Id)
-            ]);
-            expect(listItems1[0]).toBe(true, 'item not marked as favorite');
-            expect(listItems1[1]).toBe(true, 'item not marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 7 });
+
+            const isFile1Fav = await apis.user.favorites.isFavorite(fileSiteNotFav1Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(fileSiteNotFav2Id);
+            expect(isFile1Fav).toBe(true, 'item not marked as favorite');
+            expect(isFile2Fav).toBe(true, 'item not marked as favorite');
             await apis.user.favorites.removeFavoriteById(fileSiteNotFav1Id);
             await apis.user.favorites.removeFavoriteById(fileSiteNotFav2Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('Unfavorite multiple items - [C280346]', async () => {
-            await fileLibrariesPage.dataTable.doubleClickOnRowByName(folderSite);
+            await page.dataTable.doubleClickOnRowByName(folderSite);
             await dataTable.selectMultipleItems([ fileSiteFav1, fileSiteFav2 ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            const listItems2 = await Promise.all([
-                apis.user.favorites.isFavorite(fileSiteFav1Id),
-                apis.user.favorites.isFavorite(fileSiteFav2Id)
-            ]);
-            expect(listItems2[0]).toBe(false, 'item marked as favorite');
-            expect(listItems2[1]).toBe(false, 'item marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 3 });
+            const isFile1Fav = await apis.user.favorites.isFavorite(fileSiteFav1Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(fileSiteFav2Id);
+            expect(isFile1Fav).toBe(false, 'item marked as favorite');
+            expect(isFile2Fav).toBe(false, 'item marked as favorite');
             await apis.user.favorites.addFavoriteById('file', fileSiteFav1Id);
             await apis.user.favorites.addFavoriteById('file', fileSiteFav2Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
 
         it('Favorite multiple items - some favorite and some unfavorite - [C280347]', async () => {
-            await fileLibrariesPage.dataTable.doubleClickOnRowByName(folderSite);
+            await page.dataTable.doubleClickOnRowByName(folderSite);
             await dataTable.selectMultipleItems([ fileSiteNotFav1, fileSiteFav1 ]);
             await toolbar.openMoreMenu();
             await toolbar.menu.clickMenuItem('Favorite');
-            await apis.user.favorites.waitForApi({ expect: 3 });
-            const listItems3 = await Promise.all([
-                apis.user.favorites.isFavorite(fileSiteNotFav1Id),
-                apis.user.favorites.isFavorite(fileSiteFav1)
-            ]);
-            expect(listItems3[0]).toBe(true, 'item not marked as favorite');
-            expect(listItems3[1]).toBe(true, 'item not marked as favorite');
+            await apis.user.favorites.waitForApi({ expect: 6 });
+
+            const isFile1Fav = await apis.user.favorites.isFavorite(fileSiteNotFav1Id);
+            const isFile2Fav = await apis.user.favorites.isFavorite(fileSiteFav1);
+            expect(isFile1Fav).toBe(true, 'item not marked as favorite');
+            expect(isFile2Fav).toBe(true, 'item not marked as favorite');
             await apis.user.favorites.removeFavoriteById(fileSiteNotFav1Id);
+            await apis.user.favorites.waitForApi({ expect: 5 });
         });
     });
 });

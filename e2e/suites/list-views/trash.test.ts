@@ -172,9 +172,9 @@ describe('Trash', () => {
     });
 
     it('Location column displays the parent folder of the file - [C280498]', async () => {
-      expect(await dataTable.getItemLocation(fileInFolder).getText()).toEqual(folderNotDeleted);
-      expect(await dataTable.getItemLocation(fileUser).getText()).toEqual('Personal Files');
-      expect(await dataTable.getItemLocation(fileSite).getText()).toEqual(siteName);
+      expect(await dataTable.getItemLocation(fileInFolder)).toEqual(folderNotDeleted);
+      expect(await dataTable.getItemLocation(fileUser)).toEqual('Personal Files');
+      expect(await dataTable.getItemLocation(fileSite)).toEqual(siteName);
     });
 
     it('Location column displays a tooltip with the entire path of the file - [C280499]', async () => {
@@ -184,7 +184,7 @@ describe('Trash', () => {
     });
 
     it('Location column is empty if parent folder no longer exists - [C280500]', async () => {
-      expect(await dataTable.getItemLocation(fileDeleted).getText()).toEqual('');
+      expect(await dataTable.getItemLocation(fileDeleted)).toEqual('');
     });
 
     it('Location column redirect - file in user Home - [C217144]', async () => {

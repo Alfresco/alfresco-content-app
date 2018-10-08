@@ -53,22 +53,18 @@ describe('File Libraries', () => {
   const { dataTable } = fileLibrariesPage;
 
   beforeAll(async (done) => {
-    await Promise.all([
-      apis.admin.people.createUser({ username }),
-      apis.admin.sites.createSite(sitePublic, SITE_VISIBILITY.PUBLIC),
-      apis.admin.sites.createSite(siteModerated, SITE_VISIBILITY.MODERATED, siteDescription),
-      apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE, null),
-      apis.admin.sites.createSite(adminSite, SITE_VISIBILITY.PUBLIC),
-      apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId1),
-      apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId2)
-    ]);
-    await Promise.all([
-      apis.admin.sites.addSiteMember(sitePublic, username, SITE_ROLES.SITE_CONSUMER),
-      apis.admin.sites.addSiteMember(siteModerated, username, SITE_ROLES.SITE_MANAGER),
-      apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONTRIBUTOR),
-      apis.admin.sites.addSiteMember(siteId1, username, SITE_ROLES.SITE_CONTRIBUTOR),
-      apis.admin.sites.addSiteMember(siteId2, username, SITE_ROLES.SITE_CONTRIBUTOR)
-    ]);
+    await apis.admin.people.createUser({ username });
+    await apis.admin.sites.createSite(sitePublic, SITE_VISIBILITY.PUBLIC);
+    await apis.admin.sites.createSite(siteModerated, SITE_VISIBILITY.MODERATED, siteDescription);
+    await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE, null);
+    await apis.admin.sites.createSite(adminSite, SITE_VISIBILITY.PUBLIC);
+    await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId1);
+    await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC, null, siteId2);
+    await apis.admin.sites.addSiteMember(sitePublic, username, SITE_ROLES.SITE_CONSUMER);
+    await apis.admin.sites.addSiteMember(siteModerated, username, SITE_ROLES.SITE_MANAGER);
+    await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONTRIBUTOR);
+    await apis.admin.sites.addSiteMember(siteId1, username, SITE_ROLES.SITE_CONTRIBUTOR);
+    await apis.admin.sites.addSiteMember(siteId2, username, SITE_ROLES.SITE_CONTRIBUTOR);
 
     await loginPage.loginWith(username);
     done();
@@ -81,10 +77,8 @@ describe('File Libraries', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.admin.sites.deleteSites([ sitePublic, siteModerated, sitePrivate, adminSite, siteId1, siteId2 ]),
-      logoutPage.load()
-    ]);
+    await apis.admin.sites.deleteSites([ sitePublic, siteModerated, sitePrivate, adminSite, siteId1, siteId2 ]);
+    await logoutPage.load();
     done();
   });
 

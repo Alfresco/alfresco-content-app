@@ -41,7 +41,7 @@ export class RepoClient {
         private password: string = RepoClientAuth.DEFAULT_PASSWORD
     ) {}
 
-    private get auth(): RepoClientAuth {
+    private get auth() {
         const { username, password } = this;
         return { username, password };
     }
