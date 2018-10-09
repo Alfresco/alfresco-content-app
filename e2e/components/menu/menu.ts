@@ -112,6 +112,16 @@ export class Menu extends Component {
     return await this.component.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
   }
 
+  async isMenuItemDisabled(title: string) {
+    try {
+      const item = this.getItemByLabel(title);
+      const disabled = await item.getAttribute('disabled');
+      return disabled;
+    } catch (error) {
+      console.log('----- isMenuItemDisabled catch: ', error);
+    }
+  }
+
   uploadFile() {
     return this.uploadFiles;
   }
