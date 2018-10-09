@@ -16,7 +16,10 @@
 
             <adf-sidenav-layout-header>
                 <ng-template>
-                  <app-header (toggleClicked)="layout.toggleMenu($event)"></app-header>
+                  <app-header
+                    *ngIf="!sidenavManager.hideSidenav"
+                    (toggleClicked)="layout.toggleMenu($event)">
+                </app-header>
                 </ng-template>
             </adf-sidenav-layout-header>
 
