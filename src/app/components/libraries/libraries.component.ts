@@ -24,7 +24,6 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { ShareDataRow } from '@alfresco/adf-content-services';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
@@ -63,35 +62,9 @@ export class LibrariesComponent extends PageComponent implements OnInit {
     );
   }
 
-  makeLibraryTooltip(library: any): string {
-    const { description, title } = library;
-
-    return description || title || '';
-  }
-
-  makeLibraryTitle(library: any): string {
-    const rows = this.documentList.data.getRows();
-    const entries = rows.map((r: ShareDataRow) => r.node.entry);
-    const { title, id } = library;
-
-    let isDuplicate = false;
-
-    if (entries) {
-      isDuplicate = entries.some((entry: any) => {
-        return entry.id !== id && entry.title === title;
-      });
-    }
-
-    return isDuplicate ? `${title} (${id})` : `${title}`;
-  }
-
   navigateTo(node: SiteEntry) {
-    if (node && node.entry.guid) {
-      this.navigate(node.entry.guid);
+    if (node && node.entry && node.entry.guid) {
+      this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
     }
-  }
-
-  navigate(libraryId: string) {
-    this.store.dispatch(new NavigateLibraryAction(libraryId));
   }
 }

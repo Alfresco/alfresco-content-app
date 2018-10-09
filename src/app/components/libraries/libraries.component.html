@@ -24,7 +24,8 @@
                 selectionMode="single"
                 [navigate]="false"
                 [sorting]="[ 'title', 'asc' ]"
-                (node-dblclick)="navigateTo($event.detail?.node)">
+                (node-dblclick)="navigateTo($event.detail?.node)"
+                (name-click)="navigateTo($event.detail?.node)">
 
                 <empty-folder-content>
                     <ng-template>
@@ -49,12 +50,7 @@
                         key="title"
                         title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
                         <ng-template let-context>
-                            <span
-                                class="adf-datatable-cell dl-link"
-                                title="{{ makeLibraryTooltip(context.row.obj.entry) }}"
-                                (click)="navigateTo(context?.row?.obj)">
-                                {{ makeLibraryTitle(context.row.obj.entry) }}
-                            </span>
+                          <app-library-name-column [context]="context"></app-library-name-column>
                         </ng-template>
                     </data-column>
 

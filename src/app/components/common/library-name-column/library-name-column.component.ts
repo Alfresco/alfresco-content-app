@@ -25,31 +25,33 @@
 
 import {
   Component,
-  Input,
-  OnInit,
   ChangeDetectionStrategy,
   ViewEncapsulation,
+  OnInit,
+  Input,
   ElementRef
 } from '@angular/core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
+import { ShareDataRow } from '@alfresco/adf-content-services';
 
 @Component({
-  selector: 'app-name-column',
+  selector: 'app-library-name-column',
   template: `
     <span
-      title="{{ node | adfNodeNameTooltip }}"
+      title="{{ displayTooltip }}"
       (click)="onClick()">
       {{ displayText }}
     </span>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'adf-datatable-cell dl-link app-name-column' }
+  host: { class: 'adf-datatable-cell dl-link app-library-name-column' }
 })
-export class NameColumnComponent implements OnInit {
+export class LibraryNameColumnComponent implements OnInit {
   @Input()
   context: any;
 
+  displayTooltip: string;
   displayText: string;
   node: MinimalNodeEntity;
 
@@ -57,8 +59,10 @@ export class NameColumnComponent implements OnInit {
 
   ngOnInit() {
     this.node = this.context.row.node;
+    const rows: Array<ShareDataRow> = this.context.data.rows || [];
     if (this.node && this.node.entry) {
-      this.displayText = this.node.entry.name || this.node.entry.id;
+      this.displayText = this.makeLibraryTitle(this.node.entry, rows);
+      this.displayTooltip = this.makeLibraryTooltip(this.node.entry);
     }
   }
 
@@ -71,5 +75,27 @@ export class NameColumnComponent implements OnInit {
         }
       })
     );
+  }
+
+  makeLibraryTooltip(library: any): string {
+    const { description, title } = library;
+
+    return description || title || '';
+  }
+
+  makeLibraryTitle(library: any, rows: Array<ShareDataRow>): string {
+    // const rows = this.documentList.data.getRows();
+    const entries = rows.map((r: ShareDataRow) => r.node.entry);
+    const { title, id } = library;
+
+    let isDuplicate = false;
+
+    if (entries) {
+      isDuplicate = entries.some((entry: any) => {
+        return entry.id !== id && entry.title === title;
+      });
+    }
+
+    return isDuplicate ? `${title} (${id})` : `${title}`;
   }
 }

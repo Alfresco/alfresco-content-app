@@ -29,14 +29,21 @@ import { GenericErrorComponent } from './generic-error/generic-error.component';
 import { CoreModule } from '@alfresco/adf-core';
 import { LocationLinkComponent } from './location-link/location-link.component';
 import { NameColumnComponent } from './name-column/name-column.component';
+import { LibraryNameColumnComponent } from './library-name-column/library-name-column.component';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild()],
   declarations: [
     GenericErrorComponent,
     LocationLinkComponent,
-    NameColumnComponent
+    NameColumnComponent,
+    LibraryNameColumnComponent
   ],
-  exports: [GenericErrorComponent, LocationLinkComponent, NameColumnComponent]
+  exports: [
+    GenericErrorComponent,
+    LocationLinkComponent,
+    NameColumnComponent,
+    LibraryNameColumnComponent
+  ]
 })
 export class AppCommonModule {}
