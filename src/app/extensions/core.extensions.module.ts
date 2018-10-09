@@ -33,6 +33,7 @@ import * as nav from './evaluators/navigation.evaluators';
 import { AppExtensionService } from './extension.service';
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
+import { ToggleSharedComponent } from '../components/shared/toggle-shared/toggle-shared.component';
 import { MetadataTabComponent } from '../components/info-drawer/metadata-tab/metadata-tab.component';
 import { CommentsTabComponent } from '../components/info-drawer/comments-tab/comments-tab.component';
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
@@ -75,7 +76,8 @@ export class CoreExtensionsModule {
       'app.components.tabs.comments': CommentsTabComponent,
       'app.components.tabs.versions': VersionsTabComponent,
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
-      'app.toolbar.toggleFavorite': ToggleFavoriteComponent
+      'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
+      'app.shared-link.toggleSharedLink': ToggleSharedComponent
     });
 
     extensions.setAuthGuards({
