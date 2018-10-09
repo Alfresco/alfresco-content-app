@@ -34,7 +34,8 @@
                     [allowDropFiles]="true"
                     [navigate]="false"
                     [imageResolver]="imageResolver"
-                    (node-dblclick)="navigateTo($event.detail?.node)">
+                    (node-dblclick)="navigateTo($event.detail?.node)"
+                    (name-click)="navigateTo($event.detail?.node)">
 
                     <data-columns>
                         <data-column
@@ -48,12 +49,8 @@
                             class="adf-data-table-cell--ellipsis__name"
                             key="name"
                             title="APP.DOCUMENT_LIST.COLUMNS.NAME">
-                            <ng-template let-value="value" let-context>
-                                <span class="adf-datatable-cell dl-link"
-                                    title="{{ context?.row?.obj | adfNodeNameTooltip }}"
-                                    (click)="navigateTo(context?.row?.obj)">
-                                    {{ value }}
-                                </span>
+                            <ng-template let-context>
+                                <app-name-column [context]="context"></app-name-column>
                             </ng-template>
                         </data-column>
 

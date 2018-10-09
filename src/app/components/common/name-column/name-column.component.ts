@@ -23,20 +23,56 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GenericErrorComponent } from './generic-error/generic-error.component';
-import { CoreModule } from '@alfresco/adf-core';
-import { LocationLinkComponent } from './location-link/location-link.component';
-import { NameColumnComponent } from './name-column/name-column.component';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+  ElementRef
+} from '@angular/core';
+import { MinimalNodeEntity } from 'alfresco-js-api';
 
-@NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
-  declarations: [
-    GenericErrorComponent,
-    LocationLinkComponent,
-    NameColumnComponent
-  ],
-  exports: [GenericErrorComponent, LocationLinkComponent, NameColumnComponent]
+@Component({
+  selector: 'app-name-column',
+  template: `
+    <span
+      title="{{ node | adfNodeNameTooltip }}"
+      (click)="onClick()">
+      {{ displayText }}
+    </span>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'adf-datatable-cell dl-link app-name-column' }
 })
-export class AppCommonModule {}
+export class NameColumnComponent implements OnInit {
+  @Input()
+  context: any;
+
+  @Input()
+  displayText: string;
+
+  @Input()
+  node: MinimalNodeEntity;
+
+  constructor(private element: ElementRef) {}
+
+  ngOnInit() {
+    this.node = this.context.row.node;
+    if (this.node && this.node.entry) {
+      this.displayText = this.node.entry.name || this.node.entry.id;
+    }
+  }
+
+  onClick() {
+    this.element.nativeElement.dispatchEvent(
+      new CustomEvent('name-click', {
+        bubbles: true,
+        detail: {
+          node: this.node
+        }
+      })
+    );
+  }
+}
