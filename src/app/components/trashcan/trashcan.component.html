@@ -71,10 +71,9 @@
                     <data-column
                         *ngIf="!isSmallScreen"
                         key="archivedAt"
-                        title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON">
-                        <ng-template let-value="value">
-                            <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
-                        </ng-template>
+                        title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON"
+                        type="date"
+                        format="timeAgo">
                     </data-column>
 
                     <data-column

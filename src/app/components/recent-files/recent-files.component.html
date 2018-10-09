@@ -75,10 +75,9 @@
                     <data-column
                         *ngIf="!isSmallScreen"
                         key="modifiedAt"
-                        title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON">
-                        <ng-template let-value="value">
-                            <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
-                        </ng-template>
+                        title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON"
+                        type="date"
+                        format="timeAgo">
                     </data-column>
                 </data-columns>
 
