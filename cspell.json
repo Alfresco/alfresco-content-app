@@ -34,6 +34,7 @@
     "SOLR",
 
     "unshare",
+    "qshare",
     "validators",
     "guid",
     "polyfill",
