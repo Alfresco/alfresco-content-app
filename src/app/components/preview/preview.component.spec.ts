@@ -358,7 +358,7 @@ describe('PreviewComponent', () => {
 
   it('should navigate to original location if node not found', async () => {
     spyOn(router, 'navigate').and.stub();
-    spyOn(contentApi, 'getNodeInfo').and.returnValue(of(null));
+    spyOn(contentApi, 'getNodeInfo').and.returnValue(Promise.reject('error'));
 
     component.previewLocation = 'personal-files';
     await component.displayNode('folder1');
