@@ -23,30 +23,41 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GenericErrorComponent } from './generic-error/generic-error.component';
-import { CoreModule } from '@alfresco/adf-core';
-import { LocationLinkComponent } from './location-link/location-link.component';
-import { NameColumnComponent } from './name-column/name-column.component';
-import { LibraryNameColumnComponent } from './library-name-column/library-name-column.component';
-import { LibraryStatusColumnComponent } from './library-status-column/library-status-column.component';
+import { Component, Input, OnInit } from '@angular/core';
 
-@NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
-  declarations: [
-    GenericErrorComponent,
-    LocationLinkComponent,
-    NameColumnComponent,
-    LibraryNameColumnComponent,
-    LibraryStatusColumnComponent
-  ],
-  exports: [
-    GenericErrorComponent,
-    LocationLinkComponent,
-    NameColumnComponent,
-    LibraryNameColumnComponent,
-    LibraryStatusColumnComponent
-  ]
+@Component({
+  selector: 'app-library-status-column',
+  template: `
+    <span title="{{ displayText | translate }}">
+      {{ displayText | translate }}
+    </span>
+  `
 })
-export class AppCommonModule {}
+export class LibraryStatusColumnComponent implements OnInit {
+  @Input()
+  context: any;
+
+  displayText: string;
+
+  ngOnInit() {
+    const node = this.context.row.node;
+    if (node && node.entry) {
+      const visibility: string = node.entry.visibility;
+
+      switch (visibility.toUpperCase()) {
+        case 'PUBLIC':
+          this.displayText = 'APP.SITES_VISIBILITY.PUBLIC';
+          break;
+        case 'PRIVATE':
+          this.displayText = 'APP.SITES_VISIBILITY.PRIVATE';
+          break;
+        case 'MODERATED':
+          this.displayText = 'APP.SITES_VISIBILITY.MODERATED';
+          break;
+        default:
+          this.displayText = 'UNKNOWN';
+          break;
+      }
+    }
+  }
+}

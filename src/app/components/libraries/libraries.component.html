@@ -58,16 +58,8 @@
                         *ngIf="!isSmallScreen"
                         key="visibility"
                         title="APP.DOCUMENT_LIST.COLUMNS.STATUS">
-                        <ng-template let-value="value">
-                            <span *ngIf="(value == 'PUBLIC')" title="{{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}">
-                                {{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}
-                            </span>
-                            <span *ngIf="(value == 'PRIVATE')" title="{{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}">
-                                {{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}
-                            </span>
-                            <span *ngIf="(value == 'MODERATED')" title="{{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}">
-                                {{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}
-                            </span>
+                        <ng-template let-context>
+                          <app-library-status-column [context]="context"></app-library-status-column>
                         </ng-template>
                     </data-column>
                 </data-columns>

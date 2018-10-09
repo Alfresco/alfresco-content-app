@@ -23,30 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GenericErrorComponent } from './generic-error/generic-error.component';
-import { CoreModule } from '@alfresco/adf-core';
-import { LocationLinkComponent } from './location-link/location-link.component';
-import { NameColumnComponent } from './name-column/name-column.component';
-import { LibraryNameColumnComponent } from './library-name-column/library-name-column.component';
-import { LibraryStatusColumnComponent } from './library-status-column/library-status-column.component';
+import { LibraryStatusColumnComponent } from './library-status-column.component';
 
-@NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
-  declarations: [
-    GenericErrorComponent,
-    LocationLinkComponent,
-    NameColumnComponent,
-    LibraryNameColumnComponent,
-    LibraryStatusColumnComponent
-  ],
-  exports: [
-    GenericErrorComponent,
-    LocationLinkComponent,
-    NameColumnComponent,
-    LibraryNameColumnComponent,
-    LibraryStatusColumnComponent
-  ]
-})
-export class AppCommonModule {}
+describe('LibraryStatusColumnComponent', () => {
+  it('should be defined', () => {
+    expect(LibraryStatusColumnComponent).toBeDefined();
+  });
+});
