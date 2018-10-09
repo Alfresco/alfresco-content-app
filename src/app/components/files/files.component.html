@@ -60,10 +60,8 @@
                         <data-column
                             *ngIf="!isSmallScreen"
                             key="content.sizeInBytes"
-                            title="APP.DOCUMENT_LIST.COLUMNS.SIZE">
-                            <ng-template let-value="value">
-                                <span title="{{ value }} bytes">{{ value | adfFileSize }}</span>
-                            </ng-template>
+                            title="APP.DOCUMENT_LIST.COLUMNS.SIZE"
+                            type="fileSize">
                         </data-column>
 
                         <data-column
