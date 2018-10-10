@@ -688,7 +688,7 @@ You can create new rules by chaining other rules and evaluators.
 Below is an example of the composite rule definition that combines the following conditions:
 
 - user has selected a single file
-- user is not using **Trashcan** page
+- user is not using the **Trashcan** page
 
 ```json
 {
@@ -762,18 +762,16 @@ The button will be visible only when the linked rule evaluates to `true`.
 | app.selection.canRemoveFavorite | User can remove selected node(s) from favorites.             |
 | app.selection.first.canUpdate   | User has permission to update selected node(s).              |
 | app.selection.file              | A single File node is selected.                              |
-| app.selection.file.canShare     | User is able share selected file.                            |
+| app.selection.file.canShare     | User is able to share the selected file.                     |
 | app.selection.library           | A single Library node is selected.                           |
 | app.selection.folder            | A single Folder node is selected.                            |
-| app.selection.folder.canUpdate  | User has permissions to update selected folder.              |
+| app.selection.folder.canUpdate  | User has permissions to update the selected folder.          |
 
 ### Navigation Evaluators
 
-The application exposes a set of navigation-related evaluators
-to help developers restrict or enable certain actions based on the route or page displayed.
+The application exposes a set of navigation-related evaluators to help developers restrict or enable certain actions based on the route or page displayed.
 
-The negated evaluators are provided just to simplify development,
-and to avoid having a complex rule trees just to negate the rules,
+The negated evaluators are provided just to simplify development, and to avoid having complex rule trees just to negate the rules,
 for example mixing `core.every` and `core.not`.
 
 <p class="tip">
@@ -785,18 +783,18 @@ You can also negate any rule by utilizing a `!` prefix:
 | --------------------------------- | ------------------------------------------------------- |
 | app.navigation.folder.canCreate   | User can create content in the currently opened folder. |
 | app.navigation.folder.canUpload   | User can upload content to the currently opened folder. |
-| app.navigation.isTrashcan         | User is using **Trashcan** page.                        |
+| app.navigation.isTrashcan         | User is using the **Trashcan** page.                        |
 | app.navigation.isNotTrashcan      | Current page is not a **Trashcan**.                     |
-| app.navigation.isLibraries        | User is using **Libraries** page.                       |
+| app.navigation.isLibraries        | User is using the **Libraries** page.                       |
 | app.navigation.isNotLibraries     | Current page is not **Libraries**.                      |
-| app.navigation.isSharedFiles      | User is using **Shared Files** page.                    |
+| app.navigation.isSharedFiles      | User is using the **Shared Files** page.                    |
 | app.navigation.isNotSharedFiles   | Current page is not **Shared Files**.                   |
-| app.navigation.isFavorites        | User is using **Favorites** page.                       |
+| app.navigation.isFavorites        | User is using the **Favorites** page.                       |
 | app.navigation.isNotFavorites     | Current page is not **Favorites**                       |
-| app.navigation.isRecentFiles      | User is using **Recent Files** page.                    |
+| app.navigation.isRecentFiles      | User is using the **Recent Files** page.                    |
 | app.navigation.isNotRecentFiles   | Current page is not **Recent Files**.                   |
-| app.navigation.isSearchResults    | User is using **Search Results** page.                  |
-| app.navigation.isNotSearchResults | Current page is not **Search Results**.                 |
+| app.navigation.isSearchResults    | User is using the **Search Results** page.                  |
+| app.navigation.isNotSearchResults | Current page is not the **Search Results**.                 |
 
 <p class="tip">
 See [Registration](#registration) section for more details
@@ -808,8 +806,8 @@ on how to register your own entries to be re-used at runtime.
 The rule in the example below evaluates to `true` if all the conditions are met:
 
 - user has selected node(s)
-- user is not using **Trashcan** page
-- user is not using **Libraries** page
+- user is not using the **Trashcan** page
+- user is not using the **Libraries** page
 
 ```json
 {
@@ -845,7 +843,7 @@ The ACA supports the following set of extension points:
 - Sidebar (aka Info Drawer)
 - Content metadata presets (for `Properties` tab)
 
-All the customisations are stored in the `features` section of the configuration file:
+All the customizations are stored in the `features` section of the configuration file:
 
 ```json
 {
@@ -948,12 +946,12 @@ You can populate the menu with an extra entries like in the example below:
 Please refer to the [Content Actions](#content-actions) section for more details on supported properties.
 
 <p class="tip">
-It is also possible to update or disable existing entries from within the external extension files. You will need to know the `id` of the target element to customise.
+It is also possible to update or disable existing entries from within the external extension files. You will need to know the `id` of the target element to customize.
 </p>
 
 ### Navigation Bar
 
-Navigation bar consists of Link elements (`NavBarLinkRef`) organized into Groups (`NavBarGroupRef`).
+The Navigation bar consists of Link elements (`NavBarLinkRef`) organized into Groups (`NavBarGroupRef`).
 
 ```ts
 export interface NavBarGroupRef {
@@ -977,7 +975,7 @@ export interface NavBarLinkRef {
 }
 ```
 
-You extensions can perform the following actions at runtime:
+Your extensions can perform the following actions at runtime:
 
 - Register new groups with links
 - Insert new links into existing groups
@@ -1027,7 +1025,7 @@ You extensions can perform the following actions at runtime:
 
 ### Sidebar (Info Drawer)
 
-You can provide the following customisations for the Sidebar (aka Info Drawer) component:
+You can provide the following customizations for the Sidebar (aka Info Drawer) component:
 
 - Add extra tabs with custom components
 - Disable tabs from the main application or extensions
@@ -1060,13 +1058,13 @@ You can provide the following customisations for the Sidebar (aka Info Drawer) c
 
 The example above renders two tabs:
 
-- `Properties` tab that references `app.components.tabs.metadata` component
-- `Comments` tab that references `app.components.tabs.comments` component
+- `Properties` tab that references the `app.components.tabs.metadata` component
+- `Comments` tab that references the `app.components.tabs.comments` component
 
 All corresponding components must be registered for runtime use.
 
 <p class="tip">
-See [Registration](#registration) section for more details
+See the [Registration](#registration) section for more details
 on how to register your own entries to be re-used at runtime.
 </p>
 
@@ -1168,7 +1166,7 @@ You may want to define a list of content actions backed by Rules and wired with 
 }
 ```
 
-Note that you can re-use any rules and evaluators available.
+Note, you can re-use any rules and evaluators that are available.
 
 In the example above, the context menu action `Download` utilizes the `app.toolbar.canDownload` rule,
 declared in the `rules` section:
@@ -1193,7 +1191,7 @@ declared in the `rules` section:
 Viewer component in ACA supports the following extension points:
 
 - Content Viewers
-- toolbar actions
+- Toolbar actions
 - `More` toolbar actions
 - `Open With` actions
 
@@ -1216,7 +1214,7 @@ Viewer component in ACA supports the following extension points:
 
 #### Content View
 
-You can provide custom components that render particular type of the content based on extensions.
+You can provide custom components that render a particular type of the content based on extensions.
 
 ```json
 {
@@ -1256,7 +1254,7 @@ Every custom component receives the following properties at runtime:
 
 #### Toolbar actions
 
-The default toolbar actions from the ACA viewer can be customised through extensions to be replaced, modified or disabled.
+The default toolbar actions from the ACA viewer can be customized through extensions to be replaced, modified or disabled.
 New viewer toolbar actions can also be added from the extensions config:
 
 ```json
@@ -1287,8 +1285,8 @@ New viewer toolbar actions can also be added from the extensions config:
 }
 ```
 
-The ADF Viewer component allows providing custom entries for the `More` menu button on the toolbar.
-The ACA provides an extension point for this menu that you can utilise to populate custom menu items:
+The ADF Viewer component allows you to provide custom entries for the `More` menu button on the toolbar.
+The ACA provides an extension point for this menu that you can utilize to populate custom menu items:
 
 ```json
 {
@@ -1376,16 +1374,16 @@ In order to modify or disable existing entries, you need to know the id of the
 </p>
 
 Your extensions can perform the following actions at runtime:
-* Add new presets items
-* Add new items to existing presets at any level
-* Disable specific items down to the aspect level
+* Add new presets items.
+* Add new items to existing presets at any level.
+* Disable specific items down to the aspect level.
 * Modify any existing item based on id.  
 
 Regarding properties, you can either:
- * add new properties to existing aspect, or 
- * redefine the properties of an aspect. 
+ * Add new properties to existing aspect, or 
+ * Redefine the properties of an aspect. 
  
-Check out this code snippet to see how you can overwrite the properties for `exif:exif` aspect from external plugin:
+Review this code snippet to see how you can overwrite the properties for `exif:exif` aspect from an external plugin:
 ```json
   {
      "$schema": "../../../extension.schema.json",
@@ -1461,8 +1459,8 @@ Here is the initial setting from `app.extension.json`:
 
 ``` 
 <p class="tip">
-In order to allow extending the content-metadata presets, the settings from `app.config.json` must be copied to the `app.extensions.json` and ids must be added to all its items.
-Having ids would allow external plugins to extend the current setting.
+In order to allow the content-metadata presets to be extended, the settings from `app.config.json` must be copied to the `app.extensions.json` file and its ids must be added to all the items.
+Having ids allows external plugins to extend the current setting.
 </p>
 
 ## Registration
@@ -1471,7 +1469,7 @@ You can use `ExtensionService` to register custom components, authentication gua
 rule evaluators, etc.
 
 It is recommended to register custom content from within the module constructor.
-In that case all plugins will be available right after main application component is ready.
+In that case all plugins will be available right after the main application component is ready.
 
 Update the main application module `app.module.ts`, or create your own module,
 and use the following snippet to register custom content:
@@ -1513,13 +1511,12 @@ According to Angular rules, all components that are created dynamically at runti
 need to be registered within the `entryComponents` section of the NgModule.
 </p>
 
-The registration API is not limited to the custom content only.
+The Registration API is not limited to the custom content only.
 You can replace any existing entries by replacing the values from your module.
 
 ## Creating custom evaluator
 
-Rule evaluators are plain JavaScript (or TypeScript) functions
-that take `RuleContext` reference and an optional list of `RuleParameter` instances.
+Rule evaluators are plain JavaScript (or TypeScript) functions that take `RuleContext` references and an optional list of `RuleParameter` instances.
 
 Application provides a special [RuleEvaluator](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app/extensions/rule.extensions.ts#L30) type alias for evaluator functions:
 
@@ -1527,7 +1524,7 @@ Application provides a special [RuleEvaluator](https://github.com/Alfresco/alfre
 export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
 ```
 
-Create a function that is going to check if user has selected one or multiple nodes.
+Create a function that is going to check if a user has selected one or multiple nodes.
 
 ```typescript
 export function hasSelection(
@@ -1551,7 +1548,7 @@ export interface RuleContext {
 }
 ```
 
-The `SelectionState` interface exposes information about global selection state:
+The `SelectionState` interface exposes information about the global selection state:
 
 ```typescript
 export interface SelectionState {
@@ -1579,7 +1576,7 @@ Now, the `plugin1.rules.hasSelection` evaluator can be used as an inline rule re
 or part of the composite rule like `core.every`.
 
 <p class="tip">
-See [Registration](#registration) section for more details
+See the [Registration](#registration) section for more details
 on how to register your own entries to be re-used at runtime.
 </p>
 
@@ -1589,10 +1586,10 @@ on how to register your own entries to be re-used at runtime.
 
 In this tutorial, we are going to implement the following features:
 
-- update the **Trashcan** component to receive and log route parameters
-- create a new route that points to the **Trashcan** component and uses main layout
-- create an action reference that allows redirecting to the new route
-- create a button in the **New** menu that invokes an action
+- Update the **Trashcan** component to receive and log route parameters.
+- Create a new route that points to the **Trashcan** component and uses the main layout.
+- Create an action reference that allows redirecting to the new route.
+- Create a button in the **New** menu that invokes an action.
 
 Update `src/app/components/trashcan/trashcan.component.ts` and append the following code to the `ngOnInit` body:
 
@@ -1618,8 +1615,8 @@ export class TrashcanComponent {
 }
 ```
 
-The code above logs current route parameters to the browser console
-and is a simple proof the integration works as expected.
+The code above logs the current route parameters to the browser console
+and is proof the integration works as expected.
 
 Next, add a new route definition as in the example below:
 
@@ -1643,7 +1640,7 @@ Next, add a new route definition as in the example below:
 
 The template above creates a new route reference with the id `custom.routes.trashcan` that points to the `ext/trashcan/` route and accepts the `nodeId` parameter.
 
-Also, we are going to use default application layout (`app.layout.main`)
+Also, we are going to use the default application layout (`app.layout.main`)
 and authentication guards (`app.auth`).
 
 Next, create an action reference for the `NAVIGATE_ROUTE` application action
@@ -1894,8 +1891,7 @@ Next, build the project with the following command:
 ng build my-extension
 ```
 
-Angular CLI automatically configures Typescript path mappings for the project,
-so that you do not need any additional steps to link the library.
+Angular CLI automatically configures Typescript path mappings for the project, so that you do not need any additional steps to link the library.
 
 #### Register dynamic components
 
@@ -1911,7 +1907,7 @@ Update `my-extension.module.ts` and put all the content you plan to use at runti
 export class MyExtensionModule {}
 ```
 
-Let's now register `MyExtensionComponent` as an extension component.
+Now we need to register `MyExtensionComponent` as an extension component.
 Update the code as in the next example:
 
 ```typescript
@@ -1927,7 +1923,7 @@ export class MyExtensionModule {
 }
 ```
 
-Now you can use `my-extension.main.component` identifier in the JSON definitions
+Now you can use the `my-extension.main.component` identifier in the JSON definitions
 if you want to reference the `MyExtensionComponent`.
 
 #### Plugin definition file
@@ -1983,13 +1979,13 @@ Update the root `package.json` file and append the following entry to the `scrip
 You can now use that script to build the library and copy assets to the output folder.
 
 <p class="tip">
-It is a good practice to provide installation instructions for your library in the `README.md` file.
+It is good practice to provide installation instructions for your library in the `README.md` file.
 Be sure to mention that developers should have a build rule to copy your plugin definition file to the `assets/plugins` folder of the main application.
 </p>
 
 ### Publishing library to NPM
 
-You should rebuild the library every time before publishing:
+Before you publish you should always rebuild the library:
 
 ```sh
 npm run build:my-extension
@@ -2002,7 +1998,7 @@ cd dist/my-extension
 npm publish
 ```
 
-Note that requires for you have a valid [NPM](https://www.npmjs.com/) account.
+Note, you are required to have a valid [NPM](https://www.npmjs.com/) account.
 
 <p class="tip">
 See more details in the [Publishing your library](https://github.com/angular/angular-cli/wiki/stories-create-library#publishing-your-library) article.
@@ -2010,23 +2006,21 @@ See more details in the [Publishing your library](https://github.com/angular/ang
 
 ### Consuming extension library
 
-Assuming that you have published your extension library to NPM,
-you can install it using the standard command:
+Assuming you have published your extension library to NPM, you can install it using the standard command:
 
 ```sh
 npm install my-extension
 ```
 
-That should install the library and all its dependencies.
+This installs the library and all its dependencies.
 
 <p class="warning">
-You do not need installing library in the original workspace as the application is
-already configured to use the local version from the `dist` folder.
+You do not need to install the library in the original workspace as the application is already configured to use the local version from the `dist` folder.
 </p>
 
 #### Copy assets
 
-Edit `angular.json` configuration file and add the following rule if you develop and test extension library in the same workspace
+Edit the `angular.json` configuration file and add the following rule if you develop and test extension libraries in the same workspace.
 
 ```json
 {
@@ -2036,7 +2030,7 @@ Edit `angular.json` configuration file and add the following rule if you develop
 }
 ```
 
-Use the following rule in case you are installing extension from NPM:
+Use the following rule if you are installing an extension from NPM:
 
 ```json
 {
@@ -2085,7 +2079,7 @@ Run the application and ensure you have an extra navigation sidebar entry:
 npm start
 ```
 
-Click the `My Extension` link and in the main content area you should see the extension component coming from your library.
+Click the `My Extension` link and in the main content area you will see the extension component coming from your library.
 
 <p class="warning">
 Depending on the application setup, you may need enabling external plugins via the `Settings` dialog available for `admin` users (clicking the application profile button).
