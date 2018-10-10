@@ -47,8 +47,8 @@
                         class="adf-data-table-cell--ellipsis__name"
                         key="name"
                         title="APP.DOCUMENT_LIST.COLUMNS.NAME">
-                        <ng-template let-value="value" let-context>
-                            <span class="adf-datatable-cell" title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
+                        <ng-template let-context>
+                          <app-trashcan-name-column [context]="context"></app-trashcan-name-column>
                         </ng-template>
                     </data-column>
 
@@ -71,10 +71,9 @@
                     <data-column
                         *ngIf="!isSmallScreen"
                         key="archivedAt"
-                        title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON">
-                        <ng-template let-value="value">
-                            <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
-                        </ng-template>
+                        title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON"
+                        type="date"
+                        format="timeAgo">
                     </data-column>
 
                     <data-column
