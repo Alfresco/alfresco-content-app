@@ -301,7 +301,7 @@
       "RELEVANCE": "Pertinence",
       "FILENAME": "Nom de fichier",
       "TITLE": "Titre",
-      "MODIFIED_DATE": "Date de Modification",
+      "MODIFIED_DATE": "Date de modification",
       "SIZE": "Taille",
       "TYPE": "Type",
       "MODIFIER": "Modificateur",
@@ -314,7 +314,7 @@
       "LOCATION": "Emplacement"
     },
     "CATEGORIES": {
-      "MODIFIED_DATE": "Date de Modification",
+      "MODIFIED_DATE": "Date de modification",
       "SIZE": "Taille",
       "CREATED_DATE": "Date de création"
     }
