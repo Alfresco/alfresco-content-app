@@ -27,7 +27,9 @@ import {
   Component,
   ViewEncapsulation,
   ChangeDetectionStrategy,
-  Input
+  Input,
+  DoCheck,
+  ChangeDetectorRef
 } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 
@@ -38,7 +40,7 @@ import { ContentActionRef } from '@alfresco/adf-extensions';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'aca-toolbar-action' }
 })
-export class ToolbarActionComponent {
+export class ToolbarActionComponent implements DoCheck {
   @Input()
   type = 'icon-button';
 
@@ -47,4 +49,10 @@ export class ToolbarActionComponent {
 
   @Input()
   actionRef: ContentActionRef;
+
+  constructor(private cd: ChangeDetectorRef) {}
+
+  ngDoCheck() {
+    this.cd.markForCheck();
+  }
 }
