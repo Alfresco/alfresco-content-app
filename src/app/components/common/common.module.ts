@@ -28,10 +28,28 @@ import { CommonModule } from '@angular/common';
 import { GenericErrorComponent } from './generic-error/generic-error.component';
 import { CoreModule } from '@alfresco/adf-core';
 import { LocationLinkComponent } from './location-link/location-link.component';
+import { NameColumnComponent } from './name-column/name-column.component';
+import { LibraryNameColumnComponent } from './library-name-column/library-name-column.component';
+import { LibraryStatusColumnComponent } from './library-status-column/library-status-column.component';
+import { TrashcanNameColumnComponent } from './trashcan-name-column/trashcan-name-column.component';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild()],
-  declarations: [GenericErrorComponent, LocationLinkComponent],
-  exports: [GenericErrorComponent, LocationLinkComponent]
+  declarations: [
+    GenericErrorComponent,
+    LocationLinkComponent,
+    NameColumnComponent,
+    LibraryNameColumnComponent,
+    LibraryStatusColumnComponent,
+    TrashcanNameColumnComponent
+  ],
+  exports: [
+    GenericErrorComponent,
+    LocationLinkComponent,
+    NameColumnComponent,
+    LibraryNameColumnComponent,
+    LibraryStatusColumnComponent,
+    TrashcanNameColumnComponent
+  ]
 })
 export class AppCommonModule {}
