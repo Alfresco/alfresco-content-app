@@ -23,40 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input,
-  DoCheck,
-  ChangeDetectorRef
-} from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CoreModule } from '@alfresco/adf-core';
+import { ContentNodeShareModule } from '@alfresco/adf-content-services';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { ToggleSharedComponent } from './toggle-shared.component';
 
-@Component({
-  selector: 'aca-toolbar-action',
-  templateUrl: './toolbar-action.component.html',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'aca-toolbar-action' }
-})
-export class ToolbarActionComponent implements DoCheck {
-  @Input()
-  type = 'icon-button';
-
-  @Input()
-  color = 'primary';
-
-  @Input()
-  actionRef: ContentActionRef;
-
-  constructor(private cd: ChangeDetectorRef) {}
-
-  // todo: review after ADF 2.6
-  // preview component : change detection workaround for children without input
-  ngDoCheck() {
-    if (this.actionRef.id.includes('app.viewer')) {
-      this.cd.markForCheck();
-    }
-  }
+export function components() {
+  return [ToggleSharedComponent];
 }
+
+@NgModule({
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    ExtensionsModule,
+    ContentNodeShareModule
+  ],
+  declarations: components(),
+  exports: components(),
+  entryComponents: components()
+})
+export class ToggleSharedModule {}

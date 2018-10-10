@@ -23,40 +23,36 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  Component,
-  ViewEncapsulation,
-  ChangeDetectionStrategy,
-  Input,
-  DoCheck,
-  ChangeDetectorRef
-} from '@angular/core';
-import { ContentActionRef } from '@alfresco/adf-extensions';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../../store/states/app.state';
+import { appSelection } from '../../../store/selectors/app.selectors';
+import { SelectionState } from '@alfresco/adf-extensions';
+import { ShareNodeAction } from '../../../store/actions';
 
 @Component({
-  selector: 'aca-toolbar-action',
-  templateUrl: './toolbar-action.component.html',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'aca-toolbar-action' }
+  selector: 'app-toggle-shared',
+  templateUrl: './toggle-shared.component.html'
 })
-export class ToolbarActionComponent implements DoCheck {
-  @Input()
-  type = 'icon-button';
+export class ToggleSharedComponent implements OnInit {
+  selection$: Observable<SelectionState>;
 
-  @Input()
-  color = 'primary';
+  constructor(private store: Store<AppStore>) {}
 
-  @Input()
-  actionRef: ContentActionRef;
+  ngOnInit() {
+    this.selection$ = this.store.select(appSelection);
+  }
 
-  constructor(private cd: ChangeDetectorRef) {}
+  isShared(selection) {
+    return (
+      selection.first.entry &&
+      selection.first.entry.properties &&
+      !!selection.first.entry.properties['qshare:sharedId']
+    );
+  }
 
-  // todo: review after ADF 2.6
-  // preview component : change detection workaround for children without input
-  ngDoCheck() {
-    if (this.actionRef.id.includes('app.viewer')) {
-      this.cd.markForCheck();
-    }
+  editSharedNode(selection) {
+    this.store.dispatch(new ShareNodeAction(selection.first));
   }
 }

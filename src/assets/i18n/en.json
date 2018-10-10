@@ -131,6 +131,7 @@
             "VERSIONS": "Manage Versions",
             "TOGGLE-SIDENAV": "Toggle side navigation bar",
             "SHARE": "Share",
+            "CONTEXT_EDIT_SHARE": "Shared link settings",
             "PRINT": "Print",
             "FULLSCREEN": "Activate full-screen mode"
         },
