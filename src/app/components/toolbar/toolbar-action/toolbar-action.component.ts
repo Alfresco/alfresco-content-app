@@ -52,7 +52,11 @@ export class ToolbarActionComponent implements DoCheck {
 
   constructor(private cd: ChangeDetectorRef) {}
 
+  // todo: review after ADF 2.6
+  // preview component : change detection workaround for children without input
   ngDoCheck() {
-    this.cd.markForCheck();
+    if (this.actionRef.id.includes('app.viewer')) {
+      this.cd.markForCheck();
+    }
   }
 }
