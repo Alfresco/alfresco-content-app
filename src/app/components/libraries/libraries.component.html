@@ -24,7 +24,8 @@
                 selectionMode="single"
                 [navigate]="false"
                 [sorting]="[ 'title', 'asc' ]"
-                (node-dblclick)="navigateTo($event.detail?.node)">
+                (node-dblclick)="navigateTo($event.detail?.node)"
+                (name-click)="navigateTo($event.detail?.node)">
 
                 <empty-folder-content>
                     <ng-template>
@@ -49,12 +50,7 @@
                         key="title"
                         title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
                         <ng-template let-context>
-                            <span
-                                class="adf-datatable-cell dl-link"
-                                title="{{ makeLibraryTooltip(context.row.obj.entry) }}"
-                                (click)="navigateTo(context?.row?.obj)">
-                                {{ makeLibraryTitle(context.row.obj.entry) }}
-                            </span>
+                          <app-library-name-column [context]="context"></app-library-name-column>
                         </ng-template>
                     </data-column>
 
@@ -62,16 +58,8 @@
                         *ngIf="!isSmallScreen"
                         key="visibility"
                         title="APP.DOCUMENT_LIST.COLUMNS.STATUS">
-                        <ng-template let-value="value">
-                            <span *ngIf="(value == 'PUBLIC')" title="{{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}">
-                                {{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}
-                            </span>
-                            <span *ngIf="(value == 'PRIVATE')" title="{{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}">
-                                {{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}
-                            </span>
-                            <span *ngIf="(value == 'MODERATED')" title="{{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}">
-                                {{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}
-                            </span>
+                        <ng-template let-context>
+                          <app-library-status-column [context]="context"></app-library-status-column>
                         </ng-template>
                     </data-column>
                 </data-columns>
