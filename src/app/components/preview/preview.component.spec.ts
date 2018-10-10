@@ -367,7 +367,7 @@ describe('PreviewComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
   });
 
-  xit('should navigate to original location if node is not a File', async () => {
+  it('should navigate to original location if node is not a File', async () => {
     spyOn(router, 'navigate').and.stub();
     spyOn(contentApi, 'getNodeInfo').and.returnValue(
       of({
@@ -382,7 +382,7 @@ describe('PreviewComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith(['personal-files', 'folder1']);
   });
 
-  xit('should navigate to original location in case of Alfresco API errors', async () => {
+  it('should navigate to original location in case of Alfresco API errors', async () => {
     spyOn(router, 'navigate').and.stub();
     spyOn(contentApi, 'getNodeInfo').and.returnValue(throwError('error'));
 

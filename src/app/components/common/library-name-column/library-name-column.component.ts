@@ -84,7 +84,6 @@ export class LibraryNameColumnComponent implements OnInit {
   }
 
   makeLibraryTitle(library: any, rows: Array<ShareDataRow>): string {
-    // const rows = this.documentList.data.getRows();
     const entries = rows.map((r: ShareDataRow) => r.node.entry);
     const { title, id } = library;
 
