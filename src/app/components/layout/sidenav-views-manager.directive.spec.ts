@@ -24,9 +24,57 @@
  */
 
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
+import { NavigationEnd } from '@angular/router';
+import { Subject } from 'rxjs';
+
+class RouterMock {
+  private subject = new Subject();
+  public events = this.subject.asObservable();
+
+  navigate(url = '') {
+    const navigationEnd = new NavigationEnd(0, '', url);
+    this.subject.next(navigationEnd);
+  }
+
+  destroy() {
+    this.subject.next(null);
+    this.subject.complete();
+    this.subject = null;
+  }
+}
 
 describe('SidenavViewsManagerDirective', () => {
-  it('should be defined', () => {
-    expect(SidenavViewsManagerDirective).toBeDefined();
+  let component;
+  let router;
+
+  beforeEach(() => {
+    router = <any>new RouterMock();
+    component = new SidenavViewsManagerDirective(router, null, null);
+  });
+
+  afterEach(() => {
+    router.destroy();
+  });
+
+  describe('Router events', () => {
+    it('should set minimizeSidenav to true when url is in minimizeConditions', () => {
+      router.navigate('/search/');
+      expect(component.minimizeSidenav).toBe(true);
+    });
+
+    it('should set minimizeSidenav to false when url is not in minimizeConditions', () => {
+      router.navigate('/somewhere/');
+      expect(component.minimizeSidenav).toBe(false);
+    });
+
+    it('should set hideSidenav property to true when url is in hideConditions', () => {
+      router.navigate('/preview/');
+      expect(component.hideSidenav).toBe(true);
+    });
+
+    it('should set hideSidenav property to false when url is not in hideConditions', () => {
+      router.navigate('somewhere');
+      expect(component.hideSidenav).toBe(false);
+    });
   });
 });
