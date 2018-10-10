@@ -48,7 +48,7 @@ export class ToggleSharedComponent implements OnInit {
     return (
       selection.first.entry &&
       selection.first.entry.properties &&
-      selection.first.entry.properties['qshare:sharedId']
+      !!selection.first.entry.properties['qshare:sharedId']
     );
   }
 
