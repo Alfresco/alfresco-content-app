@@ -306,14 +306,14 @@
             "RELEVANCE": "Relevance",
             "FILENAME": "Filename",
             "TITLE": "Title",
-            "MODIFIED_DATE": "Modified Date",
+            "MODIFIED_DATE": "Modified date",
             "SIZE": "Size",
             "TYPE": "Type",
             "MODIFIER": "Modifier",
             "CREATE_DATE": "Created date"
         },
         "FACET_FIELDS": {
-            "FILE_TYPE": "File Type",
+            "FILE_TYPE": "File type",
             "CREATOR": "Creator",
             "MODIFIER": "Modifier",
             "LOCATION": "Location"
@@ -321,7 +321,7 @@
         "CATEGORIES": {
             "MODIFIED_DATE": "Modified date",
             "SIZE": "Size",
-            "CREATED_DATE": "Created Date"
+            "CREATED_DATE": "Created date"
         }
     },
     "CORE": {
