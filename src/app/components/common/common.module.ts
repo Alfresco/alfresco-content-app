@@ -31,6 +31,7 @@ import { LocationLinkComponent } from './location-link/location-link.component';
 import { NameColumnComponent } from './name-column/name-column.component';
 import { LibraryNameColumnComponent } from './library-name-column/library-name-column.component';
 import { LibraryStatusColumnComponent } from './library-status-column/library-status-column.component';
+import { TrashcanNameColumnComponent } from './trashcan-name-column/trashcan-name-column.component';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild()],
@@ -39,14 +40,16 @@ import { LibraryStatusColumnComponent } from './library-status-column/library-st
     LocationLinkComponent,
     NameColumnComponent,
     LibraryNameColumnComponent,
-    LibraryStatusColumnComponent
+    LibraryStatusColumnComponent,
+    TrashcanNameColumnComponent
   ],
   exports: [
     GenericErrorComponent,
     LocationLinkComponent,
     NameColumnComponent,
     LibraryNameColumnComponent,
-    LibraryStatusColumnComponent
+    LibraryStatusColumnComponent,
+    TrashcanNameColumnComponent
   ]
 })
 export class AppCommonModule {}
