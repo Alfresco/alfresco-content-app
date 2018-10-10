@@ -30,10 +30,6 @@ import { ContentNodeShareModule } from '@alfresco/adf-content-services';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { ToggleSharedModule } from './toggle-shared/toggle-shared.module';
 
-export function components() {
-  return [];
-}
-
 @NgModule({
   imports: [
     CommonModule,
@@ -41,9 +37,6 @@ export function components() {
     ExtensionsModule,
     ContentNodeShareModule,
     ToggleSharedModule
-  ],
-  declarations: components(),
-  exports: components(),
-  entryComponents: components()
+  ]
 })
 export class AppSharedModule {}
