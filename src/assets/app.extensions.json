@@ -731,12 +731,9 @@
         },
         {
           "id": "app.viewer.share",
+          "type": "custom",
           "order": 300,
-          "title": "APP.ACTIONS.SHARE",
-          "icon": "share",
-          "actions": {
-            "click": "SHARE_NODE"
-          },
+          "component": "app.shared-link.toggleSharedLink",
           "rules": {
             "visible": "app.selection.file.canShare"
           }
