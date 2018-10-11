@@ -28,8 +28,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import {
   FolderDialogComponent,
-  ConfirmDialogComponent,
-  ShareDialogComponent
+  ConfirmDialogComponent
 } from '@alfresco/adf-content-services';
 import { LibraryDialogComponent } from '../dialogs/library/library.dialog';
 import {
@@ -59,6 +58,7 @@ import { sharedUrl } from '../store/selectors/app.selectors';
 import { NodeActionsService } from './node-actions.service';
 import { TranslationService, ViewUtilService } from '@alfresco/adf-core';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
+import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
 import { take, map, tap, mergeMap, catchError } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
 
@@ -173,21 +173,42 @@ export class ContentManagementService {
   }
 
   shareNode(node: MinimalNodeEntity): void {
-    if (node && node.entry && node.entry.isFile) {
-      this.store
-        .select(sharedUrl)
-        .pipe(take(1))
-        .subscribe(baseShareUrl => {
-          this.dialogRef.open(ShareDialogComponent, {
+    if (node && node.entry) {
+      // shared and favorite
+      const id = node.entry.nodeId || (<any>node).entry.guid;
+
+      if (id) {
+        this.contentApi.getNodeInfo(id).subscribe(entry => {
+          this.openShareLinkDialog({ entry });
+        });
+      } else {
+        this.openShareLinkDialog(node);
+      }
+    }
+  }
+
+  openShareLinkDialog(node) {
+    this.store
+      .select(sharedUrl)
+      .pipe(take(1))
+      .subscribe(baseShareUrl => {
+        this.dialogRef
+          .open(ShareDialogComponent, {
             width: '600px',
             panelClass: 'adf-share-link-dialog',
             data: {
+              permission: this.permission.check(node, ['update']),
               node,
               baseShareUrl
             }
+          })
+          .afterClosed()
+          .subscribe(deletedSharedLink => {
+            if (deletedSharedLink) {
+              this.linksUnshared.next(deletedSharedLink);
+            }
           });
-        });
-    }
+      });
   }
 
   createFolder(parentNodeId: string) {

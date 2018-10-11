@@ -2,7 +2,7 @@
     <button mat-menu-item data-automation-id="share-action-button" (click)="editSharedNode(selection)">
         <mat-icon>share</mat-icon>
         <ng-container *ngIf="isShared(selection); else not_shared">
-            <span>{{ 'APP.ACTIONS.CONTEXT_EDIT_SHARE' | translate }}</span>
+            <span>{{ 'APP.ACTIONS.SHARE_EDIT' | translate }}</span>
         </ng-container>
     </button>
 </ng-container>

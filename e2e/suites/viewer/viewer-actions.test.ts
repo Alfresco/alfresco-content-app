@@ -786,7 +786,8 @@ describe('Viewer actions', () => {
       expect(await dataTable.getRowByName(pdfFavorites).isPresent()).toBe(true, 'Item is not present in Trash');
     });
 
-    it('Share action - [C286395]', async () => {
+    // todo enable when ACA-1886 is fixed
+    xit('Share action - [C286395]', async () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 

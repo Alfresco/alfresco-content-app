@@ -18,6 +18,8 @@
     "classlist",
     "folderlink",
     "filelink",
+    "formcontrolname",
+    "datetimepicker",
     "datatable",
     "repo",
     "snackbar",
