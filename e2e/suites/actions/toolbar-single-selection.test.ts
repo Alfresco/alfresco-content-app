@@ -213,6 +213,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
       await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Shared link settings')).toBe(true, `Shared is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
