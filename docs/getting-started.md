@@ -21,7 +21,7 @@ due to the application using the latest [REST APIs](https://docs.alfresco.com/5.
 
 ## Building from source
 
-The Content App is based on [Angular CLI](https://cli.angular.io), and you can use all the commands, generators and blueprints supported by the CLI.
+The Content App is based on [Angular CLI](https://cli.angular.io), and you can use all the commands, generators, and blueprints supported by the CLI.
 
 ### Prerequisites for building
 
@@ -39,18 +39,17 @@ npm install
 npm start
 ```
 
-The application runs at port `4200` by default, and should automatically open in the default browser once project compilation finishes.
+The application runs at port `4200` by default, and should automatically open in the default browser once the project has compiled.
 
 ### Proxy settings
 
-The Content App provides a proxy configuration for local development server
-that allows you to address specific scenarios with CORS and native authentication dialog.
+The Content App provides a proxy configuration for a local development server that allows you to address specific scenarios with CORS and a native authentication dialog.
 
 You can find settings in the "proxy.conf.js" file in the project root directory.
 
 <p class="warning">
-The proxy settings get automatically applied every time you run the application with "npm start" script.
-You must restart the application every time you change the settings values.
+The proxy settings get automatically applied every time you run the application with the "npm start" script.
+You must restart the application every time you change its settings.
 </p>
 
 ### Running unit tests
@@ -73,11 +72,11 @@ The Content Application provides support for the following languages:
 - Russian (`ru`)
 - Simplified Chinese (`zh-CN`)
 
-The fallback locale is the English one, however current browser language is taken as the default one automatically when the application starts.
+The default language is English, however the current browser language is taken as the default one automatically when the application starts.
 
 ### User-defined language
 
-You can allow users to set custom language that gets saved to user preferences.
+You can allow users to set custom languages that are saved to their preferences.
 The main application menu already has the [ADF Language Menu](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/language-menu.component.md) component integrated and pre-filled with the supported items.
 
 To change the default language set edit the `app.config.json` file and add or remove items:
@@ -103,15 +102,15 @@ To change the default language set edit the `app.config.json` file and add or re
 }
 ```
 
-The file is located at the following path: `/src/app.config.json`.
+The file is located here: `/src/app.config.json`.
 
 ### Custom languages
 
 To add a custom language, add a new "JSON" file to the "/src/assets/i18n" folder
-with the name of the target locale, for instance, a "de.json" for the "German".
+with the name of the target language, for instance, a "de.json" for "German".
 
 Translate the resource strings based on the default "en.json" file.
-You can copy the content over to your newly created file and replace English values with translated text.
+You can copy the content over to your newly created file and replace the English values with translated text.
 
 ```json
 {
@@ -132,7 +131,7 @@ You can copy the content over to your newly created file and replace English val
 }
 ```
 
-The Content Application automatically bundles your file upon project build.
+The Content Application automatically bundles your file when the project builds.
 You can test your locale by changing the browser language settings and reloading the page.
 
 Optionally, you can extend the [ADF Language Menu](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/language-menu.component.md) component with the newly added language by updating the `app.config.json` file.
@@ -152,7 +151,7 @@ Your `/src/assets/i18n/<lang>.json` file can reflect the structure of one of the
 At runtime, the application-level strings have the highest priority.
 That means you can replace the value of any ADF resource string if needed.
 
-For example, let's change the title of the "Create Folder" dialog shipped with the ADF.
+For example, let's change the title of the "Create Folder" dialog that was shipped with ADF.
 Modify the `/src/assets/i18n/en.json` file and append the "CORE" section like in the example below:
 
 ```json
@@ -168,7 +167,7 @@ Modify the `/src/assets/i18n/en.json` file and append the "CORE" section like in
 }
 ```
 
-Now, if you run the application and click the "New → Create Folder" menu,
+Now, if you run the application and click the "New > Create Folder" menu,
 the title of the dialog should look like the following:
 
 ![](images/aca-i18n-01.png)
@@ -191,8 +190,8 @@ You can enable internal language picker in the `app.config.json` file:
 
 ## CORS
 
-The ACA already comes with the proxy configuration for Angular CLI to address CORS-related issues for development.
-Also, the docker images contain Nginx settings needed for CORS when developing and debugging application locally.
+The Alfresco Content Application comes with the proxy configuration for Angular CLI to address CORS-related issues for development.
+Also, the docker images contain Nginx settings needed for CORS when developing and debugging an application locally.
 
 ### Chrome Workaround
 
@@ -201,12 +200,12 @@ For the Chrome browser, you can use the following plugin that allows you to togg
 
 ### Firefox Workaround
 
-Firefox users can try the following plugin: [CORS Everywhere](https://addons.mozilla.org/en-Gb/firefox/addon/cors-everywhere/)
+For the Chrome browser, you can use the following plugin: [CORS Everywhere](https://addons.mozilla.org/en-Gb/firefox/addon/cors-everywhere/)
 
 ### Safari Workaround
 
 If you are developing or testing with Safari then you can use the "Develop" menu to toggle the CORS mode.
-Please note that the page must be reloaded every time you change CORS settings.
+Note, the page must be reloaded every time you change the CORS settings.
 
 ![](images/safari-develop-menu.png)
 
@@ -216,7 +215,7 @@ Please note that the page must be reloaded every time you change CORS settings.
 
 ## Configuration
 
-The Content Application provides support for a global settings file `app.config.json` that you can use to customize the behavior of ACA and ADF components.
+The Alfresco Content Application provides support for the global settings file `app.config.json` that you can use to customize the behavior of the Content Application and ADF components.
 
 ### Server settings
 
@@ -225,7 +224,7 @@ The "ecmHost" property allows you to set the address of the server using the dyn
 
 #### Dynamic address
 
-The example below demonstrates the most common dynamic format for development environment:
+The example below demonstrates the most common dynamic format for a development environment:
 
 ```json
 {
@@ -234,10 +233,10 @@ The example below demonstrates the most common dynamic format for development en
 }
 ```
 
-The configuration above assumes you are running ACS and Content App on the same server and port
+The configuration above assumes you are running ACS and the Alfresco Content Application on the same server and port
 and allows deploying to different servers having the same unified configuration file.
 
-For example, a proxy server at `localhost:4200` hosting the Content App as the root application,
+For example, a proxy server at `localhost:4200` hosting the Alfresco Content Application as the root application,
 and `localhost:4200/alfresco` for the ACS repository.
 
 At runtime, the application is going to automatically substitute the "{hostname}" value with the original hostname.
@@ -277,7 +276,7 @@ for example: "Personal Files - Alfresco Example Content Application".
 
 #### Application Logo
 
-The default logo displayed in the top left corner of the Alfresco Content Application can be easily changed:
+The default logo displayed in the top left corner of the Alfresco Content Application can be changed:
 
 1. Place your custom logo image file in the [app-name]/src/assets/images folder. The displayed image will resize automatically, an image with extreme width/height might not retain its dimensions.
 
@@ -295,7 +294,7 @@ The default logo displayed in the top left corner of the Alfresco Content Applic
 
 #### Header Background color
 
-You can change the header background color by specifying color code for the "headerColor" key:
+You can change the header background color by specifying the color code for the "headerColor" key:
 
 ```json
 {
@@ -352,7 +351,7 @@ You can change the default settings of the pagination that gets applied to all t
 You can store any information in the application configuration file, and access it at runtime by using the `AppConfigService` service provided by ADF.
 
 <p class="tip">
-Please refer to the <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/app-config.service.md" target="_blank">AppConfigService</a> documentation to get more details on Application Configuration features and API available.
+Please refer to the <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/app-config.service.md" target="_blank">AppConfigService</a> documentation to get more details on Application Configuration features and API's available.
 </p>
 
 ## Navigation
