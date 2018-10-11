@@ -30,6 +30,7 @@ import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { AppExtensionService } from '../../extensions/extension.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   templateUrl: './shared-files.component.html'
@@ -53,7 +54,9 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
       this.content.nodesDeleted.subscribe(() => this.reload()),
       this.content.nodesMoved.subscribe(() => this.reload()),
       this.content.nodesRestored.subscribe(() => this.reload()),
-      this.content.linksUnshared.subscribe(() => this.reload()),
+      this.content.linksUnshared
+        .pipe(debounceTime(300))
+        .subscribe(() => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
