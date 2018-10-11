@@ -26,7 +26,7 @@
 import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
 import {
   isNotTrashcan,
-  isNotSharedFiles,
+  isNotFavorites,
   isNotLibraries,
   isFavorites,
   isLibraries,
@@ -72,7 +72,7 @@ export function canShareFile(
 ): boolean {
   if (
     isNotTrashcan(context, ...args) &&
-    isNotSharedFiles(context, ...args) &&
+    isNotFavorites(context, ...args) &&
     context.selection.file
   ) {
     return true;
