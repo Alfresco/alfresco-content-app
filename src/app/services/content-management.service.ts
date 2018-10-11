@@ -192,16 +192,22 @@ export class ContentManagementService {
       .select(sharedUrl)
       .pipe(take(1))
       .subscribe(baseShareUrl => {
-        this.dialogRef.open(ShareDialogComponent, {
-          width: '600px',
-          panelClass: 'adf-share-link-dialog',
-          data: {
-            permission: this.permission.check(node, ['update']),
-            unshareCallback: this.linksUnshared,
-            node,
-            baseShareUrl
-          }
-        });
+        this.dialogRef
+          .open(ShareDialogComponent, {
+            width: '600px',
+            panelClass: 'adf-share-link-dialog',
+            data: {
+              permission: this.permission.check(node, ['update']),
+              node,
+              baseShareUrl
+            }
+          })
+          .afterClosed()
+          .subscribe(deletedSharedLink => {
+            if (deletedSharedLink) {
+              this.linksUnshared.next(deletedSharedLink);
+            }
+          });
       });
   }
 
