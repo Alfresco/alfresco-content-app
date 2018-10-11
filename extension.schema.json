@@ -344,11 +344,7 @@
         {
           "description": "Content metadata's one layout group definition",
           "type": "object",
-          "required": [
-            "id",
-            "title",
-            "items"
-          ],
+          "required": ["id"],
           "properties": {
             "id": {
               "type": "string",
@@ -450,6 +446,23 @@
                       "properties": {
                         "description": "list of type properties",
                         "type": "array"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "disabled"
+                    ],
+                    "properties": {
+                      "id": {
+                        "description": "Unique identifier",
+                        "type": "string"
+                      },
+                      "disabled": {
+                        "description": "Toggles disabled state",
+                        "type": "boolean"
                       }
                     }
                   }
