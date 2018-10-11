@@ -1,5 +1,5 @@
 {
-    "ecmHost": "https://{hostname}{:port}",
+    "ecmHost": "http://{hostname}{:port}",
     "providers": "ECM",
     "authType" : "BASIC",
     "application": {
