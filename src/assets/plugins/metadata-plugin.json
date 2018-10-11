@@ -46,7 +46,9 @@
         ]
       },
       {
+        "id": "app.content.metadata.kitten-images",
         "kitten-images": {
+          "id": "app.content.metadata.kittenAspect",
           "custom:aspect": "*",
           "exif:exif": [ "exif:pixelXDimension", "exif:pixelYDimension"]
         }
