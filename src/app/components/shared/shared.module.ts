@@ -26,9 +26,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { ContentNodeShareModule } from '@alfresco/adf-content-services';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { ToggleSharedModule } from './toggle-shared/toggle-shared.module';
+import { ContentNodeShareModule } from './content-node-share/content-node-share.module';
+import { ShareDialogComponent } from './content-node-share/content-node-share.dialog';
 
 @NgModule({
   imports: [
@@ -37,6 +38,7 @@ import { ToggleSharedModule } from './toggle-shared/toggle-shared.module';
     ExtensionsModule,
     ContentNodeShareModule,
     ToggleSharedModule
-  ]
+  ],
+  entryComponents: [ShareDialogComponent]
 })
 export class AppSharedModule {}
