@@ -97,5 +97,6 @@ export const EXTENSIBILITY_CONFIGS = {
   INFO_DRAWER: 'info-drawer-ext.json',
   INFO_DRAWER_EMPTY: 'info-drawer-no-tabs-ext.json',
   VIEWER: 'viewer-ext.json',
-  HEADER: 'header-ext.json'
+  HEADER: 'header-ext.json',
+  METADATA_PRESETS: 'metadata-ext.json'
 };
