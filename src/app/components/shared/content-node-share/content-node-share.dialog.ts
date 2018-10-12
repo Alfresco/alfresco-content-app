@@ -120,23 +120,15 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     this.deleteSharedLink(this.sharedId);
   }
 
-  onSlideShareChange(event: any) {
-    if (event.checked) {
-      this.createSharedLinks(this.data.node.entry.id);
-    } else {
-      this.openConfirmationDialog();
-    }
-  }
-
-  get isTimeFieldValid() {
-    return this.form.controls.time.valid;
+  onSlideShareChange() {
+    this.openConfirmationDialog();
   }
 
   get canUpdate() {
     return this.data.permission;
   }
 
-  removeExpires() {
+  removeExpirationDate() {
     this.form.controls.time.setValue(null);
   }
 
@@ -215,19 +207,17 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  private updateNode(updates): Observable<MinimalNodeEntryEntity> {
+  private updateNode(date: moment.Moment): Observable<MinimalNodeEntryEntity> {
     return this.nodesApiService.updateNode(this.data.node.entry.id, {
       properties: {
-        'qshare:expiryDate': updates.time ? updates.time.utc().format() : null
+        'qshare:expiryDate': date ? date.utc().format() : null
       }
     });
   }
 
-  private updateEntryExpiryDate(updates) {
+  private updateEntryExpiryDate(date: moment.Moment) {
     const { properties } = this.data.node.entry;
 
-    properties['qshare:expiryDate'] = updates.time
-      ? updates.time.local()
-      : null;
+    properties['qshare:expiryDate'] = date ? date.local() : null;
   }
 }
