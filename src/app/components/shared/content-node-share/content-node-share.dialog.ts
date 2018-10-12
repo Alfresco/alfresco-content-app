@@ -79,16 +79,15 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     }
 
     this.subscriptions.push(
-      this.form.valueChanges
+      this.form.controls.time.valueChanges
         .pipe(
           skip(1),
-          skipWhile(() => !this.isTimeFieldValid),
+          distinctUntilChanged(),
           mergeMap(
             updates => this.updateNode(updates),
             formUpdates => formUpdates
           ),
           catchError(error => {
-            this.form.controls.time.setValue(null);
             return throwError(error);
           })
         )
