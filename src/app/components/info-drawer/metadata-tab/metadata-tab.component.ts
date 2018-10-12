@@ -51,13 +51,16 @@ export class MetadataTabComponent {
     protected extensions: AppExtensionService,
     private appConfig: AppConfigService
   ) {
-
     try {
-      this.appConfig.config['content-metadata'] = this.extensions.contentMetadata;
+      this.appConfig.config[
+        'content-metadata'
+      ] = this.extensions.contentMetadata;
     } catch (error) {
-      console.error(error, '- could not change content-metadata from app.config');
+      console.error(
+        error,
+        '- could not change content-metadata from app.config'
+      );
     }
-
   }
 
   get canUpdateNode() {
