@@ -65,7 +65,7 @@ The application [header](https://github.com/Alfresco/alfresco-content-app/tree/m
 
 Logo & app primary color - logo and color are configurable by updating the
 [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json) file in the root folder of the project.
-Please refer to the [Application Configuration](/getting-started#application-logo) documentation for more information on how to change the logo and color.
+Please refer to the [Application Configuration](/getting-started/configuration) documentation for more information on how to change the logo and color.
 
 #### Search
 
@@ -113,7 +113,7 @@ and uploads can be canceled which will stop uploads in progress or permanently d
 
 The navigation links are configurable via the [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json).
 Default configuration creates two sections.
-See [Navigation](/getting-started#navigation) for more information about configuring the side navigation.
+See [Navigation](/getting-started/navigation) for more information about configuring the side navigation.
 
 ### Document List Layout
 
