@@ -27,7 +27,14 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription, Observable, throwError } from 'rxjs';
-import { skip, skipWhile, mergeMap, catchError } from 'rxjs/operators';
+import {
+  skip,
+  mergeMap,
+  catchError,
+  distinctUntilChanged
+} from 'rxjs/operators';
+import { trigger } from '@angular/animations';
+import { formFieldAnimation } from './animation';
 import { SharedLinksApiService, NodesApiService } from '@alfresco/adf-core';
 import { SharedLinkEntry, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
@@ -38,7 +45,8 @@ import moment from 'moment-es6';
   templateUrl: './content-node-share.dialog.html',
   styleUrls: ['./content-node-share.dialog.scss'],
   host: { class: 'adf-share-dialog' },
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [trigger('visibilityChanged', formFieldAnimation)]
 })
 export class ShareDialogComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
