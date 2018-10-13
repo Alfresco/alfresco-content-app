@@ -40,33 +40,33 @@
                     <data-columns>
                       <ng-container *ngFor="let column of columns">
 
-                          <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
-                            <data-column
-                              [key]="column.key"
-                              [title]="column.title"
-                              [type]="column.type"
-                              [format]="column.format"
-                              [class]="column.class"
-                              [sortable]="column.sortable">
-                              <ng-template let-context>
-                                <app-dynamic-column
-                                  [id]="column.template"
-                                  [context]="context">
-                                </app-dynamic-column>
-                              </ng-template>
-                            </data-column>
-                          </ng-container>
+                        <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+                          <data-column
+                            [key]="column.key"
+                            [title]="column.title"
+                            [type]="column.type"
+                            [format]="column.format"
+                            [class]="column.class"
+                            [sortable]="column.sortable">
+                            <ng-template let-context>
+                              <app-dynamic-column
+                                [id]="column.template"
+                                [context]="context">
+                              </app-dynamic-column>
+                            </ng-template>
+                          </data-column>
+                        </ng-container>
 
-                          <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
-                            <data-column
-                              [key]="column.key"
-                              [title]="column.title"
-                              [type]="column.type"
-                              [format]="column.format"
-                              [class]="column.class"
-                              [sortable]="column.sortable">
-                            </data-column>
-                          </ng-container>
+                        <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+                          <data-column
+                            [key]="column.key"
+                            [title]="column.title"
+                            [type]="column.type"
+                            [format]="column.format"
+                            [class]="column.class"
+                            [sortable]="column.sortable">
+                          </data-column>
+                        </ng-container>
 
                       </ng-container>
                     </data-columns>

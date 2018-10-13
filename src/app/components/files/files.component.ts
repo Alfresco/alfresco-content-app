@@ -60,6 +60,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       format: null,
       class: 'image-table-cell',
       sortable: false,
+      template: null,
       desktopOnly: false
     },
     {

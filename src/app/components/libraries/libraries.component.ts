@@ -39,6 +39,39 @@ import { NavigateLibraryAction } from 'src/app/store/actions';
 export class LibrariesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
+  columns: any[] = [
+    {
+      key: '$thumbnail',
+      title: null,
+      type: 'image',
+      format: null,
+      class: 'image-table-cell',
+      sortable: false,
+      template: null,
+      desktopOnly: false
+    },
+    {
+      key: 'title',
+      title: 'APP.DOCUMENT_LIST.COLUMNS.TITLE',
+      type: 'text',
+      format: null,
+      class: 'adf-data-table-cell--ellipsis__name',
+      sortable: true,
+      template: 'app.columns.libraryName',
+      desktopOnly: false
+    },
+    {
+      key: 'visibility',
+      title: 'APP.DOCUMENT_LIST.COLUMNS.STATUS',
+      type: 'text',
+      format: null,
+      class: null,
+      sortable: true,
+      template: 'app.columns.libraryStatus',
+      desktopOnly: true
+    }
+  ];
+
   constructor(
     content: ContentManagementService,
     store: Store<AppStore>,

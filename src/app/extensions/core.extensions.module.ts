@@ -40,6 +40,9 @@ import { VersionsTabComponent } from '../components/info-drawer/versions-tab/ver
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 import { AppAuthGuard } from '../guards/auth.guard';
 import { NameColumnComponent } from '../components/common/name-column/name-column.component';
+import { LibraryNameColumnComponent } from '../components/common/library-name-column/library-name-column.component';
+import { LibraryStatusColumnComponent } from '../components/common/library-status-column/library-status-column.component';
+import { TrashcanNameColumnComponent } from '../components/common/trashcan-name-column/trashcan-name-column.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -78,7 +81,10 @@ export class CoreExtensionsModule {
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
-      'app.columns.name': NameColumnComponent
+      'app.columns.name': NameColumnComponent,
+      'app.columns.libraryName': LibraryNameColumnComponent,
+      'app.columns.libraryStatus': LibraryStatusColumnComponent,
+      'app.columns.trashcanName': TrashcanNameColumnComponent
     });
 
     extensions.setAuthGuards({

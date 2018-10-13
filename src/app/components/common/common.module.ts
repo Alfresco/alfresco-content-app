@@ -54,6 +54,11 @@ import { DynamicColumnComponent } from './dynamic-column/dynamic-column.componen
     TrashcanNameColumnComponent,
     DynamicColumnComponent
   ],
-  entryComponents: [NameColumnComponent]
+  entryComponents: [
+    NameColumnComponent,
+    LibraryNameColumnComponent,
+    LibraryStatusColumnComponent,
+    TrashcanNameColumnComponent
+  ]
 })
 export class AppCommonModule {}
