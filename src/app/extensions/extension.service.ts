@@ -49,6 +49,7 @@ import {
   mergeObjects
 } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
+import { DocumentListPresetRef } from './document-list.extensions';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,22 @@ export class AppExtensionService implements RuleContext {
   navbar: Array<NavBarGroupRef> = [];
   sidebar: Array<SidebarTabRef> = [];
   contentMetadata: any;
+
+  documentListPresets: {
+    files: Array<DocumentListPresetRef>;
+    libraries: Array<DocumentListPresetRef>;
+    shared: Array<DocumentListPresetRef>;
+    recent: Array<DocumentListPresetRef>;
+    favorites: Array<DocumentListPresetRef>;
+    trashcan: Array<DocumentListPresetRef>;
+  } = {
+    files: [],
+    libraries: [],
+    shared: [],
+    recent: [],
+    favorites: [],
+    trashcan: []
+  };
 
   selection: SelectionState;
   navigation: NavigationState;
@@ -139,6 +156,33 @@ export class AppExtensionService implements RuleContext {
       'features.sidebar'
     );
     this.contentMetadata = this.loadContentMetadata(config);
+
+    this.documentListPresets = {
+      files: this.loader.getElements<DocumentListPresetRef>(
+        config,
+        'features.documentList.files'
+      ),
+      libraries: this.loader.getElements<DocumentListPresetRef>(
+        config,
+        'features.documentList.libraries'
+      ),
+      shared: this.loader.getElements<DocumentListPresetRef>(
+        config,
+        'features.documentList.shared'
+      ),
+      recent: this.loader.getElements<DocumentListPresetRef>(
+        config,
+        'features.documentList.recent'
+      ),
+      favorites: this.loader.getElements<DocumentListPresetRef>(
+        config,
+        'features.documentList.recent'
+      ),
+      trashcan: this.loader.getElements<DocumentListPresetRef>(
+        config,
+        'features.documentList.recent'
+      )
+    };
   }
 
   protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {

@@ -52,58 +52,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   private nodePath: PathElement[];
 
-  columns: any[] = [
-    {
-      key: '$thumbnail',
-      title: null,
-      type: 'image',
-      format: null,
-      class: 'image-table-cell',
-      sortable: false,
-      template: null,
-      desktopOnly: false
-    },
-    {
-      key: 'name',
-      title: 'APP.DOCUMENT_LIST.COLUMNS.NAME',
-      type: 'text',
-      format: null,
-      class: 'adf-data-table-cell--ellipsis__name',
-      sortable: true,
-      template: 'app.columns.name',
-      desktopOnly: false
-    },
-    {
-      key: 'content.sizeInBytes',
-      title: 'APP.DOCUMENT_LIST.COLUMNS.SIZE',
-      type: 'fileSize',
-      format: null,
-      class: null,
-      sortable: true,
-      template: null,
-      desktopOnly: true
-    },
-    {
-      key: 'modifiedAt',
-      title: 'APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON',
-      type: 'date',
-      format: 'timeAgo',
-      class: null,
-      sortable: true,
-      template: null,
-      desktopOnly: true
-    },
-    {
-      key: 'modifiedByUser.displayName',
-      title: 'APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY',
-      type: 'text',
-      format: null,
-      class: 'adf-data-table-cell--ellipsis',
-      sortable: true,
-      template: null,
-      desktopOnly: true
-    }
-  ];
+  columns: any[] = [];
 
   constructor(
     private router: Router,
@@ -168,6 +117,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
           this.isSmallScreen = result.matches;
         })
     ]);
+
+    this.columns = this.extensions.documentListPresets.files || [];
   }
 
   ngOnDestroy() {

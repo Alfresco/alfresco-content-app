@@ -865,6 +865,294 @@
           }
         ]
       }
-    ]
+    ],
+    "documentList": {
+      "files": [
+        {
+          "id": "app.files.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.files.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.name",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.files.size",
+          "key": "content.sizeInBytes",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
+          "type": "fileSize",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.files.modifiedOn",
+          "key": "modifiedAt",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
+          "type": "date",
+          "format": "timeAgo",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.files.modifiedBy",
+          "key": "modifiedByUser.displayName",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis",
+          "sortable": true,
+          "desktopOnly": true
+        }
+      ],
+      "libraries": [
+        {
+          "id": "app.libraries.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.name",
+          "key": "title",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.TITLE",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.libraryName",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.visibility",
+          "key": "visibility",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.STATUS",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryStatus",
+          "desktopOnly": true
+        }
+      ],
+      "shared": [
+        {
+          "id": "app.shared.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.shared.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.name",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.shared.location",
+          "key": "path.name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.location",
+          "desktopOnly": true
+        },
+        {
+          "id": "app.shared.size",
+          "key": "content.sizeInBytes",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
+          "type": "fileSize",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.shared.modifiedOn",
+          "key": "modifiedAt",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
+          "type": "date",
+          "format": "timeAgo",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.shared.modifiedBy",
+          "key": "modifiedByUser.displayName",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.shared.sharedBy",
+          "key": "sharedByUser.displayName",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.SHARED_BY",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis",
+          "sortable": true,
+          "desktopOnly": true
+        }
+      ],
+      "recent": [
+        {
+          "id": "app.recent.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.recent.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.name",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.recent.location",
+          "key": "path.name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.location",
+          "desktopOnly": true
+        },
+        {
+          "id": "app.recent.size",
+          "key": "content.sizeInBytes",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
+          "type": "fileSize",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.recent.modifiedOn",
+          "key": "modifiedAt",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
+          "type": "date",
+          "format": "timeAgo",
+          "sortable": true,
+          "desktopOnly": true
+        }
+      ],
+      "favorites": [
+        {
+          "id": "app.favorites.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.favorites.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.name",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.favorites.location",
+          "key": "path.name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.location",
+          "desktopOnly": true
+        },
+        {
+          "id": "app.favorites.size",
+          "key": "sizeInBytes",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
+          "type": "fileSize",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.favorites.modifiedOn",
+          "key": "modifiedAt",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON",
+          "type": "date",
+          "format": "timeAgo",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.favorites.modifiedBy",
+          "key": "modifiedByUser.displayName",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis",
+          "sortable": true,
+          "desktopOnly": true
+        }
+      ],
+      "trashcan": [
+        {
+          "id": "app.trashcan.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.trashcan.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.trashcanName",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.trashcan.location",
+          "key": "path.name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.LOCATION",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.location",
+          "desktopOnly": true
+        },
+        {
+          "id": "app.trashcan.size",
+          "key": "content.sizeInBytes",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.SIZE",
+          "type": "fileSize",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.trashcan.deletedOn",
+          "key": "archivedAt",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.DELETED_ON",
+          "type": "date",
+          "format": "timeAgo",
+          "sortable": true,
+          "desktopOnly": true
+        }
+      ]
+    }
   }
 }
