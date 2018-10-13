@@ -38,6 +38,59 @@ import { AppExtensionService } from '../../extensions/extension.service';
 export class RecentFilesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
+  columns: any[] = [
+    {
+      key: '$thumbnail',
+      title: null,
+      type: 'image',
+      format: null,
+      class: 'image-table-cell',
+      sortable: false,
+      template: null,
+      desktopOnly: false
+    },
+    {
+      key: 'name',
+      title: 'APP.DOCUMENT_LIST.COLUMNS.NAME',
+      type: 'text',
+      format: null,
+      class: 'adf-data-table-cell--ellipsis__name',
+      sortable: true,
+      template: 'app.columns.name',
+      desktopOnly: false
+    },
+    {
+      key: 'path.name',
+      title: 'APP.DOCUMENT_LIST.COLUMNS.LOCATION',
+      type: 'text',
+      format: null,
+      class: null,
+      sortable: true,
+      template: 'app.columns.location',
+      desktopOnly: true
+    },
+    {
+      key: 'content.sizeInBytes',
+      title: 'APP.DOCUMENT_LIST.COLUMNS.SIZE',
+      type: 'fileSize',
+      format: null,
+      class: null,
+      sortable: true,
+      template: null,
+      desktopOnly: true
+    },
+    {
+      key: 'modifiedAt',
+      title: 'APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON',
+      type: 'date',
+      format: 'timeAgo',
+      class: null,
+      sortable: true,
+      template: null,
+      desktopOnly: true
+    }
+  ];
+
   constructor(
     store: Store<AppStore>,
     extensions: AppExtensionService,
