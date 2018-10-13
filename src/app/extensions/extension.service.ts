@@ -176,11 +176,11 @@ export class AppExtensionService implements RuleContext {
       ),
       favorites: this.loader.getElements<DocumentListPresetRef>(
         config,
-        'features.documentList.recent'
+        'features.documentList.favorites'
       ),
       trashcan: this.loader.getElements<DocumentListPresetRef>(
         config,
-        'features.documentList.recent'
+        'features.documentList.trashcan'
       )
     };
   }
