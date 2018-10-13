@@ -55,6 +55,7 @@ import { DynamicColumnComponent } from './dynamic-column/dynamic-column.componen
     DynamicColumnComponent
   ],
   entryComponents: [
+    LocationLinkComponent,
     NameColumnComponent,
     LibraryNameColumnComponent,
     LibraryStatusColumnComponent,

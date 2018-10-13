@@ -43,6 +43,7 @@ import { NameColumnComponent } from '../components/common/name-column/name-colum
 import { LibraryNameColumnComponent } from '../components/common/library-name-column/library-name-column.component';
 import { LibraryStatusColumnComponent } from '../components/common/library-status-column/library-status-column.component';
 import { TrashcanNameColumnComponent } from '../components/common/trashcan-name-column/trashcan-name-column.component';
+import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -84,7 +85,8 @@ export class CoreExtensionsModule {
       'app.columns.name': NameColumnComponent,
       'app.columns.libraryName': LibraryNameColumnComponent,
       'app.columns.libraryStatus': LibraryStatusColumnComponent,
-      'app.columns.trashcanName': TrashcanNameColumnComponent
+      'app.columns.trashcanName': TrashcanNameColumnComponent,
+      'app.columns.location': LocationLinkComponent
     });
 
     extensions.setAuthGuards({
