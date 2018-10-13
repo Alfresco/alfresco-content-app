@@ -39,20 +39,21 @@ import { CommentsTabComponent } from '../components/info-drawer/comments-tab/com
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 import { AppAuthGuard } from '../guards/auth.guard';
+import { NameColumnComponent } from '../components/common/name-column/name-column.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
 }
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
+  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule],
+  entryComponents: [NameColumnComponent]
 })
 export class CoreExtensionsModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreExtensionsModule,
       providers: [
-        // AppExtensionService,
         {
           provide: APP_INITIALIZER,
           useFactory: setupExtensions,
@@ -77,7 +78,8 @@ export class CoreExtensionsModule {
       'app.components.tabs.versions': VersionsTabComponent,
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
-      'app.shared-link.toggleSharedLink': ToggleSharedComponent
+      'app.shared-link.toggleSharedLink': ToggleSharedComponent,
+      'app.columns.name': NameColumnComponent
     });
 
     extensions.setAuthGuards({

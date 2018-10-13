@@ -45,14 +45,18 @@
                             class="image-table-cell">
                         </data-column>
 
-                        <data-column
-                            class="adf-data-table-cell--ellipsis__name"
-                            key="name"
-                            title="APP.DOCUMENT_LIST.COLUMNS.NAME">
-                            <ng-template let-context>
-                                <app-name-column [context]="context"></app-name-column>
-                            </ng-template>
-                        </data-column>
+                        <ng-container>
+                          <data-column
+                              class="adf-data-table-cell--ellipsis__name"
+                              key="name"
+                              title="APP.DOCUMENT_LIST.COLUMNS.NAME">
+                              <ng-template let-context>
+                                <app-dynamic-column
+                                  id="app.columns.name" [context]="context"></app-dynamic-column>
+                                  <!-- <app-name-column [context]="context"></app-name-column> -->
+                              </ng-template>
+                          </data-column>
+                        </ng-container>
 
                         <data-column
                             *ngIf="!isSmallScreen"
