@@ -59,7 +59,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       type: 'image',
       format: null,
       class: 'image-table-cell',
-      sortable: false
+      sortable: false,
+      desktopOnly: false
     },
     {
       key: 'name',
@@ -68,7 +69,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       format: null,
       class: 'adf-data-table-cell--ellipsis__name',
       sortable: true,
-      template: 'app.columns.name'
+      template: 'app.columns.name',
+      desktopOnly: false
     },
     {
       key: 'content.sizeInBytes',
@@ -77,7 +79,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       format: null,
       class: null,
       sortable: true,
-      template: null
+      template: null,
+      desktopOnly: true
     },
     {
       key: 'modifiedAt',
@@ -86,7 +89,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       format: 'timeAgo',
       class: null,
       sortable: true,
-      template: null
+      template: null,
+      desktopOnly: true
     },
     {
       key: 'modifiedByUser.displayName',
@@ -95,7 +99,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       format: null,
       class: 'adf-data-table-cell--ellipsis',
       sortable: true,
-      template: null
+      template: null,
+      desktopOnly: true
     }
   ];
 

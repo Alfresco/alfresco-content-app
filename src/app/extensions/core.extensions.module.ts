@@ -46,8 +46,7 @@ export function setupExtensions(service: AppExtensionService): Function {
 }
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule],
-  entryComponents: [NameColumnComponent]
+  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule]
 })
 export class CoreExtensionsModule {
   static forRoot(): ModuleWithProviders {
