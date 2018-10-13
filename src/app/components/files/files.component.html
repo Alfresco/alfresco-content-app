@@ -38,47 +38,37 @@
                     (name-click)="navigateTo($event.detail?.node)">
 
                     <data-columns>
-                        <data-column
-                            key="$thumbnail"
-                            type="image"
-                            [sortable]="false"
-                            class="image-table-cell">
-                        </data-column>
+                      <ng-container *ngFor="let column of columns">
 
-                        <ng-container>
-                          <data-column
-                              class="adf-data-table-cell--ellipsis__name"
-                              key="name"
-                              title="APP.DOCUMENT_LIST.COLUMNS.NAME">
+                          <ng-container *ngIf="column.template">
+                            <data-column
+                              [key]="column.key"
+                              [title]="column.title"
+                              [type]="column.type"
+                              [format]="column.format"
+                              [class]="column.class"
+                              [sortable]="column.sortable">
                               <ng-template let-context>
                                 <app-dynamic-column
-                                  id="app.columns.name" [context]="context"></app-dynamic-column>
-                                  <!-- <app-name-column [context]="context"></app-name-column> -->
+                                  [id]="column.template"
+                                  [context]="context">
+                                </app-dynamic-column>
                               </ng-template>
-                          </data-column>
-                        </ng-container>
+                            </data-column>
+                          </ng-container>
 
-                        <data-column
-                            *ngIf="!isSmallScreen"
-                            key="content.sizeInBytes"
-                            title="APP.DOCUMENT_LIST.COLUMNS.SIZE"
-                            type="fileSize">
-                        </data-column>
+                          <ng-container *ngIf="!column.template">
+                            <data-column
+                              [key]="column.key"
+                              [title]="column.title"
+                              [type]="column.type"
+                              [format]="column.format"
+                              [class]="column.class"
+                              [sortable]="column.sortable">
+                            </data-column>
+                          </ng-container>
 
-                        <data-column
-                            *ngIf="!isSmallScreen"
-                            key="modifiedAt"
-                            title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON"
-                            type="date"
-                            format="timeAgo">
-                        </data-column>
-
-                        <data-column
-                            *ngIf="!isSmallScreen"
-                            class="adf-data-table-cell--ellipsis"
-                            key="modifiedByUser.displayName"
-                            title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY">
-                        </data-column>
+                      </ng-container>
                     </data-columns>
                 </adf-document-list>
 
