@@ -23,10 +23,36 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContextMenuItemDirective } from './context-menu-item.directive';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { ContentActionRef } from '@alfresco/adf-extensions';
+import { AppExtensionService } from '../../extensions/extension.service';
 
-describe('ContextMenuItemDirective', () => {
-  it('should be defined', () => {
-    expect(ContextMenuItemDirective).toBeDefined();
-  });
-});
+@Component({
+  selector: 'app-context-menu-item',
+  templateUrl: 'context-menu-item.component.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-context-menu-item' }
+})
+export class ContextMenuItemComponent {
+  @Input()
+  actionRef: ContentActionRef;
+
+  constructor(private extensions: AppExtensionService) {}
+
+  runAction() {
+    if (this.hasClickAction(this.actionRef)) {
+      this.extensions.runActionById(this.actionRef.actions.click);
+    }
+  }
+
+  private hasClickAction(actionRef: ContentActionRef): boolean {
+    if (actionRef && actionRef.actions && actionRef.actions.click) {
+      return true;
+    }
+    return false;
+  }
+
+  trackById(index: number, obj: { id: string }) {
+    return obj.id;
+  }
+}

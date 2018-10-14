@@ -29,13 +29,10 @@ import {
   OnInit,
   OnDestroy,
   HostListener,
-  ViewChildren,
-  QueryList,
+  ViewChild,
   AfterViewInit
 } from '@angular/core';
-import { trigger } from '@angular/animations';
-import { FocusKeyManager } from '@angular/cdk/a11y';
-import { DOWN_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
+import { MatMenuTrigger } from '@angular/material';
 
 import { AppExtensionService } from '../../extensions/extension.service';
 import { AppStore } from '../../store/states';
@@ -44,58 +41,29 @@ import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-
 import { ContextMenuOverlayRef } from './context-menu-overlay';
-import { contextMenuAnimation } from './animations';
-import { ContextMenuItemDirective } from './context-menu-item.directive';
 
 @Component({
   selector: 'aca-context-menu',
   templateUrl: './context-menu.component.html',
-  styleUrls: [
-    './context-menu.component.scss',
-    './context-menu.component.theme.scss'
-  ],
+  styleUrls: ['./context-menu.component.theme.scss'],
   host: {
-    role: 'menu',
-    class: 'aca-context-menu'
+    class: 'aca-context-menu-holder'
   },
-  encapsulation: ViewEncapsulation.None,
-  animations: [trigger('panelAnimation', contextMenuAnimation)]
+  encapsulation: ViewEncapsulation.None
 })
 export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
-  private _keyManager: FocusKeyManager<ContextMenuItemDirective>;
   actions: Array<ContentActionRef> = [];
 
-  @ViewChildren(ContextMenuItemDirective)
-  private contextMenuItems: QueryList<ContextMenuItemDirective>;
-
-  @HostListener('contextmenu', ['$event'])
-  handleContextMenu(event: MouseEvent) {
-    if (event) {
-      event.preventDefault();
-      if (this.contextMenuOverlayRef) {
-        this.contextMenuOverlayRef.close();
-      }
-    }
-  }
+  @ViewChild(MatMenuTrigger)
+  trigger: MatMenuTrigger;
 
   @HostListener('document:keydown.Escape', ['$event'])
   handleKeydownEscape(event: KeyboardEvent) {
     if (event) {
       if (this.contextMenuOverlayRef) {
         this.contextMenuOverlayRef.close();
-      }
-    }
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  handleKeydownEvent(event: KeyboardEvent) {
-    if (event) {
-      const keyCode = event.keyCode;
-      if (keyCode === UP_ARROW || keyCode === DOWN_ARROW) {
-        this._keyManager.onKeydown(event);
       }
     }
   }
@@ -114,7 +82,6 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   runAction(actionId: string) {
     this.extensions.runActionById(actionId);
-    this.contextMenuOverlayRef.close();
   }
 
   ngOnDestroy() {
@@ -134,9 +101,6 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this._keyManager = new FocusKeyManager<ContextMenuItemDirective>(
-      this.contextMenuItems
-    );
-    this._keyManager.setFirstItemActive();
+    setTimeout(() => this.trigger.openMenu(), 0);
   }
 }

@@ -23,39 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  TestBed,
-  ComponentFixture,
-  fakeAsync,
-  tick
-} from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { ContextMenuComponent } from './context-menu.component';
+import { ContextMenuItemComponent } from './context-menu-item.component';
 import { ContextMenuModule } from './context-menu.module';
-import { ContextMenuOverlayRef } from './context-menu-overlay';
 import {
   TranslateModule,
   TranslateLoader,
   TranslateFakeLoader
 } from '@ngx-translate/core';
 
-import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
-
 describe('ContextMenuComponent', () => {
-  let fixture: ComponentFixture<ContextMenuComponent>;
-  let component: ContextMenuComponent;
-  let contextMenuOverlayRef;
+  let fixture: ComponentFixture<ContextMenuItemComponent>;
+  let component: ContextMenuItemComponent;
   let extensionsService;
-  const contextItem = {
-    type: 'button',
-    id: 'action-button',
-    title: 'Test Button',
-    actions: {
-      click: 'TEST_EVENT'
-    }
-  };
+  let contextItem;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,61 +49,59 @@ describe('ContextMenuComponent', () => {
           loader: { provide: TranslateLoader, useClass: TranslateFakeLoader }
         })
       ],
-      providers: [
-        AppExtensionService,
-        {
-          provide: ContextMenuOverlayRef,
-          useValue: {
-            close: jasmine.createSpy('close')
-          }
-        },
-        {
-          provide: Store,
-          useValue: {
-            dispatch: () => {},
-            select: () => of({ count: 1 })
-          }
-        }
-      ]
+      providers: [AppExtensionService]
     });
 
-    fixture = TestBed.createComponent(ContextMenuComponent);
+    fixture = TestBed.createComponent(ContextMenuItemComponent);
     component = fixture.componentInstance;
-
-    contextMenuOverlayRef = TestBed.get(ContextMenuOverlayRef);
     extensionsService = TestBed.get(AppExtensionService);
 
-    spyOn(extensionsService, 'getAllowedContextMenuActions').and.returnValue([
-      contextItem
-    ]);
+    contextItem = <any>{
+      type: 'button',
+      id: 'action-button',
+      title: 'Test Button',
+      actions: {
+        click: 'TEST_EVENT'
+      }
+    };
+  });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should render defined menu actions items', () => {
+    component.actionRef = contextItem;
     fixture.detectChanges();
+
+    const buttonElement = fixture.nativeElement.querySelector('button');
+    expect(buttonElement.innerText.trim()).toBe(contextItem.title);
   });
 
-  it('should close context menu on Escape event', () => {
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-    expect(contextMenuOverlayRef.close).toHaveBeenCalled();
-  });
-
-  it('should render defined context menu actions items', fakeAsync(() => {
-    component.ngAfterViewInit();
-    tick(500);
-
-    const contextMenuElements = document.body
-      .querySelector('.aca-context-menu')
-      .querySelectorAll('button');
-
-    expect(contextMenuElements.length).toBe(1);
-    expect(contextMenuElements[0].innerText).toBe(contextItem.title);
-  }));
-
-  it('should run action with provided action id', fakeAsync(() => {
+  it('should not run action when entry has no click attribute defined', () => {
     spyOn(extensionsService, 'runActionById');
+    contextItem.actions = {};
+    component.actionRef = contextItem;
+    fixture.detectChanges();
 
-    component.runAction(contextItem.actions.click);
+    fixture.nativeElement
+      .querySelector('#action-button')
+      .dispatchEvent(new MouseEvent('click'));
+
+    expect(extensionsService.runActionById).not.toHaveBeenCalled();
+  });
+
+  it('should run action with provided action id', () => {
+    spyOn(extensionsService, 'runActionById');
+    component.actionRef = contextItem;
+    fixture.detectChanges();
+
+    fixture.nativeElement
+      .querySelector('#action-button')
+      .dispatchEvent(new MouseEvent('click'));
 
     expect(extensionsService.runActionById).toHaveBeenCalledWith(
       contextItem.actions.click
     );
-  }));
+  });
 });
