@@ -23,10 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ContextMenuItemDirective } from './context-menu-item.directive';
+import { ExtensionElement } from '@alfresco/adf-extensions';
 
-describe('ContextMenuItemDirective', () => {
-  it('should be defined', () => {
-    expect(ContextMenuItemDirective).toBeDefined();
-  });
-});
+export interface DocumentListPresetRef extends ExtensionElement {
+  key: string;
+  type: string; // text|image|date
+  title?: string;
+  format?: string;
+  class?: string;
+  sortable: boolean;
+  template: string;
+  desktopOnly: boolean;
+}
