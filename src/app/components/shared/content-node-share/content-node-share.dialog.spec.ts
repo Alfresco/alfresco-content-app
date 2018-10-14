@@ -28,6 +28,7 @@ import {
 } from '@alfresco/adf-core';
 import { ContentNodeShareModule } from './content-node-share.module';
 import { ShareDialogComponent } from './content-node-share.dialog';
+import moment from 'moment-es6';
 
 describe('ShareDialogComponent', () => {
   let node;
@@ -36,6 +37,7 @@ describe('ShareDialogComponent', () => {
     openSnackMessage: jasmine.createSpy('openSnackMessage')
   };
   let sharedLinksApiService: SharedLinksApiService;
+  let nodesApiService: NodesApiService;
   let fixture;
   let component;
 
@@ -58,6 +60,7 @@ describe('ShareDialogComponent', () => {
     fixture = TestBed.createComponent(ShareDialogComponent);
     matDialog = TestBed.get(MatDialog);
     sharedLinksApiService = TestBed.get(SharedLinksApiService);
+    nodesApiService = TestBed.get(NodesApiService);
     component = fixture.componentInstance;
   });
 
@@ -176,7 +179,7 @@ describe('ShareDialogComponent', () => {
 
   it('should unshare file when confirmation dialog returns true', fakeAsync(() => {
     spyOn(matDialog, 'open').and.returnValue({ beforeClose: () => of(true) });
-    spyOn(sharedLinksApiService, 'deleteSharedLink');
+    spyOn(sharedLinksApiService, 'deleteSharedLink').and.returnValue(of(null));
     node.entry.properties['qshare:sharedId'] = 'sharedId';
 
     component.data = {
@@ -241,5 +244,32 @@ describe('ShareDialogComponent', () => {
       fixture.nativeElement.querySelector('mat-datetimepicker-toggle button')
         .disabled
     ).toBe(true);
+  });
+
+  it('should update node expiration date with selected date and time', () => {
+    const date = moment();
+    node.entry.properties['qshare:sharedId'] = 'sharedId';
+    node.entry.allowableOperations = [];
+    spyOn(nodesApiService, 'updateNode').and.returnValue(of({}));
+    fixture.componentInstance.form.controls['time'].setValue(null);
+
+    component.data = {
+      node,
+      permission: true,
+      baseShareUrl: 'some-url/'
+    };
+
+    fixture.detectChanges();
+
+    fixture.nativeElement
+      .querySelector('mat-slide-toggle[data-automation-id="adf-expire-toggle"]')
+      .dispatchEvent(new MouseEvent('click'));
+
+    fixture.componentInstance.form.controls['time'].setValue(date);
+    fixture.detectChanges();
+
+    expect(nodesApiService.updateNode).toHaveBeenCalledWith('nodeId', {
+      properties: { 'qshare:expiryDate': date.utc().format() }
+    });
   });
 });

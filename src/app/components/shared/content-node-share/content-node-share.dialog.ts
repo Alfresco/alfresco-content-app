@@ -27,7 +27,14 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription, Observable, throwError } from 'rxjs';
-import { skip, skipWhile, mergeMap, catchError } from 'rxjs/operators';
+import {
+  skip,
+  mergeMap,
+  catchError,
+  distinctUntilChanged
+} from 'rxjs/operators';
+import { trigger } from '@angular/animations';
+import { formFieldAnimation } from './animation';
 import { SharedLinksApiService, NodesApiService } from '@alfresco/adf-core';
 import { SharedLinkEntry, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
@@ -38,7 +45,8 @@ import moment from 'moment-es6';
   templateUrl: './content-node-share.dialog.html',
   styleUrls: ['./content-node-share.dialog.scss'],
   host: { class: 'adf-share-dialog' },
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: [trigger('visibilityChanged', formFieldAnimation)]
 })
 export class ShareDialogComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
@@ -71,16 +79,15 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     }
 
     this.subscriptions.push(
-      this.form.valueChanges
+      this.form.controls.time.valueChanges
         .pipe(
           skip(1),
-          skipWhile(() => !this.isTimeFieldValid),
+          distinctUntilChanged(),
           mergeMap(
             updates => this.updateNode(updates),
             formUpdates => formUpdates
           ),
           catchError(error => {
-            this.form.controls.time.setValue(null);
             return throwError(error);
           })
         )
@@ -113,23 +120,15 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     this.deleteSharedLink(this.sharedId);
   }
 
-  onSlideShareChange(event: any) {
-    if (event.checked) {
-      this.createSharedLinks(this.data.node.entry.id);
-    } else {
-      this.openConfirmationDialog();
-    }
-  }
-
-  get isTimeFieldValid() {
-    return this.form.controls.time.valid;
+  onSlideShareChange() {
+    this.openConfirmationDialog();
   }
 
   get canUpdate() {
     return this.data.permission;
   }
 
-  removeExpires() {
+  removeExpirationDate() {
     this.form.controls.time.setValue(null);
   }
 
@@ -208,19 +207,17 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     });
   }
 
-  private updateNode(updates): Observable<MinimalNodeEntryEntity> {
+  private updateNode(date: moment.Moment): Observable<MinimalNodeEntryEntity> {
     return this.nodesApiService.updateNode(this.data.node.entry.id, {
       properties: {
-        'qshare:expiryDate': updates.time ? updates.time.utc().format() : null
+        'qshare:expiryDate': date ? date.utc().format() : null
       }
     });
   }
 
-  private updateEntryExpiryDate(updates) {
+  private updateEntryExpiryDate(date: moment.Moment) {
     const { properties } = this.data.node.entry;
 
-    properties['qshare:expiryDate'] = updates.time
-      ? updates.time.local()
-      : null;
+    properties['qshare:expiryDate'] = date ? date.local() : null;
   }
 }

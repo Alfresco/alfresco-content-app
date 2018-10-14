@@ -15,7 +15,7 @@
                 data-automation-id="adf-share-toggle"
                 [checked]="isFileShared"
                 [disabled]="!canUpdate || isDisabled"
-                (change)="onSlideShareChange($event)">
+                (change)="onSlideShareChange()">
             </mat-slide-toggle>
         </div>
 
@@ -39,15 +39,16 @@
             <div class="adf-share-link--row">
                 <h1 class="adf-share-link__label">{{ 'SHARE.EXPIRES' | translate }}</h1>
                 <mat-slide-toggle
+                    [disabled]="!canUpdate"
+                    #slideToggle
                     color="primary"
                     data-automation-id="adf-expire-toggle"
                     [checked]="form.controls['time'].value"
-                    [disabled]="!form.controls['time'].value"
-                    (change)="removeExpires()">
+                    (change)="removeExpirationDate()">
                 </mat-slide-toggle>
             </div>
 
-            <mat-form-field class="full-width">
+            <mat-form-field class="full-width" [@visibilityChanged]="slideToggle.checked">
                 <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
                 <mat-datetimepicker #datetimePicker (closed)="blur(dateTimePickerInput)" type="datetime" openOnFocus="true" timeInterval="1"></mat-datetimepicker>
                 <input class="adf-share-link__input"
