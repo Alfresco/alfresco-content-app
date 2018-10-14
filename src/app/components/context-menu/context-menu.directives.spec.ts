@@ -26,7 +26,37 @@
 import { ContextActionsDirective } from './context-menu.directive';
 
 describe('ContextActionsDirective', () => {
-  it('should be defined', () => {
-    expect(ContextActionsDirective).toBeDefined();
+  let directive;
+  const contextMenuServiceMock = <any>{
+    open: jasmine.createSpy('open')
+  };
+  const storeMock = <any>{};
+  const documentListMock = <any>{};
+
+  beforeEach(() => {
+    directive = new ContextActionsDirective(
+      documentListMock,
+      storeMock,
+      contextMenuServiceMock
+    );
+  });
+
+  it('should not render context menu when disable property is false', () => {
+    directive.enabled = false;
+    spyOn(directive, 'getSelectedRow').and.returnValue({});
+
+    directive.onContextMenuEvent(new MouseEvent('contextmenu'));
+
+    expect(contextMenuServiceMock.open).not.toHaveBeenCalled();
+  });
+
+  it('should render context menu when disable property is true', () => {
+    directive.enabled = true;
+    spyOn(directive, 'getSelectedRow').and.returnValue({});
+    spyOn(directive, 'isInSelection').and.returnValue(true);
+
+    directive.onContextMenuEvent(new MouseEvent('contextmenu'));
+
+    expect(contextMenuServiceMock.open).toHaveBeenCalled();
   });
 });
