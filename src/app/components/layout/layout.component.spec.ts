@@ -27,7 +27,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { LayoutComponent } from './layout.component';
-import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('LayoutComponent', () => {
@@ -39,7 +38,7 @@ describe('LayoutComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [LayoutComponent, SidenavViewsManagerDirective],
+      declarations: [LayoutComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

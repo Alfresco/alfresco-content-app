@@ -90,8 +90,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     this.router.events
       .pipe(
-        takeUntil(this.onDestroy$),
-        filter(event => event instanceof NavigationEnd)
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.onDestroy$)
       )
       .subscribe((event: any) => {
         this.minimizeSidenav = this.minimizeConditions.some(el =>
