@@ -32,6 +32,7 @@ import { NameColumnComponent } from './name-column/name-column.component';
 import { LibraryNameColumnComponent } from './library-name-column/library-name-column.component';
 import { LibraryStatusColumnComponent } from './library-status-column/library-status-column.component';
 import { TrashcanNameColumnComponent } from './trashcan-name-column/trashcan-name-column.component';
+import { DynamicColumnComponent } from './dynamic-column/dynamic-column.component';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild()],
@@ -41,10 +42,19 @@ import { TrashcanNameColumnComponent } from './trashcan-name-column/trashcan-nam
     NameColumnComponent,
     LibraryNameColumnComponent,
     LibraryStatusColumnComponent,
-    TrashcanNameColumnComponent
+    TrashcanNameColumnComponent,
+    DynamicColumnComponent
   ],
   exports: [
     GenericErrorComponent,
+    LocationLinkComponent,
+    NameColumnComponent,
+    LibraryNameColumnComponent,
+    LibraryStatusColumnComponent,
+    TrashcanNameColumnComponent,
+    DynamicColumnComponent
+  ],
+  entryComponents: [
     LocationLinkComponent,
     NameColumnComponent,
     LibraryNameColumnComponent,

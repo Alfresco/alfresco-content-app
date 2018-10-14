@@ -38,6 +38,8 @@ import { AppExtensionService } from '../../extensions/extension.service';
 export class RecentFilesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
+  columns: any[] = [];
+
   constructor(
     store: Store<AppStore>,
     extensions: AppExtensionService,
@@ -61,6 +63,8 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
           this.isSmallScreen = result.matches;
         })
     ]);
+
+    this.columns = this.extensions.documentListPresets.recent || [];
   }
 
   onNodeDoubleClick(node: MinimalNodeEntity) {

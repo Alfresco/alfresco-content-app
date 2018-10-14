@@ -46,6 +46,8 @@ import { map } from 'rxjs/operators';
 export class FavoritesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
+  columns: any[] = [];
+
   constructor(
     private router: Router,
     store: Store<AppStore>,
@@ -74,6 +76,8 @@ export class FavoritesComponent extends PageComponent implements OnInit {
           this.isSmallScreen = result.matches;
         })
     ]);
+
+    this.columns = this.extensions.documentListPresets.favorites;
   }
 
   navigate(favorite: MinimalNodeEntryEntity) {

@@ -39,6 +39,8 @@ import { NavigateLibraryAction } from 'src/app/store/actions';
 export class LibrariesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
+  columns: any[] = [];
+
   constructor(
     content: ContentManagementService,
     store: Store<AppStore>,
@@ -60,6 +62,8 @@ export class LibrariesComponent extends PageComponent implements OnInit {
           this.isSmallScreen = result.matches;
         })
     );
+
+    this.columns = this.extensions.documentListPresets.libraries || [];
   }
 
   navigateTo(node: SiteEntry) {

@@ -38,6 +38,8 @@ import { debounceTime } from 'rxjs/operators';
 export class SharedFilesComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
 
+  columns: any[] = [];
+
   constructor(
     store: Store<AppStore>,
     extensions: AppExtensionService,
@@ -64,5 +66,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
           this.isSmallScreen = result.matches;
         })
     ]);
+
+    this.columns = this.extensions.documentListPresets.shared || [];
   }
 }

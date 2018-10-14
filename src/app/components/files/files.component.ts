@@ -52,6 +52,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
   private nodePath: PathElement[];
 
+  columns: any[] = [];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -115,6 +117,8 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
           this.isSmallScreen = result.matches;
         })
     ]);
+
+    this.columns = this.extensions.documentListPresets.files || [];
   }
 
   ngOnDestroy() {
