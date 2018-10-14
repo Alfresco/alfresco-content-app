@@ -41,6 +41,8 @@ export class TrashcanComponent extends PageComponent implements OnInit {
   isSmallScreen = false;
   user$: Observable<ProfileState>;
 
+  columns: any[] = [];
+
   constructor(
     content: ContentManagementService,
     extensions: AppExtensionService,
@@ -65,5 +67,7 @@ export class TrashcanComponent extends PageComponent implements OnInit {
           this.isSmallScreen = result.matches;
         })
     );
+
+    this.columns = this.extensions.documentListPresets.trashcan || [];
   }
 }

@@ -308,7 +308,7 @@
       }
     },
     "content-metadata-aspect": {
-      "description": "Content metadata's aspect definition",
+      "description": "Content metadata aspect definition",
       "type": "object",
       "required": ["id"],
       "properties": {
@@ -472,6 +472,49 @@
           }
         }
       ]
+    },
+    "documentListPresetRef": {
+      "type": "object",
+      "required": ["id", "key", "type"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier.",
+          "type": "string"
+        },
+        "key": {
+          "description": "Property key",
+          "type": "string"
+        },
+        "type": {
+          "description": "Column type",
+          "type": "string",
+          "enum": ["text", "image", "date", "fileSize"]
+        },
+        "title": {
+          "description": "Column title",
+          "type": "string"
+        },
+        "format": {
+          "description": "Column format",
+          "type": "string"
+        },
+        "class": {
+          "description": "CSS class name",
+          "type": "string"
+        },
+        "sortable": {
+          "description": "Toggles sortable state of the column",
+          "type": "boolean"
+        },
+        "template": {
+          "description": "Column template id",
+          "type": "string"
+        },
+        "desktopOnly": {
+          "description": "Display column only for large screens",
+          "type": "boolean"
+        }
+      }
     }
   },
 
@@ -610,6 +653,48 @@
                   { "$ref": "#/definitions/content-metadata-layout-group" }
                 ]
               }
+            }
+          }
+        },
+        "documentList": {
+          "description": "Document list extensions",
+          "type": "object",
+          "properties": {
+            "files": {
+              "description": "Files document list preset",
+              "type": "array",
+              "items": { "$ref": "#/definitions/documentListPresetRef" },
+              "minItems": 1
+            },
+            "libraries": {
+              "description": "Libraries document list preset",
+              "type": "array",
+              "items": { "$ref": "#/definitions/documentListPresetRef" },
+              "minItems": 1
+            },
+            "shared": {
+              "description": "Shared Files document list preset",
+              "type": "array",
+              "items": { "$ref": "#/definitions/documentListPresetRef" },
+              "minItems": 1
+            },
+            "recent": {
+              "description": "Recent Files document list preset",
+              "type": "array",
+              "items": { "$ref": "#/definitions/documentListPresetRef" },
+              "minItems": 1
+            },
+            "favorites": {
+              "description": "Favorites document list preset",
+              "type": "array",
+              "items": { "$ref": "#/definitions/documentListPresetRef" },
+              "minItems": 1
+            },
+            "trashcan": {
+              "description": "Trashcan document list preset",
+              "type": "array",
+              "items": { "$ref": "#/definitions/documentListPresetRef" },
+              "minItems": 1
             }
           }
         }
