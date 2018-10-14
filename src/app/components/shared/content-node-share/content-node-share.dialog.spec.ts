@@ -250,7 +250,7 @@ describe('ShareDialogComponent', () => {
     const date = moment();
     node.entry.properties['qshare:sharedId'] = 'sharedId';
     node.entry.allowableOperations = [];
-    spyOn(nodesApiService, 'updateNode');
+    spyOn(nodesApiService, 'updateNode').and.returnValue(of({}));
     fixture.componentInstance.form.controls['time'].setValue(null);
 
     component.data = {
