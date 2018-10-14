@@ -24,20 +24,24 @@
  */
 
 import {
+  AppConfigService,
+  SidenavLayoutComponent,
+  UserPreferencesService
+} from '@alfresco/adf-core';
+import {
   Component,
-  OnInit,
   OnDestroy,
+  OnInit,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { Subject } from 'rxjs';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
-import { NodePermissionService } from '../../services/node-permission.service';
-import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+import { NodePermissionService } from '../../services/node-permission.service';
 import { currentFolder } from '../../store/selectors/app.selectors';
-import { takeUntil } from 'rxjs/operators';
+import { AppStore } from '../../store/states';
 
 @Component({
   selector: 'app-layout',
@@ -47,39 +51,105 @@ import { takeUntil } from 'rxjs/operators';
   host: { class: 'app-layout' }
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-  @ViewChild(SidenavViewsManagerDirective)
-  manager: SidenavViewsManagerDirective;
+  @ViewChild('layout')
+  layout: SidenavLayoutComponent;
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
   expandedSidenav: boolean;
-  node: MinimalNodeEntryEntity;
+  currentFolderId: string;
   canUpload = false;
+
+  minimizeSidenav = false;
+  hideSidenav = false;
+
+  private minimizeConditions: string[] = ['search'];
+  private hideConditions: string[] = ['preview'];
 
   constructor(
     protected store: Store<AppStore>,
-    private permission: NodePermissionService
+    private permission: NodePermissionService,
+    private router: Router,
+    private userPreferenceService: UserPreferencesService,
+    private appConfigService: AppConfigService
   ) {}
 
   ngOnInit() {
-    if (!this.manager.minimizeSidenav) {
-      this.expandedSidenav = this.manager.sidenavState;
+    if (!this.minimizeSidenav) {
+      this.expandedSidenav = this.getSidenavState();
     } else {
       this.expandedSidenav = false;
     }
-
-    this.manager.run(true);
 
     this.store
       .select(currentFolder)
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(node => {
-        this.node = node;
+        this.currentFolderId = node ? node.id : null;
         this.canUpload = node && this.permission.check(node, ['create']);
+      });
+
+    this.router.events
+      .pipe(
+        takeUntil(this.onDestroy$),
+        filter(event => event instanceof NavigationEnd)
+      )
+      .subscribe((event: any) => {
+        this.minimizeSidenav = this.minimizeConditions.some(el =>
+          event.urlAfterRedirects.includes(el)
+        );
+        this.hideSidenav = this.hideConditions.some(el =>
+          event.urlAfterRedirects.includes(el)
+        );
+
+        this.updateState();
       });
   }
 
   ngOnDestroy() {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
+  }
+
+  private updateState() {
+    if (this.minimizeSidenav && !this.layout.isMenuMinimized) {
+      this.layout.isMenuMinimized = true;
+      this.layout.container.toggleMenu();
+    }
+
+    if (!this.minimizeSidenav) {
+      if (this.getSidenavState() && this.layout.isMenuMinimized) {
+        this.layout.isMenuMinimized = false;
+        this.layout.container.toggleMenu();
+      }
+    }
+  }
+
+  onExpanded(state) {
+    if (
+      !this.minimizeSidenav &&
+      this.appConfigService.get('sideNav.preserveState')
+    ) {
+      this.userPreferenceService.set('expandedSidenav', state);
+    }
+  }
+
+  private getSidenavState(): boolean {
+    const expand = this.appConfigService.get<boolean>(
+      'sideNav.expandedSidenav',
+      true
+    );
+    const preserveState = this.appConfigService.get<boolean>(
+      'sideNav.preserveState',
+      true
+    );
+
+    if (preserveState) {
+      return (
+        this.userPreferenceService.get('expandedSidenav', expand.toString()) ===
+        'true'
+      );
+    }
+
+    return expand;
   }
 }

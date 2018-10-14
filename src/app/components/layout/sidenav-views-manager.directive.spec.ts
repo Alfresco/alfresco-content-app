@@ -23,6 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/*
 import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { NavigationEnd } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -78,3 +79,4 @@ describe('SidenavViewsManagerDirective', () => {
     });
   });
 });
+*/
