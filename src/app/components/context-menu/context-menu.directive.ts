@@ -43,14 +43,6 @@ export class ContextActionsDirective {
   @Input('acaContextEnable')
   enabled = true;
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    if (event && this.overlayRef) {
-      this.clearSelection();
-      this.overlayRef.close();
-    }
-  }
-
   @HostListener('contextmenu', ['$event'])
   onContextMenuEvent(event: MouseEvent) {
     if (event) {
@@ -69,6 +61,7 @@ export class ContextActionsDirective {
   ) {}
 
   private execute(event: MouseEvent) {
+    // todo: review this in ADF
     const selected = this.getSelectedRow(event);
 
     if (selected) {

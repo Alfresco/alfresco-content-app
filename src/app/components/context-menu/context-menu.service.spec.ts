@@ -23,10 +23,48 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { TestBed } from '@angular/core/testing';
+import { Overlay } from '@angular/cdk/overlay';
+import { Injector } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
+import { AppConfigService } from '@alfresco/adf-core';
 import { ContextMenuService } from './context-menu.service';
+import { ContextMenuModule } from './context-menu.module';
 
 describe('ContextMenuService', () => {
-  it('should be defined', () => {
-    expect(ContextMenuService).toBeDefined();
+  let contextMenuService;
+  const overlayConfig = {
+    hasBackdrop: false,
+    backdropClass: '',
+    panelClass: 'test-panel'
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [ContextMenuModule],
+      providers: [
+        Overlay,
+        { provide: Store, useValue: { select: () => of() } },
+        { provide: AppConfigService, useValue: {} }
+      ]
+    });
+
+    const injector = TestBed.get(Injector);
+    const overlay = TestBed.get(Overlay);
+
+    contextMenuService = new ContextMenuService(injector, overlay);
+  });
+
+  it('should create a custom overlay', () => {
+    contextMenuService.open(overlayConfig);
+
+    expect(document.querySelector('.test-panel')).not.toBe(null);
+  });
+
+  it('should render component', () => {
+    contextMenuService.open(overlayConfig);
+
+    expect(document.querySelector('aca-context-menu')).not.toBe(null);
   });
 });

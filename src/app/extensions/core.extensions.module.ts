@@ -39,6 +39,11 @@ import { CommentsTabComponent } from '../components/info-drawer/comments-tab/com
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 import { AppAuthGuard } from '../guards/auth.guard';
+import { NameColumnComponent } from '../components/common/name-column/name-column.component';
+import { LibraryNameColumnComponent } from '../components/common/library-name-column/library-name-column.component';
+import { LibraryStatusColumnComponent } from '../components/common/library-status-column/library-status-column.component';
+import { TrashcanNameColumnComponent } from '../components/common/trashcan-name-column/trashcan-name-column.component';
+import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -52,7 +57,6 @@ export class CoreExtensionsModule {
     return {
       ngModule: CoreExtensionsModule,
       providers: [
-        // AppExtensionService,
         {
           provide: APP_INITIALIZER,
           useFactory: setupExtensions,
@@ -77,7 +81,12 @@ export class CoreExtensionsModule {
       'app.components.tabs.versions': VersionsTabComponent,
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
-      'app.shared-link.toggleSharedLink': ToggleSharedComponent
+      'app.shared-link.toggleSharedLink': ToggleSharedComponent,
+      'app.columns.name': NameColumnComponent,
+      'app.columns.libraryName': LibraryNameColumnComponent,
+      'app.columns.libraryStatus': LibraryStatusColumnComponent,
+      'app.columns.trashcanName': TrashcanNameColumnComponent,
+      'app.columns.location': LocationLinkComponent
     });
 
     extensions.setAuthGuards({
