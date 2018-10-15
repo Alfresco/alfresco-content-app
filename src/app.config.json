@@ -3,6 +3,17 @@
   "baseShareUrl": null,
   "providers": "ECM",
   "authType": "BASIC",
+  "oauth2": {
+    "host": "http://localhost:30081/auth/realms/myrealm",
+    "clientId": "alfresco",
+    "scope": "openid",
+    "secret": "",
+    "implicitFlow": true,
+    "silentLogin": true,
+    "redirectSilentIframeUri": "/assets/silent-refresh.html",
+    "redirectUri": "/",
+    "redirectUriLogout": "/logout"
+  },
   "application": {
     "name": "Alfresco",
     "logo": "assets/images/alfresco-logo-flower.svg",
