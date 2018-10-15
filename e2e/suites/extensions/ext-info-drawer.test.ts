@@ -142,7 +142,7 @@ describe('Extensions - Info Drawer', () => {
 
             expect(await infoDrawer.isTabDisplayed(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not displayed`);
             await infoDrawer.clickTab(custom_tab.title);
-            expect(await infoDrawer.getComponentIdOfTab(custom_tab.title)).toEqual(custom_tab.component);
+            expect(await infoDrawer.getComponentIdOfTab()).toEqual(custom_tab.component);
         });
     });
 
