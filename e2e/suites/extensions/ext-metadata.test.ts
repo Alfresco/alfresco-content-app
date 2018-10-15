@@ -87,10 +87,7 @@ describe('Extensions - Metadata presets', () => {
     await page.toolbar.getButtonByTitleAttribute('View details').click();
     await infoDrawer.waitForInfoDrawerToOpen();
 
-    await infoDrawer.isTabDisplayed(properties_tab.title);
     await infoDrawer.clickTab(properties_tab.title);
-
-    await metadataCard.isExpandPresent();
     await metadataCard.clickExpandButton();
     await metadataCard.waitForFirstExpansionPanel();
 
@@ -103,17 +100,16 @@ describe('Extensions - Metadata presets', () => {
     done();
   });
 
-  it('Set groups of properties from the extension setting - []', async () => {
-    expect(await  metadataCard.isExpansionPanelPresent(0)).toBe(true, `expansion panel is not present`);
-    expect(await metadataCard.getComponentIdOfPanel(0)).toEqual('adf-metadata-group-' + customGroup1.title);
-    expect(await  metadataCard.isExpansionPanelPresent(1)).toBe(true, `expansion panel is not present`);
-    expect(await metadataCard.getComponentIdOfPanel(1)).toEqual('adf-metadata-group-' + customGroup2.title);
-
+  it('Set groups of properties to display - []', async () => {
+    expect(await metadataCard.isExpansionPanelPresent(0)).toBe(true, `expansion panel is not present`);
+    expect(await metadataCard.getComponentIdOfPanel(0)).toEqual(`adf-metadata-group-${customGroup1.title}`);
+    expect(await metadataCard.isExpansionPanelPresent(1)).toBe(true, `expansion panel is not present`);
+    expect(await metadataCard.getComponentIdOfPanel(1)).toEqual(`adf-metadata-group-${customGroup2.title}`);
   });
 
   it('Disabled group is not displayed - []', async () => {
-    expect(await  metadataCard.isExpansionPanelPresent(2)).toBe(false, `disabled group is displayed`);
-    expect(await metadataCard.getComponentIdOfPanel(1)).not.toEqual('adf-metadata-group-' + disabledGroup.title);
-    expect(await metadataCard.getComponentIdOfPanel(0)).not.toEqual('adf-metadata-group-' + disabledGroup.title);
+    expect(await metadataCard.isExpansionPanelPresent(2)).toBe(false, `disabled group is displayed`);
+    expect(await metadataCard.getComponentIdOfPanel(1)).not.toEqual(`adf-metadata-group-${disabledGroup.title}`);
+    expect(await metadataCard.getComponentIdOfPanel(0)).not.toEqual(`adf-metadata-group-${disabledGroup.title}`);
   });
 });
