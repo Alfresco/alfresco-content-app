@@ -221,10 +221,13 @@ export class AppExtensionService implements RuleContext {
     try {
       this.appConfig.config['content-metadata'] = { presets };
     } catch (error) {
-      console.error(error);
+      console.error(
+        error,
+        '- could not change content-metadata from app.config -'
+      );
     }
 
-    return presets;
+    return { presets };
   }
 
   filterDisabled(object) {
