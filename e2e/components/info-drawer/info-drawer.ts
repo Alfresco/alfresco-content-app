@@ -88,7 +88,7 @@ export class InfoDrawer extends Component {
     await this.getTabByTitle(title).click();
   }
 
-  async getComponentIdOfTab(title: string) {
+  async getComponentIdOfTab() {
     return await this.tabActiveContent.getAttribute('data-automation-id');
   }
 }

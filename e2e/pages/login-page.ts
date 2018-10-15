@@ -25,7 +25,6 @@
 import { browser, ExpectedConditions as EC } from 'protractor';
 import { LoginComponent } from '../components/components';
 import { Page } from './page';
-import { Utils } from '../utilities/utils';
 
 import { ADMIN_USERNAME, ADMIN_PASSWORD, BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
 
