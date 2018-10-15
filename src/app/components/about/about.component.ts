@@ -40,8 +40,6 @@ export class AboutComponent implements OnInit {
   status: ObjectDataTableAdapter;
   license: ObjectDataTableAdapter;
   modules: ObjectDataTableAdapter;
-  githubUrlCommitAlpha =
-    'https://github.com/Alfresco/alfresco-content-app/commits';
   releaseVersion = '';
 
   constructor(
