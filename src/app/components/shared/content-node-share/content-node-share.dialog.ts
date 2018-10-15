@@ -101,7 +101,7 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
       this.baseShareUrl = this.data.baseShareUrl;
       const properties = this.data.node.entry.properties;
 
-      if (properties && !properties['qshare:sharedId']) {
+      if (!properties || !properties['qshare:sharedId']) {
         this.createSharedLinks(this.data.node.entry.id);
       } else {
         this.sharedId = properties['qshare:sharedId'];
@@ -167,7 +167,13 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
       (sharedLink: SharedLinkEntry) => {
         if (sharedLink.entry) {
           this.sharedId = sharedLink.entry.id;
-          this.data.node.entry.properties['qshare:sharedId'] = this.sharedId;
+          if (this.data.node.entry.properties) {
+            this.data.node.entry.properties['qshare:sharedId'] = this.sharedId;
+          } else {
+            this.data.node.entry.properties = {
+              'qshare:sharedId': this.sharedId
+            };
+          }
           this.isDisabled = false;
           this.isFileShared = true;
 
