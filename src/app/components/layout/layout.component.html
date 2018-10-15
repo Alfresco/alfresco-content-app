@@ -1,23 +1,21 @@
 <div class="layout">
     <adf-upload-drag-area
-        [parentId]="node?.id"
+        [parentId]="currentFolderId"
         [disabled]="!canUpload">
 
         <adf-sidenav-layout
             #layout
-            #sidenavManager="acaSidenavManager"
-            acaSidenavManager
             [sidenavMin]="70"
             [sidenavMax]="320"
             [stepOver]="600"
-            [hideSidenav]="sidenavManager.hideSidenav"
+            [hideSidenav]="hideSidenav"
             [expandedSidenav]="expandedSidenav"
-            (expanded)="sidenavManager.setState($event)">
+            (expanded)="onExpanded($event)">
 
             <adf-sidenav-layout-header>
                 <ng-template>
                   <app-header
-                    *ngIf="!sidenavManager.hideSidenav"
+                    *ngIf="!hideSidenav"
                     (toggleClicked)="layout.toggleMenu($event)">
                 </app-header>
                 </ng-template>
