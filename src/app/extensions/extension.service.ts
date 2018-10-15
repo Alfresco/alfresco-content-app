@@ -158,35 +158,26 @@ export class AppExtensionService implements RuleContext {
     this.contentMetadata = this.loadContentMetadata(config);
 
     this.documentListPresets = {
-      files: this.loader.getElements<DocumentListPresetRef>(
-        config,
-        'features.documentList.files'
-      ),
-      libraries: this.loader.getElements<DocumentListPresetRef>(
-        config,
-        'features.documentList.libraries'
-      ),
-      shared: this.loader.getElements<DocumentListPresetRef>(
-        config,
-        'features.documentList.shared'
-      ),
-      recent: this.loader.getElements<DocumentListPresetRef>(
-        config,
-        'features.documentList.recent'
-      ),
-      favorites: this.loader.getElements<DocumentListPresetRef>(
-        config,
-        'features.documentList.favorites'
-      ),
-      trashcan: this.loader.getElements<DocumentListPresetRef>(
-        config,
-        'features.documentList.trashcan'
-      )
+      files: this.getDocumentListPreset(config, 'files'),
+      libraries: this.getDocumentListPreset(config, 'libraries'),
+      shared: this.getDocumentListPreset(config, 'shared'),
+      recent: this.getDocumentListPreset(config, 'recent'),
+      favorites: this.getDocumentListPreset(config, 'favorites'),
+      trashcan: this.getDocumentListPreset(config, 'trashcan')
     };
   }
 
   protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {
     return this.loader.getElements<NavBarGroupRef>(config, 'features.navbar');
+  }
+
+  protected getDocumentListPreset(config: ExtensionConfig, key: string) {
+    return this.loader
+      .getElements<DocumentListPresetRef>(
+        config,
+        `features.documentList.${key}`
+      )
+      .filter(entry => !entry.disabled);
   }
 
   getApplicationNavigation(elements) {
