@@ -232,6 +232,40 @@ describe('ShareDialogComponent', () => {
     expect(sharedLinksApiService.deleteSharedLink).not.toHaveBeenCalled();
   }));
 
+  it('should reset expiration date when toggle is unchecked', () => {
+    spyOn(nodesApiService, 'updateNode').and.returnValue(of({}));
+    node.entry.properties['qshare:sharedId'] = 'sharedId';
+    node.entry.properties['qshare:sharedId'] = '2017-04-15T18:31:37+00:00';
+
+    component.data = {
+      node,
+      permission: true,
+      baseShareUrl: 'some-url/'
+    };
+
+    fixture.detectChanges();
+
+    component.form.controls['time'].setValue(moment());
+
+    fixture.detectChanges();
+
+    fixture.nativeElement
+      .querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-expire-toggle"] label'
+      )
+      .dispatchEvent(new MouseEvent('click'));
+
+    fixture.detectChanges();
+
+    expect(nodesApiService.updateNode).toHaveBeenCalledWith('nodeId', {
+      properties: { 'qshare:expiryDate': null }
+    });
+
+    expect(
+      fixture.nativeElement.querySelector('input[formcontrolname="time"]').value
+    ).toBe('');
+  });
+
   it('should not allow unshare when node has no update permission', () => {
     node.entry.properties['qshare:sharedId'] = 'sharedId';
 
