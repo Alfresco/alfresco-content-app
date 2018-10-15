@@ -40,17 +40,25 @@
                 <h1 class="adf-share-link__label">{{ 'SHARE.EXPIRES' | translate }}</h1>
                 <mat-slide-toggle
                     [disabled]="!canUpdate"
-                    #slideToggle
+                    #slideToggleExpirationDate
                     color="primary"
                     data-automation-id="adf-expire-toggle"
                     [checked]="form.controls['time'].value"
-                    (change)="removeExpirationDate()">
+                    (change)="onToggleExpirationDate($event)">
                 </mat-slide-toggle>
             </div>
 
-            <mat-form-field class="full-width" [@visibilityChanged]="slideToggle.checked">
-                <mat-datetimepicker-toggle [for]="datetimePicker" matSuffix></mat-datetimepicker-toggle>
-                <mat-datetimepicker #datetimePicker (closed)="blur(dateTimePickerInput)" type="datetime" openOnFocus="true" timeInterval="1"></mat-datetimepicker>
+            <mat-form-field class="full-width">
+                <mat-datetimepicker-toggle
+                    #matDatetimepickerToggle="matDatetimepickerToggle"
+                    [for]="datetimePicker"
+                    matSuffix>
+                </mat-datetimepicker-toggle>
+                <mat-datetimepicker #datetimePicker
+                    (closed)="onDatetimepickerClosed()"
+                    type="datetime" openOnFocus="true"
+                    timeInterval="1">
+                </mat-datetimepicker>
                 <input class="adf-share-link__input"
                     #dateTimePickerInput
                     matInput
