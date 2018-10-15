@@ -16,7 +16,7 @@
  */
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TestBed, fakeAsync, async } from '@angular/core/testing';
+import { TestBed, fakeAsync, async, tick } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { of } from 'rxjs';
 import {
@@ -79,7 +79,7 @@ describe('ShareDialogComponent', () => {
     fixture.destroy();
   });
 
-  it(`should toggle share action when property 'sharedId' does not exists`, () => {
+  it(`should toggle share action when property 'sharedId' does not exists`, fakeAsync(() => {
     spyOn(sharedLinksApiService, 'createSharedLinks').and.returnValue(
       of({
         entry: { id: 'sharedId', sharedId: 'sharedId' }
@@ -93,6 +93,7 @@ describe('ShareDialogComponent', () => {
     };
 
     fixture.detectChanges();
+    tick(500);
 
     expect(sharedLinksApiService.createSharedLinks).toHaveBeenCalled();
     expect(
@@ -100,13 +101,14 @@ describe('ShareDialogComponent', () => {
         .value
     ).toBe('some-url/sharedId');
     expect(
-      fixture.nativeElement.querySelector('.mat-slide-toggle').classList
+      fixture.nativeElement.querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-share-toggle"'
+      ).classList
     ).toContain('mat-checked');
-  });
+  }));
 
-  it(`should not toggle share action when file has 'sharedId' property`, () => {
+  it(`should not toggle share action when file has 'sharedId' property`, fakeAsync(() => {
     spyOn(sharedLinksApiService, 'createSharedLinks');
-
     node.entry.properties['qshare:sharedId'] = 'sharedId';
 
     component.data = {
@@ -116,6 +118,7 @@ describe('ShareDialogComponent', () => {
     };
 
     fixture.detectChanges();
+    tick(500);
 
     expect(sharedLinksApiService.createSharedLinks).not.toHaveBeenCalled();
     expect(
@@ -123,9 +126,11 @@ describe('ShareDialogComponent', () => {
         .value
     ).toBe('some-url/sharedId');
     expect(
-      fixture.nativeElement.querySelector('.mat-slide-toggle').classList
+      fixture.nativeElement.querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-share-toggle"'
+      ).classList
     ).toContain('mat-checked');
-  });
+  }));
 
   it(`should copy shared link and notify on button event`, async(() => {
     node.entry.properties['qshare:sharedId'] = 'sharedId';
@@ -169,7 +174,9 @@ describe('ShareDialogComponent', () => {
     fixture.detectChanges();
 
     fixture.nativeElement
-      .querySelector('.mat-slide-toggle label')
+      .querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-share-toggle"] label'
+      )
       .dispatchEvent(new MouseEvent('click'));
 
     fixture.detectChanges();
@@ -191,7 +198,9 @@ describe('ShareDialogComponent', () => {
     fixture.detectChanges();
 
     fixture.nativeElement
-      .querySelector('.mat-slide-toggle label')
+      .querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-share-toggle"] label'
+      )
       .dispatchEvent(new MouseEvent('click'));
 
     fixture.detectChanges();
@@ -213,7 +222,9 @@ describe('ShareDialogComponent', () => {
     fixture.detectChanges();
 
     fixture.nativeElement
-      .querySelector('.mat-slide-toggle label')
+      .querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-share-toggle"] label'
+      )
       .dispatchEvent(new MouseEvent('click'));
 
     fixture.detectChanges();
@@ -221,9 +232,42 @@ describe('ShareDialogComponent', () => {
     expect(sharedLinksApiService.deleteSharedLink).not.toHaveBeenCalled();
   }));
 
+  it('should reset expiration date when toggle is unchecked', () => {
+    spyOn(nodesApiService, 'updateNode').and.returnValue(of({}));
+    node.entry.properties['qshare:sharedId'] = 'sharedId';
+    node.entry.properties['qshare:sharedId'] = '2017-04-15T18:31:37+00:00';
+
+    component.data = {
+      node,
+      permission: true,
+      baseShareUrl: 'some-url/'
+    };
+
+    fixture.detectChanges();
+
+    component.form.controls['time'].setValue(moment());
+
+    fixture.detectChanges();
+
+    fixture.nativeElement
+      .querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-expire-toggle"] label'
+      )
+      .dispatchEvent(new MouseEvent('click'));
+
+    fixture.detectChanges();
+
+    expect(nodesApiService.updateNode).toHaveBeenCalledWith('nodeId', {
+      properties: { 'qshare:expiryDate': null }
+    });
+
+    expect(
+      fixture.nativeElement.querySelector('input[formcontrolname="time"]').value
+    ).toBe('');
+  });
+
   it('should not allow unshare when node has no update permission', () => {
     node.entry.properties['qshare:sharedId'] = 'sharedId';
-    node.entry.allowableOperations = [];
 
     component.data = {
       node,
@@ -234,22 +278,24 @@ describe('ShareDialogComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.nativeElement.querySelector('.mat-slide-toggle').classList
+      fixture.nativeElement.querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-share-toggle"'
+      ).classList
     ).toContain('mat-disabled');
     expect(
       fixture.nativeElement.querySelector('input[formcontrolname="time"]')
         .disabled
     ).toBe(true);
     expect(
-      fixture.nativeElement.querySelector('mat-datetimepicker-toggle button')
-        .disabled
-    ).toBe(true);
+      fixture.nativeElement.querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-expire-toggle"]'
+      ).classList
+    ).toContain('mat-disabled');
   });
 
   it('should update node expiration date with selected date and time', () => {
     const date = moment();
     node.entry.properties['qshare:sharedId'] = 'sharedId';
-    node.entry.allowableOperations = [];
     spyOn(nodesApiService, 'updateNode').and.returnValue(of({}));
     fixture.componentInstance.form.controls['time'].setValue(null);
 
@@ -262,7 +308,9 @@ describe('ShareDialogComponent', () => {
     fixture.detectChanges();
 
     fixture.nativeElement
-      .querySelector('mat-slide-toggle[data-automation-id="adf-expire-toggle"]')
+      .querySelector(
+        'mat-slide-toggle[data-automation-id="adf-expire-toggle"] label'
+      )
       .dispatchEvent(new MouseEvent('click'));
 
     fixture.componentInstance.form.controls['time'].setValue(date);
