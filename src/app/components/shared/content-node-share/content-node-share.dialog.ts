@@ -118,10 +118,6 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe);
   }
 
-  removeShare() {
-    this.deleteSharedLink(this.sharedId);
-  }
-
   onSlideShareChange() {
     this.openConfirmationDialog();
   }
