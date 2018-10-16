@@ -217,7 +217,12 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
   private updateNode(date: moment.Moment): Observable<MinimalNodeEntryEntity> {
     return this.nodesApiService.updateNode(this.data.node.entry.id, {
       properties: {
-        'qshare:expiryDate': date ? date.utc().format() : null
+        'qshare:expiryDate': date
+          ? date
+              .utc()
+              .endOf('day')
+              .format()
+          : null
       }
     });
   }
