@@ -32,10 +32,17 @@ export class SharedLinksApi extends RepoApi {
         super(username, password);
     }
 
-    async shareFileById(id: string) {
+    async shareFileById(id: string, expireDate?: Date) {
+      try {
         await this.apiAuth();
-        const data = { nodeId: id };
-        return await this.alfrescoJsApi.core.sharedlinksApi.addSharedLink(data);
+        const data = {
+          nodeId: id,
+          expiresAt: expireDate
+        };
+      return await this.alfrescoJsApi.core.sharedlinksApi.addSharedLink(data);
+      } catch (error) {
+        console.log('---- shareFileById error: ', error);
+      }
     }
 
     async shareFilesByIds(ids: string[]) {
