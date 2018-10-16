@@ -1,4 +1,4 @@
-FROM tomcat
+FROM tomcat:8.5-alpine
 LABEL version="1.3"
 LABEL maintainer="Denys Vuika <denys.vuika@alfresco.com>"
 

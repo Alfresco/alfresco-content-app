@@ -21,7 +21,6 @@ import {
   OnInit,
   ViewEncapsulation,
   ViewChild,
-  ElementRef,
   OnDestroy
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
@@ -33,8 +32,6 @@ import {
   catchError,
   distinctUntilChanged
 } from 'rxjs/operators';
-import { trigger } from '@angular/animations';
-import { formFieldAnimation } from './animation';
 import { SharedLinksApiService, NodesApiService } from '@alfresco/adf-core';
 import { SharedLinkEntry, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
@@ -45,8 +42,7 @@ import moment from 'moment-es6';
   templateUrl: './content-node-share.dialog.html',
   styleUrls: ['./content-node-share.dialog.scss'],
   host: { class: 'adf-share-dialog' },
-  encapsulation: ViewEncapsulation.None,
-  animations: [trigger('visibilityChanged', formFieldAnimation)]
+  encapsulation: ViewEncapsulation.None
 })
 export class ShareDialogComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
@@ -62,8 +58,14 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     time: new FormControl({ value: '', disabled: false })
   });
 
-  @ViewChild('sharedLinkInput')
-  sharedLinkInput: ElementRef;
+  @ViewChild('matDatetimepickerToggle')
+  matDatetimepickerToggle;
+
+  @ViewChild('slideToggleExpirationDate')
+  slideToggleExpirationDate;
+
+  @ViewChild('dateTimePickerInput')
+  dateTimePickerInput;
 
   constructor(
     private sharedLinksApiService: SharedLinksApiService,
@@ -116,10 +118,6 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe);
   }
 
-  removeShare() {
-    this.deleteSharedLink(this.sharedId);
-  }
-
   onSlideShareChange() {
     this.openConfirmationDialog();
   }
@@ -128,12 +126,21 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     return this.data.permission;
   }
 
-  removeExpirationDate() {
-    this.form.controls.time.setValue(null);
+  onToggleExpirationDate(slideToggle) {
+    if (slideToggle.checked) {
+      this.matDatetimepickerToggle.datetimepicker.open();
+    } else {
+      this.matDatetimepickerToggle.datetimepicker.close();
+      this.form.controls.time.setValue(null);
+    }
   }
 
-  blur(input: HTMLInputElement) {
-    input.blur();
+  onDatetimepickerClosed() {
+    this.dateTimePickerInput.nativeElement.blur();
+
+    if (!this.form.controls.time.value) {
+      this.slideToggleExpirationDate.checked = false;
+    }
   }
 
   private openConfirmationDialog() {
