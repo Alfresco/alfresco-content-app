@@ -37,11 +37,12 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
 import { NodePermissionService } from '../../services/node-permission.service';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-layout',
@@ -70,7 +71,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private permission: NodePermissionService,
     private router: Router,
     private userPreferenceService: UserPreferencesService,
-    private appConfigService: AppConfigService
+    private appConfigService: AppConfigService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit() {
@@ -90,10 +92,22 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     this.router.events
       .pipe(
+        withLatestFrom(this.isSmallScreen()),
+        filter(
+          ([event, isSmallScreen]) =>
+            isSmallScreen && event instanceof NavigationEnd
+        )
+      )
+      .subscribe(() => {
+        this.layout.container.toggleMenu();
+      });
+
+    this.router.events
+      .pipe(
         filter(event => event instanceof NavigationEnd),
         takeUntil(this.onDestroy$)
       )
-      .subscribe((event: any) => {
+      .subscribe((event: NavigationEnd) => {
         this.minimizeSidenav = this.minimizeConditions.some(el =>
           event.urlAfterRedirects.includes(el)
         );
@@ -151,5 +165,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     return expand;
+  }
+
+  private isSmallScreen(): Observable<boolean> {
+    return this.breakpointObserver
+      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .pipe(map(result => result.matches));
   }
 }
