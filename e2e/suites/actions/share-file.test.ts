@@ -23,18 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { protractor, browser } from 'protractor';
+import { browser } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS, SITE_VISIBILITY, SITE_ROLES, FILES } from '../../configs';
+import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { ShareDialog } from '../../components/dialog/share-dialog';
 import { Viewer } from '../../components/viewer/viewer';
 import { Utils } from '../../utilities/utils';
-import moment from 'moment-es6';
 
 describe('Share a file', () => {
   const username = `user-${Utils.random()}`;
-  console.log('===> username: ', username);
 
   const parent = `parent-${Utils.random()}`; let parentId;
 
@@ -74,13 +72,13 @@ describe('Share a file', () => {
 
     const file1 = `file1PF-${Utils.random()}.txt`; let file1Id;
     const file2 = `file2PF-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file2PF-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file2PF-${Utils.random()}.txt`; let file4Id;
-    const file5 = `file2PF-${Utils.random()}.txt`; let file5Id;
-    const file6 = `file2PF-${Utils.random()}.txt`; let file6Id;
-    const file7 = `file2PF-${Utils.random()}.txt`; let file7Id;
-    const file8 = `file2PF-${Utils.random()}.txt`; let file8Id;
-    const file9 = `file2PF-${Utils.random()}.txt`; let file9Id;
+    const file3 = `file3PF-${Utils.random()}.txt`; let file3Id;
+    const file4 = `file4PF-${Utils.random()}.txt`; let file4Id;
+    const file5 = `file5PF-${Utils.random()}.txt`; let file5Id;
+    const file6 = `file6PF-${Utils.random()}.txt`; let file6Id;
+    const file7 = `file7PF-${Utils.random()}.txt`; let file7Id;
+    const file8 = `file8PF-${Utils.random()}.txt`; let file8Id;
+    const file9 = `file9PF-${Utils.random()}.txt`; let file9Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -200,18 +198,16 @@ describe('Share a file', () => {
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
       expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
       const date = await shareDialog.dateTimePicker.setDefaultDay();
-      const hour = await shareDialog.dateTimePicker.setDefaultHour();
-      const mins = await shareDialog.dateTimePicker.setDefaultMinutes();
       await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-      const setDate = (`${date} ${hour}:${mins}`).replace(',', '');
+      const setDate = (`${date}`).replace(',', '');
       const inputDate = await shareDialog.getExpireDate();
 
       expect(new Date(inputDate)).toEqual(new Date(setDate));
 
       const expireDateProperty = await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate');
 
-      expect(moment(expireDateProperty).utc(true).format('l LT')).toEqual(inputDate);
+      expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
     });
 
     it('Expire date is displayed correctly - [C286337]', async () => {
@@ -223,7 +219,7 @@ describe('Share a file', () => {
       const expireProperty = await apis.user.nodes.getNodeProperty(file6Id, 'qshare:expiryDate');
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
-      expect(await shareDialog.getExpireDate()).toEqual(moment(expiryDate).utc(true).format('l LT'));
+      expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
     });
 
     it('Disable the share link expiration - [C286333]', async () => {
@@ -238,6 +234,9 @@ describe('Share a file', () => {
       await shareDialog.clickExpirationToggle();
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
+
+      await shareDialog.clickClose();
+      expect(await apis.user.nodes.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe(undefined, `${file7} link still has expiration`);
     });
 
     it('Shared file URL is not changed when Share dialog is closed and opened again - [C286335]', async () => {
@@ -409,18 +408,16 @@ describe('Share a file', () => {
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
       expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
       const date = await shareDialog.dateTimePicker.setDefaultDay();
-      const hour = await shareDialog.dateTimePicker.setDefaultHour();
-      const mins = await shareDialog.dateTimePicker.setDefaultMinutes();
       await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-      const setDate = (`${date} ${hour}:${mins}`).replace(',', '');
+      const setDate = (`${date}`).replace(',', '');
       const inputDate = await shareDialog.getExpireDate();
 
       expect(new Date(inputDate)).toEqual(new Date(setDate));
 
       const expireDateProperty = await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate');
 
-      expect(moment(expireDateProperty).utc(true).format('l LT')).toEqual(inputDate);
+      expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
     });
 
     it('Expire date is displayed correctly - [C286644]', async () => {
@@ -432,7 +429,7 @@ describe('Share a file', () => {
       const expireProperty = await apis.user.nodes.getNodeProperty(file6Id, 'qshare:expiryDate');
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
-      expect(await shareDialog.getExpireDate()).toEqual(moment(expiryDate).utc(true).format('l LT'));
+      expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
     });
 
     it('Disable the share link expiration - [C286645]', async () => {
@@ -447,6 +444,9 @@ describe('Share a file', () => {
       await shareDialog.clickExpirationToggle();
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
+
+      await shareDialog.clickClose();
+      expect(await apis.user.nodes.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe(undefined, `${file7} link still has expiration`);
     });
 
     it('Shared file URL is not changed when Share dialog is closed and opened again - [C286646]', async () => {
@@ -616,18 +616,16 @@ describe('Share a file', () => {
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
       expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
       const date = await shareDialog.dateTimePicker.setDefaultDay();
-      const hour = await shareDialog.dateTimePicker.setDefaultHour();
-      const mins = await shareDialog.dateTimePicker.setDefaultMinutes();
       await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-      const setDate = (`${date} ${hour}:${mins}`).replace(',', '');
+      const setDate = (`${date}`).replace(',', '');
       const inputDate = await shareDialog.getExpireDate();
 
       expect(new Date(inputDate)).toEqual(new Date(setDate));
 
       const expireDateProperty = await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate');
 
-      expect(moment(expireDateProperty).utc(true).format('l LT')).toEqual(inputDate);
+      expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
     });
 
     it('Expire date is displayed correctly - [C286662]', async () => {
@@ -639,7 +637,7 @@ describe('Share a file', () => {
       const expireProperty = await apis.user.nodes.getNodeProperty(file6Id, 'qshare:expiryDate');
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
-      expect(await shareDialog.getExpireDate()).toEqual(moment(expiryDate).utc(true).format('l LT'));
+      expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
     });
 
     it('Disable the share link expiration - [C286663]', async () => {
@@ -654,6 +652,9 @@ describe('Share a file', () => {
       await shareDialog.clickExpirationToggle();
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
+
+      await shareDialog.clickClose();
+      expect(await apis.user.nodes.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe(undefined, `${file7} link still has expiration`);
     });
 
     it('Shared file URL is not changed when Share dialog is closed and opened again - [C286664]', async () => {
@@ -803,7 +804,7 @@ describe('Share a file', () => {
       const expireProperty = await apis.user.nodes.getNodeProperty(file4Id, 'qshare:expiryDate');
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
-      expect(await shareDialog.getExpireDate()).toEqual(moment(expiryDate).utc(true).format('l LT'));
+      expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
     });
 
     it('Disable the share link expiration - [C286654]', async () => {
@@ -818,6 +819,9 @@ describe('Share a file', () => {
       await shareDialog.clickExpirationToggle();
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
+
+      await shareDialog.clickClose();
+      expect(await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate')).toBe(undefined, `${file5} link still has expiration`);
     });
 
     it('Shared file URL is not changed when Share dialog is closed and opened again - [C286655]', async () => {
@@ -997,18 +1001,16 @@ describe('Share a file', () => {
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expire toggle not checked');
       expect(await shareDialog.dateTimePicker.isCalendarOpen()).toBe(true, 'Calendar not opened');
       const date = await shareDialog.dateTimePicker.setDefaultDay();
-      const hour = await shareDialog.dateTimePicker.setDefaultHour();
-      const mins = await shareDialog.dateTimePicker.setDefaultMinutes();
       await shareDialog.dateTimePicker.waitForDateTimePickerToClose();
 
-      const setDate = (`${date} ${hour}:${mins}`).replace(',', '');
+      const setDate = (`${date}`).replace(',', '');
       const inputDate = await shareDialog.getExpireDate();
 
       expect(new Date(inputDate)).toEqual(new Date(setDate));
 
       const expireDateProperty = await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate');
 
-      expect(moment(expireDateProperty).utc(true).format('l LT')).toEqual(inputDate);
+      expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
     });
 
     xit('Expire date is displayed correctly - [C286671]', async () => {
@@ -1020,7 +1022,7 @@ describe('Share a file', () => {
       const expireProperty = await apis.user.nodes.getNodeProperty(file6Id, 'qshare:expiryDate');
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
-      expect(await shareDialog.getExpireDate()).toEqual(moment(expiryDate).utc(true).format('l LT'));
+      expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
     });
 
     xit('Disable the share link expiration - [C286672]', async () => {
@@ -1035,6 +1037,9 @@ describe('Share a file', () => {
       await shareDialog.clickExpirationToggle();
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expiration is checked');
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
+
+      await shareDialog.clickClose();
+      expect(await apis.user.nodes.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe(undefined, `${file7} link still has expiration`);
     });
 
     xit('Shared file URL is not changed when Share dialog is closed and opened again - [C286673]', async () => {
