@@ -106,7 +106,7 @@ describe('Extensions - Info Drawer', () => {
 
             const val = await infoDrawer.getTabTitle(custom_tab.order);
             expect(await infoDrawer.isTabPresent(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not present`);
-            expect(val).toEqual(`${custom_tab.icon}\n${custom_tab.title}\n`);
+            expect(val).toEqual(`${custom_tab.icon}\n${custom_tab.title}`);
         });
 
         it('Remove existing tab - [C284647]', async () => {
@@ -132,7 +132,7 @@ describe('Extensions - Info Drawer', () => {
             await infoDrawer.waitForInfoDrawerToOpen();
 
             expect(await infoDrawer.isTabPresent(no_title_tab.title)).toBe(true, `${no_title_tab.title} tab is not present`);
-            expect(await infoDrawer.getTabTitle(no_title_tab.order)).toEqual(`${no_title_tab.icon}\n`);
+            expect(await infoDrawer.getTabTitle(no_title_tab.order)).toEqual(`${no_title_tab.icon}`);
         });
 
         it('Insert new component in tab - [C284651]', async () => {
