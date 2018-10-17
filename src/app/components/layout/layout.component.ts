@@ -76,6 +76,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.hideSidenav = this.hideConditions.some(el =>
+      this.router.routerState.snapshot.url.includes(el)
+    );
+
     if (!this.minimizeSidenav) {
       this.expandedSidenav = this.getSidenavState();
     } else {
