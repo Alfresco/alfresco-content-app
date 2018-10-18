@@ -111,9 +111,14 @@ export class ShareDialog extends Component {
     return this.expireInput;
   }
 
-  async isShareToggleEnabled() {
+  async isShareToggleChecked() {
     const toggleClass = await this.getShareToggle().getAttribute('class');
     return toggleClass.includes('checked');
+  }
+
+  async isShareToggleEnabled() {
+    const toggleClass = await this.getShareToggle().getAttribute('class');
+    return toggleClass.includes('mat-disabled');
   }
 
   async isExpireToggleEnabled() {
@@ -143,4 +148,7 @@ export class ShareDialog extends Component {
     await this.expireToggle.click();
   }
 
+  async clickShareToggle() {
+    await this.shareToggle.click();
+  }
 }
