@@ -19,7 +19,7 @@ with a simple and easy to use interface for working with files stored in the Alf
 
 This application was created based on the latest releases from Alfresco:
 
-- [Alfresco ADF (2.5.0)](https://community.alfresco.com/community/application-development-framework/pages/get-started)
+- [Alfresco ADF (2.6.0)](https://community.alfresco.com/community/application-development-framework/pages/get-started)
 - [Alfresco Content Services (6.0.0)](https://www.alfresco.com/platform/content-services-ecm)
   or [Alfresco Community Edition (6.0 - General Release: 201806)](https://www.alfresco.com/products/community/download)
 
@@ -154,8 +154,6 @@ and includes extra columns to display where the file is
 [located](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/location-link)
 in the content repository and who created the shared link.
 
-A feature for creating and removing Shared Links will be added in the future.
-
 #### Recent Files
 
 The Recent Files view shows all the files that have been created or modified within the last 30 days by the current user.
@@ -247,7 +245,7 @@ actions are automatically hidden when the user does not have permission.
     <tr>
         <td>Share</td>
         <td>
-            Create and copy a link to a file that can be shared, the links are accessible without granting permissions to the file, and do not require users to login to the application. 
+            Create and copy a link to a file that can be shared, the links are accessible without granting permissions to the file, and do not require users to login to the application.  Share links can automatically expire based on a date, the minimum expiry date is controlled by the Content Services repository, which is 1 day from the date of creation.
         </td>
         <td>
             Not applicable.
