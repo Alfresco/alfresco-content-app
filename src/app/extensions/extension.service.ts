@@ -360,7 +360,26 @@ export class AppExtensionService implements RuleContext {
   }
 
   getAllowedContextMenuActions(): Array<ContentActionRef> {
-    return this.contextMenuActions.filter(action => this.filterByRules(action));
+    return this.contextMenuActions
+      .filter(action => this.filterByRules(action))
+      .map(action => {
+        if (action.type === ContentActionType.menu) {
+          if (action.type === ContentActionType.menu) {
+            const copy = this.copyAction(action);
+            if (copy.children && copy.children.length > 0) {
+              copy.children = copy.children
+                .filter(childAction => this.filterByRules(childAction))
+                .reduce(reduceSeparators, []);
+            }
+            return copy;
+          }
+          return action;
+        } else {
+          return action;
+        }
+      })
+      .reduce(reduceEmptyMenus, [])
+      .reduce(reduceSeparators, []);
   }
 
   copyAction(action: ContentActionRef): ContentActionRef {
