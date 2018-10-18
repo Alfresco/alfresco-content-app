@@ -115,4 +115,8 @@ export class Utils {
   static getBrowserLog() {
     return browser.manage().logs().get('browser');
   }
+
+  static formatDate(date: string) {
+    return new Date(date).toLocaleDateString('en-US');
+  }
 }

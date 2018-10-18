@@ -54,6 +54,10 @@ export class NodesApi extends RepoApi {
         return (await this.getNodeByPath(`${relativePath}`)).entry.properties['cm:description'];
     }
 
+    async getNodeProperty(nodeId: string, property: string) {
+      return (await this.getNodeById(nodeId)).entry.properties[property];
+    }
+
     async deleteNodeById(id: string, permanent: boolean = true) {
         await this.apiAuth();
         return await this.alfrescoJsApi.core.nodesApi.deleteNode(id, { permanent });
