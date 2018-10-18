@@ -70,15 +70,15 @@ describe('Share a file', () => {
 
   describe('from Personal Files', () => {
 
-    const file1 = `file1PF-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2PF-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file3PF-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file4PF-${Utils.random()}.txt`; let file4Id;
-    const file5 = `file5PF-${Utils.random()}.txt`; let file5Id;
-    const file6 = `file6PF-${Utils.random()}.txt`; let file6Id;
-    const file7 = `file7PF-${Utils.random()}.txt`; let file7Id;
-    const file8 = `file8PF-${Utils.random()}.txt`; let file8Id;
-    const file9 = `file9PF-${Utils.random()}.txt`; let file9Id;
+    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file5 = `file5-${Utils.random()}.txt`; let file5Id;
+    const file6 = `file6-${Utils.random()}.txt`; let file6Id;
+    const file7 = `file7-${Utils.random()}.txt`; let file7Id;
+    const file8 = `file8-${Utils.random()}.txt`; let file8Id;
+    const file9 = `file9-${Utils.random()}.txt`; let file9Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -134,7 +134,7 @@ describe('Share a file', () => {
       expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
       expect(await shareDialog.getLinkUrl()).toContain('/preview/s/');
       expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
-      expect(await shareDialog.isShareToggleEnabled()).toBe(true, 'Share toggle not checked');
+      expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
       expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
@@ -160,12 +160,10 @@ describe('Share a file', () => {
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
       const sharedId = await apis.user.nodes.getNodeProperty(file3Id, 'qshare:sharedId');
-
-      expect(sharedId).not.toBe(undefined, `${file3} is not shared`);
+      expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await apis.user.shared.waitForApi({ expect: 5 });
       // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
     });
@@ -266,28 +264,26 @@ describe('Share a file', () => {
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
       const sharedId = await apis.user.nodes.getNodeProperty(file9Id, 'qshare:sharedId');
-
-      expect(sharedId).not.toBe(undefined, `${file9} is not shared`);
+      expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await apis.user.shared.waitForApi({ expect: 5 });
       // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
+      // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
   describe('from File Libraries', () => {
 
-    const file1 = `file1PF-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2PF-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file2PF-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file2PF-${Utils.random()}.txt`; let file4Id;
-    const file5 = `file2PF-${Utils.random()}.txt`; let file5Id;
-    const file6 = `file2PF-${Utils.random()}.txt`; let file6Id;
-    const file7 = `file2PF-${Utils.random()}.txt`; let file7Id;
-    const file8 = `file2PF-${Utils.random()}.txt`; let file8Id;
-    const file9 = `file2PF-${Utils.random()}.txt`; let file9Id;
+    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file5 = `file5-${Utils.random()}.txt`; let file5Id;
+    const file6 = `file6-${Utils.random()}.txt`; let file6Id;
+    const file7 = `file7-${Utils.random()}.txt`; let file7Id;
+    const file8 = `file8-${Utils.random()}.txt`; let file8Id;
+    const file9 = `file9-${Utils.random()}.txt`; let file9Id;
 
     const siteName = `site-${Utils.random()}`;
     const parentInSite = `parent-site-${Utils.random()}`; let parentInSiteId;
@@ -344,7 +340,7 @@ describe('Share a file', () => {
       expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
       expect(await shareDialog.getLinkUrl()).toContain('/preview/s/');
       expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
-      expect(await shareDialog.isShareToggleEnabled()).toBe(true, 'Share toggle not checked');
+      expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
       expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
@@ -370,12 +366,10 @@ describe('Share a file', () => {
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
       const sharedId = await apis.user.nodes.getNodeProperty(file3Id, 'qshare:sharedId');
-
-      expect(sharedId).not.toBe(undefined, `${file3} is not shared`);
+      expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await apis.user.shared.waitForApi({ expect: 5 });
       // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
     });
@@ -476,12 +470,10 @@ describe('Share a file', () => {
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
       const sharedId = await apis.user.nodes.getNodeProperty(file9Id, 'qshare:sharedId');
-
-      expect(sharedId).not.toBe(undefined, `${file9} is not shared`);
+      expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await apis.user.shared.waitForApi({ expect: 5 });
       // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
     });
@@ -489,15 +481,15 @@ describe('Share a file', () => {
 
   describe('from Recent Files', () => {
 
-    const file1 = `file1PF-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2PF-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file2PF-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file2PF-${Utils.random()}.txt`; let file4Id;
-    const file5 = `file2PF-${Utils.random()}.txt`; let file5Id;
-    const file6 = `file2PF-${Utils.random()}.txt`; let file6Id;
-    const file7 = `file2PF-${Utils.random()}.txt`; let file7Id;
-    const file8 = `file2PF-${Utils.random()}.txt`; let file8Id;
-    const file9 = `file2PF-${Utils.random()}.txt`; let file9Id;
+    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file5 = `file5-${Utils.random()}.txt`; let file5Id;
+    const file6 = `file6-${Utils.random()}.txt`; let file6Id;
+    const file7 = `file7-${Utils.random()}.txt`; let file7Id;
+    const file8 = `file8-${Utils.random()}.txt`; let file8Id;
+    const file9 = `file9-${Utils.random()}.txt`; let file9Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -552,7 +544,7 @@ describe('Share a file', () => {
       expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
       expect(await shareDialog.getLinkUrl()).toContain('/preview/s/');
       expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
-      expect(await shareDialog.isShareToggleEnabled()).toBe(true, 'Share toggle not checked');
+      expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
       expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
@@ -578,12 +570,10 @@ describe('Share a file', () => {
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
       const sharedId = await apis.user.nodes.getNodeProperty(file3Id, 'qshare:sharedId');
-
-      expect(sharedId).not.toBe(undefined, `${file3} is not shared`);
+      expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await apis.user.shared.waitForApi({ expect: 5 });
       // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
     });
@@ -684,12 +674,10 @@ describe('Share a file', () => {
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
       const sharedId = await apis.user.nodes.getNodeProperty(file9Id, 'qshare:sharedId');
-
-      expect(sharedId).not.toBe(undefined, `${file9} is not shared`);
+      expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await apis.user.shared.waitForApi({ expect: 5 });
       // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
     });
@@ -697,13 +685,13 @@ describe('Share a file', () => {
 
   describe('from Shared Files', () => {
 
-    const file1 = `file1PF-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2PF-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file2PF-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file2PF-${Utils.random()}.txt`; let file4Id;
-    const file5 = `file2PF-${Utils.random()}.txt`; let file5Id;
-    const file6 = `file2PF-${Utils.random()}.txt`; let file6Id;
-    const file7 = `file2PF-${Utils.random()}.txt`; let file7Id;
+    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file5 = `file5-${Utils.random()}.txt`; let file5Id;
+    const file6 = `file6-${Utils.random()}.txt`; let file6Id;
+    const file7 = `file7-${Utils.random()}.txt`; let file7Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -760,7 +748,7 @@ describe('Share a file', () => {
       expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
       expect(await shareDialog.getLinkUrl()).toContain('/preview/s/');
       expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
-      expect(await shareDialog.isShareToggleEnabled()).toBe(true, 'Share toggle not checked');
+      expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
       expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
@@ -853,7 +841,7 @@ describe('Share a file', () => {
       expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
       expect(await shareDialog.getLinkUrl()).toContain('/preview/s/');
       expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
-      expect(await shareDialog.isShareToggleEnabled()).toBe(true, 'Share toggle not checked');
+      expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
       expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
@@ -861,17 +849,17 @@ describe('Share a file', () => {
   });
 
   // TODO: enable when ACA-1886 is done
-  xdescribe('from Favorites', () => {
+  describe('from Favorites', () => {
 
-    const file1 = `file1PF-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2PF-${Utils.random()}.txt`; let file2Id;
-    const file3 = `file2PF-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file2PF-${Utils.random()}.txt`; let file4Id;
-    const file5 = `file2PF-${Utils.random()}.txt`; let file5Id;
-    const file6 = `file2PF-${Utils.random()}.txt`; let file6Id;
-    const file7 = `file2PF-${Utils.random()}.txt`; let file7Id;
-    const file8 = `file2PF-${Utils.random()}.txt`; let file8Id;
-    const file9 = `file2PF-${Utils.random()}.txt`; let file9Id;
+    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
+    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
+    const file3 = `file3-${Utils.random()}.txt`; let file3Id;
+    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file5 = `file5-${Utils.random()}.txt`; let file5Id;
+    const file6 = `file6-${Utils.random()}.txt`; let file6Id;
+    const file7 = `file7-${Utils.random()}.txt`; let file7Id;
+    const file8 = `file8-${Utils.random()}.txt`; let file8Id;
+    const file9 = `file9-${Utils.random()}.txt`; let file9Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1, parentId)).entry.id;
@@ -926,7 +914,7 @@ describe('Share a file', () => {
       done();
     });
 
-    xit('Share dialog default values - [C286666]', async () => {
+    it('Share dialog default values - [C286666]', async () => {
       await dataTable.selectItem(file1);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Share');
@@ -937,13 +925,13 @@ describe('Share a file', () => {
       expect(await shareDialog.getLabels().get(0).getText()).toEqual('Link to share');
       expect(await shareDialog.getLinkUrl()).toContain('/preview/s/');
       expect(await shareDialog.isUrlReadOnly()).toBe('true', 'url is not readonly');
-      expect(await shareDialog.isShareToggleEnabled()).toBe(true, 'Share toggle not checked');
+      expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
       expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
     });
 
-    xit('Close dialog - [C286667]', async () => {
+    it('Close dialog - [C286667]', async () => {
       await dataTable.selectItem(file2);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Share');
@@ -954,7 +942,7 @@ describe('Share a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog is open');
     });
 
-    xit('Share a file - [C286668]', async () => {
+    it('Share a file - [C286668]', async () => {
       await dataTable.selectItem(file3);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Share');
@@ -963,17 +951,15 @@ describe('Share a file', () => {
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
       const sharedId = await apis.user.nodes.getNodeProperty(file3Id, 'qshare:sharedId');
-
-      expect(sharedId).not.toBe(undefined, `${file3} is not shared`);
+      expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await apis.user.shared.waitForApi({ expect: 5 });
       // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
     });
 
-    xit('Copy shared file URL - [C286669]', async () => {
+    it('Copy shared file URL - [C286669]', async () => {
       await dataTable.selectItem(file4);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Share');
@@ -991,7 +977,7 @@ describe('Share a file', () => {
       await page.load();
     });
 
-    xit('Share a file with expiration date - [C286670]', async () => {
+    it('Share a file with expiration date - [C286670]', async () => {
       await dataTable.selectItem(file5);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Share');
@@ -1013,10 +999,10 @@ describe('Share a file', () => {
       expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
     });
 
-    xit('Expire date is displayed correctly - [C286671]', async () => {
+    it('Expire date is displayed correctly - [C286671]', async () => {
       await dataTable.selectItem(file6);
       await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.menu.clickMenuItem('Share');
       await shareDialog.waitForDialogToOpen();
 
       const expireProperty = await apis.user.nodes.getNodeProperty(file6Id, 'qshare:expiryDate');
@@ -1025,10 +1011,10 @@ describe('Share a file', () => {
       expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
     });
 
-    xit('Disable the share link expiration - [C286672]', async () => {
+    it('Disable the share link expiration - [C286672]', async () => {
       await dataTable.selectItem(file7);
       await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.menu.clickMenuItem('Share');
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
@@ -1042,7 +1028,7 @@ describe('Share a file', () => {
       expect(await apis.user.nodes.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe(undefined, `${file7} link still has expiration`);
     });
 
-    xit('Shared file URL is not changed when Share dialog is closed and opened again - [C286673]', async () => {
+    it('Shared file URL is not changed when Share dialog is closed and opened again - [C286673]', async () => {
       await dataTable.selectItem(file8);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Share');
@@ -1054,14 +1040,14 @@ describe('Share a file', () => {
       await page.dataTable.clearSelection();
       await dataTable.selectItem(file8);
       await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.menu.clickMenuItem('Share');
       await shareDialog.waitForDialogToOpen();
       const url2 = await shareDialog.getLinkUrl();
 
       expect(url1).toEqual(url2);
     });
 
-    xit('Share a file from the context menu - [C286674]', async () => {
+    it('Share a file from the context menu - [C286674]', async () => {
       await dataTable.rightClickOnItem(file9);
       await contextMenu.clickMenuItem('Share');
       await shareDialog.waitForDialogToOpen();
@@ -1069,12 +1055,10 @@ describe('Share a file', () => {
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
       const sharedId = await apis.user.nodes.getNodeProperty(file9Id, 'qshare:sharedId');
-
-      expect(sharedId).not.toBe(undefined, `${file9} is not shared`);
+      expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await apis.user.shared.waitForApi({ expect: 5 });
       // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
     });

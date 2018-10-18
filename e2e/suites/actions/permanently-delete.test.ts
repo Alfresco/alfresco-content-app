@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { ConfirmDialog } from './../../components/components';
 import { SIDEBAR_LABELS } from '../../configs';
@@ -83,8 +82,9 @@ describe('Permanently delete from Trash', () => {
         await dataTable.selectItem(file1);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
-        await trashPage.getDialogActionByLabel('Delete').click();
-        await trashPage.waitForDialogToClose();
+        // await trashPage.getDialogActionByLabel('Delete').click();
+        // await trashPage.waitForDialogToClose();
+        await confirmDialog.clickButton('Delete');
         const text = await trashPage.getSnackBarMessage();
 
         expect(text).toEqual(`${file1} deleted`);
@@ -95,8 +95,9 @@ describe('Permanently delete from Trash', () => {
         await dataTable.selectItem(folder1);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
-        await trashPage.getDialogActionByLabel('Delete').click();
-        await trashPage.waitForDialogToClose();
+        // await trashPage.getDialogActionByLabel('Delete').click();
+        // await trashPage.waitForDialogToClose();
+        await confirmDialog.clickButton('Delete');
         const text = await trashPage.getSnackBarMessage();
 
         expect(text).toEqual(`${folder1} deleted`);
@@ -107,8 +108,9 @@ describe('Permanently delete from Trash', () => {
         await dataTable.selectMultipleItems([ file2, folder2 ]);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
-        await trashPage.getDialogActionByLabel('Delete').click();
-        await trashPage.waitForDialogToClose();
+        // await trashPage.getDialogActionByLabel('Delete').click();
+        // await trashPage.waitForDialogToClose();
+        await confirmDialog.clickButton('Delete');
         const text = await trashPage.getSnackBarMessage();
 
         expect(text).toEqual(`2 items deleted`);
@@ -121,22 +123,23 @@ describe('Permanently delete from Trash', () => {
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
 
+        expect(await confirmDialog.isDialogOpen()).toBe(true, 'Confirm delete dialog not open');
         expect(await confirmDialog.getTitle()).toContain('Delete from trash');
         expect(await confirmDialog.getText()).toContain('This will permanently remove the selected item(s)');
-        expect(await confirmDialog.deleteButton.isEnabled()).toBe(true, 'DELETE button is not enabled');
-        expect(await confirmDialog.keepButton.isEnabled()).toBe(true, 'KEEP button is not enabled');
+        expect(await confirmDialog.isButtonEnabled('Delete')).toBe(true, 'DELETE button is not enabled');
+        expect(await confirmDialog.isButtonEnabled('Keep')).toBe(true, 'KEEP button is not enabled');
 
-        await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+        await Utils.pressEscape();
         await dataTable.clearSelection();
     });
 
-    it('"Keep" action cancels the deletion - [C269115]', async () => {
+    it('Keep action cancels the deletion - [C269115]', async () => {
         await dataTable.selectItem(file3);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await trashPage.waitForDialog();
 
-        expect(await confirmDialog.keepButton.isEnabled()).toBe(true, 'KEEP button is not enabled');
-        await confirmDialog.clickKeep();
+        expect(await confirmDialog.isButtonEnabled('Keep')).toBe(true, 'KEEP button is not enabled');
+        await confirmDialog.clickButton('Keep');
         expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, 'Item was deleted');
     });
 });

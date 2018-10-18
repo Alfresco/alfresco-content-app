@@ -105,7 +105,7 @@ export abstract class Page {
   }
 
   async getSnackBarMessage() {
-    // await this.waitForSnackBarToAppear();
+    await this.waitForSnackBarToAppear();
     return await this.snackBar.getAttribute('innerText');
   }
 

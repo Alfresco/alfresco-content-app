@@ -55,7 +55,15 @@ export class NodesApi extends RepoApi {
     }
 
     async getNodeProperty(nodeId: string, property: string) {
-      return (await this.getNodeById(nodeId)).entry.properties[property];
+      const node = await this.getNodeById(nodeId);
+      if (node.entry.properties) {
+        return node.entry.properties[property];
+      }
+      return '';
+    }
+
+    async isFileShared(nodeId: string) {
+      return (await this.getNodeProperty(nodeId, 'qshare:sharedId')) !== '';
     }
 
     async deleteNodeById(id: string, permanent: boolean = true) {

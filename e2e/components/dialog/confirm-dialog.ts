@@ -33,14 +33,16 @@ export class ConfirmDialog extends Component {
 
     title: '.mat-dialog-title',
     content: '.mat-dialog-content',
-    delete: 'adf-confirm-accept',
-    keep: 'adf-confirm-cancel'
+    accept: 'adf-confirm-accept',
+    cancel: 'adf-confirm-cancel',
+    actionButton: 'adf-confirm'
   };
 
   title: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.title));
   content: ElementFinder = this.component.element(by.css(ConfirmDialog.selectors.content));
-  deleteButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.delete));
-  keepButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.keep));
+  acceptButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.accept));
+  cancelButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.cancel));
+  actionButton: ElementFinder = this.component.element(by.id(ConfirmDialog.selectors.actionButton));
 
   constructor(ancestor?: ElementFinder) {
     super(ConfirmDialog.selectors.root, ancestor);
@@ -48,6 +50,14 @@ export class ConfirmDialog extends Component {
 
   async waitForDialogToClose() {
     await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async waitForDialogToOpen() {
+    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async isDialogOpen() {
+    return await browser.isElementPresent(by.css(ConfirmDialog.selectors.root));
   }
 
   async getTitle() {
@@ -58,12 +68,17 @@ export class ConfirmDialog extends Component {
     return await this.content.getText();
   }
 
-  async clickDelete() {
-    await this.deleteButton.click();
+  getButtonByName(name: string) {
+    return this.component.element(by.buttonText(name));
   }
 
-  async clickKeep() {
-    await this.keepButton.click();
-    await this.waitForDialogToClose();
+  async clickButton(name: string) {
+    const button = this.getButtonByName(name);
+    await button.click();
+  }
+
+  async isButtonEnabled(name: string) {
+    const button = this.getButtonByName(name);
+    return await button.isEnabled();
   }
 }
