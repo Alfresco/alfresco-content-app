@@ -282,8 +282,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      // todo enable when ACA-1886 is fixed
-      // expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${fileUser}`);
+      expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions is not displayed for ${fileUser}`);
       // TODO: enable when ACA-1794 is fixed
       // expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${fileUser}`);
