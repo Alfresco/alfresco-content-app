@@ -2,7 +2,7 @@ version: '3'
 
 services:
   alfresco:
-    image: alfresco/alfresco-content-repository-community:6.0.7-ga
+    image: alfresco/alfresco-content-repository-community:6.1.0-ea
     depends_on:
       - postgres
     environment:
@@ -26,7 +26,7 @@ services:
       - 8080:8080 #Browser port
 
   share:
-    image: alfresco/alfresco-share:6.0.b
+    image: alfresco/alfresco-share:6.0.c
     depends_on:
       - alfresco
     environment:
@@ -50,7 +50,7 @@ services:
       - 5432:5432
 
   solr6:
-    image: alfresco/alfresco-search-services:1.1.1
+    image: alfresco/alfresco-search-services:1.2.0
     depends_on:
       - alfresco
     environment:
@@ -70,6 +70,8 @@ services:
   content-app:
     image: alfresco/alfresco-content-app:development-latest-tomcat8
     build: .
+    environment:
+      - APP_BASE_SHARE_URL={protocol}//{hostname}{:port}/content-app/
     depends_on:
       - alfresco
     networks:

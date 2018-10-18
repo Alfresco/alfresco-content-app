@@ -317,7 +317,7 @@ describe('ShareDialogComponent', () => {
     fixture.detectChanges();
 
     expect(nodesApiService.updateNode).toHaveBeenCalledWith('nodeId', {
-      properties: { 'qshare:expiryDate': date.utc().format() }
+      properties: { 'qshare:expiryDate': date }
     });
   });
 });

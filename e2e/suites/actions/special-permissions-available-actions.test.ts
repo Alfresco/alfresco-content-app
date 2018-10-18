@@ -456,8 +456,7 @@ describe('Granular permissions available actions : ', () => {
       // TODO: enable when ACA-1737 is done
       // expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${file1}`);
       // expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${file1}`);
-      // todo enable when ACA-1886 is fixed
-      // expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${file1}`);
+      expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${file1}`);
       expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions is not displayed for ${file1}`);
       // TODO: enable when ACA-1794 is fixed
       // expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${file1}`);
@@ -708,8 +707,7 @@ describe('Granular permissions available actions : ', () => {
       expect(await viewerToolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed`);
       await viewerToolbar.openMoreMenu();
       expect(await viewerToolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      // todo enable when ACA-1886 is fixed
-      // expect(await viewerToolbar.menu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed`);
+      expect(await viewerToolbar.menu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed`);
       expect(await viewerToolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
       // TODO: enable when ACA-1737 is done
       // expect(await viewerToolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
