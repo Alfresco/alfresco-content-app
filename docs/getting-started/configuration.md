@@ -73,7 +73,7 @@ If you run the application from a different server than the Content Services ser
 ```
 
 <p class="warning">
-If you run the application as part of Tomcat and not in the root (subfolder), then "baseShareUrl" value should contain full address to the app, for example: "baseShareUrl": "http://<serveraddress>/<foldername>",
+If you run the application as part of Tomcat and not in the root (subfolder), then "baseShareUrl" value should contain full address to the app, for example: "baseShareUrl": "http://{serveraddress}/{foldername}",
 </p>
 
 
