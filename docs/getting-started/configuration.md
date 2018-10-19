@@ -7,10 +7,13 @@ The Alfresco Content Application provides support for the global settings file `
 
 ## Server settings
 
-Once the Content Application starts, it needs to know where the Alfresco Content Services (either Community or Enterprise) server is.
+Once the Content Application starts, it needs to know where the Alfresco Content Services server is, and what the file sharing URL will be.
+
+### Content Services Address
+
 The "ecmHost" property allows you to set the address of the server using the dynamic or static format.
 
-### Dynamic address
+#### Dynamic address
 
 The example below demonstrates the most common dynamic format for a development environment:
 
@@ -30,7 +33,7 @@ and `localhost:4200/alfresco` for the ACS repository.
 At runtime, the application is going to automatically substitute the "{hostname}" value with the original hostname.
 Optionally it can also use the value of the original port if present, for example, "4200" at local machines, or skip the value for port 80.
 
-### Static address
+#### Static address
 
 Alternatively, you can provide a static address for the ACS server if necessary:
 
@@ -40,6 +43,39 @@ Alternatively, you can provide a static address for the ACS server if necessary:
     ...
 }
 ```
+
+### Shared Files Address
+
+The "baseShareUrl" property tells the application how to construct the address where users will access shared files.
+
+#### Default
+
+When the default value is set the application will construct the File Share URL from the "ecmHost" property: 
+
+```json
+{
+    ...
+    "baseShareUrl": null,
+    ...
+}
+```
+
+#### Configuration
+
+If you run the application from a different server than the Content Services server the "baseShareUrl" property should must be configured correctly, for example:
+
+```json
+{
+    ...
+    "baseShareUrl": "http://<serveraddress>",
+    ...
+}
+```
+
+<p class="warning">
+If you run the application as part of Tomcat and not in the root (subfolder), then "baseShareUrl" value should contain full address to the app, for example: "baseShareUrl": "http://<serveraddress>/<foldername>",
+</p>
+
 
 ## Application settings
 
