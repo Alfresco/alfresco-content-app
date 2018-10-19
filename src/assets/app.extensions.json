@@ -55,6 +55,14 @@
       ]
     },
     {
+      "id": "app.toolbar.canShare",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.file.canShare" },
+        { "type": "rule", "value": "repository.isQuickShareEnabled" }
+      ]
+    },
+    {
       "id": "app.toolbar.favorite.canAdd",
       "type": "core.every",
       "parameters": [
@@ -424,7 +432,7 @@
             "order": 600,
             "component": "app.shared-link.toggleSharedLink",
             "rules": {
-              "visible": "app.selection.file.canShare"
+              "visible": "app.toolbar.canShare"
             }
           },
           {
