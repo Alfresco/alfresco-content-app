@@ -529,7 +529,7 @@
         "order": 400,
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
-          "visible": "app.selection.file.canShare"
+          "visible": "app.toolbar.canShare"
         }
       },
       {
@@ -686,7 +686,7 @@
             "click": "SHARE_NODE"
           },
           "rules": {
-            "visible": "app.selection.file.canShare"
+            "visible": "app.toolbar.canShare"
           }
         },
         {
@@ -743,7 +743,7 @@
           "order": 300,
           "component": "app.shared-link.toggleSharedLink",
           "rules": {
-            "visible": "app.selection.file.canShare"
+            "visible": "app.toolbar.canShare"
           }
         },
         {
