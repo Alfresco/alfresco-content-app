@@ -143,4 +143,8 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   trackByActionId(index: number, action: ContentActionRef) {
     return action.id;
   }
+
+  trackById(index: number, obj: { id: string }) {
+    return obj.id;
+  }
 }

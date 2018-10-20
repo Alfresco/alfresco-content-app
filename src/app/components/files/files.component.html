@@ -38,7 +38,7 @@
                     (name-click)="navigateTo($event.detail?.node)">
 
                     <data-columns>
-                      <ng-container *ngFor="let column of columns">
+                      <ng-container *ngFor="let column of columns; trackBy: trackById">
 
                         <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
                           <data-column
