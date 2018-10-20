@@ -37,11 +37,12 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
 import { NodePermissionService } from '../../services/node-permission.service';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-layout',
@@ -70,7 +71,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private permission: NodePermissionService,
     private router: Router,
     private userPreferenceService: UserPreferencesService,
-    private appConfigService: AppConfigService // private breakpointObserver: BreakpointObserver
+    private appConfigService: AppConfigService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit() {
@@ -92,8 +94,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.canUpload = node && this.permission.check(node, ['create']);
       });
 
-    // disabled due to ACA-1892 regressions
-    /*
     this.router.events
       .pipe(
         withLatestFrom(this.isSmallScreen()),
@@ -105,7 +105,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.layout.container.toggleMenu();
       });
-    */
 
     this.router.events
       .pipe(
@@ -172,12 +171,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
     return expand;
   }
 
-  // disabled due to ACA-1892 regressions
-  /*
   private isSmallScreen(): Observable<boolean> {
     return this.breakpointObserver
-      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .observe(['(max-width: 600px)'])
       .pipe(map(result => result.matches));
   }
-  */
 }
