@@ -266,7 +266,7 @@
         }
     },
     "SHARED_LINK": {
-        "UNSHARE_PERMISSION_ERROR": "You dont have permission to unshare this file"
+        "UNSHARE_PERMISSION_ERROR": "You don't have permission to unshare this file"
     },
     "VERSION": {
         "DIALOG": {
