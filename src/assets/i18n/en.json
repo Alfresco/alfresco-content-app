@@ -265,6 +265,9 @@
             "INHERITED_PERMISSIONS_BUTTON": "Permission Inherited"
         }
     },
+    "SHARED_LINK": {
+        "UNSHARE_PERMISSION_ERROR": "You dont have permission to unshare this file"
+    },
     "VERSION": {
         "DIALOG": {
             "TITLE": "Manage Versions",
