@@ -42,7 +42,7 @@ import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
 import { NodePermissionService } from '../../services/node-permission.service';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-layout',
@@ -173,7 +173,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   private isSmallScreen(): Observable<boolean> {
     return this.breakpointObserver
-      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+      .observe(['(max-width: 600px)'])
       .pipe(map(result => result.matches));
   }
 }
