@@ -116,7 +116,7 @@ export class ShareDialog extends Component {
     return toggleClass.includes('checked');
   }
 
-  async isShareToggleEnabled() {
+  async isShareToggleDisabled() {
     const toggleClass = await this.getShareToggle().getAttribute('class');
     return toggleClass.includes('mat-disabled');
   }
