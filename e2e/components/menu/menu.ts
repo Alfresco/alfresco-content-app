@@ -33,12 +33,15 @@ export class Menu extends Component {
     root: '.mat-menu-panel',
     item: '.mat-menu-item',
     icon: '.mat-icon',
-    uploadFiles: 'app-upload-files'
+    uploadFiles: 'app-upload-files',
+
+    submenu: 'app-context-menu-item .mat-menu-item'
   };
 
   items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
   backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
   uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
+  submenu: ElementFinder = browser.element(by.css(Menu.selectors.submenu));
 
   constructor(ancestor?: ElementFinder) {
     super(Menu.selectors.root, ancestor);
@@ -69,6 +72,10 @@ export class Menu extends Component {
 
   getItemByLabel(menuItem: string) {
     return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
+  }
+
+  getSubItemByLabel(subMenuItem: string) {
+    return this.component.element(by.cssContainingText(Menu.selectors.submenu, subMenuItem));
   }
 
   getItemById(id: string) {
@@ -108,19 +115,44 @@ export class Menu extends Component {
     }
   }
 
-  async clickSubMenuItem(menuItem: string) {
+  async mouseOverMenuItem(menuItem: string) {
     try {
       const elem = this.getItemByLabel(menuItem);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await browser.actions().mouseMove(elem).perform();
+      await browser.sleep(500);
+    } catch (error) {
+      console.log('----- mouse over error: ', error);
+    }
+  }
+
+  async hasSubMenu(menuItem: string) {
+    try {
+      const elem = this.getItemByLabel(menuItem);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      const elemClass = await elem.getAttribute('class');
+      return elemClass.includes('mat-menu-item-submenu-trigger');
+    } catch (error) {
+      console.log('---- has submenu error: ', error);
+    }
+  }
+
+  async clickSubMenuItem(subMenuItem: string) {
+    try {
+      const elem = this.getSubItemByLabel(subMenuItem);
       await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
       await elem.click();
     } catch (e) {
       console.log('___click submenu item catch___', e);
     }
-    browser.sleep(200);
   }
 
   async isMenuItemPresent(title: string) {
     return await this.component.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
+  }
+
+  async isSubMenuItemPresent(title: string) {
+    return await browser.element(by.cssContainingText(Menu.selectors.submenu, title)).isPresent();
   }
 
   async isMenuItemDisabled(title: string) {

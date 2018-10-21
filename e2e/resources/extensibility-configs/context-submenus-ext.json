@@ -483,7 +483,7 @@
         "id": "app.context.submenu.test1",
         "type": "menu",
         "order": 50,
-        "title": "More",
+        "title": "Test Menu1",
         "icon": "more_vert",
         "rules": {
           "visible": "app.toolbar.canCopyNode"
@@ -492,7 +492,7 @@
           {
             "id": "item1",
             "order": 100,
-            "title": "COPY 1",
+            "title": "Test submenu1",
             "icon": "content_copy",
             "actions": {
               "click": "COPY_NODES"
@@ -504,7 +504,7 @@
           {
             "id": "item2",
             "order": 200,
-            "title": "COPY 2",
+            "title": "Test submenu2",
             "icon": "content_copy",
             "actions": {
               "click": "COPY_NODES"
@@ -528,7 +528,7 @@
         "id": "app.context.submenu.test2",
         "type": "menu",
         "order": 51,
-        "title": "Test More",
+        "title": "Test Menu2",
         "icon": "more_vert",
         "rules": {
           "visible": "app.toolbar.canCopyNode"

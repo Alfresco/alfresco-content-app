@@ -60,40 +60,41 @@ describe('Extensions - Context submenu', () => {
 
   beforeEach(async (done) => {
     await Utils.pressEscape();
+    await dataTable.clearSelection();
     await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
     await dataTable.waitForHeader();
-    await dataTable.clearSelection();
     done();
   });
 
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(fileId);
     await apis.user.nodes.deleteNodeById(folderId);
-    await apis.user.trashcan.emptyTrash();
+    // await apis.user.trashcan.emptyTrash();
     await logoutPage.load();
     done();
   });
 
-  xit('displays the submenu actions set from config - []', async () => {
+  it('displays the submenu actions set from config - []', async () => {
     await dataTable.rightClickOnItem(file);
-    expect(await contextMenu.isMenuItemPresent('More')).toBe(true, `More menu is not displayed for ${file}`);
+    expect(await contextMenu.isMenuItemPresent('Test Menu1')).toBe(true, `Test menu is not displayed for ${file}`);
+    expect(await contextMenu.hasSubMenu('Test Menu1')).toBe(true, 'Menu does not have submenu');
+    await contextMenu.mouseOverMenuItem('Test Menu1');
 
-    await contextMenu.clickSubMenuItem('More');
-    expect(await contextMenu.isMenuItemPresent('COPY 1')).toBe(true, `submenu item is not displayed for ${file}`);
-    expect(await contextMenu.isMenuItemPresent('COPY 2')).toBe(true, `submenu item is not displayed for ${file}`);
-    expect(await contextMenu.isMenuItemPresent('SHARE')).toBe(true, `submenu item is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent('Test submenu1')).toBe(true, `submenu item1 is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent('Test submenu2')).toBe(true, `submenu item2 is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent('Share')).toBe(true, `submenu item3 is not displayed for ${file}`);
   });
 
   it('does not display submenu actions without permissions - []', async () => {
     await dataTable.rightClickOnItem(folder);
-    expect(await contextMenu.isMenuItemPresent('More')).toBe(true, `More menu is not displayed for ${folder}`);
+    expect(await contextMenu.isMenuItemPresent('Test Menu1')).toBe(true, `Test menu is not displayed for ${folder}`);
 
-    await contextMenu.clickSubMenuItem('More');
+    await contextMenu.mouseOverMenuItem('Test Menu1');
     expect(await contextMenu.isMenuItemPresent('SHARE')).toBe(false, `no permission submenu item is displayed`);
   });
 
   it('the parent item is not displayed if all its children have no permission to be displayed - []', async () => {
     await dataTable.rightClickOnItem(folder);
-    expect(await contextMenu.isMenuItemPresent('Test More')).toBe(false, `Test More menu is displayed for ${folder}`);
+    expect(await contextMenu.isMenuItemPresent('Test Menu2')).toBe(false, `Test More menu is displayed for ${folder}`);
   });
 });
