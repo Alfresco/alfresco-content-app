@@ -84,26 +84,30 @@ describe('Extensions - Context submenu', () => {
     done();
   });
 
-  it('displays the submenu actions set from config - []', async () => {
+  it('Displays the submenu actions set from config - [C286717]', async () => {
     await dataTable.rightClickOnItem(file);
     expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(true, `${menuItem1.label} is not displayed for ${file}`);
     expect(await contextMenu.hasSubMenu(menuItem1.label)).toBe(true, 'Menu does not have submenu');
     await contextMenu.mouseOverMenuItem(menuItem1.label);
 
+    expect(await contextMenu.getSubmenuItemsCount()).toBe(3, 'submenu has wrong number of items');
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[0])).toBe(true, `${menuItem1.submenu[0]} is not displayed for ${file}`);
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[1])).toBe(true, `${menuItem1.submenu[1]} is not displayed for ${file}`);
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(true, `${onlyFilePermissionedItem} is not displayed for ${file}`);
   });
 
-  it('does not display submenu actions without permissions - []', async () => {
+  it('Does not display submenu actions without permissions - [C286718]', async () => {
     await dataTable.rightClickOnItem(folder);
     expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(true, `${menuItem1.label} is not displayed for ${folder}`);
-
     await contextMenu.mouseOverMenuItem(menuItem1.label);
+
+    expect(await contextMenu.getSubmenuItemsCount()).toBe(2, 'submenu has wrong number of items');
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[0])).toBe(true, `${menuItem1.submenu[0]} is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[1])).toBe(true, `${menuItem1.submenu[1]} is not displayed for ${file}`);
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(false, `no permission submenu ${onlyFilePermissionedItem} is displayed`);
   });
 
-  it('the parent item is not displayed if all its children have no permission to be displayed - []', async () => {
+  it('The parent item is not displayed if all its children have no permission to be displayed - [C287784]', async () => {
     await dataTable.rightClickOnItem(folder);
     expect(await contextMenu.isMenuItemPresent(menuItem2.label)).toBe(false, `${menuItem2.label} menu is displayed for ${folder}`);
   });

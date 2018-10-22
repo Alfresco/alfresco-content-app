@@ -41,7 +41,7 @@ export class Menu extends Component {
   items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
   backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
   uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
-  submenu: ElementFinder = browser.element(by.css(Menu.selectors.submenu));
+  submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
 
   constructor(ancestor?: ElementFinder) {
     super(Menu.selectors.root, ancestor);
@@ -153,6 +153,10 @@ export class Menu extends Component {
 
   async isSubMenuItemPresent(title: string) {
     return await browser.element(by.cssContainingText(Menu.selectors.submenu, title)).isPresent();
+  }
+
+  async getSubmenuItemsCount() {
+    return await this.submenus.count();
   }
 
   async isMenuItemDisabled(title: string) {
