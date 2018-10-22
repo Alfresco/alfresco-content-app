@@ -42,7 +42,7 @@ import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
 import { NodePermissionService } from '../../services/node-permission.service';
 import { currentFolder } from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-layout',
@@ -56,6 +56,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   layout: SidenavLayoutComponent;
 
   onDestroy$: Subject<boolean> = new Subject<boolean>();
+  isSmallScreen$: Observable<boolean>;
+
   expandedSidenav: boolean;
   currentFolderId: string;
   canUpload = false;
@@ -76,6 +78,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.isSmallScreen$ = this.breakpointObserver
+      .observe(['(max-width: 600px)'])
+      .pipe(map(result => result.matches));
+
     this.hideSidenav = this.hideConditions.some(el =>
       this.router.routerState.snapshot.url.includes(el)
     );
@@ -96,11 +102,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     this.router.events
       .pipe(
-        withLatestFrom(this.isSmallScreen()),
+        withLatestFrom(this.isSmallScreen$),
         filter(
           ([event, isSmallScreen]) =>
             isSmallScreen && event instanceof NavigationEnd
-        )
+        ),
+        takeUntil(this.onDestroy$)
       )
       .subscribe(() => {
         this.layout.container.toggleMenu();
@@ -169,11 +176,5 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     return expand;
-  }
-
-  private isSmallScreen(): Observable<boolean> {
-    return this.breakpointObserver
-      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-      .pipe(map(result => result.matches));
   }
 }

@@ -5,7 +5,7 @@
     hasBackdrop="false"
     acaContextMenuOutsideEvent
     (clickOutside)="onClickOutsideEvent()">
-    <ng-container *ngFor="let entry of actions" [ngSwitch]="entry.type">
+    <ng-container *ngFor="let entry of actions; trackBy: trackById" [ngSwitch]="entry.type">
         <ng-container *ngSwitchDefault>
             <button mat-menu-item
                 [id]="entry.id"

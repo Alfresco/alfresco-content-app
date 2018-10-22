@@ -103,4 +103,8 @@ export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     setTimeout(() => this.trigger.openMenu(), 0);
   }
+
+  trackById(index: number, obj: { id: string }) {
+    return obj.id;
+  }
 }

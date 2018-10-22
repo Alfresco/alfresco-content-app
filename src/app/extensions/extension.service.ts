@@ -364,19 +364,15 @@ export class AppExtensionService implements RuleContext {
       .filter(action => this.filterByRules(action))
       .map(action => {
         if (action.type === ContentActionType.menu) {
-          if (action.type === ContentActionType.menu) {
-            const copy = this.copyAction(action);
-            if (copy.children && copy.children.length > 0) {
-              copy.children = copy.children
-                .filter(childAction => this.filterByRules(childAction))
-                .reduce(reduceSeparators, []);
-            }
-            return copy;
+          const copy = this.copyAction(action);
+          if (copy.children && copy.children.length > 0) {
+            copy.children = copy.children
+              .filter(childAction => this.filterByRules(childAction))
+              .reduce(reduceSeparators, []);
           }
-          return action;
-        } else {
-          return action;
+          return copy;
         }
+        return action;
       })
       .reduce(reduceEmptyMenus, [])
       .reduce(reduceSeparators, []);
