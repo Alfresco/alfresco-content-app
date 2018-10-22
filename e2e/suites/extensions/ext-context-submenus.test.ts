@@ -35,6 +35,17 @@ describe('Extensions - Context submenu', () => {
   const folder = `folder-${Utils.random()}`;
   let folderId;
 
+  const onlyFilePermissionedItem = 'Share';
+
+  const menuItem1 = {
+    label: 'Test Menu1',
+    submenu: [ 'Test submenu1', 'Test submenu2', onlyFilePermissionedItem ]
+  };
+  const menuItem2 = {
+    label: 'Test Menu2',
+    submenu: [ onlyFilePermissionedItem ]
+  };
+
   const apis = {
     admin: new RepoClient(),
     user: new RepoClient(username, username)
@@ -67,34 +78,33 @@ describe('Extensions - Context submenu', () => {
   });
 
   afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(fileId);
-    await apis.user.nodes.deleteNodeById(folderId);
-    // await apis.user.trashcan.emptyTrash();
+    await apis.user.nodes.deleteNodeById(fileId, true);
+    await apis.user.nodes.deleteNodeById(folderId, true);
     await logoutPage.load();
     done();
   });
 
   it('displays the submenu actions set from config - []', async () => {
     await dataTable.rightClickOnItem(file);
-    expect(await contextMenu.isMenuItemPresent('Test Menu1')).toBe(true, `Test menu is not displayed for ${file}`);
-    expect(await contextMenu.hasSubMenu('Test Menu1')).toBe(true, 'Menu does not have submenu');
-    await contextMenu.mouseOverMenuItem('Test Menu1');
+    expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(true, `${menuItem1.label} is not displayed for ${file}`);
+    expect(await contextMenu.hasSubMenu(menuItem1.label)).toBe(true, 'Menu does not have submenu');
+    await contextMenu.mouseOverMenuItem(menuItem1.label);
 
-    expect(await contextMenu.isSubMenuItemPresent('Test submenu1')).toBe(true, `submenu item1 is not displayed for ${file}`);
-    expect(await contextMenu.isSubMenuItemPresent('Test submenu2')).toBe(true, `submenu item2 is not displayed for ${file}`);
-    expect(await contextMenu.isSubMenuItemPresent('Share')).toBe(true, `submenu item3 is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[0])).toBe(true, `${menuItem1.submenu[0]} is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[1])).toBe(true, `${menuItem1.submenu[1]} is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(true, `${onlyFilePermissionedItem} is not displayed for ${file}`);
   });
 
   it('does not display submenu actions without permissions - []', async () => {
     await dataTable.rightClickOnItem(folder);
-    expect(await contextMenu.isMenuItemPresent('Test Menu1')).toBe(true, `Test menu is not displayed for ${folder}`);
+    expect(await contextMenu.isMenuItemPresent(menuItem1.label)).toBe(true, `${menuItem1.label} is not displayed for ${folder}`);
 
-    await contextMenu.mouseOverMenuItem('Test Menu1');
-    expect(await contextMenu.isMenuItemPresent('SHARE')).toBe(false, `no permission submenu item is displayed`);
+    await contextMenu.mouseOverMenuItem(menuItem1.label);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(false, `no permission submenu ${onlyFilePermissionedItem} is displayed`);
   });
 
   it('the parent item is not displayed if all its children have no permission to be displayed - []', async () => {
     await dataTable.rightClickOnItem(folder);
-    expect(await contextMenu.isMenuItemPresent('Test Menu2')).toBe(false, `Test More menu is displayed for ${folder}`);
+    expect(await contextMenu.isMenuItemPresent(menuItem2.label)).toBe(false, `${menuItem2.label} menu is displayed for ${folder}`);
   });
 });
