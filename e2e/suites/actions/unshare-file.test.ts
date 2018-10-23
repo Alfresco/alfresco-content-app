@@ -738,8 +738,7 @@ describe('Unshare a file', () => {
       done();
     });
 
-    // TODO: ACA-1911
-    xit('on File Libraries - file shared by other user - [C286682]', async () => {
+    it('on File Libraries - file shared by other user - [C286682]', async () => {
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(sitePrivate);
@@ -749,7 +748,7 @@ describe('Unshare a file', () => {
       await toolbar.menu.clickMenuItem('Shared link settings');
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleEnabled()).toBe(false, 'Share toggle enabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
     it('on File Libraries - file shared by the user - [C286701]', async () => {
@@ -762,11 +761,10 @@ describe('Unshare a file', () => {
       await toolbar.menu.clickMenuItem('Shared link settings');
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleEnabled()).toBe(true, 'Share toggle disabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
-    // TODO: ACA-1911
-    xit('on Shared Files - file shared by other user - [C286687]', async () => {
+    it('on Shared Files - file shared by other user - [C286687]', async () => {
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file1);
@@ -774,7 +772,7 @@ describe('Unshare a file', () => {
       await toolbar.menu.clickMenuItem('Shared link settings');
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleEnabled()).toBe(false, 'Share toggle enabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
     it('on Shared Files - file shared by the user - [C286702]', async () => {
@@ -785,11 +783,10 @@ describe('Unshare a file', () => {
       await toolbar.menu.clickMenuItem('Shared link settings');
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleEnabled()).toBe(true, 'Share toggle disabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
-    // TODO: ACA-1911
-    xit('on Favorites - file shared by other user - [C286697]', async () => {
+    it('on Favorites - file shared by other user - [C286697]', async () => {
       await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file1);
@@ -797,7 +794,7 @@ describe('Unshare a file', () => {
       await toolbar.menu.clickMenuItem('Share');
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleEnabled()).toBe(false, 'Share toggle enabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
     it('on Favorites - file shared by the user - [C286703]', async () => {
@@ -808,7 +805,7 @@ describe('Unshare a file', () => {
       await toolbar.menu.clickMenuItem('Share');
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleEnabled()).toBe(true, 'Share toggle disabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
   });
 

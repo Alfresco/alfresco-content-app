@@ -29,6 +29,7 @@ import {
 import { ContentNodeShareModule } from './content-node-share.module';
 import { ShareDialogComponent } from './content-node-share.dialog';
 import moment from 'moment-es6';
+import { Store } from '@ngrx/store';
 
 describe('ShareDialogComponent', () => {
   let node;
@@ -40,6 +41,9 @@ describe('ShareDialogComponent', () => {
   let nodesApiService: NodesApiService;
   let fixture;
   let component;
+  const storeMock = {
+    dispatch: jasmine.createSpy('dispatch')
+  };
 
   setupTestBed({
     imports: [
@@ -50,6 +54,7 @@ describe('ShareDialogComponent', () => {
     providers: [
       NodesApiService,
       SharedLinksApiService,
+      { provide: Store, useValue: storeMock },
       { provide: NotificationService, useValue: notificationServiceMock },
       { provide: MatDialogRef, useValue: {} },
       { provide: MAT_DIALOG_DATA, useValue: {} }
@@ -266,7 +271,7 @@ describe('ShareDialogComponent', () => {
     ).toBe('');
   });
 
-  it('should not allow unshare when node has no update permission', () => {
+  it('should not allow expiration date action when node has no update permission', () => {
     node.entry.properties['qshare:sharedId'] = 'sharedId';
 
     component.data = {
@@ -278,11 +283,6 @@ describe('ShareDialogComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.nativeElement.querySelector(
-        '.mat-slide-toggle[data-automation-id="adf-share-toggle"'
-      ).classList
-    ).toContain('mat-disabled');
-    expect(
       fixture.nativeElement.querySelector('input[formcontrolname="time"]')
         .disabled
     ).toBe(true);
@@ -291,6 +291,29 @@ describe('ShareDialogComponent', () => {
         '.mat-slide-toggle[data-automation-id="adf-expire-toggle"]'
       ).classList
     ).toContain('mat-disabled');
+  });
+
+  it('should show permission error notification on un-share action', () => {
+    node.entry.properties['qshare:sharedId'] = 'sharedId';
+    spyOn(matDialog, 'open').and.returnValue({ beforeClose: () => of(true) });
+    spyOn(sharedLinksApiService, 'deleteSharedLink').and.returnValue(
+      of(new Error('{"error": { "statusCode": 403  } }'))
+    );
+    component.data = {
+      node,
+      permission: false,
+      baseShareUrl: 'some-url/'
+    };
+
+    fixture.detectChanges();
+
+    fixture.nativeElement
+      .querySelector(
+        '.mat-slide-toggle[data-automation-id="adf-share-toggle"] label'
+      )
+      .dispatchEvent(new MouseEvent('click'));
+
+    expect(storeMock.dispatch).toHaveBeenCalled();
   });
 
   it('should update node expiration date with selected date and time', () => {
