@@ -26,6 +26,9 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subscription, Observable, throwError } from 'rxjs';
+import { SnackbarErrorAction } from '../../../store/actions';
+import { AppStore } from '../../../store/states/app.state';
+import { Store } from '@ngrx/store';
 import {
   skip,
   mergeMap,
@@ -72,6 +75,7 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<ShareDialogComponent>,
     private dialog: MatDialog,
     private nodesApiService: NodesApiService,
+    private store: Store<AppStore>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
@@ -197,17 +201,19 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
   private deleteSharedLink(sharedId: string) {
     this.isDisabled = true;
 
-    this.sharedLinksApiService.deleteSharedLink(sharedId).subscribe(
-      () => {
-        this.data.node.entry.properties['qshare:sharedId'] = null;
-        this.data.node.entry.properties['qshare:expiryDate'] = null;
-        this.dialogRef.close(this.data.node);
-      },
-      () => {
-        this.isDisabled = false;
-        this.isFileShared = false;
-      }
-    );
+    this.sharedLinksApiService
+      .deleteSharedLink(sharedId)
+      .subscribe((response: any) => {
+        if (response instanceof Error) {
+          this.isDisabled = false;
+          this.isFileShared = true;
+          this.showError(response);
+        } else {
+          this.data.node.entry.properties['qshare:sharedId'] = null;
+          this.data.node.entry.properties['qshare:expiryDate'] = null;
+          this.dialogRef.close(this.data.node);
+        }
+      });
   }
 
   private updateForm() {
@@ -232,5 +238,15 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     const { properties } = this.data.node.entry;
 
     properties['qshare:expiryDate'] = date ? date.toDate() : null;
+  }
+
+  private showError(response) {
+    let message;
+    const statusCode = JSON.parse(response.message).error.statusCode;
+    if (statusCode === 403) {
+      message = 'SHARED_LINK.UNSHARE_PERMISSION_ERROR';
+    }
+
+    this.store.dispatch(new SnackbarErrorAction(message));
   }
 }

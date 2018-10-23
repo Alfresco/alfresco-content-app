@@ -14,7 +14,7 @@
                 color="primary"
                 data-automation-id="adf-share-toggle"
                 [checked]="isFileShared"
-                [disabled]="!canUpdate || isDisabled"
+                [disabled]="isDisabled"
                 (change)="onSlideShareChange()">
             </mat-slide-toggle>
         </div>
