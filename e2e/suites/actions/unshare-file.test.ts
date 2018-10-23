@@ -135,6 +135,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
@@ -176,6 +177,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
@@ -266,6 +268,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
@@ -307,6 +310,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
@@ -389,6 +393,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
@@ -430,6 +435,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
@@ -512,6 +518,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
@@ -552,6 +559,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
@@ -640,6 +648,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
@@ -681,6 +690,7 @@ describe('Unshare a file', () => {
 
       await confirmDialog.clickButton('Remove');
       await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
