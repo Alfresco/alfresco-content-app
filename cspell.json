@@ -52,7 +52,9 @@
     "cardview",
     "webm",
     "keycodes",
-    "denysvuika"
+    "denysvuika",
+    "submenu",
+    "submenus"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }
