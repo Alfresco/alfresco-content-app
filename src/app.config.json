@@ -162,14 +162,14 @@
           "ascending": true
         },
         {
-          "key": "modified",
+          "key": "modifier",
           "label": "SEARCH.SORT.MODIFIER",
           "type": "FIELD",
           "field": "cm:modifier",
           "ascending": true
         },
         {
-          "key": "modified",
+          "key": "created",
           "label": "SEARCH.SORT.CREATE_DATE",
           "type": "FIELD",
           "field": "cm:created",
