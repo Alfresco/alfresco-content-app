@@ -35,15 +35,15 @@ describe('Extensions - Context submenu', () => {
   const folder = `folder-${Utils.random()}`;
   let folderId;
 
-  const onlyFilePermissionedItem = 'Share';
+  const restrictedPermissionsItem = 'Share';
 
   const menuItem1 = {
     label: 'Test Menu1',
-    submenu: [ 'Test submenu1', 'Test submenu2', onlyFilePermissionedItem ]
+    submenu: [ 'Test submenu1', 'Test submenu2', restrictedPermissionsItem ]
   };
   const menuItem2 = {
     label: 'Test Menu2',
-    submenu: [ onlyFilePermissionedItem ]
+    submenu: [ restrictedPermissionsItem ]
   };
 
   const apis = {
@@ -93,7 +93,7 @@ describe('Extensions - Context submenu', () => {
     expect(await contextMenu.getSubmenuItemsCount()).toBe(3, 'submenu has wrong number of items');
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[0])).toBe(true, `${menuItem1.submenu[0]} is not displayed for ${file}`);
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[1])).toBe(true, `${menuItem1.submenu[1]} is not displayed for ${file}`);
-    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(true, `${onlyFilePermissionedItem} is not displayed for ${file}`);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(true, `${restrictedPermissionsItem} is not displayed for ${file}`);
   });
 
   it('Does not display submenu actions without permissions - [C286718]', async () => {
@@ -104,7 +104,7 @@ describe('Extensions - Context submenu', () => {
     expect(await contextMenu.getSubmenuItemsCount()).toBe(2, 'submenu has wrong number of items');
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[0])).toBe(true, `${menuItem1.submenu[0]} is not displayed for ${file}`);
     expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[1])).toBe(true, `${menuItem1.submenu[1]} is not displayed for ${file}`);
-    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(false, `no permission submenu ${onlyFilePermissionedItem} is displayed`);
+    expect(await contextMenu.isSubMenuItemPresent(menuItem1.submenu[2])).toBe(false, `no permission submenu ${restrictedPermissionsItem} is displayed`);
   });
 
   it('The parent item is not displayed if all its children have no permission to be displayed - [C287784]', async () => {
