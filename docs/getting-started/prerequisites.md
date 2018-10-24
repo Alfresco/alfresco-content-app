@@ -5,7 +5,7 @@
 
 This application uses the latest releases from Alfresco:
 
-- [Alfresco ADF (2.5.0)](https://community.alfresco.com/community/application-development-framework/pages/get-started)
+- [Alfresco ADF (2.6.0)](https://community.alfresco.com/community/application-development-framework/pages/get-started)
 - [Alfresco Content Services (6.0)](https://www.alfresco.com/platform/content-services-ecm)
   or [Alfresco Community Edition (6.0 - General Release: 201806)](https://www.alfresco.com/products/community/download)
 
