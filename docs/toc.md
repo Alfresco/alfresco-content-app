@@ -8,7 +8,7 @@
         - [File Viewer](/#file-viewer)
         - [Info Drawer](/#info-drawer)
         - [Version Manager](/#version-manager)
-        - [Search results](/#search-results)
+        - [Search results](/#search-results1)
     - [How to contribute](/#how-to-contribute)
 - [Getting started](/getting-started/)
     - [Prerequisites](/getting-started/prerequisites)
