@@ -265,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "Permissão herdada"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Você não tem permissão para descompartilhar deste arquivo"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Gerenciar versões",

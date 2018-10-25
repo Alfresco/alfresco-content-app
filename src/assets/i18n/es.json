@@ -265,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "Permiso heredado"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "No tiene acceso para dejar de compartir este fichero"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Gestionar versiones",

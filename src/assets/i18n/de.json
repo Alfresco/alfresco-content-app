@@ -265,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "Berechtigungen geerbt"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Sie verfügen nicht über die Berechtigung die Freigabe für diese Datei aufzuheben"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Versionen verwalten",

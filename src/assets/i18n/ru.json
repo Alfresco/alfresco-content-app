@@ -265,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "Разрешение унаследовано"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "У вас нет разрешения на снятие этого файла с публикации"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Управление версиями",

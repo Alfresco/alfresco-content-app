@@ -265,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "Permesso ereditato"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Non hai il permesso per rimuovere la condivisione di questo file"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Gestione versioni",
