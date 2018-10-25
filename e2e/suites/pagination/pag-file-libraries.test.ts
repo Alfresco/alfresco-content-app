@@ -50,7 +50,7 @@ describe('Pagination on multiple pages on File Libraries', () => {
     await apis.user.sites.waitForApi({ expect: 101 });
     await loginPage.loginWith(username);
     done();
-  }, 40000);
+  });
 
   beforeEach(async (done) => {
       await page.clickFileLibrariesAndWait();
