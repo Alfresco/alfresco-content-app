@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -49,8 +49,8 @@ describe('File Libraries', () => {
 
   const loginPage = new LoginPage();
   const logoutPage = new LogoutPage();
-  const fileLibrariesPage = new BrowsingPage();
-  const { dataTable } = fileLibrariesPage;
+  const page = new BrowsingPage();
+  const { dataTable } = page;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -71,8 +71,7 @@ describe('File Libraries', () => {
   });
 
   beforeEach(async (done) => {
-    await fileLibrariesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-    await dataTable.waitForHeader();
+    await page.clickFileLibrariesAndWait();
     done();
   });
 

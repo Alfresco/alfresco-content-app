@@ -24,7 +24,7 @@
  */
 
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SIDEBAR_LABELS } from '../../configs';
+import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -93,15 +93,13 @@ describe('Toolbar actions - single selection : ', () => {
 
   describe('General tests', () => {
     it('actions not displayed for top level of File Libraries - [C213135]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.selectItem(siteName);
       expect(await toolbar.isEmpty()).toBe(true, 'toolbar not empty');
     });
 
     it('selected row is marked with a check circle icon - [C213134]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.selectItem(fileUser);
       expect(await dataTable.hasCheckMarkIcon(fileUser)).toBe(true, 'check mark missing');
     });
@@ -110,8 +108,7 @@ describe('Toolbar actions - single selection : ', () => {
   describe('Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -152,8 +149,7 @@ describe('Toolbar actions - single selection : ', () => {
   describe('File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.clearSelection();
@@ -196,8 +192,7 @@ describe('Toolbar actions - single selection : ', () => {
   describe('Shared Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -225,8 +220,7 @@ describe('Toolbar actions - single selection : ', () => {
   describe('Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -253,8 +247,7 @@ describe('Toolbar actions - single selection : ', () => {
   describe('Favorites', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -295,8 +288,7 @@ describe('Toolbar actions - single selection : ', () => {
   describe('Trash', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       await dataTable.clearSelection();
       done();
     });

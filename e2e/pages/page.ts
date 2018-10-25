@@ -111,12 +111,6 @@ export abstract class Page {
 
   async clickSnackBarAction() {
     try {
-
-      // await this.waitForSnackBarToAppear();
-
-      // return browser.executeScript(function (elem) {
-      //   elem.click();
-      // }, this.snackBarAction);
       return await this.snackBarAction.click();
     } catch (e) {
       console.log(e, '.......failed on click snack bar action.........');
@@ -130,4 +124,5 @@ export abstract class Page {
   async getGenericErrorTitle() {
     return await this.genericErrorTitle.getText();
   }
+
 }

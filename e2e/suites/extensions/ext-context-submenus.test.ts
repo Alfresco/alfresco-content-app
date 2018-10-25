@@ -24,7 +24,7 @@
  */
 
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { EXTENSIBILITY_CONFIGS, SIDEBAR_LABELS } from '../../configs';
+import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -53,8 +53,8 @@ describe('Extensions - Context submenu', () => {
 
   const loginPage = new LoginPage();
   const logoutPage = new LogoutPage();
-  const personalFilesPage = new BrowsingPage();
-  const {dataTable} = personalFilesPage;
+  const page = new BrowsingPage();
+  const {dataTable} = page;
   const contextMenu = dataTable.menu;
 
   beforeAll(async (done) => {
@@ -72,8 +72,7 @@ describe('Extensions - Context submenu', () => {
   beforeEach(async (done) => {
     await Utils.pressEscape();
     await dataTable.clearSelection();
-    await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     done();
   });
 

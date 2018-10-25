@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { SIDEBAR_LABELS, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { Menu } from '../../components/menu/menu';
@@ -51,9 +51,9 @@ describe('Create folder', () => {
 
   const loginPage = new LoginPage();
   const logoutPage = new LogoutPage();
-  const personalFilesPage = new BrowsingPage();
+  const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
-  const { dataTable } = personalFilesPage;
+  const { dataTable } = page;
   const menu = new Menu();
 
   beforeAll(async (done) => {
@@ -77,8 +77,7 @@ describe('Create folder', () => {
 
   describe('on Personal Files', () => {
     beforeEach(async (done) => {
-      await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -88,15 +87,15 @@ describe('Create folder', () => {
     });
 
     it('option is enabled when having enough permissions - [C216339]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openNewMenu();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openNewMenu();
       const isEnabled = await menu.getItemByLabel('Create folder').isEnabled();
       expect(isEnabled).toBe(true, 'Create folder is not enabled');
     });
 
     it('creates new folder with name - [C216341]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderName1);
       await createDialog.clickCreate();
@@ -107,8 +106,8 @@ describe('Create folder', () => {
     });
 
     it('creates new folder with name and description - [C216340]', async (done) => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderName2);
       await createDialog.enterDescription(folderDescription);
@@ -122,15 +121,15 @@ describe('Create folder', () => {
     });
 
     it('enabled option tooltip - [C216342]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openNewMenu();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openNewMenu();
       await browser.actions().mouseMove(menu.getItemByLabel('Create folder')).perform();
       expect(await menu.getItemTooltip('Create folder')).toContain('Create new folder');
     });
 
     it('dialog UI elements - [C216345]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
       const dialogTitle = await createDialog.getTitle();
       const isFolderNameDisplayed = await createDialog.nameInput.isDisplayed();
@@ -146,8 +145,8 @@ describe('Create folder', () => {
     });
 
     it('with empty folder name - [C216346]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.deleteNameWithBackspace();
       const isCreateEnabled = await createDialog.createButton.isEnabled();
@@ -158,8 +157,8 @@ describe('Create folder', () => {
     });
 
     it('with folder name ending with a dot "." - [C216348]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName('folder-name.');
       const isCreateEnabled = await createDialog.createButton.isEnabled();
@@ -172,8 +171,8 @@ describe('Create folder', () => {
     it('with folder name containing special characters - [C216347]', async () => {
       const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
 
       for (const name of namesWithSpecialChars) {
@@ -184,8 +183,8 @@ describe('Create folder', () => {
     });
 
     it('with folder name containing only spaces - [C280406]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName('    ');
       const isCreateEnabled = await createDialog.createButton.isEnabled();
@@ -196,8 +195,8 @@ describe('Create folder', () => {
     });
 
     it('cancel folder creation - [C216349]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName('test');
       await createDialog.enterDescription('test description');
@@ -206,19 +205,19 @@ describe('Create folder', () => {
     });
 
     it('duplicate folder name - [C216350]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(duplicateFolderName);
       await createDialog.clickCreate();
-      const message = await personalFilesPage.getSnackBarMessage();
+      const message = await page.getSnackBarMessage();
       expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await createDialog.component.isPresent()).toBe(true, 'dialog is not present');
     });
 
     it('trim ending spaces from folder name - [C216351]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(parent);
-      await personalFilesPage.sidenav.openCreateDialog();
+      await page.dataTable.doubleClickOnRowByName(parent);
+      await page.sidenav.openCreateDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(nameWithSpaces);
       await createDialog.clickCreate();
@@ -233,8 +232,7 @@ describe('Create folder', () => {
     const fileLibrariesPage = new BrowsingPage();
 
     beforeEach(async (done) => {
-      await fileLibrariesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await fileLibrariesPage.clickFileLibrariesAndWait();
       done();
     });
 

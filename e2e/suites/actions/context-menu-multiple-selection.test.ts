@@ -24,7 +24,7 @@
  */
 
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SIDEBAR_LABELS } from '../../configs';
+import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -103,15 +103,13 @@ describe('Context menu actions - multiple selection : ', () => {
   describe('Generic tests', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
 
     it('Context menu appears on right click on a multiple selection of items - [C286268]', async () => {
       await dataTable.selectMultipleItems([ file1, file2 ]);
-      // await dataTable.rightClickOnItem(file1);
       await dataTable.rightClickOnMultipleSelection();
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
     });
@@ -131,8 +129,7 @@ describe('Context menu actions - multiple selection : ', () => {
   describe('on Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -179,8 +176,7 @@ describe('Context menu actions - multiple selection : ', () => {
   describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.clearSelection();
@@ -230,8 +226,7 @@ describe('Context menu actions - multiple selection : ', () => {
   describe('on Shared Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -253,8 +248,7 @@ describe('Context menu actions - multiple selection : ', () => {
   describe('Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -276,8 +270,7 @@ describe('Context menu actions - multiple selection : ', () => {
   describe('Favorites', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -328,8 +321,7 @@ describe('Context menu actions - multiple selection : ', () => {
   describe('Trash', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       await dataTable.clearSelection();
       done();
     });

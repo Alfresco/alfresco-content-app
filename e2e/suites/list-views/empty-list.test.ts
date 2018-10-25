@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -54,41 +53,41 @@ describe('Empty list views', () => {
   });
 
   it('empty Personal Files - [C280131]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await page.clickPersonalFiles();
     expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyDragAndDropText()).toContain('Drag and drop');
   });
 
   it('empty File Libraries - [C217099]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await page.clickFileLibraries();
     expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
   });
 
   it('empty Shared Files - [C280132]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+    await page.clickSharedFiles();
     expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No shared files or folders');
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you share using the Share option are shown here.');
   });
 
   it('empty Recent Files - [C213169]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
+    await page.clickRecentFiles();
     expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No recent files');
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you upload or edit in the last 30 days are shown here.');
   });
 
   it('empty Favorites - [C280133]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+    await page.clickFavorites();
     expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No favorite files or folders');
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Favorite items that you want to easily find later.');
   });
 
   it('empty Trash - [C280134]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+    await page.clickTrash();
     expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('Trash is empty');
     expect(await dataTable.getEmptyStateText()).toContain('Items you delete are moved to the Trash.');

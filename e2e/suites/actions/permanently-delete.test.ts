@@ -25,7 +25,6 @@
 
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { ConfirmDialog } from './../../components/components';
-import { SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -48,8 +47,8 @@ describe('Permanently delete from Trash', () => {
 
     const loginPage = new LoginPage();
     const logoutPage = new LogoutPage();
-    const trashPage = new BrowsingPage();
-    const { dataTable, toolbar } = trashPage;
+    const page = new BrowsingPage();
+    const { dataTable, toolbar } = page;
 
     const confirmDialog = new ConfirmDialog();
 
@@ -65,8 +64,7 @@ describe('Permanently delete from Trash', () => {
     });
 
     beforeEach(async (done) => {
-        await trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-        await dataTable.waitForHeader();
+        await page.clickTrashAndWait();
         done();
     });
 
@@ -81,11 +79,11 @@ describe('Permanently delete from Trash', () => {
     it('delete file - [C217091]', async () => {
         await dataTable.selectItem(file1);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
-        await trashPage.waitForDialog();
+        await page.waitForDialog();
         // await trashPage.getDialogActionByLabel('Delete').click();
         // await trashPage.waitForDialogToClose();
         await confirmDialog.clickButton('Delete');
-        const text = await trashPage.getSnackBarMessage();
+        const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`${file1} deleted`);
         expect(await dataTable.getRowByName(file1).isPresent()).toBe(false, 'Item was not deleted');
@@ -94,11 +92,11 @@ describe('Permanently delete from Trash', () => {
     it('delete folder - [C280416]', async () => {
         await dataTable.selectItem(folder1);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
-        await trashPage.waitForDialog();
+        await page.waitForDialog();
         // await trashPage.getDialogActionByLabel('Delete').click();
         // await trashPage.waitForDialogToClose();
         await confirmDialog.clickButton('Delete');
-        const text = await trashPage.getSnackBarMessage();
+        const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`${folder1} deleted`);
         expect(await dataTable.getRowByName(folder1).isPresent()).toBe(false, 'Item was not deleted');
@@ -107,11 +105,11 @@ describe('Permanently delete from Trash', () => {
     it('delete multiple items - [C280417]', async () => {
         await dataTable.selectMultipleItems([ file2, folder2 ]);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
-        await trashPage.waitForDialog();
+        await page.waitForDialog();
         // await trashPage.getDialogActionByLabel('Delete').click();
         // await trashPage.waitForDialogToClose();
         await confirmDialog.clickButton('Delete');
-        const text = await trashPage.getSnackBarMessage();
+        const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`2 items deleted`);
         expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, 'Item was not deleted');
@@ -121,7 +119,7 @@ describe('Permanently delete from Trash', () => {
     it('Confirmation dialog UI - [C269113]', async () => {
         await dataTable.selectItem(file3);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
-        await trashPage.waitForDialog();
+        await page.waitForDialog();
 
         expect(await confirmDialog.isDialogOpen()).toBe(true, 'Confirm delete dialog not open');
         expect(await confirmDialog.getTitle()).toContain('Delete from trash');
@@ -136,7 +134,7 @@ describe('Permanently delete from Trash', () => {
     it('Keep action cancels the deletion - [C269115]', async () => {
         await dataTable.selectItem(file3);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
-        await trashPage.waitForDialog();
+        await page.waitForDialog();
 
         expect(await confirmDialog.isButtonEnabled('Keep')).toBe(true, 'KEEP button is not enabled');
         await confirmDialog.clickButton('Keep');

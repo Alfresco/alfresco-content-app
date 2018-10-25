@@ -24,7 +24,7 @@
  */
 
 import { LoginPage, BrowsingPage, LogoutPage } from '../../pages/pages';
-import { SIDEBAR_LABELS, FILES } from '../../configs';
+import { FILES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { Viewer } from '../../components/viewer/viewer';
@@ -81,8 +81,7 @@ describe('Viewer actions', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       await dataTable.waitForHeader();
       done();
@@ -143,8 +142,7 @@ describe('Viewer actions', () => {
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
       expect(await dataTable.getRowByName(docxPersonalFiles).isPresent()).toBe(true, 'Item is not in the list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(docxPersonalFiles).isPresent()).toBe(true, 'Item is not present in destination');
 
@@ -165,8 +163,7 @@ describe('Viewer actions', () => {
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
       expect(await dataTable.getRowByName(xlsxPersonalFiles).isPresent()).toBe(false, 'Item was not moved');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(xlsxPersonalFiles).isPresent()).toBe(true, 'Item is not present in destination');
     });
@@ -178,8 +175,7 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
       await viewer.clickClose();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       expect(await dataTable.getRowByName(docxPersonalFiles).isPresent()).toBe(true, 'Item is not present in Favorites list');
     });
@@ -194,8 +190,7 @@ describe('Viewer actions', () => {
       // TODO: enable this when ACA-1806 is fixed
       // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfPersonalFiles).isPresent()).toBe(true, 'Item is not present in Trash');
     });
 
@@ -266,8 +261,7 @@ describe('Viewer actions', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       done();
@@ -307,8 +301,7 @@ describe('Viewer actions', () => {
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
       expect(await dataTable.getRowByName(docxLibraries).isPresent()).toBe(true, 'Item is not in the list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(docxLibraries).isPresent()).toBe(true, 'Item is not present in destination');
 
@@ -329,8 +322,7 @@ describe('Viewer actions', () => {
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
       expect(await dataTable.getRowByName(xlsxLibraries).isPresent()).toBe(false, 'Item was not moved');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(xlsxLibraries).isPresent()).toBe(true, 'Item is not present in destination');
     });
@@ -342,8 +334,7 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
       await viewer.clickClose();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, `${docxLibraries} is not favorite`);
       expect(await dataTable.getRowByName(docxLibraries).isPresent()).toBe(true, `${docxLibraries} is not present in Favorites list`);
     });
@@ -358,8 +349,7 @@ describe('Viewer actions', () => {
       // TODO: enable this when ACA-1806 is fixed
       // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfLibraries).isPresent()).toBe(true, 'Item is not present in Trash');
     });
 
@@ -407,8 +397,7 @@ describe('Viewer actions', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -446,8 +435,7 @@ describe('Viewer actions', () => {
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
       expect(await dataTable.getRowByName(docxRecentFiles).isPresent()).toBe(true, 'Item is not in the list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(docxRecentFiles).isPresent()).toBe(true, 'Item is not present in destination');
 
@@ -469,8 +457,7 @@ describe('Viewer actions', () => {
       await viewer.clickClose();
       expect(await dataTable.getRowByName(xlsxRecentFiles).isPresent()).toBe(true, 'Item is not in the list');
       expect(await dataTable.getItemLocationTileAttr(xlsxRecentFiles)).toContain(destination, 'Item was not moved');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(xlsxRecentFiles).isPresent()).toBe(true, 'Item is not present in destination');
     });
@@ -482,8 +469,7 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
       await viewer.clickClose();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       expect(await dataTable.getRowByName(docxRecentFiles).isPresent()).toBe(true, 'Item is not present in Favorites list');
     });
@@ -498,8 +484,7 @@ describe('Viewer actions', () => {
       // TODO: enable this when ACA-1806 is fixed
       // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfRecentFiles).isPresent()).toBe(true, 'Item is not present in Trash');
     });
 
@@ -547,8 +532,7 @@ describe('Viewer actions', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -586,8 +570,7 @@ describe('Viewer actions', () => {
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
       expect(await dataTable.getRowByName(docxSharedFiles).isPresent()).toBe(true, 'Item is not in the list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(docxSharedFiles).isPresent()).toBe(true, 'Item is not present in destination');
 
@@ -609,8 +592,7 @@ describe('Viewer actions', () => {
       await viewer.clickClose();
       expect(await dataTable.getRowByName(xlsxSharedFiles).isPresent()).toBe(true, 'Item is not in the list');
       expect(await dataTable.getItemLocationTileAttr(xlsxSharedFiles)).toContain(destination, 'Item was not moved');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(xlsxSharedFiles).isPresent()).toBe(true, 'Item is not present in destination');
     });
@@ -622,8 +604,7 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
       await viewer.clickClose();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
       expect(await dataTable.getRowByName(docxSharedFiles).isPresent()).toBe(true, 'Item is not present in Favorites list');
     });
@@ -638,8 +619,7 @@ describe('Viewer actions', () => {
       // TODO: enable this when ACA-1806 is fixed
       // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfSharedFiles).isPresent()).toBe(true, 'Item is not present in Trash');
     });
 
@@ -690,8 +670,7 @@ describe('Viewer actions', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       done();
     });
 
@@ -729,8 +708,7 @@ describe('Viewer actions', () => {
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
       expect(await dataTable.getRowByName(docxFavorites).isPresent()).toBe(true, 'Item is not in the list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(docxFavorites).isPresent()).toBe(true, 'Item is not present in destination');
 
@@ -752,8 +730,7 @@ describe('Viewer actions', () => {
       await viewer.clickClose();
       expect(await dataTable.getRowByName(xlsxFavorites).isPresent()).toBe(true, 'Item is not in the list');
       expect(await dataTable.getItemLocationTileAttr(xlsxFavorites)).toContain(destination, 'Item was not moved');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.getRowByName(xlsxFavorites).isPresent()).toBe(true, 'Item is not present in destination');
     });
@@ -765,8 +742,7 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Favorite');
       await viewer.clickClose();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(xlsxFileId)).toBe(false, 'Item is still favorite');
       expect(await dataTable.getRowByName(xlsxFavorites).isPresent()).toBe(false, 'Item is still present in Favorites list');
     });
@@ -781,8 +757,7 @@ describe('Viewer actions', () => {
       // TODO: enable this when ACA-1806 is fixed
       // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfFavorites).isPresent()).toBe(true, 'Item is not present in Trash');
     });
 

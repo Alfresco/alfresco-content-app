@@ -26,7 +26,7 @@
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { SIDEBAR_LABELS, EXTENSIBILITY_CONFIGS } from '../../configs';
+import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
 
 describe('Extensions - Info Drawer', () => {
@@ -88,8 +88,7 @@ describe('Extensions - Info Drawer', () => {
         });
 
         beforeEach(async (done) => {
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-            await page.dataTable.waitForHeader();
+            await page.clickPersonalFilesAndWait();
             await page.dataTable.clearSelection();
             done();
         });
@@ -151,8 +150,7 @@ describe('Extensions - Info Drawer', () => {
             await loginPage.load();
             await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
             await loginPage.loginWith(username);
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-            await page.dataTable.waitForHeader();
+            await page.clickPersonalFilesAndWait();
             done();
         });
 

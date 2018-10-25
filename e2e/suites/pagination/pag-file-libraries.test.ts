@@ -23,8 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
-import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
+import { SITE_VISIBILITY } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -51,11 +50,10 @@ describe('Pagination on multiple pages on File Libraries', () => {
     await apis.user.sites.waitForApi({ expect: 101 });
     await loginPage.loginWith(username);
     done();
-  });
+  }, 40000);
 
   beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       done();
   });
 

@@ -26,7 +26,7 @@
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Viewer } from './../../components/components';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { SIDEBAR_LABELS, EXTENSIBILITY_CONFIGS, FILES } from '../../configs';
+import { EXTENSIBILITY_CONFIGS, FILES } from '../../configs';
 import { Utils } from '../../utilities/utils';
 
 describe('Extensions - Viewer', () => {
@@ -96,8 +96,7 @@ describe('Extensions - Viewer', () => {
     });
 
     beforeEach(async (done) => {
-        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-        await page.dataTable.waitForHeader();
+        await page.clickPersonalFilesAndWait();
         done();
     });
 

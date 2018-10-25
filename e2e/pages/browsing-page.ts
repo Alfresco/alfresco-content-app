@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { promise } from 'protractor';
 import { Header, DataTable, Pagination, Toolbar, Breadcrumb, Sidenav } from '../components/components';
+import { SIDEBAR_LABELS } from './../configs';
 import { Page } from './page';
 
 export class BrowsingPage extends Page {
@@ -38,4 +38,67 @@ export class BrowsingPage extends Page {
   async signOut() {
     await this.header.userInfo.signOut();
   }
+
+
+  // helper methods
+
+  async clickPersonalFilesAndWait() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await this.dataTable.waitForHeader();
+  }
+
+  async clickPersonalFiles() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+  }
+
+
+  async clickFileLibrariesAndWait() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await this.dataTable.waitForHeader();
+  }
+
+  async clickFileLibraries() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+  }
+
+
+  async clickRecentFilesAndWait() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
+    await this.dataTable.waitForHeader();
+  }
+
+  async clickRecentFiles() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
+  }
+
+
+  async clickSharedFilesAndWait() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+    await this.dataTable.waitForHeader();
+  }
+
+  async clickSharedFiles() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+  }
+
+
+  async clickFavoritesAndWait() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+    await this.dataTable.waitForHeader();
+  }
+
+  async clickFavorites() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+  }
+
+
+  async clickTrashAndWait() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+    await this.dataTable.waitForHeader();
+  }
+
+  async clickTrash() {
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+  }
+
 }

@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
+import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { ShareDialog } from '../../components/dialog/share-dialog';
 import { Viewer } from '../../components/viewer/viewer';
@@ -97,8 +97,7 @@ describe('Share a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       await dataTable.waitForHeader();
       done();
@@ -164,7 +163,7 @@ describe('Share a file', () => {
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
     });
 
@@ -268,7 +267,7 @@ describe('Share a file', () => {
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
@@ -309,8 +308,7 @@ describe('Share a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(parentInSite);
@@ -370,7 +368,7 @@ describe('Share a file', () => {
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
     });
 
@@ -474,7 +472,7 @@ describe('Share a file', () => {
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
@@ -509,8 +507,7 @@ describe('Share a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -574,7 +571,7 @@ describe('Share a file', () => {
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
     });
 
@@ -678,7 +675,7 @@ describe('Share a file', () => {
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
@@ -715,8 +712,7 @@ describe('Share a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -890,8 +886,7 @@ describe('Share a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       done();
     });
 
@@ -955,7 +950,7 @@ describe('Share a file', () => {
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
     });
 
@@ -1059,7 +1054,7 @@ describe('Share a file', () => {
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
     });
   });

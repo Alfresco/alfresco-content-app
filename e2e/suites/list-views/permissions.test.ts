@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -39,10 +39,8 @@ describe('Special permissions', () => {
 
   const loginPage = new LoginPage();
   const logoutPage = new LogoutPage();
-  const recentFilesPage = new BrowsingPage();
-  const favoritesPage = new BrowsingPage();
-  const sharedPage = new BrowsingPage();
-  const { dataTable } = recentFilesPage;
+  const page = new BrowsingPage();
+  const { dataTable } = page;
 
   xit('');
 
@@ -86,29 +84,26 @@ describe('Special permissions', () => {
     });
 
     it('on Recent Files - [C213173]', async () => {
-      await recentFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
-      await recentFilesPage.refresh();
+      await page.refresh();
       expect(await dataTable.countRows()).toBe(0, 'Incorrect number of items');
     });
 
     it('on Favorites - [C213227]', async () => {
-      await favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
-      await favoritesPage.refresh();
+      await page.refresh();
       expect(await dataTable.countRows()).toBe(0, 'Incorrect number of items');
     });
 
     it('on Shared Files - [C213116]', async () => {
-      await sharedPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
-      await sharedPage.refresh();
+      await page.refresh();
       expect(await dataTable.countRows()).toBe(0, 'Incorrect number of items');
     });
   });
@@ -141,22 +136,19 @@ describe('Special permissions', () => {
     });
 
     it(`on Recent Files - [C213178]`, async () => {
-      await recentFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('');
     });
 
     it(`on Favorites - [C213672]`, async () => {
-      await favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('');
     });
 
     it(`on Shared Files - [C213668]`, async () => {
-      await sharedPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       expect(await dataTable.getItemLocation(fileName)).toEqual('');
     });
