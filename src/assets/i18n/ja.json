@@ -265,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "継承された権限"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "このファイルの共有を解除する権限がありません。"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "バージョンの管理",

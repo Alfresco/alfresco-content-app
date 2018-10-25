@@ -265,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "已继承权限"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "你没有权限取消这个文件的共享"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "管理版本",
