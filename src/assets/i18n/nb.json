@@ -265,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "Tillatelse arvet"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Du har ikke tillatelse til å oppheve deling av denne filen"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Administrer versjoner",

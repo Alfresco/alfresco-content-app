@@ -265,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "Machtiging overgenomen"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "U hebt geen rechten om het delen van dit bestand ongedaan te maken"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Versies beheren",
