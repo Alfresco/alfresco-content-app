@@ -51,15 +51,19 @@ export class SearchApi extends RepoApi {
     }
 
     async waitForApi(username, data) {
+      try {
         const recentFiles = async () => {
-            const totalItems = (await this.queryRecentFiles(username)).list.pagination.totalItems;
-            if ( totalItems < data.expect) {
-                return Promise.reject(totalItems);
-            } else {
-                return Promise.resolve(totalItems);
-            }
-        };
+          const totalItems = (await this.queryRecentFiles(username)).list.pagination.totalItems;
+          if ( totalItems !== data.expect) {
+              return Promise.reject(totalItems);
+          } else {
+              return Promise.resolve(totalItems);
+          }
+      };
 
-        return await Utils.retryCall(recentFiles);
+      return await Utils.retryCall(recentFiles);
+      } catch (error) {
+        console.log('-----> catch search: ', error);
+      }
     }
 }

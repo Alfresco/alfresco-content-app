@@ -1,29 +1,29 @@
 @mixin snackbar-theme($theme) {
-    $warn: map-get($theme, warn);
-    $accent: map-get($theme, accent);
-    $primary: map-get($theme, primary);
+  $warn: map-get($theme, warn);
+  $accent: map-get($theme, accent);
+  $primary: map-get($theme, primary);
 
-    .error-snackbar {
-        background-color: mat-color($warn);
+  .error-snackbar {
+    background-color: mat-color($warn);
 
-        .mat-simple-snackbar-action {
-            color: white;
-        }
+    .mat-simple-snackbar-action {
+      color: white;
     }
+  }
 
-    .warning-snackbar {
-        background-color: mat-color($accent);
+  .warning-snackbar {
+    background-color: mat-color($accent);
 
-        .mat-simple-snackbar-action {
-            color: white;
-        }
+    .mat-simple-snackbar-action {
+      color: white;
     }
+  }
 
-    .info-snackbar {
-        background-color: mat-color($primary);
+  .info-snackbar {
+    background-color: mat-color($primary);
 
-        .mat-simple-snackbar-action {
-            color: white;
-        }
+    .mat-simple-snackbar-action {
+      color: white;
     }
+  }
 }

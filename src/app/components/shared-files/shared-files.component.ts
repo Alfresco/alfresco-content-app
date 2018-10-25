@@ -30,39 +30,43 @@ import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { AppExtensionService } from '../../extensions/extension.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
-    templateUrl: './shared-files.component.html'
+  templateUrl: './shared-files.component.html'
 })
 export class SharedFilesComponent extends PageComponent implements OnInit {
-    isSmallScreen = false;
+  isSmallScreen = false;
 
-    constructor(
-        store: Store<AppStore>,
-        extensions: AppExtensionService,
-        content: ContentManagementService,
-        private breakpointObserver: BreakpointObserver
-    ) {
-        super(store, extensions, content);
-    }
+  columns: any[] = [];
 
-    ngOnInit() {
-        super.ngOnInit();
+  constructor(
+    store: Store<AppStore>,
+    extensions: AppExtensionService,
+    content: ContentManagementService,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    super(store, extensions, content);
+  }
 
-        this.subscriptions = this.subscriptions.concat([
-            this.content.nodesDeleted.subscribe(() => this.reload()),
-            this.content.nodesMoved.subscribe(() => this.reload()),
-            this.content.nodesRestored.subscribe(() => this.reload()),
-            this.content.linksUnshared.subscribe(() => this.reload()),
+  ngOnInit() {
+    super.ngOnInit();
 
-            this.breakpointObserver
-                .observe([
-                    Breakpoints.HandsetPortrait,
-                    Breakpoints.HandsetLandscape
-                ])
-                .subscribe(result => {
-                    this.isSmallScreen = result.matches;
-                })
-        ]);
-    }
+    this.subscriptions = this.subscriptions.concat([
+      this.content.nodesDeleted.subscribe(() => this.reload()),
+      this.content.nodesMoved.subscribe(() => this.reload()),
+      this.content.nodesRestored.subscribe(() => this.reload()),
+      this.content.linksUnshared
+        .pipe(debounceTime(300))
+        .subscribe(() => this.reload()),
+
+      this.breakpointObserver
+        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+        .subscribe(result => {
+          this.isSmallScreen = result.matches;
+        })
+    ]);
+
+    this.columns = this.extensions.documentListPresets.shared || [];
+  }
 }

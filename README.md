@@ -28,19 +28,24 @@ Isuses can be raised in GitHub or in the Alfresco JIRA project.
 Please include a clear description, steps to reproduce and screenshots where appropriate.All issues will be reviewed; bugs will be categorized if reproducible and enhancement/feature suggestions will be considered against existing priorities if the use case serves a general-purpose need.
 
 #### Features added in the latest release
-* Application Extensibility	- first phase of extensibilty, see [Documentation](https://alfresco.github.io/alfresco-content-app/#/extending) for details.
-* Sharing Files - activate and deactivate shared file links.
-* Commenting - View and add comments to files and folders.
-* Permissions - update file and folder permissions.
-* Print - print action from the file viewer
-* Improved UX - single click to open folders and files, and right click actions menu
+* Application Extensibility - Phase 2 
+  * Document list presets
+  * File viewer actions
+  * Create menu button
+  * Application header
+  * Metadata card configuration
+  * see [Documentation](https://alfresco.github.io/alfresco-content-app/#/extending) for details.
+* Sharing Files
+  * Set expiry date for shared links
+  * Right click action to access shared link settings
+  * Automatic disable of sharing based on respository configuration
 
 Please refer to the [release notes](https://github.com/Alfresco/alfresco-content-app/releases) for details of all changes.
 
 #### High level features planned for H2 2018 (July - December)
-* Library Management - create, find, join and manage file libraries.
-* Sharing Files - add an expiry date to a sharable link.
-* Application Extensibility	- Extension framework to provide simple ways to extend the application.
+* Library Management
+  * For end users: Find, join and favorite libraries
+  * For managers: Create libraries, manage users and requests to join
 
 ### Want to help?
 Want to file a bug, contribute some code, or improve documentation? Excellent! Read up on our guidelines for [contributing](https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md) and then check out one of our issues in the [Jira](https://issues.alfresco.com/jira/projects/ACA) or [GitHub](https://github.com/Alfresco/alfresco-content-app/issues)
@@ -59,42 +64,6 @@ Want to file a bug, contribute some code, or improve documentation? Excellent! R
 | Viewer           | Viewing files in natively in the browser, unsupported formats are transformed by the repository |                  
 | Metadata	       | The information drawer can be configured in the app.config.json to display metadata information, by default file the Properties Aspect is shown and images will also include EXIF information.|
 | Versioning	   | The version manager provides access and management of previous file versions, and the ability to upload new versions.|
-
-
-## Development server
-
-Run `npm start` for a dev server. Navigate to `http://localhost:4200/` (opens by default).
-The app will automatically reload if you change any of the source files.
-
-## Build
-
-Run `npm run build` to build the project in the production mode. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run the local instance of the application packaged into the docker image together with the ACS images:
-
-```sh
-npm run build
-npm run start:docker
-```
-
-The ACA runs on port 4000 inside the docker container.
-Run `npm run e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-```sh
-npm run e2e
-```
-
-When testing is over you can stop all corresponding containers:
-
-```sh
-npm run stop:docker
-```
 
 ## Further help
 

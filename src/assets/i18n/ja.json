@@ -22,7 +22,8 @@
       "MENU_ITEMS": {
         "CREATE_FOLDER": "フォルダの作成",
         "UPLOAD_FILE": "ファイルのアップロード",
-        "UPLOAD_FOLDER": "フォルダのアップロード"
+        "UPLOAD_FOLDER": "フォルダのアップロード",
+        "CREATE_LIBRARY": "ライブラリの作成"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "新しいフォルダを作成します",
@@ -30,7 +31,8 @@
         "UPLOAD_FILES": "アップロードするファイルを選択します",
         "UPLOAD_FILES_NOT_ALLOWED": "現在のアイテムを表示している間はファイルをアップロードできません",
         "UPLOAD_FOLDERS": "アップロードするフォルダを選択します",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダをアップロードできません"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "現在のアイテムを表示している間はフォルダをアップロードできません",
+        "CREATE_LIBRARY": "新しいファイルライブラリを作成します"
       }
     },
     "BROWSE": {
@@ -128,7 +130,10 @@
       "DETAILS": "詳細の表示",
       "VERSIONS": "バージョンの管理",
       "TOGGLE-SIDENAV": "サイドナビゲーションバーの切り替え",
-      "SHARE": "共有"
+      "SHARE": "共有",
+      "SHARE_EDIT": "共有リンクの設定",
+      "PRINT": "印刷",
+      "FULLSCREEN": "全画面表示モードをアクティブにする"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -259,6 +264,9 @@
       "INHERIT_PERMISSIONS_BUTTON": "権限の継承",
       "INHERITED_PERMISSIONS_BUTTON": "継承された権限"
     }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "このファイルの共有を解除する権限がありません。"
   },
   "VERSION": {
     "DIALOG": {

@@ -44,6 +44,28 @@ describe('Extensions - Viewer', () => {
     };
     let docxFileId;
 
+    const customAction = {
+        id: 'app.toolbar.my-action',
+        title: 'My action',
+        icon: 'http'
+    };
+
+    const customSecondaryAction = {
+        id: 'app.toolbar.my-secondary-action',
+        title: 'My secondary action',
+        icon: 'alarm'
+    };
+
+    const downloadButton = {
+        id: 'app.toolbar.download',
+        title: 'My custom title'
+    };
+
+    const moveAction = {
+        id: 'app.viewer.move',
+        title: 'My new title'
+    }
+
     const apis = {
         admin: new RepoClient(),
         user: new RepoClient(username, username)
@@ -54,6 +76,7 @@ describe('Extensions - Viewer', () => {
     const page = new BrowsingPage();
 
     const viewer = new Viewer();
+    const { toolbar } = viewer;
 
     beforeAll(async (done) => {
         await apis.admin.people.createUser({ username });
@@ -67,10 +90,8 @@ describe('Extensions - Viewer', () => {
     });
 
     afterAll(async (done) => {
-        await Promise.all([
-            apis.user.nodes.deleteNodesById([ pdfFileId, docxFileId ]),
-            logoutPage.load()
-        ]);
+        await apis.user.nodes.deleteNodesById([ pdfFileId, docxFileId ]);
+        await logoutPage.load();
         done();
     });
 
@@ -80,17 +101,78 @@ describe('Extensions - Viewer', () => {
         done();
     });
 
-    it('Insert new component in a content viewer - [C284659]', async () => {
-        await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
-        expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-        expect(await viewer.isCustomContentPresent()).toBe(true, 'Custom content is not present');
-        expect(await viewer.getComponentIdOfView()).toEqual(pdfFile.component);
-        await viewer.clickClose();
-
-        await page.dataTable.doubleClickOnRowByName(docxFile.file_name);
-        expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
-        expect(await viewer.isCustomContentPresent()).toBe(true, 'Custom content is not present');
-        expect(await viewer.getComponentIdOfView()).toEqual(docxFile.component);
+    afterEach(async (done) => {
+        await Utils.pressEscape();
+        done();
     });
 
+    xit('');
+
+    describe('content', () => {
+        it('Insert new component in a content viewer - [C284659]', async () => {
+            await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
+            expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+            expect(await viewer.isCustomContentPresent()).toBe(true, 'Custom content is not present');
+            expect(await viewer.getComponentIdOfView()).toEqual(pdfFile.component);
+            await viewer.clickClose();
+
+            await page.dataTable.doubleClickOnRowByName(docxFile.file_name);
+            expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+            expect(await viewer.isCustomContentPresent()).toBe(true, 'Custom content is not present');
+            expect(await viewer.getComponentIdOfView()).toEqual(docxFile.component);
+        });
+    });
+
+    describe('toolbar actions', () => {
+        it('Add a new action in the toolbar - [C286416]', async () => {
+            await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
+            expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+
+            expect(await toolbar.isButtonPresent(customAction.title)).toBe(true, 'Custom action is not present');
+            expect(await toolbar.getButtonByTitleAttribute(customAction.title).getAttribute('id')).toEqual(customAction.id);
+            expect(await toolbar.getButtonByTitleAttribute(customAction.title).getText()).toEqual(customAction.icon);
+        });
+
+        it('Modify title of action from toolbar - [C286417]', async () => {
+            await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
+            expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+
+            expect(await toolbar.getButtonById(downloadButton.id).getAttribute('title')).toEqual(downloadButton.title);
+        });
+
+        it('Remove action from toolbar - [C286419]', async () => {
+            await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
+            expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+
+            expect(await toolbar.isButtonPresent('Print')).toBe(false, 'Print button is still displayed');
+        });
+    });
+
+    describe('toolbar More actions menu', () => {
+        it('Add a new action - [C286420]', async () => {
+            await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
+            expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+
+            await toolbar.openMoreMenu();
+            expect(await toolbar.menu.isMenuItemPresent(customSecondaryAction.title)).toBe(true, 'action is not present');
+            expect(await toolbar.menu.getItemIconText(customSecondaryAction.title)).toEqual(customSecondaryAction.icon);
+            expect(await toolbar.menu.getItemIdAttribute(customSecondaryAction.title)).toEqual(customSecondaryAction.id);
+        });
+
+        it('Modify title of action from More actions menu - [C286421]', async () => {
+            await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
+            expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+
+            await toolbar.openMoreMenu();
+            expect(await toolbar.menu.getItemById(moveAction.id).getAttribute('title')).toEqual(moveAction.title);
+        });
+
+        it('Remove action from More actions menu - [C286423]', async () => {
+            await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
+            expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
+
+            await toolbar.openMoreMenu();
+            expect(await toolbar.menu.isMenuItemPresent('Permissions')).toBe(false, 'Action is still displayed');
+        });
+    });
 });

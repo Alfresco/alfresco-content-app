@@ -23,49 +23,62 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Subject } from 'rxjs';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+  OnDestroy
+} from '@angular/core';
 import { AppExtensionService } from '../../extensions/extension.service';
+import { NavBarGroupRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
-import { currentFolder } from '../../store/selectors/app.selectors';
-import { takeUntil } from 'rxjs/operators';
-import { ContentActionRef, NavBarGroupRef } from '@alfresco/adf-extensions';
+import { ruleContext } from '../../store/selectors/app.selectors';
+import { Subject } from 'rxjs';
+import { takeUntil, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-sidenav',
-    templateUrl: './sidenav.component.html',
-    styleUrls: ['./sidenav.component.scss']
+  selector: 'app-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-sidenav' }
 })
 export class SidenavComponent implements OnInit, OnDestroy {
-    @Input() showLabel: boolean;
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-    groups: Array<NavBarGroupRef> = [];
-    createActions: Array<ContentActionRef> = [];
-    onDestroy$: Subject<boolean> = new Subject<boolean>();
+  @Input()
+  showLabel: boolean;
 
-    constructor(
-        private store: Store<AppStore>,
-        private extensions: AppExtensionService
-    ) {}
+  groups: Array<NavBarGroupRef> = [];
 
-    ngOnInit() {
-        this.groups = this.extensions.getNavigationGroups();
+  constructor(
+    private store: Store<AppStore>,
+    private extensions: AppExtensionService
+  ) {}
 
-        this.store
-            .select(currentFolder)
-            .pipe(takeUntil(this.onDestroy$))
-            .subscribe(() => {
-                this.createActions = this.extensions.getCreateActions();
-            });
-    }
+  ngOnInit() {
+    this.store
+      .select(ruleContext)
+      .pipe(
+        map(rules => rules.repository),
+        distinctUntilChanged(),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe(() => {
+        this.groups = this.extensions.getApplicationNavigation(
+          this.extensions.navbar
+        );
+      });
+  }
 
-    ngOnDestroy() {
-        this.onDestroy$.next(true);
-        this.onDestroy$.complete();
-    }
+  trackById(index: number, obj: { id: string }) {
+    return obj.id;
+  }
 
-    trackById(index: number, obj: { id: string }) {
-        return obj.id;
-    }
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
 }

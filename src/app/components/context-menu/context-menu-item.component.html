@@ -1,0 +1,39 @@
+<div class="aca-context-menu">
+    <ng-container [ngSwitch]="actionRef.type">
+
+        <ng-container *ngSwitchCase="'menu'">
+            <button
+                mat-menu-item
+                [id]="actionRef.id"
+                [matMenuTriggerFor]="childMenu">
+                <mat-icon color="primary">{{ actionRef.icon }}</mat-icon>
+                <span>{{ actionRef.title | translate }}</span>
+            </button>
+
+            <mat-menu #childMenu="matMenu">
+                <ng-container *ngFor="let child of actionRef.children; trackBy: trackById">
+                    <app-context-menu-item [actionRef]="child"></app-context-menu-item>
+                </ng-container>
+            </mat-menu>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'separator'">
+            <mat-divider></mat-divider>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'custom'">
+            <adf-dynamic-component [id]="actionRef.component"></adf-dynamic-component>
+        </ng-container>
+
+
+        <ng-container *ngSwitchDefault>
+            <button mat-menu-item
+                color="primary"
+                [id]="actionRef.id"
+                (click)="runAction()">
+                <mat-icon color="primary">{{ actionRef.icon }}</mat-icon>
+                <span>{{ actionRef.title | translate }}</span>
+            </button>
+        </ng-container>
+    </ng-container>
+</div>

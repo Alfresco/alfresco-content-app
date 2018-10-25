@@ -31,157 +31,151 @@ import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-fo
 import { Utils } from '../../utilities/utils';
 
 describe('Edit folder', () => {
-    const username = `user-${Utils.random()}`;
+  const username = `user-${Utils.random()}`;
 
-    const parent = `parent-${Utils.random()}`;
-    const folderName = `folder-${Utils.random()}`;
-    const folderDescription = 'my folder description';
+  const parent = `parent-${Utils.random()}`; let parentId;
+  const folderName = `folder-${Utils.random()}`;
+  const folderDescription = 'my folder description';
 
-    const folderNameToEdit = `folder-${Utils.random()}`;
-    const duplicateFolderName = `folder-${Utils.random()}`;
+  const folderNameToEdit = `folder-${Utils.random()}`;
+  const duplicateFolderName = `folder-${Utils.random()}`;
 
-    const folderNameEdited = `folder-${Utils.random()}`;
-    const folderDescriptionEdited = 'description edited';
+  const folderNameEdited = `folder-${Utils.random()}`;
+  const folderDescriptionEdited = 'description edited';
 
-    const siteName = `site-private-${Utils.random()}`;
+  const siteName = `site-private-${Utils.random()}`;
 
-    const apis = {
-        admin: new RepoClient(),
-        user: new RepoClient(username, username)
-    };
+  const apis = {
+    admin: new RepoClient(),
+    user: new RepoClient(username, username)
+  };
 
-    const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
-    const personalFilesPage = new BrowsingPage();
-    const editDialog = new CreateOrEditFolderDialog();
-    const { dataTable } = personalFilesPage;
-    const editButton = personalFilesPage.toolbar.actions.getButtonByTitleAttribute('Edit');
+  const loginPage = new LoginPage();
+  const logoutPage = new LogoutPage();
+  const personalFilesPage = new BrowsingPage();
+  const editDialog = new CreateOrEditFolderDialog();
+  const { dataTable } = personalFilesPage;
+  const editButton = personalFilesPage.toolbar.getButtonByTitleAttribute('Edit');
 
-    beforeAll(done => {
-        apis.admin.people.createUser({ username })
-            .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE))
-            .then(() => apis.admin.nodes.createFolders([ folderName ], `Sites/${siteName}/documentLibrary`))
-            .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER))
+  beforeAll(async (done) => {
+    await apis.admin.people.createUser({ username });
+    await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE);
+    const docLibId = await apis.admin.sites.getDocLibId(siteName);
+    await apis.admin.nodes.createFolder(folderName, docLibId);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER);
 
-            .then(() => apis.user.nodes.createFolder( parent ))
-            .then(resp => apis.user.nodes.createFolder( folderName, resp.entry.id, '', folderDescription ))
-            .then(() => apis.user.nodes.createFolders([ folderNameToEdit, duplicateFolderName ], parent))
+    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    await apis.user.nodes.createFolder(folderName, parentId, '', folderDescription);
+    await apis.user.nodes.createFolder(folderNameToEdit, parentId);
+    await apis.user.nodes.createFolder(duplicateFolderName, parentId);
 
-            .then(() => loginPage.loginWith(username))
-            .then(done);
-    });
+    await loginPage.loginWith(username);
+    done();
+  });
 
-    beforeEach(done => {
-        personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-            .then(() => dataTable.waitForHeader())
-            .then(() => dataTable.doubleClickOnRowByName(parent))
-            .then(() => dataTable.waitForHeader())
-            .then(done);
-    });
+  beforeEach(async (done) => {
+    await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await dataTable.waitForHeader();
+    await dataTable.doubleClickOnRowByName(parent);
+    await dataTable.waitForHeader();
+    done();
+  });
 
-    afterEach(done => {
-        browser.actions().sendKeys(protractor.Key.ESCAPE).perform().then(done);
-    });
+  afterEach(async (done) => {
+    await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+    done();
+  });
 
-    afterAll(done => {
-        Promise
-            .all([
-                apis.admin.sites.deleteSite(siteName),
-                apis.user.nodes.deleteNodes([ parent ]),
-                logoutPage.load()
-            ])
-            .then(done);
-    });
+  afterAll(async (done) => {
+    await Promise.all([
+      apis.admin.sites.deleteSite(siteName),
+      apis.user.nodes.deleteNodeById(parentId),
+      logoutPage.load()
+    ]);
+    done();
+  });
 
-    it('dialog UI defaults - [C216331]', () => {
-        dataTable.selectItem(folderName)
-            .then(() => editButton.click())
-            .then(() => {
-                expect(editDialog.getTitle()).toEqual('Edit folder');
-                expect(editDialog.nameInput.getAttribute('value')).toBe(folderName);
-                expect(editDialog.descriptionTextArea.getAttribute('value')).toBe(folderDescription);
-                expect(editDialog.updateButton.isEnabled()).toBe(true, 'upload button is not enabled');
-                expect(editDialog.cancelButton.isEnabled()).toBe(true, 'cancel button is not enabled');
-            });
-    });
+  it('dialog UI defaults - [C216331]', async () => {
+    await dataTable.selectItem(folderName);
+    await editButton.click();
+    expect(await editDialog.getTitle()).toEqual('Edit folder');
+    expect(await editDialog.nameInput.getAttribute('value')).toBe(folderName);
+    expect(await editDialog.descriptionTextArea.getAttribute('value')).toBe(folderDescription);
+    expect(await editDialog.updateButton.isEnabled()).toBe(true, 'upload button is not enabled');
+    expect(await editDialog.cancelButton.isEnabled()).toBe(true, 'cancel button is not enabled');
+  });
 
-    it('properties are modified when pressing OK - [C216335]', () => {
-        dataTable.selectItem(folderNameToEdit)
-            .then(() => editButton.click())
-            .then(() => editDialog.waitForDialogToOpen())
-            .then(() => editDialog.enterDescription(folderDescriptionEdited))
-            .then(() => editDialog.enterName(folderNameEdited))
-            .then(() => editDialog.clickUpdate())
-            .then(() => editDialog.waitForDialogToClose())
-            .then(() => dataTable.waitForHeader())
-            .then(() => expect(dataTable.getRowByName(folderNameEdited).isPresent()).toBe(true, 'Folder not displayed'))
-            .then(() => apis.user.nodes.getNodeDescription(folderNameEdited, parent))
-            .then(desc => expect(desc).toEqual(folderDescriptionEdited));
-    });
+  it('properties are modified when pressing OK - [C216335]', async (done) => {
+    await dataTable.selectItem(folderNameToEdit);
+    await editButton.click();
+    await editDialog.waitForDialogToOpen();
+    await editDialog.enterDescription(folderDescriptionEdited);
+    await editDialog.enterName(folderNameEdited);
+    await editDialog.clickUpdate();
+    await editDialog.waitForDialogToClose();
+    await dataTable.waitForHeader();
+    expect(await dataTable.getRowByName(folderNameEdited).isPresent()).toBe(true, 'Folder not displayed');
+    const desc = await apis.user.nodes.getNodeDescription(folderNameEdited, parent);
+    expect(desc).toEqual(folderDescriptionEdited);
+    done();
+  });
 
-    it('with empty folder name - [C216332]', () => {
-        dataTable.selectItem(folderName)
-            .then(() => editButton.click())
-            .then(() => editDialog.deleteNameWithBackspace())
-            .then(() => {
-                expect(editDialog.updateButton.isEnabled()).toBe(false, 'upload button is not enabled');
-                expect(editDialog.getValidationMessage()).toMatch('Folder name is required');
-            });
-    });
+  it('with empty folder name - [C216332]', async () => {
+    await dataTable.selectItem(folderName);
+    await editButton.click();
+    await editDialog.deleteNameWithBackspace();
+    expect(await editDialog.updateButton.isEnabled()).toBe(false, 'upload button is not enabled');
+    expect(await editDialog.getValidationMessage()).toMatch('Folder name is required');
+  });
 
-    it('with name with special characters - [C216333]', () => {
-        const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
+  it('with name with special characters - [C216333]', async () => {
+    const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
-        dataTable.selectItem(folderName)
-            .then(() => editButton.click())
-            .then(() => namesWithSpecialChars.forEach(name => {
-                editDialog.enterName(name);
+    await dataTable.selectItem(folderName);
+    await editButton.click();
 
-                expect(editDialog.updateButton.isEnabled()).toBe(false, 'upload button is not disabled');
-                expect(editDialog.getValidationMessage()).toContain(`Folder name can't contain these characters`);
-            }));
-    });
+    for (const name of namesWithSpecialChars) {
+      await editDialog.enterName(name);
+      expect(await editDialog.updateButton.isEnabled()).toBe(false, 'upload button is not disabled');
+      expect(await editDialog.getValidationMessage()).toContain(`Folder name can't contain these characters`);
+    }
+  });
 
-    it('with name ending with a dot - [C216334]', () => {
-        dataTable.selectItem(folderName)
-            .then(() => editButton.click())
-            .then(() => editDialog.nameInput.sendKeys('.'))
-            .then(() => {
-                expect(editDialog.updateButton.isEnabled()).toBe(false, 'upload button is not enabled');
-                expect(editDialog.getValidationMessage()).toMatch(`Folder name can't end with a period .`);
-            });
-    });
+  it('with name ending with a dot - [C216334]', async () => {
+    await dataTable.selectItem(folderName);
+    await editButton.click();
+    await editDialog.waitForDialogToOpen();
+    await editDialog.nameInput.sendKeys('.');
+    expect(await editDialog.updateButton.isEnabled()).toBe(false, 'upload button is not enabled');
+    expect(await editDialog.getValidationMessage()).toMatch(`Folder name can't end with a period .`);
+  });
 
-    it('Cancel button - [C216336]', () => {
-        dataTable.selectItem(folderName)
-            .then(() => editButton.click())
-            .then(() => editDialog.clickCancel())
-            .then(() => {
-                expect(editDialog.component.isPresent()).not.toBe(true, 'dialog is not closed');
-            });
-    });
+  it('Cancel button - [C216336]', async () => {
+    await dataTable.selectItem(folderName);
+    await editButton.click();
+    await editDialog.waitForDialogToOpen();
+    await editDialog.clickCancel();
+    expect(await editDialog.component.isPresent()).not.toBe(true, 'dialog is not closed');
+  });
 
-    it('with duplicate folder name - [C216337]', () => {
-        dataTable.selectItem(folderName)
-            .then(() => editButton.click())
-            .then(() => editDialog.enterName(duplicateFolderName))
-            .then(() => editDialog.clickUpdate())
-            .then(() => personalFilesPage.getSnackBarMessage())
-            .then(message => {
-                expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
-                expect(editDialog.component.isPresent()).toBe(true, 'dialog is not present');
-            });
-    });
+  it('with duplicate folder name - [C216337]', async () => {
+    await dataTable.selectItem(folderName);
+    await editButton.click();
+    await editDialog.waitForDialogToOpen();
+    await editDialog.enterName(duplicateFolderName);
+    await editDialog.clickUpdate();
+    const message = await personalFilesPage.getSnackBarMessage();
+    expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
+    expect(await editDialog.component.isPresent()).toBe(true, 'dialog is not present');
+  });
 
-    it('trim ending spaces - [C216338]', () => {
-        dataTable.selectItem(folderName)
-            .then(() => editButton.click())
-            .then(() => editDialog.nameInput.sendKeys('   '))
-            .then(() => editDialog.clickUpdate())
-            .then(() => editDialog.waitForDialogToClose())
-            .then(() => {
-                expect(personalFilesPage.snackBar.isPresent()).not.toBe(true, 'notification appears');
-                expect(dataTable.getRowByName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
-            });
-    });
+  it('trim ending spaces - [C216338]', async () => {
+    await dataTable.selectItem(folderName);
+    await editButton.click();
+    await editDialog.nameInput.sendKeys('   ');
+    await editDialog.clickUpdate();
+    await editDialog.waitForDialogToClose();
+    expect(await personalFilesPage.snackBar.isPresent()).not.toBe(true, 'notification appears');
+    expect(await dataTable.getRowByName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
+  });
 });

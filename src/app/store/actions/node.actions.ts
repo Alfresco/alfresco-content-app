@@ -40,73 +40,85 @@ export const COPY_NODES = 'COPY_NODES';
 export const MOVE_NODES = 'MOVE_NODES';
 export const MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS';
 export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
+export const PRINT_FILE = 'PRINT_FILE';
+export const FULLSCREEN_VIEWER = 'FULLSCREEN_VIEWER';
 
 export class SetSelectedNodesAction implements Action {
-    readonly type = SET_SELECTED_NODES;
-    constructor(public payload: MinimalNodeEntity[] = []) {}
+  readonly type = SET_SELECTED_NODES;
+  constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class DeleteNodesAction implements Action {
-    readonly type = DELETE_NODES;
-    constructor(public payload: MinimalNodeEntity[] = []) {}
+  readonly type = DELETE_NODES;
+  constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class UndoDeleteNodesAction implements Action {
-    readonly type = UNDO_DELETE_NODES;
-    constructor(public payload: any[] = []) {}
+  readonly type = UNDO_DELETE_NODES;
+  constructor(public payload: any[] = []) {}
 }
 
 export class RestoreDeletedNodesAction implements Action {
-    readonly type = RESTORE_DELETED_NODES;
-    constructor(public payload: Array<MinimalNodeEntity>) {}
+  readonly type = RESTORE_DELETED_NODES;
+  constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class PurgeDeletedNodesAction implements Action {
-    readonly type = PURGE_DELETED_NODES;
-    constructor(public payload: Array<MinimalNodeEntity>) {}
+  readonly type = PURGE_DELETED_NODES;
+  constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class DownloadNodesAction implements Action {
-    readonly type = DOWNLOAD_NODES;
-    constructor(public payload: MinimalNodeEntity[] = []) {}
+  readonly type = DOWNLOAD_NODES;
+  constructor(public payload: MinimalNodeEntity[] = []) {}
 }
 
 export class CreateFolderAction implements Action {
-    readonly type = CREATE_FOLDER;
-    constructor(public payload: string) {}
+  readonly type = CREATE_FOLDER;
+  constructor(public payload: string) {}
 }
 
 export class EditFolderAction implements Action {
-    readonly type = EDIT_FOLDER;
-    constructor(public payload: MinimalNodeEntity) {}
+  readonly type = EDIT_FOLDER;
+  constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class ShareNodeAction implements Action {
-    readonly type = SHARE_NODE;
-    constructor(public payload: MinimalNodeEntity) {}
+  readonly type = SHARE_NODE;
+  constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class UnshareNodesAction implements Action {
-    readonly type = UNSHARE_NODES;
-    constructor(public payload: Array<MinimalNodeEntity>) {}
+  readonly type = UNSHARE_NODES;
+  constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class CopyNodesAction implements Action {
-    readonly type = COPY_NODES;
-    constructor(public payload: Array<MinimalNodeEntity>) {}
+  readonly type = COPY_NODES;
+  constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class MoveNodesAction implements Action {
-    readonly type = MOVE_NODES;
-    constructor(public payload: Array<MinimalNodeEntity>) {}
+  readonly type = MOVE_NODES;
+  constructor(public payload: Array<MinimalNodeEntity>) {}
 }
 
 export class ManagePermissionsAction implements Action {
-    readonly type = MANAGE_PERMISSIONS;
-    constructor(public payload: MinimalNodeEntity) {}
+  readonly type = MANAGE_PERMISSIONS;
+  constructor(public payload: MinimalNodeEntity) {}
 }
 
 export class ManageVersionsAction implements Action {
-    readonly type = MANAGE_VERSIONS;
-    constructor(public payload: MinimalNodeEntity) {}
+  readonly type = MANAGE_VERSIONS;
+  constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class PrintFileAction implements Action {
+  readonly type = PRINT_FILE;
+  constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class FullscreenViewerAction implements Action {
+  readonly type = FULLSCREEN_VIEWER;
+  constructor(public payload: MinimalNodeEntity) {}
 }

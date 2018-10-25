@@ -1,24 +1,24 @@
 @import 'mixins';
 
 .aca-search-results-row {
-    @include flex-column;
+  @include flex-column;
 }
 
 .line {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 .bold {
-    font-weight: 400;
-    color: rgba(0, 0, 0, 0.87);
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .link {
-    text-decoration: none;
-    color: rgba(0, 0, 0, 0.87);
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .link:hover {
-    color: #2196F3;
-    text-decoration: underline;
+  color: #2196f3;
+  text-decoration: underline;
 }

@@ -26,60 +26,72 @@
 import { Injectable } from '@angular/core';
 import { NodePermissions } from '@alfresco/adf-extensions';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class NodePermissionService implements NodePermissions {
-    static DEFAULT_OPERATION = 'OR';
+  static DEFAULT_OPERATION = 'OR';
 
-    private defaultOptions = {
-        operation: NodePermissionService.DEFAULT_OPERATION,
-        target: null
-    };
+  private defaultOptions = {
+    operation: NodePermissionService.DEFAULT_OPERATION,
+    target: null
+  };
 
-    check(source: any, permissions: string[], options?: any): boolean {
-        const opts = Object.assign({}, this.defaultOptions, options || {});
+  check(source: any, permissions: string[], options?: any): boolean {
+    const opts = Object.assign({}, this.defaultOptions, options || {});
 
-        if (source) {
-            if (Array.isArray(source) && source.length) {
-                const arr = this.sanitize(source);
+    if (source) {
+      if (Array.isArray(source) && source.length) {
+        const arr = this.sanitize(source);
 
-                return !!arr.length && source.every(node => this.hasPermission(node, permissions, opts));
-            }
+        return (
+          !!arr.length &&
+          source.every(node => this.hasPermission(node, permissions, opts))
+        );
+      }
 
-            return this.hasPermission(source, permissions, opts);
-        }
-
-        return false;
+      return this.hasPermission(source, permissions, opts);
     }
 
-    private hasPermission(node, permissions, options): boolean {
-        const allowableOperations = this.getAllowableOperations(node, options.target);
+    return false;
+  }
 
-        if (allowableOperations.length) {
-            if (options.operation === NodePermissionService.DEFAULT_OPERATION) {
-                return permissions.some(permission => allowableOperations.includes(permission));
-            } else {
-                return permissions.every(permission => allowableOperations.includes(permission));
-            }
-        }
+  private hasPermission(node, permissions, options): boolean {
+    const allowableOperations = this.getAllowableOperations(
+      node,
+      options.target
+    );
 
-        return false;
+    if (allowableOperations.length) {
+      if (options.operation === NodePermissionService.DEFAULT_OPERATION) {
+        return permissions.some(permission =>
+          allowableOperations.includes(permission)
+        );
+      } else {
+        return permissions.every(permission =>
+          allowableOperations.includes(permission)
+        );
+      }
     }
 
-    private getAllowableOperations(node, target): string[] {
-        const entry = node.entry || node;
+    return false;
+  }
 
-        if (!target && entry.allowableOperations) {
-            return entry.allowableOperations;
-        }
+  private getAllowableOperations(node, target): string[] {
+    const entry = node.entry || node;
 
-        if (target && entry[target]) {
-            return entry[target];
-        }
-
-        return [];
+    if (!target && entry.allowableOperations) {
+      return entry.allowableOperations;
     }
 
-    private sanitize(selection): any[] {
-        return (selection || []).filter(item => item);
+    if (target && entry[target]) {
+      return entry[target];
     }
+
+    return [];
+  }
+
+  private sanitize(selection): any[] {
+    return (selection || []).filter(item => item);
+  }
 }

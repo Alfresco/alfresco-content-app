@@ -32,10 +32,17 @@ export class SharedLinksApi extends RepoApi {
         super(username, password);
     }
 
-    async shareFileById(id: string) {
+    async shareFileById(id: string, expireDate?: Date) {
+      try {
         await this.apiAuth();
-        const data = { nodeId: id };
-        return await this.alfrescoJsApi.core.sharedlinksApi.addSharedLink(data);
+        const data = {
+          nodeId: id,
+          expiresAt: expireDate
+        };
+      return await this.alfrescoJsApi.core.sharedlinksApi.addSharedLink(data);
+      } catch (error) {
+        console.log('---- shareFileById error: ', error);
+      }
     }
 
     async shareFilesByIds(ids: string[]) {
@@ -62,15 +69,19 @@ export class SharedLinksApi extends RepoApi {
     }
 
     async waitForApi(data) {
+      try {
         const sharedFiles = async () => {
-            const totalItems = (await this.getSharedLinks()).list.pagination.totalItems;
-            if ( totalItems < data.expect ) {
-                return Promise.reject(totalItems);
-            } else {
-                return Promise.resolve(totalItems);
-            }
-        };
+          const totalItems = (await this.getSharedLinks()).list.pagination.totalItems;
+          if ( totalItems !== data.expect ) {
+              return Promise.reject(totalItems);
+          } else {
+              return Promise.resolve(totalItems);
+          }
+      };
 
-        return await Utils.retryCall(sharedFiles);
+      return await Utils.retryCall(sharedFiles);
+      } catch (error) {
+        console.log('-----> catch shared: ', error);
+      }
     }
 }

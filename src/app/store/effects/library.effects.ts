@@ -25,48 +25,71 @@
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map, take } from 'rxjs/operators';
+import { map, take, mergeMap } from 'rxjs/operators';
 import {
-    DeleteLibraryAction, DELETE_LIBRARY,
-    CreateLibraryAction, CREATE_LIBRARY
+  DeleteLibraryAction,
+  DELETE_LIBRARY,
+  CreateLibraryAction,
+  CREATE_LIBRARY,
+  NavigateLibraryAction,
+  NAVIGATE_LIBRARY
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
+import { ContentApiService } from '../../services/content-api.service';
+import { Router } from '@angular/router';
 
 @Injectable()
-export class SiteEffects {
-    constructor(
-        private store: Store<AppStore>,
-        private actions$: Actions,
-        private content: ContentManagementService
-    ) {}
+export class LibraryEffects {
+  constructor(
+    private store: Store<AppStore>,
+    private actions$: Actions,
+    private content: ContentManagementService,
+    private contentApi: ContentApiService,
+    private router: Router
+  ) {}
 
-    @Effect({ dispatch: false })
-    deleteLibrary$ = this.actions$.pipe(
-        ofType<DeleteLibraryAction>(DELETE_LIBRARY),
-        map(action => {
-            if (action.payload) {
-                this.content.deleteLibrary(action.payload);
-            } else {
-                this.store
-                    .select(appSelection)
-                    .pipe(take(1))
-                    .subscribe(selection => {
-                        if (selection && selection.library) {
-                            this.content.deleteLibrary(selection.library.entry.id);
-                        }
-                    });
+  @Effect({ dispatch: false })
+  deleteLibrary$ = this.actions$.pipe(
+    ofType<DeleteLibraryAction>(DELETE_LIBRARY),
+    map(action => {
+      if (action.payload) {
+        this.content.deleteLibrary(action.payload);
+      } else {
+        this.store
+          .select(appSelection)
+          .pipe(take(1))
+          .subscribe(selection => {
+            if (selection && selection.library) {
+              this.content.deleteLibrary(selection.library.entry.id);
             }
-        })
-    );
+          });
+      }
+    })
+  );
 
-    @Effect({ dispatch: false })
-    createLibrary$ = this.actions$.pipe(
-        ofType<CreateLibraryAction>(CREATE_LIBRARY),
-        map(action => {
-            this.content.createLibrary();
-        })
-    );
+  @Effect()
+  createLibrary$ = this.actions$.pipe(
+    ofType<CreateLibraryAction>(CREATE_LIBRARY),
+    mergeMap(() => this.content.createLibrary()),
+    map(libraryId => new NavigateLibraryAction(libraryId))
+  );
+
+  @Effect({ dispatch: false })
+  navigateLibrary$ = this.actions$.pipe(
+    ofType<NavigateLibraryAction>(NAVIGATE_LIBRARY),
+    map(action => {
+      const libraryId = action.payload;
+      if (libraryId) {
+        this.contentApi
+          .getNode(libraryId, { relativePath: '/documentLibrary' })
+          .pipe(map(node => node.entry))
+          .subscribe(documentLibrary => {
+            this.router.navigate(['libraries', documentLibrary.id]);
+          });
+      }
+    })
+  );
 }

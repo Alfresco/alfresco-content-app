@@ -1,29 +1,28 @@
 @mixin adf-toolbar-theme($theme) {
-    $foreground: map-get($theme, foreground);
+  $foreground: map-get($theme, foreground);
 
-    .adf-viewer {
-        .adf-toolbar {
-            .mat-toolbar {
-                color: mat-color($foreground, text, .54);
-
-            }
-        }
-    }
-
+  .adf-viewer {
     .adf-toolbar {
-        @include angular-material-theme($theme);
-
-        .mat-toolbar-single-row {
-            padding: 0 14px;
-            height: 48px;
-        }
-
-        &.inline {
-            .mat-toolbar {
-                background-color: inherit;
-                border: none !important;
-                padding: 0;
-            }
-        }
+      .mat-toolbar {
+        color: mat-color($foreground, text, 0.54);
+      }
     }
+  }
+
+  .adf-toolbar {
+    @include angular-material-theme($theme);
+
+    .mat-toolbar-single-row {
+      padding: 0 14px;
+      height: 48px;
+    }
+
+    &.inline {
+      .mat-toolbar {
+        background-color: inherit;
+        border: none !important;
+        padding: 0;
+      }
+    }
+  }
 }

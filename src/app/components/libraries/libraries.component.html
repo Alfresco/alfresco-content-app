@@ -8,7 +8,7 @@
 
             <ng-container *ifExperimental="'extensions'">
                 <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-                    <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
+                    <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
                 </ng-container>
             </ng-container>
         </adf-toolbar>
@@ -18,13 +18,13 @@
         <div class="inner-layout__panel">
             <adf-document-list #documentList
                 acaDocumentList
-                acaContextActions
                 [display]="documentDisplayMode$ | async"
                 currentFolderId="-mysites-"
                 selectionMode="single"
                 [navigate]="false"
                 [sorting]="[ 'title', 'asc' ]"
-                (node-dblclick)="navigateTo($event.detail?.node)">
+                (node-dblclick)="navigateTo($event.detail?.node)"
+                (name-click)="navigateTo($event.detail?.node)">
 
                 <empty-folder-content>
                     <ng-template>
@@ -37,43 +37,37 @@
                 </empty-folder-content>
 
                 <data-columns>
-                    <data-column
-                        key="$thumbnail"
-                        type="image"
-                        [sortable]="false"
-                        class="image-table-cell">
-                    </data-column>
+                  <ng-container *ngFor="let column of columns; trackBy: trackById">
 
-                    <data-column
-                        class="adf-data-table-cell--ellipsis__name"
-                        key="title"
-                        title="APP.DOCUMENT_LIST.COLUMNS.TITLE">
+                    <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+                      <data-column
+                        [key]="column.key"
+                        [title]="column.title"
+                        [type]="column.type"
+                        [format]="column.format"
+                        [class]="column.class"
+                        [sortable]="column.sortable">
                         <ng-template let-context>
-                            <span
-                                class="adf-datatable-cell dl-link"
-                                title="{{ makeLibraryTooltip(context.row.obj.entry) }}"
-                                (click)="navigateTo(context?.row?.obj)">
-                                {{ makeLibraryTitle(context.row.obj.entry) }}
-                            </span>
+                          <app-dynamic-column
+                            [id]="column.template"
+                            [context]="context">
+                          </app-dynamic-column>
                         </ng-template>
-                    </data-column>
+                      </data-column>
+                    </ng-container>
 
-                    <data-column
-                        *ngIf="!isSmallScreen"
-                        key="visibility"
-                        title="APP.DOCUMENT_LIST.COLUMNS.STATUS">
-                        <ng-template let-value="value">
-                            <span *ngIf="(value == 'PUBLIC')" title="{{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}">
-                                {{ 'APP.SITES_VISIBILITY.PUBLIC' | translate }}
-                            </span>
-                            <span *ngIf="(value == 'PRIVATE')" title="{{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}">
-                                {{ 'APP.SITES_VISIBILITY.PRIVATE' | translate }}
-                            </span>
-                            <span *ngIf="(value == 'MODERATED')" title="{{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}">
-                                {{ 'APP.SITES_VISIBILITY.MODERATED' | translate }}
-                            </span>
-                        </ng-template>
-                    </data-column>
+                    <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+                      <data-column
+                        [key]="column.key"
+                        [title]="column.title"
+                        [type]="column.type"
+                        [format]="column.format"
+                        [class]="column.class"
+                        [sortable]="column.sortable">
+                      </data-column>
+                    </ng-container>
+
+                  </ng-container>
                 </data-columns>
             </adf-document-list>
 

@@ -31,214 +31,190 @@ import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Breadcrumb', () => {
-    const username = `user-${Utils.random()}`;
+  const username = `user-${Utils.random()}`;
 
-    const parent = `parent-${Utils.random()}`; let parentId;
-    const subFolder1 = `subFolder1-${Utils.random()}`; let subFolder1Id;
-    const subFolder2 = `subFolder2-${Utils.random()}`; let subFolder2Id;
-    const fileName1 = `file1-${Utils.random()}.txt`;
+  const parent = `parent-${Utils.random()}`; let parentId;
+  const subFolder1 = `subFolder1-${Utils.random()}`; let subFolder1Id;
+  const subFolder2 = `subFolder2-${Utils.random()}`; let subFolder2Id;
+  const fileName1 = `file1-${Utils.random()}.txt`;
 
-    const siteName = `site-${Utils.random()}`;
+  const siteName = `site-${Utils.random()}`;
 
-    const parent2 = `parent2-${Utils.random()}`; let parent2Id;
-    const folder1 = `folder1-${Utils.random()}`; let folder1Id;
-    const folder1Renamed = `renamed-${Utils.random()}`;
+  const parent2 = `parent2-${Utils.random()}`; let parent2Id;
+  const folder1 = `folder1-${Utils.random()}`; let folder1Id;
+  const folder1Renamed = `renamed-${Utils.random()}`;
 
-    const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
-    const page = new BrowsingPage();
-    const { breadcrumb } = page.toolbar;
+  const loginPage = new LoginPage();
+  const logoutPage = new LogoutPage();
+  const page = new BrowsingPage();
+  const { breadcrumb } = page;
 
-    const apis = {
-        admin: new RepoClient(),
-        user: new RepoClient(username, username)
-    };
+  const apis = {
+      admin: new RepoClient(),
+      user: new RepoClient(username, username)
+  };
 
-    beforeAll(done => {
-        apis.admin.people.createUser({ username })
-            .then(() => apis.user.nodes.createFolder(parent)).then(resp => parentId = resp.entry.id)
-            .then(() => apis.user.nodes.createFolder(subFolder1, parentId)).then(resp => subFolder1Id = resp.entry.id)
-            .then(() => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then(resp => subFolder2Id = resp.entry.id)
-            .then(() => apis.user.nodes.createFile(fileName1, subFolder2Id))
+  beforeAll(async (done) => {
+    await apis.admin.people.createUser({ username });
+    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
+    subFolder2Id = (await apis.user.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
+    await apis.user.nodes.createFile(fileName1, subFolder2Id);
 
-            .then(() => apis.user.nodes.createFolder(parent2)).then(resp => parent2Id = resp.entry.id)
-            .then(() => apis.user.nodes.createFolder(folder1, parent2Id)).then(resp => folder1Id = resp.entry.id)
+    parent2Id = (await apis.user.nodes.createFolder(parent2)).entry.id;
+    folder1Id = (await apis.user.nodes.createFolder(folder1, parent2Id)).entry.id;
 
-            .then(() => apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
-            .then(() => apis.user.sites.getDocLibId(siteName))
-            .then(resp => apis.user.nodes.createFolder(parent, resp)).then(resp => parentId = resp.entry.id)
-            .then(() => apis.user.nodes.createFolder(subFolder1, parentId)).then(resp => subFolder1Id = resp.entry.id)
-            .then(() => apis.user.nodes.createFolder(subFolder2, subFolder1Id)).then(resp => subFolder2Id = resp.entry.id)
-            .then(() => apis.user.nodes.createFile(fileName1, subFolder2Id))
+    await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    const docLibId = await apis.user.sites.getDocLibId(siteName);
+    parentId = (await apis.user.nodes.createFolder(parent, docLibId)).entry.id;
+    subFolder1Id = (await apis.user.nodes.createFolder(subFolder1, parentId)).entry.id;
+    subFolder2Id = (await apis.user.nodes.createFolder(subFolder2, subFolder1Id)).entry.id;
+    await apis.user.nodes.createFile(fileName1, subFolder2Id);
 
-            .then(() => loginPage.loginWith(username))
-            .then(done);
+    await loginPage.loginWith(username);
+    done();
+  });
+
+  afterAll(async (done) => {
+    await Promise.all([
+      apis.user.nodes.deleteNodeById(parentId),
+      apis.user.nodes.deleteNodeById(parent2Id),
+      apis.user.sites.deleteSite(siteName),
+      logoutPage.load()
+    ]);
+    done();
+  });
+
+  it('Personal Files breadcrumb main node - [C260964]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.getCurrentItemName()).toBe('Personal Files');
+  });
+
+  it('File Libraries breadcrumb main node - [C260966]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.getCurrentItemName()).toBe('File Libraries');
+  });
+
+  it('Recent Files breadcrumb main node - [C260971]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
+    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.getCurrentItemName()).toBe('Recent Files');
+  });
+
+  it('Shared Files breadcrumb main node - [C260972]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.getCurrentItemName()).toBe('Shared Files');
+  });
+
+  it('Favorites breadcrumb main node - [C260973]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.getCurrentItemName()).toBe('Favorites');
+  });
+
+  it('Trash breadcrumb main node - [C260974]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.getCurrentItemName()).toBe('Trash');
+  });
+
+  it('Personal Files breadcrumb for a folder hierarchy - [C260965]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await page.dataTable.waitForHeader();
+    await page.dataTable.doubleClickOnRowByName(parent);
+    await page.dataTable.doubleClickOnRowByName(subFolder1);
+    await page.dataTable.doubleClickOnRowByName(subFolder2);
+    const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1, subFolder2 ];
+    expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
+  });
+
+  it('File Libraries breadcrumb for a folder hierarchy - [C260967]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await page.dataTable.waitForHeader();
+    await page.dataTable.doubleClickOnRowByName(siteName);
+    await page.dataTable.doubleClickOnRowByName(parent);
+    await page.dataTable.doubleClickOnRowByName(subFolder1);
+    await page.dataTable.doubleClickOnRowByName(subFolder2);
+    const expectedItems = [ 'File Libraries', siteName, parent, subFolder1, subFolder2 ];
+    expect(await breadcrumb.getAllItems()).toEqual(expectedItems);
+  });
+
+  it('User can navigate to any location by clicking on a step from the breadcrumb - [C213235]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await page.dataTable.waitForHeader();
+    await page.dataTable.doubleClickOnRowByName(parent);
+    await page.dataTable.doubleClickOnRowByName(subFolder1);
+    await page.dataTable.doubleClickOnRowByName(subFolder2);
+    await breadcrumb.clickItem(subFolder1);
+    const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1 ];
+    expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
+  });
+
+  it('Tooltip appears on hover on a step in breadcrumb - [C213237]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await page.dataTable.waitForHeader();
+    await page.dataTable.doubleClickOnRowByName(parent);
+    await page.dataTable.doubleClickOnRowByName(subFolder1);
+    await page.dataTable.doubleClickOnRowByName(subFolder2);
+    expect(await breadcrumb.getNthItemTooltip(3)).toEqual(subFolder1);
+  });
+
+  it('Breadcrumb updates correctly when folder is renamed - [C213238]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await page.dataTable.waitForHeader();
+    await page.dataTable.doubleClickOnRowByName(parent2);
+    await page.dataTable.doubleClickOnRowByName(folder1);
+    await page.dataTable.wait();
+    await apis.user.nodes.renameNode(folder1Id, folder1Renamed)
+    await page.refresh();
+    await page.dataTable.wait();
+    expect(await breadcrumb.getCurrentItemName()).toEqual(folder1Renamed);
+  });
+
+  it('Browser back navigates to previous location regardless of breadcrumb steps - [C213240]', async () => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await page.dataTable.waitForHeader();
+    await page.dataTable.doubleClickOnRowByName(parent);
+    await page.dataTable.doubleClickOnRowByName(subFolder1);
+    await page.dataTable.doubleClickOnRowByName(subFolder2);
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+    await page.dataTable.waitForEmptyState();
+    await browser.navigate().back();
+    const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1, subFolder2 ];
+    expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
+  });
+
+  // disabled cause of ACA-1039
+  xdescribe('as admin', () => {
+    const user2 = 'a_user';
+    const userFolder = `userFolder-${Utils.random()}`; let userFolderId;
+    const user2Api = new RepoClient(user2, user2);
+
+    beforeAll(async (done) => {
+      await logoutPage.load();
+      await apis.admin.people.createUser({ username: user2 });
+      userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
+      await loginPage.loginWithAdmin();
+      done();
     });
 
-    afterAll(done => {
-        Promise.all([
-            apis.user.nodes.deleteNodeById(parentId),
-            apis.user.nodes.deleteNodeById(parent2Id),
-            apis.user.sites.deleteSite(siteName),
-            logoutPage.load()
-        ])
-        .then(done);
+    afterAll(async (done) => {
+      await Promise.all([
+        user2Api.nodes.deleteNodeById(userFolderId),
+        logoutPage.load()
+      ]);
+      done();
     });
 
-    it('Personal Files breadcrumb main node - [C260964]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-            .then(() => {
-                expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-                expect(breadcrumb.getCurrentItemName()).toBe('Personal Files');
-            });
+    xit(`Breadcrumb on navigation to a user's home - [C260970]`, async () => {
+      await page.dataTable.doubleClickOnRowByName('User Homes');
+      await page.dataTable.doubleClickOnRowByName(user2);
+      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2 ]);
+      await page.dataTable.doubleClickOnRowByName(userFolder);
+      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2, userFolder ]);
     });
-
-    it('File Libraries breadcrumb main node - [C260966]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
-            .then(() => {
-                expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-                expect(breadcrumb.getCurrentItemName()).toBe('File Libraries');
-            });
-    });
-
-    it('Recent Files breadcrumb main node - [C260971]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES)
-            .then(() => {
-                expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-                expect(breadcrumb.getCurrentItemName()).toBe('Recent Files');
-            });
-    });
-
-    it('Shared Files breadcrumb main node - [C260972]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES)
-            .then(() => {
-                expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-                expect(breadcrumb.getCurrentItemName()).toBe('Shared Files');
-            });
-    });
-
-    it('Favorites breadcrumb main node - [C260973]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
-            .then(() => {
-                expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-                expect(breadcrumb.getCurrentItemName()).toBe('Favorites');
-            });
-    });
-
-    it('Trash breadcrumb main node - [C260974]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-            .then(() => {
-                expect(breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-                expect(breadcrumb.getCurrentItemName()).toBe('Trash');
-            });
-    });
-
-    it('Personal Files breadcrumb for a folder hierarchy - [C260965]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-            .then(() => page.dataTable.waitForHeader())
-            .then(() => page.dataTable.doubleClickOnRowByName(parent))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder1))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder2))
-            .then(() => {
-                const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1, subFolder2 ];
-                expect(breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
-            });
-    });
-
-    it('File Libraries breadcrumb for a folder hierarchy - [C260967]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)
-            .then(() => page.dataTable.waitForHeader())
-            .then(() => page.dataTable.doubleClickOnRowByName(siteName))
-            .then(() => page.dataTable.doubleClickOnRowByName(parent))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder1))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder2))
-            .then(() => {
-                const expectedItems = [ 'File Libraries', siteName, parent, subFolder1, subFolder2 ];
-                expect(breadcrumb.getAllItems()).toEqual(expectedItems);
-            });
-    });
-
-    it('User can navigate to any location by clicking on a step from the breadcrumb - [C213235]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-            .then(() => page.dataTable.waitForHeader())
-            .then(() => page.dataTable.doubleClickOnRowByName(parent))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder1))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder2))
-            .then(() => breadcrumb.clickItem(subFolder1))
-            .then(() => {
-                const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1 ];
-                expect(breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
-            });
-    });
-
-    it('Tooltip appears on hover on a step in breadcrumb - [C213237]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-            .then(() => page.dataTable.waitForHeader())
-            .then(() => page.dataTable.doubleClickOnRowByName(parent))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder1))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder2))
-            .then(() => {
-                expect(breadcrumb.getNthItemTooltip(3)).toEqual(subFolder1);
-            });
-    });
-
-    it('Breadcrumb updates correctly when folder is renamed - [C213238]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-            .then(() => page.dataTable.waitForHeader())
-            .then(() => page.dataTable.doubleClickOnRowByName(parent2))
-            .then(() => page.dataTable.doubleClickOnRowByName(folder1))
-            .then(() => page.dataTable.wait())
-            .then(() => apis.user.nodes.renameNode(folder1Id, folder1Renamed).then(done => done))
-            .then(() => page.refresh())
-            .then(() => page.dataTable.wait())
-            .then(() => {
-                expect(breadcrumb.getCurrentItemName()).toEqual(folder1Renamed);
-            });
-    });
-
-    it('Browser back navigates to previous location regardless of breadcrumb steps - [C213240]', () => {
-        page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES)
-            .then(() => page.dataTable.waitForHeader())
-            .then(() => page.dataTable.doubleClickOnRowByName(parent))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder1))
-            .then(() => page.dataTable.doubleClickOnRowByName(subFolder2))
-            .then(() => page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH))
-            .then(() => page.dataTable.waitForEmptyState())
-            .then(() => browser.navigate().back())
-            .then(() => {
-                const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1, subFolder2 ];
-                expect(breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
-            });
-    });
-
-    // disabled cause of ACA-1039
-    xdescribe('as admin', () => {
-        const user2 = 'a_user';
-        const userFolder = `userFolder-${Utils.random()}`; let userFolderId;
-        const user2Api = new RepoClient(user2, user2);
-
-        beforeAll(done => {
-            logoutPage.load()
-                .then(() => apis.admin.people.createUser({ username: user2 }))
-                .then(() => user2Api.nodes.createFolder(userFolder).then(resp => userFolderId = resp.entry.id))
-                .then(() => loginPage.loginWithAdmin())
-                .then(done);
-        });
-
-        afterAll(done => {
-            Promise.all([
-                user2Api.nodes.deleteNodeById(userFolderId),
-                logoutPage.load()
-            ])
-            .then(done);
-        });
-
-        xit(`Breadcrumb on navigation to a user's home - [C260970]`, () => {
-            page.dataTable.doubleClickOnRowByName('User Homes')
-                .then(() => page.dataTable.doubleClickOnRowByName(user2))
-                .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2 ]))
-                .then(() => page.dataTable.doubleClickOnRowByName(userFolder))
-                .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2, userFolder ]));
-        });
-    });
+  });
 });

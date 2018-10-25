@@ -22,7 +22,8 @@
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Créer un dossier",
         "UPLOAD_FILE": "Importer le fichier",
-        "UPLOAD_FOLDER": "Importer le dossier"
+        "UPLOAD_FOLDER": "Importer le dossier",
+        "CREATE_LIBRARY": "Créer une Bibliothèque"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Créer un nouveau filtre",
@@ -30,7 +31,8 @@
         "UPLOAD_FILES": "Sélectionner les fichiers à ajouter",
         "UPLOAD_FILES_NOT_ALLOWED": "Impossible de charger les fichiers pendant l'affichage des éléments actuels",
         "UPLOAD_FOLDERS": "Sélectionner les fichiers à ajouter",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Impossible de charger les dossier pendant l'affichage des éléments actuels"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Impossible de charger les dossier pendant l'affichage des éléments actuels",
+        "CREATE_LIBRARY": "Créer une nouvelle bibliothèque de fichiers"
       }
     },
     "BROWSE": {
@@ -128,7 +130,10 @@
       "DETAILS": "Afficher les détails",
       "VERSIONS": "Gérer les versions",
       "TOGGLE-SIDENAV": "Activer/désactiver la barre de navigation latérale",
-      "SHARE": "Partager"
+      "SHARE": "Partager",
+      "SHARE_EDIT": "Paramètres du lien partagé",
+      "PRINT": "Imprimer",
+      "FULLSCREEN": "Activer le mode plein écran"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -260,6 +265,9 @@
       "INHERITED_PERMISSIONS_BUTTON": "Droits d'accès hérités"
     }
   },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Vous n'avez pas les droits d'accès pour ne pas partager ce fichier"
+  },
   "VERSION": {
     "DIALOG": {
       "TITLE": "Gérer les versions",
@@ -301,7 +309,7 @@
       "RELEVANCE": "Pertinence",
       "FILENAME": "Nom de fichier",
       "TITLE": "Titre",
-      "MODIFIED_DATE": "Date de Modification",
+      "MODIFIED_DATE": "Date de modification",
       "SIZE": "Taille",
       "TYPE": "Type",
       "MODIFIER": "Modificateur",

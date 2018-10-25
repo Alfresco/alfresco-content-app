@@ -23,58 +23,44 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule, ModuleWithProviders } from '@angular/core';
-import { MatMenuModule, MatListModule, MatIconModule, MatButtonModule } from '@angular/material';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import {
+  MatMenuModule,
+  MatListModule,
+  MatIconModule,
+  MatButtonModule
+} from '@angular/material';
 import { CoreModule } from '@alfresco/adf-core';
 import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 
 import { ContextActionsDirective } from './context-menu.directive';
-import { ContextMenuService } from './context-menu.service';
 import { ContextMenuComponent } from './context-menu.component';
-import { ContextMenuItemDirective } from './context-menu-item.directive';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
+import { ContextMenuItemComponent } from './context-menu-item.component';
 
 @NgModule({
-    imports: [
-        MatMenuModule,
-        MatListModule,
-        MatIconModule,
-        MatButtonModule,
-        BrowserModule,
-        CoreExtensionsModule.forChild(),
-        CoreModule.forChild(),
-        ExtensionsModule.forChild()
-    ],
-    declarations: [
-        ContextActionsDirective,
-        ContextMenuComponent,
-        ContextMenuItemDirective,
-        OutsideEventDirective
-    ],
-    exports: [
-        OutsideEventDirective,
-        ContextActionsDirective,
-        ContextMenuComponent
-    ],
-    entryComponents: [
-        ContextMenuComponent
-    ]
+  imports: [
+    MatMenuModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    CoreExtensionsModule.forChild(),
+    CoreModule.forChild(),
+    ExtensionsModule
+  ],
+  declarations: [
+    ContextActionsDirective,
+    ContextMenuComponent,
+    ContextMenuItemComponent,
+    OutsideEventDirective
+  ],
+  exports: [
+    OutsideEventDirective,
+    ContextActionsDirective,
+    ContextMenuComponent,
+    ContextMenuItemComponent
+  ],
+  entryComponents: [ContextMenuComponent]
 })
-export class ContextMenuModule {
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: ContextMenuModule,
-            providers: [
-                ContextMenuService
-            ]
-        };
-    }
-
-    static forChild(): ModuleWithProviders {
-        return {
-            ngModule: ContextMenuModule
-        };
-    }
-}
+export class ContextMenuModule {}

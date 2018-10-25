@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
@@ -31,8 +31,8 @@ import { infoDrawerOpened } from '../../../store/selectors/app.selectors';
 import { ToggleInfoDrawerAction } from '../../../store/actions';
 
 @Component({
-    selector: 'app-toggle-info-drawer',
-    template: `
+  selector: 'app-toggle-info-drawer',
+  template: `
         <button
             mat-icon-button
             [color]="(infoDrawerOpened$ | async) ? 'accent' : 'primary'"
@@ -40,16 +40,18 @@ import { ToggleInfoDrawerAction } from '../../../store/actions';
             (click)="onClick()">
             <mat-icon>info_outline</mat-icon>
         </button>
-    `
+    `,
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-toggle-info-drawer' }
 })
 export class ToggleInfoDrawerComponent {
-    infoDrawerOpened$: Observable<boolean>;
+  infoDrawerOpened$: Observable<boolean>;
 
-    constructor(private store: Store<AppStore>) {
-        this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
-    }
+  constructor(private store: Store<AppStore>) {
+    this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
+  }
 
-    onClick() {
-        this.store.dispatch(new ToggleInfoDrawerAction());
-    }
+  onClick() {
+    this.store.dispatch(new ToggleInfoDrawerAction());
+  }
 }

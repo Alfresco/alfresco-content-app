@@ -1,43 +1,31 @@
-<ng-container [ngSwitch]="entry.type">
-    <ng-container *ngSwitchCase="'default'">
-        <app-toolbar-button [type]="type" [actionRef]="entry"></app-toolbar-button>
-    </ng-container>
+<ng-container [ngSwitch]="actionRef.type">
+  <ng-container *ngSwitchCase="'default'">
+    <app-toolbar-button
+      [type]="type"
+      [actionRef]="actionRef"
+      [color]="color">
+    </app-toolbar-button>
+  </ng-container>
 
-    <ng-container *ngSwitchCase="'button'">
-        <app-toolbar-button [type]="type" [actionRef]="entry"></app-toolbar-button>
-    </ng-container>
+  <ng-container *ngSwitchCase="'button'">
+    <app-toolbar-button
+      [type]="type"
+      [actionRef]="actionRef"
+      [color]="color">
+    </app-toolbar-button>
+  </ng-container>
 
-    <adf-toolbar-divider *ngSwitchCase="'separator'"
-        [id]="entry.id">
-    </adf-toolbar-divider>
+  <adf-toolbar-divider *ngSwitchCase="'separator'" [id]="actionRef.id"></adf-toolbar-divider>
 
-    <ng-container *ngSwitchCase="'menu'">
-        <button
-            [id]="entry.id"
-            color="primary"
-            mat-icon-button
-            [attr.title]="(entry.description || entry.title) | translate"
-            [matMenuTriggerFor]="menu">
-            <mat-icon>{{ entry.icon }}</mat-icon>
-        </button>
+  <ng-container *ngSwitchCase="'menu'">
+    <app-toolbar-menu
+      [actionRef]="actionRef"
+      [color]="color">
+    </app-toolbar-menu>
+  </ng-container>
 
-        <mat-menu #menu="matMenu"
-            [overlapTrigger]="false">
-            <ng-container *ngFor="let child of entry.children; trackBy: trackByActionId">
-                <ng-container [ngSwitch]="child.type">
-                    <ng-container *ngSwitchCase="'custom'">
-                        <adf-dynamic-component [id]="child.component"></adf-dynamic-component>
-                    </ng-container>
-                    <ng-container *ngSwitchDefault>
-                        <app-toolbar-button type="menu-item" [actionRef]="child"></app-toolbar-button>
-                    </ng-container>
-                </ng-container>
-            </ng-container>
-        </mat-menu>
-    </ng-container>
-
-    <ng-container *ngSwitchCase="'custom'">
-        <adf-dynamic-component [id]="entry.component"></adf-dynamic-component>
-    </ng-container>
+  <ng-container *ngSwitchCase="'custom'">
+    <adf-dynamic-component [id]="actionRef.component"></adf-dynamic-component>
+  </ng-container>
 </ng-container>
 

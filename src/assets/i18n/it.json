@@ -22,7 +22,8 @@
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Crea cartella",
         "UPLOAD_FILE": "Carica file",
-        "UPLOAD_FOLDER": "Carica cartella"
+        "UPLOAD_FOLDER": "Carica cartella",
+        "CREATE_LIBRARY": "Crea libreria"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Crea nuova cartella",
@@ -30,7 +31,8 @@
         "UPLOAD_FILES": "Seleziona file da caricare",
         "UPLOAD_FILES_NOT_ALLOWED": "Impossibile caricare file durante la visualizzazione degli elementi correnti",
         "UPLOAD_FOLDERS": "Seleziona cartelle da caricare",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Impossibile caricare cartelle durante la visualizzazione degli elementi correnti"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Impossibile caricare cartelle durante la visualizzazione degli elementi correnti",
+        "CREATE_LIBRARY": "Crea una nuova libreria di file"
       }
     },
     "BROWSE": {
@@ -128,7 +130,10 @@
       "DETAILS": "Visualizza dettagli",
       "VERSIONS": "Gestione versioni",
       "TOGGLE-SIDENAV": "Attiva/disattiva barra di navigazione laterale",
-      "SHARE": "Condividi"
+      "SHARE": "Condividi",
+      "SHARE_EDIT": "Impostazioni di collegamento condiviso",
+      "PRINT": "Stampa",
+      "FULLSCREEN": "Attiva modalità schermo intero"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -259,6 +264,9 @@
       "INHERIT_PERMISSIONS_BUTTON": "Eredita permessi",
       "INHERITED_PERMISSIONS_BUTTON": "Permesso ereditato"
     }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Non hai il permesso per rimuovere la condivisione di questo file"
   },
   "VERSION": {
     "DIALOG": {

@@ -23,40 +23,43 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../../../store/states';
-import { appSelection } from '../../../store/selectors/app.selectors';
-import { take } from 'rxjs/operators';
 import { AppExtensionService } from '../../../extensions/extension.service';
 
 export enum ToolbarButtonType {
-    ICON_BUTTON = 'icon-button',
-    MENU_ITEM = 'menu-item'
+  ICON_BUTTON = 'icon-button',
+  MENU_ITEM = 'menu-item'
 }
 
 @Component({
-    selector: 'app-toolbar-button',
-    templateUrl: 'toolbar-button.component.html'
+  selector: 'app-toolbar-button',
+  templateUrl: 'toolbar-button.component.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-toolbar-button' }
 })
 export class ToolbarButtonComponent {
-    @Input() type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
-    @Input() actionRef: ContentActionRef;
+  @Input()
+  type: ToolbarButtonType = ToolbarButtonType.ICON_BUTTON;
 
-    constructor(
-        protected store: Store<AppStore>,
-        private extensions: AppExtensionService
-    ) {}
+  @Input()
+  color = 'primary';
 
-    runAction() {
-        this.store
-            .select(appSelection)
-            .pipe(take(1))
-            .subscribe(selection => {
-                this.extensions.runActionById(this.actionRef.actions.click, {
-                    selection
-                });
-            });
+  @Input()
+  actionRef: ContentActionRef;
+
+  constructor(private extensions: AppExtensionService) {}
+
+  runAction() {
+    if (this.hasClickAction(this.actionRef)) {
+      this.extensions.runActionById(this.actionRef.actions.click);
     }
+  }
+
+  private hasClickAction(actionRef: ContentActionRef): boolean {
+    if (actionRef && actionRef.actions && actionRef.actions.click) {
+      return true;
+    }
+    return false;
+  }
 }

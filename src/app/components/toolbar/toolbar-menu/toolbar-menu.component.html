@@ -1,0 +1,21 @@
+<button
+  [id]="actionRef.id"
+  [color]="color"
+  mat-icon-button
+  [attr.title]="(actionRef.description || actionRef.title) | translate"
+  [matMenuTriggerFor]="menu">
+  <mat-icon>{{ actionRef.icon }}</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu" [overlapTrigger]="false">
+  <ng-container *ngFor="let child of actionRef.children; trackBy: trackById">
+    <ng-container [ngSwitch]="child.type">
+      <ng-container *ngSwitchCase="'custom'">
+        <adf-dynamic-component [id]="child.component"></adf-dynamic-component>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <app-toolbar-menu-item [actionRef]="child"></app-toolbar-menu-item>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</mat-menu>

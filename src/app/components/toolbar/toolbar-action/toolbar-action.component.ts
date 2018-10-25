@@ -24,33 +24,39 @@
  */
 
 import {
-    Component,
-    ViewEncapsulation,
-    ChangeDetectionStrategy,
-    Input
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+  Input,
+  DoCheck,
+  ChangeDetectorRef
 } from '@angular/core';
-import { AppStore } from '../../../store/states';
-import { Store } from '@ngrx/store';
 import { ContentActionRef } from '@alfresco/adf-extensions';
-import { AppExtensionService } from '../../../extensions/extension.service';
 
 @Component({
-    selector: 'aca-toolbar-action',
-    templateUrl: './toolbar-action.component.html',
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    host: { class: 'aca-toolbar-action' }
+  selector: 'aca-toolbar-action',
+  templateUrl: './toolbar-action.component.html',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'aca-toolbar-action' }
 })
-export class ToolbarActionComponent {
-    @Input() type = 'icon-button';
-    @Input() entry: ContentActionRef;
+export class ToolbarActionComponent implements DoCheck {
+  @Input()
+  type = 'icon-button';
 
-    constructor(
-        protected store: Store<AppStore>,
-        protected extensions: AppExtensionService
-    ) {}
+  @Input()
+  color = 'primary';
 
-    trackByActionId(index: number, action: ContentActionRef) {
-        return action.id;
+  @Input()
+  actionRef: ContentActionRef;
+
+  constructor(private cd: ChangeDetectorRef) {}
+
+  // todo: review after ADF 2.6
+  // preview component : change detection workaround for children without input
+  ngDoCheck() {
+    if (this.actionRef.id.includes('app.viewer')) {
+      this.cd.markForCheck();
     }
+  }
 }

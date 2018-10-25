@@ -1,21 +1,21 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 @import '~@alfresco/adf-content-services/theming';
 
 @import '../components/sidenav/sidenav.component.theme';
 @import '../components/about/about.component.theme';
-@import '../components/generic-error/generic-error.component.theme';
+@import '../components/common/generic-error/generic-error.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
 @import '../components/settings/settings.component.theme';
 @import '../components/current-user/current-user.component.theme';
-@import '../components/permission-manager/permissions-manager.component.theme';
+@import '../components/permissions/permission-manager/permission-manager.component.theme';
 @import '../components/context-menu/context-menu.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
+@import '../components/create-menu/create-menu.component.scss';
 
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
 @import './overrides/adf-info-drawer.theme';
 @import './overrides/adf-upload-button.theme';
-@import './overrides/adf-sidebar-action-menu.theme';
 @import './overrides/adf-upload-dialog.theme';
 @import './overrides/adf-pagination.theme';
 @import './overrides/adf-sidenav-layout.theme';
@@ -30,36 +30,36 @@
 @import 'snackbar';
 
 $grey-scale: (
-    50 : #e0e0e0,
-    100 : #b3b3b3,
-    200 : #808080,
-    300 : #4d4d4d,
-    400 : #262626,
-    500 : #000000,
-    600 : #000000,
-    700 : #000000,
-    800 : #000000,
-    900 : #000000,
-    A100 : #a6a6a6,
-    A200 : #8c8c8c,
-    A400 : #737373,
-    A700 : #666666,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #ffffff,
-        400 : #ffffff,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #ffffff,
-        A700 : #ffffff,
-    )
+  50: #e0e0e0,
+  100: #b3b3b3,
+  200: #808080,
+  300: #4d4d4d,
+  400: #262626,
+  500: #000000,
+  600: #000000,
+  700: #000000,
+  800: #000000,
+  900: #000000,
+  A100: #a6a6a6,
+  A200: #8c8c8c,
+  A400: #737373,
+  A700: #666666,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff
+  )
 );
 
 @include mat-core();
@@ -70,29 +70,29 @@ $custom-theme-warn: mat-palette($alfresco-warn);
 $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
 
 @mixin custom-theme($theme) {
-    @include adf-toolbar-theme($theme);
-    @include adf-search-filter-theme($theme);
-    @include adf-info-drawer-theme($theme);
-    @include adf-upload-button-theme($theme);
-    @include adf-sidebar-action-menu-theme($theme);
-    @include adf-pagination-theme($theme);
-    @include adf-sidenav-layout-theme($theme);
-    @include adf-document-list-theme($theme);
-    @include adf-upload-drag-area-theme($theme);
-    @include adf-search-sorting-picker-theme($theme);
-    @include adf-content-node-selector-theme($theme);
-    @include adf-layout-header-theme($theme);
-    @include adf-version-manager-theme($theme);
+  @include adf-toolbar-theme($theme);
+  @include adf-search-filter-theme($theme);
+  @include adf-info-drawer-theme($theme);
+  @include adf-upload-button-theme($theme);
+  @include adf-pagination-theme($theme);
+  @include adf-sidenav-layout-theme($theme);
+  @include adf-document-list-theme($theme);
+  @include adf-upload-drag-area-theme($theme);
+  @include adf-search-sorting-picker-theme($theme);
+  @include adf-content-node-selector-theme($theme);
+  @include adf-layout-header-theme($theme);
+  @include adf-version-manager-theme($theme);
 
-    @include aca-layout-theme($theme);
-    @include aca-search-input-theme($theme);
-    @include aca-generic-error-theme($theme);
-    @include aca-permissions-manager-theme($theme);
-    @include aca-node-versions-dialog-theme($theme);
-    @include aca-settings-theme($theme);
-    @include snackbar-theme($theme);
-    @include sidenav-component-theme($theme);
-    @include aca-about-component-theme($theme);
-    @include aca-current-user-theme($theme);
-    @include aca-context-menu-theme($theme);
+  @include aca-layout-theme($theme);
+  @include aca-search-input-theme($theme);
+  @include aca-generic-error-theme($theme);
+  @include app-permission-manager-theme($theme);
+  @include aca-node-versions-dialog-theme($theme);
+  @include aca-settings-theme($theme);
+  @include snackbar-theme($theme);
+  @include sidenav-component-theme($theme);
+  @include aca-about-component-theme($theme);
+  @include aca-current-user-theme($theme);
+  @include aca-context-menu-theme($theme);
+  @include app-create-menu-theme($theme);
 }

@@ -25,9 +25,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
-    AlfrescoApiService,
-    TimeAgoPipe, NodeNameTooltipPipe,
-    NodeFavoriteDirective, DataTableComponent, AppConfigPipe
+  AlfrescoApiService,
+  TimeAgoPipe,
+  NodeNameTooltipPipe,
+  NodeFavoriteDirective,
+  DataTableComponent,
+  AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../services/content-management.service';
@@ -36,74 +39,83 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('TrashcanComponent', () => {
-    let fixture: ComponentFixture<TrashcanComponent>;
-    let component: TrashcanComponent;
-    let alfrescoApi: AlfrescoApiService;
-    let contentService: ContentManagementService;
-    let page;
+  let fixture: ComponentFixture<TrashcanComponent>;
+  let component: TrashcanComponent;
+  let alfrescoApi: AlfrescoApiService;
+  let contentService: ContentManagementService;
+  let page;
 
-    beforeEach(() => {
-        page = {
-            list: {
-                entries: [ { entry: { id: 1 } }, { entry: { id: 2 } } ],
-                pagination: { data: 'data'}
-            }
-        };
+  beforeEach(() => {
+    page = {
+      list: {
+        entries: [{ entry: { id: 1 } }, { entry: { id: 2 } }],
+        pagination: { data: 'data' }
+      }
+    };
+  });
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule],
+      declarations: [
+        DataTableComponent,
+        TimeAgoPipe,
+        NodeNameTooltipPipe,
+        NodeFavoriteDirective,
+        DocumentListComponent,
+        TrashcanComponent,
+        AppConfigPipe,
+        ExperimentalDirective
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [ AppTestingModule ],
-            declarations: [
-                DataTableComponent,
-                TimeAgoPipe,
-                NodeNameTooltipPipe,
-                NodeFavoriteDirective,
-                DocumentListComponent,
-                TrashcanComponent,
-                AppConfigPipe,
-                ExperimentalDirective
-            ],
-            schemas: [ NO_ERRORS_SCHEMA ]
-        });
+    fixture = TestBed.createComponent(TrashcanComponent);
+    component = fixture.componentInstance;
 
-        fixture = TestBed.createComponent(TrashcanComponent);
-        component = fixture.componentInstance;
+    alfrescoApi = TestBed.get(AlfrescoApiService);
+    alfrescoApi.reset();
+    contentService = TestBed.get(ContentManagementService);
 
-        alfrescoApi = TestBed.get(AlfrescoApiService);
-        alfrescoApi.reset();
-        contentService = TestBed.get(ContentManagementService);
+    component.documentList = <any>{
+      reload: jasmine.createSpy('reload'),
+      resetSelection: jasmine.createSpy('resetSelection')
+    };
+  });
 
-        component.documentList = <any> {
-            reload:  jasmine.createSpy('reload'),
-            resetSelection: jasmine.createSpy('resetSelection')
-        };
+  beforeEach(() => {
+    spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(
+      Promise.resolve(page)
+    );
+  });
+
+  it('should reload on nodes purged', () => {
+    component.ngOnInit();
+    spyOn(component, 'reload').and.stub();
+    contentService.nodesPurged.next({});
+    expect(component.reload).toHaveBeenCalled();
+  });
+
+  describe('onRestoreNode()', () => {
+    it('should call refresh()', () => {
+      spyOn(component, 'reload');
+      fixture.detectChanges();
+
+      contentService.nodesRestored.next();
+
+      expect(component.reload).toHaveBeenCalled();
+    });
+  });
+
+  describe('refresh()', () => {
+    it('calls child component to reload', () => {
+      component.reload();
+      expect(component.documentList.reload).toHaveBeenCalled();
     });
 
-    beforeEach(() => {
-        spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(Promise.resolve(page));
+    it('calls child component to reset selection', () => {
+      component.reload();
+      expect(component.documentList.resetSelection).toHaveBeenCalled();
     });
-
-    describe('onRestoreNode()', () => {
-        it('should call refresh()', () => {
-            spyOn(component, 'reload');
-            fixture.detectChanges();
-
-            contentService.nodesRestored.next();
-
-            expect(component.reload).toHaveBeenCalled();
-        });
-    });
-
-    describe('refresh()', () => {
-        it('calls child component to reload', () => {
-            component.reload();
-            expect(component.documentList.reload).toHaveBeenCalled();
-        });
-
-        it('calls child component to reset selection', () => {
-            component.reload();
-            expect(component.documentList.resetSelection).toHaveBeenCalled();
-        });
-    });
+  });
 });

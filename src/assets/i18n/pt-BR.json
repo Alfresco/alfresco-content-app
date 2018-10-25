@@ -7,7 +7,7 @@
       "TITLE": "Configurações",
       "APPLICATION-SETTINGS": "Configurações do aplicativo",
       "REPOSITORY-SETTINGS": "Configurações do repositório",
-      "EXPERIMENTAL-FEATURES": "Recursos Experimentais",
+      "EXPERIMENTAL-FEATURES": "Recursos experimentais",
       "INVALID-VALUE-FORMAT": "Formato de valor inválido",
       "REQUIRED-FIELD": "Este campo é obrigatório",
       "RESET": "Redefinir",
@@ -22,7 +22,8 @@
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Criar pasta",
         "UPLOAD_FILE": "Carregar arquivo",
-        "UPLOAD_FOLDER": "Carregar pasta"
+        "UPLOAD_FOLDER": "Carregar pasta",
+        "CREATE_LIBRARY": "Criar biblioteca"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Criar nova pasta",
@@ -30,7 +31,8 @@
         "UPLOAD_FILES": "Selecionar arquivos para carregar",
         "UPLOAD_FILES_NOT_ALLOWED": "Não é possível carregar arquivos durante a visualização dos itens atuais",
         "UPLOAD_FOLDERS": "Selecionar pastas para carregar",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Não é possível carregar pastas durante a visualização dos itens atuais"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Não é possível carregar pastas durante a visualização dos itens atuais",
+        "CREATE_LIBRARY": "Criar uma nova biblioteca de arquivos"
       }
     },
     "BROWSE": {
@@ -128,7 +130,10 @@
       "DETAILS": "Exibir detalhes",
       "VERSIONS": "Gerenciar versões",
       "TOGGLE-SIDENAV": "Alternar a barra de navegação lateral",
-      "SHARE": "Compartilhar"
+      "SHARE": "Compartilhar",
+      "SHARE_EDIT": "Configurações de links compartilhados",
+      "PRINT": "Imprimir",
+      "FULLSCREEN": "Ativar modo de tela cheia"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -259,6 +264,9 @@
       "INHERIT_PERMISSIONS_BUTTON": "Herdar permissão",
       "INHERITED_PERMISSIONS_BUTTON": "Permissão herdada"
     }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Você não tem permissão para descompartilhar deste arquivo"
   },
   "VERSION": {
     "DIALOG": {

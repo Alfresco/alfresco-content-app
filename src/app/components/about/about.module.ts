@@ -30,19 +30,17 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: AboutComponent
+  {
+    path: '',
+    component: AboutComponent,
+    data: {
+      title: 'APP.BROWSE.ABOUT.TITLE'
     }
+  }
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CoreModule.forChild(),
-        RouterModule.forChild(routes)
-    ],
-    declarations: [AboutComponent]
+  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes)],
+  declarations: [AboutComponent]
 })
-export class AboutModule {
-}
+export class AboutModule {}

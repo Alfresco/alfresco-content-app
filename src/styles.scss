@@ -1,11 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~@alfresco/adf-core/prebuilt-themes/adf-blue-orange.css';
 @import 'app/ui/application';
 
-body, html {
+body,
+html {
   height: 100%;
-  font-family: 'Muli', "Helvetica", "Arial", sans-serif !important;
+  font-family: 'Muli', 'Helvetica', 'Arial', sans-serif !important;
 }
 
 body {

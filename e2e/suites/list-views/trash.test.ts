@@ -23,181 +23,183 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
 describe('Trash', () => {
-    const username = `user-${Utils.random()}`;
+  const username = `user-${Utils.random()}`;
 
-    const siteName = `site-${Utils.random()}`;
-    const fileSite = `file-${Utils.random()}.txt`; let fileSiteId;
+  const siteName = `site-${Utils.random()}`;
+  const fileSite = `file-${Utils.random()}.txt`; let fileSiteId;
 
-    const folderAdmin = `folder-${Utils.random()}`; let folderAdminId;
-    const fileAdmin = `file-${Utils.random()}.txt`; let fileAdminId;
+  const folderAdmin = `folder-${Utils.random()}`; let folderAdminId;
+  const fileAdmin = `file-${Utils.random()}.txt`; let fileAdminId;
 
-    const folderUser = `folder-${Utils.random()}`; let folderUserId;
-    const fileUser = `file-${Utils.random()}.txt`; let fileUserId;
+  const folderUser = `folder-${Utils.random()}`; let folderUserId;
+  const fileUser = `file-${Utils.random()}.txt`; let fileUserId;
 
-    const folderDeleted = `folder-${Utils.random()}`; let folderDeletedId;
-    const fileDeleted = `file-${Utils.random()}.txt`; let fileDeletedId;
+  const folderDeleted = `folder-${Utils.random()}`; let folderDeletedId;
+  const fileDeleted = `file-${Utils.random()}.txt`; let fileDeletedId;
 
-    const folderNotDeleted = `folder-${Utils.random()}`; let folderNotDeletedId;
-    const fileInFolder = `file-${Utils.random()}.txt`; let fileInFolderId;
+  const folderNotDeleted = `folder-${Utils.random()}`; let folderNotDeletedId;
+  const fileInFolder = `file-${Utils.random()}.txt`; let fileInFolderId;
 
-    const apis = {
-        admin: new RepoClient(),
-        user: new RepoClient(username, username)
-    };
+  const apis = {
+    admin: new RepoClient(),
+    user: new RepoClient(username, username)
+  };
 
-    const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
-    const trashPage = new BrowsingPage();
-    const { dataTable } = trashPage;
-    const { breadcrumb } = trashPage.toolbar;
+  const loginPage = new LoginPage();
+  const logoutPage = new LogoutPage();
+  const trashPage = new BrowsingPage();
+  const { dataTable, breadcrumb } = trashPage;
 
-    beforeAll(done => {
-        apis.admin.people.createUser({ username })
-            .then(() => apis.admin.nodes.createFiles([ fileAdmin ]).then(resp => fileAdminId = resp.entry.id))
-            .then(() => apis.admin.nodes.createFolders([ folderAdmin ]).then(resp => folderAdminId = resp.entry.id))
-            .then(() => apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC))
-            .then(() => apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER))
-            .then(() => apis.admin.nodes.createFiles([ fileSite ], `Sites/${siteName}/documentLibrary`)
-                .then(resp => fileSiteId = resp.entry.id))
-            .then(() => apis.user.nodes.createFiles([ fileUser ]).then(resp => fileUserId = resp.entry.id))
-            .then(() => apis.user.nodes.createFolders([ folderUser ]).then(resp => folderUserId = resp.entry.id))
-            .then(() => apis.user.nodes.createFolder(folderDeleted).then(resp => folderDeletedId = resp.entry.id))
-            .then(() => apis.user.nodes.createFiles([ fileDeleted ], folderDeleted).then(resp => fileDeletedId = resp.entry.id))
-            .then(() => apis.user.nodes.createFolder(folderNotDeleted).then(resp => folderNotDeletedId = resp.entry.id))
-            .then(() => apis.user.nodes.createFiles([ fileInFolder ], folderNotDeleted).then(resp => fileInFolderId = resp.entry.id))
+  beforeAll(async (done) => {
+    await apis.admin.people.createUser({ username });
+    fileAdminId = (await apis.admin.nodes.createFiles([ fileAdmin ])).entry.id;
+    folderAdminId = (await apis.admin.nodes.createFolders([ folderAdmin ])).entry.id;
+    await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER);
+    const docLibId = await apis.admin.sites.getDocLibId(siteName);
+    fileSiteId = (await apis.admin.nodes.createFile(fileSite, docLibId)).entry.id;
+    fileUserId = (await apis.user.nodes.createFiles([ fileUser ])).entry.id;
+    folderUserId = (await apis.user.nodes.createFolders([ folderUser ])).entry.id;
+    folderDeletedId = (await apis.user.nodes.createFolder(folderDeleted)).entry.id;
+    fileDeletedId = (await apis.user.nodes.createFiles([ fileDeleted ], folderDeleted)).entry.id;
+    folderNotDeletedId = (await apis.user.nodes.createFolder(folderNotDeleted)).entry.id;
+    fileInFolderId = (await apis.user.nodes.createFiles([ fileInFolder ], folderNotDeleted)).entry.id;
 
-            .then(() => apis.admin.nodes.deleteNodesById([ fileAdminId, folderAdminId ], false))
-            .then(() => apis.user.nodes.deleteNodesById([ fileSiteId, fileUserId, folderUserId, fileInFolderId ], false))
-            .then(() => apis.user.nodes.deleteNodeById(fileDeletedId, false))
-            .then(() => apis.user.nodes.deleteNodeById(folderDeletedId, false))
+    await apis.admin.nodes.deleteNodesById([ fileAdminId, folderAdminId ], false);
+    await apis.user.nodes.deleteNodesById([ fileSiteId, fileUserId, folderUserId, fileInFolderId ], false);
+    await apis.user.nodes.deleteNodeById(fileDeletedId, false);
+    await apis.user.nodes.deleteNodeById(folderDeletedId, false);
 
-            .then(done);
+    done();
+  });
+
+  afterAll(async (done) => {
+    await Promise.all([
+      apis.admin.sites.deleteSite(siteName),
+      apis.user.nodes.deleteNodeById(folderNotDeletedId),
+      apis.admin.trashcan.emptyTrash()
+    ]);
+    done();
+  });
+
+  xit('');
+
+  describe('as admin', () => {
+    beforeAll(async (done) => {
+      await loginPage.loginWithAdmin();
+      done();
     });
 
-    afterAll(done => {
-        Promise.all([
-            apis.admin.sites.deleteSite(siteName),
-            apis.user.nodes.deleteNodeById(folderNotDeletedId),
-            apis.admin.trashcan.emptyTrash()
-        ])
-        .then(done);
+    beforeEach(async (done) => {
+      await trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await dataTable.waitForHeader();
+      done();
     });
 
-    xit('');
-
-    describe('as admin', () => {
-        beforeAll(done => {
-            loginPage.loginWithAdmin().then(done);
-        });
-
-        beforeEach(done => {
-            trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-                .then(() => dataTable.waitForHeader())
-                .then(done);
-        });
-
-        afterAll(done => {
-            logoutPage.load().then(done);
-        });
-
-        it('has the correct columns - [C213217]', () => {
-            const labels = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
-            const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
-
-            expect(dataTable.getColumnHeaders().count()).toBe(5 + 1, 'Incorrect number of columns');
-
-            elements.forEach((element, index) => {
-                expect(element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-            });
-        });
-
-        it('displays the files and folders deleted by everyone - [C280493]', () => {
-            expect(dataTable.countRows()).toEqual(8, 'Incorrect number of deleted items displayed');
-
-            expect(dataTable.getRowByName(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
-            expect(dataTable.getRowByName(folderAdmin).isPresent()).toBe(true, `${folderAdmin} not displayed`);
-            expect(dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
-            expect(dataTable.getRowByName(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
-            expect(dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
-        });
+    afterAll(async (done) => {
+      await logoutPage.load();
+      done();
     });
 
-    describe('as user', () => {
-        beforeAll(done => {
-            loginPage.loginWith(username).then(done);
-        });
+    it('has the correct columns - [C213217]', async () => {
+      const labels = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
+      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
-        beforeEach(done => {
-            trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH)
-                .then(() => dataTable.waitForHeader())
-                .then(done);
-        });
+      expect(await dataTable.getColumnHeaders().count()).toBe(5 + 1, 'Incorrect number of columns');
 
-        afterAll(done => {
-            logoutPage.load().then(done);
-        });
-
-        it('has the correct columns - [C280494]', () => {
-            const labels = [ 'Name', 'Location', 'Size', 'Deleted'];
-            const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
-
-            expect(dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
-
-            elements.forEach((element, index) => {
-                expect(element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-            });
-        });
-
-        it('displays the files and folders deleted by the user - [C213218]', () => {
-            expect(dataTable.countRows()).toEqual(6, 'Incorrect number of deleted items displayed');
-
-            expect(dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
-            expect(dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
-            expect(dataTable.getRowByName(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
-            expect(dataTable.getRowByName(fileAdmin).isPresent()).toBe(false, `${fileAdmin} is displayed`);
-        });
-
-        it('default sorting column - [C213219]', () => {
-            expect(dataTable.getSortedColumnHeader().getText()).toBe('Deleted');
-            expect(dataTable.getSortingOrder()).toBe('desc');
-        });
-
-        it('Location column displays the parent folder of the file - [C280498]', () => {
-            expect(dataTable.getItemLocation(fileInFolder).getText()).toEqual(folderNotDeleted);
-            expect(dataTable.getItemLocation(fileUser).getText()).toEqual('Personal Files');
-            expect(dataTable.getItemLocation(fileSite).getText()).toEqual(siteName);
-        });
-
-        it('Location column displays a tooltip with the entire path of the file - [C280499]', () => {
-            expect(dataTable.getItemLocationTileAttr(fileInFolder)).toEqual(`Personal Files/${folderNotDeleted}`);
-            expect(dataTable.getItemLocationTileAttr(fileUser)).toEqual('Personal Files');
-            expect(dataTable.getItemLocationTileAttr(fileSite)).toEqual(`File Libraries/${siteName}`);
-        });
-
-        it('Location column is empty if parent folder no longer exists - [C280500]', () => {
-            expect(dataTable.getItemLocation(fileDeleted).getText()).toEqual('');
-        });
-
-        it('Location column redirect - file in user Home - [C217144]', () => {
-            dataTable.clickItemLocation(fileUser)
-                .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]));
-        });
-
-        it('Location column redirect - file in folder - [C280496]', () => {
-            dataTable.clickItemLocation(fileInFolder)
-                .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'Personal Files', folderNotDeleted ]));
-        });
-
-        it('Location column redirect - file in site - [C280497]', () => {
-            dataTable.clickItemLocation(fileSite)
-                .then(() => expect(breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]));
-        });
+      await elements.forEach(async (element, index) => {
+        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
+      });
     });
+
+    it('displays the files and folders deleted by everyone - [C280493]', async () => {
+      expect(await dataTable.countRows()).toEqual(8, 'Incorrect number of deleted items displayed');
+
+      expect(await dataTable.getRowByName(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
+      expect(await dataTable.getRowByName(folderAdmin).isPresent()).toBe(true, `${folderAdmin} not displayed`);
+      expect(await dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
+      expect(await dataTable.getRowByName(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
+      expect(await dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
+    });
+  });
+
+  describe('as user', () => {
+    beforeAll(async (done) => {
+      await loginPage.loginWith(username);
+      done();
+    });
+
+    beforeEach(async (done) => {
+      await trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await dataTable.waitForHeader();
+      done();
+    });
+
+    afterAll(async (done) => {
+      await logoutPage.load();
+      done();
+    });
+
+    it('has the correct columns - [C280494]', async () => {
+      const labels = [ 'Name', 'Location', 'Size', 'Deleted'];
+      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+
+      expect(await dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
+
+      await elements.forEach(async (element, index) => {
+        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
+      });
+    });
+
+    it('displays the files and folders deleted by the user - [C213218]', async () => {
+      expect(await dataTable.countRows()).toEqual(6, 'Incorrect number of deleted items displayed');
+
+      expect(await dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
+      expect(await dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
+      expect(await dataTable.getRowByName(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
+      expect(await dataTable.getRowByName(fileAdmin).isPresent()).toBe(false, `${fileAdmin} is displayed`);
+    });
+
+    it('default sorting column - [C213219]', async () => {
+      expect(await dataTable.getSortedColumnHeader().getText()).toBe('Deleted');
+      expect(await dataTable.getSortingOrder()).toBe('desc');
+    });
+
+    it('Location column displays the parent folder of the file - [C280498]', async () => {
+      expect(await dataTable.getItemLocation(fileInFolder)).toEqual(folderNotDeleted);
+      expect(await dataTable.getItemLocation(fileUser)).toEqual('Personal Files');
+      expect(await dataTable.getItemLocation(fileSite)).toEqual(siteName);
+    });
+
+    it('Location column displays a tooltip with the entire path of the file - [C280499]', async () => {
+      expect(await dataTable.getItemLocationTileAttr(fileInFolder)).toEqual(`Personal Files/${folderNotDeleted}`);
+      expect(await dataTable.getItemLocationTileAttr(fileUser)).toEqual('Personal Files');
+      expect(await dataTable.getItemLocationTileAttr(fileSite)).toEqual(`File Libraries/${siteName}`);
+    });
+
+    it('Location column is empty if parent folder no longer exists - [C280500]', async () => {
+      expect(await dataTable.getItemLocation(fileDeleted)).toEqual('');
+    });
+
+    it('Location column redirect - file in user Home - [C217144]', async () => {
+      await dataTable.clickItemLocation(fileUser);
+      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files' ]);
+    });
+
+    it('Location column redirect - file in folder - [C280496]', async () => {
+      await dataTable.clickItemLocation(fileInFolder);
+      expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', folderNotDeleted ]);
+    });
+
+    it('Location column redirect - file in site - [C280497]', async () => {
+      await dataTable.clickItemLocation(fileSite);
+      expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+    });
+  });
 });

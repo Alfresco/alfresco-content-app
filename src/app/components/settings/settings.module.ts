@@ -30,18 +30,17 @@ import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: SettingsComponent
+  {
+    path: '',
+    component: SettingsComponent,
+    data: {
+      title: 'Settings'
     }
+  }
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CoreModule.forChild(),
-        RouterModule.forChild(routes)
-    ],
-    declarations: [SettingsComponent]
+  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes)],
+  declarations: [SettingsComponent]
 })
 export class AppSettingsModule {}

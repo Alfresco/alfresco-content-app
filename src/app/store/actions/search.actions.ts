@@ -28,6 +28,6 @@ import { Action } from '@ngrx/store';
 export const SEARCH_BY_TERM = 'SEARCH_BY_TERM';
 
 export class SearchByTermAction implements Action {
-    readonly type = SEARCH_BY_TERM;
-    constructor(public payload: string) {}
+  readonly type = SEARCH_BY_TERM;
+  constructor(public payload: string) {}
 }

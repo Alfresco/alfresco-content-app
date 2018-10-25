@@ -1,0 +1,97 @@
+version: '3'
+
+services:
+  alfresco:
+    image: alfresco/alfresco-content-repository-community:6.1.0-ea
+    depends_on:
+      - postgres
+    environment:
+      JAVA_OPTS: '
+        -Ddb.driver=org.postgresql.Driver
+        -Ddb.username=alfresco
+        -Ddb.password=alfresco
+        -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
+        -Dsolr.host=solr6
+        -Dsolr.port=8983
+        -Dsolr.secureComms=none
+        -Dsolr.base.url=/solr
+        -Dindex.subsystem.name=solr6
+        -Dshare.host=localhost
+        -Ddeployment.method=DOCKER_COMPOSE
+        -Dcsrf.filter.enabled=false
+        '
+    networks:
+      - internal
+    ports:
+      - 8080:8080 #Browser port
+
+  share:
+    image: alfresco/alfresco-share:6.0.c
+    depends_on:
+      - alfresco
+    environment:
+      - REPO_HOST=alfresco
+      - REPO_PORT=8080
+    networks:
+      - internal
+    ports:
+      - 8083:8080
+
+  postgres:
+    image: postgres:10.1
+    environment:
+      - POSTGRES_PASSWORD=alfresco
+      - POSTGRES_USER=alfresco
+      - POSTGRES_DB=alfresco
+    command: postgres -c max_connections=300 -c log_min_messages=LOG
+    networks:
+      - internal
+    ports:
+      - 5432:5432
+
+  solr6:
+    image: alfresco/alfresco-search-services:1.2.0
+    depends_on:
+      - alfresco
+    environment:
+      #Solr needs to know how to register itself with Alfresco
+      - SOLR_ALFRESCO_HOST=alfresco
+      - SOLR_ALFRESCO_PORT=8080
+      #Alfresco needs to know how to call solr
+      - SOLR_SOLR_HOST=solr6
+      - SOLR_SOLR_PORT=8983
+      #Create the default alfresco and archive cores
+      - SOLR_CREATE_ALFRESCO_DEFAULTS=alfresco,archive
+    networks:
+      - internal
+    ports:
+      - 8983:8983 #Browser port
+
+  content-app:
+    image: alfresco/alfresco-content-app:development-latest-tomcat8
+    build: .
+    environment:
+      - APP_BASE_SHARE_URL={protocol}//{hostname}{:port}/content-app/
+    depends_on:
+      - alfresco
+    networks:
+      - internal
+    ports:
+      - 4001:8080
+    # volumes:
+    #     - ./app.config.json:/usr/share/nginx/html/app.config.json
+    #     - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
+  proxy:
+    image: nginx
+    depends_on:
+      - content-app
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - internal
+    ports:
+      - 4000:80
+
+networks:
+  ? internal

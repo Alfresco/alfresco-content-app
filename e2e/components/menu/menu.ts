@@ -23,84 +23,153 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, promise } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
+import { Utils } from '../../utilities/utils'
 
 export class Menu extends Component {
-    private static selectors = {
-        root: '.mat-menu-panel',
-        item: '.mat-menu-item',
-        icon: '.mat-icon',
-        uploadFiles: 'app-upload-files'
-    };
+  private static selectors = {
+    root: '.mat-menu-panel',
+    item: '.mat-menu-item',
+    icon: '.mat-icon',
+    uploadFiles: 'app-upload-files',
 
-    items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
-    backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
-    uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
+    submenu: 'app-context-menu-item .mat-menu-item'
+  };
 
-    constructor(ancestor?: ElementFinder) {
-        super(Menu.selectors.root, ancestor);
+  items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
+  backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
+  uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
+  submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
+
+  constructor(ancestor?: ElementFinder) {
+    super(Menu.selectors.root, ancestor);
+  }
+
+  async waitForMenuToOpen() {
+    await browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async waitForMenuToClose() {
+    await browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async closeMenu() {
+    // if (await this.backdrop.isPresent()) {
+    //   return await this.backdrop.click();
+    // } else {
+    //   return await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+    // }
+    return Utils.pressEscape();
+  }
+
+  getNthItem(nth: number) {
+    return this.items.get(nth - 1);
+  }
+
+  getItemByLabel(menuItem: string) {
+    return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
+  }
+
+  getSubItemByLabel(subMenuItem: string) {
+    return this.component.element(by.cssContainingText(Menu.selectors.submenu, subMenuItem));
+  }
+
+  getItemById(id: string) {
+    return this.component.element(by.id(id));
+  }
+
+  async getItemTooltip(menuItem: string) {
+    return await this.getItemByLabel(menuItem).getAttribute('title');
+  }
+
+  async getItemIconText(menuItem: string) {
+    return await this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
+  }
+
+  async getItemIdAttribute(menuItem: string) {
+    return await this.getItemByLabel(menuItem).getAttribute('id');
+  }
+
+  async getItemsCount() {
+    return await this.items.count();
+  }
+
+  async clickNthItem(nth: number) {
+    const elem = this.getNthItem(nth);
+    await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+    await browser.actions().mouseMove(elem).click().perform();
+    await this.waitForMenuToClose();
+  }
+
+  async clickMenuItem(menuItem: string) {
+    try {
+      const elem = this.getItemByLabel(menuItem);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await elem.click();
+    } catch (e) {
+      console.log('___click menu item catch___', e);
     }
+  }
 
-    waitForMenuToOpen() {
-        return browser.wait(EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))), BROWSER_WAIT_TIMEOUT)
-            .then(() => browser.wait(EC.presenceOf(browser.element(by.css('.mat-menu-panel'))), BROWSER_WAIT_TIMEOUT))
-            .then(() => browser.wait(EC.visibilityOf(this.items.get(0)), BROWSER_WAIT_TIMEOUT));
+  async mouseOverMenuItem(menuItem: string) {
+    try {
+      const elem = this.getItemByLabel(menuItem);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await browser.actions().mouseMove(elem).perform();
+      await browser.sleep(500);
+    } catch (error) {
+      console.log('----- mouse over error: ', error);
     }
+  }
 
-    waitForMenuToClose() {
-        return browser.wait(EC.not(EC.presenceOf(browser.element(by.css('.mat-menu-panel')))), BROWSER_WAIT_TIMEOUT);
+  async hasSubMenu(menuItem: string) {
+    try {
+      const elem = this.getItemByLabel(menuItem);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      const elemClass = await elem.getAttribute('class');
+      return elemClass.includes('mat-menu-item-submenu-trigger');
+    } catch (error) {
+      console.log('---- has submenu error: ', error);
     }
+  }
 
-    closeMenu() {
-        if (this.backdrop.isPresent()) {
-            return this.backdrop.click();
-        } else {
-            return browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-        }
+  async clickSubMenuItem(subMenuItem: string) {
+    try {
+      const elem = this.getSubItemByLabel(subMenuItem);
+      await browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT);
+      await elem.click();
+    } catch (e) {
+      console.log('___click submenu item catch___', e);
     }
+  }
 
-    getNthItem(nth: number): ElementFinder {
-        return this.items.get(nth - 1);
+  async isMenuItemPresent(title: string) {
+    return await this.component.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
+  }
+
+  async isSubMenuItemPresent(title: string) {
+    return await browser.element(by.cssContainingText(Menu.selectors.submenu, title)).isPresent();
+  }
+
+  async getSubmenuItemsCount() {
+    return await this.submenus.count();
+  }
+
+  async isMenuItemDisabled(title: string) {
+    try {
+      const item = this.getItemByLabel(title);
+      const disabled = await item.getAttribute('disabled');
+      return disabled;
+    } catch (error) {
+      console.log('----- isMenuItemDisabled catch: ', error);
     }
+  }
 
-    getItemByLabel(menuItem: string): ElementFinder {
-        return this.component.element(by.cssContainingText(Menu.selectors.item, menuItem));
-    }
-
-    getItemTooltip(menuItem: string): promise.Promise<string> {
-        return this.getItemByLabel(menuItem).getAttribute('title');
-    }
-
-    getItemIconText(menuItem: string) {
-        return this.getItemByLabel(menuItem).element(by.css(Menu.selectors.icon)).getText();
-
-    }
-
-    getItemsCount(): promise.Promise<number> {
-        return this.items.count();
-    }
-
-    clickNthItem(nth: number): promise.Promise<any> {
-        const elem = this.getNthItem(nth);
-        return browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT)
-            .then(() => browser.actions().mouseMove(elem).click().perform())
-            .then(() => this.waitForMenuToClose());
-    }
-
-    clickMenuItem(menuItem: string): promise.Promise<any> {
-        const elem = this.getItemByLabel(menuItem);
-        return browser.wait(EC.elementToBeClickable(elem), BROWSER_WAIT_TIMEOUT)
-            .then(() => elem.click())
-            .then(() => this.waitForMenuToClose());
-    }
-
-    isMenuItemPresent(title: string): promise.Promise<boolean> {
-        return this.component.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
-    }
-
-    uploadFile() {
-        return this.uploadFiles;
-    }
+  uploadFile() {
+    return this.uploadFiles;
+  }
 }

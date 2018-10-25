@@ -7,7 +7,7 @@
 The Alfresco Content Application is an example application built using
 [Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components.
 
-### Who is this example application for
+### Who is this example application for?
 
 This example application demonstrates to Angular software engineers
 how to construct a content application using the Alfresco ADF.
@@ -19,7 +19,7 @@ with a simple and easy to use interface for working with files stored in the Alf
 
 This application was created based on the latest releases from Alfresco:
 
-- [Alfresco ADF (2.5.0)](https://community.alfresco.com/community/application-development-framework/pages/get-started)
+- [Alfresco ADF (2.6.0)](https://community.alfresco.com/community/application-development-framework/pages/get-started)
 - [Alfresco Content Services (6.0.0)](https://www.alfresco.com/platform/content-services-ecm)
   or [Alfresco Community Edition (6.0 - General Release: 201806)](https://www.alfresco.com/products/community/download)
 
@@ -27,8 +27,7 @@ This application was created based on the latest releases from Alfresco:
 You also need <a href="https://nodejs.org/en/" target="_blank">node.js</a> (LTS) installed to build it locally from source code.
 </p>
 
-The latest version of the Alfresco Content platform is required
-due to the application using the latest [REST APIs](https://docs.alfresco.com/5.2/pra/1/topics/pra-welcome.html) developments.
+**Note:** The latest version of the Alfresco Content platform is required due to the application using the latest [REST APIs](https://docs.alfresco.com/5.2/pra/1/topics/pra-welcome.html) developments.
 
 ## Features
 
@@ -46,9 +45,9 @@ using the Alfresco Application Development Framework to easily and quickly creat
 
 There are three main areas of the application controlled by the [Layout component](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/layout):
 
-- [(1) Application Header](#header)
-- [(2) Side Navigation](#side-navigation)
-- [(3) Document List](#document-list-layout)
+1. [Application Header](#header)
+2. [Side Navigation](#side-navigation)
+3. [Document List](#document-list-layout)
 
 ![Features](images/features-01.png)
 
@@ -66,13 +65,13 @@ The application [header](https://github.com/Alfresco/alfresco-content-app/tree/m
 
 Logo & app primary color - logo and color are configurable by updating the
 [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json) file in the root folder of the project.
-Please refer to the [Application Configuration](/getting-started#application-logo) documentation for more information on how to change the logo and color.
+Please refer to the [Application Configuration](/getting-started/configuration) documentation for more information on how to change the logo and color.
 
 #### Search
 
 The application [Search](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/search) -
-uses the [ADF Search Component](https://github.com/Alfresco/alfresco-ng2-components/tree/master/lib/content-services/search)
-the app provides a 'live' search feature, where users can open files and folders directly from the Search API results.
+uses the [ADF Search Component](https://github.com/Alfresco/alfresco-ng2-components/tree/master/lib/content-services/search).
+The app provides a 'live' search feature, where users can open files and folders directly from the Search API results.
 
 ![Search Input](images/search.png)
 
@@ -114,16 +113,16 @@ and uploads can be canceled which will stop uploads in progress or permanently d
 
 The navigation links are configurable via the [app.config.json](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app.config.json).
 Default configuration creates two sections.
-See [Navigation](/getting-started#navigation) for more information about configuring the side navigation.
+See [Navigation](/getting-started/navigation) for more information about configuring the side navigation.
 
 ### Document List Layout
 
 The main area of the application is composed of several individual ADF components:
 
-- (1) [Breadcrumb](https://alfresco.github.io/adf-component-catalog/components/BreadcrumbComponent.html)
-- (2) [Toolbar](https://alfresco.github.io/adf-component-catalog/components/ToolbarComponent.html)
-- (3) [Document List](https://alfresco.github.io/adf-component-catalog/components/DocumentListComponent.html)
-- (4) [Pagination](https://alfresco.github.io/adf-component-catalog/components/PaginationComponent.html)
+1. [Breadcrumb](https://alfresco.github.io/adf-component-catalog/components/BreadcrumbComponent.html)
+2. [Toolbar](https://alfresco.github.io/adf-component-catalog/components/ToolbarComponent.html)
+3. [Document List](https://alfresco.github.io/adf-component-catalog/components/DocumentListComponent.html)
+4. [Pagination](https://alfresco.github.io/adf-component-catalog/components/PaginationComponent.html)
 
 ![](images/doclist.png)
 
@@ -154,8 +153,6 @@ The [Shared Files](https://github.com/Alfresco/alfresco-content-app/tree/master/
 and includes extra columns to display where the file is
 [located](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/location-link)
 in the content repository and who created the shared link.
-
-A feature for creating and removing Shared Links will be added in the future.
 
 #### Recent Files
 
@@ -248,7 +245,7 @@ actions are automatically hidden when the user does not have permission.
     <tr>
         <td>Share</td>
         <td>
-            Create and copy a link to a file that can be shared, the links are accessible without granting permissions to the file, and do not require users to login to the application. 
+            Create and copy a link to a file that can be shared, the links are accessible without granting permissions to the file, and do not require users to login to the application.  Share links can automatically expire based on a date, the minimum expiry date is controlled by the Content Services repository, which is 1 day from the date of creation.
         </td>
         <td>
             Not applicable.

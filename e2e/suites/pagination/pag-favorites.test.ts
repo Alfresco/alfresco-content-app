@@ -29,210 +29,141 @@ import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
-describe('Pagination on Favorites', () => {
-    const username = `user-${Utils.random()}`;
+describe('Pagination on multiple pages on Favorites', () => {
+  const username = `user-${Utils.random()}`;
 
-    const apis = {
-        admin: new RepoClient(),
-        user: new RepoClient(username, username)
-    };
-    const { nodes: nodesApi, favorites: favoritesApi } = apis.user;
+  const apis = {
+    admin: new RepoClient(),
+    user: new RepoClient(username, username)
+  };
 
-    const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
-    const page = new BrowsingPage();
-    const { dataTable, pagination } = page;
+  const parent = `parent-${Utils.random()}`; let parentId;
 
-    const parent = `parent-${Utils.random()}`;
-    const files = Array(101)
-        .fill('file')
-        .map((name, index): string => `${name}-${index + 1}.txt`);
-    let filesIds;
+  const files = Array(101)
+    .fill('file')
+    .map((name, index): string => `${name}-${index + 1}-${Utils.random()}.txt`);
+  let filesIds;
 
-    const file = `file-${Utils.random()}.txt`; let fileId;
+  const loginPage = new LoginPage();
+  const logoutPage = new LogoutPage();
+  const page = new BrowsingPage();
+  const { dataTable, pagination } = page;
 
-    beforeAll(done => {
-        apis.admin.people.createUser({ username }).then(done);
-    });
+  beforeAll(async (done) => {
+    await apis.admin.people.createUser({ username });
+    parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
+    filesIds = (await apis.user.nodes.createFiles(files, parent)).list.entries.map(entries => entries.entry.id);
+    await apis.user.favorites.addFavoritesByIds('file', filesIds);
+    await apis.user.favorites.waitForApi({ expect: 101 });
+    await loginPage.loginWith(username);
+    done();
+  });
 
-    xit('');
+  beforeEach(async (done) => {
+    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+    await dataTable.waitForHeader();
+    done();
+  });
 
-    describe('on empty page', () => {
-        beforeAll(done => {
-            loginPage.loginWith(username).then(done);
-        });
+  afterEach(async (done) => {
+    await Utils.pressEscape();
+    done();
+  });
 
-        afterAll(done => {
-            logoutPage.load().then(done);
-        });
+  afterAll(async (done) => {
+    await apis.user.nodes.deleteNodeById(parentId);
+    await logoutPage.load();
+    await apis.user.favorites.waitForApi({ expect: 0 });
+    done();
+  });
 
-        it('pagination controls not displayed - [C280111]', () => {
-            page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
-                .then(() => {
-                    expect(pagination.range.isPresent()).toBe(false);
-                    expect(pagination.maxItems.isPresent()).toBe(false);
-                    expect(pagination.currentPage.isPresent()).toBe(false);
-                    expect(pagination.totalPages.isPresent()).toBe(false);
-                    expect(pagination.previousButton.isPresent()).toBe(false);
-                    expect(pagination.nextButton.isPresent()).toBe(false);
-                });
-        });
-    });
+  it('Pagination control default values - [C280113]', async () => {
+    expect(await pagination.range.getText()).toContain('1-25 of 101');
+    expect(await pagination.maxItems.getText()).toContain('25');
+    expect(await pagination.currentPage.getText()).toContain('Page 1');
+    expect(await pagination.totalPages.getText()).toContain('of 5');
+    expect(await pagination.previousButton.isEnabled()).toBe(false, 'Previous button is enabled');
+    expect(await pagination.nextButton.isEnabled()).toBe(true, 'Next button is not enabled');
+  });
 
-    describe('on single page', () => {
-        beforeAll(done => {
-            nodesApi.createFile(file).then(resp => fileId = resp.entry.id)
-                .then(() => favoritesApi.addFavoriteById('file', fileId))
-                .then(() => loginPage.loginWith(username))
-                .then(done);
-        });
+  it('Items per page values - [C280114]', async () => {
+    await pagination.openMaxItemsMenu();
+    const [ first, second, third ] = [1, 2, 3]
+      .map(async nth => await pagination.menu.getNthItem(nth).getText());
+    expect(first).toBe('25');
+    expect(second).toBe('50');
+    expect(third).toBe('100');
+    await pagination.menu.closeMenu();
+  });
 
-        afterAll(done => {
-            Promise.all([
-                nodesApi.deleteNodeById(fileId),
-                logoutPage.load()
-            ])
-            .then(done);
-        });
+  it('current page menu items - [C280115]', async () => {
+    await pagination.openMaxItemsMenu()
+    await pagination.menu.clickMenuItem('25');
+    expect(await pagination.getText(pagination.maxItems)).toContain('25');
+    expect(await pagination.getText(pagination.totalPages)).toContain('of 5');
+    await pagination.openCurrentPageMenu();
+    expect(await pagination.menu.getItemsCount()).toBe(5);
+    await pagination.menu.closeMenu();
 
-        it('page selector not displayed when having a single page - [C280112]', () => {
-            page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
-                .then(() => dataTable.waitForHeader())
-                .then(() => expect(pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed'));
-        });
-    });
+    await pagination.openMaxItemsMenu();
+    await pagination.menu.clickMenuItem('50');
+    expect(await pagination.getText(pagination.maxItems)).toContain('50');
+    expect(await pagination.getText(pagination.totalPages)).toContain('of 3');
+    await pagination.openCurrentPageMenu();
+    expect(await pagination.menu.getItemsCount()).toBe(3);
+    await pagination.menu.closeMenu();
 
-    describe('on multiple pages', () => {
-        beforeAll(done => {
-            nodesApi.createFiles(files, parent)
-                .then(resp => filesIds = resp.list.entries.map(entries => entries.entry.id))
-                .then(() => favoritesApi.addFavoritesByIds('file', filesIds))
-                .then(() => favoritesApi.waitForApi({ expect: 101 }))
-                .then(() => loginPage.loginWith(username))
-                .then(done);
-        });
+    await pagination.openMaxItemsMenu();
+    await pagination.menu.clickMenuItem('100');
+    expect(await pagination.getText(pagination.maxItems)).toContain('100');
+    expect(await pagination.getText(pagination.totalPages)).toContain('of 2');
+    await pagination.openCurrentPageMenu();
+    expect(await pagination.menu.getItemsCount()).toBe(2);
+    await pagination.menu.closeMenu();
 
-        beforeEach(done => {
-            page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES)
-                .then(() => dataTable.waitForHeader())
-                .then(done);
-        });
+    await pagination.resetToDefaultPageSize();
+  });
 
-        afterEach(done => {
-            browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform().then(done);
-        });
+  it('change the current page from menu - [C280116]', async () => {
+    await pagination.openCurrentPageMenu();
+    await pagination.menu.clickNthItem(3);
+    expect(await pagination.getText(pagination.range)).toContain('51-75 of 101');
+    expect(await pagination.getText(pagination.currentPage)).toContain('Page 3');
+    expect(await pagination.previousButton.isEnabled()).toBe(true, 'Previous button is not enabled');
+    expect(await pagination.nextButton.isEnabled()).toBe(true, 'Next button is not enabled');
+    expect(await dataTable.getRowByName('file-40').isPresent()).toBe(true, 'File not found on page');
 
-        afterAll(done => {
-            Promise.all([
-                nodesApi.deleteNodes([ parent ]),
-                logoutPage.load()
-            ])
-            .then(done);
-        });
+    await pagination.resetToDefaultPageNumber();
+  });
 
-        it('Pagination control default values - [C280113]', () => {
-            expect(pagination.range.getText()).toContain('1-25 of 101');
-            expect(pagination.maxItems.getText()).toContain('25');
-            expect(pagination.currentPage.getText()).toContain('Page 1');
-            expect(pagination.totalPages.getText()).toContain('of 5');
-            expect(pagination.previousButton.isEnabled()).toBe(false, 'Previous button is enabled');
-            expect(pagination.nextButton.isEnabled()).toBe(true, 'Next button is not enabled');
-        });
+  it('navigate to next and previous pages - [C280119]', async () => {
+    await pagination.nextButton.click();
+    await dataTable.waitForHeader();
+    expect(await pagination.range.getText()).toContain('26-50 of 101');
+    expect(await dataTable.getRowByName('file-70').isPresent()).toBe(true, 'File not found on page');
+    await pagination.resetToDefaultPageNumber();
 
-        it('Items per page values - [C280114]', () => {
-            pagination.openMaxItemsMenu()
-                .then(() => {
-                    const [ first, second, third ] = [1, 2, 3]
-                        .map(nth => pagination.menu.getNthItem(nth).getText());
-                    expect(first).toBe('25');
-                    expect(second).toBe('50');
-                    expect(third).toBe('100');
-                })
-            .then(() => pagination.menu.closeMenu());
-        });
+    await pagination.openCurrentPageMenu();
+    await pagination.menu.clickNthItem(2);
+    await dataTable.waitForHeader();
+    await pagination.previousButton.click();
+    await dataTable.waitForHeader();
+    expect(await pagination.range.getText()).toContain('1-25 of 101');
+    expect(await dataTable.getRowByName('file-88').isPresent()).toBe(true, 'File not found on page');
 
-        it('current page menu items - [C280115]', () => {
-            pagination.openMaxItemsMenu()
-                .then(() => pagination.menu.clickMenuItem('25'))
-                .then(() => {
-                    expect(pagination.getText(pagination.maxItems)).toContain('25');
-                    expect(pagination.getText(pagination.totalPages)).toContain('of 5');
-                })
-                .then(() => pagination.openCurrentPageMenu())
-                .then(() => expect(pagination.menu.getItemsCount()).toBe(5))
-                .then(() => pagination.menu.closeMenu())
+    await pagination.resetToDefaultPageNumber();
+  });
 
-                .then(() => pagination.openMaxItemsMenu())
-                .then(() => pagination.menu.clickMenuItem('50'))
-                .then(() => {
-                    expect(pagination.getText(pagination.maxItems)).toContain('50');
-                    expect(pagination.getText(pagination.totalPages)).toContain('of 3');
-                })
-                .then(() => pagination.openCurrentPageMenu())
-                .then(() => expect(pagination.menu.getItemsCount()).toBe(3))
-                .then(() => pagination.menu.closeMenu())
+  it('Previous button is disabled on first page - [C280117]', async () => {
+    expect(await pagination.currentPage.getText()).toContain('Page 1');
+    expect(await pagination.previousButton.isEnabled()).toBe(false, 'Previous button is enabled on first page');
+  });
 
-                .then(() => pagination.openMaxItemsMenu())
-                .then(() => pagination.menu.clickMenuItem('100'))
-                .then(() => {
-                    expect(pagination.getText(pagination.maxItems)).toContain('100');
-                    expect(pagination.getText(pagination.totalPages)).toContain('of 2');
-                })
-                .then(() => pagination.openCurrentPageMenu())
-                .then(() => expect(pagination.menu.getItemsCount()).toBe(2))
-                .then(() => pagination.menu.closeMenu())
-
-                .then(() => pagination.resetToDefaultPageSize());
-        });
-
-        it('change the current page from menu - [C280116]', () => {
-            pagination.openCurrentPageMenu()
-                .then(() => pagination.menu.clickNthItem(3))
-                .then(() => {
-                    expect(pagination.getText(pagination.range)).toContain('51-75 of 101');
-                    expect(pagination.getText(pagination.currentPage)).toContain('Page 3');
-                    expect(pagination.previousButton.isEnabled()).toBe(true, 'Previous button is not enabled');
-                    expect(pagination.nextButton.isEnabled()).toBe(true, 'Next button is not enabled');
-                    expect(dataTable.getRowByName('file-40.txt').isPresent()).toBe(true, 'File not found on page');
-                })
-                .then(() => pagination.resetToDefaultPageNumber());
-        });
-
-        it('navigate to next and previous pages - [C280119]', () => {
-            pagination.nextButton.click()
-                .then(() => dataTable.waitForHeader())
-                .then(() => {
-                    expect(pagination.range.getText()).toContain('26-50 of 101');
-                    expect(dataTable.getRowByName('file-70.txt').isPresent()).toBe(true, 'File not found on page');
-                })
-                .then(() => pagination.resetToDefaultPageNumber())
-
-                .then(() => pagination.openCurrentPageMenu())
-                .then(() => pagination.menu.clickNthItem(2))
-                .then(() => dataTable.waitForHeader())
-                .then(() => pagination.previousButton.click())
-                .then(() => dataTable.waitForHeader())
-                .then(() => {
-                    expect(pagination.range.getText()).toContain('1-25 of 101');
-                    expect(dataTable.getRowByName('file-88.txt').isPresent())
-                        .toBe(true, 'File not found on page');
-                })
-                .then(() => pagination.resetToDefaultPageNumber());
-        });
-
-        it('Previous button is disabled on first page - [C280117]', () => {
-            expect(pagination.currentPage.getText()).toContain('Page 1');
-            expect(pagination.previousButton.isEnabled()).toBe(false, 'Previous button is enabled on first page');
-        });
-
-        it('Next button is disabled on last page - [C280118]', () => {
-            pagination.openCurrentPageMenu()
-                .then(() => pagination.menu.clickNthItem(5))
-                .then(() => {
-                    expect(dataTable.countRows()).toBe(1, 'Incorrect number of items on the last page');
-                    expect(pagination.currentPage.getText()).toContain('Page 5');
-                    expect(pagination.nextButton.isEnabled()).toBe(false, 'Next button is enabled on last page');
-                });
-        });
-    });
+  it('Next button is disabled on last page - [C280118]', async () => {
+    await pagination.openCurrentPageMenu();
+    await pagination.menu.clickNthItem(5);
+    expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items on the last page');
+    expect(await pagination.currentPage.getText()).toContain('Page 5');
+    expect(await pagination.nextButton.isEnabled()).toBe(false, 'Next button is enabled on last page');
+  });
 });

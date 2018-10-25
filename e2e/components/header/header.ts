@@ -23,41 +23,54 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by } from 'protractor';
+import { ElementFinder, by, browser } from 'protractor';
 import { Component } from '../component';
 import { UserInfo } from './user-info';
 import { protractor } from 'protractor';
 import { Utils } from '../../utilities/utils';
+import { Menu } from '../menu/menu';
+import { Toolbar } from './../toolbar/toolbar';
 
 export class Header extends Component {
-    private locators = {
-        logoLink: by.css('.app-menu__title'),
-        userInfo: by.css('aca-current-user'),
-        searchButton: by.css('#adf-search-button'),
-        searchBar: by.css('#adf-control-input')
-    };
+  private locators = {
+    root: 'app-header',
+    logoLink: by.css('.app-menu__title'),
+    userInfo: by.css('aca-current-user'),
+    searchButton: by.css('#adf-search-button'),
+    searchBar: by.css('#adf-control-input'),
+    moreActions: by.id('app.header.more')
+  };
 
-    logoLink: ElementFinder = this.component.element(this.locators.logoLink);
-    userInfo: UserInfo = new UserInfo(this.component);
-    searchButton: ElementFinder = this.component.element(this.locators.searchButton);
-    searchBar: ElementFinder = this.component.element(this.locators.searchBar);
+  logoLink: ElementFinder = this.component.element(this.locators.logoLink);
+  userInfo: UserInfo = new UserInfo(this.component);
+  searchButton: ElementFinder = this.component.element(this.locators.searchButton);
+  searchBar: ElementFinder = this.component.element(this.locators.searchBar);
+  moreActions: ElementFinder = browser.element(this.locators.moreActions);
 
-    constructor(ancestor?: ElementFinder) {
-        super('adf-layout-header', ancestor);
-    }
+  menu: Menu = new Menu();
+  toolbar: Toolbar = new Toolbar();
 
-    searchForText(text: string) {
-        return this.searchBar.clear()
-            .then(() => this.searchBar.sendKeys(text))
-            .then(() => this.searchBar.sendKeys(protractor.Key.ENTER));
-    }
+  constructor(ancestor?: ElementFinder) {
+    super('adf-layout-header', ancestor);
+  }
 
-    async waitForSearchButton() {
-        return await Utils.waitUntilElementClickable(this.searchButton);
-    }
+  async searchForText(text: string) {
+    await this.searchBar.clear();
+    await this.searchBar.sendKeys(text);
+    await this.searchBar.sendKeys(protractor.Key.ENTER);
+  }
 
-    async waitForSearchBar() {
-        return await Utils.waitUntilElementClickable(this.searchBar);
-    }
+  async waitForSearchButton() {
+    await Utils.waitUntilElementClickable(this.searchButton);
+  }
+
+  async waitForSearchBar() {
+    await Utils.waitUntilElementClickable(this.searchBar);
+  }
+
+  async openMoreMenu() {
+    await this.moreActions.click();
+    await this.menu.waitForMenuToOpen();
+  }
 }
 

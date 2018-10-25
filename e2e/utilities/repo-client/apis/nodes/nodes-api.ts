@@ -54,6 +54,18 @@ export class NodesApi extends RepoApi {
         return (await this.getNodeByPath(`${relativePath}`)).entry.properties['cm:description'];
     }
 
+    async getNodeProperty(nodeId: string, property: string) {
+      const node = await this.getNodeById(nodeId);
+      if (node.entry.properties) {
+        return node.entry.properties[property];
+      }
+      return '';
+    }
+
+    async isFileShared(nodeId: string) {
+      return (await this.getNodeProperty(nodeId, 'qshare:sharedId')) !== '';
+    }
+
     async deleteNodeById(id: string, permanent: boolean = true) {
         await this.apiAuth();
         return await this.alfrescoJsApi.core.nodesApi.deleteNode(id, { permanent });
@@ -85,7 +97,21 @@ export class NodesApi extends RepoApi {
         return await this.alfrescoJsApi.core.nodesApi.getNodeChildren(nodeId);
     }
 
-    async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '') {
+    async deleteNodeChildren(parentId: string) {
+      const listEntries = (await this.getNodeChildren(parentId)).list.entries;
+      const nodeIds = listEntries.map(entries => entries.entry.id);
+      return await this.deleteNodesById(nodeIds);
+    }
+
+    async createImageNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '') {
+      const imageProps = {
+        'exif:pixelXDimension': 1000,
+        'exif:pixelYDimension': 1200
+      };
+      return await this.createNode('cm:content', name, parentId, title, description, imageProps);
+    }
+
+    async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null) {
         const nodeBody = {
             name,
             nodeType,
@@ -94,6 +120,9 @@ export class NodesApi extends RepoApi {
                 'cm:description': description
             }
         };
+        if (imageProps) {
+          nodeBody.properties = Object.assign(nodeBody.properties, imageProps);
+        }
 
         await this.apiAuth();
         return await this.alfrescoJsApi.core.nodesApi.addNode(parentId, nodeBody);
@@ -101,6 +130,10 @@ export class NodesApi extends RepoApi {
 
     async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
         return await this.createNode('cm:content', name, parentId, title, description);
+    }
+
+    async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
+        return await this.createImageNode('cm:content', name, parentId, title, description);
     }
 
     async createFolder(name: string, parentId: string = '-my-', title: string = '', description: string = '') {

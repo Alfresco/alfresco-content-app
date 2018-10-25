@@ -32,37 +32,32 @@ import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { PreviewComponent } from './preview.component';
-import { ViewUtilService } from './view-util.service';
 import { PreviewExtensionComponent } from './preview-extension.component';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 
 const routes: Routes = [
-    {
-        path: '',
-        component: PreviewComponent
+  {
+    path: '',
+    component: PreviewComponent,
+    data: {
+      title: 'APP.PREVIEW.TITLE',
+      navigateMultiple: true
     }
+  }
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        CoreModule.forChild(),
-        ContentDirectiveModule,
-        DirectivesModule,
-        AppInfoDrawerModule,
-        CoreExtensionsModule.forChild(),
-        AppToolbarModule
-    ],
-    declarations: [
-        PreviewComponent,
-        PreviewExtensionComponent
-    ],
-    providers: [
-        ViewUtilService
-    ],
-    exports: [
-        PreviewComponent
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    CoreModule.forChild(),
+    ContentDirectiveModule,
+    DirectivesModule,
+    AppInfoDrawerModule,
+    CoreExtensionsModule.forChild(),
+    AppToolbarModule
+  ],
+  declarations: [PreviewComponent, PreviewExtensionComponent],
+  exports: [PreviewComponent]
 })
 export class PreviewModule {}

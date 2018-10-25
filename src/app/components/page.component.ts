@@ -23,7 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DocumentListComponent, ShareDataRow } from '@alfresco/adf-content-services';
+import {
+  DocumentListComponent,
+  ShareDataRow
+} from '@alfresco/adf-content-services';
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -33,97 +36,115 @@ import { takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
 import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
-import { appSelection, currentFolder, documentDisplayMode, infoDrawerOpened, sharedUrl } from '../store/selectors/app.selectors';
+import {
+  appSelection,
+  currentFolder,
+  documentDisplayMode,
+  infoDrawerOpened,
+  sharedUrl
+} from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
 
-    onDestroy$: Subject<boolean> = new Subject<boolean>();
+  @ViewChild(DocumentListComponent)
+  documentList: DocumentListComponent;
 
-    @ViewChild(DocumentListComponent)
-    documentList: DocumentListComponent;
+  title = 'Page';
+  infoDrawerOpened$: Observable<boolean>;
+  node: MinimalNodeEntryEntity;
+  selection: SelectionState;
+  documentDisplayMode$: Observable<string>;
+  sharedPreviewUrl$: Observable<string>;
+  actions: Array<ContentActionRef> = [];
+  viewerToolbarActions: Array<ContentActionRef> = [];
+  viewerToolbarMoreActions: Array<ContentActionRef> = [];
+  canUpdateNode = false;
+  canUpload = false;
 
-    title = 'Page';
-    infoDrawerOpened$: Observable<boolean>;
-    node: MinimalNodeEntryEntity;
-    selection: SelectionState;
-    documentDisplayMode$: Observable<string>;
-    sharedPreviewUrl$: Observable<string>;
-    actions: Array<ContentActionRef> = [];
-    viewerToolbarActions: Array<ContentActionRef> = [];
-    canUpdateNode = false;
-    canUpload = false;
+  protected subscriptions: Subscription[] = [];
 
-    protected subscriptions: Subscription[] = [];
+  static isLockedNode(node) {
+    return (
+      node.isLocked ||
+      (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK')
+    );
+  }
 
-    static isLockedNode(node) {
-        return node.isLocked || (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK');
+  constructor(
+    protected store: Store<AppStore>,
+    protected extensions: AppExtensionService,
+    protected content: ContentManagementService
+  ) {}
+
+  ngOnInit() {
+    this.sharedPreviewUrl$ = this.store.select(sharedUrl);
+    this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
+    this.documentDisplayMode$ = this.store.select(documentDisplayMode);
+
+    this.store
+      .select(appSelection)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(selection => {
+        this.selection = selection;
+        this.actions = this.extensions.getAllowedToolbarActions();
+        this.viewerToolbarActions = this.extensions.getViewerToolbarActions();
+        this.viewerToolbarMoreActions = this.extensions.getViewerToolbarMoreActions();
+        this.canUpdateNode =
+          this.selection.count === 1 &&
+          this.content.canUpdateNode(selection.first);
+      });
+
+    this.store
+      .select(currentFolder)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(node => {
+        this.canUpload = node && this.content.canUploadContent(node);
+      });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions = [];
+
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
+
+  showPreview(node: MinimalNodeEntity) {
+    if (node && node.entry) {
+      const parentId = this.node ? this.node.id : null;
+      this.store.dispatch(new ViewFileAction(node, parentId));
     }
+  }
 
-    constructor(
-        protected store: Store<AppStore>,
-        protected extensions: AppExtensionService,
-        protected content: ContentManagementService) {}
+  getParentNodeId(): string {
+    return this.node ? this.node.id : null;
+  }
 
-    ngOnInit() {
-        this.sharedPreviewUrl$ = this.store.select(sharedUrl);
-        this.infoDrawerOpened$ = this.store.select(infoDrawerOpened);
-        this.documentDisplayMode$ = this.store.select(documentDisplayMode);
+  imageResolver(row: ShareDataRow): string | null {
+    const entry: MinimalNodeEntryEntity = row.node.entry;
 
-        this.store
-            .select(appSelection)
-            .pipe(takeUntil(this.onDestroy$))
-            .subscribe(selection => {
-                this.selection = selection;
-                this.actions = this.extensions.getAllowedToolbarActions();
-                this.viewerToolbarActions = this.extensions.getViewerToolbarActions();
-                this.canUpdateNode = this.selection.count === 1 && this.content.canUpdateNode(selection.first);
-            });
-
-        this.store.select(currentFolder)
-            .pipe(takeUntil(this.onDestroy$))
-            .subscribe(node => {
-                this.canUpload = node && this.content.canUploadContent(node);
-            });
+    if (PageComponent.isLockedNode(entry)) {
+      return 'assets/images/ic_lock_black_24dp_1x.png';
     }
+    return null;
+  }
 
-    ngOnDestroy() {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
-        this.subscriptions = [];
-
-        this.onDestroy$.next(true);
-        this.onDestroy$.complete();
+  reload(): void {
+    if (this.documentList) {
+      this.documentList.resetSelection();
+      this.store.dispatch(new SetSelectedNodesAction([]));
+      this.documentList.reload();
     }
+  }
 
-    showPreview(node: MinimalNodeEntity) {
-        if (node && node.entry) {
-            const parentId = this.node ? this.node.id : null;
-           this.store.dispatch(new ViewFileAction(node, parentId));
-        }
-    }
+  trackByActionId(index: number, action: ContentActionRef) {
+    return action.id;
+  }
 
-    getParentNodeId(): string {
-        return this.node ? this.node.id : null;
-    }
-
-    imageResolver(row: ShareDataRow): string | null {
-        const entry: MinimalNodeEntryEntity = row.node.entry;
-
-        if (PageComponent.isLockedNode(entry)) {
-            return 'assets/images/ic_lock_black_24dp_1x.png';
-        }
-        return null;
-    }
-
-    reload(): void {
-        if (this.documentList) {
-            this.documentList.resetSelection();
-            this.store.dispatch(new SetSelectedNodesAction([]));
-            this.documentList.reload();
-        }
-    }
-
-    trackByActionId(index: number, action: ContentActionRef) {
-        return action.id;
-    }
+  trackById(index: number, obj: { id: string }) {
+    return obj.id;
+  }
 }

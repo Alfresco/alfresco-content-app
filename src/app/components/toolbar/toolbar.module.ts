@@ -32,25 +32,25 @@ import { CoreModule } from '@alfresco/adf-core';
 import { ToolbarButtonComponent } from './toolbar-button/toolbar-button.component';
 import { ToolbarActionComponent } from './toolbar-action/toolbar-action.component';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
+import { ToolbarMenuItemComponent } from './toolbar-menu-item/toolbar-menu-item.component';
+import { ToolbarMenuComponent } from './toolbar-menu/toolbar-menu.component';
 
 export function components() {
-    return [
-        DocumentDisplayModeComponent,
-        ToggleFavoriteComponent,
-        ToggleInfoDrawerComponent,
-        ToolbarButtonComponent,
-        ToolbarActionComponent
-    ];
+  return [
+    DocumentDisplayModeComponent,
+    ToggleFavoriteComponent,
+    ToggleInfoDrawerComponent,
+    ToolbarButtonComponent,
+    ToolbarActionComponent,
+    ToolbarMenuItemComponent,
+    ToolbarMenuComponent
+  ];
 }
 
 @NgModule({
-    imports: [
-        CommonModule,
-        CoreModule.forChild(),
-        ExtensionsModule.forChild()
-    ],
-    declarations: components(),
-    exports: components(),
-    entryComponents: components()
+  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule],
+  declarations: components(),
+  exports: components(),
+  entryComponents: components()
 })
 export class AppToolbarModule {}

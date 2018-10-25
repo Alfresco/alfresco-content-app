@@ -70,7 +70,7 @@ describe('Viewer general', () => {
         await apis.user.shared.shareFileById(xlsxFileId);
         await apis.user.shared.waitForApi({ expect: 1 });
         await apis.user.favorites.addFavoriteById('file', xlsxFileId);
-        await apis.user.favorites.waitForApi({ expect: 1 });
+        await apis.user.favorites.waitForApi({ expect: 2 });
 
         await loginPage.loginWith(username);
         done();
@@ -90,14 +90,11 @@ describe('Viewer general', () => {
     });
 
     afterAll(async (done) => {
-        await Promise
-            .all([
-                apis.user.nodes.deleteNodeById(parentId),
-                apis.admin.sites.deleteSite(siteAdmin),
-                apis.user.sites.deleteSite(siteUser),
-                logoutPage.load()
-            ])
-            .then(done);
+      await apis.user.nodes.deleteNodeById(parentId);
+      await apis.admin.sites.deleteSite(siteAdmin);
+      await apis.user.sites.deleteSite(siteUser);
+      await logoutPage.load();
+      done();
     });
 
     it('Viewer opens on double clicking on a file from Personal Files - [C279269]', async () => {
@@ -107,7 +104,7 @@ describe('Viewer general', () => {
 
     it('Viewer opens when clicking the View action for a file - [C279270]', async () => {
         await dataTable.selectItem(xlsxFile);
-        await page.toolbar.actions.getButtonByTitleAttribute('View').click();
+        await page.toolbar.getButtonByTitleAttribute('View').click();
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     });
 

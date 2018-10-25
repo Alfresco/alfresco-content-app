@@ -3,26 +3,13 @@
         <button
             [id]="actionRef.id"
             mat-icon-button
-            color="primary"
+            [color]="color"
             [attr.title]="(actionRef.description || actionRef.title) | translate"
             (click)="runAction()">
             <mat-icon>{{ actionRef.icon }}</mat-icon>
         </button>
     </ng-container>
     <ng-container *ngSwitchCase="'menu-item'">
-        <button
-            [id]="actionRef.id"
-            mat-menu-item
-            color="primary"
-            [disabled]="actionRef.disabled"
-            [attr.title]="(
-                actionRef.disabled
-                ? actionRef['description-disabled']
-                : actionRef.description || actionRef.title
-            ) | translate"
-            (click)="runAction()">
-            <mat-icon>{{ actionRef.icon }}</mat-icon>
-            <span>{{ actionRef.title | translate }}</span>
-        </button>
+      <app-toolbar-menu-item [actionRef]="actionRef"></app-toolbar-menu-item>
     </ng-container>
 </ng-container>

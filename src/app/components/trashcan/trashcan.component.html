@@ -7,7 +7,7 @@
             <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
 
             <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-                <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
+                <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
             </ng-container>
         </adf-toolbar>
     </div>
@@ -35,55 +35,44 @@
                 </empty-folder-content>
 
                 <data-columns>
+                  <ng-container *ngFor="let column of columns; trackBy: trackById">
 
-                    <data-column
-                        key="$thumbnail"
-                        type="image"
-                        [sortable]="false"
-                        class="image-table-cell">
-                    </data-column>
-
-                    <data-column
-                        class="adf-data-table-cell--ellipsis__name"
-                        key="name"
-                        title="APP.DOCUMENT_LIST.COLUMNS.NAME">
-                        <ng-template let-value="value" let-context>
-                            <span class="adf-datatable-cell" title="{{ context?.row?.obj | adfNodeNameTooltip }}">{{ value }}</span>
-                        </ng-template>
-                    </data-column>
-
-                    <data-column
-                        *ngIf="!isSmallScreen"
-                        key="path.name"
-                        title="APP.DOCUMENT_LIST.COLUMNS.LOCATION">
+                    <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+                      <data-column
+                        [key]="column.key"
+                        [title]="column.title"
+                        [type]="column.type"
+                        [format]="column.format"
+                        [class]="column.class"
+                        [sortable]="column.sortable">
                         <ng-template let-context>
-                            <aca-location-link [context]="context"></aca-location-link>
+                          <app-dynamic-column
+                            [id]="column.template"
+                            [context]="context">
+                          </app-dynamic-column>
                         </ng-template>
-                    </data-column>
+                      </data-column>
+                    </ng-container>
 
-                    <data-column
-                        *ngIf="!isSmallScreen"
-                        key="content.sizeInBytes"
-                        title="APP.DOCUMENT_LIST.COLUMNS.SIZE"
-                        type="fileSize">
-                    </data-column>
+                    <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+                      <data-column
+                        [key]="column.key"
+                        [title]="column.title"
+                        [type]="column.type"
+                        [format]="column.format"
+                        [class]="column.class"
+                        [sortable]="column.sortable">
+                      </data-column>
+                    </ng-container>
 
-                    <data-column
-                        *ngIf="!isSmallScreen"
-                        key="archivedAt"
-                        title="APP.DOCUMENT_LIST.COLUMNS.DELETED_ON">
-                        <ng-template let-value="value">
-                            <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
-                        </ng-template>
-                    </data-column>
+                  </ng-container>
 
-                    <data-column
-                        *ngIf="!isSmallScreen && (user$ | async)?.isAdmin"
-                        class="adf-data-table-cell--ellipsis"
-                        key="archivedByUser.displayName"
-                        title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">
-                    </data-column>
-
+                  <data-column
+                    *ngIf="!isSmallScreen && (user$ | async)?.isAdmin"
+                    class="adf-data-table-cell--ellipsis"
+                    key="archivedByUser.displayName"
+                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">
+                  </data-column>
                 </data-columns>
             </adf-document-list>
 

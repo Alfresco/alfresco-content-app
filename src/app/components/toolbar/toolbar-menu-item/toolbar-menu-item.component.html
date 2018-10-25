@@ -1,0 +1,46 @@
+<ng-container [ngSwitch]="actionRef.type">
+
+  <ng-container *ngSwitchCase="'menu'">
+    <button
+      mat-menu-item
+      [disabled]="actionRef.disabled"
+      [matMenuTriggerFor]="childMenu">
+      <mat-icon>{{ actionRef.icon }}</mat-icon>
+      <span>{{ actionRef.title | translate }}</span>
+    </button>
+
+    <mat-menu #childMenu="matMenu" class="app-create-menu__sub-menu">
+      <ng-container *ngFor="let child of actionRef.children; trackBy: trackById">
+        <app-toolbar-menu-item [actionRef]="child"></app-toolbar-menu-item>
+      </ng-container>
+      </mat-menu>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'separator'">
+    <mat-divider></mat-divider>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'custom'">
+    <adf-dynamic-component [id]="actionRef.component"></adf-dynamic-component>
+  </ng-container>
+
+  <ng-container *ngSwitchDefault>
+    <button
+      [id]="actionRef.id"
+      mat-menu-item
+      color="primary"
+      [disabled]="actionRef.disabled"
+      [attr.title]="(
+        actionRef.disabled
+        ? actionRef['description-disabled']
+        : actionRef.description || actionRef.title
+      ) | translate"
+      (click)="runAction()">
+      <mat-icon>{{ actionRef.icon }}</mat-icon>
+      <span>{{ actionRef.title | translate }}</span>
+    </button>
+  </ng-container>
+
+</ng-container>
+
+

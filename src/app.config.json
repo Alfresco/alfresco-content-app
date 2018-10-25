@@ -1,235 +1,301 @@
 {
-    "ecmHost": "http://{hostname}{:port}",
-    "providers": "ECM",
-    "authType" : "BASIC",
-    "application": {
-        "name": "Alfresco",
-        "logo": "assets/images/alfresco-logo-flower.svg",
-        "copyright":
-            "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
-    },
-    "experimental": {
-        "cardview": false,
-        "extensions": false,
-        "external-plugins": false
-    },
-    "headerColor": "#2196F3",
-    "languagePicker": false,
-    "pagination": {
-        "size": 25,
-        "supportedPageSizes": [25, 50, 100]
-    },
-    "files": {
-        "excluded": [".DS_Store", "desktop.ini", "Thumbs.db", ".git"],
-        "match-options": {
-          "nocase": true
-        }
-    },
-    "adf-version-manager": {
-        "allowComments": true,
-        "allowDownload": true
-    },
-    "sideNav": {
-        "preserveState": true,
-        "expandedSidenav": true
-    },
-    "languages": [
-        {
-            "key": "de",
-            "label": "German"
-        },
-        {
-            "key": "en",
-            "label": "English"
-        },
-        {
-            "key": "es",
-            "label": "Spanish"
-        },
-        {
-            "key": "fr",
-            "label": "French"
-        },
-        {
-            "key": "it",
-            "label": "Italian"
-        },
-        {
-            "key": "ja",
-            "label": "Japanese"
-        },
-        {
-            "key": "nb",
-            "label": "Norwegian"
-        },
-        {
-            "key": "nl",
-            "label": "Dutch"
-        },
-        {
-            "key": "pt-BR",
-            "label": "Brazilian Portuguese"
-        },
-        {
-            "key": "ru",
-            "label": "Russian"
-        },
-        {
-            "key": "zh-CN",
-            "label": "Simplified Chinese"
-        }
-    ],
-    "content-metadata": {
-        "presets": {
-            "custom": [
-                {
-                    "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
-                    "items": [
-                        {
-                            "aspect": "exif:exif",
-                            "properties": [
-                                "exif:pixelXDimension",
-                                "exif:pixelYDimension",
-                                "exif:dateTimeOriginal",
-                                "exif:exposureTime",
-                                "exif:fNumber",
-                                "exif:flash",
-                                "exif:focalLength",
-                                "exif:isoSpeedRatings",
-                                "exif:orientation",
-                                "exif:manufacturer",
-                                "exif:model",
-                                "exif:software"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    },
-    "search": {
-        "include": ["path", "allowableOperations", "properties"],
-        "sorting": {
-            "options": [
-                {
-                    "key": "score",
-                    "label": "SEARCH.SORT.RELEVANCE",
-                    "type": "FIELD",
-                    "field": "score",
-                    "ascending": true
-                },
-                {
-                    "key": "name",
-                    "label": "SEARCH.SORT.FILENAME",
-                    "type": "FIELD",
-                    "field": "cm:name",
-                    "ascending": true
-                },
-                {
-                    "key": "title",
-                    "label": "SEARCH.SORT.TITLE",
-                    "type": "FIELD",
-                    "field": "cm:title",
-                    "ascending": true
-                },
-                {
-                    "key": "modified",
-                    "label": "SEARCH.SORT.MODIFIED_DATE",
-                    "type": "FIELD",
-                    "field": "cm:modified",
-                    "ascending": true
-                },
-                {
-                    "key": "modified",
-                    "label": "SEARCH.SORT.MODIFIER",
-                    "type": "FIELD",
-                    "field": "cm:modifier",
-                    "ascending": true
-                },
-                {
-                    "key": "modified",
-                    "label": "SEARCH.SORT.CREATE_DATE",
-                    "type": "FIELD",
-                    "field": "cm:created",
-                    "ascending": true
-                },
-                {
-                    "key": "content.sizeInBytes",
-                    "label": "SEARCH.SORT.SIZE",
-                    "type": "FIELD",
-                    "field": "content.size",
-                    "ascending": true
-                },
-                {
-                    "key": "content.mimetype",
-                    "label": "SEARCH.SORT.TYPE",
-                    "type": "FIELD",
-                    "field": "content.mimetype",
-                    "ascending": true
-                }
-            ],
-            "defaults": [
-                {
-                    "key": "score",
-                    "type": "FIELD",
-                    "field": "score",
-                    "ascending": true
-                }
-            ]
-        },
-        "filterQueries": [
-            { "query": "TYPE:'cm:folder' OR TYPE:'cm:content'" },
-            { "query": "NOT cm:creator:System" },
-            { "query": "NOT TYPE:'dl:dataList' AND NOT TYPE:'dl:todoList' AND NOT TYPE:'dl:issue' AND NOT TYPE:'fm:topic' AND NOT TYPE:'lnk:link' AND NOT TYPE:'fm:post'" }
-        ],
-        "facetFields": {
-            "expanded": true,
-            "fields": [
-                { "field": "content.mimetype", "mincount": 0, "label": "SEARCH.FACET_FIELDS.FILE_TYPE" },
-                { "field": "creator", "mincount": 0, "label": "SEARCH.FACET_FIELDS.CREATOR" },
-                { "field": "modifier", "mincount": 0, "label": "SEARCH.FACET_FIELDS.MODIFIER" },
-                { "field": "SITE", "mincount": 0, "label": "SEARCH.FACET_FIELDS.LOCATION" }
-            ]
-        },
-        "facetQueries": {
-            "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
-            "queries": [
-                { "label": "Today", "query": "cm:modified:[TODAY to TODAY]" },
-                { "label": "This week", "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]" },
-                { "label": "This month", "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"},
-                { "label": "In last 6 months", "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"},
-                { "label": "This year", "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"}
-            ]
-        },
-        "categories": [
-            {
-                "id": "size",
-                "name": "SEARCH.CATEGORIES.SIZE",
-                "enabled": true,
-                "component": {
-                    "selector": "check-list",
-                    "settings": {
-                        "options": [
-                            { "name": "Small", "value": "content.size:[0 TO 1048576>" },
-                            { "name": "Medium", "value": "content.size:[1048576 TO 52428800]" },
-                            { "name": "Large", "value": "content.size:<52428800 TO 524288000]" },
-                            { "name": "Huge", "value": "content.size:<524288000 TO MAX]" }
-                        ]
-                    }
-                }
-            },
-            {
-                "id": "createdDateRange",
-                "name": "SEARCH.CATEGORIES.CREATED_DATE",
-                "enabled": true,
-                "component": {
-                    "selector": "date-range",
-                    "settings": {
-                        "field": "cm:created",
-                        "dateFormat": "DD-MMM-YY"
-                    }
-                }
-            }
-        ]
+  "ecmHost": "{protocol}//{hostname}{:port}",
+  "baseShareUrl": null,
+  "providers": "ECM",
+  "authType": "BASIC",
+  "oauth2": {
+    "host": "http://localhost:30081/auth/realms/myrealm",
+    "clientId": "alfresco",
+    "scope": "openid",
+    "secret": "",
+    "implicitFlow": true,
+    "silentLogin": true,
+    "redirectSilentIframeUri": "/assets/silent-refresh.html",
+    "redirectUri": "/",
+    "redirectUriLogout": "/logout"
+  },
+  "application": {
+    "name": "Alfresco",
+    "logo": "assets/images/alfresco-logo-flower.svg",
+    "copyright": "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
+  },
+  "experimental": {
+    "cardview": false,
+    "extensions": false,
+    "external-plugins": false
+  },
+  "headerColor": "#2196F3",
+  "languagePicker": false,
+  "pagination": {
+    "size": 25,
+    "supportedPageSizes": [25, 50, 100]
+  },
+  "files": {
+    "excluded": [".DS_Store", "desktop.ini", "Thumbs.db", ".git"],
+    "match-options": {
+      "nocase": true
     }
+  },
+  "adf-version-manager": {
+    "allowComments": true,
+    "allowDownload": true
+  },
+  "sideNav": {
+    "preserveState": true,
+    "expandedSidenav": true
+  },
+  "languages": [
+    {
+      "key": "de",
+      "label": "German"
+    },
+    {
+      "key": "en",
+      "label": "English"
+    },
+    {
+      "key": "es",
+      "label": "Spanish"
+    },
+    {
+      "key": "fr",
+      "label": "French"
+    },
+    {
+      "key": "it",
+      "label": "Italian"
+    },
+    {
+      "key": "ja",
+      "label": "Japanese"
+    },
+    {
+      "key": "nb",
+      "label": "Norwegian"
+    },
+    {
+      "key": "nl",
+      "label": "Dutch"
+    },
+    {
+      "key": "pt-BR",
+      "label": "Brazilian Portuguese"
+    },
+    {
+      "key": "ru",
+      "label": "Russian"
+    },
+    {
+      "key": "zh-CN",
+      "label": "Simplified Chinese"
+    }
+  ],
+  "content-metadata": {
+    "presets": {
+      "custom": [
+        {
+          "title": "APP.CONTENT_METADATA.EXIF_GROUP_TITLE",
+          "items": [
+            {
+              "aspect": "exif:exif",
+              "properties": [
+                "exif:pixelXDimension",
+                "exif:pixelYDimension",
+                "exif:dateTimeOriginal",
+                "exif:exposureTime",
+                "exif:fNumber",
+                "exif:flash",
+                "exif:focalLength",
+                "exif:isoSpeedRatings",
+                "exif:orientation",
+                "exif:manufacturer",
+                "exif:model",
+                "exif:software"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "search": {
+    "aca:fields": [
+      "cm:name",
+      "cm:title",
+      "cm:description",
+      "ia:whatEvent",
+      "ia:descriptionEvent",
+      "lnk:title",
+      "lnk:description",
+      "TEXT",
+      "TAG"
+    ],
+    "include": ["path", "allowableOperations", "properties"],
+    "sorting": {
+      "options": [
+        {
+          "key": "score",
+          "label": "SEARCH.SORT.RELEVANCE",
+          "type": "FIELD",
+          "field": "score",
+          "ascending": true
+        },
+        {
+          "key": "name",
+          "label": "SEARCH.SORT.FILENAME",
+          "type": "FIELD",
+          "field": "cm:name",
+          "ascending": true
+        },
+        {
+          "key": "title",
+          "label": "SEARCH.SORT.TITLE",
+          "type": "FIELD",
+          "field": "cm:title",
+          "ascending": true
+        },
+        {
+          "key": "modified",
+          "label": "SEARCH.SORT.MODIFIED_DATE",
+          "type": "FIELD",
+          "field": "cm:modified",
+          "ascending": true
+        },
+        {
+          "key": "modifier",
+          "label": "SEARCH.SORT.MODIFIER",
+          "type": "FIELD",
+          "field": "cm:modifier",
+          "ascending": true
+        },
+        {
+          "key": "created",
+          "label": "SEARCH.SORT.CREATE_DATE",
+          "type": "FIELD",
+          "field": "cm:created",
+          "ascending": true
+        },
+        {
+          "key": "content.sizeInBytes",
+          "label": "SEARCH.SORT.SIZE",
+          "type": "FIELD",
+          "field": "content.size",
+          "ascending": true
+        },
+        {
+          "key": "content.mimetype",
+          "label": "SEARCH.SORT.TYPE",
+          "type": "FIELD",
+          "field": "content.mimetype",
+          "ascending": true
+        }
+      ],
+      "defaults": [
+        {
+          "key": "score",
+          "type": "FIELD",
+          "field": "score",
+          "ascending": false
+        }
+      ]
+    },
+    "filterQueries": [
+      { "query": "+TYPE:'cm:folder' OR +TYPE:'cm:content'" },
+      {
+        "query": "-TYPE:'cm:thumbnail' AND -TYPE:'cm:failedThumbnail' AND -TYPE:'cm:rating'"
+      },
+      { "query": "-cm:creator:System AND -QNAME:comment" },
+      {
+        "query": "-TYPE:'st:site' AND -ASPECT:'st:siteContainer' AND -ASPECT:'sys:hidden'"
+      },
+      {
+        "query": "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
+      },
+      { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
+      { "query": "-TYPE:'lnk:link'" }
+    ],
+    "facetFields": {
+      "expanded": true,
+      "fields": [
+        {
+          "field": "content.mimetype",
+          "mincount": 0,
+          "label": "FileType"
+        },
+        {
+          "field": "creator",
+          "mincount": 0,
+          "label": "Creator"
+        },
+        {
+          "field": "modifier",
+          "mincount": 0,
+          "label": "Modifier"
+        },
+        {
+          "field": "SITE",
+          "mincount": 0,
+          "label": "Location"
+        }
+      ]
+    },
+    "facetQueries": {
+      "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
+      "queries": [
+        { "label": "Today", "query": "cm:modified:[TODAY to TODAY]" },
+        {
+          "label": "This week",
+          "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]"
+        },
+        {
+          "label": "This month",
+          "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
+        },
+        {
+          "label": "In last 6 months",
+          "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
+        },
+        {
+          "label": "This year",
+          "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
+        }
+      ]
+    },
+    "categories": [
+      {
+        "id": "size",
+        "name": "SEARCH.CATEGORIES.SIZE",
+        "enabled": true,
+        "component": {
+          "selector": "check-list",
+          "settings": {
+            "options": [
+              { "name": "Small", "value": "content.size:[0 TO 1048576>" },
+              {
+                "name": "Medium",
+                "value": "content.size:[1048576 TO 52428800]"
+              },
+              {
+                "name": "Large",
+                "value": "content.size:<52428800 TO 524288000]"
+              },
+              { "name": "Huge", "value": "content.size:<524288000 TO MAX]" }
+            ]
+          }
+        }
+      },
+      {
+        "id": "createdDateRange",
+        "name": "SEARCH.CATEGORIES.CREATED_DATE",
+        "enabled": true,
+        "component": {
+          "selector": "date-range",
+          "settings": {
+            "field": "cm:created",
+            "dateFormat": "DD-MMM-YY"
+          }
+        }
+      }
+    ]
+  }
 }

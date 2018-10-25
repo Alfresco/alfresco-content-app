@@ -22,7 +22,8 @@
             "MENU_ITEMS": {
                 "CREATE_FOLDER": "Create folder",
                 "UPLOAD_FILE": "Upload file",
-                "UPLOAD_FOLDER": "Upload folder"
+                "UPLOAD_FOLDER": "Upload folder",
+                "CREATE_LIBRARY": "Create Library"
             },
             "TOOLTIPS": {
                 "CREATE_FOLDER": "Create new folder",
@@ -30,7 +31,8 @@
                 "UPLOAD_FILES": "Select files to upload",
                 "UPLOAD_FILES_NOT_ALLOWED": "Files cannot be uploaded whilst viewing the current items",
                 "UPLOAD_FOLDERS": "Select folders to upload",
-                "UPLOAD_FOLDERS_NOT_ALLOWED": "Folders cannot be uploaded whilst viewing the current items"
+                "UPLOAD_FOLDERS_NOT_ALLOWED": "Folders cannot be uploaded whilst viewing the current items",
+                "CREATE_LIBRARY": "Create a new File Library"
             }
         },
         "BROWSE": {
@@ -128,7 +130,10 @@
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions",
             "TOGGLE-SIDENAV": "Toggle side navigation bar",
-            "SHARE": "Share"
+            "SHARE": "Share",
+            "SHARE_EDIT": "Shared link settings",
+            "PRINT": "Print",
+            "FULLSCREEN": "Activate full-screen mode"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -260,6 +265,9 @@
             "INHERITED_PERMISSIONS_BUTTON": "Permission Inherited"
         }
     },
+    "SHARED_LINK": {
+        "UNSHARE_PERMISSION_ERROR": "You don't have permission to unshare this file"
+    },
     "VERSION": {
         "DIALOG": {
             "TITLE": "Manage Versions",
@@ -302,14 +310,14 @@
             "RELEVANCE": "Relevance",
             "FILENAME": "Filename",
             "TITLE": "Title",
-            "MODIFIED_DATE": "Modified Date",
+            "MODIFIED_DATE": "Modified date",
             "SIZE": "Size",
             "TYPE": "Type",
             "MODIFIER": "Modifier",
             "CREATE_DATE": "Created date"
         },
         "FACET_FIELDS": {
-            "FILE_TYPE": "File Type",
+            "FILE_TYPE": "File type",
             "CREATOR": "Creator",
             "MODIFIER": "Modifier",
             "LOCATION": "Location"
@@ -317,7 +325,7 @@
         "CATEGORIES": {
             "MODIFIED_DATE": "Modified date",
             "SIZE": "Size",
-            "CREATED_DATE": "Created Date"
+            "CREATED_DATE": "Created date"
         }
     },
     "CORE": {

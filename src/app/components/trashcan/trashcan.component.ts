@@ -35,36 +35,39 @@ import { Observable } from 'rxjs';
 import { ProfileState } from '@alfresco/adf-extensions';
 
 @Component({
-    templateUrl: './trashcan.component.html'
+  templateUrl: './trashcan.component.html'
 })
 export class TrashcanComponent extends PageComponent implements OnInit {
-    isSmallScreen = false;
-    user$: Observable<ProfileState>;
+  isSmallScreen = false;
+  user$: Observable<ProfileState>;
 
-    constructor(content: ContentManagementService,
-                extensions: AppExtensionService,
-                store: Store<AppStore>,
-                private breakpointObserver: BreakpointObserver) {
-        super(store, extensions, content);
-        this.user$ = this.store.select(selectUser);
-    }
+  columns: any[] = [];
 
-    ngOnInit() {
-        super.ngOnInit();
+  constructor(
+    content: ContentManagementService,
+    extensions: AppExtensionService,
+    store: Store<AppStore>,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    super(store, extensions, content);
+    this.user$ = this.store.select(selectUser);
+  }
 
-        this.subscriptions.push(
-            this.content.nodesRestored.subscribe(() => this.reload()),
-            this.content.nodesPurged.subscribe(() => this.reload()),
-            this.content.nodesRestored.subscribe(() => this.reload()),
+  ngOnInit() {
+    super.ngOnInit();
 
-            this.breakpointObserver
-                .observe([
-                    Breakpoints.HandsetPortrait,
-                    Breakpoints.HandsetLandscape
-                ])
-                .subscribe(result => {
-                    this.isSmallScreen = result.matches;
-                })
-        );
-    }
- }
+    this.subscriptions.push(
+      this.content.nodesRestored.subscribe(() => this.reload()),
+      this.content.nodesPurged.subscribe(() => this.reload()),
+      this.content.nodesRestored.subscribe(() => this.reload()),
+
+      this.breakpointObserver
+        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+        .subscribe(result => {
+          this.isSmallScreen = result.matches;
+        })
+    );
+
+    this.columns = this.extensions.documentListPresets.trashcan || [];
+  }
+}

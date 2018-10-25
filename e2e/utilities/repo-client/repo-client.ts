@@ -33,6 +33,7 @@ import { SharedLinksApi } from './apis/shared-links/shared-links-api';
 import { TrashcanApi } from './apis/trashcan/trashcan-api';
 import { SearchApi } from './apis/search/search-api';
 import { UploadApi } from './apis/upload/upload-api';
+import { AuthenticationApi } from './apis/authentication/authentication-api';
 
 export class RepoClient {
     constructor(
@@ -40,7 +41,7 @@ export class RepoClient {
         private password: string = RepoClientAuth.DEFAULT_PASSWORD
     ) {}
 
-    private get auth(): RepoClientAuth {
+    private get auth() {
         const { username, password } = this;
         return { username, password };
     }
@@ -75,6 +76,10 @@ export class RepoClient {
 
     get upload() {
         return new UploadApi(this.auth.username, this.auth.password);
+    }
+
+    get authentication() {
+        return new AuthenticationApi(this.auth.username, this.auth.password);
     }
 }
 

@@ -7,7 +7,7 @@
             <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
 
             <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-                <aca-toolbar-action [entry]="entry"></aca-toolbar-action>
+                <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
             </ng-container>
         </adf-toolbar>
     </div>
@@ -21,79 +21,51 @@
                 currentFolderId="-sharedlinks-"
                 selectionMode="multiple"
                 [sorting]="[ 'modifiedAt', 'desc' ]"
-                (node-dblclick)="showPreview($event.detail?.node)">
+                (node-dblclick)="showPreview($event.detail?.node)"
+                (name-click)="showPreview($event.detail?.node)">
 
                 <empty-folder-content>
-                    <ng-template>
-                        <adf-empty-content
-                            icon="people"
-                            [title]="'APP.BROWSE.SHARED.EMPTY_STATE.TITLE'"
-                            subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT">
-                        </adf-empty-content>
-                    </ng-template>
+                  <ng-template>
+                    <adf-empty-content
+                      icon="people"
+                      [title]="'APP.BROWSE.SHARED.EMPTY_STATE.TITLE'"
+                      subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT">
+                    </adf-empty-content>
+                  </ng-template>
                 </empty-folder-content>
 
                 <data-columns>
-                    <data-column
-                        key="$thumbnail"
-                        type="image"
-                        [sortable]="false"
-                        class="image-table-cell">
-                    </data-column>
+                  <ng-container *ngFor="let column of columns; trackBy: trackById">
 
-                    <data-column
-                        class="adf-data-table-cell--ellipsis__name"
-                        key="name"
-                        title="APP.DOCUMENT_LIST.COLUMNS.NAME">
-                        <ng-template let-value="value" let-context>
-                            <span
-                                class="adf-datatable-cell dl-link"
-                                title="{{ context?.row?.obj | adfNodeNameTooltip }}"
-                                (click)="showPreview(context?.row?.obj)">
-                                {{ value }}
-                            </span>
-                        </ng-template>
-                    </data-column>
-
-                    <data-column
-                        *ngIf="!isSmallScreen"
-                        key="path.name"
-                        title="APP.DOCUMENT_LIST.COLUMNS.LOCATION">
+                    <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+                      <data-column
+                        [key]="column.key"
+                        [title]="column.title"
+                        [type]="column.type"
+                        [format]="column.format"
+                        [class]="column.class"
+                        [sortable]="column.sortable">
                         <ng-template let-context>
-                            <aca-location-link [context]="context"></aca-location-link>
+                          <app-dynamic-column
+                            [id]="column.template"
+                            [context]="context">
+                          </app-dynamic-column>
                         </ng-template>
-                    </data-column>
+                      </data-column>
+                    </ng-container>
 
-                    <data-column
-                        *ngIf="!isSmallScreen"
-                        key="content.sizeInBytes"
-                        title="APP.DOCUMENT_LIST.COLUMNS.SIZE"
-                        type="fileSize">
-                    </data-column>
+                    <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+                      <data-column
+                        [key]="column.key"
+                        [title]="column.title"
+                        [type]="column.type"
+                        [format]="column.format"
+                        [class]="column.class"
+                        [sortable]="column.sortable">
+                      </data-column>
+                    </ng-container>
 
-                    <data-column
-                        *ngIf="!isSmallScreen"
-                        key="modifiedAt"
-                        title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_ON">
-                        <ng-template let-value="value">
-                            <span title="{{ value | date:'medium' }}">{{ value | adfTimeAgo }}</span>
-                        </ng-template>
-                    </data-column>
-
-                    <data-column
-                        *ngIf="!isSmallScreen"
-                        class="adf-data-table-cell--ellipsis"
-                        key="modifiedByUser.displayName"
-                        title="APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY">
-                    </data-column>
-
-                    <data-column
-                        *ngIf="!isSmallScreen"
-                        class="adf-data-table-cell--ellipsis"
-                        key="sharedByUser.displayName"
-                        title="APP.DOCUMENT_LIST.COLUMNS.SHARED_BY">
-                    </data-column>
-
+                  </ng-container>
                 </data-columns>
             </adf-document-list>
 

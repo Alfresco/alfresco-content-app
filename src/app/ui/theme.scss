@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
 
 @import '~@alfresco/adf-content-services/theming';
 @import '~@alfresco/adf-core/theming';
@@ -8,9 +8,9 @@
 @include mat-core($alfresco-typography);
 
 $primary: mat-palette($alfresco-accent-orange);
-$accent:  mat-palette($alfresco-ecm-blue);
-$warn:    mat-palette($alfresco-warn);
-$theme:   mat-light-theme($primary, $accent, $warn);
+$accent: mat-palette($alfresco-ecm-blue);
+$warn: mat-palette($alfresco-warn);
+$theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($theme);
 

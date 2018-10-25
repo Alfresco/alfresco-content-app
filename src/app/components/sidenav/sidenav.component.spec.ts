@@ -32,29 +32,23 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('SidenavComponent', () => {
-    let fixture: ComponentFixture<SidenavComponent>;
-    let component: SidenavComponent;
+  let fixture: ComponentFixture<SidenavComponent>;
+  let component: SidenavComponent;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                AppTestingModule,
-                EffectsModule.forRoot([NodeEffects])
-            ],
-            declarations: [
-                SidenavComponent,
-                ExperimentalDirective
-            ],
-            schemas: [ NO_ERRORS_SCHEMA ]
-        })
-        .compileComponents()
-        .then(() => {
-            fixture = TestBed.createComponent(SidenavComponent);
-            component = fixture.componentInstance;
-        });
-    }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects])],
+      declarations: [SidenavComponent, ExperimentalDirective],
+      schemas: [NO_ERRORS_SCHEMA]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(SidenavComponent);
+        component = fixture.componentInstance;
+      });
+  }));
 
-    it('should be created', () => {
-        expect(component).toBeTruthy();
-    });
+  it('should be created', () => {
+    expect(component).toBeTruthy();
+  });
 });

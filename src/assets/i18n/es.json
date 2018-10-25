@@ -21,8 +21,9 @@
       "TOOLTIP": "Añadir nuevos ficheros o carpetas",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Crear carpeta",
-        "UPLOAD_FILE": "Añadir fichero",
-        "UPLOAD_FOLDER": "Cargar carpeta"
+        "UPLOAD_FILE": "Cargar fichero",
+        "UPLOAD_FOLDER": "Cargar carpeta",
+        "CREATE_LIBRARY": "Crear biblioteca"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Crear nueva carpeta",
@@ -30,7 +31,8 @@
         "UPLOAD_FILES": "Seleccionar ficheros para cargar",
         "UPLOAD_FILES_NOT_ALLOWED": "No se pueden crear ficheros mientras se visualizan los elementos actuales",
         "UPLOAD_FOLDERS": "Seleccionar carpetas para cargar",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "No se pueden cargar carpetas mientras se visualizan los elementos actuales"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "No se pueden cargar carpetas mientras se visualizan los elementos actuales",
+        "CREATE_LIBRARY": "Crear una nueva biblioteca de ficheros"
       }
     },
     "BROWSE": {
@@ -128,7 +130,10 @@
       "DETAILS": "Ver los detalles",
       "VERSIONS": "Gestionar versiones",
       "TOGGLE-SIDENAV": "Alternar barra de navegación lateral",
-      "SHARE": "Compartir"
+      "SHARE": "Compartir",
+      "SHARE_EDIT": "Configuración de enlaces compartidos",
+      "PRINT": "Imprimir",
+      "FULLSCREEN": "Activar el modo de pantalla completa"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -259,6 +264,9 @@
       "INHERIT_PERMISSIONS_BUTTON": "Heredar permiso",
       "INHERITED_PERMISSIONS_BUTTON": "Permiso heredado"
     }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "No tiene acceso para dejar de compartir este fichero"
   },
   "VERSION": {
     "DIALOG": {

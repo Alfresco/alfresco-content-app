@@ -23,20 +23,62 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, protractor, browser } from 'protractor';
+import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { ToolbarActions } from './toolbar-actions';
-import { ToolbarBreadcrumb } from './toolbar-breadcrumb';
 
 export class Toolbar extends Component {
-    private static selectors = {
-        root: '.inner-layout__header'
-    };
+  private static selectors = {
+    root: '.adf-toolbar',
+    button: '.mat-icon-button'
+  };
 
-    actions: ToolbarActions = new ToolbarActions(this.component);
-    breadcrumb: ToolbarBreadcrumb = new ToolbarBreadcrumb(this.component);
+  menu: Menu = new Menu();
+  buttons: ElementArrayFinder = this.component.all(by.css(Toolbar.selectors.button));
 
-    constructor(ancestor?: ElementFinder) {
-        super(Toolbar.selectors.root, ancestor);
-    }
+  constructor(ancestor?: ElementFinder) {
+    super(Toolbar.selectors.root, ancestor);
+  }
+
+  async isEmpty() {
+    const count = await this.buttons.count();
+    return count === 0;
+  }
+
+  async isButtonPresent(title: string) {
+    const elem = this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
+    return await elem.isPresent();
+  }
+
+  getButtonByLabel(label: string) {
+    return this.component.element(by.cssContainingText(Toolbar.selectors.button, label));
+  }
+
+  getButtonByTitleAttribute(title: string) {
+    return this.component.element(by.css(`${Toolbar.selectors.button}[title="${title}"]`));
+  }
+
+  getButtonById(id: string) {
+    return this.component.element(by.id(id));
+  }
+
+  async openMoreMenu() {
+    await this.isButtonPresent('More actions');
+    const moreMenu = this.getButtonByTitleAttribute('More actions');
+    await moreMenu.click();
+    await this.menu.waitForMenuToOpen();
+  }
+
+  async closeMoreMenu() {
+    await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+  }
+
+  async getButtonTooltip(button: ElementFinder) {
+    return await button.getAttribute('title');
+  }
+
+  async clickButton(title: string) {
+    const btn = this.getButtonByTitleAttribute(title);
+    await btn.click();
+  }
 }

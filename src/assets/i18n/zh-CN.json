@@ -22,7 +22,8 @@
       "MENU_ITEMS": {
         "CREATE_FOLDER": "创建文件夹",
         "UPLOAD_FILE": "上传文件",
-        "UPLOAD_FOLDER": "上传文件夹"
+        "UPLOAD_FOLDER": "上传文件夹",
+        "CREATE_LIBRARY": "创建库"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "新建文件夹",
@@ -30,7 +31,8 @@
         "UPLOAD_FILES": "选择要上传的文件",
         "UPLOAD_FILES_NOT_ALLOWED": "查看当前项目时无法上传文件",
         "UPLOAD_FOLDERS": "选择要上传的文件夹",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "查看当前项目时无法上传文件夹"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "查看当前项目时无法上传文件夹",
+        "CREATE_LIBRARY": "创建一个新的文件库"
       }
     },
     "BROWSE": {
@@ -128,7 +130,10 @@
       "DETAILS": "查看详细信息",
       "VERSIONS": "管理版本",
       "TOGGLE-SIDENAV": "切换侧导航栏",
-      "SHARE": "共享"
+      "SHARE": "共享",
+      "SHARE_EDIT": "已共享链接的设置",
+      "PRINT": "打印",
+      "FULLSCREEN": "激活全屏模式"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -259,6 +264,9 @@
       "INHERIT_PERMISSIONS_BUTTON": "继承权限",
       "INHERITED_PERMISSIONS_BUTTON": "已继承权限"
     }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "你没有权限取消这个文件的共享"
   },
   "VERSION": {
     "DIALOG": {

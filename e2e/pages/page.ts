@@ -23,91 +23,111 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, element, by, ElementFinder, promise, ExpectedConditions as EC } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from './../configs';
+import {
+  browser,
+  element,
+  by,
+  ElementFinder,
+  ExpectedConditions as EC
+} from 'protractor';
+import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 
 export abstract class Page {
-    private static USE_HASH_STRATEGY = true;
+  private locators = {
+    app: by.css('app-root'),
+    layout: by.css('app-layout'),
+    overlay: by.css('.cdk-overlay-container'),
+    dialogContainer: by.css('.mat-dialog-container'),
+    snackBarContainer: '.cdk-overlay-pane .mat-snack-bar-container',
+    snackBar: '.mat-simple-snackbar',
+    snackBarAction: '.mat-simple-snackbar-action button',
 
-    private locators = {
-        app: by.css('app-root'),
-        layout: by.css('app-layout'),
-        overlay: by.css('.cdk-overlay-container'),
-        dialogContainer: by.css('.mat-dialog-container'),
-        snackBarContainer: '.cdk-overlay-pane .mat-snack-bar-container',
-        snackBar: '.mat-simple-snackbar',
-        snackBarAction: '.mat-simple-snackbar-action button'
-    };
+    genericError: 'aca-generic-error',
+    genericErrorIcon: 'aca-generic-error .mat-icon',
+    genericErrorTitle: '.generic-error__title'
+  };
 
-    public app: ElementFinder = element(this.locators.app);
-    public layout: ElementFinder = element(this.locators.layout);
-    public overlay: ElementFinder = element(this.locators.overlay);
-    snackBar: ElementFinder = browser.$(this.locators.snackBar);
-    dialogContainer: ElementFinder = element(this.locators.dialogContainer);
-    snackBarContainer: ElementFinder = browser.$(this.locators.snackBarContainer);
-    snackBarAction: ElementFinder = browser.$(this.locators.snackBarAction);
+  public app: ElementFinder = element(this.locators.app);
+  public layout: ElementFinder = element(this.locators.layout);
+  public overlay: ElementFinder = element(this.locators.overlay);
+  snackBar: ElementFinder = browser.$(this.locators.snackBar);
+  dialogContainer: ElementFinder = element(this.locators.dialogContainer);
+  snackBarContainer: ElementFinder = browser.$(this.locators.snackBarContainer);
+  snackBarAction: ElementFinder = browser.$(this.locators.snackBarAction);
 
-    constructor(public url: string = '') {}
+  genericError: ElementFinder = browser.$(this.locators.genericError);
+  genericErrorIcon: ElementFinder = browser.$(this.locators.genericErrorIcon);
+  genericErrorTitle: ElementFinder = browser.$(this.locators.genericErrorTitle);
 
-    get title(): promise.Promise<string> {
-        return browser.getTitle();
+  constructor(public url: string = '') {}
+
+  getTitle() {
+    return browser.getTitle();
+  }
+
+  load(relativeUrl: string = '') {
+    const hash = USE_HASH_STRATEGY ? '/#' : '';
+    const path = `${browser.baseUrl}${hash}${this.url}${relativeUrl}`;
+    return browser.get(path);
+  }
+
+  waitForApp() {
+    return browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
+  }
+
+  waitForSnackBarToAppear() {
+    return browser.wait(EC.visibilityOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async waitForSnackBarToClose() {
+    await browser.wait(EC.not(EC.visibilityOf(this.snackBarContainer)), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async waitForDialog() {
+    await browser.wait(EC.visibilityOf(this.dialogContainer), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async waitForDialogToClose() {
+    await browser.wait(EC.not(EC.visibilityOf(this.dialogContainer)), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async refresh() {
+    await browser.refresh();
+    await this.waitForApp();
+  }
+
+  getDialogActionByLabel(label) {
+    return element(by.cssContainingText('.mat-button-wrapper', label));
+  }
+
+  async isSnackBarDisplayed() {
+    return await this.snackBar.isDisplayed();
+  }
+
+  async getSnackBarMessage() {
+    await this.waitForSnackBarToAppear();
+    return await this.snackBar.getAttribute('innerText');
+  }
+
+  async clickSnackBarAction() {
+    try {
+
+      // await this.waitForSnackBarToAppear();
+
+      // return browser.executeScript(function (elem) {
+      //   elem.click();
+      // }, this.snackBarAction);
+      return await this.snackBarAction.click();
+    } catch (e) {
+      console.log(e, '.......failed on click snack bar action.........');
     }
+  }
 
-    load(relativeUrl: string = ''): promise.Promise<void> {
-        const hash = Page.USE_HASH_STRATEGY ? '/#' : '';
-        const path = `${hash}${this.url}${relativeUrl}`;
+  async isGenericErrorDisplayed() {
+    return await this.genericError.isDisplayed();
+  }
 
-        return browser.get(path);
-    }
-
-    waitForApp() {
-        return browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
-    }
-
-    waitForSnackBarToAppear() {
-        return browser.wait(EC.visibilityOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
-    }
-
-    waitForSnackBarToClose() {
-        return browser.wait(EC.not(EC.visibilityOf(this.snackBarContainer)), BROWSER_WAIT_TIMEOUT);
-    }
-
-    waitForDialog() {
-        return browser.wait(EC.visibilityOf(this.dialogContainer), BROWSER_WAIT_TIMEOUT);
-    }
-
-    waitForDialogToClose() {
-        return browser.wait(EC.not(EC.visibilityOf(this.dialogContainer)), BROWSER_WAIT_TIMEOUT);
-    }
-
-    refresh(): promise.Promise<void> {
-        return browser.refresh();
-    }
-
-    getDialogActionByLabel(label) {
-        return element(by.cssContainingText('.mat-button-wrapper', label));
-    }
-
-    isSnackBarDisplayed(): promise.Promise<boolean> {
-        return this.snackBar.isDisplayed();
-    }
-
-    getSnackBarMessage(): promise.Promise<string> {
-        return this.waitForSnackBarToAppear()
-            .then(() => this.snackBar.getAttribute('innerText'));
-    }
-
-    getSnackBarAction() {
-        return this.waitForSnackBarToAppear()
-            .then(() => this.snackBarAction);
-    }
-
-    clickSnackBarAction() {
-        return this.waitForSnackBarToAppear()
-            .then(() => {
-                return browser.executeScript(function (elem) {
-                    elem.click();
-                }, this.snackBarAction);
-            });
-    }
+  async getGenericErrorTitle() {
+    return await this.genericErrorTitle.getText();
+  }
 }

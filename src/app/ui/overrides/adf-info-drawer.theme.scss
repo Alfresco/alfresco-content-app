@@ -1,59 +1,61 @@
 @mixin adf-info-drawer-theme($theme) {
-    $foreground: map-get($theme, foreground);
-    $accent: map-get($theme, accent);
-    $icon-size: 48px;
+  $foreground: map-get($theme, foreground);
+  $accent: map-get($theme, accent);
+  $icon-size: 48px;
 
-    .adf-info-drawer {
-        .adf-info-drawer-layout {
-            height: 100%;
+  .adf-info-drawer {
+    .adf-info-drawer-layout {
+      height: 100%;
 
-            .mat-tab-label {
-                color: mat-color($accent);
-            }
+      .mat-tab-label {
+        color: mat-color($accent);
+      }
 
-            .adf-info-drawer-layout-content .adf-info-drawer-tabs .mat-tab-body-content {
-                .adf-manage-versions-empty,
-                .adf-manage-versions-no-permission {
-                    margin: 24px;
-                    color: mat-color($foreground, text, 0.54);
-                    text-align: justify;
-                    display: flex;
-                    flex-direction: column;
+      .adf-info-drawer-layout-content
+        .adf-info-drawer-tabs
+        .mat-tab-body-content {
+        .adf-manage-versions-empty,
+        .adf-manage-versions-no-permission {
+          margin: 24px;
+          color: mat-color($foreground, text, 0.54);
+          text-align: justify;
+          display: flex;
+          flex-direction: column;
 
-                    &-icon {
-                        width: $icon-size;
-                        height: $icon-size;
-                        font-size: $icon-size;
-                        margin: auto;
-                    }
-                }
-            }
+          &-icon {
+            width: $icon-size;
+            height: $icon-size;
+            font-size: $icon-size;
+            margin: auto;
+          }
         }
-
-        .adf-version-list-container {
-            .adf-version-list {
-                height: auto;
-            }
-
-            .mat-list .mat-list-item {
-                &.mat-3-line {
-                    display: flex;
-                    align-items: center;
-                    height: 100%;
-                    min-height: 88px;
-                }
-
-                .mat-list-item-content {
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    width: 100%;
-                }
-
-                .mat-line.adf-version-list-item-comment {
-                    overflow: visible;
-                    white-space: pre-wrap;
-                }
-            }
-        }
+      }
     }
+
+    .adf-version-list-container {
+      .adf-version-list {
+        height: auto;
+      }
+
+      .mat-list .mat-list-item {
+        &.mat-3-line {
+          display: flex;
+          align-items: center;
+          height: 100%;
+          min-height: 88px;
+        }
+
+        .mat-list-item-content {
+          padding-top: 10px;
+          padding-bottom: 10px;
+          width: 100%;
+        }
+
+        .mat-line.adf-version-list-item-comment {
+          overflow: visible;
+          white-space: pre-wrap;
+        }
+      }
+    }
+  }
 }

@@ -28,10 +28,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
-    MinimalNodeEntity,
-    MinimalNodeEntryEntity,
-    PathElementEntity,
-    PathInfo
+  MinimalNodeEntity,
+  MinimalNodeEntryEntity,
+  PathElementEntity,
+  PathInfo
 } from 'alfresco-js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { AppStore } from '../../store/states/app.state';
@@ -41,76 +41,75 @@ import { AppExtensionService } from '../../extensions/extension.service';
 import { map } from 'rxjs/operators';
 
 @Component({
-    templateUrl: './favorites.component.html'
+  templateUrl: './favorites.component.html'
 })
 export class FavoritesComponent extends PageComponent implements OnInit {
-    isSmallScreen = false;
+  isSmallScreen = false;
 
-    constructor(
-        private router: Router,
-        store: Store<AppStore>,
-        extensions: AppExtensionService,
-        private contentApi: ContentApiService,
-        content: ContentManagementService,
-        private breakpointObserver: BreakpointObserver
-    ) {
-        super(store, extensions, content);
+  columns: any[] = [];
+
+  constructor(
+    private router: Router,
+    store: Store<AppStore>,
+    extensions: AppExtensionService,
+    private contentApi: ContentApiService,
+    content: ContentManagementService,
+    private breakpointObserver: BreakpointObserver
+  ) {
+    super(store, extensions, content);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+
+    this.subscriptions = this.subscriptions.concat([
+      this.content.nodesDeleted.subscribe(() => this.reload()),
+      this.content.nodesRestored.subscribe(() => this.reload()),
+      this.content.folderEdited.subscribe(() => this.reload()),
+      this.content.nodesMoved.subscribe(() => this.reload()),
+      this.content.favoriteRemoved.subscribe(() => this.reload()),
+      this.content.favoriteToggle.subscribe(() => this.reload()),
+
+      this.breakpointObserver
+        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+        .subscribe(result => {
+          this.isSmallScreen = result.matches;
+        })
+    ]);
+
+    this.columns = this.extensions.documentListPresets.favorites;
+  }
+
+  navigate(favorite: MinimalNodeEntryEntity) {
+    const { isFolder, id } = favorite;
+
+    // TODO: rework as it will fail on non-English setups
+    const isSitePath = (path: PathInfo): boolean => {
+      return path.elements.some(
+        ({ name }: PathElementEntity) => name === 'Sites'
+      );
+    };
+
+    if (isFolder) {
+      this.contentApi
+        .getNode(id)
+        .pipe(map(node => node.entry))
+        .subscribe(({ path }: MinimalNodeEntryEntity) => {
+          const routeUrl = isSitePath(path) ? '/libraries' : '/personal-files';
+          this.router.navigate([routeUrl, id]);
+        });
     }
+  }
 
-    ngOnInit() {
-        super.ngOnInit();
+  onNodeDoubleClick(node: MinimalNodeEntity) {
+    if (node && node.entry) {
+      if (node.entry.isFolder) {
+        this.navigate(node.entry);
+      }
 
-        this.subscriptions = this.subscriptions.concat([
-            this.content.nodesDeleted.subscribe(() => this.reload()),
-            this.content.nodesRestored.subscribe(() => this.reload()),
-            this.content.folderEdited.subscribe(() => this.reload()),
-            this.content.nodesMoved.subscribe(() => this.reload()),
-            this.content.favoriteRemoved.subscribe(() => this.reload()),
-            this.content.favoriteToggle.subscribe(() => this.reload()),
-
-            this.breakpointObserver
-                .observe([
-                    Breakpoints.HandsetPortrait,
-                    Breakpoints.HandsetLandscape
-                ])
-                .subscribe(result => {
-                    this.isSmallScreen = result.matches;
-                })
-        ]);
+      if (node.entry.isFile) {
+        this.showPreview(node);
+      }
     }
-
-    navigate(favorite: MinimalNodeEntryEntity) {
-        const { isFolder, id } = favorite;
-
-        // TODO: rework as it will fail on non-English setups
-        const isSitePath = (path: PathInfo): boolean => {
-            return path.elements.some(
-                ({ name }: PathElementEntity) => name === 'Sites'
-            );
-        };
-
-        if (isFolder) {
-            this.contentApi
-                .getNode(id)
-                .pipe(map(node => node.entry))
-                .subscribe(({ path }: MinimalNodeEntryEntity) => {
-                    const routeUrl = isSitePath(path)
-                        ? '/libraries'
-                        : '/personal-files';
-                    this.router.navigate([routeUrl, id]);
-                });
-        }
-    }
-
-    onNodeDoubleClick(node: MinimalNodeEntity) {
-        if (node && node.entry) {
-            if (node.entry.isFolder) {
-                this.navigate(node.entry);
-            }
-
-            if (node.entry.isFile) {
-                this.showPreview(node);
-            }
-        }
-    }
+  }
 }

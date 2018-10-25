@@ -26,27 +26,30 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectUser, appLanguagePicker } from '../../store/selectors/app.selectors';
+import {
+  selectUser,
+  appLanguagePicker
+} from '../../store/selectors/app.selectors';
 import { AppStore } from '../../store/states';
 import { ProfileState } from '@alfresco/adf-extensions';
 import { SetSelectedNodesAction } from '../../store/actions';
 
 @Component({
-    selector: 'aca-current-user',
-    templateUrl: './current-user.component.html',
-    encapsulation: ViewEncapsulation.None,
-    host: { class: 'aca-current-user' }
+  selector: 'aca-current-user',
+  templateUrl: './current-user.component.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'aca-current-user' }
 })
 export class CurrentUserComponent {
-    profile$: Observable<ProfileState>;
-    languagePicker$: Observable<boolean>;
+  profile$: Observable<ProfileState>;
+  languagePicker$: Observable<boolean>;
 
-    constructor(private store: Store<AppStore>) {
-        this.profile$ = this.store.select(selectUser);
-        this.languagePicker$ = store.select(appLanguagePicker);
-    }
+  constructor(private store: Store<AppStore>) {
+    this.profile$ = this.store.select(selectUser);
+    this.languagePicker$ = store.select(appLanguagePicker);
+  }
 
-    onLogoutEvent() {
-        this.store.dispatch(new SetSelectedNodesAction([]));
-    }
+  onLogoutEvent() {
+    this.store.dispatch(new SetSelectedNodesAction([]));
+  }
 }

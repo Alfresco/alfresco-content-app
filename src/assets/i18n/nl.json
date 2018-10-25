@@ -22,7 +22,8 @@
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Map maken",
         "UPLOAD_FILE": "Bestand uploaden",
-        "UPLOAD_FOLDER": "Map uploaden"
+        "UPLOAD_FOLDER": "Map uploaden",
+        "CREATE_LIBRARY": "Bibliotheek maken"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Nieuwe map maken",
@@ -30,7 +31,8 @@
         "UPLOAD_FILES": "Bestanden selecteren om te uploaden",
         "UPLOAD_FILES_NOT_ALLOWED": "Bestanden kunnen niet worden geüpload terwijl de huidige items worden weergegeven",
         "UPLOAD_FOLDERS": "Mappen selecteren om te uploaden",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Mappen kunnen niet worden geüpload terwijl de huidige items worden weergegeven"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Mappen kunnen niet worden geüpload terwijl de huidige items worden weergegeven",
+        "CREATE_LIBRARY": "Een nieuwe bestandsbibliotheek maken"
       }
     },
     "BROWSE": {
@@ -128,7 +130,10 @@
       "DETAILS": "Details weergeven",
       "VERSIONS": "Versies beheren",
       "TOGGLE-SIDENAV": "Zij-navigatiebalk in- of uitschakelen",
-      "SHARE": "Delen"
+      "SHARE": "Delen",
+      "SHARE_EDIT": "Instellingen gedeelde koppeling",
+      "PRINT": "Afdrukken",
+      "FULLSCREEN": "Modus voor volledig scherm activeren"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -259,6 +264,9 @@
       "INHERIT_PERMISSIONS_BUTTON": "Machtiging overnemen",
       "INHERITED_PERMISSIONS_BUTTON": "Machtiging overgenomen"
     }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "U hebt geen rechten om het delen van dit bestand ongedaan te maken"
   },
   "VERSION": {
     "DIALOG": {

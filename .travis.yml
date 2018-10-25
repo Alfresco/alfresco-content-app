@@ -1,33 +1,40 @@
 dist: trusty
 sudo: required
-
 services:
   - docker
-
 addons:
   chrome: stable
-
+  artifacts:
+    paths:
+      - e2e-output
+    target_paths:
+      - /${TRAVIS_BUILD_NUMBER}
 language: node_js
 node_js:
-  - "8"
-
+  - '8'
 before_script:
-  # Disable services enabled by default
   - sudo /etc/init.d/postgresql stop
-
 before_install:
   - npm install -g npm@latest
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - sleep 3 # give xvfb some time to start
-
+  - sleep 3
 jobs:
   include:
     - stage: test
-      script: npm run lint && npm run spellcheck
+      name: 'Code quality checks'
+      script:
+        - npm run lint
+        - npm run spellcheck
+        - npm run format:check
     - stage: test
+      name: 'Unit tests'
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
+      name: 'Nginx'
       script: npm run build && npm run e2e:docker
+    - stage: e2e
+      name: 'Tomcat'
+      script: npm run build.tomcat.e2e && npm run docker.tomcat.e2e

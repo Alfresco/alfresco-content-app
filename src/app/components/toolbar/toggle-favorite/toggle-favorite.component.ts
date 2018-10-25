@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
@@ -32,8 +32,8 @@ import { SelectionState } from '@alfresco/adf-extensions';
 import { ContentManagementService } from '../../../services/content-management.service';
 
 @Component({
-    selector: 'app-toggle-favorite',
-    template: `
+  selector: 'app-toggle-favorite',
+  template: `
     <button
         mat-menu-item
         #favorites="adfFavorite"
@@ -43,19 +43,21 @@ import { ContentManagementService } from '../../../services/content-management.s
         <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
         <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
     </button>
-    `
+    `,
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-toggle-favorite' }
 })
 export class ToggleFavoriteComponent {
+  selection$: Observable<SelectionState>;
 
-    selection$: Observable<SelectionState>;
+  constructor(
+    private store: Store<AppStore>,
+    private content: ContentManagementService
+  ) {
+    this.selection$ = this.store.select(appSelection);
+  }
 
-    constructor(
-        private store: Store<AppStore>,
-        private content: ContentManagementService) {
-        this.selection$ = this.store.select(appSelection);
-    }
-
-    onToggleEvent() {
-        this.content.favoriteToggle.next();
-    }
+  onToggleEvent() {
+    this.content.favoriteToggle.next();
+  }
 }

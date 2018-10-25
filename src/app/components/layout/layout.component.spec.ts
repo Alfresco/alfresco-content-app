@@ -27,89 +27,85 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { LayoutComponent } from './layout.component';
-import { SidenavViewsManagerDirective } from './sidenav-views-manager.directive';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('LayoutComponent', () => {
-    let fixture: ComponentFixture<LayoutComponent>;
-    let component: LayoutComponent;
-    let appConfig: AppConfigService;
-    let userPreference: UserPreferencesService;
+  let fixture: ComponentFixture<LayoutComponent>;
+  let component: LayoutComponent;
+  let appConfig: AppConfigService;
+  let userPreference: UserPreferencesService;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            imports: [ AppTestingModule ],
-            declarations: [
-                LayoutComponent,
-                SidenavViewsManagerDirective
-            ],
-            schemas: [ NO_ERRORS_SCHEMA ]
-        });
-
-        fixture = TestBed.createComponent(LayoutComponent);
-        component = fixture.componentInstance;
-        appConfig = TestBed.get(AppConfigService);
-        userPreference = TestBed.get(UserPreferencesService);
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule],
+      declarations: [LayoutComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     });
 
-    describe('sidenav state', () => {
-        it('should get state from configuration', () => {
-            appConfig.config = {
-                sideNav: {
-                    expandedSidenav: false,
-                    preserveState: false
-                }
-            };
+    fixture = TestBed.createComponent(LayoutComponent);
+    component = fixture.componentInstance;
+    appConfig = TestBed.get(AppConfigService);
+    userPreference = TestBed.get(UserPreferencesService);
+  });
 
-            fixture.detectChanges();
+  describe('sidenav state', () => {
+    it('should get state from configuration', () => {
+      appConfig.config = {
+        sideNav: {
+          expandedSidenav: false,
+          preserveState: false
+        }
+      };
 
-            expect(component.expandedSidenav).toBe(false);
-        });
+      fixture.detectChanges();
 
-        it('should resolve state to true is no configuration', () => {
-            appConfig.config = {};
-
-            fixture.detectChanges();
-
-            expect(component.expandedSidenav).toBe(true);
-        });
-
-        it('should get state from user settings as true', () => {
-            appConfig.config = {
-                sideNav: {
-                    expandedSidenav: false,
-                    preserveState: true
-                }
-            };
-
-            spyOn(userPreference, 'get').and.callFake(key => {
-                if (key === 'expandedSidenav') {
-                    return 'true';
-                }
-            });
-
-            fixture.detectChanges();
-
-            expect(component.expandedSidenav).toBe(true);
-        });
-
-        it('should get state from user settings as false', () => {
-            appConfig.config = {
-                sideNav: {
-                    expandedSidenav: false,
-                    preserveState: true
-                }
-            };
-
-            spyOn(userPreference, 'get').and.callFake(key => {
-                if (key === 'expandedSidenav') {
-                    return 'false';
-                }
-            });
-
-            fixture.detectChanges();
-
-            expect(component.expandedSidenav).toBe(false);
-        });
+      expect(component.expandedSidenav).toBe(false);
     });
- });
+
+    it('should resolve state to true is no configuration', () => {
+      appConfig.config = {};
+
+      fixture.detectChanges();
+
+      expect(component.expandedSidenav).toBe(true);
+    });
+
+    it('should get state from user settings as true', () => {
+      appConfig.config = {
+        sideNav: {
+          expandedSidenav: false,
+          preserveState: true
+        }
+      };
+
+      spyOn(userPreference, 'get').and.callFake(key => {
+        if (key === 'expandedSidenav') {
+          return 'true';
+        }
+      });
+
+      fixture.detectChanges();
+
+      expect(component.expandedSidenav).toBe(true);
+    });
+
+    it('should get state from user settings as false', () => {
+      appConfig.config = {
+        sideNav: {
+          expandedSidenav: false,
+          preserveState: true
+        }
+      };
+
+      spyOn(userPreference, 'get').and.callFake(key => {
+        if (key === 'expandedSidenav') {
+          return 'false';
+        }
+      });
+
+      fixture.detectChanges();
+
+      expect(component.expandedSidenav).toBe(false);
+    });
+  });
+});

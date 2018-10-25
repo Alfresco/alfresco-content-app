@@ -26,76 +26,77 @@
 import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { ToolbarActions } from '../toolbar/toolbar-actions';
+import { Toolbar } from '../toolbar/toolbar';
 
 export class Viewer extends Component {
-    private static selectors = {
-        root: 'adf-viewer',
+  private static selectors = {
+    root: 'adf-viewer',
 
-        layout: '.adf-viewer-layout-content',
-        contentContainer: '.adf-viewer-content-container',
-        closeBtn: '.adf-viewer-close-button',
-        fileTitle: '.adf-viewer__file-title',
+    layout: '.adf-viewer-layout-content',
+    contentContainer: '.adf-viewer-content-container',
+    closeBtn: '.adf-viewer-close-button',
+    fileTitle: '.adf-viewer__file-title',
 
-        viewerExtensionContent: 'app-preview-extension'
-    };
+    viewerExtensionContent: 'app-preview-extension'
+  };
 
-    viewerLayout: ElementFinder = this.component.element(by.css(Viewer.selectors.layout));
-    viewerContainer: ElementFinder = this.component.element(by.css(Viewer.selectors.contentContainer));
-    closeButton: ElementFinder = this.component.element(by.css(Viewer.selectors.closeBtn));
-    fileTitle: ElementFinder = this.component.element(by.css(Viewer.selectors.fileTitle));
-    viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
+  root: ElementFinder = browser.$(Viewer.selectors.root);
+  viewerLayout: ElementFinder = this.component.element(by.css(Viewer.selectors.layout));
+  viewerContainer: ElementFinder = this.component.element(by.css(Viewer.selectors.contentContainer));
+  closeButton: ElementFinder = this.component.element(by.css(Viewer.selectors.closeBtn));
+  fileTitle: ElementFinder = this.component.element(by.css(Viewer.selectors.fileTitle));
+  viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
 
-    toolbar = new ToolbarActions(this.component);
+  toolbar = new Toolbar(this.component);
 
-    constructor(ancestor?: ElementFinder) {
-        super(Viewer.selectors.root, ancestor);
+  constructor(ancestor?: ElementFinder) {
+    super(Viewer.selectors.root, ancestor);
+  }
+
+  async waitForViewerToOpen() {
+    await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async isViewerOpened() {
+    return await browser.isElementPresent(this.viewerLayout);
+    // return await this.viewerLayout.isPresent();
+  }
+
+  async isViewerContentDisplayed() {
+    return await browser.isElementPresent(this.viewerContainer);
+  }
+
+  async isViewerToolbarDisplayed() {
+    return await browser.isElementPresent(this.toolbar.component);
+  }
+
+  async isCloseButtonDisplayed() {
+    return await browser.isElementPresent(this.closeButton);
+  }
+
+  async isFileTitleDisplayed() {
+    return await browser.isElementPresent(this.fileTitle);
+  }
+
+  async clickClose() {
+    await this.closeButton.click();
+  }
+
+  async getCloseButtonTooltip() {
+    return await this.toolbar.getButtonTooltip(this.closeButton);
+  }
+
+  async getFileTitle() {
+    return await this.fileTitle.getText();
+  }
+
+  async isCustomContentPresent() {
+    return await browser.isElementPresent(this.viewerExtensionContent);
+  }
+
+  async getComponentIdOfView() {
+    if (await this.isCustomContentPresent()) {
+      return await this.viewerExtensionContent.getAttribute('data-automation-id');
     }
-
-    async waitForViewerToOpen() {
-        return await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT)
-            .catch(err => err);
-    }
-
-    async isViewerOpened() {
-        return await browser.isElementPresent(this.viewerLayout);
-    }
-
-    async isViewerContentDisplayed() {
-        return await browser.isElementPresent(this.viewerContainer);
-    }
-
-    async isViewerToolbarDisplayed() {
-        return await browser.isElementPresent(this.toolbar.component);
-    }
-
-    async isCloseButtonDisplayed() {
-        return await browser.isElementPresent(this.closeButton);
-    }
-
-    async isFileTitleDisplayed() {
-        return await browser.isElementPresent(this.fileTitle);
-    }
-
-    async clickClose() {
-        return await this.closeButton.click();
-    }
-
-    async getCloseButtonTooltip() {
-        return await this.toolbar.getButtonTooltip(this.closeButton);
-    }
-
-    async getFileTitle() {
-        return await this.fileTitle.getText();
-    }
-
-    async isCustomContentPresent() {
-        return await browser.isElementPresent(this.viewerExtensionContent);
-    }
-
-    async getComponentIdOfView() {
-        if (await this.isCustomContentPresent()) {
-            return await this.viewerExtensionContent.getAttribute('data-automation-id');
-        }
-    }
+  }
 }

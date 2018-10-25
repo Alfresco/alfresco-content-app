@@ -1,0 +1,49 @@
+@mixin app-permission-manager-theme($theme) {
+  $foreground: map-get($theme, foreground);
+  $accent: map-get($theme, accent);
+
+  aca-permissions-dialog-panel {
+    height: 400px;
+  }
+
+  .aca-node-permissions-dialog {
+    .mat-dialog-title {
+      font-size: 20px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: 1.6;
+      margin: 0;
+      letter-spacing: -0.5px;
+      color: mat-color($foreground, text, 0.87);
+    }
+
+    .mat-dialog-content {
+      flex: 1 1 auto;
+      position: relative;
+      overflow: auto;
+
+      adf-permission-list {
+        display: flex;
+      }
+    }
+
+    .mat-dialog-actions {
+      flex: 0 0 auto;
+
+      padding: 8px 8px 24px 8px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: end;
+      -ms-flex-pack: end;
+      justify-content: flex-end;
+      color: mat-color($foreground, text, 0.54);
+
+      button {
+        text-transform: uppercase;
+        font-weight: normal;
+      }
+    }
+  }
+}

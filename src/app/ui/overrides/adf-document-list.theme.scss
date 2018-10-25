@@ -1,107 +1,113 @@
 @import 'mixins';
 
 @mixin adf-document-list-theme($theme) {
-    $foreground: map-get($theme, foreground);
-    $background: map-get($theme, background);
-    $primary: map-get($theme, primary);
+  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, background);
+  $primary: map-get($theme, primary);
 
-    adf-document-list {
-        @include flex-column;
-        background-color: mat-color($background, card);
+  adf-document-list {
+    @include flex-column;
+    background-color: mat-color($background, card);
+  }
+
+  adf-datatable {
+    @include flex-column;
+    overflow-y: scroll;
+  }
+
+  .adf-data-table {
+    border: none !important;
+
+    .dl-link {
+      text-decoration: none;
+      color: mat-color($foreground, text);
+
+      &:hover {
+        color: #2196f3;
+        text-decoration: underline;
+      }
     }
 
-    adf-datatable {
-        @include flex-column;
-        overflow-y: scroll;
+    .adf-datatable-selected > svg {
+      // fill: mat-color($primary);
+      fill: #2196f3;
     }
 
-    .adf-data-table {
-        border: none !important;
-
-        .dl-link {
-            text-decoration: none;
-            color: mat-color($foreground, text);
-
-            &:hover {
-                color: #2196F3;
-                text-decoration: underline;
-            }
-        }
-
-        .adf-datatable-selected > svg {
-            // fill: mat-color($primary);
-            fill: #2196f3;
-        }
-
-        .adf-datatable-header, .adf-datatable-row, .adf-data-table-cell {
-            color: mat-color($foreground, text, 0.54);
-            &:focus {
-                outline: none !important;
-            }
-        }
-
-        .adf-datatable-table-cell-header:focus {
-            outline: none !important;
-        }
-
-        .adf-datatable-body .adf-datatable-row {
-            &:hover, &:focus {
-                background-color: #e0f7fa;
-            }
-
-            &.is-selected, &.is-selected:hover {
-                background-color: #e0f7fa;
-            }
-        }
-
-        .adf-data-table-cell, .adf-datatable-header {
-            width: 100%;
-            text-align: left;
-        }
-
-        .adf-datatable-body .adf-data-table-cell--image {
-            padding-left: 24px;
-            padding-right: 0;
-            width: 10px;
-        }
-
-        .adf-data-table-cell--ellipsis .cell-value,
-        .adf-data-table-cell--ellipsis__name .cell-value {
-            display: flex;
-            align-items: center;
-        }
-
-        .adf-data-table-cell--ellipsis .adf-datatable-cell,
-        .adf-data-table-cell--ellipsis__name .adf-datatable-cell {
-            white-space: nowrap;
-            display: block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .adf-data-table-cell--ellipsis .adf-datatable-cell {
-            max-width: 7vw;
-        }
-
-        .adf-data-table-cell--ellipsis__name .adf-datatable-cell {
-            position: absolute;
-            max-width: calc(100% - 2em);
-        }
-
-        .adf-datatable-row:last-child .adf-datatable-table-cell {
-            border-bottom: 1px solid mat-color($foreground, text, 0.07);
-        }
-
-        &.adf-data-table--empty {
-            .adf-datatable-row {
-                &:hover, &:focus {
-                    background-color: unset;
-                }
-
-                .adf-datatable-table-cell {
-                    border: none
-                }
-            }
-        }
+    .adf-datatable-header,
+    .adf-datatable-row,
+    .adf-data-table-cell {
+      color: mat-color($foreground, text, 0.54);
+      &:focus {
+        outline: none !important;
+      }
     }
+
+    .adf-datatable-table-cell-header:focus {
+      outline: none !important;
+    }
+
+    .adf-datatable-body .adf-datatable-row {
+      &:hover,
+      &:focus {
+        background-color: #e0f7fa;
+      }
+
+      &.is-selected,
+      &.is-selected:hover {
+        background-color: #e0f7fa;
+      }
+    }
+
+    .adf-data-table-cell,
+    .adf-datatable-header {
+      width: 100%;
+      text-align: left;
+    }
+
+    .adf-datatable-body .adf-data-table-cell--image {
+      padding-left: 24px;
+      padding-right: 0;
+      width: 10px;
+    }
+
+    .adf-data-table-cell--ellipsis .cell-value,
+    .adf-data-table-cell--ellipsis__name .cell-value {
+      display: flex;
+      align-items: center;
+    }
+
+    .adf-data-table-cell--ellipsis .adf-datatable-cell,
+    .adf-data-table-cell--ellipsis__name .adf-datatable-cell {
+      white-space: nowrap;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .adf-data-table-cell--ellipsis .adf-datatable-cell {
+      max-width: 7vw;
+    }
+
+    .adf-data-table-cell--ellipsis__name .adf-datatable-cell {
+      position: absolute;
+      max-width: calc(100% - 2em);
+    }
+
+    .adf-datatable-row:last-child .adf-datatable-table-cell {
+      border-bottom: 1px solid mat-color($foreground, text, 0.07);
+    }
+
+    &.adf-data-table--empty {
+      .adf-datatable-row {
+        &:hover,
+        &:focus {
+          background-color: unset;
+        }
+
+        .adf-datatable-table-cell {
+          border: none;
+        }
+      }
+    }
+  }
 }

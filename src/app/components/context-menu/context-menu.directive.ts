@@ -34,106 +34,105 @@ import { DataRow } from '@alfresco/adf-core';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 @Directive({
-    selector: '[acaContextActions]'
+  selector: '[acaContextActions]'
 })
 export class ContextActionsDirective {
-    private overlayRef: ContextMenuOverlayRef = null;
+  private overlayRef: ContextMenuOverlayRef = null;
 
-    // tslint:disable-next-line:no-input-rename
-    @Input('acaContextEnable') enabled = true;
+  // tslint:disable-next-line:no-input-rename
+  @Input('acaContextEnable')
+  enabled = true;
 
-    @HostListener('window:resize', ['$event'])
-    onResize(event) {
-        if (event && this.overlayRef) {
-            this.clearSelection();
-            this.overlayRef.close();
-        }
+  @HostListener('contextmenu', ['$event'])
+  onContextMenuEvent(event: MouseEvent) {
+    if (event) {
+      event.preventDefault();
+
+      if (this.enabled) {
+        this.execute(event);
+      }
+    }
+  }
+
+  constructor(
+    private documentList: DocumentListComponent,
+    private store: Store<AppStore>,
+    private contextMenuService: ContextMenuService
+  ) {}
+
+  private execute(event: MouseEvent) {
+    // todo: review this in ADF
+    const selected = this.getSelectedRow(event);
+
+    if (selected) {
+      if (!this.isInSelection(selected)) {
+        this.clearSelection();
+
+        this.documentList.dataTable.selectRow(selected, true);
+        this.documentList.selection.push((<any>selected).node);
+
+        this.updateSelection();
+      }
+
+      this.render(event);
+    }
+  }
+
+  private render(event: MouseEvent) {
+    if (this.overlayRef) {
+      this.overlayRef.close();
     }
 
-    @HostListener('contextmenu', ['$event'])
-    onContextMenuEvent(event: MouseEvent) {
-        if (event) {
-            event.preventDefault();
+    this.overlayRef = this.contextMenuService.open({
+      source: event,
+      hasBackdrop: false,
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      panelClass: 'cdk-overlay-pane'
+    });
+  }
 
-            if (this.enabled) {
-                this.execute(event);
-            }
-        }
+  private updateSelection() {
+    this.store.dispatch(
+      new SetSelectedNodesAction(this.documentList.selection)
+    );
+  }
+
+  private isInSelection(row: DataRow): MinimalNodeEntity {
+    return this.documentList.selection.find(
+      selected => row.getValue('name') === selected.entry.name
+    );
+  }
+
+  private getSelectedRow(event): DataRow {
+    const rowElement = this.findAncestor(
+      <HTMLElement>event.target,
+      'adf-datatable-row'
+    );
+
+    if (!rowElement) {
+      return null;
     }
 
-    constructor(
-        private documentList: DocumentListComponent,
-        private store: Store<AppStore>,
-        private contextMenuService: ContextMenuService
-    ) { }
+    const rowName = rowElement
+      .querySelector('.adf-data-table-cell--text .adf-datatable-cell')
+      .textContent.trim();
 
-    private execute(event: MouseEvent) {
-        const selected = this.getSelectedRow(event);
+    return this.documentList.data
+      .getRows()
+      .find((row: DataRow) => row.getValue('name') === rowName);
+  }
 
-        if (selected) {
-            if (!this.isInSelection(selected)) {
-                this.clearSelection();
+  private clearSelection() {
+    this.documentList.data.getRows().map((row: DataRow) => {
+      return this.documentList.dataTable.selectRow(row, false);
+    });
 
-                this.documentList.dataTable.selectRow(selected, true);
-                this.documentList.selection.push((<any>selected).node);
+    this.documentList.selection = [];
+  }
 
-                this.updateSelection();
-            }
-
-            this.render(event);
-        }
-    }
-
-    private render(event: MouseEvent) {
-        if (this.overlayRef) {
-            this.overlayRef.close();
-        }
-
-        this.overlayRef = this.contextMenuService.open({
-            source: event,
-            hasBackdrop: false,
-            backdropClass: 'cdk-overlay-transparent-backdrop',
-            panelClass: 'cdk-overlay-pane',
-        });
-    }
-
-    private updateSelection() {
-        this.store.dispatch(
-            new SetSelectedNodesAction(this.documentList.selection)
-        );
-    }
-
-    private isInSelection(row: DataRow): MinimalNodeEntity {
-        return this.documentList.selection.find((selected) =>
-            row.getValue('name') === selected.entry.name);
-    }
-
-    private getSelectedRow(event): DataRow {
-        const rowElement = this.findAncestor(<HTMLElement>event.target, 'adf-datatable-row');
-
-        if (!rowElement) {
-            return null;
-        }
-
-        const rowName = rowElement.querySelector('.adf-data-table-cell--text .adf-datatable-cell')
-            .textContent
-            .trim();
-
-        return this.documentList.data.getRows()
-            .find((row: DataRow) => row.getValue('name') === rowName);
-    }
-
-    private clearSelection() {
-        this.documentList.data.getRows().map((row: DataRow) => {
-            return this.documentList.dataTable.selectRow(row, false);
-        });
-
-        this.documentList.selection = [];
-    }
-
-    private findAncestor (el: Element, className: string): Element {
-        // tslint:disable-next-line:curly
-        while ((el = el.parentElement) && !el.classList.contains(className));
-        return el;
-    }
+  private findAncestor(el: Element, className: string): Element {
+    // tslint:disable-next-line:curly
+    while ((el = el.parentElement) && !el.classList.contains(className));
+    return el;
+  }
 }

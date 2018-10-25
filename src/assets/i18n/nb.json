@@ -22,7 +22,8 @@
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Opprett mappe",
         "UPLOAD_FILE": "Last opp fil",
-        "UPLOAD_FOLDER": "Last opp mappe"
+        "UPLOAD_FOLDER": "Last opp mappe",
+        "CREATE_LIBRARY": "Opprett bibliotek"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Opprett ny mappe",
@@ -30,7 +31,8 @@
         "UPLOAD_FILES": "Velg filene som skal lastes opp",
         "UPLOAD_FILES_NOT_ALLOWED": "Filer kan ikke lastes opp mens du viser de gjeldende elementene",
         "UPLOAD_FOLDERS": "Velg mappene som skal lastes opp",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Mapper kan ikke lastes opp mens du viser de gjeldende elementene"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Mapper kan ikke lastes opp mens du viser de gjeldende elementene",
+        "CREATE_LIBRARY": "Opprett et nytt filbibliotek"
       }
     },
     "BROWSE": {
@@ -128,7 +130,10 @@
       "DETAILS": "Visningsdetaljer",
       "VERSIONS": "Administrer versjoner",
       "TOGGLE-SIDENAV": "Aktiver/deaktiver sidenavigasjonsfelt",
-      "SHARE": "Del"
+      "SHARE": "Del",
+      "SHARE_EDIT": "Innstillinger for delt kobling",
+      "PRINT": "Skriv ut",
+      "FULLSCREEN": "Aktiver fullskjermmodus"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -259,6 +264,9 @@
       "INHERIT_PERMISSIONS_BUTTON": "Arv tillatelse",
       "INHERITED_PERMISSIONS_BUTTON": "Tillatelse arvet"
     }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Du har ikke tillatelse til å oppheve deling av denne filen"
   },
   "VERSION": {
     "DIALOG": {

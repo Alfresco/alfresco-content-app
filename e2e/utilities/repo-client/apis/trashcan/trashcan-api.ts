@@ -60,9 +60,10 @@ export class TrashcanApi extends RepoApi {
     }
 
     async waitForApi(data) {
-        const deletedFiles = async () => {
+        try {
+          const deletedFiles = async () => {
             const totalItems = (await this.getDeletedNodes()).list.pagination.totalItems;
-            if ( totalItems < data.expect) {
+            if ( totalItems !== data.expect) {
                 return Promise.reject(totalItems);
             } else {
                 return Promise.resolve(totalItems);
@@ -70,5 +71,8 @@ export class TrashcanApi extends RepoApi {
         };
 
         return await Utils.retryCall(deletedFiles);
+        } catch (error) {
+          console.log('-----> catch trash: ', error);
+        }
     }
 }

@@ -26,31 +26,31 @@
 import { PageComponent } from './page.component';
 
 class TestClass extends PageComponent {
-    node: any;
+  node: any;
 
-    constructor() {
-        super(null, null, null);
-    }
+  constructor() {
+    super(null, null, null);
+  }
 }
 
 describe('PageComponent', () => {
-    let component: TestClass;
+  let component: TestClass;
 
-    beforeEach(() => {
-        component = new TestClass();
+  beforeEach(() => {
+    component = new TestClass();
+  });
+
+  describe('getParentNodeId()', () => {
+    it('returns parent node id when node is set', () => {
+      component.node = { id: 'node-id' };
+
+      expect(component.getParentNodeId()).toBe('node-id');
     });
 
-    describe('getParentNodeId()', () => {
-        it('returns parent node id when node is set', () => {
-            component.node = { id: 'node-id' };
+    it('returns null when node is not set', () => {
+      component.node = null;
 
-            expect(component.getParentNodeId()).toBe('node-id');
-        });
-
-        it('returns null when node is not set', () => {
-            component.node = null;
-
-            expect(component.getParentNodeId()).toBe(null);
-        });
+      expect(component.getParentNodeId()).toBe(null);
     });
+  });
 });

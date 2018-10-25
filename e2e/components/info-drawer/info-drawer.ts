@@ -23,73 +23,73 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, protractor, browser, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class InfoDrawer extends Component {
-    private static selectors = {
-        root: 'aca-info-drawer',
+  private static selectors = {
+    root: 'aca-info-drawer',
 
-        header: '.adf-info-drawer-layout-header',
-        content: '.adf-info-drawer-layout-content',
+    header: '.adf-info-drawer-layout-header',
+    content: '.adf-info-drawer-layout-content',
 
-        tabs: '.adf-info-drawer-tabs',
-        tabLabel: '.mat-tab-label-content',
-        tabActiveLabel: '.mat-tab-label-active',
+    tabs: '.adf-info-drawer-tabs',
+    tabLabel: '.mat-tab-label-content',
+    tabActiveLabel: '.mat-tab-label-active',
 
-        activeTabContent: '.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab',
-        next: '.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron',
-        previous: '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron'
-    };
+    activeTabContent: '.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab',
+    next: '.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron',
+    previous: '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron'
+  };
 
-    header: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.header));
-    tabLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabLabel));
-    tabLabelsList: ElementArrayFinder = this.component.all(by.css(InfoDrawer.selectors.tabLabel));
-    tabActiveLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabActiveLabel));
+  header: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.header));
+  tabLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabLabel));
+  tabLabelsList: ElementArrayFinder = this.component.all(by.css(InfoDrawer.selectors.tabLabel));
+  tabActiveLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabActiveLabel));
 
-    tabActiveContent: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.activeTabContent));
+  tabActiveContent: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.activeTabContent));
 
-    nextButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.next));
-    previousButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.previous));
+  nextButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.next));
+  previousButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.previous));
 
-    constructor(ancestor?: ElementFinder) {
-        super(InfoDrawer.selectors.root, ancestor);
+  constructor(ancestor?: ElementFinder) {
+    super(InfoDrawer.selectors.root, ancestor);
+  }
+
+  async waitForInfoDrawerToOpen() {
+    return await browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async isEmpty() {
+    if (await browser.isElementPresent(by.css(InfoDrawer.selectors.tabs))) {
+      return false;
     }
+    return true;
+  }
 
-    async waitForInfoDrawerToOpen() {
-        return browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
-    }
+  getTabByTitle(title: string) {
+    return this.component.element(by.cssContainingText(InfoDrawer.selectors.tabLabel, title));
+  }
 
-    async isEmpty() {
-        if (await browser.isElementPresent(by.css(InfoDrawer.selectors.tabs))) {
-            return false;
-        }
-        return true;
-    }
+  async isTabPresent(title: string) {
+    return await this.getTabByTitle(title).isPresent();
+  }
 
-    getTabByTitle(title: string) {
-        return this.component.element(by.cssContainingText(InfoDrawer.selectors.tabLabel, title));
-    }
+  async isTabDisplayed(title: string) {
+    return await this.getTabByTitle(title).isDisplayed();
+  }
 
-    async isTabPresent(title: string) {
-        return await this.getTabByTitle(title).isPresent();
-    }
+  async getTabTitle(index: number) {
+    return await this.tabLabelsList.get(index - 1).getAttribute('innerText');
+  }
 
-    async isTabDisplayed(title: string) {
-        return await this.getTabByTitle(title).isDisplayed();
-    }
+  async clickTab(title: string) {
+    await this.getTabByTitle(title).click();
+  }
 
-    async getTabTitle(index: number) {
-        return await this.tabLabelsList.get(index - 1).getAttribute('innerText');
-    }
-
-    async clickTab(title: string) {
-        return await this.getTabByTitle(title).click();
-    }
-
-    async getComponentIdOfTab(title: string) {
-        return await this.tabActiveContent.getAttribute('data-automation-id');
-    }
+  async getComponentIdOfTab() {
+    return await this.tabActiveContent.getAttribute('data-automation-id');
+  }
 }
 

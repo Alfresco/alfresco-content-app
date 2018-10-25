@@ -24,12 +24,15 @@
  */
 
 import {
-    Component, ViewEncapsulation, OnInit, OnDestroy, HostListener,
-    ViewChildren, QueryList, AfterViewInit
+  Component,
+  ViewEncapsulation,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  ViewChild,
+  AfterViewInit
 } from '@angular/core';
-import { trigger } from '@angular/animations';
-import { FocusKeyManager } from '@angular/cdk/a11y';
-import { DOWN_ARROW, UP_ARROW } from '@angular/cdk/keycodes';
+import { MatMenuTrigger } from '@angular/material';
 
 import { AppExtensionService } from '../../extensions/extension.service';
 import { AppStore } from '../../store/states';
@@ -37,106 +40,71 @@ import { appSelection } from '../../store/selectors/app.selectors';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { SelectionState, ContentActionRef } from '@alfresco/adf-extensions';
-
+import { ContentActionRef } from '@alfresco/adf-extensions';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
-import { contextMenuAnimation } from './animations';
-import { ContextMenuItemDirective } from './context-menu-item.directive';
 
 @Component({
-    selector: 'aca-context-menu',
-    templateUrl: './context-menu.component.html',
-    styleUrls: [
-        './context-menu.component.scss',
-        './context-menu.component.theme.scss'
-    ],
-    host: {
-        role: 'menu',
-        class: 'aca-context-menu'
-    },
-    encapsulation: ViewEncapsulation.None,
-    animations: [
-        trigger('panelAnimation', contextMenuAnimation)
-    ]
+  selector: 'aca-context-menu',
+  templateUrl: './context-menu.component.html',
+  styleUrls: ['./context-menu.component.theme.scss'],
+  host: {
+    class: 'aca-context-menu-holder'
+  },
+  encapsulation: ViewEncapsulation.None
 })
 export class ContextMenuComponent implements OnInit, OnDestroy, AfterViewInit {
-    private onDestroy$: Subject<boolean> = new Subject<boolean>();
-    private selection: SelectionState;
-    private _keyManager: FocusKeyManager<ContextMenuItemDirective>;
-    actions: Array<ContentActionRef> = [];
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+  actions: Array<ContentActionRef> = [];
 
-    @ViewChildren(ContextMenuItemDirective)
-    private contextMenuItems: QueryList<ContextMenuItemDirective>;
+  @ViewChild(MatMenuTrigger)
+  trigger: MatMenuTrigger;
 
-    @HostListener('contextmenu', ['$event'])
-    handleContextMenu(event: MouseEvent) {
-        if (event) {
-            event.preventDefault();
-            if (this.contextMenuOverlayRef) {
-                this.contextMenuOverlayRef.close();
-            }
-        }
-    }
-
-    @HostListener('document:keydown.Escape', ['$event'])
-    handleKeydownEscape(event: KeyboardEvent) {
-        if (event) {
-            if (this.contextMenuOverlayRef) {
-                this.contextMenuOverlayRef.close();
-            }
-        }
-    }
-
-    @HostListener('document:keydown', ['$event'])
-    handleKeydownEvent(event: KeyboardEvent) {
-        if (event) {
-            const keyCode = event.keyCode;
-            if (keyCode === UP_ARROW || keyCode === DOWN_ARROW) {
-                this._keyManager.onKeydown(event);
-            }
-        }
-    }
-
-    constructor(
-        private contextMenuOverlayRef: ContextMenuOverlayRef,
-        private extensions: AppExtensionService,
-        private store: Store<AppStore>,
-    ) { }
-
-    onClickOutsideEvent() {
-        if (this.contextMenuOverlayRef) {
-            this.contextMenuOverlayRef.close();
-        }
-    }
-
-    runAction(actionId: string) {
-        const context = {
-            selection: this.selection
-        };
-
-        this.extensions.runActionById(actionId, context);
+  @HostListener('document:keydown.Escape', ['$event'])
+  handleKeydownEscape(event: KeyboardEvent) {
+    if (event) {
+      if (this.contextMenuOverlayRef) {
         this.contextMenuOverlayRef.close();
+      }
     }
+  }
 
-    ngOnDestroy() {
-        this.onDestroy$.next(true);
-        this.onDestroy$.complete();
-    }
+  constructor(
+    private contextMenuOverlayRef: ContextMenuOverlayRef,
+    private extensions: AppExtensionService,
+    private store: Store<AppStore>
+  ) {}
 
-    ngOnInit() {
-        this.store
-            .select(appSelection)
-            .pipe(takeUntil(this.onDestroy$))
-            .subscribe(selection => {
-                if (selection.count) {
-                    this.selection = selection;
-                    this.actions = this.extensions.getAllowedContextMenuActions();
-                }
-            });
+  onClickOutsideEvent() {
+    if (this.contextMenuOverlayRef) {
+      this.contextMenuOverlayRef.close();
     }
+  }
 
-    ngAfterViewInit() {
-        this._keyManager = new FocusKeyManager<ContextMenuItemDirective>(this.contextMenuItems);
-        this._keyManager.setFirstItemActive();
-    }
+  runAction(actionId: string) {
+    this.extensions.runActionById(actionId);
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
+
+  ngOnInit() {
+    this.store
+      .select(appSelection)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(selection => {
+        if (selection.count) {
+          this.actions = this.extensions.getAllowedContextMenuActions();
+        }
+      });
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.trigger.openMenu(), 0);
+  }
+
+  trackById(index: number, obj: { id: string }) {
+    return obj.id;
+  }
 }

@@ -1,48 +1,41 @@
-<div mat-menu class="mat-menu-panel"
-    @panelAnimation
+<button style="visibility: hidden" [matMenuTriggerFor]="rootMenu" #rootTriggerEl></button>
+
+<mat-menu #rootMenu="matMenu"
+    class="aca-context-menu"
+    hasBackdrop="false"
     acaContextMenuOutsideEvent
     (clickOutside)="onClickOutsideEvent()">
-
-    <div class="mat-menu-content">
-        <ng-container *ngFor="let entry of actions" [ngSwitch]="entry.type">
-            <ng-container *ngSwitchCase="'default'">
-                <button mat-menu-item
-                    [id]="entry.id"
-                    acaContextMenuItem
-                    (click)="runAction(entry.actions.click)">
-                    <mat-icon color="primary">{{ entry.icon }}</mat-icon>
-                    <span>{{ entry.title | translate }}</span>
-                </button>
-            </ng-container>
-
-            <ng-container *ngSwitchCase="'button'">
-                <button mat-menu-item
-                    [id]="entry.id"
-                    acaContextMenuItem
-                    (click)="runAction(entry.actions.click)">
-                    <mat-icon color="primary">{{ entry.icon }}</mat-icon>
-                    <span>{{ entry.title | translate }}</span>
-                </button>
-            </ng-container>
-
-            <span *ngSwitchCase="'separator'"
-                class="aca-context-menu__separator"
-                [id]="entry.id">
-            </span>
-
-            <ng-container *ngSwitchCase="'menu'">
-                <button mat-menu-item
-                    acaContextMenuItem
-                    [id]="entry.id"
-                    class="aca-context-menu__more-actions">
-                    <mat-icon color="primary">{{ entry.icon }}</mat-icon>
-                    <span>{{ entry.title | translate }}</span>
-                </button>
-            </ng-container>
-
-            <ng-container *ngSwitchCase="'custom'">
-                <adf-dynamic-component [id]="entry.component"></adf-dynamic-component>
-            </ng-container>
+    <ng-container *ngFor="let entry of actions; trackBy: trackById" [ngSwitch]="entry.type">
+        <ng-container *ngSwitchDefault>
+            <button mat-menu-item
+                [id]="entry.id"
+                (click)="runAction(entry.actions.click)">
+                <mat-icon color="primary">{{ entry.icon }}</mat-icon>
+                <span>{{ entry.title | translate }}</span>
+            </button>
         </ng-container>
-    </div>
-</div>
+
+        <ng-container *ngSwitchCase="'separator'">
+            <mat-divider></mat-divider>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'menu'">
+            <button mat-menu-item
+                [id]="entry.id"
+                [matMenuTriggerFor]="childMenu">
+                <mat-icon color="primary">{{ entry.icon }}</mat-icon>
+                <span>{{ entry.title | translate }}</span>
+            </button>
+
+            <mat-menu #childMenu="matMenu">
+                <ng-container *ngFor="let child of entry.children; trackBy: trackById">
+                    <app-context-menu-item [actionRef]="child"></app-context-menu-item>
+                </ng-container>
+            </mat-menu>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'custom'">
+            <adf-dynamic-component [id]="entry.component"></adf-dynamic-component>
+        </ng-container>
+    </ng-container>
+</mat-menu>

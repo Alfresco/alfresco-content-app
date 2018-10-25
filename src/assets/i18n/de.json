@@ -22,7 +22,8 @@
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Ordner erstellen",
         "UPLOAD_FILE": "Datei hochladen",
-        "UPLOAD_FOLDER": "Ordner hochladen"
+        "UPLOAD_FOLDER": "Ordner hochladen",
+        "CREATE_LIBRARY": "Bibliothek erstellen"
       },
       "TOOLTIPS": {
         "CREATE_FOLDER": "Neuen Ordner erstellen",
@@ -30,7 +31,8 @@
         "UPLOAD_FILES": "Dateien zum Hochladen auswählen",
         "UPLOAD_FILES_NOT_ALLOWED": "Dateien können nicht hochgeladen werden, während die aktuellen Elemente angezeigt werden",
         "UPLOAD_FOLDERS": "Ordner zum Hochladen auswählen",
-        "UPLOAD_FOLDERS_NOT_ALLOWED": "Ordner können nicht hochgeladen werden, während die aktuellen Elemente angezeigt werden"
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Ordner können nicht hochgeladen werden, während die aktuellen Elemente angezeigt werden",
+        "CREATE_LIBRARY": "Neue Dateibibliothek erstellen"
       }
     },
     "BROWSE": {
@@ -128,7 +130,10 @@
       "DETAILS": "Details anzeigen",
       "VERSIONS": "Versionen verwalten",
       "TOGGLE-SIDENAV": "Navigationsseitenleiste umschalten",
-      "SHARE": "Freigeben"
+      "SHARE": "Freigeben",
+      "SHARE_EDIT": "Einstellungen für freigegebene Links",
+      "PRINT": "Drucken",
+      "FULLSCREEN": "Vollbildmodus aktivieren"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -259,6 +264,9 @@
       "INHERIT_PERMISSIONS_BUTTON": "Berechtigungen erben",
       "INHERITED_PERMISSIONS_BUTTON": "Berechtigungen geerbt"
     }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Sie verfügen nicht über die Berechtigung die Freigabe für diese Datei aufzuheben"
   },
   "VERSION": {
     "DIALOG": {
