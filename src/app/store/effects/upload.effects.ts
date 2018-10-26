@@ -91,7 +91,10 @@ export class UploadEffects {
           const files = FileUtils.toFileArray(input.files).map(file => {
             return new FileModel(file, {
               parentId: node.id,
-              path: (file.webkitRelativePath || '').replace(/\/[^\/]*$/, ''),
+              path: ((<any>file).webkitRelativePath || '').replace(
+                /\/[^\/]*$/,
+                ''
+              ),
               nodeType: 'cm:content'
             });
           });
