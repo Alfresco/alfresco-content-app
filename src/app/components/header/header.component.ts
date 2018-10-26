@@ -31,16 +31,16 @@ import {
   OnInit
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore } from 'src/app/store/states';
 import { Observable } from 'rxjs';
 import {
   selectHeaderColor,
   selectAppName,
   selectLogoPath
-} from 'src/app/store/selectors/app.selectors';
+} from '../../store/selectors/app.selectors';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../extensions/extension.service';
+import { AppStore } from '../../store/states';
 
 @Component({
   selector: 'app-header',
