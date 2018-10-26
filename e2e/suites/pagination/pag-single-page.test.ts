@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -82,38 +81,32 @@ describe('Pagination on single page', () => {
   });
 
   it('page selector not displayed on Favorites - [C280112]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-    await dataTable.waitForHeader();
+    await page.clickFavoritesAndWait();
     expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on File Libraries - [C280085]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-    await dataTable.waitForHeader();
+    await page.clickFileLibrariesAndWait();
     expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on Personal Files - [C280076]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on Recent Files - [C280103]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-    await dataTable.waitForHeader();
+    await page.clickRecentFilesAndWait();
     expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on Shared Files - [C280094]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-    await dataTable.waitForHeader();
+    await page.clickSharedFilesAndWait();
     expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on Trash - [C280121]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-    await dataTable.waitForHeader();
+    await page.clickTrashAndWait();
     expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
   });
 

@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { APP_ROUTES, SIDEBAR_LABELS } from '../../configs';
+import { APP_ROUTES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -50,7 +50,7 @@ describe('Restore from Trash', () => {
 
   afterAll(async (done) => {
     await Promise.all([
-      apis.admin.trashcan.emptyTrash(),
+      apis.user.trashcan.emptyTrash(),
       logoutPage.load()
     ]);
     done();
@@ -72,8 +72,7 @@ describe('Restore from Trash', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       done();
     });
 
@@ -89,8 +88,7 @@ describe('Restore from Trash', () => {
       expect(text).toContain(`${file} restored`);
       expect(text).toContain(`View`);
       expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodeById(fileId, false);
@@ -103,8 +101,7 @@ describe('Restore from Trash', () => {
       expect(text).toContain(`${folder} restored`);
       expect(text).toContain(`View`);
       expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodeById(folderId, false);
@@ -118,8 +115,7 @@ describe('Restore from Trash', () => {
       expect(text).not.toContain(`View`);
       expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
       expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
       expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
 
@@ -164,8 +160,7 @@ describe('Restore from Trash', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       done();
     });
 
@@ -178,7 +173,7 @@ describe('Restore from Trash', () => {
     });
 
     it('Restore a file when another file with same name exists on the restore location - [C217178]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await page.clickTrashAndWait();
       await dataTable.selectItem(file1);
       await toolbar.getButtonByTitleAttribute('Restore').click();
       const text = await page.getSnackBarMessage();
@@ -186,7 +181,7 @@ describe('Restore from Trash', () => {
     });
 
     it('Restore a file when original location no longer exists - [C217179]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await page.clickTrashAndWait();
       await dataTable.selectItem(file2);
       await toolbar.getButtonByTitleAttribute('Restore').click();
       const text = await page.getSnackBarMessage();
@@ -239,8 +234,7 @@ describe('Restore from Trash', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       done();
     });
 

@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 
-import { SIDEBAR_LABELS, APP_ROUTES } from '../../configs';
+import { APP_ROUTES } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -40,8 +40,8 @@ describe('Personal Files', () => {
 
   const loginPage = new LoginPage();
   const logoutPage = new LogoutPage();
-  const personalFilesPage = new BrowsingPage();
-  const { dataTable } = personalFilesPage;
+  const page = new BrowsingPage();
+  const { dataTable } = page;
 
   const adminFolder = `admin-folder-${Utils.random()}`;
 
@@ -75,8 +75,7 @@ describe('Personal Files', () => {
     });
 
     beforeEach(async (done) => {
-      await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -98,8 +97,7 @@ describe('Personal Files', () => {
     });
 
     beforeEach(async (done) => {
-      await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -138,20 +136,20 @@ describe('Personal Files', () => {
     });
 
     it('redirects to Personal Files on clicking the link from sidebar - [C213245]', async () => {
-      await personalFilesPage.dataTable.doubleClickOnRowByName(userFolder);
-      await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+      await page.dataTable.doubleClickOnRowByName(userFolder);
+      await page.clickPersonalFiles();
       const url = await browser.getCurrentUrl();
       expect(url.endsWith(APP_ROUTES.PERSONAL_FILES)).toBe(true, 'incorrect url');
     });
 
     it('page loads correctly after browser refresh - [C213246]', async () => {
-      await personalFilesPage.refresh();
+      await page.refresh();
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });
 
     it('page load by URL - [C213247]', async () => {
       const url = await browser.getCurrentUrl();
-      await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await page.clickTrash();
       await browser.get(url);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
     });

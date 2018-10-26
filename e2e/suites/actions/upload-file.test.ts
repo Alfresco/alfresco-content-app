@@ -23,9 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// import { browser, protractor, promise } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -53,8 +51,7 @@ describe('Upload files', () => {
   });
 
   beforeEach(async (done) => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     done();
   });
 

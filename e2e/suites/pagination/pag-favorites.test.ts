@@ -23,8 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
-import { SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -60,8 +58,7 @@ describe('Pagination on multiple pages on Favorites', () => {
   });
 
   beforeEach(async (done) => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-    await dataTable.waitForHeader();
+    await page.clickFavoritesAndWait();
     done();
   });
 

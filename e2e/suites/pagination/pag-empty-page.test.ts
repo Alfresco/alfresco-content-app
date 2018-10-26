@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SIDEBAR_LABELS } from '../../configs';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -51,7 +50,7 @@ describe('Pagination on empty page', () => {
   });
 
   it('Favorites - pagination controls not displayed - [C280111]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+    await page.clickFavorites();
     expect(await pagination.range.isPresent()).toBe(false);
     expect(await pagination.maxItems.isPresent()).toBe(false);
     expect(await pagination.currentPage.isPresent()).toBe(false);
@@ -61,7 +60,7 @@ describe('Pagination on empty page', () => {
   });
 
   it('File Libraries - pagination controls not displayed - [C280084]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await page.clickFileLibraries();
     expect(await pagination.range.isPresent()).toBe(false);
     expect(await pagination.maxItems.isPresent()).toBe(false);
     expect(await pagination.currentPage.isPresent()).toBe(false);
@@ -71,7 +70,7 @@ describe('Pagination on empty page', () => {
   });
 
   it('Personal Files - pagination controls not displayed - [C280075]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await page.clickPersonalFiles();
     expect(await pagination.range.isPresent()).toBe(false);
     expect(await pagination.maxItems.isPresent()).toBe(false);
     expect(await pagination.currentPage.isPresent()).toBe(false);
@@ -81,7 +80,7 @@ describe('Pagination on empty page', () => {
   });
 
   it('Recent Files - pagination controls not displayed - [C280102]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
+    await page.clickRecentFiles();
     expect(await pagination.range.isPresent()).toBe(false);
     expect(await pagination.maxItems.isPresent()).toBe(false);
     expect(await pagination.currentPage.isPresent()).toBe(false);
@@ -91,7 +90,7 @@ describe('Pagination on empty page', () => {
   });
 
   it('Shared Files - pagination controls not displayed - [C280094]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+    await page.clickSharedFiles();
     expect(await pagination.range.isPresent()).toBe(false);
     expect(await pagination.maxItems.isPresent()).toBe(false);
     expect(await pagination.currentPage.isPresent()).toBe(false);
@@ -101,7 +100,7 @@ describe('Pagination on empty page', () => {
   });
 
   it('Trash - pagination controls not displayed - [C280120]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+    await page.clickTrash();
     expect(await pagination.range.isPresent()).toBe(false);
     expect(pagination.maxItems.isPresent()).toBe(false);
     expect(pagination.currentPage.isPresent()).toBe(false);

@@ -121,8 +121,7 @@ describe('Page titles', () => {
     });
 
     it('File Preview page - [C280415]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await page.dataTable.doubleClickOnRowByName(file);
       expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);
       await Utils.pressEscape();

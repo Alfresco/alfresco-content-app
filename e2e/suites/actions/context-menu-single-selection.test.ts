@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SIDEBAR_LABELS } from '../../configs';
+import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -93,8 +92,7 @@ describe('Context menu actions - single selection : ', () => {
   describe('Generic tests', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -131,8 +129,7 @@ describe('Context menu actions - single selection : ', () => {
     });
 
     it('Context menu does not appear for a library - [C286276]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.rightClickOnItem(siteName);
       expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed for a site');
     });
@@ -141,8 +138,7 @@ describe('Context menu actions - single selection : ', () => {
   describe('on Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -180,8 +176,7 @@ describe('Context menu actions - single selection : ', () => {
   describe('File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       done();
@@ -220,8 +215,7 @@ describe('Context menu actions - single selection : ', () => {
   describe('Shared Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -245,8 +239,7 @@ describe('Context menu actions - single selection : ', () => {
   describe('Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -269,8 +262,7 @@ describe('Context menu actions - single selection : ', () => {
   describe('Favorites', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       done();
     });
 
@@ -309,8 +301,7 @@ describe('Context menu actions - single selection : ', () => {
   describe('Trash', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       done();
     });
 

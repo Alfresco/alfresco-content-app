@@ -25,7 +25,7 @@
 
 import { browser } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { ShareDialog } from '../../components/dialog/share-dialog';
 import { ConfirmDialog } from '../../components/dialog/confirm-dialog';
@@ -88,8 +88,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       await dataTable.waitForHeader();
       done();
@@ -140,7 +139,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
@@ -182,7 +181,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
@@ -222,8 +221,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(parentInSite);
@@ -273,7 +271,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
@@ -315,7 +313,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
@@ -348,8 +346,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -398,7 +395,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
@@ -440,7 +437,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
@@ -473,8 +470,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -603,8 +599,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       done();
     });
 
@@ -653,7 +648,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
@@ -695,7 +690,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
@@ -749,8 +744,7 @@ describe('Unshare a file', () => {
     });
 
     it('on File Libraries - file shared by other user - [C286682]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file1);
@@ -762,8 +756,7 @@ describe('Unshare a file', () => {
     });
 
     it('on File Libraries - file shared by the user - [C286701]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file2);
@@ -775,8 +768,7 @@ describe('Unshare a file', () => {
     });
 
     it('on Shared Files - file shared by other user - [C286687]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.selectItem(file1);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Shared link settings');
@@ -786,8 +778,7 @@ describe('Unshare a file', () => {
     });
 
     it('on Shared Files - file shared by the user - [C286702]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.selectItem(file1);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Shared link settings');
@@ -797,8 +788,7 @@ describe('Unshare a file', () => {
     });
 
     it('on Favorites - file shared by other user - [C286697]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Share');
@@ -808,8 +798,7 @@ describe('Unshare a file', () => {
     });
 
     it('on Favorites - file shared by the user - [C286703]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Share');

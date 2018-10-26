@@ -24,7 +24,7 @@
  */
 
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS, FILES } from '../../configs';
+import { SITE_VISIBILITY, SITE_ROLES, FILES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { Viewer } from '../../components/viewer/viewer';
@@ -112,8 +112,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280476]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, file2]);
@@ -129,8 +128,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Shared Files - [C280477]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
@@ -144,8 +142,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C280478]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
@@ -167,8 +164,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280455]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file1);
@@ -186,8 +182,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Shared Files - [C280456]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await page.dataTable.selectItem(file1);
       expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
@@ -203,8 +198,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C213121]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1);
       expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
@@ -227,8 +221,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280444]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectItem(folder1);
@@ -246,8 +239,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C286266]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectItem(folder1);
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is not displayed for ${folder1}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${folder1}`);
@@ -272,8 +264,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280464]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, file2]);
@@ -289,8 +280,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Shared Files - [C286284]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
@@ -304,8 +294,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C286285]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
@@ -328,8 +317,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280465]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([folder1, folder2]);
@@ -345,8 +333,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C286286]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([folder1, folder2]);
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
@@ -369,8 +356,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280466]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, folder1]);
@@ -386,8 +372,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C286287]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, folder1]);
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
@@ -409,8 +394,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280599]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.rightClickOnItem(file1);
@@ -428,8 +412,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Shared Files - [C286264]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.rightClickOnItem(file1);
       expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
       expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${file1}`);
@@ -446,8 +429,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C286262]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.rightClickOnItem(file1);
       expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
       expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${file1}`);
@@ -472,8 +454,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280600]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.rightClickOnItem(folder1);
@@ -490,8 +471,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C286263]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.rightClickOnItem(folder1);
       expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not enabled for ${folder1}`);
       // enable when ACA-1737 is done
@@ -517,8 +497,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280647]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, file2]);
@@ -533,8 +512,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Shared Files - [C286283]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
       await dataTable.rightClickOnMultipleSelection();
       expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
@@ -547,8 +525,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C286280]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
       await dataTable.rightClickOnMultipleSelection();
       expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
@@ -570,8 +547,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280666]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([folder1, folder2]);
@@ -586,8 +562,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C286281]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([folder1, folder2]);
       await dataTable.rightClickOnMultipleSelection();
       expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
@@ -609,8 +584,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on File Libraries - [C280669]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, folder1]);
@@ -625,8 +599,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('on Favorites - [C286282]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, folder1]);
       await dataTable.rightClickOnMultipleSelection();
       expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
@@ -647,8 +620,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('file from File Libraries - [C268128]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(docxFile);
@@ -672,8 +644,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('file from Shared Files - [C286310]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.doubleClickOnRowByName(docxFile);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
@@ -694,8 +665,7 @@ describe('Granular permissions available actions : ', () => {
     });
 
     it('file from Favorites - [C286311]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.doubleClickOnRowByName(docxFile);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 

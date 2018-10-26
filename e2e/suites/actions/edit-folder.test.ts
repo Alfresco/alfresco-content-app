@@ -25,7 +25,7 @@
 
 import { protractor, browser } from 'protractor';
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { Utils } from '../../utilities/utils';
@@ -52,10 +52,10 @@ describe('Edit folder', () => {
 
   const loginPage = new LoginPage();
   const logoutPage = new LogoutPage();
-  const personalFilesPage = new BrowsingPage();
+  const page = new BrowsingPage();
   const editDialog = new CreateOrEditFolderDialog();
-  const { dataTable } = personalFilesPage;
-  const editButton = personalFilesPage.toolbar.getButtonByTitleAttribute('Edit');
+  const { dataTable } = page;
+  const editButton = page.toolbar.getButtonByTitleAttribute('Edit');
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -74,8 +74,7 @@ describe('Edit folder', () => {
   });
 
   beforeEach(async (done) => {
-    await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.waitForHeader();
     done();
@@ -164,7 +163,7 @@ describe('Edit folder', () => {
     await editDialog.waitForDialogToOpen();
     await editDialog.enterName(duplicateFolderName);
     await editDialog.clickUpdate();
-    const message = await personalFilesPage.getSnackBarMessage();
+    const message = await page.getSnackBarMessage();
     expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
     expect(await editDialog.component.isPresent()).toBe(true, 'dialog is not present');
   });
@@ -175,7 +174,7 @@ describe('Edit folder', () => {
     await editDialog.nameInput.sendKeys('   ');
     await editDialog.clickUpdate();
     await editDialog.waitForDialogToClose();
-    expect(await personalFilesPage.snackBar.isPresent()).not.toBe(true, 'notification appears');
+    expect(await page.snackBar.isPresent()).not.toBe(true, 'notification appears');
     expect(await dataTable.getRowByName(folderName).isPresent()).toBe(true, 'Folder not displayed in list view');
   });
 });

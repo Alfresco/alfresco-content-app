@@ -25,7 +25,7 @@
 
 import { BrowsingPage, LoginPage, LogoutPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { EXTENSIBILITY_CONFIGS, SIDEBAR_LABELS } from '../../configs';
+import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
 
 describe('Extensions - DocumentList presets', () => {
@@ -64,8 +64,8 @@ describe('Extensions - DocumentList presets', () => {
 
   const loginPage = new LoginPage();
   const logoutPage = new LogoutPage();
-  const personalFilesPage = new BrowsingPage();
-  const { dataTable } = personalFilesPage;
+  const page = new BrowsingPage();
+  const { dataTable } = page;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -79,9 +79,7 @@ describe('Extensions - DocumentList presets', () => {
   });
 
   beforeEach(async done => {
-    await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await dataTable.waitForHeader();
-
+    await page.clickPersonalFilesAndWait();
     done();
   });
 

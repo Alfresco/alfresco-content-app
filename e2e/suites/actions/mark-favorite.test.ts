@@ -24,7 +24,7 @@
  */
 
 import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
+import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -101,8 +101,7 @@ describe('Mark items as favorites', () => {
     describe('on Personal Files', () => {
         beforeEach(async (done) => {
             await Utils.pressEscape();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-            await dataTable.waitForHeader();
+            await page.clickPersonalFilesAndWait();
             done();
         });
 
@@ -208,8 +207,7 @@ describe('Mark items as favorites', () => {
     describe('on Recent Files', () => {
         beforeEach(async (done) => {
             await Utils.pressEscape();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-            await dataTable.waitForHeader();
+            await page.clickRecentFilesAndWait();
             done();
         });
 
@@ -290,8 +288,7 @@ describe('Mark items as favorites', () => {
 
         beforeEach(async (done) => {
             await Utils.pressEscape();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-            await dataTable.waitForHeader();
+            await page.clickSharedFilesAndWait();
             done();
         });
 
@@ -368,8 +365,7 @@ describe('Mark items as favorites', () => {
         beforeEach(async (done) => {
             await Utils.pressEscape();
             await page.refresh();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-            await dataTable.waitForHeader();
+            await page.clickFavoritesAndWait();
             done();
         });
 
@@ -413,8 +409,7 @@ describe('Mark items as favorites', () => {
     describe ('on File Libraries', () => {
         beforeEach(async (done) => {
             await Utils.pressEscape();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-            await page.dataTable.waitForHeader();
+            await page.clickFileLibrariesAndWait();
             await page.dataTable.doubleClickOnRowByName(siteName);
             await page.dataTable.waitForHeader();
             done();
