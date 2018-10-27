@@ -43,13 +43,12 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'settings',
-    loadChildren:
-      'src/app/components/settings/settings.module#AppSettingsModule'
+    loadChildren: './components/settings/settings.module#AppSettingsModule'
   },
   {
     path: 'preview/s/:id',
     loadChildren:
-      'src/app/components/shared-link-view/shared-link-view.module#AppSharedLinkViewModule'
+      './components/shared-link-view/shared-link-view.module#AppSharedLinkViewModule'
   },
   {
     path: '',
@@ -66,12 +65,11 @@ export const APP_ROUTES: Routes = [
           {
             path: '',
             loadChildren:
-              'src/app/components/favorites/favorites.module#AppFavoritesModule'
+              './components/favorites/favorites.module#AppFavoritesModule'
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'favorites'
             }
@@ -99,8 +97,7 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: ':folderId/preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'libraries'
             }
@@ -130,16 +127,14 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'personal-files'
             }
           },
           {
             path: ':folderId/preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'personal-files'
             }
@@ -155,12 +150,11 @@ export const APP_ROUTES: Routes = [
           {
             path: '',
             loadChildren:
-              'src/app/components/recent-files/recent-files.module#AppRecentFilesModule'
+              './components/recent-files/recent-files.module#AppRecentFilesModule'
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'recent-files'
             }
@@ -173,12 +167,11 @@ export const APP_ROUTES: Routes = [
           {
             path: '',
             loadChildren:
-              'src/app/components/shared-files/shared-files.module#AppSharedFilesModule'
+              './components/shared-files/shared-files.module#AppSharedFilesModule'
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'shared'
             }
@@ -189,12 +182,11 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'trashcan',
-        loadChildren:
-          'src/app/components/trashcan/trashcan.module#AppTrashcanModule'
+        loadChildren: './components/trashcan/trashcan.module#AppTrashcanModule'
       },
       {
         path: 'about',
-        loadChildren: 'src/app/components/about/about.module#AboutModule'
+        loadChildren: './components/about/about.module#AboutModule'
       },
       {
         path: 'search',
@@ -209,8 +201,7 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'search'
             }
