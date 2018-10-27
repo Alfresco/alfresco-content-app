@@ -86,7 +86,7 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
   }
 
   update() {
-    if (this.form.valid) {
+    if (this.canUpdateLibrary && this.form.valid) {
       this.store.dispatch(new UpdateLibraryAction(this.form.value));
     }
   }
