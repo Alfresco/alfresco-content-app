@@ -73,43 +73,32 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
   }
 
   cancel() {
-    const { entry } = this.node;
-
-    this.form.setValue({
-      id: entry.id,
-      title: entry.title,
-      description: entry.description || '',
-      visibility: entry.visibility
-    });
-
+    this.updateForm(this.node);
     this.toggleEdit();
   }
 
   ngOnInit() {
-    const { entry } = this.node;
-
-    this.form.setValue({
-      id: entry.id,
-      title: entry.title,
-      description: entry.description || '',
-      visibility: entry.visibility
-    });
+    this.updateForm(this.node);
   }
 
   ngOnChanges() {
-    const { entry } = this.node;
-
-    this.form.setValue({
-      id: entry.id,
-      title: entry.title,
-      description: entry.description || '',
-      visibility: entry.visibility
-    });
+    this.updateForm(this.node);
   }
 
   update() {
     if (this.form.valid) {
       this.store.dispatch(new UpdateLibraryAction(this.form.value));
     }
+  }
+
+  private updateForm(node: SiteEntry) {
+    const { entry } = node;
+
+    this.form.setValue({
+      id: entry.id,
+      title: entry.title,
+      description: entry.description || '',
+      visibility: entry.visibility
+    });
   }
 }
