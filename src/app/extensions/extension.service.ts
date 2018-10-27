@@ -243,7 +243,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   getSidebarTabs(): Array<SidebarTabRef> {
-    return this.sidebar;
+    return this.sidebar.filter(action => this.filterByRules(<any>action))
   }
 
   getComponentById(id: string): Type<{}> {
