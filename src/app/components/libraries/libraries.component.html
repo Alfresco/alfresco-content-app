@@ -74,5 +74,9 @@
             <adf-pagination acaPagination [target]="documentList">
             </adf-pagination>
         </div>
+
+        <div class="inner-layout__side-panel" *ngIf="infoDrawerOpened$ | async">
+            <aca-info-drawer [node]="selection.last"></aca-info-drawer>
+        </div>
     </div>
 </div>
