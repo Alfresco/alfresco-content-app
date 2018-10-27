@@ -36,6 +36,8 @@ import { MaterialModule } from '../../material.module';
 import { CommentsTabComponent } from './comments-tab/comments-tab.component';
 import { InfoDrawerComponent } from './info-drawer.component';
 import { MetadataTabComponent } from './metadata-tab/metadata-tab.component';
+import { LibraryMetadataTabComponent } from './library-metadata-tab/library-metadata-tab.component';
+import { LibraryMetadataFormComponent } from './library-metadata-tab/library-metadata-form.component';
 import { VersionsTabComponent } from './versions-tab/versions-tab.component';
 
 export function components() {
@@ -43,7 +45,9 @@ export function components() {
     InfoDrawerComponent,
     MetadataTabComponent,
     CommentsTabComponent,
-    VersionsTabComponent
+    VersionsTabComponent,
+    LibraryMetadataTabComponent,
+    LibraryMetadataFormComponent
   ];
 }
 
