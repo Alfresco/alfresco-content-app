@@ -117,19 +117,19 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
     this.displayNode = node;
   }
 
-  private isLibraryListNode(node) {
-    return node.isLibrary;
+  private isLibraryListNode(node: SiteEntry): boolean {
+    return (<any>node).isLibrary;
   }
 
-  private isFavoriteListNode(node) {
-    return !this.isLibraryListNode(node) && node.entry.guid;
+  private isFavoriteListNode(node: MinimalNodeEntity): boolean {
+    return !this.isLibraryListNode(node) && (<any>node).entry.guid;
   }
 
-  private isSharedFilesNode(node) {
+  private isSharedFilesNode(node: MinimalNodeEntity): boolean {
     return !!node.entry.nodeId;
   }
 
-  private isRecentListFileNode(node) {
+  private isRecentListFileNode(node: MinimalNodeEntity): boolean {
     return this.isTypeImage(node.entry) && !this.hasAspectNames(node.entry);
   }
 }
