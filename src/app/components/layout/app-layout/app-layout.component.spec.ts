@@ -26,23 +26,23 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
-import { LayoutComponent } from './layout.component';
-import { AppTestingModule } from '../../testing/app-testing.module';
+import { AppLayoutComponent } from './app-layout.component';
+import { AppTestingModule } from '../../../testing/app-testing.module';
 
-describe('LayoutComponent', () => {
-  let fixture: ComponentFixture<LayoutComponent>;
-  let component: LayoutComponent;
+describe('AppLayoutComponent', () => {
+  let fixture: ComponentFixture<AppLayoutComponent>;
+  let component: AppLayoutComponent;
   let appConfig: AppConfigService;
   let userPreference: UserPreferencesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [LayoutComponent],
+      declarations: [AppLayoutComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    fixture = TestBed.createComponent(LayoutComponent);
+    fixture = TestBed.createComponent(AppLayoutComponent);
     component = fixture.componentInstance;
     appConfig = TestBed.get(AppConfigService);
     userPreference = TestBed.get(UserPreferencesService);

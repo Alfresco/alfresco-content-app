@@ -26,7 +26,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { LayoutComponent } from './layout.component';
+import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { RouterModule } from '@angular/router';
 import { AppSidenavModule } from '../sidenav/sidenav.module';
@@ -43,7 +43,7 @@ import { AppHeaderModule } from '../header/header.module';
     AppSidenavModule,
     AppHeaderModule
   ],
-  declarations: [LayoutComponent],
-  exports: [LayoutComponent]
+  declarations: [AppLayoutComponent],
+  exports: [AppLayoutComponent]
 })
 export class AppLayoutModule {}
