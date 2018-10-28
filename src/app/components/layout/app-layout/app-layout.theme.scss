@@ -1,6 +1,4 @@
-@import 'mixins';
-
-@mixin aca-layout-theme($theme) {
+@mixin app-layout-theme($theme) {
   $foreground: map-get($theme, foreground);
 
   $app-layout--header-height: 65px;
@@ -10,6 +8,7 @@
   $alfresco-divider-color: mat-color($foreground, text, 0.07);
   $alfresco-gray-background: #fafafa;
 
+  .app-layout,
   .layout {
     @include flex-column;
   }
