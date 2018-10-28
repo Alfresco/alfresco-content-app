@@ -47,7 +47,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 @Component({
   selector: 'app-layout',
   templateUrl: './app-layout.component.html',
-  styleUrls: ['./app-layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-layout' }
 })
