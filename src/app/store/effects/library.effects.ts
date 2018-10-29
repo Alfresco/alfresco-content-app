@@ -32,7 +32,9 @@ import {
   CreateLibraryAction,
   CREATE_LIBRARY,
   NavigateLibraryAction,
-  NAVIGATE_LIBRARY
+  NAVIGATE_LIBRARY,
+  UPDATE_LIBRARY,
+  UpdateLibraryAction
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
@@ -40,6 +42,7 @@ import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
 import { ContentApiService } from '../../services/content-api.service';
 import { Router } from '@angular/router';
+import { SiteBody } from 'alfresco-js-api-node';
 
 @Injectable()
 export class LibraryEffects {
@@ -90,6 +93,30 @@ export class LibraryEffects {
             this.router.navigate(['libraries', documentLibrary.id]);
           });
       }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  updateLibrary$ = this.actions$.pipe(
+    ofType<UpdateLibraryAction>(UPDATE_LIBRARY),
+    map(action => {
+      this.store
+        .select(appSelection)
+        .pipe(take(1))
+        .subscribe(selection => {
+          if (selection && selection.library) {
+            const { id } = selection.library.entry;
+            const { title, description, visibility } = action.payload;
+
+            const siteBody = <SiteBody>{
+              title,
+              description,
+              visibility
+            };
+
+            this.content.updateLibrary(id, siteBody);
+          }
+        });
     })
   );
 }

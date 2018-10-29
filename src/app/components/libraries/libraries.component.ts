@@ -63,6 +63,10 @@ export class LibrariesComponent extends PageComponent implements OnInit {
         })
     );
 
+    this.subscriptions = this.subscriptions.concat([
+      this.content.libraryUpdated.subscribe(() => this.documentList.reload())
+    ]);
+
     this.columns = this.extensions.documentListPresets.libraries || [];
   }
 

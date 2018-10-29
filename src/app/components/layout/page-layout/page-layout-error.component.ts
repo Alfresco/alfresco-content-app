@@ -23,29 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
-import { SiteBody } from 'alfresco-js-api';
+import {
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
-export const DELETE_LIBRARY = 'DELETE_LIBRARY';
-export const CREATE_LIBRARY = 'CREATE_LIBRARY';
-export const NAVIGATE_LIBRARY = 'NAVIGATE_LIBRARY';
-export const UPDATE_LIBRARY = 'UPDATE_LIBRARY';
-
-export class DeleteLibraryAction implements Action {
-  readonly type = DELETE_LIBRARY;
-  constructor(public payload?: string) {}
-}
-
-export class CreateLibraryAction implements Action {
-  readonly type = CREATE_LIBRARY;
-  constructor() {}
-}
-
-export class NavigateLibraryAction implements Action {
-  readonly type = NAVIGATE_LIBRARY;
-  constructor(public payload?: string) {}
-}
-export class UpdateLibraryAction implements Action {
-  readonly type = UPDATE_LIBRARY;
-  constructor(public payload?: SiteBody) {}
-}
+@Component({
+  selector: 'app-page-layout-error',
+  template: `<ng-content></ng-content>`,
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'app-page-layout-error' }
+})
+export class PageLayoutErrorComponent {}

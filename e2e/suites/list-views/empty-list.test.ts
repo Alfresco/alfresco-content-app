@@ -39,7 +39,7 @@ describe('Empty list views', () => {
   const loginPage = new LoginPage();
   const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
-  const { dataTable } = page;
+  const { dataTable, pagination } = page;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -92,5 +92,65 @@ describe('Empty list views', () => {
     expect(await dataTable.getEmptyStateTitle()).toContain('Trash is empty');
     expect(await dataTable.getEmptyStateText()).toContain('Items you delete are moved to the Trash.');
     expect(await dataTable.getEmptyStateText()).toContain('Empty Trash to permanently delete items.');
+  });
+
+  it('Favorites - pagination controls not displayed - [C280111]', async () => {
+    await page.clickFavorites();
+    expect(await pagination.range.isPresent()).toBe(false);
+    expect(await pagination.maxItems.isPresent()).toBe(false);
+    expect(await pagination.currentPage.isPresent()).toBe(false);
+    expect(await pagination.totalPages.isPresent()).toBe(false);
+    expect(await pagination.previousButton.isPresent()).toBe(false);
+    expect(await pagination.nextButton.isPresent()).toBe(false);
+  });
+
+  it('File Libraries - pagination controls not displayed - [C280084]', async () => {
+    await page.clickFileLibraries();
+    expect(await pagination.range.isPresent()).toBe(false);
+    expect(await pagination.maxItems.isPresent()).toBe(false);
+    expect(await pagination.currentPage.isPresent()).toBe(false);
+    expect(await pagination.totalPages.isPresent()).toBe(false);
+    expect(await pagination.previousButton.isPresent()).toBe(false);
+    expect(await pagination.nextButton.isPresent()).toBe(false);
+  });
+
+  it('Personal Files - pagination controls not displayed - [C280075]', async () => {
+    await page.clickPersonalFiles();
+    expect(await pagination.range.isPresent()).toBe(false);
+    expect(await pagination.maxItems.isPresent()).toBe(false);
+    expect(await pagination.currentPage.isPresent()).toBe(false);
+    expect(await pagination.totalPages.isPresent()).toBe(false);
+    expect(await pagination.previousButton.isPresent()).toBe(false);
+    expect(await pagination.nextButton.isPresent()).toBe(false);
+  });
+
+  it('Recent Files - pagination controls not displayed - [C280102]', async () => {
+    await page.clickRecentFiles();
+    expect(await pagination.range.isPresent()).toBe(false);
+    expect(await pagination.maxItems.isPresent()).toBe(false);
+    expect(await pagination.currentPage.isPresent()).toBe(false);
+    expect(await pagination.totalPages.isPresent()).toBe(false);
+    expect(await pagination.previousButton.isPresent()).toBe(false);
+    expect(await pagination.nextButton.isPresent()).toBe(false);
+  });
+
+  it('Shared Files - pagination controls not displayed - [C280094]', async () => {
+    await page.clickSharedFiles();
+    expect(await pagination.range.isPresent()).toBe(false);
+    expect(await pagination.maxItems.isPresent()).toBe(false);
+    expect(await pagination.currentPage.isPresent()).toBe(false);
+    expect(await pagination.totalPages.isPresent()).toBe(false);
+    expect(await pagination.previousButton.isPresent()).toBe(false);
+    expect(await pagination.nextButton.isPresent()).toBe(false);
+  });
+
+  it('Trash - pagination controls not displayed - [C280120]', async () => {
+    await page.clickTrash();
+    expect(await pagination.range.isPresent()).toBe(false);
+    expect(pagination.maxItems.isPresent()).toBe(false);
+    expect(pagination.currentPage.isPresent()).toBe(false);
+    expect(pagination.totalPages.isPresent()).toBe(false);
+    expect(pagination.previousButton.isPresent()).toBe(false);
+    expect(pagination.nextButton.isPresent()).toBe(false);
   });
 });

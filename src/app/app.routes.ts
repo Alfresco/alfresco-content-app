@@ -24,7 +24,7 @@
  */
 
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './components/layout/layout.component';
+import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
@@ -52,7 +52,7 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: '',
-    component: LayoutComponent,
+    component: AppLayoutComponent,
     children: [
       {
         path: '',

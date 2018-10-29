@@ -100,6 +100,14 @@
       ]
     },
     {
+      "id": "app.libraries.toolbar.info",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.notEmpty" },
+        { "type": "rule", "value": "app.navigation.isLibraries" }
+      ]
+    },
+    {
       "id": "app.toolbar.canCopyNode",
       "type": "core.every",
       "parameters": [
@@ -359,6 +367,15 @@
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
           "visible": "app.toolbar.info"
+        }
+      },
+      {
+        "id": "app.libraries.toolbar.info",
+        "type": "custom",
+        "order": 701,
+        "component": "app.toolbar.toggleInfoDrawer",
+        "rules": {
+          "visible": "app.libraries.toolbar.info"
         }
       },
       {
@@ -827,20 +844,38 @@
         "id": "app.sidebar.properties",
         "order": 100,
         "title": "APP.INFO_DRAWER.TABS.PROPERTIES",
-        "component": "app.components.tabs.metadata"
+        "component": "app.components.tabs.metadata",
+        "rules": {
+          "visible": "app.navigation.isNotLibraries"
+        }
       },
       {
         "id": "app.sidebar.comments",
         "order": 200,
         "title": "APP.INFO_DRAWER.TABS.COMMENTS",
-        "component": "app.components.tabs.comments"
+        "component": "app.components.tabs.comments",
+        "rules": {
+          "visible": "app.navigation.isNotLibraries"
+        }
       },
       {
         "id": "app.sidebar.versions",
         "order": 300,
         "disabled": true,
         "title": "APP.INFO_DRAWER.TABS.VERSIONS",
-        "component": "app.components.tabs.versions"
+        "component": "app.components.tabs.versions",
+        "rules": {
+          "visible": "app.navigation.isNotLibraries"
+        }
+      },
+      {
+        "id": "test",
+        "order": 500,
+        "title": "APP.INFO_DRAWER.TABS.LIBRARY_PROPERTIES",
+        "component": "app.components.tabs.library.metadata",
+        "rules": {
+          "visible": "app.libraries.toolbar.info"
+        }
       }
     ],
     "content-metadata-presets": [

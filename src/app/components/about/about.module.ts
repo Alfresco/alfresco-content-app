@@ -28,6 +28,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './about.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
+import { AppLayoutModule } from '../layout/layout.module';
 
 const routes: Routes = [
   {
@@ -40,7 +41,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes)],
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    RouterModule.forChild(routes),
+    AppLayoutModule
+  ],
   declarations: [AboutComponent]
 })
 export class AboutModule {}

@@ -11,6 +11,7 @@
 @import '../components/context-menu/context-menu.component.theme';
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
+@import '../components/layout/layout.theme.scss';
 
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
@@ -26,7 +27,6 @@
 @import './overrides/adf-layout-header.theme';
 @import './overrides/adf-version-manager.theme';
 
-@import 'layout';
 @import 'snackbar';
 
 $grey-scale: (
@@ -83,7 +83,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
   @include adf-layout-header-theme($theme);
   @include adf-version-manager-theme($theme);
 
-  @include aca-layout-theme($theme);
+  @include layout-theme($theme);
   @include aca-search-input-theme($theme);
   @include aca-generic-error-theme($theme);
   @include app-permission-manager-theme($theme);

@@ -219,6 +219,10 @@ export class ContentApiService {
     return from(this.api.sitesApi.getSite(siteId, opts));
   }
 
+  updateLibrary(siteId: string, siteBody: SiteBody): Observable<SiteEntry> {
+    return from(this.api.sitesApi.updateSite(siteId, siteBody));
+  }
+
   addFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
     const payload: FavoriteBody[] = nodes.map(node => {
       const { isFolder, nodeId, id } = node.entry;

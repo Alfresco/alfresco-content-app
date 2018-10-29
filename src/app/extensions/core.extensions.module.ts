@@ -26,7 +26,7 @@
 import { CoreModule } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { LayoutComponent } from '../components/layout/layout.component';
+import { AppLayoutComponent } from '../components/layout/app-layout/app-layout.component';
 import * as repository from './evaluators/repository.evaluators';
 import * as app from './evaluators/app.evaluators';
 import * as nav from './evaluators/navigation.evaluators';
@@ -35,6 +35,7 @@ import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-dra
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
 import { ToggleSharedComponent } from '../components/shared/toggle-shared/toggle-shared.component';
 import { MetadataTabComponent } from '../components/info-drawer/metadata-tab/metadata-tab.component';
+import { LibraryMetadataTabComponent } from '../components/info-drawer/library-metadata-tab/library-metadata-tab.component';
 import { CommentsTabComponent } from '../components/info-drawer/comments-tab/comments-tab.component';
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
@@ -75,8 +76,9 @@ export class CoreExtensionsModule {
 
   constructor(extensions: ExtensionService) {
     extensions.setComponents({
-      'app.layout.main': LayoutComponent,
+      'app.layout.main': AppLayoutComponent,
       'app.components.tabs.metadata': MetadataTabComponent,
+      'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
       'app.components.tabs.comments': CommentsTabComponent,
       'app.components.tabs.versions': VersionsTabComponent,
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
