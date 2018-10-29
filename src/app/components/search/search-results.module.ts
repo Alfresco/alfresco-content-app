@@ -33,6 +33,7 @@ import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppCommonModule } from '../common/common.module';
 import { DirectivesModule } from '../../directives/directives.module';
+import { AppLayoutModule } from '../layout/layout.module';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { DirectivesModule } from '../../directives/directives.module';
     AppCommonModule,
     AppInfoDrawerModule,
     AppToolbarModule,
-    DirectivesModule
+    DirectivesModule,
+    AppLayoutModule
   ],
   declarations: [SearchResultsComponent, SearchResultsRowComponent],
   exports: [SearchResultsComponent, SearchResultsRowComponent]

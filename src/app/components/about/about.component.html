@@ -1,6 +1,7 @@
-<div class="inner-layout inner-layout--scroll">
-  <div class="inner-layout__content">
-    <div class="inner-layout__panel content--scroll">
+<app-page-layout>
+
+  <app-page-layout-content [scrollable]="true">
+    <div class="main-content">
       <article class="padding">
         <header class="header padding-left">Alfresco Content Application</header>
         <p class="padding-left"> version: {{ releaseVersion }} </p>
@@ -32,5 +33,6 @@
         <adf-datatable [data]="data"></adf-datatable>
       </article>
     </div>
-  </div>
-</div>
+  </app-page-layout-content>
+
+</app-page-layout>
