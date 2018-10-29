@@ -27,8 +27,6 @@
     <app-search-input-control #searchInputControl
                               (click)="$event.stopPropagation()"
                               (submit)="onSearchSubmit($event)"
-                              [(ngModel)]="searchedWord"
-                              ngDefaultControl
                               (searchChange)="onSearchChange($event)">
     </app-search-input-control>
 

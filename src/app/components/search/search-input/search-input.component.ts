@@ -87,14 +87,17 @@ export class SearchInputComponent implements OnInit {
   }
 
   showInputValue() {
-    this.searchedWord = null;
-    const urlTree: UrlTree = this.router.parseUrl(this.router.url);
-    const urlSegmentGroup: UrlSegmentGroup =
-      urlTree.root.children[PRIMARY_OUTLET];
+    this.searchedWord = '';
 
-    if (urlSegmentGroup) {
-      const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
-      this.searchedWord = urlSegments[0].parameters['q'];
+    if (this.onSearchResults) {
+      const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+      const urlSegmentGroup: UrlSegmentGroup =
+        urlTree.root.children[PRIMARY_OUTLET];
+
+      if (urlSegmentGroup) {
+        const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
+        this.searchedWord = urlSegments[0].parameters['q'] || 'ss';
+      }
     }
 
     if (this.searchInputControl) {
