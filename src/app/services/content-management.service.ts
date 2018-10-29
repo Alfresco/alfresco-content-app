@@ -49,7 +49,8 @@ import {
   Node,
   SiteEntry,
   DeletedNodesPaging,
-  PathInfoEntity
+  PathInfoEntity,
+  SiteBody
 } from 'alfresco-js-api';
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
@@ -80,6 +81,7 @@ export class ContentManagementService {
   folderCreated = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
+  libraryUpdated = new Subject<SiteEntry>();
   linksUnshared = new Subject<any>();
   favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
   favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
@@ -290,6 +292,22 @@ export class ContentManagementService {
       () => {
         this.store.dispatch(
           new SnackbarErrorAction('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED')
+        );
+      }
+    );
+  }
+
+  updateLibrary(siteId: string, siteBody: SiteBody) {
+    this.contentApi.updateLibrary(siteId, siteBody).subscribe(
+      (siteEntry: SiteEntry) => {
+        this.libraryUpdated.next(siteEntry);
+        this.store.dispatch(
+          new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED')
+        );
+      },
+      () => {
+        this.store.dispatch(
+          new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR')
         );
       }
     );

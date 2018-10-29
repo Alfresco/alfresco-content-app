@@ -245,6 +245,7 @@
             "TITLE": "Details",
             "TABS": {
                 "PROPERTIES": "Properties",
+                "LIBRARY_PROPERTIES": "About",
                 "VERSIONS": "Versions",
                 "COMMENTS": "Comments"
             }
@@ -282,11 +283,14 @@
         "DIALOG": {
             "CREATE_TITLE": "Create Library",
             "CREATE": "Create",
+            "UPDATE": "Update",
+            "EDIT": "Edit",
             "CANCEL": "Cancel",
             "FORM": {
                 "DESCRIPTION": "Description",
                 "SITE_ID": "Library ID",
-                "NAME": "Name"
+                "NAME": "Name",
+                "TYPE": "Type"
             }
         },
         "VISIBILITY": {
@@ -301,7 +305,11 @@
             "ID_TOO_LONG": "Use 72 characters or less for the URL name",
             "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",
             "TITLE_TOO_LONG": "Use 256 characters or less for title",
-            "ILLEGAL_CHARACTERS": "Use numbers and letters only"
+            "ILLEGAL_CHARACTERS": "Use numbers and letters only",
+            "LIBRARY_UPDATE_ERROR": "There was an error updating library properties"
+        },
+        "SUCCESS": {
+            "LIBRARY_UPDATED": "Library properties updated"
         }
     },
 

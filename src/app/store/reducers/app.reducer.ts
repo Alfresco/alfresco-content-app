@@ -37,7 +37,9 @@ import {
   SET_CURRENT_FOLDER,
   SetCurrentFolderAction,
   SET_CURRENT_URL,
-  SetCurrentUrlAction
+  SetCurrentUrlAction,
+  SET_INFO_DRAWER_STATE,
+  SetInfoDrawerStateAction
 } from '../actions';
 import {
   TOGGLE_INFO_DRAWER,
@@ -75,6 +77,9 @@ export function appReducer(
       break;
     case TOGGLE_INFO_DRAWER:
       newState = updateInfoDrawer(state, <ToggleInfoDrawerAction>action);
+      break;
+    case SET_INFO_DRAWER_STATE:
+      newState = setInfoDrawer(state, <SetInfoDrawerStateAction>action);
       break;
     case TOGGLE_DOCUMENT_DISPLAY_MODE:
       newState = updateDocumentDisplayMode(state, <ToggleDocumentDisplayMode>(
@@ -212,6 +217,12 @@ function updateSelectedNodes(
     libraries,
     library
   };
+  return newState;
+}
+
+function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
+  const newState = Object.assign({}, state);
+  newState.infoDrawerOpened = action.payload;
   return newState;
 }
 
