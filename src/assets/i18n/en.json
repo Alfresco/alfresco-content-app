@@ -260,10 +260,10 @@
     },
     "PERMISSIONS": {
         "DIALOG": {
-            "TITLE": "Manage Permissons",
+            "TITLE": "Manage Permissions",
             "CLOSE": "Close",
-            "INHERIT_PERMISSIONS_BUTTON": "Inherit Permission",
-            "INHERITED_PERMISSIONS_BUTTON": "Permission Inherited"
+            "INHERIT_PERMISSIONS_BUTTON": "Inherit Permissions",
+            "INHERITED_PERMISSIONS_BUTTON": "Permissions Inherited"
         }
     },
     "SHARED_LINK": {
@@ -300,7 +300,7 @@
         },
         "ERRORS": {
             "GENERIC": "We hit a problem",
-            "EXISTENT_SITE": "This Library ID isn't available. Try a different Library.",
+            "EXISTENT_SITE": "This Library ID isn't available. Try a different Library ID.",
             "CONFLICT": "This Library ID is already used. Check the trashcan.",
             "ID_TOO_LONG": "Use 72 characters or less for the URL name",
             "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",

@@ -137,7 +137,7 @@ describe('Favorites', () => {
 
   it('Location column redirect - file in site - [C280485]', async () => {
     await dataTable.clickItemLocation(fileName1);
-    expect(breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
   });
 
   it('Navigate into folder from Favorites - [C213230]', async () => {
