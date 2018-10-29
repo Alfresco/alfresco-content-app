@@ -15,28 +15,38 @@
  * limitations under the License.
  */
 
-import { Observable } from 'rxjs';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  OnDestroy
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
-import { SiteBody, SiteEntry } from 'alfresco-js-api';
+import { SiteBody, SiteEntry, SitePaging } from 'alfresco-js-api';
 import { ContentApiService } from '../../services/content-api.service';
 import { SiteIdValidator, forbidSpecialCharacters } from './form.validators';
-import { debounceTime } from 'rxjs/operators';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-library-dialog',
   styleUrls: ['./library.dialog.scss'],
   templateUrl: './library.dialog.html'
 })
-export class LibraryDialogComponent implements OnInit {
+export class LibraryDialogComponent implements OnInit, OnDestroy {
   @Output()
   error: EventEmitter<any> = new EventEmitter<any>();
 
   @Output()
   success: EventEmitter<any> = new EventEmitter<any>();
 
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
+
   createTitle = 'LIBRARY.DIALOG.CREATE_TITLE';
+  libraryTitleExists = false;
   form: FormGroup;
   visibilityOption: any;
   visibilityOptions = [
@@ -50,6 +60,7 @@ export class LibraryDialogComponent implements OnInit {
   ];
 
   constructor(
+    private alfrescoApiService: AlfrescoApiService,
     private formBuilder: FormBuilder,
     private dialog: MatDialogRef<LibraryDialogComponent>,
     private contentApi: ContentApiService
@@ -75,17 +86,26 @@ export class LibraryDialogComponent implements OnInit {
     this.visibilityOption = this.visibilityOptions[0].value;
 
     this.form.controls['title'].valueChanges
-      .pipe(debounceTime(300))
-      .subscribe((titleValue: string) => {
-        if (!titleValue.trim().length) {
+      .pipe(
+        debounceTime(300),
+        mergeMap(title => this.checkLibraryNameExists(title), title => title),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe((title: string) => {
+        if (!title.trim().length) {
           return;
         }
 
         if (!this.form.controls['id'].dirty) {
-          this.form.patchValue({ id: this.sanitize(titleValue.trim()) });
+          this.form.patchValue({ id: this.sanitize(title.trim()) });
           this.form.controls['id'].markAsTouched();
         }
       });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   get title(): string {
@@ -158,5 +178,17 @@ export class LibraryDialogComponent implements OnInit {
     }
 
     return error;
+  }
+
+  private async checkLibraryNameExists(libraryTitle: string) {
+    const { entries } = (await this.findLibraryByTitle(libraryTitle)).list;
+    this.libraryTitleExists = !!entries.length;
+  }
+
+  private findLibraryByTitle(libraryTitle: string): Promise<SitePaging> {
+    return this.alfrescoApiService
+      .getInstance()
+      .core.queriesApi.findSites(libraryTitle)
+      .catch(() => ({ list: { entries: [] } }));
   }
 }
