@@ -76,7 +76,7 @@ export abstract class Page {
   }
 
   waitForSnackBarToAppear() {
-    return browser.wait(EC.visibilityOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
+    return browser.wait(EC.visibilityOf(this.snackBarContainer), 1000);
   }
 
   async waitForSnackBarToClose() {
@@ -105,7 +105,7 @@ export abstract class Page {
   }
 
   async getSnackBarMessage() {
-    // await this.waitForSnackBarToAppear();
+    await this.waitForSnackBarToAppear();
     return await this.snackBar.getAttribute('innerText');
   }
 
