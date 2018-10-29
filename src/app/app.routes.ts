@@ -209,6 +209,27 @@ export const APP_ROUTES: Routes = [
         ]
       },
       {
+        path: 'search-libraries',
+        children: [
+          {
+            path: '',
+            component: SearchResultsComponent,
+            data: {
+              title: 'APP.BROWSE.SEARCH.TITLE',
+              reuse: true
+            }
+          },
+          {
+            path: 'preview/:nodeId',
+            loadChildren:
+              'src/app/components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'search'
+            }
+          }
+        ]
+      },
+      {
         path: '**',
         component: GenericErrorComponent
       }

@@ -1,8 +1,30 @@
 <app-search-input-control #searchInputControl
-    [highlight]="true"
-    (optionClicked)="onItemClicked($event)"
-    [expandable]="!onSearchResults"
-    [liveSearchEnabled]="enableLiveSearch"
-    (submit)="onSearchSubmit($event)"
-    (searchChange)="onSearchChange($event)">
+                          [matMenuTriggerFor]="searchOptionsMenu"
+                          [highlight]="true"
+                          (optionClicked)="onItemClicked($event)"
+                          [expandable]="!onSearchResults"
+                          [liveSearchEnabled]="enableLiveSearch"
+                          (submit)="onSearchSubmit($event)"
+                          (searchChange)="onSearchChange($event)">
 </app-search-input-control>
+
+<mat-menu #searchOptionsMenu="matMenu">
+
+    <app-search-input-control #searchInputControl2
+                              [expandable]="false"
+                              (click)="$event.stopPropagation()"
+                              (submit)="onSearchSubmit($event)"
+                              [(ngModel)]="searchedWord"
+                              (searchChange)="onSearchChange($event)">
+    </app-search-input-control>
+
+    <div id="search-options">
+      <mat-checkbox *ngFor="let option of searchOptions"
+                    [(ngModel)]="option.value"
+                    [disabled]="option.shouldDisable()"
+                    (click)="$event.stopPropagation()">
+        {{ option.key }}
+      </mat-checkbox>
+    </div>
+
+</mat-menu>

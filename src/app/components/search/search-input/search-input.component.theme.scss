@@ -1,5 +1,6 @@
 @mixin aca-search-input-theme($theme) {
   $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
 
   .aca-search-input {
     display: flex;
@@ -34,4 +35,25 @@
       }
     }
   }
+
+  #search-options {
+    padding: 15px 7px;
+    color: mat-color($foreground, text, 0.54);
+    font-size: 13px;
+
+    mat-checkbox {
+      padding: 7px;
+
+      .mat-checkbox-inner-container {
+        height: 15px;
+        width: 15px;
+      }
+
+      .mat-checkbox-frame {
+        border-color: mat-color($foreground, text, 0.54);
+
+      }
+    }
+  }
+
 }

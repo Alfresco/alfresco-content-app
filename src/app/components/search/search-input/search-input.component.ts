@@ -56,8 +56,28 @@ export class SearchInputComponent implements OnInit {
   navigationTimer: any;
   enableLiveSearch = true;
 
+  searchedWord = null;
+  searchOptions: any = [
+    {
+      key: 'Files',
+      value: false,
+      shouldDisable: this.isLibrariesChecked.bind(this)
+    },
+    {
+      key: 'Folders',
+      value: false,
+      shouldDisable: this.isLibrariesChecked.bind(this)
+    },
+    {
+      key: 'Libraries',
+      value: false,
+      shouldDisable: this.isContentChecked.bind(this)
+    }
+  ];
+
   @ViewChild('searchInputControl')
   searchInputControl: SearchInputControlComponent;
+  searchInputControl2: SearchInputControlComponent;
 
   constructor(private router: Router, private store: Store<AppStore>) {}
 
@@ -75,20 +95,25 @@ export class SearchInputComponent implements OnInit {
 
   showInputValue() {
     if (this.onSearchResults) {
-      let searchedWord = null;
+      this.searchedWord = null;
       const urlTree: UrlTree = this.router.parseUrl(this.router.url);
       const urlSegmentGroup: UrlSegmentGroup =
         urlTree.root.children[PRIMARY_OUTLET];
 
       if (urlSegmentGroup) {
         const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
-        searchedWord = urlSegments[0].parameters['q'];
+        this.searchedWord = urlSegments[0].parameters['q'];
       }
 
       if (this.searchInputControl) {
         this.enableLiveSearch = false;
-        this.searchInputControl.searchTerm = searchedWord;
+        this.searchInputControl.searchTerm = this.searchedWord;
         this.searchInputControl.subscriptAnimationState = 'no-animation';
+      }
+      if (this.searchInputControl2) {
+        this.enableLiveSearch = false;
+        this.searchInputControl2.searchTerm = this.searchedWord;
+        this.searchInputControl2.subscriptAnimationState = 'no-animation';
       }
     } else {
       if (this.searchInputControl.subscriptAnimationState === 'no-animation') {
@@ -124,7 +149,7 @@ export class SearchInputComponent implements OnInit {
   onSearchSubmit(event: KeyboardEvent) {
     const searchTerm = (event.target as HTMLInputElement).value;
     if (searchTerm) {
-      this.store.dispatch(new SearchByTermAction(searchTerm));
+      this.store.dispatch(new SearchByTermAction(searchTerm, this.searchOptions));
     }
   }
 
@@ -143,7 +168,7 @@ export class SearchInputComponent implements OnInit {
 
       this.navigationTimer = setTimeout(() => {
         if (searchTerm) {
-          this.store.dispatch(new SearchByTermAction(searchTerm));
+          this.store.dispatch(new SearchByTermAction(searchTerm, this.searchOptions));
         }
         this.hasOneChange = false;
       }, 1000);
@@ -152,5 +177,12 @@ export class SearchInputComponent implements OnInit {
 
   get onSearchResults() {
     return this.router.url.indexOf('/search') === 0;
+  }
+
+  isLibrariesChecked(): boolean {
+    return this.searchOptions[2].value;
+  }
+  isContentChecked(): boolean {
+    return this.searchOptions[0].value || this.searchOptions[1].value;
   }
 }
