@@ -92,10 +92,10 @@ describe('Toolbar actions - single selection : ', () => {
   xit('');
 
   describe('General tests', () => {
-    it('actions not displayed for top level of File Libraries - [C213135]', async () => {
+    it('actions are displayed for top level of File Libraries - [C213135]', async () => {
       await page.clickFileLibrariesAndWait();
       await dataTable.selectItem(siteName);
-      expect(await toolbar.isEmpty()).toBe(true, 'toolbar not empty');
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
     });
 
     it('selected row is marked with a check circle icon - [C213134]', async () => {

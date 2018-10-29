@@ -7,10 +7,8 @@
       <adf-toolbar class="inline">
           <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
 
-          <ng-container *ifExperimental="'extensions'">
-              <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-                  <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
-              </ng-container>
+          <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+              <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
           </ng-container>
       </adf-toolbar>
   </app-page-layout-header>
