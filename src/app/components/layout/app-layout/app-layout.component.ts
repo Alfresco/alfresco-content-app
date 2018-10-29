@@ -39,19 +39,18 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
-import { NodePermissionService } from '../../services/node-permission.service';
-import { currentFolder } from '../../store/selectors/app.selectors';
-import { AppStore } from '../../store/states';
+import { NodePermissionService } from '../../../services/node-permission.service';
+import { currentFolder } from '../../../store/selectors/app.selectors';
+import { AppStore } from '../../../store/states';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-layout',
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
+  templateUrl: './app-layout.component.html',
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-layout' }
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class AppLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('layout')
   layout: SidenavLayoutComponent;
 

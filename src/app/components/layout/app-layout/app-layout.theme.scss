@@ -1,0 +1,17 @@
+@mixin app-layout-theme($theme) {
+  .app-layout {
+    @include flex-column;
+  }
+
+  @media screen and (max-width: 599px) {
+    .adf-app-title {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 719px) {
+    .adf-app-logo {
+      display: none;
+    }
+  }
+}

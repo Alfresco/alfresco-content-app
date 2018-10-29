@@ -23,30 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AboutComponent } from './about.component';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { AppLayoutModule } from '../layout/layout.module';
+import {
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: AboutComponent,
-    data: {
-      title: 'APP.BROWSE.ABOUT.TITLE'
-    }
-  }
-];
-
-@NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    RouterModule.forChild(routes),
-    AppLayoutModule
-  ],
-  declarations: [AboutComponent]
+@Component({
+  selector: 'app-page-layout-header',
+  template: '<ng-content></ng-content>',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'app-page-layout-header' }
 })
-export class AboutModule {}
+export class PageLayoutHeaderComponent {}

@@ -26,7 +26,7 @@
 import { CoreModule } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { LayoutComponent } from '../components/layout/layout.component';
+import { AppLayoutComponent } from '../components/layout/app-layout/app-layout.component';
 import * as repository from './evaluators/repository.evaluators';
 import * as app from './evaluators/app.evaluators';
 import * as nav from './evaluators/navigation.evaluators';
@@ -76,7 +76,7 @@ export class CoreExtensionsModule {
 
   constructor(extensions: ExtensionService) {
     extensions.setComponents({
-      'app.layout.main': LayoutComponent,
+      'app.layout.main': AppLayoutComponent,
       'app.components.tabs.metadata': MetadataTabComponent,
       'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
       'app.components.tabs.comments': CommentsTabComponent,
