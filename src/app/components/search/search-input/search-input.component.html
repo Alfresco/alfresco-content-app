@@ -1,20 +1,34 @@
-<app-search-input-control #searchInputControl
-                          [matMenuTriggerFor]="searchOptionsMenu"
-                          [highlight]="true"
-                          (optionClicked)="onItemClicked($event)"
-                          [expandable]="!onSearchResults"
-                          [liveSearchEnabled]="enableLiveSearch"
-                          (submit)="onSearchSubmit($event)"
-                          (searchChange)="onSearchChange($event)">
-</app-search-input-control>
+<div class="adf-search-container" [matMenuTriggerFor]="searchOptionsMenu">
+  <div>
+    <button mat-icon-button
+            id="adf-search-button"
+            class="adf-search-button"
+            [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+      <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
+    </button>
+    <mat-form-field class="adf-input-form-field-divider">
+        <input matInput
+               [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
+               [type]="'text'"
+               [disabled]="true"
+               [value]="searchedWord">
+
+      <div matSuffix class="adf-clear-search-icon-wrapper">
+        <mat-icon *ngIf="searchedWord.length > 0"
+                  (click)="$event.stopPropagation()">clear
+        </mat-icon>
+      </div>
+    </mat-form-field>
+  </div>
+</div>
 
 <mat-menu #searchOptionsMenu="matMenu">
 
-    <app-search-input-control #searchInputControl2
-                              [expandable]="false"
+    <app-search-input-control #searchInputControl
                               (click)="$event.stopPropagation()"
                               (submit)="onSearchSubmit($event)"
                               [(ngModel)]="searchedWord"
+                              ngDefaultControl
                               (searchChange)="onSearchChange($event)">
     </app-search-input-control>
 
