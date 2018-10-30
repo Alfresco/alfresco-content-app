@@ -80,9 +80,8 @@ describe('Permanently delete from Trash', () => {
         await dataTable.selectItem(file1);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await page.waitForDialog();
-        // await trashPage.getDialogActionByLabel('Delete').click();
-        // await trashPage.waitForDialogToClose();
         await confirmDialog.clickButton('Delete');
+        await page.waitForSnackBarToAppear();
         const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`${file1} deleted`);
@@ -93,9 +92,8 @@ describe('Permanently delete from Trash', () => {
         await dataTable.selectItem(folder1);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await page.waitForDialog();
-        // await trashPage.getDialogActionByLabel('Delete').click();
-        // await trashPage.waitForDialogToClose();
         await confirmDialog.clickButton('Delete');
+        await page.waitForSnackBarToAppear();
         const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`${folder1} deleted`);
@@ -106,9 +104,8 @@ describe('Permanently delete from Trash', () => {
         await dataTable.selectMultipleItems([ file2, folder2 ]);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await page.waitForDialog();
-        // await trashPage.getDialogActionByLabel('Delete').click();
-        // await trashPage.waitForDialogToClose();
         await confirmDialog.clickButton('Delete');
+        await page.waitForSnackBarToAppear();
         const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`2 items deleted`);

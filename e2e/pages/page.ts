@@ -106,8 +106,7 @@ export abstract class Page {
   }
 
   async getSnackBarMessage() {
-    await this.waitForSnackBarToAppear();
-    // await browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, 'wait for snackbar to appear');
+    // await this.waitForSnackBarToAppear();
     const el = this.snackBar;
     return await el.getAttribute('innerText');
   }
