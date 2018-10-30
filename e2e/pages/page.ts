@@ -76,7 +76,7 @@ export abstract class Page {
   }
 
   async waitForSnackBarToAppear() {
-    return browser.wait(EC.presenceOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
+    return await browser.wait(EC.presenceOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
   }
 
   async waitForSnackBarToClose() {
