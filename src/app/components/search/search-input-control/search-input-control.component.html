@@ -13,7 +13,7 @@
             [(ngModel)]="searchTerm"
             (ngModelChange)="inputChange($event)"
             (keyup.enter)="searchSubmit($event)">
-      <mat-placeholder class="placeholder" *ngIf="!searchTerm.length">Search everywhere</mat-placeholder>
+      <mat-placeholder class="placeholder" *ngIf="!searchTerm.length">{{ 'SEARCH.INPUT.PLACEHOLDER' | translate }}</mat-placeholder>
 
       <div matSuffix class="app-prefix-search-icon-wrapper">
             <mat-icon>arrow_drop_down</mat-icon>

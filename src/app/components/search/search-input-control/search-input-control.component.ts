@@ -34,7 +34,6 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
-import { QueryBody } from 'alfresco-js-api';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -50,10 +49,6 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
   /** Type of the input field to render, e.g. "search" or "text" (default). */
   @Input()
   inputType = 'text';
-
-  /** @deprecated in 2.1.0 */
-  @Input()
-  customQueryBody: QueryBody;
 
   /** Emitted when the search is submitted pressing ENTER button.
    * The search term is provided as value of the event.
@@ -73,9 +68,6 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
   searchInput: ElementRef;
 
   searchTerm = '';
-
-  constructor() {
-  }
 
   ngOnInit() {
   }

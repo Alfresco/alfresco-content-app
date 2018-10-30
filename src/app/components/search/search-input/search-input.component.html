@@ -10,7 +10,7 @@
                [type]="'text'"
                [disabled]="true"
                [value]="searchedWord">
-      <mat-placeholder class="placeholder" *ngIf="!searchedWord.length">Search everywhere</mat-placeholder>
+      <mat-placeholder class="placeholder" *ngIf="!searchedWord.length">{{ 'SEARCH.INPUT.PLACEHOLDER' | translate }}</mat-placeholder>
 
       <div matSuffix class="app-prefix-search-icon-wrapper">
         <mat-icon>arrow_drop_down</mat-icon>
@@ -29,7 +29,7 @@
                     [(ngModel)]="option.value"
                     [disabled]="option.shouldDisable()"
                     (click)="$event.stopPropagation()">
-        {{ option.key }}
+        {{ option.key | translate }}
       </mat-checkbox>
     </div>
 </mat-menu>

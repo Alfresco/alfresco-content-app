@@ -53,17 +53,17 @@ export class SearchInputComponent implements OnInit {
   searchedWord = null;
   searchOptions: any = [
     {
-      key: 'Files',
+      key: 'SEARCH.INPUT.FILES',
       value: false,
       shouldDisable: this.isLibrariesChecked.bind(this)
     },
     {
-      key: 'Folders',
+      key: 'SEARCH.INPUT.FOLDERS',
       value: false,
       shouldDisable: this.isLibrariesChecked.bind(this)
     },
     {
-      key: 'Libraries',
+      key: 'SEARCH.INPUT.LIBRARIES',
       value: false,
       shouldDisable: this.isContentChecked.bind(this)
     }
