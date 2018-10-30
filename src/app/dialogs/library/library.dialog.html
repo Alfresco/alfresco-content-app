@@ -9,7 +9,7 @@
             placeholder="{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}"
                 required
                 matInput
-                [formControl]="form.controls['title']"
+                formControlName="title"
             />
 
             <mat-hint *ngIf="libraryTitleExists">{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint>
@@ -23,7 +23,7 @@
                 required
                 placeholder="{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}"
                 matInput
-                [formControl]="form.controls['id']"
+                formControlName="id"
             />
 
             <mat-error *ngIf="form.controls['id'].errors?.message">
@@ -40,7 +40,7 @@
                 matInput
                 placeholder="{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}"
                 rows="3"
-                [formControl]="form.controls['description']"></textarea>
+                formControlName="description"></textarea>
 
             <mat-error *ngIf="form.controls['description'].hasError('maxlength')">
                 {{ 'LIBRARY.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
