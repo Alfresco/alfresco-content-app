@@ -37,14 +37,15 @@ export class SearchEffects {
   searchByTerm$ = this.actions$.pipe(
     ofType<SearchByTermAction>(SEARCH_BY_TERM),
     map(action => {
-
-      if (action.searchOptions && action.searchOptions[2] && action.searchOptions[2].value){
+      if (
+        action.searchOptions &&
+        action.searchOptions[2] &&
+        action.searchOptions[2].value
+      ) {
         this.router.navigateByUrl('/search-libraries;q=' + action.payload);
-
       } else {
         this.router.navigateByUrl('/search;q=' + action.payload);
       }
-
     })
   );
 }

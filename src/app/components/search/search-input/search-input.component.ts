@@ -106,7 +106,7 @@ export class SearchInputComponent implements OnInit {
   }
 
   onItemClicked(node) {
-   // to be removed..
+    // TODO: to be removed..
   }
 
   /**
@@ -117,7 +117,9 @@ export class SearchInputComponent implements OnInit {
   onSearchSubmit(event: KeyboardEvent) {
     const searchTerm = (event.target as HTMLInputElement).value;
     if (searchTerm) {
-      this.store.dispatch(new SearchByTermAction(searchTerm, this.searchOptions));
+      this.store.dispatch(
+        new SearchByTermAction(searchTerm, this.searchOptions)
+      );
     }
   }
 
@@ -135,7 +137,9 @@ export class SearchInputComponent implements OnInit {
 
     this.navigationTimer = setTimeout(() => {
       if (searchTerm) {
-        this.store.dispatch(new SearchByTermAction(searchTerm, this.searchOptions));
+        this.store.dispatch(
+          new SearchByTermAction(searchTerm, this.searchOptions)
+        );
       }
       this.hasOneChange = false;
     }, 1000);

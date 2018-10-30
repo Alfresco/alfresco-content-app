@@ -28,7 +28,6 @@ import {
   EventEmitter,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   ViewEncapsulation,
   ViewChild,
@@ -43,7 +42,7 @@ import { Subject } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-search-control' }
 })
-export class SearchInputControlComponent implements OnInit, OnDestroy {
+export class SearchInputControlComponent implements OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   /** Type of the input field to render, e.g. "search" or "text" (default). */
@@ -69,9 +68,6 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
 
   searchTerm = '';
 
-  ngOnInit() {
-  }
-
   ngOnDestroy(): void {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
@@ -85,7 +81,7 @@ export class SearchInputControlComponent implements OnInit, OnDestroy {
     this.searchChange.emit(event);
   }
 
-  clear(event: any) {
+  clear() {
     this.searchTerm = '';
     this.searchChange.emit('');
   }
