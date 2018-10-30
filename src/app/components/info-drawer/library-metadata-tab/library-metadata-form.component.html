@@ -117,7 +117,7 @@
         <button mat-button color="secondary" (click)="cancel()">
                 {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
         </button>
-        <button mat-button color="primary" [disabled]="form.invalid" (click)="update()">
+        <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
             {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
         </button>
     </mat-card-actions>
