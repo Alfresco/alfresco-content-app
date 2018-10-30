@@ -182,13 +182,21 @@ export class LibraryDialogComponent implements OnInit, OnDestroy {
 
   private async checkLibraryNameExists(libraryTitle: string) {
     const { entries } = (await this.findLibraryByTitle(libraryTitle)).list;
-    this.libraryTitleExists = !!entries.length;
+
+    if (entries.length) {
+      this.libraryTitleExists = entries[0].entry.title === libraryTitle;
+    } else {
+      this.libraryTitleExists = false;
+    }
   }
 
   private findLibraryByTitle(libraryTitle: string): Promise<SitePaging> {
     return this.alfrescoApiService
       .getInstance()
-      .core.queriesApi.findSites(libraryTitle)
+      .core.queriesApi.findSites(libraryTitle, {
+        maxItems: 1,
+        fields: ['title']
+      })
       .catch(() => ({ list: { entries: [] } }));
   }
 }
