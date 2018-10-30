@@ -42,7 +42,7 @@
                     <div class="mat-form-field-infix">
                         <span class="mat-form-field-label-wrapper">
                             <span class="mat-form-field-label">
-                                {{ 'LIBRARY.DIALOG.FORM.TYPE' | translate }}
+                                {{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}
                             </span>
                         </span>
 
@@ -95,7 +95,7 @@
             </mat-form-field>
 
             <mat-form-field class="adf-full-width">
-                <mat-select placeholder="{{ 'LIBRARY.DIALOG.FORM.TYPE' | translate }}" formControlName="visibility">
+                <mat-select placeholder="{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}" formControlName="visibility">
                     <mat-option [value]="type.value" *ngFor="let type of libraryType">
                         {{ type.label | translate }}
                     </mat-option>
