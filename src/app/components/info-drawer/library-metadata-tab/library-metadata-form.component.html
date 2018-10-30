@@ -73,7 +73,7 @@
         </div>
     </mat-card-content>
 
-    <mat-card-actions align="end" *ngIf="!edit">
+    <mat-card-actions align="end" *ngIf="!edit && canUpdateLibrary">
         <button mat-button color="primary" (click)="toggleEdit()">
                 {{ 'LIBRARY.DIALOG.EDIT' | translate }}
         </button>
@@ -85,6 +85,7 @@
                 <input matInput cdkFocusInitial required placeholder="{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}"
                     formControlName="title">
 
+                <mat-hint *ngIf="libraryTitleExists">{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint>
                 <mat-error *ngIf="form.controls['title'].hasError('maxlength')">
                     {{ 'LIBRARY.ERRORS.TITLE_TOO_LONG' | translate }}
                 </mat-error>
@@ -117,7 +118,7 @@
         <button mat-button color="secondary" (click)="cancel()">
                 {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
         </button>
-        <button mat-button color="primary" [disabled]="form.invalid" (click)="update()">
+        <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
             {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
         </button>
     </mat-card-actions>

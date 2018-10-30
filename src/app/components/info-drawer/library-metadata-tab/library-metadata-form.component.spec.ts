@@ -23,16 +23,23 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 import { LibraryMetadataFormComponent } from './library-metadata-form.component';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import {
+  TestBed,
+  ComponentFixture,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { UpdateLibraryAction } from '../../../store/actions';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Site, SiteBody } from 'alfresco-js-api';
+import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
 
 describe('LibraryMetadataFormComponent', () => {
   let fixture: ComponentFixture<LibraryMetadataFormComponent>;
   let component: LibraryMetadataFormComponent;
+  let alfrescoApiService: AlfrescoApiService;
   const storeMock = {
     dispatch: jasmine.createSpy('dispatch')
   };
@@ -41,12 +48,16 @@ describe('LibraryMetadataFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [LibraryMetadataFormComponent],
-      providers: [{ provide: Store, useValue: storeMock }],
+      providers: [
+        { provide: Store, useValue: storeMock },
+        { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
     fixture = TestBed.createComponent(LibraryMetadataFormComponent);
     component = fixture.componentInstance;
+    alfrescoApiService = TestBed.get(AlfrescoApiService);
   });
 
   afterEach(() => {
@@ -211,4 +222,98 @@ describe('LibraryMetadataFormComponent', () => {
 
     expect(component.form.value).toEqual(siteEntryModel);
   });
+
+  it('should warn if library name input is used by another library', fakeAsync(() => {
+    const title = 'some-title';
+    spyOn(
+      alfrescoApiService.getInstance().core.queriesApi,
+      'findSites'
+    ).and.returnValue(
+      Promise.resolve({
+        list: { entries: [{ entry: { title } }] }
+      })
+    );
+
+    const siteEntryModel = {
+      title: 'libraryTitle',
+      description: 'description',
+      visibility: 'PRIVATE'
+    };
+
+    component.node = {
+      entry: <Site>{
+        id: 'libraryId',
+        ...siteEntryModel
+      }
+    };
+
+    fixture.detectChanges();
+    component.form.controls.title.setValue(title);
+    fixture.detectChanges();
+
+    tick(500);
+    expect(component.libraryTitleExists).toBe(true);
+  }));
+
+  it('should not warn if library name input is the same with library node data', fakeAsync(() => {
+    spyOn(
+      alfrescoApiService.getInstance().core.queriesApi,
+      'findSites'
+    ).and.returnValue(
+      Promise.resolve({
+        list: { entries: [{ entry: { title: 'libraryTitle' } }] }
+      })
+    );
+
+    const siteEntryModel = {
+      title: 'libraryTitle',
+      description: 'description',
+      visibility: 'PRIVATE'
+    };
+
+    component.node = {
+      entry: <Site>{
+        id: 'libraryId',
+        ...siteEntryModel
+      }
+    };
+
+    fixture.detectChanges();
+    component.form.controls.title.setValue('libraryTitle');
+    fixture.detectChanges();
+
+    tick(500);
+    expect(component.libraryTitleExists).toBe(false);
+  }));
+
+  it('should not warn if library name is unique', fakeAsync(() => {
+    spyOn(
+      alfrescoApiService.getInstance().core.queriesApi,
+      'findSites'
+    ).and.returnValue(
+      Promise.resolve({
+        list: { entries: [] }
+      })
+    );
+
+    const siteEntryModel = {
+      title: 'libraryTitle',
+      description: 'description',
+      visibility: 'PRIVATE'
+    };
+
+    component.node = {
+      entry: <Site>{
+        id: 'libraryId',
+        ...siteEntryModel
+      }
+    };
+
+    fixture.detectChanges();
+    component.form.controls.title.setValue('some-name');
+    fixture.detectChanges();
+
+    tick(500);
+    expect(component.libraryTitleExists).toBe(false);
+  }));
 });
