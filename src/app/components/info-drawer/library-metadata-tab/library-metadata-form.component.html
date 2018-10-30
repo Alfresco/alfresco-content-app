@@ -73,7 +73,7 @@
         </div>
     </mat-card-content>
 
-    <mat-card-actions align="end" *ngIf="!edit">
+    <mat-card-actions align="end" *ngIf="!edit && canUpdateLibrary">
         <button mat-button color="primary" (click)="toggleEdit()">
                 {{ 'LIBRARY.DIALOG.EDIT' | translate }}
         </button>
