@@ -33,11 +33,11 @@ import {
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 
 export abstract class Page {
-  private locators = {
-    app: by.css('app-root'),
-    layout: by.css('app-layout'),
-    overlay: by.css('.cdk-overlay-container'),
-    dialogContainer: by.css('.mat-dialog-container'),
+  private static locators = {
+    app: 'app-root',
+    layout: 'app-layout',
+    overlay: '.cdk-overlay-container',
+    dialogContainer: '.mat-dialog-container',
     snackBarContainer: '.cdk-overlay-pane .mat-snack-bar-container',
     snackBar: '.mat-simple-snackbar',
     snackBarAction: '.mat-simple-snackbar-action button',
@@ -47,17 +47,17 @@ export abstract class Page {
     genericErrorTitle: '.generic-error__title'
   };
 
-  public app: ElementFinder = element(this.locators.app);
-  public layout: ElementFinder = element(this.locators.layout);
-  public overlay: ElementFinder = element(this.locators.overlay);
-  snackBar: ElementFinder = browser.$(this.locators.snackBar);
-  dialogContainer: ElementFinder = element(this.locators.dialogContainer);
-  snackBarContainer: ElementFinder = browser.$(this.locators.snackBarContainer);
-  snackBarAction: ElementFinder = browser.$(this.locators.snackBarAction);
+  app: ElementFinder = browser.element(by.css(Page.locators.app));
+  layout: ElementFinder = browser.element(by.css(Page.locators.layout));
+  overlay: ElementFinder = browser.element(by.css(Page.locators.overlay));
+  snackBar: ElementFinder = browser.element(by.css(Page.locators.snackBar));
+  dialogContainer: ElementFinder = browser.element(by.css(Page.locators.dialogContainer));
+  snackBarContainer: ElementFinder = browser.element(by.css(Page.locators.snackBarContainer));
+  snackBarAction: ElementFinder = browser.element(by.css(Page.locators.snackBarAction));
 
-  genericError: ElementFinder = browser.$(this.locators.genericError);
-  genericErrorIcon: ElementFinder = browser.$(this.locators.genericErrorIcon);
-  genericErrorTitle: ElementFinder = browser.$(this.locators.genericErrorTitle);
+  genericError: ElementFinder = browser.element(by.css(Page.locators.genericError));
+  genericErrorIcon: ElementFinder = browser.element(by.css(Page.locators.genericErrorIcon));
+  genericErrorTitle: ElementFinder = browser.element(by.css(Page.locators.genericErrorTitle));
 
   constructor(public url: string = '') {}
 
@@ -75,8 +75,9 @@ export abstract class Page {
     return browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
   }
 
-  async waitForSnackBarToAppear() {
-    return await browser.wait(EC.presenceOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
+  waitForSnackBarToAppear() {
+    return browser.wait(EC.presenceOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
+    // return await browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, 'wait for snackbar to appear');
   }
 
   async waitForSnackBarToClose() {
@@ -106,7 +107,9 @@ export abstract class Page {
 
   async getSnackBarMessage() {
     await this.waitForSnackBarToAppear();
-    return await this.snackBar.getAttribute('innerText');
+    // await browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, 'wait for snackbar to appear');
+    const el = this.snackBar;
+    return await el.getAttribute('innerText');
   }
 
   async clickSnackBarAction() {
