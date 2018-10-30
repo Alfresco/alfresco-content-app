@@ -36,7 +36,7 @@ export class Header extends Component {
     root: 'app-header',
     logoLink: by.css('.app-menu__title'),
     userInfo: by.css('aca-current-user'),
-    searchButton: by.css('#app-search-button'),
+    searchButton: by.css('.app-search-button'),
     searchBar: by.css('#app-control-input'),
     moreActions: by.id('app.header.more')
   };
@@ -44,7 +44,7 @@ export class Header extends Component {
   logoLink: ElementFinder = this.component.element(this.locators.logoLink);
   userInfo: UserInfo = new UserInfo(this.component);
   searchButton: ElementFinder = this.component.element(this.locators.searchButton);
-  searchBar: ElementFinder = this.component.element(this.locators.searchBar);
+  searchBar: ElementFinder = browser.element(this.locators.searchBar);
   moreActions: ElementFinder = browser.element(this.locators.moreActions);
 
   menu: Menu = new Menu();
