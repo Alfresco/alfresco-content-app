@@ -36,8 +36,8 @@ export class Header extends Component {
     root: 'app-header',
     logoLink: by.css('.app-menu__title'),
     userInfo: by.css('aca-current-user'),
-    searchButton: by.css('#adf-search-button'),
-    searchBar: by.css('#adf-control-input'),
+    searchButton: by.css('#app-search-button'),
+    searchBar: by.css('#app-control-input'),
     moreActions: by.id('app.header.more')
   };
 

@@ -1,35 +1,29 @@
-<div class="adf-search-container" [matMenuTriggerFor]="searchOptionsMenu">
-  <div>
+<div class="app-search-container" [matMenuTriggerFor]="searchOptionsMenu">
     <button mat-icon-button
-            id="adf-search-button"
-            class="adf-search-button"
+            class="app-search-button"
             [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
       <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
     </button>
-    <mat-form-field class="adf-input-form-field-divider">
+    <mat-form-field class="app-input-form-field">
         <input matInput
                [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
                [type]="'text'"
                [disabled]="true"
                [value]="searchedWord">
+      <mat-placeholder class="placeholder" *ngIf="!searchedWord.length">Search everywhere</mat-placeholder>
 
-      <div matSuffix class="adf-clear-search-icon-wrapper">
-        <mat-icon *ngIf="searchedWord.length > 0"
-                  (click)="$event.stopPropagation()">clear
-        </mat-icon>
+      <div matSuffix class="app-prefix-search-icon-wrapper">
+        <mat-icon>arrow_drop_down</mat-icon>
       </div>
     </mat-form-field>
-  </div>
 </div>
 
-<mat-menu #searchOptionsMenu="matMenu">
-
+<mat-menu #searchOptionsMenu="matMenu" class="app-search-options-menu">
     <app-search-input-control #searchInputControl
                               (click)="$event.stopPropagation()"
                               (submit)="onSearchSubmit($event)"
                               (searchChange)="onSearchChange($event)">
     </app-search-input-control>
-
     <div id="search-options">
       <mat-checkbox *ngFor="let option of searchOptions"
                     [(ngModel)]="option.value"
@@ -38,5 +32,4 @@
         {{ option.key }}
       </mat-checkbox>
     </div>
-
 </mat-menu>

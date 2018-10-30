@@ -42,7 +42,7 @@ import { Subject } from 'rxjs';
   templateUrl: './search-input-control.component.html',
   styleUrls: ['./search-input-control.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  host: { class: 'adf-search-control' }
+  host: { class: 'app-search-control' }
 })
 export class SearchInputControlComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();

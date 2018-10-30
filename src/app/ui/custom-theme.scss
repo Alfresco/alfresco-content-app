@@ -5,6 +5,7 @@
 @import '../components/about/about.component.theme';
 @import '../components/common/generic-error/generic-error.component.theme';
 @import '../components/search/search-input/search-input.component.theme';
+@import '../components/search/search-input-control/search-input-control.component';
 @import '../components/settings/settings.component.theme';
 @import '../components/current-user/current-user.component.theme';
 @import '../components/permissions/permission-manager/permission-manager.component.theme';
@@ -84,6 +85,7 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
   @include adf-version-manager-theme($theme);
 
   @include layout-theme($theme);
+  @include aca-search-input-control-theme($theme);
   @include aca-search-input-theme($theme);
   @include aca-generic-error-theme($theme);
   @include app-permission-manager-theme($theme);

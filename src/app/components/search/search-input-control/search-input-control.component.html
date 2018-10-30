@@ -1,27 +1,22 @@
-<div class="adf-search-container">
-    <div>
-        <button mat-icon-button
-                id="adf-search-button"
-                class="adf-search-button"
-                [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
-            <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
-        </button>
-        <mat-form-field class="adf-input-form-field-divider">
-            <ng-container>
-                <input matInput #searchInput
-                    [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
-                    [type]="inputType"
-                    id="adf-control-input"
-                    [(ngModel)]="searchTerm"
-                    (ngModelChange)="inputChange($event)"
-                    (keyup.enter)="searchSubmit($event)">
-            </ng-container>
+<div class="app-search-container">
+    <button mat-icon-button
+            id="app-search-button"
+            class="app-search-button"
+            [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
+        <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
+    </button>
+    <mat-form-field class="app-input-form-field">
+        <input matInput #searchInput
+            [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
+            [type]="inputType"
+            id="app-control-input"
+            [(ngModel)]="searchTerm"
+            (ngModelChange)="inputChange($event)"
+            (keyup.enter)="searchSubmit($event)">
+      <mat-placeholder class="placeholder" *ngIf="!searchTerm.length">Search everywhere</mat-placeholder>
 
-            <div matSuffix class="adf-clear-search-icon-wrapper">
-                <mat-icon *ngIf="searchTerm.length > 0"
-                          (click)="clear()">clear
-                </mat-icon>
-            </div>
-        </mat-form-field>
-    </div>
+      <div matSuffix class="app-prefix-search-icon-wrapper">
+            <mat-icon>arrow_drop_down</mat-icon>
+        </div>
+    </mat-form-field>
 </div>

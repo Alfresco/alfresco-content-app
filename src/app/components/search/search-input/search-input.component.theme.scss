@@ -1,59 +1,66 @@
 @mixin aca-search-input-theme($theme) {
   $background: map-get($theme, background);
   $foreground: map-get($theme, foreground);
+  $search-width: 594px;
+  $search-height: 40px;
+  $search-background: rgba(#efefef, 0.54);
+  $search-border-radius: 4px;
+  $top-margin: 12px;
+  $border: 1px solid mat-color($foreground, divider, 0.07);
 
   .aca-search-input {
-    display: flex;
-    box-sizing: border-box;
-    padding: 0;
-    flex-direction: row;
-    align-items: center;
-    white-space: nowrap;
+    margin-right: 7px;
+    background-color: $search-background;
+    border-radius: $search-border-radius;
+    height: $search-height;
+  }
 
-    .adf-search-control {
-      color: mat-color($background, card);
+  .app-search-container {
+    width: $search-width;
+    height: $search-height + $top-margin;
+  }
 
-      .mat-form-field-underline {
-        background-color: mat-color($background, card);
-      }
+  .app-search-control {
+    margin-top: -$top-margin;
+  }
 
-      .adf-input-form-field-divider {
-        font-size: 14px;
-      }
+  .app-search-options-menu {
+    &.mat-menu-panel {
+      background-color: mat-color($background, dialog);
+      width: $search-width;
+      max-width: unset;
+      border-radius: $search-border-radius;
+      margin-top: $top-margin;
     }
 
-    .adf-search-button.mat-icon-button {
-      left: -15px;
-      margin-left: 15px;
-      align-items: flex-start;
-      font: 400 11px system-ui;
-      color: mat-color($background, card);
-
-      .mat-icon {
-        font-size: 24px;
-        padding-right: 0;
-      }
+    .mat-menu-content:not(:empty) {
+      padding-top: 0;
+      padding-bottom: 0;
     }
   }
 
   #search-options {
-    padding: 15px 7px;
+    padding: 20px 0;
     color: mat-color($foreground, text, 0.54);
-    font-size: 13px;
+    font-size: 16px;
+    letter-spacing: -0.7px;
+    border-top: $border;
 
     mat-checkbox {
-      padding: 7px;
+      padding: 3px 24px 3px 19px;
 
       .mat-checkbox-inner-container {
-        height: 15px;
-        width: 15px;
+        height: 18px;
+        width: 18px;
+      }
+
+      .mat-checkbox-label {
+        padding: 0 0 0 11px;
       }
 
       .mat-checkbox-frame {
         border-color: mat-color($foreground, text, 0.54);
-
       }
     }
   }
-
 }
