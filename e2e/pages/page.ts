@@ -23,13 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  browser,
-  element,
-  by,
-  ElementFinder,
-  ExpectedConditions as EC
-} from 'protractor';
+import { browser, by, ElementFinder, ExpectedConditions as EC, until } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 
 export abstract class Page {
@@ -38,7 +32,7 @@ export abstract class Page {
     layout: 'app-layout',
     overlay: '.cdk-overlay-container',
     dialogContainer: '.mat-dialog-container',
-    snackBarContainer: '.cdk-overlay-pane .mat-snack-bar-container',
+    snackBarContainer: '.mat-snack-bar-container',
     snackBar: '.mat-simple-snackbar',
     snackBarAction: '.mat-simple-snackbar-action button',
 
@@ -76,8 +70,7 @@ export abstract class Page {
   }
 
   waitForSnackBarToAppear() {
-    return browser.wait(EC.presenceOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
-    // return await browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, 'wait for snackbar to appear');
+    return browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
   }
 
   async waitForSnackBarToClose() {
@@ -88,32 +81,20 @@ export abstract class Page {
     await browser.wait(EC.visibilityOf(this.dialogContainer), BROWSER_WAIT_TIMEOUT);
   }
 
-  async waitForDialogToClose() {
-    await browser.wait(EC.not(EC.visibilityOf(this.dialogContainer)), BROWSER_WAIT_TIMEOUT);
-  }
-
   async refresh() {
     await browser.refresh();
     await this.waitForApp();
   }
 
-  getDialogActionByLabel(label) {
-    return element(by.cssContainingText('.mat-button-wrapper', label));
-  }
-
-  async isSnackBarDisplayed() {
-    return await this.snackBar.isDisplayed();
-  }
-
   async getSnackBarMessage() {
-    // await this.waitForSnackBarToAppear();
-    const el = this.snackBar;
-    return await el.getAttribute('innerText');
+    const elem = await this.waitForSnackBarToAppear();
+    return await elem.getAttribute('innerText');
   }
 
   async clickSnackBarAction() {
     try {
-      return await this.snackBarAction.click();
+      const action = browser.wait(until.elementLocated(by.css('.mat-simple-snackbar-action button')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snack action to appear');
+      return await action.click();
     } catch (e) {
       console.log(e, '.......failed on click snack bar action.........');
     }
