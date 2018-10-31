@@ -82,7 +82,7 @@ describe('File Libraries', () => {
   });
 
   it('has the correct columns - [C217095]', async () => {
-    const labels = [ 'Title', 'Status' ];
+    const labels = [ 'Title', 'Visibility' ];
     const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
     expect(await dataTable.getColumnHeaders().count()).toBe(2 + 1, 'Incorrect number of columns');
