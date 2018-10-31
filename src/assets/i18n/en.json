@@ -149,7 +149,7 @@
                 "SIZE": "Size",
                 "MODIFIED_ON": "Modified",
                 "MODIFIED_BY": "Modified by",
-                "STATUS": "Status",
+                "VISIBILITY": "Visibility",
                 "TITLE": "Title",
                 "LOCATION": "Location",
                 "SHARED_BY": "Shared by",
@@ -290,7 +290,7 @@
                 "DESCRIPTION": "Description",
                 "SITE_ID": "Library ID",
                 "NAME": "Name",
-                "TYPE": "Type"
+                "VISIBILITY": "Visibility"
             }
         },
         "VISIBILITY": {

@@ -978,7 +978,7 @@
         {
           "id": "app.libraries.visibility",
           "key": "visibility",
-          "title": "APP.DOCUMENT_LIST.COLUMNS.STATUS",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
           "type": "text",
           "sortable": true,
           "template": "app.columns.libraryStatus",
