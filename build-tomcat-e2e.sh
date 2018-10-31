@@ -1,4 +1,4 @@
-npm run build -- --base-href ./
+npm run build -- --base-href ./ --configuration=e2e
 
 node -e "
 const fs = require('fs');
