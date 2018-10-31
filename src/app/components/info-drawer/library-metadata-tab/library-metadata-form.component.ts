@@ -23,22 +23,27 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { SiteEntry } from 'alfresco-js-api';
+import { SiteEntry, SitePaging } from 'alfresco-js-api';
 import { Store } from '@ngrx/store';
 import { UpdateLibraryAction } from '../../../store/actions';
 import { AppStore } from '../../../store/states/app.state';
+import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { Observable, from, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-library-metadata-form',
   templateUrl: './library-metadata-form.component.html'
 })
-export class LibraryMetadataFormComponent implements OnInit, OnChanges {
+export class LibraryMetadataFormComponent
+  implements OnInit, OnChanges, OnDestroy {
   @Input()
   node: SiteEntry;
 
   edit: boolean;
+  libraryTitleExists = false;
 
   libraryType = [
     { value: 'PUBLIC', label: 'LIBRARY.VISIBILITY.PUBLIC' },
@@ -56,7 +61,12 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
     visibility: new FormControl(this.libraryType[0].value)
   });
 
-  constructor(protected store: Store<AppStore>) {}
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    private alfrescoApiService: AlfrescoApiService,
+    protected store: Store<AppStore>
+  ) {}
 
   get canUpdateLibrary() {
     return (
@@ -79,6 +89,32 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.updateForm(this.node);
+
+    this.form.controls['title'].valueChanges
+      .pipe(
+        debounceTime(300),
+        mergeMap(title => this.findLibraryByTitle(title)),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe(result => {
+        const { entries } = result.list;
+
+        if (entries.length) {
+          if (this.form.controls.title.value === this.node.entry.title) {
+            this.libraryTitleExists = false;
+          } else {
+            this.libraryTitleExists =
+              this.form.controls.title.value === entries[0].entry.title;
+          }
+        } else {
+          this.libraryTitleExists = false;
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   ngOnChanges() {
@@ -100,5 +136,17 @@ export class LibraryMetadataFormComponent implements OnInit, OnChanges {
       description: entry.description || '',
       visibility: entry.visibility
     });
+  }
+
+  private findLibraryByTitle(libraryTitle: string): Observable<SitePaging> {
+    return from(
+      this.alfrescoApiService
+        .getInstance()
+        .core.queriesApi.findSites(libraryTitle, {
+          maxItems: 1,
+          fields: ['title']
+        })
+        .catch(() => ({ list: { entries: [] } }))
+    );
   }
 }
