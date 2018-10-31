@@ -26,7 +26,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, RouteReuseStrategy } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule
+} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   TRANSLATION_PROVIDER,
@@ -65,11 +68,12 @@ import { AppSearchInputModule } from './components/search/search-input.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
+import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
+    environment.e2e ? NoopAnimationsModule : BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(APP_ROUTES, {
