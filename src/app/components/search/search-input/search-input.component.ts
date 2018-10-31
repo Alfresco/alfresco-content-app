@@ -96,17 +96,13 @@ export class SearchInputComponent implements OnInit {
 
       if (urlSegmentGroup) {
         const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
-        this.searchedWord = urlSegments[0].parameters['q'] || 'ss';
+        this.searchedWord = urlSegments[0].parameters['q'] || '';
       }
     }
 
     if (this.searchInputControl) {
       this.searchInputControl.searchTerm = this.searchedWord;
     }
-  }
-
-  onItemClicked(node) {
-    // TODO: to be removed..
   }
 
   /**

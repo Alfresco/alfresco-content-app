@@ -35,12 +35,7 @@ import {
 import { SearchInputComponent } from './search-input.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
-import {
-  NAVIGATE_FOLDER,
-  NavigateToFolder,
-  VIEW_FILE,
-  ViewFileAction
-} from '../../../store/actions';
+import { SEARCH_BY_TERM, SearchByTermAction } from '../../../store/actions';
 import { map } from 'rxjs/operators';
 
 describe('SearchInputComponent', () => {
@@ -63,35 +58,31 @@ describe('SearchInputComponent', () => {
       });
   }));
 
-  //[TODO]: fix tests
-  xdescribe('onItemClicked()', () => {
-    it('opens preview if node is file', fakeAsync(done => {
+  describe('onSearchSubmit()', () => {
+    it('should call search action with corect search options', fakeAsync(done => {
+      const searchedTerm = 's';
+      const currentSearchOptions = [{ key: 'test' }];
       actions$.pipe(
-        ofType<ViewFileAction>(VIEW_FILE),
+        ofType<SearchByTermAction>(SEARCH_BY_TERM),
         map(action => {
-          expect(action.payload.entry.id).toBe('node-id');
+          expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
           done();
         })
       );
-
-      const node = {
-        entry: { isFile: true, id: 'node-id', parentId: 'parent-id' }
-      };
-
-      component.onItemClicked(node);
+      component.onSearchSubmit(<any>{ target: { value: searchedTerm } });
       tick();
     }));
 
-    it('navigates if node is folder', fakeAsync(done => {
+    it('should call search action with correct searched term', fakeAsync(done => {
+      const searchedTerm = 's';
       actions$.pipe(
-        ofType<NavigateToFolder>(NAVIGATE_FOLDER),
+        ofType<SearchByTermAction>(SEARCH_BY_TERM),
         map(action => {
-          expect(action.payload.entry.id).toBe('folder-id');
+          expect(action.payload).toBe(searchedTerm);
           done();
         })
       );
-      const node = { entry: { id: 'folder-id', isFolder: true } };
-      component.onItemClicked(node);
+      component.onSearchSubmit(<any>{ target: { value: searchedTerm } });
       tick();
     }));
   });
