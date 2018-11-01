@@ -86,4 +86,81 @@ describe('SearchInputComponent', () => {
       tick();
     }));
   });
+
+  describe('onSearchChange()', () => {
+    it('should call search action with correct search options', fakeAsync(done => {
+      const searchedTerm = 's';
+      const currentSearchOptions = [{ key: 'test' }];
+      actions$.pipe(
+        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        map(action => {
+          expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
+          done();
+        })
+      );
+      component.onSearchChange(searchedTerm);
+      tick(1000);
+    }));
+
+    it('should call search action with correct searched term', fakeAsync(done => {
+      const searchedTerm = 's';
+      actions$.pipe(
+        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        map(action => {
+          expect(action.payload).toBe(searchedTerm);
+          done();
+        })
+      );
+      component.onSearchChange(searchedTerm);
+      tick(1000);
+    }));
+  });
+
+  describe('isLibrariesChecked()', () => {
+    it('should return false by default', () => {
+      expect(component.isLibrariesChecked()).toBe(false);
+    });
+
+    it('should return true when libraries checked', () => {
+      const libItem = component.searchOptions.find(
+        item => item.key.toLowerCase().indexOf('libraries') > 0
+      );
+      libItem.value = true;
+      expect(component.isLibrariesChecked()).toBe(true);
+    });
+  });
+
+  describe('isContentChecked()', () => {
+    it('should return false by default', () => {
+      expect(component.isContentChecked()).toBe(false);
+    });
+
+    it('should return true when files checked', () => {
+      const filesItem = component.searchOptions.find(
+        item => item.key.toLowerCase().indexOf('files') > 0
+      );
+      filesItem.value = true;
+      expect(component.isContentChecked()).toBe(true);
+    });
+
+    it('should return true when folders checked', () => {
+      const foldersItem = component.searchOptions.find(
+        item => item.key.toLowerCase().indexOf('folders') > 0
+      );
+      foldersItem.value = true;
+      expect(component.isContentChecked()).toBe(true);
+    });
+
+    it('should return true when both files and folders checked', () => {
+      const filesItem = component.searchOptions.find(
+        item => item.key.toLowerCase().indexOf('files') > 0
+      );
+      filesItem.value = true;
+      const foldersItem = component.searchOptions.find(
+        item => item.key.toLowerCase().indexOf('folders') > 0
+      );
+      foldersItem.value = true;
+      expect(component.isContentChecked()).toBe(true);
+    });
+  });
 });
