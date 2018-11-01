@@ -29,6 +29,7 @@ import { PeopleApi } from './apis/people/people-api';
 import { NodesApi } from './apis/nodes/nodes-api';
 import { SitesApi } from './apis/sites/sites-api';
 import { FavoritesApi } from './apis/favorites/favorites-api';
+import { QueriesApi } from './apis/queries/queries-api';
 import { SharedLinksApi } from './apis/shared-links/shared-links-api';
 import { TrashcanApi } from './apis/trashcan/trashcan-api';
 import { SearchApi } from './apis/search/search-api';
@@ -72,6 +73,10 @@ export class RepoClient {
 
     get search() {
         return new SearchApi(this.auth.username, this.auth.password);
+    }
+
+    get queries() {
+        return new QueriesApi(this.auth.username, this.auth.password);
     }
 
     get upload() {
