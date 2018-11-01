@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { InfoDrawer } from './../../components/info-drawer/info-drawer';
@@ -64,7 +64,6 @@ describe('Library properties', () => {
   const infoDrawer = new InfoDrawer();
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
@@ -87,7 +86,6 @@ describe('Library properties', () => {
     await apis.user.sites.deleteSite(site.id);
     await apis.user.sites.deleteSite(siteForUpdate.id);
     await apis.user.sites.deleteSite(siteDup);
-    await logoutPage.load();
     done();
   });
 

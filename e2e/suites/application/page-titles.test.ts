@@ -26,14 +26,13 @@
 import { browser } from 'protractor';
 
 import { SIDEBAR_LABELS, PAGE_TITLES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
 
 describe('Page titles', () => {
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const adminApi = new RepoClient();
   const { nodes: nodesApi } = adminApi;
@@ -71,10 +70,7 @@ describe('Page titles', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        logoutPage.load(),
-        adminApi.nodes.deleteNodeById(fileId)
-      ]);
+      await adminApi.nodes.deleteNodeById(fileId);
       done();
     });
 

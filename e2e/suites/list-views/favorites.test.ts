@@ -24,7 +24,7 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -45,7 +45,6 @@ describe('Favorites', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
@@ -85,7 +84,6 @@ describe('Favorites', () => {
     await apis.admin.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodes([ favFolderName, parentFolder ]);
     await apis.user.trashcan.emptyTrash();
-    await logoutPage.load();
     done();
   });
 

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -52,7 +52,6 @@ describe('Extensions - Context submenu', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const {dataTable} = page;
   const contextMenu = dataTable.menu;
@@ -79,7 +78,6 @@ describe('Extensions - Context submenu', () => {
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(fileId, true);
     await apis.user.nodes.deleteNodeById(folderId, true);
-    await logoutPage.load();
     done();
   });
 

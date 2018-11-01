@@ -24,7 +24,7 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -52,7 +52,6 @@ describe('Trash', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
@@ -101,11 +100,6 @@ describe('Trash', () => {
       done();
     });
 
-    afterAll(async (done) => {
-      await logoutPage.load();
-      done();
-    });
-
     it('has the correct columns - [C213217]', async () => {
       const labels = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
       const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
@@ -136,11 +130,6 @@ describe('Trash', () => {
 
     beforeEach(async (done) => {
       await page.clickTrashAndWait();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await logoutPage.load();
       done();
     });
 

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { EXTENSIBILITY_CONFIGS } from '../../configs';
@@ -65,7 +65,6 @@ describe('Extensions - Info Drawer', () => {
     const infoDrawer = new InfoDrawer();
 
     const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
 
     beforeAll(async (done) => {
@@ -90,11 +89,6 @@ describe('Extensions - Info Drawer', () => {
         beforeEach(async (done) => {
             await page.clickPersonalFilesAndWait();
             await page.dataTable.clearSelection();
-            done();
-        });
-
-        afterAll(async (done) => {
-            await logoutPage.load();
             done();
         });
 
@@ -151,11 +145,6 @@ describe('Extensions - Info Drawer', () => {
             await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
             await loginPage.loginWith(username);
             await page.clickPersonalFilesAndWait();
-            done();
-        });
-
-        afterAll(async (done) => {
-            await logoutPage.load();
             done();
         });
 

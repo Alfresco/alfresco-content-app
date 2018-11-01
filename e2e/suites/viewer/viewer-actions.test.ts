@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage, LogoutPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { FILES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -45,7 +45,6 @@ describe('Viewer actions', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const dataTable = page.dataTable;
   const viewer = new Viewer();
@@ -96,7 +95,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeById(parentId);
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
-      await logoutPage.load();
       done();
     });
 
@@ -276,7 +274,6 @@ describe('Viewer actions', () => {
       await apis.user.sites.deleteSite(siteName);
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
-      await logoutPage.load();
       done();
     });
 
@@ -410,7 +407,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeById(parentId);
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
-      await logoutPage.load();
       done();
     });
 
@@ -545,7 +541,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeById(parentId);
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
-      await logoutPage.load();
       done();
     });
 
@@ -683,7 +678,6 @@ describe('Viewer actions', () => {
       await apis.user.nodes.deleteNodeById(parentId);
       await apis.user.nodes.deleteNodeById(destinationId);
       await apis.user.trashcan.emptyTrash();
-      await logoutPage.load();
       done();
     });
 

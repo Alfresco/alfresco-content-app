@@ -24,7 +24,7 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -47,7 +47,6 @@ describe('Shared Files', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
@@ -84,7 +83,6 @@ describe('Shared Files', () => {
     await apis.admin.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(folderId);
     await apis.user.nodes.deleteNodeById(file4Id);
-    await logoutPage.load();
     done();
   });
 

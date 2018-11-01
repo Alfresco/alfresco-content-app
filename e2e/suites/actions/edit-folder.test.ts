@@ -24,7 +24,7 @@
  */
 
 import { protractor, browser } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
@@ -51,7 +51,6 @@ describe('Edit folder', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const editDialog = new CreateOrEditFolderDialog();
   const { dataTable } = page;
@@ -88,8 +87,7 @@ describe('Edit folder', () => {
   afterAll(async (done) => {
     await Promise.all([
       apis.admin.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodeById(parentId),
-      logoutPage.load()
+      apis.user.nodes.deleteNodeById(parentId)
     ]);
     done();
   });

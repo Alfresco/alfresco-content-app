@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage } from '../../pages/pages';
+import { LoginPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
@@ -56,7 +56,6 @@ describe('Extensions - Info Drawer', () => {
     const toolbarMenu = new Menu();
 
     const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
 
     beforeAll(async (done) => {
       await apis.admin.people.createUser({ username });
@@ -68,11 +67,6 @@ describe('Extensions - Info Drawer', () => {
 
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await logoutPage.load();
       done();
     });
 

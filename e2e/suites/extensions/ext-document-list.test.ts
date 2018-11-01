@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage, LogoutPage } from '../../pages/pages';
+import { BrowsingPage, LoginPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
@@ -63,7 +63,6 @@ describe('Extensions - DocumentList presets', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
@@ -85,7 +84,6 @@ describe('Extensions - DocumentList presets', () => {
 
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(fileId);
-    await logoutPage.load();
     done();
   });
 

@@ -24,9 +24,8 @@
  */
 
 import { browser } from 'protractor';
-
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { Menu } from '../../components/menu/menu';
 import { Utils } from '../../utilities/utils';
@@ -50,7 +49,6 @@ describe('Create folder', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const { dataTable } = page;
@@ -71,7 +69,6 @@ describe('Create folder', () => {
   afterAll(async (done) => {
     await apis.admin.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(parentId);
-    await logoutPage.load();
     done();
   });
 

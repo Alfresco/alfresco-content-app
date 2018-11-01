@@ -24,7 +24,7 @@
  */
 
 import { browser, protractor } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -63,7 +63,6 @@ describe('Toolbar actions - multiple selection : ', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
@@ -105,8 +104,7 @@ describe('Toolbar actions - multiple selection : ', () => {
     await Promise.all([
       apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id]),
       apis.user.trashcan.emptyTrash(),
-      apis.user.sites.deleteSite(siteName),
-      logoutPage.load()
+      apis.user.sites.deleteSite(siteName)
     ]);
     done();
   });

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Viewer } from './../../components/components';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { EXTENSIBILITY_CONFIGS, FILES } from '../../configs';
@@ -72,7 +72,6 @@ describe('Extensions - Viewer', () => {
     };
 
     const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
 
     const viewer = new Viewer();
@@ -91,7 +90,6 @@ describe('Extensions - Viewer', () => {
 
     afterAll(async (done) => {
         await apis.user.nodes.deleteNodesById([ pdfFileId, docxFileId ]);
-        await logoutPage.load();
         done();
     });
 

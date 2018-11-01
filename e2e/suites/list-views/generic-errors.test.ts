@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -43,7 +43,6 @@ describe('Generic errors', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
@@ -61,7 +60,6 @@ describe('Generic errors', () => {
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(parentId);
     await apis.user.trashcan.emptyTrash();
-    await logoutPage.load();
     done();
   });
 
@@ -90,14 +88,12 @@ describe('Generic errors', () => {
     await dataTable.doubleClickOnRowByName(parent);
     await dataTable.doubleClickOnRowByName(file2);
     const URL = await browser.getCurrentUrl();
-    await logoutPage.load();
     await loginPage.loginWith(username2);
     await browser.get(URL);
 
     expect(await page.isGenericErrorDisplayed()).toBe(true, 'Generic error page not displayed');
     expect(await page.getGenericErrorTitle()).toContain(`This file or folder no longer exists or you don't have permission to view it.`);
 
-    await logoutPage.load();
     await loginPage.loginWith(username);
   });
 });

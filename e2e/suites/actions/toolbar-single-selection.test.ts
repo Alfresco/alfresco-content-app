@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -46,7 +46,6 @@ describe('Toolbar actions - single selection : ', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
@@ -83,8 +82,7 @@ describe('Toolbar actions - single selection : ', () => {
       apis.user.nodes.deleteNodeById(fileUserId),
       apis.user.nodes.deleteNodeById(folderUserId),
       apis.user.sites.deleteSite(siteName),
-      apis.user.trashcan.emptyTrash(),
-      logoutPage.load()
+      apis.user.trashcan.emptyTrash()
     ]);
     done();
   });
