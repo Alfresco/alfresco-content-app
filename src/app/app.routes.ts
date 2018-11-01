@@ -221,8 +221,7 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'search'
             }
