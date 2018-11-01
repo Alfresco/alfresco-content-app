@@ -29,6 +29,14 @@ const path = require('path');
 const fs = require('fs');
 
 export class Utils {
+  static string257 = 'assembly doctor offender limit clearance inspiration baker fraud active apples trait brainstorm concept breaks down presidential \
+    reluctance summary communication patience books opponent banana economist head develop project swear unanimous read conservation';
+
+  static string513 = 'great indirect brain tune other expectation fun silver drain tumble rhythm harmful wander picture distribute opera complication copyright \
+    explosion snack ride pool machinery pair frog joint wrestle video referee drive window cage falsify happen tablet horror thank conception \
+    extension decay dismiss platform respect ceremony applaud absorption presentation dominate race courtship soprano body \
+    lighter track cinema tread tick climate lend summit singer radical flower visual negotiation promises cooperative dead';
+
   // generate a random value
   static random() {
     return Math.random().toString(36).substring(5, 10).toLowerCase();
@@ -71,8 +79,6 @@ export class Utils {
 
   static async waitUntilElementClickable(element: ElementFinder) {
     return await browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT).catch(Error);
-  // static waitUntilElementClickable(element: ElementFinder) {
-  //   return browser.wait(EC.elementToBeClickable(element), BROWSER_WAIT_TIMEOUT);
   }
 
   static async typeInField(elem: ElementFinder, value: string) {
@@ -112,6 +118,10 @@ export class Utils {
     return browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
   }
 
+  static pressTab() {
+    return browser.actions().sendKeys(protractor.Key.TAB).perform();
+  }
+
   static getBrowserLog() {
     return browser.manage().logs().get('browser');
   }
@@ -119,4 +129,5 @@ export class Utils {
   static formatDate(date: string) {
     return new Date(date).toLocaleDateString('en-US');
   }
+
 }
