@@ -59,7 +59,7 @@ describe('SearchInputComponent', () => {
   }));
 
   describe('onSearchSubmit()', () => {
-    it('should call search action with corect search options', fakeAsync(done => {
+    it('should call search action with correct search options', fakeAsync(done => {
       const searchedTerm = 's';
       const currentSearchOptions = [{ key: 'test' }];
       actions$.pipe(
