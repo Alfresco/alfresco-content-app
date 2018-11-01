@@ -1,59 +1,50 @@
-@mixin aca-search-input-control-theme($theme) {
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
-  $top-margin: 12px;
+$top-margin: 12px;
 
-  .app-search-container {
-    margin-top: -$top-margin;
-    padding-top: 2px;
-    font-size: 16px;
-    color: mat-color($foreground, text, 0.54);
+.app-search-container {
+  margin-top: -$top-margin;
+  padding-top: 2px;
+  font-size: 16px;
 
-    .mat-form-field-underline {
-      display: none;
-    }
+  .mat-form-field-underline {
+    display: none;
+  }
 
-    .mat-form-field-label-wrapper {
-      cursor: text;
-      pointer-events: auto;
-    }
+  .mat-form-field-label-wrapper {
+    cursor: text;
+    pointer-events: auto;
+  }
 
-    .app-input-form-field {
+  .app-input-form-field {
+    letter-spacing: -0.7px;
+    width: 90%;
+
+    .mat-input-element {
       letter-spacing: -0.7px;
-      width: 90%;
-
-      .mat-input-element {
-        caret-color: mat-color($foreground, text, 0.54);
-
-        &:disabled {
-          color: mat-color($foreground, text, 0.54);
-        }
-      }
-    }
-
-    .mat-focused .placeholder {
-      color: transparent;
-    }
-
-    .app-search-button.mat-icon-button {
-      left: -8px;
-      margin-left: 15px;
-
-      .mat-icon {
-        font-size: 24px;
-        padding-right: 0;
-      }
     }
   }
 
-  .app-prefix-search-icon-wrapper {
-    height: 6px;
-    margin: 14px 13px;
-    float: left;
+  .mat-focused .placeholder {
+    color: transparent;
+  }
+
+  .app-search-button.mat-icon-button {
+    left: -8px;
+    margin-left: 15px;
 
     .mat-icon {
       font-size: 24px;
-      cursor: pointer;
+      padding-right: 0;
     }
+  }
+}
+
+.app-prefix-search-icon-wrapper {
+  height: 6px;
+  margin: 14px 13px;
+  float: left;
+
+  .mat-icon {
+    font-size: 24px;
+    cursor: pointer;
   }
 }
