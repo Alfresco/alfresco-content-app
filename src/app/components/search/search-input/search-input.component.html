@@ -18,7 +18,7 @@
     </mat-form-field>
 </div>
 
-<mat-menu #searchOptionsMenu="matMenu" class="app-search-options-menu">
+<mat-menu #searchOptionsMenu="matMenu" [overlapTrigger]="true" class="app-search-options-menu">
     <app-search-input-control #searchInputControl
                               (click)="$event.stopPropagation()"
                               (submit)="onSearchSubmit($event)"
