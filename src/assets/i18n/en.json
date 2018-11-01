@@ -111,6 +111,9 @@
                     "SIZE": "Size"
                 },
                 "NO_RESULTS": "Your search returned 0 results"
+            },
+            "SEARCH_LIBRARIES": {
+              "TITLE": "Libraries found..."
             }
         },
         "ACTIONS": {
