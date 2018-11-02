@@ -24,9 +24,8 @@
  */
 
 import { browser } from 'protractor';
-
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { Menu } from '../../components/menu/menu';
 import { Utils } from '../../utilities/utils';
@@ -50,7 +49,6 @@ describe('Create folder', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const { dataTable } = page;
@@ -71,7 +69,6 @@ describe('Create folder', () => {
   afterAll(async (done) => {
     await apis.admin.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(parentId);
-    await logoutPage.load();
     done();
   });
 
@@ -201,7 +198,7 @@ describe('Create folder', () => {
       await createDialog.enterName('test');
       await createDialog.enterDescription('test description');
       await createDialog.clickCancel();
-      expect(await createDialog.component.isPresent()).not.toBe(true, 'dialog is not closed');
+      expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
     });
 
     it('duplicate folder name - [C216350]', async () => {
@@ -212,7 +209,7 @@ describe('Create folder', () => {
       await createDialog.clickCreate();
       const message = await page.getSnackBarMessage();
       expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
-      expect(await createDialog.component.isPresent()).toBe(true, 'dialog is not present');
+      expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
 
     it('trim ending spaces from folder name - [C216351]', async () => {

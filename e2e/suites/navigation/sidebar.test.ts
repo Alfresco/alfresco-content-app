@@ -26,21 +26,15 @@
 import { browser } from 'protractor';
 
 import { APP_ROUTES, SIDEBAR_LABELS } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 
 describe('Sidebar', () => {
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { sidenav } = page;
 
   beforeAll(async (done) => {
     await loginPage.loginWithAdmin();
-    done();
-  });
-
-  afterAll(async (done) => {
-    await logoutPage.load();
     done();
   });
 

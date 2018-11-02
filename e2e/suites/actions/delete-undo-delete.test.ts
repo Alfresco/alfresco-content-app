@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -37,7 +37,6 @@ describe('Delete and undo delete', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
@@ -91,7 +90,6 @@ describe('Delete and undo delete', () => {
     afterAll(async (done) => {
       await apis.user.nodes.unlockFile(file4Id);
       await apis.user.nodes.unlockFile(fileLocked1Id);
-      await logoutPage.load();
       await apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id, fileLocked1Id]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
@@ -266,7 +264,6 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await logoutPage.load();
       await apis.user.nodes.deleteNodesById([sharedFile1Id, sharedFile2Id, sharedFile3Id, sharedFile4Id]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
@@ -377,7 +374,6 @@ describe('Delete and undo delete', () => {
     afterAll(async (done) => {
       await apis.user.nodes.unlockFile(favoriteFile4Id);
       await apis.user.nodes.unlockFile(favoriteFileLocked1Id);
-      await logoutPage.load();
       await apis.user.nodes.deleteNodesById([
         favoriteFile1Id, favoriteFile2Id, favoriteFolder1Id, favoriteFolder2Id, favoriteFileLocked1Id
       ]);
@@ -559,7 +555,6 @@ describe('Delete and undo delete', () => {
     });
 
     afterAll(async (done) => {
-      await logoutPage.load();
       await apis.user.nodes.deleteNodesById([recentFile1Id, recentFile2Id, recentFile3Id, recentFile4Id]);
       done();
     });

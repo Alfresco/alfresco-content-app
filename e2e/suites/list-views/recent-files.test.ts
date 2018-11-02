@@ -24,7 +24,7 @@
  */
 
 import { SITE_VISIBILITY } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -46,7 +46,6 @@ describe('Recent Files', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
 
@@ -78,7 +77,6 @@ describe('Recent Files', () => {
     await apis.user.nodes.deleteNodesById([ folderId, file2Id ]);
     await apis.user.sites.deleteSite(siteName);
     await apis.user.trashcan.emptyTrash();
-    await logoutPage.load();
     done();
   });
 

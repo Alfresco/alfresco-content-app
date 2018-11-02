@@ -24,7 +24,7 @@
  */
 
 import { SITE_VISIBILITY } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -36,7 +36,6 @@ describe('Pagination on multiple pages on File Libraries', () => {
       user: new RepoClient(username, username)
   };
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, pagination } = page;
 
@@ -63,10 +62,7 @@ describe('Pagination on multiple pages on File Libraries', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.sites.deleteSites(sites),
-      logoutPage.load()
-    ]);
+    await apis.user.sites.deleteSites(sites);
     done();
   })
 

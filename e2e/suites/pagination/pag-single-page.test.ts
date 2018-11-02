@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -41,9 +41,8 @@ describe('Pagination on single page', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
-  const { dataTable, pagination } = page;
+  const { pagination } = page;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -74,8 +73,7 @@ describe('Pagination on single page', () => {
     await Promise.all([
       apis.user.nodes.deleteNodeById(fileId),
       apis.user.sites.deleteSite(siteId),
-      apis.user.trashcan.emptyTrash(),
-      logoutPage.load()
+      apis.user.trashcan.emptyTrash()
     ]);
     done();
   });

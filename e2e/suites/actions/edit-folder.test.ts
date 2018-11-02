@@ -24,7 +24,7 @@
  */
 
 import { protractor, browser } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
@@ -51,7 +51,6 @@ describe('Edit folder', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const editDialog = new CreateOrEditFolderDialog();
   const { dataTable } = page;
@@ -88,8 +87,7 @@ describe('Edit folder', () => {
   afterAll(async (done) => {
     await Promise.all([
       apis.admin.sites.deleteSite(siteName),
-      apis.user.nodes.deleteNodeById(parentId),
-      logoutPage.load()
+      apis.user.nodes.deleteNodeById(parentId)
     ]);
     done();
   });
@@ -154,7 +152,7 @@ describe('Edit folder', () => {
     await editButton.click();
     await editDialog.waitForDialogToOpen();
     await editDialog.clickCancel();
-    expect(await editDialog.component.isPresent()).not.toBe(true, 'dialog is not closed');
+    expect(await editDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
   });
 
   it('with duplicate folder name - [C216337]', async () => {
@@ -165,7 +163,7 @@ describe('Edit folder', () => {
     await editDialog.clickUpdate();
     const message = await page.getSnackBarMessage();
     expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
-    expect(await editDialog.component.isPresent()).toBe(true, 'dialog is not present');
+    expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
   });
 
   it('trim ending spaces - [C216338]', async () => {

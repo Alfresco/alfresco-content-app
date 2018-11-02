@@ -26,7 +26,7 @@
 import { browser } from 'protractor';
 
 import { APP_ROUTES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -39,7 +39,6 @@ describe('Personal Files', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
@@ -79,11 +78,6 @@ describe('Personal Files', () => {
       done();
     });
 
-    afterAll(async (done) => {
-      await logoutPage.load();
-      done();
-    });
-
     it('has Data Dictionary and created content - [C213241]', async () => {
       expect(await dataTable.getRowByName('Data Dictionary').isPresent()).toBe(true);
       expect(await dataTable.getRowByName(adminFolder).isPresent()).toBe(true);
@@ -98,11 +92,6 @@ describe('Personal Files', () => {
 
     beforeEach(async (done) => {
       await page.clickPersonalFilesAndWait();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await logoutPage.load();
       done();
     });
 

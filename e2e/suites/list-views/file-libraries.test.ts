@@ -24,7 +24,7 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -48,7 +48,6 @@ describe('File Libraries', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
@@ -77,7 +76,6 @@ describe('File Libraries', () => {
 
   afterAll(async (done) => {
     await apis.admin.sites.deleteSites([ sitePublic, siteModerated, sitePrivate, adminSite, siteId1, siteId2 ]);
-    await logoutPage.load();
     done();
   });
 

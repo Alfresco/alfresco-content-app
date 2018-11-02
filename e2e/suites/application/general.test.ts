@@ -24,14 +24,13 @@
  */
 
 import { browser } from 'protractor';
-import { BrowsingPage, LoginPage, LogoutPage } from '../../pages/pages';
+import { BrowsingPage, LoginPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
 describe('General', () => {
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const adminApi = new RepoClient();
@@ -48,7 +47,6 @@ describe('General', () => {
 
     afterAll(async (done) => {
       await nodesApi.deleteNodeById(folderId);
-      await logoutPage.load();
       done();
     });
 
@@ -62,12 +60,12 @@ describe('General', () => {
       await authApi.logout();
 
       await createDialog.clickCreate();
-      expect(await browser.getTitle()).toContain('Sign in');
-      // const message = await page.getSnackBarMessage();
-      // expect(message).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
 
-      await createDialog.waitForDialogToClose();
-      expect(createDialog.component.isPresent()).not.toBe(true, 'dialog is present');
+      const message = await page.getSnackBarMessage();
+      expect(message).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
+
+      expect(await browser.getTitle()).toContain('Sign in');
+      expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is present');
     });
   });
 });

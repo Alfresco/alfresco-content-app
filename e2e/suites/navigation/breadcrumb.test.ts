@@ -26,7 +26,7 @@
 import { browser } from 'protractor';
 
 import { SITE_VISIBILITY } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -45,7 +45,6 @@ describe('Breadcrumb', () => {
   const folder1Renamed = `renamed-${Utils.random()}`;
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { breadcrumb } = page;
 
@@ -79,8 +78,7 @@ describe('Breadcrumb', () => {
     await Promise.all([
       apis.user.nodes.deleteNodeById(parentId),
       apis.user.nodes.deleteNodeById(parent2Id),
-      apis.user.sites.deleteSite(siteName),
-      logoutPage.load()
+      apis.user.sites.deleteSite(siteName)
     ]);
     done();
   });
@@ -188,7 +186,6 @@ describe('Breadcrumb', () => {
     const user2Api = new RepoClient(user2, user2);
 
     beforeAll(async (done) => {
-      await logoutPage.load();
       await apis.admin.people.createUser({ username: user2 });
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       await loginPage.loginWithAdmin();
@@ -196,10 +193,7 @@ describe('Breadcrumb', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        user2Api.nodes.deleteNodeById(userFolderId),
-        logoutPage.load()
-      ]);
+      await user2Api.nodes.deleteNodeById(userFolderId);
       done();
     });
 

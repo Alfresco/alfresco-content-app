@@ -24,7 +24,7 @@
  */
 
 import { protractor, browser } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { FILES, SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -49,7 +49,6 @@ describe('Viewer general', () => {
     };
 
     const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
     const dataTable = page.dataTable;
     const viewer = new Viewer();
@@ -92,7 +91,6 @@ describe('Viewer general', () => {
       await apis.user.nodes.deleteNodeById(parentId);
       await apis.admin.sites.deleteSite(siteAdmin);
       await apis.user.sites.deleteSite(siteUser);
-      await logoutPage.load();
       done();
     });
 

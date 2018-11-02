@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY, SITE_ROLES, FILES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -56,7 +56,6 @@ describe('Granular permissions available actions : ', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
   const contextMenu = dataTable.menu;
@@ -99,7 +98,6 @@ describe('Granular permissions available actions : ', () => {
 
   afterAll(async done => {
     await apis.admin.sites.deleteSite(siteName);
-    await logoutPage.load();
     done();
   });
 

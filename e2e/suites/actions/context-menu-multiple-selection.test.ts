@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -54,7 +54,6 @@ describe('Context menu actions - multiple selection : ', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const contextMenu = dataTable.menu;
@@ -94,7 +93,6 @@ describe('Context menu actions - multiple selection : ', () => {
     await apis.user.nodes.deleteNodesById([ file1Id, file2Id, folder1Id, folder2Id ]);
     await apis.user.sites.deleteSite(siteName);
     await apis.user.trashcan.emptyTrash();
-    await logoutPage.load();
     done();
   });
 

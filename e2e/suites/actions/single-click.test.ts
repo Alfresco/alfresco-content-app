@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Viewer } from '../../components/viewer/viewer';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -46,7 +46,6 @@ describe('Single click on item name', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
   const viewer = new Viewer();
@@ -81,7 +80,6 @@ describe('Single click on item name', () => {
     await apis.user.nodes.deleteNodeById(folder1Id);
     await apis.user.nodes.deleteNodeById(file1Id);
     await apis.user.trashcan.emptyTrash();
-    await logoutPage.load();
     done();
   });
 

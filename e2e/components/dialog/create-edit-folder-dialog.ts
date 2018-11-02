@@ -60,6 +60,10 @@ export class CreateOrEditFolderDialog extends Component {
     await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
   }
 
+  async isDialogOpen() {
+    return await browser.isElementPresent(by.css(CreateOrEditFolderDialog.selectors.root));
+  }
+
   async getTitle() {
     return await this.title.getText();
   }

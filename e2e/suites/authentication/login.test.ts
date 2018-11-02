@@ -26,7 +26,7 @@
 import { browser } from 'protractor';
 
 import { APP_ROUTES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { navigate } from '../../utilities/browser-utils';
@@ -34,7 +34,6 @@ import { navigate } from '../../utilities/browser-utils';
 describe('Login', () => {
   const peopleApi = new RepoClient().people;
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
 
   /* cspell:disable-next-line */
   const testUser = `user-${Utils.random()}@alfness`;
@@ -70,7 +69,6 @@ describe('Login', () => {
   });
 
   afterEach(async (done) => {
-    await logoutPage.load();
     await Utils.clearLocalStorage();
     done();
   });
@@ -147,7 +145,6 @@ describe('Login', () => {
 
     it('user is able to login after changing his password - [C213104]', async () => {
       await loginPage.loginWith(testUser2.username, testUser2.password);
-      await logoutPage.load();
       await peopleApi.changePassword(testUser2.username, newPassword);
       await loginPage.loginWith(testUser2.username, newPassword);
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);

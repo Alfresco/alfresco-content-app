@@ -24,7 +24,7 @@
  */
 
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -38,7 +38,6 @@ describe('Special permissions', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
@@ -76,10 +75,7 @@ describe('Special permissions', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        apis.admin.sites.deleteSite(sitePrivate),
-        logoutPage.load()
-      ]);
+      await apis.admin.sites.deleteSite(sitePrivate);
       done();
     });
 
@@ -128,10 +124,7 @@ describe('Special permissions', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        apis.admin.sites.deleteSite(sitePrivate),
-        logoutPage.load()
-      ]);
+      await apis.admin.sites.deleteSite(sitePrivate);
       done();
     });
 
