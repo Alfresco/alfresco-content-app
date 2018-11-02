@@ -152,7 +152,7 @@ describe('Edit folder', () => {
     await editButton.click();
     await editDialog.waitForDialogToOpen();
     await editDialog.clickCancel();
-    expect(await editDialog.component.isPresent()).not.toBe(true, 'dialog is not closed');
+    expect(await editDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
   });
 
   it('with duplicate folder name - [C216337]', async () => {
@@ -163,7 +163,7 @@ describe('Edit folder', () => {
     await editDialog.clickUpdate();
     const message = await page.getSnackBarMessage();
     expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
-    expect(await editDialog.component.isPresent()).toBe(true, 'dialog is not present');
+    expect(await editDialog.isDialogOpen()).toBe(true, 'dialog is not present');
   });
 
   it('trim ending spaces - [C216338]', async () => {

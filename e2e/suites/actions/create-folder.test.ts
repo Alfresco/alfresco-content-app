@@ -198,7 +198,7 @@ describe('Create folder', () => {
       await createDialog.enterName('test');
       await createDialog.enterDescription('test description');
       await createDialog.clickCancel();
-      expect(await createDialog.component.isPresent()).not.toBe(true, 'dialog is not closed');
+      expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
     });
 
     it('duplicate folder name - [C216350]', async () => {
@@ -209,7 +209,7 @@ describe('Create folder', () => {
       await createDialog.clickCreate();
       const message = await page.getSnackBarMessage();
       expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
-      expect(await createDialog.component.isPresent()).toBe(true, 'dialog is not present');
+      expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
 
     it('trim ending spaces from folder name - [C216351]', async () => {

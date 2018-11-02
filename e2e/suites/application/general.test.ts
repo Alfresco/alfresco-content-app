@@ -60,12 +60,12 @@ describe('General', () => {
       await authApi.logout();
 
       await createDialog.clickCreate();
-      expect(await browser.getTitle()).toContain('Sign in');
-      // const message = await page.getSnackBarMessage();
-      // expect(message).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
 
-      await createDialog.waitForDialogToClose();
-      expect(createDialog.component.isPresent()).not.toBe(true, 'dialog is present');
+      const message = await page.getSnackBarMessage();
+      expect(message).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
+
+      expect(await browser.getTitle()).toContain('Sign in');
+      expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is present');
     });
   });
 });
