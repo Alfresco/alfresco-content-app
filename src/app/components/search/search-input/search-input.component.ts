@@ -33,15 +33,10 @@ import {
   UrlSegmentGroup,
   UrlTree
 } from '@angular/router';
-import { MinimalNodeEntity } from 'alfresco-js-api';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
-import {
-  SearchByTermAction,
-  NavigateToFolder,
-  ViewFileAction
-} from '../../../store/actions';
+import { SearchByTermAction } from '../../../store/actions';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -54,7 +49,25 @@ export class SearchInputComponent implements OnInit {
   hasOneChange = false;
   hasNewChange = false;
   navigationTimer: any;
-  enableLiveSearch = true;
+
+  searchedWord = null;
+  searchOptions: any = [
+    {
+      key: 'SEARCH.INPUT.FILES',
+      value: false,
+      shouldDisable: this.isLibrariesChecked.bind(this)
+    },
+    {
+      key: 'SEARCH.INPUT.FOLDERS',
+      value: false,
+      shouldDisable: this.isLibrariesChecked.bind(this)
+    },
+    {
+      key: 'SEARCH.INPUT.LIBRARIES',
+      value: false,
+      shouldDisable: this.isContentChecked.bind(this)
+    }
+  ];
 
   @ViewChild('searchInputControl')
   searchInputControl: SearchInputControlComponent;
@@ -74,45 +87,21 @@ export class SearchInputComponent implements OnInit {
   }
 
   showInputValue() {
+    this.searchedWord = '';
+
     if (this.onSearchResults) {
-      let searchedWord = null;
       const urlTree: UrlTree = this.router.parseUrl(this.router.url);
       const urlSegmentGroup: UrlSegmentGroup =
         urlTree.root.children[PRIMARY_OUTLET];
 
       if (urlSegmentGroup) {
         const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
-        searchedWord = urlSegments[0].parameters['q'];
-      }
-
-      if (this.searchInputControl) {
-        this.enableLiveSearch = false;
-        this.searchInputControl.searchTerm = searchedWord;
-        this.searchInputControl.subscriptAnimationState = 'no-animation';
-      }
-    } else {
-      if (this.searchInputControl.subscriptAnimationState === 'no-animation') {
-        this.searchInputControl.subscriptAnimationState = 'active';
-        this.searchInputControl.searchTerm = '';
-        this.searchInputControl.toggleSearchBar();
-      }
-
-      if (!this.enableLiveSearch) {
-        setTimeout(() => {
-          this.enableLiveSearch = true;
-        }, this.searchInputControl.toggleDebounceTime + 100);
+        this.searchedWord = urlSegments[0].parameters['q'] || '';
       }
     }
-  }
 
-  onItemClicked(node: MinimalNodeEntity) {
-    if (node && node.entry) {
-      const { isFile, isFolder } = node.entry;
-      if (isFile) {
-        this.store.dispatch(new ViewFileAction(node));
-      } else if (isFolder) {
-        this.store.dispatch(new NavigateToFolder(node));
-      }
+    if (this.searchInputControl) {
+      this.searchInputControl.searchTerm = this.searchedWord;
     }
   }
 
@@ -124,33 +113,42 @@ export class SearchInputComponent implements OnInit {
   onSearchSubmit(event: KeyboardEvent) {
     const searchTerm = (event.target as HTMLInputElement).value;
     if (searchTerm) {
-      this.store.dispatch(new SearchByTermAction(searchTerm));
+      this.store.dispatch(
+        new SearchByTermAction(searchTerm, this.searchOptions)
+      );
     }
   }
 
   onSearchChange(searchTerm: string) {
-    if (this.onSearchResults) {
-      if (this.hasOneChange) {
-        this.hasNewChange = true;
-      } else {
-        this.hasOneChange = true;
-      }
-
-      if (this.hasNewChange) {
-        clearTimeout(this.navigationTimer);
-        this.hasNewChange = false;
-      }
-
-      this.navigationTimer = setTimeout(() => {
-        if (searchTerm) {
-          this.store.dispatch(new SearchByTermAction(searchTerm));
-        }
-        this.hasOneChange = false;
-      }, 1000);
+    if (this.hasOneChange) {
+      this.hasNewChange = true;
+    } else {
+      this.hasOneChange = true;
     }
+
+    if (this.hasNewChange) {
+      clearTimeout(this.navigationTimer);
+      this.hasNewChange = false;
+    }
+
+    this.navigationTimer = setTimeout(() => {
+      if (searchTerm) {
+        this.store.dispatch(
+          new SearchByTermAction(searchTerm, this.searchOptions)
+        );
+      }
+      this.hasOneChange = false;
+    }, 1000);
   }
 
   get onSearchResults() {
     return this.router.url.indexOf('/search') === 0;
+  }
+
+  isLibrariesChecked(): boolean {
+    return this.searchOptions[2].value;
+  }
+  isContentChecked(): boolean {
+    return this.searchOptions[0].value || this.searchOptions[1].value;
   }
 }
