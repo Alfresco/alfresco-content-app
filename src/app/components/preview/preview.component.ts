@@ -170,11 +170,6 @@ export class PreviewComponent extends PageComponent
     if (shouldNavigate) {
       const route = this.getNavigationCommands(this.previewLocation);
 
-      console.log(this.previewLocation);
-      console.log(shouldSkipNavigation),
-        console.log(this.folderId),
-        console.log(route);
-
       if (!shouldSkipNavigation && this.folderId) {
         route.push(this.folderId);
       }
