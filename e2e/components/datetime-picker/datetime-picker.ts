@@ -26,7 +26,7 @@
 import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
-import moment = require('moment');
+import * as moment from 'moment';
 
 export class DateTimePicker extends Component {
   private static selectors = {
