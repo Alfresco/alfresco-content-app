@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import {
   ActivatedRoute,
   Router,
@@ -49,7 +49,8 @@ import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-preview' }
 })
-export class PreviewComponent extends PageComponent implements OnInit {
+export class PreviewComponent extends PageComponent
+  implements OnInit, OnDestroy {
   previewLocation: string = null;
   routesSkipNavigation = ['shared', 'recent-files', 'favorites'];
   navigateSource: string = null;
@@ -108,8 +109,18 @@ export class PreviewComponent extends PageComponent implements OnInit {
       }
     });
 
+    this.subscriptions = this.subscriptions.concat([
+      this.content.nodesDeleted.subscribe(() =>
+        this.navigateToFileLocation(true)
+      )
+    ]);
+
     this.openWith = this.extensions.openWithActions;
     this.contentExtensions = this.extensions.viewerContentExtensions;
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
   }
 
   /**
@@ -147,11 +158,16 @@ export class PreviewComponent extends PageComponent implements OnInit {
    * @param isVisible Indicator whether Viewer is visible or hidden.
    */
   onVisibilityChanged(isVisible: boolean): void {
+    const shouldNavigate = !isVisible;
+    this.navigateToFileLocation(shouldNavigate);
+  }
+
+  navigateToFileLocation(shouldNavigate: boolean) {
     const shouldSkipNavigation = this.routesSkipNavigation.includes(
       this.previewLocation
     );
 
-    if (!isVisible) {
+    if (shouldNavigate) {
       const route = this.getNavigationCommands(this.previewLocation);
 
       if (!shouldSkipNavigation && this.folderId) {
