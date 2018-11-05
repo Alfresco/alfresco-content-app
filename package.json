@@ -47,7 +47,6 @@
     "@angular/platform-browser": "7.0.2",
     "@angular/platform-browser-dynamic": "7.0.2",
     "@angular/router": "7.0.2",
-    "@denysvuika/aca-dev-tools": "^0.1.5",
     "@mat-datetimepicker/core": "^2.0.1",
     "@mat-datetimepicker/moment": "^2.0.1",
     "@ngrx/effects": "^6.1.0",
