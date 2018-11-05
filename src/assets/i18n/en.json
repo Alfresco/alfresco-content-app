@@ -113,7 +113,8 @@
                 "NO_RESULTS": "Your search returned 0 results"
             },
             "SEARCH_LIBRARIES": {
-              "TITLE": "Libraries found..."
+              "TITLE": "Libraries found...",
+              "FOUND_RESULTS": "{{ number }} results"
             }
         },
         "ACTIONS": {
