@@ -1,0 +1,104 @@
+/*!
+ * @license
+ * Alfresco Example Content Application
+ *
+ * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ *
+ * This file is part of the Alfresco Example Content Application.
+ * If the software was purchased under a paid Alfresco license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
+ * provided under the following open source license terms:
+ *
+ * The Alfresco Example Content Application is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * The Alfresco Example Content Application is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { Injectable } from '@angular/core';
+import { QueryBody, RequestSortDefinitionInner, SitePaging } from 'alfresco-js-api';
+import { Subject } from 'rxjs';
+import { SearchSortingDefinition } from '@alfresco/adf-content-services/search/search-sorting-definition.interface';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SearchLibrariesQueryBuilderService {
+  private _userQuery = '';
+
+  updated: Subject<QueryBody> = new Subject();
+  executed: Subject<any> = new Subject();
+
+  paging: { maxItems?: number; skipCount?: number } = null;
+  sorting: Array<SearchSortingDefinition> = [];
+  
+  get userQuery(): string {
+    return this._userQuery;
+  }
+
+  set userQuery(value: string) {
+    this._userQuery = value ? value.trim() : '';
+  }
+
+  constructor(private alfrescoApiService: AlfrescoApiService) { }
+  
+  update(): void {
+    const query = this.buildQuery();
+    this.updated.next(query);
+  }
+
+  async execute() {
+    const query = this.buildQuery();
+    if (query) {
+        const data = await this.findLibraryByTitle(query);
+        this.executed.next(data);
+    }
+  }
+
+  buildQuery(): any {
+    const query = this.userQuery;
+    if (query) {
+      const resultQuery = {
+        term: query,
+        skipCount: this.paging && this.paging.skipCount,
+        maxItems: this.paging && this.paging.maxItems,
+        orderBy: this.sort
+      };
+      return resultQuery;
+    }
+    return null;
+  }
+
+  protected get sort(): RequestSortDefinitionInner[] {
+    return this.sorting.map(def => {
+      return {
+        type: def.type,
+        field: def.field,
+        ascending: def.ascending
+      };
+    });
+  }
+
+  private findLibraryByTitle(libraryQuery: { term, opts }): Promise<SitePaging> {
+    return this.alfrescoApiService
+      .getInstance()
+      .core.queriesApi.findSites(libraryQuery.term, libraryQuery.opts)
+      .catch(() => ({ list: { pagination: { totalItems: 0 }, entries: [] } }));
+  }
+
+  getPrimarySorting(): SearchSortingDefinition {
+    if (this.sorting && this.sorting.length > 0) {
+      return this.sorting[0];
+    }
+    return null;
+  }
+}

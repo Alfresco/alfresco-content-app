@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NodePaging, Pagination, MinimalNodeEntity, SitePaging } from 'alfresco-js-api';
+import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   SearchQueryBuilderService,
@@ -36,7 +36,7 @@ import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { AlfrescoApiService, AppConfigService } from '@alfresco/adf-core';
+import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
 
 @Component({
   selector: 'aca-search-results',
@@ -57,17 +57,15 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   columns: any[] = [];
 
   constructor(
-    private queryBuilder: SearchQueryBuilderService,
+    private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
     private route: ActivatedRoute,
-    private config: AppConfigService,
-    private alfrescoApiService: AlfrescoApiService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
   ) {
     super(store, extensions, content);
 
-    queryBuilder.paging = {
+    librariesQueryBuilder.paging = {
       skipCount: 0,
       maxItems: 25
     };
@@ -80,16 +78,16 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
     this.sorting = this.getSorting();
 
     this.subscriptions.push(
-      this.queryBuilder.updated.subscribe(() => {
-        console.log('updated');
+      this.librariesQueryBuilder.updated.subscribe(() => {
         this.sorting = this.getSorting();
         this.isLoading = true;
+
+        this.librariesQueryBuilder.execute();
       }),
 
-      this.queryBuilder.executed.subscribe(data => {
-        this.queryBuilder.paging.skipCount = 0;
+      this.librariesQueryBuilder.executed.subscribe(data => {
+        this.librariesQueryBuilder.paging.skipCount = 0;
 
-        console.log('executed');
         this.onSearchResultLoaded(data);
         this.isLoading = false;
       })
@@ -102,15 +100,13 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
           : null;
         const query = this.formatSearchQuery(this.searchedWord);
 
-        if (query) {
-          this.queryBuilder.userQuery = query;
-          // this.queryBuilder.update();
-          this.executeLibrarySearch().then(() => {
-            console.log('got results');
-          });
+        if (query && query.length > 1) {
+          this.librariesQueryBuilder.userQuery = query;
+          this.librariesQueryBuilder.update();
+
         } else {
-          this.queryBuilder.userQuery = null;
-          this.queryBuilder.executed.next({
+          this.librariesQueryBuilder.userQuery = null;
+          this.librariesQueryBuilder.executed.next({
             list: { pagination: { totalItems: 0 }, entries: [] }
           });
         }
@@ -122,11 +118,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
     if (!userInput) {
       return null;
     }
-
-    const fields = this.config.get<string[]>('search.aca:fields', ['cm:name']);
-    const query = fields.map(field => `${field}:"${userInput}*"`).join(' OR ');
-
-    return query;
+    return userInput.trim();
   }
 
   onSearchResultLoaded(nodePaging: NodePaging) {
@@ -142,15 +134,15 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   }
 
   onPaginationChanged(pagination: Pagination) {
-    this.queryBuilder.paging = {
+    this.librariesQueryBuilder.paging = {
       maxItems: pagination.maxItems,
       skipCount: pagination.skipCount
     };
-    this.queryBuilder.update();
+    this.librariesQueryBuilder.update();
   }
 
   private getSorting(): string[] {
-    const primary = this.queryBuilder.getPrimarySorting();
+    const primary = this.librariesQueryBuilder.getPrimarySorting();
 
     if (primary) {
       return [primary.key, primary.ascending ? 'asc' : 'desc'];
@@ -173,20 +165,5 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
 
       this.showPreview(node);
     }
-  }
-
-  async executeLibrarySearch() {
-    const query = this.queryBuilder.buildQuery();
-    if (query) {
-      const data = await this.findLibraryByTitle(this.searchedWord);
-      this.queryBuilder.executed.next(data);
-    }
-  }
-
-  private findLibraryByTitle(libraryTitle: string): Promise<SitePaging> {
-    return this.alfrescoApiService
-      .getInstance()
-      .core.queriesApi.findSites(libraryTitle)
-      .catch(() => ({ list: { entries: [] } }));
   }
 }
