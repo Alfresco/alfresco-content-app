@@ -47,8 +47,8 @@ export class SearchLibrariesQueryBuilderService {
     this._userQuery = value ? value.trim() : '';
   }
 
-  constructor(private alfrescoApiService: AlfrescoApiService) { }
-  
+  constructor(private alfrescoApiService: AlfrescoApiService) {}
+
   update(): void {
     const query = this.buildQuery();
     this.updated.next(query);
@@ -57,8 +57,8 @@ export class SearchLibrariesQueryBuilderService {
   async execute() {
     const query = this.buildQuery();
     if (query) {
-        const data = await this.findLibraries(query);
-        this.executed.next(data);
+      const data = await this.findLibraries(query);
+      this.executed.next(data);
     }
   }
 
@@ -77,7 +77,7 @@ export class SearchLibrariesQueryBuilderService {
     return null;
   }
 
-  private findLibraries(libraryQuery: { term, opts }): Promise<SitePaging> {
+  private findLibraries(libraryQuery: { term; opts }): Promise<SitePaging> {
     return this.alfrescoApiService
       .getInstance()
       .core.queriesApi.findSites(libraryQuery.term, libraryQuery.opts)

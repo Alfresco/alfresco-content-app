@@ -45,7 +45,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   styleUrls: ['./search-libraries-results.component.scss'],
   providers: [SearchQueryBuilderService]
 })
-export class SearchLibrariesResultsComponent extends PageComponent implements OnInit {
+export class SearchLibrariesResultsComponent extends PageComponent
+  implements OnInit {
   isSmallScreen = false;
 
   @ViewChild('search')
@@ -110,7 +111,6 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
         if (query && query.length > 1) {
           this.librariesQueryBuilder.userQuery = query;
           this.librariesQueryBuilder.update();
-
         } else {
           this.librariesQueryBuilder.userQuery = null;
           this.librariesQueryBuilder.executed.next({

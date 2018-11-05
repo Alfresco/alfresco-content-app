@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchLibrariesResultsComponent } from './search-results.component';
+import { SearchLibrariesResultsComponent } from './search-libraries-results.component';
 
-describe('SearchComponent', () => {
+describe('SearchLibrariesResultsComponent', () => {
   let component: SearchLibrariesResultsComponent;
   let fixture: ComponentFixture<SearchLibrariesResultsComponent>;
 

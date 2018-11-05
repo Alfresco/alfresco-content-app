@@ -47,7 +47,15 @@ import { AppLayoutModule } from '../layout/layout.module';
     DirectivesModule,
     AppLayoutModule
   ],
-  declarations: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent],
-  exports: [SearchResultsComponent, SearchLibrariesResultsComponent, SearchResultsRowComponent]
+  declarations: [
+    SearchResultsComponent,
+    SearchLibrariesResultsComponent,
+    SearchResultsRowComponent
+  ],
+  exports: [
+    SearchResultsComponent,
+    SearchLibrariesResultsComponent,
+    SearchResultsRowComponent
+  ]
 })
 export class AppSearchResultsModule {}

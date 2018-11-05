@@ -42,9 +42,9 @@ import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
 export enum SearchOptionIds {
-  Files = "files",
-  Folders = "folders",
-  Libraries = "libraries"
+  Files = 'files',
+  Folders = 'folders',
+  Libraries = 'libraries'
 }
 
 @Component({
@@ -88,7 +88,7 @@ export class SearchInputComponent implements OnInit {
     private queryBuilder: SearchQueryBuilderService,
     private router: Router,
     private store: Store<AppStore>
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.showInputValue();
@@ -159,24 +159,18 @@ export class SearchInputComponent implements OnInit {
 
   onOptionChange() {
     if (this.searchedWord) {
-
       if (this.isLibrariesChecked()) {
-
         if (this.onLibrariesSearchResults) {
           this.librariesQueryBuilder.update();
-
         } else {
           this.store.dispatch(
             new SearchByTermAction(this.searchedWord, this.searchOptions)
           );
         }
-
       } else if (this.isContentChecked()) {
-
         if (this.onSearchResults) {
           // TODO: send here data to this.queryBuilder to be able to search for files/folders
           this.queryBuilder.update();
-
         } else {
           this.store.dispatch(
             new SearchByTermAction(this.searchedWord, this.searchOptions)
@@ -191,7 +185,9 @@ export class SearchInputComponent implements OnInit {
   }
 
   get onSearchResults() {
-    return !this.onLibrariesSearchResults && this.router.url.indexOf('/search') === 0;
+    return (
+      !this.onLibrariesSearchResults && this.router.url.indexOf('/search') === 0
+    );
   }
 
   isFilesChecked(): boolean {
@@ -207,7 +203,7 @@ export class SearchInputComponent implements OnInit {
   }
 
   isOptionChecked(optionId: string): boolean {
-    const libItem = this.searchOptions.find( item => item.id === optionId );
+    const libItem = this.searchOptions.find(item => item.id === optionId);
     return !!libItem && libItem.value;
   }
 
