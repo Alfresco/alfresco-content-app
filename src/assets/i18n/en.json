@@ -148,6 +148,7 @@
         },
         "DOCUMENT_LIST": {
             "COLUMNS": {
+                "ID": "ID",
                 "NAME": "Name",
                 "SIZE": "Size",
                 "MODIFIED_ON": "Modified",

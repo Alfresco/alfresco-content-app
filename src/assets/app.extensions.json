@@ -1195,6 +1195,43 @@
           "sortable": true,
           "desktopOnly": true
         }
+      ],
+      "search-libraries": [
+        {
+          "id": "app.libraries.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.id",
+          "key": "id",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ID",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryName",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.visibility",
+          "key": "visibility",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryStatus",
+          "desktopOnly": true
+        }
       ]
     }
   }
