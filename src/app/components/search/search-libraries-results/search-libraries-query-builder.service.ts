@@ -57,7 +57,7 @@ export class SearchLibrariesQueryBuilderService {
   async execute() {
     const query = this.buildQuery();
     if (query) {
-        const data = await this.findLibraryByTitle(query);
+        const data = await this.findLibraries(query);
         this.executed.next(data);
     }
   }
@@ -77,7 +77,7 @@ export class SearchLibrariesQueryBuilderService {
     return null;
   }
 
-  private findLibraryByTitle(libraryQuery: { term, opts }): Promise<SitePaging> {
+  private findLibraries(libraryQuery: { term, opts }): Promise<SitePaging> {
     return this.alfrescoApiService
       .getInstance()
       .core.queriesApi.findSites(libraryQuery.term, libraryQuery.opts)

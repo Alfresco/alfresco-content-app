@@ -37,6 +37,7 @@ import { NavigateToFolder } from '../../../store/actions';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'aca-search-results',
@@ -45,6 +46,8 @@ import { SearchLibrariesQueryBuilderService } from './search-libraries-query-bui
   providers: [SearchQueryBuilderService]
 })
 export class SearchLibrariesResultsComponent extends PageComponent implements OnInit {
+  isSmallScreen = false;
+
   @ViewChild('search')
   search: AdfSearchComponent;
 
@@ -56,6 +59,7 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   columns: any[] = [];
 
   constructor(
+    private breakpointObserver: BreakpointObserver,
     private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
     private route: ActivatedRoute,
     store: Store<AppStore>,
@@ -87,7 +91,13 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
 
         this.onSearchResultLoaded(data);
         this.isLoading = false;
-      })
+      }),
+
+      this.breakpointObserver
+        .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
+        .subscribe(result => {
+          this.isSmallScreen = result.matches;
+        })
     );
 
     if (this.route) {

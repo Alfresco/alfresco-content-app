@@ -1206,22 +1206,22 @@
           "desktopOnly": false
         },
         {
-          "id": "app.libraries.id",
-          "key": "id",
-          "title": "APP.DOCUMENT_LIST.COLUMNS.ID",
-          "type": "text",
-          "class": "adf-data-table-cell--ellipsis__name",
-          "sortable": true,
-          "desktopOnly": false
-        },
-        {
           "id": "app.libraries.name",
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
           "sortable": true,
           "template": "app.columns.libraryName",
           "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.id",
+          "key": "id",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ID",
+          "type": "text",
+          "sortable": true,
+          "desktopOnly": true
         },
         {
           "id": "app.libraries.visibility",
@@ -1230,6 +1230,14 @@
           "type": "text",
           "sortable": true,
           "template": "app.columns.libraryStatus",
+          "desktopOnly": true
+        },
+        {
+          "id": "app.libraries.role",
+          "key": "role",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
+          "type": "text",
+          "sortable": true,
           "desktopOnly": true
         }
       ]
