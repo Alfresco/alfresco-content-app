@@ -52,7 +52,6 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
   queryParamName = 'q';
   data: NodePaging;
   totalResults = 0;
-  sorting = ['name', 'asc'];
   isLoading = false;
   columns: any[] = [];
 
@@ -75,11 +74,9 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
     super.ngOnInit();
 
     this.columns = this.extensions.documentListPresets.libraries || [];
-    this.sorting = this.getSorting();
 
     this.subscriptions.push(
       this.librariesQueryBuilder.updated.subscribe(() => {
-        this.sorting = this.getSorting();
         this.isLoading = true;
 
         this.librariesQueryBuilder.execute();
@@ -139,16 +136,6 @@ export class SearchLibrariesResultsComponent extends PageComponent implements On
       skipCount: pagination.skipCount
     };
     this.librariesQueryBuilder.update();
-  }
-
-  private getSorting(): string[] {
-    const primary = this.librariesQueryBuilder.getPrimarySorting();
-
-    if (primary) {
-      return [primary.key, primary.ascending ? 'asc' : 'desc'];
-    }
-
-    return ['name', 'asc'];
   }
 
   onNodeDoubleClick(node: MinimalNodeEntity) {

@@ -23,8 +23,6 @@
                   <div class="content__side--left">
                       <div class="adf-search-results--info-text">{{ 'APP.BROWSE.SEARCH.FOUND_RESULTS' | translate: { number: totalResults } }}</div>
                   </div>
-
-                  <adf-search-sorting-picker class="content__side--right"></adf-search-sorting-picker>
               </div>
 
               <adf-document-list
@@ -32,8 +30,7 @@
                   acaDocumentList
                   [showHeader]="true"
                   [selectionMode]="'multiple'"
-                  [sortingMode]="'server'"
-                  [sorting]="sorting"
+                  [sorting]="[ 'title', 'asc' ]"
                   [node]="data"
                   (node-dblclick)="onNodeDoubleClick($event.detail?.node)">
 

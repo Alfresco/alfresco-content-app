@@ -25,9 +25,8 @@
 
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
-import { QueryBody, RequestSortDefinitionInner, SitePaging } from 'alfresco-js-api';
+import { QueryBody, SitePaging } from 'alfresco-js-api';
 import { Subject } from 'rxjs';
-import { SearchSortingDefinition } from '@alfresco/adf-content-services/search/search-sorting-definition.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +38,7 @@ export class SearchLibrariesQueryBuilderService {
   executed: Subject<any> = new Subject();
 
   paging: { maxItems?: number; skipCount?: number } = null;
-  sorting: Array<SearchSortingDefinition> = [];
-  
+
   get userQuery(): string {
     return this._userQuery;
   }
@@ -69,23 +67,14 @@ export class SearchLibrariesQueryBuilderService {
     if (query) {
       const resultQuery = {
         term: query,
-        skipCount: this.paging && this.paging.skipCount,
-        maxItems: this.paging && this.paging.maxItems,
-        orderBy: this.sort
+        opts: {
+          skipCount: this.paging && this.paging.skipCount,
+          maxItems: this.paging && this.paging.maxItems
+        }
       };
       return resultQuery;
     }
     return null;
-  }
-
-  protected get sort(): RequestSortDefinitionInner[] {
-    return this.sorting.map(def => {
-      return {
-        type: def.type,
-        field: def.field,
-        ascending: def.ascending
-      };
-    });
   }
 
   private findLibraryByTitle(libraryQuery: { term, opts }): Promise<SitePaging> {
@@ -93,12 +82,5 @@ export class SearchLibrariesQueryBuilderService {
       .getInstance()
       .core.queriesApi.findSites(libraryQuery.term, libraryQuery.opts)
       .catch(() => ({ list: { pagination: { totalItems: 0 }, entries: [] } }));
-  }
-
-  getPrimarySorting(): SearchSortingDefinition {
-    if (this.sorting && this.sorting.length > 0) {
-      return this.sorting[0];
-    }
-    return null;
   }
 }
