@@ -25,6 +25,11 @@
       background: none !important;
     }
 
+    .mat-mini-fab {
+      box-shadow: unset !important;
+      background-color: unset !important;
+    }
+
     .adf-sidebar-action-menu-button {
       background-color: mat-color($accent);
     }

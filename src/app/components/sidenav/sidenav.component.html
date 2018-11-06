@@ -99,11 +99,25 @@
                             <ng-container *ngIf="item.children && item.children.length">
                                 <div class="sidenav-menu__item">
                                     <button [id]="item.id"
-                                        color="accent" mat-icon-button
+                                        color="accent"
+                                        mat-mini-fab
+                                        mat-icon-button
+                                        disableRipple="true"
+                                        matRipple
+                                        [matRippleCentered]="true"
+                                        matRippleColor="accent"
+                                        [matRippleRadius]="24"
                                         #childMenu="matMenuTrigger"
                                         [matMenuTriggerFor]="menu">
-                                        <mat-icon [color]="routerLink.isActive|| childMenu.menuOpen? 'accent': 'primary'">
-                                            {{ item.icon }}more_vert
+
+                                        <mat-icon
+                                            [color]="routerLink.isActive|| childMenu.menuOpen? 'accent': 'primary'">
+                                            {{ item.icon }}
+                                        </mat-icon>
+
+                                        <mat-icon
+                                            [color]="routerLink.isActive|| childMenu.menuOpen? 'accent': 'primary'">
+                                            more_vert
                                         </mat-icon>
                                     </button>
                                 </div>
