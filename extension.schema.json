@@ -173,7 +173,7 @@
     },
     "navBarLinkRef": {
       "type": "object",
-      "required": ["id", "icon", "title", "route"],
+      "required": ["id", "icon", "title"],
       "properties": {
         "id": {
           "description": "Unique identifier",
@@ -199,6 +199,12 @@
           "description": "Element order",
           "type": "number"
         },
+        "children": {
+          "description": "Navigation children items",
+          "type": "array",
+          "items": { "$ref": "#/definitions/navBarLinkRef" },
+          "minItems": 1
+        },
         "rules": {
           "description": "Element rules",
           "type": "object",
@@ -209,7 +215,21 @@
             }
           }
         }
-      }
+      },
+      "oneOf": [
+        {
+          "required": ["route"],
+          "not": {
+            "required": ["children"]
+          }
+        },
+        {
+          "required": ["children"],
+          "not": {
+            "required": ["route"]
+          }
+        }
+      ]
     },
     "navBarGroupRef": {
       "type": "object",

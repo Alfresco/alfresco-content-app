@@ -188,11 +188,31 @@ export class AppExtensionService implements RuleContext {
       return {
         ...group,
         items: (group.items || [])
-          .filter(item => {
-            return this.filterByRules(item);
-          })
+          .filter(item => this.filterByRules(item))
           .sort(sortByOrder)
           .map(item => {
+            if (item.children && item.children.length > 0) {
+              item.children = item.children
+                .filter(child => this.filterByRules(child))
+                .sort(sortByOrder)
+                .map(child => {
+                  const childRouteRef = this.extensions.getRouteById(
+                    child.route
+                  );
+                  const childUrl = `/${
+                    childRouteRef ? childRouteRef.path : child.route
+                  }`;
+                  return {
+                    ...child,
+                    url: childUrl
+                  };
+                });
+
+              return {
+                ...item
+              };
+            }
+
             const routeRef = this.extensions.getRouteById(item.route);
             const url = `/${routeRef ? routeRef.path : item.route}`;
             return {
@@ -200,6 +220,7 @@ export class AppExtensionService implements RuleContext {
               url
             };
           })
+          .reduce(reduceEmptyMenus, [])
       };
     });
   }
