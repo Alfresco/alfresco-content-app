@@ -16,7 +16,7 @@
  */
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TestBed, fakeAsync, async, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { of } from 'rxjs';
 import {
@@ -137,7 +137,7 @@ describe('ShareDialogComponent', () => {
     ).toContain('mat-checked');
   }));
 
-  fit(`should copy shared link and notify on button event`, async(() => {
+  it(`should copy shared link and notify on button event`, () => {
     node.entry.properties['qshare:sharedId'] = 'sharedId';
     spyOn(document, 'execCommand').and.callThrough();
 
@@ -149,21 +149,17 @@ describe('ShareDialogComponent', () => {
 
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
+    fixture.nativeElement
+      .querySelector('.input-action')
+      .dispatchEvent(new MouseEvent('click'));
 
-      fixture.nativeElement
-        .querySelector('.input-action')
-        .dispatchEvent(new MouseEvent('click'));
+    fixture.detectChanges();
 
-      fixture.detectChanges();
-
-      expect(document.execCommand).toHaveBeenCalledWith('copy');
-      expect(notificationServiceMock.openSnackMessage).toHaveBeenCalledWith(
-        'SHARE.CLIPBOARD-MESSAGE'
-      );
-    });
-  }));
+    expect(document.execCommand).toHaveBeenCalledWith('copy');
+    expect(notificationServiceMock.openSnackMessage).toHaveBeenCalledWith(
+      'SHARE.CLIPBOARD-MESSAGE'
+    );
+  });
 
   it('should open a confirmation dialog when unshare button is triggered', () => {
     spyOn(matDialog, 'open').and.returnValue({ beforeClose: () => of(false) });
