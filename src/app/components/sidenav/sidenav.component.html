@@ -54,13 +54,13 @@
                                 </mat-expansion-panel-header>
 
                                 <div *ngFor="let child of item.children; trackBy: trackById"
-                                    routerLinkActive #ee="routerLinkActive"
+                                    routerLinkActive #childRouteActive="routerLinkActive"
                                     [attr.title]="child.description | translate">
 
                                     <button [id]="child.id"
                                         mat-icon-button mat-ripple
                                         [routerLink]="child.url"
-                                        [color]="ee.isActive ? 'accent': 'primary'"
+                                        [color]="childRouteActive.isActive ? 'accent': 'primary'"
                                         [attr.aria-label]="child.title | translate"
                                         matRippleColor="primary"
                                         [matRippleTrigger]="rippleTrigger"
@@ -74,8 +74,8 @@
                                         [routerLink]="child.url"
                                         class="menu__item--label"
                                         [ngClass]="{
-                                            'menu__item--active': ee.isActive,
-                                            'menu__item--default': !ee.isActive
+                                            'menu__item--active': childRouteActive.isActive,
+                                            'menu__item--default': !childRouteActive.isActive
                                         }">
                                         {{ child.title | translate }}</span>
                                 </div>
