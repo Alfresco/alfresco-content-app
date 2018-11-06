@@ -191,6 +191,7 @@ export class AppExtensionService implements RuleContext {
             if (item.children && item.children.length > 0) {
               item.children = item.children
                 .filter(child => this.filterByRules(child))
+                .sort(sortByOrder)
                 .map(child => {
                   const childRouteRef = this.extensions.getRouteById(
                     child.route
