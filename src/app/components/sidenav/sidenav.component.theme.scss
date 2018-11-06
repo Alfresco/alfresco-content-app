@@ -25,28 +25,27 @@
       background: none !important;
     }
 
-    .mat-mini-fab {
-      box-shadow: unset !important;
-      background-color: unset !important;
+    .mat-expansion-panel-header {
+      font-size: 14px !important;
     }
 
     .adf-sidebar-action-menu-button {
       background-color: mat-color($accent);
     }
 
-    &__section {
+    .section {
       border-bottom: $border;
     }
 
-    .menu__item--label:not(.menu__item--active):hover {
+    .item--label:not(.item--active):hover {
       color: mat-color($foreground, text);
     }
 
-    .menu__item--active {
+    .item--active {
       color: mat-color($accent);
     }
 
-    .menu__item--default {
+    .item--default {
       color: mat-color($primary, 0.87);
     }
   }
