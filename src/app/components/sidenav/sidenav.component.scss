@@ -18,15 +18,13 @@
 
   &__section {
     padding: 8px 14px;
-    position: relative;
   }
 
   &-menu {
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
     padding: 0;
     margin: 0;
-    list-style-type: none;
   }
 
   &-menu__item {
@@ -47,5 +45,19 @@
 
   .menu__item--label:focus {
     outline: none;
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0 8px !important;
+  }
+
+  .mat-expansion-panel-header-title span {
+    margin-left: 18px;
+  }
+
+  .mat-expansion-panel-header-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 }
