@@ -145,6 +145,7 @@ The button will be visible only when the linked rule evaluates to `true`.
 | app.selection.library           | A single Library node is selected.                           |
 | app.selection.folder            | A single Folder node is selected.                            |
 | app.selection.folder.canUpdate  | User has permissions to update the selected folder.          |
+| repository.isQuickShareEnabled  | Whether the quick share repository option is enabled or not. |
 
 ## Navigation Evaluators
 
