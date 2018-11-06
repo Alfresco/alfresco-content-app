@@ -269,7 +269,8 @@
             "TITLE": "Manage Permissions",
             "CLOSE": "Close",
             "INHERIT_PERMISSIONS_BUTTON": "Inherit Permissions",
-            "INHERITED_PERMISSIONS_BUTTON": "Permissions Inherited"
+            "INHERITED_PERMISSIONS_BUTTON": "Permissions Inherited",
+            "ADD_USER_OR_GROUP": "Add User or Group"
         }
     },
     "SHARED_LINK": {

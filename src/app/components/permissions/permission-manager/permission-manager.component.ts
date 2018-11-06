@@ -68,7 +68,7 @@ export class PermissionsManagerComponent implements OnInit {
     this.store.dispatch(new SnackbarErrorAction(errorMessage));
   }
 
-  onUpdate(event) {
+  onUpdate() {
     this.permissionList.reload();
   }
 

@@ -24,7 +24,6 @@
  */
 
 import { browser } from 'protractor';
-
 import { SIDEBAR_LABELS, PAGE_TITLES } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -37,7 +36,7 @@ describe('Page titles', () => {
   const adminApi = new RepoClient();
   const { nodes: nodesApi } = adminApi;
   const file = `file-${Utils.random()}.txt`; let fileId;
-  const header = page.header;
+  const { searchInput } = page.header;
 
   xit('');
 
@@ -124,11 +123,8 @@ describe('Page titles', () => {
     });
 
     it('Search Results page - [C280413]', async () => {
-      await header.waitForSearchButton();
-      await header.searchButton.click();
-      await page.dataTable.waitForHeader();
-      await header.waitForSearchBar();
-      await header.searchForText(file);
+      await searchInput.clickSearchContainer();
+      await searchInput.searchForText(file);
       expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
     });
   });
