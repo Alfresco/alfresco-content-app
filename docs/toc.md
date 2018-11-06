@@ -31,4 +31,8 @@
     - [Creating custom evaluators](/extending/creating-custom-evaluators)
     - [Tutorials](/extending/tutorials)
     - [Redistributable libraries](/extending/redistributable-libraries)
+- [Tutorials](/tutorials/)
+    - [Introduction to extending ACA](/tutorials/introduction-to-extending)
+    - [Custom route with parameters](/tutorials/custom-route-with-parameters)
+    - [Dialog actions](/tutorials/dialog-actions)
 - [Get help](/help)
