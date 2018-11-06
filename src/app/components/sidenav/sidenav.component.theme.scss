@@ -11,6 +11,25 @@
 
     background-color: mat-color($background, background);
 
+    .mat-expansion-panel {
+      background-color: unset;
+      color: mat-color($primary, 0.87) !important;
+    }
+
+    .mat-expansion-panel {
+      box-shadow: none !important;
+    }
+
+    .mat-expansion-panel:not(.mat-expanded)
+      .mat-expansion-panel-header:not([aria-disabled='true']):hover {
+      background: none !important;
+    }
+
+    .mat-mini-fab {
+      box-shadow: unset !important;
+      background-color: unset !important;
+    }
+
     .adf-sidebar-action-menu-button {
       background-color: mat-color($accent);
     }
