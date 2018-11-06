@@ -50,10 +50,7 @@ describe('SearchInputComponent', () => {
       imports: [AppTestingModule],
       declarations: [SearchInputComponent],
       schemas: [NO_ERRORS_SCHEMA],
-      providers: [
-        SearchQueryBuilderService,
-        SearchLibrariesQueryBuilderService
-      ]
+      providers: [SearchQueryBuilderService, SearchLibrariesQueryBuilderService]
     })
       .compileComponents()
       .then(() => {
