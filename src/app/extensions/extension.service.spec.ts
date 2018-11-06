@@ -618,4 +618,25 @@ describe('AppExtensionService', () => {
     expect(result[0].id).toBe('1');
     expect(result[1].id).toBe('3');
   });
+
+  describe('getApplicationNavigation', () => {
+    it('should create navigation data', () => {
+      const navigation = service.getApplicationNavigation([
+        { items: [{ route: 'route1' }, { route: 'route2' }] },
+        { items: [{ children: [{ route: 'route3' }] }] }
+      ]);
+
+      expect(navigation).toEqual([
+        {
+          items: [
+            { route: 'route1', url: '/route1' },
+            { route: 'route2', url: '/route2' }
+          ]
+        },
+        {
+          items: [{ children: [{ route: 'route3', url: '/route3' }] }]
+        }
+      ]);
+    });
+  });
 });
