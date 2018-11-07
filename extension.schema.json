@@ -202,7 +202,35 @@
         "children": {
           "description": "Navigation children items",
           "type": "array",
-          "items": { "$ref": "#/definitions/navBarLinkRef" },
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "id",
+                  "title",
+                  "route"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Unique identifier",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "Element title",
+                    "type": "string"
+                  },
+                  "route": {
+                    "description": "Route reference identifier",
+                    "type": "string"
+                  }
+                },
+                "not": {
+                  "required": ["children"]
+                }
+              }
+            ]
+           },
           "minItems": 1
         },
         "rules": {
