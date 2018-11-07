@@ -75,6 +75,7 @@ export class AppExtensionService implements RuleContext {
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
     libraries: Array<DocumentListPresetRef>;
+    favorite_libraries: Array<DocumentListPresetRef>;
     shared: Array<DocumentListPresetRef>;
     recent: Array<DocumentListPresetRef>;
     favorites: Array<DocumentListPresetRef>;
@@ -82,6 +83,7 @@ export class AppExtensionService implements RuleContext {
   } = {
     files: [],
     libraries: [],
+    favorite_libraries: [],
     shared: [],
     recent: [],
     favorites: [],
@@ -160,6 +162,10 @@ export class AppExtensionService implements RuleContext {
     this.documentListPresets = {
       files: this.getDocumentListPreset(config, 'files'),
       libraries: this.getDocumentListPreset(config, 'libraries'),
+      favorite_libraries: this.getDocumentListPreset(
+        config,
+        'favorite_libraries'
+      ),
       shared: this.getDocumentListPreset(config, 'shared'),
       recent: this.getDocumentListPreset(config, 'recent'),
       favorites: this.getDocumentListPreset(config, 'favorites'),
