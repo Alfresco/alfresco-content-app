@@ -32,7 +32,7 @@ export class Sidenav extends Component {
   private static selectors = {
     root: 'app-sidenav',
     link: '.sidenav-menu__item',
-    label: '.menu__item--label',
+    label: '.menu__item',
     activeLink: '.menu__item--active',
     newButton: '[data-automation-id="create-button"]'
   };
