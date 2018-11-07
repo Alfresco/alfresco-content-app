@@ -31,9 +31,9 @@ import { Utils } from '../../utilities/utils';
 export class Sidenav extends Component {
   private static selectors = {
     root: 'app-sidenav',
-    link: '.sidenav-menu__item',
-    label: '.menu__item--label',
-    activeLink: '.menu__item--active',
+    link: '.menu__item',
+    label: '.item--label',
+    activeLink: '.item--active',
     newButton: '[data-automation-id="create-button"]'
   };
 
