@@ -25,7 +25,7 @@
 
 import { Directive, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -48,13 +48,17 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     private store: Store<AppStore>,
     private documentList: DocumentListComponent,
     private preferences: UserPreferencesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.documentList.includeFields = ['isFavorite', 'aspectNames'];
     this.documentList.allowDropFiles = false;
-    this.isLibrary = this.documentList.currentFolderId === '-mysites-';
+    this.isLibrary =
+      this.documentList.currentFolderId === '-mysites-' ||
+      // workaround custom document-list node list
+      this.router.url.startsWith('/libraries');
 
     if (this.sortingPreferenceKey) {
       const current = this.documentList.sorting;
