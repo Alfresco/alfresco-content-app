@@ -27,6 +27,7 @@ import { Routes } from '@angular/router';
 import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
+import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { LoginComponent } from './components/login/login.component';
@@ -80,7 +81,7 @@ export const APP_ROUTES: Routes = [
         path: 'libraries',
         children: [
           {
-            path: '',
+            path: 'list',
             component: LibrariesComponent,
             data: {
               title: 'APP.BROWSE.LIBRARIES.TITLE',
@@ -88,7 +89,15 @@ export const APP_ROUTES: Routes = [
             }
           },
           {
-            path: ':folderId',
+            path: 'favorites',
+            component: FavoriteLibrariesComponent,
+            data: {
+              title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
+              sortingPreferenceKey: 'favorite-libraries'
+            }
+          },
+          {
+            path: 'list/:folderId',
             component: FilesComponent,
             data: {
               title: 'APP.BROWSE.LIBRARIES.TITLE',
@@ -96,7 +105,7 @@ export const APP_ROUTES: Routes = [
             }
           },
           {
-            path: ':folderId/preview/:nodeId',
+            path: 'list/:folderId/preview/:nodeId',
             loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'libraries'
