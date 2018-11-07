@@ -45,13 +45,36 @@
             },
             "LIBRARIES": {
                 "TITLE": "File Libraries",
+                "DESCRIPTION": "Access File Libraries",
                 "SIDENAV_LINK": {
                     "LABEL": "File Libraries",
-                    "TOOLTIP": "Access File Libraries"
+                    "TOOLTIP": "File Libraries"
                 },
                 "EMPTY_STATE": {
-                    "TITLE": "You aren't a member of any File Libraries yet",
-                    "TEXT": "Join libraries to upload, view, and share files."
+                    "FILE_LIBRARIES": {
+                        "TITLE": "You aren't a member of any File Libraries yet",
+                        "TEXT": "Join libraries to upload, view, and share files."
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "No Favorite Libraries",
+                        "TEXT": "Favorite a library that you want to find easily later."
+                    }
+                },
+                "MENU": {
+                    "FILE_LIBRARIES": {
+                        "TITLE": "My Libraries",
+                        "SIDENAV_LINK": {
+                            "LABEL": "My Libraries",
+                            "TOOLTIP": "Access My Libraries"
+                        }
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "Favorite Libraries",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Favorite Libraries",
+                            "TOOLTIP": "Access Favorited Libraries"
+                        }
+                    }
                 }
             },
             "SHARED": {
