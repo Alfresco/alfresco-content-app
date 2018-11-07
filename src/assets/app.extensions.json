@@ -1000,6 +1000,44 @@
           "desktopOnly": true
         }
       ],
+      "favorite_libraries": [
+        {
+          "id": "app.favorite.libraries.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.favorite.libraries.name",
+          "key": "title",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.libraryName",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.favorite.libraries.role",
+          "key": "target.site.role",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryRole",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.favorite.libraries.visibility",
+          "key": "visibility",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryStatus",
+          "desktopOnly": true
+        }
+      ],
       "shared": [
         {
           "id": "app.shared.thumbnail",
