@@ -26,7 +26,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-library-name-column',
+  selector: 'app-library-role-column',
   template: `
     <span title="{{ displayText | translate }}">
       {{ displayText | translate }}
