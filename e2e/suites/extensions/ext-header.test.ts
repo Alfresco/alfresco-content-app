@@ -60,7 +60,7 @@ describe('Extensions - Info Drawer', () => {
     beforeAll(async (done) => {
       await apis.admin.people.createUser({ username });
       await loginPage.load();
-      await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.HEADER);
+      await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.HEADER);
       await loginPage.loginWith(username);
       done();
     });
