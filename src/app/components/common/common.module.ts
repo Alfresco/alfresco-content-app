@@ -31,6 +31,7 @@ import { LocationLinkComponent } from './location-link/location-link.component';
 import { NameColumnComponent } from './name-column/name-column.component';
 import { LibraryNameColumnComponent } from './library-name-column/library-name-column.component';
 import { LibraryStatusColumnComponent } from './library-status-column/library-status-column.component';
+import { LibraryRoleColumnComponent } from './library-role-column/library-role-column.component';
 import { TrashcanNameColumnComponent } from './trashcan-name-column/trashcan-name-column.component';
 import { DynamicColumnComponent } from './dynamic-column/dynamic-column.component';
 
@@ -42,6 +43,7 @@ import { DynamicColumnComponent } from './dynamic-column/dynamic-column.componen
     NameColumnComponent,
     LibraryNameColumnComponent,
     LibraryStatusColumnComponent,
+    LibraryRoleColumnComponent,
     TrashcanNameColumnComponent,
     DynamicColumnComponent
   ],
@@ -51,6 +53,7 @@ import { DynamicColumnComponent } from './dynamic-column/dynamic-column.componen
     NameColumnComponent,
     LibraryNameColumnComponent,
     LibraryStatusColumnComponent,
+    LibraryRoleColumnComponent,
     TrashcanNameColumnComponent,
     DynamicColumnComponent
   ],
@@ -59,6 +62,7 @@ import { DynamicColumnComponent } from './dynamic-column/dynamic-column.componen
     NameColumnComponent,
     LibraryNameColumnComponent,
     LibraryStatusColumnComponent,
+    LibraryRoleColumnComponent,
     TrashcanNameColumnComponent
   ]
 })
