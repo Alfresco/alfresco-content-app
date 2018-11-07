@@ -23,13 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
 import { ActivatedRoute, Params } from '@angular/router';
-import {
-  SearchQueryBuilderService,
-  SearchComponent as AdfSearchComponent
-} from '@alfresco/adf-content-services';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
@@ -43,15 +39,11 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
   selector: 'aca-search-results',
   templateUrl: './search-libraries-results.component.html',
   styleUrls: ['./search-libraries-results.component.scss'],
-  providers: [SearchQueryBuilderService]
+  providers: [SearchLibrariesQueryBuilderService]
 })
 export class SearchLibrariesResultsComponent extends PageComponent
   implements OnInit {
   isSmallScreen = false;
-
-  @ViewChild('search')
-  search: AdfSearchComponent;
-
   searchedWord: string;
   queryParamName = 'q';
   data: NodePaging;

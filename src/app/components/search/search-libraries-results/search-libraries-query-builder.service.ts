@@ -25,7 +25,7 @@
 
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
-import { QueryBody, SitePaging } from 'alfresco-js-api';
+import { SitePaging } from 'alfresco-js-api';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -34,7 +34,7 @@ import { Subject } from 'rxjs';
 export class SearchLibrariesQueryBuilderService {
   private _userQuery = '';
 
-  updated: Subject<QueryBody> = new Subject();
+  updated: Subject<any> = new Subject();
   executed: Subject<any> = new Subject();
 
   paging: { maxItems?: number; skipCount?: number } = null;
