@@ -884,7 +884,7 @@
         }
       },
       {
-        "id": "test",
+        "id": "app.sidebar.library.properties",
         "order": 500,
         "title": "APP.INFO_DRAWER.TABS.LIBRARY_PROPERTIES",
         "component": "app.components.tabs.library.metadata",
