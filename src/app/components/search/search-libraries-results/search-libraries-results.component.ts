@@ -24,12 +24,12 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
+import { NodePaging, Pagination, SiteEntry } from 'alfresco-js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
-import { NavigateToFolder } from '../../../store/actions';
+import { NavigateLibraryAction } from '../../../store/actions';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { SearchLibrariesQueryBuilderService } from './search-libraries-query-builder.service';
@@ -140,19 +140,9 @@ export class SearchLibrariesResultsComponent extends PageComponent
     this.librariesQueryBuilder.update();
   }
 
-  onNodeDoubleClick(node: MinimalNodeEntity) {
-    if (node && node.entry) {
-      if (node.entry.isFolder) {
-        this.store.dispatch(new NavigateToFolder(node));
-        return;
-      }
-
-      if (PageComponent.isLockedNode(node.entry)) {
-        event.preventDefault();
-        return;
-      }
-
-      this.showPreview(node);
+  navigateTo(node: SiteEntry) {
+    if (node && node.entry && node.entry.guid) {
+      this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
     }
   }
 }
