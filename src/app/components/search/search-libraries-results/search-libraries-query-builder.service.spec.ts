@@ -22,6 +22,7 @@ import { SearchLibrariesQueryBuilderService } from './search-libraries-query-bui
 
 describe('SearchLibrariesQueryBuilderService', () => {
   let apiService: AlfrescoApiService;
+  let builder: SearchLibrariesQueryBuilderService;
   let queriesApi;
 
   beforeEach(() => {
@@ -32,21 +33,19 @@ describe('SearchLibrariesQueryBuilderService', () => {
     apiService = TestBed.get(AlfrescoApiService);
     apiService.reset();
     queriesApi = apiService.getInstance().core.queriesApi;
+    builder = new SearchLibrariesQueryBuilderService(apiService);
   });
 
   it('should have empty user query by default', () => {
-    const builder = new SearchLibrariesQueryBuilderService(apiService);
     expect(builder.userQuery).toBe('');
   });
 
   it('should trim user query value', () => {
-    const builder = new SearchLibrariesQueryBuilderService(apiService);
     builder.userQuery = ' something   ';
     expect(builder.userQuery).toEqual('something');
   });
 
   it('should build query and raise an event on update', async () => {
-    const builder = new SearchLibrariesQueryBuilderService(apiService);
     const query = {};
     spyOn(builder, 'buildQuery').and.returnValue(query);
 
@@ -61,7 +60,6 @@ describe('SearchLibrariesQueryBuilderService', () => {
     const data = {};
     spyOn(queriesApi, 'findSites').and.returnValue(Promise.resolve(data));
 
-    const builder = new SearchLibrariesQueryBuilderService(apiService);
     const query = {};
     spyOn(builder, 'buildQuery').and.returnValue(query);
 
@@ -73,15 +71,12 @@ describe('SearchLibrariesQueryBuilderService', () => {
   });
 
   it('should require a query fragment to build query', () => {
-    const builder = new SearchLibrariesQueryBuilderService(apiService);
-
     const compiled = builder.buildQuery();
     expect(compiled).toBeNull();
   });
 
   it('should build query when there is a useQuery value', () => {
     const searchedTerm = 'test';
-    const builder = new SearchLibrariesQueryBuilderService(apiService);
 
     builder.userQuery = searchedTerm;
 
@@ -91,7 +86,6 @@ describe('SearchLibrariesQueryBuilderService', () => {
 
   it('should use pagination settings', () => {
     const searchedTerm = 'test';
-    const builder = new SearchLibrariesQueryBuilderService(apiService);
 
     builder.paging = { maxItems: 5, skipCount: 5 };
     builder.userQuery = searchedTerm;
