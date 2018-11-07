@@ -249,12 +249,27 @@
             "route": "personal-files"
           },
           {
-            "id": "app.navbar.libraries",
+            "id": "app.navbar.libraries.menu",
             "order": 200,
-            "icon": "group_work",
+            "icon": "library_books",
             "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
-            "route": "libraries"
+            "children": [
+              {
+                "id": "app.navbar.libraries.files",
+                "order": 100,
+                "title": "APP.BROWSE.LIBRARIES.MENU.FILE_LIBRARIES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.LIBRARIES.MENU.FILE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "route": "libraries/list"
+              },
+              {
+                "id": "app.navbar.libraries.favorite",
+                "order": 200,
+                "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "route": "libraries/favorites"
+              }
+            ]
           }
         ]
       },
