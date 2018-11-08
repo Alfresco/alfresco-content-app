@@ -80,10 +80,10 @@ describe('File Libraries', () => {
   });
 
   it('has the correct columns - [C217095]', async () => {
-    const labels = [ 'Title', 'My Role', 'Visibility' ];
+    const labels = [ 'Name', 'My Role', 'Visibility' ];
     const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
-    expect(await dataTable.getColumnHeaders().count()).toBe(2 + 1, 'Incorrect number of columns');
+    expect(await dataTable.getColumnHeaders().count()).toBe(3 + 1, 'Incorrect number of columns');
 
     await elements.forEach(async (element, index) => {
       expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
