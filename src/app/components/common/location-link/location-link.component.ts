@@ -42,10 +42,10 @@ import { ContentApiService } from '../../../services/content-api.service';
 @Component({
   selector: 'aca-location-link',
   template: `
-        <a href="" [title]="nodeLocation$ | async" (click)="goToLocation()">
-            {{ displayText | async }}
-        </a>
-    `,
+    <a href="" [title]="nodeLocation$ | async" (click)="goToLocation()">
+      {{ displayText | async }}
+    </a>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-location-link adf-location-cell' }

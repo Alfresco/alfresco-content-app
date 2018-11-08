@@ -36,9 +36,10 @@ import { AppConfigService } from '@alfresco/adf-core';
       [readOnly]="!canUpdateNode"
       [displayEmpty]="canUpdateNode"
       [preset]="'custom'"
-      [node]="node">
+      [node]="node"
+    >
     </adf-content-metadata-card>
-    `,
+  `,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-metadata-tab' }
 })
