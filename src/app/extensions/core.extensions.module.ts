@@ -46,6 +46,7 @@ import { LibraryRoleColumnComponent } from '../components/common/library-role-co
 import { LibraryStatusColumnComponent } from '../components/common/library-status-column/library-status-column.component';
 import { TrashcanNameColumnComponent } from '../components/common/trashcan-name-column/trashcan-name-column.component';
 import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
+import { DocumentDisplayModeComponent } from '../components/toolbar/document-display-mode/document-display-mode.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -84,6 +85,7 @@ export class CoreExtensionsModule {
       'app.components.tabs.versions': VersionsTabComponent,
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
+      'app.toolbar.cardView': DocumentDisplayModeComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': NameColumnComponent,
       'app.columns.libraryName': LibraryNameColumnComponent,

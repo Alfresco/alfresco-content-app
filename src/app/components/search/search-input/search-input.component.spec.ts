@@ -37,6 +37,8 @@ import { AppTestingModule } from '../../../testing/app-testing.module';
 import { Actions, ofType } from '@ngrx/effects';
 import { SEARCH_BY_TERM, SearchByTermAction } from '../../../store/actions';
 import { map } from 'rxjs/operators';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
@@ -47,7 +49,8 @@ describe('SearchInputComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [SearchInputComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
+      providers: [SearchQueryBuilderService, SearchLibrariesQueryBuilderService]
     })
       .compileComponents()
       .then(() => {

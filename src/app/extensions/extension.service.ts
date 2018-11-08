@@ -80,6 +80,7 @@ export class AppExtensionService implements RuleContext {
     recent: Array<DocumentListPresetRef>;
     favorites: Array<DocumentListPresetRef>;
     trashcan: Array<DocumentListPresetRef>;
+    searchLibraries: Array<DocumentListPresetRef>;
   } = {
     files: [],
     libraries: [],
@@ -87,7 +88,8 @@ export class AppExtensionService implements RuleContext {
     shared: [],
     recent: [],
     favorites: [],
-    trashcan: []
+    trashcan: [],
+    searchLibraries: []
   };
 
   selection: SelectionState;
@@ -169,7 +171,8 @@ export class AppExtensionService implements RuleContext {
       shared: this.getDocumentListPreset(config, 'shared'),
       recent: this.getDocumentListPreset(config, 'recent'),
       favorites: this.getDocumentListPreset(config, 'favorites'),
-      trashcan: this.getDocumentListPreset(config, 'trashcan')
+      trashcan: this.getDocumentListPreset(config, 'trashcan'),
+      searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
   }
 

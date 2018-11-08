@@ -39,7 +39,9 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 
 @Component({
   selector: 'app-preview-extension',
-  template: `<div #content></div>`
+  template: `
+    <div #content></div>
+  `
 })
 export class PreviewExtensionComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('content', { read: ViewContainerRef })
