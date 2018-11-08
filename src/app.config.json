@@ -216,22 +216,22 @@
         {
           "field": "content.mimetype",
           "mincount": 0,
-          "label": "FileType"
+          "label": "SEARCH.FACET_FIELDS.FILE_TYPE"
         },
         {
           "field": "creator",
           "mincount": 0,
-          "label": "Creator"
+          "label": "SEARCH.FACET_FIELDS.CREATOR"
         },
         {
           "field": "modifier",
           "mincount": 0,
-          "label": "Modifier"
+          "label": "SEARCH.FACET_FIELDS.MODIFIER"
         },
         {
           "field": "SITE",
           "mincount": 0,
-          "label": "Location"
+          "label": "SEARCH.FACET_FIELDS.LOCATION"
         }
       ]
     },
