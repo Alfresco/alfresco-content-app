@@ -983,11 +983,20 @@
         {
           "id": "app.libraries.name",
           "key": "title",
-          "title": "APP.DOCUMENT_LIST.COLUMNS.TITLE",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-data-table-cell--ellipsis__name",
           "sortable": true,
           "template": "app.columns.libraryName",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.role",
+          "key": "target.site.role",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryRole",
           "desktopOnly": false
         },
         {
