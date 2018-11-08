@@ -164,7 +164,7 @@ export class AppExtensionService implements RuleContext {
     this.documentListPresets = {
       files: this.getDocumentListPreset(config, 'files'),
       libraries: this.getDocumentListPreset(config, 'libraries'),
-      favorite_libraries: this.getDocumentListPreset(
+      favoriteLibraries: this.getDocumentListPreset(
         config,
         'favoriteLibraries'
       ),
