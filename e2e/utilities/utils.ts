@@ -53,20 +53,20 @@ export class Utils {
   }
 
   static getSessionStorage() {
-    return browser.executeScript('return window.sessionStorage.getItem("aca.extension.config");');
+    return browser.executeScript('return window.sessionStorage.getItem("app.extension.config");');
   }
 
-  static setSessionStorageFromConfig(key: string, configFileName: string) {
+  static setSessionStorageFromConfig(configFileName: string) {
     const configFile = `${E2E_ROOT_PATH}/resources/extensibility-configs/${configFileName}`;
     const fileContent = JSON.stringify(fs.readFileSync(configFile, { encoding: 'utf8' }));
 
-    return browser.executeScript(`window.sessionStorage.setItem(${key}, ${fileContent});`);
+    return browser.executeScript(`window.sessionStorage.setItem('app.extension.config', ${fileContent});`);
   }
 
   static resetExtensionConfig() {
     const defConfig = `${E2E_ROOT_PATH}/resources/extensibility-configs/${EXTENSIBILITY_CONFIGS.DEFAULT_EXTENSIONS_CONFIG}`;
 
-    return this.setSessionStorageFromConfig('"aca.extension.config"', defConfig);
+    return this.setSessionStorageFromConfig(defConfig);
   }
 
   static retryCall(fn: () => Promise<any>, retry: number = 30, delay: number = 1000): Promise<any> {

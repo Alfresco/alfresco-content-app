@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$name": "app.demo.cardView",
+  "$version": "1.0.0",
+
+  "features": {
+    "toolbar": [
+      {
+        "id": "app.toolbar.cardView",
+        "order": 50,
+        "type": "custom",
+        "component": "app.toolbar.cardView"
+      }
+    ]
+  }
+}

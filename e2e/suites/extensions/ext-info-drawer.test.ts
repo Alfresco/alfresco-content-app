@@ -81,7 +81,7 @@ describe('Extensions - Info Drawer', () => {
     describe('', () => {
         beforeAll(async (done) => {
             await loginPage.load();
-            await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.INFO_DRAWER);
+            await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
             await loginPage.loginWith(username);
             done();
         });
@@ -142,7 +142,7 @@ describe('Extensions - Info Drawer', () => {
     describe('', () => {
         beforeAll(async (done) => {
             await loginPage.load();
-            await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
+            await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
             await loginPage.loginWith(username);
             await page.clickPersonalFilesAndWait();
             done();
