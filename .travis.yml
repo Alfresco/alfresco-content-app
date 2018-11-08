@@ -4,11 +4,6 @@ services:
   - docker
 addons:
   chrome: stable
-  artifacts:
-    paths:
-      - e2e-output
-    target_paths:
-      - /${TRAVIS_BUILD_NUMBER}
 language: node_js
 node_js:
   - '8'
