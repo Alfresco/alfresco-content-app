@@ -29,6 +29,7 @@ import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
+import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
 import { LoginComponent } from './components/login/login.component';
 import { AppAuthGuard } from './guards/auth.guard';
 import { AppSharedRuleGuard } from './guards/shared.guard';
@@ -213,7 +214,7 @@ export const APP_ROUTES: Routes = [
         children: [
           {
             path: '',
-            component: SearchResultsComponent,
+            component: SearchLibrariesResultsComponent,
             data: {
               title: 'APP.BROWSE.SEARCH.TITLE',
               reuse: true
