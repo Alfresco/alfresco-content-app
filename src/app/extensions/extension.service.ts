@@ -84,7 +84,7 @@ export class AppExtensionService implements RuleContext {
   } = {
     files: [],
     libraries: [],
-    favorite_libraries: [],
+    favoriteLibraries: [],
     shared: [],
     recent: [],
     favorites: [],
