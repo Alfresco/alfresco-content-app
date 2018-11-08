@@ -90,7 +90,7 @@ export class LibraryEffects {
           .getNode(libraryId, { relativePath: '/documentLibrary' })
           .pipe(map(node => node.entry))
           .subscribe(documentLibrary => {
-            this.router.navigate(['libraries/list', documentLibrary.id]);
+            this.router.navigate(['libraries', documentLibrary.id]);
           });
       }
     })

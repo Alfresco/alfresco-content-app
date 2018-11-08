@@ -81,7 +81,7 @@ export const APP_ROUTES: Routes = [
         path: 'libraries',
         children: [
           {
-            path: 'list',
+            path: '',
             component: LibrariesComponent,
             data: {
               title: 'APP.BROWSE.LIBRARIES.TITLE',
@@ -89,15 +89,7 @@ export const APP_ROUTES: Routes = [
             }
           },
           {
-            path: 'favorites',
-            component: FavoriteLibrariesComponent,
-            data: {
-              title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
-              sortingPreferenceKey: 'favorite-libraries'
-            }
-          },
-          {
-            path: 'list/:folderId',
+            path: ':folderId',
             component: FilesComponent,
             data: {
               title: 'APP.BROWSE.LIBRARIES.TITLE',
@@ -105,13 +97,21 @@ export const APP_ROUTES: Routes = [
             }
           },
           {
-            path: 'list/:folderId/preview/:nodeId',
+            path: ':folderId/preview/:nodeId',
             loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'libraries'
             }
           }
         ]
+      },
+      {
+        path: 'favorite/libraries',
+        component: FavoriteLibrariesComponent,
+        data: {
+          title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
+          sortingPreferenceKey: 'favorite-libraries'
+        }
       },
       {
         path: 'personal-files',
