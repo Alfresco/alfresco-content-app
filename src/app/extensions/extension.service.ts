@@ -75,7 +75,7 @@ export class AppExtensionService implements RuleContext {
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
     libraries: Array<DocumentListPresetRef>;
-    favorite_libraries: Array<DocumentListPresetRef>;
+    favoriteLibraries: Array<DocumentListPresetRef>;
     shared: Array<DocumentListPresetRef>;
     recent: Array<DocumentListPresetRef>;
     favorites: Array<DocumentListPresetRef>;
