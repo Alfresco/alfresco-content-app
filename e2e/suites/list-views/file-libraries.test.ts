@@ -80,7 +80,7 @@ describe('File Libraries', () => {
   });
 
   it('has the correct columns - [C217095]', async () => {
-    const labels = [ 'Title', 'Visibility' ];
+    const labels = [ 'Title', 'My Role', 'Visibility' ];
     const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
 
     expect(await dataTable.getColumnHeaders().count()).toBe(2 + 1, 'Incorrect number of columns');
@@ -106,7 +106,7 @@ describe('File Libraries', () => {
       return row.all(dataTable.cell).map(async cell => await cell.getText());
     });
     const sitesList = rowCells.reduce((acc, cell) => {
-      acc[cell[1]] = cell[2].toUpperCase();
+      acc[cell[1]] = cell[3].toUpperCase();
       return acc;
     }, {});
 

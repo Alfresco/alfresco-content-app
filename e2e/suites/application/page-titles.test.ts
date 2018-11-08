@@ -81,8 +81,10 @@ describe('Page titles', () => {
     });
 
     it('File Libraries page - [C217158]', async () => {
+      const parent = SIDEBAR_LABELS.FILE_LIBRARIES;
       const label = SIDEBAR_LABELS.FILE_LIBRARIES;
 
+      await page.sidenav.expandMenu(parent);
       await page.sidenav.navigateToLinkByLabel(label);
       expect(await browser.getTitle()).toContain(label);
     });
