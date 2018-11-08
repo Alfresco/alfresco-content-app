@@ -33,14 +33,15 @@ import { ToggleInfoDrawerAction } from '../../../store/actions';
 @Component({
   selector: 'app-toggle-info-drawer',
   template: `
-        <button
-            mat-icon-button
-            [color]="(infoDrawerOpened$ | async) ? 'accent' : 'primary'"
-            [attr.title]="'APP.ACTIONS.DETAILS' | translate"
-            (click)="onClick()">
-            <mat-icon>info_outline</mat-icon>
-        </button>
-    `,
+    <button
+      mat-icon-button
+      [color]="(infoDrawerOpened$ | async) ? 'accent' : 'primary'"
+      [attr.title]="'APP.ACTIONS.DETAILS' | translate"
+      (click)="onClick()"
+    >
+      <mat-icon>info_outline</mat-icon>
+    </button>
+  `,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-info-drawer' }
 })

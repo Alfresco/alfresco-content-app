@@ -71,7 +71,7 @@ describe('Extensions - DocumentList presets', () => {
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
 
     await loginPage.load();
-    await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
+    await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
     await loginPage.loginWith(username);
 
     done();

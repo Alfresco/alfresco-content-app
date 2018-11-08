@@ -29,6 +29,7 @@ import { CoreModule } from '@alfresco/adf-core';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { SearchResultsRowComponent } from './search-results-row/search-results-row.component';
+import { SearchLibrariesResultsComponent } from './search-libraries-results/search-libraries-results.component';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppCommonModule } from '../common/common.module';
@@ -46,7 +47,15 @@ import { AppLayoutModule } from '../layout/layout.module';
     DirectivesModule,
     AppLayoutModule
   ],
-  declarations: [SearchResultsComponent, SearchResultsRowComponent],
-  exports: [SearchResultsComponent, SearchResultsRowComponent]
+  declarations: [
+    SearchResultsComponent,
+    SearchLibrariesResultsComponent,
+    SearchResultsRowComponent
+  ],
+  exports: [
+    SearchResultsComponent,
+    SearchLibrariesResultsComponent,
+    SearchResultsRowComponent
+  ]
 })
 export class AppSearchResultsModule {}

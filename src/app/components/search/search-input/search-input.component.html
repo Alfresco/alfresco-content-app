@@ -26,8 +26,10 @@
     </app-search-input-control>
     <div id="search-options">
       <mat-checkbox *ngFor="let option of searchOptions"
+                    id="{{ option.id }}"
                     [(ngModel)]="option.value"
                     [disabled]="option.shouldDisable()"
+                    (change)="onOptionChange()"
                     (click)="$event.stopPropagation()">
         {{ option.key | translate }}
       </mat-checkbox>

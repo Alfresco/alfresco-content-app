@@ -2,13 +2,7 @@
   "$schema": "../../extension.schema.json",
   "$name": "app",
   "$version": "1.0.0",
-  "$references": [
-    "plugin1.json",
-    "dev.tools.json",
-    "app.header.json",
-    "app.create.json",
-    "metadata-plugin.json"
-  ],
+  "$references": [],
 
   "rules": [
     {
@@ -1254,6 +1248,51 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.DELETED_ON",
           "type": "date",
           "format": "timeAgo",
+          "sortable": true,
+          "desktopOnly": true
+        }
+      ],
+      "search-libraries": [
+        {
+          "id": "app.libraries.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.libraryName",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.id",
+          "key": "id",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ID",
+          "type": "text",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.libraries.visibility",
+          "key": "visibility",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryStatus",
+          "desktopOnly": true
+        },
+        {
+          "id": "app.libraries.role",
+          "key": "role",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
+          "type": "text",
           "sortable": true,
           "desktopOnly": true
         }

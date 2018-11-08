@@ -134,6 +134,10 @@
                     "SIZE": "Size"
                 },
                 "NO_RESULTS": "Your search returned 0 results"
+            },
+            "SEARCH_LIBRARIES": {
+              "TITLE": "Libraries found...",
+              "FOUND_RESULTS": "{{ number }} results"
             }
         },
         "ACTIONS": {
@@ -168,6 +172,8 @@
         },
         "DOCUMENT_LIST": {
             "COLUMNS": {
+                "ID": "ID",
+                "ROLE": "Role",
                 "NAME": "Name",
                 "SIZE": "Size",
                 "MODIFIED_ON": "Modified",

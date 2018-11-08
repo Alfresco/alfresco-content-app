@@ -37,9 +37,7 @@ import { ShareDataRow } from '@alfresco/adf-content-services';
 @Component({
   selector: 'app-library-name-column',
   template: `
-    <span
-      title="{{ displayTooltip }}"
-      (click)="onClick()">
+    <span title="{{ displayTooltip }}" (click)="onClick()">
       {{ displayText }}
     </span>
   `,
