@@ -18,7 +18,7 @@
             <aca-info-drawer [node]="selection.file"></aca-info-drawer>
         </adf-viewer-sidebar>
 
-        <adf-viewer-open-with *ifExperimental="'extensions'">
+        <adf-viewer-open-with>
             <ng-container *ngFor="let action of openWith; trackBy: trackByActionId">
                 <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
             </ng-container>

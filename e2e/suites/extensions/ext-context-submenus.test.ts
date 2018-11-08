@@ -62,7 +62,7 @@ describe('Extensions - Context submenu', () => {
     folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
 
     await loginPage.load();
-    await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
+    await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
     await loginPage.loginWith(username);
 
     done();

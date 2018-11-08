@@ -3,6 +3,10 @@
   $accent: map-get($theme, accent);
   $primary: map-get($theme, primary);
 
+  .app-create-menu:focus {
+    outline: none;
+  }
+
   .app-create-menu {
     width: 100%;
 
@@ -44,6 +48,7 @@
     }
 
     &--collapsed {
+      outline: none;
       color: mat-color($foreground, text, 0.54);
       cursor: pointer;
       &:hover {

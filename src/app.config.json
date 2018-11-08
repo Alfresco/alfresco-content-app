@@ -19,11 +19,7 @@
     "logo": "assets/images/alfresco-logo-flower.svg",
     "copyright": "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
   },
-  "experimental": {
-    "cardview": false,
-    "extensions": false,
-    "external-plugins": false
-  },
+  "experimental": {},
   "headerColor": "#2196F3",
   "languagePicker": false,
   "pagination": {

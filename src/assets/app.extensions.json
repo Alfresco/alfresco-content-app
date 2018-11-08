@@ -2,13 +2,7 @@
   "$schema": "../../extension.schema.json",
   "$name": "app",
   "$version": "1.0.0",
-  "$references": [
-    "plugin1.json",
-    "dev.tools.json",
-    "app.header.json",
-    "app.create.json",
-    "metadata-plugin.json"
-  ],
+  "$references": [],
 
   "rules": [
     {
