@@ -150,7 +150,7 @@
         "DOCUMENT_LIST": {
             "COLUMNS": {
                 "ID": "ID",
-                "ROLE": "Role",
+                "ROLE": "My Role",
                 "NAME": "Name",
                 "SIZE": "Size",
                 "MODIFIED_ON": "Modified",
