@@ -36,9 +36,7 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 @Component({
   selector: 'app-name-column',
   template: `
-    <span
-      title="{{ node | adfNodeNameTooltip }}"
-      (click)="onClick()">
+    <span title="{{ node | adfNodeNameTooltip }}" (click)="onClick()">
       {{ displayText }}
     </span>
   `,
