@@ -69,7 +69,8 @@ export const SIDEBAR_LABELS = {
 // Page titles
 export const PAGE_TITLES = {
   VIEWER: 'Preview',
-  SEARCH: 'Search Results'
+  SEARCH: 'Search Results',
+  MY_LIBRARIES: 'File Libraries'
 };
 
 // Site visibility
