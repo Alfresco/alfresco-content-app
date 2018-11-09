@@ -85,4 +85,10 @@ export class SearchInputControlComponent implements OnDestroy {
     this.searchTerm = '';
     this.searchChange.emit('');
   }
+
+  isTermTooShort() {
+    const alphanumericTerm = this.searchTerm.replace(/[^0-9a-z]/gi, '');
+
+    return this.searchTerm.length && alphanumericTerm.length < 2;
+  }
 }
