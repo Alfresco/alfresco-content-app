@@ -2,7 +2,6 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
-    "target": "es2017",
     "types": ["jasmine", "node"]
   },
   "files": ["test.ts", "polyfills.ts"],
