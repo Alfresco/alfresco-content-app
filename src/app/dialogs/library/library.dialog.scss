@@ -20,4 +20,8 @@ mat-form-field {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+
+  .mat-button {
+    text-transform: uppercase;
+  }
 }
