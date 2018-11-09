@@ -128,6 +128,7 @@
             "SEARCH": {
                 "TITLE": "Search Results",
                 "FOUND_RESULTS": "{{ number }} results found",
+                "FOUND_ONE_RESULT": "{{ number }} result found",
                 "CUSTOM_ROW": {
                     "MODIFIED": "Modified",
                     "LOCATION": "Location",
@@ -137,7 +138,8 @@
             },
             "SEARCH_LIBRARIES": {
               "TITLE": "Libraries found...",
-              "FOUND_RESULTS": "{{ number }} results"
+              "FOUND_RESULTS": "{{ number }} results",
+              "FOUND_ONE_RESULT": "{{ number }} result"
             }
         },
         "ACTIONS": {
@@ -357,7 +359,8 @@
           "PLACEHOLDER": "Search everywhere",
           "FILES": "Files",
           "FOLDERS": "Folders",
-          "LIBRARIES": "Libraries"
+          "LIBRARIES": "Libraries",
+          "HINT": "Query ‘term’ is too short. Must have at least 2 alphanumeric chars"
         },
         "SORT": {
             "RELEVANCE": "Relevance",

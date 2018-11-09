@@ -1272,9 +1272,9 @@
           "desktopOnly": false
         },
         {
-          "id": "app.libraries.id",
-          "key": "id",
-          "title": "APP.DOCUMENT_LIST.COLUMNS.ID",
+          "id": "app.libraries.role",
+          "key": "role",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
           "type": "text",
           "sortable": true,
           "desktopOnly": true
@@ -1286,14 +1286,6 @@
           "type": "text",
           "sortable": true,
           "template": "app.columns.libraryStatus",
-          "desktopOnly": true
-        },
-        {
-          "id": "app.libraries.role",
-          "key": "role",
-          "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
-          "type": "text",
-          "sortable": true,
           "desktopOnly": true
         }
       ]

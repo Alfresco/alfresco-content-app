@@ -210,4 +210,11 @@ export class SearchInputComponent implements OnInit {
   isContentChecked(): boolean {
     return this.isFilesChecked() || this.isFoldersChecked();
   }
+
+  hasLibraryConstraint(): boolean {
+    if (this.isLibrariesChecked()) {
+      return this.searchInputControl.isTermTooShort();
+    }
+    return false;
+  }
 }
