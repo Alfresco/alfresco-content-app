@@ -77,7 +77,7 @@ export class FavoriteLibrariesComponent extends PageComponent
           this.isSmallScreen = result.matches;
         })
     ]);
-    this.columns = this.extensions.documentListPresets.favorite_libraries || [];
+    this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
   }
 
   navigateTo(node: SiteEntry) {
