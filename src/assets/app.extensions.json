@@ -986,7 +986,7 @@
         },
         {
           "id": "app.libraries.role",
-          "key": "target.site.role",
+          "key": "role",
           "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
           "type": "text",
           "sortable": true,
@@ -1024,7 +1024,7 @@
         },
         {
           "id": "app.favorite.libraries.role",
-          "key": "target.site.role",
+          "key": "role",
           "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
           "type": "text",
           "sortable": true,
