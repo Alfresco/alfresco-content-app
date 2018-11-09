@@ -45,7 +45,7 @@ export const E2E_ROOT_PATH = __dirname;
 // Application Routes
 export const APP_ROUTES = {
   FAVORITES: '/favorites',
-  FILE_LIBRARIES: '/libraries',
+  MY_LIBRARIES: '/libraries',
   LOGIN: '/login',
   LOGOUT: '/logout',
   PERSONAL_FILES: '/personal-files',
