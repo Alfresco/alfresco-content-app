@@ -57,7 +57,7 @@ export class LibraryRoleColumnComponent implements OnInit {
           this.displayText = 'APP.SITES_ROLE.CONSUMER';
           break;
         default:
-          this.displayText = 'UNKNOWN';
+          this.displayText = '';
           break;
       }
     }
