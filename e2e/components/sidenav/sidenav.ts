@@ -66,6 +66,12 @@ export class Sidenav extends Component {
     return className.includes(Sidenav.selectors.activeLink.replace('.', ''));
   }
 
+  async childIsActiveByLabel(label: string) {
+    const labelElement = await this.getLinkByLabel(label).element(by.css('span'));
+    return (await labelElement.getAttribute('class'))
+      .includes(Sidenav.selectors.activeLink.replace('.', ''));
+  }
+
   getLink(label: string) {
     return this.component.element(by.cssContainingText(Sidenav.selectors.link, label));
   }
