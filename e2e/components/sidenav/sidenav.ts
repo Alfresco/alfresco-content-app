@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, element } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
@@ -33,6 +33,8 @@ export class Sidenav extends Component {
     root: 'app-sidenav',
     link: '.menu__item',
     label: '.item--label',
+    expansion_panel: ".mat-expansion-panel-header",
+    expansion_panel_content: ".mat-expansion-panel-body",
     activeLink: '.item--active',
     newButton: '[data-automation-id="create-button"]'
   };
@@ -64,6 +66,12 @@ export class Sidenav extends Component {
     return className.includes(Sidenav.selectors.activeLink.replace('.', ''));
   }
 
+  async childIsActiveByLabel(label: string) {
+    const labelElement = await this.getLinkByLabel(label).element(by.css('span'));
+    return (await labelElement.getAttribute('class'))
+      .includes(Sidenav.selectors.activeLink.replace('.', ''));
+  }
+
   getLink(label: string) {
     return this.component.element(by.cssContainingText(Sidenav.selectors.link, label));
   }
@@ -84,7 +92,24 @@ export class Sidenav extends Component {
       return await link.click();
 
     } catch (e){
-      console.log('---- sidebar navigation catch : ', e);
+      console.log('---- sidebar navigation catch navigateToLinkByLabel: ', e);
+    }
+  }
+
+  async expandMenu(label: string) {
+    try{
+
+        if (await element(by.cssContainingText('.mat-expanded', label)).isPresent()) {
+          return Promise.resolve();
+        } else {
+          const link = this.getLinkByLabel(label);
+          await Utils.waitUntilElementClickable(link);
+          await link.click();
+          await element(by.css(Sidenav.selectors.expansion_panel_content)).isPresent();
+        }
+
+    } catch (e) {
+      console.log('---- sidebar navigation catch expandMenu: ', e);
     }
   }
 }

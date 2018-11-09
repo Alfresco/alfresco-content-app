@@ -42,6 +42,7 @@ import {
   SiteEntry,
   FavoriteBody
 } from 'alfresco-js-api';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -183,6 +184,24 @@ export class ContentApiService {
     }
   ): Observable<FavoritePaging> {
     return from(this.api.favoritesApi.getFavorites(personId, opts));
+  }
+
+  getFavoriteLibraries(personId: string = '-me-'): Observable<FavoritePaging> {
+    return this.getFavorites(personId, { where: '(EXISTS(target/site))' }).pipe(
+      map((response: FavoritePaging) => {
+        return {
+          list: {
+            entries: response.list.entries.map(({ entry }: any) => {
+              entry.target.site.createdAt = entry.createdAt;
+              return {
+                entry: entry.target.site
+              };
+            }),
+            pagination: response.list.pagination
+          }
+        };
+      })
+    );
   }
 
   findSharedLinks(opts?: any): Observable<SharedLinkPaging> {

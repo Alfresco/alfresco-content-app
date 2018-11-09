@@ -44,6 +44,7 @@ import { APP_ROUTES } from './app.routes';
 
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
+import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 import { LibraryDialogComponent } from './dialogs/library/library.dialog';
 
@@ -107,6 +108,7 @@ import { environment } from '../environments/environment';
     AppComponent,
     FilesComponent,
     LibrariesComponent,
+    FavoriteLibrariesComponent,
     NodeVersionsDialogComponent,
     LibraryDialogComponent
   ],

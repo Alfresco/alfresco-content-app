@@ -27,6 +27,7 @@ import { Routes } from '@angular/router';
 import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
+import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
@@ -104,6 +105,14 @@ export const APP_ROUTES: Routes = [
             }
           }
         ]
+      },
+      {
+        path: 'favorite/libraries',
+        component: FavoriteLibrariesComponent,
+        data: {
+          title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
+          sortingPreferenceKey: 'favorite-libraries'
+        }
       },
       {
         path: 'personal-files',
