@@ -92,19 +92,24 @@ export class Sidenav extends Component {
       return await link.click();
 
     } catch (e){
-      console.log('---- sidebar navigation catch : ', e);
+      console.log('---- sidebar navigation catch navigateToLinkByLabel: ', e);
     }
   }
 
   async expandMenu(label: string) {
     try{
-      const link = this.getLinkByLabel(label);
-      await Utils.waitUntilElementClickable(link);
-      await link.click();
-      await element(by.css(Sidenav.selectors.expansion_panel_content)).isPresent();
+
+        if (await element(by.cssContainingText('.mat-expanded', label)).isPresent()) {
+          return Promise.resolve();
+        } else {
+          const link = this.getLinkByLabel(label);
+          await Utils.waitUntilElementClickable(link);
+          await link.click();
+          await element(by.css(Sidenav.selectors.expansion_panel_content)).isPresent();
+        }
 
     } catch (e) {
-      console.log('---- sidebar navigation catch : ', e);
+      console.log('---- sidebar navigation catch expandMenu: ', e);
     }
   }
 }
