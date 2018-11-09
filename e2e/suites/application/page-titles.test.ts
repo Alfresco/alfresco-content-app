@@ -86,7 +86,7 @@ describe('Page titles', () => {
 
       await page.sidenav.expandMenu(parent);
       await page.sidenav.navigateToLinkByLabel(label);
-      expect(await browser.getTitle()).toContain(label);
+      expect(await browser.getTitle()).toContain(PAGE_TITLES.MY_LIBRARIES);
     });
 
     it('Shared Files page - [C217159]', async () => {
