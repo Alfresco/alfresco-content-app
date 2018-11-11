@@ -27,7 +27,7 @@
                             </button>
 
                             <span #rippleTrigger
-                                class="item--label"
+                                class="item--label item--parent"
                                 [routerLink]="item.url"
                                 [attr.aria-label]="item.title | translate"
                                 [ngClass]="{
@@ -40,10 +40,10 @@
 
                     <ng-container *ngIf="item.children && item.children.length">
                         <mat-expansion-panel [expanded]="routerLink.isActive" [@.disabled]="true">
-                            <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px" [id]="item.id">
+                            <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px">
                                 <mat-panel-title [attr.title]="item.description | translate">
                                     <mat-icon [color]="routerLink.isActive? 'accent': 'primary'">{{ item.icon }}</mat-icon>
-                                    <span class="item--label"
+                                    <span class="item--label item--parent"
                                         [ngClass]="{
                                             'item--active': routerLink.isActive,
                                             'item--default': !routerLink.isActive

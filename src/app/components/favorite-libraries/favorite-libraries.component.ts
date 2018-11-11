@@ -26,25 +26,29 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { SiteEntry } from 'alfresco-js-api';
+import { SiteEntry, FavoritePaging } from 'alfresco-js-api';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
+import { ContentApiService } from '../../services/content-api.service';
 import { NavigateLibraryAction } from '../../store/actions';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 
 @Component({
-  templateUrl: './libraries.component.html'
+  templateUrl: './favorite-libraries.component.html'
 })
-export class LibrariesComponent extends PageComponent implements OnInit {
+export class FavoriteLibrariesComponent extends PageComponent
+  implements OnInit {
+  favoriteList: FavoritePaging;
+  dataIsLoading = true;
   isSmallScreen = false;
-
   columns: any[] = [];
 
   constructor(
     content: ContentManagementService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
+    private contentApiService: ContentApiService,
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
@@ -53,18 +57,27 @@ export class LibrariesComponent extends PageComponent implements OnInit {
   ngOnInit() {
     super.ngOnInit();
 
-    this.subscriptions.push(
+    this.contentApiService.getFavoriteLibraries().subscribe(
+      (favoriteLibraries: FavoritePaging) => {
+        this.favoriteList = favoriteLibraries;
+        this.dataIsLoading = false;
+      },
+      () => {
+        this.favoriteList = null;
+        this.dataIsLoading = false;
+      }
+    );
+
+    this.subscriptions = this.subscriptions.concat([
       this.content.libraryDeleted.subscribe(() => this.reload()),
       this.content.libraryUpdated.subscribe(() => this.documentList.reload()),
-
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
         .subscribe(result => {
           this.isSmallScreen = result.matches;
         })
-    );
-
-    this.columns = this.extensions.documentListPresets.libraries || [];
+    ]);
+    this.columns = this.extensions.documentListPresets.favoriteLibraries || [];
   }
 
   navigateTo(node: SiteEntry) {
