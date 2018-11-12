@@ -111,7 +111,7 @@ export class CoreExtensionsModule {
       'app.selection.file.canShare': app.canShareFile,
       'app.selection.library': app.hasLibrarySelected,
       'app.selection.isPrivateLibrary': app.isPrivateLibrary,
-      'app.selection.isPublicLibrary': app.isPublicLibrary,
+      'app.selection.isModeratedLibrary': app.isModeratedLibrary,
       'app.selection.hasLibraryRole': app.hasLibraryRole,
       'app.selection.hasNoLibraryRole': app.hasNoLibraryRole,
       'app.selection.folder': app.hasFolderSelected,

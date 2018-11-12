@@ -60,5 +60,5 @@ export class JoinLibraryAction implements Action {
 
 export class CancelJoinRequestAction implements Action {
   readonly type = CANCEL_JOIN_REQUEST;
-  constructor(public payload?: Site) {}
+  constructor(public payload?: string) {}
 }

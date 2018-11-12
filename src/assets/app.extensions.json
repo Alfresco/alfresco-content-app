@@ -119,19 +119,7 @@
       "id": "app.libraries.toolbar.canDeleteJoinRequest",
       "type": "core.every",
       "parameters": [
-        { "type": "rule", "value": "app.selection.library" },
-        { "type": "rule",
-          "value": "core.not",
-          "parameters": [
-            { "type": "rule", "value": "app.selection.isPrivateLibrary" }
-          ]
-        },
-        { "type": "rule",
-          "value": "core.not",
-          "parameters": [
-            { "type": "rule", "value": "app.selection.isPublicLibrary" }
-          ]
-        }
+        { "type": "rule", "value": "app.selection.isModeratedLibrary" }
       ]
     },
     {

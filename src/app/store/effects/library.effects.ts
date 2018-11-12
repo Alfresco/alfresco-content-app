@@ -101,7 +101,7 @@ export class LibraryEffects {
     ofType<CancelJoinRequestAction>(CANCEL_JOIN_REQUEST),
     map(action => {
       if (action.payload) {
-        this.content.cancelJoinRequest(action.payload.id);
+        this.content.cancelJoinRequest(action.payload);
       } else {
         this.store
           .select(appSelection)

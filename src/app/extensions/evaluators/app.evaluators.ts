@@ -192,7 +192,7 @@ export function isPrivateLibrary(
     : false;
 }
 
-export function isPublicLibrary(
+export function isModeratedLibrary(
   context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
@@ -201,7 +201,7 @@ export function isPublicLibrary(
     ? !!(
         library.entry &&
         library.entry.visibility &&
-        library.entry.visibility === 'PUBLIC'
+        library.entry.visibility === 'MODERATED'
       )
     : false;
 }
