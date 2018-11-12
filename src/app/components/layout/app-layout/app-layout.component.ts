@@ -38,7 +38,7 @@ import {
 import { NavigationEnd, Router, NavigationStart } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
-import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
+import { filter, takeUntil, map } from 'rxjs/operators';
 import { NodePermissionService } from '../../../services/node-permission.service';
 import { currentFolder } from '../../../store/selectors/app.selectors';
 import { AppStore } from '../../../store/states';
@@ -102,19 +102,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
       .subscribe(node => {
         this.currentFolderId = node ? node.id : null;
         this.canUpload = node && this.permission.check(node, ['create']);
-      });
-
-    this.router.events
-      .pipe(
-        withLatestFrom(this.isSmallScreen$),
-        filter(
-          ([event, isSmallScreen]) =>
-            isSmallScreen && event instanceof NavigationEnd
-        ),
-        takeUntil(this.onDestroy$)
-      )
-      .subscribe(() => {
-        this.layout.container.toggleMenu();
       });
 
     this.router.events
