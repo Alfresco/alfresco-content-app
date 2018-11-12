@@ -45,8 +45,8 @@ describe('Sidebar', () => {
 
   it('navigates to "File Libraries" - [C217150]', async () => {
     await page.clickFileLibraries();
-    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FILE_LIBRARIES);
-    expect(await sidenav.isActiveByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true);
+    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
+    expect(await sidenav.childIsActiveByLabel(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true);
   });
 
   it('navigates to "Personal Files" - [C280409]', async () => {

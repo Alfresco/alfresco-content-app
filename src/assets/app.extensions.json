@@ -2,13 +2,7 @@
   "$schema": "../../extension.schema.json",
   "$name": "app",
   "$version": "1.0.0",
-  "$references": [
-    "plugin1.json",
-    "dev.tools.json",
-    "app.header.json",
-    "app.create.json",
-    "metadata-plugin.json"
-  ],
+  "$references": [],
 
   "rules": [
     {
@@ -249,12 +243,27 @@
             "route": "personal-files"
           },
           {
-            "id": "app.navbar.libraries",
+            "id": "app.navbar.libraries.menu",
             "order": 200,
-            "icon": "group_work",
+            "icon": "library_books",
             "title": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL",
             "description": "APP.BROWSE.LIBRARIES.SIDENAV_LINK.TOOLTIP",
-            "route": "libraries"
+            "children": [
+              {
+                "id": "app.navbar.libraries.files",
+                "order": 100,
+                "title": "APP.BROWSE.LIBRARIES.MENU.FILE_LIBRARIES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.LIBRARIES.MENU.FILE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "route": "libraries"
+              },
+              {
+                "id": "app.navbar.libraries.favorite",
+                "order": 200,
+                "title": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "route": "favorite/libraries"
+              }
+            ]
           }
         ]
       },
@@ -869,7 +878,7 @@
         }
       },
       {
-        "id": "test",
+        "id": "app.sidebar.library.properties",
         "order": 500,
         "title": "APP.INFO_DRAWER.TABS.LIBRARY_PROPERTIES",
         "component": "app.components.tabs.library.metadata",
@@ -968,7 +977,7 @@
         {
           "id": "app.libraries.name",
           "key": "title",
-          "title": "APP.DOCUMENT_LIST.COLUMNS.TITLE",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-data-table-cell--ellipsis__name",
           "sortable": true,
@@ -976,7 +985,54 @@
           "desktopOnly": false
         },
         {
+          "id": "app.libraries.role",
+          "key": "role",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryRole",
+          "desktopOnly": false
+        },
+        {
           "id": "app.libraries.visibility",
+          "key": "visibility",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryStatus",
+          "desktopOnly": true
+        }
+      ],
+      "favoriteLibraries": [
+        {
+          "id": "app.favorite.libraries.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.favorite.libraries.name",
+          "key": "title",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.libraryName",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.favorite.libraries.role",
+          "key": "role",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryRole",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.favorite.libraries.visibility",
           "key": "visibility",
           "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
           "type": "text",
@@ -1193,6 +1249,43 @@
           "type": "date",
           "format": "timeAgo",
           "sortable": true,
+          "desktopOnly": true
+        }
+      ],
+      "search-libraries": [
+        {
+          "id": "app.libraries.thumbnail",
+          "key": "$thumbnail",
+          "type": "image",
+          "class": "image-table-cell",
+          "sortable": false,
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.name",
+          "key": "name",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
+          "type": "text",
+          "class": "adf-data-table-cell--ellipsis__name",
+          "sortable": true,
+          "template": "app.columns.libraryName",
+          "desktopOnly": false
+        },
+        {
+          "id": "app.libraries.role",
+          "key": "role",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
+          "type": "text",
+          "sortable": true,
+          "desktopOnly": true
+        },
+        {
+          "id": "app.libraries.visibility",
+          "key": "visibility",
+          "title": "APP.DOCUMENT_LIST.COLUMNS.VISIBILITY",
+          "type": "text",
+          "sortable": true,
+          "template": "app.columns.libraryStatus",
           "desktopOnly": true
         }
       ]

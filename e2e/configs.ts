@@ -45,7 +45,7 @@ export const E2E_ROOT_PATH = __dirname;
 // Application Routes
 export const APP_ROUTES = {
   FAVORITES: '/favorites',
-  FILE_LIBRARIES: '/libraries',
+  MY_LIBRARIES: '/libraries',
   LOGIN: '/login',
   LOGOUT: '/logout',
   PERSONAL_FILES: '/personal-files',
@@ -58,6 +58,8 @@ export const APP_ROUTES = {
 export const SIDEBAR_LABELS = {
   PERSONAL_FILES: 'Personal Files',
   FILE_LIBRARIES: 'File Libraries',
+  MY_LIBRARIES: 'My Libraries',
+  FAVORITE_LIBRARIES: 'Favorite Libraries',
   SHARED_FILES: 'Shared',
   RECENT_FILES: 'Recent Files',
   FAVORITES: 'Favorites',
@@ -67,7 +69,8 @@ export const SIDEBAR_LABELS = {
 // Page titles
 export const PAGE_TITLES = {
   VIEWER: 'Preview',
-  SEARCH: 'Search Results'
+  SEARCH: 'Search Results',
+  MY_LIBRARIES: 'File Libraries'
 };
 
 // Site visibility

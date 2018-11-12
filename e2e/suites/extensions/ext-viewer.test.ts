@@ -83,7 +83,7 @@ describe('Extensions - Viewer', () => {
         docxFileId = (await apis.user.upload.uploadFile(docxFile.file_name)).entry.id;
 
         await loginPage.load();
-        await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.VIEWER);
+        await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.VIEWER);
         await loginPage.loginWith(username);
         done();
     });

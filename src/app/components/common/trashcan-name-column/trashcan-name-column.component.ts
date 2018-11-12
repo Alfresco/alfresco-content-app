@@ -35,10 +35,7 @@ import { MinimalNodeEntity } from 'alfresco-js-api';
 @Component({
   selector: 'app-trashcan-name-column',
   template: `
-    <span
-      title="{{ node | adfNodeNameTooltip }}">
-      {{ displayText }}
-    </span>
+    <span title="{{ node | adfNodeNameTooltip }}">{{ displayText }}</span>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

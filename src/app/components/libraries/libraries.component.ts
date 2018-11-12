@@ -55,6 +55,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
 
     this.subscriptions.push(
       this.content.libraryDeleted.subscribe(() => this.reload()),
+      this.content.libraryUpdated.subscribe(() => this.documentList.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
@@ -62,10 +63,6 @@ export class LibrariesComponent extends PageComponent implements OnInit {
           this.isSmallScreen = result.matches;
         })
     );
-
-    this.subscriptions = this.subscriptions.concat([
-      this.content.libraryUpdated.subscribe(() => this.documentList.reload())
-    ]);
 
     this.columns = this.extensions.documentListPresets.libraries || [];
   }

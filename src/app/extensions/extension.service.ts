@@ -75,17 +75,21 @@ export class AppExtensionService implements RuleContext {
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
     libraries: Array<DocumentListPresetRef>;
+    favoriteLibraries: Array<DocumentListPresetRef>;
     shared: Array<DocumentListPresetRef>;
     recent: Array<DocumentListPresetRef>;
     favorites: Array<DocumentListPresetRef>;
     trashcan: Array<DocumentListPresetRef>;
+    searchLibraries: Array<DocumentListPresetRef>;
   } = {
     files: [],
     libraries: [],
+    favoriteLibraries: [],
     shared: [],
     recent: [],
     favorites: [],
-    trashcan: []
+    trashcan: [],
+    searchLibraries: []
   };
 
   selection: SelectionState;
@@ -160,10 +164,15 @@ export class AppExtensionService implements RuleContext {
     this.documentListPresets = {
       files: this.getDocumentListPreset(config, 'files'),
       libraries: this.getDocumentListPreset(config, 'libraries'),
+      favoriteLibraries: this.getDocumentListPreset(
+        config,
+        'favoriteLibraries'
+      ),
       shared: this.getDocumentListPreset(config, 'shared'),
       recent: this.getDocumentListPreset(config, 'recent'),
       favorites: this.getDocumentListPreset(config, 'favorites'),
-      trashcan: this.getDocumentListPreset(config, 'trashcan')
+      trashcan: this.getDocumentListPreset(config, 'trashcan'),
+      searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
   }
 

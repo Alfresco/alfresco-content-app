@@ -53,12 +53,14 @@ export class BrowsingPage extends Page {
 
 
   async clickFileLibrariesAndWait() {
-    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await this.sidenav.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.MY_LIBRARIES);
     await this.dataTable.waitForHeader();
   }
 
   async clickFileLibraries() {
-    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await this.sidenav.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.MY_LIBRARIES);
   }
 
 

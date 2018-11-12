@@ -73,7 +73,7 @@ describe('Extensions - Metadata presets', () => {
     fileId = (await apis.user.nodes.createImage(file)).entry.id;
 
     await loginPage.load();
-    await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
+    await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
     await loginPage.loginWith(username);
 
     done();

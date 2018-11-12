@@ -33,7 +33,9 @@ import {
 
 @Component({
   selector: 'app-page-layout-content',
-  template: `<ng-content></ng-content>`,
+  template: `
+    <ng-content></ng-content>
+  `,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-page-layout-content' }

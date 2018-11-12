@@ -163,4 +163,4 @@ Map the `/custom-route` in `app.routes.ts` as a child of `LayoutComponent` defin
 
 ![](../images/navigation-03.png)
 
-For more information about the content of a custom page see [Document List Layout](/#document-list-layout) section.
+For more information about the content of a custom page see [Document List Layout](/features/document-list-layout) section.

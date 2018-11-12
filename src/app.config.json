@@ -19,11 +19,7 @@
     "logo": "assets/images/alfresco-logo-flower.svg",
     "copyright": "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
   },
-  "experimental": {
-    "cardview": false,
-    "extensions": false,
-    "external-plugins": false
-  },
+  "experimental": {},
   "headerColor": "#2196F3",
   "languagePicker": false,
   "pagination": {
@@ -220,22 +216,22 @@
         {
           "field": "content.mimetype",
           "mincount": 0,
-          "label": "FileType"
+          "label": "SEARCH.FACET_FIELDS.FILE_TYPE"
         },
         {
           "field": "creator",
           "mincount": 0,
-          "label": "Creator"
+          "label": "SEARCH.FACET_FIELDS.CREATOR"
         },
         {
           "field": "modifier",
           "mincount": 0,
-          "label": "Modifier"
+          "label": "SEARCH.FACET_FIELDS.MODIFIER"
         },
         {
           "field": "SITE",
           "mincount": 0,
-          "label": "Location"
+          "label": "SEARCH.FACET_FIELDS.LOCATION"
         }
       ]
     },

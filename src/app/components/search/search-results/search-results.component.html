@@ -24,7 +24,10 @@
               </mat-progress-bar>
               <div class="adf-search-results__content-header content" *ngIf="data?.list.entries.length">
                   <div class="content__side--left">
-                      <div class="adf-search-results--info-text">{{ 'APP.BROWSE.SEARCH.FOUND_RESULTS' | translate: { number: totalResults } }}</div>
+                      <div class="adf-search-results--info-text"
+                           *ngIf="totalResults !== 1">{{ 'APP.BROWSE.SEARCH.FOUND_RESULTS' | translate: { number: totalResults } }}</div>
+                      <div class="adf-search-results--info-text"
+                           *ngIf="totalResults === 1">{{ 'APP.BROWSE.SEARCH.FOUND_ONE_RESULT' | translate: { number: totalResults } }}</div>
 
                       <div class="adf-search-results__facets">
                               <adf-search-chip-list [searchFilter]="searchFilter"></adf-search-chip-list>

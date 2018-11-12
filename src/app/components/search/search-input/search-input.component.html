@@ -2,7 +2,7 @@
     <button mat-icon-button
             class="app-search-button"
             [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
-      <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
+        <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
     </button>
     <mat-form-field class="app-input-form-field">
         <input matInput
@@ -10,11 +10,11 @@
                [type]="'text'"
                [disabled]="true"
                [value]="searchedWord">
-      <mat-placeholder class="placeholder" *ngIf="!searchedWord.length">{{ 'SEARCH.INPUT.PLACEHOLDER' | translate }}</mat-placeholder>
+        <mat-placeholder class="placeholder" *ngIf="!searchedWord.length">{{ 'SEARCH.INPUT.PLACEHOLDER' | translate }}</mat-placeholder>
 
-      <div matSuffix class="app-suffix-search-icon-wrapper">
-        <mat-icon>arrow_drop_down</mat-icon>
-      </div>
+        <div matSuffix class="app-suffix-search-icon-wrapper">
+            <mat-icon>arrow_drop_down</mat-icon>
+        </div>
     </mat-form-field>
 </div>
 
@@ -24,12 +24,16 @@
                               (submit)="onSearchSubmit($event)"
                               (searchChange)="onSearchChange($event)">
     </app-search-input-control>
+    <mat-hint *ngIf="hasLibraryConstraint()" class="app-search-hint">{{ 'SEARCH.INPUT.HINT' | translate }}</mat-hint>
+
     <div id="search-options">
-      <mat-checkbox *ngFor="let option of searchOptions"
+        <mat-checkbox *ngFor="let option of searchOptions"
+                    id="{{ option.id }}"
                     [(ngModel)]="option.value"
                     [disabled]="option.shouldDisable()"
+                    (change)="onOptionChange()"
                     (click)="$event.stopPropagation()">
         {{ option.key | translate }}
-      </mat-checkbox>
+        </mat-checkbox>
     </div>
 </mat-menu>

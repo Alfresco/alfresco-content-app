@@ -38,6 +38,14 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 import { SearchByTermAction } from '../../../store/actions';
 import { filter } from 'rxjs/operators';
+import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+
+export enum SearchOptionIds {
+  Files = 'files',
+  Folders = 'folders',
+  Libraries = 'libraries'
+}
 
 @Component({
   selector: 'aca-search-input',
@@ -51,18 +59,21 @@ export class SearchInputComponent implements OnInit {
   navigationTimer: any;
 
   searchedWord = null;
-  searchOptions: any = [
+  searchOptions: Array<any> = [
     {
+      id: SearchOptionIds.Files,
       key: 'SEARCH.INPUT.FILES',
       value: false,
       shouldDisable: this.isLibrariesChecked.bind(this)
     },
     {
+      id: SearchOptionIds.Folders,
       key: 'SEARCH.INPUT.FOLDERS',
       value: false,
       shouldDisable: this.isLibrariesChecked.bind(this)
     },
     {
+      id: SearchOptionIds.Libraries,
       key: 'SEARCH.INPUT.LIBRARIES',
       value: false,
       shouldDisable: this.isContentChecked.bind(this)
@@ -72,7 +83,12 @@ export class SearchInputComponent implements OnInit {
   @ViewChild('searchInputControl')
   searchInputControl: SearchInputControlComponent;
 
-  constructor(private router: Router, private store: Store<AppStore>) {}
+  constructor(
+    private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
+    private queryBuilder: SearchQueryBuilderService,
+    private router: Router,
+    private store: Store<AppStore>
+  ) {}
 
   ngOnInit() {
     this.showInputValue();
@@ -89,7 +105,7 @@ export class SearchInputComponent implements OnInit {
   showInputValue() {
     this.searchedWord = '';
 
-    if (this.onSearchResults) {
+    if (this.onSearchResults || this.onLibrariesSearchResults) {
       const urlTree: UrlTree = this.router.parseUrl(this.router.url);
       const urlSegmentGroup: UrlSegmentGroup =
         urlTree.root.children[PRIMARY_OUTLET];
@@ -141,14 +157,64 @@ export class SearchInputComponent implements OnInit {
     }, 1000);
   }
 
+  onOptionChange() {
+    if (this.searchedWord) {
+      if (this.isLibrariesChecked()) {
+        if (this.onLibrariesSearchResults) {
+          this.librariesQueryBuilder.update();
+        } else {
+          this.store.dispatch(
+            new SearchByTermAction(this.searchedWord, this.searchOptions)
+          );
+        }
+      } else if (this.isContentChecked()) {
+        if (this.onSearchResults) {
+          // TODO: send here data to this.queryBuilder to be able to search for files/folders
+          this.queryBuilder.update();
+        } else {
+          this.store.dispatch(
+            new SearchByTermAction(this.searchedWord, this.searchOptions)
+          );
+        }
+      }
+    }
+  }
+
+  get onLibrariesSearchResults() {
+    return this.router.url.indexOf('/search-libraries') === 0;
+  }
+
   get onSearchResults() {
-    return this.router.url.indexOf('/search') === 0;
+    return (
+      !this.onLibrariesSearchResults && this.router.url.indexOf('/search') === 0
+    );
+  }
+
+  isFilesChecked(): boolean {
+    return this.isOptionChecked(SearchOptionIds.Files);
+  }
+
+  isFoldersChecked(): boolean {
+    return this.isOptionChecked(SearchOptionIds.Folders);
   }
 
   isLibrariesChecked(): boolean {
-    return this.searchOptions[2].value;
+    return this.isOptionChecked(SearchOptionIds.Libraries);
   }
+
+  isOptionChecked(optionId: string): boolean {
+    const libItem = this.searchOptions.find(item => item.id === optionId);
+    return !!libItem && libItem.value;
+  }
+
   isContentChecked(): boolean {
-    return this.searchOptions[0].value || this.searchOptions[1].value;
+    return this.isFilesChecked() || this.isFoldersChecked();
+  }
+
+  hasLibraryConstraint(): boolean {
+    if (this.isLibrariesChecked()) {
+      return this.searchInputControl.isTermTooShort();
+    }
+    return false;
   }
 }
