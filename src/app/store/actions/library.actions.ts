@@ -24,12 +24,14 @@
  */
 
 import { Action } from '@ngrx/store';
-import { SiteBody } from 'alfresco-js-api';
+import { Site, SiteBody } from 'alfresco-js-api';
 
 export const DELETE_LIBRARY = 'DELETE_LIBRARY';
 export const CREATE_LIBRARY = 'CREATE_LIBRARY';
 export const NAVIGATE_LIBRARY = 'NAVIGATE_LIBRARY';
 export const UPDATE_LIBRARY = 'UPDATE_LIBRARY';
+export const JOIN_LIBRARY = 'JOIN_LIBRARY';
+export const CANCEL_JOIN_REQUEST = 'CANCEL_JOIN_REQUEST';
 
 export class DeleteLibraryAction implements Action {
   readonly type = DELETE_LIBRARY;
@@ -45,7 +47,18 @@ export class NavigateLibraryAction implements Action {
   readonly type = NAVIGATE_LIBRARY;
   constructor(public payload?: string) {}
 }
+
 export class UpdateLibraryAction implements Action {
   readonly type = UPDATE_LIBRARY;
   constructor(public payload?: SiteBody) {}
+}
+
+export class JoinLibraryAction implements Action {
+  readonly type = JOIN_LIBRARY;
+  constructor(public payload?: Site) {}
+}
+
+export class CancelJoinRequestAction implements Action {
+  readonly type = CANCEL_JOIN_REQUEST;
+  constructor(public payload?: Site) {}
 }

@@ -102,6 +102,39 @@
       ]
     },
     {
+      "id": "app.libraries.toolbar.canJoin",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.library" },
+        { "type": "rule",
+          "value": "core.not",
+          "parameters": [
+            { "type": "rule", "value": "app.selection.isPrivateLibrary" }
+          ]
+        },
+        { "type": "rule", "value": "app.selection.hasNoLibraryRole" }
+      ]
+    },
+    {
+      "id": "app.libraries.toolbar.canDeleteJoinRequest",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.library" },
+        { "type": "rule",
+          "value": "core.not",
+          "parameters": [
+            { "type": "rule", "value": "app.selection.isPrivateLibrary" }
+          ]
+        },
+        { "type": "rule",
+          "value": "core.not",
+          "parameters": [
+            { "type": "rule", "value": "app.selection.isPublicLibrary" }
+          ]
+        }
+      ]
+    },
+    {
       "id": "app.toolbar.canCopyNode",
       "type": "core.every",
       "parameters": [
@@ -385,6 +418,30 @@
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
           "visible": "app.libraries.toolbar.info"
+        }
+      },
+      {
+        "id": "app.toolbar.joinLibrary",
+        "order": 702,
+        "title": "APP.ACTIONS.JOIN",
+        "icon": "library_books",
+        "actions": {
+          "click": "JOIN_LIBRARY"
+        },
+        "rules": {
+          "visible": "app.libraries.toolbar.canJoin"
+        }
+      },
+      {
+        "id": "app.toolbar.cancelJoinLibrary",
+        "order": 703,
+        "title": "APP.ACTIONS.CANCEL_JOIN",
+        "icon": "cancel",
+        "actions": {
+          "click": "CANCEL_JOIN_REQUEST"
+        },
+        "rules": {
+          "visible": "app.libraries.toolbar.canDeleteJoinRequest"
         }
       },
       {

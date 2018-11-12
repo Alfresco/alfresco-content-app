@@ -50,7 +50,8 @@ import {
   SiteEntry,
   DeletedNodesPaging,
   PathInfoEntity,
-  SiteBody
+  SiteBody,
+  Site
 } from 'alfresco-js-api';
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
@@ -82,6 +83,7 @@ export class ContentManagementService {
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
+  libraryJoined = new Subject<string>();
   linksUnshared = new Subject<any>();
   favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
   favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
@@ -292,6 +294,39 @@ export class ContentManagementService {
       () => {
         this.store.dispatch(
           new SnackbarErrorAction('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED')
+        );
+      }
+    );
+  }
+
+  joinLibrary(site: Site): void {
+    this.contentApi.joinSite(site.id).subscribe(
+      () => {
+        this.libraryJoined.next(site.id);
+        this.store.dispatch(
+          new SnackbarInfoAction('APP.MESSAGES.INFO.JOIN_REQUESTED')
+        );
+      },
+      () => {
+
+        this.store.dispatch(
+          new SnackbarErrorAction('APP.MESSAGES.ERRORS.JOIN_REQUEST_FAILED')
+        );
+      }
+    );
+  }
+
+  cancelJoinRequest(siteId: string): void {
+    this.contentApi.cancelJoinRequest(siteId).subscribe(
+      () => {
+        this.store.dispatch(
+          new SnackbarInfoAction('APP.MESSAGES.INFO.JOIN_CANCELED')
+        );
+      },
+      () => {
+
+        this.store.dispatch(
+          new SnackbarErrorAction('APP.MESSAGES.ERRORS.JOIN_CANCEL_FAILED')
         );
       }
     );

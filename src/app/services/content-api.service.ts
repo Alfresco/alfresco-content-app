@@ -40,6 +40,8 @@ import {
   ResultSetPaging,
   SiteBody,
   SiteEntry,
+  SiteMemberEntry,
+  SiteMembershipRequestBody,
   FavoriteBody
 } from 'alfresco-js-api';
 import { map } from 'rxjs/operators';
@@ -218,6 +220,19 @@ export class ContentApiService {
 
   deleteSite(siteId?: string, opts?: { permanent?: boolean }): Observable<any> {
     return from(this.api.sitesApi.deleteSite(siteId, opts));
+  }
+
+  joinSite(siteId?: string): Observable<SiteMemberEntry> {
+    const currentPersonId = '-me-';
+    const memberBody = <SiteMembershipRequestBody>{
+      id: siteId
+    };
+    return from(this.api.peopleApi.addSiteMembershipRequest(currentPersonId, memberBody));
+  }
+
+  cancelJoinRequest(siteId: string): Observable<SiteMemberEntry> {
+    const currentPersonId = '-me-';
+    return from(this.api.peopleApi.removeSiteMembershipRequest(currentPersonId, siteId));
   }
 
   createSite(
