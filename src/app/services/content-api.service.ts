@@ -227,12 +227,16 @@ export class ContentApiService {
     const memberBody = <SiteMembershipRequestBody>{
       id: siteId
     };
-    return from(this.api.peopleApi.addSiteMembershipRequest(currentPersonId, memberBody));
+    return from(
+      this.api.peopleApi.addSiteMembershipRequest(currentPersonId, memberBody)
+    );
   }
 
   cancelJoinRequest(siteId: string): Observable<SiteMemberEntry> {
     const currentPersonId = '-me-';
-    return from(this.api.peopleApi.removeSiteMembershipRequest(currentPersonId, siteId));
+    return from(
+      this.api.peopleApi.removeSiteMembershipRequest(currentPersonId, siteId)
+    );
   }
 
   createSite(

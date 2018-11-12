@@ -71,7 +71,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private hideConditions: string[] = ['preview'];
 
   customIcon: any = {
-    'join_library': './assets/images/join-library.svg'
+    join_library: './assets/images/join-library.svg'
   };
 
   constructor(
@@ -82,8 +82,12 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     private appConfigService: AppConfigService,
     private breakpointObserver: BreakpointObserver,
     matIconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer) {
-      matIconRegistry.addSvgIcon('join_library', sanitizer.bypassSecurityTrustResourceUrl(this.customIcon['join_library']));
+    sanitizer: DomSanitizer
+  ) {
+    matIconRegistry.addSvgIcon(
+      'join_library',
+      sanitizer.bypassSecurityTrustResourceUrl(this.customIcon['join_library'])
+    );
   }
 
   ngOnInit() {

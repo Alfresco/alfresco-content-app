@@ -183,7 +183,13 @@ export function isPrivateLibrary(
   ...args: RuleParameter[]
 ): boolean {
   const library = context.selection.library;
-  return library ? !!(library.entry && library.entry.visibility && library.entry.visibility === 'PRIVATE') : false;
+  return library
+    ? !!(
+        library.entry &&
+        library.entry.visibility &&
+        library.entry.visibility === 'PRIVATE'
+      )
+    : false;
 }
 
 export function isPublicLibrary(
@@ -191,7 +197,13 @@ export function isPublicLibrary(
   ...args: RuleParameter[]
 ): boolean {
   const library = context.selection.library;
-  return library ? !!(library.entry && library.entry.visibility && library.entry.visibility === 'PUBLIC') : false;
+  return library
+    ? !!(
+        library.entry &&
+        library.entry.visibility &&
+        library.entry.visibility === 'PUBLIC'
+      )
+    : false;
 }
 
 export function hasLibraryRole(

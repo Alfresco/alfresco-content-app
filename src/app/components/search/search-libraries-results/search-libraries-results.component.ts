@@ -73,8 +73,12 @@ export class SearchLibrariesResultsComponent extends PageComponent
     this.columns = this.extensions.documentListPresets.searchLibraries || [];
 
     this.subscriptions.push(
-      this.content.libraryJoined.subscribe(() => this.librariesQueryBuilder.update()),
-      this.content.libraryDeleted.subscribe(() => this.librariesQueryBuilder.update()),
+      this.content.libraryJoined.subscribe(() =>
+        this.librariesQueryBuilder.update()
+      ),
+      this.content.libraryDeleted.subscribe(() =>
+        this.librariesQueryBuilder.update()
+      ),
 
       this.librariesQueryBuilder.updated.subscribe(() => {
         this.isLoading = true;

@@ -308,7 +308,6 @@ export class ContentManagementService {
         );
       },
       () => {
-
         this.store.dispatch(
           new SnackbarErrorAction('APP.MESSAGES.ERRORS.JOIN_REQUEST_FAILED')
         );
@@ -324,7 +323,6 @@ export class ContentManagementService {
         );
       },
       () => {
-
         this.store.dispatch(
           new SnackbarErrorAction('APP.MESSAGES.ERRORS.JOIN_CANCEL_FAILED')
         );
