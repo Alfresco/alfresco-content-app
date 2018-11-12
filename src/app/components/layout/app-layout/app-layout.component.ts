@@ -114,7 +114,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$)
       )
       .subscribe(() => {
-        this.layout.container.toggleMenu();
+        this.layout.container.sidenav.close();
       });
 
     this.router.events
