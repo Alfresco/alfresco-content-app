@@ -424,7 +424,7 @@
         "id": "app.toolbar.joinLibrary",
         "order": 702,
         "title": "APP.ACTIONS.JOIN",
-        "icon": "library_books",
+        "icon": "join_library",
         "actions": {
           "click": "JOIN_LIBRARY"
         },

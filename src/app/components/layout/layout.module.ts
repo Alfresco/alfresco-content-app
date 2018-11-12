@@ -36,6 +36,7 @@ import { PageLayoutComponent } from './page-layout/page-layout.component';
 import { PageLayoutHeaderComponent } from './page-layout/page-layout-header.component';
 import { PageLayoutContentComponent } from './page-layout/page-layout-content.component';
 import { PageLayoutErrorComponent } from './page-layout/page-layout-error.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -45,7 +46,8 @@ import { PageLayoutErrorComponent } from './page-layout/page-layout-error.compon
     ContentModule.forChild(),
     AppCommonModule,
     AppSidenavModule,
-    AppHeaderModule
+    AppHeaderModule,
+    HttpClientModule
   ],
   declarations: [
     AppLayoutComponent,
