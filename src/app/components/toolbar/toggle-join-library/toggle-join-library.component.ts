@@ -47,7 +47,7 @@ import {
       [acaLibraryMembership]="(selection$ | async).library"
       [attr.title]="
         (membership.isJoinRequested | async)
-          ? 'APP.ACTIONS.CANCEL_JOIN'
+          ? ('APP.ACTIONS.CANCEL_JOIN' | translate)
           : ('APP.ACTIONS.JOIN' | translate)
       "
     >
