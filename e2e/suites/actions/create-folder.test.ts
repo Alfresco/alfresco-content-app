@@ -92,7 +92,7 @@ describe('Create folder', () => {
 
     it('creates new folder with name - [C216341]', async () => {
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderName1);
       await createDialog.clickCreate();
@@ -104,7 +104,7 @@ describe('Create folder', () => {
 
     it('creates new folder with name and description - [C216340]', async (done) => {
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folderName2);
       await createDialog.enterDescription(folderDescription);
@@ -126,7 +126,7 @@ describe('Create folder', () => {
 
     it('dialog UI elements - [C216345]', async () => {
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       const dialogTitle = await createDialog.getTitle();
       const isFolderNameDisplayed = await createDialog.nameInput.isDisplayed();
@@ -143,7 +143,7 @@ describe('Create folder', () => {
 
     it('with empty folder name - [C216346]', async () => {
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.deleteNameWithBackspace();
       const isCreateEnabled = await createDialog.createButton.isEnabled();
@@ -155,7 +155,7 @@ describe('Create folder', () => {
 
     it('with folder name ending with a dot "." - [C216348]', async () => {
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName('folder-name.');
       const isCreateEnabled = await createDialog.createButton.isEnabled();
@@ -169,7 +169,7 @@ describe('Create folder', () => {
       const namesWithSpecialChars = [ 'a*a', 'a"a', 'a<a', 'a>a', `a\\a`, 'a/a', 'a?a', 'a:a', 'a|a' ];
 
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
 
       for (const name of namesWithSpecialChars) {
@@ -181,7 +181,7 @@ describe('Create folder', () => {
 
     it('with folder name containing only spaces - [C280406]', async () => {
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName('    ');
       const isCreateEnabled = await createDialog.createButton.isEnabled();
@@ -193,7 +193,7 @@ describe('Create folder', () => {
 
     it('cancel folder creation - [C216349]', async () => {
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName('test');
       await createDialog.enterDescription('test description');
@@ -203,7 +203,7 @@ describe('Create folder', () => {
 
     it('duplicate folder name - [C216350]', async () => {
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(duplicateFolderName);
       await createDialog.clickCreate();
@@ -214,7 +214,7 @@ describe('Create folder', () => {
 
     it('trim ending spaces from folder name - [C216351]', async () => {
       await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(nameWithSpaces);
       await createDialog.clickCreate();

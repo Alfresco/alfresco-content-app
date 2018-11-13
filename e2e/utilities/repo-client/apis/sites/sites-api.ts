@@ -49,6 +49,21 @@ export class SitesApi extends RepoApi {
         return (await this.alfrescoJsApi.core.sitesApi.getSiteContainers(siteId)).list.entries[0].entry.id;
     }
 
+    async getVisibility(siteId: string) {
+        const site = await this.getSite(siteId);
+        return site.entry.visibility;
+    }
+
+    async getDescription(siteId: string) {
+      const site = await this.getSite(siteId);
+      return site.entry.description;
+    }
+
+    async getTitle(siteId: string) {
+      const site = await this.getSite(siteId);
+      return site.entry.title;
+    }
+
     async createSite(title: string, visibility?: string, description?: string, siteId?: string) {
         const site = <SiteBody>{
             title,
@@ -78,6 +93,15 @@ export class SitesApi extends RepoApi {
             await previous;
             return await this.deleteSite(current, permanent);
         }, Promise.resolve());
+    }
+
+    async deleteAllUserSites(permanent: boolean = true) {
+      const siteIds = (await this.getSites()).list.entries.map(entries => entries.entry.id);
+
+      return await siteIds.reduce(async (previous, current) => {
+        await previous;
+        return await this.deleteSite(current, permanent);
+      }, Promise.resolve());
     }
 
     async updateSiteMember(siteId: string, userId: string, role: string) {
