@@ -23,22 +23,45 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { AppCreateMenuModule } from '../create-menu/create-menu.module';
-import { CommonModule } from '@angular/common';
-import { SidenavComponent } from './sidenav.component';
-import { CoreModule } from '@alfresco/adf-core';
-import { RouterModule } from '@angular/router';
-import { AcaExpansionPanelDirective } from './expansion-panel.directive';
+import { Directive, OnInit, Input, HostListener } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    RouterModule,
-    AppCreateMenuModule
-  ],
-  declarations: [SidenavComponent, AcaExpansionPanelDirective],
-  exports: [SidenavComponent, AcaExpansionPanelDirective]
+@Directive({
+  selector: '[acaExpansionPanel]',
+  exportAs: 'acaExpansionPanel'
 })
-export class AppSidenavModule {}
+export class AcaExpansionPanelDirective implements OnInit {
+  @Input() acaExpansionPanel;
+
+  selected = false;
+
+  @HostListener('click')
+  onClick() {
+    if (this.expansionPanel.expanded && !this.selected) {
+      this.router.navigate([this.acaExpansionPanel.children[0].url]);
+    }
+  }
+
+  constructor(
+    private router: Router,
+    private expansionPanel: MatExpansionPanel
+  ) {}
+
+  ngOnInit() {
+    this.setSelected(this.router.url);
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.setSelected(event.urlAfterRedirects);
+      });
+  }
+
+  private setSelected(url) {
+    this.selected = this.acaExpansionPanel.children.some(child =>
+      url.startsWith(child.url)
+    );
+  }
+}
