@@ -104,6 +104,8 @@ describe('AcaExpansionPanel', () => {
     const directive = new AcaExpansionPanelDirective(router, null);
     directive.acaExpansionPanel = item;
 
+    directive.ngOnInit();
+
     router.navigate('dummy-route-1');
     done();
 
