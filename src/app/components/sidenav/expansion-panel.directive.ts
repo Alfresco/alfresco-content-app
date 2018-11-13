@@ -23,19 +23,27 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, OnInit, Input, HostListener } from '@angular/core';
+import {
+  Directive,
+  OnInit,
+  Input,
+  HostListener,
+  OnDestroy
+} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { MatExpansionPanel } from '@angular/material/expansion';
 
 @Directive({
   selector: '[acaExpansionPanel]',
   exportAs: 'acaExpansionPanel'
 })
-export class AcaExpansionPanelDirective implements OnInit {
+export class AcaExpansionPanelDirective implements OnInit, OnDestroy {
   @Input() acaExpansionPanel;
-
   selected = false;
+
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   @HostListener('click')
   onClick() {
@@ -53,10 +61,18 @@ export class AcaExpansionPanelDirective implements OnInit {
     this.setSelected(this.router.url);
 
     this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.onDestroy$)
+      )
       .subscribe((event: NavigationEnd) => {
         this.setSelected(event.urlAfterRedirects);
       });
+  }
+
+  ngOnDestroy() {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   private setSelected(url) {
