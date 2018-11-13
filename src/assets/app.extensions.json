@@ -102,7 +102,7 @@
       ]
     },
     {
-      "id": "app.libraries.toolbar.canJoin",
+      "id": "app.libraries.toolbar.canToggleJoin",
       "type": "core.every",
       "parameters": [
         { "type": "rule", "value": "app.selection.library" },
@@ -113,13 +113,6 @@
           ]
         },
         { "type": "rule", "value": "app.selection.hasNoLibraryRole" }
-      ]
-    },
-    {
-      "id": "app.libraries.toolbar.canDeleteJoinRequest",
-      "type": "core.every",
-      "parameters": [
-        { "type": "rule", "value": "app.selection.isModeratedLibrary" }
       ]
     },
     {
@@ -410,26 +403,11 @@
       },
       {
         "id": "app.toolbar.joinLibrary",
-        "order": 702,
-        "title": "APP.ACTIONS.JOIN",
-        "icon": "join_library",
-        "actions": {
-          "click": "JOIN_LIBRARY"
-        },
+        "type": "custom",
+        "order": 704,
+        "component": "app.toolbar.toggleJoinLibrary",
         "rules": {
-          "visible": "app.libraries.toolbar.canJoin"
-        }
-      },
-      {
-        "id": "app.toolbar.cancelJoinLibrary",
-        "order": 703,
-        "title": "APP.ACTIONS.CANCEL_JOIN",
-        "icon": "cancel",
-        "actions": {
-          "click": "CANCEL_JOIN_REQUEST"
-        },
-        "rules": {
-          "visible": "app.libraries.toolbar.canDeleteJoinRequest"
+          "visible": "app.libraries.toolbar.canToggleJoin"
         }
       },
       {

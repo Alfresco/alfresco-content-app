@@ -192,20 +192,6 @@ export function isPrivateLibrary(
     : false;
 }
 
-export function isModeratedLibrary(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
-  const library = context.selection.library;
-  return library
-    ? !!(
-        library.entry &&
-        library.entry.visibility &&
-        library.entry.visibility === 'MODERATED'
-      )
-    : false;
-}
-
 export function hasLibraryRole(
   context: RuleContext,
   ...args: RuleParameter[]

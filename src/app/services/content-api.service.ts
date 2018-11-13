@@ -222,23 +222,6 @@ export class ContentApiService {
     return from(this.api.sitesApi.deleteSite(siteId, opts));
   }
 
-  joinSite(siteId?: string): Observable<SiteMemberEntry> {
-    const currentPersonId = '-me-';
-    const memberBody = <SiteMembershipRequestBody>{
-      id: siteId
-    };
-    return from(
-      this.api.peopleApi.addSiteMembershipRequest(currentPersonId, memberBody)
-    );
-  }
-
-  cancelJoinRequest(siteId: string): Observable<SiteMemberEntry> {
-    const currentPersonId = '-me-';
-    return from(
-      this.api.peopleApi.removeSiteMembershipRequest(currentPersonId, siteId)
-    );
-  }
-
   createSite(
     siteBody: SiteBody,
     opts?: {

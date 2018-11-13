@@ -277,6 +277,7 @@
                     }
                 },
                 "LIBRARY_DELETED": "Library deleted",
+                "JOINED": "Library joined",
                 "JOIN_REQUESTED": "Join library request sent",
                 "JOIN_CANCELED": "Canceled the request to join the library"
             }

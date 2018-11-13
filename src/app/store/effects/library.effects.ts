@@ -34,11 +34,7 @@ import {
   NavigateLibraryAction,
   NAVIGATE_LIBRARY,
   UpdateLibraryAction,
-  UPDATE_LIBRARY,
-  JoinLibraryAction,
-  JOIN_LIBRARY,
-  CancelJoinRequestAction,
-  CANCEL_JOIN_REQUEST
+  UPDATE_LIBRARY
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
@@ -71,44 +67,6 @@ export class LibraryEffects {
           .subscribe(selection => {
             if (selection && selection.library) {
               this.content.deleteLibrary(selection.library.entry.id);
-            }
-          });
-      }
-    })
-  );
-
-  @Effect({ dispatch: false })
-  joinLibrary$ = this.actions$.pipe(
-    ofType<JoinLibraryAction>(JOIN_LIBRARY),
-    map(action => {
-      if (action.payload) {
-        this.content.joinLibrary(action.payload);
-      } else {
-        this.store
-          .select(appSelection)
-          .pipe(take(1))
-          .subscribe(selection => {
-            if (selection && selection.library) {
-              this.content.joinLibrary(selection.library.entry);
-            }
-          });
-      }
-    })
-  );
-
-  @Effect({ dispatch: false })
-  cancelJoinRequest$ = this.actions$.pipe(
-    ofType<CancelJoinRequestAction>(CANCEL_JOIN_REQUEST),
-    map(action => {
-      if (action.payload) {
-        this.content.cancelJoinRequest(action.payload);
-      } else {
-        this.store
-          .select(appSelection)
-          .pipe(take(1))
-          .subscribe(selection => {
-            if (selection && selection.library) {
-              this.content.cancelJoinRequest(selection.library.entry.id);
             }
           });
       }

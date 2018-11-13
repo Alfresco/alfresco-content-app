@@ -47,6 +47,7 @@ import { LibraryStatusColumnComponent } from '../components/common/library-statu
 import { TrashcanNameColumnComponent } from '../components/common/trashcan-name-column/trashcan-name-column.component';
 import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
 import { DocumentDisplayModeComponent } from '../components/toolbar/document-display-mode/document-display-mode.component';
+import { ToggleJoinLibraryComponent } from '../components/toolbar/toggle-join-library/toggle-join-library.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -85,6 +86,7 @@ export class CoreExtensionsModule {
       'app.components.tabs.versions': VersionsTabComponent,
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
+      'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryComponent,
       'app.toolbar.cardView': DocumentDisplayModeComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': NameColumnComponent,
@@ -111,7 +113,6 @@ export class CoreExtensionsModule {
       'app.selection.file.canShare': app.canShareFile,
       'app.selection.library': app.hasLibrarySelected,
       'app.selection.isPrivateLibrary': app.isPrivateLibrary,
-      'app.selection.isModeratedLibrary': app.isModeratedLibrary,
       'app.selection.hasLibraryRole': app.hasLibraryRole,
       'app.selection.hasNoLibraryRole': app.hasNoLibraryRole,
       'app.selection.folder': app.hasFolderSelected,
