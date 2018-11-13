@@ -53,7 +53,7 @@ describe('General', () => {
     it('should close opened dialogs - [C286473]', async () => {
       await loginPage.loginWithAdmin();
 
-      await page.sidenav.openCreateDialog();
+      await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folder);
 
