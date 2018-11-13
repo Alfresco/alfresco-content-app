@@ -75,7 +75,7 @@ export class AcaExpansionPanelDirective implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  private setSelected(url) {
+  private setSelected(url: string) {
     this.selected = this.acaExpansionPanel.children.some(child =>
       url.startsWith(child.url)
     );
