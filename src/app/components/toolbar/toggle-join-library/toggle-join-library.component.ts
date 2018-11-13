@@ -45,16 +45,17 @@ import {
       (toggle)="onToggleEvent($event)"
       (error)="onErrorEvent($event)"
       [acaLibraryMembership]="(selection$ | async).library"
+      [attr.title]="
+        (membership.isJoinRequested | async)
+          ? 'APP.ACTIONS.CANCEL_JOIN'
+          : ('APP.ACTIONS.JOIN' | translate)
+      "
     >
-      <mat-icon
-        *ngIf="(membership.isJoinRequested | async)"
-        [attr.title]="'APP.ACTIONS.CANCEL_JOIN' | translate"
-        >cancel
-      </mat-icon>
+      <mat-icon *ngIf="(membership.isJoinRequested | async)">cancel</mat-icon>
       <mat-icon
         *ngIf="!(membership.isJoinRequested | async)"
         svgIcon="join_library"
-        [attr.title]="'APP.ACTIONS.JOIN' | translate"
+        style="pointer-events: none;"
       ></mat-icon>
     </button>
   `,
