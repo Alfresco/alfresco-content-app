@@ -40,8 +40,6 @@ import {
   ResultSetPaging,
   SiteBody,
   SiteEntry,
-  SiteMemberEntry,
-  SiteMembershipRequestBody,
   FavoriteBody
 } from 'alfresco-js-api';
 import { map } from 'rxjs/operators';

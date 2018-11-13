@@ -33,7 +33,7 @@ import {
 } from '@angular/core';
 import { SiteEntry, SiteMembershipRequestBody } from 'alfresco-js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { from, Observable, of } from 'rxjs';
+import { BehaviorSubject, from } from 'rxjs';
 
 @Directive({
   selector: '[acaLibraryMembership]',
@@ -42,7 +42,9 @@ import { from, Observable, of } from 'rxjs';
 export class LibraryMembershipDirective implements OnChanges {
   targetSite: any = null;
 
-  isJoinRequested: Observable<boolean> = of(false);
+  isJoinRequested: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
+    false
+  );
 
   /** Site for which to toggle the membership request. */
   @Input('acaLibraryMembership')
@@ -80,7 +82,7 @@ export class LibraryMembershipDirective implements OnChanges {
       this.cancelJoinRequest().subscribe(
         () => {
           this.targetSite.joinRequested = false;
-          this.isJoinRequested = of(false);
+          this.isJoinRequested.next(false);
           const info = {
             shouldReload: false,
             i18nKey: 'APP.MESSAGES.INFO.JOIN_CANCELED'
@@ -101,7 +103,7 @@ export class LibraryMembershipDirective implements OnChanges {
       this.joinLibraryRequest().subscribe(
         createdMembership => {
           this.targetSite.joinRequested = true;
-          this.isJoinRequested = of(true);
+          this.isJoinRequested.next(true);
 
           if (
             createdMembership.entry &&
@@ -141,12 +143,12 @@ export class LibraryMembershipDirective implements OnChanges {
       data => {
         if (data.entry.id === this.targetSite.id) {
           this.targetSite.joinRequested = true;
-          this.isJoinRequested = of(true);
+          this.isJoinRequested.next(true);
         }
       },
       () => {
         this.targetSite.joinRequested = false;
-        this.isJoinRequested = of(false);
+        this.isJoinRequested.next(false);
       }
     );
   }

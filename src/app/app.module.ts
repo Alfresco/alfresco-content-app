@@ -128,7 +128,11 @@ import { ToggleJoinLibraryComponent } from './components/toolbar/toggle-join-lib
       }
     }
   ],
-  entryComponents: [LibraryDialogComponent, NodeVersionsDialogComponent, ToggleJoinLibraryComponent],
+  entryComponents: [
+    LibraryDialogComponent,
+    NodeVersionsDialogComponent,
+    ToggleJoinLibraryComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -27,7 +27,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { ContentManagementService } from '../../../services/content-management.service';
 import {
@@ -47,16 +47,15 @@ import {
       [acaLibraryMembership]="(selection$ | async).library"
     >
       <mat-icon
-        *ngIf="(membership.isJoinRequested | async); else join"
+        *ngIf="(membership.isJoinRequested | async)"
         [attr.title]="'APP.ACTIONS.CANCEL_JOIN' | translate"
         >cancel
       </mat-icon>
-      <ng-template #join>
-        <mat-icon
-          svgIcon="join_library"
-          [attr.title]="'APP.ACTIONS.JOIN' | translate"
-        ></mat-icon>
-      </ng-template>
+      <mat-icon
+        *ngIf="!(membership.isJoinRequested | async)"
+        svgIcon="join_library"
+        [attr.title]="'APP.ACTIONS.JOIN' | translate"
+      ></mat-icon>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,

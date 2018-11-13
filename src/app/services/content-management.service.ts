@@ -50,8 +50,7 @@ import {
   SiteEntry,
   DeletedNodesPaging,
   PathInfoEntity,
-  SiteBody,
-  Site
+  SiteBody
 } from 'alfresco-js-api';
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
