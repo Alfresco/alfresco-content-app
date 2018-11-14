@@ -38,7 +38,7 @@ export class SearchInput extends Component {
     optionCheckbox: '.mat-checkbox'
   };
 
-  searchButton: ElementFinder = browser.element(by.css(SearchInput.selectors.searchButton));
+  searchButton: ElementFinder = this.component.element(by.css(SearchInput.selectors.searchButton));
   searchContainer: ElementFinder = browser.element(by.css(SearchInput.selectors.searchContainer));
   searchBar: ElementFinder = browser.element(by.id(SearchInput.selectors.searchInput));
   searchOptionsArea: ElementFinder = browser.element(by.id(SearchInput.selectors.searchOptionsArea));
@@ -54,8 +54,8 @@ export class SearchInput extends Component {
     return (await this.searchContainer.isDisplayed()) && (await this.searchButton.isDisplayed());
   }
 
-  async clickSearchContainer() {
-    return await this.searchContainer.click();
+  async clickSearchButton() {
+    await this.searchButton.click();
   }
 
   async isOptionsAreaDisplayed() {
@@ -104,8 +104,6 @@ export class SearchInput extends Component {
     const optClass = await this.searchLibrariesOption.getAttribute('class');
     return optClass.includes('mat-checkbox-checked');
   }
-
-
 
   async searchForText(text: string) {
     await this.searchBar.clear();

@@ -48,7 +48,7 @@ describe('Search input', () => {
   });
 
   it('Search options are displayed when clicking in the search input - [C289848]', async () => {
-    await searchInput.clickSearchContainer();
+    await searchInput.clickSearchButton();
     expect(await searchInput.isOptionsAreaDisplayed()).toBe(true, '1. Search options not displayed');
     expect(await searchInput.isFilesOptionEnabled()).toBe(true, '2. Files option not enabled');
     expect(await searchInput.isFoldersOptionEnabled()).toBe(true, '3. Folders option not enabled');
@@ -59,7 +59,7 @@ describe('Search input', () => {
   });
 
   it('Search options are correctly enabled / disabled - [C289849]', async () => {
-    await searchInput.clickSearchContainer();
+    await searchInput.clickSearchButton();
 
     await searchInput.clickFilesOption();
     expect(await searchInput.isFoldersOptionEnabled()).toBe(true, 'Folders option not enabled');

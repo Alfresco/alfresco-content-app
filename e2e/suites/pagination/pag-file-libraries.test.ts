@@ -52,13 +52,13 @@ describe('Pagination on multiple pages on File Libraries', () => {
   });
 
   beforeEach(async (done) => {
-      await page.clickFileLibrariesAndWait();
-      done();
+    await page.clickFileLibrariesAndWait();
+    done();
   });
 
   afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
+    await Utils.pressEscape();
+    done();
   });
 
   afterAll(async (done) => {
