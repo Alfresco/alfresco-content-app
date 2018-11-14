@@ -75,7 +75,9 @@ export function isLibraries(
   ...args: RuleParameter[]
 ): boolean {
   const { url } = context.navigation;
-  return url && url.endsWith('/libraries');
+  return (
+    url && (url.endsWith('/libraries') || url.startsWith('/search-libraries'))
+  );
 }
 
 export function isNotLibraries(

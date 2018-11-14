@@ -33,8 +33,8 @@ import {
   CREATE_LIBRARY,
   NavigateLibraryAction,
   NAVIGATE_LIBRARY,
-  UPDATE_LIBRARY,
-  UpdateLibraryAction
+  UpdateLibraryAction,
+  UPDATE_LIBRARY
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';

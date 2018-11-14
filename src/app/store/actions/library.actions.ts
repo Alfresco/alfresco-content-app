@@ -45,6 +45,7 @@ export class NavigateLibraryAction implements Action {
   readonly type = NAVIGATE_LIBRARY;
   constructor(public payload?: string) {}
 }
+
 export class UpdateLibraryAction implements Action {
   readonly type = UPDATE_LIBRARY;
   constructor(public payload?: SiteBody) {}

@@ -162,7 +162,9 @@
             "SHARE": "Share",
             "SHARE_EDIT": "Shared link settings",
             "PRINT": "Print",
-            "FULLSCREEN": "Activate full-screen mode"
+            "FULLSCREEN": "Activate full-screen mode",
+            "JOIN": "Join",
+            "CANCEL_JOIN": "Cancel join request"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -227,7 +229,9 @@
                         "GENERIC": "There was a problem restoring {{ name }}"
                     }
                 },
-                "DELETE_LIBRARY_FAILED": "Cannot delete the library"
+                "DELETE_LIBRARY_FAILED": "Cannot delete the library",
+                "JOIN_REQUEST_FAILED": "Cannot join the library",
+                "JOIN_CANCEL_FAILED": "Cannot cancel the request to join the library"
             },
             "UPLOAD": {
                 "ERROR": {
@@ -272,7 +276,10 @@
                         "FAIL": "{{ failed }} couldn't be moved."
                     }
                 },
-                "LIBRARY_DELETED": "Library deleted"
+                "LIBRARY_DELETED": "Library deleted",
+                "JOINED": "Library joined",
+                "JOIN_REQUESTED": "Join library request sent",
+                "JOIN_CANCELED": "Canceled the request to join the library"
             }
         },
         "CONTENT_METADATA": {
