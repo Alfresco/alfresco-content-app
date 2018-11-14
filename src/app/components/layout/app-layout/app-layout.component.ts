@@ -35,7 +35,7 @@ import {
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, NavigationStart } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil, map, withLatestFrom } from 'rxjs/operators';
@@ -43,6 +43,7 @@ import { NodePermissionService } from '../../../services/node-permission.service
 import { currentFolder } from '../../../store/selectors/app.selectors';
 import { AppStore } from '../../../store/states';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { SetSelectedNodesAction } from '../../../store/actions';
 
 @Component({
   selector: 'app-layout',
@@ -113,7 +114,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
         takeUntil(this.onDestroy$)
       )
       .subscribe(() => {
-        this.layout.container.toggleMenu();
+        this.layout.container.sidenav.close();
       });
 
     this.router.events
@@ -131,6 +132,13 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
 
         this.updateState();
       });
+
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationStart),
+        takeUntil(this.onDestroy$)
+      )
+      .subscribe(() => this.store.dispatch(new SetSelectedNodesAction([])));
   }
 
   ngOnDestroy() {

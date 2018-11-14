@@ -28,16 +28,43 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppConfigService, UserPreferencesService } from '@alfresco/adf-core';
 import { AppLayoutComponent } from './app-layout.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../../store/states';
+import { SetSelectedNodesAction } from '../../../store/actions';
+import { Router, NavigationStart } from '@angular/router';
+import { appSelection } from '../../../store/selectors/app.selectors';
+import { Subject } from 'rxjs';
+
+class MockRouter {
+  private url = 'some-url';
+  private subject = new Subject();
+  events = this.subject.asObservable();
+  routerState = { snapshot: { url: this.url } };
+
+  navigate(url: string) {
+    const navigationStart = new NavigationStart(0, url);
+    this.subject.next(navigationStart);
+  }
+}
 
 describe('AppLayoutComponent', () => {
   let fixture: ComponentFixture<AppLayoutComponent>;
   let component: AppLayoutComponent;
   let appConfig: AppConfigService;
   let userPreference: UserPreferencesService;
+  let store: Store<AppStore>;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
+      providers: [
+        Store,
+        {
+          provide: Router,
+          useClass: MockRouter
+        }
+      ],
       declarations: [AppLayoutComponent],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -45,6 +72,8 @@ describe('AppLayoutComponent', () => {
     fixture = TestBed.createComponent(AppLayoutComponent);
     component = fixture.componentInstance;
     appConfig = TestBed.get(AppConfigService);
+    store = TestBed.get(Store);
+    router = TestBed.get(Router);
     userPreference = TestBed.get(UserPreferencesService);
   });
 
@@ -106,6 +135,19 @@ describe('AppLayoutComponent', () => {
       fixture.detectChanges();
 
       expect(component.expandedSidenav).toBe(false);
+    });
+  });
+
+  it('should reset selection before navigation', done => {
+    fixture.detectChanges();
+    const selection = [{ entry: { id: 'nodeId', name: 'name' } }];
+    store.dispatch(new SetSelectedNodesAction(selection));
+
+    router.navigate(['somewhere/over/the/rainbow']);
+    fixture.detectChanges();
+    store.select(appSelection).subscribe(state => {
+      expect(state.isEmpty).toBe(true);
+      done();
     });
   });
 });
