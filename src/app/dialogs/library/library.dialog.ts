@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, from } from 'rxjs';
 import {
   Component,
   OnInit,
@@ -23,11 +23,15 @@ import {
   EventEmitter,
   OnDestroy
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+  AbstractControl
+} from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { SiteBody, SiteEntry, SitePaging } from 'alfresco-js-api';
-import { ContentApiService } from '../../services/content-api.service';
-import { SiteIdValidator, forbidSpecialCharacters } from './form.validators';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 
@@ -62,8 +66,7 @@ export class LibraryDialogComponent implements OnInit, OnDestroy {
   constructor(
     private alfrescoApiService: AlfrescoApiService,
     private formBuilder: FormBuilder,
-    private dialog: MatDialogRef<LibraryDialogComponent>,
-    private contentApi: ContentApiService
+    private dialog: MatDialogRef<LibraryDialogComponent>
   ) {}
 
   ngOnInit() {
@@ -71,7 +74,7 @@ export class LibraryDialogComponent implements OnInit, OnDestroy {
       id: [
         Validators.required,
         Validators.maxLength(72),
-        forbidSpecialCharacters
+        this.forbidSpecialCharacters
       ],
       title: [Validators.required, Validators.maxLength(256)],
       description: [Validators.maxLength(512)]
@@ -79,7 +82,7 @@ export class LibraryDialogComponent implements OnInit, OnDestroy {
 
     this.form = this.formBuilder.group({
       title: ['', validators.title],
-      id: ['', validators.id, SiteIdValidator.createValidator(this.contentApi)],
+      id: ['', validators.id, this.createSiteIdValidator()],
       description: ['', validators.description]
     });
 
@@ -151,7 +154,7 @@ export class LibraryDialogComponent implements OnInit, OnDestroy {
   }
 
   private create(): Observable<SiteEntry> {
-    const { contentApi, title, id, description, visibility } = this;
+    const { title, id, description, visibility } = this;
     const siteBody = <SiteBody>{
       id,
       title,
@@ -159,7 +162,7 @@ export class LibraryDialogComponent implements OnInit, OnDestroy {
       visibility
     };
 
-    return contentApi.createSite(siteBody);
+    return from(this.alfrescoApiService.sitesApi.createSite(siteBody));
   }
 
   private sanitize(input: string) {
@@ -198,5 +201,37 @@ export class LibraryDialogComponent implements OnInit, OnDestroy {
         fields: ['title']
       })
       .catch(() => ({ list: { entries: [] } }));
+  }
+
+  private forbidSpecialCharacters({ value }: FormControl) {
+    const validCharacters: RegExp = /[^A-Za-z0-9-]/;
+    const isValid: boolean = !validCharacters.test(value);
+
+    return isValid
+      ? null
+      : {
+          message: 'LIBRARY.ERRORS.ILLEGAL_CHARACTERS'
+        };
+  }
+
+  private createSiteIdValidator() {
+    let timer;
+
+    return (control: AbstractControl) => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+
+      return new Promise(resolve => {
+        timer = setTimeout(() => {
+          return from(
+            this.alfrescoApiService.sitesApi.getSite(control.value)
+          ).subscribe(
+            () => resolve({ message: 'LIBRARY.ERRORS.EXISTENT_SITE' }),
+            () => resolve(null)
+          );
+        }, 300);
+      });
+    };
   }
 }
