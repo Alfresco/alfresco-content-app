@@ -29,6 +29,7 @@ import { CommonModule } from '@angular/common';
 import { SidenavComponent } from './sidenav.component';
 import { CoreModule } from '@alfresco/adf-core';
 import { RouterModule } from '@angular/router';
+import { AcaExpansionPanelDirective } from './expansion-panel.directive';
 
 @NgModule({
   imports: [
@@ -37,7 +38,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     AppCreateMenuModule
   ],
-  declarations: [SidenavComponent],
-  exports: [SidenavComponent]
+  declarations: [SidenavComponent, AcaExpansionPanelDirective],
+  exports: [SidenavComponent, AcaExpansionPanelDirective]
 })
 export class AppSidenavModule {}

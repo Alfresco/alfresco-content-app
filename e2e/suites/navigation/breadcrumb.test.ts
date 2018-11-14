@@ -89,10 +89,16 @@ describe('Breadcrumb', () => {
     expect(await breadcrumb.getCurrentItemName()).toBe('Personal Files');
   });
 
-  it('File Libraries breadcrumb main node - [C260966]', async () => {
-    await page.clickFileLibraries();
+  it('My Libraries breadcrumb main node - [C260966]', async () => {
+    await page.clickMyLibraries();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.getCurrentItemName()).toBe('File Libraries');
+    expect(await breadcrumb.getCurrentItemName()).toBe('My Libraries');
+  });
+
+  it('Favorite Libraries breadcrumb main node - [C289891]', async () => {
+    await page.clickFavoriteLibraries();
+    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.getCurrentItemName()).toBe('Favorite Libraries');
   });
 
   it('Recent Files breadcrumb main node - [C260971]', async () => {

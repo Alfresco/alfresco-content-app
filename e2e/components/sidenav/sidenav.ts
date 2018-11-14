@@ -24,6 +24,7 @@
  */
 
 import { ElementFinder, ElementArrayFinder, by, element } from 'protractor';
+import { SIDEBAR_LABELS } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
@@ -101,6 +102,10 @@ export class Sidenav extends Component {
     }
   }
 
+  async isFileLibrariesMenuExpanded() {
+    return await element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
+  }
+
   async expandMenu(label: string) {
     try{
 
@@ -117,4 +122,5 @@ export class Sidenav extends Component {
       console.log('---- sidebar navigation catch expandMenu: ', e);
     }
   }
+
 }
