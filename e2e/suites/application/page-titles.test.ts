@@ -125,7 +125,7 @@ describe('Page titles', () => {
     });
 
     it('Search Results page - [C280413]', async () => {
-      await searchInput.clickSearchContainer();
+      await searchInput.clickSearchButton();
       await searchInput.searchForText(file);
       expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
     });
