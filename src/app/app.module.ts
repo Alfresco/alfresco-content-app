@@ -70,6 +70,8 @@ import { AppSearchResultsModule } from './components/search/search-results.modul
 import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
 import { environment } from '../environments/environment';
+import { LibraryMembershipDirective } from './directives/library-membership.directive';
+import { ToggleJoinLibraryComponent } from './components/toolbar/toggle-join-library/toggle-join-library.component';
 
 @NgModule({
   imports: [
@@ -110,7 +112,9 @@ import { environment } from '../environments/environment';
     LibrariesComponent,
     FavoriteLibrariesComponent,
     NodeVersionsDialogComponent,
-    LibraryDialogComponent
+    LibraryDialogComponent,
+    LibraryMembershipDirective,
+    ToggleJoinLibraryComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -124,7 +128,11 @@ import { environment } from '../environments/environment';
       }
     }
   ],
-  entryComponents: [LibraryDialogComponent, NodeVersionsDialogComponent],
+  entryComponents: [
+    LibraryDialogComponent,
+    NodeVersionsDialogComponent,
+    ToggleJoinLibraryComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

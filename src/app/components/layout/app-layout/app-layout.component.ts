@@ -44,6 +44,8 @@ import { currentFolder } from '../../../store/selectors/app.selectors';
 import { AppStore } from '../../../store/states';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { SetSelectedNodesAction } from '../../../store/actions';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-layout',
@@ -68,14 +70,25 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private minimizeConditions: string[] = ['search'];
   private hideConditions: string[] = ['preview'];
 
+  customIcon: any = {
+    join_library: './assets/images/join-library.svg'
+  };
+
   constructor(
     protected store: Store<AppStore>,
     private permission: NodePermissionService,
     private router: Router,
     private userPreferenceService: UserPreferencesService,
     private appConfigService: AppConfigService,
-    private breakpointObserver: BreakpointObserver
-  ) {}
+    private breakpointObserver: BreakpointObserver,
+    matIconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    matIconRegistry.addSvgIcon(
+      'join_library',
+      sanitizer.bypassSecurityTrustResourceUrl(this.customIcon['join_library'])
+    );
+  }
 
   ngOnInit() {
     this.isSmallScreen$ = this.breakpointObserver

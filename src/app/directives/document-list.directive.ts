@@ -58,7 +58,8 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     this.isLibrary =
       this.documentList.currentFolderId === '-mysites-' ||
       // workaround for custom node list
-      this.router.url.endsWith('/libraries');
+      this.router.url.endsWith('/libraries') ||
+      this.router.url.startsWith('/search-libraries');
 
     if (this.sortingPreferenceKey) {
       const current = this.documentList.sorting;
