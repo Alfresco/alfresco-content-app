@@ -61,7 +61,7 @@
                     }
                 },
                 "MENU": {
-                    "FILE_LIBRARIES": {
+                    "MY_LIBRARIES": {
                         "TITLE": "My Libraries",
                         "SIDENAV_LINK": {
                             "LABEL": "My Libraries",

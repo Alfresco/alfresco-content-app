@@ -39,7 +39,10 @@
                     </ng-container>
 
                     <ng-container *ngIf="item.children && item.children.length">
-                        <mat-expansion-panel [expanded]="routerLink.isActive" [@.disabled]="true">
+                        <mat-expansion-panel
+                            [acaExpansionPanel]="item"
+                            [expanded]="routerLink.isActive"
+                            [@.disabled]="true">
                             <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px">
                                 <mat-panel-title [attr.title]="item.description | translate">
                                     <mat-icon [color]="routerLink.isActive? 'accent': 'primary'">{{ item.icon }}</mat-icon>

@@ -63,6 +63,17 @@ export class BrowsingPage extends Page {
     await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.MY_LIBRARIES);
   }
 
+  async clickFavoriteLibraries() {
+    await this.sidenav.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
+  }
+
+  async clickMyLibraries() {
+    if ( !(await this.sidenav.isFileLibrariesMenuExpanded()) ) {
+      await this.sidenav.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
+    }
+    await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.MY_LIBRARIES);
+  }
 
   async clickRecentFilesAndWait() {
     await this.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);

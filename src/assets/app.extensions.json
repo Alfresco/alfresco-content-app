@@ -252,8 +252,8 @@
               {
                 "id": "app.navbar.libraries.files",
                 "order": 100,
-                "title": "APP.BROWSE.LIBRARIES.MENU.FILE_LIBRARIES.SIDENAV_LINK.LABEL",
-                "description": "APP.BROWSE.LIBRARIES.MENU.FILE_LIBRARIES.SIDENAV_LINK.TOOLTIP",
+                "title": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.LABEL",
+                "description": "APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.SIDENAV_LINK.TOOLTIP",
                 "route": "libraries"
               },
               {
