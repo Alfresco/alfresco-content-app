@@ -307,6 +307,7 @@ The content actions are applied to the toolbars for the following Views:
 - Favorites
 - Trash
 - Search Results
+- Libraries Search Results
 
 ## Context Menu
 
