@@ -65,6 +65,12 @@ describe('General', () => {
       expect(message).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
 
       expect(await browser.getTitle()).toContain('Sign in');
+
+      try {
+        await createDialog.waitForDialogToClose();
+      } catch (error) {
+        console.log('err: ', error);
+      }
       expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is present');
     });
   });
