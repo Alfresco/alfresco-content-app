@@ -102,6 +102,20 @@
       ]
     },
     {
+      "id": "app.libraries.toolbar.canToggleJoin",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.library" },
+        { "type": "rule",
+          "value": "core.not",
+          "parameters": [
+            { "type": "rule", "value": "app.selection.isPrivateLibrary" }
+          ]
+        },
+        { "type": "rule", "value": "app.selection.hasNoLibraryRole" }
+      ]
+    },
+    {
       "id": "app.toolbar.canCopyNode",
       "type": "core.every",
       "parameters": [
@@ -385,6 +399,15 @@
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
           "visible": "app.libraries.toolbar.info"
+        }
+      },
+      {
+        "id": "app.toolbar.joinLibrary",
+        "type": "custom",
+        "order": 704,
+        "component": "app.toolbar.toggleJoinLibrary",
+        "rules": {
+          "visible": "app.libraries.toolbar.canToggleJoin"
         }
       },
       {
@@ -1277,7 +1300,8 @@
           "title": "APP.DOCUMENT_LIST.COLUMNS.ROLE",
           "type": "text",
           "sortable": true,
-          "desktopOnly": true
+          "template": "app.columns.libraryRole",
+          "desktopOnly": false
         },
         {
           "id": "app.libraries.visibility",

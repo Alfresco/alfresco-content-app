@@ -82,6 +82,8 @@ export class ContentManagementService {
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
+  libraryJoined = new Subject<string>();
+  joinLibraryToggle = new Subject<string>();
   linksUnshared = new Subject<any>();
   favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
   favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
