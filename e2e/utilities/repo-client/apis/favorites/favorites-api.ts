@@ -45,19 +45,26 @@ export class FavoritesApi extends RepoApi {
         return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
     }
 
-    async addFavoriteById(nodeType: 'file' | 'folder', id: string) {
+    async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string) {
+        let guid;
+        await this.apiAuth();
+
+        if ( nodeType === 'site' ) {
+            guid = (await this.alfrescoJsApi.core.sitesApi.getSite(id)).entry.guid;
+        } else {
+            guid = id;
+        }
         const data = {
             target: {
                 [nodeType]: {
-                    guid: id
+                    guid: guid
                 }
             }
         };
-        await this.apiAuth();
         return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
     }
 
-    async addFavoritesByIds(nodeType: 'file' | 'folder', ids: string[]) {
+    async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]) {
         await this.apiAuth();
         return await ids.reduce(async (previous, current) => {
             await previous;

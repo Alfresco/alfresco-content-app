@@ -44,7 +44,7 @@
                 }
             },
             "LIBRARIES": {
-                "TITLE": "File Libraries",
+                "TITLE": "My Libraries",
                 "DESCRIPTION": "Access File Libraries",
                 "SIDENAV_LINK": {
                     "LABEL": "File Libraries",
