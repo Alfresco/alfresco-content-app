@@ -78,7 +78,7 @@ export class SearchLibrariesQueryBuilderService {
     return null;
   }
 
-  private findLibraries(libraryQuery: { term, opts }): Promise<SitePaging> {
+  private findLibraries(libraryQuery): Promise<SitePaging> {
     return this.alfrescoApiService
       .getInstance()
       .core.queriesApi.findSites(libraryQuery.term, libraryQuery.opts)
