@@ -93,4 +93,19 @@ describe('SearchLibrariesQueryBuilderService', () => {
     const compiled = builder.buildQuery();
     expect(compiled.opts).toEqual({ maxItems: 5, skipCount: 5 });
   });
+
+  it('should raise an event on error', async () => {
+    const err = '{"error": {"statusCode": 400}}';
+    spyOn(queriesApi, 'findSites').and.returnValue(Promise.reject(err));
+
+    const query = {};
+    spyOn(builder, 'buildQuery').and.returnValue(query);
+
+    let eventArgs = null;
+    builder.hadError.subscribe(args => (eventArgs = args));
+
+    await builder.execute();
+    expect(eventArgs).toBe(err);
+  });
+
 });

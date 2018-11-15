@@ -87,6 +87,6 @@ export class SearchInputControlComponent implements OnDestroy {
   }
 
   isTermTooShort() {
-    return this.searchTerm && this.searchTerm.length < 2;
+    return !!(this.searchTerm && this.searchTerm.length < 2);
   }
 }
