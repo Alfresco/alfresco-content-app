@@ -53,7 +53,7 @@ describe('Shared Files', () => {
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
     const nodeId = (await apis.admin.nodes.createFile(fileAdmin, docLibId)).entry.id;
     await apis.admin.shared.shareFileById(nodeId);

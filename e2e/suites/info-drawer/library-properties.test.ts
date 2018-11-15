@@ -75,8 +75,8 @@ describe('Library properties', () => {
     await apis.user.sites.createSite(siteForUpdate.name, siteForUpdate.visibility, siteForUpdate.description, siteForUpdate.id);
     await apis.user.sites.createSite(siteDup);
 
-    await apis.user.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR);
-    await apis.user.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER);
+    await apis.user.sites.addSiteMember(site.id, user2, SITE_ROLES.SITE_COLLABORATOR.ROLE);
+    await apis.user.sites.addSiteMember(site.id, user3, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await loginPage.loginWith(username);
     done();
@@ -250,7 +250,7 @@ describe('Library properties', () => {
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickButton('Edit');
 
-      await apis.user.sites.updateSiteMember(site.id, user3, SITE_ROLES.SITE_CONSUMER);
+      await apis.user.sites.updateSiteMember(site.id, user3, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       await infoDrawer.enterDescription('new description');
       await infoDrawer.clickButton('Update');
