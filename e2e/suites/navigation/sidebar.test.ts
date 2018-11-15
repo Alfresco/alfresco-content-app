@@ -116,13 +116,13 @@ describe('Sidebar', () => {
   // TODO: incomplete test
   it('My Libraries tooltip - [C289916]', async () => {
     await page.goToMyLibraries();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.MY_LIBRARIES)).toContain('Access My Libraries');
+    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.MY_LIBRARIES)).toContain('Access my libraries');
   });
 
   // TODO: incomplete test
   it('Favorite Libraries tooltip - [C289917]', async () => {
     await page.goToFavoriteLibraries();
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toContain('Access Favorited Libraries');
+    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toContain('Access my favorite libraries');
   });
 
   // TODO: incomplete test
