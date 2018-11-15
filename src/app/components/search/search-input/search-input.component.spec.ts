@@ -39,11 +39,13 @@ import { SEARCH_BY_TERM, SearchByTermAction } from '../../../store/actions';
 import { map } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
+import { ContentManagementService } from '../../../services/content-management.service';
 
 describe('SearchInputComponent', () => {
   let fixture: ComponentFixture<SearchInputComponent>;
   let component: SearchInputComponent;
   let actions$: Actions;
+  let content: ContentManagementService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -56,10 +58,32 @@ describe('SearchInputComponent', () => {
       .then(() => {
         actions$ = TestBed.get(Actions);
         fixture = TestBed.createComponent(SearchInputComponent);
+        content = TestBed.get(ContentManagementService);
         component = fixture.componentInstance;
         fixture.detectChanges();
       });
   }));
+
+  it('should change flag on library400Error event', () => {
+    expect(component.has400LibraryError).toBe(false);
+    content.library400Error.next();
+
+    expect(component.has400LibraryError).toBe(true);
+  });
+
+  it('should have no library constraint by default', () => {
+    expect(component.hasLibraryConstraint()).toBe(false);
+  });
+
+  it('should have library constraint on 400 error received', () => {
+    const libItem = component.searchOptions.find(
+      item => item.key.toLowerCase().indexOf('libraries') > 0
+    );
+    libItem.value = true;
+    content.library400Error.next();
+
+    expect(component.hasLibraryConstraint()).toBe(true);
+  });
 
   describe('onSearchSubmit()', () => {
     it('should call search action with correct search options', fakeAsync(done => {

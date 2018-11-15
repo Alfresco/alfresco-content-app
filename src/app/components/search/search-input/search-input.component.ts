@@ -225,7 +225,7 @@ export class SearchInputComponent implements OnInit {
   hasLibraryConstraint(): boolean {
     if (this.isLibrariesChecked()) {
       return (
-        this.searchInputControl.isTermTooShort() || this.has400LibraryError
+        this.has400LibraryError || this.searchInputControl.isTermTooShort()
       );
     }
     return false;
