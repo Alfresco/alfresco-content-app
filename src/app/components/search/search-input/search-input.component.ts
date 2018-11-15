@@ -40,6 +40,7 @@ import { SearchByTermAction } from '../../../store/actions';
 import { filter } from 'rxjs/operators';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { ContentManagementService } from '../../../services/content-management.service';
 
 export enum SearchOptionIds {
   Files = 'files',
@@ -57,6 +58,7 @@ export class SearchInputComponent implements OnInit {
   hasOneChange = false;
   hasNewChange = false;
   navigationTimer: any;
+  has400LibraryError = false;
 
   searchedWord = null;
   searchOptions: Array<any> = [
@@ -86,6 +88,7 @@ export class SearchInputComponent implements OnInit {
   constructor(
     private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
     private queryBuilder: SearchQueryBuilderService,
+    private content: ContentManagementService,
     private router: Router,
     private store: Store<AppStore>
   ) {}
@@ -100,9 +103,14 @@ export class SearchInputComponent implements OnInit {
           this.showInputValue();
         }
       });
+
+    this.content.library400Error.subscribe(() => {
+      this.has400LibraryError = true;
+    });
   }
 
   showInputValue() {
+    this.has400LibraryError = false;
     this.searchedWord = '';
 
     if (this.onSearchResults || this.onLibrariesSearchResults) {
@@ -127,6 +135,7 @@ export class SearchInputComponent implements OnInit {
    * @param event Parameters relating to the search
    */
   onSearchSubmit(event: KeyboardEvent) {
+    this.has400LibraryError = false;
     const searchTerm = (event.target as HTMLInputElement).value;
     if (searchTerm) {
       this.store.dispatch(
@@ -136,6 +145,7 @@ export class SearchInputComponent implements OnInit {
   }
 
   onSearchChange(searchTerm: string) {
+    this.has400LibraryError = false;
     if (this.hasOneChange) {
       this.hasNewChange = true;
     } else {
@@ -158,6 +168,7 @@ export class SearchInputComponent implements OnInit {
   }
 
   onOptionChange() {
+    this.has400LibraryError = false;
     if (this.searchedWord) {
       if (this.isLibrariesChecked()) {
         if (this.onLibrariesSearchResults) {
@@ -213,7 +224,9 @@ export class SearchInputComponent implements OnInit {
 
   hasLibraryConstraint(): boolean {
     if (this.isLibrariesChecked()) {
-      return this.searchInputControl.isTermTooShort();
+      return (
+        this.searchInputControl.isTermTooShort() || this.has400LibraryError
+      );
     }
     return false;
   }

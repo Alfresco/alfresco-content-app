@@ -87,8 +87,6 @@ export class SearchInputControlComponent implements OnDestroy {
   }
 
   isTermTooShort() {
-    const alphanumericTerm = this.searchTerm.replace(/[^0-9a-z]/gi, '');
-
-    return this.searchTerm.length && alphanumericTerm.length < 2;
+    return this.searchTerm && this.searchTerm.length < 2;
   }
 }

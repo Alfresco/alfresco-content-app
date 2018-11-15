@@ -36,6 +36,7 @@ export class SearchLibrariesQueryBuilderService {
 
   updated: Subject<any> = new Subject();
   executed: Subject<any> = new Subject();
+  hadError: Subject<any> = new Subject();
 
   paging: { maxItems?: number; skipCount?: number } = null;
 
@@ -81,6 +82,9 @@ export class SearchLibrariesQueryBuilderService {
     return this.alfrescoApiService
       .getInstance()
       .core.queriesApi.findSites(libraryQuery.term, libraryQuery.opts)
-      .catch(() => ({ list: { pagination: { totalItems: 0 }, entries: [] } }));
+      .catch(err => {
+        this.hadError.next(err);
+        return { list: { pagination: { totalItems: 0 }, entries: [] } };
+      });
   }
 }
