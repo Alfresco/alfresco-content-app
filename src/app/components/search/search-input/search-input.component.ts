@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import {
   NavigationEnd,
   PRIMARY_OUTLET,
@@ -37,10 +37,11 @@ import { SearchInputControlComponent } from '../search-input-control/search-inpu
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 import { SearchByTermAction } from '../../../store/actions';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../../services/content-management.service';
+import { Subject } from 'rxjs';
 
 export enum SearchOptionIds {
   Files = 'files',
@@ -54,7 +55,8 @@ export enum SearchOptionIds {
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-search-input' }
 })
-export class SearchInputComponent implements OnInit {
+export class SearchInputComponent implements OnInit, OnDestroy {
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
   hasOneChange = false;
   hasNewChange = false;
   navigationTimer: any;
@@ -97,6 +99,7 @@ export class SearchInputComponent implements OnInit {
     this.showInputValue();
 
     this.router.events
+      .pipe(takeUntil(this.onDestroy$))
       .pipe(filter(e => e instanceof RouterEvent))
       .subscribe(event => {
         if (event instanceof NavigationEnd) {
@@ -104,7 +107,9 @@ export class SearchInputComponent implements OnInit {
         }
       });
 
-    this.content.library400Error.subscribe(() => {
+    this.content.library400Error
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
       this.has400LibraryError = true;
     });
   }
@@ -127,6 +132,11 @@ export class SearchInputComponent implements OnInit {
     if (this.searchInputControl) {
       this.searchInputControl.searchTerm = this.searchedWord;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   /**
