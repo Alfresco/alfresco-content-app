@@ -72,6 +72,8 @@ import { AppHeaderModule } from './components/header/header.module';
 import { environment } from '../environments/environment';
 import { LibraryMembershipDirective } from './directives/library-membership.directive';
 import { ToggleJoinLibraryComponent } from './components/toolbar/toggle-join-library/toggle-join-library.component';
+import { LibraryFavoriteDirective } from './directives/library-favorite.directive';
+import { ToggleFavoriteLibraryComponent } from './components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
 
 @NgModule({
   imports: [
@@ -114,7 +116,9 @@ import { ToggleJoinLibraryComponent } from './components/toolbar/toggle-join-lib
     NodeVersionsDialogComponent,
     LibraryDialogComponent,
     LibraryMembershipDirective,
-    ToggleJoinLibraryComponent
+    ToggleJoinLibraryComponent,
+    LibraryFavoriteDirective,
+    ToggleFavoriteLibraryComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -131,7 +135,8 @@ import { ToggleJoinLibraryComponent } from './components/toolbar/toggle-join-lib
   entryComponents: [
     LibraryDialogComponent,
     NodeVersionsDialogComponent,
-    ToggleJoinLibraryComponent
+    ToggleJoinLibraryComponent,
+    ToggleFavoriteLibraryComponent
   ],
   bootstrap: [AppComponent]
 })
