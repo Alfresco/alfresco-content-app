@@ -90,11 +90,11 @@ export class LibraryMembershipDirective implements OnChanges {
           this.toggle.emit(info);
         },
         error => {
-          const errWitMessage = {
+          const errWithMessage = {
             error,
             i18nKey: 'APP.MESSAGES.ERRORS.JOIN_CANCEL_FAILED'
           };
-          this.error.emit(errWitMessage);
+          this.error.emit(errWithMessage);
         }
       );
     }
@@ -124,11 +124,11 @@ export class LibraryMembershipDirective implements OnChanges {
           }
         },
         error => {
-          const errWitMessage = {
+          const errWithMessage = {
             error,
             i18nKey: 'APP.MESSAGES.ERRORS.JOIN_REQUEST_FAILED'
           };
-          this.error.emit(errWitMessage);
+          this.error.emit(errWithMessage);
         }
       );
     }
