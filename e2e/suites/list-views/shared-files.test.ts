@@ -131,7 +131,7 @@ describe('Shared Files', () => {
 
   it('Location column redirect - file in site - [C280491]', async () => {
     await dataTable.clickItemLocation(fileAdmin);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213667]', async () => {

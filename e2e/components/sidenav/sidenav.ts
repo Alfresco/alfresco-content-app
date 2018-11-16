@@ -36,7 +36,8 @@ export class Sidenav extends Component {
     label: '.item--label',
     expansion_panel: ".mat-expansion-panel-header",
     expansion_panel_content: ".mat-expansion-panel-body",
-    activeLink: 'item--active',
+    active: 'item--active',
+    activeLink: '.item--active',
     newButton: '[data-automation-id="create-button"]'
   };
 
@@ -86,12 +87,12 @@ export class Sidenav extends Component {
 
   async isActive(name: string) {
     const className = await this.getLinkLabel(name).getAttribute('class');
-    return className.includes(Sidenav.selectors.activeLink);
+    return className.includes(Sidenav.selectors.active);
   }
 
   async childIsActive(name: string) {
     const childClass = await this.getLinkLabel(name).element(by.css('span')).getAttribute('class');
-    return childClass.includes(Sidenav.selectors.activeLink);
+    return childClass.includes(Sidenav.selectors.active);
   }
 
   getLink(name: string) {
@@ -100,6 +101,10 @@ export class Sidenav extends Component {
 
   getLinkLabel(name: string) {
     return this.component.element(by.cssContainingText(Sidenav.selectors.label, name));
+  }
+
+  getActiveLink() {
+    return this.activeLink;
   }
 
   async getLinkTooltip(name: string) {

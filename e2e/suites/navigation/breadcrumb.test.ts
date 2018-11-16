@@ -140,7 +140,7 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
-    const expectedItems = [ 'File Libraries', siteName, parent, subFolder1, subFolder2 ];
+    const expectedItems = [ 'My Libraries', siteName, parent, subFolder1, subFolder2 ];
     expect(await breadcrumb.getAllItems()).toEqual(expectedItems);
   });
 

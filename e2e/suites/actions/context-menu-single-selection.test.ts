@@ -122,7 +122,7 @@ describe('Context menu actions - single selection : ', () => {
     it('Context menu closes when clicking away from it - [C280619]', async () => {
       await dataTable.rightClickOnItem(fileUser);
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
-      await page.sidenav.activeLink.click();
+      await page.sidenav.getActiveLink().click();
       expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed');
     });
 
