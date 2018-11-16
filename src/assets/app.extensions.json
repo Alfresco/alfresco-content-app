@@ -98,7 +98,7 @@
       "type": "core.every",
       "parameters": [
         { "type": "rule", "value": "app.selection.notEmpty" },
-        { "type": "rule", "value": "app.navigation.isLibraries" }
+        { "type": "rule", "value": "app.selection.library" }
       ]
     },
     {
