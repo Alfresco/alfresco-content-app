@@ -33,6 +33,7 @@ import * as nav from './evaluators/navigation.evaluators';
 import { AppExtensionService } from './extension.service';
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
+import { ToggleFavoriteLibraryComponent } from '../components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
 import { ToggleSharedComponent } from '../components/shared/toggle-shared/toggle-shared.component';
 import { MetadataTabComponent } from '../components/info-drawer/metadata-tab/metadata-tab.component';
 import { LibraryMetadataTabComponent } from '../components/info-drawer/library-metadata-tab/library-metadata-tab.component';
@@ -86,6 +87,7 @@ export class CoreExtensionsModule {
       'app.components.tabs.versions': VersionsTabComponent,
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
+      'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
       'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryComponent,
       'app.toolbar.cardView': DocumentDisplayModeComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,

@@ -55,7 +55,7 @@ export class LibrariesComponent extends PageComponent implements OnInit {
 
     this.subscriptions.push(
       this.content.libraryDeleted.subscribe(() => this.reload()),
-      this.content.libraryUpdated.subscribe(() => this.documentList.reload()),
+      this.content.libraryUpdated.subscribe(() => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
