@@ -94,7 +94,7 @@
       ]
     },
     {
-      "id": "app.libraries.toolbar.info",
+      "id": "app.libraries.toolbar",
       "type": "core.every",
       "parameters": [
         { "type": "rule", "value": "app.selection.notEmpty" },
@@ -393,12 +393,12 @@
         }
       },
       {
-        "id": "app.libraries.toolbar.info",
+        "id": "app.libraries.toolbar.infoDrawer",
         "type": "custom",
         "order": 701,
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
-          "visible": "app.libraries.toolbar.info"
+          "visible": "app.libraries.toolbar"
         }
       },
       {
@@ -425,6 +425,15 @@
             "component": "app.toolbar.toggleFavorite",
             "rules": {
               "visible": "app.toolbar.favorite.canToggle"
+            }
+          },
+          {
+            "id": "app.libraries.toolbar.toggleFavorite",
+            "type": "custom",
+            "order": 101,
+            "component": "app.toolbar.toggleFavoriteLibrary",
+            "rules": {
+              "visible": "app.libraries.toolbar"
             }
           },
           {
@@ -906,7 +915,7 @@
         "title": "APP.INFO_DRAWER.TABS.LIBRARY_PROPERTIES",
         "component": "app.components.tabs.library.metadata",
         "rules": {
-          "visible": "app.libraries.toolbar.info"
+          "visible": "app.libraries.toolbar"
         }
       }
     ],
