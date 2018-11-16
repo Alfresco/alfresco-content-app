@@ -70,7 +70,9 @@ export class FavoriteLibrariesComponent extends PageComponent
 
     this.subscriptions = this.subscriptions.concat([
       this.content.libraryDeleted.subscribe(() => this.reload()),
-      this.content.libraryUpdated.subscribe(() => this.documentList.reload()),
+      this.content.libraryUpdated.subscribe(() => this.reload()),
+      this.content.favoriteLibraryToggle.subscribe(() => this.reload()),
+
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
         .subscribe(result => {
