@@ -12,12 +12,6 @@ Visit Alfresco Community for resources that will help you find information to ge
 along with blog posts from the Alfresco developers and much more:
 https://community.alfresco.com/community/application-development-framework
 
-## Alfresco ADF Gitter
-
-Join the vibrant community in Gitter where you can chat with experienced developers,
-including the Alfresco employees working directly on the ADF and this example application project:
-https://gitter.im/Alfresco/alfresco-ng2-components
-
 ## Alfresco Developer Support
 
 Developer Support is a remote subscription-based support team that offers  
