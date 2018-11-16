@@ -19,7 +19,6 @@ There are a number of resources available to help get you started with the Conte
 * [Content App Documentation](https://alfresco.github.io/alfresco-content-app/)
 * [Alfresco ADF Documentation](https://alfresco.github.io/adf-component-catalog/)
 * [Alfresco Community](https://community.alfresco.com/)
-* [ADF Gitter Channel](https://gitter.im/Alfresco/alfresco-ng2-components)
 
 To get help on Angular CLI use ng help or read the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
