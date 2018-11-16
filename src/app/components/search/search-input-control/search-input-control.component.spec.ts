@@ -24,9 +24,73 @@
  */
 
 import { SearchInputControlComponent } from './search-input-control.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { AppTestingModule } from '../../../testing/app-testing.module';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('SearchInputControlComponent', () => {
-  it('should be defined', () => {
-    expect(SearchInputControlComponent).toBeDefined();
+  let fixture: ComponentFixture<SearchInputControlComponent>;
+  let component: SearchInputControlComponent;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [AppTestingModule],
+      declarations: [SearchInputControlComponent],
+      schemas: [NO_ERRORS_SCHEMA]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(SearchInputControlComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      });
+  }));
+
+  it('should emit submit event on searchSubmit', async () => {
+    const keyboardEvent = { target: { value: 'a' } };
+
+    let eventArgs = null;
+    component.submit.subscribe(args => (eventArgs = args));
+
+    await component.searchSubmit(keyboardEvent);
+    expect(eventArgs).toBe(keyboardEvent);
+  });
+
+  it('should emit searchChange event on inputChange', async () => {
+    const searchTerm = 'b';
+
+    let eventArgs = null;
+    component.searchChange.subscribe(args => (eventArgs = args));
+
+    await component.inputChange(searchTerm);
+    expect(eventArgs).toBe(searchTerm);
+  });
+
+  it('should emit searchChange event on clear', async () => {
+    let eventArgs = null;
+    component.searchChange.subscribe(args => (eventArgs = args));
+
+    await component.clear();
+    expect(eventArgs).toBe('');
+  });
+
+  it('should clear searchTerm', async () => {
+    component.searchTerm = 'c';
+    fixture.detectChanges();
+
+    await component.clear();
+    expect(component.searchTerm).toBe('');
+  });
+
+  it('should check if searchTerm has a length less than 2', () => {
+    expect(component.isTermTooShort()).toBe(false);
+
+    component.searchTerm = 'd';
+    fixture.detectChanges();
+    expect(component.isTermTooShort()).toBe(true);
+
+    component.searchTerm = 'dd';
+    fixture.detectChanges();
+    expect(component.isTermTooShort()).toBe(false);
   });
 });

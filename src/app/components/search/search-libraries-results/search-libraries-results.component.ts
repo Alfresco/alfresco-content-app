@@ -93,6 +93,17 @@ export class SearchLibrariesResultsComponent extends PageComponent
         this.isLoading = false;
       }),
 
+      this.librariesQueryBuilder.hadError.subscribe(err => {
+        try {
+          const {
+            error: { statusCode }
+          } = JSON.parse(err.message);
+          if (statusCode === 400) {
+            this.content.library400Error.next();
+          }
+        } catch (e) {}
+      }),
+
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
         .subscribe(result => {
