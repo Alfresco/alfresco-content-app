@@ -384,7 +384,7 @@
         }
       },
       {
-        "id": "app.toolbar.info",
+        "id": "app.toolbar.info.infoDrawer",
         "type": "custom",
         "order": 700,
         "component": "app.toolbar.toggleInfoDrawer",
