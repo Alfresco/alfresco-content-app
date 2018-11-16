@@ -44,7 +44,7 @@
                 }
             },
             "LIBRARIES": {
-                "TITLE": "File Libraries",
+                "TITLE": "My Libraries",
                 "DESCRIPTION": "Access File Libraries",
                 "SIDENAV_LINK": {
                     "LABEL": "File Libraries",
@@ -65,14 +65,14 @@
                         "TITLE": "My Libraries",
                         "SIDENAV_LINK": {
                             "LABEL": "My Libraries",
-                            "TOOLTIP": "Access My Libraries"
+                            "TOOLTIP": "Access my libraries"
                         }
                     },
                     "FAVORITE_LIBRARIES": {
                         "TITLE": "Favorite Libraries",
                         "SIDENAV_LINK": {
                             "LABEL": "Favorite Libraries",
-                            "TOOLTIP": "Access Favorited Libraries"
+                            "TOOLTIP": "Access my favorite libraries"
                         }
                     }
                 }

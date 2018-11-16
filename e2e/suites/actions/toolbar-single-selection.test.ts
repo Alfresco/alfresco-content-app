@@ -90,10 +90,28 @@ describe('Toolbar actions - single selection : ', () => {
   xit('');
 
   describe('General tests', () => {
-    it('actions are displayed for top level of File Libraries - [C213135]', async () => {
-      await page.clickFileLibrariesAndWait();
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await dataTable.clearSelection();
+      done();
+    });
+
+    it('Correct actions appear when a library is selected - My Libraries - [C213135]', async () => {
+      await page.goToMyLibraries();
       await dataTable.selectItem(siteName);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+    });
+
+    it('Correct actions appear when a library is selected - Favorite Libraries - [C289892]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.selectItem(siteName);
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
     });
 
     it('selected row is marked with a check circle icon - [C213134]', async () => {
@@ -103,7 +121,7 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('Personal Files', () => {
+  describe('on Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickPersonalFilesAndWait();
@@ -144,7 +162,7 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('File Libraries', () => {
+  describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickFileLibrariesAndWait();
@@ -187,7 +205,7 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('Shared Files', () => {
+  describe('on Shared Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickSharedFilesAndWait();
@@ -215,7 +233,7 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('Recent Files', () => {
+  describe('on Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
@@ -242,7 +260,7 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('Favorites', () => {
+  describe('on Favorites', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
@@ -283,7 +301,7 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('Trash', () => {
+  describe('on Trash', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickTrashAndWait();

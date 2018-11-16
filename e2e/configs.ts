@@ -46,6 +46,7 @@ export const E2E_ROOT_PATH = __dirname;
 export const APP_ROUTES = {
   FAVORITES: '/favorites',
   MY_LIBRARIES: '/libraries',
+  FAVORITE_LIBRARIES: '/favorite/libraries',
   LOGIN: '/login',
   LOGOUT: '/logout',
   PERSONAL_FILES: '/personal-files',
@@ -70,7 +71,8 @@ export const SIDEBAR_LABELS = {
 export const PAGE_TITLES = {
   VIEWER: 'Preview',
   SEARCH: 'Search Results',
-  MY_LIBRARIES: 'File Libraries'
+  MY_LIBRARIES: 'My Libraries',
+  FAVORITE_LIBRARIES: 'Favorite Libraries'
 };
 
 // Site visibility
@@ -82,10 +84,22 @@ export const SITE_VISIBILITY = {
 
 // Site roles
 export const SITE_ROLES = {
-  SITE_CONSUMER: 'SiteConsumer',
-  SITE_COLLABORATOR: 'SiteCollaborator',
-  SITE_CONTRIBUTOR: 'SiteContributor',
-  SITE_MANAGER: 'SiteManager'
+  SITE_CONSUMER: {
+    ROLE: 'SiteConsumer',
+    LABEL: 'Consumer'
+  },
+  SITE_COLLABORATOR: {
+    ROLE: 'SiteCollaborator',
+    LABEL: 'Collaborator'
+  },
+  SITE_CONTRIBUTOR: {
+    ROLE: 'SiteContributor',
+    LABEL: 'Contributor'
+  },
+  SITE_MANAGER: {
+    ROLE: 'SiteManager',
+    LABEL: 'Manager'
+  }
 };
 
 export const FILES = {

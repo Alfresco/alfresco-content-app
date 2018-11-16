@@ -131,6 +131,6 @@ describe('Recent Files', () => {
 
   it('Location column redirect - file in site - [C280487]', async () => {
     await dataTable.clickItemLocation(fileSite);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName, folderSite ]);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName, folderSite ]);
   });
 });
