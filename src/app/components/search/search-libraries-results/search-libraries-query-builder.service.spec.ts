@@ -107,5 +107,4 @@ describe('SearchLibrariesQueryBuilderService', () => {
     await builder.execute();
     expect(eventArgs).toBe(err);
   });
-
 });

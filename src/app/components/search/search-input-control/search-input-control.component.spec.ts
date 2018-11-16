@@ -47,7 +47,7 @@ describe('SearchInputControlComponent', () => {
   }));
 
   it('should emit submit event on searchSubmit', async () => {
-    const keyboardEvent = { target: {value: 'a'}};
+    const keyboardEvent = { target: { value: 'a' } };
 
     let eventArgs = null;
     component.submit.subscribe(args => (eventArgs = args));
@@ -82,7 +82,7 @@ describe('SearchInputControlComponent', () => {
     expect(component.searchTerm).toBe('');
   });
 
-  it('should check if searchTerm has a length less than 2' , () => {
+  it('should check if searchTerm has a length less than 2', () => {
     expect(component.isTermTooShort()).toBe(false);
 
     component.searchTerm = 'd';

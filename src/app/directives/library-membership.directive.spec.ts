@@ -134,11 +134,6 @@ describe('LibraryMembershipDirective', () => {
       ).and.returnValue(Promise.resolve({}));
     });
 
-    // afterEach(() => {
-    //   peopleApiSpyOnGet.calls.reset();
-    //   peopleApiSpyOnDelete.calls.reset();
-    // });
-
     it('should do nothing if there is no selected library ', fakeAsync(() => {
       const selection = {};
       const change = new SimpleChange(null, selection, true);

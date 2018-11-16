@@ -23,7 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {
   NavigationEnd,
   PRIMARY_OUTLET,
@@ -110,8 +116,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.content.library400Error
       .pipe(takeUntil(this.onDestroy$))
       .subscribe(() => {
-      this.has400LibraryError = true;
-    });
+        this.has400LibraryError = true;
+      });
   }
 
   showInputValue() {
