@@ -143,6 +143,9 @@ The button will be visible only when the linked rule evaluates to `true`.
 | app.selection.file              | A single File node is selected.                              |
 | app.selection.file.canShare     | User is able to share the selected file.                     |
 | app.selection.library           | A single Library node is selected.                           |
+| app.selection.isPrivateLibrary  | A private Library node is selected.                          |
+| app.selection.hasLibraryRole    | The selected Library node has a role property.               |
+| app.selection.hasNoLibraryRole  | The selected Library node has no role property.              |
 | app.selection.folder            | A single Folder node is selected.                            |
 | app.selection.folder.canUpdate  | User has permissions to update the selected folder.          |
 | repository.isQuickShareEnabled  | Whether the quick share repository option is enabled or not. |
@@ -163,18 +166,18 @@ You can also negate any rule by utilizing a `!` prefix:
 | --------------------------------- | ------------------------------------------------------- |
 | app.navigation.folder.canCreate   | User can create content in the currently opened folder. |
 | app.navigation.folder.canUpload   | User can upload content to the currently opened folder. |
-| app.navigation.isTrashcan         | User is using the **Trashcan** page.                        |
+| app.navigation.isTrashcan         | User is using the **Trashcan** page.                    |
 | app.navigation.isNotTrashcan      | Current page is not a **Trashcan**.                     |
-| app.navigation.isLibraries        | User is using the **Libraries** page.                       |
-| app.navigation.isNotLibraries     | Current page is not **Libraries**.                      |
-| app.navigation.isSharedFiles      | User is using the **Shared Files** page.                    |
+| app.navigation.isLibraries        | User is using a **Libraries** page.                     |
+| app.navigation.isNotLibraries     | Current page is not a **Libraries** page.               |
+| app.navigation.isSharedFiles      | User is using the **Shared Files** page.                |
 | app.navigation.isNotSharedFiles   | Current page is not **Shared Files**.                   |
-| app.navigation.isFavorites        | User is using the **Favorites** page.                       |
+| app.navigation.isFavorites        | User is using the **Favorites** page.                   |
 | app.navigation.isNotFavorites     | Current page is not **Favorites**                       |
-| app.navigation.isRecentFiles      | User is using the **Recent Files** page.                    |
+| app.navigation.isRecentFiles      | User is using the **Recent Files** page.                |
 | app.navigation.isNotRecentFiles   | Current page is not **Recent Files**.                   |
-| app.navigation.isSearchResults    | User is using the **Search Results** page.                  |
-| app.navigation.isNotSearchResults | Current page is not the **Search Results**.                 |
+| app.navigation.isSearchResults    | User is using the **Search Results** page.              |
+| app.navigation.isNotSearchResults | Current page is not the **Search Results**.             |
 
 <p class="tip">
 See [Registration](/extending/registration) section for more details
@@ -187,7 +190,7 @@ The rule in the example below evaluates to `true` if all the conditions are met:
 
 - user has selected node(s)
 - user is not using the **Trashcan** page
-- user is not using the **Libraries** page
+- user is not using a **Libraries** page (**My Libraries**, **Favorite Libraries** or **Libraries Search Results** pages)
 
 ```json
 {
