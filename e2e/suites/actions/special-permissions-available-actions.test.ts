@@ -77,10 +77,10 @@ describe('Granular permissions available actions : ', () => {
 
     docxFileId = (await apis.admin.upload.uploadFile(docxFile, docLibId)).entry.id;
 
-    await apis.admin.sites.addSiteMember(siteName, userManager, SITE_ROLES.SITE_MANAGER);
-    await apis.admin.sites.addSiteMember(siteName, userConsumer, SITE_ROLES.SITE_CONSUMER);
+    await apis.admin.sites.addSiteMember(siteName, userManager, SITE_ROLES.SITE_MANAGER.ROLE);
+    await apis.admin.sites.addSiteMember(siteName, userConsumer, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-    await apis.admin.nodes.setGranularPermission(file3Id, false, userConsumer, SITE_ROLES.SITE_MANAGER);
+    await apis.admin.nodes.setGranularPermission(file3Id, false, userConsumer, SITE_ROLES.SITE_MANAGER.ROLE);
 
     await apis.userConsumer.shared.shareFileById(file1Id);
     await apis.userConsumer.shared.shareFileById(file2Id);

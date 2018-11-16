@@ -90,13 +90,13 @@ describe('Breadcrumb', () => {
   });
 
   it('My Libraries breadcrumb main node - [C260966]', async () => {
-    await page.clickMyLibraries();
+    await page.goToMyLibraries();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('My Libraries');
   });
 
   it('Favorite Libraries breadcrumb main node - [C289891]', async () => {
-    await page.clickFavoriteLibraries();
+    await page.goToFavoriteLibraries();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Favorite Libraries');
   });
@@ -140,7 +140,7 @@ describe('Breadcrumb', () => {
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
-    const expectedItems = [ 'File Libraries', siteName, parent, subFolder1, subFolder2 ];
+    const expectedItems = [ 'My Libraries', siteName, parent, subFolder1, subFolder2 ];
     expect(await breadcrumb.getAllItems()).toEqual(expectedItems);
   });
 

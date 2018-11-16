@@ -123,7 +123,7 @@ describe('Restore from Trash', () => {
       await toolbar.getButtonByTitleAttribute('Restore').click();
       await page.clickSnackBarAction();
       await page.dataTable.waitForHeader();
-      expect(await page.sidenav.isActiveByLabel('Personal Files')).toBe(true, 'Personal Files sidebar link not active');
+      expect(await page.sidenav.isActive('Personal Files')).toBe(true, 'Personal Files sidebar link not active');
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
 
       await apis.user.nodes.deleteNodeById(fileId, false);

@@ -711,7 +711,7 @@ describe('Unshare a file', () => {
       file1Id = (await apis.admin.nodes.createFile(file1, docLibId)).entry.id;
       file2Id = (await apis.admin.nodes.createFile(file2, docLibId)).entry.id;
 
-      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER);
+      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       await apis.admin.shared.shareFileById(file1Id);
       await apis.user.shared.shareFileById(file2Id);

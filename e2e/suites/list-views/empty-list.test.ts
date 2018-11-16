@@ -52,11 +52,18 @@ describe('Empty list views', () => {
     expect(await dataTable.getEmptyDragAndDropText()).toContain('Drag and drop');
   });
 
-  it('empty File Libraries - [C217099]', async () => {
-    await page.clickFileLibraries();
+  it('empty My Libraries - [C217099]', async () => {
+    await page.goToMyLibraries();
     expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain(`You aren't a member of any File Libraries yet`);
     expect(await dataTable.getEmptyStateSubtitle()).toContain('Join libraries to upload, view, and share files.');
+  });
+
+  it('empty Favorite Libraries - [C289911]', async () => {
+    await page.goToFavoriteLibraries();
+    expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
+    expect(await dataTable.getEmptyStateTitle()).toContain(`No Favorite Libraries`);
+    expect(await dataTable.getEmptyStateSubtitle()).toContain('Favorite a library that you want to find easily later.');
   });
 
   it('empty Shared Files - [C280132]', async () => {

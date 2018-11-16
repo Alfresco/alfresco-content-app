@@ -53,7 +53,7 @@ describe('Shared Files', () => {
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
     const nodeId = (await apis.admin.nodes.createFile(fileAdmin, docLibId)).entry.id;
     await apis.admin.shared.shareFileById(nodeId);
@@ -131,7 +131,7 @@ describe('Shared Files', () => {
 
   it('Location column redirect - file in site - [C280491]', async () => {
     await dataTable.clickItemLocation(fileAdmin);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213667]', async () => {

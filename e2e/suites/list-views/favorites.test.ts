@@ -53,7 +53,7 @@ describe('Favorites', () => {
 
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     const file1Id = (await apis.admin.nodes.createFile(fileName1, docLibId)).entry.id;
     const folderId = (await apis.user.nodes.createFolder(favFolderName)).entry.id;
@@ -135,7 +135,7 @@ describe('Favorites', () => {
 
   it('Location column redirect - file in site - [C280485]', async () => {
     await dataTable.clickItemLocation(fileName1);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
   });
 
   it('Navigate into folder from Favorites - [C213230]', async () => {

@@ -76,44 +76,45 @@ describe('Page titles', () => {
     it('Personal Files page - [C217157]', async () => {
       const label = SIDEBAR_LABELS.PERSONAL_FILES;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
-    it('File Libraries page - [C217158]', async () => {
-      const parent = SIDEBAR_LABELS.FILE_LIBRARIES;
-      const label = SIDEBAR_LABELS.MY_LIBRARIES;
-
-      await page.sidenav.expandMenu(parent);
-      await page.sidenav.navigateToLinkByLabel(label);
+    it('My Libraries page - [C217158]', async () => {
+      await page.goToMyLibraries();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.MY_LIBRARIES);
+    });
+
+    it('Favorite Libraries page - [C289907]', async () => {
+      await page.goToFavoriteLibraries();
+      expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITE_LIBRARIES);
     });
 
     it('Shared Files page - [C217159]', async () => {
       const label = SIDEBAR_LABELS.SHARED_FILES;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
     it('Recent Files page - [C217160]', async () => {
       const label = SIDEBAR_LABELS.RECENT_FILES;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
     it('Favorites page - [C217161]', async () => {
       const label = SIDEBAR_LABELS.FAVORITES;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
     it('Trash page - [C217162]', async () => {
       const label = SIDEBAR_LABELS.TRASH;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
