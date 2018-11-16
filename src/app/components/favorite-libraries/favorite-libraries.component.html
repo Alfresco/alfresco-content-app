@@ -15,7 +15,7 @@
 
     <app-page-layout-content>
         <div class="main-content">
-            <adf-document-list #documentList acaDocumentList [display]="documentDisplayMode$ | async" [node]="favoriteList"
+            <adf-document-list #documentList acaDocumentList [display]="documentDisplayMode$ | async" [node]="list"
                 [loading]="dataIsLoading" selectionMode="single" [navigate]="false" [sorting]="[ 'title', 'asc' ]"
                 (node-dblclick)="navigateTo($event.detail?.node)" (name-click)="navigateTo($event.detail?.node)">
 
