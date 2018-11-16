@@ -39,7 +39,7 @@ import { PageComponent } from '../page.component';
 })
 export class FavoriteLibrariesComponent extends PageComponent
   implements OnInit {
-  favoriteList: FavoritePaging;
+  list: FavoritePaging;
   dataIsLoading = true;
   isSmallScreen = false;
   columns: any[] = [];
@@ -57,21 +57,12 @@ export class FavoriteLibrariesComponent extends PageComponent
   ngOnInit() {
     super.ngOnInit();
 
-    this.contentApiService.getFavoriteLibraries().subscribe(
-      (favoriteLibraries: FavoritePaging) => {
-        this.favoriteList = favoriteLibraries;
-        this.dataIsLoading = false;
-      },
-      () => {
-        this.favoriteList = null;
-        this.dataIsLoading = false;
-      }
-    );
+    this.getList();
 
     this.subscriptions = this.subscriptions.concat([
-      this.content.libraryDeleted.subscribe(() => this.reload()),
-      this.content.libraryUpdated.subscribe(() => this.reload()),
-      this.content.favoriteLibraryToggle.subscribe(() => this.reload()),
+      this.content.libraryDeleted.subscribe(() => this.reloadList()),
+      this.content.libraryUpdated.subscribe(() => this.reloadList()),
+      this.content.favoriteLibraryToggle.subscribe(() => this.reloadList()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
@@ -86,5 +77,23 @@ export class FavoriteLibrariesComponent extends PageComponent
     if (node && node.entry && node.entry.guid) {
       this.store.dispatch(new NavigateLibraryAction(node.entry.guid));
     }
+  }
+
+  private getList() {
+    this.contentApiService.getFavoriteLibraries().subscribe(
+      (favoriteLibraries: FavoritePaging) => {
+        this.list = favoriteLibraries;
+        this.dataIsLoading = false;
+      },
+      () => {
+        this.list = null;
+        this.dataIsLoading = false;
+      }
+    );
+  }
+
+  private reloadList() {
+    this.reload();
+    this.getList();
   }
 }

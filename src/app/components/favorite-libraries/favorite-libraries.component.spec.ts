@@ -39,6 +39,7 @@ import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
+import { ContentManagementService } from '../../services/content-management.service';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
 import { of } from 'rxjs';
@@ -50,6 +51,7 @@ describe('LibrariesComponent', () => {
   let contentApiService: ContentApiService;
   let router: Router;
   let page;
+  let contentManagementService;
 
   beforeEach(() => {
     page = {
@@ -73,6 +75,7 @@ describe('LibrariesComponent', () => {
         AppConfigPipe,
         ExperimentalDirective
       ],
+      providers: [ContentManagementService],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -81,6 +84,7 @@ describe('LibrariesComponent', () => {
 
     alfrescoApi = TestBed.get(AlfrescoApiService);
     contentApiService = TestBed.get(ContentApiService);
+    contentManagementService = TestBed.get(ContentManagementService);
     alfrescoApi.reset();
     router = TestBed.get(Router);
 
@@ -99,9 +103,9 @@ describe('LibrariesComponent', () => {
       spyOn(contentApiService, 'getFavoriteLibraries').and.returnValue(
         of(page)
       );
-      fixture.autoDetectChanges();
+      fixture.detectChanges();
 
-      expect(component.favoriteList).toEqual(page);
+      expect(component.list).toEqual(page);
       expect(component.dataIsLoading).toBe(false);
     }));
   });
@@ -119,6 +123,30 @@ describe('LibrariesComponent', () => {
       component.navigateTo({ entry: { guid: 'guid' } });
 
       expect(router.navigate).toHaveBeenCalledWith(['libraries', 'libraryId']);
+    });
+  });
+
+  describe('Reload on actions', () => {
+    beforeEach(() => {
+      spyOn(contentApiService, 'getFavoriteLibraries').and.returnValue(
+        of(page)
+      );
+      fixture.detectChanges();
+    });
+
+    it('should reload on libraryDeleted action', () => {
+      contentManagementService.libraryDeleted.next();
+      expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
+    });
+
+    it('should reload on libraryUpdated action', () => {
+      contentManagementService.libraryUpdated.next();
+      expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
+    });
+
+    it('should reload on favoriteLibraryToggle action', () => {
+      contentManagementService.favoriteLibraryToggle.next();
+      expect(contentApiService.getFavoriteLibraries).toHaveBeenCalled();
     });
   });
 });
