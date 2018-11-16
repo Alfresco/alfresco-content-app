@@ -88,6 +88,7 @@ export class ContentManagementService {
   favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
   favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
   favoriteToggle = new Subject<Array<MinimalNodeEntity>>();
+  favoriteLibraryToggle = new Subject<any>();
 
   constructor(
     private store: Store<AppStore>,
