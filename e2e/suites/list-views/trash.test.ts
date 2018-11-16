@@ -60,7 +60,7 @@ describe('Trash', () => {
     fileAdminId = (await apis.admin.nodes.createFiles([ fileAdmin ])).entry.id;
     folderAdminId = (await apis.admin.nodes.createFolders([ folderAdmin ])).entry.id;
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
     fileSiteId = (await apis.admin.nodes.createFile(fileSite, docLibId)).entry.id;
     fileUserId = (await apis.user.nodes.createFiles([ fileUser ])).entry.id;
@@ -186,7 +186,7 @@ describe('Trash', () => {
 
     it('Location column redirect - file in site - [C280497]', async () => {
       await dataTable.clickItemLocation(fileSite);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+      expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
     });
   });
 });

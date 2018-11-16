@@ -79,8 +79,8 @@ describe('Personal Files', () => {
     });
 
     it('has Data Dictionary and created content - [C213241]', async () => {
-      expect(await dataTable.getRowByName('Data Dictionary').isPresent()).toBe(true);
-      expect(await dataTable.getRowByName(adminFolder).isPresent()).toBe(true);
+      expect(await dataTable.getRowByName('Data Dictionary').isPresent()).toBe(true, 'Data Dictionary not displayed');
+      expect(await dataTable.getRowByName(adminFolder).isPresent()).toBe(true, 'admin folder not displayed');
     });
   });
 
@@ -111,7 +111,7 @@ describe('Personal Files', () => {
     });
 
     it('has user created content - [C213242]', async () => {
-      expect(await dataTable.getRowByName(userFolder).isPresent()).toBe(true);
+      expect(await dataTable.getRowByName(userFolder).isPresent()).toBe(true, 'user folder not displayed');
     });
 
     it('navigates to folder - [C213244]', async () => {

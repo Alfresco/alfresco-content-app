@@ -55,7 +55,7 @@ describe('Special permissions', () => {
 
     beforeAll(async (done) => {
       await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR);
+      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
       fileId = (await apis.admin.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);
@@ -70,7 +70,7 @@ describe('Special permissions', () => {
     });
 
     afterEach(async (done) => {
-      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR);
+      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       done();
     });
 
@@ -111,7 +111,7 @@ describe('Special permissions', () => {
 
     beforeAll(async (done) => {
       await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
-      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR);
+      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_COLLABORATOR.ROLE);
       const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
       fileId = (await apis.user.nodes.createFile(fileName, docLibId)).entry.id;
       await apis.user.favorites.addFavoriteById('file', fileId);

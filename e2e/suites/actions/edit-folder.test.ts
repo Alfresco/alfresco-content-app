@@ -61,7 +61,7 @@ describe('Edit folder', () => {
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
     await apis.admin.nodes.createFolder(folderName, docLibId);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.nodes.createFolder(folderName, parentId, '', folderDescription);
