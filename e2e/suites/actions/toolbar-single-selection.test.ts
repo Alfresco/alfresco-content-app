@@ -103,6 +103,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
     });
 
     it('Correct actions appear when a library is selected - Favorite Libraries - [C289892]', async () => {
@@ -112,6 +113,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
     });
 
     it('selected row is marked with a check circle icon - [C213134]', async () => {

@@ -79,11 +79,30 @@ export class FavoritesApi extends RepoApi {
 
     async getFavoriteById(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.favoritesApi.getFavorite('-me', nodeId);
+        return await this.alfrescoJsApi.core.favoritesApi.getFavorite('-me-', nodeId);
     }
 
     async isFavorite(nodeId: string) {
         return JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
+    }
+
+    async isFavoriteWithRetry(nodeId: string, data) {
+      let isFavorite;
+      try {
+        const favorite = async () => {
+          isFavorite = JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
+          if ( isFavorite !== data.expect ) {
+            return Promise.reject(isFavorite);
+          } else {
+            return Promise.resolve(isFavorite);
+          }
+        };
+
+        return await Utils.retryCall(favorite);
+      } catch (error) {
+        console.log('-----> catch isFavoriteWithRetry: ', error);
+      }
+      return isFavorite;
     }
 
     async removeFavoriteById(nodeId: string) {
