@@ -87,7 +87,6 @@ export class SearchLibrariesResultsComponent extends PageComponent
       }),
 
       this.librariesQueryBuilder.executed.subscribe(data => {
-
         this.onSearchResultLoaded(data);
         this.isLoading = false;
       }),

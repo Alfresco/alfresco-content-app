@@ -38,8 +38,9 @@ export class SearchEffects {
   searchByTerm$ = this.actions$.pipe(
     ofType<SearchByTermAction>(SEARCH_BY_TERM),
     map(action => {
-
-      const libItem = action.searchOptions.find(item => item.id === SearchOptionIds.Libraries);
+      const libItem = action.searchOptions.find(
+        item => item.id === SearchOptionIds.Libraries
+      );
       const librarySelected = !!libItem && libItem.value;
 
       if (librarySelected) {

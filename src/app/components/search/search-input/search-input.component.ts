@@ -49,8 +49,8 @@ import { ContentManagementService } from '../../../services/content-management.s
 import { Subject } from 'rxjs';
 
 export enum SearchOptionIds {
-  Files = 'files',
-  Folders = 'folders',
+  Files = 'content',
+  Folders = 'folder',
   Libraries = 'libraries'
 }
 
@@ -191,14 +191,11 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       }
     } else {
       if (this.isFoldersChecked() && !this.isFilesChecked()) {
-        this.queryBuilder.addFilterQuery(`+TYPE:'cm:folder'`);
-        this.queryBuilder.removeFilterQuery(`+TYPE:'cm:content'`);
+        this.filterContent(SearchOptionIds.Folders);
       } else if (this.isFilesChecked() && !this.isFoldersChecked()) {
-        this.queryBuilder.addFilterQuery(`+TYPE:'cm:content'`);
-        this.queryBuilder.removeFilterQuery(`+TYPE:'cm:folder'`);
+        this.filterContent(SearchOptionIds.Files);
       } else {
-        this.queryBuilder.removeFilterQuery(`+TYPE:'cm:content'`);
-        this.queryBuilder.removeFilterQuery(`+TYPE:'cm:folder'`);
+        this.removeContentFilters();
       }
 
       if (this.onSearchResults) {
@@ -249,5 +246,22 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       );
     }
     return false;
+  }
+
+  filterContent(option: SearchOptionIds.Folders | SearchOptionIds.Files) {
+    const oppositeOption =
+      option === SearchOptionIds.Folders
+        ? SearchOptionIds.Files
+        : SearchOptionIds.Folders;
+
+    this.queryBuilder.addFilterQuery(`+TYPE:'cm:${option}'`);
+    this.queryBuilder.removeFilterQuery(`+TYPE:'cm:${oppositeOption}'`);
+  }
+
+  removeContentFilters() {
+    this.queryBuilder.removeFilterQuery(`+TYPE:'cm:${SearchOptionIds.Files}'`);
+    this.queryBuilder.removeFilterQuery(
+      `+TYPE:'cm:${SearchOptionIds.Folders}'`
+    );
   }
 }
