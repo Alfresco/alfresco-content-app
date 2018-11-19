@@ -42,8 +42,7 @@ import { AppConfigService } from '@alfresco/adf-core';
 @Component({
   selector: 'aca-search-results',
   templateUrl: './search-results.component.html',
-  styleUrls: ['./search-results.component.scss'],
-  providers: [SearchQueryBuilderService]
+  styleUrls: ['./search-results.component.scss']
 })
 export class SearchResultsComponent extends PageComponent implements OnInit {
   @ViewChild('search')
