@@ -87,8 +87,6 @@ export class SearchLibrariesResultsComponent extends PageComponent
       }),
 
       this.librariesQueryBuilder.executed.subscribe(data => {
-        this.librariesQueryBuilder.paging.skipCount = 0;
-
         this.onSearchResultLoaded(data);
         this.isLoading = false;
       }),
@@ -119,6 +117,7 @@ export class SearchLibrariesResultsComponent extends PageComponent
         const query = this.formatSearchQuery(this.searchedWord);
 
         if (query && query.length > 1) {
+          this.librariesQueryBuilder.paging.skipCount = 0;
           this.librariesQueryBuilder.userQuery = query;
           this.librariesQueryBuilder.update();
         } else {

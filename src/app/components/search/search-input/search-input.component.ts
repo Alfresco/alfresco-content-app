@@ -44,14 +44,13 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 import { SearchByTermAction } from '../../../store/actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { Subject } from 'rxjs';
 
 export enum SearchOptionIds {
-  Files = 'files',
-  Folders = 'folders',
+  Files = 'content',
+  Folders = 'folder',
   Libraries = 'libraries'
 }
 
@@ -94,7 +93,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   searchInputControl: SearchInputControlComponent;
 
   constructor(
-    private librariesQueryBuilder: SearchLibrariesQueryBuilderService,
     private queryBuilder: SearchQueryBuilderService,
     private content: ContentManagementService,
     private router: Router,
@@ -185,24 +183,27 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   onOptionChange() {
     this.has400LibraryError = false;
-    if (this.searchedWord) {
-      if (this.isLibrariesChecked()) {
-        if (this.onLibrariesSearchResults) {
-          this.librariesQueryBuilder.update();
-        } else {
-          this.store.dispatch(
-            new SearchByTermAction(this.searchedWord, this.searchOptions)
-          );
-        }
-      } else if (this.isContentChecked()) {
-        if (this.onSearchResults) {
-          // TODO: send here data to this.queryBuilder to be able to search for files/folders
-          this.queryBuilder.update();
-        } else {
-          this.store.dispatch(
-            new SearchByTermAction(this.searchedWord, this.searchOptions)
-          );
-        }
+    if (this.isLibrariesChecked()) {
+      if (this.searchedWord && !this.onLibrariesSearchResults) {
+        this.store.dispatch(
+          new SearchByTermAction(this.searchedWord, this.searchOptions)
+        );
+      }
+    } else {
+      if (this.isFoldersChecked() && !this.isFilesChecked()) {
+        this.filterContent(SearchOptionIds.Folders);
+      } else if (this.isFilesChecked() && !this.isFoldersChecked()) {
+        this.filterContent(SearchOptionIds.Files);
+      } else {
+        this.removeContentFilters();
+      }
+
+      if (this.onSearchResults) {
+        this.queryBuilder.update();
+      } else if (this.searchedWord) {
+        this.store.dispatch(
+          new SearchByTermAction(this.searchedWord, this.searchOptions)
+        );
       }
     }
   }
@@ -245,5 +246,22 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       );
     }
     return false;
+  }
+
+  filterContent(option: SearchOptionIds.Folders | SearchOptionIds.Files) {
+    const oppositeOption =
+      option === SearchOptionIds.Folders
+        ? SearchOptionIds.Files
+        : SearchOptionIds.Folders;
+
+    this.queryBuilder.addFilterQuery(`+TYPE:'cm:${option}'`);
+    this.queryBuilder.removeFilterQuery(`+TYPE:'cm:${oppositeOption}'`);
+  }
+
+  removeContentFilters() {
+    this.queryBuilder.removeFilterQuery(`+TYPE:'cm:${SearchOptionIds.Files}'`);
+    this.queryBuilder.removeFilterQuery(
+      `+TYPE:'cm:${SearchOptionIds.Folders}'`
+    );
   }
 }

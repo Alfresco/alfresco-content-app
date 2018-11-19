@@ -28,6 +28,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { SEARCH_BY_TERM, SearchByTermAction } from '../actions/search.actions';
 import { Router } from '@angular/router';
+import { SearchOptionIds } from '../../components/search/search-input/search-input.component';
 
 @Injectable()
 export class SearchEffects {
@@ -37,11 +38,12 @@ export class SearchEffects {
   searchByTerm$ = this.actions$.pipe(
     ofType<SearchByTermAction>(SEARCH_BY_TERM),
     map(action => {
-      if (
-        action.searchOptions &&
-        action.searchOptions[2] &&
-        action.searchOptions[2].value
-      ) {
+      const libItem = action.searchOptions.find(
+        item => item.id === SearchOptionIds.Libraries
+      );
+      const librarySelected = !!libItem && libItem.value;
+
+      if (librarySelected) {
         this.router.navigateByUrl('/search-libraries;q=' + action.payload);
       } else {
         this.router.navigateByUrl('/search;q=' + action.payload);
