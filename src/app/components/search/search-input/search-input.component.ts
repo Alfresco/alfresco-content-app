@@ -160,6 +160,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   onSearchChange(searchTerm: string) {
     this.has400LibraryError = false;
+    this.searchedWord = searchTerm;
+
     if (this.hasOneChange) {
       this.hasNewChange = true;
     } else {
