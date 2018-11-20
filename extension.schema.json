@@ -567,8 +567,12 @@
   },
 
   "type": "object",
-  "required": ["$name", "$version"],
+  "required": ["$id", "$name", "$version", "$vendor", "$license", "$runtime"],
   "properties": {
+    "$id": {
+      "description": "Unique identifier",
+      "type": "string"
+    },
     "$name": {
       "description": "Extension name",
       "type": "string"
@@ -577,8 +581,21 @@
       "description": "Extension version",
       "type": "string"
     },
+    "$vendor": {
+      "description": "Extension owner",
+      "type": "string"
+    },
+    "$license": {
+      "description": "Indicates the license of the extension.",
+      "type": "string"
+    },
+    "$runtime": {
+      "description": "Minimal extension runtime supported by extension",
+      "type": "string"
+    },
     "$description": {
-      "description": "Brief description on what the extension does"
+      "description": "Brief description on what the extension does",
+      "type": "string"
     },
     "$references": {
       "description": "References to external files",
