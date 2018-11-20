@@ -40,7 +40,6 @@ describe('Page titles', () => {
 
   xit('');
 
-
   describe('on Login / Logout pages', () => {
     it('on Login page - [C217155]', async () => {
       await loginPage.load();
@@ -127,7 +126,7 @@ describe('Page titles', () => {
 
     it('Search Results page - [C280413]', async () => {
       await searchInput.clickSearchButton();
-      await searchInput.searchForText(file);
+      await searchInput.searchFor(file);
       expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
     });
   });
