@@ -15,7 +15,7 @@
     "redirectUriLogout": "/logout"
   },
   "application": {
-    "name": "Alfresco",
+    "name": "Alfresco Content Application",
     "logo": "assets/images/alfresco-logo-flower.svg",
     "copyright": "© 2017 - 2018 Alfresco Software, Inc. All rights reserved."
   },

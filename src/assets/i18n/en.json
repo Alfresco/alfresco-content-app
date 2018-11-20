@@ -1,5 +1,32 @@
 {
     "APP": {
+      "ABOUT": {
+        "VERSION": "Version:",
+        "PLUGINS": {
+          "TITLE": "Plugins",
+          "ID": "ID",
+          "NAME": "Name",
+          "VERSION": "Version",
+          "VENDOR": "Vendor",
+          "LICENSE": "License",
+          "RUNTIME": "Runtime",
+          "DESCRIPTION": "Description"
+        },
+        "LICENSE": {
+          "TITLE": "License"
+        },
+        "STATUS": {
+          "TITLE": "Status"
+        },
+        "MODULES": {
+          "TITLE": "Modules"
+        },
+        "PACKAGES": {
+          "TITLE": "Packages",
+          "NAME": "Name",
+          "VERSION": "Version"
+        }
+      },
         "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",

@@ -1,8 +1,12 @@
 {
     "$schema": "../../../extension.schema.json",
+    "$id": "app.debug.plugin",
     "$version": "1.0.0",
-    "$name": "plugin1",
-    "$description": "demo plugin",
+    "$name": "app.debug.plugin",
+    "$vendor": "Alfresco Software, Ltd.",
+    "$license": "LGPL-3.0",
+    "$runtime": "1.5.0",
+    "$description": "Plugin for debugging and testing purposes",
 
     "actions": [
         {

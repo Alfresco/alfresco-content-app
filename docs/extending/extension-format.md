@@ -7,8 +7,13 @@ The format is represented by a JSON file with the structure similar to the follo
 
 ```json
 {
-  "$name": "app",
+  "$id": "unique.id",
+  "$name": "extension.name",
   "$version": "1.0.0",
+  "$vendor": "author.name",
+  "$license": "license",
+  "$runtime": "1.5.0",
+  "$description": "some description",
 
   "routes": [],
   "actions": [],

@@ -1,7 +1,12 @@
 {
   "$schema": "../../extension.schema.json",
-  "$name": "app",
+  "$id": "app.core",
+  "$name": "app.core",
   "$version": "1.0.0",
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+  "$runtime": "1.5.0",
+  "$description": "Core application extensions and features",
   "$references": [],
 
   "rules": [

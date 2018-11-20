@@ -23,8 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleContext } from '@alfresco/adf-extensions';
-import { RepositoryState } from '../store/states';
+import { RuleContext, RepositoryState } from '@alfresco/adf-extensions';
 
 export interface AppRuleContext extends RuleContext {
   repository: RepositoryState;

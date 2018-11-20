@@ -1,8 +1,13 @@
 {
   "$schema": "../../../extension.schema.json",
-  "$version": "1.0.0",
+  "$id": "app.demo.metadata",
   "$name": "metadata-plugin",
+  "$version": "1.0.0",
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+  "$runtime": "1.5.0",
   "$description": "metadata card configuration plugin - testing purpose",
+
   "features": {
     "content-metadata-presets": [
       {

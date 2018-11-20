@@ -1,8 +1,12 @@
 {
   "$schema": "../../../extension.schema.json",
-  "$name": "app.create",
+  "$id": "app.demo.create",
+  "$name": "app.demo.create",
   "$version": "1.0.0",
-
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+  "$runtime": "1.5.0",
+  "$description": "Simple extension that provides custom entries for Create menu",
 
   "features": {
     "create": [
