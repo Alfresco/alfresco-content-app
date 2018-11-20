@@ -25,7 +25,6 @@
 
 import { LoginPage, SearchResultsPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { browser } from 'protractor';
 import { Utils } from '../../utilities/utils';
 
 describe('Search results', () => {
@@ -104,6 +103,17 @@ describe('Search results', () => {
     expect(await dataTable.getRowByName(file).isPresent()).toBe(true, `${file} not displayed`);
     expect(await dataTable.getRowByName(folder).isPresent()).toBe(true, `${folder} not displayed`);
     expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} is displayed`);
+  });
+
+  it('Only libraries are returned when Libraries option is checked - [C290008]', async () => {
+    await searchInput.clickSearchButton();
+    await searchInput.checkLibraries();
+    await searchInput.searchFor('test');
+    await dataTable.waitForBody();
+
+    expect(await dataTable.getRowByName(file).isPresent()).toBe(false, `${file} is displayed`);
+    expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, `${folder} is displayed`);
+    expect(await dataTable.getRowByName(site).isPresent()).toBe(true, `${site} not displayed`);
   });
 
 });
