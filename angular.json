@@ -185,7 +185,8 @@
               "src/tsconfig.spec.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "package.json"
             ]
           }
         }
@@ -215,7 +216,8 @@
               "e2e/tsconfig.e2e.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "package.json"
             ]
           }
         }
