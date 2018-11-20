@@ -26,9 +26,9 @@
 import {
   SelectionState,
   ProfileState,
-  NavigationState
+  NavigationState,
+  RepositoryState
 } from '@alfresco/adf-extensions';
-import { RepositoryState } from '../states';
 
 export interface AppState {
   appName: string;

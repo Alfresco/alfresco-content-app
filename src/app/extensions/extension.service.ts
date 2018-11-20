@@ -26,7 +26,7 @@
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
-import { AppStore, RepositoryState } from '../store/states';
+import { AppStore } from '../store/states';
 import { ruleContext } from '../store/selectors/app.selectors';
 import { NodePermissionService } from '../services/node-permission.service';
 import {
@@ -46,7 +46,8 @@ import {
   reduceEmptyMenus,
   ExtensionService,
   ProfileState,
-  mergeObjects
+  mergeObjects,
+  RepositoryState
 } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
 import { DocumentListPresetRef } from './document-list.extensions';

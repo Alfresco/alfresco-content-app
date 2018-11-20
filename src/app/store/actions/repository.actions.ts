@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { RepositoryState } from '../states';
+import { RepositoryState } from '@alfresco/adf-extensions';
 
 export const SET_REPOSITORY_STATUS = 'SET_REPOSITORY_STATUS';
 export const GET_REPOSITORY_STATUS = 'GET_REPOSITORY_STATUS';
