@@ -29,6 +29,7 @@ import { AboutComponent } from './about.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
 import { AppLayoutModule } from '../layout/layout.module';
+import { MatTableModule } from '@angular/material';
 
 const routes: Routes = [
   {
@@ -45,7 +46,8 @@ const routes: Routes = [
     CommonModule,
     CoreModule.forChild(),
     RouterModule.forChild(routes),
-    AppLayoutModule
+    AppLayoutModule,
+    MatTableModule
   ],
   declarations: [AboutComponent]
 })

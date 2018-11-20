@@ -26,7 +26,7 @@
 import { ObjectDataTableAdapter } from '@alfresco/adf-core';
 import { ExtensionRef } from '@alfresco/adf-extensions';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RepositoryInfo } from 'alfresco-js-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -35,7 +35,9 @@ import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
   selector: 'app-about',
-  templateUrl: './about.component.html'
+  templateUrl: './about.component.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-about' }
 })
 export class AboutComponent implements OnInit {
   repository: RepositoryInfo;

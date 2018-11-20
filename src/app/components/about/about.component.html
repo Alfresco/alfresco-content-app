@@ -1,19 +1,13 @@
 <app-page-layout>
   <app-page-layout-content [scrollable]="true">
     <div class="main-content">
-      <article class="padding">
-        <header class="header padding-left">
-          {{ 'application.name' | adfAppConfig }}
-        </header>
-        <p class="padding-left">
-          {{ 'APP.ABOUT.VERSION' | translate }} {{ releaseVersion }}
-        </p>
+      <article>
+        <header>{{ 'application.name' | adfAppConfig }}</header>
+        <p>{{ 'APP.ABOUT.VERSION' | translate }} {{ releaseVersion }}</p>
       </article>
 
-      <article class="padding-top-bottom">
-        <header class="header padding-left-right">
-          {{ 'APP.ABOUT.PLUGINS.TITLE' | translate }}
-        </header>
+      <article>
+        <header>{{ 'APP.ABOUT.PLUGINS.TITLE' | translate }}</header>
         <div>
           <mat-table [dataSource]="extensions$ | async">
             <ng-container matColumnDef="$id">
@@ -83,39 +77,31 @@
         </div>
       </article>
 
-      <article *ngIf="repository" class="padding">
-        <header class="header padding-left">Alfresco Content Services</header>
-        <p class="padding-left">
+      <article *ngIf="repository">
+        <header>Alfresco Content Services</header>
+        <p>
           {{ 'APP.ABOUT.VERSION' | translate }} {{ repository.edition }}
           {{ repository.version.display }}
         </p>
       </article>
 
-      <article class="padding-top-bottom" *ngIf="license">
-        <header class="header padding-left-right">
-          {{ 'APP.ABOUT.LICENSE.TITLE' | translate }}
-        </header>
+      <article *ngIf="license">
+        <header>{{ 'APP.ABOUT.LICENSE.TITLE' | translate }}</header>
         <adf-datatable [data]="license"></adf-datatable>
       </article>
 
-      <article class="padding-top-bottom">
-        <header class="header padding-left-right">
-          {{ 'APP.ABOUT.STATUS.TITLE' | translate }}
-        </header>
+      <article>
+        <header>{{ 'APP.ABOUT.STATUS.TITLE' | translate }}</header>
         <adf-datatable [data]="status"></adf-datatable>
       </article>
 
-      <article class="padding-top-bottom">
-        <header class="header padding-left-right">
-          {{ 'APP.ABOUT.MODULES.TITLE' | translate }}
-        </header>
+      <article>
+        <header>{{ 'APP.ABOUT.MODULES.TITLE' | translate }}</header>
         <adf-datatable [data]="modules"></adf-datatable>
       </article>
 
       <article>
-        <header class="header padding-left-right">
-          {{ 'APP.ABOUT.PACKAGES.TITLE' | translate }}
-        </header>
+        <header>{{ 'APP.ABOUT.PACKAGES.TITLE' | translate }}</header>
         <adf-datatable [data]="data"></adf-datatable>
       </article>
     </div>
