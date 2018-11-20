@@ -47,15 +47,19 @@ import {
   ExtensionService,
   ProfileState,
   mergeObjects,
-  RepositoryState
+  RepositoryState,
+  ExtensionRef
 } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
 import { DocumentListPresetRef } from './document-list.extensions';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppExtensionService implements RuleContext {
+  private _references = new BehaviorSubject<ExtensionRef[]>([]);
+
   defaults = {
     layout: 'app.layout.main',
     auth: ['app.auth']
@@ -98,6 +102,8 @@ export class AppExtensionService implements RuleContext {
   profile: ProfileState;
   repository: RepositoryState;
 
+  references$: Observable<ExtensionRef[]>;
+
   constructor(
     private store: Store<AppStore>,
     private loader: ExtensionLoaderService,
@@ -105,6 +111,8 @@ export class AppExtensionService implements RuleContext {
     public permissions: NodePermissionService,
     private appConfig: AppConfigService
   ) {
+    this.references$ = this._references.asObservable();
+
     this.store.select(ruleContext).subscribe(result => {
       this.selection = result.selection;
       this.navigation = result.navigation;
@@ -175,6 +183,11 @@ export class AppExtensionService implements RuleContext {
       trashcan: this.getDocumentListPreset(config, 'trashcan'),
       searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
+
+    const references = (config.$references || [])
+      .filter(entry => typeof entry === 'object')
+      .map(entry => <ExtensionRef>entry);
+    this._references.next(references);
   }
 
   protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {

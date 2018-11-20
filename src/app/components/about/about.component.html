@@ -1,38 +1,123 @@
 <app-page-layout>
-
   <app-page-layout-content [scrollable]="true">
     <div class="main-content">
       <article class="padding">
-        <header class="header padding-left">Alfresco Content Application</header>
-        <p class="padding-left"> version: {{ releaseVersion }} </p>
+        <header class="header padding-left">
+          {{ 'application.name' | adfAppConfig }}
+        </header>
+        <p class="padding-left">
+          {{ 'APP.ABOUT.VERSION' | translate }} {{ releaseVersion }}
+        </p>
+      </article>
+
+      <article class="padding-top-bottom">
+        <header class="header padding-left-right">
+          {{ 'APP.ABOUT.PLUGINS.TITLE' | translate }}
+        </header>
+        <div>
+          <mat-table [dataSource]="extensions$ | async">
+            <ng-container matColumnDef="$id">
+              <mat-header-cell *matHeaderCellDef
+                >{{ 'APP.ABOUT.PLUGINS.ID' | translate }}
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.$id }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="$name">
+              <mat-header-cell *matHeaderCellDef>{{
+                'APP.ABOUT.PLUGINS.NAME' | translate
+              }}</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{ element.$name }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="$version">
+              <mat-header-cell *matHeaderCellDef>{{
+                'APP.ABOUT.PLUGINS.VERSION' | translate
+              }}</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{
+                element.$version
+              }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="$vendor">
+              <mat-header-cell *matHeaderCellDef>{{
+                'APP.ABOUT.PLUGINS.VENDOR' | translate
+              }}</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{
+                element.$vendor
+              }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="$license">
+              <mat-header-cell *matHeaderCellDef>{{
+                'APP.ABOUT.PLUGINS.LICENSE' | translate
+              }}</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{
+                element.$license
+              }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="$runtime">
+              <mat-header-cell *matHeaderCellDef>{{
+                'APP.ABOUT.PLUGINS.RUNTIME' | translate
+              }}</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{
+                element.$runtime
+              }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="$description">
+              <mat-header-cell *matHeaderCellDef>{{
+                'APP.ABOUT.PLUGINS.DESCRIPTION' | translate
+              }}</mat-header-cell>
+              <mat-cell *matCellDef="let element">{{
+                element.$description
+              }}</mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="extensionColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: extensionColumns"></mat-row>
+          </mat-table>
+        </div>
       </article>
 
       <article *ngIf="repository" class="padding">
         <header class="header padding-left">Alfresco Content Services</header>
-        <p class="padding-left"> version: {{ repository.edition }} {{ repository.version.display }} </p>
+        <p class="padding-left">
+          {{ 'APP.ABOUT.VERSION' | translate }} {{ repository.edition }}
+          {{ repository.version.display }}
+        </p>
       </article>
 
       <article class="padding-top-bottom" *ngIf="license">
-        <header class="header padding-left-right">License</header>
+        <header class="header padding-left-right">
+          {{ 'APP.ABOUT.LICENSE.TITLE' | translate }}
+        </header>
         <adf-datatable [data]="license"></adf-datatable>
       </article>
 
       <article class="padding-top-bottom">
-        <header class="header padding-left-right">Status</header>
+        <header class="header padding-left-right">
+          {{ 'APP.ABOUT.STATUS.TITLE' | translate }}
+        </header>
         <adf-datatable [data]="status"></adf-datatable>
       </article>
 
       <article class="padding-top-bottom">
-        <header class="header padding-left-right">Modules</header>
+        <header class="header padding-left-right">
+          {{ 'APP.ABOUT.MODULES.TITLE' | translate }}
+        </header>
         <adf-datatable [data]="modules"></adf-datatable>
       </article>
 
       <article>
-        <header class="header padding-left-right">Packages</header>
-        <small class="padding-left-right">Current project is using the following ADF libraries:</small>
+        <header class="header padding-left-right">
+          {{ 'APP.ABOUT.PACKAGES.TITLE' | translate }}
+        </header>
         <adf-datatable [data]="data"></adf-datatable>
       </article>
     </div>
   </app-page-layout-content>
-
 </app-page-layout>

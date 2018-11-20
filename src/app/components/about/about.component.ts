@@ -23,12 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ObjectDataTableAdapter } from '@alfresco/adf-core';
-import { ContentApiService } from '../../services/content-api.service';
+import { ExtensionRef } from '@alfresco/adf-extensions';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { RepositoryInfo } from 'alfresco-js-api';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AppExtensionService } from '../../extensions/extension.service';
+import { ContentApiService } from '../../services/content-api.service';
 
 @Component({
   selector: 'app-about',
@@ -42,10 +45,24 @@ export class AboutComponent implements OnInit {
   modules: ObjectDataTableAdapter;
   releaseVersion = '';
 
+  extensionColumns: string[] = [
+    '$id',
+    '$name',
+    '$version',
+    '$vendor',
+    '$license',
+    '$runtime',
+    '$description'
+  ];
+  extensions$: Observable<ExtensionRef[]>;
+
   constructor(
     private contentApi: ContentApiService,
-    private http: HttpClient
-  ) {}
+    private http: HttpClient,
+    appExtensions: AppExtensionService
+  ) {
+    this.extensions$ = appExtensions.references$;
+  }
 
   ngOnInit() {
     this.contentApi
