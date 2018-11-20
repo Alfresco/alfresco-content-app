@@ -105,7 +105,40 @@ export class SearchInput extends Component {
     return optClass.includes('mat-checkbox-checked');
   }
 
-  async searchForText(text: string) {
+  async clearOptions() {
+    if (await this.isFilesOptionChecked()) {
+      await this.clickFilesOption();
+    }
+    if (await this.isFoldersOptionChecked()) {
+      await this.clickFoldersOption();
+    }
+    if (await this.isLibrariesOptionChecked()) {
+      await this.clickLibrariesOption();
+    }
+  }
+
+  async checkOnlyFiles() {
+    await this.clearOptions();
+    await this.clickFilesOption();
+  }
+
+  async checkOnlyFolders() {
+    await this.clearOptions();
+    await this.clickFoldersOption();
+  }
+
+  async checkFilesAndFolders() {
+    await this.clearOptions();
+    await this.clickFilesOption();
+    await this.clickFoldersOption();
+  }
+
+  async checkLibraries() {
+    await this.clearOptions();
+    await this.clickLibrariesOption();
+  }
+
+  async searchFor(text: string) {
     await this.searchBar.clear();
     await this.searchBar.sendKeys(text);
     await this.searchBar.sendKeys(protractor.Key.ENTER);
