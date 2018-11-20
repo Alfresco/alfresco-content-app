@@ -25,14 +25,13 @@
 
 import { ObjectDataTableAdapter } from '@alfresco/adf-core';
 import { ExtensionRef } from '@alfresco/adf-extensions';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RepositoryInfo } from 'alfresco-js-api';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentApiService } from '../../services/content-api.service';
-
+import { version, dependencies } from '../../../../package.json';
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
@@ -41,11 +40,10 @@ import { ContentApiService } from '../../services/content-api.service';
 })
 export class AboutComponent implements OnInit {
   repository: RepositoryInfo;
-  data: ObjectDataTableAdapter;
   status: ObjectDataTableAdapter;
   license: ObjectDataTableAdapter;
   modules: ObjectDataTableAdapter;
-  releaseVersion = '';
+  releaseVersion = version;
 
   extensionColumns: string[] = [
     '$id',
@@ -58,15 +56,24 @@ export class AboutComponent implements OnInit {
   ];
   extensions$: Observable<ExtensionRef[]>;
 
+  dependencyColumns: string[] = ['name', 'version'];
+  dependencyEntries: Array<{ name: string; version: string }> = [];
+
   constructor(
     private contentApi: ContentApiService,
-    private http: HttpClient,
     appExtensions: AppExtensionService
   ) {
     this.extensions$ = appExtensions.references$;
   }
 
   ngOnInit() {
+    this.dependencyEntries = Object.keys(dependencies).map(key => {
+      return {
+        name: key,
+        version: dependencies[key]
+      };
+    });
+
     this.contentApi
       .getRepositoryInformation()
       .pipe(map(node => node.entry.repository))
@@ -178,28 +185,5 @@ export class AboutComponent implements OnInit {
           );
         }
       });
-
-    this.http.get('/versions.json').subscribe((response: any) => {
-      const regexp = new RegExp('^(@alfresco|alfresco-)');
-
-      const alfrescoPackagesTableRepresentation = Object.keys(
-        response.dependencies
-      )
-        .filter(val => regexp.test(val))
-        .map(val => ({
-          name: val,
-          version: response.dependencies[val].version
-        }));
-
-      this.data = new ObjectDataTableAdapter(
-        alfrescoPackagesTableRepresentation,
-        [
-          { type: 'text', key: 'name', title: 'Name', sortable: true },
-          { type: 'text', key: 'version', title: 'Version', sortable: true }
-        ]
-      );
-
-      this.releaseVersion = response.version;
-    });
   }
 }

@@ -22,7 +22,9 @@
           "TITLE": "Modules"
         },
         "PACKAGES": {
-          "TITLE": "Packages"
+          "TITLE": "Packages",
+          "NAME": "Name",
+          "VERSION": "Version"
         }
       },
         "LANGUAGE": "Language",

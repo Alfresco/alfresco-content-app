@@ -102,7 +102,24 @@
 
       <article>
         <header>{{ 'APP.ABOUT.PACKAGES.TITLE' | translate }}</header>
-        <adf-datatable [data]="data"></adf-datatable>
+        <mat-table [dataSource]="dependencyEntries">
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>{{
+              'APP.ABOUT.PACKAGES.NAME' | translate
+            }}</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="version">
+            <mat-header-cell *matHeaderCellDef>{{
+              'APP.ABOUT.PACKAGES.VERSION' | translate
+            }}</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.version }}</mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="dependencyColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: dependencyColumns"></mat-row>
+        </mat-table>
       </article>
     </div>
   </app-page-layout-content>
