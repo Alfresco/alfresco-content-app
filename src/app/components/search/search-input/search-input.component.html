@@ -1,4 +1,5 @@
-<div class="app-search-container" [matMenuTriggerFor]="searchOptionsMenu">
+<div class="app-search-container" [matMenuTriggerFor]="searchOptionsMenu"
+     (menuOpened)="onMenuOpened()">
     <button mat-icon-button
             class="app-search-button"
             [title]="'SEARCH.BUTTON.TOOLTIP' | translate">

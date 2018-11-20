@@ -143,6 +143,10 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  onMenuOpened() {
+    this.searchInputControl.searchInput.nativeElement.focus();
+  }
+
   /**
    * Called when the user submits the search, e.g. hits enter or clicks submit
    *
