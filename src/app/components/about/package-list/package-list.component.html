@@ -1,18 +1,14 @@
 <mat-table [dataSource]="data">
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef>{{
-      'APP.ABOUT.PACKAGES.NAME' | translate
-    }}</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+  <ng-container
+    *ngFor="let column of columns"
+    [matColumnDef]="column.columnDef"
+  >
+    <mat-header-cell *matHeaderCellDef>
+      {{ column.header | translate }}
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row">{{ column.cell(row) }}</mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="version">
-    <mat-header-cell *matHeaderCellDef>{{
-      'APP.ABOUT.PACKAGES.VERSION' | translate
-    }}</mat-header-cell>
-    <mat-cell *matCellDef="let element">{{ element.version }}</mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="schema"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: schema"></mat-row>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 </mat-table>

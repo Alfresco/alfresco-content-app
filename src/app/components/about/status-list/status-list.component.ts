@@ -45,12 +45,12 @@ export class StatusListComponent {
   columns = [
     {
       columnDef: 'property',
-      header: 'Property',
+      header: 'APP.ABOUT.STATUS.PROPERTY',
       cell: (row: StatusData) => `${row.property}`
     },
     {
       columnDef: 'value',
-      header: 'Value',
+      header: 'APP.ABOUT.STATUS.VALUE',
       cell: (row: StatusData) => `${row.value}`
     }
   ];

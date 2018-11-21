@@ -45,12 +45,12 @@ export class LicenseListComponent {
   columns = [
     {
       columnDef: 'property',
-      header: 'Property',
+      header: 'APP.ABOUT.LICENSE.PROPERTY',
       cell: (row: LicenseData) => `${row.property}`
     },
     {
       columnDef: 'value',
-      header: 'Value',
+      header: 'APP.ABOUT.LICENSE.VALUE',
       cell: (row: LicenseData) => `${row.value}`
     }
   ];

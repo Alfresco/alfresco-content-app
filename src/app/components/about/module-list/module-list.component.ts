@@ -41,17 +41,17 @@ export class ModuleListComponent {
   columns = [
     {
       columnDef: 'id',
-      header: 'ID',
+      header: 'APP.ABOUT.MODULES.ID',
       cell: (row: ModuleInfo) => `${row.id}`
     },
     {
       columnDef: 'title',
-      header: 'Title',
+      header: 'APP.ABOUT.MODULES.NAME',
       cell: (row: ModuleInfo) => `${row.title}`
     },
     {
       columnDef: 'version',
-      header: 'Version',
+      header: 'APP.ABOUT.MODULES.VERSION',
       cell: (row: ModuleInfo) => `${row.version}`
     }
   ];
