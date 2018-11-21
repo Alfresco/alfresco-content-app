@@ -33,6 +33,7 @@ import { MatTableModule } from '@angular/material';
 import { PackageListComponent } from './package-list/package-list.component';
 import { ExtensionListComponent } from './extension-list/extension-list.component';
 import { StatusListComponent } from './status-list/status-list.component';
+import { ModuleListComponent } from './module-list/module-list.component';
 
 const routes: Routes = [
   {
@@ -56,7 +57,8 @@ const routes: Routes = [
     AboutComponent,
     PackageListComponent,
     ExtensionListComponent,
-    StatusListComponent
+    StatusListComponent,
+    ModuleListComponent
   ]
 })
 export class AboutModule {}

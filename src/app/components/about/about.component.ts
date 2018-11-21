@@ -41,7 +41,6 @@ import { version, dependencies } from '../../../../package.json';
 export class AboutComponent implements OnInit {
   repository: RepositoryInfo;
   license: ObjectDataTableAdapter;
-  modules: ObjectDataTableAdapter;
   releaseVersion = version;
   extensions$: Observable<ExtensionRef[]>;
   dependencyEntries: Array<{ name: string; version: string }> = [];
@@ -67,42 +66,6 @@ export class AboutComponent implements OnInit {
       .pipe(map(node => node.entry.repository))
       .subscribe(repository => {
         this.repository = repository;
-
-        this.modules = new ObjectDataTableAdapter(repository.modules, [
-          { type: 'text', key: 'id', title: 'ID', sortable: true },
-          { type: 'text', key: 'title', title: 'Title', sortable: true },
-          {
-            type: 'text',
-            key: 'version',
-            title: 'Description',
-            sortable: true
-          },
-          {
-            type: 'date',
-            key: 'installDate',
-            title: 'Install Date',
-            sortable: true
-          },
-          {
-            type: 'text',
-            key: 'installState',
-            title: 'Install State',
-            sortable: true
-          },
-          {
-            type: 'text',
-            key: 'versionMin',
-            title: 'Version Minor',
-            sortable: true
-          },
-          {
-            type: 'text',
-            key: 'versionMax',
-            title: 'Version Max',
-            sortable: true
-          }
-        ]);
-
         this.statusEntries = Object.keys(repository.status).map(key => {
           return {
             property: key,

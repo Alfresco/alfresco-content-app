@@ -31,7 +31,8 @@
 
       <article>
         <header>{{ 'APP.ABOUT.MODULES.TITLE' | translate }}</header>
-        <adf-datatable [data]="modules"></adf-datatable>
+        <app-module-list [data]="repository?.modules"></app-module-list>
+        <!-- <adf-datatable [data]="modules"></adf-datatable> -->
       </article>
 
       <article>
