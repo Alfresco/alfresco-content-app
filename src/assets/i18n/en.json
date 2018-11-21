@@ -182,6 +182,8 @@
             "PERMISSIONS": "Permissions",
             "RESTORE": "Restore",
             "FAVORITE": "Favorite",
+            "ADD_FAVORITE": "Add favorite",
+            "REMOVE_FAVORITE": "Remove favorite",
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions",
