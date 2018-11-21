@@ -33,10 +33,14 @@ import {
 } from '@angular/core';
 import { SiteBody, FavoriteBody, FavoriteEntry, Site } from 'alfresco-js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
+import { AppStore } from '../store/states';
+import { Store } from '@ngrx/store';
+import { SetSelectedNodesAction } from '../store/actions';
 
 interface LibraryEntity {
   entry: Site;
   isLibrary: boolean;
+  isFavorite: boolean;
 }
 
 interface FavoriteLibrary {
@@ -62,7 +66,10 @@ export class LibraryFavoriteDirective implements OnChanges {
     this.toggleFavorite();
   }
 
-  constructor(private alfrescoApiService: AlfrescoApiService) {}
+  constructor(
+    private store: Store<AppStore>,
+    private alfrescoApiService: AlfrescoApiService
+  ) {}
 
   ngOnChanges(changes) {
     if (!changes.library.currentValue) {
@@ -73,7 +80,7 @@ export class LibraryFavoriteDirective implements OnChanges {
   }
 
   isFavorite() {
-    return this.targetLibrary && this.targetLibrary.isFavorite;
+    return this.library && this.library.isFavorite;
   }
 
   toggleFavorite() {
@@ -90,22 +97,35 @@ export class LibraryFavoriteDirective implements OnChanges {
   }
 
   private async markFavoriteLibrary(library: LibraryEntity) {
-    this.targetLibrary = await this.getFavoriteSite(library);
+    if (!this.targetLibrary) {
+      this.targetLibrary = await this.getFavoriteSite(library);
+    } else {
+      this.targetLibrary = library;
+    }
   }
 
   private getFavoriteSite(library: LibraryEntity): Promise<FavoriteLibrary> {
     return this.alfrescoApiService.peopleApi
       .getFavoriteSite('-me-', library.entry.id)
       .then(() => {
-        return {
-          entry: { ...this.library.entry },
-          isFavorite: true
-        };
+        const libraryState = Object.assign(
+          {},
+          { ...this.library },
+          { isFavorite: true }
+        );
+
+        this.store.dispatch(new SetSelectedNodesAction([libraryState]));
+        return libraryState;
       })
-      .catch(() => ({
-        entry: { ...this.library.entry },
-        isFavorite: false
-      }));
+      .catch(() => {
+        const libraryState = Object.assign(
+          {},
+          { ...this.library },
+          { isFavorite: false }
+        );
+        this.store.dispatch(new SetSelectedNodesAction([libraryState]));
+        return libraryState;
+      });
   }
 
   private createFavoriteBody(library: LibraryEntity): FavoriteBody {
@@ -122,7 +142,15 @@ export class LibraryFavoriteDirective implements OnChanges {
     this.alfrescoApiService.peopleApi
       .addFavorite('-me-', favoriteBody)
       .then((libraryEntry: FavoriteEntry) => {
-        this.targetLibrary.isFavorite = true;
+        const libraryState = Object.assign(
+          {},
+          { ...this.library },
+          { isFavorite: true }
+        );
+
+        this.store.dispatch(new SetSelectedNodesAction([libraryState]));
+
+        this.targetLibrary = libraryState;
         this.toggle.emit(libraryEntry);
       })
       .catch(error => this.error.emit(error));
@@ -132,7 +160,13 @@ export class LibraryFavoriteDirective implements OnChanges {
     this.alfrescoApiService.peopleApi
       .removeFavoriteSite('-me-', favoriteId)
       .then((libraryBody: SiteBody) => {
-        this.targetLibrary.isFavorite = false;
+        const libraryState = Object.assign(
+          {},
+          { ...this.library },
+          { isFavorite: false }
+        );
+        this.store.dispatch(new SetSelectedNodesAction([libraryState]));
+        this.targetLibrary = libraryState;
         this.toggle.emit(libraryBody);
       })
       .catch(error => this.error.emit(error));
