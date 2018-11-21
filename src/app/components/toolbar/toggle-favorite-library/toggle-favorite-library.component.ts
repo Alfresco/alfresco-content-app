@@ -39,6 +39,11 @@ import { ContentManagementService } from '../../../services/content-management.s
       #favoriteLibrary="favoriteLibrary"
       (toggle)="onToggleEvent()"
       [acaFavoriteLibrary]="(selection$ | async).library"
+      [attr.title]="
+        favoriteLibrary.isFavorite()
+          ? ('APP.ACTIONS.REMOVE_FAVORITE' | translate)
+          : ('APP.ACTIONS.ADD_FAVORITE' | translate)
+      "
     >
       <mat-icon *ngIf="favoriteLibrary.isFavorite()">star</mat-icon>
       <mat-icon *ngIf="!favoriteLibrary.isFavorite()">star_border</mat-icon>
