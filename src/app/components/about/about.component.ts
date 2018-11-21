@@ -44,19 +44,7 @@ export class AboutComponent implements OnInit {
   license: ObjectDataTableAdapter;
   modules: ObjectDataTableAdapter;
   releaseVersion = version;
-
-  extensionColumns: string[] = [
-    '$id',
-    '$name',
-    '$version',
-    '$vendor',
-    '$license',
-    '$runtime',
-    '$description'
-  ];
   extensions$: Observable<ExtensionRef[]>;
-
-  dependencyColumns: string[] = ['name', 'version'];
   dependencyEntries: Array<{ name: string; version: string }> = [];
 
   constructor(

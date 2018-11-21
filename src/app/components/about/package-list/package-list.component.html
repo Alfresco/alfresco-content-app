@@ -1,0 +1,18 @@
+<mat-table [dataSource]="data">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef>{{
+      'APP.ABOUT.PACKAGES.NAME' | translate
+    }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="version">
+    <mat-header-cell *matHeaderCellDef>{{
+      'APP.ABOUT.PACKAGES.VERSION' | translate
+    }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.version }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="schema"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: schema"></mat-row>
+</mat-table>

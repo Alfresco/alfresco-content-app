@@ -23,34 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AboutComponent } from './about.component';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { AppLayoutModule } from '../layout/layout.module';
-import { MatTableModule } from '@angular/material';
-import { PackageListComponent } from './package-list/package-list.component';
-import { ExtensionListComponent } from './extension-list/extension-list.component';
+import {
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+  Input
+} from '@angular/core';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: AboutComponent,
-    data: {
-      title: 'APP.BROWSE.ABOUT.TITLE'
-    }
-  }
-];
-
-@NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    RouterModule.forChild(routes),
-    AppLayoutModule,
-    MatTableModule
-  ],
-  declarations: [AboutComponent, PackageListComponent, ExtensionListComponent]
+@Component({
+  selector: 'app-package-list',
+  templateUrl: './package-list.component.html',
+  styleUrls: ['./package-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AboutModule {}
+export class PackageListComponent {
+  @Input()
+  schema: string[] = ['name', 'version'];
+
+  @Input()
+  data: Array<{ name: string; version: string }> = [];
+}

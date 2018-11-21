@@ -1,0 +1,53 @@
+<mat-table [dataSource]="data">
+  <ng-container matColumnDef="$id">
+    <mat-header-cell *matHeaderCellDef
+      >{{ 'APP.ABOUT.PLUGINS.ID' | translate }}
+    </mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.$id }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="$name">
+    <mat-header-cell *matHeaderCellDef>{{
+      'APP.ABOUT.PLUGINS.NAME' | translate
+    }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.$name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="$version">
+    <mat-header-cell *matHeaderCellDef>{{
+      'APP.ABOUT.PLUGINS.VERSION' | translate
+    }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.$version }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="$vendor">
+    <mat-header-cell *matHeaderCellDef>{{
+      'APP.ABOUT.PLUGINS.VENDOR' | translate
+    }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.$vendor }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="$license">
+    <mat-header-cell *matHeaderCellDef>{{
+      'APP.ABOUT.PLUGINS.LICENSE' | translate
+    }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.$license }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="$runtime">
+    <mat-header-cell *matHeaderCellDef>{{
+      'APP.ABOUT.PLUGINS.RUNTIME' | translate
+    }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.$runtime }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="$description">
+    <mat-header-cell *matHeaderCellDef>{{
+      'APP.ABOUT.PLUGINS.DESCRIPTION' | translate
+    }}</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.$description }}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="schema"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: schema"></mat-row>
+</mat-table>
