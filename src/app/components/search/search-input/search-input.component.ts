@@ -143,6 +143,10 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  onMenuOpened() {
+    this.searchInputControl.searchInput.nativeElement.focus();
+  }
+
   /**
    * Called when the user submits the search, e.g. hits enter or clicks submit
    *
@@ -160,6 +164,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   onSearchChange(searchTerm: string) {
     this.has400LibraryError = false;
+    this.searchedWord = searchTerm;
+
     if (this.hasOneChange) {
       this.hasNewChange = true;
     } else {

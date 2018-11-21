@@ -11,6 +11,10 @@ $top-margin: 12px;
 
   .mat-form-field-label-wrapper {
     cursor: text;
+  }
+
+  // fixes pointer event on FF
+  &.searchMenuTrigger .mat-form-field-label-wrapper {
     pointer-events: auto;
   }
 
@@ -21,10 +25,6 @@ $top-margin: 12px;
     .mat-input-element {
       letter-spacing: -0.7px;
     }
-  }
-
-  .mat-focused .placeholder {
-    color: transparent;
   }
 
   .app-search-button.mat-icon-button {
@@ -47,5 +47,10 @@ $top-margin: 12px;
   .mat-icon {
     font-size: 24px;
     cursor: pointer;
+  }
+
+  .app-clear-icon {
+    font-size: 18px;
+    margin: 3px;
   }
 }

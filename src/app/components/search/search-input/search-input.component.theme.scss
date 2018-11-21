@@ -21,6 +21,10 @@ $top-margin: 12px;
         }
       }
     }
+
+    .mat-focused label.mat-form-field-label {
+      display: none;
+    }
   }
 
   .app-search-options-menu {
