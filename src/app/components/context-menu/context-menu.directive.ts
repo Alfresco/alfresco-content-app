@@ -23,20 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, HostListener, Input } from '@angular/core';
+import {
+  Directive,
+  HostListener,
+  Input,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { ContextMenuOverlayRef } from './context-menu-overlay';
 import { ContextMenuService } from './context-menu.service';
-import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { SetSelectedNodesAction } from '../../store/actions';
-import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
-import { DataRow } from '@alfresco/adf-core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { debounceTime } from 'rxjs/operators';
+import { Subject, fromEvent, Subscription } from 'rxjs';
 
 @Directive({
   selector: '[acaContextActions]'
 })
-export class ContextActionsDirective {
+export class ContextActionsDirective implements OnInit, OnDestroy {
+  private execute$: Subject<any> = new Subject();
+  private subscriptions: Subscription[] = [];
   private overlayRef: ContextMenuOverlayRef = null;
 
   // tslint:disable-next-line:no-input-rename
@@ -49,40 +53,44 @@ export class ContextActionsDirective {
       event.preventDefault();
 
       if (this.enabled) {
-        this.execute(event);
+        const target = this.getTarget(event);
+        if (target) {
+          this.execute(event, target);
+        }
       }
     }
   }
 
-  constructor(
-    private documentList: DocumentListComponent,
-    private store: Store<AppStore>,
-    private contextMenuService: ContextMenuService
-  ) {}
+  constructor(private contextMenuService: ContextMenuService) {}
 
-  private execute(event: MouseEvent) {
-    // todo: review this in ADF
-    const selected = this.getSelectedRow(event);
+  ngOnInit() {
+    this.subscriptions.push(
+      fromEvent(document.body, 'contextmenu').subscribe(() => {
+        if (this.overlayRef) {
+          this.overlayRef.close();
+        }
+      }),
 
-    if (selected) {
-      if (!this.isInSelection(selected)) {
-        this.clearSelection();
+      this.execute$.pipe(debounceTime(300)).subscribe((event: MouseEvent) => {
+        this.render(event);
+      })
+    );
+  }
 
-        this.documentList.dataTable.selectRow(selected, true);
-        this.documentList.selection.push((<any>selected).node);
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions = [];
+    this.execute$ = null;
+  }
 
-        this.updateSelection();
-      }
-
-      this.render(event);
+  execute(event: MouseEvent, target: Element) {
+    if (!this.isSelected(target)) {
+      target.dispatchEvent(new MouseEvent('click'));
     }
+    this.execute$.next(event);
   }
 
   private render(event: MouseEvent) {
-    if (this.overlayRef) {
-      this.overlayRef.close();
-    }
-
     this.overlayRef = this.contextMenuService.open({
       source: event,
       hasBackdrop: false,
@@ -91,46 +99,24 @@ export class ContextActionsDirective {
     });
   }
 
-  private updateSelection() {
-    this.store.dispatch(
-      new SetSelectedNodesAction(this.documentList.selection)
-    );
+  private getTarget(event: MouseEvent): Element {
+    return this.findAncestor(<Element>event.target, 'adf-datatable-table-cell');
   }
 
-  private isInSelection(row: DataRow): MinimalNodeEntity {
-    return this.documentList.selection.find(
-      selected => row.getValue('name') === selected.entry.name
-    );
-  }
-
-  private getSelectedRow(event): DataRow {
-    const rowElement = this.findAncestor(
-      <HTMLElement>event.target,
-      'adf-datatable-row'
-    );
-
-    if (!rowElement) {
-      return null;
+  private isSelected(target): boolean {
+    if (!target) {
+      return false;
     }
 
-    const rowName = rowElement
-      .querySelector('.adf-data-table-cell--text .adf-datatable-cell')
-      .textContent.trim();
-
-    return this.documentList.data
-      .getRows()
-      .find((row: DataRow) => row.getValue('name') === rowName);
-  }
-
-  private clearSelection() {
-    this.documentList.data.getRows().map((row: DataRow) => {
-      return this.documentList.dataTable.selectRow(row, false);
-    });
-
-    this.documentList.selection = [];
+    return this.findAncestor(target, 'adf-datatable-row').classList.contains(
+      'is-selected'
+    );
   }
 
   private findAncestor(el: Element, className: string): Element {
+    if (el.classList.contains(className)) {
+      return el;
+    }
     // tslint:disable-next-line:curly
     while ((el = el.parentElement) && !el.classList.contains(className));
     return el;
