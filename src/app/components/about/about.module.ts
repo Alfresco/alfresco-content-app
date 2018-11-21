@@ -34,6 +34,7 @@ import { PackageListComponent } from './package-list/package-list.component';
 import { ExtensionListComponent } from './extension-list/extension-list.component';
 import { StatusListComponent } from './status-list/status-list.component';
 import { ModuleListComponent } from './module-list/module-list.component';
+import { LicenseListComponent } from './license-list/license-list.component';
 
 const routes: Routes = [
   {
@@ -58,7 +59,8 @@ const routes: Routes = [
     PackageListComponent,
     ExtensionListComponent,
     StatusListComponent,
-    ModuleListComponent
+    ModuleListComponent,
+    LicenseListComponent
   ]
 })
 export class AboutModule {}

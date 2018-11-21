@@ -11,31 +11,32 @@
         <app-extension-list [data]="extensions$ | async"></app-extension-list>
       </article>
 
-      <article *ngIf="repository">
-        <header>Alfresco Content Services</header>
-        <p>
-          {{ 'APP.ABOUT.VERSION' | translate }} {{ repository.edition }}
-          {{ repository.version.display }}
-        </p>
-      </article>
+      <ng-container *ngIf="repository">
+        <article>
+          <header>Alfresco Content Services</header>
+          <p>
+            {{ 'APP.ABOUT.VERSION' | translate }} {{ repository.edition }}
+            {{ repository.version.display }}
+          </p>
+        </article>
 
-      <article *ngIf="license">
-        <header>{{ 'APP.ABOUT.LICENSE.TITLE' | translate }}</header>
-        <adf-datatable [data]="license"></adf-datatable>
-      </article>
+        <article *ngIf="licenseEntries">
+          <header>{{ 'APP.ABOUT.LICENSE.TITLE' | translate }}</header>
+          <app-license-list [data]="licenseEntries"></app-license-list>
+        </article>
 
-      <article>
-        <header>{{ 'APP.ABOUT.STATUS.TITLE' | translate }}</header>
-        <app-status-list [data]="statusEntries"></app-status-list>
-      </article>
+        <article *ngIf="statusEntries">
+          <header>{{ 'APP.ABOUT.STATUS.TITLE' | translate }}</header>
+          <app-status-list [data]="statusEntries"></app-status-list>
+        </article>
 
-      <article>
-        <header>{{ 'APP.ABOUT.MODULES.TITLE' | translate }}</header>
-        <app-module-list [data]="repository?.modules"></app-module-list>
-        <!-- <adf-datatable [data]="modules"></adf-datatable> -->
-      </article>
+        <article *ngIf="repository?.modules">
+          <header>{{ 'APP.ABOUT.MODULES.TITLE' | translate }}</header>
+          <app-module-list [data]="repository.modules"></app-module-list>
+        </article>
+      </ng-container>
 
-      <article>
+      <article *ngIf="dependencyEntries">
         <header>{{ 'APP.ABOUT.PACKAGES.TITLE' | translate }}</header>
         <app-package-list [data]="dependencyEntries"></app-package-list>
       </article>

@@ -34,7 +34,6 @@ import { ExtensionRef } from '@alfresco/adf-extensions';
 @Component({
   selector: 'app-extension-list',
   templateUrl: './extension-list.component.html',
-  styleUrls: ['./extension-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

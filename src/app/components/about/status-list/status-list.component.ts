@@ -30,7 +30,7 @@ import {
   Input
 } from '@angular/core';
 
-interface StatusData {
+export interface StatusData {
   property: string;
   value: string;
 }
@@ -38,7 +38,6 @@ interface StatusData {
 @Component({
   selector: 'app-status-list',
   templateUrl: './status-list.component.html',
-  styleUrls: ['./status-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })

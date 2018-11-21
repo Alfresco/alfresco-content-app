@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ObjectDataTableAdapter } from '@alfresco/adf-core';
 import { ExtensionRef } from '@alfresco/adf-extensions';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RepositoryInfo } from 'alfresco-js-api';
@@ -40,11 +39,11 @@ import { version, dependencies } from '../../../../package.json';
 })
 export class AboutComponent implements OnInit {
   repository: RepositoryInfo;
-  license: ObjectDataTableAdapter;
   releaseVersion = version;
   extensions$: Observable<ExtensionRef[]>;
-  dependencyEntries: Array<{ name: string; version: string }> = [];
-  statusEntries: Array<{ property: string; value: string }> = [];
+  dependencyEntries: Array<{ name: string; version: string }>;
+  statusEntries: Array<{ property: string; value: string }>;
+  licenseEntries: Array<{ property: string; value: string }>;
 
   constructor(
     private contentApi: ContentApiService,
@@ -66,6 +65,7 @@ export class AboutComponent implements OnInit {
       .pipe(map(node => node.entry.repository))
       .subscribe(repository => {
         this.repository = repository;
+
         this.statusEntries = Object.keys(repository.status).map(key => {
           return {
             property: key,
@@ -74,43 +74,12 @@ export class AboutComponent implements OnInit {
         });
 
         if (repository.license) {
-          this.license = new ObjectDataTableAdapter(
-            [repository.license],
-            [
-              {
-                type: 'date',
-                key: 'issuedAt',
-                title: 'Issued At',
-                sortable: true
-              },
-              {
-                type: 'date',
-                key: 'expiresAt',
-                title: 'Expires At',
-                sortable: true
-              },
-              {
-                type: 'text',
-                key: 'remainingDays',
-                title: 'Remaining Days',
-                sortable: true
-              },
-              { type: 'text', key: 'holder', title: 'Holder', sortable: true },
-              { type: 'text', key: 'mode', title: 'Type', sortable: true },
-              {
-                type: 'text',
-                key: 'isClusterEnabled',
-                title: 'Cluster Enabled',
-                sortable: true
-              },
-              {
-                type: 'text',
-                key: 'isCryptodocEnabled',
-                title: 'Cryptodoc Enable',
-                sortable: true
-              }
-            ]
-          );
+          this.licenseEntries = Object.keys(repository.license).map(key => {
+            return {
+              property: key,
+              value: repository.license[key]
+            };
+          });
         }
       });
   }

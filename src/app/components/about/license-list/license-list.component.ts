@@ -23,41 +23,40 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+export interface LicenseData {
+  property: string;
+  value: string;
+}
+
 import {
   Component,
   ViewEncapsulation,
   ChangeDetectionStrategy,
   Input
 } from '@angular/core';
-import { ModuleInfo } from 'alfresco-js-api';
 
 @Component({
-  selector: 'app-module-list',
-  templateUrl: './module-list.component.html',
+  selector: 'app-license-list',
+  templateUrl: './license-list.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ModuleListComponent {
+export class LicenseListComponent {
   columns = [
     {
-      columnDef: 'id',
-      header: 'ID',
-      cell: (row: ModuleInfo) => `${row.id}`
+      columnDef: 'property',
+      header: 'Property',
+      cell: (row: LicenseData) => `${row.property}`
     },
     {
-      columnDef: 'title',
-      header: 'Title',
-      cell: (row: ModuleInfo) => `${row.title}`
-    },
-    {
-      columnDef: 'version',
-      header: 'Version',
-      cell: (row: ModuleInfo) => `${row.version}`
+      columnDef: 'value',
+      header: 'Value',
+      cell: (row: LicenseData) => `${row.value}`
     }
   ];
 
   displayedColumns = this.columns.map(x => x.columnDef);
 
   @Input()
-  data: Array<ModuleInfo> = [];
+  data: Array<LicenseData> = [];
 }
