@@ -125,6 +125,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   private updateSelection() {
     const selection = this.documentList.selection.map(entry => {
       entry['isLibrary'] = this.isLibrary;
+      entry['isFavorite'] = false;
       return entry;
     });
 
