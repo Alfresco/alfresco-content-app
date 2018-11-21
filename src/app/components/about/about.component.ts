@@ -40,12 +40,12 @@ import { version, dependencies } from '../../../../package.json';
 })
 export class AboutComponent implements OnInit {
   repository: RepositoryInfo;
-  status: ObjectDataTableAdapter;
   license: ObjectDataTableAdapter;
   modules: ObjectDataTableAdapter;
   releaseVersion = version;
   extensions$: Observable<ExtensionRef[]>;
   dependencyEntries: Array<{ name: string; version: string }> = [];
+  statusEntries: Array<{ property: string; value: string }> = [];
 
   constructor(
     private contentApi: ContentApiService,
@@ -103,35 +103,12 @@ export class AboutComponent implements OnInit {
           }
         ]);
 
-        this.status = new ObjectDataTableAdapter(
-          [repository.status],
-          [
-            {
-              type: 'text',
-              key: 'isReadOnly',
-              title: 'Read Only',
-              sortable: true
-            },
-            {
-              type: 'text',
-              key: 'isAuditEnabled',
-              title: 'Audit Enable',
-              sortable: true
-            },
-            {
-              type: 'text',
-              key: 'isQuickShareEnabled',
-              title: 'Quick Shared Enable',
-              sortable: true
-            },
-            {
-              type: 'text',
-              key: 'isThumbnailGenerationEnabled',
-              title: 'Thumbnail Generation',
-              sortable: true
-            }
-          ]
-        );
+        this.statusEntries = Object.keys(repository.status).map(key => {
+          return {
+            property: key,
+            value: repository.status[key]
+          };
+        });
 
         if (repository.license) {
           this.license = new ObjectDataTableAdapter(

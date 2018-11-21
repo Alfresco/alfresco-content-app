@@ -23,40 +23,41 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AboutComponent } from './about.component';
-import { CommonModule } from '@angular/common';
-import { CoreModule } from '@alfresco/adf-core';
-import { AppLayoutModule } from '../layout/layout.module';
-import { MatTableModule } from '@angular/material';
-import { PackageListComponent } from './package-list/package-list.component';
-import { ExtensionListComponent } from './extension-list/extension-list.component';
-import { StatusListComponent } from './status-list/status-list.component';
+import {
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+  Input
+} from '@angular/core';
 
-const routes: Routes = [
-  {
-    path: '',
-    component: AboutComponent,
-    data: {
-      title: 'APP.BROWSE.ABOUT.TITLE'
-    }
-  }
-];
+interface StatusData {
+  property: string;
+  value: string;
+}
 
-@NgModule({
-  imports: [
-    CommonModule,
-    CoreModule.forChild(),
-    RouterModule.forChild(routes),
-    AppLayoutModule,
-    MatTableModule
-  ],
-  declarations: [
-    AboutComponent,
-    PackageListComponent,
-    ExtensionListComponent,
-    StatusListComponent
-  ]
+@Component({
+  selector: 'app-status-list',
+  templateUrl: './status-list.component.html',
+  styleUrls: ['./status-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AboutModule {}
+export class StatusListComponent {
+  columns = [
+    {
+      columnDef: 'property',
+      header: 'Property',
+      cell: (row: StatusData) => `${row.property}`
+    },
+    {
+      columnDef: 'value',
+      header: 'Value',
+      cell: (row: StatusData) => `${row.value}`
+    }
+  ];
+
+  displayedColumns = this.columns.map(x => x.columnDef);
+
+  @Input()
+  data: Array<StatusData> = [];
+}
