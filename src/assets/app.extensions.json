@@ -623,10 +623,19 @@
         "id": "app.context.menu.favorite",
         "comment": "workaround for Recent Files and Search API issue",
         "type": "custom",
-        "order": 501,
+        "order": 601,
         "component": "app.toolbar.toggleFavorite",
         "rules": {
           "visible": "app.toolbar.favorite.canToggle"
+        }
+      },
+      {
+        "id": "app.context.menu.libraries.toggleFavorite",
+        "type": "custom",
+        "order": 602,
+        "component": "app.toolbar.toggleFavoriteLibrary",
+        "rules": {
+          "visible": "app.libraries.toolbar"
         }
       },
       {
