@@ -13,13 +13,20 @@
           "DESCRIPTION": "Description"
         },
         "LICENSE": {
-          "TITLE": "License"
+          "TITLE": "License",
+          "PROPERTY": "Property",
+          "VALUE": "Value"
         },
         "STATUS": {
-          "TITLE": "Status"
+          "TITLE": "Status",
+          "PROPERTY": "Property",
+          "VALUE": "Value"
         },
         "MODULES": {
-          "TITLE": "Modules"
+          "TITLE": "Modules",
+          "ID": "ID",
+          "NAME": "Name",
+          "VERSION": "Version"
         },
         "PACKAGES": {
           "TITLE": "Packages",
