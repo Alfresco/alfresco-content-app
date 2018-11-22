@@ -1330,7 +1330,7 @@
         },
         {
           "id": "app.libraries.name",
-          "key": "name",
+          "key": "title",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
           "class": "adf-data-table-cell--ellipsis__name",
