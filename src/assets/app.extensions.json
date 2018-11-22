@@ -675,6 +675,18 @@
         }
       },
       {
+        "id": "app.toolbar.deleteLibrary",
+        "order": 901,
+        "title": "APP.ACTIONS.DELETE",
+        "icon": "delete",
+        "actions": {
+          "click": "DELETE_LIBRARY"
+        },
+        "rules": {
+          "visible": "app.libraries.toolbar"
+        }
+      },
+      {
         "id": "app.context.menu.versions",
         "title": "APP.ACTIONS.VERSIONS",
         "order": 1000,
