@@ -37,10 +37,6 @@ import { AlfrescoApiService } from '@alfresco/adf-core';
 interface LibraryEntity {
   entry: Site;
   isLibrary: boolean;
-}
-
-interface FavoriteLibrary {
-  entry: Site;
   isFavorite: boolean;
 }
 
@@ -55,7 +51,7 @@ export class LibraryFavoriteDirective implements OnChanges {
   @Output() toggle: EventEmitter<any> = new EventEmitter();
   @Output() error: EventEmitter<any> = new EventEmitter();
 
-  private targetLibrary: any = null;
+  private targetLibrary = null;
 
   @HostListener('click')
   onClick() {
@@ -66,9 +62,11 @@ export class LibraryFavoriteDirective implements OnChanges {
 
   ngOnChanges(changes) {
     if (!changes.library.currentValue) {
+      this.targetLibrary = null;
       return;
     }
 
+    this.targetLibrary = changes.library.currentValue;
     this.markFavoriteLibrary(changes.library.currentValue);
   }
 
@@ -77,10 +75,6 @@ export class LibraryFavoriteDirective implements OnChanges {
   }
 
   toggleFavorite() {
-    if (!this.targetLibrary) {
-      return;
-    }
-
     if (this.targetLibrary.isFavorite) {
       this.removeFavorite(this.targetLibrary.entry.guid);
     } else {
@@ -90,22 +84,18 @@ export class LibraryFavoriteDirective implements OnChanges {
   }
 
   private async markFavoriteLibrary(library: LibraryEntity) {
-    this.targetLibrary = await this.getFavoriteSite(library);
+    if (this.targetLibrary.isFavorite === undefined) {
+      await this.getFavoriteSite(library);
+    } else {
+      this.targetLibrary = library;
+    }
   }
 
-  private getFavoriteSite(library: LibraryEntity): Promise<FavoriteLibrary> {
-    return this.alfrescoApiService.peopleApi
+  private getFavoriteSite(library: LibraryEntity) {
+    this.alfrescoApiService.peopleApi
       .getFavoriteSite('-me-', library.entry.id)
-      .then(() => {
-        return {
-          entry: { ...this.library.entry },
-          isFavorite: true
-        };
-      })
-      .catch(() => ({
-        entry: { ...this.library.entry },
-        isFavorite: false
-      }));
+      .then(() => (this.targetLibrary.isFavorite = true))
+      .catch(() => (this.targetLibrary.isFavorite = false));
   }
 
   private createFavoriteBody(library: LibraryEntity): FavoriteBody {

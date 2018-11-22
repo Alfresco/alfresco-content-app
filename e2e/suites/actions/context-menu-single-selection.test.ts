@@ -126,10 +126,10 @@ describe('Context menu actions - single selection : ', () => {
       expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed');
     });
 
-    it('Context menu does not appear for a library - [C286276]', async () => {
+    it('Context menu appears for a library - [C286276]', async () => {
       await page.clickFileLibrariesAndWait();
       await dataTable.rightClickOnItem(siteName);
-      expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed for a site');
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is displayed for a site');
     });
   });
 
