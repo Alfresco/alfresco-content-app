@@ -6,6 +6,7 @@
     "sharedlinks",
     "Redistributable",
     "fullscreen",
+    "LGPL",
 
     "ngrx",
     "ngstack",
