@@ -30,6 +30,8 @@ import { appSelection } from '../../../store/selectors/app.selectors';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
 import { ContentManagementService } from '../../../services/content-management.service';
+import { distinctUntilChanged, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-toggle-favorite-library',
@@ -58,11 +60,26 @@ export class ToggleFavoriteLibraryComponent implements OnInit {
 
   constructor(
     private store: Store<AppStore>,
-    private content: ContentManagementService
+    private content: ContentManagementService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.selection$ = this.store.select(appSelection);
+    const isFavoriteLibraries = this.router.url.startsWith(
+      '/favorite/libraries'
+    );
+
+    this.selection$ = this.store.select(appSelection).pipe(
+      distinctUntilChanged(),
+      map(selection => {
+        // favorite libraries list should already be marked as favorite
+        if (selection.library && isFavoriteLibraries) {
+          (<any>selection.library).isFavorite = true;
+          return selection;
+        }
+        return selection;
+      })
+    );
   }
 
   onToggleEvent() {
