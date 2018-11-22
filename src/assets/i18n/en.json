@@ -23,7 +23,7 @@
           "VALUE": "Value"
         },
         "MODULES": {
-          "TITLE": "Modules",
+          "TITLE": "Alfresco platform modules",
           "ID": "ID",
           "NAME": "Name",
           "VERSION": "Version"
