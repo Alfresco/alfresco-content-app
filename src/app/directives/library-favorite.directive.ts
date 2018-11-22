@@ -33,18 +33,10 @@ import {
 } from '@angular/core';
 import { SiteBody, FavoriteBody, FavoriteEntry, Site } from 'alfresco-js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
-import { AppStore } from '../store/states';
-import { Store } from '@ngrx/store';
-import { SetSelectedNodesAction } from '../store/actions';
 
 interface LibraryEntity {
   entry: Site;
   isLibrary: boolean;
-  isFavorite: boolean;
-}
-
-interface FavoriteLibrary {
-  entry: Site;
   isFavorite: boolean;
 }
 
@@ -59,35 +51,30 @@ export class LibraryFavoriteDirective implements OnChanges {
   @Output() toggle: EventEmitter<any> = new EventEmitter();
   @Output() error: EventEmitter<any> = new EventEmitter();
 
-  private targetLibrary: any = null;
+  private targetLibrary = null;
 
   @HostListener('click')
   onClick() {
     this.toggleFavorite();
   }
 
-  constructor(
-    private store: Store<AppStore>,
-    private alfrescoApiService: AlfrescoApiService
-  ) {}
+  constructor(private alfrescoApiService: AlfrescoApiService) {}
 
   ngOnChanges(changes) {
     if (!changes.library.currentValue) {
+      this.targetLibrary = null;
       return;
     }
 
+    this.targetLibrary = changes.library.currentValue;
     this.markFavoriteLibrary(changes.library.currentValue);
   }
 
   isFavorite() {
-    return this.library && this.library.isFavorite;
+    return this.targetLibrary && this.targetLibrary.isFavorite;
   }
 
   toggleFavorite() {
-    if (!this.targetLibrary) {
-      return;
-    }
-
     if (this.targetLibrary.isFavorite) {
       this.removeFavorite(this.targetLibrary.entry.guid);
     } else {
@@ -97,35 +84,18 @@ export class LibraryFavoriteDirective implements OnChanges {
   }
 
   private async markFavoriteLibrary(library: LibraryEntity) {
-    if (!this.targetLibrary) {
-      this.targetLibrary = await this.getFavoriteSite(library);
+    if (this.targetLibrary.isFavorite === undefined) {
+      await this.getFavoriteSite(library);
     } else {
       this.targetLibrary = library;
     }
   }
 
-  private getFavoriteSite(library: LibraryEntity): Promise<FavoriteLibrary> {
-    return this.alfrescoApiService.peopleApi
+  private getFavoriteSite(library: LibraryEntity) {
+    this.alfrescoApiService.peopleApi
       .getFavoriteSite('-me-', library.entry.id)
-      .then(() => {
-        const libraryState = Object.assign(
-          {},
-          { ...this.library },
-          { isFavorite: true }
-        );
-
-        this.store.dispatch(new SetSelectedNodesAction([libraryState]));
-        return libraryState;
-      })
-      .catch(() => {
-        const libraryState = Object.assign(
-          {},
-          { ...this.library },
-          { isFavorite: false }
-        );
-        this.store.dispatch(new SetSelectedNodesAction([libraryState]));
-        return libraryState;
-      });
+      .then(() => (this.targetLibrary.isFavorite = true))
+      .catch(() => (this.targetLibrary.isFavorite = false));
   }
 
   private createFavoriteBody(library: LibraryEntity): FavoriteBody {
@@ -142,15 +112,7 @@ export class LibraryFavoriteDirective implements OnChanges {
     this.alfrescoApiService.peopleApi
       .addFavorite('-me-', favoriteBody)
       .then((libraryEntry: FavoriteEntry) => {
-        const libraryState = Object.assign(
-          {},
-          { ...this.library },
-          { isFavorite: true }
-        );
-
-        this.store.dispatch(new SetSelectedNodesAction([libraryState]));
-
-        this.targetLibrary = libraryState;
+        this.targetLibrary.isFavorite = true;
         this.toggle.emit(libraryEntry);
       })
       .catch(error => this.error.emit(error));
@@ -160,13 +122,7 @@ export class LibraryFavoriteDirective implements OnChanges {
     this.alfrescoApiService.peopleApi
       .removeFavoriteSite('-me-', favoriteId)
       .then((libraryBody: SiteBody) => {
-        const libraryState = Object.assign(
-          {},
-          { ...this.library },
-          { isFavorite: false }
-        );
-        this.store.dispatch(new SetSelectedNodesAction([libraryState]));
-        this.targetLibrary = libraryState;
+        this.targetLibrary.isFavorite = false;
         this.toggle.emit(libraryBody);
       })
       .catch(error => this.error.emit(error));
