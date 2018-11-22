@@ -639,6 +639,15 @@
         }
       },
       {
+        "id": "app.context.menu.joinLibrary",
+        "type": "custom",
+        "order": 603,
+        "component": "app.toolbar.toggleJoinLibrary",
+        "rules": {
+          "visible": "app.libraries.toolbar.canToggleJoin"
+        }
+      },
+      {
         "id": "app.context.menu.copy",
         "title": "APP.ACTIONS.COPY",
         "order": 700,
