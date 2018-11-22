@@ -397,7 +397,7 @@
 
     "SEARCH": {
         "INPUT": {
-          "PLACEHOLDER": "Search everywhere",
+          "PLACEHOLDER": "Search",
           "FILES": "Files",
           "FOLDERS": "Folders",
           "LIBRARIES": "Libraries",

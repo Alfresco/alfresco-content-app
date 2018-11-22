@@ -1,16 +1,17 @@
-<div class="app-search-container" [matMenuTriggerFor]="searchOptionsMenu">
+<div class="app-search-container searchMenuTrigger" [matMenuTriggerFor]="searchOptionsMenu"
+     (menuOpened)="onMenuOpened()">
     <button mat-icon-button
             class="app-search-button"
             [title]="'SEARCH.BUTTON.TOOLTIP' | translate">
         <mat-icon [attr.aria-label]="'SEARCH.BUTTON.ARIA-LABEL' | translate">search</mat-icon>
     </button>
-    <mat-form-field class="app-input-form-field">
+    <mat-form-field class="app-input-form-field" [floatLabel]="'never'">
         <input matInput
                [attr.aria-label]="'SEARCH.INPUT.ARIA-LABEL' | translate"
                [type]="'text'"
                [disabled]="true"
-               [value]="searchedWord">
-        <mat-placeholder class="placeholder" *ngIf="!searchedWord.length">{{ 'SEARCH.INPUT.PLACEHOLDER' | translate }}</mat-placeholder>
+               [value]="searchedWord"
+               [placeholder]="'SEARCH.INPUT.PLACEHOLDER' | translate">
 
         <div matSuffix class="app-suffix-search-icon-wrapper">
             <mat-icon>arrow_drop_down</mat-icon>
