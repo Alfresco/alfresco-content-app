@@ -25,6 +25,7 @@
                 [navigate]="false"
                 [sorting]="[ 'title', 'asc' ]"
                 (node-dblclick)="navigateTo($event.detail?.node)"
+                [imageResolver]="imageResolver"
                 (name-click)="navigateTo($event.detail?.node)">
 
                 <empty-folder-content>

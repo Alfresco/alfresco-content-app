@@ -15,6 +15,10 @@
     overflow-y: scroll;
   }
 
+  .custom-image-cell img {
+    filter: invert(0.3);
+  }
+
   .adf-data-table {
     border: none !important;
 
