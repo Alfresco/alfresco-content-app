@@ -220,6 +220,10 @@ export class ContentApiService {
     return from(this.api.sitesApi.deleteSite(siteId, opts));
   }
 
+  leaveSite(siteId?: string): Observable<any> {
+    return from(this.api.sitesApi.removeSiteMember(siteId, '-me-'));
+  }
+
   createSite(
     siteBody: SiteBody,
     opts?: {

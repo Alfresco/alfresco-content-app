@@ -83,6 +83,7 @@ export class ContentManagementService {
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
   libraryJoined = new Subject<string>();
+  libraryLeft = new Subject<string>();
   library400Error = new Subject<any>();
   joinLibraryToggle = new Subject<string>();
   linksUnshared = new Subject<any>();
@@ -299,6 +300,38 @@ export class ContentManagementService {
         );
       }
     );
+  }
+
+  leaveLibrary(siteId: string): void {
+    const dialogRef = this.dialogRef.open(ConfirmDialogComponent, {
+      data: {
+        title: 'APP.DIALOGS.CONFIRM_LEAVE.TITLE',
+        message: 'APP.DIALOGS.CONFIRM_LEAVE.MESSAGE',
+        yesLabel: 'APP.DIALOGS.CONFIRM_LEAVE.YES_LABEL',
+        noLabel: 'APP.DIALOGS.CONFIRM_LEAVE.NO_LABEL'
+      },
+      minWidth: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.contentApi.leaveSite(siteId).subscribe(
+          () => {
+            this.libraryLeft.next(siteId);
+            this.store.dispatch(
+              new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY')
+            );
+          },
+          () => {
+            this.store.dispatch(
+              new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED'
+              )
+            );
+          }
+        );
+      }
+    });
   }
 
   updateLibrary(siteId: string, siteBody: SiteBody) {

@@ -123,6 +123,14 @@
       ]
     },
     {
+      "id": "app.libraries.toolbar.canLeaveLibrary",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.library" },
+        { "type": "rule", "value": "app.selection.hasLibraryRole" }
+      ]
+    },
+    {
       "id": "app.toolbar.canCopyNode",
       "type": "core.every",
       "parameters": [
@@ -418,6 +426,18 @@
         }
       },
       {
+        "id": "app.toolbar.leaveLibrary",
+        "order": 705,
+        "title": "APP.ACTIONS.LEAVE",
+        "icon": "not_interested",
+        "actions": {
+          "click": "LEAVE_LIBRARY"
+        },
+        "rules": {
+          "visible": "app.libraries.toolbar.canLeaveLibrary"
+        }
+      },
+      {
         "id": "app.toolbar.more",
         "type": "menu",
         "order": 10000,
@@ -647,6 +667,18 @@
         "component": "app.toolbar.toggleJoinLibrary",
         "rules": {
           "visible": "app.libraries.toolbar.canToggleJoin"
+        }
+      },
+      {
+        "id": "app.context.leaveLibrary",
+        "order": 703,
+        "title": "APP.ACTIONS.LEAVE",
+        "icon": "not_interested",
+        "actions": {
+          "click": "LEAVE_LIBRARY"
+        },
+        "rules": {
+          "visible": "app.libraries.toolbar.canLeaveLibrary"
         }
       },
       {
