@@ -318,8 +318,6 @@ export class ContentManagementService {
         this.contentApi.leaveSite(siteId).subscribe(
           () => {
             this.libraryLeft.next(siteId);
-            // this.store.dispatch(new SetSelectedNodesAction([{ entry: <any>site }]));
-
             this.store.dispatch(
               new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY')
             );
