@@ -303,21 +303,36 @@ export class ContentManagementService {
   }
 
   leaveLibrary(siteId: string): void {
-    this.contentApi.leaveSite(siteId).subscribe(
-      () => {
-        this.libraryLeft.next(siteId);
-        // this.store.dispatch(new SetSelectedNodesAction([{ entry: <any>site }]));
-
-        this.store.dispatch(
-          new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY')
-        );
+    const dialogRef = this.dialogRef.open(ConfirmDialogComponent, {
+      data: {
+        title: 'APP.DIALOGS.CONFIRM_LEAVE.TITLE',
+        message: 'APP.DIALOGS.CONFIRM_LEAVE.MESSAGE',
+        yesLabel: 'APP.DIALOGS.CONFIRM_LEAVE.YES_LABEL',
+        noLabel: 'APP.DIALOGS.CONFIRM_LEAVE.NO_LABEL'
       },
-      () => {
-        this.store.dispatch(
-          new SnackbarErrorAction('APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED')
+      minWidth: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.contentApi.leaveSite(siteId).subscribe(
+          () => {
+            this.libraryLeft.next(siteId);
+            // this.store.dispatch(new SetSelectedNodesAction([{ entry: <any>site }]));
+
+            this.store.dispatch(
+              new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY')
+            );
+          },
+          () => {
+            this.store.dispatch(
+              new SnackbarErrorAction('APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED')
+            );
+          }
+
         );
       }
-    );
+    });
   }
 
   updateLibrary(siteId: string, siteBody: SiteBody) {

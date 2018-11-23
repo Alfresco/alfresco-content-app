@@ -209,6 +209,12 @@
                 "MESSAGE": "This will permanently remove the selected item(s).",
                 "YES_LABEL": "Delete",
                 "NO_LABEL": "Keep"
+            },
+            "CONFIRM_LEAVE": {
+                "TITLE": "Leave this library?",
+                "MESSAGE": "This will remove you as a member of this library.",
+                "YES_LABEL": "OK",
+                "NO_LABEL": "Cancel"
             }
         },
         "DOCUMENT_LIST": {
