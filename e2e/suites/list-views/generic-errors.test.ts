@@ -72,14 +72,14 @@ describe('Generic errors', () => {
     await browser.get(URL);
 
     expect(await page.isGenericErrorDisplayed()).toBe(true, 'Generic error page not displayed');
-    expect(await page.getGenericErrorTitle()).toContain(`This file or folder no longer exists or you don't have permission to view it.`);
+    expect(await page.getGenericErrorTitle()).toContain(`This item no longer exists or you don't have permission to view it.`);
   });
 
   it('Invalid URL - [C217315]', async () => {
     await page.load('/invalid page');
 
     expect(await page.isGenericErrorDisplayed()).toBe(true, 'Generic error page not displayed');
-    expect(await page.getGenericErrorTitle()).toContain(`This file or folder no longer exists or you don't have permission to view it.`);
+    expect(await page.getGenericErrorTitle()).toContain(`This item no longer exists or you don't have permission to view it.`);
 
   });
 
@@ -92,7 +92,7 @@ describe('Generic errors', () => {
     await browser.get(URL);
 
     expect(await page.isGenericErrorDisplayed()).toBe(true, 'Generic error page not displayed');
-    expect(await page.getGenericErrorTitle()).toContain(`This file or folder no longer exists or you don't have permission to view it.`);
+    expect(await page.getGenericErrorTitle()).toContain(`This item no longer exists or you don't have permission to view it.`);
 
     await loginPage.loginWith(username);
   });
