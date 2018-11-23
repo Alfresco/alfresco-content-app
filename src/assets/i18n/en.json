@@ -200,7 +200,7 @@
             "PRINT": "Print",
             "FULLSCREEN": "Activate full-screen mode",
             "JOIN": "Join",
-            "CANCEL_JOIN": "Cancel join request"
+            "CANCEL_JOIN": "Cancel join"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {

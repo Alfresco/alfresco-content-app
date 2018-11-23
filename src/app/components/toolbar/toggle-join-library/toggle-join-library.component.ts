@@ -39,8 +39,7 @@ import {
   selector: 'app-toggle-join-library',
   template: `
     <button
-      mat-icon-button
-      [color]="'primary'"
+      mat-menu-item
       #membership="libraryMembership"
       (toggle)="onToggleEvent($event)"
       (error)="onErrorEvent($event)"
@@ -57,8 +56,29 @@ import {
         svgIcon="join_library"
         style="pointer-events: none;"
       ></mat-icon>
+      <span class="sideLabel">{{
+        (membership.isJoinRequested | async)
+          ? ('APP.ACTIONS.CANCEL_JOIN' | translate)
+          : ('APP.ACTIONS.JOIN' | translate)
+      }}</span>
     </button>
   `,
+  styles: [
+    `
+      aca-toolbar-action .app-toggle-join-library .sideLabel {
+        display: none;
+      }
+
+      aca-toolbar-action .app-toggle-join-library .mat-menu-item mat-icon {
+        padding: 0;
+        margin: 0;
+      }
+
+      .adf-toolbar .app-toggle-join-library .mat-menu-item:hover {
+        background: none;
+      }
+    `
+  ],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-join-library' }
 })
