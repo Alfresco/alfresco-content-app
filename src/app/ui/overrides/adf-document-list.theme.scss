@@ -16,7 +16,8 @@
   }
 
   .custom-image-cell img {
-    filter: invert(0.3);
+    filter: invert(91%) sepia(25%) saturate(1431%) hue-rotate(6deg)
+      brightness(101%) contrast(82%);
   }
 
   .adf-data-table {
