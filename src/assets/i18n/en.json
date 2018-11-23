@@ -3,7 +3,7 @@
       "ABOUT": {
         "VERSION": "Version:",
         "PLUGINS": {
-          "TITLE": "Plugins",
+          "TITLE": "Extensions",
           "ID": "ID",
           "NAME": "Name",
           "VERSION": "Version",
@@ -23,7 +23,7 @@
           "VALUE": "Value"
         },
         "MODULES": {
-          "TITLE": "Modules",
+          "TITLE": "Alfresco platform modules",
           "ID": "ID",
           "NAME": "Name",
           "VERSION": "Version"

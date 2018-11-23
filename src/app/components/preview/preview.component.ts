@@ -23,7 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation,
+  HostListener
+} from '@angular/core';
 import {
   ActivatedRoute,
   Router,
@@ -150,6 +156,18 @@ export class PreviewComponent extends PageComponent
           this.router.navigate([this.previewLocation, id]);
         }
       }
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    const key = event.keyCode;
+    const rightArrow = 39;
+    const leftArrow = 37;
+
+    if (key === rightArrow || key === leftArrow) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
     }
   }
 

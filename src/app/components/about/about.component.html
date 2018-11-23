@@ -6,10 +6,12 @@
         <p>{{ 'APP.ABOUT.VERSION' | translate }} {{ releaseVersion }}</p>
       </article>
 
-      <article>
-        <header>{{ 'APP.ABOUT.PLUGINS.TITLE' | translate }}</header>
-        <app-extension-list [data]="extensions$ | async"></app-extension-list>
-      </article>
+      <ng-container *ngIf="(extensions$ | async) as extensions">
+        <article *ngIf="extensions.length > 0">
+          <header>{{ 'APP.ABOUT.PLUGINS.TITLE' | translate }}</header>
+          <app-extension-list [data]="extensions"></app-extension-list>
+        </article>
+      </ng-container>
 
       <ng-container *ngIf="repository">
         <article>
