@@ -41,10 +41,10 @@ import { ContentApiService } from '../../services/content-api.service';
 import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { ContentManagementService } from '../../services/content-management.service';
 import { EffectsModule } from '@ngrx/effects';
-import { LibraryEffects } from '../../store/effects';
+import { LibraryEffects, RouterEffects } from '../../store/effects';
 import { of } from 'rxjs';
 
-describe('LibrariesComponent', () => {
+describe('FavoriteLibrariesComponent', () => {
   let fixture: ComponentFixture<FavoriteLibrariesComponent>;
   let component: FavoriteLibrariesComponent;
   let alfrescoApi: AlfrescoApiService;
@@ -64,7 +64,10 @@ describe('LibrariesComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects])],
+      imports: [
+        AppTestingModule,
+        EffectsModule.forRoot([RouterEffects, LibraryEffects])
+      ],
       declarations: [
         DataTableComponent,
         TimeAgoPipe,
