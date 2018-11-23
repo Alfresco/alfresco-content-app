@@ -36,15 +36,16 @@ import {
   UpdateLibraryAction,
   UPDATE_LIBRARY,
   LeaveLibraryAction,
-  LEAVE_LIBRARY
+  LEAVE_LIBRARY,
+  NavigateRouteAction
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
 import { ContentApiService } from '../../services/content-api.service';
-import { Router } from '@angular/router';
 import { SiteBody } from 'alfresco-js-api-node';
+import { SnackbarErrorAction } from '../actions/snackbar.actions';
 
 @Injectable()
 export class LibraryEffects {
@@ -52,8 +53,7 @@ export class LibraryEffects {
     private store: Store<AppStore>,
     private actions$: Actions,
     private content: ContentManagementService,
-    private contentApi: ContentApiService,
-    private router: Router
+    private contentApi: ContentApiService
   ) {}
 
   @Effect({ dispatch: false })
@@ -109,10 +109,17 @@ export class LibraryEffects {
       if (libraryId) {
         this.contentApi
           .getNode(libraryId, { relativePath: '/documentLibrary' })
-          .pipe(map(node => node.entry))
-          .subscribe(documentLibrary => {
-            this.router.navigate(['libraries', documentLibrary.id]);
-          });
+          .pipe(map(node => node.entry.id))
+          .subscribe(
+            id => {
+              this.store.dispatch(new NavigateRouteAction(['libraries', id]));
+            },
+            () => {
+              this.store.dispatch(
+                new SnackbarErrorAction('APP.MESSAGES.ERRORS.MISSING_CONTENT')
+              );
+            }
+          );
       }
     })
   );
