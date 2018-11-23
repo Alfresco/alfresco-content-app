@@ -63,6 +63,7 @@ export class FavoriteLibrariesComponent extends PageComponent
       this.content.libraryDeleted.subscribe(() => this.reloadList()),
       this.content.libraryUpdated.subscribe(() => this.reloadList()),
       this.content.libraryJoined.subscribe(() => this.reloadList()),
+      this.content.libraryLeft.subscribe(() => this.reloadList()),
       this.content.favoriteLibraryToggle.subscribe(() => this.reloadList()),
 
       this.breakpointObserver

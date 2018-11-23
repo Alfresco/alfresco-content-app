@@ -79,6 +79,9 @@ export class SearchLibrariesResultsComponent extends PageComponent
       this.content.libraryDeleted.subscribe(() =>
         this.librariesQueryBuilder.update()
       ),
+      this.content.libraryLeft.subscribe(() =>
+        this.librariesQueryBuilder.update()
+      ),
 
       this.librariesQueryBuilder.updated.subscribe(() => {
         this.isLoading = true;

@@ -200,7 +200,8 @@
             "PRINT": "Print",
             "FULLSCREEN": "Activate full-screen mode",
             "JOIN": "Join",
-            "CANCEL_JOIN": "Cancel join"
+            "CANCEL_JOIN": "Cancel join",
+            "LEAVE": "Leave library"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -267,7 +268,8 @@
                 },
                 "DELETE_LIBRARY_FAILED": "Cannot delete the library",
                 "JOIN_REQUEST_FAILED": "Cannot join the library",
-                "JOIN_CANCEL_FAILED": "Cannot cancel the request to join the library"
+                "JOIN_CANCEL_FAILED": "Cannot cancel the request to join the library",
+                "LEAVE_LIBRARY_FAILED": "Cannot leave this library"
             },
             "UPLOAD": {
                 "ERROR": {
@@ -315,7 +317,8 @@
                 "LIBRARY_DELETED": "Library deleted",
                 "JOINED": "Library joined",
                 "JOIN_REQUESTED": "Join library request sent",
-                "JOIN_CANCELED": "Canceled the request to join the library"
+                "JOIN_CANCELED": "Canceled the request to join the library",
+                "LEFT_LIBRARY": "You have left the library"
             }
         },
         "CONTENT_METADATA": {

@@ -83,6 +83,7 @@ export class ContentManagementService {
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
   libraryJoined = new Subject<string>();
+  libraryLeft = new Subject<string>();
   library400Error = new Subject<any>();
   joinLibraryToggle = new Subject<string>();
   linksUnshared = new Subject<any>();
@@ -296,6 +297,24 @@ export class ContentManagementService {
       () => {
         this.store.dispatch(
           new SnackbarErrorAction('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED')
+        );
+      }
+    );
+  }
+
+  leaveLibrary(siteId: string): void {
+    this.contentApi.leaveSite(siteId).subscribe(
+      () => {
+        this.libraryLeft.next(siteId);
+        // this.store.dispatch(new SetSelectedNodesAction([{ entry: <any>site }]));
+
+        this.store.dispatch(
+          new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY')
+        );
+      },
+      () => {
+        this.store.dispatch(
+          new SnackbarErrorAction('APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED')
         );
       }
     );

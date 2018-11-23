@@ -34,7 +34,9 @@ import {
   NavigateLibraryAction,
   NAVIGATE_LIBRARY,
   UpdateLibraryAction,
-  UPDATE_LIBRARY
+  UPDATE_LIBRARY,
+  LeaveLibraryAction,
+  LEAVE_LIBRARY
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
@@ -67,6 +69,25 @@ export class LibraryEffects {
           .subscribe(selection => {
             if (selection && selection.library) {
               this.content.deleteLibrary(selection.library.entry.id);
+            }
+          });
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  leaveLibrary$ = this.actions$.pipe(
+    ofType<LeaveLibraryAction>(LEAVE_LIBRARY),
+    map(action => {
+      if (action.payload) {
+        this.content.leaveLibrary(action.payload);
+      } else {
+        this.store
+          .select(appSelection)
+          .pipe(take(1))
+          .subscribe(selection => {
+            if (selection && selection.library) {
+              this.content.leaveLibrary(selection.library.entry.id);
             }
           });
       }
