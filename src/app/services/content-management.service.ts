@@ -326,10 +326,11 @@ export class ContentManagementService {
           },
           () => {
             this.store.dispatch(
-              new SnackbarErrorAction('APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED')
+              new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED'
+              )
             );
           }
-
         );
       }
     });
