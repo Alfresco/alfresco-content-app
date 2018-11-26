@@ -77,7 +77,7 @@ describe('Empty list views', () => {
     await page.clickRecentFiles();
     expect(await dataTable.isEmptyList()).toBe(true, 'list is not empty');
     expect(await dataTable.getEmptyStateTitle()).toContain('No recent files');
-    expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you upload or edit in the last 30 days are shown here.');
+    expect(await dataTable.getEmptyStateSubtitle()).toContain('Items you uploaded or edited in the last 30 days are shown here.');
   });
 
   it('empty Favorites - [C280133]', async () => {

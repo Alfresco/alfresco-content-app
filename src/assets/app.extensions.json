@@ -1071,7 +1071,7 @@
           "id": "app.libraries.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "image-table-cell custom-image-cell",
+          "class": "image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -1109,7 +1109,7 @@
           "id": "app.favorite.libraries.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "image-table-cell custom-image-cell",
+          "class": "image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },

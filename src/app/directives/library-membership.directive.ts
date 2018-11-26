@@ -84,6 +84,7 @@ export class LibraryMembershipDirective implements OnChanges {
           this.targetSite.joinRequested = false;
           this.isJoinRequested.next(false);
           const info = {
+            updatedEntry: this.targetSite,
             shouldReload: false,
             i18nKey: 'APP.MESSAGES.INFO.JOIN_CANCELED'
           };
@@ -117,6 +118,7 @@ export class LibraryMembershipDirective implements OnChanges {
             this.toggle.emit(info);
           } else {
             const info = {
+              updatedEntry: this.targetSite,
               shouldReload: false,
               i18nKey: 'APP.MESSAGES.INFO.JOIN_REQUESTED'
             };
