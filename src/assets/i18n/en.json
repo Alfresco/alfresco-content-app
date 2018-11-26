@@ -168,6 +168,7 @@
                     "LOCATION": "Location",
                     "SIZE": "Size"
                 },
+                "UNKNOWN_LOCATION": "Unknown",
                 "NO_RESULTS": "Your search returned 0 results"
             },
             "SEARCH_LIBRARIES": {
@@ -250,6 +251,7 @@
         },
         "MESSAGES": {
             "ERRORS":{
+              "CANNOT_NAVIGATE_LOCATION": "Cannot navigate location",
                 "MISSING_CONTENT": "This item no longer exists or you don't have permission to view it.",
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
