@@ -87,7 +87,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   }
 
   static isLibrary(entry) {
-    return isLibrary(entry);
+    return isLibrary(entry) || entry.nodeType === 'st:site';
   }
 
   constructor(
