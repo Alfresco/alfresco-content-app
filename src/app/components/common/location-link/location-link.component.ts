@@ -43,7 +43,7 @@ import { ContentApiService } from '../../../services/content-api.service';
   selector: 'aca-location-link',
   template: `
     <a href="" [title]="nodeLocation$ | async" (click)="goToLocation()">
-      {{ displayText | async }}
+      {{ displayText | async | translate }}
     </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,7 +53,7 @@ import { ContentApiService } from '../../../services/content-api.service';
 export class LocationLinkComponent implements OnInit {
   private _path: PathInfo;
 
-  nodeLocation$ = new BehaviorSubject(null);
+  nodeLocation$ = new BehaviorSubject('');
 
   @Input()
   context: any;
@@ -93,6 +93,8 @@ export class LocationLinkComponent implements OnInit {
         if (path && path.name && path.elements) {
           this.displayText = this.getDisplayText(path);
           this._path = path;
+        } else {
+          this.displayText = of('APP.BROWSE.SEARCH.UNKNOWN_LOCATION');
         }
       }
     }
@@ -142,6 +144,10 @@ export class LocationLinkComponent implements OnInit {
 
   // todo: review once 5.2.3 is out
   private getTooltip(path: PathInfo) {
+    if (!path) {
+      return;
+    }
+
     let result: string = null;
 
     const elements = path.elements.map(e => Object.assign({}, e));

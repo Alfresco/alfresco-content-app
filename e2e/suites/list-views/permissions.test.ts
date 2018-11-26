@@ -131,19 +131,19 @@ describe('Special permissions', () => {
     it(`on Recent Files - [C213178]`, async () => {
       await page.clickRecentFilesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
-      expect(await dataTable.getItemLocation(fileName)).toEqual('');
+      expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 
     it(`on Favorites - [C213672]`, async () => {
       await page.clickFavoritesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
-      expect(await dataTable.getItemLocation(fileName)).toEqual('');
+      expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
 
     it(`on Shared Files - [C213668]`, async () => {
       await page.clickSharedFilesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
-      expect(await dataTable.getItemLocation(fileName)).toEqual('');
+      expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
   });
 });
