@@ -30,11 +30,7 @@ import {
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import {
-  MinimalNodeEntity,
-  MinimalNodeEntryEntity,
-  Site
-} from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '../extensions/extension.service';
@@ -48,16 +44,6 @@ import {
   sharedUrl
 } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
-
-function isLibrary(arg: any): arg is Site {
-  return (
-    arg.guid !== undefined &&
-    arg.id !== undefined &&
-    arg.preset !== undefined &&
-    arg.title !== undefined &&
-    arg.visibility !== undefined
-  );
-}
 
 export abstract class PageComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
@@ -87,7 +73,14 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   }
 
   static isLibrary(entry) {
-    return isLibrary(entry) || entry.nodeType === 'st:site';
+    return (
+      (entry.guid &&
+        entry.id &&
+        entry.preset &&
+        entry.title &&
+        entry.visibility) ||
+      entry.nodeType === 'st:site'
+    );
   }
 
   constructor(
