@@ -34,6 +34,7 @@ import {
   SnackbarErrorAction,
   SnackbarInfoAction
 } from '../../../store/actions/snackbar.actions';
+import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
 
 @Component({
   selector: 'app-toggle-join-library',
@@ -98,6 +99,13 @@ export class ToggleJoinLibraryComponent {
     if (event.shouldReload) {
       this.content.libraryJoined.next();
     } else {
+      if (event.updatedEntry) {
+        this.store.dispatch(
+          new SetSelectedNodesAction([
+            <any>{ entry: event.updatedEntry, isLibrary: true }
+          ])
+        );
+      }
       this.content.joinLibraryToggle.next();
     }
   }
