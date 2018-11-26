@@ -130,7 +130,7 @@
                 },
                 "EMPTY_STATE": {
                     "TITLE": "No recent files",
-                    "TEXT": "Items you upload or edit in the last 30 days are shown here."
+                    "TEXT": "Items you uploaded or edited in the last 30 days are shown here."
                 }
             },
             "FAVORITES": {
