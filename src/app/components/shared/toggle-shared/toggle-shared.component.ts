@@ -46,11 +46,16 @@ export class ToggleSharedComponent implements OnInit {
 
   isShared(selection) {
     // workaround for shared files
-    if (selection.first.entry && selection.first.entry.sharedByUser) {
+    if (
+      selection.first &&
+      selection.first.entry &&
+      selection.first.entry.sharedByUser
+    ) {
       return true;
     }
 
     return (
+      selection.first &&
       selection.first.entry &&
       selection.first.entry.properties &&
       !!selection.first.entry.properties['qshare:sharedId']
