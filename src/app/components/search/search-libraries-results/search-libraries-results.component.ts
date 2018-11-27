@@ -38,8 +38,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 @Component({
   selector: 'aca-search-results',
   templateUrl: './search-libraries-results.component.html',
-  styleUrls: ['./search-libraries-results.component.scss'],
-  providers: [SearchLibrariesQueryBuilderService]
+  styleUrls: ['./search-libraries-results.component.scss']
 })
 export class SearchLibrariesResultsComponent extends PageComponent
   implements OnInit {

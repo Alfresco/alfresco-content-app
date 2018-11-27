@@ -32,7 +32,7 @@
                     id="{{ option.id }}"
                     [(ngModel)]="option.value"
                     [disabled]="option.shouldDisable()"
-                    (change)="onOptionChange()"
+                    (change)="searchByOption()"
                     (click)="$event.stopPropagation()">
         {{ option.key | translate }}
         </mat-checkbox>

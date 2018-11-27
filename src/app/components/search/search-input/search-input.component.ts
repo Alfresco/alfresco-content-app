@@ -47,6 +47,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { Subject } from 'rxjs';
+import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 
 export enum SearchOptionIds {
   Files = 'content',
@@ -94,6 +95,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   constructor(
     private queryBuilder: SearchQueryBuilderService,
+    private queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
     private content: ContentManagementService,
     private router: Router,
     private store: Store<AppStore>
@@ -156,9 +158,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.has400LibraryError = false;
     const searchTerm = (event.target as HTMLInputElement).value;
     if (searchTerm) {
-      this.store.dispatch(
-        new SearchByTermAction(searchTerm, this.searchOptions)
-      );
+      this.searchedWord = searchTerm;
+
+      this.searchByOption();
     }
   }
 
@@ -187,13 +189,15 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-  onOptionChange() {
+  searchByOption() {
     this.has400LibraryError = false;
     if (this.isLibrariesChecked()) {
       if (this.searchedWord && !this.onLibrariesSearchResults) {
         this.store.dispatch(
           new SearchByTermAction(this.searchedWord, this.searchOptions)
         );
+      } else {
+        this.queryLibrariesBuilder.update();
       }
     } else {
       if (this.isFoldersChecked() && !this.isFilesChecked()) {
