@@ -52,7 +52,7 @@
         },
         "NEW_MENU": {
             "LABEL": "New",
-            "TOOLTIP": "Add new files or folders",
+            "TOOLTIP": "Add new files and folders, or create a new File Library",
             "MENU_ITEMS": {
                 "CREATE_FOLDER": "Create folder",
                 "UPLOAD_FILE": "Upload file",
