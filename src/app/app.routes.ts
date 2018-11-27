@@ -225,8 +225,7 @@ export const APP_ROUTES: Routes = [
             path: '',
             component: SearchLibrariesResultsComponent,
             data: {
-              title: 'APP.BROWSE.SEARCH.TITLE',
-              reuse: true
+              title: 'APP.BROWSE.SEARCH.TITLE'
             }
           },
           {
