@@ -90,6 +90,7 @@ export class FileUploadingDialogComponent implements OnInit, OnDestroy {
       this.changeDetector.detectChanges();
     });
 
+    // todo: move to ADF ACA-2051
     this.errorSubscription = this.uploadService.fileUploadError.subscribe(
       (event: FileUploadErrorEvent) => {
         this.errors.push({
@@ -176,6 +177,7 @@ export class FileUploadingDialogComponent implements OnInit, OnDestroy {
     this.errorSubscription.unsubscribe();
   }
 
+  // todo: move to ADF ACA-2051
   private getUploadErrorMessage(status) {
     const messages = {
       500: 'APP.MESSAGES.UPLOAD.ERROR.500',
