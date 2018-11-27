@@ -45,14 +45,16 @@ $top-margin: 12px;
 }
 
 .aca-search-input {
-  margin-right: 7px;
+  width: 100%;
+  max-width: $search-width;
   background-color: $search-background;
   border-radius: $search-border-radius;
   height: $search-height;
 }
 
 .app-search-container {
-  width: $search-width;
+  width: 100%;
+  max-width: $search-width;
   height: $search-height + $top-margin;
 }
 

@@ -6,10 +6,11 @@
   [title]="appName$ | async"
   (clicked)="toggleClicked.emit($event)">
 
-  <div class="adf-toolbar--spacer"></div>
+  <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
 
-  <ng-container *ngIf="!isSmallScreen">
+  <ng-container>
     <aca-search-input></aca-search-input>
+    <div class="adf-toolbar-divider"></div>
   </ng-container>
 
   <aca-current-user></aca-current-user>
