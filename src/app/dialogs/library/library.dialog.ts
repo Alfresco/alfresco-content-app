@@ -21,7 +21,8 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   FormBuilder,
@@ -38,7 +39,9 @@ import { debounceTime, mergeMap, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-library-dialog',
   styleUrls: ['./library.dialog.scss'],
-  templateUrl: './library.dialog.html'
+  templateUrl: './library.dialog.html',
+  encapsulation: ViewEncapsulation.None,
+  host: { class: 'app-library-dialog' }
 })
 export class LibraryDialogComponent implements OnInit, OnDestroy {
   @Output()
