@@ -52,7 +52,9 @@ export class SearchLibrariesQueryBuilderService {
 
   update(): void {
     const query = this.buildQuery();
-    this.updated.next(query);
+    if (query) {
+      this.updated.next(query);
+    }
   }
 
   async execute() {
@@ -65,7 +67,7 @@ export class SearchLibrariesQueryBuilderService {
 
   buildQuery(): any {
     const query = this.userQuery;
-    if (query) {
+    if (query && query.length > 1) {
       const resultQuery = {
         term: query,
         opts: {
