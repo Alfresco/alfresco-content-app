@@ -39,8 +39,7 @@ import { FileUploadingListComponent } from './file-uploading-list.component';
 // @deprecated file-uploading-dialog TODO remove in 3.0.0
 @Component({
   selector: 'app-file-uploading-dialog',
-  templateUrl: './file-uploading-dialog.component.html',
-  styleUrls: ['./file-uploading-dialog.component.scss']
+  templateUrl: './file-uploading-dialog.component.html'
 })
 export class FileUploadingDialogComponent implements OnInit, OnDestroy {
   @ViewChild('uploadList')

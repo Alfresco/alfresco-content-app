@@ -35,8 +35,7 @@ import { map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-file-uploading-list',
-  templateUrl: './file-uploading-list.component.html',
-  styleUrls: ['./file-uploading-list.component.scss']
+  templateUrl: './file-uploading-list.component.html'
 })
 export class FileUploadingListComponent {
   FileUploadStatus = FileUploadStatus;
