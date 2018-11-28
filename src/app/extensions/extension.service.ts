@@ -411,6 +411,7 @@ export class AppExtensionService implements RuleContext {
           const copy = this.copyAction(action);
           if (copy.children && copy.children.length > 0) {
             copy.children = copy.children
+              .filter(entry => !entry.disabled)
               .filter(childAction => this.filterByRules(childAction))
               .reduce(reduceSeparators, []);
           }
