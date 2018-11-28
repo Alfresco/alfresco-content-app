@@ -175,20 +175,16 @@ export class AppComponent implements OnInit, OnDestroy {
       message = 'APP.MESSAGES.UPLOAD.ERROR.404';
     }
 
-    if (error.error.status === 504) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.504';
-    }
-
-    if (error.error.status === 500) {
-      message = 'APP.MESSAGES.UPLOAD.ERROR.500';
-    }
-
     if (error.error.status === 409) {
       message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
     }
 
     if (error.error.status === 500) {
       message = 'APP.MESSAGES.UPLOAD.ERROR.500';
+    }
+
+    if (error.error.status === 504) {
+      message = 'APP.MESSAGES.UPLOAD.ERROR.504';
     }
 
     this.store.dispatch(new SnackbarErrorAction(message));
