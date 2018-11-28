@@ -37,6 +37,7 @@ import {
   SnackbarAction,
   SnackbarWarningAction,
   NavigateRouteAction,
+  NavigateToParentFolder,
   SnackbarUserAction,
   UndoDeleteNodesAction,
   SetSelectedNodesAction
@@ -874,9 +875,17 @@ export class ContentManagementService {
         const isSite = this.isSite(status.success[0].entry);
         const path: PathInfoEntity = status.success[0].entry.path;
         const parent = path.elements[path.elements.length - 1];
-        const route = isSite ? ['/libraries'] : ['/personal-files', parent.id];
+        const route = isSite
+          ? ['/libraries', parent.id]
+          : ['/personal-files', parent.id];
 
-        const navigate = new NavigateRouteAction(route);
+        let navigate;
+
+        if (this.isLibraryContent(path)) {
+          navigate = new NavigateToParentFolder(status.success[0]);
+        } else {
+          navigate = new NavigateRouteAction(route);
+        }
 
         message.userAction = new SnackbarUserAction(
           'APP.ACTIONS.VIEW',
@@ -890,6 +899,18 @@ export class ContentManagementService {
 
   private isSite(entry: MinimalNodeEntryEntity): boolean {
     return entry.nodeType === 'st:site';
+  }
+
+  private isLibraryContent(path: PathInfoEntity): boolean {
+    if (
+      path &&
+      path.elements.length >= 2 &&
+      path.elements[1].name === 'Sites'
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   private getRestoreMessage(status: DeleteStatus): SnackbarAction {
