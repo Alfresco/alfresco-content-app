@@ -167,12 +167,24 @@ export class AppComponent implements OnInit, OnDestroy {
   onFileUploadedError(error: FileUploadErrorEvent) {
     let message = 'APP.MESSAGES.UPLOAD.ERROR.GENERIC';
 
+    if (error.error.status === 403) {
+      message = 'APP.MESSAGES.UPLOAD.ERROR.403';
+    }
+
+    if (error.error.status === 404) {
+      message = 'APP.MESSAGES.UPLOAD.ERROR.404';
+    }
+
     if (error.error.status === 409) {
       message = 'APP.MESSAGES.UPLOAD.ERROR.CONFLICT';
     }
 
     if (error.error.status === 500) {
       message = 'APP.MESSAGES.UPLOAD.ERROR.500';
+    }
+
+    if (error.error.status === 504) {
+      message = 'APP.MESSAGES.UPLOAD.ERROR.504';
     }
 
     this.store.dispatch(new SnackbarErrorAction(message));

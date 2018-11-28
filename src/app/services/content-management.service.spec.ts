@@ -36,6 +36,7 @@ import {
   SNACKBAR_WARNING,
   PurgeDeletedNodesAction,
   RestoreDeletedNodesAction,
+  NavigateToParentFolder,
   NavigateRouteAction,
   NAVIGATE_ROUTE,
   DeleteNodesAction,
@@ -1203,6 +1204,45 @@ describe('ContentManagementService', () => {
       store.dispatch(new RestoreDeletedNodesAction(selection));
 
       expect(contentApi.restoreNode).toHaveBeenCalled();
+    }));
+
+    it('should navigate to library folder when node is a library content', fakeAsync(() => {
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
+      spyOn(contentApi, 'getDeletedNodes').and.returnValue(
+        of({
+          list: { entries: [] }
+        })
+      );
+
+      const path = {
+        elements: [
+          {
+            id: '1-1',
+            name: 'Company Home'
+          },
+          {
+            id: '1-2',
+            name: 'Sites'
+          }
+        ]
+      };
+
+      const selection = [
+        {
+          entry: {
+            id: '1',
+            path
+          }
+        }
+      ];
+
+      store.dispatch(new RestoreDeletedNodesAction(selection));
+
+      expect(
+        store.dispatch['calls'].argsFor(1)[0].userAction.action instanceof
+          NavigateToParentFolder
+      ).toBe(true);
     }));
 
     describe('refresh()', () => {
