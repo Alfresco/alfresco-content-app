@@ -142,19 +142,19 @@ $top-margin: 12px;
 }
 
 @media screen and ($mat-xsmall) {
-  $search-width-small: 220px;
+  $search-width-xsmall: 220px;
 
   .aca-search-input {
-    max-width: $search-width-small;
+    max-width: $search-width-xsmall;
   }
 
   .app-search-container {
-    max-width: $search-width-small;
+    max-width: $search-width-xsmall;
   }
 
   .app-search-options-menu {
     &.mat-menu-panel {
-      width: $search-width-small;
+      width: $search-width-xsmall;
       margin-top: 9px;
     }
   }
