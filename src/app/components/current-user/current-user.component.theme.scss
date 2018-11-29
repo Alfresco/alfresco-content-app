@@ -22,7 +22,7 @@
     }
 
     .current-user__full-name {
-      width: 100px;
+      max-width: 100px;
       text-align: right;
       white-space: nowrap;
       overflow: hidden;
