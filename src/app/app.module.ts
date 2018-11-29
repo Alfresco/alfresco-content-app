@@ -37,7 +37,10 @@ import {
   AppConfigService,
   DebugAppConfigService
 } from '@alfresco/adf-core';
-import { ContentModule } from '@alfresco/adf-content-services';
+import {
+  ContentModule,
+  CustomResourcesService
+} from '@alfresco/adf-content-services';
 
 import { AppComponent } from './app.component';
 import { APP_ROUTES } from './app.routes';
@@ -74,6 +77,7 @@ import { LibraryMembershipDirective } from './directives/library-membership.dire
 import { ToggleJoinLibraryComponent } from './components/toolbar/toggle-join-library/toggle-join-library.component';
 import { LibraryFavoriteDirective } from './directives/library-favorite.directive';
 import { ToggleFavoriteLibraryComponent } from './components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
+import { AppDataService } from './services/data.service';
 
 @NgModule({
   imports: [
@@ -123,6 +127,7 @@ import { ToggleFavoriteLibraryComponent } from './components/toolbar/toggle-favo
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
     { provide: AppConfigService, useClass: DebugAppConfigService },
+    { provide: CustomResourcesService, useClass: AppDataService },
     {
       provide: TRANSLATION_PROVIDER,
       multi: true,
