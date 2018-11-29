@@ -93,10 +93,13 @@ export class FileUploadingDialogComponent implements OnInit, OnDestroy {
     // todo: move to ADF ACA-2051
     this.errorSubscription = this.uploadService.fileUploadError.subscribe(
       (event: FileUploadErrorEvent) => {
+        const statusCode = (event.error || {}).response
+          ? event.error.response.statusCode
+          : null;
         this.errors.push({
           fileName: event.file.name,
-          status: event.error.response.statusCode,
-          message: this.getUploadErrorMessage(event.error.response.statusCode)
+          status: statusCode,
+          message: this.getUploadErrorMessage(statusCode)
         });
         this.totalErrors = event.totalError;
         this.changeDetector.detectChanges();
@@ -183,9 +186,10 @@ export class FileUploadingDialogComponent implements OnInit, OnDestroy {
       500: 'APP.MESSAGES.UPLOAD.ERROR.500',
       504: 'APP.MESSAGES.UPLOAD.ERROR.504',
       403: 'APP.MESSAGES.UPLOAD.ERROR.403',
-      404: 'APP.MESSAGES.UPLOAD.ERROR.404'
+      404: 'APP.MESSAGES.UPLOAD.ERROR.404',
+      generic: 'APP.MESSAGES.UPLOAD.ERROR.GENERIC'
     };
 
-    return messages[status];
+    return messages[status] || messages['generic'];
   }
 }
