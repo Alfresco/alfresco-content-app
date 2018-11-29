@@ -4,6 +4,8 @@ $top-margin: 12px;
   margin-top: -$top-margin;
   padding-top: 2px;
   font-size: 16px;
+  padding-left: 15px;
+  box-sizing: border-box;
 
   .mat-form-field-underline {
     display: none;
@@ -20,7 +22,7 @@ $top-margin: 12px;
 
   .app-input-form-field {
     letter-spacing: -0.7px;
-    width: 90%;
+    width: calc(100% - 56px);
 
     .mat-input-element {
       letter-spacing: -0.7px;
@@ -30,7 +32,6 @@ $top-margin: 12px;
   .app-search-button.mat-icon-button {
     top: -2px;
     left: -8px;
-    margin-left: 15px;
 
     .mat-icon {
       font-size: 24px;
@@ -41,7 +42,7 @@ $top-margin: 12px;
 
 .app-suffix-search-icon-wrapper {
   height: 6px;
-  margin: 14px 13px;
+  margin: 14px 1px;
   float: left;
 
   .mat-icon {
