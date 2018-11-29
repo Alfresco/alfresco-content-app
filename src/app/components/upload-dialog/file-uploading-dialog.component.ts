@@ -93,7 +93,7 @@ export class FileUploadingDialogComponent implements OnInit, OnDestroy {
     // todo: move to ADF ACA-2051
     this.errorSubscription = this.uploadService.fileUploadError.subscribe(
       (event: FileUploadErrorEvent) => {
-        const statusCode = event.error.response
+        const statusCode = (event.error || {}).response
           ? event.error.response.statusCode
           : null;
         this.errors.push({
