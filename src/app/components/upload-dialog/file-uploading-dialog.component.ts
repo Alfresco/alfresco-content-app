@@ -190,6 +190,6 @@ export class FileUploadingDialogComponent implements OnInit, OnDestroy {
       generic: 'APP.MESSAGES.UPLOAD.ERROR.GENERIC'
     };
 
-    return messages[status || 'generic'];
+    return messages[status] || messages['generic'];
   }
 }
