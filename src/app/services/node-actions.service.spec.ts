@@ -41,7 +41,8 @@ class TestNode {
     isFile?: boolean,
     name?: string,
     permission?: string[],
-    nodeType?: string
+    nodeType?: string,
+    properties?: any
   ) {
     this.entry = {};
     this.entry.id = id || 'node-id';
@@ -51,6 +52,9 @@ class TestNode {
     this.entry.name = name;
     if (permission) {
       this.entry['allowableOperations'] = permission;
+    }
+    if (properties) {
+      this.entry.properties = properties;
     }
   }
 }
@@ -304,6 +308,22 @@ describe('NodeActionsService', () => {
           node: destinationFolder
         })
       ).toBe(true);
+    });
+
+    it('should filter destination nodes and not show the restricted site content', () => {
+      const restrictedSiteContent = new TestNode(
+        'blog-id',
+        !isFile,
+        'blog',
+        [],
+        'cm:folder',
+        { 'st:componentId': 'blog' }
+      );
+      expect(
+        testContentNodeSelectorComponentData.data.rowFilter({
+          node: restrictedSiteContent
+        })
+      ).toBe(false);
     });
   });
 
