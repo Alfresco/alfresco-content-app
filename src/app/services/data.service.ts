@@ -47,6 +47,7 @@ export class AppDataService extends CustomResourcesService {
   ): Observable<ResultSetPaging> {
     const filters = [
       'TYPE:"content"',
+      '-PNAME:"0/wiki"',
       '-TYPE:"app:filelink"',
       '-TYPE:"fm:post"',
       '-TYPE:"cm:thumbnail"',
@@ -56,6 +57,12 @@ export class AppDataService extends CustomResourcesService {
       '-TYPE:"dl:todoList"',
       '-TYPE:"dl:issue"',
       '-TYPE:"dl:contact"',
+      '-TYPE:"dl:eventAgenda"',
+      '-TYPE:"dl:event"',
+      '-TYPE:"dl:task"',
+      '-TYPE:"dl:simpletask"',
+      '-TYPE:"dl:meetingAgenda"',
+      '-TYPE:"dl:location"',
       '-TYPE:"fm:topic"',
       '-TYPE:"fm:post"',
       '-TYPE:"lnk:link"'

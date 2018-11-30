@@ -208,7 +208,8 @@
         "query": "-TYPE:'dl:dataList' AND -TYPE:'dl:todoList' AND -TYPE:'dl:issue'"
       },
       { "query": "-TYPE:'fm:topic' AND -TYPE:'fm:post'" },
-      { "query": "-TYPE:'lnk:link'" }
+      { "query": "-TYPE:'lnk:link'" },
+      { "query": "-PNAME:'0/wiki'" }
     ],
     "facetFields": {
       "expanded": true,
