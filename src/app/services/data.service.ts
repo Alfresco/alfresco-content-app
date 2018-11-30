@@ -55,6 +55,7 @@ export class AppDataService extends CustomResourcesService {
       '-TYPE:"dl:dataList"',
       '-TYPE:"dl:todoList"',
       '-TYPE:"dl:issue"',
+      '-TYPE:"dl:contact"',
       '-TYPE:"fm:topic"',
       '-TYPE:"fm:post"',
       '-TYPE:"lnk:link"'
