@@ -603,7 +603,9 @@ describe('Unshare a file', () => {
 
     it('Unshare dialog UI - [C286694]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.clickShareEditButton();
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
@@ -618,7 +620,9 @@ describe('Unshare a file', () => {
 
     it('Unshare a file - [C286695]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.clickShareEditButton();
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -642,7 +646,9 @@ describe('Unshare a file', () => {
 
     it('Cancel the Unshare action - [C286696]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.clickShareEditButton();
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
@@ -659,7 +665,9 @@ describe('Unshare a file', () => {
 
     it('Unshare a file from the context menu - [C286698]', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickShareEditAction();
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await contextMenu.clickShareAction();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -767,7 +775,9 @@ describe('Unshare a file', () => {
     it('on Favorites - file shared by other user - [C286697]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1);
-      await toolbar.clickShareEditButton();
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
@@ -776,7 +786,9 @@ describe('Unshare a file', () => {
     it('on Favorites - file shared by the user - [C286703]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1);
-      await toolbar.clickShareEditButton();
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
