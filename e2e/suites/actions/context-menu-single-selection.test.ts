@@ -225,8 +225,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      // TODO: enable this when the action is properly implemented: ACA-92
-      // expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${fileUser}`);
+      expect(await contextMenu.isMenuItemPresent('Shared link settings')).toBe(true, `Shared link settings is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);

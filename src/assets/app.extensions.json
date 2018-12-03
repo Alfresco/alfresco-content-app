@@ -341,7 +341,7 @@
       {
         "id": "app.toolbar.share",
         "title": "APP.ACTIONS.SHARE",
-        "icon": "share",
+        "type": "custom",
         "order": 100,
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
@@ -555,13 +555,13 @@
               "visible": "app.selection.library"
             }
           },
-          
+
           {
             "id": "app.create.separator.4",
             "type": "separator",
             "order": 980
           },
-          
+
           {
             "id": "app.toolbar.versions",
             "order": 1000,
@@ -599,7 +599,7 @@
           "visible": "app.toolbar.canShare"
         }
       },
-      
+
       {
         "id": "app.context.menu.download",
         "order": 200,
