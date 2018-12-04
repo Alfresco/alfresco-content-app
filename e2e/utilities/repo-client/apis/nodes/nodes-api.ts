@@ -46,12 +46,9 @@ export class NodesApi extends RepoApi {
         return await this.alfrescoJsApi.core.nodesApi.getNode(id);
     }
 
-    async getNodeDescription(name: string, relativePath: string = '/') {
-        relativePath = (relativePath === '/')
-            ? `${name}`
-            : `${relativePath}/${name}`;
-
-        return (await this.getNodeByPath(`${relativePath}`)).entry.properties['cm:description'];
+    async getNodeDescription(name: string, parentId: string) {
+      const children = (await this.getNodeChildren(parentId)).list.entries;
+      return children.find(elem => elem.entry.name === name).entry.properties['cm:description'];
     }
 
     async getNodeProperty(nodeId: string, property: string) {
@@ -93,8 +90,11 @@ export class NodesApi extends RepoApi {
     // children
 
     async getNodeChildren(nodeId: string) {
+        const opts = {
+          include: [ 'properties' ]
+        };
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNodeChildren(nodeId);
+        return await this.alfrescoJsApi.core.nodesApi.getNodeChildren(nodeId, opts);
     }
 
     async deleteNodeChildren(parentId: string) {

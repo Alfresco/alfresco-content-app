@@ -40,6 +40,9 @@ describe('Context menu actions - single selection : ', () => {
   const fileSiteUser = `fileUser-${Utils.random()}.txt`;
   const folderSiteUser = `folderUser-${Utils.random()}`;
 
+  const adminPublic = `admin-public-${Utils.random()}`;
+  const adminModerated = `admin-moderated-${Utils.random()}`;
+
   const apis = {
     admin: new RepoClient(),
     user: new RepoClient(username, username)
@@ -73,6 +76,12 @@ describe('Context menu actions - single selection : ', () => {
     await apis.user.favorites.addFavoriteById('folder', folderUserId);
     await apis.user.favorites.waitForApi({ expect: 3 });
 
+    await apis.admin.sites.createSite(adminPublic);
+    await apis.admin.sites.createSite(adminModerated, SITE_VISIBILITY.MODERATED);
+    await apis.user.favorites.addFavoriteById('site', adminPublic);
+    await apis.user.favorites.addFavoriteById('site', adminModerated);
+    await apis.user.sites.requestToJoin(adminModerated);
+
     await loginPage.loginWith(username);
     done();
   });
@@ -81,6 +90,8 @@ describe('Context menu actions - single selection : ', () => {
     await apis.user.nodes.deleteNodeById(fileUserId);
     await apis.user.nodes.deleteNodeById(folderUserId);
     await apis.user.sites.deleteSite(siteName);
+    await apis.admin.sites.deleteSite(adminPublic);
+    await apis.admin.sites.deleteSite(adminModerated);
     await apis.user.trashcan.emptyTrash();
     done();
   });
@@ -125,12 +136,6 @@ describe('Context menu actions - single selection : ', () => {
       await page.sidenav.getActiveLink().click();
       expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed');
     });
-
-    it('Context menu appears for a library - [C286276]', async () => {
-      await page.clickFileLibrariesAndWait();
-      await dataTable.rightClickOnItem(siteName);
-      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is displayed for a site');
-    });
   });
 
   describe('on Personal Files', () => {
@@ -171,7 +176,7 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('File Libraries', () => {
+  describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickFileLibrariesAndWait();
@@ -210,7 +215,51 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('Shared Files', () => {
+  describe('on a library', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await dataTable.clearSelection();
+      done();
+    });
+
+    it('Available actions when a library is selected - My Libraries - [C290080]', async () => {
+      await page.goToMyLibraries();
+      await dataTable.rightClickOnItem(siteName);
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isMenuItemPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
+      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user is a member - [C290081]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.rightClickOnItem(siteName);
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isMenuItemPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
+      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user is not a member - [C290082]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.rightClickOnItem(adminPublic);
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isMenuItemPresent('Join')).toBe(true, `Join is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user requested to join - [C290089]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.rightClickOnItem(adminModerated);
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isMenuItemPresent('Cancel join')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+    });
+  });
+
+  describe('on Shared Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickSharedFilesAndWait();
@@ -234,7 +283,7 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('Recent Files', () => {
+  describe('on Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
@@ -257,7 +306,7 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('Favorites', () => {
+  describe('on Favorites', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
@@ -296,7 +345,7 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('Trash', () => {
+  describe('on Trash', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickTrashAndWait();

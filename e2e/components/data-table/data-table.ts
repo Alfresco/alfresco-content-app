@@ -46,6 +46,7 @@ export class DataTable extends Component {
     cell: '.adf-data-table-cell',
     locationLink: '.aca-location-link',
     nameLink: '.dl-link',
+    libraryRole: 'app-library-role-column',
 
     selectedIcon: '.mat-icon',
 
@@ -199,7 +200,6 @@ export class DataTable extends Component {
   async selectItem(name: string) {
     try{
       const item = this.getRowFirstCell(name);
-      // await Utils.waitUntilElementClickable(item);
       await item.click();
 
     } catch (e) {
@@ -314,5 +314,9 @@ export class DataTable extends Component {
   async hasContextMenu() {
     const count = await this.menu.getItemsCount();
     return count > 0;
+  }
+
+  async getLibraryRole(name: string) {
+    return await this.getRowByName(name).element(by.css(DataTable.selectors.libraryRole)).getText();
   }
 }

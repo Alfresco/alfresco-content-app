@@ -42,7 +42,8 @@ describe('Pagination on single page', () => {
 
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
-  const { pagination } = page;
+  const { pagination, dataTable } = page;
+  const { searchInput } = page.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -105,6 +106,14 @@ describe('Pagination on single page', () => {
 
   it('page selector not displayed on Trash - [C280121]', async () => {
     await page.clickTrashAndWait();
+    expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
+  });
+
+  it('page selector not displayed on Search results - [C290124]', async () => {
+    await searchInput.clickSearchButton();
+    await searchInput.checkOnlyFiles();
+    await searchInput.searchFor(file);
+    await dataTable.waitForBody();
     expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
   });
 
