@@ -37,7 +37,7 @@ export class SearchEffects {
   searchByTerm$ = this.actions$.pipe(
     ofType<SearchByTermAction>(SEARCH_BY_TERM),
     map(action => {
-      this.router.navigateByUrl('/search;q=' + action.payload);
+      this.router.navigateByUrl('/search;q=' + encodeURIComponent(action.payload));
     })
   );
 }
