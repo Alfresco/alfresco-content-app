@@ -872,6 +872,18 @@
           }
         },
         {
+          "id": "app.toolbar.share.edit",
+          "order": 401,
+          "title": "APP.ACTIONS.SHARE_EDIT",
+          "icon": "share",
+          "actions": {
+            "click": "SHARE_NODE"
+          },
+          "rules": {
+            "visible": "app.selection.file.isShared"
+          }
+        },
+        {
           "id": "app.viewer.fullscreen",
           "order": 100,
           "title": "APP.ACTIONS.FULLSCREEN",
@@ -917,15 +929,6 @@
           "component": "app.toolbar.toggleFavorite",
           "rules": {
             "visible": "app.toolbar.favorite.canToggle"
-          }
-        },
-        {
-          "id": "app.viewer.share",
-          "type": "custom",
-          "order": 300,
-          "component": "app.shared-link.toggleSharedLink",
-          "rules": {
-            "visible": "app.toolbar.canShare"
           }
         },
         {
