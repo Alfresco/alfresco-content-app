@@ -55,7 +55,8 @@
     "keycodes",
     "denysvuika",
     "submenu",
-    "submenus"
+    "submenus",
+    "simpletask"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }
