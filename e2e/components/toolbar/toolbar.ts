@@ -32,13 +32,14 @@ export class Toolbar extends Component {
     root: '.adf-toolbar',
     button: '.mat-icon-button',
 
-    share: `[data-automation-id='share-action-button']`
+    share: `[id='app.toolbar.share'][title='Share']`,
+    shareEdit: `[id='app.toolbar.share.edit'][title='Shared link settings']`,
   };
 
   menu: Menu = new Menu();
   buttons: ElementArrayFinder = this.component.all(by.css(Toolbar.selectors.button));
-  shareButton: ElementFinder = this.component.element(by.cssContainingText(Toolbar.selectors.share, 'Share'));
-  shareEditButton: ElementFinder = this.component.element(by.cssContainingText(Toolbar.selectors.share, 'Shared link settings'));
+  shareButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.share));
+  shareEditButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.shareEdit));
 
   constructor(ancestor?: ElementFinder) {
     super(Toolbar.selectors.root, ancestor);
