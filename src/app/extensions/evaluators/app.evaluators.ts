@@ -75,6 +75,28 @@ export function canShareFile(
   return false;
 }
 
+export function isSharedFile(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  if (isSharedFiles(context, ...args)) {
+    return true;
+  }
+
+  if (
+    (isNotTrashcan(context, ...args),
+    !context.selection.isEmpty && context.selection.file)
+  ) {
+    return !!(
+      context.selection.file.entry &&
+      context.selection.file.entry.properties &&
+      context.selection.file.entry.properties['qshare:sharedId']
+    );
+  }
+
+  return false;
+}
+
 export function canDeleteSelection(
   context: RuleContext,
   ...args: RuleParameter[]
