@@ -60,7 +60,14 @@
       "type": "core.every",
       "parameters": [
         { "type": "rule", "value": "app.selection.file.canShare" },
-        { "type": "rule", "value": "repository.isQuickShareEnabled" }
+        { "type": "rule", "value": "repository.isQuickShareEnabled" },
+        {
+          "type": "rule",
+          "value": "core.not",
+          "parameters": [
+            { "type": "rule", "value": "app.selection.file.isSharedFile" }
+          ]
+        }
       ]
     },
     {
@@ -340,12 +347,26 @@
     "toolbar": [
       {
         "id": "app.toolbar.share",
-        "title": "APP.ACTIONS.SHARE",
-        "type": "custom",
         "order": 100,
-        "component": "app.shared-link.toggleSharedLink",
+        "title": "APP.ACTIONS.SHARE",
+        "icon": "share",
+        "actions": {
+          "click": "SHARE_NODE"
+        },
         "rules": {
           "visible": "app.toolbar.canShare"
+        }
+      },
+      {
+        "id": "app.toolbar.share.edit",
+        "order": 101,
+        "title": "APP.ACTIONS.SHARE_EDIT",
+        "icon": "share",
+        "actions": {
+          "click": "SHARE_NODE"
+        },
+        "rules": {
+          "visible": "app.selection.file.isSharedFile"
         }
       },
       {
@@ -555,13 +576,11 @@
               "visible": "app.selection.library"
             }
           },
-
           {
             "id": "app.create.separator.4",
             "type": "separator",
             "order": 980
           },
-
           {
             "id": "app.toolbar.versions",
             "order": 1000,
@@ -599,7 +618,6 @@
           "visible": "app.toolbar.canShare"
         }
       },
-
       {
         "id": "app.context.menu.download",
         "order": 200,
