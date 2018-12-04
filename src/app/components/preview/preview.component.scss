@@ -3,6 +3,16 @@
   height: 100%;
 }
 
-.hide-last-divider .mat-toolbar adf-toolbar-divider:last-of-type {
-  display: none;
+.hide-last-divider .mat-toolbar {
+  adf-toolbar-divider:last-of-type {
+    display: none;
+  }
+
+  > button:last-of-type {
+    right: 40px;
+  }
+}
+
+#adf-viewer-moreactions {
+  right: -40px;
 }
