@@ -79,7 +79,7 @@ export function isShared(
   context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
-  if (isSharedFiles(context, ...args)) {
+  if (isSharedFiles(context, ...args) && !context.selection.isEmpty) {
     return true;
   }
 
