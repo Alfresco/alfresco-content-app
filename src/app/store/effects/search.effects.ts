@@ -42,7 +42,7 @@ export class SearchEffects {
         item => item.id === SearchOptionIds.Libraries
       );
       const librarySelected = !!libItem && libItem.value;
-
+      action.payload = encodeURIComponent(action.payload);
       if (librarySelected) {
         this.router.navigateByUrl('/search-libraries;q=' + action.payload);
       } else {
