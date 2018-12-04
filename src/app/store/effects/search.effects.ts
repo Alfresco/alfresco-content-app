@@ -43,9 +43,13 @@ export class SearchEffects {
       );
       const librarySelected = !!libItem && libItem.value;
       if (librarySelected) {
-        this.router.navigateByUrl('/search-libraries;q=' + encodeURIComponent(action.payload));
+        this.router.navigateByUrl(
+          '/search-libraries;q=' + encodeURIComponent(action.payload)
+        );
       } else {
-        this.router.navigateByUrl('/search;q=' + encodeURIComponent(action.payload));
+        this.router.navigateByUrl(
+          '/search;q=' + encodeURIComponent(action.payload)
+        );
       }
     })
   );
