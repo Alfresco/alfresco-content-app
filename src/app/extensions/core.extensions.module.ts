@@ -113,7 +113,7 @@ export class CoreExtensionsModule {
       'app.selection.first.canUpdate': app.canUpdateSelectedNode,
       'app.selection.file': app.hasFileSelected,
       'app.selection.file.canShare': app.canShareFile,
-      'app.selection.file.isSharedFile': app.isSharedFile,
+      'app.selection.file.isShared': app.isShared,
       'app.selection.library': app.hasLibrarySelected,
       'app.selection.isPrivateLibrary': app.isPrivateLibrary,
       'app.selection.hasLibraryRole': app.hasLibraryRole,

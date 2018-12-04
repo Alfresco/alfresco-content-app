@@ -75,7 +75,7 @@ export function canShareFile(
   return false;
 }
 
-export function isSharedFile(
+export function isShared(
   context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {

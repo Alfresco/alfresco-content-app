@@ -65,7 +65,7 @@
           "type": "rule",
           "value": "core.not",
           "parameters": [
-            { "type": "rule", "value": "app.selection.file.isSharedFile" }
+            { "type": "rule", "value": "app.selection.file.isShared" }
           ]
         }
       ]
@@ -366,7 +366,7 @@
           "click": "SHARE_NODE"
         },
         "rules": {
-          "visible": "app.selection.file.isSharedFile"
+          "visible": "app.selection.file.isShared"
         }
       },
       {
