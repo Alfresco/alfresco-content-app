@@ -23,11 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
 import { SITE_VISIBILITY } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CreateLibraryDialog } from '../../components/dialog/create-library-dialog';
-import { Menu } from '../../components/menu/menu';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -62,7 +60,6 @@ describe('Create library', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const createDialog = new CreateLibraryDialog();
-  const menu = new Menu();
   const { dataTable } = page;
 
   beforeAll(async (done) => {
@@ -213,12 +210,6 @@ describe('Create library', () => {
     await page.clickFileLibrariesAndWait();
     expect(await dataTable.getRowByName(`${duplicateSite.name} (${duplicateSite.id}-2)`).isPresent()).toBe(true, `${duplicateSite.name} not in the list`);
     expect(await apis.user.sites.getTitle(`${duplicateSite.id}-2`)).toEqual(duplicateSite.name);
-  });
-
-  it('Tooltip for "Create Library" button - [C286526]', async () => {
-    await page.sidenav.openNewMenu();
-    await browser.actions().mouseMove(menu.getItemByLabel('Create Library')).perform();
-    expect(await menu.getItemTooltip('Create Library')).toContain('Create a new File Library');
   });
 
 });

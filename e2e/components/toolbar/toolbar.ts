@@ -30,7 +30,8 @@ import { Component } from '../component';
 export class Toolbar extends Component {
   private static selectors = {
     root: '.adf-toolbar',
-    button: '.mat-icon-button'
+    // button: '.mat-icon-button'
+    button: 'button'
   };
 
   menu: Menu = new Menu();

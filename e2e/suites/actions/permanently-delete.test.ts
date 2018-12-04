@@ -40,6 +40,8 @@ describe('Permanently delete from Trash', () => {
     const folder2 = `folder2-${Utils.random()}`;
     let foldersIds;
 
+    const site = `site-${Utils.random()}`;
+
     const apis = {
         admin: new RepoClient(),
         user: new RepoClient(username, username)
@@ -55,8 +57,11 @@ describe('Permanently delete from Trash', () => {
         await apis.admin.people.createUser({ username });
         filesIds = (await apis.user.nodes.createFiles([ file1, file2, file3 ])).list.entries.map(entries => entries.entry.id);
         foldersIds = (await apis.user.nodes.createFolders([ folder1, folder2 ])).list.entries.map(entries => entries.entry.id);
+        await apis.user.sites.createSite(site);
+
         await apis.user.nodes.deleteNodesById(filesIds, false);
         await apis.user.nodes.deleteNodesById(foldersIds, false);
+        await apis.user.sites.deleteSite(site, false);
 
         await loginPage.loginWith(username);
         done();
@@ -72,7 +77,7 @@ describe('Permanently delete from Trash', () => {
         done();
     });
 
-    it('delete file - [C217091]', async () => {
+    it('delete a file - [C217091]', async () => {
         await dataTable.selectItem(file1);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await page.waitForDialog();
@@ -83,7 +88,7 @@ describe('Permanently delete from Trash', () => {
         expect(await dataTable.getRowByName(file1).isPresent()).toBe(false, 'Item was not deleted');
     });
 
-    it('delete folder - [C280416]', async () => {
+    it('delete a folder - [C280416]', async () => {
         await dataTable.selectItem(folder1);
         await toolbar.getButtonByTitleAttribute('Permanently delete').click();
         await page.waitForDialog();
@@ -92,6 +97,17 @@ describe('Permanently delete from Trash', () => {
 
         expect(text).toEqual(`${folder1} deleted`);
         expect(await dataTable.getRowByName(folder1).isPresent()).toBe(false, 'Item was not deleted');
+    });
+
+    it('delete a library - [C290103]', async () => {
+        await dataTable.selectItem(site);
+        await toolbar.getButtonByTitleAttribute('Permanently delete').click();
+        await page.waitForDialog();
+        await confirmDialog.clickButton('Delete');
+        const text = await page.getSnackBarMessage();
+
+        expect(text).toEqual(`${site} deleted`);
+        expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} was not deleted`);
     });
 
     it('delete multiple items - [C280417]', async () => {

@@ -128,6 +128,24 @@ export class SitesApi extends RepoApi {
         return await this.alfrescoJsApi.core.sitesApi.removeSiteMember(siteId, userId);
     }
 
+    async requestToJoin(siteId: string) {
+        const body = {
+          id: siteId
+        };
+        await this.apiAuth();
+        try {
+          return await this.alfrescoJsApi.core.peopleApi.addSiteMembershipRequest('-me-', body);
+        } catch (error) {
+          console.log('====== requestToJoin catch ', error);
+        };
+    }
+
+    async hasMembershipRequest(siteId: string) {
+      await this.apiAuth();
+      const requests = (await this.alfrescoJsApi.core.peopleApi.getSiteMembershipRequests('-me-')).list.entries.map(e => e.entry.id);
+      return requests.includes(siteId);
+    }
+
     async waitForApi(data) {
         try {
           const sites = async () => {
