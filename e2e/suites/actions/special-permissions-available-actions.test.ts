@@ -629,10 +629,11 @@ describe('Granular permissions available actions : ', () => {
       expect(await viewerToolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed`);
       expect(await viewerToolbar.isButtonPresent('Print')).toBe(true, `Print is not displayed`);
       expect(await viewerToolbar.isButtonPresent('Activate full-screen mode')).toBe(true, `Full screen is not displayed`);
+      expect(await viewerToolbar.isShareEditButtonPresent()).toBe(true, 'Shared link settings is not displayed');
       expect(await viewerToolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed`);
       await viewerToolbar.openMoreMenu();
       expect(await viewerToolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed`);
+      expect(await viewerToolbar.menu.isMenuItemPresent('Share')).toBe(false, `Share is displayed in More actions`);
       expect(await viewerToolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
       expect(await viewerToolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
       expect(await viewerToolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
@@ -672,10 +673,11 @@ describe('Granular permissions available actions : ', () => {
       expect(await viewerToolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed`);
       expect(await viewerToolbar.isButtonPresent('Print')).toBe(true, `Print is not displayed`);
       expect(await viewerToolbar.isButtonPresent('Activate full-screen mode')).toBe(true, `Full screen is not displayed`);
+      expect(await viewerToolbar.isShareEditButtonPresent()).toBe(true, 'Shared link settings is not displayed');
       expect(await viewerToolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed`);
       await viewerToolbar.openMoreMenu();
       expect(await viewerToolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed`);
+      expect(await viewerToolbar.menu.isMenuItemPresent('Share')).toBe(false, `Share is displayed in More actions`);
       expect(await viewerToolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
       // TODO: enable when ACA-1737 is done
       // expect(await viewerToolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);

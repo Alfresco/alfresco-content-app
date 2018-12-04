@@ -32,8 +32,8 @@ export class Toolbar extends Component {
     root: '.adf-toolbar',
     button: '.mat-icon-button',
 
-    share: `[id='app.toolbar.share'][title='Share']`,
-    shareEdit: `[id='app.toolbar.share.edit'][title='Shared link settings']`,
+    share: `.mat-icon-button[title='Share']`,
+    shareEdit: `.mat-icon-button[title='Shared link settings']`,
   };
 
   menu: Menu = new Menu();

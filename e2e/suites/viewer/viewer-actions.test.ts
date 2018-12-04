@@ -105,17 +105,17 @@ describe('Viewer actions', () => {
       expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
       expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isButtonPresent('Print')).toBe(true, `print`);
-      expect(await toolbar.isButtonPresent('Activate full-screen mode')).toBe(true, `full screen`);
-      expect(await toolbar.isButtonPresent('View details')).toBe(true, `view details`);
+      expect(await toolbar.isButtonPresent('Print')).toBe(true, `Print is not displayed`);
+      expect(await toolbar.isButtonPresent('Activate full-screen mode')).toBe(true, `Full screen is not displayed`);
+      expect(await toolbar.isShareButtonPresent()).toBe(true, `Share is not displayed`);
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `view details is not displayed`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `favorite`);
-      expect(await toolbar.menu.isMenuItemPresent('Share')).toBe(true, `share`);
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `copy`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `move`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `delete`);
-      expect(await toolbar.menu.isMenuItemPresent('Manage Versions')).toBe(true, `manage versions`);
-      expect(await toolbar.menu.isMenuItemPresent('Permissions')).toBe(true, `permissions`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
+      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
+      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
+      expect(await toolbar.menu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage versions is not displayed`);
+      expect(await toolbar.menu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
       await toolbar.closeMoreMenu();
     });
 
@@ -185,8 +185,7 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Delete');
       expect(await page.getSnackBarMessage()).toContain(`${pdfPersonalFiles} deleted`);
-      // TODO: enable this when ACA-1806 is fixed
-      // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
+      expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfPersonalFiles).isPresent()).toBe(true, 'Item is not present in Trash');
@@ -208,8 +207,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      await toolbar.clickShareButton();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -229,8 +227,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      await toolbar.clickShareButton();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await Utils.pressEscape();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Dialog is still open');
@@ -343,8 +340,7 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Delete');
       expect(await page.getSnackBarMessage()).toContain(`${pdfLibraries} deleted`);
-      // TODO: enable this when ACA-1806 is fixed
-      // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
+      expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfLibraries).isPresent()).toBe(true, 'Item is not present in Trash');
@@ -354,8 +350,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      await toolbar.clickShareButton();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -477,8 +472,7 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Delete');
       expect(await page.getSnackBarMessage()).toContain(`${pdfRecentFiles} deleted`);
-      // TODO: enable this when ACA-1806 is fixed
-      // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
+      expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfRecentFiles).isPresent()).toBe(true, 'Item is not present in Trash');
@@ -488,8 +482,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      await toolbar.clickShareButton();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -611,20 +604,17 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Delete');
       expect(await page.getSnackBarMessage()).toContain(`${pdfSharedFiles} deleted`);
-      // TODO: enable this when ACA-1806 is fixed
-      // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
+      expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfSharedFiles).isPresent()).toBe(true, 'Item is not present in Trash');
     });
 
-    // TODO: enable tis when Unshare is implemented - ACA-122
-    xit('Share action - [C286381]', async () => {
+    it('Share action - [C286381]', async () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      await toolbar.clickShareEditButton();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -748,8 +738,7 @@ describe('Viewer actions', () => {
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Delete');
       expect(await page.getSnackBarMessage()).toContain(`${pdfFavorites} deleted`);
-      // TODO: enable this when ACA-1806 is fixed
-      // expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
+      expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
       expect(await dataTable.getRowByName(pdfFavorites).isPresent()).toBe(true, 'Item is not present in Trash');
@@ -759,8 +748,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      await toolbar.clickShareButton();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
