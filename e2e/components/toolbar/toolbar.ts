@@ -30,10 +30,10 @@ import { Component } from '../component';
 export class Toolbar extends Component {
   private static selectors = {
     root: '.adf-toolbar',
-    button: '.mat-icon-button',
-
+    button: 'button',
+    
     share: `.mat-icon-button[title='Share']`,
-    shareEdit: `.mat-icon-button[title='Shared link settings']`,
+    shareEdit: `.mat-icon-button[title='Shared link settings']`
   };
 
   menu: Menu = new Menu();

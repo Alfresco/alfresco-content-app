@@ -148,7 +148,7 @@ export class Menu extends Component {
   }
 
   async isMenuItemPresent(title: string) {
-    return await this.component.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
+    return await browser.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
   }
 
   async isSubMenuItemPresent(title: string) {

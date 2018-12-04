@@ -39,6 +39,7 @@ describe('Empty list views', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, pagination } = page;
+  const { searchInput } = page.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -148,10 +149,25 @@ describe('Empty list views', () => {
   it('Trash - pagination controls not displayed - [C280120]', async () => {
     await page.clickTrash();
     expect(await pagination.range.isPresent()).toBe(false);
-    expect(pagination.maxItems.isPresent()).toBe(false);
-    expect(pagination.currentPage.isPresent()).toBe(false);
-    expect(pagination.totalPages.isPresent()).toBe(false);
-    expect(pagination.previousButton.isPresent()).toBe(false);
-    expect(pagination.nextButton.isPresent()).toBe(false);
+    expect(await pagination.maxItems.isPresent()).toBe(false);
+    expect(await pagination.currentPage.isPresent()).toBe(false);
+    expect(await pagination.totalPages.isPresent()).toBe(false);
+    expect(await pagination.previousButton.isPresent()).toBe(false);
+    expect(await pagination.nextButton.isPresent()).toBe(false);
+  });
+
+  it('Search results - pagination controls not displayed - [C290123]', async () => {
+    await searchInput.clickSearchButton();
+    await searchInput.checkOnlyFiles();
+    /* cspell:disable-next-line */
+    await searchInput.searchFor('qwertyuiop');
+    await dataTable.waitForBody();
+
+    expect(await pagination.range.isPresent()).toBe(false);
+    expect(await pagination.maxItems.isPresent()).toBe(false);
+    expect(await pagination.currentPage.isPresent()).toBe(false);
+    expect(await pagination.totalPages.isPresent()).toBe(false);
+    expect(await pagination.previousButton.isPresent()).toBe(false);
+    expect(await pagination.nextButton.isPresent()).toBe(false);
   });
 });

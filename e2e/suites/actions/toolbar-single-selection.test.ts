@@ -40,6 +40,9 @@ describe('Toolbar actions - single selection : ', () => {
   const fileInSite = `fileAdmin-${Utils.random()}.txt`;
   const folderInSite = `folderAdmin-${Utils.random()}`;
 
+  const adminPublic = `admin-public-${Utils.random()}`;
+  const adminModerated = `admin-moderated-${Utils.random()}`;
+
   const apis = {
       admin: new RepoClient(),
       user: new RepoClient(username, username)
@@ -66,12 +69,17 @@ describe('Toolbar actions - single selection : ', () => {
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
-
     await apis.user.nodes.createFile(fileInSite, docLibId);
     await apis.user.nodes.createFolder(folderInSite, docLibId);
 
     await apis.user.nodes.deleteNodeById(fileForDeleteId, false);
     await apis.user.nodes.deleteNodeById(folderForDeleteId, false);
+
+    await apis.admin.sites.createSite(adminPublic);
+    await apis.admin.sites.createSite(adminModerated, SITE_VISIBILITY.MODERATED);
+    await apis.user.favorites.addFavoriteById('site', adminPublic);
+    await apis.user.favorites.addFavoriteById('site', adminModerated);
+    await apis.user.sites.requestToJoin(adminModerated);
 
     await loginPage.loginWith(username);
     done();
@@ -82,6 +90,8 @@ describe('Toolbar actions - single selection : ', () => {
       apis.user.nodes.deleteNodeById(fileUserId),
       apis.user.nodes.deleteNodeById(folderUserId),
       apis.user.sites.deleteSite(siteName),
+      apis.admin.sites.deleteSite(adminPublic),
+      apis.admin.sites.deleteSite(adminModerated),
       apis.user.trashcan.emptyTrash()
     ]);
     done();
@@ -94,26 +104,6 @@ describe('Toolbar actions - single selection : ', () => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
       done();
-    });
-
-    it('Correct actions appear when a library is selected - My Libraries - [C213135]', async () => {
-      await page.goToMyLibraries();
-      await dataTable.selectItem(siteName);
-      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
-      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
-      await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
-    });
-
-    it('Correct actions appear when a library is selected - Favorite Libraries - [C289892]', async () => {
-      await page.goToFavoriteLibraries();
-      await dataTable.selectItem(siteName);
-      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
-      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
-      await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
     });
 
     it('selected row is marked with a check circle icon - [C213134]', async () => {
@@ -204,6 +194,58 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderInSite}`);
       expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderInSite}`);
       await toolbar.closeMoreMenu();
+    });
+  });
+
+  describe('on a library', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await dataTable.clearSelection();
+      done();
+    });
+
+    it('Available actions when a library is selected - My Libraries - [C213135]', async () => {
+      await page.goToMyLibraries();
+      await dataTable.selectItem(siteName);
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
+      expect(await toolbar.isButtonPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user is a member - [C289892]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.selectItem(siteName);
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
+      expect(await toolbar.isButtonPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user is not a member - [C290090]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.selectItem(adminPublic);
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${adminPublic}`);
+      expect(await toolbar.isButtonPresent('Join')).toBe(true, `Join is not displayed for ${adminPublic}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminPublic}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user requested to join - [C290091]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.selectItem(adminModerated);
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${adminModerated}`);
+      expect(await toolbar.isButtonPresent('Cancel join')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminModerated}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminModerated}`);
     });
   });
 
