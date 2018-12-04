@@ -18,7 +18,7 @@
             <aca-info-drawer [node]="selection.file"></aca-info-drawer>
         </adf-viewer-sidebar>
 
-        <adf-viewer-open-with>
+        <adf-viewer-open-with *ngIf="openWith.length">
             <ng-container *ngFor="let action of openWith; trackBy: trackByActionId">
                 <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
             </ng-container>
@@ -30,7 +30,7 @@
             </ng-container>
         </adf-viewer-toolbar-actions>
 
-        <adf-viewer-more-actions>
+        <adf-viewer-more-actions *ngIf="viewerToolbarMoreActions.length">
             <ng-container *ngFor="let action of viewerToolbarMoreActions; trackBy: trackByActionId">
                 <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
             </ng-container>
