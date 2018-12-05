@@ -836,7 +836,7 @@
     "viewer": {
       "toolbarActions": [
         {
-          "id": "app.toolbar.download",
+          "id": "app.viewer.download",
           "order": 200,
           "title": "APP.ACTIONS.DOWNLOAD",
           "icon": "get_app",
@@ -872,7 +872,7 @@
           }
         },
         {
-          "id": "app.toolbar.share.edit",
+          "id": "app.viewer.share.edit",
           "order": 401,
           "title": "APP.ACTIONS.SHARE_EDIT",
           "icon": "share",
