@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { TestBed, fakeAsync } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { of, throwError } from 'rxjs';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Actions, ofType, EffectsModule } from '@ngrx/effects';
@@ -41,7 +41,9 @@ import {
   NAVIGATE_ROUTE,
   DeleteNodesAction,
   MoveNodesAction,
-  CopyNodesAction
+  CopyNodesAction,
+  ShareNodeAction,
+  SetSelectedNodesAction
 } from '../store/actions';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -77,11 +79,6 @@ describe('ContentManagementService', () => {
     translationService = TestBed.get(TranslationService);
 
     dialog = TestBed.get(MatDialog);
-    spyOn(dialog, 'open').and.returnValue({
-      afterClosed() {
-        return of(true);
-      }
-    });
   });
 
   describe('Copy node action', () => {
@@ -989,6 +986,14 @@ describe('ContentManagementService', () => {
   });
 
   describe('Permanent Delete', () => {
+    beforeEach(() => {
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed() {
+          return of(true);
+        }
+      });
+    });
+
     it('does not purge nodes if no selection', () => {
       spyOn(contentApi, 'purgeDeletedNode');
 
@@ -1483,5 +1488,69 @@ describe('ContentManagementService', () => {
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
     });
+  });
+
+  describe('Share Node', () => {
+    it('should open dialog for nodes without requesting getNodeInfo', fakeAsync(() => {
+      const node = { entry: { id: '1', name: 'name1' } };
+      spyOn(contentApi, 'getNodeInfo').and.returnValue(of({}));
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed() {
+          return of(null);
+        }
+      });
+
+      store.dispatch(new ShareNodeAction(node));
+
+      expect(contentApi.getNodeInfo).not.toHaveBeenCalled();
+      expect(dialog.open).toHaveBeenCalled();
+    }));
+
+    it('should open dialog with getNodeInfo data when `id` property is missing', fakeAsync(() => {
+      const node = { entry: { nodeId: '1', name: 'name1' } };
+      spyOn(contentApi, 'getNodeInfo').and.returnValue(of({}));
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed() {
+          return of(null);
+        }
+      });
+
+      store.dispatch(new ShareNodeAction(node));
+
+      expect(contentApi.getNodeInfo).toHaveBeenCalled();
+      expect(dialog.open).toHaveBeenCalled();
+    }));
+
+    it('should update node selection after dialog is closed', fakeAsync(() => {
+      const node = { entry: { id: '1', name: 'name1' } };
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed() {
+          return of(null);
+        }
+      });
+
+      store.dispatch(new ShareNodeAction(node));
+
+      expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(
+        new SetSelectedNodesAction([node])
+      );
+    }));
+
+    it('should emit event when node is un-shared', fakeAsync(() => {
+      const node = { entry: { id: '1', name: 'name1' } };
+      spyOn(contentManagementService.linksUnshared, 'next').and.callThrough();
+      spyOn(dialog, 'open').and.returnValue({
+        afterClosed: () => of(node)
+      });
+
+      store.dispatch(new ShareNodeAction(node));
+      tick();
+      flush();
+
+      expect(contentManagementService.linksUnshared.next).toHaveBeenCalledWith(
+        jasmine.any(Object)
+      );
+    }));
   });
 });
