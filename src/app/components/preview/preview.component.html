@@ -3,7 +3,7 @@
     <adf-viewer
         [fileNodeId]="nodeId"
         [allowNavigate]="navigateMultiple"
-        [allowSidebar]="true"
+        [allowSidebar]="hasRightSidebar"
         [allowPrint] ="false"
         [allowDownload]="false"
         [allowFullScreen]="false"
@@ -12,13 +12,14 @@
         [overlayMode]="true"
         (showViewerChange)="onVisibilityChanged($event)"
         (navigateBefore)="onNavigateBefore()"
-        (navigateNext)="onNavigateNext()">
+        (navigateNext)="onNavigateNext()"
+        [ngClass]="hasRightSidebar ? 'hide-last-divider': ''">
 
         <adf-viewer-sidebar>
             <aca-info-drawer [node]="selection.file"></aca-info-drawer>
         </adf-viewer-sidebar>
 
-        <adf-viewer-open-with>
+        <adf-viewer-open-with *ngIf="openWith.length">
             <ng-container *ngFor="let action of openWith; trackBy: trackByActionId">
                 <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
             </ng-container>
@@ -30,7 +31,7 @@
             </ng-container>
         </adf-viewer-toolbar-actions>
 
-        <adf-viewer-more-actions>
+        <adf-viewer-more-actions *ngIf="viewerToolbarMoreActions.length">
             <ng-container *ngFor="let action of viewerToolbarMoreActions; trackBy: trackByActionId">
                 <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
             </ng-container>

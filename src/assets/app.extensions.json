@@ -7,9 +7,7 @@
   "$license": "LGPL-3.0",
   "$runtime": "1.5.0",
   "$description": "Core application extensions and features",
-  "$references": [
-    "app.header.json"
-  ],
+  "$references": [],
 
   "rules": [
     {
@@ -56,11 +54,26 @@
       ]
     },
     {
-      "id": "app.toolbar.canShare",
+      "id": "app.context.canShare",
       "type": "core.every",
       "parameters": [
         { "type": "rule", "value": "app.selection.file.canShare" },
         { "type": "rule", "value": "repository.isQuickShareEnabled" }
+      ]
+    },
+    {
+      "id": "app.toolbar.canShare",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.file.canShare" },
+        { "type": "rule", "value": "repository.isQuickShareEnabled" },
+        {
+          "type": "rule",
+          "value": "core.not",
+          "parameters": [
+            { "type": "rule", "value": "app.selection.file.isShared" }
+          ]
+        }
       ]
     },
     {
@@ -339,8 +352,32 @@
     ],
     "toolbar": [
       {
-        "id": "app.toolbar.preview",
+        "id": "app.toolbar.share",
         "order": 100,
+        "title": "APP.ACTIONS.SHARE",
+        "icon": "share",
+        "actions": {
+          "click": "SHARE_NODE"
+        },
+        "rules": {
+          "visible": "app.toolbar.canShare"
+        }
+      },
+      {
+        "id": "app.toolbar.share.edit",
+        "order": 101,
+        "title": "APP.ACTIONS.SHARE_EDIT",
+        "icon": "share",
+        "actions": {
+          "click": "SHARE_NODE"
+        },
+        "rules": {
+          "visible": "app.selection.file.isShared"
+        }
+      },
+      {
+        "id": "app.toolbar.preview",
+        "order": 300,
         "title": "APP.ACTIONS.VIEW",
         "icon": "open_in_browser",
         "actions": {
@@ -364,7 +401,7 @@
       },
       {
         "id": "app.toolbar.editFolder",
-        "order": 300,
+        "order": 250,
         "title": "APP.ACTIONS.EDIT",
         "icon": "create",
         "actions": {
@@ -397,6 +434,11 @@
         "rules": {
           "visible": "app.trashcan.hasSelection"
         }
+      },
+      {
+        "id": "app.create.separator.2",
+        "type": "separator",
+        "order": 680
       },
       {
         "id": "app.toolbar.info.infoDrawer",
@@ -488,6 +530,11 @@
             }
           },
           {
+            "id": "app.create.separator.3",
+            "type": "separator",
+            "order": 380
+          },
+          {
             "id": "app.toolbar.copy",
             "order": 400,
             "title": "APP.ACTIONS.COPY",
@@ -509,15 +556,6 @@
             },
             "rules": {
               "visible": "app.selection.canDelete"
-            }
-          },
-          {
-            "id": "app.toolbar.share",
-            "type": "custom",
-            "order": 600,
-            "component": "app.shared-link.toggleSharedLink",
-            "rules": {
-              "visible": "app.toolbar.canShare"
             }
           },
           {
@@ -543,6 +581,11 @@
             "rules": {
               "visible": "app.selection.library"
             }
+          },
+          {
+            "id": "app.create.separator.4",
+            "type": "separator",
+            "order": 980
           },
           {
             "id": "app.toolbar.versions",
@@ -573,8 +616,17 @@
     ],
     "contextMenu": [
       {
-        "id": "app.context.menu.download",
+        "id": "app.context.menu.share",
+        "type": "custom",
         "order": 100,
+        "component": "app.shared-link.toggleSharedLink",
+        "rules": {
+          "visible": "app.context.canShare"
+        }
+      },
+      {
+        "id": "app.context.menu.download",
+        "order": 200,
         "title": "APP.ACTIONS.DOWNLOAD",
         "icon": "get_app",
         "actions": {
@@ -586,7 +638,7 @@
       },
       {
         "id": "app.context.menu.preview",
-        "order": 200,
+        "order": 300,
         "title": "APP.ACTIONS.VIEW",
         "icon": "open_in_browser",
         "actions": {
@@ -598,7 +650,7 @@
       },
       {
         "id": "app.context.menu.editFolder",
-        "order": 300,
+        "order": 400,
         "title": "APP.ACTIONS.EDIT",
         "icon": "create",
         "actions": {
@@ -606,15 +658,6 @@
         },
         "rules": {
           "visible": "app.toolbar.canEditFolder"
-        }
-      },
-      {
-        "id": "app.context.menu.share",
-        "type": "custom",
-        "order": 400,
-        "component": "app.shared-link.toggleSharedLink",
-        "rules": {
-          "visible": "app.toolbar.canShare"
         }
       },
       {
@@ -682,9 +725,14 @@
         }
       },
       {
+        "id": "app.create.separator.5",
+        "type": "separator",
+        "order": 720
+      },
+      {
         "id": "app.context.menu.copy",
         "title": "APP.ACTIONS.COPY",
-        "order": 700,
+        "order": 750,
         "icon": "content_copy",
         "actions": {
           "click": "COPY_NODES"
@@ -728,6 +776,11 @@
         "rules": {
           "visible": "app.libraries.toolbar"
         }
+      },
+      {
+        "id": "app.create.separator.6",
+        "type": "separator",
+        "order": 980
       },
       {
         "id": "app.context.menu.versions",
@@ -781,8 +834,8 @@
     "viewer": {
       "toolbarActions": [
         {
-          "id": "app.toolbar.download",
-          "order": 100,
+          "id": "app.viewer.download",
+          "order": 200,
           "title": "APP.ACTIONS.DOWNLOAD",
           "icon": "get_app",
           "actions": {
@@ -794,7 +847,7 @@
         },
         {
           "id": "app.viewer.print",
-          "order": 200,
+          "order": 300,
           "title": "APP.ACTIONS.PRINT",
           "icon": "print",
           "actions": {
@@ -806,7 +859,7 @@
         },
         {
           "id": "app.viewer.share",
-          "order": 300,
+          "order": 400,
           "title": "APP.ACTIONS.SHARE",
           "icon": "share",
           "actions": {
@@ -817,8 +870,20 @@
           }
         },
         {
+          "id": "app.viewer.share.edit",
+          "order": 401,
+          "title": "APP.ACTIONS.SHARE_EDIT",
+          "icon": "share",
+          "actions": {
+            "click": "SHARE_NODE"
+          },
+          "rules": {
+            "visible": "app.selection.file.isShared"
+          }
+        },
+        {
           "id": "app.viewer.fullscreen",
-          "order": 400,
+          "order": 100,
           "title": "APP.ACTIONS.FULLSCREEN",
           "icon": "fullscreen",
           "actions": {
@@ -862,15 +927,6 @@
           "component": "app.toolbar.toggleFavorite",
           "rules": {
             "visible": "app.toolbar.favorite.canToggle"
-          }
-        },
-        {
-          "id": "app.viewer.share",
-          "type": "custom",
-          "order": 300,
-          "component": "app.shared-link.toggleSharedLink",
-          "rules": {
-            "visible": "app.toolbar.canShare"
           }
         },
         {

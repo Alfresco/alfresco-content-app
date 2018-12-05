@@ -20,6 +20,7 @@
                 acaContextActions
                 [display]="documentDisplayMode$ | async"
                 [node]="list"
+                [loading]="isLoading"
                 [loading]="dataIsLoading"
                 selectionMode="single"
                 [navigate]="false"
@@ -58,7 +59,12 @@
                 </data-columns>
             </adf-document-list>
 
-            <adf-pagination acaPagination [target]="documentList">
+            <adf-pagination
+            [pagination]="pagination"
+            (changePageSize)="onChangePageSize($event)"
+            (changePageNumber)="onChange($event)"
+            (nextPage)="onChange($event)"
+            (prevPage)="onChange($event)">
             </adf-pagination>
         </div>
 

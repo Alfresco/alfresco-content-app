@@ -74,6 +74,7 @@ export class PreviewComponent extends PageComponent
   navigateMultiple = false;
   openWith: Array<ContentActionRef> = [];
   contentExtensions: Array<ViewerExtensionRef> = [];
+  hasRightSidebar = true;
 
   constructor(
     private contentApi: ContentApiService,
