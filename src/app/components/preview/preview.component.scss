@@ -2,3 +2,17 @@
   width: 100%;
   height: 100%;
 }
+
+.hide-last-divider .adf-viewer-toolbar .mat-toolbar {
+  adf-toolbar-divider:last-of-type {
+    display: none;
+  }
+
+  > button:last-of-type {
+    right: 40px;
+  }
+}
+
+#adf-viewer-moreactions {
+  right: -40px;
+}
