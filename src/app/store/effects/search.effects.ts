@@ -42,11 +42,14 @@ export class SearchEffects {
         item => item.id === SearchOptionIds.Libraries
       );
       const librarySelected = !!libItem && libItem.value;
-
       if (librarySelected) {
-        this.router.navigateByUrl('/search-libraries;q=' + action.payload);
+        this.router.navigateByUrl(
+          '/search-libraries;q=' + encodeURIComponent(action.payload)
+        );
       } else {
-        this.router.navigateByUrl('/search;q=' + action.payload);
+        this.router.navigateByUrl(
+          '/search;q=' + encodeURIComponent(action.payload)
+        );
       }
     })
   );
