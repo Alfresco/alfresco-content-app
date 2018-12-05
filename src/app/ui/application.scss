@@ -2,7 +2,6 @@
 @import 'theme';
 
 $foreground: map-get($theme, foreground);
-$primary: map-get($theme, primary);
 
 html,
 body {
@@ -24,13 +23,4 @@ adf-layout-container,
 aca-search-results,
 ng-component {
   @include flex-column;
-}
-
-.mat-slide-toggle.mat-primary.mat-checked:not(.mat-disabled) {
-  .mat-slide-toggle-thumb {
-    background-color: mat-color($primary);
-  }
-  .mat-slide-toggle-bar {
-    background-color: mat-color($primary, 0.54);
-  }
 }
