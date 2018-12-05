@@ -12,6 +12,7 @@
 @import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
 @import '../components/layout/layout.theme.scss';
+@import '../components/shared/content-node-share/content-node-share.dialog.scss';
 
 @import './overrides/adf-toolbar.theme';
 @import './overrides/adf-search-filter.theme';
@@ -95,4 +96,5 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
   @include aca-current-user-theme($theme);
   @include aca-context-menu-theme($theme);
   @include app-create-menu-theme($theme);
+  @include aca-share-dialog-theme($theme);
 }
