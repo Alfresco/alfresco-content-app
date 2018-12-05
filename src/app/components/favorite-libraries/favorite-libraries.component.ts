@@ -26,21 +26,22 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { SiteEntry, FavoritePaging } from 'alfresco-js-api';
+import { SiteEntry, FavoritePaging, Pagination } from 'alfresco-js-api';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentApiService } from '../../services/content-api.service';
 import { NavigateLibraryAction } from '../../store/actions';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
-
+import { UserPreferencesService } from '@alfresco/adf-core';
 @Component({
   templateUrl: './favorite-libraries.component.html'
 })
 export class FavoriteLibrariesComponent extends PageComponent
   implements OnInit {
+  pagination: Pagination;
+  isLoading = false;
   list: FavoritePaging;
-  dataIsLoading = true;
   isSmallScreen = false;
   columns: any[] = [];
 
@@ -49,7 +50,8 @@ export class FavoriteLibrariesComponent extends PageComponent
     store: Store<AppStore>,
     extensions: AppExtensionService,
     private contentApiService: ContentApiService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private preferences: UserPreferencesService
   ) {
     super(store, extensions, content);
   }
@@ -57,7 +59,7 @@ export class FavoriteLibrariesComponent extends PageComponent
   ngOnInit() {
     super.ngOnInit();
 
-    this.getList();
+    this.getList({ maxItems: this.preferences.paginationSize });
 
     this.subscriptions = this.subscriptions.concat([
       this.content.libraryDeleted.subscribe(() => this.reloadList()),
@@ -81,21 +83,33 @@ export class FavoriteLibrariesComponent extends PageComponent
     }
   }
 
-  private getList() {
-    this.contentApiService.getFavoriteLibraries().subscribe(
+  onChangePageSize(pagination: Pagination) {
+    this.preferences.paginationSize = pagination.maxItems;
+    this.getList(pagination);
+  }
+
+  onChange(pagination: Pagination) {
+    this.getList(pagination);
+  }
+
+  private getList(pagination: Pagination) {
+    this.isLoading = true;
+    this.contentApiService.getFavoriteLibraries('-me-', pagination).subscribe(
       (favoriteLibraries: FavoritePaging) => {
         this.list = favoriteLibraries;
-        this.dataIsLoading = false;
+        this.pagination = favoriteLibraries.list.pagination;
+        this.isLoading = false;
       },
       () => {
         this.list = null;
-        this.dataIsLoading = false;
+        this.pagination = null;
+        this.isLoading = false;
       }
     );
   }
 
   private reloadList() {
     this.reload();
-    this.getList();
+    this.getList(this.pagination);
   }
 }

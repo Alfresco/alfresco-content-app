@@ -186,8 +186,14 @@ export class ContentApiService {
     return from(this.api.favoritesApi.getFavorites(personId, opts));
   }
 
-  getFavoriteLibraries(personId: string = '-me-'): Observable<FavoritePaging> {
-    return this.getFavorites(personId, { where: '(EXISTS(target/site))' }).pipe(
+  getFavoriteLibraries(
+    personId: string = '-me-',
+    opts?: any
+  ): Observable<FavoritePaging> {
+    return this.getFavorites(personId, {
+      ...opts,
+      where: '(EXISTS(target/site))'
+    }).pipe(
       map((response: FavoritePaging) => {
         return {
           list: {
