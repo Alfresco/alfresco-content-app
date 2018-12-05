@@ -55,15 +55,17 @@ describe('Restore from Trash', () => {
   xit('');
 
   describe('successful restore', () => {
-    const file = `file-${Utils.random()}.txt`;
-    let fileId;
-    const folder = `folder-${Utils.random()}`;
-    let folderId;
+    const file = `file-${Utils.random()}.txt`; let fileId;
+    const folder = `folder-${Utils.random()}`; let folderId;
+    const site = `site-${Utils.random()}`;
 
     beforeAll(async (done) => {
       fileId = (await apis.user.nodes.createFile(file)).entry.id;
       folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
+      await apis.user.sites.createSite(site);
+
       await apis.user.nodes.deleteNodesById([fileId, folderId], false);
+      await apis.user.sites.deleteSite(site, false);
       done();
     });
 
@@ -101,6 +103,17 @@ describe('Restore from Trash', () => {
       expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodeById(folderId, false);
+    });
+
+    it('restore library - [C290104]', async () => {
+      await dataTable.selectItem(site);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      const text = await page.getSnackBarMessage();
+      expect(text).toContain(`${site} restored`);
+      expect(text).toContain(`View`);
+      expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} was not removed from list`);
+      await page.clickFileLibrariesAndWait();
+      expect(await page.dataTable.getRowByName(site).isPresent()).toBe(true, `${site} not displayed in list`);
     });
 
     it('restore multiple items - [C217182]', async () => {
