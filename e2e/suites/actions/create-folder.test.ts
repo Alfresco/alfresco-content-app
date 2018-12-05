@@ -23,11 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
 import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { CreateOrEditFolderDialog } from '../../components/dialog/create-edit-folder-dialog';
-import { Menu } from '../../components/menu/menu';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -41,7 +39,12 @@ describe('Create folder', () => {
   const duplicateFolderName = `folder-${Utils.random()}`;
   const nameWithSpaces = ` folder-${Utils.random()} `;
 
-  const siteName = `site-private-${Utils.random()}`;
+  const sitePrivate = `site-private-${Utils.random()}`;
+  const siteName = `site-${Utils.random()}`;
+
+  const folderSite = `folder-site-${Utils.random()}`;
+  const duplicateFolderSite = `folder-${Utils.random()}`;
+  let docLibUserSite;
 
   const apis = {
     admin: new RepoClient(),
@@ -52,22 +55,29 @@ describe('Create folder', () => {
   const page = new BrowsingPage();
   const createDialog = new CreateOrEditFolderDialog();
   const { dataTable } = page;
-  const menu = new Menu();
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
-    await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE);
-    const docLibId = (await apis.admin.sites.getDocLibId(siteName));
+
+    await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
+    const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
     await apis.admin.nodes.createFolder(folderName1, docLibId);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+    await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+
     parentId = (await apis.user.nodes.createFolder(parent)).entry.id;
     await apis.user.nodes.createFolder(duplicateFolderName, parentId);
+
+    await apis.user.sites.createSite(siteName);
+    docLibUserSite = await apis.user.sites.getDocLibId(siteName);
+    await apis.user.nodes.createFolder(duplicateFolderSite, docLibUserSite);
+
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await apis.admin.sites.deleteSite(siteName);
+    await apis.admin.sites.deleteSite(sitePrivate);
+    await apis.user.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(parentId);
     done();
   });
@@ -81,13 +91,6 @@ describe('Create folder', () => {
     afterEach(async (done) => {
       await Utils.pressEscape();
       done();
-    });
-
-    it('option is enabled when having enough permissions - [C216339]', async () => {
-      await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openNewMenu();
-      const isEnabled = await menu.getItemByLabel('Create folder').isEnabled();
-      expect(isEnabled).toBe(true, 'Create folder is not enabled');
     });
 
     it('creates new folder with name - [C216341]', async () => {
@@ -112,16 +115,9 @@ describe('Create folder', () => {
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
       expect(await dataTable.getRowByName(folderName2).isPresent()).toBe(true, 'Folder not displayed');
-      const desc = await apis.user.nodes.getNodeDescription(folderName2, parent);
+      const desc = await apis.user.nodes.getNodeDescription(folderName2, parentId);
       expect(desc).toEqual(folderDescription);
       done();
-    });
-
-    it('enabled option tooltip - [C216342]', async () => {
-      await page.dataTable.doubleClickOnRowByName(parent);
-      await page.sidenav.openNewMenu();
-      await browser.actions().mouseMove(menu.getItemByLabel('Create folder')).perform();
-      expect(await menu.getItemTooltip('Create folder')).toContain('Create new folder');
     });
 
     it('dialog UI elements - [C216345]', async () => {
@@ -238,21 +234,39 @@ describe('Create folder', () => {
       done();
     });
 
-    it('option is disabled when not enough permissions - [C280397]', async () => {
-      await fileLibrariesPage.dataTable.doubleClickOnRowByName(siteName);
-      await fileLibrariesPage.dataTable.doubleClickOnRowByName(folderName1);
-      await fileLibrariesPage.sidenav.openNewMenu();
-      const isEnabled = await menu.getItemByLabel('Create folder').isEnabled();
-      expect(isEnabled).toBe(false, 'Create folder is not disabled');
+    it('creates new folder with name and description - [C280394]', async () => {
+      await page.dataTable.doubleClickOnRowByName(siteName);
+      await page.sidenav.openCreateFolderDialog();
+      await createDialog.waitForDialogToOpen();
+      await createDialog.enterName(folderSite);
+      await createDialog.enterDescription(folderDescription);
+      await createDialog.clickCreate();
+      await createDialog.waitForDialogToClose();
+      await dataTable.waitForHeader();
+      expect(await dataTable.getRowByName(folderSite).isPresent()).toBe(true, 'Folder not displayed');
+      const desc = await apis.user.nodes.getNodeDescription(folderSite, docLibUserSite);
+      expect(desc).toEqual(folderDescription);
     });
 
-    it('disabled option tooltip - [C280398]', async () => {
-      await fileLibrariesPage.dataTable.doubleClickOnRowByName(siteName);
-      await fileLibrariesPage.dataTable.doubleClickOnRowByName(folderName1);
-      await fileLibrariesPage.sidenav.openNewMenu();
-      await browser.actions().mouseMove(menu.getItemByLabel('Create folder')).perform();
-      const tooltip = await menu.getItemTooltip('Create folder');
-      expect(tooltip).toContain(`Folders cannot be created whilst viewing the current items`);
+    it('cancel folder creation - [C280403]', async () => {
+      await page.dataTable.doubleClickOnRowByName(siteName);
+      await page.sidenav.openCreateFolderDialog();
+      await createDialog.waitForDialogToOpen();
+      await createDialog.enterName('test');
+      await createDialog.enterDescription('test description');
+      await createDialog.clickCancel();
+      expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
+    });
+
+    it('duplicate folder name - [C280404]', async () => {
+      await page.dataTable.doubleClickOnRowByName(siteName);
+      await page.sidenav.openCreateFolderDialog();
+      await createDialog.waitForDialogToOpen();
+      await createDialog.enterName(duplicateFolderSite);
+      await createDialog.clickCreate();
+      const message = await page.getSnackBarMessage();
+      expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
+      expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
   });
 

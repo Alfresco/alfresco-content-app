@@ -360,6 +360,7 @@ export class AppExtensionService implements RuleContext {
             disabled
           };
         })
+        .sort(sortByOrder)
         .reduce(reduceEmptyMenus, [])
         .reduce(reduceSeparators, []);
     }
@@ -377,6 +378,7 @@ export class AppExtensionService implements RuleContext {
           if (copy.children && copy.children.length > 0) {
             copy.children = copy.children
               .filter(childAction => this.filterByRules(childAction))
+              .sort(sortByOrder)
               .reduce(reduceSeparators, []);
           }
           return copy;
@@ -413,6 +415,7 @@ export class AppExtensionService implements RuleContext {
             copy.children = copy.children
               .filter(entry => !entry.disabled)
               .filter(childAction => this.filterByRules(childAction))
+              .sort(sortByOrder)
               .reduce(reduceSeparators, []);
           }
           return copy;

@@ -66,7 +66,7 @@ describe('Context menu actions - multiple selection : ', () => {
     folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    const docLibId = (await apis.user.sites.getDocLibId(siteName));
+    const docLibId = await apis.user.sites.getDocLibId(siteName);
     await apis.user.nodes.createFile(file1Site, docLibId);
     await apis.user.nodes.createFile(file2Site, docLibId);
     await apis.user.nodes.createFolder(folder1Site, docLibId);
