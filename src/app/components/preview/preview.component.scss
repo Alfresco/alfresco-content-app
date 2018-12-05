@@ -3,7 +3,7 @@
   height: 100%;
 }
 
-.hide-last-divider .mat-toolbar {
+.hide-last-divider .adf-viewer-toolbar .mat-toolbar {
   adf-toolbar-divider:last-of-type {
     display: none;
   }
