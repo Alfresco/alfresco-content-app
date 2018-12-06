@@ -107,6 +107,10 @@ export function canDeleteSelection(
     isNotSearchResults(context, ...args) &&
     !context.selection.isEmpty
   ) {
+    if (hasLockedFiles(context, ...args)) {
+      return false;
+    }
+
     // temp workaround for Search api
     if (isFavorites(context, ...args)) {
       return true;
@@ -244,6 +248,10 @@ export function canUpdateSelectedNode(
   if (context.selection && !context.selection.isEmpty) {
     const node = context.selection.first;
 
+    if (node.entry.isFile && hasLockedFiles(context, ...args)) {
+      return false;
+    }
+
     if (node.entry.hasOwnProperty('allowableOperationsOnTarget')) {
       return context.permissions.check(node, ['update'], {
         target: 'allowableOperationsOnTarget'
@@ -268,4 +276,21 @@ export function canUpdateSelectedFolder(
     );
   }
   return false;
+}
+
+export function hasLockedFiles(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  return context.selection.nodes.some(node => {
+    if (!node.entry.isFile) {
+      return false;
+    }
+
+    return (
+      node.entry.isLocked ||
+      (node.entry.properties &&
+        node.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK')
+    );
+  });
 }
