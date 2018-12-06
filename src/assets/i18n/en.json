@@ -277,7 +277,8 @@
                 "DELETE_LIBRARY_FAILED": "Cannot delete the library",
                 "JOIN_REQUEST_FAILED": "Cannot join the library",
                 "JOIN_CANCEL_FAILED": "Cannot cancel the request to join the library",
-                "LEAVE_LIBRARY_FAILED": "Cannot leave this library"
+                "LEAVE_LIBRARY_FAILED": "Cannot leave this library",
+                "INVALID_EMAIL": "Sender or receiver email configured on server not valid, contact IT",
             },
             "UPLOAD": {
                 "ERROR": {

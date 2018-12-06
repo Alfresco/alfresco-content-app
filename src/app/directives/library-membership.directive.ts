@@ -130,6 +130,18 @@ export class LibraryMembershipDirective implements OnChanges {
             error,
             i18nKey: 'APP.MESSAGES.ERRORS.JOIN_REQUEST_FAILED'
           };
+
+          const senderEmailCheck = 'Failed to resolve sender mail address';
+          const receiverEmailCheck =
+            'All recipients for the mail action were invalid';
+          if (
+            error.message &&
+            (error.message.includes(senderEmailCheck) ||
+              error.message.includes(receiverEmailCheck))
+          ) {
+            errWithMessage.i18nKey = 'APP.MESSAGES.ERRORS.INVALID_EMAIL';
+          }
+
           this.error.emit(errWithMessage);
         }
       );
