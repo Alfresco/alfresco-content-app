@@ -123,10 +123,12 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   }
 
   private updateSelection() {
-    const selection = this.documentList.selection.map(entry => {
-      entry['isLibrary'] = this.isLibrary;
-      return entry;
-    });
+    const selection = this.documentList.selection
+      .filter(node => !this.isLockedNode(node.entry))
+      .map(node => {
+        node['isLibrary'] = this.isLibrary;
+        return node;
+      });
 
     this.store.dispatch(new SetSelectedNodesAction(selection));
   }
