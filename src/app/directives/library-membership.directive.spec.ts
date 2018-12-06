@@ -35,6 +35,7 @@ import { AppTestingModule } from '../testing/app-testing.module';
 import { DirectivesModule } from './directives.module';
 import { LibraryMembershipDirective } from './library-membership.directive';
 import { NO_ERRORS_SCHEMA, SimpleChange } from '@angular/core';
+import { throwError } from 'rxjs';
 
 describe('LibraryMembershipDirective', () => {
   let alfrescoApiService: AlfrescoApiService;
@@ -164,6 +165,19 @@ describe('LibraryMembershipDirective', () => {
       tick();
       expect(addMembershipSpy).toHaveBeenCalled();
       expect(deleteMembershipSpy).not.toHaveBeenCalled();
+    }));
+
+    it('should emit error when the request to join a library fails', fakeAsync(() => {
+      spyOn(directive.error, 'emit');
+      addMembershipSpy.and.returnValue(throwError('err'));
+
+      const selection = { entry: { id: 'no-membership-requested' } };
+      const change = new SimpleChange(null, selection, true);
+      directive.ngOnChanges({ selection: change });
+      tick();
+      directive.toggleMembershipRequest();
+      tick();
+      expect(directive.error.emit).toHaveBeenCalled();
     }));
   });
 });
