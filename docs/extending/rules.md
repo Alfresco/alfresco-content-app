@@ -143,6 +143,7 @@ The button will be visible only when the linked rule evaluates to `true`.
 | app.selection.file              | A single File node is selected.                              |
 | app.selection.file.canShare     | User is able to share the selected file.                     |
 | app.selection.file.isShared     | A shared node is selected                                    |
+| app.selection.file.isLocked     | File is locked for editing                                   |
 | app.selection.library           | A single Library node is selected.                           |
 | app.selection.isPrivateLibrary  | A private Library node is selected.                          |
 | app.selection.hasLibraryRole    | The selected Library node has a role property.               |
