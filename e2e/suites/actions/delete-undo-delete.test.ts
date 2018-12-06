@@ -59,16 +59,23 @@ describe('Delete and undo delete', () => {
     const file4 = `file4-${Utils.random()}.txt`; let file4Id;
     const folder1 = `folder1-${Utils.random()}`; let folder1Id;
     const folder2 = `folder2-${Utils.random()}`; let folder2Id;
-    const fileLocked1 = `fileLocked-${Utils.random()}.txt`; let fileLocked1Id;
+    const folder3 = `folder3-${Utils.random()}`; let folder3Id;
+    const fileLocked1 = `fileLocked1-${Utils.random()}.txt`; let fileLocked1Id;
+    const fileLocked2 = `fileLocked2-${Utils.random()}.txt`; let fileLocked2Id;
 
     beforeAll(async (done) => {
       file1Id = (await apis.user.nodes.createFile(file1)).entry.id;
       file2Id = (await apis.user.nodes.createFile(file2)).entry.id;
       folder1Id = (await apis.user.nodes.createFolder(folder1)).entry.id;
+
       folder2Id = (await apis.user.nodes.createFolder(folder2)).entry.id;
       await apis.user.nodes.createFile(file3, folder1Id);
       file4Id = (await apis.user.nodes.createFile(file4, folder2Id)).entry.id;
       await apis.user.nodes.lockFile(file4Id);
+
+      folder3Id = (await apis.user.nodes.createFolder(folder3)).entry.id;
+      fileLocked2Id = (await apis.user.nodes.createFile(fileLocked2, folder3Id)).entry.id;
+      await apis.user.nodes.lockFile(fileLocked2Id);
 
       fileLocked1Id = (await apis.user.nodes.createFile(fileLocked1)).entry.id;
       await apis.user.nodes.lockFile(fileLocked1Id);
@@ -90,7 +97,8 @@ describe('Delete and undo delete', () => {
     afterAll(async (done) => {
       await apis.user.nodes.unlockFile(file4Id);
       await apis.user.nodes.unlockFile(fileLocked1Id);
-      await apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id, fileLocked1Id]);
+      await apis.user.nodes.unlockFile(fileLocked2Id);
+      await apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id, folder3Id, fileLocked1Id]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
     });
@@ -171,7 +179,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('notification on multiple items deletion - all items fail to delete - [C217130]', async () => {
-      await dataTable.selectMultipleItems([fileLocked1, folder2]);
+      await dataTable.selectMultipleItems([folder3, folder2]);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Delete');
       const message = await page.getSnackBarMessage();
@@ -339,23 +347,28 @@ describe('Delete and undo delete', () => {
     const favoriteFile4 = `favFile4-${Utils.random()}.txt`; let favoriteFile4Id;
     const favoriteFolder1 = `favFolder1-${Utils.random()}`; let favoriteFolder1Id;
     const favoriteFolder2 = `favFolder2-${Utils.random()}`; let favoriteFolder2Id;
-    const favoriteFileLocked1 = `favFileLocked-${Utils.random()}.txt`; let favoriteFileLocked1Id;
+    const favoriteFolder3 = `favFolder3-${Utils.random()}`; let favoriteFolder3Id;
+    const favoriteFileLocked1 = `favFileLocked1-${Utils.random()}.txt`; let favoriteFileLocked1Id;
+    const favoriteFileLocked2 = `favFileLocked2-${Utils.random()}.txt`; let favoriteFileLocked2Id;
 
     beforeAll(async (done) => {
       favoriteFile1Id = (await apis.user.nodes.createFile(favoriteFile1)).entry.id;
       favoriteFile2Id = (await apis.user.nodes.createFile(favoriteFile2)).entry.id;
       favoriteFolder1Id = (await apis.user.nodes.createFolder(favoriteFolder1)).entry.id;
       favoriteFolder2Id = (await apis.user.nodes.createFolder(favoriteFolder2)).entry.id;
+      favoriteFolder3Id = (await apis.user.nodes.createFolder(favoriteFolder3)).entry.id;
       await apis.user.nodes.createFile(favoriteFile3, favoriteFolder1Id);
       favoriteFile4Id = (await apis.user.nodes.createFile(favoriteFile4, favoriteFolder2Id)).entry.id;
+      favoriteFileLocked2Id = (await apis.user.nodes.createFile(favoriteFileLocked2, favoriteFolder3Id)).entry.id;
       await apis.user.nodes.lockFile(favoriteFile4Id);
+      await apis.user.nodes.lockFile(favoriteFileLocked2Id);
 
       favoriteFileLocked1Id = (await apis.user.nodes.createFile(favoriteFileLocked1)).entry.id;
       await apis.user.nodes.lockFile(favoriteFileLocked1Id);
 
       await apis.user.favorites.addFavoritesByIds('file', [ favoriteFile1Id, favoriteFile2Id, favoriteFileLocked1Id ]);
-      await apis.user.favorites.addFavoritesByIds('folder', [ favoriteFolder1Id, favoriteFolder2Id ]);
-      await apis.user.favorites.waitForApi({ expect: 5 });
+      await apis.user.favorites.addFavoritesByIds('folder', [ favoriteFolder1Id, favoriteFolder2Id, favoriteFolder3Id ]);
+      await apis.user.favorites.waitForApi({ expect: 6 });
 
       await loginPage.loginWith(username);
       done();
@@ -374,8 +387,9 @@ describe('Delete and undo delete', () => {
     afterAll(async (done) => {
       await apis.user.nodes.unlockFile(favoriteFile4Id);
       await apis.user.nodes.unlockFile(favoriteFileLocked1Id);
+      await apis.user.nodes.unlockFile(favoriteFileLocked2Id);
       await apis.user.nodes.deleteNodesById([
-        favoriteFile1Id, favoriteFile2Id, favoriteFolder1Id, favoriteFolder2Id, favoriteFileLocked1Id
+        favoriteFile1Id, favoriteFile2Id, favoriteFolder1Id, favoriteFolder2Id, favoriteFileLocked1Id, favoriteFolder3Id
       ]);
       await apis.user.search.waitForApi(username, {expect: 0});
       done();
@@ -456,7 +470,7 @@ describe('Delete and undo delete', () => {
     });
 
     it('notification on multiple items deletion - all items fail to delete - [C280521]', async () => {
-      await dataTable.selectMultipleItems([favoriteFileLocked1, favoriteFolder2]);
+      await dataTable.selectMultipleItems([favoriteFolder3, favoriteFolder2]);
       await toolbar.openMoreMenu();
       await toolbar.menu.clickMenuItem('Delete');
       const message = await page.getSnackBarMessage();

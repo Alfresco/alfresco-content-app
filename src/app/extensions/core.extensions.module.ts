@@ -114,6 +114,7 @@ export class CoreExtensionsModule {
       'app.selection.file': app.hasFileSelected,
       'app.selection.file.canShare': app.canShareFile,
       'app.selection.file.isShared': app.isShared,
+      'app.selection.file.isLocked': app.hasLockedFiles,
       'app.selection.library': app.hasLibrarySelected,
       'app.selection.isPrivateLibrary': app.isPrivateLibrary,
       'app.selection.hasLibraryRole': app.hasLibraryRole,
