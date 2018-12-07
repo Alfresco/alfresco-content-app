@@ -26,15 +26,8 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states';
-import { appSelection } from '../../../store/selectors/app.selectors';
-import { Observable } from 'rxjs';
-import { SelectionState } from '@alfresco/adf-extensions';
 import { ContentManagementService } from '../../../services/content-management.service';
-import {
-  SnackbarErrorAction,
-  SnackbarInfoAction
-} from '../../../store/actions/snackbar.actions';
-import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
+import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
 
 @Component({
   selector: 'app-toggle-join-library-menu',
@@ -66,34 +59,8 @@ import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-join-library' }
 })
-export class ToggleJoinLibraryMenuComponent {
-  selection$: Observable<SelectionState>;
-
-  constructor(
-    private store: Store<AppStore>,
-    private content: ContentManagementService
-  ) {
-    this.selection$ = this.store.select(appSelection);
-  }
-
-  onToggleEvent(event) {
-    this.store.dispatch(new SnackbarInfoAction(event.i18nKey));
-
-    if (event.shouldReload) {
-      this.content.libraryJoined.next();
-    } else {
-      if (event.updatedEntry) {
-        this.store.dispatch(
-          new SetSelectedNodesAction([
-            <any>{ entry: event.updatedEntry, isLibrary: true }
-          ])
-        );
-      }
-      this.content.joinLibraryToggle.next();
-    }
-  }
-
-  onErrorEvent(event) {
-    this.store.dispatch(new SnackbarErrorAction(event.i18nKey));
+export class ToggleJoinLibraryMenuComponent extends ToggleJoinLibraryButtonComponent {
+  constructor(store: Store<AppStore>, content: ContentManagementService) {
+    super(store, content);
   }
 }
