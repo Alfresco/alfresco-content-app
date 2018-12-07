@@ -53,8 +53,6 @@ import { ContentApiService } from './services/content-api.service';
 import { DiscoveryEntry } from 'alfresco-js-api';
 import { AppService } from './services/app.service';
 import { Subject } from 'rxjs';
-import { MatIconRegistry } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -75,9 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private uploadService: UploadService,
     private extensions: AppExtensionService,
     private contentApi: ContentApiService,
-    private appService: AppService,
-    private matIconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer
+    private appService: AppService
   ) {}
 
   ngOnInit() {
@@ -92,7 +88,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.registerCustomIcons();
     this.loadAppSettings();
 
     const { router, pageTitle, route } = this;
@@ -193,23 +188,5 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     this.store.dispatch(new SnackbarErrorAction(message));
-  }
-
-  registerCustomIcons() {
-    this.matIconRegistry.addSvgIconInNamespace(
-      'adf',
-      'join_library',
-      this.sanitizer.bypassSecurityTrustResourceUrl(
-        './assets/images/join-library.svg'
-      )
-    );
-
-    this.matIconRegistry.addSvgIconInNamespace(
-      'adf',
-      'move_file',
-      this.sanitizer.bypassSecurityTrustResourceUrl(
-        './assets/images/adf-move-file-24px.svg'
-      )
-    );
   }
 }

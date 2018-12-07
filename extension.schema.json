@@ -563,6 +563,24 @@
           "type": "boolean"
         }
       }
+    },
+    "iconRef": {
+      "type": "object",
+      "required": ["id", "value"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier. Must be in the format '[namespace]:[name]'.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Icon path relative to the application root.",
+          "type": "string"
+        },
+        "disabled": {
+          "description": "Toggles the disabled state",
+          "type": "boolean"
+        }
+      }
     }
   },
 
@@ -628,6 +646,12 @@
       "description": "Application-specific features and extensions",
       "type": "object",
       "properties": {
+        "icons": {
+          "description": "Custom icons",
+          "type": "array",
+          "items": { "$ref": "#/definitions/iconRef" },
+          "minItems": 1
+        },
         "header": {
           "description": "Application header extensions",
           "type": "array",

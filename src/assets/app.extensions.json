@@ -220,6 +220,16 @@
   ],
 
   "features": {
+    "icons": [
+      {
+        "id": "adf:join_library",
+        "value": "./assets/images/join-library.svg"
+      },
+      {
+        "id": "adf:move_file",
+        "value": "./assets/images/adf-move-file-24px.svg"
+      }
+    ],
     "create": [
       {
         "id": "app.create.uploadFile",

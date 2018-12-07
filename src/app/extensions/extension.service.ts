@@ -26,6 +26,8 @@
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AppStore } from '../store/states';
 import { ruleContext } from '../store/selectors/app.selectors';
 import { NodePermissionService } from '../services/node-permission.service';
@@ -53,6 +55,7 @@ import {
 import { AppConfigService } from '@alfresco/adf-core';
 import { DocumentListPresetRef } from './document-list.extensions';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { IconRef } from './icon.extensions';
 
 @Injectable({
   providedIn: 'root'
@@ -105,11 +108,13 @@ export class AppExtensionService implements RuleContext {
   references$: Observable<ExtensionRef[]>;
 
   constructor(
-    private store: Store<AppStore>,
-    private loader: ExtensionLoaderService,
-    private extensions: ExtensionService,
+    protected store: Store<AppStore>,
+    protected loader: ExtensionLoaderService,
+    protected extensions: ExtensionService,
     public permissions: NodePermissionService,
-    private appConfig: AppConfigService
+    protected appConfig: AppConfigService,
+    protected matIconRegistry: MatIconRegistry,
+    protected sanitizer: DomSanitizer
   ) {
     this.references$ = this._references.asObservable();
 
@@ -184,10 +189,35 @@ export class AppExtensionService implements RuleContext {
       searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
 
+    this.registerIcons(config);
+
     const references = (config.$references || [])
       .filter(entry => typeof entry === 'object')
       .map(entry => <ExtensionRef>entry);
     this._references.next(references);
+  }
+
+  protected registerIcons(config: ExtensionConfig) {
+    const icons: Array<IconRef> = this.loader
+      .getElements<IconRef>(config, 'features.icons')
+      .filter(entry => !entry.disabled);
+
+    for (const icon of icons) {
+      const [ns, id] = icon.id.split(':');
+      const value = icon.value;
+
+      if (!value) {
+        console.warn(`Missing icon value for "${icon.id}".`);
+      } else if (!ns || !id) {
+        console.warn(`Incorrect icon id format: "${icon.id}".`);
+      } else {
+        this.matIconRegistry.addSvgIconInNamespace(
+          ns,
+          id,
+          this.sanitizer.bypassSecurityTrustResourceUrl(value)
+        );
+      }
+    }
   }
 
   protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {
