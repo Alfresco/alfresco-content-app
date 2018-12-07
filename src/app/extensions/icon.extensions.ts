@@ -23,25 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { ExperimentalDirective } from './experimental.directive';
-import { DocumentListDirective } from './document-list.directive';
-import { PaginationDirective } from './pagination.directive';
-import { LibraryMembershipDirective } from './library-membership.directive';
-import { LibraryFavoriteDirective } from './library-favorite.directive';
+import { ExtensionElement } from '@alfresco/adf-extensions';
 
-export function directives() {
-  return [
-    ExperimentalDirective,
-    DocumentListDirective,
-    PaginationDirective,
-    LibraryMembershipDirective,
-    LibraryFavoriteDirective
-  ];
+export interface IconRef extends ExtensionElement {
+  value: string;
 }
-
-@NgModule({
-  declarations: directives(),
-  exports: directives()
-})
-export class DirectivesModule {}

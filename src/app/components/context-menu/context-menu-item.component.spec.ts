@@ -75,7 +75,9 @@ describe('ContextMenuComponent', () => {
     fixture.detectChanges();
 
     const buttonElement = fixture.nativeElement.querySelector('button');
-    expect(buttonElement.innerText.trim()).toBe(contextItem.title);
+    expect(buttonElement.querySelector('span').innerText.trim()).toBe(
+      contextItem.title
+    );
   });
 
   it('should not run action when entry has no click attribute defined', () => {

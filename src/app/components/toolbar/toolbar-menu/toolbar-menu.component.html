@@ -2,9 +2,10 @@
   [id]="actionRef.id"
   [color]="color"
   mat-icon-button
-  [attr.title]="(actionRef.description || actionRef.title) | translate"
-  [matMenuTriggerFor]="menu">
-  <mat-icon>{{ actionRef.icon }}</mat-icon>
+  [attr.title]="actionRef.description || actionRef.title | translate"
+  [matMenuTriggerFor]="menu"
+>
+  <adf-icon [value]="actionRef.icon"></adf-icon>
 </button>
 
 <mat-menu #menu="matMenu" [overlapTrigger]="false">

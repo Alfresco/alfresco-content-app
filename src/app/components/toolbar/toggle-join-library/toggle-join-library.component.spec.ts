@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ToggleJoinLibraryComponent } from './toggle-join-library.component';
 import { of } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlfrescoApiService, AlfrescoApiServiceMock } from '@alfresco/adf-core';
@@ -36,10 +35,11 @@ import {
 } from '../../../store/actions/snackbar.actions';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { ContentManagementService } from '../../../services/content-management.service';
+import { ToggleJoinLibraryButtonComponent } from './toggle-join-library-button.component';
 
 describe('ToggleJoinLibraryComponent', () => {
-  let component: ToggleJoinLibraryComponent;
-  let fixture: ComponentFixture<ToggleJoinLibraryComponent>;
+  let component: ToggleJoinLibraryButtonComponent;
+  let fixture: ComponentFixture<ToggleJoinLibraryButtonComponent>;
   let alfrescoApi: AlfrescoApiService;
   let contentManagementService: ContentManagementService;
   let entry;
@@ -59,7 +59,10 @@ describe('ToggleJoinLibraryComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
-      declarations: [ToggleJoinLibraryComponent, LibraryMembershipDirective],
+      declarations: [
+        ToggleJoinLibraryButtonComponent,
+        LibraryMembershipDirective
+      ],
       providers: [
         { provide: Store, useValue: storeMock },
         { provide: AlfrescoApiService, useClass: AlfrescoApiServiceMock }
@@ -67,7 +70,7 @@ describe('ToggleJoinLibraryComponent', () => {
       schemas: [NO_ERRORS_SCHEMA]
     });
 
-    fixture = TestBed.createComponent(ToggleJoinLibraryComponent);
+    fixture = TestBed.createComponent(ToggleJoinLibraryButtonComponent);
     component = fixture.componentInstance;
     alfrescoApi = TestBed.get(AlfrescoApiService);
     contentManagementService = TestBed.get(ContentManagementService);

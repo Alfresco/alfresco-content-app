@@ -111,7 +111,9 @@ describe('ContextMenuComponent', () => {
       .querySelectorAll('button');
 
     expect(contextMenuElements.length).toBe(1);
-    expect(contextMenuElements[0].innerText).toBe(contextItem.title);
+    expect(contextMenuElements[0].querySelector('span').innerText).toBe(
+      contextItem.title
+    );
   }));
 
   it('should run action with provided action id', fakeAsync(() => {

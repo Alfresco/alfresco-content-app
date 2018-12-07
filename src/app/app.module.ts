@@ -73,10 +73,6 @@ import { AppSearchResultsModule } from './components/search/search-results.modul
 import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
 import { environment } from '../environments/environment';
-import { LibraryMembershipDirective } from './directives/library-membership.directive';
-import { ToggleJoinLibraryComponent } from './components/toolbar/toggle-join-library/toggle-join-library.component';
-import { LibraryFavoriteDirective } from './directives/library-favorite.directive';
-import { ToggleFavoriteLibraryComponent } from './components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
 import { AppDataService } from './services/data.service';
 
 @NgModule({
@@ -118,11 +114,7 @@ import { AppDataService } from './services/data.service';
     LibrariesComponent,
     FavoriteLibrariesComponent,
     NodeVersionsDialogComponent,
-    LibraryDialogComponent,
-    LibraryMembershipDirective,
-    ToggleJoinLibraryComponent,
-    LibraryFavoriteDirective,
-    ToggleFavoriteLibraryComponent
+    LibraryDialogComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -137,12 +129,7 @@ import { AppDataService } from './services/data.service';
       }
     }
   ],
-  entryComponents: [
-    LibraryDialogComponent,
-    NodeVersionsDialogComponent,
-    ToggleJoinLibraryComponent,
-    ToggleFavoriteLibraryComponent
-  ],
+  entryComponents: [LibraryDialogComponent, NodeVersionsDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

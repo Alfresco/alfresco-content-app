@@ -23,25 +23,36 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NgModule } from '@angular/core';
-import { ExperimentalDirective } from './experimental.directive';
-import { DocumentListDirective } from './document-list.directive';
-import { PaginationDirective } from './pagination.directive';
-import { LibraryMembershipDirective } from './library-membership.directive';
-import { LibraryFavoriteDirective } from './library-favorite.directive';
+import {
+  Component,
+  Input,
+  ViewEncapsulation,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
-export function directives() {
-  return [
-    ExperimentalDirective,
-    DocumentListDirective,
-    PaginationDirective,
-    LibraryMembershipDirective,
-    LibraryFavoriteDirective
-  ];
-}
-
-@NgModule({
-  declarations: directives(),
-  exports: directives()
+@Component({
+  selector: 'adf-icon',
+  templateUrl: './icon.component.html',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'adf-icon' },
+  styleUrls: ['./icon.component.scss']
 })
-export class DirectivesModule {}
+export class IconComponent {
+  private _value = '';
+  private _isCustom = false;
+
+  get value(): string {
+    return this._value;
+  }
+
+  @Input()
+  set value(value: string) {
+    this._value = value || 'settings';
+    this._isCustom = this._value.includes(':');
+  }
+
+  get isCustom(): boolean {
+    return this._isCustom;
+  }
+}
