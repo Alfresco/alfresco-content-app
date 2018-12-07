@@ -24,6 +24,7 @@ You can create plugins that change, toggle, or extend the following areas:
     - buttons
     - "More actions" buttons
 - Content metadata presets (used on `Properties` tab)
+- Custom icons
 
 Extensions can also:
 
