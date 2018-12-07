@@ -171,8 +171,7 @@ export class ContentManagementService {
       this.dialogRef.open(NodeVersionsDialogComponent, {
         data: { node },
         panelClass: 'adf-version-manager-dialog-panel',
-        width: '630px',
-        autoFocus: true
+        width: '630px'
       });
     } else {
       this.store.dispatch(
@@ -230,8 +229,7 @@ export class ContentManagementService {
         createTitle: undefined,
         nodeType: 'cm:folder'
       },
-      width: '400px',
-      autoFocus: true
+      width: '400px'
     });
 
     dialogInstance.componentInstance.error.subscribe(message => {
@@ -254,8 +252,7 @@ export class ContentManagementService {
       data: {
         folder: folder.entry
       },
-      width: '400px',
-      autoFocus: true
+      width: '400px'
     });
 
     dialog.componentInstance.error.subscribe(message => {
@@ -271,8 +268,7 @@ export class ContentManagementService {
 
   createLibrary(): Observable<string> {
     const dialogInstance = this.dialogRef.open(LibraryDialogComponent, {
-      width: '400px',
-      autoFocus: true
+      width: '400px'
     });
 
     dialogInstance.componentInstance.error.subscribe(message => {
