@@ -55,7 +55,12 @@
       "check-type"
     ],
     "directive-selector": [true, "attribute", "aca", "camelCase"],
-    "component-selector": [true, "element", ["app", "aca"], "kebab-case"],
+    "component-selector": [
+      true,
+      "element",
+      ["app", "aca", "adf"],
+      "kebab-case"
+    ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": false,

@@ -362,7 +362,7 @@
         "id": "app.toolbar.share",
         "order": 100,
         "title": "APP.ACTIONS.SHARE",
-        "icon": "share",
+        "icon": "link",
         "actions": {
           "click": "SHARE_NODE"
         },
@@ -374,7 +374,7 @@
         "id": "app.toolbar.share.edit",
         "order": 101,
         "title": "APP.ACTIONS.SHARE_EDIT",
-        "icon": "share",
+        "icon": "link",
         "actions": {
           "click": "SHARE_NODE"
         },
@@ -386,7 +386,7 @@
         "id": "app.toolbar.preview",
         "order": 300,
         "title": "APP.ACTIONS.VIEW",
-        "icon": "open_in_browser",
+        "icon": "visibility",
         "actions": {
           "click": "VIEW_FILE"
         },
@@ -647,7 +647,7 @@
         "id": "app.context.menu.preview",
         "order": 300,
         "title": "APP.ACTIONS.VIEW",
-        "icon": "open_in_browser",
+        "icon": "visibility",
         "actions": {
           "click": "VIEW_FILE"
         },
@@ -868,7 +868,7 @@
           "id": "app.viewer.share",
           "order": 200,
           "title": "APP.ACTIONS.SHARE",
-          "icon": "share",
+          "icon": "link",
           "actions": {
             "click": "SHARE_NODE"
           },
@@ -880,7 +880,7 @@
           "id": "app.viewer.share.edit",
           "order": 201,
           "title": "APP.ACTIONS.SHARE_EDIT",
-          "icon": "share",
+          "icon": "link",
           "actions": {
             "click": "SHARE_NODE"
           },

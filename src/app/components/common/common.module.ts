@@ -34,6 +34,7 @@ import { LibraryStatusColumnComponent } from './library-status-column/library-st
 import { LibraryRoleColumnComponent } from './library-role-column/library-role-column.component';
 import { TrashcanNameColumnComponent } from './trashcan-name-column/trashcan-name-column.component';
 import { DynamicColumnComponent } from './dynamic-column/dynamic-column.component';
+import { IconComponent } from './icon/icon.component';
 
 @NgModule({
   imports: [CommonModule, CoreModule.forChild()],
@@ -45,7 +46,8 @@ import { DynamicColumnComponent } from './dynamic-column/dynamic-column.componen
     LibraryStatusColumnComponent,
     LibraryRoleColumnComponent,
     TrashcanNameColumnComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    IconComponent
   ],
   exports: [
     GenericErrorComponent,
@@ -55,7 +57,8 @@ import { DynamicColumnComponent } from './dynamic-column/dynamic-column.componen
     LibraryStatusColumnComponent,
     LibraryRoleColumnComponent,
     TrashcanNameColumnComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    IconComponent
   ],
   entryComponents: [
     LocationLinkComponent,

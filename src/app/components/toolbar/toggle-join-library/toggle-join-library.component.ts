@@ -52,11 +52,10 @@ import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
       "
     >
       <mat-icon *ngIf="(membership.isJoinRequested | async)">cancel</mat-icon>
-      <mat-icon
+      <adf-icon
         *ngIf="!(membership.isJoinRequested | async)"
-        svgIcon="join_library"
-        style="pointer-events: none;"
-      ></mat-icon>
+        value="adf:join_library"
+      ></adf-icon>
       <span class="sideLabel">{{
         (membership.isJoinRequested | async)
           ? ('APP.ACTIONS.CANCEL_JOIN' | translate)

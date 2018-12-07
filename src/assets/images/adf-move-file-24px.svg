@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
+  <defs>
+    <style>
+      .cls-1 {
+        clip-path: url(#clip-Artboard_1);
+      }
+
+      .cls-2 {
+        fill: none;
+      }
+
+      .cls-3 {
+        fill: #fff;
+      }
+    </style>
+    <clipPath id="clip-Artboard_1">
+      <rect width="24" height="24"/>
+    </clipPath>
+  </defs>
+  <g id="Artboard_1" data-name="Artboard – 1" class="cls-1">
+    <rect class="cls-3" width="24" height="24"/>
+    <g id="systemicon_bookmark_copy_3" data-name="systemicon/bookmark copy 3">
+      <g id="Page_1" data-name="Page 1">
+        <path id="Fill_1" data-name="Fill 1" class="cls-2" d="M0,24H24V0H0Z"/>
+        <path id="Fill_2" data-name="Fill 2" d="M18,16H2a2,2,0,0,1-2-2L.01,2A2,2,0,0,1,2,0H8l2,2h8a2,2,0,0,1,2,2V14A2,2,0,0,1,18,16ZM9,7v4h4v2l4-4L13,5V7Z" transform="translate(2 4)"/>
+      </g>
+    </g>
+  </g>
+</svg>
