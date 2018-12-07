@@ -171,7 +171,8 @@ export class ContentManagementService {
       this.dialogRef.open(NodeVersionsDialogComponent, {
         data: { node },
         panelClass: 'adf-version-manager-dialog-panel',
-        width: '630px'
+        width: '630px',
+        autoFocus: true
       });
     } else {
       this.store.dispatch(
@@ -229,19 +230,13 @@ export class ContentManagementService {
         createTitle: undefined,
         nodeType: 'cm:folder'
       },
-      width: '400px'
+      width: '400px',
+      autoFocus: true
     });
 
     dialogInstance.componentInstance.error.subscribe(message => {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
-
-    // todo: add focus in ADF component
-    dialogInstance
-      .afterOpened()
-      .subscribe(() =>
-        (<HTMLElement>document.querySelector('#adf-folder-name-input')).focus()
-      );
 
     dialogInstance.afterClosed().subscribe(node => {
       if (node) {
@@ -259,19 +254,13 @@ export class ContentManagementService {
       data: {
         folder: folder.entry
       },
-      width: '400px'
+      width: '400px',
+      autoFocus: true
     });
 
     dialog.componentInstance.error.subscribe(message => {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
-
-    // todo: add focus in ADF component
-    dialog
-      .afterOpened()
-      .subscribe(() =>
-        (<HTMLElement>document.querySelector('#adf-folder-name-input')).focus()
-      );
 
     dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
       if (node) {
@@ -282,7 +271,8 @@ export class ContentManagementService {
 
   createLibrary(): Observable<string> {
     const dialogInstance = this.dialogRef.open(LibraryDialogComponent, {
-      width: '400px'
+      width: '400px',
+      autoFocus: true
     });
 
     dialogInstance.componentInstance.error.subscribe(message => {
