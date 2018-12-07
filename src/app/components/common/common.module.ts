@@ -35,9 +35,10 @@ import { LibraryRoleColumnComponent } from './library-role-column/library-role-c
 import { TrashcanNameColumnComponent } from './trashcan-name-column/trashcan-name-column.component';
 import { DynamicColumnComponent } from './dynamic-column/dynamic-column.component';
 import { IconComponent } from './icon/icon.component';
+import { MatIconModule } from '@angular/material';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
+  imports: [CommonModule, CoreModule.forChild(), MatIconModule],
   declarations: [
     GenericErrorComponent,
     LocationLinkComponent,

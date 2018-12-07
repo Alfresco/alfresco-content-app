@@ -35,7 +35,8 @@ import {
   templateUrl: './icon.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'adf-icon' }
+  host: { class: 'adf-icon' },
+  styleUrls: ['./icon.component.scss']
 })
 export class IconComponent {
   private _value = 'settings';

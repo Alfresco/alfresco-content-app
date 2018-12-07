@@ -38,6 +38,7 @@ import { ContextMenuComponent } from './context-menu.component';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { OutsideEventDirective } from './context-menu-outside-event.directive';
 import { ContextMenuItemComponent } from './context-menu-item.component';
+import { AppCommonModule } from '../common/common.module';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { ContextMenuItemComponent } from './context-menu-item.component';
     MatButtonModule,
     CoreExtensionsModule.forChild(),
     CoreModule.forChild(),
+    AppCommonModule,
     ExtensionsModule
   ],
   declarations: [

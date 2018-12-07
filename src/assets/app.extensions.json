@@ -557,7 +557,7 @@
             "id": "app.toolbar.move",
             "order": 500,
             "title": "APP.ACTIONS.MOVE",
-            "icon": "library_books",
+            "icon": "adf:move_file",
             "actions": {
               "click": "MOVE_NODES"
             },
@@ -752,7 +752,7 @@
         "id": "app.context.menu.move",
         "title": "APP.ACTIONS.MOVE",
         "order": 800,
-        "icon": "library_books",
+        "icon": "adf:move_file",
         "actions": {
           "click": "MOVE_NODES"
         },
@@ -962,7 +962,7 @@
           "id": "app.viewer.move",
           "order": 500,
           "title": "APP.ACTIONS.MOVE",
-          "icon": "library_books",
+          "icon": "adf:move_file",
           "actions": {
             "click": "MOVE_NODES"
           },
