@@ -21,7 +21,7 @@
 
         <adf-viewer-open-with *ngIf="openWith.length">
             <ng-container *ngFor="let action of openWith; trackBy: trackByActionId">
-                <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
+              <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
             </ng-container>
         </adf-viewer-open-with>
 
@@ -33,7 +33,7 @@
 
         <adf-viewer-more-actions *ngIf="viewerToolbarMoreActions.length">
             <ng-container *ngFor="let action of viewerToolbarMoreActions; trackBy: trackByActionId">
-                <aca-toolbar-action type="menu-item" [actionRef]="action"></aca-toolbar-action>
+                <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
             </ng-container>
         </adf-viewer-more-actions>
 

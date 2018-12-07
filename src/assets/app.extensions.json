@@ -842,7 +842,7 @@
       "toolbarActions": [
         {
           "id": "app.viewer.download",
-          "order": 200,
+          "order": 300,
           "title": "APP.ACTIONS.DOWNLOAD",
           "icon": "get_app",
           "actions": {
@@ -854,7 +854,7 @@
         },
         {
           "id": "app.viewer.print",
-          "order": 300,
+          "order": 400,
           "title": "APP.ACTIONS.PRINT",
           "icon": "print",
           "actions": {
@@ -866,7 +866,7 @@
         },
         {
           "id": "app.viewer.share",
-          "order": 400,
+          "order": 200,
           "title": "APP.ACTIONS.SHARE",
           "icon": "share",
           "actions": {
@@ -878,7 +878,7 @@
         },
         {
           "id": "app.viewer.share.edit",
-          "order": 401,
+          "order": 201,
           "title": "APP.ACTIONS.SHARE_EDIT",
           "icon": "share",
           "actions": {
@@ -899,6 +899,11 @@
           "rules": {
             "visible": "app.toolbar.canViewFile"
           }
+        },
+        {
+          "id": "app.viewer.separator.1",
+          "type": "separator",
+          "order": 180
         }
       ],
       "toolbarMoreMenu": [
@@ -937,6 +942,11 @@
           }
         },
         {
+          "id": "app.viewer.more.separator.1",
+          "type": "separator",
+          "order": 280
+        },
+        {
           "id": "app.viewer.copy",
           "order": 400,
           "title": "APP.ACTIONS.COPY",
@@ -971,6 +981,11 @@
           "rules": {
             "visible": "app.selection.canDelete"
           }
+        },
+        {
+          "id": "app.viewer.more.separator.2",
+          "type": "separator",
+          "order": 680
         },
         {
           "id": "app.viewer.versions",

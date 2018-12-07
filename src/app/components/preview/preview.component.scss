@@ -4,7 +4,7 @@
 }
 
 .hide-last-divider .adf-viewer-toolbar .mat-toolbar {
-  adf-toolbar-divider:last-of-type {
+  > adf-toolbar-divider:last-of-type {
     display: none;
   }
 
@@ -15,4 +15,10 @@
 
 #adf-viewer-moreactions {
   right: -40px;
+}
+
+.adf-viewer-toolbar-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
