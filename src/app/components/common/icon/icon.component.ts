@@ -39,7 +39,7 @@ import {
   styleUrls: ['./icon.component.scss']
 })
 export class IconComponent {
-  private _value = 'settings';
+  private _value = '';
   private _isCustom = false;
 
   get value(): string {
