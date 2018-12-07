@@ -34,6 +34,11 @@ import { ToolbarActionComponent } from './toolbar-action/toolbar-action.componen
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 import { ToolbarMenuItemComponent } from './toolbar-menu-item/toolbar-menu-item.component';
 import { ToolbarMenuComponent } from './toolbar-menu/toolbar-menu.component';
+import { ToggleJoinLibraryButtonComponent } from './toggle-join-library/toggle-join-library-button.component';
+import { ToggleJoinLibraryMenuComponent } from './toggle-join-library/toggle-join-library-menu.component';
+import { DirectivesModule } from '../../directives/directives.module';
+import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle-favorite-library.component';
+import { AppCommonModule } from '../common/common.module';
 
 export function components() {
   return [
@@ -43,12 +48,21 @@ export function components() {
     ToolbarButtonComponent,
     ToolbarActionComponent,
     ToolbarMenuItemComponent,
-    ToolbarMenuComponent
+    ToolbarMenuComponent,
+    ToggleJoinLibraryButtonComponent,
+    ToggleJoinLibraryMenuComponent,
+    ToggleFavoriteLibraryComponent
   ];
 }
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), ExtensionsModule],
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    AppCommonModule,
+    ExtensionsModule,
+    DirectivesModule
+  ],
   declarations: components(),
   exports: components(),
   entryComponents: components()

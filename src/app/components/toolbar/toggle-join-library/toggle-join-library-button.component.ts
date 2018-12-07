@@ -37,10 +37,11 @@ import {
 import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
 
 @Component({
-  selector: 'app-toggle-join-library',
+  selector: 'app-toggle-join-library-button',
   template: `
     <button
-      mat-menu-item
+      mat-icon-button
+      color="primary"
       #membership="libraryMembership"
       (toggle)="onToggleEvent($event)"
       (error)="onErrorEvent($event)"
@@ -52,37 +53,16 @@ import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
       "
     >
       <mat-icon *ngIf="(membership.isJoinRequested | async)">cancel</mat-icon>
-      <adf-icon
+      <mat-icon
         *ngIf="!(membership.isJoinRequested | async)"
-        value="adf:join_library"
-      ></adf-icon>
-      <span class="sideLabel">{{
-        (membership.isJoinRequested | async)
-          ? ('APP.ACTIONS.CANCEL_JOIN' | translate)
-          : ('APP.ACTIONS.JOIN' | translate)
-      }}</span>
+        svgIcon="adf:join_library"
+      ></mat-icon>
     </button>
   `,
-  styles: [
-    `
-      aca-toolbar-action .app-toggle-join-library .sideLabel {
-        display: none;
-      }
-
-      aca-toolbar-action .app-toggle-join-library .mat-menu-item mat-icon {
-        padding: 0;
-        margin: 0;
-      }
-
-      .adf-toolbar .app-toggle-join-library .mat-menu-item:hover {
-        background: none;
-      }
-    `
-  ],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-toggle-join-library' }
 })
-export class ToggleJoinLibraryComponent {
+export class ToggleJoinLibraryButtonComponent {
   selection$: Observable<SelectionState>;
 
   constructor(

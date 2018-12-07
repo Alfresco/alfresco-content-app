@@ -48,7 +48,8 @@ import { LibraryStatusColumnComponent } from '../components/common/library-statu
 import { TrashcanNameColumnComponent } from '../components/common/trashcan-name-column/trashcan-name-column.component';
 import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
 import { DocumentDisplayModeComponent } from '../components/toolbar/document-display-mode/document-display-mode.component';
-import { ToggleJoinLibraryComponent } from '../components/toolbar/toggle-join-library/toggle-join-library.component';
+import { ToggleJoinLibraryButtonComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-button.component';
+import { ToggleJoinLibraryMenuComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-menu.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -88,8 +89,9 @@ export class CoreExtensionsModule {
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
       'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
-      'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryComponent,
+      'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
       'app.toolbar.cardView': DocumentDisplayModeComponent,
+      'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': NameColumnComponent,
       'app.columns.libraryName': LibraryNameColumnComponent,

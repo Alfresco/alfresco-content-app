@@ -714,7 +714,7 @@
         "id": "app.context.menu.joinLibrary",
         "type": "custom",
         "order": 603,
-        "component": "app.toolbar.toggleJoinLibrary",
+        "component": "app.menu.toggleJoinLibrary",
         "rules": {
           "visible": "app.libraries.toolbar.canToggleJoin"
         }

@@ -27,13 +27,21 @@ import { NgModule } from '@angular/core';
 import { ExperimentalDirective } from './experimental.directive';
 import { DocumentListDirective } from './document-list.directive';
 import { PaginationDirective } from './pagination.directive';
+import { LibraryMembershipDirective } from './library-membership.directive';
+import { LibraryFavoriteDirective } from './library-favorite.directive';
 
-@NgModule({
-  declarations: [
+export function directives() {
+  return [
     ExperimentalDirective,
     DocumentListDirective,
-    PaginationDirective
-  ],
-  exports: [ExperimentalDirective, DocumentListDirective, PaginationDirective]
+    PaginationDirective,
+    LibraryMembershipDirective,
+    LibraryFavoriteDirective
+  ];
+}
+
+@NgModule({
+  declarations: directives(),
+  exports: directives()
 })
 export class DirectivesModule {}
