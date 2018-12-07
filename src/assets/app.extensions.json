@@ -899,6 +899,11 @@
           "rules": {
             "visible": "app.toolbar.canViewFile"
           }
+        },
+        {
+          "id": "app.viewer.separator.1",
+          "type": "separator",
+          "order": 180
         }
       ],
       "toolbarMoreMenu": [
