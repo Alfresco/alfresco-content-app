@@ -278,7 +278,8 @@
                 "JOIN_REQUEST_FAILED": "Cannot join the library",
                 "JOIN_CANCEL_FAILED": "Cannot cancel the request to join the library",
                 "LEAVE_LIBRARY_FAILED": "Cannot leave this library",
-                "INVALID_EMAIL": "Sender or receiver email configured on server not valid, contact IT"
+                "INVALID_SENDER_EMAIL": "Your email address must be valid before requesting to join.",
+                "INVALID_RECEIVER_EMAIL": "Recipient(s) email address not valid, contact IT."
             },
             "UPLOAD": {
                 "ERROR": {
