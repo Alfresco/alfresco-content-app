@@ -179,5 +179,35 @@ describe('LibraryMembershipDirective', () => {
       tick();
       expect(directive.error.emit).toHaveBeenCalled();
     }));
+
+    it('should emit specific error message on invalid email address server error', fakeAsync(() => {
+      const emitErrorSpy = spyOn(directive.error, 'emit');
+      const selection = { entry: { id: 'no-membership-requested' } };
+      const change = new SimpleChange(null, selection, true);
+      directive.ngOnChanges({ selection: change });
+      tick();
+
+      const testData = [
+        {
+          fixture: 'Failed to resolve sender mail address',
+          expected: 'APP.MESSAGES.ERRORS.INVALID_SENDER_EMAIL'
+        },
+        {
+          fixture: 'All recipients for the mail action were invalid',
+          expected: 'APP.MESSAGES.ERRORS.INVALID_RECEIVER_EMAIL'
+        }
+      ];
+
+      testData.forEach(data => {
+        addMembershipSpy.and.returnValue(throwError({ message: data.fixture }));
+        emitErrorSpy.calls.reset();
+        directive.toggleMembershipRequest();
+        tick();
+        expect(emitErrorSpy).toHaveBeenCalledWith({
+          error: { message: data.fixture },
+          i18nKey: data.expected
+        });
+      });
+    }));
   });
 });

@@ -134,12 +134,15 @@ export class LibraryMembershipDirective implements OnChanges {
           const senderEmailCheck = 'Failed to resolve sender mail address';
           const receiverEmailCheck =
             'All recipients for the mail action were invalid';
-          if (
-            error.message &&
-            (error.message.includes(senderEmailCheck) ||
-              error.message.includes(receiverEmailCheck))
-          ) {
-            errWithMessage.i18nKey = 'APP.MESSAGES.ERRORS.INVALID_EMAIL';
+
+          if (error.message) {
+            if (error.message.includes(senderEmailCheck)) {
+              errWithMessage.i18nKey =
+                'APP.MESSAGES.ERRORS.INVALID_SENDER_EMAIL';
+            } else if (error.message.includes(receiverEmailCheck)) {
+              errWithMessage.i18nKey =
+                'APP.MESSAGES.ERRORS.INVALID_RECEIVER_EMAIL';
+            }
           }
 
           this.error.emit(errWithMessage);
