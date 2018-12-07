@@ -236,13 +236,6 @@ export class ContentManagementService {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
-    // todo: add focus in ADF component
-    dialogInstance
-      .afterOpened()
-      .subscribe(() =>
-        (<HTMLElement>document.querySelector('#adf-folder-name-input')).focus()
-      );
-
     dialogInstance.afterClosed().subscribe(node => {
       if (node) {
         this.folderCreated.next(node);
@@ -265,13 +258,6 @@ export class ContentManagementService {
     dialog.componentInstance.error.subscribe(message => {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
-
-    // todo: add focus in ADF component
-    dialog
-      .afterOpened()
-      .subscribe(() =>
-        (<HTMLElement>document.querySelector('#adf-folder-name-input')).focus()
-      );
 
     dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
       if (node) {
