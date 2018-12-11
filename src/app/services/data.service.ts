@@ -37,6 +37,29 @@ import { PersonEntry, SearchRequest, ResultSetPaging } from 'alfresco-js-api';
   providedIn: 'root'
 })
 export class AppDataService extends CustomResourcesService {
+  recentFileFilters = [
+    'TYPE:"content"',
+    '-PNAME:"0/wiki"',
+    '-TYPE:"app:filelink"',
+    '-TYPE:"fm:post"',
+    '-TYPE:"cm:thumbnail"',
+    '-TYPE:"cm:failedThumbnail"',
+    '-TYPE:"cm:rating"',
+    '-TYPE:"dl:dataList"',
+    '-TYPE:"dl:todoList"',
+    '-TYPE:"dl:issue"',
+    '-TYPE:"dl:contact"',
+    '-TYPE:"dl:eventAgenda"',
+    '-TYPE:"dl:event"',
+    '-TYPE:"dl:task"',
+    '-TYPE:"dl:simpletask"',
+    '-TYPE:"dl:meetingAgenda"',
+    '-TYPE:"dl:location"',
+    '-TYPE:"fm:topic"',
+    '-TYPE:"fm:post"',
+    '-TYPE:"lnk:link"'
+  ];
+
   constructor(private api: AlfrescoApiService, logService: LogService) {
     super(api, logService);
   }
@@ -45,29 +68,6 @@ export class AppDataService extends CustomResourcesService {
     personId: string,
     pagination: PaginationModel
   ): Observable<ResultSetPaging> {
-    const filters = [
-      'TYPE:"content"',
-      '-PNAME:"0/wiki"',
-      '-TYPE:"app:filelink"',
-      '-TYPE:"fm:post"',
-      '-TYPE:"cm:thumbnail"',
-      '-TYPE:"cm:failedThumbnail"',
-      '-TYPE:"cm:rating"',
-      '-TYPE:"dl:dataList"',
-      '-TYPE:"dl:todoList"',
-      '-TYPE:"dl:issue"',
-      '-TYPE:"dl:contact"',
-      '-TYPE:"dl:eventAgenda"',
-      '-TYPE:"dl:event"',
-      '-TYPE:"dl:task"',
-      '-TYPE:"dl:simpletask"',
-      '-TYPE:"dl:meetingAgenda"',
-      '-TYPE:"dl:location"',
-      '-TYPE:"fm:topic"',
-      '-TYPE:"fm:post"',
-      '-TYPE:"lnk:link"'
-    ];
-
     return new Observable(observer => {
       this.api.peopleApi.getPerson(personId).then(
         (person: PersonEntry) => {
@@ -81,7 +81,7 @@ export class AppDataService extends CustomResourcesService {
               { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
               { query: `cm:modifier:${username} OR cm:creator:${username}` },
               {
-                query: filters.join(' AND ')
+                query: this.recentFileFilters.join(' AND ')
               }
             ],
             include: ['path', 'properties', 'allowableOperations'],

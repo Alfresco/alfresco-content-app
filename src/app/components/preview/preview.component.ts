@@ -48,6 +48,7 @@ import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from 'alfresco-js-api';
+import { AppDataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-preview',
@@ -80,6 +81,7 @@ export class PreviewComponent extends PageComponent
   constructor(
     private contentApi: ContentApiService,
     private preferences: UserPreferencesService,
+    private appDataService: AppDataService,
     private route: ActivatedRoute,
     private router: Router,
     store: Store<AppStore>,
@@ -337,28 +339,6 @@ export class PreviewComponent extends PageComponent
       const sortingDirection =
         this.preferences.get('recent-files.sorting.direction') || 'desc';
 
-      const filters = [
-        'TYPE:"content"',
-        '-PNAME:"0/wiki"',
-        '-TYPE:"app:filelink"',
-        '-TYPE:"fm:post"',
-        '-TYPE:"cm:thumbnail"',
-        '-TYPE:"cm:failedThumbnail"',
-        '-TYPE:"cm:rating"',
-        '-TYPE:"dl:dataList"',
-        '-TYPE:"dl:todoList"',
-        '-TYPE:"dl:issue"',
-        '-TYPE:"dl:contact"',
-        '-TYPE:"dl:eventAgenda"',
-        '-TYPE:"dl:event"',
-        '-TYPE:"dl:task"',
-        '-TYPE:"dl:simpletask"',
-        '-TYPE:"dl:meetingAgenda"',
-        '-TYPE:"dl:location"',
-        '-TYPE:"fm:topic"',
-        '-TYPE:"fm:post"',
-        '-TYPE:"lnk:link"'
-      ];
       const query: SearchRequest = {
         query: {
           query: '*',
@@ -368,7 +348,7 @@ export class PreviewComponent extends PageComponent
           { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
           { query: `cm:modifier:${username} OR cm:creator:${username}` },
           {
-            query: filters.join(' AND ')
+            query: this.appDataService.recentFileFilters.join(' AND ')
           }
         ],
         fields: ['id', this.getRootField(sortingKey)],
