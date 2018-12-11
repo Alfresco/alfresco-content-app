@@ -41,6 +41,10 @@ interface RouteInfo {
 export class AppRouteReuseStrategy implements RouteReuseStrategy {
   private routeCache = new Map<string, RouteInfo>();
 
+  resetCache() {
+    this.routeCache.clear();
+  }
+
   shouldReuseRoute(
     future: ActivatedRouteSnapshot,
     curr: ActivatedRouteSnapshot
