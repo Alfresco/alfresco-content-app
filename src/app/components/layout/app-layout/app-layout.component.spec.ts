@@ -41,7 +41,7 @@ class MockRouter {
   events = this.subject.asObservable();
   routerState = { snapshot: { url: this.url } };
 
-  navigate(url: string) {
+  navigateByUrl(url: string) {
     const navigationStart = new NavigationStart(0, url);
     this.subject.next(navigationStart);
   }
@@ -143,10 +143,23 @@ describe('AppLayoutComponent', () => {
     const selection = [{ entry: { id: 'nodeId', name: 'name' } }];
     store.dispatch(new SetSelectedNodesAction(selection));
 
-    router.navigate(['somewhere/over/the/rainbow']);
+    router.navigateByUrl('somewhere/over/the/rainbow');
     fixture.detectChanges();
     store.select(appSelection).subscribe(state => {
       expect(state.isEmpty).toBe(true);
+      done();
+    });
+  });
+
+  it('should not reset selection if route is `/search`', done => {
+    fixture.detectChanges();
+    const selection = [{ entry: { id: 'nodeId', name: 'name' } }];
+    store.dispatch(new SetSelectedNodesAction(selection));
+
+    router.navigateByUrl('/search;q=');
+    fixture.detectChanges();
+    store.select(appSelection).subscribe(state => {
+      expect(state.isEmpty).toBe(false);
       done();
     });
   });
