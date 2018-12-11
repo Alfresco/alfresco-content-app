@@ -135,7 +135,12 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
 
     this.router.events
       .pipe(
-        filter(event => event instanceof NavigationStart),
+        filter(event => {
+          return (
+            event instanceof NavigationStart &&
+            !event.url.startsWith('/search;')
+          );
+        }),
         takeUntil(this.onDestroy$)
       )
       .subscribe(() => this.store.dispatch(new SetSelectedNodesAction([])));
