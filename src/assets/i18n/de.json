@@ -1,5 +1,39 @@
 {
   "APP": {
+    "ABOUT": {
+      "VERSION": "Version:",
+      "PLUGINS": {
+        "TITLE": "Erweiterungen",
+        "ID": "ID",
+        "NAME": "Name",
+        "VERSION": "Version",
+        "VENDOR": "Hersteller",
+        "LICENSE": "Lizenz",
+        "RUNTIME": "Laufzeit",
+        "DESCRIPTION": "Beschreibung"
+      },
+      "LICENSE": {
+        "TITLE": "Lizenz",
+        "PROPERTY": "Eigenschaft",
+        "VALUE": "Wert"
+      },
+      "STATUS": {
+        "TITLE": "Status",
+        "PROPERTY": "Eigenschaft",
+        "VALUE": "Wert"
+      },
+      "MODULES": {
+        "TITLE": "Alfresco-Plattformmodule",
+        "ID": "ID",
+        "NAME": "Name",
+        "VERSION": "Version"
+      },
+      "PACKAGES": {
+        "TITLE": "Pakete",
+        "NAME": "Name",
+        "VERSION": "Version"
+      }
+    },
     "LANGUAGE": "Sprache",
     "SIGN_IN": "Anmelden",
     "SIGN_OUT": "Abmelden",
@@ -18,7 +52,7 @@
     },
     "NEW_MENU": {
       "LABEL": "Neu",
-      "TOOLTIP": "Neue Dateien oder Ordner hinzufügen",
+      "TOOLTIP": "Neue Dateien und Ordner hinzufügen oder neue Dateibibliothek erstellen",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Ordner erstellen",
         "UPLOAD_FILE": "Datei hochladen",
@@ -44,14 +78,37 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Dateibibliotheken",
+        "TITLE": "Meine Bibliotheken",
+        "DESCRIPTION": "Auf Dateibibliotheken zugreifen",
         "SIDENAV_LINK": {
           "LABEL": "Dateibibliotheken",
-          "TOOLTIP": "Auf Dateibibliotheken zugreifen"
+          "TOOLTIP": "Dateibibliotheken"
         },
         "EMPTY_STATE": {
-          "TITLE": "Sie sind noch kein Mitglied von Dateibibliotheken",
-          "TEXT": "Verknüpfen Sie Bibliotheken, um Dateien hochzuladen, anzuzeigen und freizugeben."
+          "FILE_LIBRARIES": {
+            "TITLE": "Sie sind noch kein Mitglied von Dateibibliotheken",
+            "TEXT": "Verknüpfen Sie Bibliotheken, um Dateien hochzuladen, anzuzeigen und freizugeben."
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Keine Bibliotheken als Favoriten markiert",
+            "TEXT": "Markieren Sie eine Bibliothek als Favorit, um sie später leichter zu finden."
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "Meine Bibliotheken",
+            "SIDENAV_LINK": {
+              "LABEL": "Meine Bibliotheken",
+              "TOOLTIP": "Auf meine Bibliotheken zugreifen"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Als Favoriten markierte Bibliotheken",
+            "SIDENAV_LINK": {
+              "LABEL": "Als Favoriten markierte Bibliotheken",
+              "TOOLTIP": "Auf meine als Favoriten markierten Bibliotheken zugreifen"
+            }
+          }
         }
       },
       "SHARED": {
@@ -105,12 +162,19 @@
       "SEARCH": {
         "TITLE": "Ergebnisse durchsuchen",
         "FOUND_RESULTS": "{{ number }} Ergebnisse gefunden",
+        "FOUND_ONE_RESULT": "{{ number }} Ergebnisse gefunden",
         "CUSTOM_ROW": {
           "MODIFIED": "Bearbeitet",
           "LOCATION": "Speicherort",
           "SIZE": "Größe"
         },
+        "UNKNOWN_LOCATION": "Unbekannt",
         "NO_RESULTS": "Es wurden 0 Suchergebnisse gefunden"
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "Bibliotheken gefunden...",
+        "FOUND_RESULTS": "{{ number }} Ergebnisse",
+        "FOUND_ONE_RESULT": "{{ number }} Ergebnis"
       }
     },
     "ACTIONS": {
@@ -126,6 +190,8 @@
       "PERMISSIONS": "Berechtigungen",
       "RESTORE": "Wiederherstellen",
       "FAVORITE": "Zu Favoriten",
+      "ADD_FAVORITE": "Favoriten hinzufügen",
+      "REMOVE_FAVORITE": "Favoriten entfernen",
       "UNSHARE": "Freigabe aufheben",
       "DETAILS": "Details anzeigen",
       "VERSIONS": "Versionen verwalten",
@@ -133,7 +199,10 @@
       "SHARE": "Freigeben",
       "SHARE_EDIT": "Einstellungen für freigegebene Links",
       "PRINT": "Drucken",
-      "FULLSCREEN": "Vollbildmodus aktivieren"
+      "FULLSCREEN": "Vollbildmodus aktivieren",
+      "JOIN": "Beitreten",
+      "CANCEL_JOIN": "Beitrittsanfrage zurückziehen",
+      "LEAVE": "Bibliothek verlassen"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -141,20 +210,28 @@
         "MESSAGE": "Dadurch werden die ausgewählten Elemente dauerhaft gelöscht.",
         "YES_LABEL": "Löschen",
         "NO_LABEL": "Behalten"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "Diese Bibliothek verlassen?",
+        "MESSAGE": "Beim Verlassen verlieren Sie Ihren Zugriff.",
+        "YES_LABEL": "OK",
+        "NO_LABEL": "Abbrechen"
       }
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
+        "ID": "ID",
         "NAME": "Name",
         "SIZE": "Größe",
         "MODIFIED_ON": "Bearbeitet",
         "MODIFIED_BY": "Bearbeitet von",
-        "STATUS": "Status",
+        "VISIBILITY": "Sichtbarkeit",
         "TITLE": "Titel",
         "LOCATION": "Speicherort",
         "SHARED_BY": "Freigegeben von",
         "DELETED_ON": "Gelöscht",
-        "DELETED_BY": "Gelöscht von"
+        "DELETED_BY": "Gelöscht von",
+        "ROLE": "Meine Rolle"
       },
       "TOOLBAR": {
         "CARDVIEW": "Kartenansichtsmodus",
@@ -166,9 +243,16 @@
       "MODERATED": "Moderiert",
       "PRIVATE": "Privat"
     },
+    "SITES_ROLE": {
+      "MANAGER": "Manager",
+      "COLLABORATOR": "Mitarbeiter",
+      "CONTRIBUTOR": "Beitragender",
+      "CONSUMER": "Verbraucher"
+    },
     "MESSAGES": {
       "ERRORS": {
-        "MISSING_CONTENT": "Diese Datei oder diesen Ordner gibt es nicht mehr oder Sie verfügen nicht über die für die Anzeige nötigen Benutzerrechte.",
+        "CANNOT_NAVIGATE_LOCATION": "Öffnen dieses Speicherorts nicht möglich",
+        "MISSING_CONTENT": "Dieses Element gibt es nicht mehr oder Sie verfügen nicht über die für die Anzeige nötigen Benutzerrechte.",
         "GENERIC": "Die Aktion war nicht erfolgreich. Versuchen Sie es noch einmal oder wenden Sie sich an Ihr IT-Team.",
         "CONFLICT": "Dieser Name wird bereits verwendet. Versuchen Sie es mit einem anderen Namen.",
         "NODE_MOVE": "Verschiebung nicht erfolgreich. Es gibt bereits eine Datei mit demselben Namen.",
@@ -190,13 +274,21 @@
             "GENERIC": "Beim Wiederherstellen von {{ name }} ist ein Problem aufgetreten"
           }
         },
-        "DELETE_LIBRARY_FAILED": "Bibliothek kann nicht gelöscht werden"
+        "DELETE_LIBRARY_FAILED": "Bibliothek kann nicht gelöscht werden",
+        "JOIN_REQUEST_FAILED": "Beitritt zur Bibliothek nicht möglich",
+        "JOIN_CANCEL_FAILED": "Ihre Beitrittsanfrage kann nicht zurückgezogen werden",
+        "LEAVE_LIBRARY_FAILED": "Sie können diese Bibliothek nicht verlassen",
+        "INVALID_SENDER_EMAIL": "Ihre E-Mail-Adresse muss gültig sein, bevor Sie den Beitritt zur Bibliothek anfordern.",
+        "INVALID_RECEIVER_EMAIL": "Empfänger-E-Mail-Addresse(n) nicht zulässig. Wenden Sie sich an Ihr IT-Team."
       },
       "UPLOAD": {
         "ERROR": {
-          "GENERIC": "Es ist ein Problem aufgetreten.",
+          "GENERIC": "Beim Hochladen ist ein Problem aufgetreten. Wenden Sie sich an das IT-Team, wenn das Problem weiterhin besteht.",
           "CONFLICT": "Neue Version nicht hochgeladen. Es gibt bereits eine Datei mit demselben Namen.",
-          "500": "Beim Hochladen ist ein Problem aufgetreten."
+          "500": "Interner Serverfehler. Versuchen Sie es noch einmal oder wenden Sie sich an den IT-Support [500]",
+          "504": "Server-Timeout. Versuchen Sie es noch einmal oder wenden Sie sich an den IT-Support [504]",
+          "403": "Sie verfügen nicht die erforderlichen Benutzerrechte, um etwas an diesen Speicherort hochzuladen [403]",
+          "404": "Speicherort für Upload nicht mehr vorhanden [404]"
         }
       },
       "INFO": {
@@ -235,7 +327,11 @@
             "FAIL": "{{ failed }} konnte nicht verschoben werden."
           }
         },
-        "LIBRARY_DELETED": "Bibliothek gelöscht"
+        "LIBRARY_DELETED": "Bibliothek gelöscht",
+        "JOINED": "Beitritt zur Bibliothek abgeschlossen",
+        "JOIN_REQUESTED": "Anfrage zum Bibliotheksbeitritt abgeschickt",
+        "JOIN_CANCELED": "Anfrage zum Bibliotheksbeitritt zurückgezogen",
+        "LEFT_LIBRARY": "Sie haben die Bibliothek verlassen"
       }
     },
     "CONTENT_METADATA": {
@@ -245,6 +341,7 @@
       "TITLE": "Details",
       "TABS": {
         "PROPERTIES": "Eigenschaften",
+        "LIBRARY_PROPERTIES": "Info",
         "VERSIONS": "Versionen",
         "COMMENTS": "Kommentare"
       }
@@ -262,7 +359,8 @@
       "TITLE": "Berechtigungen verwalten",
       "CLOSE": "Schließen",
       "INHERIT_PERMISSIONS_BUTTON": "Berechtigungen erben",
-      "INHERITED_PERMISSIONS_BUTTON": "Berechtigungen geerbt"
+      "INHERITED_PERMISSIONS_BUTTON": "Berechtigungen geerbt",
+      "ADD_USER_OR_GROUP": "Benutzer oder Gruppe hinzufügen"
     }
   },
   "SHARED_LINK": {
@@ -282,11 +380,14 @@
     "DIALOG": {
       "CREATE_TITLE": "Bibliothek erstellen",
       "CREATE": "Erstellen",
+      "UPDATE": "Aktualisieren",
+      "EDIT": "Bearbeiten",
       "CANCEL": "Abbrechen",
       "FORM": {
         "DESCRIPTION": "Beschreibung",
         "SITE_ID": "Bibliotheks-ID",
-        "NAME": "Name"
+        "NAME": "Name",
+        "VISIBILITY": "Sichtbarkeit"
       }
     },
     "VISIBILITY": {
@@ -294,17 +395,31 @@
       "PUBLIC": "Öffentlich",
       "MODERATED": "Moderiert"
     },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "Bibliotheksname wird bereits verwendet"
+    },
     "ERRORS": {
       "GENERIC": "Es ist ein Problem aufgetreten",
-      "EXISTENT_SITE": "Diese Bibliotheks-ID ist nicht verfügbar. Versuchen Sie es mit einer anderen Bibliothek.",
+      "EXISTENT_SITE": "Diese Bibliotheks-ID ist nicht verfügbar. Versuchen Sie es mit einer anderen Bibliotheks-ID.",
       "CONFLICT": "Diese Bibliotheks-ID wird bereits verwendet. Sehen Sie im Papierkorb nach.",
       "ID_TOO_LONG": "Der URL-Name darf höchstens 72 Zeichen lang sein",
       "DESCRIPTION_TOO_LONG": "Die Beschreibung darf höchstens 512 Zeichen lang sein",
       "TITLE_TOO_LONG": "Der Titel darf höchstens 256 Zeichen lang sein",
-      "ILLEGAL_CHARACTERS": "Verwenden Sie nur Zahlen und Buchstaben"
+      "ILLEGAL_CHARACTERS": "Verwenden Sie nur Zahlen und Buchstaben",
+      "LIBRARY_UPDATE_ERROR": "Beim Aktualisieren der Bibliothekseigenschaften ist ein Fehler aufgetreten"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "Bibliothekseigenschaften aktualisiert"
     }
   },
   "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "Suche",
+      "FILES": "Dateien",
+      "FOLDERS": "Ordner",
+      "LIBRARIES": "Bibliotheken",
+      "HINT": "Die Sucheingabe muss mindestens zwei alphanumerische Zeichen umfassen."
+    },
     "SORT": {
       "RELEVANCE": "Relevanz",
       "FILENAME": "Dateiname",
