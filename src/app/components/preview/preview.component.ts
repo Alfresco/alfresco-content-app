@@ -47,6 +47,8 @@ import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
+import { SearchRequest } from 'alfresco-js-api';
+import { AppDataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-preview',
@@ -79,6 +81,7 @@ export class PreviewComponent extends PageComponent
   constructor(
     private contentApi: ContentApiService,
     private preferences: UserPreferencesService,
+    private appDataService: AppDataService,
     private route: ActivatedRoute,
     private router: Router,
     store: Store<AppStore>,
@@ -336,29 +339,29 @@ export class PreviewComponent extends PageComponent
       const sortingDirection =
         this.preferences.get('recent-files.sorting.direction') || 'desc';
 
-      const nodes = await this.contentApi
-        .search({
-          query: {
-            query: '*',
-            language: 'afts'
-          },
-          filterQueries: [
-            { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
-            { query: `cm:modifier:${username} OR cm:creator:${username}` },
-            {
-              query: `TYPE:"content" AND -TYPE:"app:filelink" AND -TYPE:"fm:post"`
-            }
-          ],
-          fields: ['id', this.getRootField(sortingKey)],
-          sort: [
-            {
-              type: 'FIELD',
-              field: 'cm:modified',
-              ascending: false
-            }
-          ]
-        })
-        .toPromise();
+      const query: SearchRequest = {
+        query: {
+          query: '*',
+          language: 'afts'
+        },
+        filterQueries: [
+          { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
+          { query: `cm:modifier:${username} OR cm:creator:${username}` },
+          {
+            query: this.appDataService.recentFileFilters.join(' AND ')
+          }
+        ],
+        fields: ['id', this.getRootField(sortingKey)],
+        include: ['path', 'properties', 'allowableOperations'],
+        sort: [
+          {
+            type: 'FIELD',
+            field: 'cm:modified',
+            ascending: false
+          }
+        ]
+      };
+      const nodes = await this.contentApi.search(query).toPromise();
 
       const entries = nodes.list.entries.map(obj => obj.entry);
       this.sort(entries, sortingKey, sortingDirection);
