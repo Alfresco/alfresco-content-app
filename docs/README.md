@@ -1,4 +1,4 @@
-# Alfresco Example Content Application
+# Alfresco Content Application
 
 <!-- markdownlint-disable MD033 -->
 
@@ -9,11 +9,7 @@ The Alfresco Content Application is an example application built using
 
 ### Who is this example application for?
 
-This example application demonstrates to Angular software engineers
-how to construct a content application using the Alfresco ADF.
-
-This example application represents a meaningful composition of ADF components that provide end users
-with a simple and easy to use interface for working with files stored in the Alfresco Content Services repository.
+The Content Application is a streamlined experience for end users on top of Alfresco Content Services, focused on file management within the content repository.  It provides developers with an easily extendable environment for lightening fast custom application development by providing safe ways to inject  custom controls, viewer components, pages and plug-ins without upgrade concerns.
 
 ### Prerequisites
 
@@ -31,14 +27,14 @@ You also need <a href="https://nodejs.org/en/" target="_blank">node.js</a> (LTS)
 
 ## Features
 
-The concept of this example is a simple user interface which makes accessing files in the Alfresco Content Services repository easy.
+The concept of this application is a simple user interface which makes accessing files in the Alfresco Content Services repository easy.
 
 Often Content Management systems provide more capabilities out of the box than most users need;
 providing too many capabilities to these users prevents them from working efficiently,
 so they may end up using unsanctioned file management solutions which presents a proliferation of content storage
 and collaboration solutions as well as compliance issues for organizations.
 
-This application demonstrates how the complexity of Content Management can be simplified
+This application shows how the complexity of Content Management can be simplified
 using the Alfresco Application Development Framework to easily and quickly create custom solutions for specific user cases.
 
 ### User Interface - layout
@@ -185,6 +181,8 @@ in the content repository before it was deleted.
 
 The Search Results view shows the found items for a search query. It has a custom layout template and users can easily browse the results and perform actions on items.
 For more information on the [SearchComponent](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/search), please also check this [Search Results](#search-results1) section.
+
+When searching for libraries a different template is used to display File Libraries that match the search term; this template allows users to join and favorite libraries they are not already a member of.
 
 #### Actions and the Actions Toolbar
 
@@ -397,7 +395,7 @@ Clicking to delete a version of a file triggers a confirmation dialog. Please se
 
 ### Search Results
 
-Once you type the text in the Search Input component and press `Enter` you are going to see the Search Results page
+Once you  start type the text in the Search Input component you are going to see the Search Results page automatically populate with relevant results.  Within the Search Input you can choose to see results that are Files and/or Folders or Libraries.
 
 ![Search Results](images/aca-search-results.png)
 
