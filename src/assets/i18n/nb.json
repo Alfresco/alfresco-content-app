@@ -406,6 +406,7 @@
       "DESCRIPTION_TOO_LONG": "Bruk 512 tegn eller mindre i beskrivelsen",
       "TITLE_TOO_LONG": "Bruk 256 tegn eller mindre i tittelen",
       "ILLEGAL_CHARACTERS": "Bruk kun tall og bokstaver",
+      "ONLY_SPACES": "Biblioteknavn kan ikke inneholde bare mellomrom",
       "LIBRARY_UPDATE_ERROR": "Det oppstod en feil under oppdatering av bibliotekegenskaper"
     },
     "SUCCESS": {

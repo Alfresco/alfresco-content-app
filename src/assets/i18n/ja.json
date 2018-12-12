@@ -406,6 +406,7 @@
       "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
       "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
       "ILLEGAL_CHARACTERS": "英数字だけを使用してください",
+      "ONLY_SPACES": "ライブラリ名にスペースだけを含めることはできません",
       "LIBRARY_UPDATE_ERROR": "ライブラリのプロパティの更新中にエラーが発生しました"
     },
     "SUCCESS": {

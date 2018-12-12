@@ -406,6 +406,7 @@
       "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
       "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
       "ILLEGAL_CHARACTERS": "Gebruik alleen cijfers en letters",
+      "ONLY_SPACES": "Bibliotheeknaam mag niet alleen uit spaties bestaan",
       "LIBRARY_UPDATE_ERROR": "Er is een fout opgetreden bij het bijwerken van de bibliotheekeigenschappen"
     },
     "SUCCESS": {
