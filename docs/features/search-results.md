@@ -3,7 +3,7 @@
 
 # Search Results
 
-Once you type the text in the Search Input component and press `Enter` you are going to see the Search Results page
+Once you type the text in the Search Input component you are going to see the Search Results page
 
 ![Search Results](../images/aca-search-results.png)
 
