@@ -145,7 +145,7 @@ describe('Library actions', () => {
 
     expect(await confirmDialog.isDialogOpen()).toBe(true, 'Confirm delete dialog not open');
     expect(await confirmDialog.getTitle()).toContain('Leave this library?');
-    expect(await confirmDialog.getText()).toContain('This will remove you as a member of this library.');
+    expect(await confirmDialog.getText()).toContain('Leaving will remove your access.');
     expect(await confirmDialog.isButtonEnabled('OK')).toBe(true, 'OK button is not enabled');
     expect(await confirmDialog.isButtonEnabled('Cancel')).toBe(true, 'Cancel button is not enabled');
   });
@@ -175,7 +175,7 @@ describe('Library actions', () => {
   it('Cancel join - Favorite Libraries - [C290108]', async () => {
     await page.goToFavoriteLibraries();
     await dataTable.selectItem(siteModerated2Admin);
-    await toolbar.clickButton('Cancel join');
+    await toolbar.clickButton('Cancel join request');
 
     const text = await page.getSnackBarMessage();
     expect(text).toEqual(`Canceled the request to join the library`);

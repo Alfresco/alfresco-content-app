@@ -242,7 +242,7 @@ describe('Toolbar actions - single selection : ', () => {
       await dataTable.selectItem(adminModerated);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${adminModerated}`);
-      expect(await toolbar.isButtonPresent('Cancel join')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      expect(await toolbar.isButtonPresent('Cancel join request')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminModerated}`);
       expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminModerated}`);
