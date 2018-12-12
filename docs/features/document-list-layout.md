@@ -72,6 +72,8 @@ in the content repository before it was deleted.
 The Search Results view shows the found items for a search query. It has a custom layout template and users can easily browse the results and perform actions on items.
 For more information on the [SearchComponent](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/search), please also check this [Search Results](/features/search-results) section.
 
+Another custom template layout shows the results when searching for libaries so that users can find, join and favorite libraries that they aren't already members of.
+
 ## Actions and the Actions Toolbar
 
 All the views incorporate the [toolbar](https://alfresco.github.io/adf-component-catalog/components/ToolbarComponent.html)
