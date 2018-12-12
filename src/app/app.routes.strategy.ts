@@ -42,6 +42,19 @@ export class AppRouteReuseStrategy implements RouteReuseStrategy {
   private routeCache = new Map<string, RouteInfo>();
 
   resetCache() {
+    this.routeCache.forEach(value => {
+      this.deactivateComponent(value.handle);
+    });
+    this.routeCache.clear();
+  }
+
+  private deactivateComponent(handle: DetachedRouteHandle): void {
+    const componentRef: ComponentRef<any> = handle['componentRef'];
+    if (componentRef) {
+      componentRef.destroy();
+    }
+  }
+
     this.routeCache.clear();
   }
 
