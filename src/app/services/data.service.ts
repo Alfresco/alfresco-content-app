@@ -57,6 +57,7 @@ export class AppDataService extends CustomResourcesService {
     '-TYPE:"dl:location"',
     '-TYPE:"fm:topic"',
     '-TYPE:"fm:post"',
+    '-TYPE:"ia:calendarEvent"',
     '-TYPE:"lnk:link"'
   ];
 
