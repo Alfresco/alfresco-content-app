@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -45,16 +45,15 @@ describe('Favorites', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
-  const favoritesPage = new BrowsingPage();
-  const { dataTable, breadcrumb } = favoritesPage;
+  const page = new BrowsingPage();
+  const { dataTable, breadcrumb } = page;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
 
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
 
     const file1Id = (await apis.admin.nodes.createFile(fileName1, docLibId)).entry.id;
     const folderId = (await apis.user.nodes.createFolder(favFolderName)).entry.id;
@@ -77,16 +76,14 @@ describe('Favorites', () => {
   });
 
   beforeEach(async (done) => {
-    await favoritesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-    await dataTable.waitForHeader();
+    await page.clickFavoritesAndWait();
     done();
   });
 
   afterAll(async (done) => {
     await apis.admin.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodes([ favFolderName, parentFolder ]);
-    await apis.admin.trashcan.emptyTrash();
-    await logoutPage.load();
+    await apis.user.trashcan.emptyTrash();
     done();
   });
 
@@ -138,7 +135,7 @@ describe('Favorites', () => {
 
   it('Location column redirect - file in site - [C280485]', async () => {
     await dataTable.clickItemLocation(fileName1);
-    expect(breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
   });
 
   it('Navigate into folder from Favorites - [C213230]', async () => {

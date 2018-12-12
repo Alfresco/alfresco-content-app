@@ -24,11 +24,13 @@
  */
 
 import { Routes } from '@angular/router';
-import { LayoutComponent } from './components/layout/layout.component';
+import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
+import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { GenericErrorComponent } from './components/common/generic-error/generic-error.component';
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
+import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
 import { LoginComponent } from './components/login/login.component';
 import { AppAuthGuard } from './guards/auth.guard';
 import { AppSharedRuleGuard } from './guards/shared.guard';
@@ -43,17 +45,16 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'settings',
-    loadChildren:
-      'src/app/components/settings/settings.module#AppSettingsModule'
+    loadChildren: './components/settings/settings.module#AppSettingsModule'
   },
   {
     path: 'preview/s/:id',
     loadChildren:
-      'src/app/components/shared-link-view/shared-link-view.module#AppSharedLinkViewModule'
+      './components/shared-link-view/shared-link-view.module#AppSharedLinkViewModule'
   },
   {
     path: '',
-    component: LayoutComponent,
+    component: AppLayoutComponent,
     children: [
       {
         path: '',
@@ -66,12 +67,11 @@ export const APP_ROUTES: Routes = [
           {
             path: '',
             loadChildren:
-              'src/app/components/favorites/favorites.module#AppFavoritesModule'
+              './components/favorites/favorites.module#AppFavoritesModule'
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'favorites'
             }
@@ -99,13 +99,20 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: ':folderId/preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'libraries'
             }
           }
         ]
+      },
+      {
+        path: 'favorite/libraries',
+        component: FavoriteLibrariesComponent,
+        data: {
+          title: 'APP.BROWSE.LIBRARIES.MENU.FAVORITE_LIBRARIES.TITLE',
+          sortingPreferenceKey: 'favorite-libraries'
+        }
       },
       {
         path: 'personal-files',
@@ -130,16 +137,14 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'personal-files'
             }
           },
           {
             path: ':folderId/preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'personal-files'
             }
@@ -155,12 +160,11 @@ export const APP_ROUTES: Routes = [
           {
             path: '',
             loadChildren:
-              'src/app/components/recent-files/recent-files.module#AppRecentFilesModule'
+              './components/recent-files/recent-files.module#AppRecentFilesModule'
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'recent-files'
             }
@@ -173,12 +177,11 @@ export const APP_ROUTES: Routes = [
           {
             path: '',
             loadChildren:
-              'src/app/components/shared-files/shared-files.module#AppSharedFilesModule'
+              './components/shared-files/shared-files.module#AppSharedFilesModule'
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'shared'
             }
@@ -189,12 +192,11 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'trashcan',
-        loadChildren:
-          'src/app/components/trashcan/trashcan.module#AppTrashcanModule'
+        loadChildren: './components/trashcan/trashcan.module#AppTrashcanModule'
       },
       {
         path: 'about',
-        loadChildren: 'src/app/components/about/about.module#AboutModule'
+        loadChildren: './components/about/about.module#AboutModule'
       },
       {
         path: 'search',
@@ -209,8 +211,26 @@ export const APP_ROUTES: Routes = [
           },
           {
             path: 'preview/:nodeId',
-            loadChildren:
-              'src/app/components/preview/preview.module#PreviewModule',
+            loadChildren: './components/preview/preview.module#PreviewModule',
+            data: {
+              navigateSource: 'search'
+            }
+          }
+        ]
+      },
+      {
+        path: 'search-libraries',
+        children: [
+          {
+            path: '',
+            component: SearchLibrariesResultsComponent,
+            data: {
+              title: 'APP.BROWSE.SEARCH.TITLE'
+            }
+          },
+          {
+            path: 'preview/:nodeId',
+            loadChildren: './components/preview/preview.module#PreviewModule',
             data: {
               navigateSource: 'search'
             }

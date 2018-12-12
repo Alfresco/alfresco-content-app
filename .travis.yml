@@ -4,11 +4,6 @@ services:
   - docker
 addons:
   chrome: stable
-  artifacts:
-    paths:
-      - e2e-output
-    target_paths:
-      - /${TRAVIS_BUILD_NUMBER}
 language: node_js
 node_js:
   - '8'
@@ -34,7 +29,7 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -X gcov
     - stage: e2e
       name: 'Nginx'
-      script: npm run build && npm run e2e:docker
+      script: npm run build.e2e && npm run e2e:docker
     - stage: e2e
       name: 'Tomcat'
       script: npm run build.tomcat.e2e && npm run docker.tomcat.e2e

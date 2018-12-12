@@ -1,40 +1,155 @@
 <div class="sidenav">
-    <div class="sidenav__section sidenav__section sidenav_action-menu">
-      <app-create-menu [expanded]="showLabel"></app-create-menu>
+    <div class="section action-menu">
+        <app-create-menu [expanded]="showLabel"></app-create-menu>
     </div>
 
-    <div *ngFor="let group of groups; trackBy: trackById"
-        class="sidenav__section sidenav__section--menu" >
-        <ul class="sidenav-menu">
-            <li *ngFor="let item of group.items; trackBy: trackById"
-                class="sidenav-menu__item"
+    <div *ngFor="let group of groups; trackBy: trackById" class="section">
+        <div class="menu">
+            <div *ngFor="let item of group.items; trackBy: trackById"
                 routerLinkActive
-                #rla="routerLinkActive"
-                [attr.title]="item.description | translate">
+                #routerLink="routerLinkActive">
 
-                <button
-                    [id]="item.id"
-                    mat-icon-button
-                    mat-ripple
-                    [routerLink]="item.url"
-                    [color]="rla.isActive ? 'accent': 'primary'"
-                    [attr.aria-label]="item.title | translate"
-                    matRippleColor="primary"
-                    [matRippleTrigger]="rippleTrigger"
-                    [matRippleCentered]="true">
+                <ng-container *ngIf="showLabel">
+                    <ng-container *ngIf="!item.children">
+                        <div class="menu__item"
+                            [attr.title]="item.description | translate">
+                            <button [id]="item.id"
+                                mat-icon-button mat-ripple
+                                [routerLink]="item.url"
+                                [color]="routerLink.isActive ? 'accent': 'primary'"
+                                [attr.aria-label]="item.title | translate"
+                                matRippleColor="primary"
+                                [matRippleTrigger]="rippleTrigger"
+                                [matRippleCentered]="true"
+                                [matRippleRadius]="20">
 
-                    <mat-icon>{{ item.icon }}</mat-icon>
-                </button>
+                                <mat-icon>{{ item.icon }}</mat-icon>
+                            </button>
 
-                <span #rippleTrigger
-                    [routerLink]="item.url"
-                    class="menu__item--label"
-                    [hidden]="!showLabel"
-                    [ngClass]="{
-                        'menu__item--active': rla.isActive,
-                        'menu__item--default': !rla.isActive
-                    }">{{ item.title | translate }}</span>
-            </li>
-        </ul>
+                            <span #rippleTrigger
+                                class="item--label item--parent"
+                                [routerLink]="item.url"
+                                [attr.aria-label]="item.title | translate"
+                                [ngClass]="{
+                                    'item--active': routerLink.isActive,
+                                    'item--default': !routerLink.isActive
+                                }">
+                                {{ item.title | translate }}</span>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="item.children && item.children.length">
+                        <mat-expansion-panel
+                            [acaExpansionPanel]="item"
+                            [expanded]="routerLink.isActive"
+                            [@.disabled]="true">
+                            <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px">
+                                <mat-panel-title [attr.title]="item.description | translate">
+                                    <mat-icon [color]="routerLink.isActive? 'accent': 'primary'">{{ item.icon }}</mat-icon>
+                                    <span class="item--label item--parent"
+                                        [ngClass]="{
+                                            'item--active': routerLink.isActive,
+                                            'item--default': !routerLink.isActive
+                                        }">
+                                        {{ item.title | translate }}</span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div *ngFor="let child of item.children; trackBy: trackById"
+                                routerLinkActive #childRouteActive="routerLinkActive"
+                                [attr.title]="child.description | translate">
+
+                                <ng-container *ngIf="child.icon">
+                                    <button [id]="child.id"
+                                        mat-icon-button mat-ripple
+                                        [routerLink]="child.url"
+                                        [color]="childRouteActive.isActive ? 'accent': 'primary'"
+                                        [attr.aria-label]="child.title | translate"
+                                        matRippleColor="primary"
+                                        [matRippleTrigger]="rippleTrigger"
+                                        [matRippleCentered]="true"
+                                        [matRippleRadius]="20">
+
+                                        <mat-icon>{{ child.icon }}</mat-icon>
+                                    </button>
+
+                                    <span #rippleTrigger
+                                        [routerLink]="child.url"
+                                        class="item--label item--label__trigger"
+                                        [ngClass]="{
+                                            'item--active': childRouteActive.isActive,
+                                            'item--default': !childRouteActive.isActive
+                                        }">
+                                        {{ child.title | translate }}
+                                    </span>
+                                </ng-container>
+
+                                <ng-container *ngIf="!child.icon">
+                                    <div [id]="child.id"
+                                        class="menu__item item--label item--child"
+                                        [routerLink]="child.url"
+                                        [attr.aria-label]="child.title | translate">
+
+                                        <span [ngClass]="{
+                                            'item--active': childRouteActive.isActive,
+                                            'item--default': !childRouteActive.isActive
+                                        }">
+                                                {{ child.title | translate }}
+                                        </span>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </mat-expansion-panel>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="!showLabel">
+                    <ng-container *ngIf="!item.children">
+                            <div class="menu__item">
+                                <button [id]="item.id"
+                                    mat-icon-button [routerLink]="item.url"
+                                    [color]="routerLink.isActive ? 'accent': 'primary'"
+                                    [attr.aria-label]="item.title | translate"
+                                    [attr.title]="item.description | translate">
+
+                                    <mat-icon>{{ item.icon }}</mat-icon>
+                                </button>
+                            </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="item.children && item.children.length">
+                        <div class="menu__item"
+                            [attr.title]="item.description | translate">
+                            <button [id]="item.id"
+                                color="accent"
+                                mat-icon-button
+                                #childMenu="matMenuTrigger"
+                                [matMenuTriggerFor]="menu">
+
+                                <mat-icon
+                                    [color]="routerLink.isActive || childMenu.menuOpen? 'accent': 'primary'">
+                                    {{ item.icon }}
+                                </mat-icon>
+                            </button>
+                        </div>
+
+                        <mat-menu #menu="matMenu"[overlapTrigger]="false">
+                            <button mat-menu-item
+                                *ngFor="let child of item.children; trackBy: trackById"
+                                routerLinkActive
+                                #menuRouterLink="routerLinkActive"
+                                [routerLink]="child.url"
+                                [attr.title]="child.description | translate"
+                                [id]="child.id">
+
+                                <span class="mat-button" [ngClass]="{ 'mat-primary': menuRouterLink.isActive }">
+                                    {{ child.title | translate }}
+                                </span>
+                            </button>
+                        </mat-menu>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
     </div>
 </div>

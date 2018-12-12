@@ -24,24 +24,21 @@
  */
 
 import { browser } from 'protractor';
-
 import { SIDEBAR_LABELS, PAGE_TITLES } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
 
 describe('Page titles', () => {
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const adminApi = new RepoClient();
   const { nodes: nodesApi } = adminApi;
   const file = `file-${Utils.random()}.txt`; let fileId;
-  const header = page.header;
+  const { searchInput } = page.header;
 
   xit('');
-
 
   describe('on Login / Logout pages', () => {
     it('on Login page - [C217155]', async () => {
@@ -71,69 +68,65 @@ describe('Page titles', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        logoutPage.load(),
-        adminApi.nodes.deleteNodeById(fileId)
-      ]);
+      await adminApi.nodes.deleteNodeById(fileId);
       done();
     });
 
     it('Personal Files page - [C217157]', async () => {
       const label = SIDEBAR_LABELS.PERSONAL_FILES;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
-    it('File Libraries page - [C217158]', async () => {
-      const label = SIDEBAR_LABELS.FILE_LIBRARIES;
+    it('My Libraries page - [C217158]', async () => {
+      await page.goToMyLibraries();
+      expect(await browser.getTitle()).toContain(PAGE_TITLES.MY_LIBRARIES);
+    });
 
-      await page.sidenav.navigateToLinkByLabel(label);
-      expect(await browser.getTitle()).toContain(label);
+    it('Favorite Libraries page - [C289907]', async () => {
+      await page.goToFavoriteLibraries();
+      expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITE_LIBRARIES);
     });
 
     it('Shared Files page - [C217159]', async () => {
       const label = SIDEBAR_LABELS.SHARED_FILES;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
     it('Recent Files page - [C217160]', async () => {
       const label = SIDEBAR_LABELS.RECENT_FILES;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
     it('Favorites page - [C217161]', async () => {
       const label = SIDEBAR_LABELS.FAVORITES;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
     it('Trash page - [C217162]', async () => {
       const label = SIDEBAR_LABELS.TRASH;
 
-      await page.sidenav.navigateToLinkByLabel(label);
+      await page.sidenav.navigateToLink(label);
       expect(await browser.getTitle()).toContain(label);
     });
 
     it('File Preview page - [C280415]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await page.dataTable.doubleClickOnRowByName(file);
       expect(await browser.getTitle()).toContain(PAGE_TITLES.VIEWER);
       await Utils.pressEscape();
     });
 
     it('Search Results page - [C280413]', async () => {
-      await header.waitForSearchButton();
-      await header.searchButton.click();
-      await page.dataTable.waitForHeader();
-      await header.waitForSearchBar();
-      await header.searchForText(file);
+      await searchInput.clickSearchButton();
+      await searchInput.searchFor(file);
       expect(await browser.getTitle()).toContain(PAGE_TITLES.SEARCH);
     });
   });

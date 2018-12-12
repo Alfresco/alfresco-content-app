@@ -37,6 +37,7 @@ import {
   SnackbarAction,
   SnackbarWarningAction,
   NavigateRouteAction,
+  NavigateToParentFolder,
   SnackbarUserAction,
   UndoDeleteNodesAction,
   SetSelectedNodesAction
@@ -49,7 +50,8 @@ import {
   Node,
   SiteEntry,
   DeletedNodesPaging,
-  PathInfoEntity
+  PathInfoEntity,
+  SiteBody
 } from 'alfresco-js-api';
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
@@ -80,10 +82,16 @@ export class ContentManagementService {
   folderCreated = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
+  libraryUpdated = new Subject<SiteEntry>();
+  libraryJoined = new Subject<string>();
+  libraryLeft = new Subject<string>();
+  library400Error = new Subject<any>();
+  joinLibraryToggle = new Subject<string>();
   linksUnshared = new Subject<any>();
   favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
   favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
   favoriteToggle = new Subject<Array<MinimalNodeEntity>>();
+  favoriteLibraryToggle = new Subject<any>();
 
   constructor(
     private store: Store<AppStore>,
@@ -204,6 +212,9 @@ export class ContentManagementService {
           })
           .afterClosed()
           .subscribe(deletedSharedLink => {
+            this.store.dispatch(
+              new SetSelectedNodesAction([deletedSharedLink || node])
+            );
             if (deletedSharedLink) {
               this.linksUnshared.next(deletedSharedLink);
             }
@@ -290,6 +301,54 @@ export class ContentManagementService {
       () => {
         this.store.dispatch(
           new SnackbarErrorAction('APP.MESSAGES.ERRORS.DELETE_LIBRARY_FAILED')
+        );
+      }
+    );
+  }
+
+  leaveLibrary(siteId: string): void {
+    const dialogRef = this.dialogRef.open(ConfirmDialogComponent, {
+      data: {
+        title: 'APP.DIALOGS.CONFIRM_LEAVE.TITLE',
+        message: 'APP.DIALOGS.CONFIRM_LEAVE.MESSAGE',
+        yesLabel: 'APP.DIALOGS.CONFIRM_LEAVE.YES_LABEL',
+        noLabel: 'APP.DIALOGS.CONFIRM_LEAVE.NO_LABEL'
+      },
+      minWidth: '250px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.contentApi.leaveSite(siteId).subscribe(
+          () => {
+            this.libraryLeft.next(siteId);
+            this.store.dispatch(
+              new SnackbarInfoAction('APP.MESSAGES.INFO.LEFT_LIBRARY')
+            );
+          },
+          () => {
+            this.store.dispatch(
+              new SnackbarErrorAction(
+                'APP.MESSAGES.ERRORS.LEAVE_LIBRARY_FAILED'
+              )
+            );
+          }
+        );
+      }
+    });
+  }
+
+  updateLibrary(siteId: string, siteBody: SiteBody) {
+    this.contentApi.updateLibrary(siteId, siteBody).subscribe(
+      (siteEntry: SiteEntry) => {
+        this.libraryUpdated.next(siteEntry);
+        this.store.dispatch(
+          new SnackbarInfoAction('LIBRARY.SUCCESS.LIBRARY_UPDATED')
+        );
+      },
+      () => {
+        this.store.dispatch(
+          new SnackbarErrorAction('LIBRARY.ERRORS.LIBRARY_UPDATE_ERROR')
         );
       }
     );
@@ -819,9 +878,17 @@ export class ContentManagementService {
         const isSite = this.isSite(status.success[0].entry);
         const path: PathInfoEntity = status.success[0].entry.path;
         const parent = path.elements[path.elements.length - 1];
-        const route = isSite ? ['/libraries'] : ['/personal-files', parent.id];
+        const route = isSite
+          ? ['/libraries', parent.id]
+          : ['/personal-files', parent.id];
 
-        const navigate = new NavigateRouteAction(route);
+        let navigate;
+
+        if (this.isLibraryContent(path)) {
+          navigate = new NavigateToParentFolder(status.success[0]);
+        } else {
+          navigate = new NavigateRouteAction(route);
+        }
 
         message.userAction = new SnackbarUserAction(
           'APP.ACTIONS.VIEW',
@@ -835,6 +902,18 @@ export class ContentManagementService {
 
   private isSite(entry: MinimalNodeEntryEntity): boolean {
     return entry.nodeType === 'st:site';
+  }
+
+  private isLibraryContent(path: PathInfoEntity): boolean {
+    if (
+      path &&
+      path.elements.length >= 2 &&
+      path.elements[1].name === 'Sites'
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   private getRestoreMessage(status: DeleteStatus): SnackbarAction {

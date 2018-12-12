@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Viewer } from '../../components/viewer/viewer';
-import { SIDEBAR_LABELS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -47,7 +46,6 @@ describe('Single click on item name', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, breadcrumb } = page;
   const viewer = new Viewer();
@@ -82,13 +80,11 @@ describe('Single click on item name', () => {
     await apis.user.nodes.deleteNodeById(folder1Id);
     await apis.user.nodes.deleteNodeById(file1Id);
     await apis.user.trashcan.emptyTrash();
-    await logoutPage.load();
     done();
   });
 
   it('Hyperlink does not appear for items in the Trash - [C284899]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-    await dataTable.waitForHeader();
+    await page.clickTrashAndWait();
 
     expect(await dataTable.hasLinkOnName(deletedFile1)).toBe(false, 'Link on name is present');
     expect(await dataTable.hasLinkOnName(deletedFolder1)).toBe(false, 'Link on name is present');
@@ -96,8 +92,7 @@ describe('Single click on item name', () => {
 
   describe('on Personal Files', () => {
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -122,8 +117,7 @@ describe('Single click on item name', () => {
 
   describe('on File Libraries', () => {
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       done();
     });
 
@@ -141,8 +135,7 @@ describe('Single click on item name', () => {
 
   describe('on Shared Files', () => {
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -161,8 +154,7 @@ describe('Single click on item name', () => {
 
   describe('on Recent Files', () => {
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -181,8 +173,7 @@ describe('Single click on item name', () => {
 
   describe('on Favorites', () => {
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       done();
     });
 

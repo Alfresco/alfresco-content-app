@@ -30,11 +30,16 @@ import { Component } from '../component';
 export class Toolbar extends Component {
   private static selectors = {
     root: '.adf-toolbar',
-    button: '.mat-icon-button'
+    button: 'button',
+    
+    share: `.mat-icon-button[title='Share']`,
+    shareEdit: `.mat-icon-button[title='Shared link settings']`
   };
 
   menu: Menu = new Menu();
   buttons: ElementArrayFinder = this.component.all(by.css(Toolbar.selectors.button));
+  shareButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.share));
+  shareEditButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.shareEdit));
 
   constructor(ancestor?: ElementFinder) {
     super(Toolbar.selectors.root, ancestor);
@@ -80,5 +85,23 @@ export class Toolbar extends Component {
   async clickButton(title: string) {
     const btn = this.getButtonByTitleAttribute(title);
     await btn.click();
+  }
+
+  async clickShareButton() {
+    const btn = this.shareButton;
+    await btn.click();
+  }
+
+  async isShareButtonPresent() {
+    return await browser.isElementPresent(this.shareButton);
+  }
+
+  async clickShareEditButton() {
+    const btn = this.shareEditButton;
+    await btn.click();
+  }
+
+  async isShareEditButtonPresent() {
+    return await browser.isElementPresent(this.shareEditButton);
   }
 }

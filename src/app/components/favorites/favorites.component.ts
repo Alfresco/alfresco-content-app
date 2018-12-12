@@ -85,8 +85,10 @@ export class FavoritesComponent extends PageComponent implements OnInit {
 
     // TODO: rework as it will fail on non-English setups
     const isSitePath = (path: PathInfo): boolean => {
-      return path.elements.some(
-        ({ name }: PathElementEntity) => name === 'Sites'
+      return (
+        path &&
+        path.elements &&
+        path.elements.some(({ name }: PathElementEntity) => name === 'Sites')
       );
     };
 

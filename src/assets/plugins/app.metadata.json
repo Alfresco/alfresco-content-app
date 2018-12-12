@@ -1,0 +1,63 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$id": "app.demo.metadata",
+  "$name": "metadata-plugin",
+  "$version": "1.0.0",
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+  "$runtime": "1.5.0",
+  "$description": "metadata card configuration plugin - testing purpose",
+
+  "features": {
+    "content-metadata-presets": [
+      {
+        "id": "app.content.metadata.custom",
+        "custom": [
+          {
+            "id": "app.content.metadata.customGroup",
+            "title": "testing extension props",
+            "items": [
+              {
+                "id": "app.content.metadata.exifAspect",
+                "disabled": true
+              },
+              {
+                "id": "app.content.metadata.exifAspect2",
+                "aspect": "exif:exif",
+                "properties": [
+                  "exif:orientation",
+                  "exif:manufacturer",
+                  "exif:model",
+                  "exif:software"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "app.content.metadata.customGroup2",
+            "title": "testing extension props2",
+            "items": [
+              {
+                "id": "app.content.metadata.exifAspect",
+                "aspect": "exif:exif",
+                "properties": [
+                  "exif:pixelXDimension",
+                  "exif:pixelYDimension",
+                  "exif:dateTimeOriginal"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "app.content.metadata.kitten-images",
+        "kitten-images": {
+          "id": "app.content.metadata.kittenAspect",
+          "custom:aspect": "*",
+          "exif:exif": [ "exif:pixelXDimension", "exif:pixelYDimension"]
+        }
+      }
+    ]
+  }
+}

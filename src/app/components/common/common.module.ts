@@ -31,19 +31,24 @@ import { LocationLinkComponent } from './location-link/location-link.component';
 import { NameColumnComponent } from './name-column/name-column.component';
 import { LibraryNameColumnComponent } from './library-name-column/library-name-column.component';
 import { LibraryStatusColumnComponent } from './library-status-column/library-status-column.component';
+import { LibraryRoleColumnComponent } from './library-role-column/library-role-column.component';
 import { TrashcanNameColumnComponent } from './trashcan-name-column/trashcan-name-column.component';
 import { DynamicColumnComponent } from './dynamic-column/dynamic-column.component';
+import { IconComponent } from './icon/icon.component';
+import { MatIconModule } from '@angular/material';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
+  imports: [CommonModule, CoreModule.forChild(), MatIconModule],
   declarations: [
     GenericErrorComponent,
     LocationLinkComponent,
     NameColumnComponent,
     LibraryNameColumnComponent,
     LibraryStatusColumnComponent,
+    LibraryRoleColumnComponent,
     TrashcanNameColumnComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    IconComponent
   ],
   exports: [
     GenericErrorComponent,
@@ -51,14 +56,17 @@ import { DynamicColumnComponent } from './dynamic-column/dynamic-column.componen
     NameColumnComponent,
     LibraryNameColumnComponent,
     LibraryStatusColumnComponent,
+    LibraryRoleColumnComponent,
     TrashcanNameColumnComponent,
-    DynamicColumnComponent
+    DynamicColumnComponent,
+    IconComponent
   ],
   entryComponents: [
     LocationLinkComponent,
     NameColumnComponent,
     LibraryNameColumnComponent,
     LibraryStatusColumnComponent,
+    LibraryRoleColumnComponent,
     TrashcanNameColumnComponent
   ]
 })

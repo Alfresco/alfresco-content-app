@@ -45,19 +45,26 @@ export class FavoritesApi extends RepoApi {
         return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
     }
 
-    async addFavoriteById(nodeType: 'file' | 'folder', id: string) {
+    async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string) {
+        let guid;
+        await this.apiAuth();
+
+        if ( nodeType === 'site' ) {
+            guid = (await this.alfrescoJsApi.core.sitesApi.getSite(id)).entry.guid;
+        } else {
+            guid = id;
+        }
         const data = {
             target: {
                 [nodeType]: {
-                    guid: id
+                    guid: guid
                 }
             }
         };
-        await this.apiAuth();
         return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
     }
 
-    async addFavoritesByIds(nodeType: 'file' | 'folder', ids: string[]) {
+    async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]) {
         await this.apiAuth();
         return await ids.reduce(async (previous, current) => {
             await previous;
@@ -72,11 +79,30 @@ export class FavoritesApi extends RepoApi {
 
     async getFavoriteById(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.favoritesApi.getFavorite('-me', nodeId);
+        return await this.alfrescoJsApi.core.favoritesApi.getFavorite('-me-', nodeId);
     }
 
     async isFavorite(nodeId: string) {
         return JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
+    }
+
+    async isFavoriteWithRetry(nodeId: string, data) {
+      let isFavorite;
+      try {
+        const favorite = async () => {
+          isFavorite = JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
+          if ( isFavorite !== data.expect ) {
+            return Promise.reject(isFavorite);
+          } else {
+            return Promise.resolve(isFavorite);
+          }
+        };
+
+        return await Utils.retryCall(favorite);
+      } catch (error) {
+        console.log('-----> catch isFavoriteWithRetry: ', error);
+      }
+      return isFavorite;
     }
 
     async removeFavoriteById(nodeId: string) {

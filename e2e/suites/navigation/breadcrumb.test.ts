@@ -25,8 +25,8 @@
 
 import { browser } from 'protractor';
 
-import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -45,7 +45,6 @@ describe('Breadcrumb', () => {
   const folder1Renamed = `renamed-${Utils.random()}`;
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { breadcrumb } = page;
 
@@ -79,51 +78,55 @@ describe('Breadcrumb', () => {
     await Promise.all([
       apis.user.nodes.deleteNodeById(parentId),
       apis.user.nodes.deleteNodeById(parent2Id),
-      apis.user.sites.deleteSite(siteName),
-      logoutPage.load()
+      apis.user.sites.deleteSite(siteName)
     ]);
     done();
   });
 
   it('Personal Files breadcrumb main node - [C260964]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await page.clickPersonalFiles();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Personal Files');
   });
 
-  it('File Libraries breadcrumb main node - [C260966]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
+  it('My Libraries breadcrumb main node - [C260966]', async () => {
+    await page.goToMyLibraries();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
-    expect(await breadcrumb.getCurrentItemName()).toBe('File Libraries');
+    expect(await breadcrumb.getCurrentItemName()).toBe('My Libraries');
+  });
+
+  it('Favorite Libraries breadcrumb main node - [C289891]', async () => {
+    await page.goToFavoriteLibraries();
+    expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
+    expect(await breadcrumb.getCurrentItemName()).toBe('Favorite Libraries');
   });
 
   it('Recent Files breadcrumb main node - [C260971]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
+    await page.clickRecentFiles();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Recent Files');
   });
 
   it('Shared Files breadcrumb main node - [C260972]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+    await page.clickSharedFiles();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Shared Files');
   });
 
   it('Favorites breadcrumb main node - [C260973]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+    await page.clickFavorites();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Favorites');
   });
 
   it('Trash breadcrumb main node - [C260974]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+    await page.clickTrash();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Trash');
   });
 
   it('Personal Files breadcrumb for a folder hierarchy - [C260965]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await page.dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
@@ -132,19 +135,17 @@ describe('Breadcrumb', () => {
   });
 
   it('File Libraries breadcrumb for a folder hierarchy - [C260967]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-    await page.dataTable.waitForHeader();
+    await page.clickFileLibrariesAndWait();
     await page.dataTable.doubleClickOnRowByName(siteName);
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
-    const expectedItems = [ 'File Libraries', siteName, parent, subFolder1, subFolder2 ];
+    const expectedItems = [ 'My Libraries', siteName, parent, subFolder1, subFolder2 ];
     expect(await breadcrumb.getAllItems()).toEqual(expectedItems);
   });
 
   it('User can navigate to any location by clicking on a step from the breadcrumb - [C213235]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await page.dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
@@ -154,8 +155,7 @@ describe('Breadcrumb', () => {
   });
 
   it('Tooltip appears on hover on a step in breadcrumb - [C213237]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await page.dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
@@ -163,8 +163,7 @@ describe('Breadcrumb', () => {
   });
 
   it('Breadcrumb updates correctly when folder is renamed - [C213238]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await page.dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent2);
     await page.dataTable.doubleClickOnRowByName(folder1);
     await page.dataTable.wait();
@@ -175,12 +174,11 @@ describe('Breadcrumb', () => {
   });
 
   it('Browser back navigates to previous location regardless of breadcrumb steps - [C213240]', async () => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await page.dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     await page.dataTable.doubleClickOnRowByName(parent);
     await page.dataTable.doubleClickOnRowByName(subFolder1);
     await page.dataTable.doubleClickOnRowByName(subFolder2);
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+    await page.clickTrash();
     await page.dataTable.waitForEmptyState();
     await browser.navigate().back();
     const expectedBreadcrumb = [ 'Personal Files', parent, subFolder1, subFolder2 ];
@@ -194,7 +192,6 @@ describe('Breadcrumb', () => {
     const user2Api = new RepoClient(user2, user2);
 
     beforeAll(async (done) => {
-      await logoutPage.load();
       await apis.admin.people.createUser({ username: user2 });
       userFolderId = (await user2Api.nodes.createFolder(userFolder)).entry.id;
       await loginPage.loginWithAdmin();
@@ -202,10 +199,7 @@ describe('Breadcrumb', () => {
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        user2Api.nodes.deleteNodeById(userFolderId),
-        logoutPage.load()
-      ]);
+      await user2Api.nodes.deleteNodeById(userFolderId);
       done();
     });
 

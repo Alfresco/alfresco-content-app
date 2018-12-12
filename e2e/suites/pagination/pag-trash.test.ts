@@ -23,9 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
-import { SIDEBAR_LABELS } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -42,7 +40,6 @@ describe('Pagination on multiple pages on Trash', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, pagination } = page;
 
@@ -56,8 +53,7 @@ describe('Pagination on multiple pages on Trash', () => {
   });
 
   beforeEach(async (done) => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-    await dataTable.waitForHeader();
+    await page.clickTrashAndWait();
     done();
   });
 
@@ -68,7 +64,6 @@ describe('Pagination on multiple pages on Trash', () => {
 
   afterAll(async (done) => {
     await apis.user.trashcan.emptyTrash();
-    await logoutPage.load();
     done();
   });
 

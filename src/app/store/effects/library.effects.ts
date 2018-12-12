@@ -32,14 +32,20 @@ import {
   CreateLibraryAction,
   CREATE_LIBRARY,
   NavigateLibraryAction,
-  NAVIGATE_LIBRARY
+  NAVIGATE_LIBRARY,
+  UpdateLibraryAction,
+  UPDATE_LIBRARY,
+  LeaveLibraryAction,
+  LEAVE_LIBRARY,
+  NavigateRouteAction
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
 import { ContentApiService } from '../../services/content-api.service';
-import { Router } from '@angular/router';
+import { SiteBody } from 'alfresco-js-api-node';
+import { SnackbarErrorAction } from '../actions/snackbar.actions';
 
 @Injectable()
 export class LibraryEffects {
@@ -47,8 +53,7 @@ export class LibraryEffects {
     private store: Store<AppStore>,
     private actions$: Actions,
     private content: ContentManagementService,
-    private contentApi: ContentApiService,
-    private router: Router
+    private contentApi: ContentApiService
   ) {}
 
   @Effect({ dispatch: false })
@@ -70,6 +75,25 @@ export class LibraryEffects {
     })
   );
 
+  @Effect({ dispatch: false })
+  leaveLibrary$ = this.actions$.pipe(
+    ofType<LeaveLibraryAction>(LEAVE_LIBRARY),
+    map(action => {
+      if (action.payload) {
+        this.content.leaveLibrary(action.payload);
+      } else {
+        this.store
+          .select(appSelection)
+          .pipe(take(1))
+          .subscribe(selection => {
+            if (selection && selection.library) {
+              this.content.leaveLibrary(selection.library.entry.id);
+            }
+          });
+      }
+    })
+  );
+
   @Effect()
   createLibrary$ = this.actions$.pipe(
     ofType<CreateLibraryAction>(CREATE_LIBRARY),
@@ -85,11 +109,42 @@ export class LibraryEffects {
       if (libraryId) {
         this.contentApi
           .getNode(libraryId, { relativePath: '/documentLibrary' })
-          .pipe(map(node => node.entry))
-          .subscribe(documentLibrary => {
-            this.router.navigate(['libraries', documentLibrary.id]);
-          });
+          .pipe(map(node => node.entry.id))
+          .subscribe(
+            id => {
+              this.store.dispatch(new NavigateRouteAction(['libraries', id]));
+            },
+            () => {
+              this.store.dispatch(
+                new SnackbarErrorAction('APP.MESSAGES.ERRORS.MISSING_CONTENT')
+              );
+            }
+          );
       }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  updateLibrary$ = this.actions$.pipe(
+    ofType<UpdateLibraryAction>(UPDATE_LIBRARY),
+    map(action => {
+      this.store
+        .select(appSelection)
+        .pipe(take(1))
+        .subscribe(selection => {
+          if (selection && selection.library) {
+            const { id } = selection.library.entry;
+            const { title, description, visibility } = action.payload;
+
+            const siteBody = <SiteBody>{
+              title,
+              description,
+              visibility
+            };
+
+            this.content.updateLibrary(id, siteBody);
+          }
+        });
     })
   );
 }

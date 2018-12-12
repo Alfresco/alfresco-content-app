@@ -23,7 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {
   NavigationEnd,
   PRIMARY_OUTLET,
@@ -33,16 +39,21 @@ import {
   UrlSegmentGroup,
   UrlTree
 } from '@angular/router';
-import { MinimalNodeEntity } from 'alfresco-js-api';
 import { SearchInputControlComponent } from '../search-input-control/search-input-control.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
-import {
-  SearchByTermAction,
-  NavigateToFolder,
-  ViewFileAction
-} from '../../../store/actions';
-import { filter } from 'rxjs/operators';
+import { SearchByTermAction } from '../../../store/actions';
+import { filter, takeUntil } from 'rxjs/operators';
+import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { ContentManagementService } from '../../../services/content-management.service';
+import { Subject } from 'rxjs';
+import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
+
+export enum SearchOptionIds {
+  Files = 'content',
+  Folders = 'folder',
+  Libraries = 'libraries'
+}
 
 @Component({
   selector: 'aca-search-input',
@@ -50,70 +61,92 @@ import { filter } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'aca-search-input' }
 })
-export class SearchInputComponent implements OnInit {
+export class SearchInputComponent implements OnInit, OnDestroy {
+  onDestroy$: Subject<boolean> = new Subject<boolean>();
   hasOneChange = false;
   hasNewChange = false;
   navigationTimer: any;
-  enableLiveSearch = true;
+  has400LibraryError = false;
+
+  searchedWord = null;
+  searchOptions: Array<any> = [
+    {
+      id: SearchOptionIds.Files,
+      key: 'SEARCH.INPUT.FILES',
+      value: false,
+      shouldDisable: this.isLibrariesChecked.bind(this)
+    },
+    {
+      id: SearchOptionIds.Folders,
+      key: 'SEARCH.INPUT.FOLDERS',
+      value: false,
+      shouldDisable: this.isLibrariesChecked.bind(this)
+    },
+    {
+      id: SearchOptionIds.Libraries,
+      key: 'SEARCH.INPUT.LIBRARIES',
+      value: false,
+      shouldDisable: this.isContentChecked.bind(this)
+    }
+  ];
 
   @ViewChild('searchInputControl')
   searchInputControl: SearchInputControlComponent;
 
-  constructor(private router: Router, private store: Store<AppStore>) {}
+  constructor(
+    private queryBuilder: SearchQueryBuilderService,
+    private queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
+    private content: ContentManagementService,
+    private router: Router,
+    private store: Store<AppStore>
+  ) {}
 
   ngOnInit() {
     this.showInputValue();
 
     this.router.events
+      .pipe(takeUntil(this.onDestroy$))
       .pipe(filter(e => e instanceof RouterEvent))
       .subscribe(event => {
         if (event instanceof NavigationEnd) {
           this.showInputValue();
         }
       });
+
+    this.content.library400Error
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => {
+        this.has400LibraryError = true;
+      });
   }
 
   showInputValue() {
-    if (this.onSearchResults) {
-      let searchedWord = null;
+    this.has400LibraryError = false;
+    this.searchedWord = '';
+
+    if (this.onSearchResults || this.onLibrariesSearchResults) {
       const urlTree: UrlTree = this.router.parseUrl(this.router.url);
       const urlSegmentGroup: UrlSegmentGroup =
         urlTree.root.children[PRIMARY_OUTLET];
 
       if (urlSegmentGroup) {
         const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
-        searchedWord = urlSegments[0].parameters['q'];
+        this.searchedWord = urlSegments[0].parameters['q'] || '';
       }
+    }
 
-      if (this.searchInputControl) {
-        this.enableLiveSearch = false;
-        this.searchInputControl.searchTerm = searchedWord;
-        this.searchInputControl.subscriptAnimationState = 'no-animation';
-      }
-    } else {
-      if (this.searchInputControl.subscriptAnimationState === 'no-animation') {
-        this.searchInputControl.subscriptAnimationState = 'active';
-        this.searchInputControl.searchTerm = '';
-        this.searchInputControl.toggleSearchBar();
-      }
-
-      if (!this.enableLiveSearch) {
-        setTimeout(() => {
-          this.enableLiveSearch = true;
-        }, this.searchInputControl.toggleDebounceTime + 100);
-      }
+    if (this.searchInputControl) {
+      this.searchInputControl.searchTerm = this.searchedWord;
     }
   }
 
-  onItemClicked(node: MinimalNodeEntity) {
-    if (node && node.entry) {
-      const { isFile, isFolder } = node.entry;
-      if (isFile) {
-        this.store.dispatch(new ViewFileAction(node));
-      } else if (isFolder) {
-        this.store.dispatch(new NavigateToFolder(node));
-      }
-    }
+  ngOnDestroy(): void {
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
+  }
+
+  onMenuOpened() {
+    this.searchInputControl.searchInput.nativeElement.focus();
   }
 
   /**
@@ -122,35 +155,123 @@ export class SearchInputComponent implements OnInit {
    * @param event Parameters relating to the search
    */
   onSearchSubmit(event: KeyboardEvent) {
+    this.has400LibraryError = false;
     const searchTerm = (event.target as HTMLInputElement).value;
     if (searchTerm) {
-      this.store.dispatch(new SearchByTermAction(searchTerm));
+      this.searchedWord = searchTerm;
+
+      this.searchByOption();
     }
   }
 
   onSearchChange(searchTerm: string) {
-    if (this.onSearchResults) {
-      if (this.hasOneChange) {
-        this.hasNewChange = true;
+    this.has400LibraryError = false;
+    this.searchedWord = searchTerm;
+
+    if (this.hasOneChange) {
+      this.hasNewChange = true;
+    } else {
+      this.hasOneChange = true;
+    }
+
+    if (this.hasNewChange) {
+      clearTimeout(this.navigationTimer);
+      this.hasNewChange = false;
+    }
+
+    this.navigationTimer = setTimeout(() => {
+      if (searchTerm) {
+        this.store.dispatch(
+          new SearchByTermAction(searchTerm, this.searchOptions)
+        );
+      }
+      this.hasOneChange = false;
+    }, 1000);
+  }
+
+  searchByOption() {
+    this.has400LibraryError = false;
+    if (this.isLibrariesChecked()) {
+      if (this.searchedWord && !this.onLibrariesSearchResults) {
+        this.store.dispatch(
+          new SearchByTermAction(this.searchedWord, this.searchOptions)
+        );
       } else {
-        this.hasOneChange = true;
+        this.queryLibrariesBuilder.update();
+      }
+    } else {
+      if (this.isFoldersChecked() && !this.isFilesChecked()) {
+        this.filterContent(SearchOptionIds.Folders);
+      } else if (this.isFilesChecked() && !this.isFoldersChecked()) {
+        this.filterContent(SearchOptionIds.Files);
+      } else {
+        this.removeContentFilters();
       }
 
-      if (this.hasNewChange) {
-        clearTimeout(this.navigationTimer);
-        this.hasNewChange = false;
+      if (this.onSearchResults) {
+        this.queryBuilder.update();
+      } else if (this.searchedWord) {
+        this.store.dispatch(
+          new SearchByTermAction(this.searchedWord, this.searchOptions)
+        );
       }
-
-      this.navigationTimer = setTimeout(() => {
-        if (searchTerm) {
-          this.store.dispatch(new SearchByTermAction(searchTerm));
-        }
-        this.hasOneChange = false;
-      }, 1000);
     }
   }
 
+  get onLibrariesSearchResults() {
+    return this.router.url.indexOf('/search-libraries') === 0;
+  }
+
   get onSearchResults() {
-    return this.router.url.indexOf('/search') === 0;
+    return (
+      !this.onLibrariesSearchResults && this.router.url.indexOf('/search') === 0
+    );
+  }
+
+  isFilesChecked(): boolean {
+    return this.isOptionChecked(SearchOptionIds.Files);
+  }
+
+  isFoldersChecked(): boolean {
+    return this.isOptionChecked(SearchOptionIds.Folders);
+  }
+
+  isLibrariesChecked(): boolean {
+    return this.isOptionChecked(SearchOptionIds.Libraries);
+  }
+
+  isOptionChecked(optionId: string): boolean {
+    const libItem = this.searchOptions.find(item => item.id === optionId);
+    return !!libItem && libItem.value;
+  }
+
+  isContentChecked(): boolean {
+    return this.isFilesChecked() || this.isFoldersChecked();
+  }
+
+  hasLibraryConstraint(): boolean {
+    if (this.isLibrariesChecked()) {
+      return (
+        this.has400LibraryError || this.searchInputControl.isTermTooShort()
+      );
+    }
+    return false;
+  }
+
+  filterContent(option: SearchOptionIds.Folders | SearchOptionIds.Files) {
+    const oppositeOption =
+      option === SearchOptionIds.Folders
+        ? SearchOptionIds.Files
+        : SearchOptionIds.Folders;
+
+    this.queryBuilder.addFilterQuery(`+TYPE:'cm:${option}'`);
+    this.queryBuilder.removeFilterQuery(`+TYPE:'cm:${oppositeOption}'`);
+  }
+
+  removeContentFilters() {
+    this.queryBuilder.removeFilterQuery(`+TYPE:'cm:${SearchOptionIds.Files}'`);
+    this.queryBuilder.removeFilterQuery(
+      `+TYPE:'cm:${SearchOptionIds.Folders}'`
+    );
   }
 }

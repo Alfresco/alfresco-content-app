@@ -23,27 +23,35 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { Component, Input, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import {
+  MinimalNodeEntity,
+  MinimalNodeEntryEntity,
+  SiteEntry
+} from 'alfresco-js-api';
 import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
+import { Store } from '@ngrx/store';
+import { AppStore } from '../../store/states/app.state';
+import { SetInfoDrawerStateAction } from '../../store/actions';
 
 @Component({
   selector: 'aca-info-drawer',
   templateUrl: './info-drawer.component.html'
 })
-export class InfoDrawerComponent implements OnChanges, OnInit {
+export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   @Input()
   nodeId: string;
   @Input()
   node: MinimalNodeEntity;
 
   isLoading = false;
-  displayNode: MinimalNodeEntryEntity;
+  displayNode: MinimalNodeEntryEntity | SiteEntry;
   tabs: Array<SidebarTabRef> = [];
 
   constructor(
+    private store: Store<AppStore>,
     private contentApi: ContentApiService,
     private extensions: AppExtensionService
   ) {}
@@ -52,22 +60,31 @@ export class InfoDrawerComponent implements OnChanges, OnInit {
     this.tabs = this.extensions.getSidebarTabs();
   }
 
+  ngOnDestroy() {
+    this.store.dispatch(new SetInfoDrawerStateAction(false));
+  }
+
   ngOnChanges() {
     if (this.node) {
       const entry = this.node.entry;
-      if (entry.nodeId) {
-        this.loadNodeInfo(entry.nodeId);
-      } else if ((<any>entry).guid) {
-        // workaround for Favorite files
-        this.loadNodeInfo(entry.id);
-      } else {
-        // workaround Recent
-        if (this.isTypeImage(entry) && !this.hasAspectNames(entry)) {
-          this.loadNodeInfo(this.node.entry.id);
-        } else {
-          this.setDisplayNode(this.node.entry);
-        }
+
+      if (this.isLibraryListNode(this.node)) {
+        return this.setDisplayNode(this.node);
       }
+
+      if (this.isSharedFilesNode(this.node)) {
+        return this.loadNodeInfo(entry.nodeId);
+      }
+
+      if (this.isFavoriteListNode(this.node)) {
+        return this.loadNodeInfo(entry.id);
+      }
+
+      if (this.isRecentListFileNode(this.node)) {
+        return this.loadNodeInfo(entry.id);
+      }
+
+      this.setDisplayNode(entry);
     }
   }
 
@@ -96,7 +113,23 @@ export class InfoDrawerComponent implements OnChanges, OnInit {
     }
   }
 
-  private setDisplayNode(node: MinimalNodeEntryEntity) {
+  private setDisplayNode(node: MinimalNodeEntryEntity | SiteEntry) {
     this.displayNode = node;
+  }
+
+  private isLibraryListNode(node: SiteEntry): boolean {
+    return (<any>node).isLibrary;
+  }
+
+  private isFavoriteListNode(node: MinimalNodeEntity): boolean {
+    return !this.isLibraryListNode(node) && (<any>node).entry.guid;
+  }
+
+  private isSharedFilesNode(node: MinimalNodeEntity): boolean {
+    return !!node.entry.nodeId;
+  }
+
+  private isRecentListFileNode(node: MinimalNodeEntity): boolean {
+    return this.isTypeImage(node.entry) && !this.hasAspectNames(node.entry);
   }
 }

@@ -31,16 +31,15 @@ import {
   OnInit
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore } from 'src/app/store/states';
 import { Observable } from 'rxjs';
 import {
   selectHeaderColor,
   selectAppName,
   selectLogoPath
-} from 'src/app/store/selectors/app.selectors';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+} from '../../store/selectors/app.selectors';
 import { ContentActionRef } from '@alfresco/adf-extensions';
 import { AppExtensionService } from '../../extensions/extension.service';
+import { AppStore } from '../../store/states';
 
 @Component({
   selector: 'app-header',
@@ -56,12 +55,10 @@ export class AppHeaderComponent implements OnInit {
   headerColor$: Observable<string>;
   logo$: Observable<string>;
 
-  isSmallScreen = false;
   actions: Array<ContentActionRef> = [];
 
   constructor(
     store: Store<AppStore>,
-    private breakpointObserver: BreakpointObserver,
     private appExtensions: AppExtensionService
   ) {
     this.headerColor$ = store.select(selectHeaderColor);
@@ -71,12 +68,6 @@ export class AppHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.actions = this.appExtensions.getHeaderActions();
-
-    this.breakpointObserver
-      .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
-      .subscribe(result => {
-        this.isSmallScreen = result.matches;
-      });
   }
 
   trackByActionId(index: number, action: ContentActionRef) {

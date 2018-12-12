@@ -1,5 +1,39 @@
 {
     "APP": {
+      "ABOUT": {
+        "VERSION": "Version:",
+        "PLUGINS": {
+          "TITLE": "Extensions",
+          "ID": "ID",
+          "NAME": "Name",
+          "VERSION": "Version",
+          "VENDOR": "Vendor",
+          "LICENSE": "License",
+          "RUNTIME": "Runtime",
+          "DESCRIPTION": "Description"
+        },
+        "LICENSE": {
+          "TITLE": "License",
+          "PROPERTY": "Property",
+          "VALUE": "Value"
+        },
+        "STATUS": {
+          "TITLE": "Status",
+          "PROPERTY": "Property",
+          "VALUE": "Value"
+        },
+        "MODULES": {
+          "TITLE": "Alfresco platform modules",
+          "ID": "ID",
+          "NAME": "Name",
+          "VERSION": "Version"
+        },
+        "PACKAGES": {
+          "TITLE": "Packages",
+          "NAME": "Name",
+          "VERSION": "Version"
+        }
+      },
         "LANGUAGE": "Language",
         "SIGN_IN": "Sign in",
         "SIGN_OUT": "Sign out",
@@ -18,7 +52,7 @@
         },
         "NEW_MENU": {
             "LABEL": "New",
-            "TOOLTIP": "Add new files or folders",
+            "TOOLTIP": "Add new files and folders, or create a new File Library",
             "MENU_ITEMS": {
                 "CREATE_FOLDER": "Create folder",
                 "UPLOAD_FILE": "Upload file",
@@ -44,14 +78,37 @@
                 }
             },
             "LIBRARIES": {
-                "TITLE": "File Libraries",
+                "TITLE": "My Libraries",
+                "DESCRIPTION": "Access File Libraries",
                 "SIDENAV_LINK": {
                     "LABEL": "File Libraries",
-                    "TOOLTIP": "Access File Libraries"
+                    "TOOLTIP": "File Libraries"
                 },
                 "EMPTY_STATE": {
-                    "TITLE": "You aren't a member of any File Libraries yet",
-                    "TEXT": "Join libraries to upload, view, and share files."
+                    "FILE_LIBRARIES": {
+                        "TITLE": "You aren't a member of any File Libraries yet",
+                        "TEXT": "Join libraries to upload, view, and share files."
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "No Favorite Libraries",
+                        "TEXT": "Favorite a library that you want to find easily later."
+                    }
+                },
+                "MENU": {
+                    "MY_LIBRARIES": {
+                        "TITLE": "My Libraries",
+                        "SIDENAV_LINK": {
+                            "LABEL": "My Libraries",
+                            "TOOLTIP": "Access my libraries"
+                        }
+                    },
+                    "FAVORITE_LIBRARIES": {
+                        "TITLE": "Favorite Libraries",
+                        "SIDENAV_LINK": {
+                            "LABEL": "Favorite Libraries",
+                            "TOOLTIP": "Access my favorite libraries"
+                        }
+                    }
                 }
             },
             "SHARED": {
@@ -73,7 +130,7 @@
                 },
                 "EMPTY_STATE": {
                     "TITLE": "No recent files",
-                    "TEXT": "Items you upload or edit in the last 30 days are shown here."
+                    "TEXT": "Items you uploaded or edited in the last 30 days are shown here."
                 }
             },
             "FAVORITES": {
@@ -105,12 +162,19 @@
             "SEARCH": {
                 "TITLE": "Search Results",
                 "FOUND_RESULTS": "{{ number }} results found",
+                "FOUND_ONE_RESULT": "{{ number }} result found",
                 "CUSTOM_ROW": {
                     "MODIFIED": "Modified",
                     "LOCATION": "Location",
                     "SIZE": "Size"
                 },
+                "UNKNOWN_LOCATION": "Unknown",
                 "NO_RESULTS": "Your search returned 0 results"
+            },
+            "SEARCH_LIBRARIES": {
+              "TITLE": "Libraries found...",
+              "FOUND_RESULTS": "{{ number }} results",
+              "FOUND_ONE_RESULT": "{{ number }} result"
             }
         },
         "ACTIONS": {
@@ -126,6 +190,8 @@
             "PERMISSIONS": "Permissions",
             "RESTORE": "Restore",
             "FAVORITE": "Favorite",
+            "ADD_FAVORITE": "Add favorite",
+            "REMOVE_FAVORITE": "Remove favorite",
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions",
@@ -133,7 +199,10 @@
             "SHARE": "Share",
             "SHARE_EDIT": "Shared link settings",
             "PRINT": "Print",
-            "FULLSCREEN": "Activate full-screen mode"
+            "FULLSCREEN": "Activate full-screen mode",
+            "JOIN": "Join",
+            "CANCEL_JOIN": "Cancel join request",
+            "LEAVE": "Leave library"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -141,20 +210,28 @@
                 "MESSAGE": "This will permanently remove the selected item(s).",
                 "YES_LABEL": "Delete",
                 "NO_LABEL": "Keep"
+            },
+            "CONFIRM_LEAVE": {
+                "TITLE": "Leave this library?",
+                "MESSAGE": "Leaving will remove your access.",
+                "YES_LABEL": "OK",
+                "NO_LABEL": "Cancel"
             }
         },
         "DOCUMENT_LIST": {
             "COLUMNS": {
+                "ID": "ID",
                 "NAME": "Name",
                 "SIZE": "Size",
                 "MODIFIED_ON": "Modified",
                 "MODIFIED_BY": "Modified by",
-                "STATUS": "Status",
+                "VISIBILITY": "Visibility",
                 "TITLE": "Title",
                 "LOCATION": "Location",
                 "SHARED_BY": "Shared by",
                 "DELETED_ON": "Deleted",
-                "DELETED_BY": "Deleted by"
+                "DELETED_BY": "Deleted by",
+                "ROLE": "My Role"
             },
             "TOOLBAR": {
                 "CARDVIEW": "Card view mode",
@@ -166,9 +243,16 @@
             "MODERATED": "Moderated",
             "PRIVATE": "Private"
         },
+        "SITES_ROLE": {
+            "MANAGER": "Manager",
+            "COLLABORATOR": "Collaborator",
+            "CONTRIBUTOR": "Contributor",
+            "CONSUMER": "Consumer"
+        },
         "MESSAGES": {
             "ERRORS":{
-                "MISSING_CONTENT": "This file or folder no longer exists or you don't have permission to view it.",
+              "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",
+                "MISSING_CONTENT": "This item no longer exists or you don't have permission to view it.",
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
                 "NODE_MOVE": "Move unsuccessful, a file with the same name already exists.",
@@ -190,13 +274,21 @@
                         "GENERIC": "There was a problem restoring {{ name }}"
                     }
                 },
-                "DELETE_LIBRARY_FAILED": "Cannot delete the library"
+                "DELETE_LIBRARY_FAILED": "Cannot delete the library",
+                "JOIN_REQUEST_FAILED": "Cannot join the library",
+                "JOIN_CANCEL_FAILED": "Cannot cancel your join request",
+                "LEAVE_LIBRARY_FAILED": "Cannot leave this library",
+                "INVALID_SENDER_EMAIL": "Your email address must be valid before requesting to join.",
+                "INVALID_RECEIVER_EMAIL": "Recipient(s) email address not valid, contact IT."
             },
             "UPLOAD": {
                 "ERROR": {
-                    "GENERIC": "There was a problem",
+                    "GENERIC": "Upload unsuccessful. Contact IT if this problem persists",
                     "CONFLICT": "New version not uploaded, another file with the same name already exists",
-                    "500": "There was a problem while uploading"
+                    "500": "Internal server error, try again or contact IT support [500]",
+                    "504": "The server timed out, try again or contact IT support [504]",
+                    "403": "Insufficient permissions to upload in this location [403]",
+                    "404": "Upload location no longer exists [404]"
                 }
             },
             "INFO": {
@@ -235,7 +327,11 @@
                         "FAIL": "{{ failed }} couldn't be moved."
                     }
                 },
-                "LIBRARY_DELETED": "Library deleted"
+                "LIBRARY_DELETED": "Library deleted",
+                "JOINED": "Library joined",
+                "JOIN_REQUESTED": "Request sent to join this library",
+                "JOIN_CANCELED": "Canceled the request to join the library",
+                "LEFT_LIBRARY": "You have left the library"
             }
         },
         "CONTENT_METADATA": {
@@ -245,6 +341,7 @@
             "TITLE": "Details",
             "TABS": {
                 "PROPERTIES": "Properties",
+                "LIBRARY_PROPERTIES": "About",
                 "VERSIONS": "Versions",
                 "COMMENTS": "Comments"
             }
@@ -259,10 +356,11 @@
     },
     "PERMISSIONS": {
         "DIALOG": {
-            "TITLE": "Manage Permissons",
+            "TITLE": "Manage Permissions",
             "CLOSE": "Close",
-            "INHERIT_PERMISSIONS_BUTTON": "Inherit Permission",
-            "INHERITED_PERMISSIONS_BUTTON": "Permission Inherited"
+            "INHERIT_PERMISSIONS_BUTTON": "Inherit Permissions",
+            "INHERITED_PERMISSIONS_BUTTON": "Permissions Inherited",
+            "ADD_USER_OR_GROUP": "Add User or Group"
         }
     },
     "SHARED_LINK": {
@@ -282,11 +380,14 @@
         "DIALOG": {
             "CREATE_TITLE": "Create Library",
             "CREATE": "Create",
+            "UPDATE": "Update",
+            "EDIT": "Edit",
             "CANCEL": "Cancel",
             "FORM": {
                 "DESCRIPTION": "Description",
                 "SITE_ID": "Library ID",
-                "NAME": "Name"
+                "NAME": "Name",
+                "VISIBILITY": "Visibility"
             }
         },
         "VISIBILITY": {
@@ -294,18 +395,33 @@
             "PUBLIC": "Public",
             "MODERATED": "Moderated"
         },
+        "HINTS": {
+            "SITE_TITLE_EXISTS": "Library name already in use"
+        },
         "ERRORS": {
             "GENERIC": "We hit a problem",
-            "EXISTENT_SITE": "This Library ID isn't available. Try a different Library.",
+            "EXISTENT_SITE": "This Library ID isn't available. Try a different Library ID.",
             "CONFLICT": "This Library ID is already used. Check the trashcan.",
             "ID_TOO_LONG": "Use 72 characters or less for the URL name",
             "DESCRIPTION_TOO_LONG": "Use 512 characters or less for description",
             "TITLE_TOO_LONG": "Use 256 characters or less for title",
-            "ILLEGAL_CHARACTERS": "Use numbers and letters only"
+            "ILLEGAL_CHARACTERS": "Use numbers and letters only",
+            "ONLY_SPACES": "Library name can't contain only spaces",
+            "LIBRARY_UPDATE_ERROR": "There was an error updating library properties"
+        },
+        "SUCCESS": {
+            "LIBRARY_UPDATED": "Library properties updated"
         }
     },
 
     "SEARCH": {
+        "INPUT": {
+          "PLACEHOLDER": "Search",
+          "FILES": "Files",
+          "FOLDERS": "Folders",
+          "LIBRARIES": "Libraries",
+          "HINT": "Search input must have at least 2 alphanumeric characters."
+        },
         "SORT": {
             "RELEVANCE": "Relevance",
             "FILENAME": "Filename",

@@ -23,8 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SIDEBAR_LABELS } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -52,7 +51,6 @@ describe('File / folder tooltips', () => {
   const fileDescription = 'file description';
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
@@ -82,8 +80,7 @@ describe('File / folder tooltips', () => {
   afterAll(async (done) => {
     await Promise.all([
       apis.user.nodes.deleteNodes([ parent ]),
-      apis.user.trashcan.emptyTrash(),
-      logoutPage.load()
+      apis.user.trashcan.emptyTrash()
     ]);
     done();
   });
@@ -92,7 +89,7 @@ describe('File / folder tooltips', () => {
 
   describe('on Personal Files', () => {
     beforeAll(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       done();
     });
@@ -133,7 +130,7 @@ describe('File / folder tooltips', () => {
   describe('on Recent Files', () => {
     beforeAll(async (done) => {
       await apis.user.search.waitForApi(username, { expect: 8 });
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -174,7 +171,7 @@ describe('File / folder tooltips', () => {
   xdescribe('on Shared Files', () => {
     beforeAll(async (done) => {
       await apis.user.shared.waitForApi({ expect: 8 });
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -213,8 +210,7 @@ describe('File / folder tooltips', () => {
 
   describe('on Favorites', () => {
     beforeAll(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       done();
     });
 
@@ -271,8 +267,7 @@ describe('File / folder tooltips', () => {
         file1TrashId, file2TrashId, file3TrashId, file4TrashId, file5TrashId, file6TrashId, file7TrashId, file8TrashId
       ], false);
 
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       done();
     });
 

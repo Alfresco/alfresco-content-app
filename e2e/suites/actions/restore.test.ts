@@ -24,8 +24,8 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { APP_ROUTES, SIDEBAR_LABELS } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { APP_ROUTES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -38,7 +38,6 @@ describe('Restore from Trash', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
@@ -49,31 +48,29 @@ describe('Restore from Trash', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.admin.trashcan.emptyTrash(),
-      logoutPage.load()
-    ]);
+    await apis.user.trashcan.emptyTrash();
     done();
   });
 
   xit('');
 
   describe('successful restore', () => {
-    const file = `file-${Utils.random()}.txt`;
-    let fileId;
-    const folder = `folder-${Utils.random()}`;
-    let folderId;
+    const file = `file-${Utils.random()}.txt`; let fileId;
+    const folder = `folder-${Utils.random()}`; let folderId;
+    const site = `site-${Utils.random()}`;
 
     beforeAll(async (done) => {
       fileId = (await apis.user.nodes.createFile(file)).entry.id;
       folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
+      await apis.user.sites.createSite(site);
+
       await apis.user.nodes.deleteNodesById([fileId, folderId], false);
+      await apis.user.sites.deleteSite(site, false);
       done();
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       done();
     });
 
@@ -89,8 +86,7 @@ describe('Restore from Trash', () => {
       expect(text).toContain(`${file} restored`);
       expect(text).toContain(`View`);
       expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodeById(fileId, false);
@@ -103,11 +99,21 @@ describe('Restore from Trash', () => {
       expect(text).toContain(`${folder} restored`);
       expect(text).toContain(`View`);
       expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodeById(folderId, false);
+    });
+
+    it('restore library - [C290104]', async () => {
+      await dataTable.selectItem(site);
+      await toolbar.getButtonByTitleAttribute('Restore').click();
+      const text = await page.getSnackBarMessage();
+      expect(text).toContain(`${site} restored`);
+      expect(text).toContain(`View`);
+      expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} was not removed from list`);
+      await page.clickFileLibrariesAndWait();
+      expect(await page.dataTable.getRowByName(site).isPresent()).toBe(true, `${site} not displayed in list`);
     });
 
     it('restore multiple items - [C217182]', async () => {
@@ -118,8 +124,7 @@ describe('Restore from Trash', () => {
       expect(text).not.toContain(`View`);
       expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
       expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await page.dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
       expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
 
@@ -131,7 +136,7 @@ describe('Restore from Trash', () => {
       await toolbar.getButtonByTitleAttribute('Restore').click();
       await page.clickSnackBarAction();
       await page.dataTable.waitForHeader();
-      expect(await page.sidenav.isActiveByLabel('Personal Files')).toBe(true, 'Personal Files sidebar link not active');
+      expect(await page.sidenav.isActive('Personal Files')).toBe(true, 'Personal Files sidebar link not active');
       expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
 
       await apis.user.nodes.deleteNodeById(fileId, false);
@@ -164,8 +169,7 @@ describe('Restore from Trash', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       done();
     });
 
@@ -178,7 +182,7 @@ describe('Restore from Trash', () => {
     });
 
     it('Restore a file when another file with same name exists on the restore location - [C217178]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await page.clickTrashAndWait();
       await dataTable.selectItem(file1);
       await toolbar.getButtonByTitleAttribute('Restore').click();
       const text = await page.getSnackBarMessage();
@@ -186,7 +190,7 @@ describe('Restore from Trash', () => {
     });
 
     it('Restore a file when original location no longer exists - [C217179]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+      await page.clickTrashAndWait();
       await dataTable.selectItem(file2);
       await toolbar.getButtonByTitleAttribute('Restore').click();
       const text = await page.getSnackBarMessage();
@@ -239,16 +243,12 @@ describe('Restore from Trash', () => {
     });
 
     beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       done();
     });
 
     afterAll(async (done) => {
-      await Promise.all([
-        apis.user.trashcan.emptyTrash(),
-        logoutPage.load()
-      ]);
+      await apis.user.trashcan.emptyTrash();
       done();
     });
 

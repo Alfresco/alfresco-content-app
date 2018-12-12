@@ -1,5 +1,39 @@
 {
   "APP": {
+    "ABOUT": {
+      "VERSION": "バージョン:",
+      "PLUGINS": {
+        "TITLE": "拡張機能",
+        "ID": "ID",
+        "NAME": "名前",
+        "VERSION": "バージョン",
+        "VENDOR": "ベンダー",
+        "LICENSE": "ライセンス",
+        "RUNTIME": "ランタイム",
+        "DESCRIPTION": "説明"
+      },
+      "LICENSE": {
+        "TITLE": "ライセンス",
+        "PROPERTY": "プロパティ",
+        "VALUE": "値"
+      },
+      "STATUS": {
+        "TITLE": "ステータス",
+        "PROPERTY": "プロパティ",
+        "VALUE": "値"
+      },
+      "MODULES": {
+        "TITLE": "Alfresco プラットフォームのモジュール",
+        "ID": "ID",
+        "NAME": "名前",
+        "VERSION": "バージョン"
+      },
+      "PACKAGES": {
+        "TITLE": "パッケージ",
+        "NAME": "名前",
+        "VERSION": "バージョン"
+      }
+    },
     "LANGUAGE": "言語",
     "SIGN_IN": "サインイン",
     "SIGN_OUT": "サインアウト",
@@ -18,7 +52,7 @@
     },
     "NEW_MENU": {
       "LABEL": "新規",
-      "TOOLTIP": "新しいフィールドまたはフォルダを追加します",
+      "TOOLTIP": "新しいフィールドやフォルダを追加したり、新しいファイルライブラリを作成できます。",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "フォルダの作成",
         "UPLOAD_FILE": "ファイルのアップロード",
@@ -44,14 +78,37 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "ファイルライブラリ",
+        "TITLE": "あなたのライブラリ",
+        "DESCRIPTION": "ファイルライブラリにアクセスします",
         "SIDENAV_LINK": {
           "LABEL": "ファイルライブラリ",
-          "TOOLTIP": "ファイルライブラリにアクセスします"
+          "TOOLTIP": "ファイルライブラリ"
         },
         "EMPTY_STATE": {
-          "TITLE": "あなたはまだファイルライブラリのメンバーではありません",
-          "TEXT": "ファイルをアップロード、表示、共有するライブラリに参加してください"
+          "FILE_LIBRARIES": {
+            "TITLE": "あなたはまだファイルライブラリのメンバーではありません",
+            "TEXT": "ファイルをアップロード、表示、共有するライブラリに参加してください"
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "お気に入りのライブラリはありません",
+            "TEXT": "後で簡単に見つけられるようにライブラリをお気に入りに追加します。"
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "あなたのライブラリ",
+            "SIDENAV_LINK": {
+              "LABEL": "あなたのライブラリ",
+              "TOOLTIP": "ライブラリにアクセス"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "お気に入りのライブラリ",
+            "SIDENAV_LINK": {
+              "LABEL": "お気に入りのライブラリ",
+              "TOOLTIP": "お気に入りのライブラリにアクセス"
+            }
+          }
         }
       },
       "SHARED": {
@@ -105,12 +162,19 @@
       "SEARCH": {
         "TITLE": "検索結果",
         "FOUND_RESULTS": "{{ number }} 件見つかりました",
+        "FOUND_ONE_RESULT": "{{ number }} 件見つかりました",
         "CUSTOM_ROW": {
           "MODIFIED": "変更日",
           "LOCATION": "場所",
           "SIZE": "サイズ"
         },
+        "UNKNOWN_LOCATION": "不明",
         "NO_RESULTS": "検索結果は 0 件です"
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "ライブラリが見つかりました...",
+        "FOUND_RESULTS": "検索結果: {{ number }} 件",
+        "FOUND_ONE_RESULT": "検索結果: {{ number }} 件"
       }
     },
     "ACTIONS": {
@@ -126,6 +190,8 @@
       "PERMISSIONS": "権限",
       "RESTORE": "復元",
       "FAVORITE": "お気に入り",
+      "ADD_FAVORITE": "お気に入りに追加",
+      "REMOVE_FAVORITE": "お気に入りの削除",
       "UNSHARE": "共有の解除",
       "DETAILS": "詳細の表示",
       "VERSIONS": "バージョンの管理",
@@ -133,7 +199,10 @@
       "SHARE": "共有",
       "SHARE_EDIT": "共有リンクの設定",
       "PRINT": "印刷",
-      "FULLSCREEN": "全画面表示モードをアクティブにする"
+      "FULLSCREEN": "全画面表示モードをアクティブにする",
+      "JOIN": "参加",
+      "CANCEL_JOIN": "参加リクエストのキャンセル",
+      "LEAVE": "ライブラリから脱退"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -141,20 +210,28 @@
         "MESSAGE": "この操作を行うと、選択したアイテムが完全に削除されます。",
         "YES_LABEL": "削除",
         "NO_LABEL": "残す"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "このライブラリから脱退しますか?",
+        "MESSAGE": "脱退すると、アクセス権が削除されます。",
+        "YES_LABEL": "OK",
+        "NO_LABEL": "キャンセル"
       }
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
+        "ID": "ID",
         "NAME": "名前",
         "SIZE": "サイズ",
         "MODIFIED_ON": "変更日",
         "MODIFIED_BY": "変更者",
-        "STATUS": "ステータス",
+        "VISIBILITY": "公開レベル",
         "TITLE": "タイトル",
         "LOCATION": "場所",
         "SHARED_BY": "共有者",
         "DELETED_ON": "削除日",
-        "DELETED_BY": "削除者"
+        "DELETED_BY": "削除者",
+        "ROLE": "あなたの役割"
       },
       "TOOLBAR": {
         "CARDVIEW": "カード表示モード",
@@ -166,9 +243,16 @@
       "MODERATED": "条件付き公開",
       "PRIVATE": "非公開"
     },
+    "SITES_ROLE": {
+      "MANAGER": "マネージャ",
+      "COLLABORATOR": "共同作業者",
+      "CONTRIBUTOR": "投稿者",
+      "CONSUMER": "利用者"
+    },
     "MESSAGES": {
       "ERRORS": {
-        "MISSING_CONTENT": "このファイルまたはフォルダがなくなったか、表示する権限がありません。",
+        "CANNOT_NAVIGATE_LOCATION": "この場所は開けません",
+        "MISSING_CONTENT": "このアイテムは削除されたか、このアイテムを表示する権限がありません。",
         "GENERIC": "処理が失敗しました。もう一度操作をやり直すか、IT 担当者に連絡してください。",
         "CONFLICT": "この名前は既に使用されています。別の名前を使用してください。",
         "NODE_MOVE": "移動できません。同じ名前のファイルが既に存在します。",
@@ -190,13 +274,21 @@
             "GENERIC": "{{ name }} の復元中に問題が発生しました"
           }
         },
-        "DELETE_LIBRARY_FAILED": "このライブラリは削除できません"
+        "DELETE_LIBRARY_FAILED": "このライブラリは削除できません",
+        "JOIN_REQUEST_FAILED": "ライブラリに参加できません",
+        "JOIN_CANCEL_FAILED": "参加リクエストをキャンセルできません",
+        "LEAVE_LIBRARY_FAILED": "このライブラリから脱退できません",
+        "INVALID_SENDER_EMAIL": "参加リクエストを行うには、有効な E メールアドレスが必要です。",
+        "INVALID_RECEIVER_EMAIL": "受取人の E メールアドレスが無効です。IT 担当者に連絡してください。"
       },
       "UPLOAD": {
         "ERROR": {
-          "GENERIC": "問題が発生しました",
+          "GENERIC": "アップロードできませんでした。問題が解決しない場合は、IT 担当者に連絡してください。",
           "CONFLICT": "新しいバージョンはアップロードされていません。同じ名前のファイルが既に存在します",
-          "500": "アップロード中に問題が発生しました"
+          "500": "内部サーバーエラーが発生しました。もう一度操作をやり直すか、IT 担当者に連絡してください。 [500]",
+          "504": "サーバーがタイムアウトになりました。もう一度操作をやり直すか、IT 担当者に連絡してください。[504]",
+          "403": "この場所にアップロードするための権限がありません [403]",
+          "404": "アップロード場所は削除されました [404]"
         }
       },
       "INFO": {
@@ -235,7 +327,11 @@
             "FAIL": "{{ failed }} 件を移動できませんでした。"
           }
         },
-        "LIBRARY_DELETED": "ライブラリが削除されました"
+        "LIBRARY_DELETED": "ライブラリが削除されました",
+        "JOINED": "ライブラリに参加しました",
+        "JOIN_REQUESTED": "このライブラリへの参加リクエストが送信されました",
+        "JOIN_CANCELED": "ライブラリへの参加リクエストをキャンセルしました",
+        "LEFT_LIBRARY": "このライブラリからは脱退しています"
       }
     },
     "CONTENT_METADATA": {
@@ -245,6 +341,7 @@
       "TITLE": "詳細",
       "TABS": {
         "PROPERTIES": "プロパティ",
+        "LIBRARY_PROPERTIES": "バージョン情報",
         "VERSIONS": "バージョン",
         "COMMENTS": "コメント"
       }
@@ -262,7 +359,8 @@
       "TITLE": "権限の管理",
       "CLOSE": "閉じる",
       "INHERIT_PERMISSIONS_BUTTON": "権限の継承",
-      "INHERITED_PERMISSIONS_BUTTON": "継承された権限"
+      "INHERITED_PERMISSIONS_BUTTON": "継承された権限",
+      "ADD_USER_OR_GROUP": "ユーザー/グループの追加"
     }
   },
   "SHARED_LINK": {
@@ -282,11 +380,14 @@
     "DIALOG": {
       "CREATE_TITLE": "ライブラリの作成",
       "CREATE": "作成",
+      "UPDATE": "更新",
+      "EDIT": "編集",
       "CANCEL": "キャンセル",
       "FORM": {
         "DESCRIPTION": "説明",
         "SITE_ID": "ライブラリ ID",
-        "NAME": "名前"
+        "NAME": "名前",
+        "VISIBILITY": "公開レベル"
       }
     },
     "VISIBILITY": {
@@ -294,17 +395,32 @@
       "PUBLIC": "公開",
       "MODERATED": "条件付き公開"
     },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "ライブラリ名は既に使用されています"
+    },
     "ERRORS": {
       "GENERIC": "問題が発生しました",
-      "EXISTENT_SITE": "このライブラリ ID は使用できません。別のライブラリを使用してください。",
+      "EXISTENT_SITE": "このライブラリ ID は使用できません。別のライブラリ ID を使用してください。",
       "CONFLICT": "このライブラリ ID は既に使われています。ごみ箱をチェックしてください。",
       "ID_TOO_LONG": "URL 名は 72 文字以内で入力してください",
       "DESCRIPTION_TOO_LONG": "説明は 512 文字以内で入力してください",
       "TITLE_TOO_LONG": "タイトルは 256 文字以内で入力してください",
-      "ILLEGAL_CHARACTERS": "英数字だけを使用してください"
+      "ILLEGAL_CHARACTERS": "英数字だけを使用してください",
+      "ONLY_SPACES": "ライブラリ名にスペースだけを含めることはできません",
+      "LIBRARY_UPDATE_ERROR": "ライブラリのプロパティの更新中にエラーが発生しました"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "ライブラリのプロパティが更新されました"
     }
   },
   "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "検索",
+      "FILES": "ファイル",
+      "FOLDERS": "フォルダ",
+      "LIBRARIES": "ライブラリ",
+      "HINT": "検索する語句は、2 文字以上の英数字で入力してください。"
+    },
     "SORT": {
       "RELEVANCE": "関連性",
       "FILENAME": "ファイル名",

@@ -23,9 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-// import { browser, protractor, promise } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -40,7 +38,6 @@ describe('Upload files', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
 
@@ -53,16 +50,12 @@ describe('Upload files', () => {
   });
 
   beforeEach(async (done) => {
-    await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(folder1Id),
-      logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodeById(folder1Id);
     done();
   });
 

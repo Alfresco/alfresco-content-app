@@ -68,7 +68,7 @@
 
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import 'core-js/es7/reflect';
+
 
 
 /**
@@ -102,39 +102,3 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-
-
-// workaround for https://github.com/Microsoft/monaco-editor/issues/790
-
-Promise.all = function(values: any): Promise<any> {
-  let resolve: (v: any) => void;
-  let reject: (v: any) => void;
-  const promise = new this((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
-  let count = 0;
-  let index = 0;
-  const resolvedValues: any[] = [];
-  for (let value of values) {
-    if (!(value && value.then)) {
-      value = this.resolve(value);
-    }
-    value.then(
-      (idx => (val: any) => {
-        resolvedValues[idx] = val;
-        count--;
-        if (!count) {
-          resolve(resolvedValues);
-        }
-      })(index),
-      reject
-    );
-    count++;
-    index++;
-  }
-  if (!count) {
-    resolve(resolvedValues);
-  }
-  return promise;
-};

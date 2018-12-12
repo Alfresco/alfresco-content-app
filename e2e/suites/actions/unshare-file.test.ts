@@ -24,8 +24,8 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS, SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { ShareDialog } from '../../components/dialog/share-dialog';
 import { ConfirmDialog } from '../../components/dialog/confirm-dialog';
@@ -43,7 +43,6 @@ describe('Unshare a file', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
   const shareDialog = new ShareDialog();
@@ -59,10 +58,7 @@ describe('Unshare a file', () => {
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.nodes.deleteNodeById(parentId),
-      logoutPage.load()
-    ]);
+    await apis.user.nodes.deleteNodeById(parentId);
     done();
   });
 
@@ -88,8 +84,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       await dataTable.waitForHeader();
       done();
@@ -111,8 +106,7 @@ describe('Unshare a file', () => {
 
     it('Unshare dialog UI - [C286339]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
@@ -127,8 +121,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file - [C286340]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -140,7 +133,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
@@ -152,8 +145,7 @@ describe('Unshare a file', () => {
 
     it('Cancel the Unshare action - [C286341]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
@@ -170,7 +162,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file from the context menu - [C286359]', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickMenuItem('Shared link settings');
+      await contextMenu.clickShareEditAction();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -182,7 +174,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
@@ -222,8 +214,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(parentInSite);
@@ -244,8 +235,7 @@ describe('Unshare a file', () => {
 
     it('Unshare dialog UI - [C286679]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
@@ -260,8 +250,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file - [C286680]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -273,7 +262,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
@@ -285,8 +274,7 @@ describe('Unshare a file', () => {
 
     it('Cancel the Unshare action - [C286681]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
@@ -303,7 +291,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file from the context menu - [C286683]', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickMenuItem('Shared link settings');
+      await contextMenu.clickShareEditAction();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -315,7 +303,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
@@ -348,8 +336,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -369,8 +356,7 @@ describe('Unshare a file', () => {
 
     it('Unshare dialog UI - [C286689]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
@@ -385,8 +371,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file - [C286690]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -398,7 +383,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
@@ -410,8 +395,7 @@ describe('Unshare a file', () => {
 
     it('Cancel the Unshare action - [C286691]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
@@ -428,7 +412,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file from the context menu - [C286693]', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickMenuItem('Shared link settings');
+      await contextMenu.clickShareEditAction();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -440,7 +424,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
@@ -473,8 +457,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -494,8 +477,7 @@ describe('Unshare a file', () => {
 
     it('Unshare dialog UI - [C286684]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
@@ -510,8 +492,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file - [C286685]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -534,8 +515,7 @@ describe('Unshare a file', () => {
 
     it('Cancel the Unshare action - [C286686]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
@@ -552,7 +532,7 @@ describe('Unshare a file', () => {
 
     it('Unshare a file from the context menu - [C286688]', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickMenuItem('Shared link settings');
+      await contextMenu.clickShareEditAction();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -603,8 +583,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       done();
     });
 
@@ -624,8 +603,9 @@ describe('Unshare a file', () => {
 
     it('Unshare dialog UI - [C286694]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
@@ -640,8 +620,9 @@ describe('Unshare a file', () => {
 
     it('Unshare a file - [C286695]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -653,7 +634,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
@@ -665,8 +646,9 @@ describe('Unshare a file', () => {
 
     it('Cancel the Unshare action - [C286696]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
 
       const urlBefore = await shareDialog.getLinkUrl();
@@ -683,7 +665,9 @@ describe('Unshare a file', () => {
 
     it('Unshare a file from the context menu - [C286698]', async () => {
       await dataTable.rightClickOnItem(file4);
-      await contextMenu.clickMenuItem('Share');
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await contextMenu.clickShareAction();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
@@ -695,7 +679,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+      // await page.clickSharedFiles();
       // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
@@ -720,7 +704,7 @@ describe('Unshare a file', () => {
       file1Id = (await apis.admin.nodes.createFile(file1, docLibId)).entry.id;
       file2Id = (await apis.admin.nodes.createFile(file2, docLibId)).entry.id;
 
-      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER);
+      await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
       await apis.admin.shared.shareFileById(file1Id);
       await apis.user.shared.shareFileById(file2Id);
@@ -749,70 +733,62 @@ describe('Unshare a file', () => {
     });
 
     it('on File Libraries - file shared by other user - [C286682]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
     it('on File Libraries - file shared by the user - [C286701]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file2);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
     it('on Shared Files - file shared by other user - [C286687]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
     it('on Shared Files - file shared by the user - [C286702]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await page.clickSharedFilesAndWait();
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Shared link settings');
+      await toolbar.clickShareEditButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
     it('on Favorites - file shared by other user - [C286697]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
     });
 
     it('on Favorites - file shared by the user - [C286703]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1);
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Share');
+      // TODO: remove workaround for favorites
+      // await toolbar.clickShareEditButton();
+      await toolbar.clickShareButton();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');

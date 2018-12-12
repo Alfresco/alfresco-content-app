@@ -41,7 +41,8 @@ import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SetCurrentFolderAction } from '../../store/actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { isAdmin } from '../../store/selectors/app.selectors';
 
 @Component({
   templateUrl: './files.component.html'
@@ -49,6 +50,7 @@ import { debounceTime } from 'rxjs/operators';
 export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   isValidPath = true;
   isSmallScreen = false;
+  isAdmin = false;
 
   private nodePath: PathElement[];
 
@@ -117,6 +119,13 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
           this.isSmallScreen = result.matches;
         })
     ]);
+
+    this.store
+      .select(isAdmin)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(value => {
+        this.isAdmin = value;
+      });
 
     this.columns = this.extensions.documentListPresets.files || [];
   }
@@ -238,7 +247,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
       if (elements.length > 1) {
         if (elements[1].name === 'User Homes') {
-          elements.splice(0, 2);
+          if (!this.isAdmin) {
+            elements.splice(0, 2);
+          }
         } else if (elements[1].name === 'Sites') {
           await this.normalizeSitePath(node);
         }

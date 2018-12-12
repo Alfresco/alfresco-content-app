@@ -49,6 +49,21 @@ export class SitesApi extends RepoApi {
         return (await this.alfrescoJsApi.core.sitesApi.getSiteContainers(siteId)).list.entries[0].entry.id;
     }
 
+    async getVisibility(siteId: string) {
+        const site = await this.getSite(siteId);
+        return site.entry.visibility;
+    }
+
+    async getDescription(siteId: string) {
+      const site = await this.getSite(siteId);
+      return site.entry.description;
+    }
+
+    async getTitle(siteId: string) {
+      const site = await this.getSite(siteId);
+      return site.entry.title;
+    }
+
     async createSite(title: string, visibility?: string, description?: string, siteId?: string) {
         const site = <SiteBody>{
             title,
@@ -80,6 +95,15 @@ export class SitesApi extends RepoApi {
         }, Promise.resolve());
     }
 
+    async deleteAllUserSites(permanent: boolean = true) {
+      const siteIds = (await this.getSites()).list.entries.map(entries => entries.entry.id);
+
+      return await siteIds.reduce(async (previous, current) => {
+        await previous;
+        return await this.deleteSite(current, permanent);
+      }, Promise.resolve());
+    }
+
     async updateSiteMember(siteId: string, userId: string, role: string) {
         const siteRole = <SiteMemberRoleBody>{
             role: role
@@ -102,6 +126,24 @@ export class SitesApi extends RepoApi {
     async deleteSiteMember(siteId: string, userId: string) {
         await this.apiAuth();
         return await this.alfrescoJsApi.core.sitesApi.removeSiteMember(siteId, userId);
+    }
+
+    async requestToJoin(siteId: string) {
+        const body = {
+          id: siteId
+        };
+        await this.apiAuth();
+        try {
+          return await this.alfrescoJsApi.core.peopleApi.addSiteMembershipRequest('-me-', body);
+        } catch (error) {
+          console.log('====== requestToJoin catch ', error);
+        };
+    }
+
+    async hasMembershipRequest(siteId: string) {
+      await this.apiAuth();
+      const requests = (await this.alfrescoJsApi.core.peopleApi.getSiteMembershipRequests('-me-')).list.entries.map(e => e.entry.id);
+      return requests.includes(siteId);
     }
 
     async waitForApi(data) {

@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { InfoDrawer } from './../../components/info-drawer/info-drawer';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { SIDEBAR_LABELS, EXTENSIBILITY_CONFIGS } from '../../configs';
+import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
 
 describe('Extensions - Info Drawer', () => {
@@ -65,7 +65,6 @@ describe('Extensions - Info Drawer', () => {
     const infoDrawer = new InfoDrawer();
 
     const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
 
     beforeAll(async (done) => {
@@ -82,20 +81,14 @@ describe('Extensions - Info Drawer', () => {
     describe('', () => {
         beforeAll(async (done) => {
             await loginPage.load();
-            await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.INFO_DRAWER);
+            await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER);
             await loginPage.loginWith(username);
             done();
         });
 
         beforeEach(async (done) => {
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-            await page.dataTable.waitForHeader();
+            await page.clickPersonalFilesAndWait();
             await page.dataTable.clearSelection();
-            done();
-        });
-
-        afterAll(async (done) => {
-            await logoutPage.load();
             done();
         });
 
@@ -106,7 +99,7 @@ describe('Extensions - Info Drawer', () => {
 
             const val = await infoDrawer.getTabTitle(custom_tab.order);
             expect(await infoDrawer.isTabPresent(custom_tab.title)).toBe(true, `${custom_tab.title} tab is not present`);
-            expect(val).toEqual(`${custom_tab.icon}\n${custom_tab.title}`);
+            expect(val.trim()).toEqual(`${custom_tab.icon}\n${custom_tab.title}`.trim());
         });
 
         it('Remove existing tab - [C284647]', async () => {
@@ -132,7 +125,7 @@ describe('Extensions - Info Drawer', () => {
             await infoDrawer.waitForInfoDrawerToOpen();
 
             expect(await infoDrawer.isTabPresent(no_title_tab.title)).toBe(true, `${no_title_tab.title} tab is not present`);
-            expect(await infoDrawer.getTabTitle(no_title_tab.order)).toEqual(`${no_title_tab.icon}`);
+            expect((await infoDrawer.getTabTitle(no_title_tab.order)).trim()).toEqual(`${no_title_tab.icon}`.trim());
         });
 
         it('Insert new component in tab - [C284651]', async () => {
@@ -149,15 +142,9 @@ describe('Extensions - Info Drawer', () => {
     describe('', () => {
         beforeAll(async (done) => {
             await loginPage.load();
-            await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
+            await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.INFO_DRAWER_EMPTY);
             await loginPage.loginWith(username);
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-            await page.dataTable.waitForHeader();
-            done();
-        });
-
-        afterAll(async (done) => {
-            await logoutPage.load();
+            await page.clickPersonalFilesAndWait();
             done();
         });
 

@@ -26,11 +26,10 @@
 import { browser } from 'protractor';
 
 import { APP_ROUTES, SIDEBAR_LABELS } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 
 describe('Sidebar', () => {
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { sidenav } = page;
 
@@ -39,85 +38,114 @@ describe('Sidebar', () => {
     done();
   });
 
-  afterAll(async (done) => {
-    await logoutPage.load();
-    done();
-  });
-
   it('has "Personal Files" as default - [C217149]', async () => {
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
-    expect(await sidenav.isActiveByLabel('Personal Files')).toBe(true, 'Active link');
+    expect(await sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES)).toBe(true, 'Active link');
   });
 
-  it('navigates to "File Libraries" - [C217150]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FILE_LIBRARIES);
-    expect(await sidenav.isActiveByLabel(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true);
+  it('File Libraries has correct sub-categories - [C217150]', async () => {
+    await page.clickFileLibraries();
+    expect(await sidenav.isFileLibrariesMenuExpanded()).toBe(true, 'File Libraries not expanded');
+    expect(await sidenav.getLink(SIDEBAR_LABELS.MY_LIBRARIES).isPresent()).toBe(true, 'My Libraries link not present');
+    expect(await sidenav.getLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES).isPresent()).toBe(true, 'Favorite Libraries link not present');
+  });
+
+  it('My Libraries is automatically selected on expanding File Libraries - [C289900]', async () => {
+    await page.clickFileLibraries();
+    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
+    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link not active');
+    expect(await sidenav.childIsActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
+  });
+
+  it('navigate to Favorite Libraries - [C289902]', async () => {
+    await page.goToFavoriteLibraries();
+    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITE_LIBRARIES);
+    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link not active');
+    expect(await sidenav.childIsActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toBe(true, 'Favorite Libraries link not active');
+  });
+
+  it('navigate to My Libraries - [C289901]', async () => {
+    await page.goToMyLibraries();
+    expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
+    expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(true, 'File Libraries link not active');
+    expect(await sidenav.childIsActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
   });
 
   it('navigates to "Personal Files" - [C280409]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+    await page.clickPersonalFiles();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
-    expect(await sidenav.isActiveByLabel(SIDEBAR_LABELS.PERSONAL_FILES)).toBe(true);
+    expect(await sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES)).toBe(true, 'Personal Files link not active');
   });
 
   it('navigates to "Shared Files" - [C213110]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+    await page.clickSharedFiles();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.SHARED_FILES);
-    expect(await sidenav.isActiveByLabel(SIDEBAR_LABELS.SHARED_FILES)).toBe(true);
+    expect(await sidenav.isActive(SIDEBAR_LABELS.SHARED_FILES)).toBe(true, 'Shared Files link not active');
   });
 
   it('navigates to "Recent Files" - [C213166]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
+    await page.clickRecentFiles();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.RECENT_FILES);
-    expect(await sidenav.isActiveByLabel(SIDEBAR_LABELS.RECENT_FILES)).toBe(true);
+    expect(await sidenav.isActive(SIDEBAR_LABELS.RECENT_FILES)).toBe(true, 'Recent Files link not active');
   });
 
   it('navigates to "Favorites" - [C213225]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+    await page.clickFavorites();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITES);
-    expect(await sidenav.isActiveByLabel(SIDEBAR_LABELS.FAVORITES)).toBe(true);
+    expect(await sidenav.isActive(SIDEBAR_LABELS.FAVORITES)).toBe(true, 'Favorites link not active');
   });
 
   it('navigates to "Trash" - [C213216]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+    await page.clickTrash();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.TRASHCAN);
-    expect(await sidenav.isActiveByLabel(SIDEBAR_LABELS.TRASH)).toBe(true);
+    expect(await sidenav.isActive(SIDEBAR_LABELS.TRASH)).toBe(true, 'Trash link not active');
   });
 
   // TODO: incomplete test
-  xit('Personal Files tooltip - [C217151]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
+  it('Personal Files tooltip - [C217151]', async () => {
+    await page.clickPersonalFiles();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.PERSONAL_FILES)).toContain('View your Personal Files');
   });
 
   // TODO: incomplete test
-  xit('File Libraries tooltip - [C217152]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('Access File Libraries');
+  it('File Libraries tooltip - [C217152]', async () => {
+    await page.clickFileLibraries();
+    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FILE_LIBRARIES)).toContain('File Libraries');
   });
 
   // TODO: incomplete test
-  xit('Shared Files tooltip - [C213111]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
+  it('My Libraries tooltip - [C289916]', async () => {
+    await page.goToMyLibraries();
+    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.MY_LIBRARIES)).toContain('Access my libraries');
+  });
+
+  // TODO: incomplete test
+  it('Favorite Libraries tooltip - [C289917]', async () => {
+    await page.goToFavoriteLibraries();
+    expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toContain('Access my favorite libraries');
+  });
+
+  // TODO: incomplete test
+  it('Shared Files tooltip - [C213111]', async () => {
+    await page.clickSharedFiles();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.SHARED_FILES)).toContain('View files that have been shared');
   });
 
   // TODO: incomplete test
-  xit('Recent Files tooltip - [C213167]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
+  it('Recent Files tooltip - [C213167]', async () => {
+    await page.clickRecentFiles();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.RECENT_FILES)).toContain('View files you recently edited');
   });
 
   // TODO: incomplete test
-  xit('Favorites tooltip - [C217153]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
+  it('Favorites tooltip - [C217153]', async () => {
+    await page.clickFavorites();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITES)).toContain('View your favorite files and folders');
   });
 
   // TODO: incomplete test
-  xit('Trash tooltip - [C217154]', async () => {
-    await sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
+  it('Trash tooltip - [C217154]', async () => {
+    await page.clickTrash();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.TRASH)).toContain('View deleted files in the trash');
   });
 });

@@ -1,8 +1,57 @@
-.adf-clear-search-icon-wrapper {
-  width: 1em;
+$top-margin: 12px;
+
+.app-search-container {
+  margin-top: -$top-margin;
+  padding-top: 2px;
+  font-size: 16px;
+  padding-left: 15px;
+  box-sizing: border-box;
+
+  .mat-form-field-underline {
+    display: none;
+  }
+
+  .mat-form-field-label-wrapper {
+    cursor: text;
+  }
+
+  // fixes pointer event on FF
+  &.searchMenuTrigger .mat-form-field-label-wrapper {
+    pointer-events: auto;
+  }
+
+  .app-input-form-field {
+    letter-spacing: -0.7px;
+    width: calc(100% - 56px);
+
+    .mat-input-element {
+      letter-spacing: -0.7px;
+    }
+  }
+
+  .app-search-button.mat-icon-button {
+    top: -2px;
+    left: -8px;
+
+    .mat-icon {
+      font-size: 24px;
+      padding-right: 0;
+    }
+  }
+}
+
+.app-suffix-search-icon-wrapper {
+  height: 6px;
+  margin: 14px 1px;
+  float: left;
 
   .mat-icon {
-    font-size: 100%;
+    font-size: 24px;
     cursor: pointer;
+  }
+
+  .app-clear-icon {
+    font-size: 18px;
+    margin: 3px;
   }
 }

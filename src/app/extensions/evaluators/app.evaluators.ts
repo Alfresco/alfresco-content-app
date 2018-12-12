@@ -75,6 +75,28 @@ export function canShareFile(
   return false;
 }
 
+export function isShared(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  if (isSharedFiles(context, ...args) && !context.selection.isEmpty) {
+    return true;
+  }
+
+  if (
+    (isNotTrashcan(context, ...args),
+    !context.selection.isEmpty && context.selection.file)
+  ) {
+    return !!(
+      context.selection.file.entry &&
+      context.selection.file.entry.properties &&
+      context.selection.file.entry.properties['qshare:sharedId']
+    );
+  }
+
+  return false;
+}
+
 export function canDeleteSelection(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -85,6 +107,10 @@ export function canDeleteSelection(
     isNotSearchResults(context, ...args) &&
     !context.selection.isEmpty
   ) {
+    if (hasLockedFiles(context, ...args)) {
+      return false;
+    }
+
     // temp workaround for Search api
     if (isFavorites(context, ...args)) {
       return true;
@@ -178,6 +204,35 @@ export function hasLibrarySelected(
   return library ? true : false;
 }
 
+export function isPrivateLibrary(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  const library = context.selection.library;
+  return library
+    ? !!(
+        library.entry &&
+        library.entry.visibility &&
+        library.entry.visibility === 'PRIVATE'
+      )
+    : false;
+}
+
+export function hasLibraryRole(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  const library = context.selection.library;
+  return library ? !!(library.entry && library.entry.role) : false;
+}
+
+export function hasNoLibraryRole(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  return !hasLibraryRole(context, ...args);
+}
+
 export function hasFileSelected(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -192,6 +247,10 @@ export function canUpdateSelectedNode(
 ): boolean {
   if (context.selection && !context.selection.isEmpty) {
     const node = context.selection.first;
+
+    if (node.entry.isFile && hasLockedFiles(context, ...args)) {
+      return false;
+    }
 
     if (node.entry.hasOwnProperty('allowableOperationsOnTarget')) {
       return context.permissions.check(node, ['update'], {
@@ -217,4 +276,21 @@ export function canUpdateSelectedFolder(
     );
   }
   return false;
+}
+
+export function hasLockedFiles(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  return context.selection.nodes.some(node => {
+    if (!node.entry.isFile) {
+      return false;
+    }
+
+    return (
+      node.entry.isLocked ||
+      (node.entry.properties &&
+        node.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK')
+    );
+  });
 }

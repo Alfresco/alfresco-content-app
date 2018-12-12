@@ -24,39 +24,40 @@
  */
 
 import { ContextActionsDirective } from './context-menu.directive';
+import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('ContextActionsDirective', () => {
   let directive;
   const contextMenuServiceMock = <any>{
     open: jasmine.createSpy('open')
   };
-  const storeMock = <any>{};
-  const documentListMock = <any>{};
 
   beforeEach(() => {
-    directive = new ContextActionsDirective(
-      documentListMock,
-      storeMock,
-      contextMenuServiceMock
-    );
+    directive = new ContextActionsDirective(contextMenuServiceMock);
   });
 
-  it('should not render context menu when disable property is false', () => {
+  it('should not render context menu when `enabled` property is false', () => {
     directive.enabled = false;
-    spyOn(directive, 'getSelectedRow').and.returnValue({});
-
     directive.onContextMenuEvent(new MouseEvent('contextmenu'));
 
     expect(contextMenuServiceMock.open).not.toHaveBeenCalled();
   });
 
-  it('should render context menu when disable property is true', () => {
-    directive.enabled = true;
-    spyOn(directive, 'getSelectedRow').and.returnValue({});
-    spyOn(directive, 'isInSelection').and.returnValue(true);
+  it('should call service to render context menu', fakeAsync(() => {
+    const el = document.createElement('div');
+    el.className =
+      'adf-data-table-cell adf-datatable-table-cell adf-datatable-row';
 
-    directive.onContextMenuEvent(new MouseEvent('contextmenu'));
+    const fragment = document.createDocumentFragment();
+    fragment.appendChild(el);
+    const target = fragment.querySelector('div');
+
+    directive.ngOnInit();
+
+    directive.onContextMenuEvent(<any>{ preventDefault: () => {}, target });
+
+    tick(500);
 
     expect(contextMenuServiceMock.open).toHaveBeenCalled();
-  });
+  }));
 });

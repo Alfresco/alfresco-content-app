@@ -26,24 +26,30 @@
 import { CoreModule } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import { LayoutComponent } from '../components/layout/layout.component';
+import { AppLayoutComponent } from '../components/layout/app-layout/app-layout.component';
 import * as repository from './evaluators/repository.evaluators';
 import * as app from './evaluators/app.evaluators';
 import * as nav from './evaluators/navigation.evaluators';
 import { AppExtensionService } from './extension.service';
 import { ToggleInfoDrawerComponent } from '../components/toolbar/toggle-info-drawer/toggle-info-drawer.component';
 import { ToggleFavoriteComponent } from '../components/toolbar/toggle-favorite/toggle-favorite.component';
+import { ToggleFavoriteLibraryComponent } from '../components/toolbar/toggle-favorite-library/toggle-favorite-library.component';
 import { ToggleSharedComponent } from '../components/shared/toggle-shared/toggle-shared.component';
 import { MetadataTabComponent } from '../components/info-drawer/metadata-tab/metadata-tab.component';
+import { LibraryMetadataTabComponent } from '../components/info-drawer/library-metadata-tab/library-metadata-tab.component';
 import { CommentsTabComponent } from '../components/info-drawer/comments-tab/comments-tab.component';
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 import { AppAuthGuard } from '../guards/auth.guard';
 import { NameColumnComponent } from '../components/common/name-column/name-column.component';
 import { LibraryNameColumnComponent } from '../components/common/library-name-column/library-name-column.component';
+import { LibraryRoleColumnComponent } from '../components/common/library-role-column/library-role-column.component';
 import { LibraryStatusColumnComponent } from '../components/common/library-status-column/library-status-column.component';
 import { TrashcanNameColumnComponent } from '../components/common/trashcan-name-column/trashcan-name-column.component';
 import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
+import { DocumentDisplayModeComponent } from '../components/toolbar/document-display-mode/document-display-mode.component';
+import { ToggleJoinLibraryButtonComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-button.component';
+import { ToggleJoinLibraryMenuComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-menu.component';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -75,15 +81,21 @@ export class CoreExtensionsModule {
 
   constructor(extensions: ExtensionService) {
     extensions.setComponents({
-      'app.layout.main': LayoutComponent,
+      'app.layout.main': AppLayoutComponent,
       'app.components.tabs.metadata': MetadataTabComponent,
+      'app.components.tabs.library.metadata': LibraryMetadataTabComponent,
       'app.components.tabs.comments': CommentsTabComponent,
       'app.components.tabs.versions': VersionsTabComponent,
       'app.toolbar.toggleInfoDrawer': ToggleInfoDrawerComponent,
       'app.toolbar.toggleFavorite': ToggleFavoriteComponent,
+      'app.toolbar.toggleFavoriteLibrary': ToggleFavoriteLibraryComponent,
+      'app.toolbar.toggleJoinLibrary': ToggleJoinLibraryButtonComponent,
+      'app.toolbar.cardView': DocumentDisplayModeComponent,
+      'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
       'app.columns.name': NameColumnComponent,
       'app.columns.libraryName': LibraryNameColumnComponent,
+      'app.columns.libraryRole': LibraryRoleColumnComponent,
       'app.columns.libraryStatus': LibraryStatusColumnComponent,
       'app.columns.trashcanName': TrashcanNameColumnComponent,
       'app.columns.location': LocationLinkComponent
@@ -103,7 +115,12 @@ export class CoreExtensionsModule {
       'app.selection.first.canUpdate': app.canUpdateSelectedNode,
       'app.selection.file': app.hasFileSelected,
       'app.selection.file.canShare': app.canShareFile,
+      'app.selection.file.isShared': app.isShared,
+      'app.selection.file.isLocked': app.hasLockedFiles,
       'app.selection.library': app.hasLibrarySelected,
+      'app.selection.isPrivateLibrary': app.isPrivateLibrary,
+      'app.selection.hasLibraryRole': app.hasLibraryRole,
+      'app.selection.hasNoLibraryRole': app.hasNoLibraryRole,
       'app.selection.folder': app.hasFolderSelected,
       'app.selection.folder.canUpdate': app.canUpdateSelectedFolder,
 

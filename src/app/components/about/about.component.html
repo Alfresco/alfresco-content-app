@@ -1,36 +1,47 @@
-<div class="inner-layout inner-layout--scroll">
-  <div class="inner-layout__content">
-    <div class="inner-layout__panel content--scroll">
-      <article class="padding">
-        <header class="header padding-left">Alfresco Content Application</header>
-        <p class="padding-left"> version: {{ releaseVersion }} </p>
-      </article>
-
-      <article *ngIf="repository" class="padding">
-        <header class="header padding-left">Alfresco Content Services</header>
-        <p class="padding-left"> version: {{ repository.edition }} {{ repository.version.display }} </p>
-      </article>
-
-      <article class="padding-top-bottom" *ngIf="license">
-        <header class="header padding-left-right">License</header>
-        <adf-datatable [data]="license"></adf-datatable>
-      </article>
-
-      <article class="padding-top-bottom">
-        <header class="header padding-left-right">Status</header>
-        <adf-datatable [data]="status"></adf-datatable>
-      </article>
-
-      <article class="padding-top-bottom">
-        <header class="header padding-left-right">Modules</header>
-        <adf-datatable [data]="modules"></adf-datatable>
-      </article>
-
+<app-page-layout>
+  <app-page-layout-content [scrollable]="true">
+    <div class="main-content">
       <article>
-        <header class="header padding-left-right">Packages</header>
-        <small class="padding-left-right">Current project is using the following ADF libraries:</small>
-        <adf-datatable [data]="data"></adf-datatable>
+        <header>{{ 'application.name' | adfAppConfig }}</header>
+        <p>{{ 'APP.ABOUT.VERSION' | translate }} {{ releaseVersion }}</p>
+      </article>
+
+      <ng-container *ngIf="(extensions$ | async) as extensions">
+        <article *ngIf="extensions.length > 0">
+          <header>{{ 'APP.ABOUT.PLUGINS.TITLE' | translate }}</header>
+          <app-extension-list [data]="extensions"></app-extension-list>
+        </article>
+      </ng-container>
+
+      <ng-container *ngIf="repository">
+        <article>
+          <header>Alfresco Content Services</header>
+          <p>
+            {{ 'APP.ABOUT.VERSION' | translate }} {{ repository.edition }}
+            {{ repository.version.display }}
+          </p>
+        </article>
+
+        <article *ngIf="licenseEntries">
+          <header>{{ 'APP.ABOUT.LICENSE.TITLE' | translate }}</header>
+          <app-license-list [data]="licenseEntries"></app-license-list>
+        </article>
+
+        <article *ngIf="statusEntries">
+          <header>{{ 'APP.ABOUT.STATUS.TITLE' | translate }}</header>
+          <app-status-list [data]="statusEntries"></app-status-list>
+        </article>
+
+        <article *ngIf="repository?.modules">
+          <header>{{ 'APP.ABOUT.MODULES.TITLE' | translate }}</header>
+          <app-module-list [data]="repository.modules"></app-module-list>
+        </article>
+      </ng-container>
+
+      <article *ngIf="dependencyEntries">
+        <header>{{ 'APP.ABOUT.PACKAGES.TITLE' | translate }}</header>
+        <app-package-list [data]="dependencyEntries"></app-package-list>
       </article>
     </div>
-  </div>
-</div>
+  </app-page-layout-content>
+</app-page-layout>

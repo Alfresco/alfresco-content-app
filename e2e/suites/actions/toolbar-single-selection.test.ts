@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SIDEBAR_LABELS } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -40,13 +40,15 @@ describe('Toolbar actions - single selection : ', () => {
   const fileInSite = `fileAdmin-${Utils.random()}.txt`;
   const folderInSite = `folderAdmin-${Utils.random()}`;
 
+  const adminPublic = `admin-public-${Utils.random()}`;
+  const adminModerated = `admin-moderated-${Utils.random()}`;
+
   const apis = {
       admin: new RepoClient(),
       user: new RepoClient(username, username)
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
 
@@ -67,12 +69,17 @@ describe('Toolbar actions - single selection : ', () => {
 
     await apis.user.sites.createSite(siteName, SITE_VISIBILITY.PRIVATE);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
-
     await apis.user.nodes.createFile(fileInSite, docLibId);
     await apis.user.nodes.createFolder(folderInSite, docLibId);
 
     await apis.user.nodes.deleteNodeById(fileForDeleteId, false);
     await apis.user.nodes.deleteNodeById(folderForDeleteId, false);
+
+    await apis.admin.sites.createSite(adminPublic);
+    await apis.admin.sites.createSite(adminModerated, SITE_VISIBILITY.MODERATED);
+    await apis.user.favorites.addFavoriteById('site', adminPublic);
+    await apis.user.favorites.addFavoriteById('site', adminModerated);
+    await apis.user.sites.requestToJoin(adminModerated);
 
     await loginPage.loginWith(username);
     done();
@@ -83,8 +90,9 @@ describe('Toolbar actions - single selection : ', () => {
       apis.user.nodes.deleteNodeById(fileUserId),
       apis.user.nodes.deleteNodeById(folderUserId),
       apis.user.sites.deleteSite(siteName),
-      apis.user.trashcan.emptyTrash(),
-      logoutPage.load()
+      apis.admin.sites.deleteSite(adminPublic),
+      apis.admin.sites.deleteSite(adminModerated),
+      apis.user.trashcan.emptyTrash()
     ]);
     done();
   });
@@ -92,26 +100,23 @@ describe('Toolbar actions - single selection : ', () => {
   xit('');
 
   describe('General tests', () => {
-    it('actions not displayed for top level of File Libraries - [C213135]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
-      await dataTable.selectItem(siteName);
-      expect(await toolbar.isEmpty()).toBe(true, 'toolbar not empty');
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await dataTable.clearSelection();
+      done();
     });
 
     it('selected row is marked with a check circle icon - [C213134]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.selectItem(fileUser);
       expect(await dataTable.hasCheckMarkIcon(fileUser)).toBe(true, 'check mark missing');
     });
   });
 
-  describe('Personal Files', () => {
+  describe('on Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -149,11 +154,10 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('File Libraries', () => {
+  describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.clearSelection();
@@ -193,11 +197,62 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('Shared Files', () => {
+  describe('on a library', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await page.dataTable.waitForHeader();
+      await dataTable.clearSelection();
+      done();
+    });
+
+    it('Available actions when a library is selected - My Libraries - [C213135]', async () => {
+      await page.goToMyLibraries();
+      await dataTable.selectItem(siteName);
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
+      expect(await toolbar.isButtonPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user is a member - [C289892]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.selectItem(siteName);
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${siteName}`);
+      expect(await toolbar.isButtonPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user is not a member - [C290090]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.selectItem(adminPublic);
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${adminPublic}`);
+      expect(await toolbar.isButtonPresent('Join')).toBe(true, `Join is not displayed for ${adminPublic}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminPublic}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user requested to join - [C290091]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.selectItem(adminModerated);
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${adminModerated}`);
+      expect(await toolbar.isButtonPresent('Cancel join request')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminModerated}`);
+      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+    });
+  });
+
+  describe('on Shared Files', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickSharedFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -212,8 +267,8 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
+      expect(await toolbar.isShareEditButtonPresent()).toBe(true, `Shared link settings is not displayed for ${fileUser}`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Shared link settings')).toBe(true, `Shared is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
@@ -222,11 +277,10 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('Recent Files', () => {
+  describe('on Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -250,11 +304,10 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('Favorites', () => {
+  describe('on Favorites', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -292,11 +345,10 @@ describe('Toolbar actions - single selection : ', () => {
     });
   });
 
-  describe('Trash', () => {
+  describe('on Trash', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       await dataTable.clearSelection();
       done();
     });

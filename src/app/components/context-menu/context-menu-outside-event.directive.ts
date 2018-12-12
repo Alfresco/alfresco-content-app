@@ -6,7 +6,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 @Directive({
   selector: '[acaContextMenuOutsideEvent]'
@@ -22,7 +22,7 @@ export class OutsideEventDirective implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscriptions = this.subscriptions.concat([
       fromEvent(document.body, 'click')
-        .pipe(delay(1))
+        .pipe(filter(event => !this.findAncestor(event.target as Element)))
         .subscribe(() => this.clickOutside.next())
     ]);
   }
@@ -30,5 +30,16 @@ export class OutsideEventDirective implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     this.subscriptions = [];
+  }
+
+  private findAncestor(el: Element): boolean {
+    const className = 'aca-context-menu';
+
+    if (el.classList.contains(className)) {
+      return true;
+    }
+    // tslint:disable-next-line:curly
+    while ((el = el.parentElement) && !el.classList.contains(className));
+    return !!el;
   }
 }

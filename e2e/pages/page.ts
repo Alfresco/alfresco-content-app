@@ -23,22 +23,16 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {
-  browser,
-  element,
-  by,
-  ElementFinder,
-  ExpectedConditions as EC
-} from 'protractor';
+import { browser, by, ElementFinder, ExpectedConditions as EC, until } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 
 export abstract class Page {
-  private locators = {
-    app: by.css('app-root'),
-    layout: by.css('app-layout'),
-    overlay: by.css('.cdk-overlay-container'),
-    dialogContainer: by.css('.mat-dialog-container'),
-    snackBarContainer: '.cdk-overlay-pane .mat-snack-bar-container',
+  private static locators = {
+    app: 'app-root',
+    layout: 'app-layout',
+    overlay: '.cdk-overlay-container',
+    dialogContainer: '.mat-dialog-container',
+    snackBarContainer: '.mat-snack-bar-container',
     snackBar: '.mat-simple-snackbar',
     snackBarAction: '.mat-simple-snackbar-action button',
 
@@ -47,17 +41,17 @@ export abstract class Page {
     genericErrorTitle: '.generic-error__title'
   };
 
-  public app: ElementFinder = element(this.locators.app);
-  public layout: ElementFinder = element(this.locators.layout);
-  public overlay: ElementFinder = element(this.locators.overlay);
-  snackBar: ElementFinder = browser.$(this.locators.snackBar);
-  dialogContainer: ElementFinder = element(this.locators.dialogContainer);
-  snackBarContainer: ElementFinder = browser.$(this.locators.snackBarContainer);
-  snackBarAction: ElementFinder = browser.$(this.locators.snackBarAction);
+  app: ElementFinder = browser.element(by.css(Page.locators.app));
+  layout: ElementFinder = browser.element(by.css(Page.locators.layout));
+  overlay: ElementFinder = browser.element(by.css(Page.locators.overlay));
+  snackBar: ElementFinder = browser.element(by.css(Page.locators.snackBar));
+  dialogContainer: ElementFinder = browser.element(by.css(Page.locators.dialogContainer));
+  snackBarContainer: ElementFinder = browser.element(by.css(Page.locators.snackBarContainer));
+  snackBarAction: ElementFinder = browser.element(by.css(Page.locators.snackBarAction));
 
-  genericError: ElementFinder = browser.$(this.locators.genericError);
-  genericErrorIcon: ElementFinder = browser.$(this.locators.genericErrorIcon);
-  genericErrorTitle: ElementFinder = browser.$(this.locators.genericErrorTitle);
+  genericError: ElementFinder = browser.element(by.css(Page.locators.genericError));
+  genericErrorIcon: ElementFinder = browser.element(by.css(Page.locators.genericErrorIcon));
+  genericErrorTitle: ElementFinder = browser.element(by.css(Page.locators.genericErrorTitle));
 
   constructor(public url: string = '') {}
 
@@ -76,7 +70,7 @@ export abstract class Page {
   }
 
   waitForSnackBarToAppear() {
-    return browser.wait(EC.visibilityOf(this.snackBarContainer), BROWSER_WAIT_TIMEOUT);
+    return browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
   }
 
   async waitForSnackBarToClose() {
@@ -87,37 +81,20 @@ export abstract class Page {
     await browser.wait(EC.visibilityOf(this.dialogContainer), BROWSER_WAIT_TIMEOUT);
   }
 
-  async waitForDialogToClose() {
-    await browser.wait(EC.not(EC.visibilityOf(this.dialogContainer)), BROWSER_WAIT_TIMEOUT);
-  }
-
   async refresh() {
     await browser.refresh();
     await this.waitForApp();
   }
 
-  getDialogActionByLabel(label) {
-    return element(by.cssContainingText('.mat-button-wrapper', label));
-  }
-
-  async isSnackBarDisplayed() {
-    return await this.snackBar.isDisplayed();
-  }
-
   async getSnackBarMessage() {
-    await this.waitForSnackBarToAppear();
-    return await this.snackBar.getAttribute('innerText');
+    const elem = await this.waitForSnackBarToAppear();
+    return await elem.getAttribute('innerText');
   }
 
   async clickSnackBarAction() {
     try {
-
-      // await this.waitForSnackBarToAppear();
-
-      // return browser.executeScript(function (elem) {
-      //   elem.click();
-      // }, this.snackBarAction);
-      return await this.snackBarAction.click();
+      const action = browser.wait(until.elementLocated(by.css('.mat-simple-snackbar-action button')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snack action to appear');
+      return await action.click();
     } catch (e) {
       console.log(e, '.......failed on click snack bar action.........');
     }
@@ -130,4 +107,5 @@ export abstract class Page {
   async getGenericErrorTitle() {
     return await this.genericErrorTitle.getText();
   }
+
 }

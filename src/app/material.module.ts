@@ -57,7 +57,7 @@ import {
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
-      useValue: { closeOnNavigation: true, hasBackdrop: true }
+      useValue: { closeOnNavigation: true, hasBackdrop: true, autoFocus: true }
     }
   ]
 })

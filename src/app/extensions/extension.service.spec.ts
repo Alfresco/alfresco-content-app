@@ -110,8 +110,12 @@ describe('AppExtensionService', () => {
   describe('actions', () => {
     beforeEach(() => {
       applyConfig({
+        $id: 'test',
         $name: 'test',
         $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
         actions: [
           {
             id: 'aca:actions/create-folder',
@@ -242,8 +246,12 @@ describe('AppExtensionService', () => {
 
     beforeEach(() => {
       applyConfig({
+        $id: 'test',
         $name: 'test',
         $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
         routes: [
           {
             id: 'aca:routes/about',
@@ -301,8 +309,12 @@ describe('AppExtensionService', () => {
   describe('content actions', () => {
     it('should load content actions from the config', () => {
       applyConfig({
+        $id: 'test',
         $name: 'test',
         $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
         features: {
           toolbar: [
             {
@@ -326,8 +338,12 @@ describe('AppExtensionService', () => {
 
     it('should sort content actions by order', () => {
       applyConfig({
+        $id: 'test',
         $name: 'test',
         $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
         features: {
           toolbar: [
             {
@@ -355,8 +371,12 @@ describe('AppExtensionService', () => {
   describe('open with', () => {
     it('should load [open with] actions for the viewer', () => {
       applyConfig({
+        $id: 'test',
         $name: 'test',
         $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
         features: {
           viewer: {
             openWith: [
@@ -381,8 +401,12 @@ describe('AppExtensionService', () => {
 
     it('should load only enabled [open with] actions for the viewer', () => {
       applyConfig({
+        $id: 'test',
         $name: 'test',
         $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
         features: {
           viewer: {
             openWith: [
@@ -418,8 +442,12 @@ describe('AppExtensionService', () => {
 
     it('should sort [open with] actions by order', () => {
       applyConfig({
+        $id: 'test',
         $name: 'test',
         $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
         features: {
           viewer: {
             openWith: [
@@ -457,8 +485,12 @@ describe('AppExtensionService', () => {
   describe('create', () => {
     it('should load [create] actions from config', () => {
       applyConfig({
+        $id: 'test',
         $name: 'test',
         $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
         features: {
           create: [
             {
@@ -477,8 +509,12 @@ describe('AppExtensionService', () => {
 
     it('should sort [create] actions by order', () => {
       applyConfig({
+        $id: 'test',
         $name: 'test',
         $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
         features: {
           create: [
             {
@@ -617,5 +653,26 @@ describe('AppExtensionService', () => {
     expect(result.length).toBe(2);
     expect(result[0].id).toBe('1');
     expect(result[1].id).toBe('3');
+  });
+
+  describe('getApplicationNavigation', () => {
+    it('should create navigation data', () => {
+      const navigation = service.getApplicationNavigation([
+        { items: [{ route: 'route1' }, { route: 'route2' }] },
+        { items: [{ children: [{ route: 'route3' }] }] }
+      ]);
+
+      expect(navigation).toEqual([
+        {
+          items: [
+            { route: 'route1', url: '/route1' },
+            { route: 'route2', url: '/route2' }
+          ]
+        },
+        {
+          items: [{ children: [{ route: 'route3', url: '/route3' }] }]
+        }
+      ]);
+    });
   });
 });

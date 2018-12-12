@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -47,14 +47,13 @@ describe('Shared Files', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
-  const sharedFilesPage = new BrowsingPage();
-  const { dataTable, breadcrumb } = sharedFilesPage;
+  const page = new BrowsingPage();
+  const { dataTable, breadcrumb } = page;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_CONSUMER.ROLE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
     const nodeId = (await apis.admin.nodes.createFile(fileAdmin, docLibId)).entry.id;
     await apis.admin.shared.shareFileById(nodeId);
@@ -76,8 +75,7 @@ describe('Shared Files', () => {
   });
 
   beforeEach(async (done) => {
-    await sharedFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-    await dataTable.waitForHeader();
+    await page.clickSharedFilesAndWait();
     done();
   });
 
@@ -85,7 +83,6 @@ describe('Shared Files', () => {
     await apis.admin.sites.deleteSite(siteName);
     await apis.user.nodes.deleteNodeById(folderId);
     await apis.user.nodes.deleteNodeById(file4Id);
-    await logoutPage.load();
     done();
   });
 
@@ -134,7 +131,7 @@ describe('Shared Files', () => {
 
   it('Location column redirect - file in site - [C280491]', async () => {
     await dataTable.clickItemLocation(fileAdmin);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213667]', async () => {

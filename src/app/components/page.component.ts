@@ -72,6 +72,17 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     );
   }
 
+  static isLibrary(entry) {
+    return (
+      (entry.guid &&
+        entry.id &&
+        entry.preset &&
+        entry.title &&
+        entry.visibility) ||
+      entry.nodeType === 'st:site'
+    );
+  }
+
   constructor(
     protected store: Store<AppStore>,
     protected extensions: AppExtensionService,
@@ -129,6 +140,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     if (PageComponent.isLockedNode(entry)) {
       return 'assets/images/ic_lock_black_24dp_1x.png';
     }
+
+    if (PageComponent.isLibrary(entry)) {
+      return 'assets/images/baseline-library_books-24px.svg';
+    }
+
     return null;
   }
 

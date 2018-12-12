@@ -1,7 +1,12 @@
 {
   "$schema": "../../../extension.schema.json",
-  "$name": "app",
+  "$id": "app.demo.header",
+  "$name": "app.demo.header",
   "$version": "1.0.0",
+  "$vendor": "Alfresco Software, Ltd.",
+  "$license": "LGPL-3.0",
+  "$runtime": "1.5.0",
+  "$description": "Sample app header extension",
 
   "actions": [
     {

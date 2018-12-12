@@ -57,7 +57,11 @@ export class CreateOrEditFolderDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT, '---- timeout waiting for dialog to close ----');
+  }
+
+  async isDialogOpen() {
+    return await browser.isElementPresent(by.css(CreateOrEditFolderDialog.selectors.root));
   }
 
   async getTitle() {

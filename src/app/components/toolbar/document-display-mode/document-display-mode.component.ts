@@ -33,10 +33,7 @@ import { ToggleDocumentDisplayMode } from '../../../store/actions';
 @Component({
   selector: 'app-document-display-mode',
   template: `
-    <button
-      mat-icon-button
-      color="primary"
-      (click)="onClick()">
+    <button mat-icon-button color="primary" (click)="onClick()">
       <mat-icon *ngIf="(displayMode$ | async) === 'list'">view_comfy</mat-icon>
       <mat-icon *ngIf="(displayMode$ | async) === 'gallery'">list</mat-icon>
     </button>

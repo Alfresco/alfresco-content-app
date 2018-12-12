@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SIDEBAR_LABELS } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -46,9 +46,8 @@ describe('Recent Files', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
-  const recentFilesPage = new BrowsingPage();
-  const { dataTable, breadcrumb } = recentFilesPage;
+  const page = new BrowsingPage();
+  const { dataTable, breadcrumb } = page;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -70,16 +69,14 @@ describe('Recent Files', () => {
   });
 
   beforeEach(async (done) => {
-    await recentFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-    await dataTable.waitForHeader();
+    await page.clickRecentFilesAndWait();
     done();
   });
 
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodesById([ folderId, file2Id ]);
     await apis.user.sites.deleteSite(siteName);
-    await apis.admin.trashcan.emptyTrash();
-    await logoutPage.load();
+    await apis.user.trashcan.emptyTrash();
     done();
   });
 
@@ -134,6 +131,6 @@ describe('Recent Files', () => {
 
   it('Location column redirect - file in site - [C280487]', async () => {
     await dataTable.clickItemLocation(fileSite);
-    expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName, folderSite ]);
+    expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName, folderSite ]);
   });
 });

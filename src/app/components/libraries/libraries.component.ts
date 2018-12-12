@@ -23,15 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { PageComponent } from '../page.component';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
 import { SiteEntry } from 'alfresco-js-api';
-import { ContentManagementService } from '../../services/content-management.service';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { NavigateLibraryAction } from 'src/app/store/actions';
+import { ContentManagementService } from '../../services/content-management.service';
+import { NavigateLibraryAction } from '../../store/actions';
+import { AppStore } from '../../store/states/app.state';
+import { PageComponent } from '../page.component';
 
 @Component({
   templateUrl: './libraries.component.html'
@@ -55,6 +55,8 @@ export class LibrariesComponent extends PageComponent implements OnInit {
 
     this.subscriptions.push(
       this.content.libraryDeleted.subscribe(() => this.reload()),
+      this.content.libraryUpdated.subscribe(() => this.reload()),
+      this.content.libraryLeft.subscribe(() => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])

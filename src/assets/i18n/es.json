@@ -1,5 +1,39 @@
 {
   "APP": {
+    "ABOUT": {
+      "VERSION": "Versión:",
+      "PLUGINS": {
+        "TITLE": "Extensiones",
+        "ID": "ID",
+        "NAME": "Nombre",
+        "VERSION": "Versión",
+        "VENDOR": "Proveedor",
+        "LICENSE": "Licencia",
+        "RUNTIME": "Tiempo de ejecución",
+        "DESCRIPTION": "Descripción"
+      },
+      "LICENSE": {
+        "TITLE": "Licencia",
+        "PROPERTY": "Propiedad",
+        "VALUE": "Valor"
+      },
+      "STATUS": {
+        "TITLE": "Estado",
+        "PROPERTY": "Propiedad",
+        "VALUE": "Valor"
+      },
+      "MODULES": {
+        "TITLE": "Módulos de la plataforma de Alfresco",
+        "ID": "ID",
+        "NAME": "Nombre",
+        "VERSION": "Versión"
+      },
+      "PACKAGES": {
+        "TITLE": "Paquetes",
+        "NAME": "Nombre",
+        "VERSION": "Versión"
+      }
+    },
     "LANGUAGE": "Idioma",
     "SIGN_IN": "Iniciar sesión",
     "SIGN_OUT": "Cerrar sesión",
@@ -18,7 +52,7 @@
     },
     "NEW_MENU": {
       "LABEL": "Nuevo",
-      "TOOLTIP": "Añadir nuevos ficheros o carpetas",
+      "TOOLTIP": "Añadir nuevos ficheros o carpetas, o crear una nueva biblioteca de ficheros",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Crear carpeta",
         "UPLOAD_FILE": "Cargar fichero",
@@ -44,14 +78,37 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Bibliotecas de ficheros",
+        "TITLE": "Mis bibliotecas",
+        "DESCRIPTION": "Acceder a bibliotecas de ficheros",
         "SIDENAV_LINK": {
           "LABEL": "Bibliotecas de ficheros",
-          "TOOLTIP": "Acceder a las bibliotecas de ficheros"
+          "TOOLTIP": "Bibliotecas de ficheros"
         },
         "EMPTY_STATE": {
-          "TITLE": "No es miembro de ninguna biblioteca de ficheros todavía",
-          "TEXT": "Únase a las bibliotecas para cargar, ver y compartir ficheros."
+          "FILE_LIBRARIES": {
+            "TITLE": "Todavía no es miembro de ninguna biblioteca de ficheros",
+            "TEXT": "Únase a las bibliotecas para cargar, ver y compartir ficheros."
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "No hay bibliotecas favoritas",
+            "TEXT": "Marque como favorita una biblioteca para encontrarla más rápidamente."
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "Mis bibliotecas",
+            "SIDENAV_LINK": {
+              "LABEL": "Mis bibliotecas",
+              "TOOLTIP": "Acceder a mis bibliotecas"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Bibliotecas favoritas",
+            "SIDENAV_LINK": {
+              "LABEL": "Bibliotecas favoritas",
+              "TOOLTIP": "Acceder a mis bibliotecas favoritas"
+            }
+          }
         }
       },
       "SHARED": {
@@ -73,7 +130,7 @@
         },
         "EMPTY_STATE": {
           "TITLE": "No hay ficheros recientes",
-          "TEXT": "Los elementos que cargue o edite en los últimos 30 días se muestran aquí."
+          "TEXT": "Los elementos cargados o editados en los últimos 30 días se muestran aquí."
         }
       },
       "FAVORITES": {
@@ -84,7 +141,7 @@
         },
         "EMPTY_STATE": {
           "TITLE": "No hay ficheros ni carpetas favoritos",
-          "TEXT": "Lo elementos favoritos que quiera encontrar fácilmente después."
+          "TEXT": "Lo elementos favoritos que desee encontrar con facilidad posteriormente."
         }
       },
       "TRASHCAN": {
@@ -95,7 +152,7 @@
         },
         "EMPTY_STATE": {
           "TITLE": "La papelera está vacía",
-          "FIRST_TEXT": "Los elementos que elimine se mueven a la papelera.",
+          "FIRST_TEXT": "Los elementos que elimine se moverán a la papelera.",
           "SECOND_TEXT": "Vacíe la papelera para eliminar los elementos permanentemente."
         }
       },
@@ -105,12 +162,19 @@
       "SEARCH": {
         "TITLE": "Resultados de la búsqueda",
         "FOUND_RESULTS": "{{ number }} resultados encontrados",
+        "FOUND_ONE_RESULT": "{{ number }} resultado encontrado",
         "CUSTOM_ROW": {
           "MODIFIED": "Modificado",
           "LOCATION": "Ubicación",
           "SIZE": "Tamaño"
         },
+        "UNKNOWN_LOCATION": "Desconocido",
         "NO_RESULTS": "Su búsqueda arrojó 0 resultados"
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "Bibliotecas encontradas...",
+        "FOUND_RESULTS": "{{ number }} resultados",
+        "FOUND_ONE_RESULT": "{{ number }} resultado"
       }
     },
     "ACTIONS": {
@@ -126,6 +190,8 @@
       "PERMISSIONS": "Permisos",
       "RESTORE": "Restaurar",
       "FAVORITE": "Favorito",
+      "ADD_FAVORITE": "Añadir favorita",
+      "REMOVE_FAVORITE": "Eliminar favorita",
       "UNSHARE": "No compartir",
       "DETAILS": "Ver los detalles",
       "VERSIONS": "Gestionar versiones",
@@ -133,7 +199,10 @@
       "SHARE": "Compartir",
       "SHARE_EDIT": "Configuración de enlaces compartidos",
       "PRINT": "Imprimir",
-      "FULLSCREEN": "Activar el modo de pantalla completa"
+      "FULLSCREEN": "Activar el modo de pantalla completa",
+      "JOIN": "Unirse",
+      "CANCEL_JOIN": "Cancelar solicitud de unirse",
+      "LEAVE": "Abandonar biblioteca"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -141,20 +210,28 @@
         "MESSAGE": "Esto eliminará permanentemente los elementos seleccionados.",
         "YES_LABEL": "Eliminar",
         "NO_LABEL": "Guardar"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "¿Desea abandonar esta biblioteca?",
+        "MESSAGE": "Al abandonarla, perderá el acceso.",
+        "YES_LABEL": "Aceptar",
+        "NO_LABEL": "Cancelar"
       }
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
+        "ID": "ID",
         "NAME": "Nombre",
         "SIZE": "Tamaño",
         "MODIFIED_ON": "Modificado",
         "MODIFIED_BY": "Modificado por",
-        "STATUS": "Estado",
+        "VISIBILITY": "Visibilidad",
         "TITLE": "Título",
         "LOCATION": "Ubicación",
         "SHARED_BY": "Compartido por",
         "DELETED_ON": "Eliminado",
-        "DELETED_BY": "Eliminado por"
+        "DELETED_BY": "Eliminado por",
+        "ROLE": "Mi función"
       },
       "TOOLBAR": {
         "CARDVIEW": "Modo de vista de tarjeta",
@@ -166,9 +243,16 @@
       "MODERATED": "Moderado",
       "PRIVATE": "Lista privada"
     },
+    "SITES_ROLE": {
+      "MANAGER": "Administrador",
+      "COLLABORATOR": "Colaborador",
+      "CONTRIBUTOR": "Contribuidor",
+      "CONSUMER": "Consumidor"
+    },
     "MESSAGES": {
       "ERRORS": {
-        "MISSING_CONTENT": "Este fichero o carpeta ya no existe o no tiene permiso para verlo.",
+        "CANNOT_NAVIGATE_LOCATION": "No puede abrirse esta ubicación",
+        "MISSING_CONTENT": "Este elemento ya no existe o no tiene permiso para verlo.",
         "GENERIC": "La acción no ha sido satisfactoria. Vuelva a intentarlo o póngase en contacto con el equipo de TI.",
         "CONFLICT": "Este nombre ya está en uso; pruebe con un nombre diferente.",
         "NODE_MOVE": "Error al mover el fichero; ya existe un fichero con el mismo nombre.",
@@ -190,13 +274,21 @@
             "GENERIC": "Error al restaurar {{ name }}"
           }
         },
-        "DELETE_LIBRARY_FAILED": "No se puede eliminar la biblioteca"
+        "DELETE_LIBRARY_FAILED": "No se puede eliminar la biblioteca",
+        "JOIN_REQUEST_FAILED": "No puede unirse a la biblioteca",
+        "JOIN_CANCEL_FAILED": "No puede cancelarse su solicitud de unirse",
+        "LEAVE_LIBRARY_FAILED": "No puede abandonar esta biblioteca",
+        "INVALID_SENDER_EMAIL": "Su dirección de correo electrónico debe ser válida antes de solicitar unirse.",
+        "INVALID_RECEIVER_EMAIL": "Dirección de correo electrónico de destinatario(s) no válida; póngase en contacto con el equipo de TI"
       },
       "UPLOAD": {
         "ERROR": {
-          "GENERIC": "Se ha producido un problema",
+          "GENERIC": "Error de carga; póngase en contacto con el equipo de TI si el problema continúa",
           "CONFLICT": "No se ha cargado la nueva versión, ya existe otro fichero con el mismo nombre",
-          "500": "Se ha producido un problema durante la carga"
+          "500": "Error de servidor interno; vuelva a intentarlo o póngase en contacto con el equipo de TI",
+          "504": "Se ha agotado el tiempo de espera del servidor; póngase en contacto con el equipo de asistencia de TI [504]",
+          "403": "Permisos insuficientes para cargar en esta ubicación [403]",
+          "404": "La ubicación de carga ya no existe [404]"
         }
       },
       "INFO": {
@@ -235,7 +327,11 @@
             "FAIL": "{{ failed }} no se ha podido mover."
           }
         },
-        "LIBRARY_DELETED": "Biblioteca eliminada"
+        "LIBRARY_DELETED": "Biblioteca eliminada",
+        "JOINED": "Se ha unido a la biblioteca",
+        "JOIN_REQUESTED": "Se ha enviado una solicitud para unirse a esta biblioteca",
+        "JOIN_CANCELED": "Se ha cancelado la solicitud de unirse a esta biblioteca",
+        "LEFT_LIBRARY": "Ha abandonado la biblioteca"
       }
     },
     "CONTENT_METADATA": {
@@ -245,6 +341,7 @@
       "TITLE": "Detalles",
       "TABS": {
         "PROPERTIES": "Propiedades",
+        "LIBRARY_PROPERTIES": "Acerca de",
         "VERSIONS": "Versiones",
         "COMMENTS": "Comentarios"
       }
@@ -261,8 +358,9 @@
     "DIALOG": {
       "TITLE": "Gestionar permisos",
       "CLOSE": "Cerrar",
-      "INHERIT_PERMISSIONS_BUTTON": "Heredar permiso",
-      "INHERITED_PERMISSIONS_BUTTON": "Permiso heredado"
+      "INHERIT_PERMISSIONS_BUTTON": "Heredar permisos",
+      "INHERITED_PERMISSIONS_BUTTON": "Permisos heredados",
+      "ADD_USER_OR_GROUP": "Añadir usuario o grupo"
     }
   },
   "SHARED_LINK": {
@@ -282,11 +380,14 @@
     "DIALOG": {
       "CREATE_TITLE": "Crear biblioteca",
       "CREATE": "Crear",
+      "UPDATE": "Actualizar",
+      "EDIT": "Editar",
       "CANCEL": "Cancelar",
       "FORM": {
         "DESCRIPTION": "Descripción",
         "SITE_ID": "ID de biblioteca",
-        "NAME": "Nombre"
+        "NAME": "Nombre",
+        "VISIBILITY": "Visibilidad"
       }
     },
     "VISIBILITY": {
@@ -294,17 +395,32 @@
       "PUBLIC": "Público",
       "MODERATED": "Moderado"
     },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "Nombre de biblioteca ya en uso"
+    },
     "ERRORS": {
-      "GENERIC": "Se ha producido un error",
-      "EXISTENT_SITE": "La ID de biblioteca no está disponible. Pruebe una biblioteca diferente.",
+      "GENERIC": "Ha surgido un problema",
+      "EXISTENT_SITE": "Esta ID de biblioteca no está disponible. Pruebe con otra ID distinta.",
       "CONFLICT": "Esta ID de biblioteca ya está utilizada. Compruebe la papelera.",
       "ID_TOO_LONG": "Utilice como máximo 72 caracteres para el nombre de la URL",
       "DESCRIPTION_TOO_LONG": "Utilice como máximo 512 caracteres para la descripción",
       "TITLE_TOO_LONG": "Utilice como máximo 256 caracteres para el título",
-      "ILLEGAL_CHARACTERS": "Use solo números y letras"
+      "ILLEGAL_CHARACTERS": "Use solo números y letras",
+      "ONLY_SPACES": "El nombre de biblioteca no puede tener solo espacios",
+      "LIBRARY_UPDATE_ERROR": "Error al actualizar las propiedades de la biblioteca"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "Propiedades de la biblioteca actualizadas"
     }
   },
   "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "Buscar",
+      "FILES": "Ficheros",
+      "FOLDERS": "Carpetas",
+      "LIBRARIES": "Bibliotecas",
+      "HINT": "La cadena de búsqueda debe contener al menos 2 caracteres alfanuméricos"
+    },
     "SORT": {
       "RELEVANCE": "Relevancia",
       "FILENAME": "Nombre de fichero",

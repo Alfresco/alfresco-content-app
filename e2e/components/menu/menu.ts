@@ -35,13 +35,18 @@ export class Menu extends Component {
     icon: '.mat-icon',
     uploadFiles: 'app-upload-files',
 
-    submenu: 'app-context-menu-item .mat-menu-item'
+    submenu: 'app-context-menu-item .mat-menu-item',
+
+    share: `[data-automation-id='share-action-button']`
   };
 
   items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
   backdrop: ElementFinder = browser.element(by.css('.cdk-overlay-backdrop'));
   uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
   submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
+
+  shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.share, 'Share'));
+  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.share, 'Shared link settings'));
 
   constructor(ancestor?: ElementFinder) {
     super(Menu.selectors.root, ancestor);
@@ -58,11 +63,6 @@ export class Menu extends Component {
   }
 
   async closeMenu() {
-    // if (await this.backdrop.isPresent()) {
-    //   return await this.backdrop.click();
-    // } else {
-    //   return await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
-    // }
     return Utils.pressEscape();
   }
 
@@ -148,7 +148,7 @@ export class Menu extends Component {
   }
 
   async isMenuItemPresent(title: string) {
-    return await this.component.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
+    return await browser.element(by.cssContainingText(Menu.selectors.item, title)).isPresent();
   }
 
   async isSubMenuItemPresent(title: string) {
@@ -171,5 +171,15 @@ export class Menu extends Component {
 
   uploadFile() {
     return this.uploadFiles;
+  }
+
+  async clickShareAction() {
+    const action = this.shareAction;
+    await action.click();
+  }
+
+  async clickShareEditAction() {
+    const action = this.shareEditAction;
+    await action.click();
   }
 }

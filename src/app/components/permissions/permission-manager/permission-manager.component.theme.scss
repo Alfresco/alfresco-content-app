@@ -6,6 +6,19 @@
     height: 400px;
   }
 
+  // ADF FIXES
+  adf-permission-list {
+    .adf-display-permission-container {
+      flex: 1;
+
+      .adf-datatable-permission {
+        .adf-data-table-cell--icon {
+          width: auto;
+        }
+      }
+    }
+  }
+
   .aca-node-permissions-dialog {
     .mat-dialog-title {
       font-size: 20px;

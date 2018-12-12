@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage, LogoutPage } from '../../pages/pages';
+import { BrowsingPage, LoginPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { EXTENSIBILITY_CONFIGS, SIDEBAR_LABELS } from '../../configs';
+import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
 
 describe('Extensions - DocumentList presets', () => {
@@ -63,31 +63,27 @@ describe('Extensions - DocumentList presets', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
-  const personalFilesPage = new BrowsingPage();
-  const { dataTable } = personalFilesPage;
+  const page = new BrowsingPage();
+  const { dataTable } = page;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     fileId = (await apis.user.nodes.createFile(file)).entry.id;
 
     await loginPage.load();
-    await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
+    await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.DOCUMENT_LIST_PRESETS);
     await loginPage.loginWith(username);
 
     done();
   });
 
   beforeEach(async done => {
-    await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await dataTable.waitForHeader();
-
+    await page.clickPersonalFilesAndWait();
     done();
   });
 
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(fileId);
-    await logoutPage.load();
     done();
   });
 

@@ -1,83 +1,84 @@
-<div class="inner-layout">
-    <div class="inner-layout__header">
-        <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE">
-        </adf-breadcrumb>
+<app-page-layout>
 
-        <adf-toolbar class="inline">
-            <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
+  <app-page-layout-header>
+    <adf-breadcrumb root="APP.BROWSE.TRASHCAN.TITLE">
+    </adf-breadcrumb>
 
-            <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-                <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
-            </ng-container>
-        </adf-toolbar>
-    </div>
+    <adf-toolbar class="inline">
+      <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+        <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
+      </ng-container>
+    </adf-toolbar>
+  </app-page-layout-header>
 
-    <div class="inner-layout__content">
-        <div class="inner-layout__panel">
-            <adf-document-list #documentList
-                acaDocumentList
-                acaContextActions
-                [display]="documentDisplayMode$ | async"
-                currentFolderId="-trashcan-"
-                selectionMode="multiple"
-                [navigate]="false"
-                [sorting]="[ 'archivedAt', 'desc' ]">
+  <app-page-layout-content>
+    <div class="main-content">
+        <adf-document-list #documentList
+            acaDocumentList
+            acaContextActions
+            [display]="documentDisplayMode$ | async"
+            currentFolderId="-trashcan-"
+            selectionMode="multiple"
+            [navigate]="false"
+            [imageResolver]="imageResolver"
+            [sorting]="[ 'archivedAt', 'desc' ]">
 
-                <empty-folder-content>
-                    <ng-template>
-                        <adf-empty-content
-                            icon="delete"
-                            [title]="'APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE'">
-                            <p class="adf-empty-content__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.FIRST_TEXT' | translate }}</p>
-                            <p class="adf-empty-content__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.SECOND_TEXT' | translate }}</p>
-                        </adf-empty-content>
-                    </ng-template>
-                </empty-folder-content>
+            <empty-folder-content>
+                <ng-template>
+                    <adf-empty-content
+                        icon="delete"
+                        [title]="'APP.BROWSE.TRASHCAN.EMPTY_STATE.TITLE'">
+                        <p class="adf-empty-content__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.FIRST_TEXT' | translate }}</p>
+                        <p class="adf-empty-content__text">{{ 'APP.BROWSE.TRASHCAN.EMPTY_STATE.SECOND_TEXT' | translate }}</p>
+                    </adf-empty-content>
+                </ng-template>
+            </empty-folder-content>
 
-                <data-columns>
-                  <ng-container *ngFor="let column of columns; trackBy: trackById">
+            <data-columns>
+              <ng-container *ngFor="let column of columns; trackBy: trackById">
 
-                    <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
-                      <data-column
-                        [key]="column.key"
-                        [title]="column.title"
-                        [type]="column.type"
-                        [format]="column.format"
-                        [class]="column.class"
-                        [sortable]="column.sortable">
-                        <ng-template let-context>
-                          <app-dynamic-column
-                            [id]="column.template"
-                            [context]="context">
-                          </app-dynamic-column>
-                        </ng-template>
-                      </data-column>
-                    </ng-container>
-
-                    <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
-                      <data-column
-                        [key]="column.key"
-                        [title]="column.title"
-                        [type]="column.type"
-                        [format]="column.format"
-                        [class]="column.class"
-                        [sortable]="column.sortable">
-                      </data-column>
-                    </ng-container>
-
-                  </ng-container>
-
+                <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
                   <data-column
-                    *ngIf="!isSmallScreen && (user$ | async)?.isAdmin"
-                    class="adf-data-table-cell--ellipsis"
-                    key="archivedByUser.displayName"
-                    title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">
+                    [key]="column.key"
+                    [title]="column.title"
+                    [type]="column.type"
+                    [format]="column.format"
+                    [class]="column.class"
+                    [sortable]="column.sortable">
+                    <ng-template let-context>
+                      <app-dynamic-column
+                        [id]="column.template"
+                        [context]="context">
+                      </app-dynamic-column>
+                    </ng-template>
                   </data-column>
-                </data-columns>
-            </adf-document-list>
+                </ng-container>
 
-            <adf-pagination acaPagination [target]="documentList">
-            </adf-pagination>
-        </div>
+                <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+                  <data-column
+                    [key]="column.key"
+                    [title]="column.title"
+                    [type]="column.type"
+                    [format]="column.format"
+                    [class]="column.class"
+                    [sortable]="column.sortable">
+                  </data-column>
+                </ng-container>
+
+              </ng-container>
+
+              <data-column
+                *ngIf="!isSmallScreen && (user$ | async)?.isAdmin"
+                class="adf-data-table-cell--ellipsis"
+                key="archivedByUser.displayName"
+                title="APP.DOCUMENT_LIST.COLUMNS.DELETED_BY">
+              </data-column>
+            </data-columns>
+        </adf-document-list>
+
+        <adf-pagination acaPagination [target]="documentList">
+        </adf-pagination>
     </div>
-</div>
+  </app-page-layout-content>
+
+</app-page-layout>

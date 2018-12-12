@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { EXTENSIBILITY_CONFIGS, SIDEBAR_LABELS } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -52,9 +52,8 @@ describe('Extensions - Context submenu', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
-  const personalFilesPage = new BrowsingPage();
-  const {dataTable} = personalFilesPage;
+  const page = new BrowsingPage();
+  const {dataTable} = page;
   const contextMenu = dataTable.menu;
 
   beforeAll(async (done) => {
@@ -63,7 +62,7 @@ describe('Extensions - Context submenu', () => {
     folderId = (await apis.user.nodes.createFolder(folder)).entry.id;
 
     await loginPage.load();
-    await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
+    await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.CONTEXT_SUBMENUS);
     await loginPage.loginWith(username);
 
     done();
@@ -72,15 +71,13 @@ describe('Extensions - Context submenu', () => {
   beforeEach(async (done) => {
     await Utils.pressEscape();
     await dataTable.clearSelection();
-    await personalFilesPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-    await dataTable.waitForHeader();
+    await page.clickPersonalFilesAndWait();
     done();
   });
 
   afterAll(async (done) => {
     await apis.user.nodes.deleteNodeById(fileId, true);
     await apis.user.nodes.deleteNodeById(folderId, true);
-    await logoutPage.load();
     done();
   });
 

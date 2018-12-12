@@ -42,6 +42,7 @@ import {
   SiteEntry,
   FavoriteBody
 } from 'alfresco-js-api';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -185,6 +186,30 @@ export class ContentApiService {
     return from(this.api.favoritesApi.getFavorites(personId, opts));
   }
 
+  getFavoriteLibraries(
+    personId: string = '-me-',
+    opts?: any
+  ): Observable<FavoritePaging> {
+    return this.getFavorites(personId, {
+      ...opts,
+      where: '(EXISTS(target/site))'
+    }).pipe(
+      map((response: FavoritePaging) => {
+        return {
+          list: {
+            entries: response.list.entries.map(({ entry }: any) => {
+              entry.target.site.createdAt = entry.createdAt;
+              return {
+                entry: entry.target.site
+              };
+            }),
+            pagination: response.list.pagination
+          }
+        };
+      })
+    );
+  }
+
   findSharedLinks(opts?: any): Observable<SharedLinkPaging> {
     return from(this.api.sharedLinksApi.findSharedLinks(opts));
   }
@@ -199,6 +224,10 @@ export class ContentApiService {
 
   deleteSite(siteId?: string, opts?: { permanent?: boolean }): Observable<any> {
     return from(this.api.sitesApi.deleteSite(siteId, opts));
+  }
+
+  leaveSite(siteId?: string): Observable<any> {
+    return from(this.api.sitesApi.removeSiteMember(siteId, '-me-'));
   }
 
   createSite(
@@ -217,6 +246,10 @@ export class ContentApiService {
     opts?: { relations?: Array<string>; fields?: Array<string> }
   ): Observable<SiteEntry> {
     return from(this.api.sitesApi.getSite(siteId, opts));
+  }
+
+  updateLibrary(siteId: string, siteBody: SiteBody): Observable<SiteEntry> {
+    return from(this.api.sitesApi.updateSite(siteId, siteBody));
   }
 
   addFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {

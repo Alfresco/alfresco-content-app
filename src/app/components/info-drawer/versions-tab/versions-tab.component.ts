@@ -29,21 +29,26 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 @Component({
   selector: 'app-versions-tab',
   template: `
-        <ng-container *ngIf="isFileSelected;else empty">
-            <adf-version-manager
-                [showComments]="'adf-version-manager.allowComments' | adfAppConfig:true"
-                [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig:true"
-                [node]="node">
-            </adf-version-manager>
-        </ng-container>
+    <ng-container *ngIf="isFileSelected; else: empty">
+      <adf-version-manager
+        [showComments]="
+          'adf-version-manager.allowComments' | adfAppConfig: true
+        "
+        [allowDownload]="
+          'adf-version-manager.allowDownload' | adfAppConfig: true
+        "
+        [node]="node"
+      >
+      </adf-version-manager>
+    </ng-container>
 
-        <ng-template #empty>
-            <div class="adf-manage-versions-empty">
-                <mat-icon class="adf-manage-versions-empty-icon">face</mat-icon>
-                {{ 'VERSION.SELECTION.EMPTY' | translate }}
-            </div>
-        </ng-template>
-    `
+    <ng-template #empty>
+      <div class="adf-manage-versions-empty">
+        <mat-icon class="adf-manage-versions-empty-icon">face</mat-icon>
+        {{ 'VERSION.SELECTION.EMPTY' | translate }}
+      </div>
+    </ng-template>
+  `
 })
 export class VersionsTabComponent implements OnInit, OnChanges {
   @Input()

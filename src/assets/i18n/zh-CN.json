@@ -1,5 +1,39 @@
 {
   "APP": {
+    "ABOUT": {
+      "VERSION": "版本：",
+      "PLUGINS": {
+        "TITLE": "扩展",
+        "ID": "ID",
+        "NAME": "名称",
+        "VERSION": "版本",
+        "VENDOR": "供应商",
+        "LICENSE": "许可证",
+        "RUNTIME": "运行时",
+        "DESCRIPTION": "说明"
+      },
+      "LICENSE": {
+        "TITLE": "许可证",
+        "PROPERTY": "属性",
+        "VALUE": "值"
+      },
+      "STATUS": {
+        "TITLE": "状态",
+        "PROPERTY": "属性",
+        "VALUE": "值"
+      },
+      "MODULES": {
+        "TITLE": "Alfresco 平台模块",
+        "ID": "ID",
+        "NAME": "名称",
+        "VERSION": "版本"
+      },
+      "PACKAGES": {
+        "TITLE": "软件包",
+        "NAME": "名称",
+        "VERSION": "版本"
+      }
+    },
     "LANGUAGE": "语言",
     "SIGN_IN": "登录",
     "SIGN_OUT": "退出",
@@ -18,7 +52,7 @@
     },
     "NEW_MENU": {
       "LABEL": "新建",
-      "TOOLTIP": "添加新文件或文件夹",
+      "TOOLTIP": "添加新文件或文件夹，或者创建新文件库",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "创建文件夹",
         "UPLOAD_FILE": "上传文件",
@@ -44,14 +78,37 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "文件库",
+        "TITLE": "我的库",
+        "DESCRIPTION": "访问文件库",
         "SIDENAV_LINK": {
           "LABEL": "文件库",
-          "TOOLTIP": "访问文件库"
+          "TOOLTIP": "文件库"
         },
         "EMPTY_STATE": {
-          "TITLE": "您还不是任何文件库的成员",
-          "TEXT": "加入文件库以上传、查看和共享文件。"
+          "FILE_LIBRARIES": {
+            "TITLE": "您还不是任何文件库的成员",
+            "TEXT": "加入文件库以上传、查看和共享文件。"
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "无收藏库",
+            "TEXT": "收藏您希望以后轻松查找的库"
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "我的库",
+            "SIDENAV_LINK": {
+              "LABEL": "我的库",
+              "TOOLTIP": "访问我的库"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "收藏库",
+            "SIDENAV_LINK": {
+              "LABEL": "收藏库",
+              "TOOLTIP": "访问我的收藏库"
+            }
+          }
         }
       },
       "SHARED": {
@@ -105,12 +162,19 @@
       "SEARCH": {
         "TITLE": "搜索结果",
         "FOUND_RESULTS": "找到 {{ number }} 个结果",
+        "FOUND_ONE_RESULT": "找到 {{ number }} 个结果",
         "CUSTOM_ROW": {
           "MODIFIED": "已修改",
           "LOCATION": "位置",
           "SIZE": "字号(&S)"
         },
+        "UNKNOWN_LOCATION": "未知",
         "NO_RESULTS": "您的搜索返回了 0 个结果"
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "库找到...",
+        "FOUND_RESULTS": "{{ number }} 个结果",
+        "FOUND_ONE_RESULT": "{{ number }} 个结果"
       }
     },
     "ACTIONS": {
@@ -126,6 +190,8 @@
       "PERMISSIONS": "权限",
       "RESTORE": "恢复",
       "FAVORITE": "收藏",
+      "ADD_FAVORITE": "添加收藏",
+      "REMOVE_FAVORITE": "删除收藏",
       "UNSHARE": "取消共享",
       "DETAILS": "查看详细信息",
       "VERSIONS": "管理版本",
@@ -133,7 +199,10 @@
       "SHARE": "共享",
       "SHARE_EDIT": "已共享链接的设置",
       "PRINT": "打印",
-      "FULLSCREEN": "激活全屏模式"
+      "FULLSCREEN": "激活全屏模式",
+      "JOIN": "加入",
+      "CANCEL_JOIN": "取消加入请求",
+      "LEAVE": "离开库"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -141,20 +210,28 @@
         "MESSAGE": "所选定的项将会被永久删除。",
         "YES_LABEL": "删除",
         "NO_LABEL": "保留"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "要离开该库吗？",
+        "MESSAGE": "离开将会删除您的访问权。",
+        "YES_LABEL": "确定",
+        "NO_LABEL": "取消"
       }
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
+        "ID": "ID",
         "NAME": "名称",
         "SIZE": "字号(&S)",
         "MODIFIED_ON": "已修改",
         "MODIFIED_BY": "修改人",
-        "STATUS": "状态",
+        "VISIBILITY": "可见性",
         "TITLE": "标题",
         "LOCATION": "位置",
         "SHARED_BY": "分享人",
         "DELETED_ON": "已删除",
-        "DELETED_BY": "删除人"
+        "DELETED_BY": "删除人",
+        "ROLE": "我的角色"
       },
       "TOOLBAR": {
         "CARDVIEW": "卡查看模式",
@@ -166,9 +243,16 @@
       "MODERATED": "适中",
       "PRIVATE": "私有"
     },
+    "SITES_ROLE": {
+      "MANAGER": "管理员",
+      "COLLABORATOR": "合作者",
+      "CONTRIBUTOR": "贡献者",
+      "CONSUMER": "使用者"
+    },
     "MESSAGES": {
       "ERRORS": {
-        "MISSING_CONTENT": "此文件或文件夹不再存在，或者您无权对其进行查看。",
+        "CANNOT_NAVIGATE_LOCATION": "无法打开此位置",
+        "MISSING_CONTENT": "此项目不再存在，或者您无权对其进行查看。",
         "GENERIC": "此操作未成功，请重试或联系您的 IT 团队。",
         "CONFLICT": "此名称已使用，请尝试其他名称。",
         "NODE_MOVE": "未成功移动，存在有相同名称的文件。",
@@ -190,13 +274,21 @@
             "GENERIC": "恢复 {{ name }} 时出现问题"
           }
         },
-        "DELETE_LIBRARY_FAILED": "无法删除库"
+        "DELETE_LIBRARY_FAILED": "无法删除库",
+        "JOIN_REQUEST_FAILED": "无法加入库",
+        "JOIN_CANCEL_FAILED": "无法取消加入请求",
+        "LEAVE_LIBRARY_FAILED": "无法离开该库",
+        "INVALID_SENDER_EMAIL": "在请求加入之前，您的电子邮件地址必须有效。",
+        "INVALID_RECEIVER_EMAIL": "收件人电子邮件地址无效，请联系 IT 人员。"
       },
       "UPLOAD": {
         "ERROR": {
-          "GENERIC": "发生了问题",
+          "GENERIC": "上传不成功。如果此问题仍然存在，请联系 IT 人员",
           "CONFLICT": "未上传新版本，已存在另一个同名文件",
-          "500": "上传时发生了问题"
+          "500": "内部服务器错误，请重试或联系 IT 支持人员 [500]",
+          "504": "服务器超时，请重试或联系 IT 支持人员 [504]",
+          "403": "权限不足，无法在此位置中进行上传 [403]",
+          "404": "上传位置不再存在 [404]"
         }
       },
       "INFO": {
@@ -235,7 +327,11 @@
             "FAIL": "{{ failed }} 无法移动。"
           }
         },
-        "LIBRARY_DELETED": "库已删除"
+        "LIBRARY_DELETED": "库已删除",
+        "JOINED": "已加入库",
+        "JOIN_REQUESTED": "已发送加入该库的请求",
+        "JOIN_CANCELED": "已取消加入该库的请求",
+        "LEFT_LIBRARY": "您已离开该库"
       }
     },
     "CONTENT_METADATA": {
@@ -245,6 +341,7 @@
       "TITLE": "详细信息",
       "TABS": {
         "PROPERTIES": "属性",
+        "LIBRARY_PROPERTIES": "关于",
         "VERSIONS": "版本",
         "COMMENTS": "注释"
       }
@@ -262,7 +359,8 @@
       "TITLE": "管理权限",
       "CLOSE": "关闭",
       "INHERIT_PERMISSIONS_BUTTON": "继承权限",
-      "INHERITED_PERMISSIONS_BUTTON": "已继承权限"
+      "INHERITED_PERMISSIONS_BUTTON": "已继承权限",
+      "ADD_USER_OR_GROUP": "添加用户或组"
     }
   },
   "SHARED_LINK": {
@@ -282,11 +380,14 @@
     "DIALOG": {
       "CREATE_TITLE": "创建库",
       "CREATE": "创建",
+      "UPDATE": "更新",
+      "EDIT": "编辑",
       "CANCEL": "取消",
       "FORM": {
         "DESCRIPTION": "说明",
         "SITE_ID": "库 ID",
-        "NAME": "名称"
+        "NAME": "名称",
+        "VISIBILITY": "可见性"
       }
     },
     "VISIBILITY": {
@@ -294,17 +395,32 @@
       "PUBLIC": "公共",
       "MODERATED": "适中"
     },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "库名已在使用中"
+    },
     "ERRORS": {
-      "GENERIC": "我们遇到了问题",
-      "EXISTENT_SITE": "此库 ID 不可用。请尝试使用其他库。",
+      "GENERIC": "我们遇到一个问题",
+      "EXISTENT_SITE": "此库 ID 不可用。请尝试使用其他库 ID。",
       "CONFLICT": "此库 ID 已被使用。请检查回收站。",
       "ID_TOO_LONG": "对 URL 名称使用 72 个字符或更少字符",
       "DESCRIPTION_TOO_LONG": "对描述使用 512 个字符或更少字符",
       "TITLE_TOO_LONG": "对标题使用 256 个字符或更少字符",
-      "ILLEGAL_CHARACTERS": "仅使用数字和字母"
+      "ILLEGAL_CHARACTERS": "仅使用数字和字母",
+      "ONLY_SPACES": "文档库名称不能只包含空格",
+      "LIBRARY_UPDATE_ERROR": "更新库属性时发生错误"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "已更新库属性"
     }
   },
   "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "搜索",
+      "FILES": "文件",
+      "FOLDERS": "文件夹",
+      "LIBRARIES": "库",
+      "HINT": "搜索输入必须至少具有 2 个字母数字字符。"
+    },
     "SORT": {
       "RELEVANCE": "相关性",
       "FILENAME": "文件名",

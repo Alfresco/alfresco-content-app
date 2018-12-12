@@ -173,7 +173,7 @@
     },
     "navBarLinkRef": {
       "type": "object",
-      "required": ["id", "icon", "title", "route"],
+      "required": ["id", "icon", "title"],
       "properties": {
         "id": {
           "description": "Unique identifier",
@@ -199,6 +199,40 @@
           "description": "Element order",
           "type": "number"
         },
+        "children": {
+          "description": "Navigation children items",
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "id",
+                  "title",
+                  "route"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Unique identifier",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "Element title",
+                    "type": "string"
+                  },
+                  "route": {
+                    "description": "Route reference identifier",
+                    "type": "string"
+                  }
+                },
+                "not": {
+                  "required": ["children"]
+                }
+              }
+            ]
+           },
+          "minItems": 1
+        },
         "rules": {
           "description": "Element rules",
           "type": "object",
@@ -209,7 +243,21 @@
             }
           }
         }
-      }
+      },
+      "oneOf": [
+        {
+          "required": ["route"],
+          "not": {
+            "required": ["children"]
+          }
+        },
+        {
+          "required": ["children"],
+          "not": {
+            "required": ["route"]
+          }
+        }
+      ]
     },
     "navBarGroupRef": {
       "type": "object",
@@ -515,12 +563,34 @@
           "type": "boolean"
         }
       }
+    },
+    "iconRef": {
+      "type": "object",
+      "required": ["id", "value"],
+      "properties": {
+        "id": {
+          "description": "Unique identifier. Must be in the format '[namespace]:[name]'.",
+          "type": "string"
+        },
+        "value": {
+          "description": "Icon path relative to the application root.",
+          "type": "string"
+        },
+        "disabled": {
+          "description": "Toggles the disabled state",
+          "type": "boolean"
+        }
+      }
     }
   },
 
   "type": "object",
-  "required": ["$name", "$version"],
+  "required": ["$id", "$name", "$version", "$vendor", "$license", "$runtime"],
   "properties": {
+    "$id": {
+      "description": "Unique identifier",
+      "type": "string"
+    },
     "$name": {
       "description": "Extension name",
       "type": "string"
@@ -529,8 +599,21 @@
       "description": "Extension version",
       "type": "string"
     },
+    "$vendor": {
+      "description": "Extension owner",
+      "type": "string"
+    },
+    "$license": {
+      "description": "Indicates the license of the extension.",
+      "type": "string"
+    },
+    "$runtime": {
+      "description": "Minimal extension runtime supported by extension",
+      "type": "string"
+    },
     "$description": {
-      "description": "Brief description on what the extension does"
+      "description": "Brief description on what the extension does",
+      "type": "string"
     },
     "$references": {
       "description": "References to external files",
@@ -538,7 +621,7 @@
       "items": {
         "type": "string"
       },
-      "minItems": 1,
+      "minItems": 0,
       "uniqueItems": true
     },
     "rules": {
@@ -563,6 +646,12 @@
       "description": "Application-specific features and extensions",
       "type": "object",
       "properties": {
+        "icons": {
+          "description": "Custom icons",
+          "type": "array",
+          "items": { "$ref": "#/definitions/iconRef" },
+          "minItems": 1
+        },
         "header": {
           "description": "Application header extensions",
           "type": "array",

@@ -23,7 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, element } from 'protractor';
+import { SIDEBAR_LABELS } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
@@ -31,9 +32,12 @@ import { Utils } from '../../utilities/utils';
 export class Sidenav extends Component {
   private static selectors = {
     root: 'app-sidenav',
-    link: '.sidenav-menu__item',
-    label: '.menu__item--label',
-    activeLink: '.menu__item--active',
+    link: '.menu__item',
+    label: '.item--label',
+    expansion_panel: ".mat-expansion-panel-header",
+    expansion_panel_content: ".mat-expansion-panel-body",
+    active: 'item--active',
+    activeLink: '.item--active',
     newButton: '[data-automation-id="create-button"]'
   };
 
@@ -47,6 +51,23 @@ export class Sidenav extends Component {
     super(Sidenav.selectors.root, ancestor);
   }
 
+  private async expandMenu(name: string) {
+    try{
+
+      if (await element(by.cssContainingText('.mat-expanded', name)).isPresent()) {
+        return Promise.resolve();
+      } else {
+        const link = this.getLink(name);
+        await Utils.waitUntilElementClickable(link);
+        await link.click();
+        await element(by.css(Sidenav.selectors.expansion_panel_content)).isPresent();
+      }
+
+    } catch (e) {
+      console.log('---- sidebar navigation catch expandMenu: ', e);
+    }
+  }
+
   async openNewMenu() {
     const { menu, newButton } = this;
 
@@ -54,37 +75,59 @@ export class Sidenav extends Component {
     await menu.waitForMenuToOpen();
   }
 
-  async openCreateDialog() {
+  async openCreateFolderDialog() {
     await this.openNewMenu();
     await this.menu.clickMenuItem('Create folder');
   }
 
-  async isActiveByLabel(label: string) {
-    const className = await this.getLinkByLabel(label).getAttribute('class');
-    return className.includes(Sidenav.selectors.activeLink.replace('.', ''));
+  async openCreateLibraryDialog() {
+    await this.openNewMenu();
+    await this.menu.clickMenuItem('Create Library');
   }
 
-  getLink(label: string) {
-    return this.component.element(by.cssContainingText(Sidenav.selectors.link, label));
+  async isActive(name: string) {
+    const className = await this.getLinkLabel(name).getAttribute('class');
+    return className.includes(Sidenav.selectors.active);
   }
 
-  getLinkByLabel(label: string) {
-    return this.component.element(by.cssContainingText(Sidenav.selectors.label, label));
-    // return browser.element(by.xpath(`.//*[.="${label}" and class="${Sidenav.selectors.label}"]`))
+  async childIsActive(name: string) {
+    const childClass = await this.getLinkLabel(name).element(by.css('span')).getAttribute('class');
+    return childClass.includes(Sidenav.selectors.active);
   }
 
-  async getLinkTooltip(label: string) {
-    return await this.getLink(label).getAttribute('title');
+  getLink(name: string) {
+    return this.getLinkLabel(name).element(by.xpath('..'));
   }
 
-  async navigateToLinkByLabel(label: string) {
+  getLinkLabel(name: string) {
+    return this.component.element(by.cssContainingText(Sidenav.selectors.label, name));
+  }
+
+  getActiveLink() {
+    return this.activeLink;
+  }
+
+  async getLinkTooltip(name: string) {
+    return await this.getLink(name).getAttribute('title');
+  }
+
+  async navigateToLink(name: string) {
     try{
-      const link = this.getLinkByLabel(label);
+      const link = this.getLinkLabel(name);
       await Utils.waitUntilElementClickable(link);
       return await link.click();
 
     } catch (e){
-      console.log('---- sidebar navigation catch : ', e);
+      console.log('---- sidebar navigation catch navigateToLink: ', e);
     }
   }
+
+  async isFileLibrariesMenuExpanded() {
+    return await element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
+  }
+
+  async expandFileLibraries() {
+    return await this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
+  }
+
 }

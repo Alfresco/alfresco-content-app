@@ -36,12 +36,19 @@ import {
   NavigateToFolder,
   NAVIGATE_FOLDER,
   NavigateUrlAction,
-  NAVIGATE_URL
+  NAVIGATE_URL,
+  SnackbarErrorAction
 } from '../actions';
+import { AppStore } from '../states/app.state';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class RouterEffects {
-  constructor(private actions$: Actions, private router: Router) {}
+  constructor(
+    private store: Store<AppStore>,
+    private actions$: Actions,
+    private router: Router
+  ) {}
 
   @Effect({ dispatch: false })
   navigateUrl$ = this.actions$.pipe(
@@ -97,11 +104,13 @@ export class RouterEffects {
         // parent.id could be 'Site' folder or child as 'documentLibrary'
         link = [area, parent.name === 'Sites' ? {} : id];
       }
-    }
 
-    setTimeout(() => {
-      this.router.navigate(link);
-    }, 10);
+      setTimeout(() => {
+        this.router.navigate(link);
+      }, 10);
+    } else {
+      this.router.navigate(['/personal-files', node.id]);
+    }
   }
 
   private navigateToParentFolder(node: MinimalNodeEntryEntity) {
@@ -120,11 +129,15 @@ export class RouterEffects {
         // parent.id could be 'Site' folder or child as 'documentLibrary'
         link = [area, parent.name === 'Sites' ? {} : parent.id];
       }
-    }
 
-    setTimeout(() => {
-      this.router.navigate(link);
-    }, 10);
+      setTimeout(() => {
+        this.router.navigate(link);
+      }, 10);
+    } else {
+      this.store.dispatch(
+        new SnackbarErrorAction('APP.MESSAGES.ERRORS.CANNOT_NAVIGATE_LOCATION')
+      );
+    }
   }
 
   private isLibraryContent(path: PathInfoEntity): boolean {

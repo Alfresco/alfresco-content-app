@@ -1,78 +1,81 @@
-<div class="inner-layout">
-    <div class="inner-layout__header">
-        <adf-breadcrumb root="APP.BROWSE.LIBRARIES.TITLE">
-        </adf-breadcrumb>
+<app-page-layout>
 
-        <adf-toolbar class="inline">
-            <app-document-display-mode *ifExperimental="'cardview'"></app-document-display-mode>
+  <app-page-layout-header>
+      <adf-breadcrumb root="APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE">
+      </adf-breadcrumb>
 
-            <ng-container *ifExperimental="'extensions'">
-                <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
-                    <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
-                </ng-container>
-            </ng-container>
-        </adf-toolbar>
-    </div>
+      <adf-toolbar class="inline">
+          <ng-container *ngFor="let entry of actions; trackBy: trackByActionId">
+              <aca-toolbar-action [actionRef]="entry"></aca-toolbar-action>
+          </ng-container>
+      </adf-toolbar>
+  </app-page-layout-header>
 
-    <div class="inner-layout__content">
-        <div class="inner-layout__panel">
-            <adf-document-list #documentList
-                acaDocumentList
-                [display]="documentDisplayMode$ | async"
-                currentFolderId="-mysites-"
-                selectionMode="single"
-                [navigate]="false"
-                [sorting]="[ 'title', 'asc' ]"
-                (node-dblclick)="navigateTo($event.detail?.node)"
-                (name-click)="navigateTo($event.detail?.node)">
+  <app-page-layout-content>
+      <div class="main-content">
+          <adf-document-list #documentList
+              acaDocumentList
+              acaContextActions
+              [display]="documentDisplayMode$ | async"
+              currentFolderId="-mysites-"
+              selectionMode="single"
+              [navigate]="false"
+              [sorting]="[ 'title', 'asc' ]"
+              [imageResolver]="imageResolver"
+              (node-dblclick)="navigateTo($event.detail?.node)"
+              (name-click)="navigateTo($event.detail?.node)">
 
-                <empty-folder-content>
-                    <ng-template>
-                        <adf-empty-content
-                            icon="group_work"
-                            [title]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.TITLE'"
-                            subtitle="APP.BROWSE.LIBRARIES.EMPTY_STATE.TEXT">
-                        </adf-empty-content>
-                    </ng-template>
-                </empty-folder-content>
+              <empty-folder-content>
+                  <ng-template>
+                      <adf-empty-content
+                          icon="library_books"
+                          [title]="'APP.BROWSE.LIBRARIES.EMPTY_STATE.FILE_LIBRARIES.TITLE'"
+                          subtitle="APP.BROWSE.LIBRARIES.EMPTY_STATE.FILE_LIBRARIES.TEXT">
+                      </adf-empty-content>
+                  </ng-template>
+              </empty-folder-content>
 
-                <data-columns>
-                  <ng-container *ngFor="let column of columns; trackBy: trackById">
+              <data-columns>
+                <ng-container *ngFor="let column of columns; trackBy: trackById">
 
-                    <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
-                      <data-column
-                        [key]="column.key"
-                        [title]="column.title"
-                        [type]="column.type"
-                        [format]="column.format"
-                        [class]="column.class"
-                        [sortable]="column.sortable">
-                        <ng-template let-context>
-                          <app-dynamic-column
-                            [id]="column.template"
-                            [context]="context">
-                          </app-dynamic-column>
-                        </ng-template>
-                      </data-column>
-                    </ng-container>
-
-                    <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
-                      <data-column
-                        [key]="column.key"
-                        [title]="column.title"
-                        [type]="column.type"
-                        [format]="column.format"
-                        [class]="column.class"
-                        [sortable]="column.sortable">
-                      </data-column>
-                    </ng-container>
-
+                  <ng-container *ngIf="column.template && !(column.desktopOnly && isSmallScreen)">
+                    <data-column
+                      [key]="column.key"
+                      [title]="column.title"
+                      [type]="column.type"
+                      [format]="column.format"
+                      [class]="column.class"
+                      [sortable]="column.sortable">
+                      <ng-template let-context>
+                        <app-dynamic-column
+                          [id]="column.template"
+                          [context]="context">
+                        </app-dynamic-column>
+                      </ng-template>
+                    </data-column>
                   </ng-container>
-                </data-columns>
-            </adf-document-list>
 
-            <adf-pagination acaPagination [target]="documentList">
-            </adf-pagination>
-        </div>
-    </div>
-</div>
+                  <ng-container *ngIf="!column.template && !(column.desktopOnly && isSmallScreen)">
+                    <data-column
+                      [key]="column.key"
+                      [title]="column.title"
+                      [type]="column.type"
+                      [format]="column.format"
+                      [class]="column.class"
+                      [sortable]="column.sortable">
+                    </data-column>
+                  </ng-container>
+
+                </ng-container>
+              </data-columns>
+          </adf-document-list>
+
+          <adf-pagination acaPagination [target]="documentList">
+          </adf-pagination>
+      </div>
+
+      <div class="sidebar" *ngIf="infoDrawerOpened$ | async">
+        <aca-info-drawer [node]="selection.library"></aca-info-drawer>
+      </div>
+  </app-page-layout-content>
+</app-page-layout>

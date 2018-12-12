@@ -30,15 +30,18 @@ import {
   OnInit,
   Input
 } from '@angular/core';
+import { ShareDataRow } from '@alfresco/adf-content-services';
 import { MinimalNodeEntity } from 'alfresco-js-api';
 
 @Component({
   selector: 'app-trashcan-name-column',
   template: `
-    <span
-      title="{{ node | adfNodeNameTooltip }}">
-      {{ displayText }}
-    </span>
+    <ng-container *ngIf="!isLibrary">
+      <span title="{{ node | adfNodeNameTooltip }}">{{ displayText }}</span>
+    </ng-container>
+    <ng-container *ngIf="isLibrary">
+      <span title="{{ displayTooltip }}">{{ displayText }}</span>
+    </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -48,13 +51,45 @@ export class TrashcanNameColumnComponent implements OnInit {
   @Input()
   context: any;
 
+  isLibrary = false;
   displayText: string;
+  displayTooltip: string;
   node: MinimalNodeEntity;
 
   ngOnInit() {
     this.node = this.context.row.node;
+    const rows: Array<ShareDataRow> = this.context.data.rows || [];
+
     if (this.node && this.node.entry) {
-      this.displayText = this.node.entry.name || this.node.entry.id;
+      this.isLibrary = this.node.entry.nodeType === 'st:site';
+
+      if (this.isLibrary) {
+        const { properties } = this.node.entry;
+
+        this.displayText = this.makeLibraryTitle(this.node.entry, rows);
+        this.displayTooltip =
+          properties['cm:description'] || properties['cm:title'];
+      } else {
+        this.displayText = this.node.entry.name || this.node.entry.id;
+      }
     }
+  }
+
+  makeLibraryTitle(library: any, rows: Array<ShareDataRow>): string {
+    const entries = rows.map((r: ShareDataRow) => r.node.entry);
+    const { id } = library;
+    const title = library.properties['cm:title'];
+
+    let isDuplicate = false;
+
+    if (entries) {
+      isDuplicate = entries.some((entry: any) => {
+        return entry.id !== id && entry.properties['cm:title'] === title;
+      });
+    }
+
+    return isDuplicate
+      ? `${library.properties['cm:title']} (${library.name})`
+      : `${library.properties['cm:title']}`;
   }
 }

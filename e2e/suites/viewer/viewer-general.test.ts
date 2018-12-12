@@ -24,8 +24,8 @@
  */
 
 import { protractor, browser } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS, FILES, SITE_VISIBILITY } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { FILES, SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { Viewer } from '../../components/viewer/viewer';
@@ -49,7 +49,6 @@ describe('Viewer general', () => {
     };
 
     const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
     const dataTable = page.dataTable;
     const viewer = new Viewer();
@@ -77,8 +76,7 @@ describe('Viewer general', () => {
     });
 
     beforeEach(async (done) => {
-        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-        await dataTable.waitForHeader();
+        await page.clickPersonalFilesAndWait();
         await dataTable.doubleClickOnRowByName(parent);
         await dataTable.waitForHeader();
         done();
@@ -93,7 +91,6 @@ describe('Viewer general', () => {
       await apis.user.nodes.deleteNodeById(parentId);
       await apis.admin.sites.deleteSite(siteAdmin);
       await apis.user.sites.deleteSite(siteUser);
-      await logoutPage.load();
       done();
     });
 
@@ -142,8 +139,7 @@ describe('Viewer general', () => {
     });
 
     it('Viewer opens for a file from File Libraries - [C284633]', async () => {
-        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-        await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteUser);
         await dataTable.waitForHeader();
         await dataTable.doubleClickOnRowByName(fileInSite);
@@ -154,8 +150,7 @@ describe('Viewer general', () => {
     });
 
     it('Viewer opens for a file from Recent Files - [C284636]', async () => {
-        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-        await dataTable.waitForHeader();
+        await page.clickRecentFilesAndWait();
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
         expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
@@ -164,8 +159,7 @@ describe('Viewer general', () => {
     });
 
     it('Viewer opens for a file from Shared Files - [C284635]', async () => {
-        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-        await dataTable.waitForHeader();
+        await page.clickSharedFilesAndWait();
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
         expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');
@@ -174,8 +168,7 @@ describe('Viewer general', () => {
     });
 
     it('Viewer opens for a file from Favorites - [C284634]', async () => {
-        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-        await dataTable.waitForHeader();
+        await page.clickFavoritesAndWait();
         await dataTable.doubleClickOnRowByName(xlsxFile);
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
         expect(await viewer.isViewerToolbarDisplayed()).toBe(true, 'Toolbar not displayed');

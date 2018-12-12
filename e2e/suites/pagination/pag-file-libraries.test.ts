@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser } from 'protractor';
-import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -37,7 +36,6 @@ describe('Pagination on multiple pages on File Libraries', () => {
       user: new RepoClient(username, username)
   };
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable, pagination } = page;
 
@@ -54,21 +52,17 @@ describe('Pagination on multiple pages on File Libraries', () => {
   });
 
   beforeEach(async (done) => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
-      done();
+    await page.clickFileLibrariesAndWait();
+    done();
   });
 
   afterEach(async (done) => {
-      await Utils.pressEscape();
-      done();
+    await Utils.pressEscape();
+    done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([
-      apis.user.sites.deleteSites(sites),
-      logoutPage.load()
-    ]);
+    await apis.user.sites.deleteSites(sites);
     done();
   })
 

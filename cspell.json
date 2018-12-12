@@ -6,6 +6,7 @@
     "sharedlinks",
     "Redistributable",
     "fullscreen",
+    "LGPL",
 
     "ngrx",
     "ngstack",
@@ -34,6 +35,7 @@
     "nginx",
     "docx",
     "SOLR",
+    "simpletask",
 
     "unshare",
     "qshare",
@@ -54,7 +56,8 @@
     "keycodes",
     "denysvuika",
     "submenu",
-    "submenus"
+    "submenus",
+    "simpletask"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }

@@ -28,6 +28,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { AboutComponent } from './about.component';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
+import { AppLayoutModule } from '../layout/layout.module';
+import { MatTableModule } from '@angular/material';
+import { PackageListComponent } from './package-list/package-list.component';
+import { ExtensionListComponent } from './extension-list/extension-list.component';
+import { StatusListComponent } from './status-list/status-list.component';
+import { ModuleListComponent } from './module-list/module-list.component';
+import { LicenseListComponent } from './license-list/license-list.component';
 
 const routes: Routes = [
   {
@@ -40,7 +47,20 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), RouterModule.forChild(routes)],
-  declarations: [AboutComponent]
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    RouterModule.forChild(routes),
+    AppLayoutModule,
+    MatTableModule
+  ],
+  declarations: [
+    AboutComponent,
+    PackageListComponent,
+    ExtensionListComponent,
+    StatusListComponent,
+    ModuleListComponent,
+    LicenseListComponent
+  ]
 })
 export class AboutModule {}

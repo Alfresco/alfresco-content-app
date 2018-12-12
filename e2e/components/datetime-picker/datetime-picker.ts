@@ -26,6 +26,7 @@
 import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
+import * as moment from 'moment';
 
 export class DateTimePicker extends Component {
   private static selectors = {
@@ -72,11 +73,12 @@ export class DateTimePicker extends Component {
   }
 
   async setDefaultDay() {
-    const today = await this.dayPicker.element(by.css(DateTimePicker.selectors.today)).getText();
-    const tomorrow = (parseInt(today, 10) + 1).toString();
+    const today = moment();
+    const tomorrow = today.add(1, 'day');
+    const dayOfTomorrow = tomorrow.date();
     const date = await this.getDate();
     const year = await this.getYear();
-    const elem = this.dayPicker.element(by.cssContainingText(DateTimePicker.selectors.firstActiveDay, tomorrow));
+    const elem = this.dayPicker.element(by.cssContainingText(DateTimePicker.selectors.firstActiveDay, `${dayOfTomorrow}`));
     await elem.click();
     return `${date} ${year}`;
   }

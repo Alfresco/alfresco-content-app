@@ -1,0 +1,38 @@
+<adf-upload-drag-area
+    [parentId]="currentFolderId"
+    [disabled]="!canUpload">
+
+    <adf-sidenav-layout
+        #layout
+        [sidenavMin]="70"
+        [sidenavMax]="320"
+        [stepOver]="600"
+        [hideSidenav]="hideSidenav"
+        [expandedSidenav]="expandedSidenav"
+        (expanded)="onExpanded($event)">
+
+        <adf-sidenav-layout-header>
+            <ng-template>
+              <app-header
+                *ngIf="!hideSidenav"
+                (toggleClicked)="layout.toggleMenu($event)">
+            </app-header>
+            </ng-template>
+        </adf-sidenav-layout-header>
+
+        <adf-sidenav-layout-navigation>
+            <ng-template let-isMenuMinimized="isMenuMinimized">
+                <app-sidenav [showLabel]="!isMenuMinimized()"></app-sidenav>
+            </ng-template>
+        </adf-sidenav-layout-navigation>
+
+        <adf-sidenav-layout-content>
+            <ng-template>
+                <router-outlet></router-outlet>
+            </ng-template>
+        </adf-sidenav-layout-content>
+
+    </adf-sidenav-layout>
+
+    <app-file-uploading-dialog position="left"></app-file-uploading-dialog>
+</adf-upload-drag-area>

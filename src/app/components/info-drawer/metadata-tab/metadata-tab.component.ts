@@ -36,9 +36,10 @@ import { AppConfigService } from '@alfresco/adf-core';
       [readOnly]="!canUpdateNode"
       [displayEmpty]="canUpdateNode"
       [preset]="'custom'"
-      [node]="node">
+      [node]="node"
+    >
     </adf-content-metadata-card>
-    `,
+  `,
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-metadata-tab' }
 })
@@ -64,6 +65,25 @@ export class MetadataTabComponent {
   }
 
   get canUpdateNode() {
-    return this.node && this.permission.check(this.node, ['update']);
+    if (this.node) {
+      if (this.fileIsLocked()) {
+        return false;
+      }
+      return this.permission.check(this.node, ['update']);
+    }
+
+    return false;
+  }
+
+  private fileIsLocked() {
+    if (!this.node.isFile) {
+      return false;
+    }
+
+    return (
+      this.node.isLocked ||
+      (this.node.properties &&
+        this.node.properties['cm:lockType'] === 'READ_ONLY_LOCK')
+    );
   }
 }

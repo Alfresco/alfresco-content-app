@@ -25,7 +25,6 @@
               "src/assets",
               "src/favicon-96x96.png",
               "src/app.config.json",
-              "src/versions.json",
               {
                 "glob": "**/*",
                 "input": "node_modules/@alfresco/adf-core/prebuilt-themes",
@@ -85,6 +84,23 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.e2e.ts"
+                }
+              ]
             }
           }
         },
@@ -99,6 +115,9 @@
           "configurations": {
             "production": {
               "browserTarget": "app:build:production"
+            },
+            "e2e": {
+              "browserTarget": "app:build:e2e"
             }
           }
         },
@@ -135,7 +154,6 @@
               "src/assets",
               "src/favicon-96x96.png",
               "src/app.config.json",
-              "src/versions.json",
               {
                 "glob": "**/*",
                 "input": "node_modules/@alfresco/adf-core/prebuilt-themes",
@@ -167,7 +185,8 @@
               "src/tsconfig.spec.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "package.json"
             ]
           }
         }
@@ -197,7 +216,8 @@
               "e2e/tsconfig.e2e.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "package.json"
             ]
           }
         }

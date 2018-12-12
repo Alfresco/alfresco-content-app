@@ -1,5 +1,39 @@
 {
   "APP": {
+    "ABOUT": {
+      "VERSION": "Versie:",
+      "PLUGINS": {
+        "TITLE": "Extensies",
+        "ID": "Id",
+        "NAME": "Naam",
+        "VERSION": "Versie",
+        "VENDOR": "Leverancier",
+        "LICENSE": "Licentie",
+        "RUNTIME": "Runtime",
+        "DESCRIPTION": "Beschrijving"
+      },
+      "LICENSE": {
+        "TITLE": "Licentie",
+        "PROPERTY": "Eigenschap",
+        "VALUE": "Waarde"
+      },
+      "STATUS": {
+        "TITLE": "Status",
+        "PROPERTY": "Eigenschap",
+        "VALUE": "Waarde"
+      },
+      "MODULES": {
+        "TITLE": "Alfresco-platformmodules",
+        "ID": "Id",
+        "NAME": "Naam",
+        "VERSION": "Versie"
+      },
+      "PACKAGES": {
+        "TITLE": "Pakketten",
+        "NAME": "Naam",
+        "VERSION": "Versie"
+      }
+    },
     "LANGUAGE": "Taal",
     "SIGN_IN": "Aanmelden",
     "SIGN_OUT": "Afmelden",
@@ -18,7 +52,7 @@
     },
     "NEW_MENU": {
       "LABEL": "Nieuw",
-      "TOOLTIP": "Nieuwe bestanden of mappen toevoegen",
+      "TOOLTIP": "Nieuwe bestanden en mappen toevoegen, of een nieuwe bestandsbibliotheek maken",
       "MENU_ITEMS": {
         "CREATE_FOLDER": "Map maken",
         "UPLOAD_FILE": "Bestand uploaden",
@@ -44,14 +78,37 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Bestandsbibliotheken",
+        "TITLE": "Mijn bibliotheken",
+        "DESCRIPTION": "Toegang krijgen tot bestandsbibliotheken",
         "SIDENAV_LINK": {
           "LABEL": "Bestandsbibliotheken",
-          "TOOLTIP": "Toegang krijgen tot bestandsbibliotheken"
+          "TOOLTIP": "Bestandsbibliotheken"
         },
         "EMPTY_STATE": {
-          "TITLE": "U bent nog geen lid van een bestandsbibliotheek",
-          "TEXT": "Word lid van bibliotheken om bestanden te uploaden, weer te geven en te delen."
+          "FILE_LIBRARIES": {
+            "TITLE": "U bent nog geen lid van een bestandsbibliotheek",
+            "TEXT": "Word lid van bibliotheken om bestanden te uploaden, weer te geven en te delen."
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Geen favoriete bibliotheken",
+            "TEXT": "Voeg een bibliotheek toe aan uw favorieten zodat u deze later gemakkelijk kunt vinden."
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "Mijn bibliotheken",
+            "SIDENAV_LINK": {
+              "LABEL": "Mijn bibliotheken",
+              "TOOLTIP": "Toegang krijgen tot mijn bibliotheken"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Favoriete bibliotheken",
+            "SIDENAV_LINK": {
+              "LABEL": "Favoriete bibliotheken",
+              "TOOLTIP": "Toegang krijgen tot mijn favoriete bibliotheken"
+            }
+          }
         }
       },
       "SHARED": {
@@ -105,12 +162,19 @@
       "SEARCH": {
         "TITLE": "Zoekresultaten",
         "FOUND_RESULTS": "{{ number }} resultaten gevonden",
+        "FOUND_ONE_RESULT": "{{ number }} resultaat gevonden",
         "CUSTOM_ROW": {
           "MODIFIED": "Aangepast",
           "LOCATION": "Locatie",
           "SIZE": "Grootte"
         },
+        "UNKNOWN_LOCATION": "Onbekend",
         "NO_RESULTS": "Uw zoekopdracht heeft 0 resultaten opgeleverd"
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "Bibliotheken gevonden...",
+        "FOUND_RESULTS": "{{ number }} resultaten",
+        "FOUND_ONE_RESULT": "{{ number }} resultaat"
       }
     },
     "ACTIONS": {
@@ -126,6 +190,8 @@
       "PERMISSIONS": "Rechten",
       "RESTORE": "Herstellen",
       "FAVORITE": "Favoriet",
+      "ADD_FAVORITE": "Favoriet toevoegen",
+      "REMOVE_FAVORITE": "Favoriet verwijderen",
       "UNSHARE": "Delen ongedaan maken",
       "DETAILS": "Details weergeven",
       "VERSIONS": "Versies beheren",
@@ -133,7 +199,10 @@
       "SHARE": "Delen",
       "SHARE_EDIT": "Instellingen gedeelde koppeling",
       "PRINT": "Afdrukken",
-      "FULLSCREEN": "Modus voor volledig scherm activeren"
+      "FULLSCREEN": "Modus voor volledig scherm activeren",
+      "JOIN": "Lid worden",
+      "CANCEL_JOIN": "Verzoek om lid te worden annuleren",
+      "LEAVE": "Bibliotheek verlaten"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -141,20 +210,28 @@
         "MESSAGE": "Hiermee worden de geselecteerde items permanent verwijderd.",
         "YES_LABEL": "Verwijderen",
         "NO_LABEL": "Bewaren"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "Deze bibliotheek verlaten?",
+        "MESSAGE": "Als u de bibliotheek verlaat, wordt uw toegang verwijderd.",
+        "YES_LABEL": "OK",
+        "NO_LABEL": "Annuleren"
       }
     },
     "DOCUMENT_LIST": {
       "COLUMNS": {
+        "ID": "Id",
         "NAME": "Naam",
         "SIZE": "Grootte",
         "MODIFIED_ON": "Aangepast",
         "MODIFIED_BY": "Aangepast door",
-        "STATUS": "Status",
+        "VISIBILITY": "Zichtbaarheid",
         "TITLE": "Titel",
         "LOCATION": "Locatie",
         "SHARED_BY": "Gedeeld door",
         "DELETED_ON": "Verwijderd",
-        "DELETED_BY": "Verwijderd door"
+        "DELETED_BY": "Verwijderd door",
+        "ROLE": "Mijn rol"
       },
       "TOOLBAR": {
         "CARDVIEW": "Kaartweergavemodus",
@@ -166,9 +243,16 @@
       "MODERATED": "Onder toezicht",
       "PRIVATE": "Privé"
     },
+    "SITES_ROLE": {
+      "MANAGER": "Beheerder",
+      "COLLABORATOR": "Medewerker",
+      "CONTRIBUTOR": "Bijdrager",
+      "CONSUMER": "Consument"
+    },
     "MESSAGES": {
       "ERRORS": {
-        "MISSING_CONTENT": "Dit bestand of deze map bestaat niet meer of u hebt geen rechten om het bestand of de map weer te geven.",
+        "CANNOT_NAVIGATE_LOCATION": "Kan deze locatie niet openen",
+        "MISSING_CONTENT": "Dit item bestaat niet meer of u hebt geen rechten om het weer te geven.",
         "GENERIC": "De actie is mislukt. Probeer het opnieuw of neem contact op met het IT-team.",
         "CONFLICT": "Deze naam wordt al gebruikt, probeer een andere naam.",
         "NODE_MOVE": "Verplaatsen is mislukt, er bestaat al een bestand met dezelfde naam.",
@@ -190,13 +274,21 @@
             "GENERIC": "Er is een probleem opgetreden bij het herstellen van {{ name }}"
           }
         },
-        "DELETE_LIBRARY_FAILED": "De bibliotheek kan niet worden verwijderd"
+        "DELETE_LIBRARY_FAILED": "De bibliotheek kan niet worden verwijderd",
+        "JOIN_REQUEST_FAILED": "Lid worden van de bibliotheek niet mogelijk",
+        "JOIN_CANCEL_FAILED": "Verzoek om lid te worden kan niet worden geannuleerd",
+        "LEAVE_LIBRARY_FAILED": "Kan deze bibliotheek niet verlaten",
+        "INVALID_SENDER_EMAIL": "U moet een geldig e-mailadres hebben voordat u kunt verzoeken om lid te worden.",
+        "INVALID_RECEIVER_EMAIL": "Het e-mailadres van de ontvanger(s) is niet geldig, neem contact op met IT."
       },
       "UPLOAD": {
         "ERROR": {
-          "GENERIC": "Er is een probleem opgetreden",
+          "GENERIC": "Uploaden is mislukt. Neem contact op met IT als het probleem zich blijft voordoen",
           "CONFLICT": "Nieuwe versie is niet geüpload, er bestaat al een ander bestand met dezelfde naam",
-          "500": "Er is een probleem opgetreden tijdens het uploaden"
+          "500": "Interne serverfout, probeer het opnieuw of neem contact op met de IT-ondersteuning [500]",
+          "504": "Er is een time-out opgetreden in de server, probeer het opnieuw of neem contact op met de IT-ondersteuning [504]",
+          "403": "Onvoldoende rechten voor uploaden op deze locatie [403]",
+          "404": "Uploadlocatie bestaat niet meer [404]"
         }
       },
       "INFO": {
@@ -235,7 +327,11 @@
             "FAIL": "Kan {{ failed }} niet verplaatsen."
           }
         },
-        "LIBRARY_DELETED": "Bibliotheek verwijderd"
+        "LIBRARY_DELETED": "Bibliotheek verwijderd",
+        "JOINED": "Lid geworden van bibliotheek",
+        "JOIN_REQUESTED": "Verzoek om lid te worden van deze bibliotheek is verzonden",
+        "JOIN_CANCELED": "Verzoek om lid te worden van de bibliotheek is geannuleerd",
+        "LEFT_LIBRARY": "U hebt de bibliotheek verlaten"
       }
     },
     "CONTENT_METADATA": {
@@ -245,6 +341,7 @@
       "TITLE": "Details",
       "TABS": {
         "PROPERTIES": "Eigenschappen",
+        "LIBRARY_PROPERTIES": "Info",
         "VERSIONS": "Versies",
         "COMMENTS": "Opmerkingen"
       }
@@ -261,8 +358,9 @@
     "DIALOG": {
       "TITLE": "Rechten beheren",
       "CLOSE": "Sluiten",
-      "INHERIT_PERMISSIONS_BUTTON": "Machtiging overnemen",
-      "INHERITED_PERMISSIONS_BUTTON": "Machtiging overgenomen"
+      "INHERIT_PERMISSIONS_BUTTON": "Rechten overnemen",
+      "INHERITED_PERMISSIONS_BUTTON": "Overgenomen rechten",
+      "ADD_USER_OR_GROUP": "Gebruiker of groep toevoegen"
     }
   },
   "SHARED_LINK": {
@@ -282,11 +380,14 @@
     "DIALOG": {
       "CREATE_TITLE": "Bibliotheek maken",
       "CREATE": "Maken",
+      "UPDATE": "Bijwerken",
+      "EDIT": "Bewerken",
       "CANCEL": "Annuleren",
       "FORM": {
         "DESCRIPTION": "Beschrijving",
         "SITE_ID": "Bibliotheek-id",
-        "NAME": "Naam"
+        "NAME": "Naam",
+        "VISIBILITY": "Zichtbaarheid"
       }
     },
     "VISIBILITY": {
@@ -294,17 +395,32 @@
       "PUBLIC": "Openbaar",
       "MODERATED": "Onder toezicht"
     },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "Bibliotheeknaam wordt al gebruikt"
+    },
     "ERRORS": {
       "GENERIC": "Er is een probleem opgetreden",
-      "EXISTENT_SITE": "Deze bibliotheek-id is niet beschikbaar. Probeer een andere bibliotheek.",
+      "EXISTENT_SITE": "Deze bibliotheek-id is niet beschikbaar. Probeer een andere bibliotheek-id.",
       "CONFLICT": "Deze bibliotheek wordt al gebruikt. Controleer de prullenbak.",
       "ID_TOO_LONG": "Gebruik 72 tekens of minder voor de URL-naam",
       "DESCRIPTION_TOO_LONG": "Gebruik 512 tekens of minder voor de beschrijving",
       "TITLE_TOO_LONG": "Gebruik 256 tekens of minder voor de titel",
-      "ILLEGAL_CHARACTERS": "Gebruik alleen cijfers en letters"
+      "ILLEGAL_CHARACTERS": "Gebruik alleen cijfers en letters",
+      "ONLY_SPACES": "Bibliotheeknaam mag niet alleen uit spaties bestaan",
+      "LIBRARY_UPDATE_ERROR": "Er is een fout opgetreden bij het bijwerken van de bibliotheekeigenschappen"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "Bibliotheekeigenschappen bijgewerkt"
     }
   },
   "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "Zoeken",
+      "FILES": "Bestanden",
+      "FOLDERS": "Mappen",
+      "LIBRARIES": "Bibliotheken",
+      "HINT": "Invoer voor een zoekopdracht moet uit minstens 2 alfanumerieke tekens bestaan."
+    },
     "SORT": {
       "RELEVANCE": "Relevantie",
       "FILENAME": "Bestandsnaam",

@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SITE_VISIBILITY, SIDEBAR_LABELS } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -41,13 +40,15 @@ describe('Context menu actions - single selection : ', () => {
   const fileSiteUser = `fileUser-${Utils.random()}.txt`;
   const folderSiteUser = `folderUser-${Utils.random()}`;
 
+  const adminPublic = `admin-public-${Utils.random()}`;
+  const adminModerated = `admin-moderated-${Utils.random()}`;
+
   const apis = {
     admin: new RepoClient(),
     user: new RepoClient(username, username)
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
   const contextMenu = dataTable.menu;
@@ -75,6 +76,12 @@ describe('Context menu actions - single selection : ', () => {
     await apis.user.favorites.addFavoriteById('folder', folderUserId);
     await apis.user.favorites.waitForApi({ expect: 3 });
 
+    await apis.admin.sites.createSite(adminPublic);
+    await apis.admin.sites.createSite(adminModerated, SITE_VISIBILITY.MODERATED);
+    await apis.user.favorites.addFavoriteById('site', adminPublic);
+    await apis.user.favorites.addFavoriteById('site', adminModerated);
+    await apis.user.sites.requestToJoin(adminModerated);
+
     await loginPage.loginWith(username);
     done();
   });
@@ -83,8 +90,9 @@ describe('Context menu actions - single selection : ', () => {
     await apis.user.nodes.deleteNodeById(fileUserId);
     await apis.user.nodes.deleteNodeById(folderUserId);
     await apis.user.sites.deleteSite(siteName);
+    await apis.admin.sites.deleteSite(adminPublic);
+    await apis.admin.sites.deleteSite(adminModerated);
     await apis.user.trashcan.emptyTrash();
-    await logoutPage.load();
     done();
   });
 
@@ -93,8 +101,7 @@ describe('Context menu actions - single selection : ', () => {
   describe('Generic tests', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -126,23 +133,15 @@ describe('Context menu actions - single selection : ', () => {
     it('Context menu closes when clicking away from it - [C280619]', async () => {
       await dataTable.rightClickOnItem(fileUser);
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
-      await page.sidenav.activeLink.click();
+      await page.sidenav.getActiveLink().click();
       expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed');
-    });
-
-    it('Context menu does not appear for a library - [C286276]', async () => {
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
-      await dataTable.rightClickOnItem(siteName);
-      expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed for a site');
     });
   });
 
   describe('on Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-      await dataTable.waitForHeader();
+      await page.clickPersonalFilesAndWait();
       await dataTable.clearSelection();
       done();
     });
@@ -177,11 +176,10 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('File Libraries', () => {
+  describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-      await dataTable.waitForHeader();
+      await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       done();
@@ -217,11 +215,54 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('Shared Files', () => {
+  describe('on a library', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-      await dataTable.waitForHeader();
+      await dataTable.clearSelection();
+      done();
+    });
+
+    it('Available actions when a library is selected - My Libraries - [C290080]', async () => {
+      await page.goToMyLibraries();
+      await dataTable.rightClickOnItem(siteName);
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isMenuItemPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
+      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user is a member - [C290081]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.rightClickOnItem(siteName);
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isMenuItemPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
+      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user is not a member - [C290082]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.rightClickOnItem(adminPublic);
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isMenuItemPresent('Join')).toBe(true, `Join is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+    });
+
+    it('Available actions when a library is selected - Favorite Libraries - user requested to join - [C290089]', async () => {
+      await page.goToFavoriteLibraries();
+      await dataTable.rightClickOnItem(adminModerated);
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isMenuItemPresent('Cancel join')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+    });
+  });
+
+  describe('on Shared Files', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -233,8 +274,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      // TODO: enable this when the action is properly implemented: ACA-92
-      // expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${fileUser}`);
+      expect(await contextMenu.isMenuItemPresent('Shared link settings')).toBe(true, `Shared link settings is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${fileUser}`);
       expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
@@ -242,11 +282,10 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('Recent Files', () => {
+  describe('on Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-      await dataTable.waitForHeader();
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -266,11 +305,10 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('Favorites', () => {
+  describe('on Favorites', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-      await dataTable.waitForHeader();
+      await page.clickFavoritesAndWait();
       done();
     });
 
@@ -306,11 +344,10 @@ describe('Context menu actions - single selection : ', () => {
     });
   });
 
-  describe('Trash', () => {
+  describe('on Trash', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
+      await page.clickTrashAndWait();
       done();
     });
 

@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
-import { SIDEBAR_LABELS, SITE_VISIBILITY } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
@@ -52,7 +52,6 @@ describe('Mark items as favorites', () => {
     };
 
     const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
     const { dataTable, toolbar } = page;
 
@@ -90,8 +89,7 @@ describe('Mark items as favorites', () => {
     afterAll(async (done) => {
         await Promise.all([
             apis.user.nodes.deleteNodesById([ file1Id, file2Id, file3Id, file4Id, folder1Id]),
-            apis.user.sites.deleteSite(siteName),
-            logoutPage.load()
+            apis.user.sites.deleteSite(siteName)
         ]);
         done();
     });
@@ -101,8 +99,7 @@ describe('Mark items as favorites', () => {
     describe('on Personal Files', () => {
         beforeEach(async (done) => {
             await Utils.pressEscape();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-            await dataTable.waitForHeader();
+            await page.clickPersonalFilesAndWait();
             done();
         });
 
@@ -208,8 +205,7 @@ describe('Mark items as favorites', () => {
     describe('on Recent Files', () => {
         beforeEach(async (done) => {
             await Utils.pressEscape();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.RECENT_FILES);
-            await dataTable.waitForHeader();
+            await page.clickRecentFilesAndWait();
             done();
         });
 
@@ -290,8 +286,7 @@ describe('Mark items as favorites', () => {
 
         beforeEach(async (done) => {
             await Utils.pressEscape();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.SHARED_FILES);
-            await dataTable.waitForHeader();
+            await page.clickSharedFilesAndWait();
             done();
         });
 
@@ -368,8 +363,7 @@ describe('Mark items as favorites', () => {
         beforeEach(async (done) => {
             await Utils.pressEscape();
             await page.refresh();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FAVORITES);
-            await dataTable.waitForHeader();
+            await page.clickFavoritesAndWait();
             done();
         });
 
@@ -413,8 +407,7 @@ describe('Mark items as favorites', () => {
     describe ('on File Libraries', () => {
         beforeEach(async (done) => {
             await Utils.pressEscape();
-            await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.FILE_LIBRARIES);
-            await page.dataTable.waitForHeader();
+            await page.clickFileLibrariesAndWait();
             await page.dataTable.doubleClickOnRowByName(siteName);
             await page.dataTable.waitForHeader();
             done();
@@ -500,5 +493,61 @@ describe('Mark items as favorites', () => {
             await apis.user.favorites.removeFavoriteById(fileSiteNotFav1Id);
             await apis.user.favorites.waitForApi({ expect: 5 });
         });
+    });
+
+    describe('on a library', () => {
+      const adminSite1 = `adminSite1-${Utils.random()}`;
+      const adminSite2 = `adminSite2-${Utils.random()}`;
+      const adminSite3 = `adminSite3-${Utils.random()}`;
+
+      beforeAll(async (done) => {
+        await apis.admin.sites.createSite(adminSite1);
+        await apis.admin.sites.createSite(adminSite2);
+        await apis.admin.sites.createSite(adminSite3);
+        await apis.admin.sites.addSiteMember(adminSite1, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+        await apis.admin.sites.addSiteMember(adminSite2, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+        await apis.admin.sites.addSiteMember(adminSite3, username, SITE_ROLES.SITE_CONSUMER.ROLE);
+
+        await apis.user.favorites.addFavoriteById('site', adminSite2);
+        await apis.user.favorites.addFavoriteById('site', adminSite3);
+        done();
+      });
+
+      beforeEach(async (done) => {
+        await Utils.pressEscape();
+        done();
+      });
+
+      afterAll(async (done) => {
+        await apis.admin.sites.deleteSite(adminSite1);
+        await apis.admin.sites.deleteSite(adminSite2);
+        await apis.admin.sites.deleteSite(adminSite3);
+        done();
+      });
+
+      it('Mark a library as favorite - [C289974]', async () => {
+        await page.goToMyLibraries();
+        await dataTable.selectItem(adminSite1);
+        await toolbar.openMoreMenu();
+        await toolbar.menu.clickMenuItem('Favorite');
+        expect(await apis.user.favorites.isFavoriteWithRetry(adminSite1, { expect: true })).toBe(true, `${adminSite1} not favorite`);
+      });
+
+      it('Remove a library from favorites - on My Libraries - [C289975]', async () => {
+        await page.goToMyLibraries();
+        await dataTable.selectItem(adminSite2);
+        await toolbar.openMoreMenu();
+        await toolbar.menu.clickMenuItem('Favorite');
+        expect(await apis.user.favorites.isFavoriteWithRetry(adminSite2, { expect: false })).toBe(false, `${adminSite2} still favorite`);
+      });
+
+      it('Remove a library from favorites - on Favorite Libraries - [C289976]', async () => {
+        await page.goToFavoriteLibraries();
+        await dataTable.selectItem(adminSite3);
+        await toolbar.openMoreMenu();
+        await toolbar.menu.clickMenuItem('Favorite');
+        expect(await dataTable.getRowByName(adminSite3).isPresent()).toBe(false, `${adminSite3} is displayed`);
+        expect(await apis.user.favorites.isFavoriteWithRetry(adminSite3, { expect: false })).toBe(false, `${adminSite3} still favorite`);
+      });
     });
 });

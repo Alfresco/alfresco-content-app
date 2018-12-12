@@ -23,7 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewEncapsulation,
+  HostListener
+} from '@angular/core';
 import {
   ActivatedRoute,
   Router,
@@ -41,6 +47,8 @@ import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
+import { SearchRequest } from 'alfresco-js-api';
+import { AppDataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-preview',
@@ -49,7 +57,8 @@ import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
   encapsulation: ViewEncapsulation.None,
   host: { class: 'app-preview' }
 })
-export class PreviewComponent extends PageComponent implements OnInit {
+export class PreviewComponent extends PageComponent
+  implements OnInit, OnDestroy {
   previewLocation: string = null;
   routesSkipNavigation = ['shared', 'recent-files', 'favorites'];
   navigateSource: string = null;
@@ -67,10 +76,12 @@ export class PreviewComponent extends PageComponent implements OnInit {
   navigateMultiple = false;
   openWith: Array<ContentActionRef> = [];
   contentExtensions: Array<ViewerExtensionRef> = [];
+  hasRightSidebar = true;
 
   constructor(
     private contentApi: ContentApiService,
     private preferences: UserPreferencesService,
+    private appDataService: AppDataService,
     private route: ActivatedRoute,
     private router: Router,
     store: Store<AppStore>,
@@ -108,8 +119,18 @@ export class PreviewComponent extends PageComponent implements OnInit {
       }
     });
 
+    this.subscriptions = this.subscriptions.concat([
+      this.content.nodesDeleted.subscribe(() =>
+        this.navigateToFileLocation(true)
+      )
+    ]);
+
     this.openWith = this.extensions.openWithActions;
     this.contentExtensions = this.extensions.viewerContentExtensions;
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
   }
 
   /**
@@ -142,16 +163,33 @@ export class PreviewComponent extends PageComponent implements OnInit {
     }
   }
 
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    const key = event.keyCode;
+    const rightArrow = 39;
+    const leftArrow = 37;
+
+    if (key === rightArrow || key === leftArrow) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }
+
   /**
    * Handles the visibility change of the Viewer component.
    * @param isVisible Indicator whether Viewer is visible or hidden.
    */
   onVisibilityChanged(isVisible: boolean): void {
+    const shouldNavigate = !isVisible;
+    this.navigateToFileLocation(shouldNavigate);
+  }
+
+  navigateToFileLocation(shouldNavigate: boolean) {
     const shouldSkipNavigation = this.routesSkipNavigation.includes(
       this.previewLocation
     );
 
-    if (!isVisible) {
+    if (shouldNavigate) {
       const route = this.getNavigationCommands(this.previewLocation);
 
       if (!shouldSkipNavigation && this.folderId) {
@@ -301,29 +339,29 @@ export class PreviewComponent extends PageComponent implements OnInit {
       const sortingDirection =
         this.preferences.get('recent-files.sorting.direction') || 'desc';
 
-      const nodes = await this.contentApi
-        .search({
-          query: {
-            query: '*',
-            language: 'afts'
-          },
-          filterQueries: [
-            { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
-            { query: `cm:modifier:${username} OR cm:creator:${username}` },
-            {
-              query: `TYPE:"content" AND -TYPE:"app:filelink" AND -TYPE:"fm:post"`
-            }
-          ],
-          fields: ['id', this.getRootField(sortingKey)],
-          sort: [
-            {
-              type: 'FIELD',
-              field: 'cm:modified',
-              ascending: false
-            }
-          ]
-        })
-        .toPromise();
+      const query: SearchRequest = {
+        query: {
+          query: '*',
+          language: 'afts'
+        },
+        filterQueries: [
+          { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
+          { query: `cm:modifier:${username} OR cm:creator:${username}` },
+          {
+            query: this.appDataService.recentFileFilters.join(' AND ')
+          }
+        ],
+        fields: ['id', this.getRootField(sortingKey)],
+        include: ['path', 'properties', 'allowableOperations'],
+        sort: [
+          {
+            type: 'FIELD',
+            field: 'cm:modified',
+            ascending: false
+          }
+        ]
+      };
+      const nodes = await this.contentApi.search(query).toPromise();
 
       const entries = nodes.list.entries.map(obj => obj.entry);
       this.sort(entries, sortingKey, sortingDirection);

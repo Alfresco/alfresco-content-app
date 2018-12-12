@@ -41,7 +41,9 @@ import { ExtensionService } from '@alfresco/adf-extensions';
 
 @Component({
   selector: 'app-dynamic-column',
-  template: `<ng-container #content></ng-container>`,
+  template: `
+    <ng-container #content></ng-container>
+  `,
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'app-dynamic-column' },

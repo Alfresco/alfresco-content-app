@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { BrowsingPage, LoginPage, LogoutPage } from '../../pages/pages';
+import { BrowsingPage, LoginPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { EXTENSIBILITY_CONFIGS } from '../../configs';
 import { Utils } from '../../utilities/utils';
@@ -66,7 +66,6 @@ describe('Extensions - Metadata presets', () => {
   const metadataCard = new MetadataCard();
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
   const page = new BrowsingPage();
 
   beforeAll(async done => {
@@ -74,7 +73,7 @@ describe('Extensions - Metadata presets', () => {
     fileId = (await apis.user.nodes.createImage(file)).entry.id;
 
     await loginPage.load();
-    await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
+    await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.METADATA_PRESETS);
     await loginPage.loginWith(username);
 
     done();
@@ -96,7 +95,6 @@ describe('Extensions - Metadata presets', () => {
 
   afterAll(async done => {
     await apis.user.nodes.deleteNodeById(fileId);
-    await logoutPage.load();
     done();
   });
 

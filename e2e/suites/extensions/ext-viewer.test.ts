@@ -23,10 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Viewer } from './../../components/components';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
-import { SIDEBAR_LABELS, EXTENSIBILITY_CONFIGS, FILES } from '../../configs';
+import { EXTENSIBILITY_CONFIGS, FILES } from '../../configs';
 import { Utils } from '../../utilities/utils';
 
 describe('Extensions - Viewer', () => {
@@ -72,7 +72,6 @@ describe('Extensions - Viewer', () => {
     };
 
     const loginPage = new LoginPage();
-    const logoutPage = new LogoutPage();
     const page = new BrowsingPage();
 
     const viewer = new Viewer();
@@ -84,20 +83,18 @@ describe('Extensions - Viewer', () => {
         docxFileId = (await apis.user.upload.uploadFile(docxFile.file_name)).entry.id;
 
         await loginPage.load();
-        await Utils.setSessionStorageFromConfig('"aca.extension.config"', EXTENSIBILITY_CONFIGS.VIEWER);
+        await Utils.setSessionStorageFromConfig(EXTENSIBILITY_CONFIGS.VIEWER);
         await loginPage.loginWith(username);
         done();
     });
 
     afterAll(async (done) => {
         await apis.user.nodes.deleteNodesById([ pdfFileId, docxFileId ]);
-        await logoutPage.load();
         done();
     });
 
     beforeEach(async (done) => {
-        await page.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.PERSONAL_FILES);
-        await page.dataTable.waitForHeader();
+        await page.clickPersonalFilesAndWait();
         done();
     });
 

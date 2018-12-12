@@ -24,7 +24,7 @@
  */
 
 import { browser } from 'protractor';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { APP_ROUTES } from '../../configs';
@@ -32,7 +32,6 @@ import { APP_ROUTES } from '../../configs';
 describe('Logout', () => {
   const page = new BrowsingPage();
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
 
   const peopleApi = new RepoClient().people;
 
@@ -45,11 +44,6 @@ describe('Logout', () => {
 
   beforeEach(async (done) => {
     await loginPage.loginWith(johnDoe);
-    done();
-  });
-
-  afterEach(async (done) => {
-    await logoutPage.load();
     done();
   });
 

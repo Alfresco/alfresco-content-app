@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { SITE_VISIBILITY, SITE_ROLES, SIDEBAR_LABELS } from '../../configs';
-import { LoginPage, LogoutPage, BrowsingPage } from '../../pages/pages';
+import { SITE_VISIBILITY, SITE_ROLES } from '../../configs';
+import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 
@@ -52,16 +52,15 @@ describe('Trash', () => {
   };
 
   const loginPage = new LoginPage();
-  const logoutPage = new LogoutPage();
-  const trashPage = new BrowsingPage();
-  const { dataTable, breadcrumb } = trashPage;
+  const page = new BrowsingPage();
+  const { dataTable, breadcrumb } = page;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     fileAdminId = (await apis.admin.nodes.createFiles([ fileAdmin ])).entry.id;
     folderAdminId = (await apis.admin.nodes.createFolders([ folderAdmin ])).entry.id;
     await apis.admin.sites.createSite(siteName, SITE_VISIBILITY.PUBLIC);
-    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER);
+    await apis.admin.sites.addSiteMember(siteName, username, SITE_ROLES.SITE_MANAGER.ROLE);
     const docLibId = await apis.admin.sites.getDocLibId(siteName);
     fileSiteId = (await apis.admin.nodes.createFile(fileSite, docLibId)).entry.id;
     fileUserId = (await apis.user.nodes.createFiles([ fileUser ])).entry.id;
@@ -97,13 +96,7 @@ describe('Trash', () => {
     });
 
     beforeEach(async (done) => {
-      await trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await logoutPage.load();
+      await page.clickTrashAndWait();
       done();
     });
 
@@ -136,13 +129,7 @@ describe('Trash', () => {
     });
 
     beforeEach(async (done) => {
-      await trashPage.sidenav.navigateToLinkByLabel(SIDEBAR_LABELS.TRASH);
-      await dataTable.waitForHeader();
-      done();
-    });
-
-    afterAll(async (done) => {
-      await logoutPage.load();
+      await page.clickTrashAndWait();
       done();
     });
 
@@ -199,7 +186,7 @@ describe('Trash', () => {
 
     it('Location column redirect - file in site - [C280497]', async () => {
       await dataTable.clickItemLocation(fileSite);
-      expect(await breadcrumb.getAllItems()).toEqual([ 'File Libraries', siteName ]);
+      expect(await breadcrumb.getAllItems()).toEqual([ 'My Libraries', siteName ]);
     });
   });
 });

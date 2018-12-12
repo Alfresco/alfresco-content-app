@@ -1,0 +1,125 @@
+<mat-card *ngIf="node">
+    <mat-card-content *ngIf="!edit">
+        <div class="mat-form-field mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
+            <div class="mat-form-field-wrapper">
+                <div class="mat-form-field-flex">
+                    <div class="mat-form-field-infix">
+                        <span class="mat-form-field-label-wrapper">
+                            <span class="mat-form-field-label">
+                                {{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}
+                            </span>
+                        </span>
+
+                        <span class="mat-input-element">
+                            {{ form.controls.title.value }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
+            <div class="mat-form-field-wrapper">
+                <div class="mat-form-field-flex">
+                    <div class="mat-form-field-infix">
+                        <span class="mat-form-field-label-wrapper">
+                            <span class="mat-form-field-label">
+                                {{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}
+                            </span>
+                        </span>
+
+                        <span class="mat-input-element">
+                            {{ form.controls.id.value }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
+            <div class="mat-form-field-wrapper">
+                <div class="mat-form-field-flex">
+                    <div class="mat-form-field-infix">
+                        <span class="mat-form-field-label-wrapper">
+                            <span class="mat-form-field-label">
+                                {{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}
+                            </span>
+                        </span>
+
+                        <span class="mat-input-element">
+                            {{ (getVisibilityLabel(form.controls.visibility.value)) | translate }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mat-form-field mat-primary mat-form-field-type-mat-input mat-form-field-can-float mat-form-field-should-float adf-full-width">
+            <div class="mat-form-field-wrapper">
+                <div class="mat-form-field-flex">
+                    <div class="mat-form-field-infix">
+                        <span class="mat-form-field-label-wrapper">
+                            <span class="mat-form-field-label">
+                                {{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}
+                            </span>
+                        </span>
+
+                        <span class="mat-input-element">
+                            {{ form.controls.description?.value }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end" *ngIf="!edit && canUpdateLibrary">
+        <button mat-button color="primary" (click)="toggleEdit()">
+                {{ 'LIBRARY.DIALOG.EDIT' | translate }}
+        </button>
+    </mat-card-actions>
+
+    <mat-card-content *ngIf="edit">
+        <form [formGroup]="form" autocomplete="off">
+            <mat-form-field class="adf-full-width">
+                <input matInput cdkFocusInitial required placeholder="{{ 'LIBRARY.DIALOG.FORM.NAME' | translate }}"
+                    formControlName="title">
+
+                <mat-hint *ngIf="libraryTitleExists">{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint>
+                <mat-error *ngIf="form.controls['title'].hasError('maxlength')">
+                    {{ 'LIBRARY.ERRORS.TITLE_TOO_LONG' | translate }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="adf-full-width">
+                <input matInput placeholder="{{ 'LIBRARY.DIALOG.FORM.SITE_ID' | translate }}" formControlName="id">
+            </mat-form-field>
+
+            <mat-form-field class="adf-full-width">
+                <mat-select placeholder="{{ 'LIBRARY.DIALOG.FORM.VISIBILITY' | translate }}" formControlName="visibility">
+                    <mat-option [value]="type.value" *ngFor="let type of libraryType">
+                        {{ type.label | translate }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="adf-full-width">
+                <textarea matInput placeholder="{{ 'LIBRARY.DIALOG.FORM.DESCRIPTION' | translate }}" rows="3"
+                    formControlName="description"></textarea>
+
+                <mat-error *ngIf="form.controls['description'].hasError('maxlength')">
+                    {{ 'LIBRARY.ERRORS.DESCRIPTION_TOO_LONG' | translate }}
+                </mat-error>
+            </mat-form-field>
+        </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end" *ngIf="edit && canUpdateLibrary">
+        <button mat-button color="secondary" (click)="cancel()">
+                {{ 'LIBRARY.DIALOG.CANCEL' | translate }}
+        </button>
+        <button mat-button color="primary" [disabled]="form.invalid || form.pristine" (click)="update()">
+            {{ 'LIBRARY.DIALOG.UPDATE' | translate }}
+        </button>
+    </mat-card-actions>
+</mat-card>

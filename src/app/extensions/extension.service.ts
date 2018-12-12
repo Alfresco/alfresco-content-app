@@ -26,7 +26,9 @@
 import { Injectable, Type } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Route } from '@angular/router';
-import { AppStore, RepositoryState } from '../store/states';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
+import { AppStore } from '../store/states';
 import { ruleContext } from '../store/selectors/app.selectors';
 import { NodePermissionService } from '../services/node-permission.service';
 import {
@@ -46,15 +48,21 @@ import {
   reduceEmptyMenus,
   ExtensionService,
   ProfileState,
-  mergeObjects
+  mergeObjects,
+  RepositoryState,
+  ExtensionRef
 } from '@alfresco/adf-extensions';
 import { AppConfigService } from '@alfresco/adf-core';
 import { DocumentListPresetRef } from './document-list.extensions';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { IconRef } from './icon.extensions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppExtensionService implements RuleContext {
+  private _references = new BehaviorSubject<ExtensionRef[]>([]);
+
   defaults = {
     layout: 'app.layout.main',
     auth: ['app.auth']
@@ -75,17 +83,21 @@ export class AppExtensionService implements RuleContext {
   documentListPresets: {
     files: Array<DocumentListPresetRef>;
     libraries: Array<DocumentListPresetRef>;
+    favoriteLibraries: Array<DocumentListPresetRef>;
     shared: Array<DocumentListPresetRef>;
     recent: Array<DocumentListPresetRef>;
     favorites: Array<DocumentListPresetRef>;
     trashcan: Array<DocumentListPresetRef>;
+    searchLibraries: Array<DocumentListPresetRef>;
   } = {
     files: [],
     libraries: [],
+    favoriteLibraries: [],
     shared: [],
     recent: [],
     favorites: [],
-    trashcan: []
+    trashcan: [],
+    searchLibraries: []
   };
 
   selection: SelectionState;
@@ -93,13 +105,19 @@ export class AppExtensionService implements RuleContext {
   profile: ProfileState;
   repository: RepositoryState;
 
+  references$: Observable<ExtensionRef[]>;
+
   constructor(
-    private store: Store<AppStore>,
-    private loader: ExtensionLoaderService,
-    private extensions: ExtensionService,
+    protected store: Store<AppStore>,
+    protected loader: ExtensionLoaderService,
+    protected extensions: ExtensionService,
     public permissions: NodePermissionService,
-    private appConfig: AppConfigService
+    protected appConfig: AppConfigService,
+    protected matIconRegistry: MatIconRegistry,
+    protected sanitizer: DomSanitizer
   ) {
+    this.references$ = this._references.asObservable();
+
     this.store.select(ruleContext).subscribe(result => {
       this.selection = result.selection;
       this.navigation = result.navigation;
@@ -160,11 +178,46 @@ export class AppExtensionService implements RuleContext {
     this.documentListPresets = {
       files: this.getDocumentListPreset(config, 'files'),
       libraries: this.getDocumentListPreset(config, 'libraries'),
+      favoriteLibraries: this.getDocumentListPreset(
+        config,
+        'favoriteLibraries'
+      ),
       shared: this.getDocumentListPreset(config, 'shared'),
       recent: this.getDocumentListPreset(config, 'recent'),
       favorites: this.getDocumentListPreset(config, 'favorites'),
-      trashcan: this.getDocumentListPreset(config, 'trashcan')
+      trashcan: this.getDocumentListPreset(config, 'trashcan'),
+      searchLibraries: this.getDocumentListPreset(config, 'search-libraries')
     };
+
+    this.registerIcons(config);
+
+    const references = (config.$references || [])
+      .filter(entry => typeof entry === 'object')
+      .map(entry => <ExtensionRef>entry);
+    this._references.next(references);
+  }
+
+  protected registerIcons(config: ExtensionConfig) {
+    const icons: Array<IconRef> = this.loader
+      .getElements<IconRef>(config, 'features.icons')
+      .filter(entry => !entry.disabled);
+
+    for (const icon of icons) {
+      const [ns, id] = icon.id.split(':');
+      const value = icon.value;
+
+      if (!value) {
+        console.warn(`Missing icon value for "${icon.id}".`);
+      } else if (!ns || !id) {
+        console.warn(`Incorrect icon id format: "${icon.id}".`);
+      } else {
+        this.matIconRegistry.addSvgIconInNamespace(
+          ns,
+          id,
+          this.sanitizer.bypassSecurityTrustResourceUrl(value)
+        );
+      }
+    }
   }
 
   protected loadNavBar(config: ExtensionConfig): Array<NavBarGroupRef> {
@@ -185,11 +238,31 @@ export class AppExtensionService implements RuleContext {
       return {
         ...group,
         items: (group.items || [])
-          .filter(item => {
-            return this.filterByRules(item);
-          })
+          .filter(item => this.filterByRules(item))
           .sort(sortByOrder)
           .map(item => {
+            if (item.children && item.children.length > 0) {
+              item.children = item.children
+                .filter(child => this.filterByRules(child))
+                .sort(sortByOrder)
+                .map(child => {
+                  const childRouteRef = this.extensions.getRouteById(
+                    child.route
+                  );
+                  const childUrl = `/${
+                    childRouteRef ? childRouteRef.path : child.route
+                  }`;
+                  return {
+                    ...child,
+                    url: childUrl
+                  };
+                });
+
+              return {
+                ...item
+              };
+            }
+
             const routeRef = this.extensions.getRouteById(item.route);
             const url = `/${routeRef ? routeRef.path : item.route}`;
             return {
@@ -197,6 +270,7 @@ export class AppExtensionService implements RuleContext {
               url
             };
           })
+          .reduce(reduceEmptyMenus, [])
       };
     });
   }
@@ -243,7 +317,7 @@ export class AppExtensionService implements RuleContext {
   }
 
   getSidebarTabs(): Array<SidebarTabRef> {
-    return this.sidebar;
+    return this.sidebar.filter(action => this.filterByRules(<any>action));
   }
 
   getComponentById(id: string): Type<{}> {
@@ -316,6 +390,7 @@ export class AppExtensionService implements RuleContext {
             disabled
           };
         })
+        .sort(sortByOrder)
         .reduce(reduceEmptyMenus, [])
         .reduce(reduceSeparators, []);
     }
@@ -333,6 +408,7 @@ export class AppExtensionService implements RuleContext {
           if (copy.children && copy.children.length > 0) {
             copy.children = copy.children
               .filter(childAction => this.filterByRules(childAction))
+              .sort(sortByOrder)
               .reduce(reduceSeparators, []);
           }
           return copy;
@@ -367,7 +443,9 @@ export class AppExtensionService implements RuleContext {
           const copy = this.copyAction(action);
           if (copy.children && copy.children.length > 0) {
             copy.children = copy.children
+              .filter(entry => !entry.disabled)
               .filter(childAction => this.filterByRules(childAction))
+              .sort(sortByOrder)
               .reduce(reduceSeparators, []);
           }
           return copy;

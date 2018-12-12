@@ -30,8 +30,11 @@ import { NodePermissionService } from '../../../services/node-permission.service
 @Component({
   selector: 'app-comments-tab',
   template: `
-        <adf-comments [readOnly]="!canUpdateNode" [nodeId]="node?.id"></adf-comments>
-    `
+    <adf-comments
+      [readOnly]="!canUpdateNode"
+      [nodeId]="node?.id"
+    ></adf-comments>
+  `
 })
 export class CommentsTabComponent {
   @Input()
