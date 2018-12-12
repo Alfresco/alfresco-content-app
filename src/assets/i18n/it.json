@@ -406,6 +406,7 @@
       "DESCRIPTION_TOO_LONG": "Utilizzare 512 o meno per la descrizione",
       "TITLE_TOO_LONG": "Utilizzare 256 caratteri o meno per il titolo",
       "ILLEGAL_CHARACTERS": "Utilizzare solo lettere e numeri",
+      "ONLY_SPACES": "Il nome della raccolta non può contenere solo spazi",
       "LIBRARY_UPDATE_ERROR": "Si è verificato un errore di caricamento delle proprietà della raccolta"
     },
     "SUCCESS": {

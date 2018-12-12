@@ -406,6 +406,7 @@
       "DESCRIPTION_TOO_LONG": "对描述使用 512 个字符或更少字符",
       "TITLE_TOO_LONG": "对标题使用 256 个字符或更少字符",
       "ILLEGAL_CHARACTERS": "仅使用数字和字母",
+      "ONLY_SPACES": "文档库名称不能只包含空格",
       "LIBRARY_UPDATE_ERROR": "更新库属性时发生错误"
     },
     "SUCCESS": {
