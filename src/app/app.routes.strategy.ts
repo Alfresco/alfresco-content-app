@@ -28,6 +28,7 @@ import {
   DetachedRouteHandle,
   ActivatedRouteSnapshot
 } from '@angular/router';
+import { ComponentRef } from '@angular/core';
 
 interface RouteData {
   reuse: boolean;
@@ -53,9 +54,6 @@ export class AppRouteReuseStrategy implements RouteReuseStrategy {
     if (componentRef) {
       componentRef.destroy();
     }
-  }
-
-    this.routeCache.clear();
   }
 
   shouldReuseRoute(
