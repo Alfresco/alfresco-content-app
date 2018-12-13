@@ -43,7 +43,7 @@
   "languages": [
     {
       "key": "de",
-      "label": "German"
+      "label": "Deutsch"
     },
     {
       "key": "en",
@@ -51,39 +51,39 @@
     },
     {
       "key": "es",
-      "label": "Spanish"
+      "label": "Español"
     },
     {
       "key": "fr",
-      "label": "French"
+      "label": "Français"
     },
     {
       "key": "it",
-      "label": "Italian"
+      "label": "Italiano"
     },
     {
       "key": "ja",
-      "label": "Japanese"
+      "label": "日本語"
     },
     {
       "key": "nb",
-      "label": "Norwegian"
+      "label": "Bokmål"
     },
     {
       "key": "nl",
-      "label": "Dutch"
+      "label": "Nederlands"
     },
     {
       "key": "pt-BR",
-      "label": "Brazilian Portuguese"
+      "label": "Português (Brasil)"
     },
     {
       "key": "ru",
-      "label": "Russian"
+      "label": "Русский"
     },
     {
       "key": "zh-CN",
-      "label": "Simplified Chinese"
+      "label": "中文简体"
     }
   ],
   "content-metadata": {
