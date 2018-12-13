@@ -143,6 +143,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next(true);
     this.onDestroy$.complete();
+    this.removeContentFilters();
   }
 
   onMenuOpened() {

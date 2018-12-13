@@ -50,6 +50,9 @@ export class AppRouteReuseStrategy implements RouteReuseStrategy {
   }
 
   private deactivateComponent(handle: DetachedRouteHandle): void {
+    if (!handle) {
+      return;
+    }
     const componentRef: ComponentRef<any> = handle['componentRef'];
     if (componentRef) {
       componentRef.destroy();
