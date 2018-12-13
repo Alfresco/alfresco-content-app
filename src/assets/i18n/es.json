@@ -406,6 +406,7 @@
       "DESCRIPTION_TOO_LONG": "Utilice como máximo 512 caracteres para la descripción",
       "TITLE_TOO_LONG": "Utilice como máximo 256 caracteres para el título",
       "ILLEGAL_CHARACTERS": "Use solo números y letras",
+      "ONLY_SPACES": "El nombre de biblioteca no puede tener solo espacios",
       "LIBRARY_UPDATE_ERROR": "Error al actualizar las propiedades de la biblioteca"
     },
     "SUCCESS": {

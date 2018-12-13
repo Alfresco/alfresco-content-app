@@ -201,7 +201,7 @@
             "PRINT": "Print",
             "FULLSCREEN": "Activate full-screen mode",
             "JOIN": "Join",
-            "CANCEL_JOIN": "Cancel join",
+            "CANCEL_JOIN": "Cancel join request",
             "LEAVE": "Leave library"
         },
         "DIALOGS": {
@@ -213,7 +213,7 @@
             },
             "CONFIRM_LEAVE": {
                 "TITLE": "Leave this library?",
-                "MESSAGE": "This will remove you as a member of this library.",
+                "MESSAGE": "Leaving will remove your access.",
                 "YES_LABEL": "OK",
                 "NO_LABEL": "Cancel"
             }
@@ -251,7 +251,7 @@
         },
         "MESSAGES": {
             "ERRORS":{
-              "CANNOT_NAVIGATE_LOCATION": "Cannot navigate location",
+              "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",
                 "MISSING_CONTENT": "This item no longer exists or you don't have permission to view it.",
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
@@ -276,7 +276,7 @@
                 },
                 "DELETE_LIBRARY_FAILED": "Cannot delete the library",
                 "JOIN_REQUEST_FAILED": "Cannot join the library",
-                "JOIN_CANCEL_FAILED": "Cannot cancel the request to join the library",
+                "JOIN_CANCEL_FAILED": "Cannot cancel your join request",
                 "LEAVE_LIBRARY_FAILED": "Cannot leave this library",
                 "INVALID_SENDER_EMAIL": "Your email address must be valid before requesting to join.",
                 "INVALID_RECEIVER_EMAIL": "Recipient(s) email address not valid, contact IT."
@@ -329,7 +329,7 @@
                 },
                 "LIBRARY_DELETED": "Library deleted",
                 "JOINED": "Library joined",
-                "JOIN_REQUESTED": "Join library request sent",
+                "JOIN_REQUESTED": "Request sent to join this library",
                 "JOIN_CANCELED": "Canceled the request to join the library",
                 "LEFT_LIBRARY": "You have left the library"
             }
@@ -420,7 +420,7 @@
           "FILES": "Files",
           "FOLDERS": "Folders",
           "LIBRARIES": "Libraries",
-          "HINT": "Query ‘term’ is too short. Must have at least 2 alphanumeric chars"
+          "HINT": "Search input must have at least 2 alphanumeric characters."
         },
         "SORT": {
             "RELEVANCE": "Relevance",
