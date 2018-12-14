@@ -23,9 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { AuthenticationService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { AppRouteReuseStrategy } from '../app.routes.strategy';
+import { RouteReuseStrategy } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +36,20 @@ export class AppService {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
-  constructor(auth: AuthenticationService) {
+  constructor(
+    auth: AuthenticationService,
+    @Inject(RouteReuseStrategy) routeStrategy: AppRouteReuseStrategy
+  ) {
     this.ready = new BehaviorSubject(auth.isLoggedIn());
     this.ready$ = this.ready.asObservable();
 
-    auth.onLogin.subscribe(e => {
+    auth.onLogin.subscribe(() => {
+      routeStrategy.resetCache();
       this.ready.next(true);
+    });
+
+    auth.onLogout.subscribe(() => {
+      routeStrategy.resetCache();
     });
   }
 }
