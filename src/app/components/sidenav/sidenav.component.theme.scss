@@ -41,6 +41,10 @@
       color: mat-color($foreground, text);
     }
 
+    .item--label {
+      color: mat-color($primary, 0.87);
+    }
+
     .item--active {
       color: mat-color($accent);
     }
