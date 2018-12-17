@@ -40,18 +40,22 @@
 
                     <ng-container *ngIf="item.children && item.children.length">
                         <mat-expansion-panel
+                            #expansionPanel="matExpansionPanel"
                             [acaExpansionPanel]="item"
                             [expanded]="routerLink.isActive"
                             [@.disabled]="true">
                             <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px">
                                 <mat-panel-title [attr.title]="item.description | translate">
-                                    <mat-icon [color]="routerLink.isActive? 'accent': 'primary'">{{ item.icon }}</mat-icon>
-                                    <span class="item--label item--parent"
+                                    <mat-icon [color]="routerLink.isActive && !expansionPanel.expanded? 'accent': 'primary'">
+                                        {{ item.icon }}
+                                    </mat-icon>
+                                    <span
+                                        class="item--label item--parent"
                                         [ngClass]="{
-                                            'item--active': routerLink.isActive,
-                                            'item--default': !routerLink.isActive
-                                        }">
-                                        {{ item.title | translate }}</span>
+                                            'item--default': !routerLink.isActive && expansionPanel.expanded,
+                                            'item--active': routerLink.isActive && !expansionPanel.expanded
+                                        }"
+                                    >{{ item.title | translate }}</span>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
 
