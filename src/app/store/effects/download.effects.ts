@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
+import { DownloadZipDialogComponent } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Actions, Effect, ofType } from '@ngrx/effects';
