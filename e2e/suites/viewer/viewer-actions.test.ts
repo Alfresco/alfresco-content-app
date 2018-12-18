@@ -170,8 +170,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickFavorite();
+      await toolbar.clickFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
@@ -325,8 +324,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickFavorite();
+      await toolbar.clickFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, `${docxLibraries} is not favorite`);
@@ -457,8 +455,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickFavorite();
+      await toolbar.clickFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
@@ -589,8 +586,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickFavorite();
+      await toolbar.clickFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
@@ -723,8 +719,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickFavorite();
+      await toolbar.clickFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(xlsxFileId)).toBe(false, 'Item is still favorite');
