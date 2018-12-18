@@ -65,7 +65,11 @@ export class NodesApi extends RepoApi {
 
     async deleteNodeById(id: string, permanent: boolean = true) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.deleteNode(id, { permanent });
+        try {
+          return await this.alfrescoJsApi.core.nodesApi.deleteNode(id, { permanent });
+        } catch (error) {
+          console.log('------ deleteNodeById failed ');
+        }
     }
 
     async deleteNodeByPath(path: string, permanent: boolean = true) {
