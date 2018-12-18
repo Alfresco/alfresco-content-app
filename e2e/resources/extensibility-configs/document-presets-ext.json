@@ -882,7 +882,7 @@
           "id": "app.files.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "image-table-cell",
+          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -919,7 +919,7 @@
           "id": "app.libraries.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "image-table-cell",
+          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -948,7 +948,7 @@
           "id": "app.shared.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "image-table-cell",
+          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -1012,7 +1012,7 @@
           "id": "app.recent.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "image-table-cell",
+          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -1058,7 +1058,7 @@
           "id": "app.favorites.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "image-table-cell",
+          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },
@@ -1113,7 +1113,7 @@
           "id": "app.trashcan.thumbnail",
           "key": "$thumbnail",
           "type": "image",
-          "class": "image-table-cell",
+          "class": "adf-image-table-cell",
           "sortable": false,
           "desktopOnly": false
         },

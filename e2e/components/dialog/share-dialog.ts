@@ -37,7 +37,7 @@ export class ShareDialog extends Component {
     label: '.adf-share-link__label',
     shareToggle: `[data-automation-id='adf-share-toggle']`,
     linkUrl: `[data-automation-id='adf-share-link']`,
-    inputAction: '.input-action',
+    inputAction: '.adf-input-action',
     expireToggle: `[data-automation-id='adf-expire-toggle']`,
     datetimePickerButton: '.mat-datetimepicker-toggle',
     expirationInput: 'input[formcontrolname="time"]',

@@ -34,8 +34,8 @@ export class LoginComponent extends Component {
     passwordInput: by.css('input#password'),
     passwordVisibility: by.css('.adf-login-password-icon'),
     submitButton: by.css('button#login-button'),
-    errorMessage: by.css('.login-error-message'),
-    copyright: by.css('.copyright')
+    errorMessage: by.css('.adf-login-error-message'),
+    copyright: by.css('.adf-copyright')
   };
 
   usernameInput: ElementFinder = this.component.element(this.locators.usernameInput);
