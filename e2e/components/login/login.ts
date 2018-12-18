@@ -113,7 +113,7 @@ export class LoginComponent extends Component {
   }
 
   async isPasswordHidden() {
-    return await !this.getPasswordVisibility();
+    return !(await this.getPasswordVisibility());
   }
 
 }
