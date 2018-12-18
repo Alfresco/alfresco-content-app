@@ -116,7 +116,7 @@ describe('Unshare a file', () => {
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isButtonEnabled('Remove')).toBe(true, 'REMOVE button is not enabled');
-      expect(await confirmDialog.isButtonEnabled('Cancel')).toBe(true, 'CANCEL button is not enabled');
+      expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
 
     it('Unshare a file - [C286340]', async () => {
@@ -134,7 +134,7 @@ describe('Unshare a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -151,7 +151,7 @@ describe('Unshare a file', () => {
       const urlBefore = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
 
-      await confirmDialog.clickButton('Cancel');
+      await confirmDialog.clickCancel();
       await confirmDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Share dialog not open');
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle is off');
@@ -175,7 +175,7 @@ describe('Unshare a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -245,7 +245,7 @@ describe('Unshare a file', () => {
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isButtonEnabled('Remove')).toBe(true, 'REMOVE button is not enabled');
-      expect(await confirmDialog.isButtonEnabled('Cancel')).toBe(true, 'CANCEL button is not enabled');
+      expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
 
     it('Unshare a file - [C286680]', async () => {
@@ -263,7 +263,7 @@ describe('Unshare a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -280,7 +280,7 @@ describe('Unshare a file', () => {
       const urlBefore = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
 
-      await confirmDialog.clickButton('Cancel');
+      await confirmDialog.clickCancel();
       await confirmDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Share dialog not open');
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle is off');
@@ -304,7 +304,7 @@ describe('Unshare a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -366,7 +366,7 @@ describe('Unshare a file', () => {
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isButtonEnabled('Remove')).toBe(true, 'REMOVE button is not enabled');
-      expect(await confirmDialog.isButtonEnabled('Cancel')).toBe(true, 'CANCEL button is not enabled');
+      expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
 
     it('Unshare a file - [C286690]', async () => {
@@ -384,7 +384,7 @@ describe('Unshare a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -401,7 +401,7 @@ describe('Unshare a file', () => {
       const urlBefore = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
 
-      await confirmDialog.clickButton('Cancel');
+      await confirmDialog.clickCancel();
       await confirmDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Share dialog not open');
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle is off');
@@ -425,7 +425,7 @@ describe('Unshare a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -487,7 +487,7 @@ describe('Unshare a file', () => {
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isButtonEnabled('Remove')).toBe(true, 'REMOVE button is not enabled');
-      expect(await confirmDialog.isButtonEnabled('Cancel')).toBe(true, 'CANCEL button is not enabled');
+      expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
 
     it('Unshare a file - [C286685]', async () => {
@@ -504,7 +504,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -521,7 +521,7 @@ describe('Unshare a file', () => {
       const urlBefore = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
 
-      await confirmDialog.clickButton('Cancel');
+      await confirmDialog.clickCancel();
       await confirmDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Share dialog not open');
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle is off');
@@ -544,7 +544,7 @@ describe('Unshare a file', () => {
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
       // TODO: disable check cause api is slow to update
-      // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -615,7 +615,7 @@ describe('Unshare a file', () => {
       expect(await confirmDialog.getTitle()).toContain('Remove this shared link');
       expect(await confirmDialog.getText()).toContain('This link will be deleted and a new link will be created next time this file is shared');
       expect(await confirmDialog.isButtonEnabled('Remove')).toBe(true, 'REMOVE button is not enabled');
-      expect(await confirmDialog.isButtonEnabled('Cancel')).toBe(true, 'CANCEL button is not enabled');
+      expect(await confirmDialog.isCancelEnabled()).toBe(true, 'CANCEL button is not enabled');
     });
 
     it('Unshare a file - [C286695]', async () => {
@@ -635,7 +635,7 @@ describe('Unshare a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, `${file2} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -654,7 +654,7 @@ describe('Unshare a file', () => {
       const urlBefore = await shareDialog.getLinkUrl();
       await shareDialog.clickShareToggle();
 
-      await confirmDialog.clickButton('Cancel');
+      await confirmDialog.clickCancel();
       await confirmDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Share dialog not open');
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle is off');
@@ -680,7 +680,7 @@ describe('Unshare a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file4).isPresent()).toBe(false, `${file4} is in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');

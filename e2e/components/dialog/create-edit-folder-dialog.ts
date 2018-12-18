@@ -72,9 +72,37 @@ export class CreateOrEditFolderDialog extends Component {
     return await this.validationMessage.isDisplayed();
   }
 
+  async isUpdateButtonEnabled() {
+    return this.updateButton.isEnabled();
+  }
+
+  async isCreateButtonEnabled() {
+    return this.createButton.isEnabled();
+  }
+
+  async isCancelButtonEnabled() {
+    return this.cancelButton.isEnabled();
+  }
+
+  async isNameDisplayed() {
+    return await this.nameInput.isDisplayed();
+  }
+
+  async isDescriptionDisplayed() {
+    return await this.descriptionTextArea.isDisplayed();
+  }
+
   async getValidationMessage() {
     await this.isValidationMessageDisplayed();
     return await this.validationMessage.getText();
+  }
+
+  async getName() {
+    return await this.nameInput.getAttribute('value');
+  }
+
+  async getDescription() {
+    return await this.descriptionTextArea.getAttribute('value');
   }
 
   async enterName(name: string) {
@@ -104,4 +132,5 @@ export class CreateOrEditFolderDialog extends Component {
   async clickUpdate() {
     await this.updateButton.click();
   }
+
 }

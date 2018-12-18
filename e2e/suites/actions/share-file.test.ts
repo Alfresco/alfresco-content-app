@@ -157,7 +157,7 @@ describe('Share a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286330]', async () => {
@@ -255,7 +255,7 @@ describe('Share a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
@@ -353,7 +353,7 @@ describe('Share a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286642]', async () => {
@@ -451,7 +451,7 @@ describe('Share a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
@@ -547,7 +547,7 @@ describe('Share a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286660]', async () => {
@@ -645,7 +645,7 @@ describe('Share a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
@@ -806,7 +806,6 @@ describe('Share a file', () => {
     });
   });
 
-  // TODO: enable when ACA-1886 is done
   describe('from Favorites', () => {
 
     const file1 = `file1-${Utils.random()}.txt`; let file1Id;
@@ -910,7 +909,7 @@ describe('Share a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286669]', async () => {
@@ -1008,7 +1007,7 @@ describe('Share a file', () => {
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 

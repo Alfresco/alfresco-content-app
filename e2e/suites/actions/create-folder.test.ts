@@ -101,8 +101,8 @@ describe('Create folder', () => {
       await createDialog.clickCreate();
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
-      const isPresent = await dataTable.getRowByName(folderName1).isPresent();
-      expect(isPresent).toBe(true, 'Folder not displayed in list view');
+
+      expect(await dataTable.isItemPresent(folderName1)).toBe(true, 'Folder not displayed in list view');
     });
 
     it('creates new folder with name and description - [C216340]', async (done) => {
@@ -114,7 +114,8 @@ describe('Create folder', () => {
       await createDialog.clickCreate();
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
-      expect(await dataTable.getRowByName(folderName2).isPresent()).toBe(true, 'Folder not displayed');
+
+      expect(await dataTable.isItemPresent(folderName2)).toBe(true, 'Folder not displayed');
       const desc = await apis.user.nodes.getNodeDescription(folderName2, parentId);
       expect(desc).toEqual(folderDescription);
       done();
@@ -124,17 +125,12 @@ describe('Create folder', () => {
       await page.dataTable.doubleClickOnRowByName(parent);
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
-      const dialogTitle = await createDialog.getTitle();
-      const isFolderNameDisplayed = await createDialog.nameInput.isDisplayed();
-      const isDescriptionDisplayed = await createDialog.descriptionTextArea.isDisplayed();
-      const isCreateEnabled = await createDialog.createButton.isEnabled();
-      const isCancelEnabled = await createDialog.cancelButton.isEnabled();
 
-      expect(dialogTitle).toMatch('Create new folder');
-      expect(isFolderNameDisplayed).toBe(true, 'Name input is not displayed');
-      expect(isDescriptionDisplayed).toBe(true, 'Description field is not displayed');
-      expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
-      expect(isCancelEnabled).toBe(true, 'Cancel button is not enabled');
+      expect(await createDialog.getTitle()).toMatch('Create new folder');
+      expect(await createDialog.isNameDisplayed()).toBe(true, 'Name input is not displayed');
+      expect(await createDialog.isDescriptionDisplayed()).toBe(true, 'Description field is not displayed');
+      expect(await createDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
+      expect(await createDialog.isCancelButtonEnabled()).toBe(true, 'Cancel button is not enabled');
     });
 
     it('with empty folder name - [C216346]', async () => {
@@ -142,11 +138,9 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.deleteNameWithBackspace();
-      const isCreateEnabled = await createDialog.createButton.isEnabled();
-      const validationMessage = await createDialog.getValidationMessage();
 
-      expect(isCreateEnabled).toBe(false, 'Create button is enabled');
-      expect(validationMessage).toMatch('Folder name is required');
+      expect(await createDialog.isCreateButtonEnabled()).toBe(false, 'Create button is enabled');
+      expect(await createDialog.getValidationMessage()).toMatch('Folder name is required');
     });
 
     it('with folder name ending with a dot "." - [C216348]', async () => {
@@ -154,11 +148,9 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName('folder-name.');
-      const isCreateEnabled = await createDialog.createButton.isEnabled();
-      const validationMessage = await createDialog.getValidationMessage();
 
-      expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
-      expect(validationMessage).toMatch(`Folder name can't end with a period .`);
+      expect(await createDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
+      expect(await createDialog.getValidationMessage()).toMatch(`Folder name can't end with a period .`);
     });
 
     it('with folder name containing special characters - [C216347]', async () => {
@@ -170,7 +162,7 @@ describe('Create folder', () => {
 
       for (const name of namesWithSpecialChars) {
         await createDialog.enterName(name);
-        expect(await createDialog.createButton.isEnabled()).toBe(false, 'Create button is not disabled');
+        expect(await createDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
         expect(await createDialog.getValidationMessage()).toContain(`Folder name can't contain these characters`);
       }
     });
@@ -180,11 +172,9 @@ describe('Create folder', () => {
       await page.sidenav.openCreateFolderDialog();
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName('    ');
-      const isCreateEnabled = await createDialog.createButton.isEnabled();
-      const validationMessage = await createDialog.getValidationMessage();
 
-      expect(isCreateEnabled).toBe(false, 'Create button is not disabled');
-      expect(validationMessage).toMatch(`Folder name can't contain only spaces`);
+      expect(await createDialog.isCreateButtonEnabled()).toBe(false, 'Create button is not disabled');
+      expect(await createDialog.getValidationMessage()).toMatch(`Folder name can't contain only spaces`);
     });
 
     it('cancel folder creation - [C216349]', async () => {
@@ -194,6 +184,7 @@ describe('Create folder', () => {
       await createDialog.enterName('test');
       await createDialog.enterDescription('test description');
       await createDialog.clickCancel();
+
       expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
     });
 
@@ -203,8 +194,8 @@ describe('Create folder', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(duplicateFolderName);
       await createDialog.clickCreate();
-      const message = await page.getSnackBarMessage();
-      expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
+
+      expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
 
@@ -216,8 +207,8 @@ describe('Create folder', () => {
       await createDialog.clickCreate();
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
-      const isPresent = await dataTable.getRowByName(nameWithSpaces.trim()).isPresent();
-      expect(isPresent).toBe(true, 'Folder not displayed in list view');
+
+      expect(await dataTable.isItemPresent(nameWithSpaces.trim())).toBe(true, 'Folder not displayed in list view');
     });
   });
 
@@ -243,7 +234,8 @@ describe('Create folder', () => {
       await createDialog.clickCreate();
       await createDialog.waitForDialogToClose();
       await dataTable.waitForHeader();
-      expect(await dataTable.getRowByName(folderSite).isPresent()).toBe(true, 'Folder not displayed');
+
+      expect(await dataTable.isItemPresent(folderSite)).toBe(true, 'Folder not displayed');
       const desc = await apis.user.nodes.getNodeDescription(folderSite, docLibUserSite);
       expect(desc).toEqual(folderDescription);
     });
@@ -255,6 +247,7 @@ describe('Create folder', () => {
       await createDialog.enterName('test');
       await createDialog.enterDescription('test description');
       await createDialog.clickCancel();
+
       expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
     });
 
@@ -264,8 +257,8 @@ describe('Create folder', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(duplicateFolderSite);
       await createDialog.clickCreate();
-      const message = await page.getSnackBarMessage();
-      expect(message).toEqual(`There's already a folder with this name. Try a different name.`);
+
+      expect(await page.getSnackBarMessage()).toEqual(`There's already a folder with this name. Try a different name.`);
       expect(await createDialog.isDialogOpen()).toBe(true, 'dialog is not present');
     });
   });

@@ -109,15 +109,17 @@ describe('Context menu actions - multiple selection : ', () => {
     it('Context menu appears on right click on a multiple selection of items - [C286268]', async () => {
       await dataTable.selectMultipleItems([ file1, file2 ]);
       await dataTable.rightClickOnMultipleSelection();
+
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
     });
 
     it('Context menu appears when right clicking on a single item while having multiple items selected - [C286269]', async () => {
       await dataTable.selectMultipleItems([ file2, folder1 ]);
       await dataTable.rightClickOnItem(file1);
+
       expect(await dataTable.hasContextMenu()).toBe(true, `Context menu is not displayed for ${file1}`);
       expect(await dataTable.countSelectedRows()).toEqual(1, 'incorrect number of selected rows');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${file1}`);
       expect(await dataTable.hasCheckMarkIcon(file1)).toBe(true, `${file1} is not selected`);
       expect(await dataTable.hasCheckMarkIcon(file2)).toBe(false, `${file2} is selected`);
       expect(await dataTable.hasCheckMarkIcon(folder1)).toBe(false, `${folder1} is selected`);
@@ -135,39 +137,42 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when multiple files are selected - [C280661]', async () => {
       await dataTable.selectMultipleItems([file1, file2]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
 
     it('correct actions appear when multiple folders are selected - [C280632]', async () => {
       await dataTable.selectMultipleItems([folder1, folder2]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
 
     it('correct actions appear when both files and folders are selected - [C280631]', async () => {
       await dataTable.selectMultipleItems([file1, file2, folder1, folder2]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
   });
 
@@ -184,40 +189,43 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when multiple files are selected - [C280641]', async () => {
       await dataTable.selectMultipleItems([ file1Site, file2Site ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
 
     it('correct actions appear when multiple folders are selected - [C280574]', async () => {
       await dataTable.selectMultipleItems([ folder1Site, folder2Site ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
 
     it('correct actions appear when both files and folders are selected - [C280642]', async () => {
       await dataTable.selectMultipleItems([ file1Site, file2Site, folder1Site, folder2Site ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
   });
 
@@ -232,14 +240,15 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when multiple files are selected - [C280648]', async () => {
       await dataTable.selectMultipleItems([ file1, file2 ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
   });
 
@@ -254,14 +263,15 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when multiple files are selected - [C280652]', async () => {
       await dataTable.selectMultipleItems([ file1, file2 ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
   });
 
@@ -276,43 +286,46 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when multiple files are selected - [C280656]', async () => {
       await dataTable.selectMultipleItems([ file1, file2 ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       // TODO: enable when ACA-1794 is fixed
-      // expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+      // expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
 
     it('correct actions appear when multiple folders are selected - [C280664]', async () => {
       await dataTable.selectMultipleItems([ folder1, folder2 ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       // TODO: enable when ACA-1794 is fixed
-      // expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+      // expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
 
     it('correct actions appear when both files and folders are selected - [C280657]', async () => {
       await dataTable.selectMultipleItems([ file1, file2, folder1, folder2 ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       // TODO: enable when ACA-1794 is fixed
-      // expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+      // expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
   });
 
@@ -327,43 +340,46 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when multiple files are selected - [C286273]', async () => {
       await dataTable.selectMultipleItems([ fileInTrash1, fileInTrash2 ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('Permanently delete')).toBe(true, 'Permanently delete is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Restore')).toBe(true, 'Restore is not displayed');
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(false, 'Download is displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(false, `Copy is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(false, `Favorite is displayed`);
+
+      expect(await contextMenu.isPermanentDeletePresent()).toBe(true, 'Permanently delete is not displayed');
+      expect(await contextMenu.isRestorePresent()).toBe(true, 'Restore is not displayed');
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(false, 'Download is displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed`);
     });
 
     it('correct actions appear when multiple folders are selected - [C286274]', async () => {
       await dataTable.selectMultipleItems([ folderInTrash1, folderInTrash2 ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('Permanently delete')).toBe(true, 'Permanently delete is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Restore')).toBe(true, 'Restore is not displayed');
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(false, 'Download is displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(false, `Copy is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(false, `Favorite is displayed`);
+
+      expect(await contextMenu.isPermanentDeletePresent()).toBe(true, 'Permanently delete is not displayed');
+      expect(await contextMenu.isRestorePresent()).toBe(true, 'Restore is not displayed');
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(false, 'Download is displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed`);
     });
 
     it('correct actions appear when both files and folders are selected - [C286275]', async () => {
       await dataTable.selectMultipleItems([ fileInTrash1, fileInTrash2, folderInTrash1, folderInTrash2 ]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('Permanently delete')).toBe(true, 'Permanently delete is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Restore')).toBe(true, 'Restore is not displayed');
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(false, 'Download is displayed');
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, 'Edit is displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(false, `Copy is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(false, `Favorite is displayed`);
+
+      expect(await contextMenu.isPermanentDeletePresent()).toBe(true, 'Permanently delete is not displayed');
+      expect(await contextMenu.isRestorePresent()).toBe(true, 'Restore is not displayed');
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(false, 'Download is displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed`);
     });
   });
 });

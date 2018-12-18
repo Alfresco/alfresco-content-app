@@ -85,6 +85,7 @@ describe('Create library', () => {
   it('Create Library dialog UI - [C280024]', async () => {
     await page.sidenav.openCreateLibraryDialog();
     await createDialog.waitForDialogToOpen();
+
     expect(await createDialog.getTitle()).toMatch('Create Library');
     expect(await createDialog.isNameDisplayed()).toBe(true, 'Name input is not displayed');
     expect(await createDialog.isLibraryIdDisplayed()).toBe(true, 'Library ID input is not displayed');
@@ -103,10 +104,10 @@ describe('Create library', () => {
     await createDialog.enterName(site1Name);
     await createDialog.clickCreate();
     await createDialog.waitForDialogToClose();
-    const current = await page.breadcrumb.getCurrentItemName();
-    expect(current).toEqual(site1Name, `Not navigated into ${site1Name}`);
+
+    expect(await page.breadcrumb.getCurrentItemName()).toEqual(site1Name, `Not navigated into ${site1Name}`);
     await page.clickFileLibrariesAndWait();
-    expect(await dataTable.getRowByName(site1Name).isPresent()).toBe(true, `${site1Name} not in the list`);
+    expect(await dataTable.isItemPresent(site1Name)).toBe(true, `${site1Name} not in the list`);
     expect(await apis.user.sites.getVisibility(site1Name)).toEqual(SITE_VISIBILITY.PUBLIC);
   });
 
@@ -117,10 +118,10 @@ describe('Create library', () => {
     await createDialog.selectModerated();
     await createDialog.clickCreate();
     await createDialog.waitForDialogToClose();
-    const current = await page.breadcrumb.getCurrentItemName();
-    expect(current).toEqual(site2Name, `Not navigated into ${site2Name}`);
+
+    expect(await page.breadcrumb.getCurrentItemName()).toEqual(site2Name, `Not navigated into ${site2Name}`);
     await page.clickFileLibrariesAndWait();
-    expect(await dataTable.getRowByName(site2Name).isPresent()).toBe(true, `${site2Name} not in the list`);
+    expect(await dataTable.isItemPresent(site2Name)).toBe(true, `${site2Name} not in the list`);
     expect(await apis.user.sites.getVisibility(site2Name)).toEqual(SITE_VISIBILITY.MODERATED);
   });
 
@@ -131,10 +132,10 @@ describe('Create library', () => {
     await createDialog.selectPrivate();
     await createDialog.clickCreate();
     await createDialog.waitForDialogToClose();
-    const current = await page.breadcrumb.getCurrentItemName();
-    expect(current).toEqual(site3Name, `Not navigated into ${site3Name}`);
+
+    expect(await page.breadcrumb.getCurrentItemName()).toEqual(site3Name, `Not navigated into ${site3Name}`);
     await page.clickFileLibrariesAndWait();
-    expect(await dataTable.getRowByName(site3Name).isPresent()).toBe(true, `${site3Name} not in the list`);
+    expect(await dataTable.isItemPresent(site3Name)).toBe(true, `${site3Name} not in the list`);
     expect(await apis.user.sites.getVisibility(site3Name)).toEqual(SITE_VISIBILITY.PRIVATE);
   });
 
@@ -147,10 +148,10 @@ describe('Create library', () => {
     await createDialog.selectPublic();
     await createDialog.clickCreate();
     await createDialog.waitForDialogToClose();
-    const current = await page.breadcrumb.getCurrentItemName();
-    expect(current).toEqual(site4.name, `Not navigated into ${site4.name}`);
+
+    expect(await page.breadcrumb.getCurrentItemName()).toEqual(site4.name, `Not navigated into ${site4.name}`);
     await page.clickFileLibrariesAndWait();
-    expect(await dataTable.getRowByName(site4.name).isPresent()).toBe(true, `${site4.name} not in the list`);
+    expect(await dataTable.isItemPresent(site4.name)).toBe(true, `${site4.name} not in the list`);
     expect(await apis.user.sites.getVisibility(site4.id)).toEqual(SITE_VISIBILITY.PUBLIC);
     expect(await apis.user.sites.getDescription(site4.id)).toEqual(site4.description);
   });
@@ -160,9 +161,9 @@ describe('Create library', () => {
     await createDialog.waitForDialogToOpen();
     await createDialog.enterName(duplicateSite.name);
     await createDialog.enterLibraryId(duplicateSite.id);
+
     expect(await createDialog.isCreateEnabled()).toBe(false, 'Create button not disabled');
-    const err = await createDialog.getErrorMessage();
-    expect(err).toEqual(`This Library ID isn't available. Try a different Library ID.`);
+    expect(await createDialog.getErrorMessage()).toEqual(`This Library ID isn't available. Try a different Library ID.`);
   });
 
   it('Create library using the ID of a library from the Trashcan - [C280028]', async () => {
@@ -171,8 +172,8 @@ describe('Create library', () => {
     await createDialog.enterName(siteInTrash.name);
     await createDialog.enterLibraryId(siteInTrash.id);
     await createDialog.clickCreate();
-    const err = await createDialog.getErrorMessage();
-    expect(err).toEqual(`This Library ID is already used. Check the trashcan.`);
+
+    expect(await createDialog.getErrorMessage()).toEqual(`This Library ID is already used. Check the trashcan.`);
   });
 
   it('Cancel button - [C280029]', async () => {
@@ -181,6 +182,7 @@ describe('Create library', () => {
     await createDialog.enterName('test site');
     await createDialog.enterDescription('test description');
     await createDialog.clickCancel();
+
     expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is not closed');
   });
 
@@ -205,10 +207,10 @@ describe('Create library', () => {
     await createDialog.enterLibraryId(`${duplicateSite.id}-2`);
     await createDialog.clickCreate();
     await createDialog.waitForDialogToClose();
-    const current = await page.breadcrumb.getCurrentItemName();
-    expect(current).toEqual(duplicateSite.name, `Not navigated into ${duplicateSite.name}`);
+
+    expect(await page.breadcrumb.getCurrentItemName()).toEqual(duplicateSite.name, `Not navigated into ${duplicateSite.name}`);
     await page.clickFileLibrariesAndWait();
-    expect(await dataTable.getRowByName(`${duplicateSite.name} (${duplicateSite.id}-2)`).isPresent()).toBe(true, `${duplicateSite.name} not in the list`);
+    expect(await dataTable.isItemPresent(`${duplicateSite.name} (${duplicateSite.id}-2)`)).toBe(true, `${duplicateSite.name} not in the list`);
     expect(await apis.user.sites.getTitle(`${duplicateSite.id}-2`)).toEqual(duplicateSite.name);
   });
 

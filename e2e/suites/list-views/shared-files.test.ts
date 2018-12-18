@@ -101,16 +101,16 @@ describe('Shared Files', () => {
   });
 
   it('displays the files shared by everyone - [C213114]', async () => {
-    expect(await dataTable.getRowByName(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
-    expect(await dataTable.getRowByName(file1User).isPresent()).toBe(true, `${file1User} not displayed`);
+    expect(await dataTable.isItemPresent(fileAdmin)).toBe(true, `${fileAdmin} not displayed`);
+    expect(await dataTable.isItemPresent(file1User)).toBe(true, `${file1User} not displayed`);
   });
 
   it(`file not displayed if it's been deleted - [C213117]`, async () => {
-    expect(await dataTable.getRowByName(file2User).isPresent()).toBe(false, `${file2User} is displayed`);
+    expect(await dataTable.isItemPresent(file2User)).toBe(false, `${file2User} is displayed`);
   });
 
   it('unshared file is not displayed - [C213118]', async () => {
-    expect(await dataTable.getRowByName(file3User).isPresent()).toBe(false, `${file3User} is displayed`);
+    expect(await dataTable.isItemPresent(file3User)).toBe(false, `${file3User} is displayed`);
   });
 
   it('Location column displays the parent folder of the file - [C213665]', async () => {

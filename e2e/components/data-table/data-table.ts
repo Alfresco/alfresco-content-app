@@ -319,4 +319,8 @@ export class DataTable extends Component {
   async getLibraryRole(name: string) {
     return await this.getRowByName(name).element(by.css(DataTable.selectors.libraryRole)).getText();
   }
+
+  async isItemPresent(name: string) {
+    return await this.getRowByName(name).isPresent();
+  }
 }

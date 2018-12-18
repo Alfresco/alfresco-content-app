@@ -123,7 +123,7 @@ describe('Pagination on multiple pages on Personal Files', () => {
     expect(await pagination.currentPage.getText()).toContain('Page 3');
     expect(await pagination.previousButton.isEnabled()).toBe(true, 'Previous button is not enabled');
     expect(await pagination.nextButton.isEnabled()).toBe(true, 'Next button is not enabled');
-    expect(await dataTable.getRowByName('file-60').isPresent()).toBe(true, 'File not found on page');
+    expect(await dataTable.isItemPresent('file-60')).toBe(true, 'File not found on page');
 
     await pagination.resetToDefaultPageNumber();
   });
@@ -132,7 +132,7 @@ describe('Pagination on multiple pages on Personal Files', () => {
     await pagination.clickNext();
     await dataTable.waitForHeader();
     expect(await pagination.range.getText()).toContain('26-50 of 101');
-    expect(await dataTable.getRowByName('file-31').isPresent()).toBe(true, 'file-31 not found on page');
+    expect(await dataTable.isItemPresent('file-31')).toBe(true, 'file-31 not found on page');
     await pagination.resetToDefaultPageNumber();
 
     await pagination.openCurrentPageMenu();
@@ -141,7 +141,7 @@ describe('Pagination on multiple pages on Personal Files', () => {
     await pagination.previousButton.click();
     await dataTable.waitForHeader();
     expect(await pagination.range.getText()).toContain('1-25 of 101');
-    expect(await dataTable.getRowByName('file-12').isPresent()).toBe(true, 'file-12 not found on page');
+    expect(await dataTable.isItemPresent('file-12')).toBe(true, 'file-12 not found on page');
 
     await pagination.resetToDefaultPageNumber();
   });

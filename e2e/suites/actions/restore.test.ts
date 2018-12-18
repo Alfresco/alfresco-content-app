@@ -85,9 +85,9 @@ describe('Restore from Trash', () => {
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${file} restored`);
       expect(text).toContain(`View`);
-      expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
+      expect(await dataTable.isItemPresent(file)).toBe(false, 'Item was not removed from list');
       await page.clickPersonalFilesAndWait();
-      expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
+      expect(await page.dataTable.isItemPresent(file)).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodeById(fileId, false);
     });
@@ -98,9 +98,9 @@ describe('Restore from Trash', () => {
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${folder} restored`);
       expect(text).toContain(`View`);
-      expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
+      expect(await dataTable.isItemPresent(folder)).toBe(false, 'Item was not removed from list');
       await page.clickPersonalFilesAndWait();
-      expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
+      expect(await page.dataTable.isItemPresent(folder)).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodeById(folderId, false);
     });
@@ -111,9 +111,9 @@ describe('Restore from Trash', () => {
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${site} restored`);
       expect(text).toContain(`View`);
-      expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} was not removed from list`);
+      expect(await dataTable.isItemPresent(site)).toBe(false, `${site} was not removed from list`);
       await page.clickFileLibrariesAndWait();
-      expect(await page.dataTable.getRowByName(site).isPresent()).toBe(true, `${site} not displayed in list`);
+      expect(await page.dataTable.isItemPresent(site)).toBe(true, `${site} not displayed in list`);
     });
 
     it('restore multiple items - [C217182]', async () => {
@@ -122,11 +122,11 @@ describe('Restore from Trash', () => {
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`Restore successful`);
       expect(text).not.toContain(`View`);
-      expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
-      expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
+      expect(await dataTable.isItemPresent(file)).toBe(false, 'Item was not removed from list');
+      expect(await dataTable.isItemPresent(folder)).toBe(false, 'Item was not removed from list');
       await page.clickPersonalFilesAndWait();
-      expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
-      expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
+      expect(await page.dataTable.isItemPresent(file)).toBe(true, 'Item not displayed in list');
+      expect(await page.dataTable.isItemPresent(folder)).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodesById([fileId, folderId], false);
     });

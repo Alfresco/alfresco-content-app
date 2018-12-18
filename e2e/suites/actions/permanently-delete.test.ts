@@ -85,7 +85,7 @@ describe('Permanently delete from Trash', () => {
         const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`${file1} deleted`);
-        expect(await dataTable.getRowByName(file1).isPresent()).toBe(false, 'Item was not deleted');
+        expect(await dataTable.isItemPresent(file1)).toBe(false, 'Item was not deleted');
     });
 
     it('delete a folder - [C280416]', async () => {
@@ -96,7 +96,7 @@ describe('Permanently delete from Trash', () => {
         const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`${folder1} deleted`);
-        expect(await dataTable.getRowByName(folder1).isPresent()).toBe(false, 'Item was not deleted');
+        expect(await dataTable.isItemPresent(folder1)).toBe(false, 'Item was not deleted');
     });
 
     it('delete a library - [C290103]', async () => {
@@ -107,7 +107,7 @@ describe('Permanently delete from Trash', () => {
         const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`${site} deleted`);
-        expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} was not deleted`);
+        expect(await dataTable.isItemPresent(site)).toBe(false, `${site} was not deleted`);
     });
 
     it('delete multiple items - [C280417]', async () => {
@@ -118,8 +118,8 @@ describe('Permanently delete from Trash', () => {
         const text = await page.getSnackBarMessage();
 
         expect(text).toEqual(`2 items deleted`);
-        expect(await dataTable.getRowByName(file2).isPresent()).toBe(false, 'Item was not deleted');
-        expect(await dataTable.getRowByName(folder2).isPresent()).toBe(false, 'Item was not deleted');
+        expect(await dataTable.isItemPresent(file2)).toBe(false, 'Item was not deleted');
+        expect(await dataTable.isItemPresent(folder2)).toBe(false, 'Item was not deleted');
     });
 
     it('Confirmation dialog UI - [C269113]', async () => {
@@ -144,6 +144,6 @@ describe('Permanently delete from Trash', () => {
 
         expect(await confirmDialog.isButtonEnabled('Keep')).toBe(true, 'KEEP button is not enabled');
         await confirmDialog.clickButton('Keep');
-        expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, 'Item was deleted');
+        expect(await dataTable.isItemPresent(file3)).toBe(true, 'Item was deleted');
     });
 });

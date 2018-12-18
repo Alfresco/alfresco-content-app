@@ -39,6 +39,9 @@ export class BrowsingPage extends Page {
     await this.header.userInfo.signOut();
   }
 
+  async isSnackBarPresent() {
+    return this.snackBar.isPresent();
+  }
 
   // helper methods
 

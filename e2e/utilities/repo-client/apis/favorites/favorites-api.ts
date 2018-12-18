@@ -61,11 +61,14 @@ export class FavoritesApi extends RepoApi {
                 }
             }
         };
-        return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
+        try {
+          return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
+        } catch (error) {
+          // console.log('--- add favorite by id catch ');
+        }
     }
 
     async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]) {
-        await this.apiAuth();
         return await ids.reduce(async (previous, current) => {
             await previous;
             await this.addFavoriteById(nodeType, current);
@@ -107,13 +110,19 @@ export class FavoritesApi extends RepoApi {
 
     async removeFavoriteById(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.peopleApi.removeFavoriteSite('-me-', nodeId);
+        try {
+          return await this.alfrescoJsApi.core.peopleApi.removeFavoriteSite('-me-', nodeId);
+        } catch (error) {
+          // console.log('--- remove favorite by id catch ');
+        }
     }
 
-    async removeFavorite(api: RepoClient, name: string) {
-        const nodeId = (await api.nodes.getNodeByPath(name)).entry.id;
-        return await this.removeFavoriteById(nodeId);
-    }
+    async removeFavoritesByIds(ids: string[]) {
+      return await ids.reduce(async (previous, current) => {
+          await previous;
+          await this.removeFavoriteById(current);
+      }, Promise.resolve());
+  }
 
     async waitForApi(data) {
       try {

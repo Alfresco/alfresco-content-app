@@ -79,8 +79,8 @@ describe('Personal Files', () => {
     });
 
     it('has Data Dictionary and created content - [C213241]', async () => {
-      expect(await dataTable.getRowByName('Data Dictionary').isPresent()).toBe(true, 'Data Dictionary not displayed');
-      expect(await dataTable.getRowByName(adminFolder).isPresent()).toBe(true, 'admin folder not displayed');
+      expect(await dataTable.isItemPresent('Data Dictionary')).toBe(true, 'Data Dictionary not displayed');
+      expect(await dataTable.isItemPresent(adminFolder)).toBe(true, 'admin folder not displayed');
     });
   });
 
@@ -111,7 +111,7 @@ describe('Personal Files', () => {
     });
 
     it('has user created content - [C213242]', async () => {
-      expect(await dataTable.getRowByName(userFolder).isPresent()).toBe(true, 'user folder not displayed');
+      expect(await dataTable.isItemPresent(userFolder)).toBe(true, 'user folder not displayed');
     });
 
     it('navigates to folder - [C213244]', async () => {
@@ -121,7 +121,7 @@ describe('Personal Files', () => {
       await dataTable.waitForHeader();
 
       expect(await browser.getCurrentUrl()).toContain(nodeId, 'Node ID is not in the URL');
-      expect(await dataTable.getRowByName(userFile).isPresent()).toBe(true, 'user file is missing');
+      expect(await dataTable.isItemPresent(userFile)).toBe(true, 'user file is missing');
     });
 
     it('redirects to Personal Files on clicking the link from sidebar - [C213245]', async () => {

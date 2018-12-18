@@ -156,7 +156,7 @@ describe('Library properties', () => {
     await infoDrawer.clickButton('Update');
 
     expect(await page.getSnackBarMessage()).toEqual('Library properties updated');
-    expect(await dataTable.getRowByName(siteUpdated.name).isPresent()).toBe(true, 'New site name not displayed in the list');
+    expect(await dataTable.isItemPresent(siteUpdated.name)).toBe(true, 'New site name not displayed in the list');
     expect(await infoDrawer.isOpen()).toBe(false, 'Info drawer still open');
 
     expect((await apis.user.sites.getSite(siteForUpdate.id)).entry.title).toEqual(siteUpdated.name);
@@ -181,8 +181,8 @@ describe('Library properties', () => {
 
     await infoDrawer.clickButton('Cancel');
 
-    expect(await dataTable.getRowByName(newName).isPresent()).toBe(false, 'New site name is displayed in the list');
-    expect(await dataTable.getRowByName(site.name).isPresent()).toBe(true, 'Original site name not displayed in the list');
+    expect(await dataTable.isItemPresent(newName)).toBe(false, 'New site name is displayed in the list');
+    expect(await dataTable.isItemPresent(site.name)).toBe(true, 'Original site name not displayed in the list');
     expect(await infoDrawer.isOpen()).toBe(true, 'Info drawer not open');
   });
 

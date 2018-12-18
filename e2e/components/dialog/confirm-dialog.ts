@@ -81,4 +81,22 @@ export class ConfirmDialog extends Component {
     const button = this.getButtonByName(name);
     return await button.isEnabled();
   }
+
+
+  async isOkEnabled() {
+    return await this.isButtonEnabled('OK');
+  }
+
+  async isCancelEnabled() {
+    return await this.isButtonEnabled('Cancel');
+  }
+
+  async clickOk() {
+    return await this.clickButton('OK');
+  }
+
+  async clickCancel() {
+    return await this.clickButton('Cancel');
+  }
+
 }

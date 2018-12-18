@@ -78,42 +78,42 @@ describe('Search results', () => {
     await searchInput.searchFor('test');
     await dataTable.waitForBody();
 
-    expect(await dataTable.getRowByName(file).isPresent()).toBe(true, `${file} not displayed`);
-    expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, `${folder} is displayed`);
-    expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} is displayed`);
+    expect(await dataTable.isItemPresent(file)).toBe(true, `${file} not displayed`);
+    expect(await dataTable.isItemPresent(folder)).toBe(false, `${folder} is displayed`);
+    expect(await dataTable.isItemPresent(site)).toBe(false, `${site} is displayed`);
   });
 
   it('Only folders are returned when Folders option is the only one checked - [C290006]', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkOnlyFolders();
     await searchInput.searchFor('test');
-    await dataTable.waitForBody();
+    await page.waitForResults();
 
-    expect(await dataTable.getRowByName(file).isPresent()).toBe(false, `${file} is displayed`);
-    expect(await dataTable.getRowByName(folder).isPresent()).toBe(true, `${folder} not displayed`);
-    expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} is displayed`);
+    expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);
+    expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} not displayed`);
+    expect(await dataTable.isItemPresent(site)).toBe(false, `${site} is displayed`);
   });
 
   it('Files and folders are returned when both Files and Folders options are checked - [C290007]', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor('test');
-    await dataTable.waitForBody();
+    await page.waitForResults();
 
-    expect(await dataTable.getRowByName(file).isPresent()).toBe(true, `${file} not displayed`);
-    expect(await dataTable.getRowByName(folder).isPresent()).toBe(true, `${folder} not displayed`);
-    expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} is displayed`);
+    expect(await dataTable.isItemPresent(file)).toBe(true, `${file} not displayed`);
+    expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} not displayed`);
+    expect(await dataTable.isItemPresent(site)).toBe(false, `${site} is displayed`);
   });
 
   it('Only libraries are returned when Libraries option is checked - [C290008]', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkLibraries();
     await searchInput.searchFor('test');
-    await dataTable.waitForBody();
+    await page.waitForResults();
 
-    expect(await dataTable.getRowByName(file).isPresent()).toBe(false, `${file} is displayed`);
-    expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, `${folder} is displayed`);
-    expect(await dataTable.getRowByName(site).isPresent()).toBe(true, `${site} not displayed`);
+    expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);
+    expect(await dataTable.isItemPresent(folder)).toBe(false, `${folder} is displayed`);
+    expect(await dataTable.isItemPresent(site)).toBe(true, `${site} not displayed`);
   });
 
 });

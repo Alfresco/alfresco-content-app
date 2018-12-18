@@ -114,43 +114,43 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for selected files`);
+      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for selected files`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for selected files`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for selected files`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
 
     it('on Shared Files - [C280477]', async () => {
       await page.clickSharedFilesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for selected files`);
+      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for selected files`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for selected files`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for selected files`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
 
     it('on Favorites - [C280478]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for selected files`);
+      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for selected files`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for selected files`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for selected files`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       // TODO: enable when ACA-1737 is done
-      // expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for selected files`);
-      // expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      // expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      // expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
   });
@@ -166,48 +166,48 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file1);
-      expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
-      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${file1}`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
+      expect(await toolbar.isViewButtonPresent()).toBe(true, `View is not displayed for ${file1}`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${file1}`);
+      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed for ${file1}`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${file1}`);
 
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${file1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${file1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${file1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${file1}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
       await toolbar.closeMoreMenu();
     });
 
     it('on Shared Files - [C280456]', async () => {
       await page.clickSharedFilesAndWait();
       await page.dataTable.selectItem(file1);
-      expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
-      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${file1}`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
+      expect(await toolbar.isViewButtonPresent()).toBe(true, `View is not displayed for ${file1}`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${file1}`);
+      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed for ${file1}`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${file1}`);
       await toolbar.openMoreMenu();
 
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${file1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${file1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${file1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${file1}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
       await toolbar.closeMoreMenu();
     });
 
     it('on Favorites - [C213121]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1);
-      expect(await toolbar.isButtonPresent('View')).toBe(true, `View is not displayed for ${file1}`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
-      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${file1}`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
+      expect(await toolbar.isViewButtonPresent()).toBe(true, `View is not displayed for ${file1}`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${file1}`);
+      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed for ${file1}`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${file1}`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${file1}`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${file1}`);
       // TODO: enable when ACA-1737 is done
-      // expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${file1}`);
-      // expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${file1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
+      // expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
+      // expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
       await toolbar.closeMoreMenu();
     });
   });
@@ -223,33 +223,33 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectItem(folder1);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for ${folder1}`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${folder1}`);
-      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${folder1}`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${folder1}`);
+      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for ${folder1}`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${folder1}`);
+      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed for ${folder1}`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${folder1}`);
 
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folder1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${folder1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${folder1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folder1}`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folder1}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${folder1}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${folder1}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
       await toolbar.closeMoreMenu();
     });
 
     it('on Favorites - [C286266]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(folder1);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is not displayed for ${folder1}`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for ${folder1}`);
-      expect(await toolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed for ${folder1}`);
+      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is not displayed for ${folder1}`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${folder1}`);
+      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed for ${folder1}`);
       // TODO: enable when ACA-1737 is done
-      // expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for ${folder1}`);
+      // expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${folder1}`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folder1}`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folder1}`);
       // TODO: enable when ACA-1737 is done
-      // expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${folder1}`);
-      // expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${folder1}`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folder1}`);
+      // expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${folder1}`);
+      // expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${folder1}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
       await toolbar.closeMoreMenu();
     });
   });
@@ -266,43 +266,43 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       await toolbar.closeMoreMenu();
     });
 
     it('on Shared Files - [C286284]', async () => {
       await page.clickSharedFilesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for selected files`);
+      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for selected files`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for selected files`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for selected files`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
 
     it('on Favorites - [C286285]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for selected files`);
+      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for selected files`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for selected files`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for selected files`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       // TODO: enable when ACA-1737 is done
-      // expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for selected files`);
-      // expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      // expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      // expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
   });
@@ -319,29 +319,29 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([folder1, folder2]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       await toolbar.closeMoreMenu();
     });
 
     it('on Favorites - [C286286]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([folder1, folder2]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for selected files`);
+      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for selected files`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for selected files`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for selected files`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       // TODO: enable when ACA-1737 is done
-      // expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for selected files`);
-      // expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      // expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      // expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
   });
@@ -358,29 +358,29 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, folder1]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, 'View is displayed');
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       await toolbar.closeMoreMenu();
     });
 
     it('on Favorites - [C286287]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, folder1]);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed for selected files`);
-      expect(await toolbar.isButtonPresent('Edit')).toBe(false, `Edit is displayed for selected files`);
+      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for selected files`);
+      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for selected files`);
+      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for selected files`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       // TODO: enable when ACA-1737 is done
-      // expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for selected files`);
-      // expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for selected files`);
+      // expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      // expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
   });
@@ -396,52 +396,52 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.rightClickOnItem(file1);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${file1}`);
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${file1}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${file1}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${file1}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
+      expect(await contextMenu.isSharePresent()).toBe(true, `Share is not displayed for ${file1}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions not displayed for ${file1}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed for ${file1}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${file1}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${file1}`);
     });
 
     it('on Shared Files - [C286264]', async () => {
       await page.clickSharedFilesAndWait();
       await dataTable.rightClickOnItem(file1);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${file1}`);
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${file1}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${file1}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${file1}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
       // TODO: enable this when the action is properly implemented: ACA-92
-      // expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${file1}`);
+      // expect(await contextMenu.isSharePresent()).toBe(true, `Share is not displayed for ${file1}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions not displayed for ${file1}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed for ${file1}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${file1}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${file1}`);
     });
 
     it('on Favorites - [C286262]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.rightClickOnItem(file1);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${file1}`);
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${file1}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${file1}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${file1}`);
       // TODO: enable when ACA-1737 is done
-      // expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${file1}`);
-      // expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions is not displayed for ${file1}`);
+      // expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
+      expect(await contextMenu.isSharePresent()).toBe(true, `Share is not displayed for ${file1}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions is not displayed for ${file1}`);
       // TODO: enable when ACA-1794 is fixed
-      // expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${file1}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${file1}`);
+      // expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${file1}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${file1}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${file1}`);
     });
   });
 
@@ -456,34 +456,34 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.rightClickOnItem(folder1);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not enabled for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, `View is displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(false, `Manage Versions displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(false, `Share is displayed for ${folder1}`);
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folder1}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${folder1}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folder1}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${folder1}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folder1}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed for ${folder1}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folder1}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions displayed for ${folder1}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folder1}`);
     });
 
     it('on Favorites - [C286263]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.rightClickOnItem(folder1);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not enabled for ${folder1}`);
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folder1}`);
       // enable when ACA-1737 is done
-      // expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folder1}`);
+      // expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${folder1}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folder1}`);
       // TODO: enable when ACA-1737 is done
-      // expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed for ${folder1}`);
-      // expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed for ${folder1}`);
+      // expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${folder1}`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folder1}`);
       // TODO: enable when ACA-1794 is fixed
-      // expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, `View is displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(false, `Manage Versions is displayed for ${folder1}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(false, `Share is displayed for ${folder1}`);
+      // expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${folder1}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folder1}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed for ${folder1}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folder1}`);
     });
   });
 
@@ -500,40 +500,40 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, file2]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });
 
     it('on Shared Files - [C286283]', async () => {
       await page.clickSharedFilesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });
 
     it('on Favorites - [C286280]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       // TODO: enable when ACA-1737 is done
-      // expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      // expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      // expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });
   });
 
@@ -550,27 +550,27 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([folder1, folder2]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });
 
     it('on Favorites - [C286281]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([folder1, folder2]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       // TODO: enable when ACA-1737 is done
-      // expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      // expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      // expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });
   });
 
@@ -587,27 +587,27 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, folder1]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });
 
     it('on Favorites - [C286282]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, folder1]);
       await dataTable.rightClickOnMultipleSelection();
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, 'View is displayed');
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, 'Download is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       // TODO: enable when ACA-1737 is done
-      // expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      // expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      // expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });
   });
 
@@ -625,20 +625,20 @@ describe('Granular permissions available actions : ', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
       expect(await viewerToolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await viewerToolbar.isButtonPresent('View')).toBe(false, `View is displayed`);
-      expect(await viewerToolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed`);
-      expect(await viewerToolbar.isButtonPresent('Print')).toBe(true, `Print is not displayed`);
-      expect(await viewerToolbar.isButtonPresent('Activate full-screen mode')).toBe(true, `Full screen is not displayed`);
+      expect(await viewerToolbar.isViewButtonPresent()).toBe(false, `View is displayed`);
+      expect(await viewerToolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed`);
+      expect(await viewerToolbar.isPrintButtonPresent()).toBe(true, `Print is not displayed`);
+      expect(await viewerToolbar.isFullScreenButtonPresent()).toBe(true, `Full screen is not displayed`);
       expect(await viewerToolbar.isShareEditButtonPresent()).toBe(true, 'Shared link settings is not displayed');
-      expect(await viewerToolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed`);
+      expect(await viewerToolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed`);
       await viewerToolbar.openMoreMenu();
-      expect(await viewerToolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Share')).toBe(false, `Share is displayed in More actions`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage versions is displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      expect(await viewerToolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
+      expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is displayed`);
+      expect(await viewerToolbar.menu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
       await toolbar.closeMoreMenu();
     });
 
@@ -648,18 +648,18 @@ describe('Granular permissions available actions : ', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
       expect(await viewerToolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await viewerToolbar.isButtonPresent('View')).toBe(false, `View is displayed`);
-      expect(await viewerToolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed`);
-      expect(await viewerToolbar.isButtonPresent('Print')).toBe(true, `Print is not displayed`);
-      expect(await viewerToolbar.isButtonPresent('Activate full-screen mode')).toBe(true, `Full screen is not displayed`);
-      expect(await viewerToolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed`);
+      expect(await viewerToolbar.isViewButtonPresent()).toBe(false, `View is displayed`);
+      expect(await viewerToolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed`);
+      expect(await viewerToolbar.isPrintButtonPresent()).toBe(true, `Print is not displayed`);
+      expect(await viewerToolbar.isFullScreenButtonPresent()).toBe(true, `Full screen is not displayed`);
+      expect(await viewerToolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed`);
       await viewerToolbar.openMoreMenu();
-      expect(await viewerToolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage versions is displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      expect(await viewerToolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is displayed`);
+      expect(await viewerToolbar.menu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
       await toolbar.closeMoreMenu();
     });
 
@@ -669,21 +669,21 @@ describe('Granular permissions available actions : ', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
       expect(await viewerToolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await viewerToolbar.isButtonPresent('View')).toBe(false, `View is displayed`);
-      expect(await viewerToolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed`);
-      expect(await viewerToolbar.isButtonPresent('Print')).toBe(true, `Print is not displayed`);
-      expect(await viewerToolbar.isButtonPresent('Activate full-screen mode')).toBe(true, `Full screen is not displayed`);
+      expect(await viewerToolbar.isViewButtonPresent()).toBe(false, `View is displayed`);
+      expect(await viewerToolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed`);
+      expect(await viewerToolbar.isPrintButtonPresent()).toBe(true, `Print is not displayed`);
+      expect(await viewerToolbar.isFullScreenButtonPresent()).toBe(true, `Full screen is not displayed`);
       expect(await viewerToolbar.isShareEditButtonPresent()).toBe(true, 'Shared link settings is not displayed');
-      expect(await viewerToolbar.isButtonPresent('View details')).toBe(true, `View details is not displayed`);
+      expect(await viewerToolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed`);
       await viewerToolbar.openMoreMenu();
-      expect(await viewerToolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Share')).toBe(false, `Share is displayed in More actions`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
+      expect(await viewerToolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
+      expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       // TODO: enable when ACA-1737 is done
-      // expect(await viewerToolbar.menu.isMenuItemPresent('Move')).toBe(false, `Move is displayed`);
-      // expect(await viewerToolbar.menu.isMenuItemPresent('Delete')).toBe(false, `Delete is displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage versions is displayed`);
-      expect(await viewerToolbar.menu.isMenuItemPresent('Permissions')).toBe(false, `Permissions is displayed`);
+      // expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+      // expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is displayed`);
+      expect(await viewerToolbar.menu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
       await toolbar.closeMoreMenu();
     });
   });

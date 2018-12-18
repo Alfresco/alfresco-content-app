@@ -127,10 +127,10 @@ describe('Search results - libraries', () => {
     await searchInput.searchFor(site1.name);
     await dataTable.waitForBody();
 
-    expect(await dataTable.getRowByName(site1.name).isPresent()).toBe(true, `${site1.name} not displayed`);
-    expect(await dataTable.getRowByName(site2.name).isPresent()).toBe(false, `${site2.name} displayed`);
-    expect(await dataTable.getRowByName(site3.name).isPresent()).toBe(false, `${site3.name} displayed`);
-    expect(await dataTable.getRowByName(site4.name).isPresent()).toBe(false, `${site4.name} displayed`);
+    expect(await dataTable.isItemPresent(site1.name)).toBe(true, `${site1.name} not displayed`);
+    expect(await dataTable.isItemPresent(site2.name)).toBe(false, `${site2.name} displayed`);
+    expect(await dataTable.isItemPresent(site3.name)).toBe(false, `${site3.name} displayed`);
+    expect(await dataTable.isItemPresent(site4.name)).toBe(false, `${site4.name} displayed`);
   });
 
   it('Search library - partial name match - [C290013]', async () => {
@@ -139,10 +139,10 @@ describe('Search results - libraries', () => {
     await searchInput.searchFor('lib');
     await dataTable.waitForBody();
 
-    expect(await dataTable.getRowByName(site1.name).isPresent()).toBe(true, `${site1.name} not displayed`);
-    expect(await dataTable.getRowByName(site2.name).isPresent()).toBe(false, `${site2.name} displayed`);
-    expect(await dataTable.getRowByName(site3.name).isPresent()).toBe(true, `${site3.name} not displayed`);
-    expect(await dataTable.getRowByName(site4.name).isPresent()).toBe(false, `${site4.name} displayed`);
+    expect(await dataTable.isItemPresent(site1.name)).toBe(true, `${site1.name} not displayed`);
+    expect(await dataTable.isItemPresent(site2.name)).toBe(false, `${site2.name} displayed`);
+    expect(await dataTable.isItemPresent(site3.name)).toBe(true, `${site3.name} not displayed`);
+    expect(await dataTable.isItemPresent(site4.name)).toBe(false, `${site4.name} displayed`);
   });
 
   it('Search library - description match - [C290014]', async () => {
@@ -151,10 +151,10 @@ describe('Search results - libraries', () => {
     await searchInput.searchFor(site4.description);
     await dataTable.waitForBody();
 
-    expect(await dataTable.getRowByName(site1.name).isPresent()).toBe(false, `${site1.name} displayed`);
-    expect(await dataTable.getRowByName(site2.name).isPresent()).toBe(false, `${site2.name} displayed`);
-    expect(await dataTable.getRowByName(site3.name).isPresent()).toBe(false, `${site3.name} displayed`);
-    expect(await dataTable.getRowByName(site4.name).isPresent()).toBe(true, `${site4.name} not displayed`);
+    expect(await dataTable.isItemPresent(site1.name)).toBe(false, `${site1.name} displayed`);
+    expect(await dataTable.isItemPresent(site2.name)).toBe(false, `${site2.name} displayed`);
+    expect(await dataTable.isItemPresent(site3.name)).toBe(false, `${site3.name} displayed`);
+    expect(await dataTable.isItemPresent(site4.name)).toBe(true, `${site4.name} not displayed`);
   });
 
   it('Results page title - [C290015]', async () => {
@@ -239,7 +239,7 @@ describe('Search results - libraries', () => {
     await searchInput.searchFor('admin-site');
     await dataTable.waitForBody();
 
-    expect(await dataTable.getRowByName(adminPrivate).isPresent()).toBe(false, `${adminPrivate} is displayed`);
+    expect(await dataTable.isItemPresent(adminPrivate)).toBe(false, `${adminPrivate} is displayed`);
   });
 
   it('Search libraries with special characters - [C290028]', async () => {
@@ -248,7 +248,7 @@ describe('Search results - libraries', () => {
     await searchInput.searchFor(siteRussian.name);
     await dataTable.waitForBody();
 
-    expect(await dataTable.getRowByName(siteRussian.name).isPresent()).toBe(true, `${siteRussian.name} not displayed`);
+    expect(await dataTable.isItemPresent(siteRussian.name)).toBe(true, `${siteRussian.name} not displayed`);
   });
 
 });

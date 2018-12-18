@@ -31,15 +31,31 @@ export class Toolbar extends Component {
   private static selectors = {
     root: '.adf-toolbar',
     button: 'button',
-    
+
     share: `.mat-icon-button[title='Share']`,
-    shareEdit: `.mat-icon-button[title='Shared link settings']`
+    shareEdit: `.mat-icon-button[title='Shared link settings']`,
+    view: `.mat-icon-button[title='View']`,
+    download: `.mat-icon-button[title='Download']`,
+    edit: `.mat-icon-button[title='Edit']`,
+    viewDetails: `.mat-icon-button[title='View details']`,
+    print: `.mat-icon-button[title='Print']`,
+    fullScreen: `.mat-icon-button[title='Activate full-screen mode']`,
+    joinLibrary: `.mat-icon-button[title='Join']`,
+    leaveLibrary: `.mat-icon-button[title='Leave library']`
   };
 
   menu: Menu = new Menu();
   buttons: ElementArrayFinder = this.component.all(by.css(Toolbar.selectors.button));
   shareButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.share));
   shareEditButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.shareEdit));
+  viewButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.view));
+  downloadButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.download));
+  editButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.edit));
+  viewDetailsButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.viewDetails));
+  printButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.print));
+  fullScreenButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.fullScreen));
+  joinButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.joinLibrary));
+  leaveButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.leaveLibrary));
 
   constructor(ancestor?: ElementFinder) {
     super(Toolbar.selectors.root, ancestor);
@@ -92,10 +108,6 @@ export class Toolbar extends Component {
     await btn.click();
   }
 
-  async isShareButtonPresent() {
-    return await browser.isElementPresent(this.shareButton);
-  }
-
   async clickShareEditButton() {
     const btn = this.shareEditButton;
     await btn.click();
@@ -104,4 +116,52 @@ export class Toolbar extends Component {
   async isShareEditButtonPresent() {
     return await browser.isElementPresent(this.shareEditButton);
   }
+
+  async isShareButtonPresent() {
+    return await browser.isElementPresent(this.shareButton);
+  }
+
+  async isViewButtonPresent() {
+    return await browser.isElementPresent(this.viewButton);
+  }
+
+  async isDownloadButtonPresent() {
+    return await browser.isElementPresent(this.downloadButton);
+  }
+
+  async isEditButtonPresent() {
+    return await browser.isElementPresent(this.editButton);
+  }
+
+  async isViewDetailsButtonPresent() {
+    return await browser.isElementPresent(this.viewDetailsButton);
+  }
+
+  async isPrintButtonPresent() {
+    return await browser.isElementPresent(this.printButton);
+  }
+
+  async isFullScreenButtonPresent() {
+    return await browser.isElementPresent(this.fullScreenButton);
+  }
+
+
+  async clickEditButton() {
+    return await this.editButton.click();
+  }
+
+  async clickJoinButton() {
+    return await this.joinButton.click();
+  }
+
+  async clickLeaveButton() {
+    return await this.leaveButton.click();
+  }
+
+
+  async clickFavorite() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Favorite');
+  }
+
 }
