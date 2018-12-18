@@ -118,9 +118,9 @@ describe('Favorites', () => {
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213671]', async () => {
-    expect(await dataTable.getItemLocationTileAttr(fileName1)).toEqual(`File Libraries/${siteName}`);
-    expect(await dataTable.getItemLocationTileAttr(fileName2)).toEqual(`Personal Files/${parentFolder}`);
-    expect(await dataTable.getItemLocationTileAttr(favFolderName)).toEqual('Personal Files');
+    expect(await dataTable.getItemLocationTooltip(fileName1)).toEqual(`File Libraries/${siteName}`);
+    expect(await dataTable.getItemLocationTooltip(fileName2)).toEqual(`Personal Files/${parentFolder}`);
+    expect(await dataTable.getItemLocationTooltip(favFolderName)).toEqual('Personal Files');
   });
 
   it('Location column redirect - item in user Home - [C213650]', async () => {

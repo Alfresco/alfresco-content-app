@@ -94,6 +94,10 @@ export class ShareDialog extends Component {
     return await this.url.getAttribute('readonly');
   }
 
+  async isCloseEnabled() {
+    return await this.closeButton.isEnabled();
+  }
+
   async clickClose() {
     await this.closeButton.click();
     await this.waitForDialogToClose();

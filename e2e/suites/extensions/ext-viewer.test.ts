@@ -141,7 +141,7 @@ describe('Extensions - Viewer', () => {
             await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
             expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-            expect(await toolbar.isPrintButtonPresent()).toBe(false, 'Print button is still displayed');
+            expect(await toolbar.isPrintPresent()).toBe(false, 'Print button is still displayed');
         });
     });
 

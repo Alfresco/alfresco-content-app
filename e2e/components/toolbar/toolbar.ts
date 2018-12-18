@@ -41,7 +41,9 @@ export class Toolbar extends Component {
     print: `.mat-icon-button[title='Print']`,
     fullScreen: `.mat-icon-button[title='Activate full-screen mode']`,
     joinLibrary: `.mat-icon-button[title='Join']`,
-    leaveLibrary: `.mat-icon-button[title='Leave library']`
+    leaveLibrary: `.mat-icon-button[title='Leave library']`,
+    permanentlyDelete: `.mat-icon-button[title='Permanently delete']`,
+    restore: `.mat-icon-button[title='Restore']`
   };
 
   menu: Menu = new Menu();
@@ -56,6 +58,8 @@ export class Toolbar extends Component {
   fullScreenButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.fullScreen));
   joinButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.joinLibrary));
   leaveButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.leaveLibrary));
+  permanentlyDeleteButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.permanentlyDelete));
+  restoreButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.restore));
 
   constructor(ancestor?: ElementFinder) {
     super(Toolbar.selectors.root, ancestor);
@@ -103,65 +107,105 @@ export class Toolbar extends Component {
     await btn.click();
   }
 
-  async clickShareButton() {
+  async clickShare() {
     const btn = this.shareButton;
     await btn.click();
   }
 
-  async clickShareEditButton() {
+  async clickSharedLinkSettings() {
     const btn = this.shareEditButton;
     await btn.click();
   }
 
-  async isShareEditButtonPresent() {
+  async isSharedLinkSettingsPresent() {
     return await browser.isElementPresent(this.shareEditButton);
   }
 
-  async isShareButtonPresent() {
+  async isSharePresent() {
     return await browser.isElementPresent(this.shareButton);
   }
 
-  async isViewButtonPresent() {
+  async isViewPresent() {
     return await browser.isElementPresent(this.viewButton);
   }
 
-  async isDownloadButtonPresent() {
+  async isDownloadPresent() {
     return await browser.isElementPresent(this.downloadButton);
   }
 
-  async isEditButtonPresent() {
+  async isEditPresent() {
     return await browser.isElementPresent(this.editButton);
   }
 
-  async isViewDetailsButtonPresent() {
+  async isViewDetailsPresent() {
     return await browser.isElementPresent(this.viewDetailsButton);
   }
 
-  async isPrintButtonPresent() {
+  async isPrintPresent() {
     return await browser.isElementPresent(this.printButton);
   }
 
-  async isFullScreenButtonPresent() {
+  async isFullScreenPresent() {
     return await browser.isElementPresent(this.fullScreenButton);
   }
 
 
-  async clickEditButton() {
+  async clickEdit() {
     return await this.editButton.click();
   }
 
-  async clickJoinButton() {
+  async clickViewDetails() {
+    return await this.viewDetailsButton.click();
+  }
+
+  async clickDownload() {
+    return await this.downloadButton.click();
+  }
+
+  async clickJoin() {
     return await this.joinButton.click();
   }
 
-  async clickLeaveButton() {
+  async clickLeave() {
     return await this.leaveButton.click();
   }
 
+  async clickPermanentlyDelete() {
+    return await this.permanentlyDeleteButton.click();
+  }
+  async clickRestore() {
+    return await this.restoreButton.click();
+  }
 
-  async clickFavorite() {
+
+  async clickMoreActionsFavorite() {
     await this.openMoreMenu();
     return await this.menu.clickMenuItem('Favorite');
+  }
+
+  async clickMoreActionsDelete() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Delete');
+  }
+
+  async clickMoreActionsManageVersions() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Manage Versions');
+  }
+
+  async clickMoreActionsMove() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Move');
+  }
+
+  async clickMoreActionsCopy() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Copy');
+  }
+
+
+  async clickFullScreen() {
+    return await this.fullScreenButton.click();
   }
 
 }

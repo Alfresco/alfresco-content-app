@@ -96,14 +96,14 @@ describe('Library properties', () => {
 
   afterEach(async done => {
     if (await infoDrawer.isOpen()) {
-      await page.toolbar.getButtonByTitleAttribute('View details').click();
+      await page.toolbar.clickViewDetails();
     }
     done();
   });
 
   it('Info drawer opens for a library - [C289336]', async () => {
     await dataTable.selectItem(site.name);
-    await page.toolbar.getButtonByTitleAttribute('View details').click();
+    await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
 
     expect(await infoDrawer.getHeaderTitle()).toEqual('Details');
@@ -123,7 +123,7 @@ describe('Library properties', () => {
 
   it('Editable properties - [C289338]', async () => {
     await dataTable.selectItem(site.name);
-    await page.toolbar.getButtonByTitleAttribute('View details').click();
+    await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
 
     expect(await infoDrawer.isButtonEnabled('Edit')).toBe(true, 'Edit action is not enabled');
@@ -142,7 +142,7 @@ describe('Library properties', () => {
 
   it('Edit site details - [C289339]', async () => {
     await dataTable.selectItem(siteForUpdate.name);
-    await page.toolbar.getButtonByTitleAttribute('View details').click();
+    await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
 
     expect(await infoDrawer.isButtonEnabled('Edit')).toBe(true, 'Edit action is not enabled');
@@ -169,7 +169,7 @@ describe('Library properties', () => {
     const newDesc = `new desc ${Utils.random}`;
 
     await dataTable.selectItem(site.name);
-    await page.toolbar.getButtonByTitleAttribute('View details').click();
+    await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
 
     expect(await infoDrawer.isButtonEnabled('Edit')).toBe(true, 'Edit action is not enabled');
@@ -190,7 +190,7 @@ describe('Library properties', () => {
     await apis.user.queries.waitForApi(site.name, { expect: 1 });
 
     await dataTable.selectItem(siteDup);
-    await page.toolbar.getButtonByTitleAttribute('View details').click();
+    await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
     await infoDrawer.clickButton('Edit');
 
@@ -201,7 +201,7 @@ describe('Library properties', () => {
 
   it('Site name too long - [C289342]', async () => {
     await dataTable.selectItem(site.name);
-    await page.toolbar.getButtonByTitleAttribute('View details').click();
+    await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
     await infoDrawer.clickButton('Edit');
 
@@ -214,7 +214,7 @@ describe('Library properties', () => {
 
   it('Site description too long - [C289343]', async () => {
     await dataTable.selectItem(site.name);
-    await page.toolbar.getButtonByTitleAttribute('View details').click();
+    await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
     await infoDrawer.clickButton('Edit');
 
@@ -236,7 +236,7 @@ describe('Library properties', () => {
 
       await page.clickFileLibrariesAndWait();
       await dataTable.selectItem(site.name);
-      await page.toolbar.getButtonByTitleAttribute('View details').click();
+      await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
       expect(await infoDrawer.isButtonDisplayed('Edit')).toBe(false, 'Edit action is displayed');
     });
@@ -246,7 +246,7 @@ describe('Library properties', () => {
 
       await page.clickFileLibrariesAndWait();
       await dataTable.selectItem(site.name);
-      await page.toolbar.getButtonByTitleAttribute('View details').click();
+      await page.toolbar.clickViewDetails();
       await infoDrawer.waitForInfoDrawerToOpen();
       await infoDrawer.clickButton('Edit');
 

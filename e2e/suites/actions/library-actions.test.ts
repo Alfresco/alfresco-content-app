@@ -98,7 +98,7 @@ describe('Library actions', () => {
   it('Join a public library - Favorite Libraries - [C290105]', async () => {
     await page.goToFavoriteLibraries();
     await dataTable.selectItem(sitePublic1Admin);
-    await toolbar.clickJoinButton();
+    await toolbar.clickJoin();
 
     expect(await dataTable.getLibraryRole(sitePublic1Admin)).toEqual('Consumer');
   });
@@ -106,7 +106,7 @@ describe('Library actions', () => {
   it('Join a moderated library - Favorite Libraries - [C290109]', async () => {
     await page.goToFavoriteLibraries();
     await dataTable.selectItem(siteModerated1Admin);
-    await toolbar.clickJoinButton();
+    await toolbar.clickJoin();
 
     expect(await dataTable.getLibraryRole(siteModerated1Admin)).toEqual('');
     const hasJoinRequest = await apis.user.sites.hasMembershipRequest(siteModerated1Admin);
@@ -116,7 +116,7 @@ describe('Library actions', () => {
   it('Leave a library - My Libraries - [C290106]', async () => {
     await page.goToMyLibraries();
     await dataTable.selectItem(sitePublic2Admin);
-    await toolbar.clickLeaveButton();
+    await toolbar.clickLeave();
     await page.waitForDialog();
     await confirmDialog.clickOk();
 
@@ -127,7 +127,7 @@ describe('Library actions', () => {
   it('Leave a library - Favorite Libraries - [C290110]', async () => {
     await page.goToFavoriteLibraries();
     await dataTable.selectItem(sitePublic3Admin);
-    await toolbar.clickLeaveButton();
+    await toolbar.clickLeave();
     await page.waitForDialog();
     await confirmDialog.clickOk();
 
@@ -138,7 +138,7 @@ describe('Library actions', () => {
   it('Confirmation dialog UI - [C290136]', async () => {
     await page.goToMyLibraries();
     await dataTable.selectItem(sitePublic4Admin);
-    await toolbar.clickLeaveButton();
+    await toolbar.clickLeave();
     await page.waitForDialog();
 
     expect(await confirmDialog.isDialogOpen()).toBe(true, 'Confirm delete dialog not open');
@@ -151,7 +151,7 @@ describe('Library actions', () => {
   it('Cancel Leave library - [C290111]', async () => {
     await page.goToMyLibraries();
     await dataTable.selectItem(sitePublic4Admin);
-    await toolbar.clickLeaveButton();
+    await toolbar.clickLeave();
     await page.waitForDialog();
 
     expect(await confirmDialog.isCancelEnabled()).toBe(true, 'Cancel button is not enabled');
@@ -162,7 +162,7 @@ describe('Library actions', () => {
   it('Leave a library - failure notification - [C290107]', async () => {
     await page.goToMyLibraries();
     await dataTable.selectItem(sitePublicUser);
-    await toolbar.clickLeaveButton();
+    await toolbar.clickLeave();
     await page.waitForDialog();
     await confirmDialog.clickOk();
 

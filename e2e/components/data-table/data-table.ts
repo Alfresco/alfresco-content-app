@@ -252,10 +252,6 @@ export class DataTable extends Component {
   }
 
   async getItemLocationTooltip(name: string) {
-    return await this.getItemLocationEl(name).$('a').getAttribute('title');
-  }
-
-  async getItemLocationTileAttr(name: string) {
     const location = this.getItemLocationEl(name).$('a');
     const condition = () => location.getAttribute('title').then(value => value && value.length > 0);
 

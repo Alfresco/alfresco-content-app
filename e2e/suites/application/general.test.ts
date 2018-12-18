@@ -61,8 +61,7 @@ describe('General', () => {
 
       await createDialog.clickCreate();
 
-      const message = await page.getSnackBarMessage();
-      expect(message).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
+      expect(await page.getSnackBarMessage()).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
 
       expect(await browser.getTitle()).toContain('Sign in');
 

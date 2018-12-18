@@ -103,12 +103,12 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
       expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed`);
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isPrintButtonPresent()).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isFullScreenButtonPresent()).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isShareButtonPresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `view details is not displayed`);
+      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
+      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
+      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
+      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
@@ -123,7 +123,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxPersonalFiles)).toBe(true, 'File not found in download location');
     });
 
@@ -131,11 +131,10 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
@@ -152,11 +151,10 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
@@ -170,7 +168,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickFavorite();
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
@@ -181,8 +179,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(pdfPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfPersonalFiles} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
@@ -195,7 +192,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
       await Utils.getBrowserLog();
 
-      await toolbar.clickButton('Activate full-screen mode');
+      await toolbar.clickFullScreen();
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is closed after pressing Full screen');
       const browserLogAfter = await Utils.getBrowserLog();
 
@@ -206,7 +203,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -215,8 +212,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });
@@ -226,7 +222,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await Utils.pressEscape();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Dialog is still open');
@@ -277,7 +273,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxLibraries)).toBe(true, 'File not found in download location');
     });
 
@@ -285,11 +281,10 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
@@ -306,11 +301,10 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
@@ -324,7 +318,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickFavorite();
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, `${docxLibraries} is not favorite`);
@@ -335,8 +329,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(pdfLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfLibraries} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
@@ -348,7 +341,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -357,8 +350,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });
@@ -407,7 +399,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxRecentFiles)).toBe(true, 'File not found in download location');
     });
 
@@ -415,11 +407,10 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
@@ -436,16 +427,15 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
       expect(await dataTable.isItemPresent(xlsxRecentFiles)).toBe(true, 'Item is not in the list');
-      expect(await dataTable.getItemLocationTileAttr(xlsxRecentFiles)).toContain(destination, 'Item was not moved');
+      expect(await dataTable.getItemLocationTooltip(xlsxRecentFiles)).toContain(destination, 'Item was not moved');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.isItemPresent(xlsxRecentFiles)).toBe(true, 'Item is not present in destination');
@@ -455,7 +445,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickFavorite();
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
@@ -466,8 +456,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(pdfRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfRecentFiles} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
@@ -479,7 +468,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -488,8 +477,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });
@@ -538,7 +526,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxSharedFiles)).toBe(true, 'File not found in download location');
     });
 
@@ -546,11 +534,10 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
@@ -567,16 +554,15 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
       expect(await dataTable.isItemPresent(xlsxSharedFiles)).toBe(true, 'Item is not in the list');
-      expect(await dataTable.getItemLocationTileAttr(xlsxSharedFiles)).toContain(destination, 'Item was not moved');
+      expect(await dataTable.getItemLocationTooltip(xlsxSharedFiles)).toContain(destination, 'Item was not moved');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.isItemPresent(xlsxSharedFiles)).toBe(true, 'Item is not present in destination');
@@ -586,7 +572,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickFavorite();
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
@@ -597,8 +583,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(pdfSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfSharedFiles} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
@@ -610,7 +595,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -619,8 +604,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });
@@ -671,7 +655,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxFavorites)).toBe(true, 'File not found in download location');
     });
 
@@ -679,11 +663,10 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
@@ -700,16 +683,15 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
       expect(await dataTable.isItemPresent(xlsxFavorites)).toBe(true, 'Item is not in the list');
-      expect(await dataTable.getItemLocationTileAttr(xlsxFavorites)).toContain(destination, 'Item was not moved');
+      expect(await dataTable.getItemLocationTooltip(xlsxFavorites)).toContain(destination, 'Item was not moved');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
       expect(await dataTable.isItemPresent(xlsxFavorites)).toBe(true, 'Item is not present in destination');
@@ -719,7 +701,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickFavorite();
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(xlsxFileId)).toBe(false, 'Item is still favorite');
@@ -730,8 +712,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(pdfFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfFavorites} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
@@ -743,7 +724,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -752,8 +733,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });

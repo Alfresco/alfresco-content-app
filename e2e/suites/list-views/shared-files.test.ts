@@ -114,7 +114,7 @@ describe('Shared Files', () => {
   });
 
   it('Location column displays the parent folder of the file - [C213665]', async () => {
-    expect(await dataTable.getItemLocationTileAttr(file4User)).toEqual('Personal Files');
+    expect(await dataTable.getItemLocationTooltip(file4User)).toEqual('Personal Files');
     expect(await dataTable.getItemLocation(fileAdmin)).toEqual(siteName);
     expect(await dataTable.getItemLocation(file1User)).toEqual(folderUser);
   });
@@ -135,7 +135,7 @@ describe('Shared Files', () => {
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213667]', async () => {
-    expect(await dataTable.getItemLocationTileAttr(fileAdmin)).toEqual(`File Libraries/${siteName}`);
-    expect(await dataTable.getItemLocationTileAttr(file1User)).toEqual(`Personal Files/${folderUser}`);
+    expect(await dataTable.getItemLocationTooltip(fileAdmin)).toEqual(`File Libraries/${siteName}`);
+    expect(await dataTable.getItemLocationTooltip(file1User)).toEqual(`Personal Files/${folderUser}`);
   });
 });

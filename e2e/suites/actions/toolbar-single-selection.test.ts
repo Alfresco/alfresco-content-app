@@ -128,9 +128,9 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a file is selected - [C213122]', async () => {
       await dataTable.selectItem(fileUser);
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
-      expect(await toolbar.isViewButtonPresent()).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
-      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
+      expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
@@ -142,9 +142,9 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a folder is selected - [C213123]', async () => {
       await dataTable.selectItem(folderUser);
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for ${folderUser}`);
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not enabled for ${folderUser}`);
-      expect(await toolbar.isEditButtonPresent()).toBe(true, `Edit is not displayed for ${folderUser}`);
+      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folderUser}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not enabled for ${folderUser}`);
+      expect(await toolbar.isEditPresent()).toBe(true, `Edit is not displayed for ${folderUser}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderUser}`);
@@ -171,9 +171,9 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a file is selected - [C280440]', async () => {
       await dataTable.selectItem(fileInSite);
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileInSite}`);
-      expect(await toolbar.isViewButtonPresent()).toBe(true, `View is not displayed for ${fileInSite}`);
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${fileInSite}`);
-      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${fileInSite}`);
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileInSite}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileInSite}`);
+      expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for ${fileInSite}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileInSite}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileInSite}`);
@@ -185,9 +185,9 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a folder is selected - [C280441]', async () => {
       await dataTable.selectItem(folderInSite);
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderInSite}`);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for ${folderInSite}`);
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not enabled for ${folderInSite}`);
-      expect(await toolbar.isEditButtonPresent()).toBe(true, `Edit is not displayed for ${folderInSite}`);
+      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folderInSite}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not enabled for ${folderInSite}`);
+      expect(await toolbar.isEditPresent()).toBe(true, `Edit is not displayed for ${folderInSite}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderInSite}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderInSite}`);
@@ -208,7 +208,7 @@ describe('Toolbar actions - single selection : ', () => {
       await page.goToMyLibraries();
       await dataTable.selectItem(siteName);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
-      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed for ${siteName}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${siteName}`);
       expect(await toolbar.isButtonPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
@@ -219,7 +219,7 @@ describe('Toolbar actions - single selection : ', () => {
       await page.goToFavoriteLibraries();
       await dataTable.selectItem(siteName);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
-      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed for ${siteName}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${siteName}`);
       expect(await toolbar.isButtonPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
@@ -230,7 +230,7 @@ describe('Toolbar actions - single selection : ', () => {
       await page.goToFavoriteLibraries();
       await dataTable.selectItem(adminPublic);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
-      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed for ${adminPublic}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminPublic}`);
       expect(await toolbar.isButtonPresent('Join')).toBe(true, `Join is not displayed for ${adminPublic}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminPublic}`);
@@ -241,7 +241,7 @@ describe('Toolbar actions - single selection : ', () => {
       await page.goToFavoriteLibraries();
       await dataTable.selectItem(adminModerated);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
-      expect(await toolbar.isViewDetailsButtonPresent()).toBe(true, `View details is not displayed for ${adminModerated}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminModerated}`);
       expect(await toolbar.isButtonPresent('Cancel join request')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
@@ -264,10 +264,10 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a file is selected - [C286265]', async () => {
       await page.dataTable.selectItem(fileUser);
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
-      expect(await toolbar.isViewButtonPresent()).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
-      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
-      expect(await toolbar.isShareEditButtonPresent()).toBe(true, `Shared link settings is not displayed for ${fileUser}`);
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
+      expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
+      expect(await toolbar.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed for ${fileUser}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
@@ -292,9 +292,9 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a file is selected - [C280448]', async () => {
       await dataTable.selectItem(fileUser);
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
-      expect(await toolbar.isViewButtonPresent()).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
-      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
+      expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
@@ -319,9 +319,9 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a file is selected - [C280450]', async () => {
       await dataTable.selectItem(fileUser);
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
-      expect(await toolbar.isViewButtonPresent()).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
-      expect(await toolbar.isEditButtonPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
+      expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
@@ -333,9 +333,9 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a folder is selected - [C280451]', async () => {
       await dataTable.selectItem(folderUser);
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, `View is displayed for ${folderUser}`);
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, `Download is not enabled for ${folderUser}`);
-      expect(await toolbar.isEditButtonPresent()).toBe(true, `Edit is not displayed for ${folderUser}`);
+      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folderUser}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not enabled for ${folderUser}`);
+      expect(await toolbar.isEditPresent()).toBe(true, `Edit is not displayed for ${folderUser}`);
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderUser}`);

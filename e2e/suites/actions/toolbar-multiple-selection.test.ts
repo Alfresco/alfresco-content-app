@@ -144,9 +144,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when multiple files are selected - [C217112]', async () => {
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -157,9 +157,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when multiple folders are selected - [C280459]', async () => {
       await dataTable.selectMultipleItems([folder1, folder2]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -170,9 +170,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when both files and folders are selected - [C280460]', async () => {
       await dataTable.selectMultipleItems([file1, file2, folder1, folder2]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -194,9 +194,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when multiple files are selected - [C280461]', async () => {
       await dataTable.selectMultipleItems([file1InSite, file2InSite]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed for selected files');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed for selected files');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed for selected files');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed for selected files');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed for selected files');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed for selected files');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -206,9 +206,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when multiple folders are selected - [C280462]', async () => {
       await dataTable.selectMultipleItems([folder1InSite, folder2InSite]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -218,9 +218,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when both files and folders are selected - [C280463]', async () => {
       await dataTable.selectMultipleItems([file1InSite, file2InSite, folder1InSite, folder2InSite]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -240,9 +240,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when multiple files are selected - [C280467]', async () => {
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed for selected files');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed for selected files');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed for selected files');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed for selected files');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -261,9 +261,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when multiple files are selected - [C280468]', async () => {
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -283,9 +283,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when multiple files are selected - [C280469]', async () => {
       await dataTable.selectMultipleItems([file1, file2]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -295,9 +295,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when multiple folders are selected - [C280470]', async () => {
       await dataTable.selectMultipleItems([folder1, folder2]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
@@ -307,9 +307,9 @@ describe('Toolbar actions - multiple selection : ', () => {
 
     it('correct actions appear when both files and folders are selected - [C280471]', async () => {
       await dataTable.selectMultipleItems([file1, file2, folder1, folder2]);
-      expect(await toolbar.isViewButtonPresent()).toBe(false, 'View is displayed');
-      expect(await toolbar.isDownloadButtonPresent()).toBe(true, 'Download is not displayed for selected files');
-      expect(await toolbar.isEditButtonPresent()).toBe(false, 'Edit is displayed');
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed for selected files');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);

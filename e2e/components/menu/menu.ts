@@ -60,6 +60,10 @@ export class Menu extends Component {
   permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently delete'));
   restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
   viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View details'));
+  createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create folder'));
+  createLibraryAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Library'));
+  uploadFileAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload file'));
+  uploadFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload folder'));
 
   constructor(ancestor?: ElementFinder) {
     super(Menu.selectors.root, ancestor);
@@ -186,15 +190,17 @@ export class Menu extends Component {
     return this.uploadFiles;
   }
 
-  async clickShareAction() {
+
+  async clickShare() {
     const action = this.shareAction;
     await action.click();
   }
 
-  async clickShareEditAction() {
+  async clickSharedLinkSettings() {
     const action = this.shareEditAction;
     await action.click();
   }
+
 
   async isViewPresent() {
     return await this.viewAction.isPresent();
@@ -262,6 +268,56 @@ export class Menu extends Component {
 
   async isViewDetailsPresent() {
     return await this.viewDetailsAction.isPresent();
+  }
+
+  async isCreateFolderPresent() {
+    return await this.createFolderAction.isPresent();
+  }
+  async isCreateFolderEnabled() {
+    return await this.createFolderAction.isEnabled();
+  }
+
+  async isCreateLibraryPresent() {
+    return await this.createLibraryAction.isPresent();
+  }
+  async isCreateLibraryEnabled() {
+    return await this.createLibraryAction.isEnabled();
+  }
+
+  async isUploadFilePresent() {
+    return await this.uploadFileAction.isPresent();
+  }
+  async isUploadFileEnabled() {
+    return await this.uploadFileAction.isEnabled();
+  }
+
+  async isUploadFolderPresent() {
+    return await this.uploadFolderAction.isPresent();
+  }
+  async isUploadFolderEnabled() {
+    return await this.uploadFolderAction.isEnabled();
+  }
+
+
+
+  async clickCreateFolder() {
+    const action = this.createFolderAction;
+    await action.click();
+  }
+
+  async clickCreateLibrary() {
+    const action = this.createLibraryAction;
+    await action.click();
+  }
+
+  async clickUploadFile() {
+    const action = this.uploadFileAction;
+    await action.click();
+  }
+
+  async clickUploadFolder() {
+    const action = this.uploadFolderAction;
+    await action.click();
   }
 
 }

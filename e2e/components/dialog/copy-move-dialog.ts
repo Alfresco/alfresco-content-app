@@ -115,7 +115,7 @@ export class CopyMoveDialog extends Component {
     await this.waitForDropDownToClose();
   }
 
-  async chooseDestination(folderName: string) {
+  async selectDestination(folderName: string) {
     const row = this.getRow(folderName);
     await Utils.waitUntilElementClickable(row);
     await row.click();

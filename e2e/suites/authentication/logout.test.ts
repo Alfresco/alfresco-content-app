@@ -49,7 +49,7 @@ describe('Logout', () => {
 
   it('Sign out option is available - [C213143]', async () => {
     await page.header.userInfo.openMenu();
-    expect(await page.header.userInfo.menu.isMenuItemPresent('Sign out')).toBe(true, 'Sign out option not displayed');
+    expect(await page.header.isSignOutDisplayed()).toBe(true, 'Sign out option not displayed');
   });
 
   it('redirects to Login page on sign out - [C213144]', async () => {

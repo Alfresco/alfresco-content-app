@@ -34,6 +34,7 @@ import { navigate } from '../../utilities/browser-utils';
 describe('Login', () => {
   const peopleApi = new RepoClient().people;
   const loginPage = new LoginPage();
+  const { login } = loginPage;
 
   /* cspell:disable-next-line */
   const testUser = `user-${Utils.random()}@alfness`;
@@ -82,18 +83,18 @@ describe('Login', () => {
     });
 
     it('login page layout - [C213089]', async () => {
-      expect(await loginPage.login.usernameInput.isEnabled()).toBe(true, 'username input is not enabled');
-      expect(await loginPage.login.passwordInput.isEnabled()).toBe(true, 'password input is not enabled');
-      expect(await loginPage.login.submitButton.isEnabled()).toBe(false, 'SIGN IN button is enabled');
-      expect(await loginPage.login.getPasswordVisibility()).toBe(false, 'Password is not hidden by default');
+      expect(await login.isUsernameEnabled()).toBe(true, 'username input is not enabled');
+      expect(await login.isPasswordEnabled()).toBe(true, 'password input is not enabled');
+      expect(await login.isSubmitEnabled()).toBe(false, 'SIGN IN button is enabled');
+      expect(await login.isPasswordHidden()).toBe(true, 'Password is not hidden by default');
     });
 
     it('change password visibility - [C213091]', async () => {
-      await loginPage.login.enterPassword('some password');
-      expect(await loginPage.login.isPasswordShown()).toBe(false, 'password is visible');
-      await loginPage.login.passwordVisibility.click();
-      expect(await loginPage.login.getPasswordVisibility()).toBe(true, 'Password visibility not changed');
-      expect(await loginPage.login.isPasswordShown()).toBe(true, 'password is not visible');
+      await login.enterPassword('some password');
+      expect(await login.isPasswordDisplayed()).toBe(false, 'password is visible');
+      await login.clickPasswordVisibility();
+      expect(await login.isPasswordHidden()).toBe(false, 'Password visibility not changed');
+      expect(await login.isPasswordDisplayed()).toBe(true, 'password is not visible');
     });
   });
 

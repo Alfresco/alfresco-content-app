@@ -114,9 +114,9 @@ describe('Recent Files', () => {
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213177]', async () => {
-    expect(await dataTable.getItemLocationTileAttr(fileName1)).toEqual(`Personal Files/${folderName}`);
-    expect(await dataTable.getItemLocationTileAttr(fileName2)).toEqual('Personal Files');
-    expect(await dataTable.getItemLocationTileAttr(fileSite)).toEqual(`File Libraries/${siteName}/${folderSite}`);
+    expect(await dataTable.getItemLocationTooltip(fileName1)).toEqual(`Personal Files/${folderName}`);
+    expect(await dataTable.getItemLocationTooltip(fileName2)).toEqual('Personal Files');
+    expect(await dataTable.getItemLocationTooltip(fileSite)).toEqual(`File Libraries/${siteName}/${folderSite}`);
   });
 
   it('Location column redirect - file in user Home - [C213176]', async () => {
