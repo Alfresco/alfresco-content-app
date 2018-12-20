@@ -39,7 +39,7 @@ export class CopyMoveDialog extends Component {
 
     dataTable: '.adf-datatable-body',
     row: '.adf-datatable-row[role]',
-    selectedRow: '.is-selected',
+    selectedRow: '.adf-is-selected',
 
     button: '.mat-dialog-actions button'
   };

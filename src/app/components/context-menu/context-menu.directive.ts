@@ -109,7 +109,7 @@ export class ContextActionsDirective implements OnInit, OnDestroy {
     }
 
     return this.findAncestor(target, 'adf-datatable-row').classList.contains(
-      'is-selected'
+      'adf-is-selected'
     );
   }
 
