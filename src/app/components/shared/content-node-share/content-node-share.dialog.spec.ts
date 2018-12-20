@@ -153,7 +153,7 @@ describe('ShareDialogComponent', () => {
       fixture.detectChanges();
 
       fixture.nativeElement
-        .querySelector('.input-action')
+        .querySelector('.adf-input-action')
         .dispatchEvent(new MouseEvent('click'));
 
       fixture.detectChanges();

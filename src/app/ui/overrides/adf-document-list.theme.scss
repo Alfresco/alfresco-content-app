@@ -52,8 +52,8 @@
         background-color: #e0f7fa;
       }
 
-      &.is-selected,
-      &.is-selected:hover {
+      &.adf-is-selected,
+      &.adf-is-selected:hover {
         background-color: #e0f7fa;
       }
     }
@@ -70,8 +70,8 @@
       width: 10px;
     }
 
-    .adf-data-table-cell--ellipsis .cell-value,
-    .adf-data-table-cell--ellipsis__name .cell-value {
+    .adf-data-table-cell--ellipsis .adf-cell-value,
+    .adf-data-table-cell--ellipsis__name .adf-cell-value {
       display: flex;
       align-items: center;
     }
