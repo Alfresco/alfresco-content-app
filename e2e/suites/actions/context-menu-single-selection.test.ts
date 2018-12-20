@@ -107,31 +107,36 @@ describe('Context menu actions - single selection : ', () => {
 
     it('Row is marked with a check circle icon on direct right click - [C286252]', async () => {
       await dataTable.rightClickOnItem(fileUser);
+
       expect(await dataTable.hasCheckMarkIcon(fileUser)).toBe(true, 'check mark missing');
     });
 
     it('Context menu appears on direct right click on an item - [C286253]', async () => {
       await dataTable.rightClickOnItem(fileUser);
+
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
     });
 
     it('Context menu appears when selecting an item and then right clicking on it - [C286254]', async () => {
       await dataTable.selectItem(fileUser);
       await dataTable.rightClickOnItem(fileUser);
+
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
     });
 
     it('Context menu appears correctly when right clicking on another item - [C284666]', async () => {
       await dataTable.selectItem(fileUser);
       await dataTable.rightClickOnItem(folderUser);
+
       expect(await dataTable.hasContextMenu()).toBe(true, `Context menu is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(true, `Edit is not displayed for ${folderUser}`);
       expect(await dataTable.hasCheckMarkIcon(folderUser)).toBe(true, `${folderUser} is not selected`);
       expect(await dataTable.hasCheckMarkIcon(fileUser)).toBe(false, `${fileUser} is not selected`);
     });
 
     it('Context menu closes when clicking away from it - [C280619]', async () => {
       await dataTable.rightClickOnItem(fileUser);
+
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
       await page.sidenav.getActiveLink().click();
       expect(await dataTable.hasContextMenu()).toBe(false, 'Context menu is displayed');
@@ -148,31 +153,33 @@ describe('Context menu actions - single selection : ', () => {
 
     it('Context menu has the correct actions for a file - [C280615]', async () => {
       await dataTable.rightClickOnItem(fileUser);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${fileUser}`);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
+      expect(await contextMenu.isSharePresent()).toBe(true, `Share is not displayed for ${fileUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions is not displayed for ${fileUser}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${fileUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${fileUser}`);
     });
 
     it('Context menu has the correct actions for a folder - [C280616]', async () => {
       await dataTable.rightClickOnItem(folderUser);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(false, `Manage Versions is displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(false, `Share is displayed for ${folderUser}`);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folderUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(true, `Edit is not displayed for ${folderUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${folderUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderUser}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${folderUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folderUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed for ${folderUser}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folderUser}`);
     });
   });
 
@@ -187,31 +194,33 @@ describe('Context menu actions - single selection : ', () => {
 
     it('Context menu has the correct actions for a file - [C280594]', async () => {
       await dataTable.rightClickOnItem(fileSiteUser);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${fileSiteUser}`);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isSharePresent()).toBe(true, `Share is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${fileSiteUser}`);
     });
 
     it('Context menu has the correct actions for a folder - [C280595]', async () => {
       await dataTable.rightClickOnItem(folderSiteUser);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not enabled for ${folderSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(true, `Edit is not displayed for ${folderSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${folderSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, `View is displayed for ${folderSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(false, `Manage Versions displayed for ${folderSiteUser}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(false, `Share is displayed for ${folderSiteUser}`);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(true, `Edit is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folderSiteUser}`);
     });
   });
 
@@ -225,37 +234,41 @@ describe('Context menu actions - single selection : ', () => {
     it('Available actions when a library is selected - My Libraries - [C290080]', async () => {
       await page.goToMyLibraries();
       await dataTable.rightClickOnItem(siteName);
+
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+      expect(await contextMenu.isLeaveLibraryPresent()).toBe(true, `Leave is not displayed for ${siteName}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
     });
 
     it('Available actions when a library is selected - Favorite Libraries - user is a member - [C290081]', async () => {
       await page.goToFavoriteLibraries();
       await dataTable.rightClickOnItem(siteName);
+
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${siteName}`);
+      expect(await contextMenu.isLeaveLibraryPresent()).toBe(true, `Leave is not displayed for ${siteName}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
     });
 
     it('Available actions when a library is selected - Favorite Libraries - user is not a member - [C290082]', async () => {
       await page.goToFavoriteLibraries();
       await dataTable.rightClickOnItem(adminPublic);
+
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Join')).toBe(true, `Join is not displayed for ${adminPublic}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminPublic}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isJoinLibraryPresent()).toBe(true, `Join is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminPublic}`);
     });
 
     it('Available actions when a library is selected - Favorite Libraries - user requested to join - [C290089]', async () => {
       await page.goToFavoriteLibraries();
       await dataTable.rightClickOnItem(adminModerated);
+
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
-      expect(await contextMenu.isMenuItemPresent('Cancel join')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${adminModerated}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isCancelJoinPresent()).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminModerated}`);
     });
   });
 
@@ -268,17 +281,18 @@ describe('Context menu actions - single selection : ', () => {
 
     it('Context menu has the correct actions for a file - [C280601]', async () => {
       await dataTable.rightClickOnItem(fileUser);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Shared link settings')).toBe(true, `Shared link settings is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${fileUser}`);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
+      expect(await contextMenu.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed for ${fileUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions not displayed for ${fileUser}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${fileUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${fileUser}`);
     });
   });
 
@@ -291,17 +305,18 @@ describe('Context menu actions - single selection : ', () => {
 
     it('Context menu has the correct actions for a file - [C280622]', async () => {
       await dataTable.rightClickOnItem(fileUser);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${fileUser}`);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
+      expect(await contextMenu.isSharePresent()).toBe(true, `Share is not displayed for ${fileUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions not displayed for ${fileUser}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${fileUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${fileUser}`);
     });
   });
 
@@ -314,33 +329,35 @@ describe('Context menu actions - single selection : ', () => {
 
     it('Context menu has the correct actions for a file - [C280608]', async () => {
       await dataTable.rightClickOnItem(fileUser);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(true, `Share is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage Versions is not displayed for ${fileUser}`);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
+      expect(await contextMenu.isSharePresent()).toBe(true, `Share is not displayed for ${fileUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions is not displayed for ${fileUser}`);
       // TODO: enable when ACA-1794 is fixed
-      // expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${fileUser}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${fileUser}`);
+      // expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${fileUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${fileUser}`);
     });
 
     it('Context menu has the correct actions for a folder - [C280609]', async () => {
       await dataTable.rightClickOnItem(folderUser);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(true, `Download is not enabled for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(true, `Edit is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed for ${folderUser}`);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folderUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(true, `Edit is not displayed for ${folderUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${folderUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderUser}`);
       // TODO: enable when ACA-1794 is fixed
-      // expect(await contextMenu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, `View is displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions')).toBe(false, `Manage Versions is displayed for ${folderUser}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(false, `Share is displayed for ${folderUser}`);
+      // expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${folderUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folderUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed for ${folderUser}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folderUser}`);
     });
   });
 
@@ -353,38 +370,40 @@ describe('Context menu actions - single selection : ', () => {
 
     it('Context menu has the correct actions for a file - [C286258]', async () => {
       await dataTable.rightClickOnItem(fileInTrash);
-      expect(await contextMenu.isMenuItemPresent('Permanently delete'))
+
+      expect(await contextMenu.isPermanentDeletePresent())
           .toBe(true, `Permanently delete is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Restore')).toBe(true, `Restore is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(false, `Download is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, `View is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(false, `Favorite is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(false, `Copy is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(false, `Share is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions'))
+      expect(await contextMenu.isRestorePresent()).toBe(true, `Restore is not displayed for ${fileInTrash}`);
+      expect(await contextMenu.isDownloadPresent()).toBe(false, `Download is not displayed for ${fileInTrash}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is not displayed for ${fileInTrash}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is not displayed for ${fileInTrash}`);
+      expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is not displayed for ${fileInTrash}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is not displayed for ${fileInTrash}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is not displayed for ${fileInTrash}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is not displayed for ${fileInTrash}`);
+      expect(await contextMenu.isManageVersionsPresent())
           .toBe(false, `Manage Versions is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${fileInTrash}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${fileInTrash}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${fileInTrash}`);
     });
 
     it('Context menu has the correct actions for a folder - [C286259]', async () => {
       await dataTable.rightClickOnItem(folderInTrash);
-      expect(await contextMenu.isMenuItemPresent('Permanently delete'))
+
+      expect(await contextMenu.isPermanentDeletePresent())
           .toBe(true, `Permanently delete is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Restore')).toBe(true, `Restore is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Download')).toBe(false, `Download is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('View')).toBe(false, `View is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Favorite')).toBe(false, `Favorite is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Copy')).toBe(false, `Copy is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Move')).toBe(false, `Move is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Delete')).toBe(false, `Delete is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Share')).toBe(false, `Share is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Manage Versions'))
+      expect(await contextMenu.isRestorePresent()).toBe(true, `Restore is not displayed for ${folderInTrash}`);
+      expect(await contextMenu.isDownloadPresent()).toBe(false, `Download is not displayed for ${folderInTrash}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is not displayed for ${folderInTrash}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is not displayed for ${folderInTrash}`);
+      expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is not displayed for ${folderInTrash}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is not displayed for ${folderInTrash}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is not displayed for ${folderInTrash}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is not displayed for ${folderInTrash}`);
+      expect(await contextMenu.isManageVersionsPresent())
           .toBe(false, `Manage Versions is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('Edit')).toBe(false, `Edit is displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMenuItemPresent('View details')).toBe(false, `View details is displayed for ${folderInTrash}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${folderInTrash}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${folderInTrash}`);
     });
   });
 });

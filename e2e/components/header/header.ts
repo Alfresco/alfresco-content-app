@@ -54,5 +54,9 @@ export class Header extends Component {
     await this.moreActions.click();
     await this.menu.waitForMenuToOpen();
   }
+
+  async isSignOutDisplayed() {
+    return await this.userInfo.menu.isMenuItemPresent('Sign out');
+  }
 }
 

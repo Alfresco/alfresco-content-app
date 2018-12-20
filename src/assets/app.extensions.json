@@ -730,7 +730,7 @@
         }
       },
       {
-        "id": "app.context.leaveLibrary",
+        "id": "app.context.menu.leaveLibrary",
         "order": 703,
         "title": "APP.ACTIONS.LEAVE",
         "icon": "not_interested",
@@ -783,7 +783,7 @@
         }
       },
       {
-        "id": "app.toolbar.deleteLibrary",
+        "id": "app.context.menu.deleteLibrary",
         "order": 901,
         "title": "APP.ACTIONS.DELETE",
         "icon": "delete",

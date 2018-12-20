@@ -129,7 +129,7 @@ describe('Single click on item name', () => {
       await dataTable.clickNameLink(siteName);
 
       expect(await breadcrumb.getCurrentItemName()).toBe(siteName);
-      expect(await dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
+      expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);
     });
   });
 

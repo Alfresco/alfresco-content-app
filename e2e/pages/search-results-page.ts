@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, ElementFinder, by, ExpectedConditions as EC } from 'protractor';
+import { browser, ElementFinder } from 'protractor';
 import { BrowsingPage } from './browsing-page';
-import { BROWSER_WAIT_TIMEOUT } from '../configs';
 
 export class SearchResultsPage extends BrowsingPage {
 
@@ -51,5 +50,8 @@ export class SearchResultsPage extends BrowsingPage {
 
   root: ElementFinder = browser.$(SearchResultsPage.selectors.root);
 
+  waitForResults() {
+    return this.dataTable.waitForBody();
+  }
 
 }

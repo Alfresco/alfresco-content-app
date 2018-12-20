@@ -70,44 +70,40 @@ describe('New menu', () => {
     await page.clickPersonalFiles();
     await sidenav.openNewMenu();
 
-    expect(await sidenav.menu.isMenuItemPresent('Create folder')).toBe(true, 'Create Folder option not present');
-    expect(await sidenav.menu.isMenuItemPresent('Create Library')).toBe(true, 'Create Library option not present');
-    expect(await sidenav.menu.isMenuItemPresent('Upload file')).toBe(true, 'Upload File option not present');
-    expect(await sidenav.menu.isMenuItemPresent('Upload folder')).toBe(true, 'Upload Folder option not present');
+    expect(await sidenav.menu.isCreateFolderPresent()).toBe(true, 'Create Folder option not present');
+    expect(await sidenav.menu.isCreateLibraryPresent()).toBe(true, 'Create Library option not present');
+    expect(await sidenav.menu.isUploadFilePresent()).toBe(true, 'Upload File option not present');
+    expect(await sidenav.menu.isUploadFolderPresent()).toBe(true, 'Upload Folder option not present');
 
-    expect(await sidenav.menu.getItemByLabel('Create Library').isEnabled()).toBe(true, 'Create Library is not enabled');
+    expect(await sidenav.menu.isCreateLibraryEnabled()).toBe(true, 'Create Library is not enabled');
   });
 
   it('Create folder is enabled when having enough permissions - Personal Files - [C216339]', async () => {
     await page.clickPersonalFiles();
     await page.sidenav.openNewMenu();
 
-    const isEnabled = await sidenav.menu.getItemByLabel('Create folder').isEnabled();
-    expect(isEnabled).toBe(true, 'Create folder is not enabled');
+    expect(await sidenav.menu.isCreateFolderEnabled()).toBe(true, 'Create folder is not enabled');
   });
 
   it('Create folder is enabled when having enough permissions - File Libraries - [C280393]', async () => {
     await page.clickFileLibraries();
     await page.dataTable.doubleClickOnRowByName(siteUser);
     await page.sidenav.openNewMenu();
-    const isEnabled = await sidenav.menu.getItemByLabel('Create folder').isEnabled();
-    expect(isEnabled).toBe(true, 'Create folder is not enabled');
+    expect(await sidenav.menu.isCreateFolderEnabled()).toBe(true, 'Create folder is not enabled');
   });
 
   it('Create folder is disabled when not enough permissions - [C280397]', async () => {
     await page.clickFileLibraries();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
-    const isEnabled = await sidenav.menu.getItemByLabel('Create folder').isEnabled();
-    expect(isEnabled).toBe(false, 'Create folder is not disabled');
+    expect(await sidenav.menu.isCreateFolderEnabled()).toBe(false, 'Create folder is not disabled');
   });
 
   it('Upload File option is enabled when having enough permissions - on Personal Files - [C217145]', async () => {
     await page.clickPersonalFiles();
     await sidenav.openNewMenu();
 
-    const isEnabled = await sidenav.menu.getItemByLabel('Upload file').isEnabled();
-    expect(isEnabled).toBe(true, 'Upload file is not enabled in Personal Files');
+    expect(await sidenav.menu.isUploadFileEnabled()).toBe(true, 'Upload file is not enabled in Personal Files');
   });
 
   it('Upload File option is enabled when having permissions - on File Libraries - [C290142]', async () => {
@@ -115,8 +111,7 @@ describe('New menu', () => {
     await dataTable.doubleClickOnRowByName(siteUser);
     await sidenav.openNewMenu();
 
-    const isEnabled = await sidenav.menu.getItemByLabel('Upload file').isEnabled();
-    expect(isEnabled).toBe(true, 'Upload file is not enabled in File Libraries');
+    expect(await sidenav.menu.isUploadFileEnabled()).toBe(true, 'Upload file is not enabled in File Libraries');
   });
 
   it('Upload File option is disabled when user cannot create content in that location - [C217146]', async () => {
@@ -124,16 +119,14 @@ describe('New menu', () => {
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
 
-    const isEnabled = await sidenav.menu.getItemByLabel('Upload file').isEnabled();
-    expect(isEnabled).toBe(false, 'Upload file is not disabled');
+    expect(await sidenav.menu.isUploadFileEnabled()).toBe(false, 'Upload file is not disabled');
   });
 
   it('Upload Folder option is enabled when having enough permissions - on Personal Files - [C213196]', async () => {
     await page.clickPersonalFiles();
     await sidenav.openNewMenu();
 
-    const isEnabled = await sidenav.menu.getItemByLabel('Upload folder').isEnabled();
-    expect(isEnabled).toBe(true, 'Upload folder is not enabled in Personal Files');
+    expect(await sidenav.menu.isUploadFolderEnabled()).toBe(true, 'Upload folder is not enabled in Personal Files');
   });
 
   it('Upload Folder option is enabled when having permissions - on File Libraries - [C290146]', async () => {
@@ -141,8 +134,7 @@ describe('New menu', () => {
     await dataTable.doubleClickOnRowByName(siteUser);
     await sidenav.openNewMenu();
 
-    const isEnabled = await sidenav.menu.getItemByLabel('Upload folder').isEnabled();
-    expect(isEnabled).toBe(true, 'Upload folder is not enabled in File Libraries');
+    expect(await sidenav.menu.isUploadFolderEnabled()).toBe(true, 'Upload folder is not enabled in File Libraries');
   });
 
   it('Upload Folder option is disabled when user cannot create content in that location - [C213193]', async () => {
@@ -150,8 +142,7 @@ describe('New menu', () => {
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
 
-    const isEnabled = await sidenav.menu.getItemByLabel('Upload folder').isEnabled();
-    expect(isEnabled).toBe(false, 'Upload folder is not disabled');
+    expect(await sidenav.menu.isUploadFolderEnabled()).toBe(false, 'Upload folder is not disabled');
   });
 
   it('Create folder enabled button tooltip - [C216342]', async () => {

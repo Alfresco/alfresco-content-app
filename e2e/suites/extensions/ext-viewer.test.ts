@@ -141,7 +141,7 @@ describe('Extensions - Viewer', () => {
             await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
             expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-            expect(await toolbar.isButtonPresent('Print')).toBe(false, 'Print button is still displayed');
+            expect(await toolbar.isPrintPresent()).toBe(false, 'Print button is still displayed');
         });
     });
 
@@ -169,7 +169,7 @@ describe('Extensions - Viewer', () => {
             expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
             await toolbar.openMoreMenu();
-            expect(await toolbar.menu.isMenuItemPresent('Permissions')).toBe(false, 'Action is still displayed');
+            expect(await toolbar.menu.isManagePermissionsPresent()).toBe(false, 'Action is still displayed');
         });
     });
 });

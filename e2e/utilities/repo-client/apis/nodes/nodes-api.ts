@@ -59,13 +59,26 @@ export class NodesApi extends RepoApi {
       return '';
     }
 
+
+    async getSharedId(nodeId: string) {
+      return await this.getNodeProperty(nodeId, 'qshare:sharedId');
+    }
+
+    async getSharedExpiryDate(nodeId: string) {
+      return await this.getNodeProperty(nodeId, 'qshare:expiryDate');
+    }
+
     async isFileShared(nodeId: string) {
-      return (await this.getNodeProperty(nodeId, 'qshare:sharedId')) !== '';
+      return (await this.getSharedId(nodeId)) !== '';
     }
 
     async deleteNodeById(id: string, permanent: boolean = true) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.deleteNode(id, { permanent });
+        try {
+          return await this.alfrescoJsApi.core.nodesApi.deleteNode(id, { permanent });
+        } catch (error) {
+          console.log('------ deleteNodeById failed ');
+        }
     }
 
     async deleteNodeByPath(path: string, permanent: boolean = true) {

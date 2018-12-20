@@ -83,7 +83,7 @@ describe('Extensions - Metadata presets', () => {
     await page.refresh();
 
     await page.dataTable.selectItem(file);
-    await page.toolbar.getButtonByTitleAttribute('View details').click();
+    await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
 
     await infoDrawer.clickTab(properties_tab.title);

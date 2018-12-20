@@ -108,4 +108,10 @@ export abstract class Page {
     return await this.genericErrorTitle.getText();
   }
 
+
+  async isUndoActionPresent() {
+    const message = await this.snackBar.getAttribute('innerText');
+    return message.includes('Undo');
+  }
+
 }

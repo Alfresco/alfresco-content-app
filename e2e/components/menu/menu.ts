@@ -35,9 +35,7 @@ export class Menu extends Component {
     icon: '.mat-icon',
     uploadFiles: 'app-upload-files',
 
-    submenu: 'app-context-menu-item .mat-menu-item',
-
-    share: `[data-automation-id='share-action-button']`
+    submenu: 'app-context-menu-item .mat-menu-item'
   };
 
   items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
@@ -45,8 +43,27 @@ export class Menu extends Component {
   uploadFiles: ElementFinder = browser.element(by.id(Menu.selectors.uploadFiles));
   submenus: ElementArrayFinder = browser.element.all(by.css(Menu.selectors.submenu));
 
-  shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.share, 'Share'));
-  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.share, 'Shared link settings'));
+  shareAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Share'));
+  shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared link settings'));
+  viewAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View'));
+  downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
+  editAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Edit'));
+  copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
+  moveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Move'));
+  deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));
+  managePermissionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permissions'));
+  manageVersionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Manage Versions'));
+  favoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Favorite'));
+  leaveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Leave'));
+  joinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Join'));
+  cancelJoinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Cancel join'));
+  permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently delete'));
+  restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
+  viewDetailsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View details'));
+  createFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create folder'));
+  createLibraryAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Library'));
+  uploadFileAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload file'));
+  uploadFolderAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload folder'));
 
   constructor(ancestor?: ElementFinder) {
     super(Menu.selectors.root, ancestor);
@@ -173,13 +190,134 @@ export class Menu extends Component {
     return this.uploadFiles;
   }
 
-  async clickShareAction() {
+
+  async clickShare() {
     const action = this.shareAction;
     await action.click();
   }
 
-  async clickShareEditAction() {
+  async clickSharedLinkSettings() {
     const action = this.shareEditAction;
     await action.click();
   }
+
+
+  async isViewPresent() {
+    return await this.viewAction.isPresent();
+  }
+
+  async isDownloadPresent() {
+    return await this.downloadAction.isPresent();
+  }
+
+  async isEditPresent() {
+    return await this.editAction.isPresent();
+  }
+
+  async isCopyPresent() {
+    return await this.copyAction.isPresent();
+  }
+
+  async isMovePresent() {
+    return await this.moveAction.isPresent();
+  }
+
+  async isDeletePresent() {
+    return await this.deleteAction.isPresent();
+  }
+
+  async isManagePermissionsPresent() {
+    return await this.managePermissionsAction.isPresent();
+  }
+
+  async isManageVersionsPresent() {
+    return await this.manageVersionsAction.isPresent();
+  }
+
+  async isFavoritePresent() {
+    return await this.favoriteAction.isPresent();
+  }
+
+  async isJoinLibraryPresent() {
+    return await this.joinAction.isPresent();
+  }
+
+  async isCancelJoinPresent() {
+    return await this.cancelJoinAction.isPresent();
+  }
+
+  async isLeaveLibraryPresent() {
+    return await this.leaveAction.isPresent();
+  }
+
+  async isPermanentDeletePresent() {
+    return await this.permanentDeleteAction.isPresent();
+  }
+
+  async isRestorePresent() {
+    return await this.restoreAction.isPresent();
+  }
+
+  async isSharePresent() {
+    return await this.shareAction.isPresent();
+  }
+
+  async isSharedLinkSettingsPresent() {
+    return await this.shareEditAction.isPresent();
+  }
+
+  async isViewDetailsPresent() {
+    return await this.viewDetailsAction.isPresent();
+  }
+
+  async isCreateFolderPresent() {
+    return await this.createFolderAction.isPresent();
+  }
+  async isCreateFolderEnabled() {
+    return await this.createFolderAction.isEnabled();
+  }
+
+  async isCreateLibraryPresent() {
+    return await this.createLibraryAction.isPresent();
+  }
+  async isCreateLibraryEnabled() {
+    return await this.createLibraryAction.isEnabled();
+  }
+
+  async isUploadFilePresent() {
+    return await this.uploadFileAction.isPresent();
+  }
+  async isUploadFileEnabled() {
+    return await this.uploadFileAction.isEnabled();
+  }
+
+  async isUploadFolderPresent() {
+    return await this.uploadFolderAction.isPresent();
+  }
+  async isUploadFolderEnabled() {
+    return await this.uploadFolderAction.isEnabled();
+  }
+
+
+
+  async clickCreateFolder() {
+    const action = this.createFolderAction;
+    await action.click();
+  }
+
+  async clickCreateLibrary() {
+    const action = this.createLibraryAction;
+    await action.click();
+  }
+
+  async clickUploadFile() {
+    const action = this.uploadFileAction;
+    await action.click();
+  }
+
+  async clickUploadFolder() {
+    const action = this.uploadFolderAction;
+    await action.click();
+  }
+
 }

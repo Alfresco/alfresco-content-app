@@ -81,4 +81,47 @@ export class ConfirmDialog extends Component {
     const button = this.getButtonByName(name);
     return await button.isEnabled();
   }
+
+
+  async isOkEnabled() {
+    return await this.isButtonEnabled('OK');
+  }
+
+  async isCancelEnabled() {
+    return await this.isButtonEnabled('Cancel');
+  }
+
+  async isKeepEnabled() {
+    return await this.isButtonEnabled('Keep');
+  }
+
+  async isDeleteEnabled() {
+    return await this.isButtonEnabled('Delete');
+  }
+
+  async isRemoveEnabled() {
+    return await this.isButtonEnabled('Remove');
+  }
+
+
+  async clickOk() {
+    return await this.clickButton('OK');
+  }
+
+  async clickCancel() {
+    return await this.clickButton('Cancel');
+  }
+
+  async clickKeep() {
+    return await this.clickButton('Keep');
+  }
+
+  async clickDelete() {
+    return await this.clickButton('Delete');
+  }
+
+  async clickRemove() {
+    return await this.clickButton('Remove');
+  }
+
 }

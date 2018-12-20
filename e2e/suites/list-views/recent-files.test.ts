@@ -98,13 +98,13 @@ describe('Recent Files', () => {
 
   it('displays the files added by the current user in the last 30 days - [C213170]', async () => {
     expect(await dataTable.countRows()).toEqual(3, 'Incorrect number of files displayed');
-    expect(await dataTable.getRowByName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
-    expect(await dataTable.getRowByName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
-    expect(await dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
+    expect(await dataTable.isItemPresent(fileName1)).toBe(true, `${fileName1} not displayed`);
+    expect(await dataTable.isItemPresent(fileName2)).toBe(true, `${fileName2} not displayed`);
+    expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);
   });
 
   it(`file not displayed if it's been deleted - [C213174]`, async () => {
-    expect(await dataTable.getRowByName(fileName3).isPresent()).not.toBe(true, `${fileName3} is displayed`);
+    expect(await dataTable.isItemPresent(fileName3)).not.toBe(true, `${fileName3} is displayed`);
   });
 
   it('Location column displays the parent folder of the file - [C213175]', async () => {
@@ -114,9 +114,9 @@ describe('Recent Files', () => {
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213177]', async () => {
-    expect(await dataTable.getItemLocationTileAttr(fileName1)).toEqual(`Personal Files/${folderName}`);
-    expect(await dataTable.getItemLocationTileAttr(fileName2)).toEqual('Personal Files');
-    expect(await dataTable.getItemLocationTileAttr(fileSite)).toEqual(`File Libraries/${siteName}/${folderSite}`);
+    expect(await dataTable.getItemLocationTooltip(fileName1)).toEqual(`Personal Files/${folderName}`);
+    expect(await dataTable.getItemLocationTooltip(fileName2)).toEqual('Personal Files');
+    expect(await dataTable.getItemLocationTooltip(fileSite)).toEqual(`File Libraries/${siteName}/${folderSite}`);
   });
 
   it('Location column redirect - file in user Home - [C213176]', async () => {

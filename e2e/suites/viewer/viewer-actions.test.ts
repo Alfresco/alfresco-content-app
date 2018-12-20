@@ -103,19 +103,19 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
       expect(await toolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
-      expect(await toolbar.isButtonPresent('View')).toBe(false, `View is displayed`);
-      expect(await toolbar.isButtonPresent('Download')).toBe(true, `Download is not displayed`);
-      expect(await toolbar.isButtonPresent('Print')).toBe(true, `Print is not displayed`);
-      expect(await toolbar.isButtonPresent('Activate full-screen mode')).toBe(true, `Full screen is not displayed`);
-      expect(await toolbar.isShareButtonPresent()).toBe(true, `Share is not displayed`);
-      expect(await toolbar.isButtonPresent('View details')).toBe(true, `view details is not displayed`);
+      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
+      expect(await toolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
+      expect(await toolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
+      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `view details is not displayed`);
       await toolbar.openMoreMenu();
-      expect(await toolbar.menu.isMenuItemPresent('Favorite')).toBe(true, `Favorite is not displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Copy')).toBe(true, `Copy is not displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Move')).toBe(true, `Move is not displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Delete')).toBe(true, `Delete is not displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Manage Versions')).toBe(true, `Manage versions is not displayed`);
-      expect(await toolbar.menu.isMenuItemPresent('Permissions')).toBe(true, `Permissions is not displayed`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+      expect(await toolbar.menu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
       await toolbar.closeMoreMenu();
     });
 
@@ -123,7 +123,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxPersonalFiles)).toBe(true, 'File not found in download location');
     });
 
@@ -131,18 +131,17 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(docxPersonalFiles).isPresent()).toBe(true, 'Item is not in the list');
+      expect(await dataTable.isItemPresent(docxPersonalFiles)).toBe(true, 'Item is not in the list');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(docxPersonalFiles).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(docxPersonalFiles)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
       done();
@@ -152,43 +151,40 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(xlsxPersonalFiles).isPresent()).toBe(false, 'Item was not moved');
+      expect(await dataTable.isItemPresent(xlsxPersonalFiles)).toBe(false, 'Item was not moved');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(xlsxPersonalFiles).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(xlsxPersonalFiles)).toBe(true, 'Item is not present in destination');
     });
 
     it('Favorite action - [C268132]', async () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Favorite');
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
-      expect(await dataTable.getRowByName(docxPersonalFiles).isPresent()).toBe(true, 'Item is not present in Favorites list');
+      expect(await dataTable.isItemPresent(docxPersonalFiles)).toBe(true, 'Item is not present in Favorites list');
     });
 
     it('Delete action - [C268133]', async () => {
       await dataTable.doubleClickOnRowByName(pdfPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfPersonalFiles} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
-      expect(await dataTable.getRowByName(pdfPersonalFiles).isPresent()).toBe(true, 'Item is not present in Trash');
+      expect(await dataTable.isItemPresent(pdfPersonalFiles)).toBe(true, 'Item is not present in Trash');
     });
 
     it('Full screen action - [C279282]', async () => {
@@ -196,7 +192,7 @@ describe('Viewer actions', () => {
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
       await Utils.getBrowserLog();
 
-      await toolbar.clickButton('Activate full-screen mode');
+      await toolbar.clickFullScreen();
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is closed after pressing Full screen');
       const browserLogAfter = await Utils.getBrowserLog();
 
@@ -207,7 +203,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -216,8 +212,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });
@@ -227,7 +222,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxPersonalFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await Utils.pressEscape();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Dialog is still open');
@@ -278,7 +273,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxLibraries)).toBe(true, 'File not found in download location');
     });
 
@@ -286,18 +281,17 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(docxLibraries).isPresent()).toBe(true, 'Item is not in the list');
+      expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, 'Item is not in the list');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(docxLibraries).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
       done();
@@ -307,50 +301,47 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(xlsxLibraries).isPresent()).toBe(false, 'Item was not moved');
+      expect(await dataTable.isItemPresent(xlsxLibraries)).toBe(false, 'Item was not moved');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(xlsxLibraries).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(xlsxLibraries)).toBe(true, 'Item is not present in destination');
     });
 
     it('Favorite action - [C286372]', async () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Favorite');
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, `${docxLibraries} is not favorite`);
-      expect(await dataTable.getRowByName(docxLibraries).isPresent()).toBe(true, `${docxLibraries} is not present in Favorites list`);
+      expect(await dataTable.isItemPresent(docxLibraries)).toBe(true, `${docxLibraries} is not present in Favorites list`);
     });
 
     it('Delete action - [C286373]', async () => {
       await dataTable.doubleClickOnRowByName(pdfLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfLibraries} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
-      expect(await dataTable.getRowByName(pdfLibraries).isPresent()).toBe(true, 'Item is not present in Trash');
+      expect(await dataTable.isItemPresent(pdfLibraries)).toBe(true, 'Item is not present in Trash');
     });
 
     it('Share action - [C286374]', async () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -359,8 +350,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxLibraries);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });
@@ -409,7 +399,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxRecentFiles)).toBe(true, 'File not found in download location');
     });
 
@@ -417,18 +407,17 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(docxRecentFiles).isPresent()).toBe(true, 'Item is not in the list');
+      expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not in the list');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(docxRecentFiles).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
       done();
@@ -438,51 +427,48 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(xlsxRecentFiles).isPresent()).toBe(true, 'Item is not in the list');
-      expect(await dataTable.getItemLocationTileAttr(xlsxRecentFiles)).toContain(destination, 'Item was not moved');
+      expect(await dataTable.isItemPresent(xlsxRecentFiles)).toBe(true, 'Item is not in the list');
+      expect(await dataTable.getItemLocationTooltip(xlsxRecentFiles)).toContain(destination, 'Item was not moved');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(xlsxRecentFiles).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(xlsxRecentFiles)).toBe(true, 'Item is not present in destination');
     });
 
     it('Favorite action - [C286386]', async () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Favorite');
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
-      expect(await dataTable.getRowByName(docxRecentFiles).isPresent()).toBe(true, 'Item is not present in Favorites list');
+      expect(await dataTable.isItemPresent(docxRecentFiles)).toBe(true, 'Item is not present in Favorites list');
     });
 
     it('Delete action - [C286387]', async () => {
       await dataTable.doubleClickOnRowByName(pdfRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfRecentFiles} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
-      expect(await dataTable.getRowByName(pdfRecentFiles).isPresent()).toBe(true, 'Item is not present in Trash');
+      expect(await dataTable.isItemPresent(pdfRecentFiles)).toBe(true, 'Item is not present in Trash');
     });
 
     it('Share action - [C286388]', async () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -491,8 +477,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxRecentFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });
@@ -541,7 +526,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxSharedFiles)).toBe(true, 'File not found in download location');
     });
 
@@ -549,18 +534,17 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(docxSharedFiles).isPresent()).toBe(true, 'Item is not in the list');
+      expect(await dataTable.isItemPresent(docxSharedFiles)).toBe(true, 'Item is not in the list');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(docxSharedFiles).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(docxSharedFiles)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
       done();
@@ -570,51 +554,48 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(xlsxSharedFiles).isPresent()).toBe(true, 'Item is not in the list');
-      expect(await dataTable.getItemLocationTileAttr(xlsxSharedFiles)).toContain(destination, 'Item was not moved');
+      expect(await dataTable.isItemPresent(xlsxSharedFiles)).toBe(true, 'Item is not in the list');
+      expect(await dataTable.getItemLocationTooltip(xlsxSharedFiles)).toContain(destination, 'Item was not moved');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(xlsxSharedFiles).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(xlsxSharedFiles)).toBe(true, 'Item is not present in destination');
     });
 
     it('Favorite action - [C286379]', async () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Favorite');
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(docxFileId)).toBe(true, 'Item is not favorite');
-      expect(await dataTable.getRowByName(docxSharedFiles).isPresent()).toBe(true, 'Item is not present in Favorites list');
+      expect(await dataTable.isItemPresent(docxSharedFiles)).toBe(true, 'Item is not present in Favorites list');
     });
 
     it('Delete action - [C286380]', async () => {
       await dataTable.doubleClickOnRowByName(pdfSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfSharedFiles} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
-      expect(await dataTable.getRowByName(pdfSharedFiles).isPresent()).toBe(true, 'Item is not present in Trash');
+      expect(await dataTable.isItemPresent(pdfSharedFiles)).toBe(true, 'Item is not present in Trash');
     });
 
     it('Share action - [C286381]', async () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -623,8 +604,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxSharedFiles);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });
@@ -675,7 +655,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickButton('Download');
+      await toolbar.clickDownload();
       expect(await Utils.fileExistsOnOS(docxFavorites)).toBe(true, 'File not found in download location');
     });
 
@@ -683,18 +663,17 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Copy');
+      await toolbar.clickMoreActionsCopy();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickCopy();
       expect(await page.getSnackBarMessage()).toContain('Copied 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(docxFavorites).isPresent()).toBe(true, 'Item is not in the list');
+      expect(await dataTable.isItemPresent(docxFavorites)).toBe(true, 'Item is not in the list');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(docxFavorites).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(docxFavorites)).toBe(true, 'Item is not present in destination');
 
       await apis.user.nodes.deleteNodeChildren(destinationId);
       done();
@@ -704,51 +683,48 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Move');
+      await toolbar.clickMoreActionsMove();
       expect(await copyMoveDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await copyMoveDialog.selectLocation('Personal Files');
-      await copyMoveDialog.chooseDestination(destination);
+      await copyMoveDialog.selectDestination(destination);
       await copyMoveDialog.clickMove();
       expect(await page.getSnackBarMessage()).toContain('Moved 1 item');
       await viewer.clickClose();
-      expect(await dataTable.getRowByName(xlsxFavorites).isPresent()).toBe(true, 'Item is not in the list');
-      expect(await dataTable.getItemLocationTileAttr(xlsxFavorites)).toContain(destination, 'Item was not moved');
+      expect(await dataTable.isItemPresent(xlsxFavorites)).toBe(true, 'Item is not in the list');
+      expect(await dataTable.getItemLocationTooltip(xlsxFavorites)).toContain(destination, 'Item was not moved');
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(destination);
-      expect(await dataTable.getRowByName(xlsxFavorites).isPresent()).toBe(true, 'Item is not present in destination');
+      expect(await dataTable.isItemPresent(xlsxFavorites)).toBe(true, 'Item is not present in destination');
     });
 
     it('Favorite action - [C286393]', async () => {
       await dataTable.doubleClickOnRowByName(xlsxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Favorite');
+      await toolbar.clickMoreActionsFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(xlsxFileId)).toBe(false, 'Item is still favorite');
-      expect(await dataTable.getRowByName(xlsxFavorites).isPresent()).toBe(false, 'Item is still present in Favorites list');
+      expect(await dataTable.isItemPresent(xlsxFavorites)).toBe(false, 'Item is still present in Favorites list');
     });
 
     it('Delete action - [C286394]', async () => {
       await dataTable.doubleClickOnRowByName(pdfFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Delete');
+      await toolbar.clickMoreActionsDelete();
       expect(await page.getSnackBarMessage()).toContain(`${pdfFavorites} deleted`);
       expect(await viewer.isViewerOpened()).toBe(false, 'Viewer is opened');
       await Utils.pressEscape();
       await page.clickTrashAndWait();
-      expect(await dataTable.getRowByName(pdfFavorites).isPresent()).toBe(true, 'Item is not present in Trash');
+      expect(await dataTable.isItemPresent(pdfFavorites)).toBe(true, 'Item is not present in Trash');
     });
 
     it('Share action - [C286395]', async () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       expect(await shareDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await shareDialog.clickClose();
     });
@@ -757,8 +733,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(docxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.openMoreMenu();
-      await toolbar.menu.clickMenuItem('Manage Versions');
+      await toolbar.clickMoreActionsManageVersions();
       expect(await manageVersionsDialog.isDialogOpen()).toBe(true, 'Dialog is not open');
       await manageVersionsDialog.clickClose();
     });

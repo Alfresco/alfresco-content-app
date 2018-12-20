@@ -119,7 +119,7 @@ describe('File Libraries', () => {
       const sitesCount = await dataTable.countRows();
 
       expect(sitesCount).toEqual(10, 'Incorrect number of sites displayed');
-      expect(await dataTable.getRowByName(adminSite5).isPresent()).toBe(false, `${adminSite5} should not appear in the list`);
+      expect(await dataTable.isItemPresent(adminSite5)).toBe(false, `${adminSite5} should not appear in the list`);
     });
 
     it('Library visibility is correctly displayed - [C289905]', async () => {
@@ -206,7 +206,7 @@ describe('File Libraries', () => {
       const sitesCount = await dataTable.countRows();
 
       expect(sitesCount).toEqual(9, 'Incorrect number of sites displayed');
-      expect(await dataTable.getRowByName(adminSite6).isPresent()).toBe(false, `${adminSite6} should not appear`);
+      expect(await dataTable.isItemPresent(adminSite6)).toBe(false, `${adminSite6} should not appear`);
     });
 
     it('Library visibility is correctly displayed - [C289906]', async () => {

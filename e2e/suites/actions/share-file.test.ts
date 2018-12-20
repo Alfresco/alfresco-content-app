@@ -120,7 +120,7 @@ describe('Share a file', () => {
 
     it('Share dialog default values - [C286327]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
@@ -131,38 +131,38 @@ describe('Share a file', () => {
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
     });
 
     it('Close dialog - [C286328]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
       await shareDialog.clickClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog is open');
     });
 
     it('Share a file - [C286329]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
-      const sharedId = await apis.user.nodes.getNodeProperty(file3Id, 'qshare:sharedId');
+      const sharedId = await apis.user.nodes.getSharedId(file3Id);
       expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286330]', async () => {
       await dataTable.selectItem(file4);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       expect(url).toContain('/preview/s/');
@@ -179,7 +179,7 @@ describe('Share a file', () => {
 
     it('Share a file with expiration date - [C286332]', async () => {
       await dataTable.selectItem(file5);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       await shareDialog.clickExpirationToggle();
@@ -193,17 +193,17 @@ describe('Share a file', () => {
 
       expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-      const expireDateProperty = await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate');
+      const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
 
       expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
     });
 
     it('Expire date is displayed correctly - [C286337]', async () => {
       await dataTable.selectItem(file6);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
-      const expireProperty = await apis.user.nodes.getNodeProperty(file6Id, 'qshare:expiryDate');
+      const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
       expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -211,7 +211,7 @@ describe('Share a file', () => {
 
     it('Disable the share link expiration - [C286333]', async () => {
       await dataTable.selectItem(file7);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
@@ -222,12 +222,12 @@ describe('Share a file', () => {
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
       await shareDialog.clickClose();
-      expect(await apis.user.nodes.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe(undefined, `${file7} link still has expiration`);
+      expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
     });
 
     it('Shared file URL is not changed when Share dialog is closed and opened again - [C286335]', async () => {
       await dataTable.selectItem(file8);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
       const url1 = await shareDialog.getLinkUrl();
       await shareDialog.clickClose();
@@ -235,7 +235,7 @@ describe('Share a file', () => {
 
       await page.dataTable.clearSelection();
       await dataTable.selectItem(file8);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url2 = await shareDialog.getLinkUrl();
 
@@ -244,18 +244,18 @@ describe('Share a file', () => {
 
     it('Share a file from the context menu - [C286345]', async () => {
       await dataTable.rightClickOnItem(file9);
-      await contextMenu.clickShareAction();
+      await contextMenu.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
-      const sharedId = await apis.user.nodes.getNodeProperty(file9Id, 'qshare:sharedId');
+      const sharedId = await apis.user.nodes.getSharedId(file9Id);
       expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
@@ -316,7 +316,7 @@ describe('Share a file', () => {
 
     it('Share dialog default values - [C286639]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
@@ -327,38 +327,38 @@ describe('Share a file', () => {
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
     });
 
     it('Close dialog - [C286640]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
       await shareDialog.clickClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog is open');
     });
 
     it('Share a file - [C286641]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
-      const sharedId = await apis.user.nodes.getNodeProperty(file3Id, 'qshare:sharedId');
+      const sharedId = await apis.user.nodes.getSharedId(file3Id);
       expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286642]', async () => {
       await dataTable.selectItem(file4);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       expect(url).toContain('/preview/s/');
@@ -375,7 +375,7 @@ describe('Share a file', () => {
 
     it('Share a file with expiration date - [C286643]', async () => {
       await dataTable.selectItem(file5);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       await shareDialog.clickExpirationToggle();
@@ -389,17 +389,17 @@ describe('Share a file', () => {
 
       expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-      const expireDateProperty = await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate');
+      const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
 
       expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
     });
 
     it('Expire date is displayed correctly - [C286644]', async () => {
       await dataTable.selectItem(file6);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
-      const expireProperty = await apis.user.nodes.getNodeProperty(file6Id, 'qshare:expiryDate');
+      const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
       expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -407,7 +407,7 @@ describe('Share a file', () => {
 
     it('Disable the share link expiration - [C286645]', async () => {
       await dataTable.selectItem(file7);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
@@ -418,12 +418,12 @@ describe('Share a file', () => {
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
       await shareDialog.clickClose();
-      expect(await apis.user.nodes.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe(undefined, `${file7} link still has expiration`);
+      expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
     });
 
     it('Shared file URL is not changed when Share dialog is closed and opened again - [C286646]', async () => {
       await dataTable.selectItem(file8);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
       const url1 = await shareDialog.getLinkUrl();
       await shareDialog.clickClose();
@@ -431,7 +431,7 @@ describe('Share a file', () => {
 
       await page.dataTable.clearSelection();
       await dataTable.selectItem(file8);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url2 = await shareDialog.getLinkUrl();
 
@@ -440,18 +440,18 @@ describe('Share a file', () => {
 
     it('Share a file from the context menu - [C286647]', async () => {
       await dataTable.rightClickOnItem(file9);
-      await contextMenu.clickShareAction();
+      await contextMenu.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
-      const sharedId = await apis.user.nodes.getNodeProperty(file9Id, 'qshare:sharedId');
+      const sharedId = await apis.user.nodes.getSharedId(file9Id);
       expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
@@ -510,7 +510,7 @@ describe('Share a file', () => {
 
     it('Share dialog default values - [C286657]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
@@ -521,38 +521,38 @@ describe('Share a file', () => {
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
     });
 
     it('Close dialog - [C286658]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
       await shareDialog.clickClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog is open');
     });
 
     it('Share a file - [C286659]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
-      const sharedId = await apis.user.nodes.getNodeProperty(file3Id, 'qshare:sharedId');
+      const sharedId = await apis.user.nodes.getSharedId(file3Id);
       expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286660]', async () => {
       await dataTable.selectItem(file4);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       expect(url).toContain('/preview/s/');
@@ -569,7 +569,7 @@ describe('Share a file', () => {
 
     it('Share a file with expiration date - [C286661]', async () => {
       await dataTable.selectItem(file5);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       await shareDialog.clickExpirationToggle();
@@ -583,17 +583,17 @@ describe('Share a file', () => {
 
       expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-      const expireDateProperty = await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate');
+      const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
 
       expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
     });
 
     it('Expire date is displayed correctly - [C286662]', async () => {
       await dataTable.selectItem(file6);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
-      const expireProperty = await apis.user.nodes.getNodeProperty(file6Id, 'qshare:expiryDate');
+      const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
       expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -601,7 +601,7 @@ describe('Share a file', () => {
 
     it('Disable the share link expiration - [C286663]', async () => {
       await dataTable.selectItem(file7);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
@@ -612,12 +612,12 @@ describe('Share a file', () => {
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
       await shareDialog.clickClose();
-      expect(await apis.user.nodes.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe(undefined, `${file7} link still has expiration`);
+      expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
     });
 
     it('Shared file URL is not changed when Share dialog is closed and opened again - [C286664]', async () => {
       await dataTable.selectItem(file8);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
       const url1 = await shareDialog.getLinkUrl();
       await shareDialog.clickClose();
@@ -625,7 +625,7 @@ describe('Share a file', () => {
 
       await page.dataTable.clearSelection();
       await dataTable.selectItem(file8);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url2 = await shareDialog.getLinkUrl();
 
@@ -634,18 +634,18 @@ describe('Share a file', () => {
 
     it('Share a file from the context menu - [C286665]', async () => {
       await dataTable.rightClickOnItem(file9);
-      await contextMenu.clickShareAction();
+      await contextMenu.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
-      const sharedId = await apis.user.nodes.getNodeProperty(file9Id, 'qshare:sharedId');
+      const sharedId = await apis.user.nodes.getSharedId(file9Id);
       expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
@@ -704,7 +704,7 @@ describe('Share a file', () => {
 
     it('Share dialog default values - [C286648]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
@@ -715,22 +715,22 @@ describe('Share a file', () => {
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
     });
 
     it('Close dialog - [C286649]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
       await shareDialog.clickClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog is open');
     });
 
     it('Copy shared file URL - [C286651]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       expect(url).toContain('/preview/s/');
@@ -747,10 +747,10 @@ describe('Share a file', () => {
 
     it('Expire date is displayed correctly - [C286653]', async () => {
       await dataTable.selectItem(file4);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
-      const expireProperty = await apis.user.nodes.getNodeProperty(file4Id, 'qshare:expiryDate');
+      const expireProperty = await apis.user.nodes.getSharedExpiryDate(file4Id);
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
       expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -758,7 +758,7 @@ describe('Share a file', () => {
 
     it('Disable the share link expiration - [C286654]', async () => {
       await dataTable.selectItem(file5);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
@@ -769,12 +769,12 @@ describe('Share a file', () => {
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
       await shareDialog.clickClose();
-      expect(await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate')).toBe(undefined, `${file5} link still has expiration`);
+      expect(await apis.user.nodes.getSharedExpiryDate(file5Id)).toBe(undefined, `${file5} link still has expiration`);
     });
 
     it('Shared file URL is not changed when Share dialog is closed and opened again - [C286655]', async () => {
       await dataTable.selectItem(file6);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url1 = await shareDialog.getLinkUrl();
       await shareDialog.clickClose();
@@ -782,7 +782,7 @@ describe('Share a file', () => {
 
       await page.dataTable.clearSelection();
       await dataTable.selectItem(file6);
-      await toolbar.clickShareEditButton();
+      await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
       const url2 = await shareDialog.getLinkUrl();
 
@@ -791,7 +791,7 @@ describe('Share a file', () => {
 
     it('Open Share dialog from context menu - [C286656]', async () => {
       await dataTable.rightClickOnItem(file7);
-      await contextMenu.clickShareEditAction();
+      await contextMenu.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.getTitle()).toEqual(`Share ${file7}`);
@@ -802,11 +802,10 @@ describe('Share a file', () => {
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
     });
   });
 
-  // TODO: enable when ACA-1886 is done
   describe('from Favorites', () => {
 
     const file1 = `file1-${Utils.random()}.txt`; let file1Id;
@@ -873,7 +872,7 @@ describe('Share a file', () => {
 
     it('Share dialog default values - [C286666]', async () => {
       await dataTable.selectItem(file1);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.getTitle()).toEqual(`Share ${file1}`);
@@ -884,38 +883,38 @@ describe('Share a file', () => {
       expect(await shareDialog.isShareToggleChecked()).toBe(true, 'Share toggle not checked');
       expect(await shareDialog.getLabels().get(1).getText()).toEqual('Expires on');
       expect(await shareDialog.isExpireToggleEnabled()).toBe(false, 'Expire toggle is checked');
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
     });
 
     it('Close dialog - [C286667]', async () => {
       await dataTable.selectItem(file2);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.closeButton.isEnabled()).toBe(true, 'Close button is not enabled');
+      expect(await shareDialog.isCloseEnabled()).toBe(true, 'Close button is not enabled');
       await shareDialog.clickClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog is open');
     });
 
     it('Share a file - [C286668]', async () => {
       await dataTable.selectItem(file3);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
-      const sharedId = await apis.user.nodes.getNodeProperty(file3Id, 'qshare:sharedId');
+      const sharedId = await apis.user.nodes.getSharedId(file3Id);
       expect(await apis.user.nodes.isFileShared(file3Id)).toBe(true, `${file3} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file3).isPresent()).toBe(true, `${file3} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in the Shared files list`);
     });
 
     it('Copy shared file URL - [C286669]', async () => {
       await dataTable.selectItem(file4);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
       const url = await shareDialog.getLinkUrl();
       expect(url).toContain('/preview/s/');
@@ -932,7 +931,7 @@ describe('Share a file', () => {
 
     it('Share a file with expiration date - [C286670]', async () => {
       await dataTable.selectItem(file5);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       await shareDialog.clickExpirationToggle();
@@ -946,17 +945,17 @@ describe('Share a file', () => {
 
       expect(new Date(inputDate)).toEqual(new Date(setDate));
 
-      const expireDateProperty = await apis.user.nodes.getNodeProperty(file5Id, 'qshare:expiryDate');
+      const expireDateProperty = await apis.user.nodes.getSharedExpiryDate(file5Id);
 
       expect(Utils.formatDate(expireDateProperty)).toEqual(Utils.formatDate(inputDate));
     });
 
     it('Expire date is displayed correctly - [C286671]', async () => {
       await dataTable.selectItem(file6);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
-      const expireProperty = await apis.user.nodes.getNodeProperty(file6Id, 'qshare:expiryDate');
+      const expireProperty = await apis.user.nodes.getSharedExpiryDate(file6Id);
       expect(expireProperty).toEqual(expiryDate);
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
       expect(Utils.formatDate(await shareDialog.getExpireDate())).toEqual(Utils.formatDate(expiryDate));
@@ -964,7 +963,7 @@ describe('Share a file', () => {
 
     it('Disable the share link expiration - [C286672]', async () => {
       await dataTable.selectItem(file7);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       expect(await shareDialog.isExpireToggleEnabled()).toBe(true, 'Expiration is not checked');
@@ -975,12 +974,12 @@ describe('Share a file', () => {
       expect(await shareDialog.getExpireDate()).toBe('', 'Expire date input is not empty');
 
       await shareDialog.clickClose();
-      expect(await apis.user.nodes.getNodeProperty(file7Id, 'qshare:expiryDate')).toBe(undefined, `${file7} link still has expiration`);
+      expect(await apis.user.nodes.getSharedExpiryDate(file7Id)).toBe(undefined, `${file7} link still has expiration`);
     });
 
     it('Shared file URL is not changed when Share dialog is closed and opened again - [C286673]', async () => {
       await dataTable.selectItem(file8);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
       const url1 = await shareDialog.getLinkUrl();
       await shareDialog.clickClose();
@@ -988,7 +987,7 @@ describe('Share a file', () => {
 
       await page.dataTable.clearSelection();
       await dataTable.selectItem(file8);
-      await toolbar.clickShareButton();
+      await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
       const url2 = await shareDialog.getLinkUrl();
 
@@ -997,18 +996,18 @@ describe('Share a file', () => {
 
     it('Share a file from the context menu - [C286674]', async () => {
       await dataTable.rightClickOnItem(file9);
-      await contextMenu.clickMenuItem('Share');
+      await contextMenu.clickShare();
       await shareDialog.waitForDialogToOpen();
 
       const url = await shareDialog.getLinkUrl();
       await Utils.pressEscape();
-      const sharedId = await apis.user.nodes.getNodeProperty(file9Id, 'qshare:sharedId');
+      const sharedId = await apis.user.nodes.getSharedId(file9Id);
       expect(await apis.user.nodes.isFileShared(file9Id)).toBe(true, `${file9} is not shared`);
       expect(url).toContain(sharedId);
 
       // TODO: disable check cause api is slow to update
       // await page.clickSharedFiles();
-      // expect(await dataTable.getRowByName(file9).isPresent()).toBe(true, `${file9} is not in the Shared files list`);
+      // expect(await dataTable.isItemPresent(file9)).toBe(true, `${file9} is not in the Shared files list`);
     });
   });
 
