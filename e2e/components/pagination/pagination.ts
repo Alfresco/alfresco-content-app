@@ -26,7 +26,7 @@
 import { ElementFinder, by } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-
+import { browser } from 'protractor';
 export class Pagination extends Component {
   private static selectors = {
     root: 'adf-pagination',
@@ -61,7 +61,6 @@ export class Pagination extends Component {
 
     await maxItemsButton.click();
     await menu.waitForMenuToOpen();
-    // return menu;
   }
 
   async openCurrentPageMenu() {
@@ -69,11 +68,6 @@ export class Pagination extends Component {
 
     await pagesButton.click();
     await menu.waitForMenuToOpen();
-    // return menu;
-  }
-
-  async getText(elem: ElementFinder) {
-    return await elem.getText();
   }
 
   async resetToDefaultPageSize() {
@@ -94,5 +88,57 @@ export class Pagination extends Component {
 
   async clickPrevious() {
     await this.previousButton.click();
+  }
+
+  async isNextEnabled() {
+    return await this.nextButton.isEnabled();
+  }
+
+  async isPreviousEnabled() {
+    return await this.previousButton.isEnabled();
+  }
+
+  async isPagesButtonPresent() {
+    return await browser.isElementPresent(this.pagesButton);
+  }
+
+  async isRangePresent() {
+    return await this.range.isPresent();
+  }
+
+  async isMaxItemsPresent() {
+    return await this.maxItems.isPresent();
+  }
+
+  async isCurrentPagePresent() {
+    return await this.currentPage.isPresent();
+  }
+
+  async isTotalPagesPresent() {
+    return await this.totalPages.isPresent();
+  }
+
+  async isPreviousButtonPresent() {
+    return await this.previousButton.isPresent();
+  }
+
+  async isNextButtonPresent() {
+    return await this.nextButton.isPresent();
+  }
+
+  async getCurrentPage() {
+    return await this.currentPage.getText();
+  }
+
+  async getRange() {
+    return await this.range.getText();
+  }
+
+  async getMaxItems() {
+    return await this.maxItems.getText();
+  }
+
+  async getTotalPages() {
+    return await this.totalPages.getText();
   }
 }

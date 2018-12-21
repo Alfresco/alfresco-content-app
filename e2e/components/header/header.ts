@@ -31,17 +31,17 @@ import { Toolbar } from './../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
 
 export class Header extends Component {
-  private locators = {
+  private static selectors = {
     root: 'app-header',
     logoLink: by.css('.app-menu__title'),
     userInfo: by.css('aca-current-user'),
     moreActions: by.id('app.header.more')
   };
 
-  logoLink: ElementFinder = this.component.element(this.locators.logoLink);
-  userInfo: UserInfo = new UserInfo(this.component);
-  moreActions: ElementFinder = browser.element(this.locators.moreActions);
+  logoLink: ElementFinder = this.component.element(Header.selectors.logoLink);
+  moreActions: ElementFinder = browser.element(Header.selectors.moreActions);
 
+  userInfo: UserInfo = new UserInfo(this.component);
   menu: Menu = new Menu();
   toolbar: Toolbar = new Toolbar();
   searchInput: SearchInput = new SearchInput();

@@ -136,7 +136,7 @@ describe('Delete and undo delete', () => {
       expect(message).toContain(`Undo`);
       expect(await dataTable.isItemPresent(file1)).toBe(false, 'Item was not removed from list');
       items--;
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await page.clickTrash();
       expect(await dataTable.isItemPresent(file1)).toBe(true, 'Item is not in trash');
     });
@@ -150,7 +150,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} was not removed from list`);
       expect(await dataTable.isItemPresent(file3)).toBe(false, `${file3} was not removed from list`);
       items = items - 2;
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await page.clickTrash();
       expect(await dataTable.isItemPresent(file2)).toBe(true, `${file2} is not in trash`);
       expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} is not in trash`);
@@ -162,7 +162,7 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       expect(await dataTable.isItemPresent(folder1)).toBe(false, 'Item was not removed from list');
       items--;
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await page.clickTrash();
       expect(await dataTable.isItemPresent(folder1)).toBe(true, 'Item is not in trash');
       expect(await dataTable.isItemPresent(file1InFolder)).toBe(false, 'Item is in trash');
@@ -204,7 +204,7 @@ describe('Delete and undo delete', () => {
 
       await page.clickSnackBarAction();
       expect(await dataTable.isItemPresent(file5)).toBe(true, 'Item was not restored');
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
 
     it('undo delete of folder with content - [C280503]', async () => {
@@ -214,7 +214,7 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       await page.clickSnackBarAction();
       expect(await dataTable.isItemPresent(folder6)).toBe(true, 'Item was not restored');
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await dataTable.doubleClickOnRowByName(folder6);
       expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, 'file from folder not restored');
     });
@@ -227,7 +227,7 @@ describe('Delete and undo delete', () => {
       await page.clickSnackBarAction();
       expect(await dataTable.isItemPresent(file6)).toBe(true, `${file6} was not removed from list`);
       expect(await dataTable.isItemPresent(file7)).toBe(true, `${file7} was not removed from list`);
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
   });
 
@@ -404,7 +404,7 @@ describe('Delete and undo delete', () => {
       expect(message).toContain(`Undo`);
       expect(await dataTable.isItemPresent(favFile1)).toBe(false, 'Item was not removed from list');
       items--;
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await page.clickTrash();
       expect(await dataTable.isItemPresent(favFile1)).toBe(true, 'Item is not in trash');
     });
@@ -420,7 +420,7 @@ describe('Delete and undo delete', () => {
       expect(await dataTable.isItemPresent(favFile2)).toBe(false, `${favFile2} was not removed from list`);
       expect(await dataTable.isItemPresent(favFile3)).toBe(false, `${favFile3} was not removed from list`);
       items = items - 2;
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await page.clickTrash();
       expect(await dataTable.isItemPresent(favFile2)).toBe(true, `${favFile2} is not in trash`);
       expect(await dataTable.isItemPresent(favFile3)).toBe(true, `${favFile3} is not in trash`);
@@ -432,7 +432,7 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       expect(await dataTable.isItemPresent(favFolder1)).toBe(false, 'Item was not removed from list');
       items--;
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await page.clickTrash();
       expect(await dataTable.isItemPresent(favFolder1)).toBe(true, 'Item is not in trash');
       expect(await dataTable.isItemPresent(file1InFolder)).toBe(false, 'Item is in trash');
@@ -472,7 +472,7 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       await page.clickSnackBarAction();
       expect(await dataTable.isItemPresent(favFile5)).toBe(true, 'Item was not restored');
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
 
     it('undo delete of folder with content - [C280526]', async () => {
@@ -482,7 +482,7 @@ describe('Delete and undo delete', () => {
       await toolbar.clickMoreActionsDelete();
       await page.clickSnackBarAction();
       expect(await dataTable.isItemPresent(favFolder6)).toBe(true, 'Item was not restored');
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
       await dataTable.doubleClickOnRowByName(favFolder6);
       expect(await dataTable.isItemPresent(file2InFolder)).toBe(true, 'file from folder not restored');
     });
@@ -495,7 +495,7 @@ describe('Delete and undo delete', () => {
       await page.clickSnackBarAction();
       expect(await dataTable.isItemPresent(favFile6)).toBe(true, `${favFile6} was not removed from list`);
       expect(await dataTable.isItemPresent(favFile7)).toBe(true, `${favFile7} was not removed from list`);
-      expect(await page.pagination.range.getText()).toContain(`1-${items} of ${items}`);
+      expect(await page.pagination.getRange()).toContain(`1-${items} of ${items}`);
     });
   });
 

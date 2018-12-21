@@ -81,18 +81,14 @@ describe('Recent Files', () => {
   });
 
   it('has the correct columns - [C213168]', async () => {
-    const labels = [ 'Name', 'Location', 'Size', 'Modified' ];
-    const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+    const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified' ];
+    const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(await dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
-
-    await elements.forEach(async (element, index) => {
-      expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-    });
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('default sorting column - [C213171]', async () => {
-    expect(await dataTable.getSortedColumnHeader().getText()).toBe('Modified');
+    expect(await dataTable.getSortedColumnHeaderText()).toBe('Modified');
     expect(await dataTable.getSortingOrder()).toBe('desc');
   });
 

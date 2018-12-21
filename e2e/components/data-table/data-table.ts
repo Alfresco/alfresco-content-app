@@ -94,7 +94,7 @@ export class DataTable extends Component {
     return this.head.all(locator);
   }
 
-  async getHeaderText() {
+  async getColumnHeadersText() {
     const el = this.getColumnHeaders();
     return await el.getText();
   }
@@ -319,4 +319,27 @@ export class DataTable extends Component {
   async isItemPresent(name: string) {
     return await this.getRowByName(name).isPresent();
   }
+
+  async getEntireDataTableText() {
+    return this.getRows().map((row) => {
+      return row.all(this.cell).map(async cell => await cell.getText());
+    });
+  }
+
+  async getSitesNameAndVisibility() {
+    const data = await this.getEntireDataTableText();
+    return data.reduce((acc, cell) => {
+      acc[cell[1]] = cell[3].toUpperCase();
+      return acc;
+    }, {});
+  }
+
+  async getSitesNameAndRole() {
+    const data = await this.getEntireDataTableText();
+    return data.reduce((acc, cell) => {
+      acc[cell[1]] = cell[2];
+      return acc;
+    }, {});
+  }
+
 }

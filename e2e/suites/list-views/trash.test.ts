@@ -101,14 +101,10 @@ describe('Trash', () => {
     });
 
     it('has the correct columns - [C213217]', async () => {
-      const labels = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
-      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+      const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
+      const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(await dataTable.getColumnHeaders().count()).toBe(5 + 1, 'Incorrect number of columns');
-
-      await elements.forEach(async (element, index) => {
-        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-      });
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('displays the files and folders deleted by everyone - [C280493]', async () => {
@@ -134,14 +130,10 @@ describe('Trash', () => {
     });
 
     it('has the correct columns - [C280494]', async () => {
-      const labels = [ 'Name', 'Location', 'Size', 'Deleted'];
-      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+      const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Deleted'];
+      const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(await dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
-
-      await elements.forEach(async (element, index) => {
-        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-      });
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('displays the files and folders deleted by the user - [C213218]', async () => {
@@ -154,7 +146,7 @@ describe('Trash', () => {
     });
 
     it('default sorting column - [C213219]', async () => {
-      expect(await dataTable.getSortedColumnHeader().getText()).toBe('Deleted');
+      expect(await dataTable.getSortedColumnHeaderText()).toBe('Deleted');
       expect(await dataTable.getSortingOrder()).toBe('desc');
     });
 

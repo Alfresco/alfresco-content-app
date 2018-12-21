@@ -27,7 +27,7 @@ import { browser, by, ElementFinder, ExpectedConditions as EC, until } from 'pro
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 
 export abstract class Page {
-  private static locators = {
+  private static selectors = {
     app: 'app-root',
     layout: 'app-layout',
     overlay: '.cdk-overlay-container',
@@ -41,17 +41,17 @@ export abstract class Page {
     genericErrorTitle: '.generic-error__title'
   };
 
-  app: ElementFinder = browser.element(by.css(Page.locators.app));
-  layout: ElementFinder = browser.element(by.css(Page.locators.layout));
-  overlay: ElementFinder = browser.element(by.css(Page.locators.overlay));
-  snackBar: ElementFinder = browser.element(by.css(Page.locators.snackBar));
-  dialogContainer: ElementFinder = browser.element(by.css(Page.locators.dialogContainer));
-  snackBarContainer: ElementFinder = browser.element(by.css(Page.locators.snackBarContainer));
-  snackBarAction: ElementFinder = browser.element(by.css(Page.locators.snackBarAction));
+  app: ElementFinder = browser.element(by.css(Page.selectors.app));
+  layout: ElementFinder = browser.element(by.css(Page.selectors.layout));
+  overlay: ElementFinder = browser.element(by.css(Page.selectors.overlay));
+  snackBar: ElementFinder = browser.element(by.css(Page.selectors.snackBar));
+  dialogContainer: ElementFinder = browser.element(by.css(Page.selectors.dialogContainer));
+  snackBarContainer: ElementFinder = browser.element(by.css(Page.selectors.snackBarContainer));
+  snackBarAction: ElementFinder = browser.element(by.css(Page.selectors.snackBarAction));
 
-  genericError: ElementFinder = browser.element(by.css(Page.locators.genericError));
-  genericErrorIcon: ElementFinder = browser.element(by.css(Page.locators.genericErrorIcon));
-  genericErrorTitle: ElementFinder = browser.element(by.css(Page.locators.genericErrorTitle));
+  genericError: ElementFinder = browser.element(by.css(Page.selectors.genericError));
+  genericErrorIcon: ElementFinder = browser.element(by.css(Page.selectors.genericErrorIcon));
+  genericErrorTitle: ElementFinder = browser.element(by.css(Page.selectors.genericErrorTitle));
 
   constructor(public url: string = '') {}
 

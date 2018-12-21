@@ -88,12 +88,10 @@ describe('Favorites', () => {
   });
 
   it('has the correct columns - [C280482]', async () => {
-    const expectedHeader = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
-    const headers = dataTable.getColumnHeaders();
-    const count = await headers.count();
-    expect(count).toBe(5 + 1, 'Incorrect number of columns');
+    const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
+    const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(await dataTable.getHeaderText()).toEqual(expectedHeader);
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('displays the favorite files and folders - [C213226]', async () => {

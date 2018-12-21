@@ -96,18 +96,14 @@ describe('Personal Files', () => {
     });
 
     it('has the correct columns - [C217142]', async () => {
-      const labels = [ 'Name', 'Size', 'Modified', 'Modified by' ];
-      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+      const expectedColumns = [ 'Thumbnail', 'Name', 'Size', 'Modified', 'Modified by' ];
+      const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(await dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
-
-      await elements.forEach(async (element, index) => {
-        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-      });
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('has default sorted column - [C217143]', async () => {
-      expect(await dataTable.getSortedColumnHeader().getText()).toBe('Modified');
+      expect(await dataTable.getSortedColumnHeaderText()).toBe('Modified');
     });
 
     it('has user created content - [C213242]', async () => {

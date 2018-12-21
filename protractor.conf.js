@@ -52,6 +52,7 @@ exports.config = {
   ],
 
   SELENIUM_PROMISE_MANAGER: true,
+
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
@@ -71,7 +72,7 @@ exports.config = {
   // baseUrl: 'http://localhost:4000',
   getPageTimeout: 50000,
 
-  framework: 'jasmine2',
+  framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 60000,

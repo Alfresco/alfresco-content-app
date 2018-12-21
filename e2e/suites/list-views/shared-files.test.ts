@@ -87,12 +87,10 @@ describe('Shared Files', () => {
   });
 
   it('has the correct columns - [C213113]', async () => {
-    const expectedHeader = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
-    const headers = dataTable.getColumnHeaders();
-    const count = await headers.count();
-    expect(count).toBe(6 + 1, 'Incorrect number of columns');
+    const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
+    const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(await dataTable.getHeaderText()).toEqual(expectedHeader);
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('default sorting column - [C213115]', async () => {
