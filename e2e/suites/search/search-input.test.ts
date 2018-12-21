@@ -24,8 +24,7 @@
  */
 
 import { BrowsingPage, LoginPage } from '../../pages/pages';
-// import { Utils } from '../../utilities/utils';
-import { browser } from 'protractor';
+import { Utils } from '../../utilities/utils';
 
 describe('Search input', () => {
   const loginPage = new LoginPage();
@@ -38,8 +37,7 @@ describe('Search input', () => {
   });
 
   beforeEach(async (done) => {
-    // await Utils.pressEscape();
-    await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+    await Utils.pressEscape();
     done();
   });
 

@@ -27,9 +27,9 @@ import { by, ElementFinder } from 'protractor';
 import { Component } from '../component';
 
 export class LoginComponent extends Component {
-  static selector = 'adf-login';
+  private static selectors = {
+    root: 'adf-login',
 
-  private locators = {
     usernameInput: by.css('input#username'),
     passwordInput: by.css('input#password'),
     passwordVisibility: by.css('.adf-login-password-icon'),
@@ -38,15 +38,15 @@ export class LoginComponent extends Component {
     copyright: by.css('.adf-copyright')
   };
 
-  usernameInput: ElementFinder = this.component.element(this.locators.usernameInput);
-  passwordInput: ElementFinder = this.component.element(this.locators.passwordInput);
-  submitButton: ElementFinder = this.component.element(this.locators.submitButton);
-  errorMessage: ElementFinder = this.component.element(this.locators.errorMessage);
-  copyright: ElementFinder = this.component.element(this.locators.copyright);
-  passwordVisibility: ElementFinder = this.component.element(this.locators.passwordVisibility);
+  usernameInput: ElementFinder = this.component.element(LoginComponent.selectors.usernameInput);
+  passwordInput: ElementFinder = this.component.element(LoginComponent.selectors.passwordInput);
+  submitButton: ElementFinder = this.component.element(LoginComponent.selectors.submitButton);
+  errorMessage: ElementFinder = this.component.element(LoginComponent.selectors.errorMessage);
+  copyright: ElementFinder = this.component.element(LoginComponent.selectors.copyright);
+  passwordVisibility: ElementFinder = this.component.element(LoginComponent.selectors.passwordVisibility);
 
   constructor(ancestor?: ElementFinder) {
-    super(LoginComponent.selector, ancestor);
+    super(LoginComponent.selectors.root, ancestor);
   }
 
   async enterUsername(username: string) {

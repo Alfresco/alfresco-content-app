@@ -28,14 +28,14 @@ import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class UserInfo extends Component {
-  private locators = {
+  private static selectors = {
     avatar: by.css('.current-user__avatar'),
     fullName: by.css('.current-user__full-name'),
     menuItems: by.css('[mat-menu-item]')
   };
 
-  fullName: ElementFinder = this.component.element(this.locators.fullName);
-  avatar: ElementFinder = this.component.element(this.locators.avatar);
+  fullName: ElementFinder = this.component.element(UserInfo.selectors.fullName);
+  avatar: ElementFinder = this.component.element(UserInfo.selectors.avatar);
 
   menu: Menu = new Menu();
 

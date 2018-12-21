@@ -185,8 +185,7 @@ describe('Breadcrumb', () => {
     expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
-  // disabled cause of ACA-1039
-  xdescribe('as admin', () => {
+  describe('as admin', () => {
     const user2 = 'a_user';
     const userFolder = `userFolder-${Utils.random()}`; let userFolderId;
     const user2Api = new RepoClient(user2, user2);
@@ -203,7 +202,7 @@ describe('Breadcrumb', () => {
       done();
     });
 
-    xit(`Breadcrumb on navigation to a user's home - [C260970]`, async () => {
+    it(`Breadcrumb on navigation to a user's home - [C260970]`, async () => {
       await page.dataTable.doubleClickOnRowByName('User Homes');
       await page.dataTable.doubleClickOnRowByName(user2);
       expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2 ]);

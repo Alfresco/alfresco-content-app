@@ -26,7 +26,6 @@
 import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
-import { Utils } from './../../utilities/utils';
 
 export class InfoDrawer extends Component {
   private static selectors = {
@@ -86,6 +85,7 @@ export class InfoDrawer extends Component {
     super(InfoDrawer.selectors.root, ancestor);
   }
 
+
   async waitForInfoDrawerToOpen() {
     return await browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
   }
@@ -95,10 +95,7 @@ export class InfoDrawer extends Component {
   }
 
   async isEmpty() {
-    if (await browser.isElementPresent(by.css(InfoDrawer.selectors.tabs))) {
-      return false;
-    }
-    return true;
+    return !(await browser.isElementPresent(by.css(InfoDrawer.selectors.tabs)));
   }
 
   getTabByTitle(title: string) {
@@ -146,12 +143,6 @@ export class InfoDrawer extends Component {
     return this.getFieldByName(fieldName).isEnabled();
   }
 
-  async isVisibilityEnabled() {
-    const wrapper = this.getLabelWrapper('Visibility');
-    const field = wrapper.element(by.xpath('..')).element(by.css(InfoDrawer.selectors.dropDown));
-    return await field.isEnabled();
-  }
-
   async getValueOfField(fieldName: string) {
     return await this.getFieldByName(fieldName).getText();
   }
@@ -162,11 +153,6 @@ export class InfoDrawer extends Component {
     return await input.sendKeys(text);
   }
 
-  async typeTextInInput(fieldName: string, text: string) {
-    const input = this.getFieldByName(fieldName);
-    await input.clear();
-    return await Utils.typeInField(input, text);
-  }
 
   getButton(button: string) {
     return this.component.element(by.cssContainingText(InfoDrawer.selectors.metadataTabAction, button));
@@ -184,14 +170,20 @@ export class InfoDrawer extends Component {
     return await this.getButton(button).click();
   }
 
-  async isButtonDisabled(button: string) {
-    try {
-      const disabled = await this.getButton(button).getAttribute('disabled');
-      return disabled;
-    } catch (error) {
-      console.log('----- isButtonDisabled catch: ', error);
-    }
+  async waitForVisibilityDropDownToOpen() {
+    await browser.wait(EC.presenceOf(this.visibilityDropDown), BROWSER_WAIT_TIMEOUT);
   }
+
+  async waitForVisibilityDropDownToClose() {
+    await browser.wait(EC.stalenessOf(browser.$('.mat-option .mat-option-text')), BROWSER_WAIT_TIMEOUT);
+  }
+
+  // ---------------
+
+  async isAboutTabDisplayed() {
+    return await this.isTabDisplayed('About');
+  }
+
 
   async isMessageDisplayed() {
     return await browser.isElementPresent(this.hint);
@@ -210,80 +202,59 @@ export class InfoDrawer extends Component {
   }
 
 
-  // ---------------
   async isNameDisplayed() {
     return await this.isFieldDisplayed('Name');
-  }
-
-  async isDescriptionDisplayed() {
-    return await this.isFieldDisplayed('Description');
-  }
-
-  async isVisibilityDisplayed() {
-    return await this.isFieldDisplayed('Visibility');
-  }
-
-  async isLibraryIdDisplayed() {
-    return await this.isFieldDisplayed('Library ID');
-  }
-
-  async getName() {
-    return await this.getValueOfField('Name');
-  }
-
-  async getVisibility() {
-    return await this.getValueOfField('Visibility');
-  }
-
-  async getLibraryId() {
-    return await this.getValueOfField('Library ID');
-  }
-
-  async getDescription() {
-    return await this.getValueOfField('Description');
   }
 
   async isNameEnabled() {
     return await this.isInputEnabled('Name');
   }
 
-  async isLibraryIdEnabled() {
-    return await this.isInputEnabled('Library ID');
-  }
-
-  async isDescriptionEnabled() {
-    return await this.isInputEnabled('Description');
+  async getName() {
+    return await this.getValueOfField('Name');
   }
 
   async enterName(name: string) {
     return await this.enterTextInInput('Name', name);
   }
 
-  async typeName(name: string) {
-    return await this.typeTextInInput('Name', name);
+
+  async isDescriptionDisplayed() {
+    return await this.isFieldDisplayed('Description');
+  }
+
+  async isDescriptionEnabled() {
+    return await this.isInputEnabled('Description');
+  }
+
+  async getDescription() {
+    return await this.getValueOfField('Description');
   }
 
   async enterDescription(desc: string) {
     return await this.enterTextInInput('Description', desc);
   }
 
-  async typeDescription(desc: string) {
-    return await this.typeTextInInput('Description', desc);
+
+  async isVisibilityEnabled() {
+    const wrapper = this.getLabelWrapper('Visibility');
+    const field = wrapper.element(by.xpath('..')).element(by.css(InfoDrawer.selectors.dropDown));
+    return await field.isEnabled();
   }
 
-  async waitForDropDownToOpen() {
-    await browser.wait(EC.presenceOf(this.visibilityDropDown), BROWSER_WAIT_TIMEOUT);
+  async isVisibilityDisplayed() {
+    return await this.isFieldDisplayed('Visibility');
   }
 
-  async waitForDropDownToClose() {
-    await browser.wait(EC.stalenessOf(browser.$('.mat-option .mat-option-text')), BROWSER_WAIT_TIMEOUT);
+  async getVisibility() {
+    return await this.getValueOfField('Visibility');
   }
 
   async setVisibility(visibility: string) {
     const val = visibility.toLowerCase();
 
     await this.visibilityDropDown.click();
-    await this.waitForDropDownToOpen();
+    await this.waitForVisibilityDropDownToOpen();
 
     if (val === 'public') {
       await this.visibilityPublic.click();
@@ -295,7 +266,59 @@ export class InfoDrawer extends Component {
       console.log('----- invalid visibility', val);
     }
 
-    await this.waitForDropDownToClose();
+    await this.waitForVisibilityDropDownToClose();
+  }
+
+
+  async isLibraryIdDisplayed() {
+    return await this.isFieldDisplayed('Library ID');
+  }
+
+  async isLibraryIdEnabled() {
+    return await this.isInputEnabled('Library ID');
+  }
+
+  async getLibraryId() {
+    return await this.getValueOfField('Library ID');
+  }
+
+
+  async isEditEnabled() {
+    return await this.isButtonEnabled('Edit');
+  }
+
+  async isEditDisplayed() {
+    return await this.isButtonDisplayed('Edit');
+  }
+
+  async clickEdit() {
+    return await this.clickButton('Edit');
+  }
+
+
+  async isUpdateEnabled() {
+    return await this.isButtonEnabled('Update');
+  }
+
+  async isUpdateDisplayed() {
+    return await this.isButtonDisplayed('Update');
+  }
+
+  async clickUpdate() {
+    return await this.clickButton('Update');
+  }
+
+
+  async isCancelEnabled() {
+    return await this.isButtonEnabled('Cancel');
+  }
+
+  async isCancelDisplayed() {
+    return await this.isButtonDisplayed('Cancel');
+  }
+
+  async clickCancel() {
+    return await this.clickButton('Cancel');
   }
 
 }

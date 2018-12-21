@@ -36,24 +36,24 @@ describe('Extensions - DocumentList presets', () => {
   const testData = [
     {
       id: 'app.files.name',
-      fixtureLabel: 'Name'
+      label: 'Name'
     },
     {
       id: 'app.files.thumbnail',
-      fixtureLabel: 'Thumbnail'
+      label: 'Thumbnail'
     },
     {
       id: 'app.files.size',
-      fixtureLabel: 'Size',
+      label: 'Size',
       disabled: true
     },
     {
       id: 'app.files.modifiedBy',
-      fixtureLabel: 'Test header'
+      label: 'Test header'
     },
     {
       id: 'some.id.createdBy',
-      fixtureLabel: 'New column'
+      label: 'New column'
     }
   ];
 
@@ -88,20 +88,16 @@ describe('Extensions - DocumentList presets', () => {
   });
 
   it('Sets the columns to display - [C286700]', async () => {
-    const labels = testData
+    const expectedColumns = testData
       .filter(item => !item.disabled)
-      .map(data => data.fixtureLabel);
-    const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+      .map(data => data.label);
+    const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(await dataTable.getColumnHeaders().count()).toBe(labels.length, 'Incorrect number of columns');
-
-    await elements.forEach(async (element, index) => {
-      expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-    });
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('Disabled items are not shown - [C286699]', async () => {
-    const noColumnLabel = testData.find(item => item.disabled).fixtureLabel;
+    const noColumnLabel = testData.find(item => item.disabled).label;
     const element = dataTable.getColumnHeaderByLabel(noColumnLabel);
 
     expect(await element.isPresent()).toBe(false, `"${noColumnLabel}" is displayed`);

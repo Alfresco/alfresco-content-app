@@ -172,14 +172,10 @@ describe('Search results - libraries', () => {
     await searchInput.searchFor(site1.name);
     await dataTable.waitForBody();
 
-    const labels = [ 'Name', 'My Role', 'Visibility' ];
-    const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+    const expectedColumns = [ 'Thumbnail', 'Name', 'My Role', 'Visibility' ];
+    const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(await dataTable.getColumnHeaders().count()).toBe(3 + 1, 'Incorrect number of columns');
-
-    await elements.forEach(async (element, index) => {
-      expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-    });
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('Library visibility is correctly displayed - [C290017]', async () => {
@@ -194,17 +190,11 @@ describe('Search results - libraries', () => {
       [userSitePublic]: SITE_VISIBILITY.PUBLIC
     };
 
-    const rowCells = await dataTable.getRows().map((row) => {
-      return row.all(dataTable.cell).map(async cell => await cell.getText());
-    });
-    const sitesList = rowCells.reduce((acc, cell) => {
-      acc[cell[1]] = cell[3].toUpperCase();
-      return acc;
-    }, {});
+    const sitesList = await dataTable.getSitesNameAndVisibility();
 
-    Object.keys(expectedSitesVisibility).forEach((expectedSite) => {
-      expect(sitesList[expectedSite]).toEqual(expectedSitesVisibility[expectedSite]);
-    });
+    for (const site of Object.keys(expectedSitesVisibility)) {
+      expect(sitesList[site]).toEqual(expectedSitesVisibility[site]);
+    }
   });
 
   it('User role is correctly displayed - [C290018]', async () => {
@@ -220,17 +210,11 @@ describe('Search results - libraries', () => {
       [adminSite4]: SITE_ROLES.SITE_MANAGER.LABEL
     };
 
-    const rowCells = await dataTable.getRows().map((row) => {
-      return row.all(dataTable.cell).map(async cell => await cell.getText());
-    });
-    const sitesList = rowCells.reduce((acc, cell) => {
-      acc[cell[1]] = cell[2];
-      return acc;
-    }, {});
+    const sitesList = await dataTable.getSitesNameAndRole();
 
-    Object.keys(expectedSitesRoles).forEach((expectedSite) => {
-      expect(sitesList[expectedSite]).toEqual(expectedSitesRoles[expectedSite]);
-    });
+    for (const site of Object.keys(expectedSitesRoles)) {
+      expect(sitesList[site]).toEqual(expectedSitesRoles[site]);
+    }
   });
 
   it('Private sites are not displayed when user is not a member - [C290019]', async () => {
