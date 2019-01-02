@@ -238,11 +238,6 @@
         "LISTVIEW": "一覧表示モード"
       }
     },
-    "SITES_VISIBILITY": {
-      "PUBLIC": "公開",
-      "MODERATED": "条件付き公開",
-      "PRIVATE": "非公開"
-    },
     "SITES_ROLE": {
       "MANAGER": "マネージャ",
       "COLLABORATOR": "共同作業者",
