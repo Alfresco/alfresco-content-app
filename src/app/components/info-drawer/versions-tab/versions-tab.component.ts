@@ -29,7 +29,7 @@ import { MinimalNodeEntryEntity } from 'alfresco-js-api';
 @Component({
   selector: 'app-versions-tab',
   template: `
-    <ng-container *ngIf="isFileSelected; else: empty">
+    <ng-container *ngIf="isFileSelected; else empty">
       <adf-version-manager
         [showComments]="
           'adf-version-manager.allowComments' | adfAppConfig: true
