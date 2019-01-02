@@ -238,11 +238,6 @@
         "LISTVIEW": "Режим просмотра списка"
       }
     },
-    "SITES_VISIBILITY": {
-      "PUBLIC": "Общедоступный",
-      "MODERATED": "Модерируемый",
-      "PRIVATE": "Частный"
-    },
     "SITES_ROLE": {
       "MANAGER": "Менеджер",
       "COLLABORATOR": "Редактор",

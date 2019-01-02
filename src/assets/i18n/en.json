@@ -238,11 +238,6 @@
                 "LISTVIEW": "List view mode"
             }
         },
-        "SITES_VISIBILITY": {
-            "PUBLIC": "Public",
-            "MODERATED": "Moderated",
-            "PRIVATE": "Private"
-        },
         "SITES_ROLE": {
             "MANAGER": "Manager",
             "COLLABORATOR": "Collaborator",

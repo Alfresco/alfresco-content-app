@@ -46,13 +46,13 @@ export class LibraryStatusColumnComponent implements OnInit {
 
       switch (visibility.toUpperCase()) {
         case 'PUBLIC':
-          this.displayText = 'APP.SITES_VISIBILITY.PUBLIC';
+          this.displayText = 'LIBRARY.VISIBILITY.PUBLIC';
           break;
         case 'PRIVATE':
-          this.displayText = 'APP.SITES_VISIBILITY.PRIVATE';
+          this.displayText = 'LIBRARY.VISIBILITY.PRIVATE';
           break;
         case 'MODERATED':
-          this.displayText = 'APP.SITES_VISIBILITY.MODERATED';
+          this.displayText = 'LIBRARY.VISIBILITY.MODERATED';
           break;
         default:
           this.displayText = 'UNKNOWN';

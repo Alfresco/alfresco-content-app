@@ -238,11 +238,6 @@
         "LISTVIEW": "列表视图模式"
       }
     },
-    "SITES_VISIBILITY": {
-      "PUBLIC": "公共",
-      "MODERATED": "适中",
-      "PRIVATE": "私有"
-    },
     "SITES_ROLE": {
       "MANAGER": "管理员",
       "COLLABORATOR": "合作者",

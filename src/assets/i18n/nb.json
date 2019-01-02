@@ -238,11 +238,6 @@
         "LISTVIEW": "Listevisningsmodus"
       }
     },
-    "SITES_VISIBILITY": {
-      "PUBLIC": "Offentlig",
-      "MODERATED": "Moderert",
-      "PRIVATE": "Privat"
-    },
     "SITES_ROLE": {
       "MANAGER": "Administrator",
       "COLLABORATOR": "Medarbeider",
