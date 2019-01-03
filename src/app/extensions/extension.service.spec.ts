@@ -36,13 +36,15 @@ import {
   reduceSeparators,
   reduceEmptyMenus,
   ExtensionService,
-  ExtensionConfig
+  ExtensionConfig,
+  ComponentRegisterService
 } from '@alfresco/adf-extensions';
 
 describe('AppExtensionService', () => {
   let service: AppExtensionService;
   let store: Store<AppStore>;
   let extensions: ExtensionService;
+  let components: ComponentRegisterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +54,7 @@ describe('AppExtensionService', () => {
     store = TestBed.get(Store);
     service = TestBed.get(AppExtensionService);
     extensions = TestBed.get(ExtensionService);
+    components = TestBed.get(ComponentRegisterService);
   });
 
   const applyConfig = (config: ExtensionConfig) => {
@@ -226,7 +229,9 @@ describe('AppExtensionService', () => {
     beforeEach(() => {
       component1 = {};
 
-      extensions.components['component-1'] = component1;
+      components.setComponents({
+        'component-1': component1
+      });
     });
 
     it('should fetch registered component', () => {
@@ -268,8 +273,11 @@ describe('AppExtensionService', () => {
 
       component1 = {};
       component2 = {};
-      extensions.components['aca:components/about'] = component1;
-      extensions.components['aca:layouts/main'] = component2;
+
+      components.setComponents({
+        'aca:components/about': component1,
+        'aca:layouts/main': component2
+      });
 
       guard1 = {};
       extensions.authGuards['aca:auth'] = guard1;
