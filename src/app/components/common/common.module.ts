@@ -28,22 +28,22 @@ import { CommonModule } from '@angular/common';
 import { GenericErrorComponent } from './generic-error/generic-error.component';
 import { CoreModule } from '@alfresco/adf-core';
 import { LocationLinkComponent } from './location-link/location-link.component';
-import { DynamicColumnComponent } from './dynamic-column/dynamic-column.component';
 import { IconComponent } from './icon/icon.component';
 import { MatIconModule } from '@angular/material';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), MatIconModule],
-  declarations: [
-    GenericErrorComponent,
-    LocationLinkComponent,
-    DynamicColumnComponent,
-    IconComponent
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    MatIconModule,
+    ExtensionsModule
   ],
+  declarations: [GenericErrorComponent, LocationLinkComponent, IconComponent],
   exports: [
+    ExtensionsModule,
     GenericErrorComponent,
     LocationLinkComponent,
-    DynamicColumnComponent,
     IconComponent
   ],
   entryComponents: [LocationLinkComponent]
