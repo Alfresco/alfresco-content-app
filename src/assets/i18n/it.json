@@ -238,12 +238,6 @@
         "LISTVIEW": "Modalità vista elenco"
       }
     },
-    "SITES_ROLE": {
-      "MANAGER": "Manager",
-      "COLLABORATOR": "Collaboratore",
-      "CONTRIBUTOR": "Contributore",
-      "CONSUMER": "Consumatore"
-    },
     "MESSAGES": {
       "ERRORS": {
         "CANNOT_NAVIGATE_LOCATION": "Impossibile aprire questo percorso",

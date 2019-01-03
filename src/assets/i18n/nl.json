@@ -238,12 +238,6 @@
         "LISTVIEW": "Lijstweergavemodus"
       }
     },
-    "SITES_ROLE": {
-      "MANAGER": "Beheerder",
-      "COLLABORATOR": "Medewerker",
-      "CONTRIBUTOR": "Bijdrager",
-      "CONSUMER": "Consument"
-    },
     "MESSAGES": {
       "ERRORS": {
         "CANNOT_NAVIGATE_LOCATION": "Kan deze locatie niet openen",

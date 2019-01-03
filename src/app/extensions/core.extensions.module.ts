@@ -41,15 +41,17 @@ import { CommentsTabComponent } from '../components/info-drawer/comments-tab/com
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 import { AppAuthGuard } from '../guards/auth.guard';
-import { NameColumnComponent } from '../components/common/name-column/name-column.component';
-import { LibraryNameColumnComponent } from '../components/common/library-name-column/library-name-column.component';
-import { LibraryRoleColumnComponent } from '../components/common/library-role-column/library-role-column.component';
-import { LibraryStatusColumnComponent } from '../components/common/library-status-column/library-status-column.component';
-import { TrashcanNameColumnComponent } from '../components/common/trashcan-name-column/trashcan-name-column.component';
 import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
 import { DocumentDisplayModeComponent } from '../components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleJoinLibraryButtonComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-button.component';
 import { ToggleJoinLibraryMenuComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-menu.component';
+import {
+  LibraryNameColumnComponent,
+  LibraryStatusColumnComponent,
+  TrashcanNameColumnComponent,
+  LibraryRoleColumnComponent,
+  NameColumnComponent
+} from '@alfresco/adf-content-services';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();

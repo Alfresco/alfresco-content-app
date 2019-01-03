@@ -238,12 +238,6 @@
                 "LISTVIEW": "List view mode"
             }
         },
-        "SITES_ROLE": {
-            "MANAGER": "Manager",
-            "COLLABORATOR": "Collaborator",
-            "CONTRIBUTOR": "Contributor",
-            "CONSUMER": "Consumer"
-        },
         "MESSAGES": {
             "ERRORS":{
               "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",

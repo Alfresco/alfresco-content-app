@@ -238,12 +238,6 @@
         "LISTVIEW": "列表视图模式"
       }
     },
-    "SITES_ROLE": {
-      "MANAGER": "管理员",
-      "COLLABORATOR": "合作者",
-      "CONTRIBUTOR": "贡献者",
-      "CONSUMER": "使用者"
-    },
     "MESSAGES": {
       "ERRORS": {
         "CANNOT_NAVIGATE_LOCATION": "无法打开此位置",
