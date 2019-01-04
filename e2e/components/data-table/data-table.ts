@@ -46,7 +46,7 @@ export class DataTable extends Component {
     cell: '.adf-data-table-cell',
     locationLink: '.aca-location-link',
     nameLink: '.adf-datatable-link',
-    libraryRole: 'app-library-role-column',
+    libraryRole: 'adf-library-role-column',
 
     selectedIcon: '.mat-icon',
 
