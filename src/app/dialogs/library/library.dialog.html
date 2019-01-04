@@ -11,18 +11,17 @@
         autocomplete="off"
       />
 
-      <mat-hint *ngIf="libraryTitleExists">{{
-        'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate
-      }}</mat-hint>
+      <mat-hint *ngIf="libraryTitleExists"
+        >{{ 'LIBRARY.HINTS.SITE_TITLE_EXISTS' | translate }}</mat-hint
+      >
 
       <mat-error *ngIf="form.controls['title'].hasError('maxlength')">
         {{ 'LIBRARY.ERRORS.TITLE_TOO_LONG' | translate }}
       </mat-error>
 
       <mat-error *ngIf="form.controls['title'].errors?.message">
-          {{ form.controls['title'].errors?.message | translate }}
+        {{ form.controls['title'].errors?.message | translate }}
       </mat-error>
-
     </mat-form-field>
 
     <mat-form-field>

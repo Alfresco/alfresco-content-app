@@ -1,55 +1,61 @@
 <ng-container *ngIf="nodeId">
+  <adf-viewer
+    [fileNodeId]="nodeId"
+    [allowNavigate]="navigateMultiple"
+    [allowSidebar]="hasRightSidebar"
+    [allowPrint]="false"
+    [allowDownload]="false"
+    [allowFullScreen]="false"
+    [canNavigateBefore]="previousNodeId"
+    [canNavigateNext]="nextNodeId"
+    [overlayMode]="true"
+    (showViewerChange)="onVisibilityChanged($event)"
+    (navigateBefore)="onNavigateBefore()"
+    (navigateNext)="onNavigateNext()"
+    [ngClass]="hasRightSidebar ? 'hide-last-divider' : ''"
+  >
+    <adf-viewer-sidebar>
+      <aca-info-drawer [node]="selection.file"></aca-info-drawer>
+    </adf-viewer-sidebar>
 
-    <adf-viewer
-        [fileNodeId]="nodeId"
-        [allowNavigate]="navigateMultiple"
-        [allowSidebar]="hasRightSidebar"
-        [allowPrint] ="false"
-        [allowDownload]="false"
-        [allowFullScreen]="false"
-        [canNavigateBefore]="previousNodeId"
-        [canNavigateNext]="nextNodeId"
-        [overlayMode]="true"
-        (showViewerChange)="onVisibilityChanged($event)"
-        (navigateBefore)="onNavigateBefore()"
-        (navigateNext)="onNavigateNext()"
-        [ngClass]="hasRightSidebar ? 'hide-last-divider': ''">
+    <adf-viewer-open-with *ngIf="openWith.length">
+      <ng-container *ngFor="let action of openWith; trackBy: trackByActionId">
+        <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
+      </ng-container>
+    </adf-viewer-open-with>
 
-        <adf-viewer-sidebar>
-            <aca-info-drawer [node]="selection.file"></aca-info-drawer>
-        </adf-viewer-sidebar>
+    <adf-viewer-toolbar-actions>
+      <ng-container
+        *ngFor="let action of viewerToolbarActions; trackBy: trackByActionId"
+      >
+        <aca-toolbar-action [actionRef]="action"></aca-toolbar-action>
+      </ng-container>
+    </adf-viewer-toolbar-actions>
 
-        <adf-viewer-open-with *ngIf="openWith.length">
-            <ng-container *ngFor="let action of openWith; trackBy: trackByActionId">
-              <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
-            </ng-container>
-        </adf-viewer-open-with>
+    <adf-viewer-more-actions *ngIf="viewerToolbarMoreActions.length">
+      <ng-container
+        *ngFor="
+          let action of viewerToolbarMoreActions;
+          trackBy: trackByActionId
+        "
+      >
+        <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
+      </ng-container>
+    </adf-viewer-more-actions>
 
-        <adf-viewer-toolbar-actions>
-            <ng-container *ngFor="let action of viewerToolbarActions; trackBy: trackByActionId">
-                <aca-toolbar-action [actionRef]="action"></aca-toolbar-action>
-            </ng-container>
-        </adf-viewer-toolbar-actions>
-
-        <adf-viewer-more-actions *ngIf="viewerToolbarMoreActions.length">
-            <ng-container *ngFor="let action of viewerToolbarMoreActions; trackBy: trackByActionId">
-                <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
-            </ng-container>
-        </adf-viewer-more-actions>
-
-        <ng-container *ngFor="let ext of contentExtensions">
-            <adf-viewer-extension [supportedExtensions]="[ext.fileExtension]">
-                <ng-template let-url="urlFileContent" let-extension="extension">
-                    <app-preview-extension
-                        [id]="ext.component"
-                        [node]="selection.file?.entry"
-                        [url]="url"
-                        [extension]="extension"
-                        [attr.data-automation-id]="ext.component">
-                    </app-preview-extension>
-                </ng-template>
-            </adf-viewer-extension>
-        </ng-container>
-
-    </adf-viewer>
+    <ng-container *ngFor="let ext of contentExtensions">
+      <adf-viewer-extension [supportedExtensions]="[ext.fileExtension]">
+        <ng-template let-url="urlFileContent" let-extension="extension">
+          <app-preview-extension
+            [id]="ext.component"
+            [node]="selection.file?.entry"
+            [url]="url"
+            [extension]="extension"
+            [attr.data-automation-id]="ext.component"
+          >
+          </app-preview-extension>
+        </ng-template>
+      </adf-viewer-extension>
+    </ng-container>
+  </adf-viewer>
 </ng-container>
