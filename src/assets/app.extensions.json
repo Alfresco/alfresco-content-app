@@ -453,6 +453,27 @@
         }
       },
       {
+        "id": "app.toolbar.joinLibrary",
+        "type": "custom",
+        "order": 600,
+        "component": "app.toolbar.toggleJoinLibrary",
+        "rules": {
+          "visible": "app.libraries.toolbar.canToggleJoin"
+        }
+      },
+      {
+        "id": "app.toolbar.leaveLibrary",
+        "order": 650,
+        "title": "APP.ACTIONS.LEAVE",
+        "icon": "exit_to_app",
+        "actions": {
+          "click": "LEAVE_LIBRARY"
+        },
+        "rules": {
+          "visible": "app.libraries.toolbar.canLeaveLibrary"
+        }
+      },
+      {
         "id": "app.create.separator.2",
         "type": "separator",
         "order": 680
@@ -469,31 +490,10 @@
       {
         "id": "app.libraries.toolbar.infoDrawer",
         "type": "custom",
-        "order": 701,
+        "order": 800,
         "component": "app.toolbar.toggleInfoDrawer",
         "rules": {
           "visible": "app.libraries.toolbar"
-        }
-      },
-      {
-        "id": "app.toolbar.joinLibrary",
-        "type": "custom",
-        "order": 704,
-        "component": "app.toolbar.toggleJoinLibrary",
-        "rules": {
-          "visible": "app.libraries.toolbar.canToggleJoin"
-        }
-      },
-      {
-        "id": "app.toolbar.leaveLibrary",
-        "order": 705,
-        "title": "APP.ACTIONS.LEAVE",
-        "icon": "not_interested",
-        "actions": {
-          "click": "LEAVE_LIBRARY"
-        },
-        "rules": {
-          "visible": "app.libraries.toolbar.canLeaveLibrary"
         }
       },
       {
