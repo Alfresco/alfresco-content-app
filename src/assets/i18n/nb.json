@@ -238,12 +238,6 @@
         "LISTVIEW": "Listevisningsmodus"
       }
     },
-    "SITES_ROLE": {
-      "MANAGER": "Administrator",
-      "COLLABORATOR": "Medarbeider",
-      "CONTRIBUTOR": "Bidragsyter",
-      "CONSUMER": "Forbruker"
-    },
     "MESSAGES": {
       "ERRORS": {
         "CANNOT_NAVIGATE_LOCATION": "Kan ikke åpne dette stedet",

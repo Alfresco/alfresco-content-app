@@ -238,12 +238,6 @@
         "LISTVIEW": "Listenansichtsmodus"
       }
     },
-    "SITES_ROLE": {
-      "MANAGER": "Manager",
-      "COLLABORATOR": "Mitarbeiter",
-      "CONTRIBUTOR": "Beitragender",
-      "CONSUMER": "Verbraucher"
-    },
     "MESSAGES": {
       "ERRORS": {
         "CANNOT_NAVIGATE_LOCATION": "Öffnen dieses Speicherorts nicht möglich",
