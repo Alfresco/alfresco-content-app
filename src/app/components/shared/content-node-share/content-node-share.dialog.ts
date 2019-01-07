@@ -38,7 +38,7 @@ import {
 import { SharedLinksApiService, NodesApiService } from '@alfresco/adf-core';
 import { SharedLinkEntry, MinimalNodeEntryEntity } from 'alfresco-js-api';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
-import moment from 'moment-es6';
+import * as moment from 'moment';
 
 @Component({
   selector: 'aca-share-dialog',
