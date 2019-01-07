@@ -733,7 +733,7 @@
         "id": "app.context.menu.leaveLibrary",
         "order": 703,
         "title": "APP.ACTIONS.LEAVE",
-        "icon": "not_interested",
+        "icon": "exit_to_app",
         "actions": {
           "click": "LEAVE_LIBRARY"
         },
