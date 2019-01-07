@@ -28,7 +28,7 @@ import {
 } from '@alfresco/adf-core';
 import { ContentNodeShareModule } from './content-node-share.module';
 import { ShareDialogComponent } from './content-node-share.dialog';
-import moment from 'moment-es6';
+import * as moment from 'moment';
 import { Store } from '@ngrx/store';
 
 describe('ShareDialogComponent', () => {
