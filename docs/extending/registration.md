@@ -1,6 +1,3 @@
----
----
-
 # Registration
 
 You can use `ExtensionService` to register custom components, authentication guards,
@@ -16,7 +13,7 @@ and use the following snippet to register custom content:
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 
 @NgModule({
-    imports: [ ExtensionsModule.forChild() ]
+    imports: [ ExtensionsModule ]
     declarations: [ MyComponent1, MyLayout ],
     entryComponents: [ MyComponent1, MyLayout ]
 })
@@ -40,9 +37,6 @@ export class MyExtensionModule {
 
 }
 ```
-
-Use `ExtensionsModule.forChild()` when importing into the child modules,
-and `ExtensionsModule.forRoot()` for the main application module.
 
 <p class="warning">
 According to Angular rules, all components that are created dynamically at runtime
