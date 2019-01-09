@@ -39,6 +39,7 @@ import {
   TranslateLoaderService
 } from '@alfresco/adf-core';
 import {
+  LibraryDialogComponent,
   ContentModule,
   CustomResourcesService
 } from '@alfresco/adf-content-services';
@@ -50,7 +51,6 @@ import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
-import { LibraryDialogComponent } from './dialogs/library/library.dialog';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -118,8 +118,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     FilesComponent,
     LibrariesComponent,
     FavoriteLibrariesComponent,
-    NodeVersionsDialogComponent,
-    LibraryDialogComponent
+    NodeVersionsDialogComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },

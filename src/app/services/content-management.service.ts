@@ -28,9 +28,9 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import {
   FolderDialogComponent,
-  ConfirmDialogComponent
+  ConfirmDialogComponent,
+  LibraryDialogComponent
 } from '@alfresco/adf-content-services';
-import { LibraryDialogComponent } from '../dialogs/library/library.dialog';
 import {
   SnackbarErrorAction,
   SnackbarInfoAction,

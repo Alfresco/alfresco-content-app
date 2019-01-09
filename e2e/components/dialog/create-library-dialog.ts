@@ -30,7 +30,7 @@ import { Utils } from '../../utilities/utils';
 
 export class CreateLibraryDialog extends Component {
   private static selectors = {
-    root: 'app-library-dialog',
+    root: 'adf-library-dialog',
 
     title: '.mat-dialog-title',
     nameInput: 'input[placeholder="Name" i]',
