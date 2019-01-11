@@ -58,14 +58,14 @@ describe('Sidebar', () => {
   });
 
   it('navigate to Favorite Libraries - [C289902]', async () => {
-    await page.goToFavoriteLibrariesAndWait();
+    await page.goToFavoriteLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.FAVORITE_LIBRARIES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(false, 'File Libraries link is active');
     expect(await sidenav.childIsActive(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toBe(true, 'Favorite Libraries link not active');
   });
 
   it('navigate to My Libraries - [C289901]', async () => {
-    await page.goToMyLibrariesAndWait();
+    await page.goToMyLibraries();
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.MY_LIBRARIES);
     expect(await sidenav.isActive(SIDEBAR_LABELS.FILE_LIBRARIES)).toBe(false, 'File Libraries link is active');
     expect(await sidenav.childIsActive(SIDEBAR_LABELS.MY_LIBRARIES)).toBe(true, 'My Libraries link not active');
@@ -115,13 +115,13 @@ describe('Sidebar', () => {
 
   // TODO: incomplete test
   it('My Libraries tooltip - [C289916]', async () => {
-    await page.goToMyLibrariesAndWait();
+    await page.goToMyLibraries();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.MY_LIBRARIES)).toContain('Access my libraries');
   });
 
   // TODO: incomplete test
   it('Favorite Libraries tooltip - [C289917]', async () => {
-    await page.goToFavoriteLibrariesAndWait();
+    await page.goToFavoriteLibraries();
     expect(await sidenav.getLinkTooltip(SIDEBAR_LABELS.FAVORITE_LIBRARIES)).toContain('Access my favorite libraries');
   });
 
