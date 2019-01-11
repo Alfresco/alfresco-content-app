@@ -34,16 +34,16 @@ describe('Granular permissions available actions : ', () => {
   const userManager = `manager-${Utils.random()}`;
 
   const siteName = `site-private-${Utils.random()}`;
-  const file1 = `file1-${Utils.random()}.txt`;
+  const file1 = `my-file1-${Utils.random()}.txt`;
   let file1Id;
-  const file2 = `file2-${Utils.random()}.txt`;
+  const file2 = `my-file2-${Utils.random()}.txt`;
   let file2Id;
-  const file3 = `file3-${Utils.random()}.txt`;
+  const file3 = `my-file3-${Utils.random()}.txt`;
   let file3Id;
 
-  const folder1 = `folder1-${Utils.random()}`;
+  const folder1 = `my-folder1-${Utils.random()}`;
   let folder1Id;
-  const folder2 = `folder2-${Utils.random()}`;
+  const folder2 = `my-folder2-${Utils.random()}`;
   let folder2Id;
 
   const docxFile = FILES.docxFile;
@@ -62,7 +62,7 @@ describe('Granular permissions available actions : ', () => {
   const viewer = new Viewer();
   const viewerToolbar = viewer.toolbar;
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     await apis.admin.people.createUser({ username: userConsumer });
     await apis.admin.people.createUser({ username: userManager });
 
@@ -96,7 +96,7 @@ describe('Granular permissions available actions : ', () => {
     done();
   });
 
-  afterAll(async done => {
+  afterAll(async (done) => {
     await apis.admin.sites.deleteSite(siteName);
     done();
   });
@@ -104,7 +104,7 @@ describe('Granular permissions available actions : ', () => {
   xit('');
 
   describe('toolbar displays correct actions when selecting multiple files with different granular permissions', () => {
-    beforeEach(async done => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
       done();
     });
@@ -114,6 +114,7 @@ describe('Granular permissions available actions : ', () => {
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.selectMultipleItems([file1, file2]);
+
       expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for selected files`);
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for selected files`);
       expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for selected files`);
@@ -128,6 +129,7 @@ describe('Granular permissions available actions : ', () => {
     it('on Shared Files - [C280477]', async () => {
       await page.clickSharedFilesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
+
       expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for selected files`);
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for selected files`);
       expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for selected files`);
@@ -142,6 +144,7 @@ describe('Granular permissions available actions : ', () => {
     it('on Favorites - [C280478]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectMultipleItems([file1, file2]);
+
       expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for selected files`);
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for selected files`);
       expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for selected files`);
@@ -156,7 +159,7 @@ describe('Granular permissions available actions : ', () => {
   });
 
   describe('toolbar actions appear correctly for a file - consumer', () => {
-    beforeEach(async done => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
       done();
     });
@@ -213,7 +216,7 @@ describe('Granular permissions available actions : ', () => {
   });
 
   describe('toolbar actions appear correctly for a folder - consumer', () => {
-    beforeEach(async done => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
       done();
     });
@@ -347,7 +350,7 @@ describe('Granular permissions available actions : ', () => {
   });
 
   describe('toolbar actions appear correctly for when both files and folders are selected - consumer', () => {
-    beforeEach(async done => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
       done();

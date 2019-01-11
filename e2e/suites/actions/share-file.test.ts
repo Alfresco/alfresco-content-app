@@ -261,14 +261,14 @@ describe('Share a file', () => {
 
   describe('from File Libraries', () => {
 
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
+    const file1 = `file1-${Utils.random()}.txt`;
+    const file2 = `file2-${Utils.random()}.txt`;
     const file3 = `file3-${Utils.random()}.txt`; let file3Id;
-    const file4 = `file4-${Utils.random()}.txt`; let file4Id;
+    const file4 = `file4-${Utils.random()}.txt`;
     const file5 = `file5-${Utils.random()}.txt`; let file5Id;
     const file6 = `file6-${Utils.random()}.txt`; let file6Id;
     const file7 = `file7-${Utils.random()}.txt`; let file7Id;
-    const file8 = `file8-${Utils.random()}.txt`; let file8Id;
+    const file8 = `file8-${Utils.random()}.txt`;
     const file9 = `file9-${Utils.random()}.txt`; let file9Id;
 
     const siteName = `site-${Utils.random()}`;
@@ -279,14 +279,14 @@ describe('Share a file', () => {
       const docLibId = await apis.user.sites.getDocLibId(siteName);
       parentInSiteId = (await apis.user.nodes.createFolder(parentInSite, docLibId)).entry.id;
 
-      file1Id = (await apis.user.nodes.createFile(file1, parentInSiteId)).entry.id;
-      file2Id = (await apis.user.nodes.createFile(file2, parentInSiteId)).entry.id;
+      await apis.user.nodes.createFile(file1, parentInSiteId);
+      await apis.user.nodes.createFile(file2, parentInSiteId);
       file3Id = (await apis.user.nodes.createFile(file3, parentInSiteId)).entry.id;
-      file4Id = (await apis.user.nodes.createFile(file4, parentInSiteId)).entry.id;
+      await apis.user.nodes.createFile(file4, parentInSiteId);
       file5Id = (await apis.user.nodes.createFile(file5, parentInSiteId)).entry.id;
       file6Id = (await apis.user.nodes.createFile(file6, parentInSiteId)).entry.id;
       file7Id = (await apis.user.nodes.createFile(file7, parentInSiteId)).entry.id;
-      file8Id = (await apis.user.nodes.createFile(file8, parentInSiteId)).entry.id;
+      await apis.user.nodes.createFile(file8, parentInSiteId);
       file9Id = (await apis.user.nodes.createFile(file9, parentInSiteId)).entry.id;
       await apis.user.shared.shareFileById(file6Id, expiryDate);
       await apis.user.shared.shareFileById(file7Id, expiryDate);

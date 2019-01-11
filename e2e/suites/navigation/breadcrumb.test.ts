@@ -186,7 +186,7 @@ describe('Breadcrumb', () => {
   });
 
   describe('as admin', () => {
-    const user2 = 'a_user';
+    const user2 = `user2-${Utils.random()}`;
     const userFolder = `userFolder-${Utils.random()}`; let userFolderId;
     const user2Api = new RepoClient(user2, user2);
 

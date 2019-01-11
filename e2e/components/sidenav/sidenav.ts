@@ -36,14 +36,33 @@ export class Sidenav extends Component {
     label: '.item--label',
     expansion_panel: ".mat-expansion-panel-header",
     expansion_panel_content: ".mat-expansion-panel-body",
-    active: 'item--active',
-    activeLink: '.item--active',
-    newButton: '[data-automation-id="create-button"]'
+    active: 'mat-accent',
+    activeLink: '.mat-accent',
+    activeChild: 'item--active',
+    newButton: '[data-automation-id="create-button"]',
+
+    personalFiles: `[id='app.navbar.personalFiles']`,
+    fileLibraries: `[id='app.navbar.libraries.menu']`,
+    myLibraries: `[id='app.navbar.libraries.files']`,
+    favoriteLibraries: `[id='app.navbar.libraries.favorite']`,
+    shared: `[id='app.navbar.shared']`,
+    recentFiles: `[id='app.navbar.recentFiles']`,
+    favorites: `[id='app.navbar.favorites']`,
+    trash: `[id='app.navbar.trashcan']`
   };
 
   links: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.link));
   activeLink: ElementFinder = this.component.element(by.css(Sidenav.selectors.activeLink));
   newButton: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.newButton));
+
+  personalFiles: ElementFinder = this.component.element(by.css(Sidenav.selectors.personalFiles));
+  fileLibraries: ElementFinder = this.component.element(by.css(Sidenav.selectors.fileLibraries));
+  myLibraries: ElementFinder = this.component.element(by.css(Sidenav.selectors.myLibraries));
+  favoriteLibraries: ElementFinder = this.component.element(by.css(Sidenav.selectors.favoriteLibraries));
+  shared: ElementFinder = this.component.element(by.css(Sidenav.selectors.shared));
+  recentFiles: ElementFinder = this.component.element(by.css(Sidenav.selectors.recentFiles));
+  favorites: ElementFinder = this.component.element(by.css(Sidenav.selectors.favorites));
+  trash: ElementFinder = this.component.element(by.css(Sidenav.selectors.trash));
 
   menu: Menu = new Menu();
 
@@ -92,7 +111,7 @@ export class Sidenav extends Component {
 
   async childIsActive(name: string) {
     const childClass = await this.getLinkLabel(name).element(by.css('span')).getAttribute('class');
-    return childClass.includes(Sidenav.selectors.active);
+    return childClass.includes(Sidenav.selectors.activeChild);
   }
 
   getLink(name: string) {
@@ -100,7 +119,17 @@ export class Sidenav extends Component {
   }
 
   getLinkLabel(name: string) {
-    return this.component.element(by.cssContainingText(Sidenav.selectors.label, name));
+    switch (name) {
+      case 'Personal Files': return this.personalFiles;
+      case 'File Libraries': return this.fileLibraries;
+      case 'My Libraries': return this.myLibraries;
+      case 'Favorite Libraries': return this.favoriteLibraries;
+      case 'Shared': return this.shared;
+      case 'Recent Files': return this.recentFiles;
+      case 'Favorites': return this.favorites;
+      case 'Trash': return this.trash;
+      default: return this.personalFiles;
+    }
   }
 
   getActiveLink() {

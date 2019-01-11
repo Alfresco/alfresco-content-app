@@ -231,7 +231,7 @@ describe('Context menu actions - single selection : ', () => {
       done();
     });
 
-    it('Available actions when a library is selected - My Libraries - [C290080]', async () => {
+    it('Available actions for a library - My Libraries - [C290080]', async () => {
       await page.goToMyLibraries();
       await dataTable.rightClickOnItem(siteName);
 
@@ -241,7 +241,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
     });
 
-    it('Available actions when a library is selected - Favorite Libraries - user is a member - [C290081]', async () => {
+    it('Available actions for a library - Favorite Libraries - user is a member - [C290081]', async () => {
       await page.goToFavoriteLibraries();
       await dataTable.rightClickOnItem(siteName);
 
@@ -251,7 +251,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
     });
 
-    it('Available actions when a library is selected - Favorite Libraries - user is not a member - [C290082]', async () => {
+    it('Available actions for a library - Favorite Libraries - user is not a member - [C290082]', async () => {
       await page.goToFavoriteLibraries();
       await dataTable.rightClickOnItem(adminPublic);
 
@@ -261,7 +261,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminPublic}`);
     });
 
-    it('Available actions when a library is selected - Favorite Libraries - user requested to join - [C290089]', async () => {
+    it('Available actions for a moderated library - Favorite Libraries - user requested to join - [C290089]', async () => {
       await page.goToFavoriteLibraries();
       await dataTable.rightClickOnItem(adminModerated);
 
@@ -374,15 +374,15 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isPermanentDeletePresent())
           .toBe(true, `Permanently delete is not displayed for ${fileInTrash}`);
       expect(await contextMenu.isRestorePresent()).toBe(true, `Restore is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isDownloadPresent()).toBe(false, `Download is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isViewPresent()).toBe(false, `View is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isMovePresent()).toBe(false, `Move is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is not displayed for ${fileInTrash}`);
-      expect(await contextMenu.isSharePresent()).toBe(false, `Share is not displayed for ${fileInTrash}`);
+      expect(await contextMenu.isDownloadPresent()).toBe(false, `Download is displayed for ${fileInTrash}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${fileInTrash}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed for ${fileInTrash}`);
+      expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed for ${fileInTrash}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${fileInTrash}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileInTrash}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${fileInTrash}`);
       expect(await contextMenu.isManageVersionsPresent())
-          .toBe(false, `Manage Versions is not displayed for ${fileInTrash}`);
+          .toBe(false, `Manage Versions is displayed for ${fileInTrash}`);
       expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${fileInTrash}`);
       expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${fileInTrash}`);
     });
@@ -393,15 +393,15 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isPermanentDeletePresent())
           .toBe(true, `Permanently delete is not displayed for ${folderInTrash}`);
       expect(await contextMenu.isRestorePresent()).toBe(true, `Restore is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isDownloadPresent()).toBe(false, `Download is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isViewPresent()).toBe(false, `View is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isMovePresent()).toBe(false, `Move is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is not displayed for ${folderInTrash}`);
-      expect(await contextMenu.isSharePresent()).toBe(false, `Share is not displayed for ${folderInTrash}`);
+      expect(await contextMenu.isDownloadPresent()).toBe(false, `Download is displayed for ${folderInTrash}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folderInTrash}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed for ${folderInTrash}`);
+      expect(await contextMenu.isCopyPresent()).toBe(false, `Copy is displayed for ${folderInTrash}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${folderInTrash}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folderInTrash}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folderInTrash}`);
       expect(await contextMenu.isManageVersionsPresent())
-          .toBe(false, `Manage Versions is not displayed for ${folderInTrash}`);
+          .toBe(false, `Manage Versions is displayed for ${folderInTrash}`);
       expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${folderInTrash}`);
       expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${folderInTrash}`);
     });

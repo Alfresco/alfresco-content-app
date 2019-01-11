@@ -31,11 +31,11 @@ import { Utils } from '../../utilities/utils';
 describe('Context menu actions - multiple selection : ', () => {
   const username = `user-${Utils.random()}`;
 
-  const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-  const file2 = `file2-${Utils.random()}.txt`; let file2Id;
+  const file1 = `my-file1-${Utils.random()}.txt`; let file1Id;
+  const file2 = `my-file2-${Utils.random()}.txt`; let file2Id;
 
-  const folder1 = `folder1-${Utils.random()}`; let folder1Id;
-  const folder2 = `folder2-${Utils.random()}`; let folder2Id;
+  const folder1 = `my-folder1-${Utils.random()}`; let folder1Id;
+  const folder2 = `my-folder2-${Utils.random()}`; let folder2Id;
 
   const fileInTrash1 = `deletedFile1-${Utils.random()}.txt`; let fileInTrash1Id;
   const fileInTrash2 = `deletedFile2-${Utils.random()}.txt`; let fileInTrash2Id;
@@ -43,10 +43,10 @@ describe('Context menu actions - multiple selection : ', () => {
   const folderInTrash2 = `deletedFolder2-${Utils.random()}`; let folderInTrash2Id;
 
   const siteName = `site-${Utils.random()}`;
-  const file1Site = `file1-${Utils.random()}.txt`;
-  const file2Site = `file2-${Utils.random()}.txt`;
-  const folder1Site = `folder1-${Utils.random()}`;
-  const folder2Site = `folder2-${Utils.random()}`;
+  const file1Site = `my-inSite-file1-${Utils.random()}.txt`;
+  const file2Site = `my-inSite-file2-${Utils.random()}.txt`;
+  const folder1Site = `my-inSite-folder1-${Utils.random()}`;
+  const folder2Site = `my-inSite-folder2-${Utils.random()}`;
 
   const apis = {
       admin: new RepoClient(),
@@ -70,7 +70,7 @@ describe('Context menu actions - multiple selection : ', () => {
     await apis.user.nodes.createFile(file1Site, docLibId);
     await apis.user.nodes.createFile(file2Site, docLibId);
     await apis.user.nodes.createFolder(folder1Site, docLibId);
-    await apis.user.nodes.createFile(folder2Site, docLibId);
+    await apis.user.nodes.createFolder(folder2Site, docLibId);
 
     await apis.user.shared.shareFilesByIds([ file1Id, file2Id ]);
     await apis.user.shared.waitForApi({ expect: 2 });
