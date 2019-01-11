@@ -349,4 +349,5 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.isButtonPresent('Restore')).toBe(true, 'Restore is not displayed');
     });
   });
+  });
 });
