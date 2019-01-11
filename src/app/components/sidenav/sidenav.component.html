@@ -66,6 +66,7 @@
                   </mat-icon>
                   <span
                     class="item--label item--parent"
+                    [id]="item.id"
                     [ngClass]="{
                       'item--default':
                         !routerLink.isActive && expansionPanel.expanded,
