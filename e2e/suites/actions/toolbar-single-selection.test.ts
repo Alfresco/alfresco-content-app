@@ -107,11 +107,11 @@ describe('Toolbar actions - single selection : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
     it('selected row is marked with a check circle icon - [C213134]', async () => {
-      await page.clickPersonalFilesAndWait();
       await dataTable.selectItem(fileUser);
       expect(await dataTable.hasCheckMarkIcon(fileUser)).toBe(true, 'check mark missing');
     });
@@ -152,10 +152,9 @@ describe('Toolbar actions - single selection : ', () => {
   describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -195,12 +194,16 @@ describe('Toolbar actions - single selection : ', () => {
   describe('on a library', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await dataTable.clearSelection();
+      done();
+    });
+
+    afterAll(async (done) => {
+      await page.clickPersonalFiles();
       done();
     });
 
     it('Available actions for a library - My Libraries - [C213135]', async () => {
-      await page.goToMyLibraries();
+      await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(siteName);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${siteName}`);
@@ -212,7 +215,7 @@ describe('Toolbar actions - single selection : ', () => {
     });
 
     it('Available actions for a library - Favorite Libraries - user is a member - [C289892]', async () => {
-      await page.goToFavoriteLibraries();
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(siteName);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${siteName}`);
@@ -224,7 +227,7 @@ describe('Toolbar actions - single selection : ', () => {
     });
 
     it('Available actions for a library - Favorite Libraries - user is not a member - [C290090]', async () => {
-      await page.goToFavoriteLibraries();
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(adminPublic);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminPublic}`);
@@ -236,7 +239,7 @@ describe('Toolbar actions - single selection : ', () => {
     });
 
     it('Available actions for a moderated library - Favorite Libraries - user requested to join - [C290091]', async () => {
-      await page.goToFavoriteLibraries();
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(adminModerated);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminModerated}`);
@@ -297,7 +300,6 @@ describe('Toolbar actions - single selection : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickSharedFilesAndWait();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -325,7 +327,6 @@ describe('Toolbar actions - single selection : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -352,7 +353,6 @@ describe('Toolbar actions - single selection : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -393,7 +393,6 @@ describe('Toolbar actions - single selection : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickTrashAndWait();
-      await dataTable.clearSelection();
       done();
     });
 

@@ -116,8 +116,8 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('on Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickPersonalFilesAndWait();
       await dataTable.clearSelection();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -187,10 +187,9 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -237,8 +236,8 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('on Shared Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickSharedFilesAndWait();
       await dataTable.clearSelection();
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -259,8 +258,8 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('on Recent Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickRecentFilesAndWait();
       await dataTable.clearSelection();
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -281,8 +280,8 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('on Favorites', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickFavoritesAndWait();
       await dataTable.clearSelection();
+      await page.clickFavoritesAndWait();
       done();
     });
 
@@ -329,7 +328,6 @@ describe('Toolbar actions - multiple selection : ', () => {
   describe('on Trash', () => {
     beforeEach(async (done) => {
       await page.clickTrashAndWait();
-      await dataTable.clearSelection();
       done();
     });
 

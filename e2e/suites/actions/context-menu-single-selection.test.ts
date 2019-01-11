@@ -192,7 +192,7 @@ describe('Context menu actions - single selection : ', () => {
   describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       done();
@@ -238,7 +238,7 @@ describe('Context menu actions - single selection : ', () => {
     });
 
     it('Available actions for a library - My Libraries - [C290080]', async () => {
-      await page.goToMyLibraries();
+      await page.goToMyLibrariesAndWait();
       await dataTable.rightClickOnItem(siteName);
 
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
@@ -248,7 +248,7 @@ describe('Context menu actions - single selection : ', () => {
     });
 
     it('Available actions for a library - Favorite Libraries - user is a member - [C290081]', async () => {
-      await page.goToFavoriteLibraries();
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.rightClickOnItem(siteName);
 
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
@@ -258,7 +258,7 @@ describe('Context menu actions - single selection : ', () => {
     });
 
     it('Available actions for a library - Favorite Libraries - user is not a member - [C290082]', async () => {
-      await page.goToFavoriteLibraries();
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.rightClickOnItem(adminPublic);
 
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
@@ -268,7 +268,7 @@ describe('Context menu actions - single selection : ', () => {
     });
 
     it('Available actions for a moderated library - Favorite Libraries - user requested to join - [C290089]', async () => {
-      await page.goToFavoriteLibraries();
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.rightClickOnItem(adminModerated);
 
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');

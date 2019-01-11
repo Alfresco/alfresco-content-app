@@ -90,13 +90,13 @@ describe('Breadcrumb', () => {
   });
 
   it('My Libraries breadcrumb main node - [C260966]', async () => {
-    await page.goToMyLibraries();
+    await page.goToMyLibrariesAndWait();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('My Libraries');
   });
 
   it('Favorite Libraries breadcrumb main node - [C289891]', async () => {
-    await page.goToFavoriteLibraries();
+    await page.goToFavoriteLibrariesAndWait();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Favorite Libraries');
   });

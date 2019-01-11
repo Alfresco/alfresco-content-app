@@ -96,7 +96,7 @@ describe('Library actions', () => {
   });
 
   it('Join a public library - Favorite Libraries - [C290105]', async () => {
-    await page.goToFavoriteLibraries();
+    await page.goToFavoriteLibrariesAndWait();
     await dataTable.selectItem(sitePublic1Admin);
     await toolbar.clickJoin();
 
@@ -104,7 +104,7 @@ describe('Library actions', () => {
   });
 
   it('Join a moderated library - Favorite Libraries - [C290109]', async () => {
-    await page.goToFavoriteLibraries();
+    await page.goToFavoriteLibrariesAndWait();
     await dataTable.selectItem(siteModerated1Admin);
     await toolbar.clickJoin();
 
@@ -114,7 +114,7 @@ describe('Library actions', () => {
   });
 
   it('Leave a library - My Libraries - [C290106]', async () => {
-    await page.goToMyLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.selectItem(sitePublic2Admin);
     await toolbar.clickLeave();
     await page.waitForDialog();
@@ -125,7 +125,7 @@ describe('Library actions', () => {
   });
 
   it('Leave a library - Favorite Libraries - [C290110]', async () => {
-    await page.goToFavoriteLibraries();
+    await page.goToFavoriteLibrariesAndWait();
     await dataTable.selectItem(sitePublic3Admin);
     await toolbar.clickLeave();
     await page.waitForDialog();
@@ -136,7 +136,7 @@ describe('Library actions', () => {
   });
 
   it('Confirmation dialog UI - [C290136]', async () => {
-    await page.goToMyLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.selectItem(sitePublic4Admin);
     await toolbar.clickLeave();
     await page.waitForDialog();
@@ -149,7 +149,7 @@ describe('Library actions', () => {
   });
 
   it('Cancel Leave library - [C290111]', async () => {
-    await page.goToMyLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.selectItem(sitePublic4Admin);
     await toolbar.clickLeave();
     await page.waitForDialog();
@@ -160,7 +160,7 @@ describe('Library actions', () => {
   });
 
   it('Leave a library - failure notification - [C290107]', async () => {
-    await page.goToMyLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.selectItem(sitePublicUser);
     await toolbar.clickLeave();
     await page.waitForDialog();
@@ -170,7 +170,7 @@ describe('Library actions', () => {
   });
 
   it('Cancel join - Favorite Libraries - [C290108]', async () => {
-    await page.goToFavoriteLibraries();
+    await page.goToFavoriteLibrariesAndWait();
     await dataTable.selectItem(siteModerated2Admin);
     await toolbar.clickButton('Cancel join request');
 

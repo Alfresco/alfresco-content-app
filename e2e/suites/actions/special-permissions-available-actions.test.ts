@@ -108,6 +108,8 @@ describe('Granular permissions available actions : ', () => {
   describe('toolbar displays correct actions when selecting multiple files with different granular permissions', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
+      await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -180,6 +182,8 @@ describe('Granular permissions available actions : ', () => {
   describe('toolbar actions appear correctly for a file - consumer', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
+      await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -256,6 +260,8 @@ describe('Granular permissions available actions : ', () => {
   describe('toolbar actions appear correctly for a folder - consumer', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
+      await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -318,6 +324,7 @@ describe('Granular permissions available actions : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -388,6 +395,7 @@ describe('Granular permissions available actions : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -444,6 +452,7 @@ describe('Granular permissions available actions : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -499,6 +508,8 @@ describe('Granular permissions available actions : ', () => {
   describe('context menu actions are correct for a file - consumer', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
+      await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -577,6 +588,8 @@ describe('Granular permissions available actions : ', () => {
   describe('context menu actions are correct for a folder - consumer', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
+      await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -637,6 +650,7 @@ describe('Granular permissions available actions : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -703,6 +717,7 @@ describe('Granular permissions available actions : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -756,6 +771,7 @@ describe('Granular permissions available actions : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 
@@ -808,6 +824,8 @@ describe('Granular permissions available actions : ', () => {
   describe('toolbar actions appear correctly in the viewer - consumer', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
+      await dataTable.clearSelection();
+      await page.clickPersonalFiles();
       done();
     });
 

@@ -45,26 +45,25 @@ export class BrowsingPage extends Page {
 
   // helper methods
 
-  async clickPersonalFilesAndWait() {
-    await this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);
-    await this.dataTable.waitForHeader();
-  }
-
   async clickPersonalFiles() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);
   }
 
-
-  async clickFileLibrariesAndWait() {
-    // await this.sidenav.expandFileLibraries();
-    await this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
+  async clickPersonalFilesAndWait() {
+    await this.clickPersonalFiles();
     await this.dataTable.waitForHeader();
   }
 
+
   async clickFileLibraries() {
-    // await this.sidenav.expandFileLibraries();
     await this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
   }
+
+  async clickFileLibrariesAndWait() {
+    await this.clickFileLibraries();
+    await this.dataTable.waitForHeader();
+  }
+
 
   async goToFavoriteLibraries() {
     if ( !(await this.sidenav.isFileLibrariesMenuExpanded()) ) {
@@ -73,6 +72,12 @@ export class BrowsingPage extends Page {
     await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
   }
 
+  async goToFavoriteLibrariesAndWait() {
+    await this.goToFavoriteLibraries();
+    await this.dataTable.waitForHeader();
+  }
+
+
   async goToMyLibraries() {
     if ( !(await this.sidenav.isFileLibrariesMenuExpanded()) ) {
       await this.sidenav.expandFileLibraries();
@@ -80,43 +85,49 @@ export class BrowsingPage extends Page {
     await this.sidenav.clickLink(SIDEBAR_LABELS.MY_LIBRARIES);
   }
 
-  async clickRecentFilesAndWait() {
-    await this.sidenav.clickLink(SIDEBAR_LABELS.RECENT_FILES);
+  async goToMyLibrariesAndWait() {
+    await this.goToMyLibraries();
     await this.dataTable.waitForHeader();
   }
+
 
   async clickRecentFiles() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.RECENT_FILES);
   }
 
-
-  async clickSharedFilesAndWait() {
-    await this.sidenav.clickLink(SIDEBAR_LABELS.SHARED_FILES);
+  async clickRecentFilesAndWait() {
+    await this.clickRecentFiles();
     await this.dataTable.waitForHeader();
   }
+
 
   async clickSharedFiles() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.SHARED_FILES);
   }
 
-
-  async clickFavoritesAndWait() {
-    await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
+  async clickSharedFilesAndWait() {
+    await this.clickSharedFiles();
     await this.dataTable.waitForHeader();
   }
+
 
   async clickFavorites() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
   }
 
-
-  async clickTrashAndWait() {
-    await this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);
+  async clickFavoritesAndWait() {
+    await this.clickFavorites();
     await this.dataTable.waitForHeader();
   }
 
+
   async clickTrash() {
     await this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);
+  }
+
+  async clickTrashAndWait() {
+    await this.clickTrash();
+    await this.dataTable.waitForHeader();
   }
 
 }

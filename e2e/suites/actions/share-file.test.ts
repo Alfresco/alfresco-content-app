@@ -295,7 +295,7 @@ describe('Share a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(parentInSite);
