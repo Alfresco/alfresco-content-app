@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -57,6 +57,8 @@ describe('Context menu actions - multiple selection : ', () => {
   const page = new BrowsingPage();
   const { dataTable } = page;
   const contextMenu = dataTable.menu;
+  const searchResultsPage = new SearchResultsPage();
+  const { searchInput } = searchResultsPage.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -380,6 +382,65 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed`);
+    });
+  });
+
+  describe('on Search Results', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
+      done();
+    });
+
+    it('correct actions appear when multiple files are selected - [C291831]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-file');
+      await dataTable.selectMultipleItems([ file1Site, file2Site ]);
+      await dataTable.rightClickOnMultipleSelection();
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
+    });
+
+    it('correct actions appear when multiple folders are selected - [C291832]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-folder');
+      await dataTable.selectMultipleItems([ folder1Site, folder2Site ]);
+      await dataTable.rightClickOnMultipleSelection();
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
+    });
+
+    it('correct actions appear when both files and folders are selected - [C291833]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-f');
+      await dataTable.selectMultipleItems([ file1Site, file2Site, folder1Site, folder2Site ]);
+      await dataTable.rightClickOnMultipleSelection();
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
   });
 });

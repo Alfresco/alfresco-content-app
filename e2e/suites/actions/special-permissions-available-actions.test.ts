@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { SITE_VISIBILITY, SITE_ROLES, FILES } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -61,6 +61,8 @@ describe('Granular permissions available actions : ', () => {
   const contextMenu = dataTable.menu;
   const viewer = new Viewer();
   const viewerToolbar = viewer.toolbar;
+  const searchResultsPage = new SearchResultsPage();
+  const { searchInput } = searchResultsPage.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username: userConsumer });
@@ -156,6 +158,23 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
+
+    it('on Search Results - [C291823]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions('my-file');
+      await dataTable.selectMultipleItems([file1, file2]);
+
+      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for selected files`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for selected files`);
+      expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for selected files`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
+    });
   });
 
   describe('toolbar actions appear correctly for a file - consumer', () => {
@@ -213,6 +232,25 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
       await toolbar.closeMoreMenu();
     });
+
+    it('on Search Results - [C291818]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions(file1);
+      await dataTable.selectItem(file1);
+
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${file1}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${file1}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${file1}`);
+      expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for ${file1}`);
+
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${file1}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
+      await toolbar.closeMoreMenu();
+    });
   });
 
   describe('toolbar actions appear correctly for a folder - consumer', () => {
@@ -252,6 +290,25 @@ describe('Granular permissions available actions : ', () => {
       // TODO: enable when ACA-1737 is done
       // expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${folder1}`);
       // expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${folder1}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
+      await toolbar.closeMoreMenu();
+    });
+
+    it('on Search Results - [C291819]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchForTextAndCloseSearchOptions(folder1);
+      await dataTable.selectItem(folder1);
+
+      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folder1}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${folder1}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${folder1}`);
+      expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for ${folder1}`);
+
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folder1}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${folder1}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${folder1}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
       await toolbar.closeMoreMenu();
     });
@@ -308,6 +365,23 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
+
+    it('on Search Results - [C291824]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions('my-file');
+      await dataTable.selectMultipleItems([file1, file2]);
+
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      await toolbar.closeMoreMenu();
+    });
   });
 
   describe('toolbar actions appear correctly for multiple selection of folders - consumer', () => {
@@ -347,6 +421,23 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
       await toolbar.closeMoreMenu();
     });
+
+    it('on Search Results - [C291825]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-folder');
+      await dataTable.selectMultipleItems([folder1, folder2]);
+
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      await toolbar.closeMoreMenu();
+    });
   });
 
   describe('toolbar actions appear correctly for when both files and folders are selected - consumer', () => {
@@ -384,6 +475,23 @@ describe('Granular permissions available actions : ', () => {
       // expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
       // expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
+    });
+
+    it('on Search Results - [C291826]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-f');
+      await dataTable.selectMultipleItems([file1, folder1]);
+
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       await toolbar.closeMoreMenu();
     });
   });
@@ -446,6 +554,24 @@ describe('Granular permissions available actions : ', () => {
       expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${file1}`);
       expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${file1}`);
     });
+
+    it('on Search Results - [C291829]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions(file1);
+      await dataTable.rightClickOnItem(file1);
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${file1}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${file1}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${file1}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
+      expect(await contextMenu.isSharePresent()).toBe(true, `Share is not displayed for ${file1}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions not displayed for ${file1}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed for ${file1}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${file1}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${file1}`);
+    });
   });
 
   describe('context menu actions are correct for a folder - consumer', () => {
@@ -486,6 +612,23 @@ describe('Granular permissions available actions : ', () => {
       // expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${folder1}`);
       expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folder1}`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed for ${folder1}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folder1}`);
+    });
+
+    it('on Search Results - [C291830]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchForTextAndCloseSearchOptions(folder1);
+      await dataTable.rightClickOnItem(folder1);
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folder1}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${folder1}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folder1}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${folder1}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folder1}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed for ${folder1}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folder1}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions displayed for ${folder1}`);
       expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folder1}`);
     });
   });
@@ -538,6 +681,22 @@ describe('Granular permissions available actions : ', () => {
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });
+
+    it('on Search Results - [C291834]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions('my-file');
+      await dataTable.selectMultipleItems([file1, file2]);
+      await dataTable.rightClickOnMultipleSelection();
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
+    });
   });
 
   describe('context menu actions are correct for multiple selection of folders - consumer', () => {
@@ -575,6 +734,22 @@ describe('Granular permissions available actions : ', () => {
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });
+
+    it('on Search Results - [C291835]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-folder');
+      await dataTable.selectMultipleItems([folder1, folder2]);
+      await dataTable.rightClickOnMultipleSelection();
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
+    });
   });
 
   describe('context menu actions are correct when both files and folders are selected - consumer', () => {
@@ -609,6 +784,22 @@ describe('Granular permissions available actions : ', () => {
       // TODO: enable when ACA-1737 is done
       // expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       // expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
+    });
+
+    it('on Search Results - [C291836]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-f');
+      await dataTable.selectMultipleItems([file1, folder1]);
+      await dataTable.rightClickOnMultipleSelection();
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManagePermissionsPresent()).toBe(false, `Permissions is displayed`);
     });

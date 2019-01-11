@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -52,6 +52,8 @@ describe('Context menu actions - single selection : ', () => {
   const page = new BrowsingPage();
   const { dataTable } = page;
   const contextMenu = dataTable.menu;
+  const searchResultsPage = new SearchResultsPage();
+  const { searchInput } = searchResultsPage.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -81,6 +83,10 @@ describe('Context menu actions - single selection : ', () => {
     await apis.user.favorites.addFavoriteById('site', adminPublic);
     await apis.user.favorites.addFavoriteById('site', adminModerated);
     await apis.user.sites.requestToJoin(adminModerated);
+
+    await apis.user.queries.waitForSites(siteName, { expect: 1 });
+    await apis.user.queries.waitForSites(adminPublic, { expect: 1 });
+    await apis.user.queries.waitForSites(adminModerated, { expect: 1 });
 
     await loginPage.loginWith(username);
     done();
@@ -270,6 +276,42 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminModerated}`);
     });
+
+    it('Available actions for a library - Search Results - user is a member - [C291812]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkLibraries();
+      await searchInput.searchForTextAndCloseSearchOptions(siteName);
+      await dataTable.rightClickOnItem(siteName);
+
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isLeaveLibraryPresent()).toBe(true, `Leave is not displayed for ${siteName}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+    });
+
+    it('Available actions for a library - Search Results - user is not a member - [C291813]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkLibraries();
+      await searchInput.searchForTextAndCloseSearchOptions(adminPublic);
+      await dataTable.rightClickOnItem(adminPublic);
+
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isJoinLibraryPresent()).toBe(true, `Join is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+    });
+
+    it('Available actions for a moderated library - Search Results - user requested to join - [C291814]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkLibraries();
+      await searchInput.searchForTextAndCloseSearchOptions(adminModerated);
+      await dataTable.rightClickOnItem(adminModerated);
+
+      expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
+      expect(await contextMenu.isCancelJoinPresent()).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+    });
   });
 
   describe('on Shared Files', () => {
@@ -404,6 +446,51 @@ describe('Context menu actions - single selection : ', () => {
           .toBe(false, `Manage Versions is displayed for ${folderInTrash}`);
       expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${folderInTrash}`);
       expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${folderInTrash}`);
+    });
+  });
+
+  describe('on Search Results', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
+      done();
+    });
+
+    it('Context menu has the correct actions for a file - [C291827]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions(fileSiteUser);
+      await dataTable.rightClickOnItem(fileSiteUser);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isSharePresent()).toBe(true, `Share is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(false, `Edit is displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${fileSiteUser}`);
+    });
+
+    it('Context menu has the correct actions for a folder - [C291828]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchForTextAndCloseSearchOptions(folderSiteUser);
+      await dataTable.rightClickOnItem(folderSiteUser);
+
+      expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isEditPresent()).toBe(true, `Edit is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folderSiteUser}`);
     });
   });
 });
