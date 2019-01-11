@@ -140,14 +140,14 @@ export class Sidenav extends Component {
     return await this.getLink(name).getAttribute('title');
   }
 
-  async navigateToLink(name: string) {
+  async clickLink(name: string) {
     try{
       const link = this.getLinkLabel(name);
       await Utils.waitUntilElementClickable(link);
       return await link.click();
 
     } catch (e){
-      console.log('---- sidebar navigation catch navigateToLink: ', e);
+      console.log('---- sidebar navigation catch clickLink: ', e);
     }
   }
 

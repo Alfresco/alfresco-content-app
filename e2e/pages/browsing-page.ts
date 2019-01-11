@@ -46,75 +46,77 @@ export class BrowsingPage extends Page {
   // helper methods
 
   async clickPersonalFilesAndWait() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.PERSONAL_FILES);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);
     await this.dataTable.waitForHeader();
   }
 
   async clickPersonalFiles() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.PERSONAL_FILES);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.PERSONAL_FILES);
   }
 
 
   async clickFileLibrariesAndWait() {
-    await this.sidenav.expandFileLibraries();
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.MY_LIBRARIES);
+    // await this.sidenav.expandFileLibraries();
+    await this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
     await this.dataTable.waitForHeader();
   }
 
   async clickFileLibraries() {
-    await this.sidenav.expandFileLibraries();
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.MY_LIBRARIES);
+    // await this.sidenav.expandFileLibraries();
+    await this.sidenav.clickLink(SIDEBAR_LABELS.FILE_LIBRARIES);
   }
 
   async goToFavoriteLibraries() {
-    await this.sidenav.expandFileLibraries();
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
+    if ( !(await this.sidenav.isFileLibrariesMenuExpanded()) ) {
+      await this.sidenav.expandFileLibraries();
+    }
+    await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITE_LIBRARIES);
   }
 
   async goToMyLibraries() {
     if ( !(await this.sidenav.isFileLibrariesMenuExpanded()) ) {
       await this.sidenav.expandFileLibraries();
     }
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.MY_LIBRARIES);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.MY_LIBRARIES);
   }
 
   async clickRecentFilesAndWait() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.RECENT_FILES);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.RECENT_FILES);
     await this.dataTable.waitForHeader();
   }
 
   async clickRecentFiles() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.RECENT_FILES);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.RECENT_FILES);
   }
 
 
   async clickSharedFilesAndWait() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.SHARED_FILES);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.SHARED_FILES);
     await this.dataTable.waitForHeader();
   }
 
   async clickSharedFiles() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.SHARED_FILES);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.SHARED_FILES);
   }
 
 
   async clickFavoritesAndWait() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.FAVORITES);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
     await this.dataTable.waitForHeader();
   }
 
   async clickFavorites() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.FAVORITES);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.FAVORITES);
   }
 
 
   async clickTrashAndWait() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.TRASH);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);
     await this.dataTable.waitForHeader();
   }
 
   async clickTrash() {
-    await this.sidenav.navigateToLink(SIDEBAR_LABELS.TRASH);
+    await this.sidenav.clickLink(SIDEBAR_LABELS.TRASH);
   }
 
 }
