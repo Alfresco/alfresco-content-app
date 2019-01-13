@@ -93,7 +93,7 @@ describe('New menu', () => {
   });
 
   it('Create folder is disabled when not enough permissions - [C280397]', async () => {
-    await page.goToMyLibrariesAndWait();
+    await page.goToMyLibraries();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
     expect(await sidenav.menu.isCreateFolderEnabled()).toBe(false, 'Create folder is not disabled');

@@ -77,12 +77,12 @@ describe('Page titles', () => {
     });
 
     it('My Libraries page - [C217158]', async () => {
-      await page.goToMyLibrariesAndWait();
+      await page.goToMyLibraries();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.MY_LIBRARIES);
     });
 
     it('Favorite Libraries page - [C289907]', async () => {
-      await page.goToFavoriteLibrariesAndWait();
+      await page.goToFavoriteLibraries();
       expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITE_LIBRARIES);
     });
 
