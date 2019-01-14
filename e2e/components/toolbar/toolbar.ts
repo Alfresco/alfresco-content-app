@@ -151,6 +151,10 @@ export class Toolbar extends Component {
   }
 
 
+  async clickView() {
+    return await this.viewButton.click();
+  }
+
   async clickEdit() {
     return await this.editButton.click();
   }

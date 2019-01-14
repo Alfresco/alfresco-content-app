@@ -100,7 +100,7 @@ describe('Viewer general', () => {
 
     it('Viewer opens when clicking the View action for a file - [C279270]', async () => {
         await dataTable.selectItem(xlsxFile);
-        await page.toolbar.getButtonByTitleAttribute('View').click();
+        await page.toolbar.clickView();
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     });
 
