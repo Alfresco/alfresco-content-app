@@ -4,13 +4,13 @@
   "providers": "ECM",
   "authType": "BASIC",
   "oauth2": {
-    "host": "http://localhost:30081/auth/realms/myrealm",
+    "host": "http://localhost:8081/auth/realms/alfresco",
     "clientId": "alfresco",
     "scope": "openid",
     "secret": "",
     "implicitFlow": true,
     "silentLogin": true,
-    "redirectSilentIframeUri": "/assets/silent-refresh.html",
+    "redirectSilentIframeUri": "./assets/silent-refresh.html",
     "redirectUri": "/",
     "redirectUriLogout": "/logout"
   },
