@@ -29,7 +29,7 @@ import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { Viewer } from '../../components/viewer/viewer';
 
-describe('Viewer general', () => {
+fdescribe('Viewer general', () => {
     const username = `user-${Utils.random()}`;
 
     const parent = `parent-${Utils.random()}`; let parentId;
@@ -100,7 +100,7 @@ describe('Viewer general', () => {
 
     it('Viewer opens when clicking the View action for a file - [C279270]', async () => {
         await dataTable.selectItem(xlsxFile);
-        await page.toolbar.getButtonByTitleAttribute('View').click();
+        await page.toolbar.clickView();
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     });
 

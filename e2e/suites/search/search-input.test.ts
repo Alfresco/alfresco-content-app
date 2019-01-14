@@ -26,7 +26,7 @@
 import { BrowsingPage, LoginPage } from '../../pages/pages';
 import { Utils } from '../../utilities/utils';
 
-describe('Search input', () => {
+fdescribe('Search input', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { searchInput } = page.header;

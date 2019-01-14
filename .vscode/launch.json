@@ -1,0 +1,20 @@
+{
+
+  "version": "0.2.0",
+  "configurations": [{
+    "name": "Debug e2e Tests",
+    "type": "node",
+    "request": "launch",
+    "stopOnEntry": false,
+    "program": "${workspaceRoot}/node_modules/protractor/bin/protractor",
+    "args": [
+      "${workspaceRoot}/protractor.conf.debug.js"
+    ],
+    // "preLaunchTask": "compile",
+    "cwd": "${workspaceRoot}",
+    "sourceMaps": true,
+    "outFiles": [
+      "${workspaceRoot}/out-tsc/e2e/**/*.js"
+    ]
+  }]
+}
