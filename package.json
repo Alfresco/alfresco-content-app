@@ -107,8 +107,7 @@
   },
   "lint-staged": {
     "*.{ts,js,css,scss,html}": [
-      "prettier --single-quote --write",
-      "git add"
+      "prettier --single-quote --write"
     ]
   },
   "pre-commit": "lint:staged"
