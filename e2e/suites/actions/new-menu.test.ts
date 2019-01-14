@@ -93,7 +93,7 @@ describe('New menu', () => {
   });
 
   it('Create folder is disabled when not enough permissions - [C280397]', async () => {
-    await page.goToMyLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
     expect(await sidenav.menu.isCreateFolderEnabled()).toBe(false, 'Create folder is not disabled');
@@ -154,7 +154,7 @@ describe('New menu', () => {
   });
 
   it('Create folder disabled button tooltip - [C280398]', async () => {
-    await page.goToFavoriteLibrariesAndWait();
+    await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
 
