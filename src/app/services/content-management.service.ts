@@ -52,7 +52,7 @@ import {
   DeletedNodesPaging,
   PathInfoEntity,
   SiteBody
-} from 'alfresco-js-api';
+} from '@alfresco/js-api';
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
 import { ContentApiService } from './content-api.service';
@@ -132,7 +132,7 @@ export class ContentManagementService {
 
   managePermissions(node: MinimalNodeEntity): void {
     if (node && node.entry) {
-      const { nodeId, id } = node.entry;
+      const { nodeId, id } = <any>node.entry;
       const siteId = node.entry['guid'];
       const targetId = siteId || nodeId || id;
 
@@ -150,7 +150,7 @@ export class ContentManagementService {
     }
   }
 
-  manageVersions(node: MinimalNodeEntity) {
+  manageVersions(node: any) {
     if (node && node.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (<any>node).entry.guid;
@@ -165,7 +165,7 @@ export class ContentManagementService {
     }
   }
 
-  private openVersionManagerDialog(node: MinimalNodeEntryEntity) {
+  private openVersionManagerDialog(node: any) {
     // workaround Shared
     if (node.isFile || node.nodeId) {
       this.dialogRef.open(NodeVersionsDialogComponent, {
@@ -180,7 +180,7 @@ export class ContentManagementService {
     }
   }
 
-  shareNode(node: MinimalNodeEntity): void {
+  shareNode(node: any): void {
     if (node && node.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (<any>node).entry.guid;
@@ -389,7 +389,7 @@ export class ContentManagementService {
       if (result === true) {
         const nodesToDelete: NodeInfo[] = nodes.map(node => {
           const { name } = node.entry;
-          const id = node.entry.nodeId || node.entry.id;
+          const id = (<any>node).entry.nodeId || node.entry.id;
 
           return {
             id,
@@ -973,7 +973,7 @@ export class ContentManagementService {
     });
   }
 
-  private deleteNode(node: MinimalNodeEntity): Observable<DeletedNodeInfo> {
+  private deleteNode(node: any): Observable<DeletedNodeInfo> {
     const { name } = node.entry;
     const id = node.entry.nodeId || node.entry.id;
 
@@ -1162,10 +1162,10 @@ export class ContentManagementService {
     return i18nMessageString;
   }
 
-  printFile(node: MinimalNodeEntity) {
+  printFile(node: any) {
     if (node && node.entry) {
       // shared and favorite
-      const id = node.entry.nodeId || (<any>node).entry.guid || node.entry.id;
+      const id = node.entry.nodeId || node.entry.guid || node.entry.id;
       const mimeType = node.entry.content.mimeType;
 
       if (id) {

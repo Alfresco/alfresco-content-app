@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 
 export const SET_SELECTED_NODES = 'SET_SELECTED_NODES';
 export const DELETE_NODES = 'DELETE_NODES';

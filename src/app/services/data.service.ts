@@ -31,7 +31,7 @@ import {
   AlfrescoApiService
 } from '@alfresco/adf-core';
 import { Observable } from 'rxjs';
-import { PersonEntry, SearchRequest, ResultSetPaging } from 'alfresco-js-api';
+import { PersonEntry, SearchRequest, ResultSetPaging } from '@alfresco/js-api';
 
 @Injectable({
   providedIn: 'root'

@@ -25,7 +25,7 @@
 
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { SnackbarErrorAction } from '../../store/actions';

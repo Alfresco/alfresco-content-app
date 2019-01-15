@@ -50,7 +50,7 @@ import {
 } from './store/states/app.state';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ContentApiService } from './services/content-api.service';
-import { DiscoveryEntry } from 'alfresco-js-api';
+import { DiscoveryEntry } from '@alfresco/js-api';
 import { AppService } from './services/app.service';
 import { Subject } from 'rxjs';
 

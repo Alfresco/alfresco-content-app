@@ -47,7 +47,7 @@ import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
-import { SearchRequest } from 'alfresco-js-api';
+import { SearchRequest } from '@alfresco/js-api';
 import { AppDataService } from '../../services/data.service';
 
 @Component({

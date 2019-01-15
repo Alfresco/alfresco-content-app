@@ -24,7 +24,7 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService } from '../../../services/node-permission.service';
 
 @Component({

@@ -26,7 +26,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { SiteEntry } from 'alfresco-js-api';
+import { SiteEntry } from '@alfresco/js-api';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NavigateLibraryAction } from '../../store/actions';

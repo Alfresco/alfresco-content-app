@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { Node, Person } from 'alfresco-js-api';
+import { Node, Person } from '@alfresco/js-api';
 import { AppState } from '../states';
 
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';

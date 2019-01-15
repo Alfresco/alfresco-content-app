@@ -28,7 +28,6 @@ import { CommonModule } from '@angular/common';
 import { GenericErrorComponent } from './generic-error/generic-error.component';
 import { CoreModule } from '@alfresco/adf-core';
 import { LocationLinkComponent } from './location-link/location-link.component';
-import { IconComponent } from './icon/icon.component';
 import { MatIconModule } from '@angular/material';
 import { ExtensionsModule } from '@alfresco/adf-extensions';
 
@@ -39,13 +38,8 @@ import { ExtensionsModule } from '@alfresco/adf-extensions';
     MatIconModule,
     ExtensionsModule
   ],
-  declarations: [GenericErrorComponent, LocationLinkComponent, IconComponent],
-  exports: [
-    ExtensionsModule,
-    GenericErrorComponent,
-    LocationLinkComponent,
-    IconComponent
-  ],
+  declarations: [GenericErrorComponent, LocationLinkComponent],
+  exports: [ExtensionsModule, GenericErrorComponent, LocationLinkComponent],
   entryComponents: [LocationLinkComponent]
 })
 export class AppCommonModule {}
