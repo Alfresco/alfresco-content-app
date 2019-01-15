@@ -140,7 +140,7 @@ describe('AppLayoutComponent', () => {
 
   it('should reset selection before navigation', done => {
     fixture.detectChanges();
-    const selection = [{ entry: { id: 'nodeId', name: 'name' } }];
+    const selection = [<any>{ entry: { id: 'nodeId', name: 'name' } }];
     store.dispatch(new SetSelectedNodesAction(selection));
 
     router.navigateByUrl('somewhere/over/the/rainbow');
@@ -153,7 +153,7 @@ describe('AppLayoutComponent', () => {
 
   it('should not reset selection if route is `/search`', done => {
     fixture.detectChanges();
-    const selection = [{ entry: { id: 'nodeId', name: 'name' } }];
+    const selection = [<any>{ entry: { id: 'nodeId', name: 'name' } }];
     store.dispatch(new SetSelectedNodesAction(selection));
 
     router.navigateByUrl('/search;q=');
