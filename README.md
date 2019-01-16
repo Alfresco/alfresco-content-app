@@ -1,4 +1,4 @@
-   <p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - make business flow"></p>
+<p align="left"> <img title="Alfresco" src="alfresco.png" alt="Alfresco - make business flow"></p>
    
 # Alfresco Content Application
 
