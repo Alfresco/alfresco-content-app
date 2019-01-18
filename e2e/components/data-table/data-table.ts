@@ -158,9 +158,11 @@ export class DataTable extends Component {
   }
 
   getRowByName(name: string, location: string = '') {
-    // return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
-    return this.body.all(by.cssContainingText(DataTable.selectors.row, name))
-      .filter(async (elem) => browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
+    if (location) {
+      return this.body.all(by.cssContainingText(DataTable.selectors.row, name))
+        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))));
+    }
+    return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
   }
 
   getRowFirstCell(name: string, location: string = '') {
