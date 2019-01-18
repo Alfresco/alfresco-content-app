@@ -20,7 +20,7 @@
 
   <app-page-layout-content>
     <div class="main-content">
-      <adf-upload-drag-area [parentId]="node?.id" [disabled]="!canUpload">
+      <adf-upload-drag-area [rootFolderId]="node?.id" [disabled]="!canUpload">
         <adf-document-list
           #documentList
           acaDocumentList
