@@ -24,11 +24,7 @@
  */
 
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import {
-  AppConfigService,
-  StorageService,
-  SettingsService
-} from '@alfresco/adf-core';
+import { AppConfigService, StorageService } from '@alfresco/adf-core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -63,7 +59,6 @@ export class SettingsComponent implements OnInit {
   constructor(
     private store: Store<AppStore>,
     private appConfig: AppConfigService,
-    private settingsService: SettingsService,
     private storage: StorageService,
     private fb: FormBuilder
   ) {
@@ -106,7 +101,8 @@ export class SettingsComponent implements OnInit {
 
   reset() {
     this.form.reset({
-      ecmHost: this.storage.getItem('ecmHost') || this.settingsService.ecmHost
+      ecmHost:
+        this.storage.getItem('ecmHost') || this.appConfig.get<string>('ecmHost')
     });
   }
 
