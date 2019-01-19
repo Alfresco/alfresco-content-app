@@ -369,7 +369,7 @@ describe('Mark items as favorites', () => {
 
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await page.dataTable.doubleClickOnRowByName(siteName);
       await page.dataTable.waitForHeader();
       done();
@@ -457,7 +457,7 @@ describe('Mark items as favorites', () => {
     });
 
     it('Mark a library as favorite - [C289974]', async () => {
-      await page.goToMyLibraries();
+      await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(adminSite1);
       await toolbar.clickMoreActionsFavorite();
 
@@ -465,7 +465,7 @@ describe('Mark items as favorites', () => {
     });
 
     it('Remove a library from favorites - on My Libraries - [C289975]', async () => {
-      await page.goToMyLibraries();
+      await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(adminSite2);
       await toolbar.clickMoreActionsFavorite();
 
@@ -473,7 +473,7 @@ describe('Mark items as favorites', () => {
     });
 
     it('Remove a library from favorites - on Favorite Libraries - [C289976]', async () => {
-      await page.goToFavoriteLibraries();
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(adminSite3);
       await toolbar.clickMoreActionsFavorite();
 

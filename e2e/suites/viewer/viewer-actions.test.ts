@@ -251,7 +251,7 @@ describe('Viewer actions', () => {
     });
 
     beforeEach(async (done) => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       done();

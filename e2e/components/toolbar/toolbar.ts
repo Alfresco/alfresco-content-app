@@ -23,9 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, protractor, browser } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
+import { Utils } from '../../utilities/utils';
 
 export class Toolbar extends Component {
   private static selectors = {
@@ -95,7 +96,7 @@ export class Toolbar extends Component {
   }
 
   async closeMoreMenu() {
-    await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+    await Utils.pressEscape();
   }
 
   async getButtonTooltip(button: ElementFinder) {
@@ -149,6 +150,10 @@ export class Toolbar extends Component {
     return await browser.isElementPresent(this.fullScreenButton);
   }
 
+
+  async clickView() {
+    return await this.viewButton.click();
+  }
 
   async clickEdit() {
     return await this.editButton.click();

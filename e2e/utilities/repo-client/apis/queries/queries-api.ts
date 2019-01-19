@@ -42,7 +42,17 @@ export class QueriesApi extends RepoApi {
     return this.alfrescoJsApi.core.queriesApi.findSites(searchTerm, data);
   }
 
-  async waitForApi(searchTerm, data) {
+  async findNodes(searchTerm: string) {
+    const data = {
+        term: searchTerm,
+        fields: ['name']
+    };
+
+    await this.apiAuth();
+    return this.alfrescoJsApi.core.queriesApi.findNodes(searchTerm, data);
+  }
+
+  async waitForSites(searchTerm, data) {
     try {
       const sites = async () => {
         const totalItems = (await this.findSites(searchTerm)).list.pagination.totalItems;
@@ -56,6 +66,23 @@ export class QueriesApi extends RepoApi {
       return await Utils.retryCall(sites);
     } catch (error) {
       console.log('-----> catch queries findSites: ', error);
+    }
+  }
+
+  async waitForFilesAndFolders(searchTerm, data) {
+    try {
+      const nodes = async () => {
+        const totalItems = (await this.findNodes(searchTerm)).list.pagination.totalItems;
+        if ( totalItems !== data.expect ) {
+          return Promise.reject(totalItems);
+        } else {
+          return Promise.resolve(totalItems);
+        }
+      };
+
+      return await Utils.retryCall(nodes);
+    } catch (error) {
+      console.log('-----> catch queries findFilesAndFolders: ', error);
     }
   }
 }

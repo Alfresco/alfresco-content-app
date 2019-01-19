@@ -195,10 +195,14 @@ export class DataTable extends Component {
 
   // Navigation/selection methods
   async doubleClickOnRowByName(name: string) {
-    const item = this.getRowFirstCell(name);
-    await Utils.waitUntilElementClickable(item);
-    await browser.actions().mouseMove(item).perform();
-    await browser.actions().click().click().perform();
+    try {
+      const item = this.getRowFirstCell(name);
+      await Utils.waitUntilElementClickable(item);
+      await browser.actions().mouseMove(item).perform();
+      await browser.actions().click().click().perform();
+    } catch (error) {
+      console.log('--- catch: doubleClickOnRowByName', error);
+    }
   }
 
   async selectItem(name: string, location: string = '') {
@@ -229,7 +233,7 @@ export class DataTable extends Component {
       const count = await this.countSelectedRows();
       if (count !== 0) {
         await browser.refresh();
-        await this.waitForHeader();
+        await this.wait();
       }
     } catch (error) {
       console.log('------ clearSelection catch : ', error);
@@ -242,7 +246,7 @@ export class DataTable extends Component {
   }
 
   async rightClickOnMultipleSelection() {
-    await this.waitForHeader();
+    await this.wait();
     const itemFromSelection = this.getSelectedRows().get(0);
     await browser.actions().click(itemFromSelection, protractor.Button.RIGHT).perform();
   }

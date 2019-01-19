@@ -86,14 +86,14 @@ describe('New menu', () => {
   });
 
   it('Create folder is enabled when having enough permissions - File Libraries - [C280393]', async () => {
-    await page.clickFileLibraries();
+    await page.goToMyLibrariesAndWait();
     await page.dataTable.doubleClickOnRowByName(siteUser);
     await page.sidenav.openNewMenu();
     expect(await sidenav.menu.isCreateFolderEnabled()).toBe(true, 'Create folder is not enabled');
   });
 
   it('Create folder is disabled when not enough permissions - [C280397]', async () => {
-    await page.clickFileLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
     expect(await sidenav.menu.isCreateFolderEnabled()).toBe(false, 'Create folder is not disabled');
@@ -107,7 +107,7 @@ describe('New menu', () => {
   });
 
   it('Upload File option is enabled when having permissions - on File Libraries - [C290142]', async () => {
-    await page.clickFileLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteUser);
     await sidenav.openNewMenu();
 
@@ -115,7 +115,7 @@ describe('New menu', () => {
   });
 
   it('Upload File option is disabled when user cannot create content in that location - [C217146]', async () => {
-    await page.clickFileLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
 
@@ -130,7 +130,7 @@ describe('New menu', () => {
   });
 
   it('Upload Folder option is enabled when having permissions - on File Libraries - [C290146]', async () => {
-    await page.clickFileLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteUser);
     await sidenav.openNewMenu();
 
@@ -138,7 +138,7 @@ describe('New menu', () => {
   });
 
   it('Upload Folder option is disabled when user cannot create content in that location - [C213193]', async () => {
-    await page.clickFileLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
 
@@ -154,7 +154,7 @@ describe('New menu', () => {
   });
 
   it('Create folder disabled button tooltip - [C280398]', async () => {
-    await page.clickFileLibraries();
+    await page.goToMyLibrariesAndWait();
     await dataTable.doubleClickOnRowByName(siteAdmin);
     await sidenav.openNewMenu();
 
