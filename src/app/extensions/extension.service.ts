@@ -71,7 +71,6 @@ export class AppExtensionService implements RuleContext {
   headerActions: Array<ContentActionRef> = [];
   toolbarActions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
-  viewerToolbarMoreActions: Array<ContentActionRef> = [];
   viewerContentExtensions: Array<ViewerExtensionRef> = [];
   contextMenuActions: Array<ContentActionRef> = [];
   openWithActions: Array<ContentActionRef> = [];
@@ -147,10 +146,6 @@ export class AppExtensionService implements RuleContext {
     this.viewerToolbarActions = this.loader.getContentActions(
       config,
       'features.viewer.toolbarActions'
-    );
-    this.viewerToolbarMoreActions = this.loader.getContentActions(
-      config,
-      'features.viewer.toolbarMoreMenu'
     );
     this.viewerContentExtensions = this.loader.getElements<ViewerExtensionRef>(
       config,
@@ -295,7 +290,7 @@ export class AppExtensionService implements RuleContext {
     return { presets };
   }
 
-  filterDisabled(object) {
+  filterDisabled(object: Array<{ disabled: boolean }> | { disabled: boolean }) {
     if (Array.isArray(object)) {
       return object
         .filter(item => !item.disabled)
@@ -398,45 +393,8 @@ export class AppExtensionService implements RuleContext {
     return actionRef;
   }
 
-  // evaluates content actions for the selection and parent folder node
-  getAllowedToolbarActions(): Array<ContentActionRef> {
-    return this.toolbarActions
-      .filter(action => this.filterByRules(action))
-      .map(action => {
-        if (action.type === ContentActionType.menu) {
-          const copy = this.copyAction(action);
-          if (copy.children && copy.children.length > 0) {
-            copy.children = copy.children
-              .filter(childAction => this.filterByRules(childAction))
-              .sort(sortByOrder)
-              .reduce(reduceSeparators, []);
-          }
-          return copy;
-        }
-        return action;
-      })
-      .reduce(reduceEmptyMenus, [])
-      .reduce(reduceSeparators, []);
-  }
-
-  getViewerToolbarActions(): Array<ContentActionRef> {
-    return this.viewerToolbarActions.filter(action =>
-      this.filterByRules(action)
-    );
-  }
-
-  getHeaderActions(): Array<ContentActionRef> {
-    return this.headerActions.filter(action => this.filterByRules(action));
-  }
-
-  getViewerToolbarMoreActions(): Array<ContentActionRef> {
-    return this.viewerToolbarMoreActions.filter(action =>
-      this.filterByRules(action)
-    );
-  }
-
-  getAllowedContextMenuActions(): Array<ContentActionRef> {
-    return this.contextMenuActions
+  private getAllowedActions(actions: ContentActionRef[]): ContentActionRef[] {
+    return (actions || [])
       .filter(action => this.filterByRules(action))
       .map(action => {
         if (action.type === ContentActionType.menu) {
@@ -454,6 +412,22 @@ export class AppExtensionService implements RuleContext {
       })
       .reduce(reduceEmptyMenus, [])
       .reduce(reduceSeparators, []);
+  }
+
+  getAllowedToolbarActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.toolbarActions);
+  }
+
+  getViewerToolbarActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.viewerToolbarActions);
+  }
+
+  getHeaderActions(): Array<ContentActionRef> {
+    return this.headerActions.filter(action => this.filterByRules(action));
+  }
+
+  getAllowedContextMenuActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.contextMenuActions);
   }
 
   copyAction(action: ContentActionRef): ContentActionRef {

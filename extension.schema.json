@@ -674,12 +674,6 @@
               "items": { "$ref": "#/definitions/contentActionRef" },
               "minItems": 1
             },
-            "toolbarMoreMenu": {
-              "description": "Toolbar entries from the More actions menu",
-              "type": "array",
-              "items": { "$ref": "#/definitions/contentActionRef" },
-              "minItems": 1
-            },
             "toolbarActions": {
               "description": "Toolbar entries from outside the More menu",
               "type": "array",
