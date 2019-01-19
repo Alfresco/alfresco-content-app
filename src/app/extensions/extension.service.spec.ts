@@ -586,7 +586,7 @@ describe('AppExtensionService', () => {
     });
 
     it('should filter out all disabled items', () => {
-      const items = [
+      const items: any[] = [
         { id: '1', disabled: true },
         {
           id: '2',
