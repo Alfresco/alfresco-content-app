@@ -52,7 +52,7 @@ describe('Pagination on multiple pages on File Libraries', () => {
   });
 
   beforeEach(async (done) => {
-    await page.clickFileLibrariesAndWait();
+    await page.goToMyLibrariesAndWait();
     done();
   });
 

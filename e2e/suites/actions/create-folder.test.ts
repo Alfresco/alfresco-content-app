@@ -216,7 +216,7 @@ describe('Create folder', () => {
     const fileLibrariesPage = new BrowsingPage();
 
     beforeEach(async (done) => {
-      await fileLibrariesPage.clickFileLibrariesAndWait();
+      await fileLibrariesPage.goToMyLibrariesAndWait();
       done();
     });
 

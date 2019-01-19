@@ -40,7 +40,7 @@ describe('Sidebar', () => {
 
   it('has "Personal Files" as default - [C217149]', async () => {
     expect(await browser.getCurrentUrl()).toContain(APP_ROUTES.PERSONAL_FILES);
-    expect(await sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES)).toBe(true, 'Active link');
+    expect(await sidenav.isActive(SIDEBAR_LABELS.PERSONAL_FILES)).toBe(true, 'Default active link');
   });
 
   it('File Libraries has correct sub-categories - [C217150]', async () => {

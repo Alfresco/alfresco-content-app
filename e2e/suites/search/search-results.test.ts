@@ -52,7 +52,7 @@ describe('Search results', () => {
     await apis.user.sites.createSite(site);
 
     await apis.user.search.waitForApi(username, { expect: 1 });
-    await apis.user.queries.waitForApi(site, { expect: 1 });
+    await apis.user.queries.waitForSites(site, { expect: 1 });
 
     await loginPage.loginWith(username);
     done();

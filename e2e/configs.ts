@@ -69,10 +69,15 @@ export const SIDEBAR_LABELS = {
 
 // Page titles
 export const PAGE_TITLES = {
-  VIEWER: 'Preview',
-  SEARCH: 'Search Results',
+  PERSONAL_FILES: 'Personal Files',
   MY_LIBRARIES: 'My Libraries',
-  FAVORITE_LIBRARIES: 'Favorite Libraries'
+  FAVORITE_LIBRARIES: 'Favorite Libraries',
+  SHARED_FILES: 'Shared',
+  RECENT_FILES: 'Recent Files',
+  FAVORITES: 'Favorites',
+  TRASH: 'Trash',
+  VIEWER: 'Preview',
+  SEARCH: 'Search Results'
 };
 
 // Site visibility

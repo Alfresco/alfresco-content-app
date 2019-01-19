@@ -100,7 +100,7 @@ describe('File Libraries', () => {
 
   describe('My Libraries', () => {
     beforeEach(async (done) => {
-      await page.goToMyLibraries();
+      await page.goToMyLibrariesAndWait();
       done();
     });
 
@@ -171,7 +171,7 @@ describe('File Libraries', () => {
 
   describe('Favorite Libraries', () => {
     beforeEach(async (done) => {
-      await page.goToFavoriteLibraries();
+      await page.goToFavoriteLibrariesAndWait();
       done();
     });
 

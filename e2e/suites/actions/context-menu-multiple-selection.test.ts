@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -31,11 +31,11 @@ import { Utils } from '../../utilities/utils';
 describe('Context menu actions - multiple selection : ', () => {
   const username = `user-${Utils.random()}`;
 
-  const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-  const file2 = `file2-${Utils.random()}.txt`; let file2Id;
+  const file1 = `my-file1-${Utils.random()}.txt`; let file1Id;
+  const file2 = `my-file2-${Utils.random()}.txt`; let file2Id;
 
-  const folder1 = `folder1-${Utils.random()}`; let folder1Id;
-  const folder2 = `folder2-${Utils.random()}`; let folder2Id;
+  const folder1 = `my-folder1-${Utils.random()}`; let folder1Id;
+  const folder2 = `my-folder2-${Utils.random()}`; let folder2Id;
 
   const fileInTrash1 = `deletedFile1-${Utils.random()}.txt`; let fileInTrash1Id;
   const fileInTrash2 = `deletedFile2-${Utils.random()}.txt`; let fileInTrash2Id;
@@ -43,10 +43,10 @@ describe('Context menu actions - multiple selection : ', () => {
   const folderInTrash2 = `deletedFolder2-${Utils.random()}`; let folderInTrash2Id;
 
   const siteName = `site-${Utils.random()}`;
-  const file1Site = `file1-${Utils.random()}.txt`;
-  const file2Site = `file2-${Utils.random()}.txt`;
-  const folder1Site = `folder1-${Utils.random()}`;
-  const folder2Site = `folder2-${Utils.random()}`;
+  const file1Site = `my-inSite-file1-${Utils.random()}.txt`;
+  const file2Site = `my-inSite-file2-${Utils.random()}.txt`;
+  const folder1Site = `my-inSite-folder1-${Utils.random()}`;
+  const folder2Site = `my-inSite-folder2-${Utils.random()}`;
 
   const apis = {
       admin: new RepoClient(),
@@ -57,6 +57,8 @@ describe('Context menu actions - multiple selection : ', () => {
   const page = new BrowsingPage();
   const { dataTable } = page;
   const contextMenu = dataTable.menu;
+  const searchResultsPage = new SearchResultsPage();
+  const { searchInput } = searchResultsPage.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -70,7 +72,7 @@ describe('Context menu actions - multiple selection : ', () => {
     await apis.user.nodes.createFile(file1Site, docLibId);
     await apis.user.nodes.createFile(file2Site, docLibId);
     await apis.user.nodes.createFolder(folder1Site, docLibId);
-    await apis.user.nodes.createFile(folder2Site, docLibId);
+    await apis.user.nodes.createFolder(folder2Site, docLibId);
 
     await apis.user.shared.shareFilesByIds([ file1Id, file2Id ]);
     await apis.user.shared.waitForApi({ expect: 2 });
@@ -179,10 +181,9 @@ describe('Context menu actions - multiple selection : ', () => {
   describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -380,6 +381,65 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(false, `Favorite is displayed`);
+    });
+  });
+
+  describe('on Search Results', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
+      done();
+    });
+
+    it('correct actions appear when multiple files are selected - [C291831]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-file');
+      await dataTable.selectMultipleItems([ file1Site, file2Site ]);
+      await dataTable.rightClickOnMultipleSelection();
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
+    });
+
+    it('correct actions appear when multiple folders are selected - [C291832]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-folder');
+      await dataTable.selectMultipleItems([ folder1Site, folder2Site ]);
+      await dataTable.rightClickOnMultipleSelection();
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
+    });
+
+    it('correct actions appear when both files and folders are selected - [C291833]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-f');
+      await dataTable.selectMultipleItems([ file1Site, file2Site, folder1Site, folder2Site ]);
+      await dataTable.rightClickOnMultipleSelection();
+
+      expect(await contextMenu.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await contextMenu.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await contextMenu.isEditPresent()).toBe(false, 'Edit is displayed');
+      expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+      expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
+      expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
+      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isManagePermissionsPresent()).toBe(true, `Permissions is not displayed`);
     });
   });
 });

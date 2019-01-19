@@ -102,7 +102,7 @@ describe('Search results - libraries', () => {
     await apis.admin.sites.createSite(adminPrivate, SITE_VISIBILITY.PRIVATE);
 
     await apis.user.sites.waitForApi({ expect: 12 });
-    await apis.user.queries.waitForApi('lib', { expect: 2 });
+    await apis.user.queries.waitForSites('lib', { expect: 2 });
 
     await loginPage.loginWith(username);
     done();

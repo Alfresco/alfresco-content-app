@@ -24,7 +24,7 @@
  */
 
 import { browser, protractor } from 'protractor';
-import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -32,14 +32,14 @@ import { Utils } from '../../utilities/utils';
 describe('Toolbar actions - multiple selection : ', () => {
   const username = `user-${Utils.random()}`;
 
-  const file1 = `file1-${Utils.random()}.txt`;
+  const file1 = `my-file1-${Utils.random()}.txt`;
   let file1Id;
-  const file2 = `file2-${Utils.random()}.txt`;
+  const file2 = `my-file2-${Utils.random()}.txt`;
   let file2Id;
 
-  const folder1 = `folder1-${Utils.random()}`;
+  const folder1 = `my-folder1-${Utils.random()}`;
   let folder1Id;
-  const folder2 = `folder2-${Utils.random()}`;
+  const folder2 = `my-folder2-${Utils.random()}`;
   let folder2Id;
 
   const fileForDelete1 = `file-${Utils.random()}.txt`;
@@ -52,10 +52,10 @@ describe('Toolbar actions - multiple selection : ', () => {
   let folderForDelete2Id;
 
   const siteName = `site-${Utils.random()}`;
-  const file1InSite = `file1-${Utils.random()}.txt`;
-  const file2InSite = `file2-${Utils.random()}.txt`;
-  const folder1InSite = `folder1-${Utils.random()}`;
-  const folder2InSite = `folder2-${Utils.random()}`;
+  const file1InSite = `my-fileInSite1-${Utils.random()}.txt`;
+  const file2InSite = `my-fileInSite2-${Utils.random()}.txt`;
+  const folder1InSite = `my-folderInSite1-${Utils.random()}`;
+  const folder2InSite = `my-folderInSite2-${Utils.random()}`;
 
   const apis = {
     admin: new RepoClient(),
@@ -65,8 +65,10 @@ describe('Toolbar actions - multiple selection : ', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
+  const searchResultsPage = new SearchResultsPage();
+  const { searchInput } = searchResultsPage.header;
 
-  beforeAll(async done => {
+  beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
 
     file1Id = (await apis.user.nodes.createFiles([file1])).entry.id;
@@ -100,7 +102,7 @@ describe('Toolbar actions - multiple selection : ', () => {
     done();
   });
 
-  afterAll(async done => {
+  afterAll(async (done) => {
     await Promise.all([
       apis.user.nodes.deleteNodesById([file1Id, file2Id, folder1Id, folder2Id]),
       apis.user.trashcan.emptyTrash(),
@@ -111,11 +113,11 @@ describe('Toolbar actions - multiple selection : ', () => {
 
   xit('');
 
-  describe('Personal Files', () => {
-    beforeEach(async done => {
+  describe('on Personal Files', () => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickPersonalFilesAndWait();
       await dataTable.clearSelection();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -182,13 +184,12 @@ describe('Toolbar actions - multiple selection : ', () => {
     });
   });
 
-  describe('File Libraries', () => {
-    beforeEach(async done => {
+  describe('on File Libraries', () => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -202,6 +203,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
     });
 
     it('correct actions appear when multiple folders are selected - [C280462]', async () => {
@@ -214,6 +216,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
     });
 
     it('correct actions appear when both files and folders are selected - [C280463]', async () => {
@@ -226,15 +229,15 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
     });
   });
 
-  describe('Shared Files', () => {
-    beforeEach(async done => {
-      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+  describe('on Shared Files', () => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickSharedFilesAndWait();
       await dataTable.clearSelection();
+      await page.clickSharedFilesAndWait();
       done();
     });
 
@@ -248,14 +251,15 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
     });
   });
 
-  describe('Recent Files', () => {
-    beforeEach(async done => {
+  describe('on Recent Files', () => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickRecentFilesAndWait();
       await dataTable.clearSelection();
+      await page.clickRecentFilesAndWait();
       done();
     });
 
@@ -269,15 +273,15 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
     });
   });
 
-  describe('Favorites', () => {
-    beforeEach(async done => {
-      // await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+  describe('on Favorites', () => {
+    beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickFavoritesAndWait();
       await dataTable.clearSelection();
+      await page.clickFavoritesAndWait();
       done();
     });
 
@@ -291,6 +295,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
     });
 
     it('correct actions appear when multiple folders are selected - [C280470]', async () => {
@@ -303,6 +308,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
     });
 
     it('correct actions appear when both files and folders are selected - [C280471]', async () => {
@@ -315,14 +321,13 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
     });
   });
 
-  describe('Trash', () => {
-    beforeEach(async done => {
-      await Utils.pressEscape();
+  describe('on Trash', () => {
+    beforeEach(async (done) => {
       await page.clickTrashAndWait();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -342,6 +347,65 @@ describe('Toolbar actions - multiple selection : ', () => {
       await dataTable.selectMultipleItems([fileForDelete1, fileForDelete2, folderForDelete1, folderForDelete2]);
       expect(await toolbar.isButtonPresent('Permanently delete')).toBe(true, 'Permanently delete is displayed');
       expect(await toolbar.isButtonPresent('Restore')).toBe(true, 'Restore is not displayed');
+    });
+  });
+
+  describe('on Search Results', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
+      done();
+    });
+
+    it('correct actions appear when multiple files are selected - [C291820]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions('my-fileInSite');
+      await dataTable.selectMultipleItems([file1InSite, file2InSite]);
+
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed for selected files');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed for selected files');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed for selected files');
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
+    });
+
+    it('correct actions appear when multiple folders are selected - [C291821]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-folderInSite');
+      await dataTable.selectMultipleItems([folder1InSite, folder2InSite]);
+
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
+    });
+
+    it('correct actions appear when both files and folders are selected - [C291822]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchForTextAndCloseSearchOptions('my-f');
+      await dataTable.selectMultipleItems([file1InSite, file2InSite, folder1InSite, folder2InSite]);
+
+      expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
+      expect(await toolbar.isDownloadPresent()).toBe(true, 'Download is not displayed');
+      expect(await toolbar.isEditPresent()).toBe(false, 'Edit is displayed');
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      await toolbar.closeMoreMenu();
     });
   });
 });

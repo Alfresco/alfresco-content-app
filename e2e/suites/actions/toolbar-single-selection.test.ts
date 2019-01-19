@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { LoginPage, BrowsingPage } from '../../pages/pages';
+import { LoginPage, BrowsingPage, SearchResultsPage } from '../../pages/pages';
 import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
@@ -37,8 +37,8 @@ describe('Toolbar actions - single selection : ', () => {
   const folderForDelete = `folderForDelete-${Utils.random()}`; let folderForDeleteId;
 
   const siteName = `site-${Utils.random()}`;
-  const fileInSite = `fileAdmin-${Utils.random()}.txt`;
-  const folderInSite = `folderAdmin-${Utils.random()}`;
+  const fileInSite = `file-site-${Utils.random()}.txt`;
+  const folderInSite = `folder-site-${Utils.random()}`;
 
   const adminPublic = `admin-public-${Utils.random()}`;
   const adminModerated = `admin-moderated-${Utils.random()}`;
@@ -51,6 +51,8 @@ describe('Toolbar actions - single selection : ', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable, toolbar } = page;
+  const searchResultsPage = new SearchResultsPage();
+  const { searchInput } = searchResultsPage.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -81,6 +83,8 @@ describe('Toolbar actions - single selection : ', () => {
     await apis.user.favorites.addFavoriteById('site', adminModerated);
     await apis.user.sites.requestToJoin(adminModerated);
 
+    await apis.user.queries.waitForSites(siteName, { expect: 1 });
+
     await loginPage.loginWith(username);
     done();
   });
@@ -99,26 +103,17 @@ describe('Toolbar actions - single selection : ', () => {
 
   xit('');
 
-  describe('General tests', () => {
+  describe('on Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await dataTable.clearSelection();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
     it('selected row is marked with a check circle icon - [C213134]', async () => {
-      await page.clickPersonalFilesAndWait();
       await dataTable.selectItem(fileUser);
       expect(await dataTable.hasCheckMarkIcon(fileUser)).toBe(true, 'check mark missing');
-    });
-  });
-
-  describe('on Personal Files', () => {
-    beforeEach(async (done) => {
-      await Utils.pressEscape();
-      await page.clickPersonalFilesAndWait();
-      await dataTable.clearSelection();
-      done();
     });
 
     it('actions are not displayed when no item is selected - [C213120]', async () => {
@@ -157,10 +152,9 @@ describe('Toolbar actions - single selection : ', () => {
   describe('on File Libraries', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -200,12 +194,16 @@ describe('Toolbar actions - single selection : ', () => {
   describe('on a library', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
-      await dataTable.clearSelection();
       done();
     });
 
-    it('Available actions when a library is selected - My Libraries - [C213135]', async () => {
-      await page.goToMyLibraries();
+    afterAll(async (done) => {
+      await page.clickPersonalFiles();
+      done();
+    });
+
+    it('Available actions for a library - My Libraries - [C213135]', async () => {
+      await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(siteName);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${siteName}`);
@@ -213,10 +211,11 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+      await toolbar.closeMoreMenu();
     });
 
-    it('Available actions when a library is selected - Favorite Libraries - user is a member - [C289892]', async () => {
-      await page.goToFavoriteLibraries();
+    it('Available actions for a library - Favorite Libraries - user is a member - [C289892]', async () => {
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(siteName);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${siteName}`);
@@ -224,10 +223,11 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+      await toolbar.closeMoreMenu();
     });
 
-    it('Available actions when a library is selected - Favorite Libraries - user is not a member - [C290090]', async () => {
-      await page.goToFavoriteLibraries();
+    it('Available actions for a library - Favorite Libraries - user is not a member - [C290090]', async () => {
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(adminPublic);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminPublic}`);
@@ -235,10 +235,11 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminPublic}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+      await toolbar.closeMoreMenu();
     });
 
-    it('Available actions when a library is selected - Favorite Libraries - user requested to join - [C290091]', async () => {
-      await page.goToFavoriteLibraries();
+    it('Available actions for a moderated library - Favorite Libraries - user requested to join - [C290091]', async () => {
+      await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(adminModerated);
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
       expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminModerated}`);
@@ -246,6 +247,52 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+      await toolbar.closeMoreMenu();
+    });
+
+    it('Available actions for a library - Search Results - [C290084]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkLibraries();
+      await searchInput.searchForTextAndCloseSearchOptions(siteName);
+      await dataTable.selectItem(siteName);
+
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${siteName}`);
+      expect(await toolbar.isButtonPresent('Leave library')).toBe(true, `Leave is not displayed for ${siteName}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+      await toolbar.closeMoreMenu();
+    });
+
+    it('Available actions for a library - Search Results - user is not a member - [C290085]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkLibraries();
+      await searchInput.searchForTextAndCloseSearchOptions(adminPublic);
+      await dataTable.selectItem(adminPublic);
+
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminPublic}`);
+      expect(await toolbar.isButtonPresent('Join')).toBe(true, `Join is not displayed for ${adminPublic}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminPublic}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+      await toolbar.closeMoreMenu();
+    });
+
+    it('Available actions for a moderated library - Search Results - user requested to join - [C290086]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkLibraries();
+      await searchInput.searchForTextAndCloseSearchOptions(adminModerated);
+      await dataTable.selectItem(adminModerated);
+
+      expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${adminModerated}`);
+      expect(await toolbar.isButtonPresent('Cancel join request')).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+      await toolbar.closeMoreMenu();
     });
   });
 
@@ -253,7 +300,6 @@ describe('Toolbar actions - single selection : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickSharedFilesAndWait();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -281,7 +327,6 @@ describe('Toolbar actions - single selection : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickRecentFilesAndWait();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -308,7 +353,6 @@ describe('Toolbar actions - single selection : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickFavoritesAndWait();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -349,7 +393,6 @@ describe('Toolbar actions - single selection : ', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
       await page.clickTrashAndWait();
-      await dataTable.clearSelection();
       done();
     });
 
@@ -369,6 +412,58 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderForDelete}`);
       expect(await toolbar.isButtonPresent('Permanently delete')).toBe(true, `Permanently delete is displayed for folder`);
       expect(await toolbar.isButtonPresent('Restore')).toBe(true, `Restore is not enabled for folder`);
+    });
+  });
+
+  describe('on Search Results', () => {
+    beforeEach(async (done) => {
+      await Utils.pressEscape();
+      await page.clickPersonalFilesAndWait();
+      done();
+    });
+
+    it('actions are not displayed when no item is selected - [C291815]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchForTextAndCloseSearchOptions(fileInSite);
+
+      expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
+    });
+
+    it('correct actions appear when a file is selected - [C291816]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions(fileUser);
+      await dataTable.selectItem(fileUser);
+
+      expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
+      expect(await toolbar.isEditPresent()).toBe(false, `Edit is displayed for ${fileUser}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileUser}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${fileUser}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      await toolbar.closeMoreMenu();
+    });
+
+    it('correct actions appear when a folder is selected - [C291817]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFolders();
+      await searchInput.searchForTextAndCloseSearchOptions(folderUser);
+      await dataTable.selectItem(folderUser);
+
+      expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
+      expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folderUser}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not enabled for ${folderUser}`);
+      expect(await toolbar.isEditPresent()).toBe(true, `Edit is not displayed for ${folderUser}`);
+      await toolbar.openMoreMenu();
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${folderUser}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${folderUser}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      await toolbar.closeMoreMenu();
     });
   });
 });

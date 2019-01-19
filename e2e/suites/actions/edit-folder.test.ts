@@ -244,7 +244,7 @@ describe('Edit folder', () => {
 
   describe('on My Libraries', () => {
     beforeEach(async (done) => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       done();
     });

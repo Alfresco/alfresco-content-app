@@ -187,7 +187,7 @@ describe('Library properties', () => {
   });
 
   it('Warning appears when editing the name of the library by entering an existing name - [C289341]', async () => {
-    await apis.user.queries.waitForApi(site.name, { expect: 1 });
+    await apis.user.queries.waitForSites(site.name, { expect: 1 });
 
     await dataTable.selectItem(siteDup);
     await page.toolbar.clickViewDetails();

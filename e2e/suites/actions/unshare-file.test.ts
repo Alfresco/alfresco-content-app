@@ -214,7 +214,7 @@ describe('Unshare a file', () => {
 
     beforeEach(async (done) => {
       await page.refresh();
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
       await dataTable.doubleClickOnRowByName(parentInSite);
@@ -733,7 +733,7 @@ describe('Unshare a file', () => {
     });
 
     it('on File Libraries - file shared by other user - [C286682]', async () => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file1);
@@ -744,7 +744,7 @@ describe('Unshare a file', () => {
     });
 
     it('on File Libraries - file shared by the user - [C286701]', async () => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
       await dataTable.selectItem(file2);

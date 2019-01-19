@@ -24,11 +24,10 @@
  */
 
 import { browser } from 'protractor';
-import { SIDEBAR_LABELS, PAGE_TITLES } from '../../configs';
+import { PAGE_TITLES } from '../../configs';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
-
 
 describe('Page titles', () => {
   const loginPage = new LoginPage();
@@ -73,10 +72,8 @@ describe('Page titles', () => {
     });
 
     it('Personal Files page - [C217157]', async () => {
-      const label = SIDEBAR_LABELS.PERSONAL_FILES;
-
-      await page.sidenav.navigateToLink(label);
-      expect(await browser.getTitle()).toContain(label);
+      await page.clickPersonalFiles();
+      expect(await browser.getTitle()).toContain(PAGE_TITLES.PERSONAL_FILES);
     });
 
     it('My Libraries page - [C217158]', async () => {
@@ -90,31 +87,23 @@ describe('Page titles', () => {
     });
 
     it('Shared Files page - [C217159]', async () => {
-      const label = SIDEBAR_LABELS.SHARED_FILES;
-
-      await page.sidenav.navigateToLink(label);
-      expect(await browser.getTitle()).toContain(label);
+      await page.clickSharedFiles();
+      expect(await browser.getTitle()).toContain(PAGE_TITLES.SHARED_FILES);
     });
 
     it('Recent Files page - [C217160]', async () => {
-      const label = SIDEBAR_LABELS.RECENT_FILES;
-
-      await page.sidenav.navigateToLink(label);
-      expect(await browser.getTitle()).toContain(label);
+      await page.clickRecentFiles();
+      expect(await browser.getTitle()).toContain(PAGE_TITLES.RECENT_FILES);
     });
 
     it('Favorites page - [C217161]', async () => {
-      const label = SIDEBAR_LABELS.FAVORITES;
-
-      await page.sidenav.navigateToLink(label);
-      expect(await browser.getTitle()).toContain(label);
+      await page.clickFavorites();
+      expect(await browser.getTitle()).toContain(PAGE_TITLES.FAVORITES);
     });
 
     it('Trash page - [C217162]', async () => {
-      const label = SIDEBAR_LABELS.TRASH;
-
-      await page.sidenav.navigateToLink(label);
-      expect(await browser.getTitle()).toContain(label);
+      await page.clickTrash();
+      expect(await browser.getTitle()).toContain(PAGE_TITLES.TRASH);
     });
 
     it('File Preview page - [C280415]', async () => {

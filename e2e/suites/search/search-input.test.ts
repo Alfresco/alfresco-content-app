@@ -38,6 +38,7 @@ describe('Search input', () => {
 
   beforeEach(async (done) => {
     await Utils.pressEscape();
+    await page.clickPersonalFiles();
     done();
   });
 
