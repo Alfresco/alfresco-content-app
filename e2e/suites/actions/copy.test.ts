@@ -114,10 +114,10 @@ describe('Copy', () => {
 
     await apis.user.sites.createSite(siteName);
     const docLibId = await apis.user.sites.getDocLibId(siteName);
-    folderSitePFId = (await apis.user.nodes.createFolder(folderSitePF, docLibId)).entry.id;
-    folderSiteRFId = (await apis.user.nodes.createFolder(folderSiteRF, docLibId)).entry.id;
-    folderSiteSFId = (await apis.user.nodes.createFolder(folderSiteSF, docLibId)).entry.id;
-    folderSiteFavId = (await apis.user.nodes.createFolder(folderSiteFav, docLibId)).entry.id;
+    await apis.user.nodes.createFolder(folderSitePF, docLibId);
+    await apis.user.nodes.createFolder(folderSiteRF, docLibId);
+    await apis.user.nodes.createFolder(folderSiteSF, docLibId);
+    await apis.user.nodes.createFolder(folderSiteFav, docLibId);
 
     await apis.user.shared.waitForApi({ expect: 4 });
     await apis.user.favorites.waitForApi({ expect: 6 });
