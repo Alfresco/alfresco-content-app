@@ -32,17 +32,6 @@
       </ng-container>
     </adf-viewer-toolbar-actions>
 
-    <adf-viewer-more-actions *ngIf="viewerToolbarMoreActions.length">
-      <ng-container
-        *ngFor="
-          let action of viewerToolbarMoreActions;
-          trackBy: trackByActionId
-        "
-      >
-        <app-toolbar-menu-item [actionRef]="action"></app-toolbar-menu-item>
-      </ng-container>
-    </adf-viewer-more-actions>
-
     <ng-container *ngFor="let ext of contentExtensions">
       <adf-viewer-extension [supportedExtensions]="[ext.fileExtension]">
         <ng-template let-url="urlFileContent" let-extension="extension">
