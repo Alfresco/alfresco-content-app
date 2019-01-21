@@ -120,7 +120,7 @@ describe('Copy', () => {
     await apis.user.nodes.createFolder(folderSiteFav, docLibId);
 
     await apis.user.shared.waitForApi({ expect: 4 });
-    await apis.user.favorites.waitForApi({ expect: 6 });
+    await apis.user.favorites.waitForApi({ expect: 7 });
 
     await loginPage.loginWith(username);
     done();
