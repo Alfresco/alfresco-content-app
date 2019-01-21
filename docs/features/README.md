@@ -1,4 +1,6 @@
 ---
+Title: Application features
+Github only: true
 ---
 
 # Application features

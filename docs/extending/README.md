@@ -1,4 +1,6 @@
 ---
+Title: Extending
+Github only: true
 ---
 
 # Extending

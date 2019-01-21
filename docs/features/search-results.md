@@ -1,4 +1,5 @@
 ---
+Title: Search Results
 ---
 
 # Search Results

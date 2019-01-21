@@ -1,4 +1,6 @@
 ---
+Title: Getting started
+Github only: true
 ---
 
 # Getting started

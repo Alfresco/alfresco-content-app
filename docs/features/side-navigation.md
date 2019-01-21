@@ -1,4 +1,5 @@
 ---
+Title: Side Navigation
 ---
 
 # Side Navigation

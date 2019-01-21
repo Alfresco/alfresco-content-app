@@ -1,4 +1,5 @@
 ---
+Title: Internationalization
 ---
 
 # Internationalization (i18n)

@@ -1,4 +1,5 @@
 ---
+Title: Custom route with parameters
 ---
 
 # Custom route with parameters

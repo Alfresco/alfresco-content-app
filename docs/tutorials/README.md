@@ -1,4 +1,6 @@
 ---
+Title: Tutorials
+Github only: true
 ---
 
 # Tutorials

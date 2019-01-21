@@ -1,4 +1,5 @@
 ---
+Title: Dialog actions
 ---
 
 # Dialog actions
