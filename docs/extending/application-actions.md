@@ -1,4 +1,5 @@
 ---
+Title: Application Actions
 ---
 
 # Application Actions

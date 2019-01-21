@@ -1,4 +1,5 @@
 ---
+Title: Info Drawer
 ---
 
 # Info Drawer

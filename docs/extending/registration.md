@@ -1,3 +1,7 @@
+---
+Title: Registration
+---
+
 # Registration
 
 You can use `ExtensionService` to register custom components, authentication guards,

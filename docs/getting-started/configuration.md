@@ -1,4 +1,5 @@
 ---
+Title: Configuration
 ---
 
 # Configuration
