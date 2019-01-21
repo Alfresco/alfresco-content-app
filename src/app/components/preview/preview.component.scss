@@ -3,22 +3,16 @@
   height: 100%;
 }
 
-.hide-last-divider .adf-viewer-toolbar .mat-toolbar {
-  > adf-toolbar-divider:last-of-type {
-    display: none;
-  }
-
-  > button:last-of-type {
-    right: 40px;
-  }
-}
-
-#adf-viewer-moreactions {
-  right: -40px;
+.adf-viewer-toolbar .adf-toolbar-divider {
+  display: none;
 }
 
 .adf-viewer-toolbar-actions {
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  .adf-toolbar-divider {
+    display: inline;
+  }
 }

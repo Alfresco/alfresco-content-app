@@ -30,7 +30,6 @@ All the customizations are stored in the `features` section of the configuration
     "contextMenu": [],
     "viewer": {
       "toolbarActions:": [],
-      "toolbarMoreMenu:": [],
       "openWith": [],
       "content": []
     },
@@ -242,14 +241,14 @@ on how to register your own entries to be re-used at runtime.
 
 ### Tab properties
 
-| Name          | Description                                                 |
-| ------------- | ----------------------------------------------------------- |
-| **id**        | Unique identifier.                                          |
-| **component** | The main [component](/extending/components) to use for the route.     |
-| **title**     | Tab title or resource key.                                  |
-| icon          | Tab icon                                                    |
-| disabled      | Toggles disabled state. Can be assigned from other plugins. |
-| order         | The order of the element.                                   |
+| Name          | Description                                                       |
+| ------------- | ----------------------------------------------------------------- |
+| **id**        | Unique identifier.                                                |
+| **component** | The main [component](/extending/components) to use for the route. |
+| **title**     | Tab title or resource key.                                        |
+| icon          | Tab icon                                                          |
+| disabled      | Toggles disabled state. Can be assigned from other plugins.       |
+| order         | The order of the element.                                         |
 
 ### Tab components
 
@@ -378,7 +377,6 @@ Viewer component in ACA supports the following extension points:
     "viewer": {
       "content": [],
       "toolbarActions:": [],
-      "toolbarMoreMenu:": [],
       "openWith": []
     }
   }
@@ -451,15 +449,13 @@ New viewer toolbar actions can also be added from the extensions config:
             "visible": "app.toolbar.versions"
           }
         }
-      ],
-      "toolbarMoreMenu": [...]
+      ]
     }
   }
 }
 ```
 
-The ADF Viewer component allows you to provide custom entries for the `More` menu button on the toolbar.
-The ACA provides an extension point for this menu that you can utilize to populate custom menu items:
+You can also provide sub-menus:
 
 ```json
 {
@@ -469,19 +465,27 @@ The ACA provides an extension point for this menu that you can utilize to popula
 
   "features": {
     "viewer": {
-      "toolbarActions": [...],
-      "toolbarMoreMenu": [
+      "toolbarActions": [
         {
-          "id": "app.viewer.share",
-          "order": 300,
-          "title": "Share",
-          "icon": "share",
-          "actions": {
-            "click": "SHARE_NODE"
-          },
-          "rules": {
-            "visible": "app.selection.file.canShare"
-          }
+          "id": "app.toolbar.more",
+          "type": "menu",
+          "order": 10000,
+          "icon": "more_vert",
+          "title": "APP.ACTIONS.MORE",
+          "children": [
+            {
+              "id": "app.viewer.share",
+              "order": 300,
+              "title": "Share",
+              "icon": "share",
+              "actions": {
+                "click": "SHARE_NODE"
+              },
+              "rules": {
+                "visible": "app.selection.file.canShare"
+              }
+            }
+          ]
         }
       ]
     }
@@ -532,69 +536,74 @@ As with other content actions, custom plugins can disable, update or extend `Ope
 
 ## Content metadata presets
 
-The content metadata presets are needed by the [Content Metadata Component](https://alfresco.github.io/adf-component-catalog/components/ContentMetadataComponent.html#readme) to render the properties of metadata aspects for a given node. 
+The content metadata presets are needed by the [Content Metadata Component](https://alfresco.github.io/adf-component-catalog/components/ContentMetadataComponent.html#readme) to render the properties of metadata aspects for a given node.
 The different aspects and their properties are configured in the `app.config.json` file, but they can also be set on runtime through extension files.
 
-Configuring these presets from `app.extensions.json` will overwrite the default application setting. 
+Configuring these presets from `app.extensions.json` will overwrite the default application setting.
 Settings them from custom plugins allows user to disable, update or extend these presets.
 Check out more info about merging extensions [here](/extending/extension-format#merging-properties).
 
 The `content-metadata-presets` elements can be switched off by setting the `disabled` property.
-This can be applied also for nested items, allowing disabling down to aspect level. 
+This can be applied also for nested items, allowing disabling down to aspect level.
 
 <p class="tip">
 In order to modify or disable existing entries, you need to know the id of the target element, along with its parents ids.
 </p>
 
 Your extensions can perform the following actions at runtime:
-* Add new presets items.
-* Add new items to existing presets at any level.
-* Disable specific items down to the aspect level.
-* Modify any existing item based on id.  
+
+- Add new presets items.
+- Add new items to existing presets at any level.
+- Disable specific items down to the aspect level.
+- Modify any existing item based on id.
 
 Regarding properties, you can either:
- * Add new properties to existing aspect, or 
- * Redefine the properties of an aspect. 
- 
-Review this code snippet to see how you can overwrite the properties for `exif:exif` aspect from an external plugin:
-```json
-  {
-     "$schema": "../../../extension.schema.json",
-     "$version": "1.0.0",
-     "$name": "plugin1",
 
-     "features": {
-       "content-metadata-presets": [
-         {
-           "id": "app.content.metadata.custom",
-           "custom": [
-             {
-               "id": "app.content.metadata.customGroup",
-               "items": [
-                 {
-                   "id": "app.content.metadata.exifAspect",
-                   "disabled": true
-                 },
-                 {
-                   "id": "app.content.metadata.exifAspect2",
-                   "aspect": "exif:exif",
-                   "properties": [
-                     "exif:orientation",
-                     "exif:manufacturer",
-                     "exif:model",
-                     "exif:software"
-                   ]
-                 }
-               ]
-             }
-           ]
-         }
-       ]
-     }
-   }
-``` 
-This external plugin disables the initial `exif:exif` aspect already defined in the `app.extensions.json` and defines other properties for the `exif:exif` aspect. 
+- Add new properties to existing aspect, or
+- Redefine the properties of an aspect.
+
+Review this code snippet to see how you can overwrite the properties for `exif:exif` aspect from an external plugin:
+
+```json
+{
+  "$schema": "../../../extension.schema.json",
+  "$version": "1.0.0",
+  "$name": "plugin1",
+
+  "features": {
+    "content-metadata-presets": [
+      {
+        "id": "app.content.metadata.custom",
+        "custom": [
+          {
+            "id": "app.content.metadata.customGroup",
+            "items": [
+              {
+                "id": "app.content.metadata.exifAspect",
+                "disabled": true
+              },
+              {
+                "id": "app.content.metadata.exifAspect2",
+                "aspect": "exif:exif",
+                "properties": [
+                  "exif:orientation",
+                  "exif:manufacturer",
+                  "exif:model",
+                  "exif:software"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+This external plugin disables the initial `exif:exif` aspect already defined in the `app.extensions.json` and defines other properties for the `exif:exif` aspect.
 Here is the initial setting from `app.extension.json`:
+
 ```json
 ...
     "content-metadata-presets": [
@@ -630,7 +639,8 @@ Here is the initial setting from `app.extension.json`:
     ]
 ...
 
-``` 
+```
+
 <p class="tip">
 In order to allow the content-metadata presets to be extended, the settings from `app.config.json` must be copied to the `app.extensions.json` file and its ids must be added to all the items.
 Having ids allows external plugins to extend the current setting.
