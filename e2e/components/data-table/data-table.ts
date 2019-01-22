@@ -157,12 +157,16 @@ export class DataTable extends Component {
     return this.getRows().get(nth - 1);
   }
 
-  getRowByName(name: string) {
+  getRowByName(name: string, location: string = '') {
+    if (location) {
+      return this.body.all(by.cssContainingText(DataTable.selectors.row, name))
+        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))));
+    }
     return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
   }
 
-  getRowFirstCell(name: string) {
-    return this.getRowByName(name).all(by.css(DataTable.selectors.cell)).get(0);
+  getRowFirstCell(name: string, location: string = '') {
+    return this.getRowByName(name, location).all(by.css(DataTable.selectors.cell)).get(0);
   }
 
   getRowNameCell(name: string) {
@@ -201,9 +205,9 @@ export class DataTable extends Component {
     }
   }
 
-  async selectItem(name: string) {
+  async selectItem(name: string, location: string = '') {
     try{
-      const item = this.getRowFirstCell(name);
+      const item = this.getRowFirstCell(name, location);
       await item.click();
 
     } catch (e) {
@@ -215,11 +219,11 @@ export class DataTable extends Component {
     await this.getNameLink(itemName).click();
   }
 
-  async selectMultipleItems(names: string[]) {
+  async selectMultipleItems(names: string[], location: string = '') {
     await this.clearSelection();
     await browser.actions().sendKeys(protractor.Key.COMMAND).perform();
     for (const name of names) {
-      await this.selectItem(name);
+      await this.selectItem(name, location);
     }
     await browser.actions().sendKeys(protractor.Key.NULL).perform();
   }

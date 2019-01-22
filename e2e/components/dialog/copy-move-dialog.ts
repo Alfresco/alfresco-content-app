@@ -102,6 +102,13 @@ export class CopyMoveDialog extends Component {
     return this.dataTable.element(by.cssContainingText('.adf-name-location-cell', folderName));
   }
 
+  async doubleClickOnRow(name: string) {
+    const item = this.getRow(name);
+    await Utils.waitUntilElementClickable(item);
+    await browser.actions().mouseMove(item).perform();
+    await browser.actions().click().click().perform();
+  }
+
   async selectLocation(location: 'Personal Files' | 'File Libraries') {
     await this.locationDropDown.click();
     await this.waitForDropDownToOpen();
