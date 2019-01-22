@@ -23,21 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as AlfrescoApi from 'alfresco-js-api-node';
+import { AlfrescoApi } from '@alfresco/js-api';
 import { REPO_API_HOST } from '../../../configs';
 import { RepoClientAuth } from '../repo-client-models';
 
 export abstract class RepoApi {
-
-    alfrescoJsApi = new AlfrescoApi({
-        provider: 'ECM',
-        hostEcm: REPO_API_HOST
-    });
+    alfrescoJsApi = new AlfrescoApi();
 
     constructor(
         private username: string = RepoClientAuth.DEFAULT_USERNAME,
         private password: string = RepoClientAuth.DEFAULT_PASSWORD
-    ) {}
+    ) {
+        this.alfrescoJsApi.setConfig({
+            provider: 'ECM',
+            hostEcm: REPO_API_HOST
+        });
+    }
 
     apiAuth() {
         return this.alfrescoJsApi.login(this.username, this.password);

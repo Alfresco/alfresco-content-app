@@ -24,11 +24,13 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { SiteBody, SiteMemberRoleBody, SiteMemberBody } from 'alfresco-js-api-node';
+import { SiteBody, SiteMemberRoleBody, SiteMemberBody } from '@alfresco/js-api';
 import { SITE_VISIBILITY } from '../../../../configs';
 import { Utils } from '../../../../utilities/utils';
+import { SitesApi as AdfSiteApi } from '@alfresco/js-api';
 
 export class SitesApi extends RepoApi {
+    sitesApi = new AdfSiteApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
@@ -36,17 +38,17 @@ export class SitesApi extends RepoApi {
 
     async getSite(siteId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.sitesApi.getSite(siteId);
+        return await this.sitesApi.getSite(siteId);
     }
 
     async getSites() {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.peopleApi.getSiteMembership(this.getUsername());
+        return await this.sitesApi.listSiteMembershipsForPerson(this.getUsername());
     }
 
     async getDocLibId(siteId: string) {
         await this.apiAuth();
-        return (await this.alfrescoJsApi.core.sitesApi.getSiteContainers(siteId)).list.entries[0].entry.id;
+        return (await this.sitesApi.listSiteContainers(siteId)).list.entries[0].entry.id;
     }
 
     async getVisibility(siteId: string) {
@@ -73,7 +75,7 @@ export class SitesApi extends RepoApi {
         };
 
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.sitesApi.createSite(site);
+        return await this.sitesApi.createSite(site);
     }
 
    async createSites(titles: string[], visibility?: string) {
@@ -85,7 +87,7 @@ export class SitesApi extends RepoApi {
 
     async deleteSite(siteId: string, permanent: boolean = true) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.sitesApi.deleteSite(siteId, { permanent });
+        return await this.sitesApi.deleteSite(siteId, { permanent });
     }
 
     async deleteSites(siteIds: string[], permanent: boolean = true) {
@@ -110,7 +112,7 @@ export class SitesApi extends RepoApi {
         };
 
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.sitesApi.updateSiteMember(siteId, userId, siteRole);
+        return await this.sitesApi.updateSiteMembership(siteId, userId, siteRole);
     }
 
     async addSiteMember(siteId: string, userId: string, role: string) {
@@ -120,12 +122,12 @@ export class SitesApi extends RepoApi {
         };
 
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.sitesApi.addSiteMember(siteId, memberBody);
+        return await this.sitesApi.createSiteMembership(siteId, memberBody);
     }
 
     async deleteSiteMember(siteId: string, userId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.sitesApi.removeSiteMember(siteId, userId);
+        return await this.sitesApi.deleteSiteMembership(siteId, userId);
     }
 
     async requestToJoin(siteId: string) {
@@ -134,7 +136,7 @@ export class SitesApi extends RepoApi {
         };
         await this.apiAuth();
         try {
-          return await this.alfrescoJsApi.core.peopleApi.addSiteMembershipRequest('-me-', body);
+          return await this.sitesApi.createSiteMembershipRequestForPerson('-me-', body);
         } catch (error) {
           console.log('====== requestToJoin catch ', error);
         };
@@ -142,7 +144,7 @@ export class SitesApi extends RepoApi {
 
     async hasMembershipRequest(siteId: string) {
       await this.apiAuth();
-      const requests = (await this.alfrescoJsApi.core.peopleApi.getSiteMembershipRequests('-me-')).list.entries.map(e => e.entry.id);
+      const requests = (await this.sitesApi.getSiteMembershipRequests('-me-')).list.entries.map(e => e.entry.id);
       return requests.includes(siteId);
     }
 

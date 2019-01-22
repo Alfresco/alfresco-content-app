@@ -28,7 +28,7 @@ import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   SiteEntry
-} from 'alfresco-js-api';
+} from '@alfresco/js-api';
 import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
@@ -66,7 +66,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnChanges() {
     if (this.node) {
-      const entry = this.node.entry;
+      const entry: any = this.node.entry;
 
       if (this.isLibraryListNode(this.node)) {
         return this.setDisplayNode(this.node);
@@ -113,19 +113,19 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
     }
   }
 
-  private setDisplayNode(node: MinimalNodeEntryEntity | SiteEntry) {
+  private setDisplayNode(node: any) {
     this.displayNode = node;
   }
 
-  private isLibraryListNode(node: SiteEntry): boolean {
-    return (<any>node).isLibrary;
+  private isLibraryListNode(node: any): boolean {
+    return node.isLibrary;
   }
 
   private isFavoriteListNode(node: MinimalNodeEntity): boolean {
     return !this.isLibraryListNode(node) && (<any>node).entry.guid;
   }
 
-  private isSharedFilesNode(node: MinimalNodeEntity): boolean {
+  private isSharedFilesNode(node: any): boolean {
     return !!node.entry.nodeId;
   }
 

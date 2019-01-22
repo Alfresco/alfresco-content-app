@@ -25,7 +25,7 @@
 
 import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { SiteEntry, SitePaging } from 'alfresco-js-api';
+import { SiteEntry, SitePaging } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { UpdateLibraryAction } from '../../../store/actions';
 import { AppStore } from '../../../store/states/app.state';
@@ -138,7 +138,9 @@ export class LibraryMetadataFormComponent
     });
   }
 
-  private findLibraryByTitle(libraryTitle: string): Observable<SitePaging> {
+  private findLibraryByTitle(
+    libraryTitle: string
+  ): Observable<SitePaging | { list: { entries: any[] } }> {
     return from(
       this.alfrescoApiService
         .getInstance()

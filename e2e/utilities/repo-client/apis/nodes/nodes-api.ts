@@ -23,27 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NodeBodyLock } from 'alfresco-js-api-node';
 import { RepoApi } from '../repo-api';
 import { NodeBodyCreate } from './node-body-create';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
+import { NodesApi as AdfNodeApi, NodeBodyLock} from '@alfresco/js-api';
 
 export class NodesApi extends RepoApi {
+    nodesApi = new AdfNodeApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
     }
 
-    // nodes
-
     async getNodeByPath(relativePath: string = '/') {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNode('-my-', { relativePath });
+        return await this.nodesApi.getNode('-my-', { relativePath });
     }
 
     async getNodeById(id: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNode(id);
+        return await this.nodesApi.getNode(id);
     }
 
     async getNodeDescription(name: string, parentId: string) {
@@ -75,7 +74,7 @@ export class NodesApi extends RepoApi {
     async deleteNodeById(id: string, permanent: boolean = true) {
         await this.apiAuth();
         try {
-          return await this.alfrescoJsApi.core.nodesApi.deleteNode(id, { permanent });
+          return await this.nodesApi.deleteNode(id, { permanent });
         } catch (error) {
           console.log('------ deleteNodeById failed ');
         }
@@ -100,14 +99,12 @@ export class NodesApi extends RepoApi {
         }, Promise.resolve());
     }
 
-    // children
-
     async getNodeChildren(nodeId: string) {
         const opts = {
           include: [ 'properties' ]
         };
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNodeChildren(nodeId, opts);
+        return await this.nodesApi.listNodeChildren(nodeId, opts);
     }
 
     async deleteNodeChildren(parentId: string) {
@@ -138,7 +135,7 @@ export class NodesApi extends RepoApi {
         }
 
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.addNode(parentId, nodeBody);
+        return await this.nodesApi.createNode(parentId, nodeBody);
     }
 
     async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
@@ -155,7 +152,7 @@ export class NodesApi extends RepoApi {
 
     async createChildren(data: NodeBodyCreate[]): Promise<any> {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.addNode('-my-', data);
+        return await this.nodesApi.createNode('-my-', <any>data);
     }
 
     async createContent(content: NodeContentTree, relativePath: string = '/') {
@@ -173,17 +170,17 @@ export class NodesApi extends RepoApi {
     // node content
     async getNodeContent(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNodeContent(nodeId);
+        return await this.nodesApi.getNodeContent(nodeId);
     }
 
     async editNodeContent(nodeId: string, content: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.updateNodeContent(nodeId, content);
+        return await this.nodesApi.updateNodeContent(nodeId, content);
     }
 
     async renameNode(nodeId: string, newName: string) {
         await this.apiAuth();
-        return this.alfrescoJsApi.core.nodesApi.updateNode(nodeId, { name: newName });
+        return this.nodesApi.updateNode(nodeId, { name: newName });
     }
 
     // node permissions
@@ -201,12 +198,12 @@ export class NodesApi extends RepoApi {
         };
 
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.updateNode(nodeId, data);
+        return await this.nodesApi.updateNode(nodeId, data);
     }
 
     async getNodePermissions(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNode(nodeId, { include: ['permissions'] });
+        return await this.nodesApi.getNode(nodeId, { include: ['permissions'] });
     }
 
     // lock node
@@ -215,11 +212,11 @@ export class NodesApi extends RepoApi {
             type: lockType
         };
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.lockNode(nodeId, data );
+        return await this.nodesApi.lockNode(nodeId, data );
     }
 
     async unlockFile(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.unlockNode(nodeId);
+        return await this.nodesApi.unlockNode(nodeId);
     }
 }

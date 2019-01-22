@@ -91,7 +91,9 @@ describe('ContentManagementService', () => {
         of('OPERATION.SUCCES.CONTENT.COPY')
       );
 
-      const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
+      const selection = [
+        <any>{ entry: { id: 'node-to-copy-id', name: 'name' } }
+      ];
       const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -109,16 +111,16 @@ describe('ContentManagementService', () => {
       );
 
       const selection = [
-        { entry: { id: 'node-to-copy-1', name: 'name1' } },
-        { entry: { id: 'node-to-copy-2', name: 'name2' } }
+        <any>{ entry: { id: 'node-to-copy-1', name: 'name1' } },
+        <any>{ entry: { id: 'node-to-copy-2', name: 'name2' } }
       ];
       const createdItems = [
-        { entry: { id: 'copy-of-node-1', name: 'name1' } },
-        { entry: { id: 'copy-of-node-2', name: 'name2' } }
+        <any>{ entry: { id: 'copy-of-node-1', name: 'name1' } },
+        <any>{ entry: { id: 'copy-of-node-2', name: 'name2' } }
       ];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.contentCopied.next(<any>createdItems);
+      nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -132,13 +134,15 @@ describe('ContentManagementService', () => {
       );
 
       const selection = [
-        { entry: { id: 'node-to-copy-1', name: 'name1' } },
-        { entry: { id: 'node-to-copy-2', name: 'name2' } }
+        <any>{ entry: { id: 'node-to-copy-1', name: 'name1' } },
+        <any>{ entry: { id: 'node-to-copy-2', name: 'name2' } }
       ];
-      const createdItems = [{ entry: { id: 'copy-of-node-1', name: 'name1' } }];
+      const createdItems = [
+        <any>{ entry: { id: 'copy-of-node-1', name: 'name1' } }
+      ];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.contentCopied.next(<any>createdItems);
+      nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -152,17 +156,17 @@ describe('ContentManagementService', () => {
       );
 
       const selection = [
-        { entry: { id: 'node-to-copy-0', name: 'name0' } },
-        { entry: { id: 'node-to-copy-1', name: 'name1' } },
-        { entry: { id: 'node-to-copy-2', name: 'name2' } }
+        <any>{ entry: { id: 'node-to-copy-0', name: 'name0' } },
+        <any>{ entry: { id: 'node-to-copy-1', name: 'name1' } },
+        <any>{ entry: { id: 'node-to-copy-2', name: 'name2' } }
       ];
       const createdItems = [
-        { entry: { id: 'copy-of-node-0', name: 'name0' } },
-        { entry: { id: 'copy-of-node-1', name: 'name1' } }
+        <any>{ entry: { id: 'copy-of-node-0', name: 'name0' } },
+        <any>{ entry: { id: 'copy-of-node-1', name: 'name1' } }
       ];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.contentCopied.next(<any>createdItems);
+      nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(snackBar.open['calls'].argsFor(0)[0]).toBe(
@@ -176,9 +180,9 @@ describe('ContentManagementService', () => {
       );
 
       const selection = [
-        { entry: { id: 'node-to-copy-0', name: 'name0' } },
-        { entry: { id: 'node-to-copy-1', name: 'name1' } },
-        { entry: { id: 'node-to-copy-2', name: 'name2' } }
+        <any>{ entry: { id: 'node-to-copy-0', name: 'name0' } },
+        <any>{ entry: { id: 'node-to-copy-1', name: 'name1' } },
+        <any>{ entry: { id: 'node-to-copy-2', name: 'name2' } }
       ];
       const createdItems = [];
 
@@ -196,7 +200,7 @@ describe('ContentManagementService', () => {
         of('OPERATION.SUCCES.CONTENT.COPY')
       );
 
-      const selection = [{ entry: { id: 'node-to-copy', name: 'name' } }];
+      const selection = [<any>{ entry: { id: 'node-to-copy', name: 'name' } }];
       const createdItems = [];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -211,7 +215,9 @@ describe('ContentManagementService', () => {
     it('notifies error if success message was not emitted', () => {
       spyOn(nodeActions, 'copyNodes').and.returnValue(of(''));
 
-      const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
+      const selection = [
+        <any>{ entry: { id: 'node-to-copy-id', name: 'name' } }
+      ];
 
       store.dispatch(new CopyNodesAction(selection));
       nodeActions.contentCopied.next();
@@ -227,7 +233,7 @@ describe('ContentManagementService', () => {
         throwError(new Error(JSON.stringify({ error: { statusCode: 403 } })))
       );
 
-      const selection = [{ entry: { id: '1', name: 'name' } }];
+      const selection = [<any>{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new CopyNodesAction(selection));
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
@@ -241,7 +247,7 @@ describe('ContentManagementService', () => {
         throwError(new Error(JSON.stringify({ error: { statusCode: 404 } })))
       );
 
-      const selection = [{ entry: { id: '1', name: 'name' } }];
+      const selection = [<any>{ entry: { id: '1', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
 
@@ -266,7 +272,9 @@ describe('ContentManagementService', () => {
     it('should delete the newly created node on Undo action', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(of(null));
 
-      const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
+      const selection = [
+        <any>{ entry: { id: 'node-to-copy-id', name: 'name' } }
+      ];
       const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
@@ -289,8 +297,8 @@ describe('ContentManagementService', () => {
       );
 
       const selection = [
-        { entry: { id: 'node-to-copy-1', name: 'name1' } },
-        {
+        <any>{ entry: { id: 'node-to-copy-1', name: 'name1' } },
+        <any>{
           entry: {
             id: 'node-to-copy-2',
             name: 'folder-with-name-already-existing-on-destination'
@@ -330,11 +338,13 @@ describe('ContentManagementService', () => {
     it('notifies when error occurs on Undo action', () => {
       spyOn(contentApi, 'deleteNode').and.returnValue(throwError(null));
 
-      const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
-      const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
+      const selection = [
+        <any>{ entry: { id: 'node-to-copy-id', name: 'name' } }
+      ];
+      const createdItems = [<any>{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.contentCopied.next(<any>createdItems);
+      nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(contentApi.deleteNode).toHaveBeenCalled();
@@ -348,11 +358,13 @@ describe('ContentManagementService', () => {
         throwError(new Error('oops!'))
       );
 
-      const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
-      const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
+      const selection = [
+        <any>{ entry: { id: 'node-to-copy-id', name: 'name' } }
+      ];
+      const createdItems = [<any>{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.contentCopied.next(<any>createdItems);
+      nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(contentApi.deleteNode).toHaveBeenCalled();
@@ -366,11 +378,13 @@ describe('ContentManagementService', () => {
         throwError(new Error(JSON.stringify({ error: { statusCode: 403 } })))
       );
 
-      const selection = [{ entry: { id: 'node-to-copy-id', name: 'name' } }];
-      const createdItems = [{ entry: { id: 'copy-id', name: 'name' } }];
+      const selection = [
+        <any>{ entry: { id: 'node-to-copy-id', name: 'name' } }
+      ];
+      const createdItems = [<any>{ entry: { id: 'copy-id', name: 'name' } }];
 
       store.dispatch(new CopyNodesAction(selection));
-      nodeActions.contentCopied.next(<any>createdItems);
+      nodeActions.contentCopied.next(createdItems);
 
       expect(nodeActions.copyNodes).toHaveBeenCalled();
       expect(contentApi.deleteNode).toHaveBeenCalled();
@@ -412,7 +426,7 @@ describe('ContentManagementService', () => {
       );
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
-      const selection = node;
+      const selection: any = node;
       store.dispatch(new MoveNodesAction(selection));
 
       nodeActions.contentMoved.next(moveResponse);
@@ -439,7 +453,7 @@ describe('ContentManagementService', () => {
       );
       spyOn(nodeActions, 'processResponse').and.returnValue(moveResponse);
 
-      const selection = nodes;
+      const selection: any = nodes;
 
       store.dispatch(new MoveNodesAction(selection));
       nodeActions.contentMoved.next(moveResponse);
@@ -451,7 +465,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies partial move of a node', () => {
-      const nodes = [{ entry: { id: '1', name: 'name' } }];
+      const nodes = [<any>{ entry: { id: '1', name: 'name' } }];
       const moveResponse = {
         succeeded: [],
         failed: [],
@@ -476,8 +490,8 @@ describe('ContentManagementService', () => {
 
     it('notifies partial move of multiple nodes', () => {
       const nodes = [
-        { entry: { id: '1', name: 'name' } },
-        { entry: { id: '2', name: 'name2' } }
+        <any>{ entry: { id: '1', name: 'name' } },
+        <any>{ entry: { id: '2', name: 'name2' } }
       ];
       const moveResponse = {
         succeeded: [],
@@ -503,8 +517,8 @@ describe('ContentManagementService', () => {
 
     it('notifies successful move and the number of nodes that could not be moved', () => {
       const nodes = [
-        { entry: { id: '1', name: 'name' } },
-        { entry: { id: '2', name: 'name2' } }
+        <any>{ entry: { id: '1', name: 'name' } },
+        <any>{ entry: { id: '2', name: 'name2' } }
       ];
       const moveResponse = {
         succeeded: [nodes[0]],
@@ -529,8 +543,8 @@ describe('ContentManagementService', () => {
 
     it('notifies successful move and the number of partially moved ones', () => {
       const nodes = [
-        { entry: { id: '1', name: 'name' } },
-        { entry: { id: '2', name: 'name2' } }
+        <any>{ entry: { id: '1', name: 'name' } },
+        <any>{ entry: { id: '2', name: 'name2' } }
       ];
       const moveResponse = {
         succeeded: [nodes[0]],
@@ -553,7 +567,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies error if success message was not emitted', () => {
-      const nodes = [{ entry: { id: 'node-to-move-id', name: 'name' } }];
+      const nodes = [<any>{ entry: { id: 'node-to-move-id', name: 'name' } }];
       const moveResponse = {
         succeeded: [],
         failed: [],
@@ -576,7 +590,7 @@ describe('ContentManagementService', () => {
         throwError(new Error(JSON.stringify({ error: { statusCode: 403 } })))
       );
 
-      const selection = [{ entry: { id: '1', name: 'name' } }];
+      const selection = [<any>{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -590,7 +604,7 @@ describe('ContentManagementService', () => {
         throwError(new Error(JSON.stringify({ error: { statusCode: 404 } })))
       );
 
-      const selection = [{ entry: { id: '1', name: 'name' } }];
+      const selection = [<any>{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -604,7 +618,7 @@ describe('ContentManagementService', () => {
         throwError(new Error(JSON.stringify({ error: { statusCode: 409 } })))
       );
 
-      const selection = [{ entry: { id: '1', name: 'name' } }];
+      const selection = [<any>{ entry: { id: '1', name: 'name' } }];
       store.dispatch(new MoveNodesAction(selection));
 
       expect(nodeActions.moveNodes).toHaveBeenCalled();
@@ -614,7 +628,7 @@ describe('ContentManagementService', () => {
     });
 
     it('notifies error if move response has only failed items', () => {
-      const nodes = [{ entry: { id: '1', name: 'name' } }];
+      const nodes = [<any>{ entry: { id: '1', name: 'name' } }];
       const moveResponse = {
         succeeded: [],
         failed: [{}],
@@ -668,7 +682,7 @@ describe('ContentManagementService', () => {
       const node = {
         entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent }
       };
-      const selection = [node];
+      const selection = [<any>node];
 
       spyOn(nodeActions, 'moveNodeAction').and.returnValue(of({}));
 
@@ -699,7 +713,7 @@ describe('ContentManagementService', () => {
           parentId: initialParent
         }
       };
-      const selection = [node];
+      const selection = [<any>node];
 
       spyOn(nodeActions, 'moveNodeAction').and.returnValue(of({}));
 
@@ -734,7 +748,7 @@ describe('ContentManagementService', () => {
           isFolder: true
         }
       };
-      const selection = [node];
+      const selection = [<any>node];
 
       const itemMoved = {}; // folder was empty
       nodeActions.moveDeletedEntries = [node]; // folder got deleted
@@ -770,7 +784,7 @@ describe('ContentManagementService', () => {
           parentId: initialParent
         }
       };
-      const selection = [node];
+      const selection = [<any>node];
 
       const afterMoveParentId = 'parent-id-1';
       const childMoved = {
@@ -805,7 +819,7 @@ describe('ContentManagementService', () => {
       );
 
       const initialParent = 'parent-id-0';
-      const node = {
+      const node: any = {
         entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent }
       };
       const selection = [node];
@@ -841,7 +855,7 @@ describe('ContentManagementService', () => {
       const node = {
         entry: { id: 'node-to-move-id', name: 'name', parentId: initialParent }
       };
-      const selection = [node];
+      const selection = [<any>node];
 
       const childMoved = {
         entry: { id: 'child-of-node-to-move-id', name: 'child-name' }
@@ -873,7 +887,7 @@ describe('ContentManagementService', () => {
         })
       );
 
-      const selection = [{ entry: { id: '1', name: 'name1' } }];
+      const selection = [<any>{ entry: { id: '1', name: 'name1' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
     }));
@@ -888,7 +902,7 @@ describe('ContentManagementService', () => {
         })
       );
 
-      const selection = [{ entry: { id: '1', name: 'name1' } }];
+      const selection = [<any>{ entry: { id: '1', name: 'name1' } }];
 
       store.dispatch(new DeleteNodesAction(selection));
     }));
@@ -904,8 +918,8 @@ describe('ContentManagementService', () => {
       );
 
       const selection = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } }
+        <any>{ entry: { id: '1', name: 'name1' } },
+        <any>{ entry: { id: '2', name: 'name2' } }
       ];
 
       store.dispatch(new DeleteNodesAction(selection));
@@ -922,8 +936,8 @@ describe('ContentManagementService', () => {
       );
 
       const selection = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } }
+        <any>{ entry: { id: '1', name: 'name1' } },
+        <any>{ entry: { id: '2', name: 'name2' } }
       ];
 
       store.dispatch(new DeleteNodesAction(selection));
@@ -946,8 +960,8 @@ describe('ContentManagementService', () => {
       );
 
       const selection = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } }
+        <any>{ entry: { id: '1', name: 'name1' } },
+        <any>{ entry: { id: '2', name: 'name2' } }
       ];
 
       store.dispatch(new DeleteNodesAction(selection));
@@ -976,9 +990,9 @@ describe('ContentManagementService', () => {
       );
 
       const selection = [
-        { entry: { id: '1', name: 'name1' } },
-        { entry: { id: '2', name: 'name2' } },
-        { entry: { id: '3', name: 'name3' } }
+        <any>{ entry: { id: '1', name: 'name1' } },
+        <any>{ entry: { id: '2', name: 'name2' } },
+        <any>{ entry: { id: '3', name: 'name3' } }
       ];
 
       store.dispatch(new DeleteNodesAction(selection));
@@ -1004,7 +1018,7 @@ describe('ContentManagementService', () => {
     it('call purge nodes if selection is not empty', fakeAsync(() => {
       spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
 
-      const selection = [{ entry: { id: '1' } }];
+      const selection = [<any>{ entry: { id: '1' } }];
       store.dispatch(new PurgeDeletedNodesAction(selection));
 
       expect(contentApi.purgeDeletedNode).toHaveBeenCalled();
@@ -1034,9 +1048,9 @@ describe('ContentManagementService', () => {
         });
 
         const selection = [
-          { entry: { id: '1', name: 'name1' } },
-          { entry: { id: '2', name: 'name2' } },
-          { entry: { id: '3', name: 'name3' } }
+          <any>{ entry: { id: '1', name: 'name1' } },
+          <any>{ entry: { id: '2', name: 'name2' } },
+          <any>{ entry: { id: '3', name: 'name3' } }
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
@@ -1069,10 +1083,10 @@ describe('ContentManagementService', () => {
         });
 
         const selection = [
-          { entry: { id: '1', name: 'name1' } },
-          { entry: { id: '2', name: 'name2' } },
-          { entry: { id: '3', name: 'name3' } },
-          { entry: { id: '4', name: 'name4' } }
+          <any>{ entry: { id: '1', name: 'name1' } },
+          <any>{ entry: { id: '2', name: 'name2' } },
+          <any>{ entry: { id: '3', name: 'name3' } },
+          <any>{ entry: { id: '4', name: 'name4' } }
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
@@ -1088,7 +1102,7 @@ describe('ContentManagementService', () => {
 
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(of({}));
 
-        const selection = [{ entry: { id: '1', name: 'name1' } }];
+        const selection = [<any>{ entry: { id: '1', name: 'name1' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
       }));
@@ -1103,7 +1117,7 @@ describe('ContentManagementService', () => {
 
         spyOn(contentApi, 'purgeDeletedNode').and.returnValue(throwError({}));
 
-        const selection = [{ entry: { id: '1', name: 'name1' } }];
+        const selection = [<any>{ entry: { id: '1', name: 'name1' } }];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
       }));
@@ -1126,8 +1140,8 @@ describe('ContentManagementService', () => {
         });
 
         const selection = [
-          { entry: { id: '1', name: 'name1' } },
-          { entry: { id: '2', name: 'name2' } }
+          <any>{ entry: { id: '1', name: 'name1' } },
+          <any>{ entry: { id: '2', name: 'name2' } }
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
@@ -1151,8 +1165,8 @@ describe('ContentManagementService', () => {
         });
 
         const selection = [
-          { entry: { id: '1', name: 'name1' } },
-          { entry: { id: '2', name: 'name2' } }
+          <any>{ entry: { id: '1', name: 'name1' } },
+          <any>{ entry: { id: '2', name: 'name2' } }
         ];
 
         store.dispatch(new PurgeDeletedNodesAction(selection));
@@ -1173,7 +1187,7 @@ describe('ContentManagementService', () => {
     it('does not restore nodes if selection has nodes without path', () => {
       spyOn(contentApi, 'restoreNode');
 
-      const selection = [{ entry: { id: '1' } }];
+      const selection = [<any>{ entry: { id: '1' } }];
 
       store.dispatch(new RestoreDeletedNodesAction(selection));
 
@@ -1198,7 +1212,7 @@ describe('ContentManagementService', () => {
       };
 
       const selection = [
-        {
+        <any>{
           entry: {
             id: '1',
             path
@@ -1234,7 +1248,7 @@ describe('ContentManagementService', () => {
       };
 
       const selection = [
-        {
+        <any>{
           entry: {
             id: '1',
             path
@@ -1269,7 +1283,7 @@ describe('ContentManagementService', () => {
         };
 
         const selection = [
-          {
+          <any>{
             entry: {
               id: '1',
               path
@@ -1324,9 +1338,9 @@ describe('ContentManagementService', () => {
         };
 
         const selection = [
-          { entry: { id: '1', name: 'name1', path } },
-          { entry: { id: '2', name: 'name2', path } },
-          { entry: { id: '3', name: 'name3', path } }
+          <any>{ entry: { id: '1', name: 'name1', path } },
+          <any>{ entry: { id: '2', name: 'name2', path } },
+          <any>{ entry: { id: '3', name: 'name3', path } }
         ];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
@@ -1350,7 +1364,7 @@ describe('ContentManagementService', () => {
           ]
         };
 
-        const selection = [{ entry: { id: '1', name: 'name1', path } }];
+        const selection = [<any>{ entry: { id: '1', name: 'name1', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
@@ -1374,7 +1388,7 @@ describe('ContentManagementService', () => {
           ]
         };
 
-        const selection = [{ entry: { id: '1', name: 'name1', path } }];
+        const selection = [<any>{ entry: { id: '1', name: 'name1', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
@@ -1398,7 +1412,7 @@ describe('ContentManagementService', () => {
           ]
         };
 
-        const selection = [{ entry: { id: '1', name: 'name1', path } }];
+        const selection = [<any>{ entry: { id: '1', name: 'name1', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
@@ -1429,8 +1443,8 @@ describe('ContentManagementService', () => {
         };
 
         const selection = [
-          { entry: { id: '1', name: 'name1', path } },
-          { entry: { id: '2', name: 'name2', path } }
+          <any>{ entry: { id: '1', name: 'name1', path } },
+          <any>{ entry: { id: '2', name: 'name2', path } }
         ];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
@@ -1453,7 +1467,7 @@ describe('ContentManagementService', () => {
           ]
         };
 
-        const selection = [{ entry: { id: '1', name: 'name1', path } }];
+        const selection = [<any>{ entry: { id: '1', name: 'name1', path } }];
 
         store.dispatch(new RestoreDeletedNodesAction(selection));
       }));
@@ -1476,7 +1490,7 @@ describe('ContentManagementService', () => {
         };
 
         const selection = [
-          {
+          <any>{
             entry: {
               id: '1',
               name: 'name1',
@@ -1492,7 +1506,7 @@ describe('ContentManagementService', () => {
 
   describe('Share Node', () => {
     it('should open dialog for nodes without requesting getNodeInfo', fakeAsync(() => {
-      const node = { entry: { id: '1', name: 'name1' } };
+      const node = <any>{ entry: { id: '1', name: 'name1' } };
       spyOn(contentApi, 'getNodeInfo').and.returnValue(of({}));
       spyOn(dialog, 'open').and.returnValue({
         afterClosed() {
@@ -1507,7 +1521,7 @@ describe('ContentManagementService', () => {
     }));
 
     it('should open dialog with getNodeInfo data when `id` property is missing', fakeAsync(() => {
-      const node = { entry: { nodeId: '1', name: 'name1' } };
+      const node = <any>{ entry: { nodeId: '1', name: 'name1' } };
       spyOn(contentApi, 'getNodeInfo').and.returnValue(of({}));
       spyOn(dialog, 'open').and.returnValue({
         afterClosed() {
@@ -1522,7 +1536,7 @@ describe('ContentManagementService', () => {
     }));
 
     it('should update node selection after dialog is closed', fakeAsync(() => {
-      const node = { entry: { id: '1', name: 'name1' } };
+      const node = <any>{ entry: { id: '1', name: 'name1' } };
       spyOn(store, 'dispatch').and.callThrough();
       spyOn(dialog, 'open').and.returnValue({
         afterClosed() {
@@ -1538,7 +1552,7 @@ describe('ContentManagementService', () => {
     }));
 
     it('should emit event when node is un-shared', fakeAsync(() => {
-      const node = { entry: { id: '1', name: 'name1' } };
+      const node = <any>{ entry: { id: '1', name: 'name1' } };
       spyOn(contentManagementService.linksUnshared, 'next').and.callThrough();
       spyOn(dialog, 'open').and.returnValue({
         afterClosed: () => of(node)

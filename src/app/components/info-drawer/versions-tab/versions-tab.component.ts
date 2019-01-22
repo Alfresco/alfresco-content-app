@@ -24,7 +24,7 @@
  */
 
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
 @Component({
   selector: 'app-versions-tab',
@@ -65,7 +65,7 @@ export class VersionsTabComponent implements OnInit, OnChanges {
   }
 
   private updateState() {
-    if (this.node && this.node.nodeId) {
+    if (this.node && (<any>this.node).nodeId) {
       // workaround for shared files type.
       this.isFileSelected = true;
     } else {

@@ -31,7 +31,7 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states/app.state';
 import { SetSelectedNodesAction } from '../store/actions';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
 @Directive({
   selector: '[acaDocumentList]'

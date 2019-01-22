@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { SiteBody } from 'alfresco-js-api';
+import { SiteBody } from '@alfresco/js-api';
 
 export const DELETE_LIBRARY = 'DELETE_LIBRARY';
 export const CREATE_LIBRARY = 'CREATE_LIBRARY';

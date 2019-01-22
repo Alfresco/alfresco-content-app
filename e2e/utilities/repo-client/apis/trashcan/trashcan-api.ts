@@ -25,8 +25,10 @@
 
 import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
+import { TrashcanApi as AdfTrashcanApi} from '@alfresco/js-api';
 
 export class TrashcanApi extends RepoApi {
+    trashcanApi = new AdfTrashcanApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
@@ -34,12 +36,12 @@ export class TrashcanApi extends RepoApi {
 
     async permanentlyDelete(id: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.purgeDeletedNode(id);
+        return await this.trashcanApi.deleteDeletedNode(id);
     }
 
     async restore(id: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.restoreNode(id);
+        return await this.trashcanApi.restoreDeletedNode(id);
     }
 
     async getDeletedNodes() {
@@ -47,7 +49,7 @@ export class TrashcanApi extends RepoApi {
             maxItems: 1000
         };
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getDeletedNodes(opts);
+        return await this.trashcanApi.listDeletedNodes(opts);
     }
 
     async emptyTrash() {

@@ -83,7 +83,7 @@ describe('InfoDrawerComponent', () => {
 
   it('should set displayNode when node is from personal list', () => {
     spyOn(contentApiService, 'getNodeInfo');
-    const nodeMock = { entry: { id: 'nodeId' } };
+    const nodeMock = <any>{ entry: { id: 'nodeId' } };
     component.node = nodeMock;
 
     fixture.detectChanges();
@@ -109,9 +109,9 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should call getNodeInfo() when node is a shared file', async(() => {
-    const response = { entry: { id: 'nodeId' } };
+    const response = <any>{ entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
-    const nodeMock = { entry: { nodeId: 'nodeId' }, isLibrary: false };
+    const nodeMock = <any>{ entry: { nodeId: 'nodeId' }, isLibrary: false };
     component.node = nodeMock;
 
     fixture.detectChanges();
@@ -122,7 +122,7 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should call getNodeInfo() when node is a favorite file', async(() => {
-    const response = { entry: { id: 'nodeId' } };
+    const response = <any>{ entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
     const nodeMock = <any>{
       entry: { id: 'nodeId', guid: 'guidId' },
@@ -138,7 +138,7 @@ describe('InfoDrawerComponent', () => {
   }));
 
   it('should call getNodeInfo() when node is a recent file', async(() => {
-    const response = { entry: { id: 'nodeId' } };
+    const response = <any>{ entry: { id: 'nodeId' } };
     spyOn(contentApiService, 'getNodeInfo').and.returnValue(of(response));
     const nodeMock = <any>{
       entry: {

@@ -41,8 +41,9 @@ import {
 import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
-  SitePaging
-} from 'alfresco-js-api';
+  SitePaging,
+  Site
+} from '@alfresco/js-api';
 import { ContentApiService } from '../services/content-api.service';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
@@ -217,24 +218,24 @@ export class NodeActionsService {
       contentEntities[0].entry
     );
 
-    const customDropdown: SitePaging = {
+    const customDropdown = new SitePaging({
       list: {
         entries: [
           {
-            entry: {
+            entry: <Site>{
               guid: '-my-',
               title: 'APP.BROWSE.PERSONAL.SIDENAV_LINK.LABEL'
             }
           },
           {
-            entry: {
+            entry: <Site>{
               guid: '-mysites-',
               title: 'APP.BROWSE.LIBRARIES.SIDENAV_LINK.LABEL'
             }
           }
         ]
       }
-    };
+    });
 
     const title = this.getTitleTranslation(action, contentEntities);
 
@@ -340,7 +341,7 @@ export class NodeActionsService {
         }
       }
     } else if (node === null && this.isSitesDestinationAvailable) {
-      node = {
+      node = <any>{
         name: this.translation.instant('APP.BROWSE.LIBRARIES.TITLE'),
         path: { elements: [] }
       };
