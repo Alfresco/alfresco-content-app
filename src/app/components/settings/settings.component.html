@@ -23,20 +23,32 @@
       (ngSubmit)="apply(form.value, form.valid)"
     >
       <div>
-        <mat-form-field class="settings-input">
-          <input
-            matInput
-            formControlName="ecmHost"
-            type="text"
-            tabindex="2"
-            placeholder="ACS Repository URL"
-          />
+        <mat-form-field class="settings-input" appearance="outline">
+          <mat-label>ACS Repository URL</mat-label>
+          <input matInput formControlName="ecmHost" type="text" />
           <mat-error *ngIf="form.get('ecmHost').hasError('pattern')">
             {{ 'APP.SETTINGS.INVALID-VALUE-FORMAT' | translate }}
           </mat-error>
           <mat-error *ngIf="form.get('ecmHost').hasError('required')">
             {{ 'APP.SETTINGS.REQUIRED-FIELD' | translate }}
           </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="settings-input" appearance="outline">
+          <mat-label>Authentication Type</mat-label>
+          <mat-select formControlName="authType">
+            <mat-option value="BASIC">Basic</mat-option>
+            <mat-option value="OAUTH">OAuth (Identity Service)</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field class="settings-input" appearance="outline">
+          <mat-label>Alfresco Identity Service URL</mat-label>
+          <input matInput formControlName="aisHost" type="text" />
         </mat-form-field>
       </div>
 
@@ -70,19 +82,21 @@
     </mat-checkbox>
   </mat-expansion-panel>
 
-  <mat-expansion-panel *ngIf="(profile$ | async)?.isAdmin">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{ 'APP.SETTINGS.EXPERIMENTAL-FEATURES' | translate }}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <div *ngFor="let flag of experimental">
-      <mat-checkbox
-        [(ngModel)]="flag.value"
-        (change)="onToggleExperimentalFeature(flag.key, $event)"
-      >
-        {{ flag.key }}
-      </mat-checkbox>
-    </div>
-  </mat-expansion-panel>
+  <ng-container *ngIf="experimental.length">
+    <mat-expansion-panel *ngIf="(profile$ | async)?.isAdmin">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ 'APP.SETTINGS.EXPERIMENTAL-FEATURES' | translate }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div *ngFor="let flag of experimental">
+        <mat-checkbox
+          [(ngModel)]="flag.value"
+          (change)="onToggleExperimentalFeature(flag.key, $event)"
+        >
+          {{ flag.key }}
+        </mat-checkbox>
+      </div>
+    </mat-expansion-panel>
+  </ng-container>
 </mat-accordion>
