@@ -84,7 +84,7 @@ describe('Special permissions', () => {
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.countRows()).toBe(0, 'Incorrect number of items');
+      expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
     });
 
     it('on Favorites - [C213227]', async () => {
@@ -92,7 +92,7 @@ describe('Special permissions', () => {
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.countRows()).toBe(0, 'Incorrect number of items');
+      expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
     });
 
     it('on Shared Files - [C213116]', async () => {
@@ -100,7 +100,7 @@ describe('Special permissions', () => {
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.countRows()).toBe(0, 'Incorrect number of items');
+      expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
     });
   });
 

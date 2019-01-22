@@ -25,8 +25,10 @@
 
 import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
+import { QueriesApi as AdfQueriesApi } from '@alfresco/js-api';
 
 export class QueriesApi extends RepoApi {
+  queriesApi = new AdfQueriesApi(this.alfrescoJsApi);
 
   constructor(username?, password?) {
       super(username, password);
@@ -39,7 +41,7 @@ export class QueriesApi extends RepoApi {
     };
 
     await this.apiAuth();
-    return this.alfrescoJsApi.core.queriesApi.findSites(searchTerm, data);
+    return this.queriesApi.findSites(searchTerm, data);
   }
 
   async findNodes(searchTerm: string) {

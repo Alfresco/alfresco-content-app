@@ -29,7 +29,7 @@ import {
   ChangeDetectionStrategy,
   Input
 } from '@angular/core';
-import { ModuleInfo } from 'alfresco-js-api';
+import { ModuleInfo } from '@alfresco/js-api';
 
 @Component({
   selector: 'app-module-list',

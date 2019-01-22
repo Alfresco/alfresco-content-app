@@ -24,7 +24,7 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { SiteEntry } from 'alfresco-js-api';
+import { SiteEntry } from '@alfresco/js-api';
 
 @Component({
   selector: 'app-metadata-tab',

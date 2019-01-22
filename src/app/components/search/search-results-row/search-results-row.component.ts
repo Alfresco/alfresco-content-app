@@ -30,7 +30,7 @@ import {
   ViewEncapsulation,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ViewFileAction } from '../../../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';

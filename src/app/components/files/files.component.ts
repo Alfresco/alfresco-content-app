@@ -32,7 +32,7 @@ import {
   MinimalNodeEntryEntity,
   PathElement,
   PathElementEntity
-} from 'alfresco-js-api';
+} from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { AppStore } from '../../store/states/app.state';

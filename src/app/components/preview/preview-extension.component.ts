@@ -35,7 +35,7 @@ import {
   OnChanges
 } from '@angular/core';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
 @Component({
   selector: 'app-preview-extension',

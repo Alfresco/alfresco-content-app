@@ -31,7 +31,7 @@ import {
   OnChanges,
   Output
 } from '@angular/core';
-import { SiteEntry, SiteMembershipRequestBody } from 'alfresco-js-api';
+import { SiteEntry, SiteMembershipRequestBody } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { BehaviorSubject, from } from 'rxjs';
 

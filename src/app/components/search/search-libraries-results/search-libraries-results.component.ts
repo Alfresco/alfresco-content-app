@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { NodePaging, Pagination, SiteEntry } from 'alfresco-js-api';
+import { NodePaging, Pagination, SiteEntry } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PageComponent } from '../../page.component';
 import { Store } from '@ngrx/store';

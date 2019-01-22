@@ -31,7 +31,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { SiteBody, FavoriteBody, FavoriteEntry, Site } from 'alfresco-js-api';
+import { SiteBody, FavoriteBody, FavoriteEntry, Site } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 
 interface LibraryEntity {
@@ -119,7 +119,7 @@ export class LibraryFavoriteDirective implements OnChanges {
   }
 
   private removeFavorite(favoriteId: string) {
-    this.alfrescoApiService.peopleApi
+    this.alfrescoApiService.favoritesApi
       .removeFavoriteSite('-me-', favoriteId)
       .then((libraryBody: SiteBody) => {
         this.targetLibrary.isFavorite = false;

@@ -44,7 +44,6 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
 import { ContentApiService } from '../../services/content-api.service';
-import { SiteBody } from 'alfresco-js-api-node';
 import { SnackbarErrorAction } from '../actions/snackbar.actions';
 
 @Injectable()
@@ -136,7 +135,7 @@ export class LibraryEffects {
             const { id } = selection.library.entry;
             const { title, description, visibility } = action.payload;
 
-            const siteBody = <SiteBody>{
+            const siteBody = {
               title,
               description,
               visibility

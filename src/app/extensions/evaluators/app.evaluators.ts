@@ -178,7 +178,7 @@ export function canDownloadSelection(
   ...args: RuleParameter[]
 ): boolean {
   if (!context.selection.isEmpty) {
-    return context.selection.nodes.every(node => {
+    return context.selection.nodes.every((node: any) => {
       return (
         node.entry &&
         (node.entry.isFile || node.entry.isFolder || !!node.entry.nodeId)

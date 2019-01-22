@@ -56,7 +56,7 @@ export class ViewerEffects {
     ofType<ViewFileAction>(VIEW_FILE),
     map(action => {
       if (action.payload && action.payload.entry) {
-        const { id, nodeId, isFile } = action.payload.entry;
+        const { id, nodeId, isFile } = <any>action.payload.entry;
 
         if (isFile || nodeId) {
           this.displayPreview(nodeId || id, action.parentId);
@@ -67,7 +67,7 @@ export class ViewerEffects {
           .pipe(take(1))
           .subscribe(result => {
             if (result.selection && result.selection.file) {
-              const { id, nodeId, isFile } = result.selection.file.entry;
+              const { id, nodeId, isFile } = <any>result.selection.file.entry;
 
               if (isFile || nodeId) {
                 const parentId = result.folder ? result.folder.id : null;

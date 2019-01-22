@@ -25,8 +25,10 @@
 
 import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
+import { SearchApi as AdfSearchApi } from '@alfresco/js-api';
 
 export class SearchApi extends RepoApi {
+    searchApi = new AdfSearchApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
@@ -46,7 +48,7 @@ export class SearchApi extends RepoApi {
         };
 
         await this.apiAuth();
-        return this.alfrescoJsApi.search.searchApi.search(data);
+        return this.searchApi.search(data);
     }
 
     async queryNodesNames(searchTerm: string) {
@@ -61,7 +63,7 @@ export class SearchApi extends RepoApi {
       };
 
       await this.apiAuth();
-      return this.alfrescoJsApi.search.searchApi.search(data);
+      return this.searchApi.search(data);
     }
 
     async queryNodesExactNames(searchTerm: string) {
@@ -76,7 +78,7 @@ export class SearchApi extends RepoApi {
       };
 
       await this.apiAuth();
-      return this.alfrescoJsApi.search.searchApi.search(data);
+      return this.searchApi.search(data);
     }
 
     async waitForApi(username, data) {

@@ -30,7 +30,7 @@ import {
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { ContentApiService } from '../../../services/content-api.service';
 import { SnackbarErrorAction } from '../../../store/actions/snackbar.actions';
 import { AppStore } from '../../../store/states/app.state';

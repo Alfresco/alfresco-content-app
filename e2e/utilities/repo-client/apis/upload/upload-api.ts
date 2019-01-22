@@ -25,10 +25,12 @@
 
 import { RepoApi } from '../repo-api';
 import { E2E_ROOT_PATH } from '../../../../configs';
+import { UploadApi as AdfUploadApi } from '@alfresco/js-api';
 
 const fs = require('fs');
 
 export class UploadApi extends RepoApi {
+    upload = new AdfUploadApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
@@ -42,7 +44,7 @@ export class UploadApi extends RepoApi {
         };
 
         await this.apiAuth();
-        return await this.alfrescoJsApi.upload.uploadFile(file, '', parentFolderId, null, opts);
+        return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
     }
 
     async uploadFileWithRename(fileName: string, parentFolderId: string = '-my-', newName: string) {
@@ -53,7 +55,7 @@ export class UploadApi extends RepoApi {
       };
 
       await this.apiAuth();
-      return await this.alfrescoJsApi.upload.uploadFile(file, '', parentFolderId, null, opts);
+      return await this.upload.uploadFile(file, '', parentFolderId, null, opts);
   }
 
 }

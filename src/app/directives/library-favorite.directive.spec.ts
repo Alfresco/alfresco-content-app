@@ -123,7 +123,7 @@ describe('LibraryFavoriteDirective', () => {
 
   it('should call removeFavoriteSite() on click event when selection is not a favorite', async(() => {
     spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
-    spyOn(api.peopleApi, 'removeFavoriteSite').and.returnValue(
+    spyOn(api.favoritesApi, 'removeFavoriteSite').and.returnValue(
       Promise.resolve()
     );
     component.selection = selection;
@@ -138,7 +138,7 @@ describe('LibraryFavoriteDirective', () => {
 
       fixture.detectChanges();
 
-      expect(api.peopleApi.removeFavoriteSite).toHaveBeenCalled();
+      expect(api.favoritesApi.removeFavoriteSite).toHaveBeenCalled();
     });
   }));
 });

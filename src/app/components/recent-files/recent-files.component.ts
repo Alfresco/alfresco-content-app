@@ -25,7 +25,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';

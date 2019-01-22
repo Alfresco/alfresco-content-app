@@ -189,7 +189,7 @@ function updateSelectedNodes(
     last = nodes[nodes.length - 1];
 
     if (nodes.length === 1) {
-      file = nodes.find(entity => {
+      file = nodes.find((entity: any) => {
         // workaround Shared
         return entity.entry.isFile || entity.entry.nodeId ? true : false;
       });
@@ -197,7 +197,9 @@ function updateSelectedNodes(
     }
   }
 
-  const libraries = [...action.payload].filter((node: any) => node.isLibrary);
+  const libraries: any[] = [...action.payload].filter(
+    (node: any) => node.isLibrary
+  );
   if (libraries.length === 1) {
     library = libraries[0];
   }

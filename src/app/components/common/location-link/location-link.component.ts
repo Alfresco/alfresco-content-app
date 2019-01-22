@@ -31,7 +31,7 @@ import {
   ViewEncapsulation,
   HostListener
 } from '@angular/core';
-import { PathInfo, MinimalNodeEntity } from 'alfresco-js-api';
+import { PathInfo, MinimalNodeEntity } from '@alfresco/js-api';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 
 import { Store } from '@ngrx/store';
