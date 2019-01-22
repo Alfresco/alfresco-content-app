@@ -119,7 +119,7 @@ export class LibraryFavoriteDirective implements OnChanges {
   }
 
   private removeFavorite(favoriteId: string) {
-    this.alfrescoApiService.peopleApi
+    this.alfrescoApiService.favoritesApi
       .removeFavoriteSite('-me-', favoriteId)
       .then((libraryBody: SiteBody) => {
         this.targetLibrary.isFavorite = false;
