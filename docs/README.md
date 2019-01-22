@@ -1,3 +1,8 @@
+---
+Title: Alfresco Content Application
+Github only: true
+---
+
 # Alfresco Content Application
 
 <!-- markdownlint-disable MD033 -->
