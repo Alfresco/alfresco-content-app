@@ -73,10 +73,7 @@ If you run the application from a different server than the Content Services ser
 }
 ```
 
-<p class="warning">
-If you run the application as part of Tomcat and not in the root (subfolder), then "baseShareUrl" value should contain full address to the app, for example: "baseShareUrl": "http://{serveraddress}{:port}/{folder}".
-</p>
-
+**Note:** If you run the application as part of Tomcat and not in the root (subfolder), then "baseShareUrl" value should contain full address to the app, for example: "baseShareUrl": "http://{serveraddress}{:port}/{folder}".
 
 ## Application settings
 
@@ -149,9 +146,7 @@ By default, the application ships with the following rules already predefined:
 }
 ```
 
-<p class="tip">
-You can get more details on the supported rules in the following article: <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/upload.service.md" target="_blank">Upload Service</a>.
-</p>
+**Tip:** You can find more details on the supported rules in the ADF [Upload Service](https://www.alfresco.com/abn/adf/docs/core/upload.service/) docs.
 
 ### Pagination settings
 
@@ -175,6 +170,5 @@ You can change the default settings of the pagination that gets applied to all t
 
 You can store any information in the application configuration file, and access it at runtime by using the `AppConfigService` service provided by ADF.
 
-<p class="tip">
-Please refer to the <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/app-config.service.md" target="_blank">AppConfigService</a> documentation to get more details on Application Configuration features and API's available.
-</p>
+**Tip:** Please refer to the ADF
+[App Config Service](https://www.alfresco.com/abn/adf/docs/core/app-config.service/) documentation to get more details on the Application Configuration features and APIs available.

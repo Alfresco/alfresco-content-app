@@ -4,16 +4,16 @@ Title: Search Results
 
 # Search Results
 
-Once you type the text in the Search Input component you are going to see the Search Results page
+When you type text in the Search Input component, you will see the Search Results page.
 
 ![Search Results](../images/aca-search-results.png)
 
 This page consists of the following ADF components:
 
-- [Search Filter](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/content-services/search-filter.component.md)
-- [Search Chip List](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/content-services/search-chip-list.component.md)
-- [Search Sorting Picker](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/content-services/search-sorting-picker.component.md)
-- [Document List](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/content-services/document-list.component.md) with custom layout template
+- [Search Filter](https://www.alfresco.com/abn/adf/docs/content-services/search-filter.component/)
+- [Search Chip List](https://www.alfresco.com/abn/adf/docs/content-services/search-chip-list.component/)
+- [Search Sorting Picker](https://www.alfresco.com/abn/adf/docs/content-services/search-sorting-picker.component/)
+- [Document List](https://www.alfresco.com/abn/adf/docs/content-services/document-list.component/) with custom layout template
 - [Info Drawer](/features/info-drawer) with Metadata and [Version Management](#version-manager)
 - [Toolbar with basic actions](/features/document-list-layout#actions-and-the-actions-toolbar) like `Preview`, `Download`, `Favorite`, `Copy`, etc.
 

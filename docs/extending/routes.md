@@ -38,10 +38,8 @@ Use the `app.layout.main` value for the `layout` property to get the default app
 with header, navigation sidebar and main content area.
 You can register any component to back the `app.layout.main` value.
 
-<p class="tip">
-By default, the `app.layout.main` is used if you do not specify any custom values.
+**Tip:** By default, the `app.layout.main` is used if you do not specify any custom values.
 Use `blank` if you want your route component take the whole page.
-</p>
 
 You can define the full route schema like in the next example:
 

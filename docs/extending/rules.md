@@ -4,8 +4,7 @@ Title: Rules
 
 # Rules
 
-Rules allow evaluating conditions for extension components.
-For example, you can disable or hide elements based on certain rules.
+Rules allow you to evaluate conditions for extension components, so you can disable or hide elements based on certain rules, for example.
 
 Every rule is backed by a condition evaluator.
 
@@ -47,10 +46,8 @@ Rules can accept other rules as parameters:
 }
 ```
 
-<p class="tip">
-You can also negate any rule by utilizing a `!` prefix:
+**Tip:** You can also negate any rule by utilizing a `!` prefix:
 `!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
-</p>
 
 It is also possible to use inline references to registered evaluators without declaring rules,
 in case you do not need providing extra parameters, or chaining multiple rules together.
@@ -160,10 +157,8 @@ The application exposes a set of navigation-related evaluators to help developer
 The negated evaluators are provided just to simplify development, and to avoid having complex rule trees just to negate the rules,
 for example mixing `core.every` and `core.not`.
 
-<p class="tip">
-You can also negate any rule by utilizing a `!` prefix:
+**Tip:** You can also negate any rule by utilizing a `!` prefix:
 `!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
-</p>
 
 | Key                               | Description                                             |
 | --------------------------------- | ------------------------------------------------------- |
@@ -182,10 +177,8 @@ You can also negate any rule by utilizing a `!` prefix:
 | app.navigation.isSearchResults    | User is using the **Search Results** page.              |
 | app.navigation.isNotSearchResults | Current page is not the **Search Results**.             |
 
-<p class="tip">
-See [Registration](/extending/registration) section for more details
+**Tip:** See the [Registration](/extending/registration) section for more details
 on how to register your own entries to be re-used at runtime.
-</p>
 
 ### Example
 

@@ -122,10 +122,8 @@ Update the root `package.json` file and append the following entry to the `scrip
 
 You can now use that script to build the library and copy assets to the output folder.
 
-<p class="tip">
-It is good practice to provide installation instructions for your library in the `README.md` file.
+**Tip:** It is good practice to provide installation instructions for your library in the `README.md` file.
 Be sure to mention that developers should have a build rule to copy your plugin definition file to the `assets/plugins` folder of the main application.
-</p>
 
 ## Publishing library to NPM
 
@@ -156,9 +154,7 @@ npm install my-extension
 
 This installs the library and all its dependencies.
 
-<p class="warning">
-You do not need to install the library in the original workspace as the application is already configured to use the local version from the `dist` folder.
-</p>
+**Note:** You do not need to install the library in the original workspace as the application is already configured to use the local version from the `dist` folder.
 
 ### Copy assets
 
@@ -223,6 +219,4 @@ npm start
 
 Click the `My Extension` link and in the main content area you will see the extension component coming from your library.
 
-<p class="warning">
-Depending on the application setup, you may need enabling external plugins via the `Settings` dialog available for `admin` users (clicking the application profile button).
-</p>
+**Note:** Depending on the application setup, you may need enabling external plugins via the `Settings` dialog available for `admin` users (clicking the application profile button).

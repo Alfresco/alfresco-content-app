@@ -4,7 +4,7 @@ Title: Version Manager
 
 # Version Manager
 
-The versions of a file can be viewed and managed by using the [VersionManagerComponent](https://alfresco.github.io/adf-component-catalog/components/VersionManagerComponent.html).
+The versions of a file can be viewed and managed by using the [Version Manager Component](https://www.alfresco.com/abn/adf/content-services/version-manager.component/).
 
 There are 2 ways users can access the Version Manager:
 
@@ -21,7 +21,7 @@ There are 2 ways users can access the Version Manager:
 
 A new version for the selected file can be added by using this button. Users can upload a new file version using a file that is does not have the same name, or mime type as the current version, whilst allowing the user to choose the type of version (minor or major) and inputting supporting comments.
 
-Please also check the [UploadVersionButtonComponent](https://alfresco.github.io/adf-component-catalog/components/UploadVersionButtonComponent.html).
+Please also check the [UploadVersionButtonComponent](https://www.alfresco.com/abn/adf/content-services/upload-version-button.component/).
 
 ## Actions Menu
 
@@ -40,4 +40,4 @@ In the app.config.json file, these are the current settings for the ACA version 
 
 Set the allowComments to false if the version comments should not be displayed on the version list.
 
-Clicking to delete a version of a file triggers a confirmation dialog. Please see the [ConfirmDialogComponent](https://alfresco.github.io/adf-component-catalog/components/ConfirmDialogComponent.html) for more info.
+Clicking to delete a version of a file triggers a confirmation dialog. Please see the [Confirm Dialog Component](https://github.com/Alfresco/alfresco-ng2-components/blob/development/lib/content-services/dialogs/confirm.dialog.ts) for more info.

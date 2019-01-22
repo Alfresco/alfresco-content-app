@@ -42,10 +42,8 @@ export class MyExtensionModule {
 }
 ```
 
-<p class="warning">
-According to Angular rules, all components that are created dynamically at runtime
+**Note:** According to Angular rules, all components that are created dynamically at runtime
 need to be registered within the `entryComponents` section of the NgModule.
-</p>
 
 The Registration API is not limited to the custom content only.
 You can replace any existing entries by replacing the values from your module.
