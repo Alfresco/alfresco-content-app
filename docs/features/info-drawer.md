@@ -14,7 +14,7 @@ Currently, there are 2 tabs available: Properties and Versions.
 
 The Properties tab displays the node's metadata info by using the [Content Metadata Card Component](https://www.alfresco.com/abn/adf/core/content-metadata-card.component/).
 
-![](images/content-metadata.png)
+![](../images/content-metadata.png)
 
 For more information, please check also the [Content Metadata Component](https://www.alfresco.com/abn/adf/core/content-metadata.component/).
 
