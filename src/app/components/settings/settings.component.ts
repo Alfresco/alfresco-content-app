@@ -24,7 +24,11 @@
  */
 
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-import { AppConfigService, StorageService } from '@alfresco/adf-core';
+import {
+  AppConfigService,
+  StorageService,
+  OauthConfigModel
+} from '@alfresco/adf-core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -38,6 +42,12 @@ import {
 import { MatCheckboxChange } from '@angular/material';
 import { SetLanguagePickerAction } from '../../store/actions';
 import { ProfileState } from '@alfresco/adf-extensions';
+
+interface RepositoryConfig {
+  ecmHost: string;
+  authType: string;
+  aisHost: string;
+}
 
 @Component({
   selector: 'aca-settings',
@@ -77,7 +87,12 @@ export class SettingsComponent implements OnInit {
       ecmHost: [
         '',
         [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]
-      ]
+      ],
+      aisHost: [
+        '',
+        [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]
+      ],
+      authType: ['']
     });
 
     this.reset();
@@ -92,17 +107,34 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  apply(model: any, isValid: boolean) {
+  apply(model: RepositoryConfig, isValid: boolean) {
     if (isValid) {
       this.storage.setItem('ecmHost', model.ecmHost);
+      this.storage.setItem('authType', model.authType);
+
+      const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>(
+        'oauth2',
+        null
+      );
+      config.host = model.aisHost;
+      this.storage.setItem('oauth2', JSON.stringify(config));
+
       // window.location.reload(true);
     }
   }
 
   reset() {
-    this.form.reset({
+    const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>(
+      'oauth2',
+      null
+    );
+
+    this.form.reset(<RepositoryConfig>{
       ecmHost:
-        this.storage.getItem('ecmHost') || this.appConfig.get<string>('ecmHost')
+        this.storage.getItem('ecmHost') ||
+        this.appConfig.get<string>('ecmHost'),
+      aisHost: config.host,
+      authType: this.appConfig.get<string>('authType')
     });
   }
 
