@@ -25,7 +25,7 @@
 
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
-import { SitePaging } from 'alfresco-js-api';
+import { SitePaging } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 
 @Injectable({

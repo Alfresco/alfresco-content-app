@@ -31,7 +31,7 @@ import { map, take } from 'rxjs/operators';
 import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
 import { NodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
@@ -66,7 +66,7 @@ export class DownloadEffects {
 
   private downloadNodes(toDownload: Array<MinimalNodeEntity>) {
     const nodes = toDownload.map(node => {
-      const { id, nodeId, name, isFile, isFolder } = node.entry;
+      const { id, nodeId, name, isFile, isFolder } = <any>node.entry;
 
       return {
         id: nodeId || id,

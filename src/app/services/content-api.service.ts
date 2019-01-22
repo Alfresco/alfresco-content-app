@@ -41,7 +41,7 @@ import {
   SiteBody,
   SiteEntry,
   FavoriteBody
-} from 'alfresco-js-api';
+} from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -81,13 +81,13 @@ export class ContentApiService {
     return from(this.api.nodesApi.getNode(nodeId, queryOptions));
   }
 
-  getNodeInfo(nodeId: string, options: any = {}): Observable<Node> {
+  getNodeInfo(nodeId: string, options?: any): Observable<Node> {
     const defaults = {
       include: ['isFavorite', 'allowableOperations']
     };
-    const queryOptions = Object.assign(defaults, options);
+    const queryOptions = Object.assign(defaults, options || {});
 
-    return from(this.api.nodesApi.getNodeInfo(nodeId, queryOptions));
+    return from((<any>this.api.nodesApi).getNodeInfo(nodeId, queryOptions));
   }
 
   /**
@@ -254,7 +254,7 @@ export class ContentApiService {
 
   addFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
     const payload: FavoriteBody[] = nodes.map(node => {
-      const { isFolder, nodeId, id } = node.entry;
+      const { isFolder, nodeId, id } = <any>node.entry;
       const siteId = node.entry['guid'];
       const type = siteId ? 'site' : isFolder ? 'folder' : 'file';
       const guid = siteId || nodeId || id;
@@ -274,7 +274,7 @@ export class ContentApiService {
   removeFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
     return from(
       Promise.all(
-        nodes.map(node => {
+        nodes.map((node: any) => {
           const id = node.entry.nodeId || node.entry.id;
           return this.api.favoritesApi.removeFavoriteSite('-me-', id);
         })

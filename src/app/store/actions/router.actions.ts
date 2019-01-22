@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 
 export const NAVIGATE_URL = 'NAVIGATE_URL';
 export const NAVIGATE_ROUTE = 'NAVIGATE_ROUTE';

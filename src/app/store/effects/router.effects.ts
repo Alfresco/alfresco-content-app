@@ -26,7 +26,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { MinimalNodeEntryEntity, PathInfoEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity, PathInfoEntity } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 import {
   NavigateRouteAction,

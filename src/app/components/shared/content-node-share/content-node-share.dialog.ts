@@ -36,7 +36,7 @@ import {
   distinctUntilChanged
 } from 'rxjs/operators';
 import { SharedLinksApiService, NodesApiService } from '@alfresco/adf-core';
-import { SharedLinkEntry, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { SharedLinkEntry, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
 import * as moment from 'moment';
 

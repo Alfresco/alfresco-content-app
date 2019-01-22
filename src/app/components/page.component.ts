@@ -30,7 +30,7 @@ import {
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '../extensions/extension.service';

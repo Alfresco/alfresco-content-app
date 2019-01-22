@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
+import { NodePaging, Pagination, MinimalNodeEntity } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   SearchQueryBuilderService,
