@@ -92,7 +92,7 @@ exports.config = {
 
   plugins: [{
     package: 'protractor-screenshoter-plugin',
-    screenshotPath: `${projectRoot}/e2e-output/screenshots`,
+    screenshotPath: `${projectRoot}/e2e-output/report`,
     screenshotOnExpect: 'failure+success',
     screenshotOnSpec: 'none',
     withLogs: true,
