@@ -30,10 +30,8 @@ The Content App provides a proxy configuration for a local development server th
 
 You can find settings in the "proxy.conf.js" file in the project root directory.
 
-<p class="warning">
-The proxy settings get automatically applied every time you run the application with the "npm start" script.
+**Note:** The proxy settings get automatically applied every time you run the application with the "npm start" script.
 You must restart the application every time you change its settings.
-</p>
 
 ## Running unit tests
 

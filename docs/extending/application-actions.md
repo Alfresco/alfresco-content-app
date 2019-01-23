@@ -4,8 +4,10 @@ Title: Application Actions
 
 # Application Actions
 
-Application is using NgRx (Reactive libraries for Angular, inspired by Redux).
-To get more information on NxRx please refer to the following resources:
+The app uses **NgRx** (Reactive libraries for Angular, inspired by Redux)
+to implement application actions.
+
+For more information on NgRx, please refer to the following resources:
 
 - [Comprehensive Introduction to @ngrx/store](https://gist.github.com/btroncone/a6e4347326749f938510)
 
@@ -41,10 +43,8 @@ export class MyService {
 
 You can invoke every application action from the extensions, i.e. buttons, menus, etc.
 
-<p class="tip">
-Many of the actions take currently selected nodes if no payload provided.
+**Tip:** Many of the actions take currently selected nodes if no payload provided.
 That simplifies declaring and invoking actions from the extension files.
-</p>
 
 In the example below, we create a new entry to the "NEW" menu dropdown
 and provide a new `Create Folder (plugin1)` command that invokes the `CREATE_FOLDER` application action.

@@ -117,9 +117,7 @@ You can populate the menu with an extra entries like in the example below:
 
 Please refer to the [Content Actions](/extending/application-features#content-actions) section for more details on supported properties.
 
-<p class="tip">
-It is also possible to update or disable existing entries from within the external extension files. You will need to know the `id` of the target element to customize.
-</p>
+**Tip:** It is also possible to update or disable existing entries from within the external extension files. You will need to know the `id` of the target element to customize.
 
 ## Navigation Bar
 
@@ -235,10 +233,8 @@ The example above renders two tabs:
 
 All corresponding components must be registered for runtime use.
 
-<p class="tip">
-See the [Registration](/extending/registration) section for more details
+**Tip:** See the [Registration](/extending/registration) section for more details
 on how to register your own entries to be re-used at runtime.
-</p>
 
 ### Tab properties
 
@@ -537,7 +533,7 @@ As with other content actions, custom plugins can disable, update or extend `Ope
 
 ## Content metadata presets
 
-The content metadata presets are needed by the [Content Metadata Component](https://alfresco.github.io/adf-component-catalog/components/ContentMetadataComponent.html#readme) to render the properties of metadata aspects for a given node.
+The content metadata presets are needed by the [Content Metadata Component](https://www.alfresco.com/abn/adf/docs/content-services/content-metadata-card.component/) to render the properties of metadata aspects for a given node.
 The different aspects and their properties are configured in the `app.config.json` file, but they can also be set on runtime through extension files.
 
 Configuring these presets from `app.extensions.json` will overwrite the default application setting.
@@ -547,9 +543,7 @@ Check out more info about merging extensions [here](/extending/extension-format#
 The `content-metadata-presets` elements can be switched off by setting the `disabled` property.
 This can be applied also for nested items, allowing disabling down to aspect level.
 
-<p class="tip">
-In order to modify or disable existing entries, you need to know the id of the target element, along with its parents ids.
-</p>
+**Tip:** In order to modify or disable existing entries, you need to know the id of the target element, along with its parents ids.
 
 Your extensions can perform the following actions at runtime:
 
@@ -642,7 +636,5 @@ Here is the initial setting from `app.extension.json`:
 
 ```
 
-<p class="tip">
-In order to allow the content-metadata presets to be extended, the settings from `app.config.json` must be copied to the `app.extensions.json` file and its ids must be added to all the items.
+**Tip:** In order to allow the content-metadata presets to be extended, the settings from `app.config.json` must be copied to the `app.extensions.json` file and its ids must be added to all the items.
 Having ids allows external plugins to extend the current setting.
-</p>

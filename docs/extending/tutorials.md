@@ -4,6 +4,8 @@ Title: Tutorials
 
 # Tutorials
 
+Below are some short tutorials that cover common tasks.
+
 ## Custom route with parameters
 
 In this tutorial, we are going to implement the following features:

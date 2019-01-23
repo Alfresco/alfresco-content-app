@@ -25,11 +25,9 @@ The format is represented by a JSON file with the structure similar to the follo
 
 ## Schema
 
-You can find the JSON schema at the project root folder: [extension.schema.json](https://github.com/Alfresco/alfresco-content-app/blob/master/extension.schema.json).
+You can find the JSON schema at the project root folder: [extension.schema.json](../../extension.schema.json).
 
-<p class="tip">
-The Schema allows you to validate extension files, provides code completion and documentation hints.
-</p>
+**Tip:** The Schema allows you to validate extension files, provides code completion and documentation hints.
 
 ```json
 {
@@ -54,10 +52,8 @@ The order of declaration defines the order of loading.
 }
 ```
 
-<p class="warning">
-All extension files are merged together at runtime.
+**Note:** All extension files are merged together at runtime.
 This allows plugins to overwrite the code from the main application or to alter other plugins.
-</p>
 
 ## Startup behavior
 
@@ -69,10 +65,8 @@ For the sake of speed the files are loaded in parallel, however once everything 
 
 After all the external files are fetched, the `Loader` sorts them, removes the metadata properties and stacks the resulting JSON objects on top of each other.
 
-<p class="tip">
-Any top-level property name that starts with the `$` symbol is considered metadata and does not participate in the merge process.
+**Tip:** Any top-level property name that starts with the `$` symbol is considered metadata and does not participate in the merge process.
 That allows a plugin to carry extra information for maintenance and visualisation purposes, for example: `$name`, `$version`, `$description`, `$license`, etc.
-</p>
 
 ### Merging properties
 
@@ -112,10 +106,8 @@ Final result:
 Note that as a result we have two unique properties `plugin1.key` and `plugin2.key`,
 and also a `plugin1.text` that was first defined in the `Plugin 1`, but then overwritten by the `Plugin 2`.
 
-<p class="tip">
-JSON merging is a very powerful concept as it gives you the ability to alter any base application settings,
+**Tip:** JSON merging is a very powerful concept as it gives you the ability to alter any base application settings,
 or toggle features in other plugins without rebuilding the application or corresponding plugin libraries.
-</p>
 
 ### Merging objects
 
@@ -216,9 +208,7 @@ You can find more details in the [Disabling Content](/extending/extension-format
 The extension `Loader` provides a special support for merging Arrays.
 By default, two collections will be merged into a single array unless objects have `id` properties.
 
-<p class="tip">
-If array contains two objects with the same `id` property, the objects will be merged rather than appended.
-</p>
+**Tip:** If the array contains two objects with the same `id` property, the objects will be merged rather than appended.
 
 Before: Plugin 1
 

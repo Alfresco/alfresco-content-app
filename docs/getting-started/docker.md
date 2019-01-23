@@ -4,7 +4,8 @@ Title: Docker
 
 # Docker
 
-The ACA comes with the ACS 6.0 Community Edition preconfigured.
+ACA comes with the ACS 6.0 Community Edition preconfigured.
+
 The application runs in two modes:
 
 - Development (runs latest source code, requires building application)
@@ -29,9 +30,7 @@ npm run stop:docker
 
 ## Preview Mode
 
-<p class="tip">
-With this mode, you do not need building application from source code or installing dependencies.
-</p>
+**Tip:** With this mode, you do not need building application from source code or installing dependencies.
 
 To run the latest published container go to the `docker-compose` folder and start docker compose from there:
 

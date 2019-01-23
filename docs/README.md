@@ -8,7 +8,7 @@ Github only: true
 <!-- markdownlint-disable MD033 -->
 
 The Alfresco Content Application a file management application built using
-[Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components and was generated with [Angular CLI](https://github.com/angular/angular-cli).
+[Alfresco Application Development Framework (ADF)](https://www.alfresco.com/abn/adf/docs) components and was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
 ## Documentation
 
