@@ -79,25 +79,16 @@ exports.config = {
     print: function () {}
   },
 
-  // plugins: [{
-  //   package: 'jasmine2-protractor-utils',
-  //   disableHTMLReport: false,
-  //   disableScreenshot: false,
-  //   screenshotOnExpectFailure: true,
-  //   screenshotOnSpecFailure: false,
-  //   clearFoldersBeforeTest: true,
-  //   htmlReportDir: `${projectRoot}/e2e-output/html-report/`,
-  //   screenshotPath: `${projectRoot}/e2e-output/screenshots/`
-  // }],
-
   plugins: [{
     package: 'protractor-screenshoter-plugin',
     screenshotPath: `${projectRoot}/e2e-output/report`,
-    screenshotOnExpect: 'failure+success',
+    screenshotOnExpect: 'failure',
     screenshotOnSpec: 'none',
     withLogs: true,
-    writeReportFreq: 'asap',
+    writeReportFreq: 'end',
     imageToAscii: 'none',
+    htmlOnExpect: 'none',
+    htmlOnSpec: 'none',
     clearFoldersBeforeTest: true
   }],
 
