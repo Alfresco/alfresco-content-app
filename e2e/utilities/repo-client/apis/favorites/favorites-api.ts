@@ -96,7 +96,7 @@ export class FavoritesApi extends RepoApi {
       let isFavorite;
       try {
         const favorite = async () => {
-          isFavorite = JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
+          isFavorite = await this.isFavorite(nodeId);
           if ( isFavorite !== data.expect ) {
             return Promise.reject(isFavorite);
           } else {
@@ -104,7 +104,7 @@ export class FavoritesApi extends RepoApi {
           }
         };
 
-        return await Utils.retryCall(favorite);
+        return await Utils.retryCall(favorite, data.delay);
       } catch (error) {
         console.log('-----> catch isFavoriteWithRetry: ', error);
       }
