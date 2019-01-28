@@ -37,8 +37,6 @@ describe('Page titles', () => {
   const file = `file-${Utils.random()}.txt`; let fileId;
   const { searchInput } = page.header;
 
-  xit('');
-
   describe('on Login / Logout pages', () => {
     it('on Login page - [C217155]', async () => {
       await loginPage.load();

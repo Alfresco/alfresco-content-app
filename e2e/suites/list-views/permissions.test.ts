@@ -41,8 +41,6 @@ describe('Special permissions', () => {
   const page = new BrowsingPage();
   const { dataTable } = page;
 
-  xit('');
-
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
     done();

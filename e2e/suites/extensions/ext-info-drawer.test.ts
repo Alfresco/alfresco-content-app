@@ -157,6 +157,4 @@ describe('Extensions - Info Drawer', () => {
         });
     });
 
-    xit('');
-
 });

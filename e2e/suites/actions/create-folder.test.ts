@@ -263,5 +263,4 @@ describe('Create folder', () => {
     });
   });
 
-  xit('');
 });

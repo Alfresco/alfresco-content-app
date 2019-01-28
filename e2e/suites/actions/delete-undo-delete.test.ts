@@ -49,8 +49,6 @@ describe('Delete and undo delete', () => {
     done();
   });
 
-  xit('');
-
   describe('on Personal Files', () => {
     const file1 = `file1-${Utils.random()}.txt`;
     const file2 = `file2-${Utils.random()}.txt`;

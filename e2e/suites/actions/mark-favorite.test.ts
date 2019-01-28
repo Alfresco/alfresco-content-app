@@ -89,8 +89,6 @@ describe('Mark items as favorites', () => {
     done();
   });
 
-  xit('');
-
   describe('on Personal Files', () => {
     afterAll(async (done) => {
       await apis.user.favorites.addFavoritesByIds('file', [ fileFavUIId, fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id ]);

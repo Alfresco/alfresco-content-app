@@ -103,8 +103,6 @@ describe('Extensions - Viewer', () => {
         done();
     });
 
-    xit('');
-
     describe('content', () => {
         it('Insert new component in a content viewer - [C284659]', async () => {
             await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
