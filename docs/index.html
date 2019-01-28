@@ -1,54 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  <title>Alfresco Content App</title>
-  <link rel="stylesheet" href="https://unpkg.com/docute@3/dist/docute.css">
-  <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
-</head>
-<body>
-  <div id="app"></div>
-  <script src="https://unpkg.com/docute@3/dist/docute.js"></script>
-  <script src="https://unpkg.com/prismjs/components/prism-typescript.js"></script>
-  <script>
-    docute.init({
-        toc: "toc.md",
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+    />
+    <title>Alfresco Content App</title>
+    <link rel="stylesheet" href="https://unpkg.com/docute@3/dist/docute.css" />
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/docute@3/dist/docute.js"></script>
+    <script src="https://unpkg.com/prismjs/components/prism-typescript.js"></script>
+    <script>
+      docute.init({
+        toc: 'toc.md',
         nav: [
-            {
-                title: 'Home',
-                path: '/'
-            },
-            {
-                title: 'App features',
-                path: '/features/'
-            },
-            {
-                title: 'Getting Started',
-                path: '/getting-started/'
-            },
-            {
-                title: 'Extending',
-                path: '/extending/'
-            },
-            {
-                title: 'Tutorials',
-                path: '/tutorials/'
-            },
-            {
-                title: 'Get Help',
-                path: '/help'
-            }
+          {
+            title: 'Home',
+            path: '/'
+          },
+          {
+            title: 'App features',
+            path: '/features/'
+          },
+          {
+            title: 'Getting Started',
+            path: '/getting-started/'
+          },
+          {
+            title: 'Extending',
+            path: '/extending/'
+          },
+          {
+            title: 'Tutorials',
+            path: '/tutorials/'
+          },
+          {
+            title: 'Get Help',
+            path: '/help'
+          }
         ],
         icons: [
-            {
-                icon: 'github',
-                label: 'Contribute on GitHub',
-                link: 'https://github.com/Alfresco/alfresco-content-app'
-            }
+          {
+            icon: 'github',
+            label: 'Contribute on GitHub',
+            link: 'https://github.com/Alfresco/alfresco-content-app'
+          }
         ]
-    })
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>
