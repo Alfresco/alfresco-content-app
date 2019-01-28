@@ -173,7 +173,7 @@ describe('Mark items as favorites', () => {
     });
   });
 
-  fdescribe('on Recent Files', () => {
+  describe('on Recent Files', () => {
     afterAll(async (done) => {
       await apis.user.favorites.addFavoritesByIds('file', [ fileFav1Id, fileFav2Id, fileFav3Id, fileFav4Id ]);
       await apis.user.favorites.removeFavoritesByIds([ fileNotFav1Id, fileNotFav2Id, fileNotFav3Id, fileNotFav4Id ]);
@@ -187,7 +187,7 @@ describe('Mark items as favorites', () => {
       done();
     });
 
-    it('favorite a file - [C280352]', async () => {
+    fit('favorite a file - [C280352]', async () => {
       await dataTable.selectItem(fileNotFav1);
       await toolbar.clickMoreActionsFavorite();
       await browser.sleep(500);
@@ -195,7 +195,7 @@ describe('Mark items as favorites', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
     });
 
-    it('unfavorite an item - [C280353]', async () => {
+    fit('unfavorite an item - [C280353]', async () => {
       await dataTable.selectItem(fileFav1);
       await toolbar.clickMoreActionsFavorite();
       await browser.sleep(500);
@@ -203,7 +203,7 @@ describe('Mark items as favorites', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
     });
 
-    it('favorite multiple items - all unfavorite - [C280355]', async () => {
+    fit('favorite multiple items - all unfavorite - [C280355]', async () => {
       await dataTable.selectMultipleItems([ fileNotFav2, fileNotFav3 ]);
       await toolbar.clickMoreActionsFavorite();
       await browser.sleep(500);
@@ -212,7 +212,7 @@ describe('Mark items as favorites', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav3Id, { expect: true })).toBe(true, `${fileNotFav3} not marked as favorite`);
     });
 
-    it('favorite multiple items - some favorite and some unfavorite - [C280357]', async () => {
+    fit('favorite multiple items - some favorite and some unfavorite - [C280357]', async () => {
       await dataTable.selectMultipleItems([ fileNotFav4, fileFav2 ]);
       await toolbar.clickMoreActionsFavorite();
       await browser.sleep(500);
@@ -221,7 +221,7 @@ describe('Mark items as favorites', () => {
       expect(await apis.user.favorites.isFavoriteWithRetry(fileFav2Id, { expect: true })).toBe(true, `${fileFav2} not marked as favorite`);
     });
 
-    it('unfavorite multiple items - [C280356]', async () => {
+    fit('unfavorite multiple items - [C280356]', async () => {
       await dataTable.selectMultipleItems([ fileFav3, fileFav4 ]);
       await toolbar.clickMoreActionsFavorite();
       await browser.sleep(500);
