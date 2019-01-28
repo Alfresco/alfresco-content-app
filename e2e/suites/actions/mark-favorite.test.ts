@@ -186,42 +186,42 @@ describe('Mark items as favorites', () => {
       done();
     });
 
-    fit('favorite a file - [C280352]', async () => {
+    it('favorite a file - [C280352]', async () => {
       await dataTable.selectItem(fileNotFav1);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true, delay: 1200 })).toBe(true, `${fileNotFav1} not marked as favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav1Id, { expect: true })).toBe(true, `${fileNotFav1} not marked as favorite`);
     });
 
-    fit('unfavorite an item - [C280353]', async () => {
+    it('unfavorite an item - [C280353]', async () => {
       await dataTable.selectItem(fileFav1);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false, delay: 1200 })).toBe(false, `${fileFav1} is marked as favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
     });
 
-    fit('favorite multiple items - all unfavorite - [C280355]', async () => {
+    it('favorite multiple items - all unfavorite - [C280355]', async () => {
       await dataTable.selectMultipleItems([ fileNotFav2, fileNotFav3 ]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav2Id, { expect: true, delay: 1200 })).toBe(true, `${fileNotFav2} not marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav3Id, { expect: true, delay: 1200 })).toBe(true, `${fileNotFav3} not marked as favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav2Id, { expect: true })).toBe(true, `${fileNotFav2} not marked as favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav3Id, { expect: true })).toBe(true, `${fileNotFav3} not marked as favorite`);
     });
 
-    fit('favorite multiple items - some favorite and some unfavorite - [C280357]', async () => {
+    it('favorite multiple items - some favorite and some unfavorite - [C280357]', async () => {
       await dataTable.selectMultipleItems([ fileNotFav4, fileFav2 ]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav4Id, { expect: true, delay: 1200 })).toBe(true, `${fileNotFav4} not marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav2Id, { expect: true, delay: 1200 })).toBe(true, `${fileFav2} not marked as favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(fileNotFav4Id, { expect: true })).toBe(true, `${fileNotFav4} not marked as favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav2Id, { expect: true })).toBe(true, `${fileFav2} not marked as favorite`);
     });
 
-    fit('unfavorite multiple items - [C280356]', async () => {
+    it('unfavorite multiple items - [C280356]', async () => {
       await dataTable.selectMultipleItems([ fileFav3, fileFav4 ]);
       await toolbar.clickMoreActionsFavorite();
 
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false, delay: 1200 })).toBe(false, `${fileFav3} marked as favorite`);
-      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false, delay: 1200 })).toBe(false, `${fileFav4} marked as favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav3Id, { expect: false })).toBe(false, `${fileFav3} marked as favorite`);
+      expect(await apis.user.favorites.isFavoriteWithRetry(fileFav4Id, { expect: false })).toBe(false, `${fileFav4} marked as favorite`);
     });
   });
 
