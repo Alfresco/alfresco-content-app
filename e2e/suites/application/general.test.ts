@@ -37,7 +37,6 @@ describe('General', () => {
   const { nodes: nodesApi, authentication: authApi } = adminApi;
   const folder = `folder-${Utils.random()}`;
   let folderId;
-  xit('');
 
   describe('on session expire', () => {
     beforeAll(async (done) => {

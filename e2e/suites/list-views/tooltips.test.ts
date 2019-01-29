@@ -85,8 +85,6 @@ describe('File / folder tooltips', () => {
     done();
   });
 
-  xit('');
-
   describe('on Personal Files', () => {
     beforeAll(async (done) => {
       await page.clickPersonalFilesAndWait();

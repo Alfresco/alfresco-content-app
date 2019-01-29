@@ -103,8 +103,6 @@ describe('Granular permissions available actions : ', () => {
     done();
   });
 
-  xit('');
-
   describe('toolbar displays correct actions when selecting multiple files with different granular permissions', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();

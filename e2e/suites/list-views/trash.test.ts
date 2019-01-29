@@ -87,8 +87,6 @@ describe('Trash', () => {
     done();
   });
 
-  xit('');
-
   describe('as admin', () => {
     beforeAll(async (done) => {
       await loginPage.loginWithAdmin();

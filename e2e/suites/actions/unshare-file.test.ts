@@ -795,5 +795,4 @@ describe('Unshare a file', () => {
     });
   });
 
-  xit('');
 });

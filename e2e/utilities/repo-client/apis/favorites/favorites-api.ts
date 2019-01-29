@@ -96,7 +96,7 @@ export class FavoritesApi extends RepoApi {
       let isFavorite;
       try {
         const favorite = async () => {
-          isFavorite = JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
+          isFavorite = await this.isFavorite(nodeId);
           if ( isFavorite !== data.expect ) {
             return Promise.reject(isFavorite);
           } else {
@@ -114,7 +114,7 @@ export class FavoritesApi extends RepoApi {
     async removeFavoriteById(nodeId: string) {
         await this.apiAuth();
         try {
-          return await this.favoritesApi.deleteSiteFavorite('-me-', nodeId);
+          return await this.favoritesApi.deleteFavorite('-me-', nodeId);
         } catch (error) {
           // console.log('--- remove favorite by id catch ');
         }

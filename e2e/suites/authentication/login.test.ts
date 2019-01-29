@@ -74,8 +74,6 @@ describe('Login', () => {
     done();
   });
 
-  xit('');
-
   describe('general tests', () => {
     beforeEach(async (done) => {
       await loginPage.load();

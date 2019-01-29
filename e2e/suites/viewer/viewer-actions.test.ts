@@ -58,8 +58,6 @@ describe('Viewer actions', () => {
     done();
   });
 
-  xit('');
-
   describe('on Personal Files', () => {
     const parent = `parentPF-${Utils.random()}`; let parentId;
     const destination = `destPF-${Utils.random()}`; let destinationId;

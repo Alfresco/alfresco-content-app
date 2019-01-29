@@ -111,8 +111,6 @@ describe('Toolbar actions - multiple selection : ', () => {
     done();
   });
 
-  xit('');
-
   describe('on Personal Files', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();

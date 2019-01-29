@@ -102,8 +102,6 @@ describe('Context menu actions - single selection : ', () => {
     done();
   });
 
-  xit('');
-
   describe('Generic tests', () => {
     beforeEach(async (done) => {
       await Utils.pressEscape();
