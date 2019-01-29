@@ -104,7 +104,7 @@ export class FavoritesApi extends RepoApi {
           }
         };
 
-        return await Utils.retryCall(favorite, data.delay);
+        return await Utils.retryCall(favorite);
       } catch (error) {
         console.log('-----> catch isFavoriteWithRetry: ', error);
       }
