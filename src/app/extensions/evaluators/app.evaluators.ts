@@ -24,6 +24,7 @@
  */
 
 import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
+import { AppRuleContext } from '../app.interface';
 import {
   isNotTrashcan,
   isNotLibraries,
@@ -293,4 +294,28 @@ export function hasLockedFiles(
         node.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK')
     );
   });
+}
+
+export function isWriteLocked(
+  context: AppRuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  return !!(
+    context.selection.file &&
+    context.selection.file.entry &&
+    context.selection.file.entry.properties &&
+    context.selection.file.entry.properties['cm:lockType'] === 'WRITE_LOCK'
+  );
+}
+
+export function canEditLockedFile(
+  context: AppRuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  return !!(
+    !isWriteLocked(context, ...args) ||
+    (context.selection.file.entry.properties['cm:lockOwner'] &&
+      context.selection.file.entry.properties['cm:lockOwner'].id ===
+        context.profile.id)
+  );
 }
