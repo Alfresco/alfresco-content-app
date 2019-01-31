@@ -29,6 +29,7 @@ import { DocumentListDirective } from './document-list.directive';
 import { PaginationDirective } from './pagination.directive';
 import { LibraryMembershipDirective } from './library-membership.directive';
 import { LibraryFavoriteDirective } from './library-favorite.directive';
+import { EditOfflineDirective } from './edit-offline.directive';
 
 export function directives() {
   return [
@@ -36,7 +37,8 @@ export function directives() {
     DocumentListDirective,
     PaginationDirective,
     LibraryMembershipDirective,
-    LibraryFavoriteDirective
+    LibraryFavoriteDirective,
+    EditOfflineDirective
   ];
 }
 
