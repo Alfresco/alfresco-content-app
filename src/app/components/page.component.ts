@@ -71,6 +71,10 @@ export abstract class PageComponent implements OnInit, OnDestroy {
     );
   }
 
+  static isWriteLockedNode(node) {
+    return node.properties && node.properties['cm:lockType'] === 'WRITE_LOCK';
+  }
+
   static isLibrary(entry) {
     return (
       (entry.guid &&
@@ -135,7 +139,10 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   imageResolver(row: ShareDataRow): string | null {
     const entry: MinimalNodeEntryEntity = row.node.entry;
 
-    if (PageComponent.isLockedNode(entry)) {
+    if (
+      PageComponent.isLockedNode(entry) ||
+      PageComponent.isWriteLockedNode(entry)
+    ) {
       return 'assets/images/ic_lock_black_24dp_1x.png';
     }
 
