@@ -134,6 +134,7 @@ export class CoreExtensionsModule {
       'app.navigation.isTrashcan': nav.isTrashcan,
       'app.navigation.isNotTrashcan': nav.isNotTrashcan,
       'app.navigation.isLibraries': nav.isLibraries,
+      'app.navigation.isLibraryFiles': nav.isLibraryFiles,
       'app.navigation.isPersonalFiles': nav.isPersonalFiles,
       'app.navigation.isNotLibraries': nav.isNotLibraries,
       'app.navigation.isSharedFiles': nav.isSharedFiles,
