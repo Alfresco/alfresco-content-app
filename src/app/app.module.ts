@@ -70,6 +70,7 @@ import { AppCommonModule } from './components/common/common.module';
 import { AppLayoutModule } from './components/layout/layout.module';
 import { AppCurrentUserModule } from './components/current-user/current-user.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
+import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
@@ -105,6 +106,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     AppSharedModule,
     AppSidenavModule,
     AppCreateMenuModule,
+    DocumentListCustomComponentsModule,
     AppPermissionsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
