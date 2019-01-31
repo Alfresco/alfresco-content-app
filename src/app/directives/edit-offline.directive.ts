@@ -96,7 +96,8 @@ export class EditOfflineDirective {
   }
 
   private update(data) {
-    const properties = this.node.entry.properties;
+    const properties = this.node.entry.properties || {};
+
     properties['cm:lockLifetime'] = data.properties['cm:lockLifetime'];
     properties['cm:lockOwner'] = data.properties['cm:lockOwner'];
     properties['cm:lockType'] = data.properties['cm:lockType'];
