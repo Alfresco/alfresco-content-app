@@ -68,11 +68,11 @@ export class CustomNameColumnComponent implements OnInit, OnDestroy {
 
     this.actions$
       .pipe(
-        takeUntil(this.onDestroy$),
         ofType<any>(EDIT_OFFLINE),
         filter(val => {
           return this.node.entry.id === val.payload.entry.id;
-        })
+        }),
+        takeUntil(this.onDestroy$)
       )
       .subscribe(() => {
         this.cd.detectChanges();
