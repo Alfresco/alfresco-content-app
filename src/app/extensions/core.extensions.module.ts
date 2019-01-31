@@ -45,12 +45,13 @@ import { LocationLinkComponent } from '../components/common/location-link/locati
 import { DocumentDisplayModeComponent } from '../components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleJoinLibraryButtonComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-button.component';
 import { ToggleJoinLibraryMenuComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-menu.component';
+import { ToggleEditOfflineComponent } from '../components/toolbar/toggle-edit-offline/toggle-edit-offline.component';
+import { CustomNameColumnComponent } from '../components/dl-custom-components/name-column/name-column.component';
 import {
   LibraryNameColumnComponent,
   LibraryStatusColumnComponent,
   TrashcanNameColumnComponent,
-  LibraryRoleColumnComponent,
-  NameColumnComponent
+  LibraryRoleColumnComponent
 } from '@alfresco/adf-content-services';
 
 export function setupExtensions(service: AppExtensionService): Function {
@@ -95,12 +96,13 @@ export class CoreExtensionsModule {
       'app.toolbar.cardView': DocumentDisplayModeComponent,
       'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
-      'app.columns.name': NameColumnComponent,
+      'app.columns.name': CustomNameColumnComponent,
       'app.columns.libraryName': LibraryNameColumnComponent,
       'app.columns.libraryRole': LibraryRoleColumnComponent,
       'app.columns.libraryStatus': LibraryStatusColumnComponent,
       'app.columns.trashcanName': TrashcanNameColumnComponent,
-      'app.columns.location': LocationLinkComponent
+      'app.columns.location': LocationLinkComponent,
+      'app.toolbar.toggleEditOffline': ToggleEditOfflineComponent
     });
 
     extensions.setAuthGuards({
@@ -109,6 +111,7 @@ export class CoreExtensionsModule {
 
     extensions.setEvaluators({
       'app.selection.canDelete': app.canDeleteSelection,
+      'app.selection.canEditLockedFile': app.canEditLockedFile,
       'app.selection.canDownload': app.canDownloadSelection,
       'app.selection.notEmpty': app.hasSelection,
       'app.selection.canUnshare': app.canUnshareNodes,
