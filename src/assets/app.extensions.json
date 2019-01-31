@@ -233,7 +233,17 @@
       "parameters": [
         { "type": "rule", "value": "app.selection.file" },
         { "type": "rule", "value": "app.selection.canEditLockedFile" },
-        { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+        { "type": "rule", "value": "app.navigation.isNotTrashcan" },
+        {
+          "type": "rule",
+          "value": "core.some",
+          "parameters": [
+            { "type": "rule", "value": "app.navigation.isPreview" },
+            { "type": "rule", "value": "app.navigation.isPersonalFiles" },
+            { "type": "rule", "value": "app.navigation.isLibraryFiles" },
+            { "type": "rule", "value": "app.navigation.isRecentFiles" }
+          ]
+        }
       ]
     }
   ],
