@@ -28,7 +28,7 @@ import { CopyMoveDialog } from './../../components/dialog/copy-move-dialog';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
-describe('Copy', () => {
+describe('Copy content', () => {
   const username = `user-${Utils.random()}`;
 
   const source = `source-${Utils.random()}`; let sourceId;
@@ -336,8 +336,6 @@ describe('Copy', () => {
       expect(msg).toContain('Undo');
 
       await copyDialog.waitForDialogToClose();
-      expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in source folder`);
-
       await page.goToMyLibraries();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.doubleClickOnRowByName(folderSiteRF);
