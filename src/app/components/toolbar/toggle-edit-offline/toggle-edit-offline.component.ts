@@ -43,6 +43,11 @@ import { MinimalNodeEntity } from '@alfresco/js-api';
       (toggle)="onToggleEvent($event)"
       (error)="onError()"
       [acaEditOffline]="selection"
+      [attr.title]="
+        editOffline.isNodeLocked()
+          ? ('APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate)
+          : ('APP.ACTIONS.EDIT_OFFLINE' | translate)
+      "
     >
       <ng-container *ngIf="editOffline.isNodeLocked()">
         <mat-icon>cancel</mat-icon>
