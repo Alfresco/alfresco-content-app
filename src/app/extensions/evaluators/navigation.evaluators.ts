@@ -70,6 +70,14 @@ export function isNotTrashcan(
   return !isTrashcan(context, ...args);
 }
 
+export function isPersonalFiles(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  const { url } = context.navigation;
+  return url && url.startsWith('/personal-files');
+}
+
 export function isLibraryFiles(
   context: RuleContext,
   ...args: RuleParameter[]
