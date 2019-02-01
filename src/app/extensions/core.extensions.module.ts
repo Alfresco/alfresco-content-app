@@ -111,7 +111,7 @@ export class CoreExtensionsModule {
 
     extensions.setEvaluators({
       'app.selection.canDelete': app.canDeleteSelection,
-      'app.selection.canEditLockedFile': app.canEditLockedFile,
+      'app.selection.canToggleEditOffline': app.canToggleEditOffline,
       'app.selection.canDownload': app.canDownloadSelection,
       'app.selection.notEmpty': app.hasSelection,
       'app.selection.canUnshare': app.canUnshareNodes,

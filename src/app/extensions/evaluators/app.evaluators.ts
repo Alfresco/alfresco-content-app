@@ -308,14 +308,34 @@ export function isWriteLocked(
   );
 }
 
-export function canEditLockedFile(
+export function isUserWriteLock(
   context: AppRuleContext,
   ...args: RuleParameter[]
 ): boolean {
-  return !!(
-    !isWriteLocked(context, ...args) ||
+  console.log(context.profile);
+  return (
+    isWriteLocked(context, ...args) &&
     (context.selection.file.entry.properties['cm:lockOwner'] &&
       context.selection.file.entry.properties['cm:lockOwner'].id ===
         context.profile.id)
+  );
+}
+
+export function isAdmin(
+  context: AppRuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  return context.profile.id === 'admin';
+}
+
+export function canToggleEditOffline(
+  context: AppRuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  return (
+    (!isWriteLocked(context, ...args) &&
+      canUpdateSelectedNode(context, ...args)) ||
+    isUserWriteLock(context, ...args) ||
+    isAdmin(context, ...args)
   );
 }

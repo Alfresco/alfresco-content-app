@@ -166,7 +166,7 @@
       "parameters": [
         { "type": "rule", "value": "app.selection.file" },
         { "type": "rule", "value": "app.navigation.isNotTrashcan" },
-        { "type": "rule", "value": "app.selection.canEditLockedFile" },
+        { "type": "rule", "value": "app.selection.canToggleEditOffline" },
         {
           "type": "rule",
           "value": "core.not",
@@ -223,16 +223,16 @@
       "type": "core.every",
       "parameters": [
         { "type": "rule", "value": "app.selection.canDelete" },
-        { "type": "rule", "value": "app.selection.canEditLockedFile" },
+        { "type": "rule", "value": "app.selection.canToggleEditOffline" },
         { "type": "rule", "value": "app.navigation.isNotTrashcan" }
       ]
     },
     {
-      "id": "app.toolbar.canEditLockedFile",
+      "id": "app.toolbar.canToggleEditOffline",
       "type": "core.every",
       "parameters": [
         { "type": "rule", "value": "app.selection.file" },
-        { "type": "rule", "value": "app.selection.canEditLockedFile" },
+        { "type": "rule", "value": "app.selection.canToggleEditOffline" },
         { "type": "rule", "value": "app.navigation.isNotTrashcan" },
         {
           "type": "rule",
@@ -538,7 +538,7 @@
             "type": "custom",
             "component": "app.toolbar.toggleEditOffline",
             "rules": {
-              "visible": "app.toolbar.canEditLockedFile"
+              "visible": "app.toolbar.canToggleEditOffline"
             }
           },
           {
@@ -676,7 +676,7 @@
         "type": "custom",
         "component": "app.toolbar.toggleEditOffline",
         "rules": {
-          "visible": "app.toolbar.canEditLockedFile"
+          "visible": "app.toolbar.canToggleEditOffline"
         }
       },
       {
@@ -975,7 +975,7 @@
               "type": "custom",
               "component": "app.toolbar.toggleEditOffline",
               "rules": {
-                "visible": "app.toolbar.canEditLockedFile"
+                "visible": "app.toolbar.canToggleEditOffline"
               }
             },
             {
