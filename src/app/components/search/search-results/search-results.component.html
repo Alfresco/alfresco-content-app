@@ -87,17 +87,15 @@
               </data-column>
             </data-columns>
 
-            <empty-folder-content>
-              <ng-template>
-                <ng-container *ngIf="data">
-                  <div class="empty-search__block">
-                    <p class="empty-search__text">
-                      {{ 'APP.BROWSE.SEARCH.NO_RESULTS' | translate }}
-                    </p>
-                  </div>
-                </ng-container>
-              </ng-template>
-            </empty-folder-content>
+            <adf-custom-empty-content-template>
+              <ng-container *ngIf="data">
+                <div class="empty-search__block">
+                  <p class="empty-search__text">
+                    {{ 'APP.BROWSE.SEARCH.NO_RESULTS' | translate }}
+                  </p>
+                </div>
+              </ng-container>
+            </adf-custom-empty-content-template>
           </adf-document-list>
 
           <adf-pagination
