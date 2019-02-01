@@ -23,27 +23,17 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ExperimentalDirective } from './experimental.directive';
-import { DocumentListDirective } from './document-list.directive';
-import { PaginationDirective } from './pagination.directive';
-import { LibraryMembershipDirective } from './library-membership.directive';
-import { LibraryFavoriteDirective } from './library-favorite.directive';
-import { EditOfflineDirective } from './edit-offline.directive';
-
-export function directives() {
-  return [
-    ExperimentalDirective,
-    DocumentListDirective,
-    PaginationDirective,
-    LibraryMembershipDirective,
-    LibraryFavoriteDirective,
-    EditOfflineDirective
-  ];
-}
+import { CustomNameColumnComponent } from './name-column/name-column.component';
+import { LockByComponent } from './locked-by/locked-by.component';
+import { ContentModule } from '@alfresco/adf-content-services';
+import { MaterialModule } from '../../material.module';
 
 @NgModule({
-  declarations: directives(),
-  exports: directives()
+  imports: [BrowserModule, ContentModule, MaterialModule],
+  declarations: [CustomNameColumnComponent, LockByComponent],
+  exports: [CustomNameColumnComponent, LockByComponent],
+  entryComponents: [CustomNameColumnComponent, LockByComponent]
 })
-export class DirectivesModule {}
+export class DocumentListCustomComponentsModule {}

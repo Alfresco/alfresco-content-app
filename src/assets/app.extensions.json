@@ -166,6 +166,7 @@
       "parameters": [
         { "type": "rule", "value": "app.selection.file" },
         { "type": "rule", "value": "app.navigation.isNotTrashcan" },
+        { "type": "rule", "value": "app.selection.canEditLockedFile" },
         {
           "type": "rule",
           "value": "core.not",
@@ -215,6 +216,34 @@
       "parameters": [
         { "type": "rule", "value": "app.selection.canDownload" },
         { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+      ]
+    },
+    {
+      "id": "app.toolbar.canDelete",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.canDelete" },
+        { "type": "rule", "value": "app.selection.canEditLockedFile" },
+        { "type": "rule", "value": "app.navigation.isNotTrashcan" }
+      ]
+    },
+    {
+      "id": "app.toolbar.canEditLockedFile",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.file" },
+        { "type": "rule", "value": "app.selection.canEditLockedFile" },
+        { "type": "rule", "value": "app.navigation.isNotTrashcan" },
+        {
+          "type": "rule",
+          "value": "core.some",
+          "parameters": [
+            { "type": "rule", "value": "app.navigation.isPreview" },
+            { "type": "rule", "value": "app.navigation.isPersonalFiles" },
+            { "type": "rule", "value": "app.navigation.isLibraryFiles" },
+            { "type": "rule", "value": "app.navigation.isRecentFiles" }
+          ]
+        }
       ]
     }
   ],
@@ -504,10 +533,19 @@
         "title": "APP.ACTIONS.MORE",
         "children": [
           {
+            "id": "app.toolbar.toggleEditOffline",
+            "order": 100,
+            "type": "custom",
+            "component": "app.toolbar.toggleEditOffline",
+            "rules": {
+              "visible": "app.toolbar.canEditLockedFile"
+            }
+          },
+          {
             "id": "app.toolbar.favorite",
             "comment": "workaround for Recent Files and Search API issue",
             "type": "custom",
-            "order": 100,
+            "order": 200,
             "component": "app.toolbar.toggleFavorite",
             "rules": {
               "visible": "app.toolbar.favorite.canToggle"
@@ -516,7 +554,7 @@
           {
             "id": "app.libraries.toolbar.toggleFavorite",
             "type": "custom",
-            "order": 101,
+            "order": 201,
             "component": "app.toolbar.toggleFavoriteLibrary",
             "rules": {
               "visible": "app.libraries.toolbar"
@@ -524,7 +562,7 @@
           },
           {
             "id": "app.toolbar.favorite.add",
-            "order": 200,
+            "order": 300,
             "title": "APP.ACTIONS.FAVORITE",
             "icon": "star_border",
             "actions": {
@@ -536,7 +574,7 @@
           },
           {
             "id": "app.toolbar.favorite.remove",
-            "order": 300,
+            "order": 400,
             "title": "APP.ACTIONS.FAVORITE",
             "icon": "star",
             "actions": {
@@ -549,11 +587,11 @@
           {
             "id": "app.create.separator.3",
             "type": "separator",
-            "order": 380
+            "order": 3480
           },
           {
             "id": "app.toolbar.copy",
-            "order": 400,
+            "order": 500,
             "title": "APP.ACTIONS.COPY",
             "icon": "content_copy",
             "actions": {
@@ -565,14 +603,14 @@
           },
           {
             "id": "app.toolbar.move",
-            "order": 500,
+            "order": 600,
             "title": "APP.ACTIONS.MOVE",
             "icon": "adf:move_file",
             "actions": {
               "click": "MOVE_NODES"
             },
             "rules": {
-              "visible": "app.selection.canDelete"
+              "visible": "app.toolbar.canDelete"
             }
           },
           {
@@ -584,7 +622,7 @@
               "click": "DELETE_NODES"
             },
             "rules": {
-              "visible": "app.selection.canDelete"
+              "visible": "app.toolbar.canDelete"
             }
           },
           {
@@ -633,9 +671,18 @@
     ],
     "contextMenu": [
       {
+        "id": "app.context.toggleEditOffline",
+        "order": 100,
+        "type": "custom",
+        "component": "app.toolbar.toggleEditOffline",
+        "rules": {
+          "visible": "app.toolbar.canEditLockedFile"
+        }
+      },
+      {
         "id": "app.context.menu.share",
         "type": "custom",
-        "order": 100,
+        "order": 200,
         "component": "app.shared-link.toggleSharedLink",
         "rules": {
           "visible": "app.context.canShare"
@@ -643,7 +690,7 @@
       },
       {
         "id": "app.context.menu.download",
-        "order": 200,
+        "order": 300,
         "title": "APP.ACTIONS.DOWNLOAD",
         "icon": "get_app",
         "actions": {
@@ -655,7 +702,7 @@
       },
       {
         "id": "app.context.menu.preview",
-        "order": 300,
+        "order": 400,
         "title": "APP.ACTIONS.VIEW",
         "icon": "visibility",
         "actions": {
@@ -667,7 +714,7 @@
       },
       {
         "id": "app.context.menu.editFolder",
-        "order": 400,
+        "order": 500,
         "title": "APP.ACTIONS.EDIT",
         "icon": "create",
         "actions": {
@@ -680,7 +727,7 @@
       {
         "id": "app.context.menu.favorite.add",
         "title": "APP.ACTIONS.FAVORITE",
-        "order": 500,
+        "order": 600,
         "icon": "star_border",
         "actions": {
           "click": "ADD_FAVORITE"
@@ -692,7 +739,7 @@
       {
         "id": "app.context.menu.favorite.remove",
         "title": "APP.ACTIONS.FAVORITE",
-        "order": 600,
+        "order": 700,
         "icon": "star",
         "actions": {
           "click": "REMOVE_FAVORITE"
@@ -705,7 +752,7 @@
         "id": "app.context.menu.favorite",
         "comment": "workaround for Recent Files and Search API issue",
         "type": "custom",
-        "order": 601,
+        "order": 701,
         "component": "app.toolbar.toggleFavorite",
         "rules": {
           "visible": "app.toolbar.favorite.canToggle"
@@ -714,7 +761,7 @@
       {
         "id": "app.context.menu.libraries.toggleFavorite",
         "type": "custom",
-        "order": 602,
+        "order": 702,
         "component": "app.toolbar.toggleFavoriteLibrary",
         "rules": {
           "visible": "app.libraries.toolbar"
@@ -723,7 +770,7 @@
       {
         "id": "app.context.menu.joinLibrary",
         "type": "custom",
-        "order": 603,
+        "order": 703,
         "component": "app.menu.toggleJoinLibrary",
         "rules": {
           "visible": "app.libraries.toolbar.canToggleJoin"
@@ -731,7 +778,7 @@
       },
       {
         "id": "app.context.menu.leaveLibrary",
-        "order": 703,
+        "order": 803,
         "title": "APP.ACTIONS.LEAVE",
         "icon": "exit_to_app",
         "actions": {
@@ -744,12 +791,12 @@
       {
         "id": "app.create.separator.5",
         "type": "separator",
-        "order": 720
+        "order": 820
       },
       {
         "id": "app.context.menu.copy",
         "title": "APP.ACTIONS.COPY",
-        "order": 750,
+        "order": 850,
         "icon": "content_copy",
         "actions": {
           "click": "COPY_NODES"
@@ -761,30 +808,30 @@
       {
         "id": "app.context.menu.move",
         "title": "APP.ACTIONS.MOVE",
-        "order": 800,
+        "order": 900,
         "icon": "adf:move_file",
         "actions": {
           "click": "MOVE_NODES"
         },
         "rules": {
-          "visible": "app.selection.canDelete"
+          "visible": "app.toolbar.canDelete"
         }
       },
       {
         "id": "app.context.menu.delete",
         "title": "APP.ACTIONS.DELETE",
-        "order": 900,
+        "order": 1000,
         "icon": "delete",
         "actions": {
           "click": "DELETE_NODES"
         },
         "rules": {
-          "visible": "app.selection.canDelete"
+          "visible": "app.toolbar.canDelete"
         }
       },
       {
         "id": "app.context.menu.deleteLibrary",
-        "order": 901,
+        "order": 1001,
         "title": "APP.ACTIONS.DELETE",
         "icon": "delete",
         "actions": {
@@ -797,12 +844,12 @@
       {
         "id": "app.create.separator.6",
         "type": "separator",
-        "order": 980
+        "order": 1080
       },
       {
         "id": "app.context.menu.versions",
         "title": "APP.ACTIONS.VERSIONS",
-        "order": 1000,
+        "order": 1100,
         "icon": "history",
         "actions": {
           "click": "MANAGE_VERSIONS"
@@ -815,7 +862,7 @@
         "id": "app.context.menu.permissions",
         "title": "APP.ACTIONS.PERMISSIONS",
         "icon": "settings_input_component",
-        "order": 1100,
+        "order": 1200,
         "actions": {
           "click": "MANAGE_PERMISSIONS"
         },
@@ -825,7 +872,7 @@
       },
       {
         "id": "app.context.menu.purgeDeletedNodes",
-        "order": 1200,
+        "order": 1300,
         "title": "APP.ACTIONS.DELETE_PERMANENT",
         "icon": "delete_forever",
         "actions": {
@@ -837,7 +884,7 @@
       },
       {
         "id": "app.context.menu.restoreDeletedNodes",
-        "order": 1300,
+        "order": 1400,
         "title": "APP.ACTIONS.RESTORE",
         "icon": "restore",
         "actions": {
@@ -923,8 +970,17 @@
           "title": "APP.ACTIONS.MORE",
           "children": [
             {
-              "id": "app.viewer.favorite.add",
+              "id": "app.viewer.toggleEditOffline",
               "order": 100,
+              "type": "custom",
+              "component": "app.toolbar.toggleEditOffline",
+              "rules": {
+                "visible": "app.toolbar.canEditLockedFile"
+              }
+            },
+            {
+              "id": "app.viewer.favorite.add",
+              "order": 200,
               "title": "APP.ACTIONS.FAVORITE",
               "icon": "star_border",
               "actions": {
@@ -936,7 +992,7 @@
             },
             {
               "id": "app.viewer.favorite.remove",
-              "order": 200,
+              "order": 300,
               "title": "APP.ACTIONS.FAVORITE",
               "icon": "star",
               "actions": {
@@ -950,7 +1006,7 @@
               "id": "app.viewer.favorite",
               "comment": "workaround for Recent Files and Search API issue",
               "type": "custom",
-              "order": 101,
+              "order": 201,
               "component": "app.toolbar.toggleFavorite",
               "rules": {
                 "visible": "app.toolbar.favorite.canToggle"
@@ -959,7 +1015,7 @@
             {
               "id": "app.viewer.more.separator.1",
               "type": "separator",
-              "order": 280
+              "order": 380
             },
             {
               "id": "app.viewer.copy",
@@ -982,7 +1038,7 @@
                 "click": "MOVE_NODES"
               },
               "rules": {
-                "visible": "app.selection.canDelete"
+                "visible": "app.toolbar.canDelete"
               }
             },
             {
@@ -994,7 +1050,7 @@
                 "click": "DELETE_NODES"
               },
               "rules": {
-                "visible": "app.selection.canDelete"
+                "visible": "app.toolbar.canDelete"
               }
             },
             {

@@ -35,7 +35,9 @@ export class Menu extends Component {
     icon: '.mat-icon',
     uploadFiles: 'app-upload-files',
 
-    submenu: 'app-context-menu-item .mat-menu-item'
+    submenu: 'app-context-menu-item .mat-menu-item',
+
+    editFolder: `app.context.menu.editFolder`
   };
 
   items: ElementArrayFinder = this.component.all(by.css(Menu.selectors.item));
@@ -47,7 +49,7 @@ export class Menu extends Component {
   shareEditAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Shared link settings'));
   viewAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'View'));
   downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
-  editAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Edit'));
+  editAction: ElementFinder = this.component.element(by.id(Menu.selectors.editFolder));
   copyAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Copy'));
   moveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Move'));
   deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));

@@ -202,7 +202,9 @@
             "FULLSCREEN": "Activate full-screen mode",
             "JOIN": "Join",
             "CANCEL_JOIN": "Cancel join request",
-            "LEAVE": "Leave library"
+            "LEAVE": "Leave library",
+            "EDIT_OFFLINE": "Edit offline",
+            "EDIT_OFFLINE_CANCEL": "Cancel editing"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -240,7 +242,7 @@
         },
         "MESSAGES": {
             "ERRORS":{
-              "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",
+                "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",
                 "MISSING_CONTENT": "This item no longer exists or you don't have permission to view it.",
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
@@ -251,6 +253,7 @@
                 "NODE_RESTORE": "{{ name }} couldn't be restored",
                 "NODE_RESTORE_PLURAL": "{{ number }} items couldn't be restored",
                 "PERMISSION": "You don't have access to do this",
+                "LOCK_NODE": "There was a problem locking the {{ fileName }} file",
                 "TRASH": {
                     "NODES_PURGE": {
                         "PLURAL": "{{ number }} items couldn't be deleted",
@@ -402,7 +405,6 @@
             "LIBRARY_UPDATED": "Library properties updated"
         }
     },
-
     "SEARCH": {
         "INPUT": {
           "PLACEHOLDER": "Search",
