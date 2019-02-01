@@ -87,7 +87,7 @@ export class ContentApiService {
     };
     const queryOptions = Object.assign(defaults, options || {});
 
-    return from((<any>this.api.nodesApi).getNodeInfo(nodeId, queryOptions));
+    return from(this.api.nodesApi.getNodeInfo(nodeId, queryOptions));
   }
 
   /**
