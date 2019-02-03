@@ -15,8 +15,7 @@
     "module": "es2015",
     "baseUrl": "./",
     "paths": {},
-    "resolveJsonModule": true,
-    "esModuleInterop": true
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules"],
   "angularCompilerOptions": {

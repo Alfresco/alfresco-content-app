@@ -8,7 +8,8 @@ module.exports = {
 
   globals: {
     'ts-jest': {
-      isolatedModules: true
+      isolatedModules: true,
+      tsConfig: './tsconfig.jest.json'
     }
   }
 };
