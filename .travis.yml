@@ -27,6 +27,9 @@ jobs:
       script:
         - npm run test:ci
         - bash <(curl -s https://codecov.io/bash) -X gcov
+    - stage: jest
+      script:
+        - npm run build && npm run e2e.jest.docker
     - stage: e2e
       name: 'Nginx'
       script: npm run build.e2e && npm run e2e:docker
