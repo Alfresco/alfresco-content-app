@@ -15,7 +15,8 @@
     "wd:update": "webdriver-manager update --gecko=false",
     "e2e": "npm run wd:update && protractor --baseUrl=http://localhost:4000",
     "e2e.local": "npm run wd:update && protractor --baseUrl=http://localhost:4200",
-    "start:docker": "docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:4000",
+    "wait:app": "wait-on http://localhost:8080 && wait-on http://localhost:4000",
+    "start:docker": "docker-compose up -d --build && npm run wait:app",
     "stop:docker": "docker-compose stop",
     "e2e:docker": "npm run start:docker && npm run e2e && npm run stop:docker",
     "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts' 'projects/**/*.ts'",
@@ -25,7 +26,7 @@
     "build.tomcat": "npm run build -- --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
     "build.tomcat.e2e": "./build-tomcat-e2e.sh",
     "e2e.tomcat": "npm run wd:update && protractor --baseUrl=http://localhost:4000/content-app/",
-    "docker.tomcat.start": "cd docker/tomcat && docker-compose up -d --build && wait-on http://localhost:8080 && wait-on http://localhost:4000",
+    "docker.tomcat.start": "cd docker/tomcat && docker-compose up -d --build && npm run wait:app",
     "docker.tomcat.stop": "cd docker/tomcat && docker-compose stop",
     "docker.tomcat.e2e": "npm run docker.tomcat.start && npm run e2e.tomcat",
     "lint:staged": "lint-staged"
