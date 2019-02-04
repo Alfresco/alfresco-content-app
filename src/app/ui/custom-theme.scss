@@ -9,7 +9,6 @@
 @import '../components/current-user/current-user.component.theme';
 @import '../components/permissions/permission-manager/permission-manager.component.theme';
 @import '../components/context-menu/context-menu.component.theme';
-@import '../dialogs/node-versions/node-versions.dialog.theme';
 @import '../components/create-menu/create-menu.component.scss';
 @import '../components/layout/layout.theme.scss';
 @import '../components/shared/content-node-share/content-node-share.dialog.scss';
@@ -25,7 +24,6 @@
 @import './overrides/adf-upload-drag-area.theme';
 @import './overrides/adf-search-sorting-picker.theme';
 @import './overrides/adf-content-node-selector.theme';
-@import './overrides/adf-version-manager.theme';
 
 @import 'snackbar';
 
@@ -80,13 +78,11 @@ $custom-theme: mat-light-theme($custom-theme-primary, $custom-theme-accent);
   @include adf-upload-drag-area-theme($theme);
   @include adf-search-sorting-picker-theme($theme);
   @include adf-content-node-selector-theme($theme);
-  @include adf-version-manager-theme($theme);
 
   @include layout-theme($theme);
   @include aca-search-input-theme($theme);
   @include aca-generic-error-theme($theme);
   @include app-permission-manager-theme($theme);
-  @include aca-node-versions-dialog-theme($theme);
   @include aca-settings-theme($theme);
   @include snackbar-theme($theme);
   @include sidenav-component-theme($theme);
