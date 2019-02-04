@@ -27,6 +27,7 @@ import { Action } from '@ngrx/store';
 
 export const UPLOAD_FILES = 'UPLOAD_FILES';
 export const UPLOAD_FOLDER = 'UPLOAD_FOLDER';
+export const UPLOAD_FILE_VERSION = 'UPLOAD_FILE_VERSION';
 
 export class UploadFilesAction implements Action {
   readonly type = UPLOAD_FILES;
@@ -36,4 +37,8 @@ export class UploadFilesAction implements Action {
 export class UploadFolderAction implements Action {
   readonly type = UPLOAD_FOLDER;
   constructor(public payload: any) {}
+}
+
+export class UploadFileVersionAction implements Action {
+  readonly type = UPLOAD_FILE_VERSION;
 }
