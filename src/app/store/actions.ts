@@ -35,3 +35,4 @@ export * from './actions/upload.actions';
 export * from './actions/modals.actions';
 export * from './actions/repository.actions';
 export * from './actions/info-drawer.actions';
+export * from './actions/upload.actions';
