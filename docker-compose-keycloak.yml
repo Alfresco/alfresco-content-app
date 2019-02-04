@@ -6,7 +6,9 @@ services:
     mem_limit: 1500m
     depends_on:
       - postgres
+      - auth
     environment:
+      AUTH_SERVER_URL: ${AUTH_SERVER_URL}
       JAVA_OPTS: '
         -Ddb.driver=org.postgresql.Driver
         -Ddb.username=alfresco
@@ -24,6 +26,12 @@ services:
         -Ddeployment.method=DOCKER_COMPOSE
         -Dcsrf.filter.enabled=false
         -Xms1g -Xmx1g
+        -Dauthentication.chain=identity-service1:identity-service,alfrescoNtlm1:alfrescoNtlm
+        -Didentity-service.enable-basic-auth=true
+        -Didentity-service.authentication.validation.failure.silent=false
+        -Didentity-service.auth-server-url=${AUTH_SERVER_URL}
+        -Didentity-service.realm=alfresco
+        -Didentity-service.resource=alfresco
         '
     networks:
       - internal
@@ -91,6 +99,14 @@ services:
   content-app:
     image: alfresco/alfresco-content-app:latest
     build: .
+    environment:
+      # BASEPATH: ./
+      APP_CONFIG_OAUTH2_HOST: ${APP_CONFIG_OAUTH2_HOST}
+      APP_CONFIG_AUTH_TYPE: ${APP_CONFIG_AUTH_TYPE}
+      APP_CONFIG_OAUTH2_CLIENTID: ${APP_CONFIG_OAUTH2_CLIENTID}
+      APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: ${APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI}
+      APP_CONFIG_OAUTH2_REDIRECT_LOGIN: ${APP_CONFIG_OAUTH2_REDIRECT_LOGIN}
+      APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: ${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}
     depends_on:
       - alfresco
     networks:
@@ -111,6 +127,20 @@ services:
       - internal
     ports:
       - 4000:80
+
+  auth:
+    image: jboss/keycloak:4.8.3.Final
+    volumes:
+      - ./docker/auth/alfresco-realm.json:/tmp/alfresco-realm.json
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_IMPORT=/tmp/alfresco-realm.json
+      - DB_VENDOR=h2
+    networks:
+      - internal
+    ports:
+      - 8085:8080
 
 networks:
   internal:

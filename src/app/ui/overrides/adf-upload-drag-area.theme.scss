@@ -16,7 +16,7 @@ $alfresco-app-color--default: #00bcd4;
   adf-upload-drag-area {
     @include flex-column;
 
-    .upload-border {
+    .adf-upload-border {
       @include flex-column;
 
       vertical-align: unset;
@@ -27,18 +27,18 @@ $alfresco-app-color--default: #00bcd4;
   adf-upload-drag-area:first-child {
     & > div {
       adf-upload-drag-area {
-        .file-draggable__input-focus {
+        .adf-file-draggable__input-focus {
           @include file-draggable__input-focus($theme);
         }
       }
     }
 
-    .upload-border {
+    .adf-upload-border {
       vertical-align: inherit !important;
       text-align: inherit !important;
     }
 
-    .file-draggable__input-focus {
+    .adf-file-draggable__input-focus {
       color: none !important;
       border: none !important;
       margin-left: 0 !important;
@@ -52,7 +52,7 @@ $alfresco-app-color--default: #00bcd4;
   }
 
   adf-upload-drag-area {
-    .file-draggable__input-focus {
+    .adf-file-draggable__input-focus {
       adf-document-list {
         background: #e0f7fa;
 

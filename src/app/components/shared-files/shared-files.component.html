@@ -22,16 +22,14 @@
         (node-dblclick)="showPreview($event.detail?.node)"
         (name-click)="showPreview($event.detail?.node)"
       >
-        <empty-folder-content>
-          <ng-template>
-            <adf-empty-content
-              icon="people"
-              [title]="'APP.BROWSE.SHARED.EMPTY_STATE.TITLE'"
-              subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT"
-            >
-            </adf-empty-content>
-          </ng-template>
-        </empty-folder-content>
+        <adf-custom-empty-content-template>
+          <adf-empty-content
+            icon="people"
+            [title]="'APP.BROWSE.SHARED.EMPTY_STATE.TITLE'"
+            subtitle="APP.BROWSE.SHARED.EMPTY_STATE.TEXT"
+          >
+          </adf-empty-content>
+        </adf-custom-empty-content-template>
 
         <data-columns>
           <ng-container *ngFor="let column of columns; trackBy: trackById">
