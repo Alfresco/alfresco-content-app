@@ -254,6 +254,7 @@
                 "NODE_RESTORE_PLURAL": "{{ number }} items couldn't be restored",
                 "PERMISSION": "You don't have access to do this",
                 "LOCK_NODE": "There was a problem locking the {{ fileName }} file",
+                "UNLOCK_NODE": "There was a problem unlocking the {{ fileName }} file",
                 "TRASH": {
                     "NODES_PURGE": {
                         "PLURAL": "{{ number }} items couldn't be deleted",
