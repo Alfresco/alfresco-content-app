@@ -34,19 +34,20 @@ import { NodeEntry, NodeBodyLock, SharedLinkEntry } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 
 @Directive({
-  selector: '[acaEditOffline]',
-  exportAs: 'editOffline'
+  selector: '[acaLockNode]',
+  exportAs: 'lockNode'
 })
-export class EditOfflineDirective {
-  @Input('acaEditOffline')
+export class LockNodeDirective {
+  @Input('acaLockNode')
   node: NodeEntry = null;
 
   @Output() toggle: EventEmitter<any> = new EventEmitter();
-  @Output() error: EventEmitter<any> = new EventEmitter();
+  @Output() lockError: EventEmitter<any> = new EventEmitter();
+  @Output() unlockError: EventEmitter<any> = new EventEmitter();
 
   @HostListener('click')
   onClick() {
-    this.toggleEdit(this.node);
+    this.toggleLock(this.node);
   }
 
   constructor(private alfrescoApiService: AlfrescoApiService) {}
@@ -59,7 +60,7 @@ export class EditOfflineDirective {
     );
   }
 
-  private async toggleEdit(node: NodeEntry | SharedLinkEntry) {
+  private async toggleLock(node: NodeEntry | SharedLinkEntry) {
     const id = (<SharedLinkEntry>node).entry.nodeId || node.entry.id;
     if (this.isNodeLocked()) {
       try {
@@ -69,7 +70,7 @@ export class EditOfflineDirective {
         this.update(response.entry);
         this.toggle.emit(isLocked);
       } catch (error) {
-        this.error.emit(error);
+        this.unlockError.emit(error);
       }
     } else {
       try {
@@ -79,7 +80,7 @@ export class EditOfflineDirective {
         this.update(response.entry);
         this.toggle.emit(isLocked);
       } catch (error) {
-        this.error.emit(error);
+        this.lockError.emit(error);
       }
     }
   }

@@ -38,23 +38,24 @@ import { MinimalNodeEntity } from '@alfresco/js-api';
   selector: 'app-toggle-edit-offline',
   template: `
     <button
-      #editOffline="editOffline"
+      #lock="lockNode"
       mat-menu-item
       (toggle)="onToggleEvent($event)"
-      (error)="onError()"
-      [acaEditOffline]="selection"
+      (lockError)="onLockError()"
+      (unlockError)="onUnlockLockError()"
+      [acaLockNode]="selection"
       [attr.title]="
-        editOffline.isNodeLocked()
+        lock.isNodeLocked()
           ? ('APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate)
           : ('APP.ACTIONS.EDIT_OFFLINE' | translate)
       "
     >
-      <ng-container *ngIf="editOffline.isNodeLocked()">
+      <ng-container *ngIf="lock.isNodeLocked()">
         <mat-icon>cancel</mat-icon>
         <span>{{ 'APP.ACTIONS.EDIT_OFFLINE_CANCEL' | translate }}</span>
       </ng-container>
 
-      <ng-container *ngIf="!editOffline.isNodeLocked()">
+      <ng-container *ngIf="!lock.isNodeLocked()">
         <mat-icon>edit</mat-icon>
         <span>{{ 'APP.ACTIONS.EDIT_OFFLINE' | translate }}</span>
       </ng-container>
@@ -81,9 +82,17 @@ export class ToggleEditOfflineComponent implements OnInit {
     this.store.dispatch(new EditOfflineAction(this.selection));
   }
 
-  onError() {
+  onLockError() {
     this.store.dispatch(
       new SnackbarErrorAction('APP.MESSAGES.ERRORS.LOCK_NODE', {
+        fileName: this.selection.entry.name
+      })
+    );
+  }
+
+  onUnlockLockError() {
+    this.store.dispatch(
+      new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
         fileName: this.selection.entry.name
       })
     );
