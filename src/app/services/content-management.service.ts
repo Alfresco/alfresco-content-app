@@ -150,34 +150,11 @@ export class ContentManagementService {
     }
   }
 
-  manageVersions(node: any) {
-    if (node && node.entry) {
-      // shared and favorite
-      const id = node.entry.nodeId || (<any>node).entry.guid;
-
-      if (id) {
-        this.contentApi.getNodeInfo(id).subscribe(entry => {
-          this.openVersionManagerDialog(entry);
-        });
-      } else {
-        this.openVersionManagerDialog(node.entry);
-      }
-    }
-  }
-
-  private openVersionManagerDialog(node: any) {
-    // workaround Shared
-    if (node.isFile || node.nodeId) {
-      this.dialogRef.open(NodeVersionsDialogComponent, {
-        data: { node },
-        panelClass: 'adf-version-manager-dialog-panel',
-        width: '630px'
-      });
-    } else {
-      this.store.dispatch(
-        new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
-      );
-    }
+  versionUploadDialog() {
+    return this.dialogRef.open(NodeVersionUploadDialogComponent, {
+      disableClose: true,
+      panelClass: 'aca-node-version-dialog'
+    });
   }
 
   shareNode(node: any): void {
