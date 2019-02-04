@@ -56,12 +56,12 @@ import {
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
 import { ContentApiService } from './content-api.service';
-import { sharedUrl } from '../store/selectors/app.selectors';
+import { sharedUrl, appSelection } from '../store/selectors/app.selectors';
 import { NodeActionsService } from './node-actions.service';
 import { TranslationService, ViewUtilService } from '@alfresco/adf-core';
-import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
+import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
-import { take, map, tap, mergeMap, catchError } from 'rxjs/operators';
+import { take, map, tap, mergeMap, catchError, flatMap } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
 
 interface RestoredNode {
@@ -1171,5 +1171,19 @@ export class ContentManagementService {
         container.msRequestFullscreen();
       }
     }
+  }
+
+  getNodeInfo() {
+    return this.store.select(appSelection).pipe(
+      take(1),
+      flatMap(({ file }) => {
+        const id = (<any>file).entry.nodeId || (<any>file).entry.guid;
+        if (!id) {
+          return of(<any>file.entry);
+        } else {
+          return this.contentApi.getNodeInfo(id);
+        }
+      })
+    );
   }
 }
