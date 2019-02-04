@@ -31,6 +31,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { debounceTime } from 'rxjs/operators';
+import { UploadService } from '@alfresco/adf-core';
 
 @Component({
   templateUrl: './shared-files.component.html'
@@ -44,6 +45,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService,
+    private uploadService: UploadService,
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
@@ -59,6 +61,13 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
       this.content.linksUnshared
         .pipe(debounceTime(300))
         .subscribe(() => this.reload()),
+
+      this.uploadService.fileUploadComplete
+        .pipe(debounceTime(300))
+        .subscribe(file => this.reload()),
+      this.uploadService.fileUploadDeleted
+        .pipe(debounceTime(300))
+        .subscribe(file => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
