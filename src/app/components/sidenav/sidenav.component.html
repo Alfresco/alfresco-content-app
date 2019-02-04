@@ -25,7 +25,10 @@
                 [matRippleCentered]="true"
                 [matRippleRadius]="20"
               >
-                <mat-icon>{{ item.icon }}</mat-icon>
+                <adf-icon
+                  [color]="routerLink.isActive ? 'accent' : 'primary'"
+                  [value]="item.icon"
+                ></adf-icon>
               </button>
 
               <span
@@ -55,15 +58,14 @@
                 collapsedHeight="48px"
               >
                 <mat-panel-title [attr.title]="item.description | translate">
-                  <mat-icon
+                  <adf-icon
                     [color]="
                       routerLink.isActive && !expansionPanel.expanded
                         ? 'accent'
                         : 'primary'
                     "
-                  >
-                    {{ item.icon }}
-                  </mat-icon>
+                    [value]="item.icon"
+                  ></adf-icon>
                   <span
                     class="item--label item--parent"
                     [id]="item.id"
@@ -97,7 +99,7 @@
                     [matRippleCentered]="true"
                     [matRippleRadius]="20"
                   >
-                    <mat-icon>{{ child.icon }}</mat-icon>
+                    <adf-icon [value]="item.icon"></adf-icon>
                   </button>
 
                   <span
@@ -146,7 +148,10 @@
                 [attr.aria-label]="item.title | translate"
                 [attr.title]="item.description | translate"
               >
-                <mat-icon>{{ item.icon }}</mat-icon>
+                <adf-icon
+                  [color]="routerLink.isActive ? 'accent' : 'primary'"
+                  [value]="item.icon"
+                ></adf-icon>
               </button>
             </div>
           </ng-container>
@@ -160,15 +165,14 @@
                 #childMenu="matMenuTrigger"
                 [matMenuTriggerFor]="menu"
               >
-                <mat-icon
+                <adf-icon
                   [color]="
                     routerLink.isActive || childMenu.menuOpen
                       ? 'accent'
                       : 'primary'
                   "
-                >
-                  {{ item.icon }}
-                </mat-icon>
+                  [value]="item.icon"
+                ></adf-icon>
               </button>
             </div>
 

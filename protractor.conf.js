@@ -2,9 +2,7 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const path = require('path');
-const {
-  SpecReporter
-} = require('jasmine-spec-reporter');
+const { SpecReporter } = require('jasmine-spec-reporter');
 const jasmineReporters = require('jasmine-reporters');
 const CDP = require('chrome-remote-interface');
 
@@ -63,7 +61,13 @@ exports.config = {
           default_directory: downloadFolder
         }
       },
-      args: ['--incognito', '--headless', '--remote-debugging-port=9222', '--disable-gpu', '--no-sandbox']
+      args: [
+        '--incognito',
+        '--headless',
+        '--remote-debugging-port=9222',
+        '--disable-gpu',
+        '--no-sandbox'
+      ]
     }
   },
 
@@ -76,21 +80,23 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 60000,
-    print: function () {}
+    print: function() {}
   },
 
-  plugins: [{
-    package: 'protractor-screenshoter-plugin',
-    screenshotPath: `${projectRoot}/e2e-output/report`,
-    screenshotOnExpect: 'failure',
-    screenshotOnSpec: 'none',
-    withLogs: true,
-    writeReportFreq: 'end',
-    imageToAscii: 'none',
-    htmlOnExpect: 'none',
-    htmlOnSpec: 'none',
-    clearFoldersBeforeTest: true
-  }],
+  plugins: [
+    {
+      package: 'protractor-screenshoter-plugin',
+      screenshotPath: `${projectRoot}/e2e-output/report`,
+      screenshotOnExpect: 'failure',
+      screenshotOnSpec: 'none',
+      withLogs: true,
+      writeReportFreq: 'end',
+      imageToAscii: 'none',
+      htmlOnExpect: 'none',
+      htmlOnSpec: 'none',
+      clearFoldersBeforeTest: true
+    }
+  ],
 
   onPrepare() {
     require('ts-node').register({
@@ -105,7 +111,8 @@ exports.config = {
     jasmine.getEnv().addReporter(
       new SpecReporter({
         spec: {
-          displayStacktrace: true
+          displayStacktrace: true,
+          displayDuration: true
         }
       })
     );
