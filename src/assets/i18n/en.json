@@ -194,7 +194,7 @@
             "REMOVE_FAVORITE": "Remove favorite",
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
-            "VERSIONS": "Manage Versions",
+            "UPLOAD_VERSION": "Upload new version",
             "TOGGLE-SIDENAV": "Toggle side navigation bar",
             "SHARE": "Share",
             "SHARE_EDIT": "Shared link settings",
@@ -360,12 +360,26 @@
     },
     "VERSION": {
         "DIALOG": {
-            "TITLE": "Manage Versions",
-            "CLOSE": "Close"
+            "TITLE": "Upload New Version",
+            "CLOSE": "Close",
+            "UPLOAD": "Upload"
+        },
+        "FORM": {
+            "SUBTITLE": "What level of changes were made to this version?",
+            "VERSION": {
+                "MINOR": "Minor (2.#)",
+                "MAJOR": "Major (#.1)"
+            },
+            "COMMENT": {
+                "PLACEHOLDER": "Add notes describing what changed"
+            }
         },
         "SELECTION": {
             "EMPTY": "Please choose a document to see the versions of it.",
             "NO_PERMISSION": "You don't have permission to manage the versions of this content."
+        },
+        "ERROR": {
+            "GENERIC": "There was an error versioning the file"
         }
     },
     "LIBRARY": {
