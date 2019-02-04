@@ -312,7 +312,6 @@ export function isUserWriteLock(
   context: AppRuleContext,
   ...args: RuleParameter[]
 ): boolean {
-  console.log(context.profile);
   return (
     isWriteLocked(context, ...args) &&
     (context.selection.file.entry.properties['cm:lockOwner'] &&
@@ -321,21 +320,23 @@ export function isUserWriteLock(
   );
 }
 
-export function isAdmin(
-  context: AppRuleContext,
-  ...args: RuleParameter[]
-): boolean {
-  return context.profile.id === 'admin';
-}
-
-export function canToggleEditOffline(
+export function canLockFile(
   context: AppRuleContext,
   ...args: RuleParameter[]
 ): boolean {
   return (
-    (!isWriteLocked(context, ...args) &&
-      canUpdateSelectedNode(context, ...args)) ||
-    isUserWriteLock(context, ...args) ||
-    isAdmin(context, ...args)
+    !isWriteLocked(context, ...args) && canUpdateSelectedNode(context, ...args)
+  );
+}
+
+export function canUnlockFile(
+  context: AppRuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  const { file } = context.selection;
+  return (
+    (isWriteLocked(context, ...args) &&
+      context.permissions.check(file.entry, ['delete'])) ||
+    isUserWriteLock(context, ...args)
   );
 }
