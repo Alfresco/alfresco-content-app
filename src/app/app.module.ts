@@ -50,7 +50,7 @@ import { APP_ROUTES } from './app.routes';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
-import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
+import { NodeVersionUploadDialogComponent } from './dialogs/node-version-upload/node-version-upload.dialog';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -74,6 +74,7 @@ import { DocumentListCustomComponentsModule } from './components/dl-custom-compo
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
+import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { environment } from '../environments/environment';
 import { AppDataService } from './services/data.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -111,6 +112,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     AppSearchInputModule,
     AppSearchResultsModule,
     AppHeaderModule,
+    AppNodeVersionModule,
     TranslateModule.forRoot({
       loader: { provide: TranslateLoader, useClass: TranslateLoaderService }
     })
@@ -120,7 +122,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     FilesComponent,
     LibrariesComponent,
     FavoriteLibrariesComponent,
-    NodeVersionsDialogComponent
+    NodeVersionUploadDialogComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -135,7 +137,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
       }
     }
   ],
-  entryComponents: [LibraryDialogComponent, NodeVersionsDialogComponent],
+  entryComponents: [NodeVersionUploadDialogComponent, LibraryDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
