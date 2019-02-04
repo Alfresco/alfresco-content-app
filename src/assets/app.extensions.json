@@ -643,12 +643,12 @@
             "order": 980
           },
           {
-            "id": "app.toolbar.versions",
+            "id": "app.toolbar.uploadNodeVersion",
             "order": 1000,
-            "title": "APP.ACTIONS.VERSIONS",
-            "icon": "history",
+            "title": "APP.ACTIONS.UPLOAD_VERSION",
+            "icon": "playlist_add",
             "actions": {
-              "click": "MANAGE_VERSIONS"
+              "click": "UPLOAD_FILE_VERSION"
             },
             "rules": {
               "visible": "app.toolbar.versions"
@@ -847,12 +847,12 @@
         "order": 1080
       },
       {
-        "id": "app.context.menu.versions",
-        "title": "APP.ACTIONS.VERSIONS",
+        "id": "app.context.menu.uploadNodeVersion",
+        "title": "APP.ACTIONS.UPLOAD_VERSION",
         "order": 1100,
-        "icon": "history",
+        "icon": "playlist_add",
         "actions": {
-          "click": "MANAGE_VERSIONS"
+          "click": "UPLOAD_FILE_VERSION"
         },
         "rules": {
           "visible": "app.toolbar.versions"
@@ -1061,7 +1061,7 @@
             {
               "id": "app.viewer.versions",
               "order": 700,
-              "title": "APP.ACTIONS.VERSIONS",
+              "title": "APP.ACTIONS.UPLOAD_VERSION",
               "icon": "history",
               "actions": {
                 "click": "MANAGE_VERSIONS"
@@ -1122,7 +1122,7 @@
       {
         "id": "app.sidebar.versions",
         "order": 300,
-        "disabled": true,
+        "disabled": false,
         "title": "APP.INFO_DRAWER.TABS.VERSIONS",
         "component": "app.components.tabs.versions",
         "rules": {
