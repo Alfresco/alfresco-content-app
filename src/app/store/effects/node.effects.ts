@@ -55,8 +55,6 @@ import {
   MOVE_NODES,
   ManagePermissionsAction,
   MANAGE_PERMISSIONS,
-  ManageVersionsAction,
-  MANAGE_VERSIONS,
   PRINT_FILE,
   PrintFileAction,
   FULLSCREEN_VIEWER,
@@ -265,25 +263,6 @@ export class NodeEffects {
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {
               this.contentService.managePermissions(selection.first);
-            }
-          });
-      }
-    })
-  );
-
-  @Effect({ dispatch: false })
-  manageVersions$ = this.actions$.pipe(
-    ofType<ManageVersionsAction>(MANAGE_VERSIONS),
-    map(action => {
-      if (action && action.payload) {
-        this.contentService.manageVersions(action.payload);
-      } else {
-        this.store
-          .select(appSelection)
-          .pipe(take(1))
-          .subscribe(selection => {
-            if (selection && selection.file) {
-              this.contentService.manageVersions(selection.file);
             }
           });
       }
