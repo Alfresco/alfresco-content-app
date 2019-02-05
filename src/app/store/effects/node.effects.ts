@@ -42,7 +42,9 @@ import {
   RestoreDeletedNodesAction,
   RESTORE_DELETED_NODES,
   ShareNodeAction,
-  SHARE_NODE
+  SHARE_NODE,
+  ManageVersionsAction,
+  MANAGE_VERSIONS
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
@@ -263,6 +265,25 @@ export class NodeEffects {
           .subscribe(selection => {
             if (selection && !selection.isEmpty) {
               this.contentService.managePermissions(selection.first);
+            }
+          });
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  manageVersions$ = this.actions$.pipe(
+    ofType<ManageVersionsAction>(MANAGE_VERSIONS),
+    map(action => {
+      if (action && action.payload) {
+        this.contentService.manageVersions(action.payload);
+      } else {
+        this.store
+          .select(appSelection)
+          .pipe(take(1))
+          .subscribe(selection => {
+            if (selection && selection.file) {
+              this.contentService.manageVersions(selection.file);
             }
           });
       }

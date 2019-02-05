@@ -60,6 +60,7 @@ import { sharedUrl, appSelection } from '../store/selectors/app.selectors';
 import { NodeActionsService } from './node-actions.service';
 import { TranslationService, ViewUtilService } from '@alfresco/adf-core';
 import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
+import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
 import { take, map, tap, mergeMap, catchError, flatMap } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
@@ -147,6 +148,36 @@ export class ContentManagementService {
           new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
         );
       }
+    }
+  }
+
+  manageVersions(node: any) {
+    if (node && node.entry) {
+      // shared and favorite
+      const id = node.entry.nodeId || (<any>node).entry.guid;
+
+      if (id) {
+        this.contentApi.getNodeInfo(id).subscribe(entry => {
+          this.openVersionManagerDialog(entry);
+        });
+      } else {
+        this.openVersionManagerDialog(node.entry);
+      }
+    }
+  }
+
+  private openVersionManagerDialog(node: any) {
+    // workaround Shared
+    if (node.isFile || node.nodeId) {
+      this.dialogRef.open(NodeVersionsDialogComponent, {
+        data: { node },
+        panelClass: 'adf-version-manager-dialog-panel',
+        width: '630px'
+      });
+    } else {
+      this.store.dispatch(
+        new SnackbarErrorAction('APP.MESSAGES.ERRORS.PERMISSION')
+      );
     }
   }
 

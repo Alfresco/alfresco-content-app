@@ -51,6 +51,7 @@ import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
 import { NodeVersionUploadDialogComponent } from './dialogs/node-version-upload/node-version-upload.dialog';
+import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -122,7 +123,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     FilesComponent,
     LibrariesComponent,
     FavoriteLibrariesComponent,
-    NodeVersionUploadDialogComponent
+    NodeVersionUploadDialogComponent,
+    NodeVersionsDialogComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -137,7 +139,11 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
       }
     }
   ],
-  entryComponents: [NodeVersionUploadDialogComponent, LibraryDialogComponent],
+  entryComponents: [
+    NodeVersionsDialogComponent,
+    NodeVersionUploadDialogComponent,
+    LibraryDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

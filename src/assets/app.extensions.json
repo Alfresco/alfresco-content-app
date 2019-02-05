@@ -655,6 +655,18 @@
             }
           },
           {
+            "id": "app.toolbar.versions",
+            "order": 1000,
+            "title": "APP.ACTIONS.VERSIONS",
+            "icon": "history",
+            "actions": {
+              "click": "MANAGE_VERSIONS"
+             },
+             "rules": {
+              "visible": "app.toolbar.versions"
+              }
+          },
+          {
             "id": "app.toolbar.permissions",
             "order": 1100,
             "title": "APP.ACTIONS.PERMISSIONS",
@@ -853,6 +865,18 @@
         "icon": "playlist_add",
         "actions": {
           "click": "UPLOAD_FILE_VERSION"
+        },
+        "rules": {
+          "visible": "app.toolbar.versions"
+        }
+      },
+      {
+        "id": "app.context.menu.versions",
+        "title": "APP.ACTIONS.VERSIONS",
+        "order": 1100,
+        "icon": "history",
+        "actions": {
+          "click": "MANAGE_VERSIONS"
         },
         "rules": {
           "visible": "app.toolbar.versions"

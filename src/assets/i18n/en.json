@@ -194,6 +194,7 @@
             "REMOVE_FAVORITE": "Remove favorite",
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
+            "VERSIONS": "Manage Versions",
             "UPLOAD_VERSION": "Upload new version",
             "TOGGLE-SIDENAV": "Toggle side navigation bar",
             "SHARE": "Share",
@@ -359,6 +360,10 @@
         "UNSHARE_PERMISSION_ERROR": "You don't have permission to unshare this file"
     },
     "VERSION": {
+        "DIALOG_ADF": {
+            "TITLE": "Manage Versions",
+            "CLOSE": "Close"
+        },
         "DIALOG": {
             "TITLE": "Upload New Version",
             "CLOSE": "Close",
