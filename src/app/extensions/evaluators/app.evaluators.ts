@@ -308,14 +308,35 @@ export function isWriteLocked(
   );
 }
 
-export function canEditLockedFile(
+export function isUserWriteLockOwner(
   context: AppRuleContext,
   ...args: RuleParameter[]
 ): boolean {
-  return !!(
-    !isWriteLocked(context, ...args) ||
+  return (
+    isWriteLocked(context, ...args) &&
     (context.selection.file.entry.properties['cm:lockOwner'] &&
       context.selection.file.entry.properties['cm:lockOwner'].id ===
         context.profile.id)
+  );
+}
+
+export function canLockFile(
+  context: AppRuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  return (
+    !isWriteLocked(context, ...args) && canUpdateSelectedNode(context, ...args)
+  );
+}
+
+export function canUnlockFile(
+  context: AppRuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  const { file } = context.selection;
+  return (
+    (isWriteLocked(context, ...args) &&
+      context.permissions.check(file.entry, ['delete'])) ||
+    isUserWriteLockOwner(context, ...args)
   );
 }

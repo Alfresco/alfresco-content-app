@@ -24,7 +24,7 @@
  */
 
 import { Component, ViewChild } from '@angular/core';
-import { EditOfflineDirective } from './edit-offline.directive';
+import { LockNodeDirective } from './lock-node.directive';
 import {
   AlfrescoApiService,
   AlfrescoApiServiceMock,
@@ -36,24 +36,24 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 @Component({
   selector: 'app-test-component',
   template: `
-    <button #editOffline="editOffline" [acaEditOffline]="selection"></button>
+    <button #lock="lockNode" [acaLockNode]="selection"></button>
   `
 })
 class TestComponent {
-  @ViewChild('editOffline')
-  directive: EditOfflineDirective;
+  @ViewChild('lock')
+  directive: LockNodeDirective;
 
   selection = null;
 }
 
-describe('EditOfflineDirective', () => {
+describe('LockNodeDirective', () => {
   let fixture;
   let api;
   let component;
 
   setupTestBed({
     imports: [CoreModule],
-    declarations: [TestComponent, EditOfflineDirective],
+    declarations: [TestComponent, LockNodeDirective],
     providers: [
       {
         provide: AlfrescoApiService,
