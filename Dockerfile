@@ -1,7 +1,7 @@
 # 1. Generate licenses
 
 FROM node:11.9-alpine AS builder
-WORKDIR /usr/src/alfresco/aca
+WORKDIR /usr/src/alfresco
 COPY package.json package.json
 
 RUN mkdir -p ./licenses && \
@@ -21,6 +21,6 @@ RUN chmod +x /docker-entrypoint.sh
 
 WORKDIR /usr/share/nginx/html
 COPY dist/app/ .
-COPY --from=builder /usr/src/alfresco/aca/licenses ./licenses
+COPY --from=builder /usr/src/alfresco/licenses ./licenses
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
