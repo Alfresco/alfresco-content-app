@@ -11,7 +11,7 @@ RUN mkdir -p ./licenses && \
 # 2. Generate image
 
 FROM nginx:stable-alpine
-LABEL version="1.4"
+LABEL version="1.7"
 LABEL maintainer="Denys Vuika <denys.vuika@alfresco.com>"
 
 COPY nginx.conf /etc/nginx/nginx.conf
