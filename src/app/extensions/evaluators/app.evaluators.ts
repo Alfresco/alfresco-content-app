@@ -308,7 +308,7 @@ export function isWriteLocked(
   );
 }
 
-export function isUserWriteLock(
+export function isUserWriteLockOwner(
   context: AppRuleContext,
   ...args: RuleParameter[]
 ): boolean {
@@ -337,6 +337,6 @@ export function canUnlockFile(
   return (
     (isWriteLocked(context, ...args) &&
       context.permissions.check(file.entry, ['delete'])) ||
-    isUserWriteLock(context, ...args)
+    isUserWriteLockOwner(context, ...args)
   );
 }
