@@ -250,7 +250,8 @@ export class NodeActionsService {
       imageResolver: this.imageResolver.bind(this),
       isSelectionValid: this.canCopyMoveInsideIt.bind(this),
       breadcrumbTransform: this.customizeBreadcrumb.bind(this),
-      select: new Subject<MinimalNodeEntryEntity[]>()
+      select: new Subject<MinimalNodeEntryEntity[]>(),
+      excludeSiteContent: []
     };
 
     this.dialog.open(ContentNodeSelectorComponent, <any>{
