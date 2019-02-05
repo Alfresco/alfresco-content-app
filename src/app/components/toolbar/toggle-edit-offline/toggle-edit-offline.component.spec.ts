@@ -24,7 +24,7 @@
  */
 
 import { ToggleEditOfflineComponent } from './toggle-edit-offline.component';
-import { EditOfflineDirective } from '../../../directives/edit-offline.directive';
+import { LockNodeDirective } from '../../../directives/lock-node.directive';
 import { setupTestBed, CoreModule } from '@alfresco/adf-core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
@@ -44,7 +44,7 @@ describe('ToggleEditOfflineComponent', () => {
 
   setupTestBed({
     imports: [CoreModule],
-    declarations: [ToggleEditOfflineComponent, EditOfflineDirective],
+    declarations: [ToggleEditOfflineComponent, LockNodeDirective],
     providers: [
       {
         provide: Store,
@@ -115,16 +115,31 @@ describe('ToggleEditOfflineComponent', () => {
     ]);
   });
 
-  it('should raise notification on error', () => {
+  it('should raise notification on lock error', () => {
     component.selection = {
       entry: { name: 'test' }
     };
 
-    component.onError();
+    component.onLockError();
     fixture.detectChanges();
 
     expect(dispatchSpy.calls.argsFor(0)).toEqual([
       new SnackbarErrorAction('APP.MESSAGES.ERRORS.LOCK_NODE', {
+        fileName: 'test'
+      })
+    ]);
+  });
+
+  it('should raise notification on unlock error', () => {
+    component.selection = {
+      entry: { name: 'test' }
+    };
+
+    component.onUnlockLockError();
+    fixture.detectChanges();
+
+    expect(dispatchSpy.calls.argsFor(0)).toEqual([
+      new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
         fileName: 'test'
       })
     ]);

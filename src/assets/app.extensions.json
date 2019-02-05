@@ -166,7 +166,6 @@
       "parameters": [
         { "type": "rule", "value": "app.selection.file" },
         { "type": "rule", "value": "app.navigation.isNotTrashcan" },
-        { "type": "rule", "value": "app.selection.canEditLockedFile" },
         {
           "type": "rule",
           "value": "core.not",
@@ -223,25 +222,21 @@
       "type": "core.every",
       "parameters": [
         { "type": "rule", "value": "app.selection.canDelete" },
-        { "type": "rule", "value": "app.selection.canEditLockedFile" },
         { "type": "rule", "value": "app.navigation.isNotTrashcan" }
       ]
     },
     {
-      "id": "app.toolbar.canEditLockedFile",
+      "id": "app.toolbar.canToggleLock",
       "type": "core.every",
       "parameters": [
         { "type": "rule", "value": "app.selection.file" },
-        { "type": "rule", "value": "app.selection.canEditLockedFile" },
         { "type": "rule", "value": "app.navigation.isNotTrashcan" },
         {
           "type": "rule",
           "value": "core.some",
           "parameters": [
-            { "type": "rule", "value": "app.navigation.isPreview" },
-            { "type": "rule", "value": "app.navigation.isPersonalFiles" },
-            { "type": "rule", "value": "app.navigation.isLibraryFiles" },
-            { "type": "rule", "value": "app.navigation.isRecentFiles" }
+            { "type": "rule", "value": "app.selection.canUnlockFile" },
+            { "type": "rule", "value": "app.selection.canLockFile" }
           ]
         }
       ]
@@ -533,12 +528,12 @@
         "title": "APP.ACTIONS.MORE",
         "children": [
           {
-            "id": "app.toolbar.toggleEditOffline",
+            "id": "app.toolbar.toggleLock",
             "order": 100,
             "type": "custom",
             "component": "app.toolbar.toggleEditOffline",
             "rules": {
-              "visible": "app.toolbar.canEditLockedFile"
+              "visible": "app.toolbar.canToggleLock"
             }
           },
           {
@@ -671,12 +666,12 @@
     ],
     "contextMenu": [
       {
-        "id": "app.context.toggleEditOffline",
+        "id": "app.context.toggleLock",
         "order": 100,
         "type": "custom",
         "component": "app.toolbar.toggleEditOffline",
         "rules": {
-          "visible": "app.toolbar.canEditLockedFile"
+          "visible": "app.toolbar.canToggleLock"
         }
       },
       {
@@ -970,12 +965,12 @@
           "title": "APP.ACTIONS.MORE",
           "children": [
             {
-              "id": "app.viewer.toggleEditOffline",
+              "id": "app.viewer.toggleLock",
               "order": 100,
               "type": "custom",
               "component": "app.toolbar.toggleEditOffline",
               "rules": {
-                "visible": "app.toolbar.canEditLockedFile"
+                "visible": "app.toolbar.canToggleLock"
               }
             },
             {
