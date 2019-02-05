@@ -143,7 +143,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
       PageComponent.isLockedNode(entry) ||
       PageComponent.isWriteLockedNode(entry)
     ) {
-      return 'assets/images/ic_lock_black_24dp_1x.png';
+      return 'assets/images/baseline-lock-24px.svg';
     }
 
     if (PageComponent.isLibrary(entry)) {
