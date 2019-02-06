@@ -11,7 +11,7 @@
     "build.app": "node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build app",
     "build.app.prod": "npm run build.app -- --prod",
     "build": "npm run build.extensions && npm run build.app.prod",
-    "build.e2e": "npm run build.app -- --configuration=e2e",
+    "build.e2e": "npm run build -- --configuration=e2e",
     "test": "ng test app --code-coverage",
     "test:ci": "npm run build.extensions && ng test app --code-coverage --watch=false",
     "lint": "ng lint && npm run spellcheck && npm run format:check",
