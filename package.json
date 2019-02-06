@@ -14,7 +14,7 @@
     "build.e2e": "npm run build.app -- --configuration=e2e",
     "test": "ng test app --code-coverage",
     "test:ci": "npm run build.extensions && ng test app --code-coverage --watch=false",
-    "lint": "ng lint",
+    "lint": "ng lint && npm run spellcheck && npm run format:check",
     "wd:update": "webdriver-manager update --gecko=false",
     "e2e": "npm run wd:update && protractor --baseUrl=http://localhost:4000",
     "e2e.local": "npm run wd:update && protractor --baseUrl=http://localhost:4200",
