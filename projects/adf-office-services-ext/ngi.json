@@ -1,0 +1,15 @@
+{
+  "assets": [
+    {
+      "glob": "**/*.json",
+      "input": "./assets",
+      "output": "./assets/plugins"
+    }
+  ],
+  "modules": [
+    {
+      "name": "AosExtensionModule",
+      "namespace": "@alfresco/adf-office-services-ext"
+    }
+  ]
+}
