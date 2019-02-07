@@ -11,8 +11,6 @@ import { MinimalNodeEntryEntity } from '@alfresco/js-api';
   providedIn: 'root'
 })
 export class AosEditOnlineService {
-  static ECM_HOST_CONFIG_KEY = 'ecmHost';
-  static AOS_EDITONLINE_ACTION_HANDLER_KEY = 'aos-editonline';
   static MS_PROTOCOL_NAMES: any = {
     doc: 'ms-word',
     docx: 'ms-word',
@@ -92,17 +90,8 @@ export class AosEditOnlineService {
   }
 
   private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
-    const ecmHost = this.appConfigService.get<string>(
-      AosEditOnlineService.ECM_HOST_CONFIG_KEY
-    );
-    const url =
-      ecmHost +
-      '/alfresco/aos/' +
-      '_aos_nodeid' +
-      '/' +
-      node.id +
-      '/' +
-      node.name;
+    const aosHost = this.appConfigService.get('aosHost');
+    const url = `${aosHost}/_aos_nodeid/${node.id}/${node.name}`;
 
     const fileExtension =
       node.name.split('.').pop() !== null
@@ -149,6 +138,7 @@ export class AosEditOnlineService {
     document.getElementsByTagName('body')[0].appendChild(input);
     input.focus();
     location.href = protocolUrl;
+
     setTimeout(function() {
       input.onblur = null;
       input.remove();
