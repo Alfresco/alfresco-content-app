@@ -166,7 +166,7 @@ describe('File / folder tooltips', () => {
   });
 
   // disabled until ACA-518 is done
-  xdescribe('on Shared Files', () => {
+  describe('on Shared Files', () => {
     beforeAll(async (done) => {
       await apis.user.shared.waitForApi({ expect: 8 });
       await page.clickSharedFilesAndWait();

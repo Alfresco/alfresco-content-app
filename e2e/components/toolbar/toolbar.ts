@@ -37,7 +37,7 @@ export class Toolbar extends Component {
     shareEdit: `.mat-icon-button[title='Shared link settings']`,
     view: `.mat-icon-button[title='View']`,
     download: `.mat-icon-button[title='Download']`,
-    edit: `.mat-icon-button[title='Edit']`,
+    editFolder: 'app.toolbar.editFolder',
     viewDetails: `.mat-icon-button[title='View details']`,
     print: `.mat-icon-button[title='Print']`,
     fullScreen: `.mat-icon-button[title='Activate full-screen mode']`,
@@ -53,7 +53,7 @@ export class Toolbar extends Component {
   shareEditButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.shareEdit));
   viewButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.view));
   downloadButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.download));
-  editButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.edit));
+  editFolderButton: ElementFinder = this.component.element(by.id(Toolbar.selectors.editFolder));
   viewDetailsButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.viewDetails));
   printButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.print));
   fullScreenButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.fullScreen));
@@ -108,15 +108,6 @@ export class Toolbar extends Component {
     await btn.click();
   }
 
-  async clickShare() {
-    const btn = this.shareButton;
-    await btn.click();
-  }
-
-  async clickSharedLinkSettings() {
-    const btn = this.shareEditButton;
-    await btn.click();
-  }
 
   async isSharedLinkSettingsPresent() {
     return await browser.isElementPresent(this.shareEditButton);
@@ -134,8 +125,16 @@ export class Toolbar extends Component {
     return await browser.isElementPresent(this.downloadButton);
   }
 
-  async isEditPresent() {
-    return await browser.isElementPresent(this.editButton);
+  async isPermanentlyDeletePresent() {
+    return await browser.isElementPresent(this.permanentlyDeleteButton);
+  }
+
+  async isRestorePresent() {
+    return await browser.isElementPresent(this.restoreButton);
+  }
+
+  async isEditFolderPresent() {
+    return await browser.isElementPresent(this.editFolderButton);
   }
 
   async isViewDetailsPresent() {
@@ -151,12 +150,22 @@ export class Toolbar extends Component {
   }
 
 
+  async clickShare() {
+    const btn = this.shareButton;
+    await btn.click();
+  }
+
+  async clickSharedLinkSettings() {
+    const btn = this.shareEditButton;
+    await btn.click();
+  }
+
   async clickView() {
     return await this.viewButton.click();
   }
 
-  async clickEdit() {
-    return await this.editButton.click();
+  async clickEditFolder() {
+    return await this.editFolderButton.click();
   }
 
   async clickViewDetails() {

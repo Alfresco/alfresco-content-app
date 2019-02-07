@@ -147,6 +147,8 @@ export class CoreExtensionsModule {
       'app.navigation.isSearchResults': nav.isSearchResults,
       'app.navigation.isNotSearchResults': nav.isNotSearchResults,
       'app.navigation.isPreview': nav.isPreview,
+      'app.navigation.isSharedPreview': nav.isSharedPreview,
+      'app.navigation.isFavoritesPreview': nav.isFavoritesPreview,
 
       'repository.isQuickShareEnabled': repository.hasQuickShareEnabled
     });
