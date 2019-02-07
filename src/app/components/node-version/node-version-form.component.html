@@ -1,0 +1,27 @@
+<form novalidate [formGroup]="form" class="form">
+  <p class="form__subtitle">
+    {{ 'VERSION.FORM.SUBTITLE' | translate }}
+  </p>
+
+  <mat-radio-group formControlName="version" class="form__version">
+    <mat-radio-button
+      class="form__version--option"
+      color="primary"
+      *ngFor="let option of versions"
+      [attr.data-automation-id]="option.value"
+      [value]="option.value"
+    >
+      {{ option.label | translate }}
+    </mat-radio-button>
+  </mat-radio-group>
+
+  <mat-form-field class="form__comment">
+    <textarea
+      matInput
+      placeholder="{{ 'VERSION.FORM.COMMENT.PLACEHOLDER' | translate }}"
+      rows="1"
+      autocomplete="off"
+      formControlName="comment"
+    ></textarea>
+  </mat-form-field>
+</form>

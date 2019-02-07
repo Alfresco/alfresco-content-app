@@ -38,7 +38,8 @@ import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { map } from 'rxjs/operators';
+import { map, debounceTime } from 'rxjs/operators';
+import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
 
 @Component({
   templateUrl: './favorites.component.html'
@@ -54,6 +55,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     extensions: AppExtensionService,
     private contentApi: ContentApiService,
     content: ContentManagementService,
+    private uploadService: UploadService,
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
@@ -69,6 +71,13 @@ export class FavoritesComponent extends PageComponent implements OnInit {
       this.content.nodesMoved.subscribe(() => this.reload()),
       this.content.favoriteRemoved.subscribe(() => this.reload()),
       this.content.favoriteToggle.subscribe(() => this.reload()),
+      this.content.favoriteToggle.subscribe(() => this.reload()),
+      this.uploadService.fileUploadComplete
+        .pipe(debounceTime(300))
+        .subscribe(file => this.onFileUploadedEvent(file)),
+      this.uploadService.fileUploadDeleted
+        .pipe(debounceTime(300))
+        .subscribe(file => this.onFileUploadedEvent(file)),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
@@ -113,5 +122,9 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         this.showPreview(node);
       }
     }
+  }
+
+  private onFileUploadedEvent(event: FileUploadEvent) {
+    this.documentList.reload();
   }
 }

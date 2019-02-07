@@ -23,22 +23,35 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
+import { AppNodeVersionFormComponent } from './node-version-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
-export const UPLOAD_FILES = 'UPLOAD_FILES';
-export const UPLOAD_FOLDER = 'UPLOAD_FOLDER';
-export const UPLOAD_FILE_VERSION = 'UPLOAD_FILE_VERSION';
+import { CoreModule } from '@alfresco/adf-core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
-export class UploadFilesAction implements Action {
-  readonly type = UPLOAD_FILES;
-  constructor(public payload: any) {}
-}
-
-export class UploadFolderAction implements Action {
-  readonly type = UPLOAD_FOLDER;
-  constructor(public payload: any) {}
-}
-
-export class UploadFileVersionAction implements Action {
-  readonly type = UPLOAD_FILE_VERSION;
-}
+import { NgModule } from '@angular/core';
+@NgModule({
+  imports: [
+    CoreModule,
+    MatButtonModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserModule,
+    CommonModule,
+    MatRadioModule,
+    MatFormFieldModule,
+    MatInputModule
+  ],
+  exports: [AppNodeVersionFormComponent],
+  declarations: [AppNodeVersionFormComponent],
+  providers: [],
+  entryComponents: [AppNodeVersionFormComponent]
+})
+export class AppNodeVersionModule {}

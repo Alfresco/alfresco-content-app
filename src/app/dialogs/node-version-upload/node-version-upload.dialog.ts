@@ -23,22 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
+import { Component, ViewEncapsulation } from '@angular/core';
 
-export const UPLOAD_FILES = 'UPLOAD_FILES';
-export const UPLOAD_FOLDER = 'UPLOAD_FOLDER';
-export const UPLOAD_FILE_VERSION = 'UPLOAD_FILE_VERSION';
-
-export class UploadFilesAction implements Action {
-  readonly type = UPLOAD_FILES;
-  constructor(public payload: any) {}
-}
-
-export class UploadFolderAction implements Action {
-  readonly type = UPLOAD_FOLDER;
-  constructor(public payload: any) {}
-}
-
-export class UploadFileVersionAction implements Action {
-  readonly type = UPLOAD_FILE_VERSION;
-}
+@Component({
+  templateUrl: './node-version-upload.dialog.html',
+  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./node-version-upload.dialog.scss'],
+  host: { class: 'aca-node-version-upload-dialog' }
+})
+export class NodeVersionUploadDialogComponent {}

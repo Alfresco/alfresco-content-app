@@ -1,0 +1,24 @@
+.app-node-version-form__container {
+  display: flex;
+  max-width: 400px;
+
+  .form {
+    width: 100%;
+  }
+
+  .form__version {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  .form__version--option:last-child {
+    padding-top: 20px;
+  }
+
+  .form {
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+  }
+}
