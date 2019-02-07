@@ -28,6 +28,9 @@
             "title": "Edit in Microsoft Office™",
             "actions": {
               "click": "aos.openWith.office"
+            },
+            "rules": {
+              "visible": "aos.canOpenWithOffice"
             }
           }
         ]
@@ -41,6 +44,9 @@
         "title": "Edit in Microsoft Office™",
         "actions": {
           "click": "aos.openWith.office"
+        },
+        "rules": {
+          "visible": "aos.canOpenWithOffice"
         }
       }
     ],
@@ -53,6 +59,9 @@
           "title": "Microsoft Office™",
           "actions": {
             "click": "aos.openWith.office"
+          },
+          "rules": {
+            "visible": "aos.canOpenWithOffice"
           }
         }
       ]
