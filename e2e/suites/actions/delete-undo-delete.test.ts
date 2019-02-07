@@ -99,10 +99,10 @@ describe('Delete and undo delete', () => {
       fileLocked4Id = (await apis.user.nodes.createFile(fileLocked4, folder5Id)).entry.id;
       await apis.user.nodes.createFile(file2InFolder, folder6Id);
 
-      await apis.user.nodes.lockFile(fileLocked1Id);
-      await apis.user.nodes.lockFile(fileLocked2Id);
-      await apis.user.nodes.lockFile(fileLocked3Id);
-      await apis.user.nodes.lockFile(fileLocked4Id);
+      await apis.user.nodes.lockFile(fileLocked1Id, 'FULL');
+      await apis.user.nodes.lockFile(fileLocked2Id, 'FULL');
+      await apis.user.nodes.lockFile(fileLocked3Id, 'FULL');
+      await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
 
       await loginPage.loginWith(username);
 
@@ -364,10 +364,10 @@ describe('Delete and undo delete', () => {
       fileLocked4Id = (await apis.user.nodes.createFile(fileLocked4, favFolder5Id)).entry.id;
       await apis.user.nodes.createFile(file2InFolder, favFolder6Id);
 
-      await apis.user.nodes.lockFile(fileLocked1Id);
-      await apis.user.nodes.lockFile(fileLocked2Id);
-      await apis.user.nodes.lockFile(fileLocked3Id);
-      await apis.user.nodes.lockFile(fileLocked4Id);
+      await apis.user.nodes.lockFile(fileLocked1Id, 'FULL');
+      await apis.user.nodes.lockFile(fileLocked2Id, 'FULL');
+      await apis.user.nodes.lockFile(fileLocked3Id, 'FULL');
+      await apis.user.nodes.lockFile(fileLocked4Id, 'FULL');
 
       await apis.user.favorites.addFavoritesByIds('file', [ favFile1Id, favFile2Id, favFile3Id, favFile4Id, favFile5Id, favFile6Id, favFile7Id ]);
       await apis.user.favorites.addFavoritesByIds('folder', [ favFolder1Id, favFolder2Id, favFolder3Id, favFolder4Id, favFolder5Id, favFolder6Id ]);
