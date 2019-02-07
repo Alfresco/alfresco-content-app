@@ -42,7 +42,9 @@ import {
   RestoreDeletedNodesAction,
   RESTORE_DELETED_NODES,
   ShareNodeAction,
-  SHARE_NODE
+  SHARE_NODE,
+  ManageVersionsAction,
+  MANAGE_VERSIONS
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
@@ -55,8 +57,6 @@ import {
   MOVE_NODES,
   ManagePermissionsAction,
   MANAGE_PERMISSIONS,
-  ManageVersionsAction,
-  MANAGE_VERSIONS,
   PRINT_FILE,
   PrintFileAction,
   FULLSCREEN_VIEWER,

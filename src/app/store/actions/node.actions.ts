@@ -39,9 +39,9 @@ export const UNSHARE_NODES = 'UNSHARE_NODES';
 export const COPY_NODES = 'COPY_NODES';
 export const MOVE_NODES = 'MOVE_NODES';
 export const MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS';
-export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
 export const PRINT_FILE = 'PRINT_FILE';
 export const FULLSCREEN_VIEWER = 'FULLSCREEN_VIEWER';
+export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
 export const EDIT_OFFLINE = 'EDIT_OFFLINE';
 
 export class SetSelectedNodesAction implements Action {
@@ -109,11 +109,6 @@ export class ManagePermissionsAction implements Action {
   constructor(public payload: MinimalNodeEntity) {}
 }
 
-export class ManageVersionsAction implements Action {
-  readonly type = MANAGE_VERSIONS;
-  constructor(public payload: MinimalNodeEntity) {}
-}
-
 export class PrintFileAction implements Action {
   readonly type = PRINT_FILE;
   constructor(public payload: MinimalNodeEntity) {}
@@ -121,6 +116,11 @@ export class PrintFileAction implements Action {
 
 export class FullscreenViewerAction implements Action {
   readonly type = FULLSCREEN_VIEWER;
+  constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class ManageVersionsAction implements Action {
+  readonly type = MANAGE_VERSIONS;
   constructor(public payload: MinimalNodeEntity) {}
 }
 

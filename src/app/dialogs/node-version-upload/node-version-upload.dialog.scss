@@ -1,0 +1,11 @@
+.aca-node-version-upload-dialog {
+  overflow: unset;
+
+  .dialog-actions {
+    justify-content: flex-end;
+  }
+
+  .node-version-dialog__title {
+    padding-left: 8px;
+  }
+}

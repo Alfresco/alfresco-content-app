@@ -638,16 +638,28 @@
             "order": 980
           },
           {
+            "id": "app.toolbar.uploadNodeVersion",
+            "order": 1000,
+            "title": "APP.ACTIONS.UPLOAD_VERSION",
+            "icon": "playlist_add",
+            "actions": {
+              "click": "UPLOAD_FILE_VERSION"
+            },
+            "rules": {
+              "visible": "app.toolbar.versions"
+            }
+          },
+          {
             "id": "app.toolbar.versions",
             "order": 1000,
             "title": "APP.ACTIONS.VERSIONS",
             "icon": "history",
             "actions": {
               "click": "MANAGE_VERSIONS"
-            },
-            "rules": {
+             },
+             "rules": {
               "visible": "app.toolbar.versions"
-            }
+              }
           },
           {
             "id": "app.toolbar.permissions",
@@ -840,6 +852,18 @@
         "id": "app.create.separator.6",
         "type": "separator",
         "order": 1080
+      },
+      {
+        "id": "app.context.menu.uploadNodeVersion",
+        "title": "APP.ACTIONS.UPLOAD_VERSION",
+        "order": 1100,
+        "icon": "playlist_add",
+        "actions": {
+          "click": "UPLOAD_FILE_VERSION"
+        },
+        "rules": {
+          "visible": "app.toolbar.versions"
+        }
       },
       {
         "id": "app.context.menu.versions",
@@ -1054,8 +1078,20 @@
               "order": 680
             },
             {
-              "id": "app.viewer.versions",
+              "id": "app.toolbar.uploadNodeVersion",
               "order": 700,
+              "title": "APP.ACTIONS.UPLOAD_VERSION",
+              "icon": "playlist_add",
+              "actions": {
+                "click": "UPLOAD_FILE_VERSION"
+              },
+              "rules": {
+                "visible": "app.toolbar.versions"
+              }
+            },
+            {
+              "id": "app.viewer.versions",
+              "order": 800,
               "title": "APP.ACTIONS.VERSIONS",
               "icon": "history",
               "actions": {
@@ -1067,7 +1103,7 @@
             },
             {
               "id": "app.viewer.permissions",
-              "order": 800,
+              "order": 900,
               "title": "APP.ACTIONS.PERMISSIONS",
               "icon": "settings_input_component",
               "actions": {
@@ -1117,7 +1153,7 @@
       {
         "id": "app.sidebar.versions",
         "order": 300,
-        "disabled": true,
+        "disabled": false,
         "title": "APP.INFO_DRAWER.TABS.VERSIONS",
         "component": "app.components.tabs.versions",
         "rules": {

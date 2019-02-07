@@ -42,8 +42,7 @@ import {
   EditFolderAction,
   CopyNodesAction,
   MoveNodesAction,
-  ManagePermissionsAction,
-  ManageVersionsAction
+  ManagePermissionsAction
 } from '../actions/node.actions';
 import { SetCurrentFolderAction } from '../actions/app.actions';
 
@@ -397,38 +396,6 @@ describe('NodeEffects', () => {
       store.dispatch(new ManagePermissionsAction(null));
 
       expect(contentService.managePermissions).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('manageVersions$', () => {
-    it('should manage versions from the payload', () => {
-      spyOn(contentService, 'manageVersions').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new ManageVersionsAction(node));
-
-      expect(contentService.manageVersions).toHaveBeenCalledWith(node);
-    });
-
-    it('should manage versions from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'manageVersions').and.stub();
-
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new SetSelectedNodesAction([node]));
-
-      tick(100);
-
-      store.dispatch(new ManageVersionsAction(null));
-
-      expect(contentService.manageVersions).toHaveBeenCalledWith(node);
-    }));
-
-    it('should do nothing if invoking manage versions with no data', () => {
-      spyOn(contentService, 'manageVersions').and.stub();
-
-      store.dispatch(new ManageVersionsAction(null));
-
-      expect(contentService.manageVersions).not.toHaveBeenCalled();
     });
   });
 });
