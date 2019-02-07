@@ -31,6 +31,8 @@ import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { AppExtensionService } from '../../extensions/extension.service';
+import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   templateUrl: './recent-files.component.html'
@@ -44,6 +46,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService,
+    private uploadService: UploadService,
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
@@ -56,6 +59,13 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
       this.content.nodesDeleted.subscribe(() => this.reload()),
       this.content.nodesMoved.subscribe(() => this.reload()),
       this.content.nodesRestored.subscribe(() => this.reload()),
+
+      this.uploadService.fileUploadComplete
+        .pipe(debounceTime(300))
+        .subscribe(file => this.onFileUploadedEvent(file)),
+      this.uploadService.fileUploadDeleted
+        .pipe(debounceTime(300))
+        .subscribe(file => this.onFileUploadedEvent(file)),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
@@ -76,5 +86,9 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
       this.showPreview(node);
     }
+  }
+
+  private onFileUploadedEvent(event: FileUploadEvent) {
+    this.documentList.reload();
   }
 }

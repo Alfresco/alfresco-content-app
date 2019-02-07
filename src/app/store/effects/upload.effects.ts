@@ -27,23 +27,41 @@ import { Injectable, RendererFactory2, NgZone } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
-import { UploadFilesAction, UPLOAD_FILES } from '../actions';
-import { map, take } from 'rxjs/operators';
+import {
+  UploadFilesAction,
+  UPLOAD_FILES,
+  UploadFolderAction,
+  UPLOAD_FOLDER,
+  UPLOAD_FILE_VERSION,
+  UploadFileVersionAction,
+  SnackbarErrorAction
+} from '../actions';
+import {
+  map,
+  take,
+  flatMap,
+  distinctUntilChanged,
+  catchError,
+  switchMap
+} from 'rxjs/operators';
 import { FileUtils, FileModel, UploadService } from '@alfresco/adf-core';
 import { currentFolder } from '../selectors/app.selectors';
-import { UploadFolderAction, UPLOAD_FOLDER } from '../actions/upload.actions';
+import { fromEvent, of, forkJoin } from 'rxjs';
+import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()
 export class UploadEffects {
   private fileInput: HTMLInputElement;
   private folderInput: HTMLInputElement;
+  private fileVersionInput: HTMLInputElement;
 
   constructor(
     private store: Store<AppStore>,
     private actions$: Actions,
     private ngZone: NgZone,
     private uploadService: UploadService,
-    rendererFactory: RendererFactory2
+    rendererFactory: RendererFactory2,
+    private contentService: ContentManagementService
   ) {
     const renderer = rendererFactory.createRenderer(null, null);
 
@@ -54,6 +72,13 @@ export class UploadEffects {
     this.fileInput.setAttribute('multiple', '');
     this.fileInput.addEventListener('change', event => this.upload(event));
     renderer.appendChild(document.body, this.fileInput);
+
+    this.fileVersionInput = renderer.createElement('input') as HTMLInputElement;
+    this.fileVersionInput.id = 'app-upload-file-version';
+    this.fileVersionInput.type = 'file';
+    this.fileVersionInput.style.display = 'none';
+    this.fileVersionInput.addEventListener('change', event => event);
+    renderer.appendChild(document.body, this.fileVersionInput);
 
     this.folderInput = renderer.createElement('input') as HTMLInputElement;
     this.folderInput.id = 'app-upload-folder';
@@ -78,6 +103,44 @@ export class UploadEffects {
     ofType<UploadFolderAction>(UPLOAD_FOLDER),
     map(() => {
       this.folderInput.click();
+    })
+  );
+
+  @Effect({ dispatch: false })
+  uploadVersion$ = this.actions$.pipe(
+    ofType<UploadFileVersionAction>(UPLOAD_FILE_VERSION),
+    switchMap(() => {
+      this.fileVersionInput.click();
+      return fromEvent(this.fileVersionInput, 'change').pipe(
+        distinctUntilChanged(),
+        flatMap(() => this.contentService.versionUploadDialog().afterClosed()),
+        flatMap(form => forkJoin(of(form), this.contentService.getNodeInfo())),
+        map(([form, node]) => {
+          const file = this.fileVersionInput.files[0];
+          const fileModel = new FileModel(
+            file,
+            {
+              comment: form.comment,
+              majorVersion: form.major ? true : false,
+              parentId: node.parentId,
+              path: ((<any>file).webkitRelativePath || '').replace(
+                /\/[^\/]*$/,
+                ''
+              ),
+              newVersion: true,
+              nodeType: 'cm:content'
+            },
+            node.id
+          );
+
+          this.fileVersionInput.value = '';
+          this.uploadQueue([fileModel]);
+        }),
+        catchError(error => {
+          this.fileVersionInput.value = '';
+          return of(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
+        })
+      );
     })
   );
 
