@@ -235,6 +235,22 @@
           "type": "rule",
           "value": "core.some",
           "parameters": [
+            { "type": "rule", "value": "app.navigation.isNotFavorites" },
+            { "type": "rule", "value": "app.navigation.isFavoritesPreview" }
+          ]
+        },
+        {
+          "type": "rule",
+          "value": "core.some",
+          "parameters": [
+            { "type": "rule", "value": "app.navigation.isNotSharedFiles" },
+            { "type": "rule", "value": "app.navigation.isSharedPreview" }
+          ]
+        },
+        {
+          "type": "rule",
+          "value": "core.some",
+          "parameters": [
             { "type": "rule", "value": "app.selection.canUnlockFile" },
             { "type": "rule", "value": "app.selection.canLockFile" }
           ]

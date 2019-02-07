@@ -140,3 +140,23 @@ export function isPreview(
   const { url } = context.navigation;
   return url && url.includes('/preview/');
 }
+
+export function isSharedPreview(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  const { url } = context.navigation;
+  console.log(
+    '===== isSharedPreview: ',
+    url && url.startsWith('/shared/preview/')
+  );
+  return url && url.startsWith('/shared/preview/');
+}
+
+export function isFavoritesPreview(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  const { url } = context.navigation;
+  return url && url.startsWith('/favorites/preview/');
+}
