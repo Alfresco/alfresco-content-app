@@ -20,6 +20,7 @@ export function canOpenWithOffice(
     return false;
   }
 
+  /*
   if (file.entry && file.entry.aspectNames) {
     const checkedOut = file.entry.aspectNames.find(
       (aspect: string) => aspect === 'cm:checkedOut'
@@ -28,6 +29,11 @@ export function canOpenWithOffice(
     if (checkedOut) {
       return false;
     }
+  }
+  */
+
+  if (file.entry.properties['cm:lockType'] === 'WRITE_LOCK') {
+    return false;
   }
 
   const lockOwner = file.entry.properties['cm:lockOwner'];

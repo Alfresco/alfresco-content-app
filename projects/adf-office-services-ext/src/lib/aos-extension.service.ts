@@ -2,7 +2,8 @@
 import {
   AppConfigService,
   AuthenticationService,
-  NotificationService
+  NotificationService,
+  AlfrescoApiService
 } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
@@ -15,15 +16,17 @@ export class AosEditOnlineService {
   constructor(
     private alfrescoAuthenticationService: AuthenticationService,
     private appConfigService: AppConfigService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private apiService: AlfrescoApiService
   ) {}
 
   onActionEditOnlineAos(node: MinimalNodeEntryEntity): void {
-    if (node.isFile) {
+    if (node && node.isFile && node.properties) {
       if (node.isLocked) {
-        const checkedOut = node.aspectNames.find(
-          (aspect: string) => aspect === 'cm:checkedOut'
-        );
+        // const checkedOut = node.aspectNames.find(
+        //   (aspect: string) => aspect === 'cm:checkedOut'
+        // );
+        const checkedOut = node.properties['cm:lockType'] === 'WRITE_LOCK';
         const lockOwner = node.properties['cm:lockOwner'];
         const differentLockOwner =
           lockOwner.id !== this.alfrescoAuthenticationService.getEcmUsername();
@@ -82,7 +85,22 @@ export class AosEditOnlineService {
         3000
       );
     } else {
-      this.aos_tryToLaunchOfficeByMsProtocolHandler(protocolHandler, url);
+      this.apiService.nodesApi
+        .lockNode(node.id, {
+          type: 'ALLOW_OWNER_CHANGES',
+          lifetime: 'PERSISTENT'
+        })
+        .then(
+          () => {
+            this.aos_tryToLaunchOfficeByMsProtocolHandler(protocolHandler, url);
+          },
+          () => {
+            this.notificationService.openSnackMessage(
+              'Cannot lock the node for editing.',
+              3000
+            );
+          }
+        );
     }
   }
 
