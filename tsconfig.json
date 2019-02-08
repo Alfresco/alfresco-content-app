@@ -14,7 +14,14 @@
     "lib": ["es2018", "dom"],
     "module": "es2015",
     "baseUrl": "./",
-    "paths": {},
+    "paths": {
+      "@alfresco/adf-office-services-ext": [
+        "dist/@alfresco/adf-office-services-ext"
+      ],
+      "@alfresco/adf-office-services-ext/*": [
+        "dist/@alfresco/adf-office-services-ext/*"
+      ]
+    },
     "resolveJsonModule": true
   },
   "exclude": ["node_modules"],
