@@ -6,39 +6,12 @@ import {
 } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
+import { supportedExtensions, getFileExtension } from './utils';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AosEditOnlineService {
-  static MS_PROTOCOL_NAMES: any = {
-    doc: 'ms-word',
-    docx: 'ms-word',
-    docm: 'ms-word',
-    dot: 'ms-word',
-    dotx: 'ms-word',
-    dotm: 'ms-word',
-    xls: 'ms-excel',
-    xlsx: 'ms-excel',
-    xlsb: 'ms-excel',
-    xlsm: 'ms-excel',
-    xlt: 'ms-excel',
-    xltx: 'ms-excel',
-    xltm: 'ms-excel',
-    ppt: 'ms-powerpoint',
-    pptx: 'ms-powerpoint',
-    pot: 'ms-powerpoint',
-    potx: 'ms-powerpoint',
-    potm: 'ms-powerpoint',
-    pptm: 'ms-powerpoint',
-    pps: 'ms-powerpoint',
-    ppsx: 'ms-powerpoint',
-    ppam: 'ms-powerpoint',
-    ppsm: 'ms-powerpoint',
-    sldx: 'ms-powerpoint',
-    sldm: 'ms-powerpoint'
-  };
-
   constructor(
     private alfrescoAuthenticationService: AuthenticationService,
     private appConfigService: AppConfigService,
@@ -86,20 +59,13 @@ export class AosEditOnlineService {
   }
 
   private getProtocolForFileExtension(fileExtension: string) {
-    return AosEditOnlineService.MS_PROTOCOL_NAMES[fileExtension];
+    return supportedExtensions[fileExtension];
   }
 
   private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
     const aosHost = this.appConfigService.get('aosHost');
     const url = `${aosHost}/_aos_nodeid/${node.id}/${node.name}`;
-
-    const fileExtension =
-      node.name.split('.').pop() !== null
-        ? node.name
-            .split('.')
-            .pop()
-            .toLowerCase()
-        : '';
+    const fileExtension = getFileExtension(node.name);
     const protocolHandler = this.getProtocolForFileExtension(fileExtension);
 
     if (protocolHandler === undefined) {

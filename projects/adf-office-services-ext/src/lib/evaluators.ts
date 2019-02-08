@@ -1,42 +1,5 @@
 import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
-
-/* cspell:disable */
-const supportedExtensions = {
-  doc: 'ms-word',
-  docx: 'ms-word',
-  docm: 'ms-word',
-  dot: 'ms-word',
-  dotx: 'ms-word',
-  dotm: 'ms-word',
-  xls: 'ms-excel',
-  xlsx: 'ms-excel',
-  xlsb: 'ms-excel',
-  xlsm: 'ms-excel',
-  xlt: 'ms-excel',
-  xltx: 'ms-excel',
-  xltm: 'ms-excel',
-  ppt: 'ms-powerpoint',
-  pptx: 'ms-powerpoint',
-  pot: 'ms-powerpoint',
-  potx: 'ms-powerpoint',
-  potm: 'ms-powerpoint',
-  pptm: 'ms-powerpoint',
-  pps: 'ms-powerpoint',
-  ppsx: 'ms-powerpoint',
-  ppam: 'ms-powerpoint',
-  ppsm: 'ms-powerpoint',
-  sldx: 'ms-powerpoint',
-  sldm: 'ms-powerpoint'
-};
-/* cspell:enable */
-
-function getFileExtension(fileName: string): string {
-  if (fileName) {
-    const match = fileName.match(/\.([^\./\?\#]+)($|\?|\#)/);
-    return match ? match[1] : null;
-  }
-  return null;
-}
+import { getFileExtension, supportedExtensions } from './utils';
 
 export function canOpenWithOffice(
   context: RuleContext,
@@ -44,7 +7,7 @@ export function canOpenWithOffice(
 ): boolean {
   const file = context.selection.file;
 
-  if (!file || !file.entry) {
+  if (!file || !file.entry || !file.entry.properties) {
     return false;
   }
 
