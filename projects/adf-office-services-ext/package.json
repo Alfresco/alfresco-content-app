@@ -1,0 +1,17 @@
+{
+  "name": "@alfresco/adf-office-services-ext",
+  "version": "1.0.0",
+  "license": "LGPL-3.0",
+  "author": {
+    "name": "Keensoft",
+    "url": "http://www.keensoft.es/en/"
+  },
+  "peerDependencies": {
+    "@angular/common": "^7.2.0",
+    "@angular/core": "^7.2.0",
+    "@ngrx/effects": "^7.2.0",
+    "@ngrx/store": "^7.2.0",
+    "@alfresco/adf-extensions": "3.0.0-3a5fe3fb92cdc7397cbfd3d0869833ea1f1fe8d5",
+    "@alfresco/js-api": "3.0.0-d7850f421268e21861e2cd219441b7343efd27ba"
+  }
+}
