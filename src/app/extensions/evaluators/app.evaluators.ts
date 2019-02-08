@@ -335,8 +335,8 @@ export function canUnlockFile(
 ): boolean {
   const { file } = context.selection;
   return (
-    (isWriteLocked(context, ...args) &&
-      context.permissions.check(file.entry, ['delete'])) ||
-    isUserWriteLockOwner(context, ...args)
+    isWriteLocked(context, ...args) &&
+    (context.permissions.check(file.entry, ['delete']) ||
+      isUserWriteLockOwner(context, ...args))
   );
 }

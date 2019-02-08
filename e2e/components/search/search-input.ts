@@ -74,14 +74,17 @@ export class SearchInput extends Component {
   }
 
   async clickFilesOption() {
+    await browser.wait(EC.elementToBeClickable(this.searchFilesOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Files to be clickable');
     return await this.searchFilesOption.click();
   }
 
   async clickFoldersOption() {
+    await browser.wait(EC.elementToBeClickable(this.searchFoldersOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Folders to be clickable');
     return await this.searchFoldersOption.click();
   }
 
   async clickLibrariesOption() {
+    await browser.wait(EC.elementToBeClickable(this.searchLibrariesOption), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for Libraries to be clickable');
     return await this.searchLibrariesOption.click();
   }
 

@@ -207,10 +207,11 @@ export class NodesApi extends RepoApi {
     }
 
     // lock node
-    async lockFile(nodeId: string, lockType: string = 'FULL') {
+    async lockFile(nodeId: string, lockType: string = 'ALLOW_OWNER_CHANGES') {
         const data = <NodeBodyLock>{
             type: lockType
         };
+
         await this.apiAuth();
         return await this.nodesApi.lockNode(nodeId, data );
     }
