@@ -412,13 +412,13 @@ describe('NodeEffects', () => {
 
     it('should unlock node from store selection', fakeAsync(() => {
       spyOn(contentService, 'unlockNode').and.stub();
-      const node: any = { entry: { id: 'node-id' } };
+      const node: any = { entry: { isFile: true, id: 'node-id' } };
 
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
 
-      store.dispatch(new UnlockWriteAction(node));
+      store.dispatch(new UnlockWriteAction(null));
 
       expect(contentService.unlockNode).toHaveBeenCalledWith(node);
     }));
