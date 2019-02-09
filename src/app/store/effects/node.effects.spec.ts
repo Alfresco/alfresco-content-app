@@ -42,7 +42,8 @@ import {
   EditFolderAction,
   CopyNodesAction,
   MoveNodesAction,
-  ManagePermissionsAction
+  ManagePermissionsAction,
+  UnlockWriteAction
 } from '../actions/node.actions';
 import { SetCurrentFolderAction } from '../actions/app.actions';
 
@@ -397,5 +398,29 @@ describe('NodeEffects', () => {
 
       expect(contentService.managePermissions).not.toHaveBeenCalled();
     });
+  });
+
+  describe('unlockWrite$', () => {
+    it('should unlock node from payload', () => {
+      spyOn(contentService, 'unlockNode').and.stub();
+      const node: any = { entry: { id: 'node-id' } };
+
+      store.dispatch(new UnlockWriteAction(node));
+
+      expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+    });
+
+    it('should unlock node from store selection', fakeAsync(() => {
+      spyOn(contentService, 'unlockNode').and.stub();
+      const node: any = { entry: { id: 'node-id' } };
+
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new UnlockWriteAction(node));
+
+      expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+    }));
   });
 });
