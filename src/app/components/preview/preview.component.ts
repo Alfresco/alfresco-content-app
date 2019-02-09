@@ -132,6 +132,10 @@ export class PreviewComponent extends PageComponent
         this.navigateToFileLocation(true)
       ),
 
+      this.uploadService.fileUploadDeleted.subscribe(() =>
+        this.navigateToFileLocation(true)
+      ),
+
       this.uploadService.fileUploadComplete
         .pipe(debounceTime(300))
         .subscribe(file => this.apiService.nodeUpdated.next(file.data.entry))
