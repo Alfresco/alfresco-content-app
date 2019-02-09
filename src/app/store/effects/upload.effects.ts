@@ -184,7 +184,11 @@ export class UploadEffects {
       this.uploadService.uploadFilesInTheQueue();
 
       this.uploadService.fileUploadComplete.subscribe(completed => {
-        if (completed.data.entry.id === file.data.entry.id) {
+        if (
+          file.data.entry.properties &&
+          file.data.entry.properties['cm:lockType'] === 'WRITE_LOCK' &&
+          completed.data.entry.id === file.data.entry.id
+        ) {
           this.store.dispatch(new UnlockWriteAction(completed.data));
         }
       });
