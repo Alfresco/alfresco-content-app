@@ -34,7 +34,8 @@ import {
   UPLOAD_FOLDER,
   UPLOAD_FILE_VERSION,
   UploadFileVersionAction,
-  SnackbarErrorAction
+  SnackbarErrorAction,
+  UnlockWriteAction
 } from '../actions';
 import {
   map,
@@ -134,7 +135,7 @@ export class UploadEffects {
           );
 
           this.fileVersionInput.value = '';
-          this.uploadQueue([fileModel]);
+          this.uploadVersion(fileModel);
         }),
         catchError(error => {
           this.fileVersionInput.value = '';
@@ -175,5 +176,18 @@ export class UploadEffects {
         this.uploadService.uploadFilesInTheQueue();
       });
     }
+  }
+
+  private uploadVersion(file: FileModel) {
+    this.ngZone.run(() => {
+      this.uploadService.addToQueue(file);
+      this.uploadService.uploadFilesInTheQueue();
+
+      this.uploadService.fileUploadComplete.subscribe(completed => {
+        if (completed.data.entry.id === file.data.entry.id) {
+          this.store.dispatch(new UnlockWriteAction(completed.data));
+        }
+      });
+    });
   }
 }
