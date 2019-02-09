@@ -601,6 +601,11 @@
             }
           },
           {
+            "id": "app.create.separator.2",
+            "type": "separator",
+            "order": 450
+          },
+          {
             "id": "app.toolbar.editFolder",
             "order": 450,
             "title": "APP.ACTIONS.EDIT",
@@ -613,7 +618,7 @@
             }
           },
           {
-            "id": "app.create.separator.2",
+            "id": "app.create.separator.3",
             "type": "separator",
             "order": 500
           },
@@ -654,14 +659,9 @@
             }
           },
           {
-            "id": "app.create.separator.3",
+            "id": "app.create.separator.4",
             "type": "separator",
             "order": 900
-          },
-          {
-            "id": "app.create.separator.2",
-            "type": "separator",
-            "order": 1000
           },
           {
             "id": "app.toolbar.versions",
