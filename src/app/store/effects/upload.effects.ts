@@ -34,7 +34,8 @@ import {
   UPLOAD_FOLDER,
   UPLOAD_FILE_VERSION,
   UploadFileVersionAction,
-  SnackbarErrorAction
+  SnackbarErrorAction,
+  UnlockWriteAction
 } from '../actions';
 import {
   map,
@@ -42,7 +43,9 @@ import {
   flatMap,
   distinctUntilChanged,
   catchError,
-  switchMap
+  switchMap,
+  tap,
+  filter
 } from 'rxjs/operators';
 import { FileUtils, FileModel, UploadService } from '@alfresco/adf-core';
 import { currentFolder } from '../selectors/app.selectors';
@@ -114,6 +117,12 @@ export class UploadEffects {
       return fromEvent(this.fileVersionInput, 'change').pipe(
         distinctUntilChanged(),
         flatMap(() => this.contentService.versionUploadDialog().afterClosed()),
+        tap(form => {
+          if (!form) {
+            this.fileVersionInput.value = '';
+          }
+        }),
+        filter(form => !!form),
         flatMap(form => forkJoin(of(form), this.contentService.getNodeInfo())),
         map(([form, node]) => {
           const file = this.fileVersionInput.files[0];
@@ -134,7 +143,7 @@ export class UploadEffects {
           );
 
           this.fileVersionInput.value = '';
-          this.uploadQueue([fileModel]);
+          this.uploadVersion(fileModel);
         }),
         catchError(error => {
           this.fileVersionInput.value = '';
@@ -175,5 +184,22 @@ export class UploadEffects {
         this.uploadService.uploadFilesInTheQueue();
       });
     }
+  }
+
+  private uploadVersion(file: FileModel) {
+    this.ngZone.run(() => {
+      this.uploadService.addToQueue(file);
+      this.uploadService.uploadFilesInTheQueue();
+
+      this.uploadService.fileUploadComplete.subscribe(completed => {
+        if (
+          file.data.entry.properties &&
+          file.data.entry.properties['cm:lockType'] === 'WRITE_LOCK' &&
+          completed.data.entry.id === file.data.entry.id
+        ) {
+          this.store.dispatch(new UnlockWriteAction(completed.data));
+        }
+      });
+    });
   }
 }

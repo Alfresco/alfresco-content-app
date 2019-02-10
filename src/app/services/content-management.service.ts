@@ -51,7 +51,8 @@ import {
   SiteEntry,
   DeletedNodesPaging,
   PathInfoEntity,
-  SiteBody
+  SiteBody,
+  NodeEntry
 } from '@alfresco/js-api';
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
@@ -1216,5 +1217,15 @@ export class ContentManagementService {
         }
       })
     );
+  }
+
+  unlockNode(node: NodeEntry) {
+    this.contentApi.unlockNode(node.entry.id).catch(() => {
+      this.store.dispatch(
+        new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
+          fileName: node.entry.name
+        })
+      );
+    });
   }
 }

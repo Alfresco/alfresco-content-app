@@ -42,7 +42,10 @@ import {
   EditFolderAction,
   CopyNodesAction,
   MoveNodesAction,
-  ManagePermissionsAction
+  ManagePermissionsAction,
+  UnlockWriteAction,
+  FullscreenViewerAction,
+  PrintFileAction
 } from '../actions/node.actions';
 import { SetCurrentFolderAction } from '../actions/app.actions';
 
@@ -397,5 +400,63 @@ describe('NodeEffects', () => {
 
       expect(contentService.managePermissions).not.toHaveBeenCalled();
     });
+  });
+
+  describe('printFile$', () => {
+    it('it should print node content from payload', () => {
+      spyOn(contentService, 'printFile').and.stub();
+      const node: any = { entry: { id: 'node-id' } };
+
+      store.dispatch(new PrintFileAction(node));
+
+      expect(contentService.printFile).toHaveBeenCalledWith(node);
+    });
+
+    it('it should print node content from store', fakeAsync(() => {
+      spyOn(contentService, 'printFile').and.stub();
+      const node: any = { entry: { isFile: true, id: 'node-id' } };
+
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new PrintFileAction(null));
+
+      expect(contentService.printFile).toHaveBeenCalledWith(node);
+    }));
+  });
+
+  describe('fullscreenViewer$', () => {
+    it('should call fullscreen viewer', () => {
+      spyOn(contentService, 'fullscreenViewer').and.stub();
+
+      store.dispatch(new FullscreenViewerAction(null));
+
+      expect(contentService.fullscreenViewer).toHaveBeenCalled();
+    });
+  });
+
+  describe('unlockWrite$', () => {
+    it('should unlock node from payload', () => {
+      spyOn(contentService, 'unlockNode').and.stub();
+      const node: any = { entry: { id: 'node-id' } };
+
+      store.dispatch(new UnlockWriteAction(node));
+
+      expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+    });
+
+    it('should unlock node from store selection', fakeAsync(() => {
+      spyOn(contentService, 'unlockNode').and.stub();
+      const node: any = { entry: { isFile: true, id: 'node-id' } };
+
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new UnlockWriteAction(null));
+
+      expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+    }));
   });
 });

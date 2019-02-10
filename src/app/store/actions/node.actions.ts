@@ -43,6 +43,7 @@ export const PRINT_FILE = 'PRINT_FILE';
 export const FULLSCREEN_VIEWER = 'FULLSCREEN_VIEWER';
 export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
 export const EDIT_OFFLINE = 'EDIT_OFFLINE';
+export const UNLOCK_WRITE = 'UNLOCK_WRITE_LOCK';
 
 export class SetSelectedNodesAction implements Action {
   readonly type = SET_SELECTED_NODES;
@@ -126,5 +127,10 @@ export class ManageVersionsAction implements Action {
 
 export class EditOfflineAction implements Action {
   readonly type = EDIT_OFFLINE;
+  constructor(public payload: any) {}
+}
+
+export class UnlockWriteAction implements Action {
+  readonly type = UNLOCK_WRITE;
   constructor(public payload: any) {}
 }

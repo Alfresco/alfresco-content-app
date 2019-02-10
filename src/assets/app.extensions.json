@@ -251,8 +251,8 @@
           "type": "rule",
           "value": "core.some",
           "parameters": [
-            { "type": "rule", "value": "app.selection.canUnlockFile" },
-            { "type": "rule", "value": "app.selection.canLockFile" }
+            { "type": "rule", "value": "app.selection.file.canUnlock" },
+            { "type": "rule", "value": "app.selection.file.canLock" }
           ]
         }
       ]

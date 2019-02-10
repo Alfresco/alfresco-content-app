@@ -281,4 +281,8 @@ export class ContentApiService {
       )
     );
   }
+
+  unlockNode(nodeId: string, opts?) {
+    return this.api.nodesApi.unlockNode(nodeId, opts);
+  }
 }

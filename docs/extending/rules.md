@@ -148,6 +148,9 @@ The button will be visible only when the linked rule evaluates to `true`.
 | app.selection.hasNoLibraryRole  | The selected Library node has no role property.              |
 | app.selection.folder            | A single Folder node is selected.                            |
 | app.selection.folder.canUpdate  | User has permissions to update the selected folder.          |
+| app.selection.folder.canUpdate  | User has permissions to update the selected folder.          |
+| app.selection.file.canLock      | User has permissions to lock file.                           |
+| app.selection.file.canUnlock    | User has permissions to unlock file.                         |
 | repository.isQuickShareEnabled  | Whether the quick share repository option is enabled or not. |
 
 ## Navigation Evaluators
@@ -176,6 +179,8 @@ for example mixing `core.every` and `core.not`.
 | app.navigation.isNotRecentFiles   | Current page is not **Recent Files**.                   |
 | app.navigation.isSearchResults    | User is using the **Search Results** page.              |
 | app.navigation.isNotSearchResults | Current page is not the **Search Results**.             |
+| app.navigation.isSharedPreview    | Current page is preview **Shared Files**                |
+| app.navigation.isFavoritesPreview | Current page is preview **Favorites**                   |
 
 **Tip:** See the [Registration](/extending/registration) section for more details
 on how to register your own entries to be re-used at runtime.

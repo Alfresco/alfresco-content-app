@@ -38,7 +38,13 @@ import {
   UrlSegment,
   PRIMARY_OUTLET
 } from '@angular/router';
-import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
+import { debounceTime } from 'rxjs/operators';
+import {
+  UserPreferencesService,
+  ObjectUtils,
+  UploadService,
+  AlfrescoApiService
+} from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { SetSelectedNodesAction } from '../../store/actions';
@@ -84,6 +90,8 @@ export class PreviewComponent extends PageComponent
     private appDataService: AppDataService,
     private route: ActivatedRoute,
     private router: Router,
+    private apiService: AlfrescoApiService,
+    private uploadService: UploadService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
@@ -122,7 +130,15 @@ export class PreviewComponent extends PageComponent
     this.subscriptions = this.subscriptions.concat([
       this.content.nodesDeleted.subscribe(() =>
         this.navigateToFileLocation(true)
-      )
+      ),
+
+      this.uploadService.fileUploadDeleted.subscribe(() =>
+        this.navigateToFileLocation(true)
+      ),
+
+      this.uploadService.fileUploadComplete
+        .pipe(debounceTime(300))
+        .subscribe(file => this.apiService.nodeUpdated.next(file.data.entry))
     ]);
 
     this.openWith = this.extensions.openWithActions;
