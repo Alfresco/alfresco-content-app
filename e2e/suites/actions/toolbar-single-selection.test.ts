@@ -28,7 +28,7 @@ import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
-describe('Toolbar actions - single selection : ', () => {
+fdescribe('Toolbar actions - single selection : ', () => {
   const username = `user-${Utils.random()}`;
 
   const fileUser = `fileUser-${Utils.random()}.txt`; let fileUserId;
@@ -185,7 +185,7 @@ describe('Toolbar actions - single selection : ', () => {
 
       await toolbar.openMoreMenu();
 
-      expect(await toolbar.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
@@ -602,7 +602,7 @@ describe('Toolbar actions - single selection : ', () => {
 
       await toolbar.openMoreMenu();
 
-      expect(await toolbar.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
@@ -728,7 +728,7 @@ describe('Toolbar actions - single selection : ', () => {
 
       await toolbar.openMoreMenu();
 
-      expect(await toolbar.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
