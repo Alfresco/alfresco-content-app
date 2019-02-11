@@ -146,10 +146,6 @@ export function isSharedPreview(
   ...args: RuleParameter[]
 ): boolean {
   const { url } = context.navigation;
-  console.log(
-    '===== isSharedPreview: ',
-    url && url.startsWith('/shared/preview/')
-  );
   return url && url.startsWith('/shared/preview/');
 }
 
