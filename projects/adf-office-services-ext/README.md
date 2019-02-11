@@ -1,24 +1,31 @@
-# AdfOfficeServicesExt
+# Alfresco Office Services Extension
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+An extension module for the Alfresco Content Application that enables "Edit in Microsoft Office" feature.
 
-## Code scaffolding
+Integrates with:
 
-Run `ng generate component component-name --project adf-office-services-ext` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project adf-office-services-ext`.
-> Note: Don't forget to add `--project adf-office-services-ext` or else it will be added to the default project in your `angular.json` file. 
+- Context Menus
+- Toolbars
+- Viewer / Open With
 
-## Build
+## Installation
 
-Run `ng build adf-office-services-ext` to build the project. The build artifacts will be stored in the `dist/` directory.
+Install the `ngi` as a global tool:
 
-## Publishing
+```sh
+npm i -g @ngstack/install
+```
 
-After building your library with `ng build adf-office-services-ext`, go to the dist folder `cd dist/adf-office-services-ext` and run `npm publish`.
+In the project root:
 
-## Running unit tests
+```sh
+ngi @alfresco/adf-office-services-ext --module=extensions
+```
 
-Run `ng test adf-office-services-ext` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Update `app.extensions.json` and append a reference to the plugin definition:
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```json
+{
+  "$references": ["aos.plugin.json"]
+}
+```
