@@ -28,7 +28,7 @@ import { SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 
-fdescribe('Toolbar actions - single selection : ', () => {
+describe('Toolbar actions - single selection : ', () => {
   const username = `user-${Utils.random()}`;
 
   const fileUser = `fileUser-${Utils.random()}.txt`; let fileUserId;
