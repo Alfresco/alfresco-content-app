@@ -122,7 +122,7 @@ services:
     depends_on:
       - content-app
     volumes:
-      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/proxy/nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - internal
     ports:

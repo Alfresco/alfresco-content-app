@@ -43,7 +43,8 @@ import {
   MoveNodesAction,
   CopyNodesAction,
   ShareNodeAction,
-  SetSelectedNodesAction
+  SetSelectedNodesAction,
+  UnlockWriteAction
 } from '../store/actions';
 import { map } from 'rxjs/operators';
 import { NodeEffects } from '../store/effects/node.effects';
@@ -1564,6 +1565,36 @@ describe('ContentManagementService', () => {
 
       expect(contentManagementService.linksUnshared.next).toHaveBeenCalledWith(
         jasmine.any(Object)
+      );
+    }));
+  });
+
+  describe('Unlock Node', () => {
+    it('should unlock node', fakeAsync(() => {
+      spyOn(contentApi, 'unlockNode').and.returnValue(Promise.resolve({}));
+
+      store.dispatch(new UnlockWriteAction({ entry: { id: 'node-id' } }));
+      tick();
+      flush();
+
+      expect(contentApi.unlockNode).toHaveBeenCalled();
+    }));
+
+    it('should raise error when unlock node fails', fakeAsync(done => {
+      spyOn(contentApi, 'unlockNode').and.callFake(
+        () => new Promise((resolve, reject) => reject('error'))
+      );
+      spyOn(store, 'dispatch').and.callThrough();
+      store.dispatch(
+        new UnlockWriteAction({ entry: { id: 'node-id', name: 'some-file' } })
+      );
+      tick();
+      flush();
+
+      expect(store.dispatch['calls'].argsFor(1)[0]).toEqual(
+        new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
+          fileName: 'some-file'
+        })
       );
     }));
   });

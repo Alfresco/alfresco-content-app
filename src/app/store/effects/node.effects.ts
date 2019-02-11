@@ -44,7 +44,9 @@ import {
   ShareNodeAction,
   SHARE_NODE,
   ManageVersionsAction,
-  MANAGE_VERSIONS
+  MANAGE_VERSIONS,
+  UnlockWriteAction,
+  UNLOCK_WRITE
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
@@ -314,6 +316,25 @@ export class NodeEffects {
     ofType<FullscreenViewerAction>(FULLSCREEN_VIEWER),
     map(() => {
       this.contentService.fullscreenViewer();
+    })
+  );
+
+  @Effect({ dispatch: false })
+  unlockWrite$ = this.actions$.pipe(
+    ofType<UnlockWriteAction>(UNLOCK_WRITE),
+    map(action => {
+      if (action && action.payload) {
+        this.contentService.unlockNode(action.payload);
+      } else {
+        this.store
+          .select(appSelection)
+          .pipe(take(1))
+          .subscribe(selection => {
+            if (selection && selection.file) {
+              this.contentService.unlockNode(selection.file);
+            }
+          });
+      }
     })
   );
 }
