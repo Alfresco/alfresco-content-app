@@ -1,7 +1,7 @@
 {
   "name": "@alfresco/adf-office-services-ext",
-  "version": "0.0.2",
-  "license": "LGPL-3.0",
+  "version": "0.0.3",
+  "license": "Apache-2.0",
   "author": {
     "name": "Keensoft",
     "url": "http://www.keensoft.es/en/"
