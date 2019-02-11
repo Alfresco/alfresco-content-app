@@ -191,15 +191,19 @@ export class UploadEffects {
       this.uploadService.addToQueue(file);
       this.uploadService.uploadFilesInTheQueue();
 
-      this.uploadService.fileUploadComplete.subscribe(completed => {
-        if (
-          file.data.entry.properties &&
-          file.data.entry.properties['cm:lockType'] === 'WRITE_LOCK' &&
-          completed.data.entry.id === file.data.entry.id
-        ) {
-          this.store.dispatch(new UnlockWriteAction(completed.data));
+      const subscription = this.uploadService.fileUploadComplete.subscribe(
+        completed => {
+          if (
+            file.data.entry.properties &&
+            file.data.entry.properties['cm:lockType'] === 'WRITE_LOCK' &&
+            completed.data.entry.id === file.data.entry.id
+          ) {
+            this.store.dispatch(new UnlockWriteAction(completed.data));
+          }
+
+          subscription.unsubscribe();
         }
-      });
+      );
     });
   }
 }
