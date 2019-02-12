@@ -239,6 +239,8 @@
     },
     "facetQueries": {
       "label": "SEARCH.CATEGORIES.MODIFIED_DATE",
+      "expanded": true,
+      "mincount": 0,
       "queries": [
         { "label": "Today", "query": "cm:modified:[TODAY to TODAY]" },
         {
