@@ -239,8 +239,7 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
     });
 
-    // TODO disabled until ACA-2171 is fixed
-    xit('Copy items into a library - [C280282]', async () => {
+    it('Copy items into a library - [C280282]', async () => {
       await dataTable.selectMultipleItems([file1, folder1]);
       await toolbar.clickMoreActionsCopy();
       await copyDialog.selectLocation('File Libraries');
@@ -324,8 +323,7 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(true, `${existingFile}-1.txt not present in destination folder`);
     });
 
-    // TODO disabled until ACA-2171 is fixed
-    xit('Copy items into a library - [C291899]', async () => {
+    it('Copy items into a library - [C291899]', async () => {
       await dataTable.selectItem(file1, source);
       await toolbar.clickMoreActionsCopy();
       await copyDialog.selectLocation('File Libraries');
@@ -403,8 +401,7 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(true, `${existingFile}-1.txt not present in destination folder`);
     });
 
-    // TODO disabled until ACA-2171 is fixed
-    xit('Copy items into a library - [C291900]', async () => {
+    it('Copy items into a library - [C291900]', async () => {
       await dataTable.selectItem(file1, source);
       await toolbar.clickMoreActionsCopy();
       await copyDialog.selectLocation('File Libraries');
@@ -529,8 +526,7 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
     });
 
-    // TODO disabled until ACA-2171 is fixed
-    xit('Copy items into a library - [C291901]', async () => {
+    it('Copy items into a library - [C291901]', async () => {
       await dataTable.selectMultipleItems([file1, folder1], source);
       await toolbar.clickMoreActionsCopy();
       await copyDialog.selectLocation('File Libraries');
