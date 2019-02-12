@@ -152,6 +152,14 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  hideMenu(event: Event) {
+    event.preventDefault();
+
+    if (!this.minimizeSidenav) {
+      this.layout.container.toggleMenu();
+    }
+  }
+
   private updateState() {
     if (this.minimizeSidenav && !this.layout.isMenuMinimized) {
       this.layout.isMenuMinimized = true;
