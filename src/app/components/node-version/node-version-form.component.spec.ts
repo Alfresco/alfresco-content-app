@@ -57,4 +57,8 @@ describe('AppNodeVersionFormComponent', () => {
     component.form.valueChanges.next({ test: 'test' });
     expect(component.update.emit).toHaveBeenCalledWith({ test: 'test' });
   });
+
+  it('form should have valid state upon initialization', () => {
+    expect(component.form.valid).toBe(true);
+  });
 });
