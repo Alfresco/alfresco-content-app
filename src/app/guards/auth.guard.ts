@@ -44,7 +44,10 @@ export class AppAuthGuard extends AuthGuardEcm {
   }
 
   checkLogin(redirectUrl: string): boolean {
-    const withCredentials = this._config.get<boolean>('auth.withCredentials', false);
+    const withCredentials = this._config.get<boolean>(
+      'auth.withCredentials',
+      false
+    );
 
     if (withCredentials || this._auth.isEcmLoggedIn()) {
       return true;
