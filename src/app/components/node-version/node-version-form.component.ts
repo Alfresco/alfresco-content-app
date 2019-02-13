@@ -69,7 +69,7 @@ export class AppNodeVersionFormComponent implements OnInit, OnDestroy {
 
     this.form.valueChanges
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(values => {
+      .subscribe((values: VersionFormEntry) => {
         this.update.emit(values);
       });
   }
