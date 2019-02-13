@@ -140,7 +140,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   isFiltered(): boolean {
     return (
-      this.searchFilter.selectedFacetQueries.length > 0 ||
       this.searchFilter.selectedBuckets.length > 0 ||
       this.hasCheckedCategories()
     );

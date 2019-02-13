@@ -155,7 +155,9 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   private updateState() {
     if (this.minimizeSidenav && !this.layout.isMenuMinimized) {
       this.layout.isMenuMinimized = true;
-      this.layout.container.toggleMenu();
+      if (!this.layout.container.isMobileScreenSize) {
+        this.layout.container.toggleMenu();
+      }
     }
 
     if (!this.minimizeSidenav) {
