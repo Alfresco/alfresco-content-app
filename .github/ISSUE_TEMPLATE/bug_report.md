@@ -10,6 +10,10 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+**Environment**
+- ACA version: [e.g. 1.6]
+- ACS version: [e.g. 6.1]
+
 **To Reproduce**
 Steps to reproduce the behavior:
 1. Go to '...'
