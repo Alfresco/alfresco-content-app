@@ -373,8 +373,8 @@
         "FORM": {
             "SUBTITLE": "What level of changes were made to this version?",
             "VERSION": {
-                "MINOR": "Minor (2.#)",
-                "MAJOR": "Major (#.1)"
+                "MINOR": "Minor (#.1)",
+                "MAJOR": "Major (2.0)"
             },
             "COMMENT": {
                 "PLACEHOLDER": "Add notes describing what changed"
