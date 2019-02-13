@@ -30,7 +30,7 @@ import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
-fdescribe('AppAuthGuard', () => {
+describe('AppAuthGuard', () => {
   let auth: AuthenticationService;
   let guard: AppAuthGuard;
   let router: Router;
