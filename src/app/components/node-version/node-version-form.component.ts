@@ -50,8 +50,8 @@ export class AppNodeVersionFormComponent implements OnInit, OnDestroy {
 
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
   private versionOptions = [
-    { label: 'VERSION.FORM.VERSION.MAJOR', value: 'major' },
-    { label: 'VERSION.FORM.VERSION.MINOR', value: 'minor' }
+    { label: 'VERSION.FORM.VERSION.MINOR', value: 'minor' },
+    { label: 'VERSION.FORM.VERSION.MAJOR', value: 'major' }
   ];
 
   constructor(private formBuilder: FormBuilder) {}
