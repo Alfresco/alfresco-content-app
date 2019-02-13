@@ -288,7 +288,7 @@ export class NodeActionsService {
   }
 
   private hasEntityCreatePermission(entry: MinimalNodeEntryEntity): boolean {
-    return this.contentService.hasPermission(entry, 'create');
+    return this.contentService.hasAllowableOperations(entry, 'create');
   }
 
   private isSite(entry) {
@@ -649,7 +649,7 @@ export class NodeActionsService {
     if (action === 'copy') {
       return true;
     }
-    return this.contentService.hasPermission(node, permission);
+    return this.contentService.hasAllowableOperations(node, permission);
   }
 
   // todo: review once 1.10-beta6 is out
@@ -670,7 +670,7 @@ export class NodeActionsService {
     col: DataColumn
   ): string | null {
     const entry: MinimalNodeEntryEntity = row.node.entry;
-    if (!this.contentService.hasPermission(entry, 'update')) {
+    if (!this.contentService.hasAllowableOperations(entry, 'update')) {
       return this.documentListService.getMimeTypeIcon('disable/folder');
     }
 

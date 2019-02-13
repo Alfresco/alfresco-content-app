@@ -250,8 +250,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
     });
 
-    // TODO disabled until ACA-2171 is fixed
-    xit('Move items into a library - [C291969]', async () => {
+    it('Move items into a library - [C291969]', async () => {
       await dataTable.selectMultipleItems([file4, folder2]);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
@@ -371,8 +370,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt is present in destination folder`);
     });
 
-    // TODO disabled until ACA-2171 is fixed
-    xit('Move items into a library - [C291971]', async () => {
+    it('Move items into a library - [C291971]', async () => {
       await dataTable.selectItem(file4, sourceRF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
@@ -494,8 +492,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(false, `${existingFile}-1.txt not present in destination folder`);
     });
 
-    // TODO disabled until ACA-2171 is fixed
-    xit('Move items into a library - [C291978]', async () => {
+    it('Move items into a library - [C291978]', async () => {
       await dataTable.selectItem(file4, sourceSF);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
@@ -685,8 +682,7 @@ describe('Move content', () => {
       expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
     });
 
-    // TODO disabled until ACA-2171 is fixed
-    xit('Move items into a library - [C291979]', async () => {
+    it('Move items into a library - [C291979]', async () => {
       await dataTable.selectMultipleItems([file4, folder2], sourceFav);
       await toolbar.clickMoreActionsMove();
       await moveDialog.selectLocation('File Libraries');
