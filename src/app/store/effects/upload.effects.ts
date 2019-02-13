@@ -130,7 +130,7 @@ export class UploadEffects {
             file,
             {
               comment: form.comment,
-              majorVersion: form.major ? true : false,
+              majorVersion: form.version,
               parentId: node.parentId,
               path: ((<any>file).webkitRelativePath || '').replace(
                 /\/[^\/]*$/,
