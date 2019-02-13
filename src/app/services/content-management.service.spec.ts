@@ -1598,4 +1598,26 @@ describe('ContentManagementService', () => {
       );
     }));
   });
+
+  describe('versionUploadDialog', () => {
+    it('should open dialog with NodeVersionUploadDialogComponent instance', () => {
+      spyOn(dialog, 'open');
+
+      contentManagementService.versionUploadDialog();
+
+      expect(dialog.open['calls'].argsFor(0)[0].name).toBe(
+        'NodeVersionUploadDialogComponent'
+      );
+    });
+
+    it('should return dialog instance reference', () => {
+      const mockDialogInstance = <any>{ afterClose: () => {} };
+
+      spyOn(dialog, 'open').and.returnValue(mockDialogInstance);
+
+      const dialogRef = contentManagementService.versionUploadDialog();
+
+      expect(dialogRef).toBe(mockDialogInstance);
+    });
+  });
 });
