@@ -167,7 +167,8 @@ describe('AppLayoutComponent', () => {
   it('should close menu on mobile screen size', () => {
     component.minimizeSidenav = false;
     component.layout.container = {
-      isMobileScreenSize: true
+      isMobileScreenSize: true,
+      toggleMenu: () => {}
     };
 
     spyOn(component.layout.container, 'toggleMenu');
