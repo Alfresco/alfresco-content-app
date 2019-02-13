@@ -31,7 +31,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -50,15 +50,15 @@ export class AppNodeVersionFormComponent implements OnInit, OnDestroy {
 
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
   private versionOptions = [
-    { label: 'VERSION.FORM.VERSION.MAJOR', value: 'major' },
-    { label: 'VERSION.FORM.VERSION.MINOR', value: 'minor' }
+    { label: 'VERSION.FORM.VERSION.MINOR', value: 'minor' },
+    { label: 'VERSION.FORM.VERSION.MAJOR', value: 'major' }
   ];
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      comment: ['', Validators.required],
+      comment: [''],
       version: [this.versionOptions[0].value]
     });
 
