@@ -283,17 +283,21 @@ export function hasLockedFiles(
   context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
-  return context.selection.nodes.some(node => {
-    if (!node.entry.isFile) {
-      return false;
-    }
+  if (context && context.selection && context.selection.nodes) {
+    return context.selection.nodes.some(node => {
+      if (!node.entry.isFile) {
+        return false;
+      }
 
-    return (
-      node.entry.isLocked ||
-      (node.entry.properties &&
-        node.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK')
-    );
-  });
+      return (
+        node.entry.isLocked ||
+        (node.entry.properties &&
+          node.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK')
+      );
+    });
+  }
+
+  return false;
 }
 
 export function isWriteLocked(
@@ -301,6 +305,8 @@ export function isWriteLocked(
   ...args: RuleParameter[]
 ): boolean {
   return !!(
+    context &&
+    context.selection &&
     context.selection.file &&
     context.selection.file.entry &&
     context.selection.file.entry.properties &&
@@ -339,4 +345,13 @@ export function canUnlockFile(
     (context.permissions.check(file.entry, ['delete']) ||
       isUserWriteLockOwner(context, ...args))
   );
+}
+
+export function canUploadVersion(
+  context: AppRuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  return isWriteLocked(context, ...args)
+    ? isUserWriteLockOwner(context, ...args)
+    : canUpdateSelectedNode(context, ...args);
 }
