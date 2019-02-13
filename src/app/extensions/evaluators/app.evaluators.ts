@@ -340,3 +340,18 @@ export function canUnlockFile(
       isUserWriteLockOwner(context, ...args))
   );
 }
+
+export function canUploadVersion(
+  context: AppRuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  if (isWriteLocked(context, ...args)) {
+    if (isUserWriteLockOwner(context, ...args)) {
+      return true;
+    }
+
+    return false;
+  } else {
+    return canUpdateSelectedNode(context, ...args);
+  }
+}
