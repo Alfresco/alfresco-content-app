@@ -31,7 +31,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -58,7 +58,7 @@ export class AppNodeVersionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      comment: ['', Validators.required],
+      comment: [''],
       version: [this.versionOptions[0].value]
     });
 
