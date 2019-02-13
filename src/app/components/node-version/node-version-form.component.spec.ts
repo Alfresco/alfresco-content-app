@@ -52,10 +52,14 @@ describe('AppNodeVersionFormComponent', () => {
   });
 
   it('should emit form state on changes', () => {
+    const formData = {
+      comment: 'some text',
+      version: true
+    };
     spyOn(component.update, 'emit');
 
-    component.form.valueChanges.next({ test: 'test' });
-    expect(component.update.emit).toHaveBeenCalledWith({ test: 'test' });
+    component.form.valueChanges.next(formData);
+    expect(component.update.emit).toHaveBeenCalledWith(formData);
   });
 
   it('form should have valid state upon initialization', () => {

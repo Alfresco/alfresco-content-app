@@ -367,7 +367,7 @@
         },
         "DIALOG": {
             "TITLE": "Upload New Version",
-            "CLOSE": "Close",
+            "CANCEL": "Cancel",
             "UPLOAD": "Upload"
         },
         "FORM": {
