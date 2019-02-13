@@ -346,11 +346,7 @@ export function canUploadVersion(
   ...args: RuleParameter[]
 ): boolean {
   if (isWriteLocked(context, ...args)) {
-    if (isUserWriteLockOwner(context, ...args)) {
-      return true;
-    }
-
-    return false;
+    return isUserWriteLockOwner(context, ...args);
   } else {
     return canUpdateSelectedNode(context, ...args);
   }
