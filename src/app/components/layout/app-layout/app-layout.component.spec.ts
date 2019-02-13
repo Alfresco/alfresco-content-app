@@ -163,4 +163,19 @@ describe('AppLayoutComponent', () => {
       done();
     });
   });
+
+  it('should close menu on mobile screen size', () => {
+    component.minimizeSidenav = false;
+    component.layout.container = {
+      isMobileScreenSize: true,
+      toggleMenu: () => {}
+    };
+
+    spyOn(component.layout.container, 'toggleMenu');
+    fixture.detectChanges();
+
+    component.hideMenu(<any>{ preventDefault: () => {} });
+
+    expect(component.layout.container.toggleMenu).toHaveBeenCalled();
+  });
 });
