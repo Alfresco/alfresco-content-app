@@ -3,6 +3,10 @@
 
   .dialog-actions {
     justify-content: flex-end;
+
+    button {
+      text-transform: uppercase;
+    }
   }
 
   .node-version-dialog__title {
