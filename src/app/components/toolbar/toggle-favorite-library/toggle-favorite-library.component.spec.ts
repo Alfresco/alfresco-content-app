@@ -49,7 +49,7 @@ describe('ToggleFavoriteLibraryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule, AppTestingModule],
+      imports: [CoreModule.forRoot(), AppTestingModule],
       declarations: [ToggleFavoriteLibraryComponent, LibraryFavoriteDirective],
       providers: [
         {

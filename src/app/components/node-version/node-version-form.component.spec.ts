@@ -33,7 +33,7 @@ describe('AppNodeVersionFormComponent', () => {
   let component;
 
   setupTestBed({
-    imports: [CoreModule, NoopAnimationsModule],
+    imports: [CoreModule.forRoot(), NoopAnimationsModule],
     declarations: [AppNodeVersionFormComponent]
   });
 
