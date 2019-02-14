@@ -143,7 +143,7 @@ export class UploadEffects {
           );
 
           this.fileVersionInput.value = '';
-          this.uploadVersion(fileModel);
+          this.uploadAndUnlock(fileModel);
         }),
         catchError(error => {
           this.fileVersionInput.value = '';
@@ -186,7 +186,11 @@ export class UploadEffects {
     }
   }
 
-  private uploadVersion(file: FileModel) {
+  uploadAndUnlock(file: FileModel) {
+    if (!file) {
+      return;
+    }
+
     this.ngZone.run(() => {
       this.uploadService.addToQueue(file);
       this.uploadService.uploadFilesInTheQueue();
@@ -194,9 +198,11 @@ export class UploadEffects {
       const subscription = this.uploadService.fileUploadComplete.subscribe(
         completed => {
           if (
+            file.data &&
+            file.data.entry &&
             file.data.entry.properties &&
             file.data.entry.properties['cm:lockType'] === 'WRITE_LOCK' &&
-            completed.data.entry.id === file.data.entry.id
+            file.data.entry.id === completed.data.entry.id
           ) {
             this.store.dispatch(new UnlockWriteAction(completed.data));
           }
