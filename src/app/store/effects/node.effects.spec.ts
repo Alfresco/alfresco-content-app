@@ -28,7 +28,6 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { NodeEffects } from './node.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../states/app.state';
 import { ContentManagementService } from '../../services/content-management.service';
 import {
   ShareNodeAction,
@@ -50,7 +49,7 @@ import {
 import { SetCurrentFolderAction } from '../actions/app.actions';
 
 describe('NodeEffects', () => {
-  let store: Store<AppStore>;
+  let store: Store<any>;
   // let actions$: Actions;
   let contentService: ContentManagementService;
 
