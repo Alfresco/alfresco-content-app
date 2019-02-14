@@ -28,6 +28,7 @@ import { DocumentListCustomComponentsModule } from '../document-list-custom-comp
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
+import { CoreModule } from '@alfresco/adf-core';
 
 describe('CustomNameColumnComponent', () => {
   let fixture;
@@ -36,6 +37,7 @@ describe('CustomNameColumnComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
+        CoreModule.forRoot(),
         DocumentListCustomComponentsModule,
         StoreModule.forRoot({ app: () => {} }, { initialState: {} })
       ],
