@@ -662,7 +662,7 @@
               "click": "UPLOAD_FILE_VERSION"
             },
             "rules": {
-              "visible": "app.toolbar.versions"
+              "visible": "app.selection.file.canUploadVersion"
             }
           },
           {
@@ -878,7 +878,7 @@
           "click": "UPLOAD_FILE_VERSION"
         },
         "rules": {
-          "visible": "app.toolbar.versions"
+          "visible": "app.selection.file.canUploadVersion"
         }
       },
       {
@@ -1102,7 +1102,7 @@
                 "click": "UPLOAD_FILE_VERSION"
               },
               "rules": {
-                "visible": "app.toolbar.versions"
+                "visible": "app.selection.file.canUploadVersion"
               }
             },
             {

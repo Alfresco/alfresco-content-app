@@ -38,13 +38,18 @@ export class AppAuthGuard extends AuthGuardEcm {
   constructor(
     private _auth: AuthenticationService,
     private _router: Router,
-    config: AppConfigService
+    private _config: AppConfigService
   ) {
-    super(_auth, _router, config);
+    super(_auth, _router, _config);
   }
 
   checkLogin(redirectUrl: string): boolean {
-    if (this._auth.isEcmLoggedIn()) {
+    const withCredentials = this._config.get<boolean>(
+      'auth.withCredentials',
+      false
+    );
+
+    if (withCredentials || this._auth.isEcmLoggedIn()) {
       return true;
     }
 
