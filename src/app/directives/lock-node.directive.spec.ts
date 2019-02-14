@@ -52,7 +52,7 @@ describe('LockNodeDirective', () => {
   let component;
 
   setupTestBed({
-    imports: [CoreModule],
+    imports: [CoreModule.forRoot()],
     declarations: [TestComponent, LockNodeDirective],
     providers: [
       {
