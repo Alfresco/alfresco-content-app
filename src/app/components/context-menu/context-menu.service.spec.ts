@@ -28,7 +28,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { AppConfigService } from '@alfresco/adf-core';
+import { CoreModule } from '@alfresco/adf-core';
 import { ContextMenuService } from './context-menu.service';
 import { ContextMenuModule } from './context-menu.module';
 
@@ -42,12 +42,8 @@ describe('ContextMenuService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContextMenuModule],
-      providers: [
-        Overlay,
-        { provide: Store, useValue: { select: () => of() } },
-        { provide: AppConfigService, useValue: {} }
-      ]
+      imports: [CoreModule.forRoot(), ContextMenuModule],
+      providers: [Overlay, { provide: Store, useValue: { select: () => of() } }]
     });
 
     const injector = TestBed.get(Injector);
