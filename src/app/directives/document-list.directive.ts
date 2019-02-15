@@ -29,9 +29,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../store/states/app.state';
 import { SetSelectedNodesAction } from '../store/actions';
-import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
 @Directive({
   selector: '[acaDocumentList]'
@@ -45,7 +43,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   }
 
   constructor(
-    private store: Store<AppStore>,
+    private store: Store<any>,
     private documentList: DocumentListComponent,
     private preferences: UserPreferencesService,
     private route: ActivatedRoute,
@@ -104,11 +102,6 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   @HostListener('node-select', ['$event'])
   onNodeSelect(event: CustomEvent) {
     if (!!event.detail && !!event.detail.node) {
-      const node: MinimalNodeEntryEntity = event.detail.node.entry;
-      if (node && this.isLockedNode(node)) {
-        this.unSelectLockedNodes(this.documentList);
-      }
-
       this.updateSelection();
     }
   }
@@ -123,47 +116,11 @@ export class DocumentListDirective implements OnInit, OnDestroy {
   }
 
   private updateSelection() {
-    const selection = this.documentList.selection
-      .filter(node => !this.isLockedNode(node.entry))
-      .map(node => {
-        node['isLibrary'] = this.isLibrary;
-        return node;
-      });
+    const selection = this.documentList.selection.map(node => {
+      node['isLibrary'] = this.isLibrary;
+      return node;
+    });
 
     this.store.dispatch(new SetSelectedNodesAction(selection));
-  }
-
-  private isLockedNode(node): boolean {
-    return (
-      node.isLocked ||
-      (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK')
-    );
-  }
-
-  private isLockedRow(row): boolean {
-    return (
-      row.getValue('isLocked') ||
-      (row.getValue('properties') &&
-        row.getValue('properties')['cm:lockType'] === 'READ_ONLY_LOCK')
-    );
-  }
-
-  private unSelectLockedNodes(documentList: DocumentListComponent) {
-    documentList.selection = documentList.selection.filter(
-      item => !this.isLockedNode(item.entry)
-    );
-
-    const dataTable = documentList.dataTable;
-    if (dataTable && dataTable.data) {
-      const rows = dataTable.data.getRows();
-
-      if (rows && rows.length > 0) {
-        rows.forEach(r => {
-          if (this.isLockedRow(r)) {
-            r.isSelected = false;
-          }
-        });
-      }
-    }
   }
 }
