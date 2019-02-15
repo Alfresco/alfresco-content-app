@@ -64,7 +64,6 @@ export class SettingsComponent implements OnInit {
   appName$: Observable<string>;
   headerColor$: Observable<string>;
   languagePicker$: Observable<boolean>;
-  experimental: Array<{ key: string; value: boolean }> = [];
 
   constructor(
     private store: Store<AppStore>,
@@ -96,15 +95,6 @@ export class SettingsComponent implements OnInit {
     });
 
     this.reset();
-
-    const settings = this.appConfig.get('experimental');
-    this.experimental = Object.keys(settings).map(key => {
-      const value = this.appConfig.get(`experimental.${key}`);
-      return {
-        key,
-        value: value === true || value === 'true'
-      };
-    });
   }
 
   apply(model: RepositoryConfig, isValid: boolean) {
@@ -141,9 +131,5 @@ export class SettingsComponent implements OnInit {
   onLanguagePickerValueChanged(event: MatCheckboxChange) {
     this.storage.setItem('languagePicker', event.checked.toString());
     this.store.dispatch(new SetLanguagePickerAction(event.checked));
-  }
-
-  onToggleExperimentalFeature(key: string, event: MatCheckboxChange) {
-    this.storage.setItem(`experimental.${key}`, event.checked.toString());
   }
 }

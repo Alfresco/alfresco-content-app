@@ -37,7 +37,6 @@ import {
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { LibrariesComponent } from './libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects } from '../../store/effects';
 
@@ -67,8 +66,7 @@ describe('LibrariesComponent', () => {
         NodeFavoriteDirective,
         DocumentListComponent,
         LibrariesComponent,
-        AppConfigPipe,
-        ExperimentalDirective
+        AppConfigPipe
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
