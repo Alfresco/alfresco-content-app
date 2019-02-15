@@ -60,20 +60,20 @@
     class="adf-upload-dialog__content"
     [class.adf-upload-dialog--padding]="isConfirmation"
   >
-    <adf-file-uploading-list
+    <app-file-uploading-list
       [class.adf-upload-dialog--hide]="isConfirmation"
       #uploadList
       [files]="filesUploadingList"
     >
       <ng-template let-file="$implicit">
-        <adf-file-uploading-list-row
+        <app-file-uploading-list-row
           [file]="file"
           (remove)="uploadList.removeFile(file)"
           (cancel)="uploadList.cancelFile(file)"
         >
-        </adf-file-uploading-list-row>
+        </app-file-uploading-list-row>
       </ng-template>
-    </adf-file-uploading-list>
+    </app-file-uploading-list>
 
     <div
       class="adf-upload-dialog__confirmation"

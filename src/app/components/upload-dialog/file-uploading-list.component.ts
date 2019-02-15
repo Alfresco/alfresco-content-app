@@ -23,8 +23,6 @@ import {
   TranslationService,
   UploadService
 } from '@alfresco/adf-core';
-// import { VersionsApi, Node, VersionEntry, VersionPaging } from '@alfresco/js-api';
-// import { VersionsApi } from '@alfresco/js-api';
 import {
   Component,
   ContentChild,
@@ -37,11 +35,10 @@ import { Observable, forkJoin, of, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 @Component({
-  selector: 'adf-file-uploading-list',
-  templateUrl: './file-uploading-list.component.html',
-  styleUrls: ['./file-uploading-list.component.scss']
+  selector: 'app-file-uploading-list',
+  templateUrl: './file-uploading-list.component.html'
 })
-export class FileUploadingListComponent {
+export class AppFileUploadingListComponent {
   FileUploadStatus = FileUploadStatus;
 
   @ContentChild(TemplateRef)

@@ -43,24 +43,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreModule } from '@alfresco/adf-core';
-import { FileUploadingDialogComponent } from './file-uploading-dialog.component';
-import { FileUploadingListRowComponent } from './file-uploading-list-row.component';
-import { FileUploadingListComponent } from './file-uploading-list.component';
-import { FileUploadErrorPipe } from './file-upload-error.pipe';
+import { AppFileUploadingDialogComponent } from './file-uploading-dialog.component';
+import { AppFileUploadingListRowComponent } from './file-uploading-list-row.component';
+import { AppFileUploadingListComponent } from './file-uploading-list.component';
+import { UploadModule } from '@alfresco/adf-content-services';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild()],
+  imports: [CommonModule, CoreModule.forChild(), UploadModule],
   declarations: [
-    FileUploadingDialogComponent,
-    FileUploadingListRowComponent,
-    FileUploadingListComponent,
-    FileUploadErrorPipe
+    AppFileUploadingDialogComponent,
+    AppFileUploadingListRowComponent,
+    AppFileUploadingListComponent
   ],
   exports: [
-    FileUploadingDialogComponent,
-    FileUploadingListRowComponent,
-    FileUploadingListComponent,
-    FileUploadErrorPipe
+    AppFileUploadingDialogComponent,
+    AppFileUploadingListRowComponent,
+    AppFileUploadingListComponent
   ]
 })
 export class AppUploadingDialogModule {}

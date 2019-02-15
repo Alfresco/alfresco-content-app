@@ -15,34 +15,13 @@
  * limitations under the License.
  */
 
-import { FileModel, FileUploadStatus } from '@alfresco/adf-core';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-
+import { Component } from '@angular/core';
+import { FileUploadingListRowComponent } from '@alfresco/adf-content-services';
 @Component({
-  selector: 'adf-file-uploading-list-row',
-  templateUrl: './file-uploading-list-row.component.html',
-  styleUrls: ['./file-uploading-list-row.component.scss']
+  selector: 'app-file-uploading-list-row',
+  templateUrl: './file-uploading-list-row.component.html'
 })
-export class FileUploadingListRowComponent {
-  @Input()
-  file: FileModel;
-
-  @Output()
-  cancel: EventEmitter<FileModel> = new EventEmitter<FileModel>();
-
-  @Output()
-  remove: EventEmitter<FileModel> = new EventEmitter<FileModel>();
-
-  FileUploadStatus = FileUploadStatus;
-
-  onCancel(file: FileModel): void {
-    this.cancel.emit(file);
-  }
-
-  onRemove(file: FileModel): void {
-    this.remove.emit(file);
-  }
-
+export class AppFileUploadingListRowComponent extends FileUploadingListRowComponent {
   isUploadVersion() {
     return (
       !!this.file.data &&
@@ -65,13 +44,5 @@ export class FileUploadingListRowComponent {
     }
 
     return 'default';
-  }
-
-  showCancelledStatus(): boolean {
-    return (
-      this.file.status === FileUploadStatus.Cancelled ||
-      this.file.status === FileUploadStatus.Aborted ||
-      this.file.status === FileUploadStatus.Deleted
-    );
   }
 }
