@@ -35,8 +35,7 @@ import {
   TRANSLATION_PROVIDER,
   CoreModule,
   AppConfigService,
-  DebugAppConfigService,
-  TranslateLoaderService
+  DebugAppConfigService
 } from '@alfresco/adf-core';
 import {
   LibraryDialogComponent,
@@ -78,7 +77,6 @@ import { AppHeaderModule } from './components/header/header.module';
 import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { environment } from '../environments/environment';
 import { AppDataService } from './services/data.service';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -113,10 +111,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
     AppSearchInputModule,
     AppSearchResultsModule,
     AppHeaderModule,
-    AppNodeVersionModule,
-    TranslateModule.forRoot({
-      loader: { provide: TranslateLoader, useClass: TranslateLoaderService }
-    })
+    AppNodeVersionModule
   ],
   declarations: [
     AppComponent,
