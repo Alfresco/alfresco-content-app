@@ -32,6 +32,7 @@ import {
 } from '@angular/core';
 import { NodeEntry, NodeBodyLock, SharedLinkEntry } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
+import { isLocked } from '../utils/node.utils';
 
 @Directive({
   selector: '[acaLockNode]',
@@ -52,33 +53,28 @@ export class LockNodeDirective {
 
   constructor(private alfrescoApiService: AlfrescoApiService) {}
 
-  isNodeLocked() {
-    return !!(
-      this.node &&
-      this.node.entry.properties &&
-      this.node.entry.properties['cm:lockType'] === 'WRITE_LOCK'
-    );
+  isNodeLocked(): boolean {
+    return isLocked(this.node);
   }
 
   private async toggleLock(node: NodeEntry | SharedLinkEntry) {
     const id = (<SharedLinkEntry>node).entry.nodeId || node.entry.id;
-    if (this.isNodeLocked()) {
+
+    if (isLocked(this.node)) {
       try {
         const response = await this.unlockNode(id);
-        const isLocked = false;
 
         this.update(response.entry);
-        this.toggle.emit(isLocked);
+        this.toggle.emit(false);
       } catch (error) {
         this.unlockError.emit(error);
       }
     } else {
       try {
         const response = await this.lockNode(id);
-        const isLocked = true;
 
         this.update(response.entry);
-        this.toggle.emit(isLocked);
+        this.toggle.emit(true);
       } catch (error) {
         this.lockError.emit(error);
       }
