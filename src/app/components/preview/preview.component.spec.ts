@@ -42,7 +42,6 @@ import {
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';
 import { EffectsModule } from '@ngrx/effects';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
@@ -63,12 +62,7 @@ describe('PreviewComponent', () => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects])],
       providers: [AlfrescoApiService, ContentManagementService],
-      declarations: [
-        AppConfigPipe,
-        PreviewComponent,
-        NodeFavoriteDirective,
-        ExperimentalDirective
-      ],
+      declarations: [AppConfigPipe, PreviewComponent, NodeFavoriteDirective],
       schemas: [NO_ERRORS_SCHEMA]
     });
 

@@ -310,7 +310,9 @@ export function isWriteLocked(
     context.selection.file &&
     context.selection.file.entry &&
     context.selection.file.entry.properties &&
-    context.selection.file.entry.properties['cm:lockType'] === 'WRITE_LOCK'
+    (context.selection.file.entry.properties['cm:lockType'] === 'WRITE_LOCK' ||
+      context.selection.file.entry.properties['cm:lockType'] ===
+        'READ_ONLY_LOCK')
   );
 }
 

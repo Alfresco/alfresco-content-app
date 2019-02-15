@@ -39,7 +39,6 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { ContentManagementService } from '../../services/content-management.service';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects, RouterEffects } from '../../store/effects';
@@ -77,8 +76,7 @@ describe('FavoriteLibrariesComponent', () => {
         NodeFavoriteDirective,
         DocumentListComponent,
         FavoriteLibrariesComponent,
-        AppConfigPipe,
-        ExperimentalDirective
+        AppConfigPipe
       ],
       providers: [ContentManagementService, UserPreferencesService],
       schemas: [NO_ERRORS_SCHEMA]

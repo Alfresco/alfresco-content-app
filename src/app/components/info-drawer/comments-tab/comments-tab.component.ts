@@ -26,6 +26,7 @@
 import { Component, Input } from '@angular/core';
 import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService } from '../../../services/node-permission.service';
+import { isLocked } from '../../../utils/node.utils';
 
 @Component({
   selector: 'app-comments-tab',
@@ -42,7 +43,11 @@ export class CommentsTabComponent {
 
   constructor(private permission: NodePermissionService) {}
 
-  get canUpdateNode() {
-    return this.node && this.permission.check(this.node, ['update']);
+  get canUpdateNode(): boolean {
+    if (this.node && this.node.isFile && !isLocked({ entry: this.node })) {
+      return this.permission.check(this.node, ['update']);
+    }
+
+    return false;
   }
 }

@@ -177,11 +177,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         return;
       }
 
-      if (PageComponent.isLockedNode(node.entry)) {
-        event.preventDefault();
-        return;
-      }
-
       this.showPreview(node);
     }
   }
