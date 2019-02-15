@@ -65,13 +65,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
 
   protected subscriptions: Subscription[] = [];
 
-  static isLockedNode(node) {
-    return (
-      node.isLocked ||
-      (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK')
-    );
-  }
-
   constructor(
     protected store: Store<AppStore>,
     protected extensions: AppExtensionService,
