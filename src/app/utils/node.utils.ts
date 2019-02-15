@@ -23,9 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { MinimalNodeEntity } from '@alfresco/js-api';
+import { Node } from '@alfresco/js-api';
 
-export function isLocked(node: MinimalNodeEntity): boolean {
+export function isLocked(node: { entry: Node }): boolean {
   const { entry } = node;
 
   return (
@@ -36,7 +36,7 @@ export function isLocked(node: MinimalNodeEntity): boolean {
   );
 }
 
-export function isWriteLocked(node: MinimalNodeEntity): boolean {
+export function isWriteLocked(node: { entry: Node }): boolean {
   const { entry } = node;
 
   return (
@@ -45,7 +45,7 @@ export function isWriteLocked(node: MinimalNodeEntity): boolean {
   );
 }
 
-export function isLibrary(node: MinimalNodeEntity | any): boolean {
+export function isLibrary(node: { entry: Node | any }): boolean {
   const { entry } = node;
 
   return (
