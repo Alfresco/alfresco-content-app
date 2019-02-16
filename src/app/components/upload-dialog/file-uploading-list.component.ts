@@ -84,6 +84,7 @@ export class AppFileUploadingListComponent {
           this.notifyError(file);
         }
 
+        this.cancelNodeVersionInstances(file);
         this.uploadService.cancelUpload(file);
       });
     }
@@ -162,6 +163,18 @@ export class AppFileUploadingListComponent {
         return of(file);
       })
     );
+  }
+
+  // todo: move to ADF 3.x.x
+  private cancelNodeVersionInstances(file) {
+    this.files
+      .filter(
+        item =>
+          item.data.entry.id === file.data.entry.id && item.options.newVersion
+      )
+      .map(item => {
+        item.status = FileUploadStatus.Deleted;
+      });
   }
 
   private deleteNode(file: FileModel): Observable<FileModel> {
