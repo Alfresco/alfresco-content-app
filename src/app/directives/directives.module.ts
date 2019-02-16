@@ -24,7 +24,6 @@
  */
 
 import { NgModule } from '@angular/core';
-import { ExperimentalDirective } from './experimental.directive';
 import { DocumentListDirective } from './document-list.directive';
 import { PaginationDirective } from './pagination.directive';
 import { LibraryMembershipDirective } from './library-membership.directive';
@@ -33,7 +32,6 @@ import { LockNodeDirective } from './lock-node.directive';
 
 export function directives() {
   return [
-    ExperimentalDirective,
     DocumentListDirective,
     PaginationDirective,
     LibraryMembershipDirective,

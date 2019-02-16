@@ -156,11 +156,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      if (PageComponent.isLockedNode(node.entry)) {
-        event.preventDefault();
-        return;
-      }
-
       this.showPreview(node);
     }
   }

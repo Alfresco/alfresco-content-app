@@ -32,7 +32,10 @@ export function canOpenWithOffice(
   }
   */
 
-  if (file.entry.properties['cm:lockType'] === 'WRITE_LOCK') {
+  if (
+    file.entry.properties['cm:lockType'] === 'WRITE_LOCK' ||
+    file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK'
+  ) {
     return false;
   }
 

@@ -44,6 +44,7 @@ import {
   sharedUrl
 } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
+import { isLocked, isLibrary } from '../utils/node.utils';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
@@ -63,28 +64,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   canUpload = false;
 
   protected subscriptions: Subscription[] = [];
-
-  static isLockedNode(node) {
-    return (
-      node.isLocked ||
-      (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK')
-    );
-  }
-
-  static isWriteLockedNode(node) {
-    return node.properties && node.properties['cm:lockType'] === 'WRITE_LOCK';
-  }
-
-  static isLibrary(entry) {
-    return (
-      (entry.guid &&
-        entry.id &&
-        entry.preset &&
-        entry.title &&
-        entry.visibility) ||
-      entry.nodeType === 'st:site'
-    );
-  }
 
   constructor(
     protected store: Store<AppStore>,
@@ -137,16 +116,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   }
 
   imageResolver(row: ShareDataRow): string | null {
-    const entry: MinimalNodeEntryEntity = row.node.entry;
-
-    if (
-      PageComponent.isLockedNode(entry) ||
-      PageComponent.isWriteLockedNode(entry)
-    ) {
+    if (isLocked(row.node)) {
       return 'assets/images/baseline-lock-24px.svg';
     }
 
-    if (PageComponent.isLibrary(entry)) {
+    if (isLibrary(row.node)) {
       return 'assets/images/baseline-library_books-24px.svg';
     }
 

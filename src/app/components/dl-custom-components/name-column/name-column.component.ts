@@ -28,6 +28,7 @@ import { EDIT_OFFLINE } from '../../../store/actions';
 import { NodeEntry } from '@alfresco/js-api';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { isLocked } from '../../../utils/node.utils';
 
 @Component({
   selector: 'aca-custom-name-column',
@@ -84,11 +85,6 @@ export class CustomNameColumnComponent implements OnInit, OnDestroy {
   }
 
   isFileWriteLocked() {
-    return !!(
-      this.node &&
-      this.node.entry &&
-      this.node.entry.properties &&
-      this.node.entry.properties['cm:lockType'] === 'WRITE_LOCK'
-    );
+    return isLocked(this.node);
   }
 }

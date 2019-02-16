@@ -79,11 +79,6 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
   onNodeDoubleClick(node: MinimalNodeEntity) {
     if (node && node.entry) {
-      if (PageComponent.isLockedNode(node.entry)) {
-        event.preventDefault();
-        return;
-      }
-
       this.showPreview(node);
     }
   }

@@ -36,7 +36,6 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../services/content-management.service';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('TrashcanComponent', () => {
   let fixture: ComponentFixture<TrashcanComponent>;
@@ -64,8 +63,7 @@ describe('TrashcanComponent', () => {
         NodeFavoriteDirective,
         DocumentListComponent,
         TrashcanComponent,
-        AppConfigPipe,
-        ExperimentalDirective
+        AppConfigPipe
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
