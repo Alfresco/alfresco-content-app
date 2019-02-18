@@ -256,6 +256,15 @@
           ]
         }
       ]
+    },
+    {
+      "id": "app.toolbar.canUploadNewVersion",
+      "type": "core.every",
+      "parameters": [
+        { "type": "rule", "value": "app.selection.file" },
+        { "type": "rule", "value": "app.navigation.isNotTrashcan" },
+        { "type": "rule", "value": "app.selection.file.canUploadVersion" }
+      ]
     }
   ],
 
@@ -662,7 +671,7 @@
               "click": "UPLOAD_FILE_VERSION"
             },
             "rules": {
-              "visible": "app.selection.file.canUploadVersion"
+              "visible": "app.toolbar.canUploadNewVersion"
             }
           },
           {
@@ -878,7 +887,7 @@
           "click": "UPLOAD_FILE_VERSION"
         },
         "rules": {
-          "visible": "app.selection.file.canUploadVersion"
+          "visible": "app.toolbar.canUploadNewVersion"
         }
       },
       {
@@ -1102,7 +1111,7 @@
                 "click": "UPLOAD_FILE_VERSION"
               },
               "rules": {
-                "visible": "app.selection.file.canUploadVersion"
+                "visible": "app.toolbar.canUploadNewVersion"
               }
             },
             {

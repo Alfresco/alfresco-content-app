@@ -271,7 +271,7 @@ export function canUpdateSelectedFolder(
   const { folder } = context.selection;
   if (folder) {
     return (
-      // workaround for Search Api
+      // workaround for Favorites Api
       isFavorites(context, ...args) ||
       context.permissions.check(folder.entry, ['update'])
     );
@@ -353,6 +353,10 @@ export function canUploadVersion(
   context: AppRuleContext,
   ...args: RuleParameter[]
 ): boolean {
+  if (isFavorites(context, ...args) || isSharedFiles(context, ...args)) {
+    return true;
+  }
+
   return isWriteLocked(context, ...args)
     ? isUserWriteLockOwner(context, ...args)
     : canUpdateSelectedNode(context, ...args);

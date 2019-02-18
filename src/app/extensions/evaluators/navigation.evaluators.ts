@@ -25,12 +25,20 @@
 
 import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
 
+export function isPreview(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  const { url } = context.navigation;
+  return url && url.includes('/preview/');
+}
+
 export function isFavorites(
   context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/favorites');
+  return url && url.startsWith('/favorites') && !isPreview(context, ...args);
 }
 
 export function isNotFavorites(
@@ -45,7 +53,7 @@ export function isSharedFiles(
   ...args: RuleParameter[]
 ): boolean {
   const { url } = context.navigation;
-  return url && url.startsWith('/shared');
+  return url && url.startsWith('/shared') && !isPreview(context, ...args);
 }
 
 export function isNotSharedFiles(
@@ -131,14 +139,6 @@ export function isNotSearchResults(
   ...args: RuleParameter[]
 ): boolean {
   return !isSearchResults(context, ...args);
-}
-
-export function isPreview(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
-  const { url } = context.navigation;
-  return url && url.includes('/preview/');
 }
 
 export function isSharedPreview(
