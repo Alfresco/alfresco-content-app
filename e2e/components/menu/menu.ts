@@ -37,7 +37,7 @@ export class Menu extends Component {
 
     submenu: 'app-context-menu-item .mat-menu-item',
 
-    editFolder: `app.context.menu.editFolder`,
+    editFolder: `.mat-menu-item[id$='editFolder']`,
     editOffline: `.mat-menu-item[title='Edit offline']`,
     cancelEditing: `.mat-menu-item[title='Cancel editing']`
   };
@@ -54,7 +54,7 @@ export class Menu extends Component {
   createLibraryAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Create Library'));
   deleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Delete'));
   downloadAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Download'));
-  editFolderAction: ElementFinder = this.component.element(by.id(Menu.selectors.editFolder));
+  editFolderAction: ElementFinder = this.component.element(by.css(Menu.selectors.editFolder));
   editOfflineAction: ElementFinder = this.component.element(by.css(Menu.selectors.editOffline));
   favoriteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Favorite'));
   joinAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Join'));
