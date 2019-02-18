@@ -31,9 +31,14 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+export interface VersionFormEntry {
+  comment: string;
+  version: boolean;
+}
 
 @Component({
   selector: 'app-node-version-form',
@@ -44,27 +49,27 @@ import { takeUntil } from 'rxjs/operators';
   exportAs: 'nodeVersionForm'
 })
 export class AppNodeVersionFormComponent implements OnInit, OnDestroy {
-  @Output() update: EventEmitter<string> = new EventEmitter();
+  @Output() update: EventEmitter<VersionFormEntry> = new EventEmitter();
 
   form: FormGroup;
 
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
   private versionOptions = [
-    { label: 'VERSION.FORM.VERSION.MAJOR', value: 'major' },
-    { label: 'VERSION.FORM.VERSION.MINOR', value: 'minor' }
+    { label: 'VERSION.FORM.VERSION.MINOR', value: false },
+    { label: 'VERSION.FORM.VERSION.MAJOR', value: true }
   ];
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      comment: ['', Validators.required],
+      comment: [''],
       version: [this.versionOptions[0].value]
     });
 
     this.form.valueChanges
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe(values => {
+      .subscribe((values: VersionFormEntry) => {
         this.update.emit(values);
       });
   }

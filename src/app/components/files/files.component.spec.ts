@@ -46,7 +46,6 @@ import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { of, throwError } from 'rxjs';
 
 describe('FilesComponent', () => {
@@ -70,8 +69,7 @@ describe('FilesComponent', () => {
         NodeFavoriteDirective,
         DocumentListComponent,
         FileSizePipe,
-        AppConfigPipe,
-        ExperimentalDirective
+        AppConfigPipe
       ],
       providers: [
         {

@@ -81,22 +81,4 @@
       Language Picker
     </mat-checkbox>
   </mat-expansion-panel>
-
-  <ng-container *ngIf="experimental.length">
-    <mat-expansion-panel *ngIf="(profile$ | async)?.isAdmin">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ 'APP.SETTINGS.EXPERIMENTAL-FEATURES' | translate }}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div *ngFor="let flag of experimental">
-        <mat-checkbox
-          [(ngModel)]="flag.value"
-          (change)="onToggleExperimentalFeature(flag.key, $event)"
-        >
-          {{ flag.key }}
-        </mat-checkbox>
-      </div>
-    </mat-expansion-panel>
-  </ng-container>
 </mat-accordion>

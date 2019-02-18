@@ -28,6 +28,7 @@ import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService } from '../../../services/node-permission.service';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { AppConfigService } from '@alfresco/adf-core';
+import { isLocked } from '../../../utils/node.utils';
 
 @Component({
   selector: 'app-metadata-tab',
@@ -64,26 +65,11 @@ export class MetadataTabComponent {
     }
   }
 
-  get canUpdateNode() {
-    if (this.node) {
-      if (this.fileIsLocked()) {
-        return false;
-      }
+  get canUpdateNode(): boolean {
+    if (this.node && this.node.isFile && !isLocked({ entry: this.node })) {
       return this.permission.check(this.node, ['update']);
     }
 
     return false;
-  }
-
-  private fileIsLocked() {
-    if (!this.node.isFile) {
-      return false;
-    }
-
-    return (
-      this.node.isLocked ||
-      (this.node.properties &&
-        this.node.properties['cm:lockType'] === 'READ_ONLY_LOCK')
-    );
   }
 }

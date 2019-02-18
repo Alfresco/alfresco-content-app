@@ -4,6 +4,14 @@
   adf-sidenav-layout {
     @include flex-column;
 
+    // TODO: move to ADF
+    @media screen and ($mat-xsmall) {
+      .mat-drawer {
+        width: calc(-50px + 100vw) !important;
+        max-width: 320px !important;
+      }
+    }
+
     .mat-drawer-content {
       @include flex-column;
       overflow: auto;

@@ -41,7 +41,6 @@
             "TITLE": "Settings",
             "APPLICATION-SETTINGS": "Application Settings",
             "REPOSITORY-SETTINGS": "Repository Settings",
-            "EXPERIMENTAL-FEATURES": "Experimental Features",
             "INVALID-VALUE-FORMAT": "Invalid value format",
             "REQUIRED-FIELD": "This field is required",
             "RESET": "Reset",
@@ -367,14 +366,14 @@
         },
         "DIALOG": {
             "TITLE": "Upload New Version",
-            "CLOSE": "Close",
+            "CANCEL": "Cancel",
             "UPLOAD": "Upload"
         },
         "FORM": {
             "SUBTITLE": "What level of changes were made to this version?",
             "VERSION": {
-                "MINOR": "Minor (2.#)",
-                "MAJOR": "Major (#.1)"
+                "MINOR": "Minor (#.1)",
+                "MAJOR": "Major (2.0)"
             },
             "COMMENT": {
                 "PLACEHOLDER": "Add notes describing what changed"

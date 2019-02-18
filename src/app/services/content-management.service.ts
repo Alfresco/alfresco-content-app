@@ -184,7 +184,6 @@ export class ContentManagementService {
 
   versionUploadDialog() {
     return this.dialogRef.open(NodeVersionUploadDialogComponent, {
-      disableClose: true,
       panelClass: 'aca-node-version-dialog'
     });
   }

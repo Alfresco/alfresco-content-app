@@ -40,7 +40,6 @@ import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
@@ -83,8 +82,7 @@ describe('FavoritesComponent', () => {
         NodeFavoriteDirective,
         DocumentListComponent,
         FavoritesComponent,
-        AppConfigPipe,
-        ExperimentalDirective
+        AppConfigPipe
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
