@@ -196,6 +196,9 @@ export class Menu extends Component {
     return this.uploadFiles;
   }
 
+  async clickEditFolder() {
+    return await this.editFolderAction.click();
+  }
 
   async clickShare() {
     const action = this.shareAction;
