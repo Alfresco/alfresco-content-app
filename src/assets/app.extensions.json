@@ -806,7 +806,7 @@
         }
       },
       {
-        "id": "app.toolbar.editFolder",
+        "id": "app.context.menu.editFolder",
         "order": 800,
         "title": "APP.ACTIONS.EDIT",
         "icon": "create",
