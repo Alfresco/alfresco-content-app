@@ -48,7 +48,9 @@ export class DataTable extends Component {
     nameLink: '.adf-datatable-link',
     libraryRole: 'adf-library-role-column',
 
-    selectedIcon: '.mat-icon',
+    selectedIcon: '.mat-icon[class*="selected"]',
+    lockIcon: 'img[src*="lock"]',
+    lockOwner: '.aca-locked-by',
 
     emptyListContainer: 'div.adf-no-content-container',
     emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
@@ -60,9 +62,7 @@ export class DataTable extends Component {
 
   head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
   body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
-  cell = by.css(DataTable.selectors.cell);
-  locationLink = by.css(DataTable.selectors.locationLink);
-  nameLink: ElementFinder = browser.element(by.css(DataTable.selectors.nameLink));
+
   emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
   emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
   emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
@@ -160,7 +160,8 @@ export class DataTable extends Component {
   getRowByName(name: string, location: string = '') {
     if (location) {
       return this.body.all(by.cssContainingText(DataTable.selectors.row, name))
-        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))));
+        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
+        .first();
     }
     return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
   }
@@ -181,8 +182,27 @@ export class DataTable extends Component {
     return await this.getRowNameCellText(name).getAttribute('title');
   }
 
-  async hasCheckMarkIcon(itemName: string) {
-    return await this.getRowByName(itemName).element(by.css(DataTable.selectors.selectedIcon)).isPresent();
+  async hasCheckMarkIcon(itemName: string, location: string = '') {
+    const row = this.getRowByName(itemName, location);
+    return await row.element(by.css(DataTable.selectors.selectedIcon)).isPresent();
+  }
+
+  async hasLockIcon(itemName: string, location: string = '') {
+    const row = this.getRowByName(itemName, location);
+    return await row.element(by.css(DataTable.selectors.lockIcon)).isPresent();
+  }
+
+  async hasLockOwnerInfo(itemName: string, location: string = '') {
+    const row = this.getRowByName(itemName, location);
+    return await row.element(by.css(DataTable.selectors.lockOwner)).isPresent();
+  }
+
+  async getLockOwner(itemName: string, location: string = '') {
+    if (await this.hasLockOwnerInfo(itemName, location)) {
+      const row = this.getRowByName(itemName, location);
+      return await row.$(DataTable.selectors.lockOwner).$('.locked_by--name').getText();
+    }
+    return '';
   }
 
   getNameLink(itemName: string) {
@@ -252,7 +272,7 @@ export class DataTable extends Component {
   }
 
   getItemLocationEl(name: string) {
-    return this.getRowByName(name).element(this.locationLink);
+    return this.getRowByName(name).element(by.css(DataTable.selectors.locationLink));
   }
 
   async getItemLocation(name: string) {
@@ -330,7 +350,7 @@ export class DataTable extends Component {
 
   async getEntireDataTableText() {
     return this.getRows().map((row) => {
-      return row.all(this.cell).map(async cell => await cell.getText());
+      return row.all(by.css(DataTable.selectors.cell)).map(async cell => await cell.getText());
     });
   }
 

@@ -61,6 +61,7 @@ export class Menu extends Component {
   leaveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Leave'));
   managePermissionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permissions'));
   manageVersionsAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Manage Versions'));
+  uploadNewVersionAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Upload new version'));
   moveAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Move'));
   permanentDeleteAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Permanently delete'));
   restoreAction: ElementFinder = this.component.element(by.cssContainingText(Menu.selectors.item, 'Restore'));
@@ -246,6 +247,10 @@ export class Menu extends Component {
 
   async isManageVersionsPresent() {
     return await this.manageVersionsAction.isPresent();
+  }
+
+  async isUploadNewVersionPresent() {
+    return await this.uploadNewVersionAction.isPresent();
   }
 
   async isFavoritePresent() {

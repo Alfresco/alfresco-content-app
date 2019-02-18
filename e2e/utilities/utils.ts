@@ -23,10 +23,12 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, protractor, promise, ElementFinder, ExpectedConditions as EC } from 'protractor';
+import { browser, protractor, promise, ElementFinder, ExpectedConditions as EC, by } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../configs';
+
 const path = require('path');
 const fs = require('fs');
+
 
 export class Utils {
   static string257 = 'assembly doctor offender limit clearance inspiration baker fraud active apples trait brainstorm concept breaks down presidential \
@@ -128,6 +130,12 @@ export class Utils {
 
   static formatDate(date: string) {
     return new Date(date).toLocaleDateString('en-US');
+  }
+
+
+  static async uploadFileNewVersion(fileFromOS: string) {
+    const el = browser.element(by.id('app-upload-file-version'));
+    await el.sendKeys(`${E2E_ROOT_PATH}/resources/test-files/${fileFromOS}`);
   }
 
 }

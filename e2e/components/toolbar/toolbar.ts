@@ -217,6 +217,21 @@ export class Toolbar extends Component {
     return await this.menu.clickMenuItem('Copy');
   }
 
+  async clickMoreActionsEditOffline() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Edit offline');
+  }
+
+  async clickMoreActionsCancelEditing() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Cancel editing');
+  }
+
+  async clickMoreActionsUploadNewVersion() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Upload new version');
+  }
+
 
   async clickFullScreen() {
     return await this.fullScreenButton.click();
