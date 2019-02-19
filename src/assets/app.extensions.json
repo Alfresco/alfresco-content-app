@@ -1022,6 +1022,15 @@
           }
         },
         {
+          "id": "app.viewer.infoDrawer",
+          "type": "custom",
+          "order": 500,
+          "component": "app.toolbar.toggleInfoDrawer",
+          "rules": {
+            "visible": "app.toolbar.info"
+          }
+        },
+        {
           "id": "app.viewer.toolbar.more",
           "type": "menu",
           "order": 10000,
