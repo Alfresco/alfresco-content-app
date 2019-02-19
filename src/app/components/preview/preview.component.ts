@@ -83,7 +83,7 @@ export class PreviewComponent extends PageComponent
   navigateMultiple = false;
   openWith: Array<ContentActionRef> = [];
   contentExtensions: Array<ViewerExtensionRef> = [];
-  showRideSide = false;
+  showRightSide = false;
 
   constructor(
     private contentApi: ContentApiService,
@@ -104,7 +104,7 @@ export class PreviewComponent extends PageComponent
     super.ngOnInit();
 
     from(this.infoDrawerOpened$).subscribe(val => {
-      this.showRideSide = val;
+      this.showRightSide = val;
     });
 
     this.previewLocation = this.router.url

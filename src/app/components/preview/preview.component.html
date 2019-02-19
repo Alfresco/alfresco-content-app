@@ -2,9 +2,9 @@
   <adf-viewer
     [nodeId]="nodeId"
     [allowNavigate]="navigateMultiple"
-    [allowRightSidebar]="showRideSide"
+    [allowRightSidebar]="showRightSide"
     [allowPrint]="false"
-    [showRightSidebar]="showRideSide"
+    [showRightSidebar]="showRightSide"
     [allowDownload]="false"
     [allowFullScreen]="false"
     [canNavigateBefore]="previousNodeId"
@@ -13,7 +13,7 @@
     (showViewerChange)="onVisibilityChanged($event)"
     (navigateBefore)="onNavigateBefore()"
     (navigateNext)="onNavigateNext()"
-    [ngClass]="showRideSide ? 'hide-last-divider' : ''"
+    [ngClass]="showRightSide ? 'hide-last-divider' : ''"
   >
     <adf-viewer-sidebar *ngIf="(infoDrawerOpened$ | async)">
       <aca-info-drawer [node]="selection.file"></aca-info-drawer>
