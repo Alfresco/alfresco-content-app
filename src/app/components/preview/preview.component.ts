@@ -55,6 +55,7 @@ import { ContentManagementService } from '../../services/content-management.serv
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
 import { SearchRequest } from '@alfresco/js-api';
 import { AppDataService } from '../../services/data.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-preview',
@@ -82,7 +83,7 @@ export class PreviewComponent extends PageComponent
   navigateMultiple = false;
   openWith: Array<ContentActionRef> = [];
   contentExtensions: Array<ViewerExtensionRef> = [];
-  hasRightSidebar = true;
+  showRideSide = false;
 
   constructor(
     private contentApi: ContentApiService,
@@ -101,6 +102,10 @@ export class PreviewComponent extends PageComponent
 
   ngOnInit() {
     super.ngOnInit();
+
+    from(this.infoDrawerOpened$).subscribe(val => {
+      this.showRideSide = val;
+    });
 
     this.previewLocation = this.router.url
       .substr(0, this.router.url.indexOf('/', 1))
