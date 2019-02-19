@@ -405,12 +405,12 @@ describe('Special permissions available actions : ', () => {
         expect(await toolbar.isViewPresent()).toBe(false, `View is not displayed for ${folder1}`);
         expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${folder1}`);
         expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${folder1}`);
-        // TODO: change expect to false when ACA-1737 is done
-        expect(await toolbar.isEditFolderPresent()).toBe(true, `Edit folder is displayed for ${folder1}`);
         expect(await toolbar.isSharePresent()).toBe(false, `Share is displayed`);
 
         await toolbar.openMoreMenu();
 
+        // TODO: change expect to false when ACA-1737 is done
+        expect(await toolbar.menu.isEditFolderPresent()).toBe(true, `Edit folder is displayed for ${folder1}`);
         expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folder1}`);
         expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folder1}`);
         expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folder1}`);

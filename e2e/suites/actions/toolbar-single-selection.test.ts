@@ -184,10 +184,10 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
       expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folderUser}`);
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not enabled for ${folderUser}`);
-      expect(await toolbar.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
 
       await toolbar.openMoreMenu();
 
+      expect(await toolbar.menu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
@@ -269,10 +269,10 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderInSite}`);
       expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folderInSite}`);
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not enabled for ${folderInSite}`);
-      expect(await toolbar.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderInSite}`);
 
       await toolbar.openMoreMenu();
 
+      expect(await toolbar.menu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderInSite}`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folderInSite}`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folderInSite}`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderInSite}`);
@@ -611,10 +611,10 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
       expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folderUser}`);
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not enabled for ${folderUser}`);
-      expect(await toolbar.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
 
       await toolbar.openMoreMenu();
 
+      expect(await toolbar.menu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
@@ -740,10 +740,10 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);
       expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folderUser}`);
       expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not enabled for ${folderUser}`);
-      expect(await toolbar.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
 
       await toolbar.openMoreMenu();
 
+      expect(await toolbar.menu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folderUser}`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
