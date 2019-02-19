@@ -1201,10 +1201,8 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
         expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-        // TODO: change expect to false when ACA-1737 is done
-        expect(await viewerToolbar.menu.isMovePresent()).toBe(true, `Move is displayed`);
-        // TODO: change expect to false when ACA-1737 is done
-        expect(await viewerToolbar.menu.isDeletePresent()).toBe(true, `Delete is displayed`);
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
 
         await toolbar.closeMoreMenu();
@@ -1405,10 +1403,8 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
         expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-        // TODO: change expect to false when ACA-1737 is done
-        expect(await viewerToolbar.menu.isMovePresent()).toBe(true, `Move is displayed`);
-        // TODO: change expect to false when ACA-1737 is done
-        expect(await viewerToolbar.menu.isDeletePresent()).toBe(true, `Delete is displayed`);
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
 
         await viewerToolbar.closeMoreMenu();
@@ -1610,10 +1606,8 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
         expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
-        // TODO: change expect to false when ACA-1737 is done
-        expect(await viewerToolbar.menu.isMovePresent()).toBe(true, `Move is displayed`);
-        // TODO: change expect to false when ACA-1737 is done
-        expect(await viewerToolbar.menu.isDeletePresent()).toBe(true, `Delete is displayed`);
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
 
         await viewerToolbar.closeMoreMenu();
