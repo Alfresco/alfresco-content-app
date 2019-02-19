@@ -54,7 +54,11 @@ export class Viewer extends Component {
   }
 
   async waitForViewerToOpen() {
-    await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT);
+    try {
+      await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT);
+    } catch (error) {
+      console.log('\n-----> catch waitForViewerToOpen <-----\n', error)
+    }
   }
 
   async isViewerOpened() {
