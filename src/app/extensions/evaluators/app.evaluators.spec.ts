@@ -244,6 +244,9 @@ describe('app.evaluators', () => {
   describe('canUploadVersion', () => {
     it('should return [true] if user has locked it previously', () => {
       const context: any = {
+        navigation: {
+          url: '/personal-files'
+        },
         profile: {
           id: 'user1'
         },
@@ -266,6 +269,9 @@ describe('app.evaluators', () => {
 
     it('should return [false] if other user has locked it previously', () => {
       const context: any = {
+        navigation: {
+          url: '/personal-files'
+        },
         profile: {
           id: 'user2'
         },
@@ -289,6 +295,9 @@ describe('app.evaluators', () => {
     it('should check the [update] operation when no write lock present', () => {
       let checked = false;
       const context: any = {
+        navigation: {
+          url: '/personal-files'
+        },
         permissions: {
           check: () => (checked = true)
         },
@@ -311,6 +320,36 @@ describe('app.evaluators', () => {
 
       expect(app.canUploadVersion(context, null)).toBe(true);
       expect(checked).toBe(true);
+    });
+
+    it('should return [true] if route is `/favorites`', () => {
+      const context: any = {
+        navigation: {
+          url: '/favorites'
+        }
+      };
+
+      expect(app.canUploadVersion(context, null)).toBe(true);
+    });
+
+    it('should return [true] if route is `/favorites`', () => {
+      const context: any = {
+        navigation: {
+          url: '/favorites'
+        }
+      };
+
+      expect(app.canUploadVersion(context, null)).toBe(true);
+    });
+
+    it('should return [true] if route is `/shared`', () => {
+      const context: any = {
+        navigation: {
+          url: '/shared'
+        }
+      };
+
+      expect(app.canUploadVersion(context, null)).toBe(true);
     });
   });
 });
