@@ -58,6 +58,21 @@ export class NodesApi extends RepoApi {
       return '';
     }
 
+    async getFileVersionType(nodeId: string) {
+      const prop = await this.getNodeProperty(nodeId, 'cm:versionType');
+      if ( prop ) {
+        return prop;
+      }
+      return '';
+    }
+    async getFileVersionLabel(nodeId: string) {
+      const prop = await this.getNodeProperty(nodeId, 'cm:versionLabel');
+      if ( prop ) {
+        return prop;
+      }
+      return '';
+    }
+
 
     async getSharedId(nodeId: string) {
       return await this.getNodeProperty(nodeId, 'qshare:sharedId');
@@ -121,7 +136,7 @@ export class NodesApi extends RepoApi {
       return await this.createNode('cm:content', name, parentId, title, description, imageProps);
     }
 
-    async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null) {
+    async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, majorVersion: boolean = true) {
         const nodeBody = {
             name,
             nodeType,
@@ -135,11 +150,11 @@ export class NodesApi extends RepoApi {
         }
 
         await this.apiAuth();
-        return await this.nodesApi.createNode(parentId, nodeBody);
+        return await this.nodesApi.createNode(parentId, nodeBody, { majorVersion: true });
     }
 
-    async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
-        return await this.createNode('cm:content', name, parentId, title, description);
+    async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', majorVersion: boolean = true) {
+        return await this.createNode('cm:content', name, parentId, title, description, majorVersion);
     }
 
     async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
@@ -219,5 +234,18 @@ export class NodesApi extends RepoApi {
     async unlockFile(nodeId: string) {
         await this.apiAuth();
         return await this.nodesApi.unlockNode(nodeId);
+    }
+
+    async getLockType(nodeId: string) {
+      return await this.getNodeProperty(nodeId, 'cm:lockType');
+    }
+
+    async getLockOwner(nodeId: string) {
+      return await this.getNodeProperty(nodeId, 'cm:lockOwner');
+    }
+
+    async isFileLockedWrite(nodeId: string) {
+        await this.apiAuth();
+        return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
     }
 }

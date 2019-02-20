@@ -181,11 +181,12 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297619]', async () => {
       await dataTable.selectMultipleItems([fileLocked1, fileLocked2]);
 
       expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
@@ -201,6 +202,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -221,6 +223,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -241,6 +244,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -276,11 +280,12 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297620]', async () => {
       await dataTable.selectMultipleItems([fileLocked1InSite, fileLocked2InSite]);
 
       expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed for selected files');
@@ -296,6 +301,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -316,6 +322,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -336,6 +343,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -370,11 +378,12 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297623]', async () => {
       await dataTable.selectMultipleItems([fileLocked1, fileLocked2]);
 
       expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
@@ -390,6 +399,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -424,11 +434,12 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297624]', async () => {
       await dataTable.selectMultipleItems([fileLocked1, fileLocked2]);
 
       expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
@@ -444,6 +455,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -478,11 +490,12 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297625]', async () => {
       await dataTable.selectMultipleItems([fileLocked1, fileLocked2]);
 
       expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
@@ -498,6 +511,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -518,6 +532,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -538,6 +553,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -607,11 +623,12 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297626]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchForTextAndCloseSearchOptions('my-fileLockedInSite');
@@ -630,6 +647,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -653,6 +671,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -676,6 +695,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
       await toolbar.closeMoreMenu();
     });
