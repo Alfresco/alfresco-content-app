@@ -175,9 +175,10 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297627]', async () => {
       await dataTable.selectMultipleItems([fileLocked1, fileLocked2]);
       await dataTable.rightClickOnMultipleSelection();
 
@@ -190,6 +191,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when multiple folders are selected - [C280632]', async () => {
@@ -206,6 +208,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when both files and folders are selected - [C280631]', async () => {
@@ -222,6 +225,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
   });
 
@@ -253,9 +257,10 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297628]', async () => {
       await dataTable.selectMultipleItems([ fileLocked1Site, fileLocked2Site ]);
       await dataTable.rightClickOnMultipleSelection();
 
@@ -269,6 +274,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when multiple folders are selected - [C280574]', async () => {
@@ -285,6 +291,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when both files and folders are selected - [C280642]', async () => {
@@ -301,6 +308,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
   });
 
@@ -331,9 +339,10 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is not displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297629]', async () => {
       await dataTable.selectMultipleItems([ fileLocked1, fileLocked2 ]);
       await dataTable.rightClickOnMultipleSelection();
 
@@ -347,6 +356,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is not displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
   });
 
@@ -377,9 +387,10 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297630]', async () => {
       await dataTable.selectMultipleItems([ fileLocked1, fileLocked2 ]);
       await dataTable.rightClickOnMultipleSelection();
 
@@ -393,6 +404,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
   });
 
@@ -423,9 +435,10 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297631]', async () => {
       await dataTable.selectMultipleItems([ fileLocked1, fileLocked2 ]);
       await dataTable.rightClickOnMultipleSelection();
 
@@ -439,6 +452,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when multiple folders are selected - [C280664]', async () => {
@@ -455,6 +469,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when both files and folders are selected - [C280657]', async () => {
@@ -471,6 +486,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
   });
 
@@ -503,6 +519,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when multiple folders are selected - [C286274]', async () => {
@@ -521,6 +538,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when both files and folders are selected - [C286275]', async () => {
@@ -539,6 +557,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
   });
 
@@ -571,9 +590,10 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
-    it('correct actions appear when multiple locked files are selected - []', async () => {
+    it('correct actions appear when multiple locked files are selected - [C297632]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchForTextAndCloseSearchOptions('my-inSite-file');
@@ -590,6 +610,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when multiple folders are selected - [C291832]', async () => {
@@ -609,6 +630,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
 
     it('correct actions appear when both files and folders are selected - [C291833]', async () => {
@@ -628,6 +650,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
       expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+      expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
   });
 });

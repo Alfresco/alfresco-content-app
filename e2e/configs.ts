@@ -109,7 +109,9 @@ export const SITE_ROLES = {
 
 export const FILES = {
   docxFile: 'file-docx.docx',
+  docxFile2: 'file2-docx.docx',
   xlsxFile: 'file-xlsx.xlsx',
+  xlsxFile2: 'file2-xlsx.xlsx',
   pdfFile: 'file-pdf.pdf',
   unsupportedFile: 'file_unsupported.3DS'
 };

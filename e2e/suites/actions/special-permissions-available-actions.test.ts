@@ -29,7 +29,7 @@ import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
 import { Viewer } from '../../components/viewer/viewer';
 
-describe('Granular permissions available actions : ', () => {
+describe('Special permissions available actions : ', () => {
   const userConsumer = `consumer-${Utils.random()}`;
   const userManager = `manager-${Utils.random()}`;
   const userCollaborator = `collaborator-${Utils.random()}`;
@@ -112,6 +112,8 @@ describe('Granular permissions available actions : ', () => {
     await apis.userCollaborator.favorites.addFavoritesByIds('file', [file1Id, docxFileId]);
     await apis.userCollaborator.favorites.waitForApi({ expect: 2 });
 
+    await apis.admin.favorites.addFavoriteById('file', fileLockedId);
+
     done();
   });
 
@@ -159,6 +161,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for selected files`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for selected files`);
 
         await toolbar.closeMoreMenu();
       });
@@ -181,6 +184,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for selected files`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for selected files`);
 
         await toolbar.closeMoreMenu();
       });
@@ -205,6 +209,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is displayed for selected files`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for selected files`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for selected files`);
 
         await toolbar.closeMoreMenu();
       });
@@ -229,6 +234,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for selected files`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for selected files`);
 
         await toolbar.closeMoreMenu();
       });
@@ -268,6 +274,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${file1}`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${file1}`);
 
         await toolbar.closeMoreMenu();
       });
@@ -291,6 +298,8 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${file1}`);
+        // TODO: change expect to false when ACA-2173 is done
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is displayed for ${file1}`);
 
         await toolbar.closeMoreMenu();
       });
@@ -317,6 +326,8 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is displayed for ${file1}`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${file1}`);
+        // TODO: change expect to false when ACA-1737 is done
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is displayed for ${file1}`);
 
         await toolbar.closeMoreMenu();
       });
@@ -342,6 +353,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${file1}`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${file1}`);
 
         await toolbar.closeMoreMenu();
       });
@@ -381,6 +393,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${folder1}`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folder1}`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folder1}`);
 
         await toolbar.closeMoreMenu();
       });
@@ -407,6 +420,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is displayed for ${folder1}`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folder1}`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folder1}`);
 
         await toolbar.closeMoreMenu();
       });
@@ -432,6 +446,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${folder1}`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folder1}`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folder1}`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folder1}`);
 
         await toolbar.closeMoreMenu();
       });
@@ -470,6 +485,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -492,6 +508,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -516,6 +533,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is displayed for selected files`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -540,6 +558,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -578,6 +597,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -602,6 +622,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is displayed`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -626,6 +647,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -664,6 +686,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -688,6 +711,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is displayed`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -712,6 +736,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
+        expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -745,6 +770,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
         expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions is not displayed for ${file1}`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${file1}`);
         expect(await contextMenu.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${file1}`);
         expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${file1}`);
         expect(await contextMenu.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed`);
@@ -764,6 +790,8 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
         expect(await contextMenu.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed for ${file1}`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions is not displayed for ${file1}`);
+        // TODO: change expect to false when ACA-2173 is done
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(true, `Upload new version is displayed for ${file1}`);
         expect(await contextMenu.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${file1}`);
         expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${file1}`);
       });
@@ -785,6 +813,8 @@ describe('Granular permissions available actions : ', () => {
         // TODO: replace with isSharedLinkSettingsPresent when ACA-2175 is done
         expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions is not displayed for ${file1}`);
+        // TODO: change expect to false when ACA-1737 is done
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(true, `Upload new version is displayed for ${file1}`);
         expect(await contextMenu.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${file1}`);
         expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${file1}`);
       });
@@ -805,6 +835,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${file1}`);
         expect(await contextMenu.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(true, `Manage Versions is not displayed for ${file1}`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${file1}`);
         expect(await contextMenu.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${file1}`);
         expect(await contextMenu.isViewDetailsPresent()).toBe(false, `View details is displayed for ${file1}`);
       });
@@ -837,6 +868,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folder1}`);
         expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folder1}`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed for ${folder1}`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folder1}`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folder1}`);
         expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folder1}`);
         expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folder1}`);
@@ -857,6 +889,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is displayed for ${folder1}`);
         expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folder1}`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed for ${folder1}`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folder1}`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folder1}`);
         expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folder1}`);
         expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folder1}`);
@@ -876,6 +909,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folder1}`);
         expect(await contextMenu.isViewPresent()).toBe(false, `View is displayed for ${folder1}`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed for ${folder1}`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folder1}`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed for ${folder1}`);
         expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${folder1}`);
         expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${folder1}`);
@@ -911,6 +945,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
 
@@ -928,6 +963,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
 
@@ -947,6 +983,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(true, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
 
@@ -966,6 +1003,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
     });
@@ -1000,6 +1038,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
 
@@ -1020,6 +1059,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(true, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
 
@@ -1040,6 +1080,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
     });
@@ -1073,6 +1114,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
 
@@ -1092,6 +1134,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(true, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
 
@@ -1111,6 +1154,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
         expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage Versions is displayed`);
+        expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
         expect(await contextMenu.isSharePresent()).toBe(false, `Share is displayed`);
       });
     });
@@ -1152,6 +1196,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -1178,6 +1223,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -1204,6 +1250,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await toolbar.closeMoreMenu();
       });
@@ -1216,7 +1263,7 @@ describe('Granular permissions available actions : ', () => {
       done();
     });
 
-    it('on File Libraries - []', async () => {
+    it('on File Libraries - [C297647]', async () => {
       await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
@@ -1237,11 +1284,12 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('on Shared Files - []', async () => {
+    it('on Shared Files - [C297651]', async () => {
       await page.clickSharedFilesAndWait();
       await page.dataTable.selectItem(file1);
 
@@ -1261,11 +1309,12 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('on Favorites - []', async () => {
+    it('on Favorites - [C297652]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(file1);
 
@@ -1288,11 +1337,12 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is displayed for ${file1}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('on Search Results - []', async () => {
+    it('on Search Results - [C297653]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchForTextAndCloseSearchOptions(file1);
@@ -1313,6 +1363,7 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${file1}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${file1}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
 
       await toolbar.closeMoreMenu();
     });
@@ -1330,7 +1381,7 @@ describe('Granular permissions available actions : ', () => {
         done();
       });
 
-      it('file opened from File Libraries - []', async () => {
+      it('file opened from File Libraries - [C297654]', async () => {
         await page.clickFileLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
@@ -1354,11 +1405,12 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
 
         await viewerToolbar.closeMoreMenu();
       });
 
-      it('file opened from Shared Files - []', async () => {
+      it('file opened from Shared Files - [C297655]', async () => {
         await page.clickSharedFilesAndWait();
         await dataTable.doubleClickOnRowByName(docxFile);
         await viewer.waitForViewerToOpen();
@@ -1380,11 +1432,12 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
 
         await viewerToolbar.closeMoreMenu();
       });
 
-      it('file opened from Favorites - []', async () => {
+      it('file opened from Favorites - [C297656]', async () => {
         await page.clickFavoritesAndWait();
         await dataTable.doubleClickOnRowByName(docxFile);
         await viewer.waitForViewerToOpen();
@@ -1406,6 +1459,7 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
 
         await viewerToolbar.closeMoreMenu();
       });
@@ -1418,7 +1472,7 @@ describe('Granular permissions available actions : ', () => {
       done();
     });
 
-    it('on File Libraries - []', async () => {
+    it('on File Libraries - [C297657]', async () => {
       await page.clickFileLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
@@ -1439,11 +1493,12 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${fileLocked}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, 'Manage versions is not displayed');
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, 'Upload new version is not displayed');
 
       await toolbar.closeMoreMenu();
     });
 
-    it('on Shared Files - []', async () => {
+    it('on Shared Files - [C297658]', async () => {
       await page.clickSharedFilesAndWait();
       await page.dataTable.selectItem(fileLocked);
 
@@ -1463,11 +1518,12 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${fileLocked}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, 'Manage versions is not displayed');
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, 'Upload new version is not displayed');
 
       await toolbar.closeMoreMenu();
     });
 
-    it('on Favorites - []', async () => {
+    it('on Favorites - [C297659]', async () => {
       await page.clickFavoritesAndWait();
       await dataTable.selectItem(fileLocked);
 
@@ -1490,11 +1546,12 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is displayed for ${fileLocked}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, 'Manage versions is not displayed');
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, 'Upload new version is not displayed');
 
       await toolbar.closeMoreMenu();
     });
 
-    it('on Search Results - []', async () => {
+    it('on Search Results - [C297660]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchForTextAndCloseSearchOptions(fileLocked);
@@ -1515,6 +1572,7 @@ describe('Granular permissions available actions : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${fileLocked}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, 'Manage versions is not displayed');
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, 'Upload new version is not displayed');
 
       await toolbar.closeMoreMenu();
     });
@@ -1532,7 +1590,7 @@ describe('Granular permissions available actions : ', () => {
         done();
       });
 
-      it('file opened from File Libraries - []', async () => {
+      it('file opened from File Libraries - [C297661]', async () => {
         await page.clickFileLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteName);
         await dataTable.waitForHeader();
@@ -1556,11 +1614,12 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
 
         await viewerToolbar.closeMoreMenu();
       });
 
-      it('file opened from Shared Files - []', async () => {
+      it('file opened from Shared Files - [C297662]', async () => {
         await page.clickSharedFilesAndWait();
         await dataTable.doubleClickOnRowByName(fileLocked);
         await viewer.waitForViewerToOpen();
@@ -1582,11 +1641,12 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
 
         await viewerToolbar.closeMoreMenu();
       });
 
-      it('file opened from Favorites - []', async () => {
+      it('file opened from Favorites - [C297663]', async () => {
         await page.clickFavoritesAndWait();
         await dataTable.doubleClickOnRowByName(fileLocked);
         await viewer.waitForViewerToOpen();
@@ -1609,6 +1669,217 @@ describe('Granular permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
+
+        await viewerToolbar.closeMoreMenu();
+      });
+    });
+  });
+
+  describe('File locked - manager : ', () => {
+    beforeAll(async (done) => {
+      await loginPage.loginWithAdmin();
+      done();
+    });
+
+    it('on File Libraries - [C297664]', async () => {
+      await page.clickFileLibrariesAndWait();
+      await dataTable.doubleClickOnRowByName(siteName);
+      await dataTable.waitForHeader();
+      await dataTable.selectItem(fileLocked);
+
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${fileLocked}`);
+      expect(await toolbar.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${fileLocked}`);
+      expect(await toolbar.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed`);
+
+      await toolbar.openMoreMenu();
+
+      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, 'Manage versions is not displayed');
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, 'Upload new version is displayed');
+
+      await toolbar.closeMoreMenu();
+    });
+
+    it('on Shared Files - [C297665]', async () => {
+      await page.clickSharedFilesAndWait();
+      await page.dataTable.selectItem(fileLocked);
+
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${fileLocked}`);
+      expect(await toolbar.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${fileLocked}`);
+      expect(await toolbar.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed`);
+
+      await toolbar.openMoreMenu();
+
+      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${fileLocked}`);
+      // TODO: change expect to true when ACA-2173 is done
+      expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, 'Manage versions is not displayed');
+      // TODO: change expect to false when ACA-2173 is done
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, 'Upload new version is displayed');
+
+      await toolbar.closeMoreMenu();
+    });
+
+    it('on Favorites - [C297666]', async () => {
+      await page.clickFavoritesAndWait();
+      await dataTable.selectItem(fileLocked);
+
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${fileLocked}`);
+      expect(await toolbar.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${fileLocked}`);
+      // TODO: replace with isSharedLinkSettingsPresent when ACA-2175 is done
+      expect(await toolbar.isSharePresent()).toBe(true, `Share is not displayed`);
+
+      await toolbar.openMoreMenu();
+
+      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${fileLocked}`);
+      // TODO: change expect to true when ACA-2174 is fixed
+      expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, 'Manage versions is not displayed');
+      // TODO: change expect to false when ACA-1737 is done
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, 'Upload new version is displayed');
+
+      await toolbar.closeMoreMenu();
+    });
+
+    it('on Search Results - [C297667]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkOnlyFiles();
+      await searchInput.searchForTextAndCloseSearchOptions(fileLocked);
+      await dataTable.selectItem(fileLocked);
+
+      expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
+      expect(await toolbar.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
+      expect(await toolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed for ${fileLocked}`);
+      expect(await toolbar.isEditFolderPresent()).toBe(false, `Edit folder is displayed for ${fileLocked}`);
+      expect(await toolbar.isSharedLinkSettingsPresent()).toBe(true, `Shared link settings is not displayed`);
+
+      await toolbar.openMoreMenu();
+
+      expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileLocked} in Search Results`);
+      expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${fileLocked} in Search Results`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, 'Manage versions is not displayed');
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, 'Upload new version is displayed');
+
+      await toolbar.closeMoreMenu();
+    });
+
+    describe('in the viewer', () => {
+      beforeEach(async (done) => {
+        await Utils.pressEscape();
+        await dataTable.clearSelection();
+        await page.clickPersonalFiles();
+        done();
+      });
+
+      afterAll(async (done) => {
+        await Utils.pressEscape();
+        done();
+      });
+
+      it('file opened from File Libraries - [C297671]', async () => {
+        await page.clickFileLibrariesAndWait();
+        await dataTable.doubleClickOnRowByName(siteName);
+        await dataTable.waitForHeader();
+        await dataTable.doubleClickOnRowByName(fileLocked);
+        await viewer.waitForViewerToOpen();
+
+        expect(await viewerToolbar.isViewPresent()).toBe(false, `View is displayed`);
+        expect(await viewerToolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
+        expect(await viewerToolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
+        expect(await viewerToolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
+        expect(await viewerToolbar.isSharedLinkSettingsPresent()).toBe(true, 'Shared link settings is not displayed');
+        expect(await viewerToolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed`);
+
+        await viewerToolbar.openMoreMenu();
+
+        expect(await viewerToolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
+        expect(await viewerToolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
+        expect(await viewerToolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+        expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
+        expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+        expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
+
+        await viewerToolbar.closeMoreMenu();
+      });
+
+      it('file opened from Shared Files - [C297672]', async () => {
+        await page.clickSharedFilesAndWait();
+        await dataTable.doubleClickOnRowByName(fileLocked);
+        await viewer.waitForViewerToOpen();
+
+        expect(await viewerToolbar.isViewPresent()).toBe(false, `View is displayed`);
+        expect(await viewerToolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
+        expect(await viewerToolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
+        expect(await viewerToolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
+        expect(await viewerToolbar.isSharedLinkSettingsPresent()).toBe(true, 'Shared link settings is not displayed');
+        expect(await viewerToolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed`);
+
+        await viewerToolbar.openMoreMenu();
+
+        expect(await viewerToolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
+        expect(await viewerToolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
+        expect(await viewerToolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+        expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
+        expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+        expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
+
+        await viewerToolbar.closeMoreMenu();
+      });
+
+      it('file opened from Favorites - [C297673]', async () => {
+        await page.clickFavoritesAndWait();
+        await dataTable.doubleClickOnRowByName(fileLocked);
+        await viewer.waitForViewerToOpen();
+
+        expect(await viewerToolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
+        expect(await viewerToolbar.isViewPresent()).toBe(false, `View is displayed`);
+        expect(await viewerToolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
+        expect(await viewerToolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
+        expect(await viewerToolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
+        expect(await viewerToolbar.isSharedLinkSettingsPresent()).toBe(true, 'Shared link settings is not displayed');
+        expect(await viewerToolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed`);
+
+        await viewerToolbar.openMoreMenu();
+
+        expect(await viewerToolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
+        expect(await viewerToolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
+        expect(await viewerToolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+        expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
+        expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+        expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 
         await viewerToolbar.closeMoreMenu();
       });
