@@ -151,11 +151,12 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload New Version is not displayed for ${fileUser}`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when a locked file is selected - []', async () => {
+    it('correct actions appear when a locked file is selected - [C297612]', async () => {
       await dataTable.selectItem(fileLocked);
 
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileLocked}`);
@@ -172,6 +173,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -193,6 +195,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folderUser}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folderUser}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -233,11 +236,12 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileInSite}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileInSite}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileInSite}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileInSite}`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when a locked file is selected - []', async () => {
+    it('correct actions appear when a locked file is selected - [C297614]', async () => {
       await dataTable.selectItem(fileLockedInSite);
 
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileLockedInSite}`);
@@ -254,6 +258,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLockedInSite}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLockedInSite}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLockedInSite}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLockedInSite}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -275,6 +280,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${folderInSite}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderInSite}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folderInSite}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folderInSite}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -446,11 +452,12 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileUser}`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when a locked file is selected - []', async () => {
+    it('correct actions appear when a locked file is selected - [C297615]', async () => {
       await page.dataTable.selectItem(fileLocked);
 
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileLocked}`);
@@ -469,6 +476,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -507,11 +515,12 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileUser}`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when a locked file is selected - []', async () => {
+    it('correct actions appear when a locked file is selected - [C297616]', async () => {
       await dataTable.selectItem(fileLocked);
 
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileLocked}`);
@@ -528,6 +537,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -567,11 +577,12 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileUser}`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when a locked file is selected - []', async () => {
+    it('correct actions appear when a locked file is selected - [C297617]', async () => {
       await dataTable.selectItem(fileLocked);
 
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileLocked}`);
@@ -589,6 +600,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -610,6 +622,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folderUser}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folderUser}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -688,11 +701,12 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${fileUser}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileUser}`);
 
       await toolbar.closeMoreMenu();
     });
 
-    it('correct actions appear when a locked file is selected - []', async () => {
+    it('correct actions appear when a locked file is selected - [C297618]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
       await searchInput.searchForTextAndCloseSearchOptions(fileLocked);
@@ -712,6 +726,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${fileLocked}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -736,6 +751,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${folderUser}`);
       expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folderUser}`);
+      expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folderUser}`);
 
       await toolbar.closeMoreMenu();
     });
