@@ -156,3 +156,11 @@ export function isFavoritesPreview(
   const { url } = context.navigation;
   return url && url.startsWith('/favorites/preview/');
 }
+
+export function isSharedFileViewer(
+  context: RuleContext,
+  ...args: RuleParameter[]
+): boolean {
+  const { url } = context.navigation;
+  return url && url.startsWith('/preview/s/');
+}
