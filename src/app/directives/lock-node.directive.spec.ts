@@ -69,6 +69,12 @@ describe('LockNodeDirective', () => {
     api = TestBed.get(AlfrescoApiService);
   });
 
+  it('should return false if selection is null', () => {
+    component.selection = null;
+    fixture.detectChanges();
+    expect(component.directive.isNodeLocked()).toBe(false);
+  });
+
   it('should return false if selection is not locked', () => {
     component.selection = { entry: { name: 'test-name', properties: {} } };
     fixture.detectChanges();
