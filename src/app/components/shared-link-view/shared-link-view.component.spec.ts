@@ -24,21 +24,43 @@
  */
 
 import { SharedLinkViewComponent } from './shared-link-view.component';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import {
+  TestBed,
+  ComponentFixture,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { SetSelectedNodesAction } from '../../store/actions';
 
 describe('SharedLinkViewComponent', () => {
   let component: SharedLinkViewComponent;
   let fixture: ComponentFixture<SharedLinkViewComponent>;
+  let alfrescoApiService: AlfrescoApiService;
+  const storeMock = {
+    dispatch: jasmine.createSpy('dispatch'),
+    select: () => of({})
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [SharedLinkViewComponent],
       providers: [
+        { provide: Store, useValue: storeMock },
+        {
+          provide: AlfrescoApiService,
+          useValue: {
+            sharedLinksApi: {
+              getSharedLink: () => of({ entry: { id: 'shared-id' } })
+            }
+          }
+        },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -52,11 +74,28 @@ describe('SharedLinkViewComponent', () => {
 
     fixture = TestBed.createComponent(SharedLinkViewComponent);
     component = fixture.componentInstance;
+    alfrescoApiService = TestBed.get(AlfrescoApiService);
+  });
+
+  it('should update store selection', fakeAsync(() => {
+    spyOn(alfrescoApiService.sharedLinksApi, 'getSharedLink').and.callThrough();
 
     fixture.detectChanges();
-  });
+    tick();
 
-  it('should fetch link id from the active route', () => {
+    console.log(component.viewerToolbarActions);
+
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      new SetSelectedNodesAction([<any>{ entry: { id: 'shared-id' } }])
+    );
+  }));
+
+  it('should fetch link id from the active route', fakeAsync(() => {
+    spyOn(alfrescoApiService.sharedLinksApi, 'getSharedLink').and.callThrough();
+
+    fixture.detectChanges();
+    tick();
+
     expect(component.sharedLinkId).toBe('123');
-  });
+  }));
 });
