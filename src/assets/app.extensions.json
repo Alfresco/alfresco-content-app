@@ -1155,6 +1155,30 @@
               }
             }
           ]
+        },
+        {
+          "id": "app.viewer.shared.fullscreen",
+          "order": 50,
+          "title": "APP.ACTIONS.FULLSCREEN",
+          "icon": "fullscreen",
+          "actions": {
+            "click": "FULLSCREEN_VIEWER"
+          },
+          "rules": {
+            "visible": "app.navigation.isSharedFileViewer"
+          }
+        },
+        {
+          "id": "app.viewer.shared.download",
+          "order": 80,
+          "title": "APP.ACTIONS.DOWNLOAD",
+          "icon": "get_app",
+          "actions": {
+            "click": "DOWNLOAD_NODES"
+          },
+          "rules": {
+            "visible": "app.navigation.isSharedFileViewer"
+          }
         }
       ],
       "content": [
