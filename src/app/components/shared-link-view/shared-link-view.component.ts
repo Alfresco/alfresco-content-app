@@ -7,7 +7,7 @@ import { AppStore } from '../../store/states/app.state';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { SharedLinkEntry } from '@alfresco/js-api';
 import { SetSelectedNodesAction } from '../../store/actions';
-import { flatMap, catchError, take, takeLast, last } from 'rxjs/operators';
+import { flatMap, catchError } from 'rxjs/operators';
 import { forkJoin, of, from } from 'rxjs';
 import { appSelection } from '../../store/selectors/app.selectors';
 
