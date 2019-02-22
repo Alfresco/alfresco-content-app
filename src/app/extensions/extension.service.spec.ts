@@ -683,4 +683,35 @@ describe('AppExtensionService', () => {
       ]);
     });
   });
+
+  describe('getSharedLinkViewerToolbarActions', () => {
+    it('should get shared link viewer actions', () => {
+      const actions = [
+        {
+          id: 'id',
+          type: ContentActionType.button,
+          icon: 'icon',
+          actions: {
+            click: 'click'
+          }
+        }
+      ];
+
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          viewerSharedLink: {
+            toolbarActions: actions
+          }
+        }
+      });
+
+      expect(service.getSharedLinkViewerToolbarActions()).toEqual(<any>actions);
+    });
+  });
 });
