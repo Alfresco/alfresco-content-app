@@ -105,7 +105,7 @@ describe('Download', () => {
     await apis.user.trashcan.emptyTrash();
     done();
   });
-
+  
   afterEach(async (done) => {
     await Utils.renameFile(archiveZip, `${Utils.random()}.zip`);
     done();
