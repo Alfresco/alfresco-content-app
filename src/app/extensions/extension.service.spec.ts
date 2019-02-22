@@ -705,8 +705,10 @@ describe('AppExtensionService', () => {
         $vendor: 'Good company',
         $runtime: '1.5.0',
         features: {
-          viewerSharedLink: {
-            toolbarActions: actions
+          viewer: {
+            shared: {
+              toolbarActions: actions
+            }
           }
         }
       });

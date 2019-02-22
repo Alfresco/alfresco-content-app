@@ -150,7 +150,7 @@ export class AppExtensionService implements RuleContext {
     );
     this.sharedLinkViewerToolbarActions = this.loader.getContentActions(
       config,
-      'features.viewerSharedLink.toolbarActions'
+      'features.viewer.shared.toolbarActions'
     );
     this.viewerContentExtensions = this.loader.getElements<ViewerExtensionRef>(
       config,
