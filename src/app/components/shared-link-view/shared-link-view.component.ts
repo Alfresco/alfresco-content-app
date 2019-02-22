@@ -7,8 +7,9 @@ import { AppStore } from '../../store/states/app.state';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 import { SharedLinkEntry } from '@alfresco/js-api';
 import { SetSelectedNodesAction } from '../../store/actions';
-import { flatMap } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
+import { flatMap, catchError, take, takeLast, last } from 'rxjs/operators';
+import { forkJoin, of, from } from 'rxjs';
+import { appSelection } from '../../store/selectors/app.selectors';
 
 @Component({
   selector: 'app-shared-link-view',
@@ -33,17 +34,24 @@ export class SharedLinkViewComponent implements OnInit {
       .pipe(
         flatMap(params =>
           forkJoin(
-            this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id),
+            from(
+              this.alfrescoApiService.sharedLinksApi.getSharedLink(params.id)
+            ),
             of(params.id)
-          )
+          ).pipe(catchError(() => of([null, params.id])))
         )
       )
       .subscribe(([sharedEntry, sharedId]: [SharedLinkEntry, string]) => {
-        this.store.dispatch(new SetSelectedNodesAction([<any>sharedEntry]));
+        if (sharedEntry) {
+          this.store.dispatch(new SetSelectedNodesAction([<any>sharedEntry]));
+        }
         this.sharedLinkId = sharedId;
       });
 
-    this.viewerToolbarActions = this.extensions.getViewerToolbarActions();
+    this.store.select(appSelection).subscribe(selection => {
+      if (!selection.isEmpty)
+        this.viewerToolbarActions = this.extensions.getSharedLinkViewerToolbarActions();
+    });
   }
 
   trackByActionId(index: number, action: ContentActionRef) {
