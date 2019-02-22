@@ -54,7 +54,7 @@ export class LockNodeDirective {
   constructor(private alfrescoApiService: AlfrescoApiService) {}
 
   isNodeLocked(): boolean {
-    return isLocked(this.node);
+    return !!(this.node && isLocked(this.node));
   }
 
   private async toggleLock(node: NodeEntry | SharedLinkEntry) {
