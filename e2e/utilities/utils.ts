@@ -95,11 +95,11 @@ export class Utils {
     const config = await browser.getProcessedConfig();
     const filePath = path.join(config.params.downloadFolder, fileName);
 
-    let tries = 5;
+    let tries = 15;
 
     return new Promise(function(resolve) {
       const checkExist = setInterval(() => {
-        fs.stat(filePath, function(error) {
+        fs.access(filePath, function(error) {
           tries--;
 
           if (error && tries === 0) {
@@ -116,16 +116,16 @@ export class Utils {
     });
   }
 
-  static pressEscape() {
-    return browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+  static async pressEscape() {
+    return await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
   }
 
-  static pressTab() {
-    return browser.actions().sendKeys(protractor.Key.TAB).perform();
+  static async pressTab() {
+    return await browser.actions().sendKeys(protractor.Key.TAB).perform();
   }
 
-  static getBrowserLog() {
-    return browser.manage().logs().get('browser');
+  static async getBrowserLog() {
+    return await browser.manage().logs().get('browser');
   }
 
   static formatDate(date: string) {
