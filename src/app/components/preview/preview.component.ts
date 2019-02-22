@@ -38,7 +38,7 @@ import {
   UrlSegment,
   PRIMARY_OUTLET
 } from '@angular/router';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import {
   UserPreferencesService,
   ObjectUtils,
@@ -103,9 +103,11 @@ export class PreviewComponent extends PageComponent
   ngOnInit() {
     super.ngOnInit();
 
-    from(this.infoDrawerOpened$).subscribe(val => {
-      this.showRightSide = val;
-    });
+    from(this.infoDrawerOpened$)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(val => {
+        this.showRightSide = val;
+      });
 
     this.previewLocation = this.router.url
       .substr(0, this.router.url.indexOf('/', 1))
