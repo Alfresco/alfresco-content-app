@@ -93,6 +93,7 @@
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
     "lint-staged": "^8.1.4",
+    "node-stream-zip": "1.8.0",
     "ng-packagr": "^4.7.0",
     "pre-commit": "^1.2.2",
     "prettier": "^1.16.0",

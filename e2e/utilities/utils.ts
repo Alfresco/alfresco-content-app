@@ -28,6 +28,7 @@ import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../c
 
 const path = require('path');
 const fs = require('fs');
+const StreamZip = require('node-stream-zip');
 
 
 export class Utils {
@@ -91,15 +92,15 @@ export class Utils {
     }
   }
 
-  static async fileExistsOnOS(fileName: string) {
+  static async fileExistsOnOS(fileName: string, folderName: string = '', subFolderName: string = '') {
     const config = await browser.getProcessedConfig();
-    const filePath = path.join(config.params.downloadFolder, fileName);
+    const filePath = path.join(config.params.downloadFolder, folderName, subFolderName, fileName);
 
-    let tries = 5;
+    let tries = 15;
 
     return new Promise(function(resolve) {
       const checkExist = setInterval(() => {
-        fs.stat(filePath, function(error) {
+        fs.access(filePath, function(error) {
           tries--;
 
           if (error && tries === 0) {
@@ -116,16 +117,54 @@ export class Utils {
     });
   }
 
-  static pressEscape() {
-    return browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+  static async renameFile(oldName: string, newName: string) {
+    const config = await browser.getProcessedConfig();
+    const oldFilePath = path.join(config.params.downloadFolder, oldName);
+    const newFilePath = path.join(config.params.downloadFolder, newName);
+
+    const fileExists = await this.fileExistsOnOS(oldName);
+
+    if (fileExists) {
+      fs.rename(oldFilePath, newFilePath, function (err) {
+        if (err) {
+          console.log('==== rename err: ', err);
+        }
+      });
+    }
   }
 
-  static pressTab() {
-    return browser.actions().sendKeys(protractor.Key.TAB).perform();
+  static async unzip(filename: string, unzippedName: string = '') {
+    const config = await browser.getProcessedConfig();
+    const filePath = path.join(config.params.downloadFolder, filename);
+    const output = path.join(config.params.downloadFolder, unzippedName ? unzippedName : '');
+
+    const zip = new StreamZip({
+      file: filePath,
+      storeEntries: true
+    });
+
+    await zip.on('error', err => { console.log('=== unzip err: ', err) });
+
+    await zip.on('ready', async () => {
+      if (unzippedName) {
+        await fs.mkdirSync(output);
+      }
+      await zip.extract(null, output, async () => {
+        await zip.close();
+      });
+    });
   }
 
-  static getBrowserLog() {
-    return browser.manage().logs().get('browser');
+  static async pressEscape() {
+    return await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+  }
+
+  static async pressTab() {
+    return await browser.actions().sendKeys(protractor.Key.TAB).perform();
+  }
+
+  static async getBrowserLog() {
+    return await browser.manage().logs().get('browser');
   }
 
   static formatDate(date: string) {
