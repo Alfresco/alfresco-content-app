@@ -28,6 +28,7 @@ import { BROWSER_WAIT_TIMEOUT, E2E_ROOT_PATH, EXTENSIBILITY_CONFIGS } from '../c
 
 const path = require('path');
 const fs = require('fs');
+const StreamZip = require('node-stream-zip');
 
 
 export class Utils {
@@ -91,9 +92,9 @@ export class Utils {
     }
   }
 
-  static async fileExistsOnOS(fileName: string) {
+  static async fileExistsOnOS(fileName: string, folderName: string = '', subFolderName: string = '') {
     const config = await browser.getProcessedConfig();
-    const filePath = path.join(config.params.downloadFolder, fileName);
+    const filePath = path.join(config.params.downloadFolder, folderName, subFolderName, fileName);
 
     let tries = 15;
 
@@ -113,6 +114,44 @@ export class Utils {
           }
         });
       }, 500);
+    });
+  }
+
+  static async renameFile(oldName: string, newName: string) {
+    const config = await browser.getProcessedConfig();
+    const oldFilePath = path.join(config.params.downloadFolder, oldName);
+    const newFilePath = path.join(config.params.downloadFolder, newName);
+
+    const fileExists = await this.fileExistsOnOS(oldName);
+
+    if (fileExists) {
+      fs.rename(oldFilePath, newFilePath, function (err) {
+        if (err) {
+          console.log('==== rename err: ', err);
+        }
+      });
+    }
+  }
+
+  static async unzip(filename: string, unzippedName: string = '') {
+    const config = await browser.getProcessedConfig();
+    const filePath = path.join(config.params.downloadFolder, filename);
+    const output = path.join(config.params.downloadFolder, unzippedName ? unzippedName : '');
+
+    const zip = new StreamZip({
+      file: filePath,
+      storeEntries: true
+    });
+
+    await zip.on('error', err => { console.log('=== unzip err: ', err) });
+
+    await zip.on('ready', async () => {
+      if (unzippedName) {
+        await fs.mkdirSync(output);
+      }
+      await zip.extract(null, output, async () => {
+        await zip.close();
+      });
     });
   }
 
