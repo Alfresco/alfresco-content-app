@@ -150,6 +150,7 @@ export class CoreExtensionsModule {
       'app.navigation.isPreview': nav.isPreview,
       'app.navigation.isSharedPreview': nav.isSharedPreview,
       'app.navigation.isFavoritesPreview': nav.isFavoritesPreview,
+      'app.navigation.isSharedFileViewer': nav.isSharedFileViewer,
 
       'repository.isQuickShareEnabled': repository.hasQuickShareEnabled
     });

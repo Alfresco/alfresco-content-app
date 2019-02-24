@@ -182,6 +182,7 @@ for example mixing `core.every` and `core.not`.
 | app.navigation.isNotSearchResults | Current page is not the **Search Results**.             |
 | app.navigation.isSharedPreview    | Current page is preview **Shared Files**                |
 | app.navigation.isFavoritesPreview | Current page is preview **Favorites**                   |
+| app.navigation.isSharedFileViewer | Current page is shared file preview page                |
 
 **Tip:** See the [Registration](/extending/registration) section for more details
 on how to register your own entries to be re-used at runtime.

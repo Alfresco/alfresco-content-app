@@ -71,6 +71,7 @@ export class AppExtensionService implements RuleContext {
   headerActions: Array<ContentActionRef> = [];
   toolbarActions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
+  sharedLinkViewerToolbarActions: Array<ContentActionRef> = [];
   viewerContentExtensions: Array<ViewerExtensionRef> = [];
   contextMenuActions: Array<ContentActionRef> = [];
   openWithActions: Array<ContentActionRef> = [];
@@ -146,6 +147,10 @@ export class AppExtensionService implements RuleContext {
     this.viewerToolbarActions = this.loader.getContentActions(
       config,
       'features.viewer.toolbarActions'
+    );
+    this.sharedLinkViewerToolbarActions = this.loader.getContentActions(
+      config,
+      'features.viewer.shared.toolbarActions'
     );
     this.viewerContentExtensions = this.loader.getElements<ViewerExtensionRef>(
       config,
@@ -420,6 +425,10 @@ export class AppExtensionService implements RuleContext {
 
   getViewerToolbarActions(): Array<ContentActionRef> {
     return this.getAllowedActions(this.viewerToolbarActions);
+  }
+
+  getSharedLinkViewerToolbarActions(): Array<ContentActionRef> {
+    return this.getAllowedActions(this.sharedLinkViewerToolbarActions);
   }
 
   getHeaderActions(): Array<ContentActionRef> {

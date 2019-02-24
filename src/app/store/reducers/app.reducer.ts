@@ -191,9 +191,20 @@ function updateSelectedNodes(
     if (nodes.length === 1) {
       file = nodes.find((entity: any) => {
         // workaround Shared
-        return entity.entry.isFile || entity.entry.nodeId ? true : false;
+        return entity.entry.isFile ||
+          entity.entry.nodeId ||
+          entity.entry.sharedByUser
+          ? true
+          : false;
       });
-      folder = nodes.find(entity => entity.entry.isFolder);
+      folder = nodes.find((entity: any) =>
+        // workaround Shared
+        entity.entry.isFolder ||
+        entity.entry.nodeId ||
+        entity.entry.sharedByUser
+          ? true
+          : false
+      );
     }
   }
 
