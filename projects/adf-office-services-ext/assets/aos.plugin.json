@@ -51,18 +51,23 @@
       }
     ],
     "viewer": {
-      "openWith": [
+      "toolbarActions": [
         {
-          "id": "aos.viewer.openWith.office",
-          "type": "button",
-          "icon": "adf:application/msword",
-          "title": "Microsoft Office™",
-          "actions": {
-            "click": "aos.openWith.office"
-          },
-          "rules": {
-            "visible": "aos.canOpenWithOffice"
-          }
+            "id": "app.viewer.toolbar.more",
+            "children": [
+              {
+                "id": "aos.viewer.openWith.office",
+                "order": 1,
+                "icon": "adf:application/msword",
+                "title": "Microsoft Office™",
+                "actions": {
+                  "click": "aos.openWith.office"
+                },
+                "rules": {
+                  "visible": "aos.canOpenWithOffice"
+                }
+            }
+          ]
         }
       ]
     }
