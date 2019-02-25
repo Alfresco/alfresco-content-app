@@ -30,6 +30,7 @@ import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { RouterModule } from '@angular/router';
 import { AppSidenavModule } from '../sidenav/sidenav.module';
+import { AppUploadingDialogModule } from '../upload-dialog/upload.module';
 import { AppCommonModule } from '../common/common.module';
 import { AppHeaderModule } from '../header/header.module';
 import { PageLayoutComponent } from './page-layout/page-layout.component';
@@ -47,7 +48,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppCommonModule,
     AppSidenavModule,
     AppHeaderModule,
-    HttpClientModule
+    HttpClientModule,
+    AppUploadingDialogModule
   ],
   declarations: [
     AppLayoutComponent,

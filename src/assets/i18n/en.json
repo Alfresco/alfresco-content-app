@@ -467,6 +467,11 @@
             "INFO": "View details"
         }
     },
+    "FILE_UPLOAD": {
+        "ERRORS": {
+            "409": "This name is already in use, try a different name [409]"
+        }
+    },
     "ADF_VERSION_LIST": {
         "ACTIONS": {
             "UPLOAD": {
