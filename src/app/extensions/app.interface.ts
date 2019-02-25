@@ -24,7 +24,9 @@
  */
 
 import { RuleContext, RepositoryState } from '@alfresco/adf-extensions';
+import { AuthenticationService } from '@alfresco/adf-core';
 
 export interface AppRuleContext extends RuleContext {
   repository: RepositoryState;
+  auth: AuthenticationService;
 }
