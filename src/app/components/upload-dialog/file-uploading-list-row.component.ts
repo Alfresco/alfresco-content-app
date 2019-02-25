@@ -33,7 +33,7 @@ export class AppFileUploadingListRowComponent extends FileUploadingListRowCompon
   }
 
   // todo: move to ADF 3.x.x
-  get versionNUmber() {
+  get versionNumber() {
     return this.file.data.entry.properties['cm:versionLabel'];
   }
 
