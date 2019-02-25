@@ -114,7 +114,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     }
   }
 
-  private formatSearchQuery(userInput: string) {
+  formatSearchQuery(userInput: string) {
     if (!userInput) {
       return null;
     }
