@@ -119,6 +119,12 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       return null;
     }
 
+    userInput = userInput.trim();
+
+    if (userInput.includes(':')) {
+      return userInput;
+    }
+
     const fields = this.config.get<string[]>('search.aca:fields', ['cm:name']);
     const query = fields.map(field => `${field}:"${userInput}*"`).join(' OR ');
 
