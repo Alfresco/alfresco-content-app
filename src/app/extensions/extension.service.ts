@@ -35,7 +35,6 @@ import {
   SelectionState,
   NavigationState,
   ExtensionConfig,
-  RuleContext,
   RuleEvaluator,
   ViewerExtensionRef,
   ContentActionRef,
@@ -52,15 +51,16 @@ import {
   RepositoryState,
   ExtensionRef
 } from '@alfresco/adf-extensions';
-import { AppConfigService } from '@alfresco/adf-core';
+import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
 import { DocumentListPresetRef } from './document-list.extensions';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IconRef } from './icon.extensions';
+import { AppRuleContext } from './app.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AppExtensionService implements RuleContext {
+export class AppExtensionService implements AppRuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
 
   defaults = {
@@ -108,6 +108,7 @@ export class AppExtensionService implements RuleContext {
   references$: Observable<ExtensionRef[]>;
 
   constructor(
+    public auth: AuthenticationService,
     protected store: Store<AppStore>,
     protected loader: ExtensionLoaderService,
     protected extensions: ExtensionService,

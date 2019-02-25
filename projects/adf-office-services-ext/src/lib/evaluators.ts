@@ -1,10 +1,17 @@
 import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
+import { AuthenticationService } from '@alfresco/adf-core';
 import { getFileExtension, supportedExtensions } from './utils';
 
 export function canOpenWithOffice(
   context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
+  // todo: needs to have typed access via SDK (1.8)
+  const auth: AuthenticationService = (<any>context).auth;
+  if (auth && auth.isOauth()) {
+    return false;
+  }
+
   const file = context.selection.file;
 
   if (!file || !file.entry || !file.entry.properties) {
