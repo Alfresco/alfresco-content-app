@@ -16,3 +16,8 @@
     display: inline;
   }
 }
+
+// todo: remove this when viewer supports extensions
+.adf-viewer-toolbar .mat-toolbar > button:last-child {
+  display: none;
+}

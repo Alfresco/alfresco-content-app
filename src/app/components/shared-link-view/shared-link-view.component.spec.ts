@@ -24,21 +24,47 @@
  */
 
 import { SharedLinkViewComponent } from './shared-link-view.component';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import {
+  TestBed,
+  ComponentFixture,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
+import { Store } from '@ngrx/store';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { AlfrescoApiService } from '@alfresco/adf-core';
+import { SetSelectedNodesAction } from '../../store/actions';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 describe('SharedLinkViewComponent', () => {
   let component: SharedLinkViewComponent;
   let fixture: ComponentFixture<SharedLinkViewComponent>;
+  let alfrescoApiService: AlfrescoApiService;
+  let appExtensionService: AppExtensionService;
+  let spyGetSharedLink;
+  const storeMock = {
+    dispatch: jasmine.createSpy('dispatch'),
+    select: () => of({})
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule],
       declarations: [SharedLinkViewComponent],
       providers: [
+        AppExtensionService,
+        { provide: Store, useValue: storeMock },
+        {
+          provide: AlfrescoApiService,
+          useValue: {
+            sharedLinksApi: {
+              getSharedLink: () => {}
+            }
+          }
+        },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -52,11 +78,79 @@ describe('SharedLinkViewComponent', () => {
 
     fixture = TestBed.createComponent(SharedLinkViewComponent);
     component = fixture.componentInstance;
+    alfrescoApiService = TestBed.get(AlfrescoApiService);
+    appExtensionService = TestBed.get(AppExtensionService);
+
+    spyGetSharedLink = spyOn(
+      alfrescoApiService.sharedLinksApi,
+      'getSharedLink'
+    );
+
+    storeMock.dispatch.calls.reset();
+  });
+
+  afterEach(() => {
+    spyGetSharedLink.calls.reset();
+  });
+
+  it('should update store selection', fakeAsync(() => {
+    spyGetSharedLink.and.returnValue(
+      Promise.resolve({ entry: { id: 'shared-id' } })
+    );
 
     fixture.detectChanges();
-  });
+    tick();
 
-  it('should fetch link id from the active route', () => {
+    expect(storeMock.dispatch).toHaveBeenCalledWith(
+      new SetSelectedNodesAction([<any>{ entry: { id: 'shared-id' } }])
+    );
+  }));
+
+  it('should not update store on error', fakeAsync(() => {
+    spyGetSharedLink.and.returnValue(Promise.reject('error'));
+
+    fixture.detectChanges();
+    tick();
+
+    expect(storeMock.dispatch).not.toHaveBeenCalled();
+  }));
+
+  it('should not update actions reference if selection is empty', fakeAsync(() => {
+    spyOn(storeMock, 'select').and.returnValue(of({ isEmpty: true }));
+
+    spyGetSharedLink.and.returnValue(
+      Promise.resolve({ entry: { id: 'shared-id' } })
+    );
+
+    fixture.detectChanges();
+    tick();
+
+    expect(component.viewerToolbarActions).toEqual([]);
+  }));
+
+  it('should update actions reference if selection is not empty', fakeAsync(() => {
+    spyOn(storeMock, 'select').and.returnValue(of({ isEmpty: false }));
+    spyOn(appExtensionService, 'getSharedLinkViewerToolbarActions');
+    spyGetSharedLink.and.returnValue(
+      Promise.resolve({ entry: { id: 'shared-id' } })
+    );
+
+    fixture.detectChanges();
+    tick();
+
+    expect(
+      appExtensionService.getSharedLinkViewerToolbarActions
+    ).toHaveBeenCalled();
+  }));
+
+  it('should fetch link id from the active route', fakeAsync(() => {
+    spyGetSharedLink.and.returnValue(
+      Promise.resolve({ entry: { id: 'shared-id' } })
+    );
+
+    fixture.detectChanges();
+    tick();
+
     expect(component.sharedLinkId).toBe('123');
-  });
+  }));
 });
