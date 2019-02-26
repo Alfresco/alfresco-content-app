@@ -35,8 +35,13 @@ describe('SearchComponent', () => {
     expect(component.formatSearchQuery('')).toBeNull();
   });
 
-  it('should use original user input if content contains colons', () => {
+  it('should use original user input if text contains colons', () => {
     const query = 'TEXT:test OR TYPE:folder';
+    expect(component.formatSearchQuery(query)).toBe(query);
+  });
+
+  it('should use original user input if text contains quotes', () => {
+    const query = `"Hello World"`;
     expect(component.formatSearchQuery(query)).toBe(query);
   });
 
@@ -48,7 +53,7 @@ describe('SearchComponent', () => {
     };
 
     const query = component.formatSearchQuery('hello');
-    expect(query).toBe(`cm:name:"hello*" OR cm:title:"hello*"`);
+    expect(query).toBe(`(cm:name:"hello*" OR cm:title:"hello*")`);
   });
 
   it('should format user input as cm:name if configuration not provided', () => {
@@ -59,7 +64,61 @@ describe('SearchComponent', () => {
     };
 
     const query = component.formatSearchQuery('hello');
-    expect(query).toBe(`cm:name:"hello*"`);
+    expect(query).toBe(`(cm:name:"hello*")`);
+  });
+
+  it('should use AND operator when conjunction has no operators', () => {
+    config.config = {
+      search: {
+        'aca:fields': ['cm:name']
+      }
+    };
+
+    const query = component.formatSearchQuery('big yellow banana');
+
+    expect(query).toBe(
+      `(cm:name:"big*") AND (cm:name:"yellow*") AND (cm:name:"banana*")`
+    );
+  });
+
+  it('should support conjunctions with AND operator', () => {
+    config.config = {
+      search: {
+        'aca:fields': ['cm:name', 'cm:title']
+      }
+    };
+
+    const query = component.formatSearchQuery('big AND yellow AND banana');
+
+    expect(query).toBe(
+      `(cm:name:"big*" OR cm:title:"big*") AND (cm:name:"yellow*" OR cm:title:"yellow*") AND (cm:name:"banana*" OR cm:title:"banana*")`
+    );
+  });
+
+  it('should support conjunctions with OR operator', () => {
+    config.config = {
+      search: {
+        'aca:fields': ['cm:name', 'cm:title']
+      }
+    };
+
+    const query = component.formatSearchQuery('big OR yellow OR banana');
+
+    expect(query).toBe(
+      `(cm:name:"big*" OR cm:title:"big*") OR (cm:name:"yellow*" OR cm:title:"yellow*") OR (cm:name:"banana*" OR cm:title:"banana*")`
+    );
+  });
+
+  it('should support exact term matching', () => {
+    config.config = {
+      search: {
+        'aca:fields': ['cm:name', 'cm:title']
+      }
+    };
+
+    const query = component.formatSearchQuery('=orange');
+
+    expect(query).toBe(`(cm:name:"=orange" OR cm:title:"=orange")`);
   });
 
   it('should navigate to folder on double click', () => {
