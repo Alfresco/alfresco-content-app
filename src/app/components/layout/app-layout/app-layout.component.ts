@@ -153,7 +153,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   }
 
   hideMenu(event: Event) {
-    if (!this.minimizeSidenav && this.layout.container.isMobileScreenSize) {
+    if (this.layout.container.isMobileScreenSize) {
       event.preventDefault();
       this.layout.container.toggleMenu();
     }
