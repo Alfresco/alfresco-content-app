@@ -125,11 +125,18 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   }
 
   private formatFields(fields: string[], term: string): string {
-    const suffix = term.startsWith('=') ? '' : '*';
+    let prefix = '';
+    let suffix = '*';
+
+    if (term.startsWith('=')) {
+      prefix = '=';
+      suffix = '';
+      term = term.substring(1);
+    }
 
     return (
       '(' +
-      fields.map(field => `${field}:"${term}${suffix}"`).join(' OR ') +
+      fields.map(field => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') +
       ')'
     );
   }

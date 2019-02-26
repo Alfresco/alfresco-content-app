@@ -9,7 +9,7 @@ import { NavigateToFolder } from '../../../store/actions';
 import { Pagination } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
-describe('SearchComponent', () => {
+fdescribe('SearchComponent', () => {
   let component: SearchResultsComponent;
   let fixture: ComponentFixture<SearchResultsComponent>;
   let config: AppConfigService;
@@ -109,7 +109,7 @@ describe('SearchComponent', () => {
     );
   });
 
-  it('should support exact term matching', () => {
+  it('should support exact term matching with default fields', () => {
     config.config = {
       search: {
         'aca:fields': ['cm:name', 'cm:title']
@@ -118,7 +118,21 @@ describe('SearchComponent', () => {
 
     const query = component.formatSearchQuery('=orange');
 
-    expect(query).toBe(`(cm:name:"=orange" OR cm:title:"=orange")`);
+    expect(query).toBe(`(=cm:name:"orange" OR =cm:title:"orange")`);
+  });
+
+  it('should support exact term matching with operators', () => {
+    config.config = {
+      search: {
+        'aca:fields': ['cm:name', 'cm:title']
+      }
+    };
+
+    const query = component.formatSearchQuery('=test1.pdf or =test2.pdf');
+
+    expect(query).toBe(
+      `(=cm:name:"test1.pdf" OR =cm:title:"test1.pdf") or (=cm:name:"test2.pdf" OR =cm:title:"test2.pdf")`
+    );
   });
 
   it('should navigate to folder on double click', () => {
