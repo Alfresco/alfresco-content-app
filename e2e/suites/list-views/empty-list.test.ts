@@ -106,8 +106,18 @@ describe('Empty list views', () => {
     expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('File Libraries - pagination controls not displayed - [C280084]', async () => {
-    await page.clickFileLibraries();
+  it('My Libraries - pagination controls not displayed - [C280084]', async () => {
+    await page.goToMyLibraries();
+    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
+    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
+    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
+    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
+    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
+    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
+  });
+
+  it('Favorite Libraries - pagination controls not displayed - [C291873]', async () => {
+    await page.goToFavoriteLibraries();
     expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
     expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
     expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');

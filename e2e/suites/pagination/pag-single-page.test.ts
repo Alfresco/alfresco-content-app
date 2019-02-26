@@ -84,8 +84,13 @@ describe('Pagination on single page', () => {
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
-  it('page selector not displayed on File Libraries - [C280085]', async () => {
-    await page.clickFileLibrariesAndWait();
+  it('page selector not displayed on My Libraries - [C280085]', async () => {
+    await page.goToMyLibrariesAndWait();
+    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
+  });
+
+  it('page selector not displayed on Favorite Libraries - [C291874]', async () => {
+    await page.goToFavoriteLibrariesAndWait();
     expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
