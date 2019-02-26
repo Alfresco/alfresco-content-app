@@ -1017,6 +1017,11 @@
           }
         },
         {
+          "id": "app.viewer.separator.2",
+          "type": "separator",
+          "order": 450
+        },
+        {
           "id": "app.viewer.infoDrawer",
           "type": "custom",
           "order": 500,
