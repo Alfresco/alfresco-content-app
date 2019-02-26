@@ -9,7 +9,7 @@ import { NavigateToFolder } from '../../../store/actions';
 import { Pagination } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 
-fdescribe('SearchComponent', () => {
+describe('SearchComponent', () => {
   let component: SearchResultsComponent;
   let fixture: ComponentFixture<SearchResultsComponent>;
   let config: AppConfigService;
