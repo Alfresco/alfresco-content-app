@@ -12,7 +12,11 @@
       >
         <ng-container *ngIf="showLabel">
           <ng-container *ngIf="!item.children">
-            <div class="menu__item" [attr.title]="item.description | translate">
+            <div
+              class="menu__item"
+              [attr.title]="item.description | translate"
+              [attr.data-automation-id]="item.id"
+            >
               <button
                 [id]="item.id"
                 mat-icon-button
@@ -57,7 +61,10 @@
                 expandedHeight="48px"
                 collapsedHeight="48px"
               >
-                <mat-panel-title [attr.title]="item.description | translate">
+                <mat-panel-title
+                  [attr.title]="item.description | translate"
+                  [attr.data-automation-id]="item.id"
+                >
                   <adf-icon
                     [color]="
                       routerLink.isActive && !expansionPanel.expanded
@@ -85,6 +92,7 @@
                 routerLinkActive
                 #childRouteActive="routerLinkActive"
                 [attr.title]="child.description | translate"
+                [attr.data-automation-id]="child.id"
               >
                 <ng-container *ngIf="child.icon">
                   <button
@@ -147,6 +155,7 @@
                 [color]="routerLink.isActive ? 'accent' : 'primary'"
                 [attr.aria-label]="item.title | translate"
                 [attr.title]="item.description | translate"
+                [attr.data-automation-id]="item.id"
               >
                 <adf-icon
                   [color]="routerLink.isActive ? 'accent' : 'primary'"
@@ -157,7 +166,11 @@
           </ng-container>
 
           <ng-container *ngIf="item.children && item.children.length">
-            <div class="menu__item" [attr.title]="item.description | translate">
+            <div
+              class="menu__item"
+              [attr.title]="item.description | translate"
+              [attr.data-automation-id]="item.id"
+            >
               <button
                 [id]="item.id"
                 color="accent"
@@ -185,6 +198,7 @@
                 [routerLink]="child.url"
                 [attr.title]="child.description | translate"
                 [id]="child.id"
+                [attr.data-automation-id]="child.id"
               >
                 <span
                   class="mat-button"

@@ -23,8 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, element } from 'protractor';
-import { SIDEBAR_LABELS } from '../../configs';
+import { ElementFinder, ElementArrayFinder, by, element, browser } from 'protractor';
+import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
@@ -37,28 +37,29 @@ export class Sidenav extends Component {
     expansion_panel: ".mat-expansion-panel-header",
     expansion_panel_content: ".mat-expansion-panel-body",
     active: 'mat-accent',
-    activeLink: '.mat-accent',
+    activeClass: '.item--active',
     activeChild: 'item--active',
+
     newButton: '[data-automation-id="create-button"]',
 
-    personalFiles: `[id='app.navbar.personalFiles']`,
-    fileLibraries: `[id='app.navbar.libraries.menu']`,
-    myLibraries: `[id='app.navbar.libraries.files']`,
-    favoriteLibraries: `[id='app.navbar.libraries.favorite']`,
-    shared: `[id='app.navbar.shared']`,
-    recentFiles: `[id='app.navbar.recentFiles']`,
-    favorites: `[id='app.navbar.favorites']`,
-    trash: `[id='app.navbar.trashcan']`
+    personalFiles: `[data-automation-id='app.navbar.personalFiles']`,
+    fileLibraries: `[data-automation-id='app.navbar.libraries.menu']`,
+    myLibraries: `[data-automation-id='app.navbar.libraries.files']`,
+    favoriteLibraries: `[data-automation-id='app.navbar.libraries.favorite']`,
+    shared: `[data-automation-id='app.navbar.shared']`,
+    recentFiles: `[data-automation-id='app.navbar.recentFiles']`,
+    favorites: `[data-automation-id='app.navbar.favorites']`,
+    trash: `[data-automation-id='app.navbar.trashcan']`
   };
 
   links: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.link));
-  activeLink: ElementFinder = this.component.element(by.css(Sidenav.selectors.activeLink));
+  activeLink: ElementFinder = this.component.element(by.css(Sidenav.selectors.activeClass));
   newButton: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.newButton));
 
   personalFiles: ElementFinder = this.component.element(by.css(Sidenav.selectors.personalFiles));
   fileLibraries: ElementFinder = this.component.element(by.css(Sidenav.selectors.fileLibraries));
-  myLibraries: ElementFinder = this.component.element(by.css(Sidenav.selectors.myLibraries));
-  favoriteLibraries: ElementFinder = this.component.element(by.css(Sidenav.selectors.favoriteLibraries));
+  myLibraries: ElementFinder = browser.element(by.css(Sidenav.selectors.myLibraries));
+  favoriteLibraries: ElementFinder = browser.element(by.css(Sidenav.selectors.favoriteLibraries));
   shared: ElementFinder = this.component.element(by.css(Sidenav.selectors.shared));
   recentFiles: ElementFinder = this.component.element(by.css(Sidenav.selectors.recentFiles));
   favorites: ElementFinder = this.component.element(by.css(Sidenav.selectors.favorites));
@@ -105,8 +106,7 @@ export class Sidenav extends Component {
   }
 
   async isActive(name: string) {
-    const className = await this.getLinkLabel(name).getAttribute('class');
-    return className.includes(Sidenav.selectors.active);
+    return await this.getLinkLabel(name).isElementPresent(by.css(Sidenav.selectors.activeClass));
   }
 
   async childIsActive(name: string) {
@@ -137,7 +137,15 @@ export class Sidenav extends Component {
   }
 
   async getLinkTooltip(name: string) {
-    return await this.getLink(name).getAttribute('title');
+    const link = this.getLinkLabel(name);
+
+    const condition = () => link.getAttribute('title').then(value => value && value.length > 0);
+
+    await browser.actions().mouseMove(link).perform();
+
+    await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
+
+    return await link.getAttribute('title');
   }
 
   async clickLink(name: string) {

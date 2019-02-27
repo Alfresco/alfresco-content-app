@@ -22,13 +22,18 @@
       <ng-template let-isMenuMinimized="isMenuMinimized">
         <app-sidenav
           [showLabel]="!isMenuMinimized()"
+          [attr.data-automation-id]="
+            isMenuMinimized() ? 'collapsed' : 'expanded'
+          "
           (swipeleft)="hideMenu($event)"
         ></app-sidenav>
       </ng-template>
     </adf-sidenav-layout-navigation>
 
     <adf-sidenav-layout-content>
-      <ng-template> <router-outlet></router-outlet> </ng-template>
+      <ng-template>
+        <router-outlet></router-outlet>
+      </ng-template>
     </adf-sidenav-layout-content>
   </adf-sidenav-layout>
 
