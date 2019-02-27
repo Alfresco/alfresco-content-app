@@ -145,7 +145,7 @@ describe('FilesComponent', () => {
   describe('refresh on events', () => {
     beforeEach(() => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
-      spyOn(component.documentList, 'reload');
+      spyOn(component, 'reload');
 
       fixture.detectChanges();
     });
@@ -160,7 +160,7 @@ describe('FilesComponent', () => {
 
       nodeActionsService.contentCopied.next(nodes);
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
 
     it('should not call refresh onContentCopied event when parent mismatch', () => {
@@ -173,25 +173,25 @@ describe('FilesComponent', () => {
 
       nodeActionsService.contentCopied.next(nodes);
 
-      expect(component.documentList.reload).not.toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
     });
 
     it('should call refresh deleteNode event', () => {
       contentManagementService.nodesDeleted.next();
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
 
     it('should call refresh moveNode event', () => {
       contentManagementService.nodesMoved.next();
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
 
     it('should call refresh restoreNode event', () => {
       contentManagementService.nodesRestored.next();
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
 
     it('should call refresh on fileUploadComplete event if parent node match', fakeAsync(() => {
@@ -202,7 +202,7 @@ describe('FilesComponent', () => {
 
       tick(500);
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     }));
 
     it('should not call refresh on fileUploadComplete event if parent mismatch', fakeAsync(() => {
@@ -213,7 +213,7 @@ describe('FilesComponent', () => {
 
       tick(500);
 
-      expect(component.documentList.reload).not.toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
     }));
 
     it('should call refresh on fileUploadDeleted event if parent node match', fakeAsync(() => {
@@ -224,7 +224,7 @@ describe('FilesComponent', () => {
 
       tick(500);
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     }));
 
     it('should not call refresh on fileUploadDeleted event if parent mismatch', fakeAsync(() => {
@@ -235,7 +235,7 @@ describe('FilesComponent', () => {
 
       tick(500);
 
-      expect(component.documentList.reload).not.toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
     }));
   });
 

@@ -101,9 +101,9 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       nodeActionsService.contentCopied.subscribe(nodes =>
         this.onContentCopied(nodes)
       ),
-      content.nodesDeleted.subscribe(() => this.documentList.reload()),
-      content.nodesMoved.subscribe(() => this.documentList.reload()),
-      content.nodesRestored.subscribe(() => this.documentList.reload()),
+      content.nodesDeleted.subscribe(() => this.reload()),
+      content.nodesMoved.subscribe(() => this.reload()),
+      content.nodesRestored.subscribe(() => this.reload()),
       uploadService.fileUploadComplete
         .pipe(debounceTime(300))
         .subscribe(file => this.onFileUploadedEvent(file)),
@@ -176,7 +176,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     // check root and child nodes
     if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
-      this.documentList.reload();
+      this.reload();
       return;
     }
 
@@ -213,7 +213,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (alreadyDisplayedParentFolder) {
       return;
     }
-    this.documentList.reload();
+    this.reload();
   }
 
   onContentCopied(nodes: MinimalNodeEntity[]) {
@@ -223,7 +223,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       );
     });
     if (newNode) {
-      this.documentList.reload();
+      this.reload();
     }
   }
 

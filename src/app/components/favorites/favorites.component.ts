@@ -121,6 +121,6 @@ export class FavoritesComponent extends PageComponent implements OnInit {
   }
 
   private onFileUploadedEvent(event: FileUploadEvent) {
-    this.documentList.reload();
+    this.reload();
   }
 }

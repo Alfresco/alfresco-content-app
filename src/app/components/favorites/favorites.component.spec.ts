@@ -167,12 +167,12 @@ describe('FavoritesComponent', () => {
 
   describe('refresh', () => {
     it('should call document list reload', () => {
-      spyOn(component.documentList, 'reload');
+      spyOn(component, 'reload');
       fixture.detectChanges();
 
       component.reload();
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
   });
 });

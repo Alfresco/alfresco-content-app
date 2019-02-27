@@ -104,16 +104,4 @@ describe('TrashcanComponent', () => {
       expect(component.reload).toHaveBeenCalled();
     });
   });
-
-  describe('refresh()', () => {
-    it('calls child component to reload', () => {
-      component.reload();
-      expect(component.documentList.reload).toHaveBeenCalled();
-    });
-
-    it('calls child component to reset selection', () => {
-      component.reload();
-      expect(component.documentList.resetSelection).toHaveBeenCalled();
-    });
-  });
 });
