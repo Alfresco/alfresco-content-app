@@ -35,7 +35,6 @@ import {
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
 import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -45,7 +44,6 @@ describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
   let component: FavoritesComponent;
   let alfrescoApi: AlfrescoApiService;
-  let contentService: ContentManagementService;
   let contentApi: ContentApiService;
   let router: Router;
   let page;
@@ -97,40 +95,7 @@ describe('FavoritesComponent', () => {
     );
 
     contentApi = TestBed.get(ContentApiService);
-
-    contentService = TestBed.get(ContentManagementService);
     router = TestBed.get(Router);
-  });
-
-  describe('Events', () => {
-    beforeEach(() => {
-      spyOn(component, 'reload');
-      fixture.detectChanges();
-    });
-
-    it('should refresh on editing folder event', () => {
-      contentService.folderEdited.next(null);
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
-    it('should refresh on move node event', () => {
-      contentService.nodesMoved.next(null);
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
-    it('should refresh on node deleted event', () => {
-      contentService.nodesDeleted.next(null);
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
-    it('should refresh on node restore event', () => {
-      contentService.nodesRestored.next(null);
-
-      expect(component.reload).toHaveBeenCalled();
-    });
   });
 
   describe('Node navigation', () => {
@@ -173,12 +138,12 @@ describe('FavoritesComponent', () => {
 
   describe('refresh', () => {
     it('should call document list reload', () => {
-      spyOn(component.documentList, 'reload');
+      spyOn(component, 'reload');
       fixture.detectChanges();
 
       component.reload();
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
   });
 });

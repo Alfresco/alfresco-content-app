@@ -35,7 +35,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
-import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
+import { ViewFileAction, ReloadDocumentListAction } from '../store/actions';
 import {
   appSelection,
   currentFolder,
@@ -128,11 +128,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   }
 
   reload(): void {
-    if (this.documentList) {
-      this.documentList.resetSelection();
-      this.store.dispatch(new SetSelectedNodesAction([]));
-      this.documentList.reload();
-    }
+    this.store.dispatch(new ReloadDocumentListAction());
   }
 
   trackByActionId(index: number, action: ContentActionRef) {

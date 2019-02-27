@@ -57,9 +57,6 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions.push(
-      this.content.nodesRestored.subscribe(() => this.reload()),
-      this.content.nodesPurged.subscribe(() => this.reload()),
-
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
         .subscribe(result => {

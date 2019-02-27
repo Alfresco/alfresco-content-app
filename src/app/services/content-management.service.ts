@@ -40,7 +40,8 @@ import {
   NavigateToParentFolder,
   SnackbarUserAction,
   UndoDeleteNodesAction,
-  SetSelectedNodesAction
+  SetSelectedNodesAction,
+  ReloadDocumentListAction
 } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
@@ -76,12 +77,8 @@ interface RestoredNode {
   providedIn: 'root'
 })
 export class ContentManagementService {
-  nodesMoved = new Subject<any>();
+  reload = new Subject<any>();
   nodesDeleted = new Subject<any>();
-  nodesPurged = new Subject<any>();
-  nodesRestored = new Subject<any>();
-  folderEdited = new Subject<any>();
-  folderCreated = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
@@ -90,9 +87,6 @@ export class ContentManagementService {
   library400Error = new Subject<any>();
   joinLibraryToggle = new Subject<string>();
   linksUnshared = new Subject<any>();
-  favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
-  favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
-  favoriteToggle = new Subject<Array<MinimalNodeEntity>>();
   favoriteLibraryToggle = new Subject<any>();
 
   constructor(
@@ -113,8 +107,7 @@ export class ContentManagementService {
           node.entry.isFavorite = true;
         });
         this.store.dispatch(new SetSelectedNodesAction(nodes));
-        this.favoriteAdded.next(nodes);
-        this.favoriteToggle.next(nodes);
+        this.store.dispatch(new ReloadDocumentListAction());
       });
     }
   }
@@ -126,8 +119,7 @@ export class ContentManagementService {
           node.entry.isFavorite = false;
         });
         this.store.dispatch(new SetSelectedNodesAction(nodes));
-        this.favoriteRemoved.next(nodes);
-        this.favoriteToggle.next(nodes);
+        this.store.dispatch(new ReloadDocumentListAction());
       });
     }
   }
@@ -246,7 +238,7 @@ export class ContentManagementService {
 
     dialogInstance.afterClosed().subscribe(node => {
       if (node) {
-        this.folderCreated.next(node);
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }
@@ -267,9 +259,9 @@ export class ContentManagementService {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
-    dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
+    dialog.afterClosed().subscribe(node => {
       if (node) {
-        this.folderEdited.next(node);
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }
@@ -420,7 +412,7 @@ export class ContentManagementService {
       const failedStatus = this.processStatus([]);
       failedStatus.fail.push(...selection);
       this.showRestoreNotification(failedStatus);
-      this.nodesRestored.next();
+      this.store.dispatch(new ReloadDocumentListAction());
       return;
     }
 
@@ -439,7 +431,7 @@ export class ContentManagementService {
 
         if (!remainingNodes.length) {
           this.showRestoreNotification(status);
-          this.nodesRestored.next();
+          this.store.dispatch(new ReloadDocumentListAction());
         } else {
           this.restoreDeletedNodes(remainingNodes);
         }
@@ -531,6 +523,7 @@ export class ContentManagementService {
     forkJoin(...batch).subscribe(
       () => {
         this.nodesDeleted.next(null);
+        this.store.dispatch(new ReloadDocumentListAction());
       },
       error => {
         let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
@@ -564,7 +557,7 @@ export class ContentManagementService {
         const [operationResult, moveResponse] = result;
         this.showMoveMessage(nodes, operationResult, moveResponse);
 
-        this.nodesMoved.next(null);
+        this.store.dispatch(new ReloadDocumentListAction());
       },
       error => {
         this.showMoveMessage(nodes, error);
@@ -619,7 +612,7 @@ export class ContentManagementService {
       )
       .subscribe(
         () => {
-          this.nodesMoved.next(null);
+          this.store.dispatch(new ReloadDocumentListAction());
         },
         error => {
           let message = 'APP.MESSAGES.ERRORS.GENERIC';
@@ -665,6 +658,7 @@ export class ContentManagementService {
 
       if (status.someSucceeded) {
         this.nodesDeleted.next();
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }
@@ -685,7 +679,7 @@ export class ContentManagementService {
       }
 
       if (processedData.someSucceeded) {
-        this.nodesRestored.next();
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }
@@ -759,7 +753,7 @@ export class ContentManagementService {
       const status = this.processStatus(purgedNodes);
 
       if (status.success.length) {
-        this.nodesPurged.next();
+        this.store.dispatch(new ReloadDocumentListAction());
       }
       const message = this.getPurgeMessage(status);
       if (message) {

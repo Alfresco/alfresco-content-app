@@ -34,8 +34,6 @@ import {
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
-
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
@@ -43,7 +41,6 @@ describe('RecentFilesComponent', () => {
   let fixture: ComponentFixture<RecentFilesComponent>;
   let component: RecentFilesComponent;
   let alfrescoApi: AlfrescoApiService;
-  let contentService: ContentManagementService;
   let page;
 
   beforeEach(() => {
@@ -73,7 +70,6 @@ describe('RecentFilesComponent', () => {
     fixture = TestBed.createComponent(RecentFilesComponent);
     component = fixture.componentInstance;
 
-    contentService = TestBed.get(ContentManagementService);
     alfrescoApi = TestBed.get(AlfrescoApiService);
     alfrescoApi.reset();
 
@@ -88,44 +84,14 @@ describe('RecentFilesComponent', () => {
     );
   });
 
-  describe('OnInit()', () => {
-    beforeEach(() => {
-      spyOn(component, 'reload').and.stub();
-    });
-
-    it('should reload nodes on onDeleteNode event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesDeleted.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
-    it('should reload on onRestoreNode event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesRestored.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
-    it('should reload on move node event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesMoved.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-  });
-
   describe('refresh', () => {
     it('should call document list reload', () => {
-      spyOn(component.documentList, 'reload');
+      spyOn(component, 'reload');
       fixture.detectChanges();
 
       component.reload();
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
   });
 });

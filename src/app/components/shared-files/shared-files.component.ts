@@ -55,9 +55,6 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.content.nodesDeleted.subscribe(() => this.reload()),
-      this.content.nodesMoved.subscribe(() => this.reload()),
-      this.content.nodesRestored.subscribe(() => this.reload()),
       this.content.linksUnshared
         .pipe(debounceTime(300))
         .subscribe(() => this.reload()),

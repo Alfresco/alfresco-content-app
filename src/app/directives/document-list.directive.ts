@@ -27,16 +27,19 @@ import { Directive, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserPreferencesService } from '@alfresco/adf-core';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { SetSelectedNodesAction } from '../store/actions';
+import { takeUntil } from 'rxjs/operators';
+import { ContentManagementService } from '../services/content-management.service';
 
 @Directive({
   selector: '[acaDocumentList]'
 })
 export class DocumentListDirective implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
   private isLibrary = false;
+
+  onDestroy$ = new Subject<boolean>();
 
   get sortingPreferenceKey(): string {
     return this.route.snapshot.data.sortingPreferenceKey;
@@ -44,6 +47,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<any>,
+    private content: ContentManagementService,
     private documentList: DocumentListComponent,
     private preferences: UserPreferencesService,
     private route: ActivatedRoute,
@@ -75,14 +79,18 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       this.documentList.data.setSorting({ key, direction });
     }
 
-    this.subscriptions.push(
-      this.documentList.ready.subscribe(() => this.onReady())
-    );
+    this.documentList.ready
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(() => this.onReady());
+
+    this.content.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
+      this.reload();
+    });
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    this.subscriptions = [];
+    this.onDestroy$.next(true);
+    this.onDestroy$.complete();
   }
 
   @HostListener('sorting-changed', ['$event'])
@@ -122,5 +130,11 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     });
 
     this.store.dispatch(new SetSelectedNodesAction(selection));
+  }
+
+  private reload() {
+    this.documentList.resetSelection();
+    this.store.dispatch(new SetSelectedNodesAction([]));
+    this.documentList.reload();
   }
 }

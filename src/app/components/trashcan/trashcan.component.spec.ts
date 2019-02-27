@@ -33,7 +33,6 @@ import {
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
@@ -41,7 +40,6 @@ describe('TrashcanComponent', () => {
   let fixture: ComponentFixture<TrashcanComponent>;
   let component: TrashcanComponent;
   let alfrescoApi: AlfrescoApiService;
-  let contentService: ContentManagementService;
   let page;
 
   beforeEach(() => {
@@ -73,7 +71,6 @@ describe('TrashcanComponent', () => {
 
     alfrescoApi = TestBed.get(AlfrescoApiService);
     alfrescoApi.reset();
-    contentService = TestBed.get(ContentManagementService);
 
     component.documentList = <any>{
       reload: jasmine.createSpy('reload'),
@@ -85,35 +82,5 @@ describe('TrashcanComponent', () => {
     spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(
       Promise.resolve(page)
     );
-  });
-
-  it('should reload on nodes purged', () => {
-    component.ngOnInit();
-    spyOn(component, 'reload').and.stub();
-    contentService.nodesPurged.next({});
-    expect(component.reload).toHaveBeenCalled();
-  });
-
-  describe('onRestoreNode()', () => {
-    it('should call refresh()', () => {
-      spyOn(component, 'reload');
-      fixture.detectChanges();
-
-      contentService.nodesRestored.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-  });
-
-  describe('refresh()', () => {
-    it('calls child component to reload', () => {
-      component.reload();
-      expect(component.documentList.reload).toHaveBeenCalled();
-    });
-
-    it('calls child component to reset selection', () => {
-      component.reload();
-      expect(component.documentList.resetSelection).toHaveBeenCalled();
-    });
   });
 });
