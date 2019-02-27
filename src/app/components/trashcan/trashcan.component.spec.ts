@@ -33,7 +33,6 @@ import {
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
@@ -41,7 +40,6 @@ describe('TrashcanComponent', () => {
   let fixture: ComponentFixture<TrashcanComponent>;
   let component: TrashcanComponent;
   let alfrescoApi: AlfrescoApiService;
-  let contentService: ContentManagementService;
   let page;
 
   beforeEach(() => {
@@ -73,7 +71,6 @@ describe('TrashcanComponent', () => {
 
     alfrescoApi = TestBed.get(AlfrescoApiService);
     alfrescoApi.reset();
-    contentService = TestBed.get(ContentManagementService);
 
     component.documentList = <any>{
       reload: jasmine.createSpy('reload'),
