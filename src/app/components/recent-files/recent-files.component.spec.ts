@@ -34,8 +34,6 @@ import {
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
-
 import { RecentFilesComponent } from './recent-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
@@ -43,7 +41,6 @@ describe('RecentFilesComponent', () => {
   let fixture: ComponentFixture<RecentFilesComponent>;
   let component: RecentFilesComponent;
   let alfrescoApi: AlfrescoApiService;
-  let contentService: ContentManagementService;
   let page;
 
   beforeEach(() => {
@@ -73,7 +70,6 @@ describe('RecentFilesComponent', () => {
     fixture = TestBed.createComponent(RecentFilesComponent);
     component = fixture.componentInstance;
 
-    contentService = TestBed.get(ContentManagementService);
     alfrescoApi = TestBed.get(AlfrescoApiService);
     alfrescoApi.reset();
 
@@ -86,20 +82,6 @@ describe('RecentFilesComponent', () => {
     spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
       Promise.resolve(page)
     );
-  });
-
-  describe('OnInit()', () => {
-    beforeEach(() => {
-      spyOn(component, 'reload').and.stub();
-    });
-
-    it('should reload nodes on onDeleteNode event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesDeleted.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
   });
 
   describe('refresh', () => {

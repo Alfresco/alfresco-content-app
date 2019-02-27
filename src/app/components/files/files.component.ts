@@ -73,7 +73,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     super.ngOnInit();
 
-    const { route, content, nodeActionsService, uploadService } = this;
+    const { route, nodeActionsService, uploadService } = this;
     const { data } = route.snapshot;
 
     this.title = data.title;
@@ -101,7 +101,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       nodeActionsService.contentCopied.subscribe(nodes =>
         this.onContentCopied(nodes)
       ),
-      content.nodesDeleted.subscribe(() => this.reload()),
       uploadService.fileUploadComplete
         .pipe(debounceTime(300))
         .subscribe(file => this.onFileUploadedEvent(file)),

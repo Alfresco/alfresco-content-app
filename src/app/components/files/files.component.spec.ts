@@ -41,7 +41,6 @@ import {
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -52,7 +51,6 @@ describe('FilesComponent', () => {
   let node;
   let fixture: ComponentFixture<FilesComponent>;
   let component: FilesComponent;
-  let contentManagementService: ContentManagementService;
   let uploadService: UploadService;
   let router: Router;
   let nodeActionsService: NodeActionsService;
@@ -86,7 +84,6 @@ describe('FilesComponent', () => {
     fixture = TestBed.createComponent(FilesComponent);
     component = fixture.componentInstance;
 
-    contentManagementService = TestBed.get(ContentManagementService);
     uploadService = TestBed.get(UploadService);
     router = TestBed.get(Router);
     nodeActionsService = TestBed.get(NodeActionsService);
@@ -174,12 +171,6 @@ describe('FilesComponent', () => {
       nodeActionsService.contentCopied.next(nodes);
 
       expect(component.reload).not.toHaveBeenCalled();
-    });
-
-    it('should call refresh deleteNode event', () => {
-      contentManagementService.nodesDeleted.next();
-
-      expect(component.reload).toHaveBeenCalled();
     });
 
     it('should call refresh on fileUploadComplete event if parent node match', fakeAsync(() => {

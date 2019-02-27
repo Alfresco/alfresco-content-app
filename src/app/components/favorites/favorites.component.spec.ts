@@ -35,7 +35,6 @@ import {
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
 import { of } from 'rxjs';
 import { FavoritesComponent } from './favorites.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
@@ -45,7 +44,6 @@ describe('FavoritesComponent', () => {
   let fixture: ComponentFixture<FavoritesComponent>;
   let component: FavoritesComponent;
   let alfrescoApi: AlfrescoApiService;
-  let contentService: ContentManagementService;
   let contentApi: ContentApiService;
   let router: Router;
   let page;
@@ -97,22 +95,7 @@ describe('FavoritesComponent', () => {
     );
 
     contentApi = TestBed.get(ContentApiService);
-
-    contentService = TestBed.get(ContentManagementService);
     router = TestBed.get(Router);
-  });
-
-  describe('Events', () => {
-    beforeEach(() => {
-      spyOn(component, 'reload');
-      fixture.detectChanges();
-    });
-
-    it('should refresh on node deleted event', () => {
-      contentService.nodesDeleted.next(null);
-
-      expect(component.reload).toHaveBeenCalled();
-    });
   });
 
   describe('Node navigation', () => {

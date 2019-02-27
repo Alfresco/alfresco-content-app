@@ -523,6 +523,7 @@ export class ContentManagementService {
     forkJoin(...batch).subscribe(
       () => {
         this.nodesDeleted.next(null);
+        this.store.dispatch(new ReloadDocumentListAction());
       },
       error => {
         let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
@@ -657,6 +658,7 @@ export class ContentManagementService {
 
       if (status.someSucceeded) {
         this.nodesDeleted.next();
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }

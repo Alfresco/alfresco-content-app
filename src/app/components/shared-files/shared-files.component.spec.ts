@@ -34,14 +34,12 @@ import {
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 
 describe('SharedFilesComponent', () => {
   let fixture: ComponentFixture<SharedFilesComponent>;
   let component: SharedFilesComponent;
-  let contentService: ContentManagementService;
   let alfrescoApi: AlfrescoApiService;
   let page;
 
@@ -72,27 +70,12 @@ describe('SharedFilesComponent', () => {
     fixture = TestBed.createComponent(SharedFilesComponent);
     component = fixture.componentInstance;
 
-    contentService = TestBed.get(ContentManagementService);
     alfrescoApi = TestBed.get(AlfrescoApiService);
     alfrescoApi.reset();
 
     spyOn(alfrescoApi.sharedLinksApi, 'findSharedLinks').and.returnValue(
       Promise.resolve(page)
     );
-  });
-
-  describe('OnInit', () => {
-    beforeEach(() => {
-      spyOn(component, 'reload').and.callFake(val => val);
-    });
-
-    it('should refresh on deleteNode event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesDeleted.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
   });
 
   describe('refresh', () => {
