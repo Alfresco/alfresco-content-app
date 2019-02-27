@@ -94,14 +94,6 @@ describe('SharedFilesComponent', () => {
       expect(component.reload).toHaveBeenCalled();
     });
 
-    it('should refresh on restoreNode event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesRestored.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
     it('should reload on move node event', () => {
       fixture.detectChanges();
 

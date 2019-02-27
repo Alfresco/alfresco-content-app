@@ -81,7 +81,6 @@ export class ContentManagementService {
   nodesMoved = new Subject<any>();
   nodesDeleted = new Subject<any>();
   nodesPurged = new Subject<any>();
-  nodesRestored = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
@@ -415,7 +414,7 @@ export class ContentManagementService {
       const failedStatus = this.processStatus([]);
       failedStatus.fail.push(...selection);
       this.showRestoreNotification(failedStatus);
-      this.nodesRestored.next();
+      this.store.dispatch(new ReloadDocumentListAction());
       return;
     }
 
@@ -434,7 +433,7 @@ export class ContentManagementService {
 
         if (!remainingNodes.length) {
           this.showRestoreNotification(status);
-          this.nodesRestored.next();
+          this.store.dispatch(new ReloadDocumentListAction());
         } else {
           this.restoreDeletedNodes(remainingNodes);
         }
@@ -680,7 +679,7 @@ export class ContentManagementService {
       }
 
       if (processedData.someSucceeded) {
-        this.nodesRestored.next();
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }

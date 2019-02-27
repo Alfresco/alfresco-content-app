@@ -93,15 +93,4 @@ describe('TrashcanComponent', () => {
     contentService.nodesPurged.next({});
     expect(component.reload).toHaveBeenCalled();
   });
-
-  describe('onRestoreNode()', () => {
-    it('should call refresh()', () => {
-      spyOn(component, 'reload');
-      fixture.detectChanges();
-
-      contentService.nodesRestored.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-  });
 });

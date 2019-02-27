@@ -1265,39 +1265,6 @@ describe('ContentManagementService', () => {
       ).toBe(true);
     }));
 
-    describe('refresh()', () => {
-      it('dispatch event on finish', fakeAsync(done => {
-        spyOn(contentApi, 'restoreNode').and.returnValue(of({}));
-        spyOn(contentApi, 'getDeletedNodes').and.returnValue(
-          of({
-            list: { entries: [] }
-          })
-        );
-
-        const path = {
-          elements: [
-            {
-              id: '1-1',
-              name: 'somewhere-over-the-rainbow'
-            }
-          ]
-        };
-
-        const selection = [
-          <any>{
-            entry: {
-              id: '1',
-              path
-            }
-          }
-        ];
-
-        store.dispatch(new RestoreDeletedNodesAction(selection));
-
-        contentManagementService.nodesRestored.subscribe(() => done());
-      }));
-    });
-
     describe('notification', () => {
       beforeEach(() => {
         spyOn(contentApi, 'getDeletedNodes').and.returnValue(

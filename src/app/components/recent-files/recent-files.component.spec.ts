@@ -101,14 +101,6 @@ describe('RecentFilesComponent', () => {
       expect(component.reload).toHaveBeenCalled();
     });
 
-    it('should reload on onRestoreNode event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesRestored.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
     it('should reload on move node event', () => {
       fixture.detectChanges();
 

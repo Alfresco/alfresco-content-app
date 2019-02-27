@@ -119,12 +119,6 @@ describe('FavoritesComponent', () => {
 
       expect(component.reload).toHaveBeenCalled();
     });
-
-    it('should refresh on node restore event', () => {
-      contentService.nodesRestored.next(null);
-
-      expect(component.reload).toHaveBeenCalled();
-    });
   });
 
   describe('Node navigation', () => {

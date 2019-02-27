@@ -103,7 +103,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       ),
       content.nodesDeleted.subscribe(() => this.reload()),
       content.nodesMoved.subscribe(() => this.reload()),
-      content.nodesRestored.subscribe(() => this.reload()),
       uploadService.fileUploadComplete
         .pipe(debounceTime(300))
         .subscribe(file => this.onFileUploadedEvent(file)),

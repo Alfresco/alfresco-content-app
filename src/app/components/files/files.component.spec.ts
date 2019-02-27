@@ -188,12 +188,6 @@ describe('FilesComponent', () => {
       expect(component.reload).toHaveBeenCalled();
     });
 
-    it('should call refresh restoreNode event', () => {
-      contentManagementService.nodesRestored.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
     it('should call refresh on fileUploadComplete event if parent node match', fakeAsync(() => {
       const file = { file: { options: { parentId: 'parentId' } } };
       component.node = <any>{ id: 'parentId' };
