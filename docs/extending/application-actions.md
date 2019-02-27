@@ -117,3 +117,4 @@ Below is the list of public actions types you can use in the plugin definitions 
 | PRINT_FILE             | MinimalNodeEntity   | Print the file opened in the Viewer (or selected).                                              |
 | FULLSCREEN_VIEWER      | n/a                 | Enters fullscreen mode to view the file opened in the Viewer.                                   |
 | LOGOUT                 | n/a                 | Log out and redirect to Login screen.                                                           |
+| RELOAD_DOCUMENT_LIST   | n/a                 | Reload active document list                                                                     |
