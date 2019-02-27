@@ -80,7 +80,6 @@ export class ContentManagementService {
   reload = new Subject<any>();
   nodesMoved = new Subject<any>();
   nodesDeleted = new Subject<any>();
-  nodesPurged = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
@@ -753,7 +752,7 @@ export class ContentManagementService {
       const status = this.processStatus(purgedNodes);
 
       if (status.success.length) {
-        this.nodesPurged.next();
+        this.store.dispatch(new ReloadDocumentListAction());
       }
       const message = this.getPurgeMessage(status);
       if (message) {
