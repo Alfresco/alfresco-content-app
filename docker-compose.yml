@@ -96,7 +96,7 @@ services:
     networks:
       - internal
     ports:
-      - 4001:80
+      - 4001:8080
     # volumes:
     #     - ./app.config.json:/usr/share/nginx/html/app.config.json
     #     - ./nginx.conf:/etc/nginx/conf.d/default.conf
