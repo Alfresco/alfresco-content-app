@@ -57,7 +57,6 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
     this.subscriptions = this.subscriptions.concat([
       this.content.nodesDeleted.subscribe(() => this.reload()),
-      this.content.nodesMoved.subscribe(() => this.reload()),
 
       this.uploadService.fileUploadComplete
         .pipe(debounceTime(300))

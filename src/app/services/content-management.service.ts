@@ -78,7 +78,6 @@ interface RestoredNode {
 })
 export class ContentManagementService {
   reload = new Subject<any>();
-  nodesMoved = new Subject<any>();
   nodesDeleted = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
@@ -557,7 +556,7 @@ export class ContentManagementService {
         const [operationResult, moveResponse] = result;
         this.showMoveMessage(nodes, operationResult, moveResponse);
 
-        this.nodesMoved.next(null);
+        this.store.dispatch(new ReloadDocumentListAction());
       },
       error => {
         this.showMoveMessage(nodes, error);
@@ -612,7 +611,7 @@ export class ContentManagementService {
       )
       .subscribe(
         () => {
-          this.nodesMoved.next(null);
+          this.store.dispatch(new ReloadDocumentListAction());
         },
         error => {
           let message = 'APP.MESSAGES.ERRORS.GENERIC';

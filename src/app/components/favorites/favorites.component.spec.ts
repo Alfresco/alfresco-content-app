@@ -108,12 +108,6 @@ describe('FavoritesComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should refresh on move node event', () => {
-      contentService.nodesMoved.next(null);
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
     it('should refresh on node deleted event', () => {
       contentService.nodesDeleted.next(null);
 

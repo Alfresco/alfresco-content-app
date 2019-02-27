@@ -93,14 +93,6 @@ describe('SharedFilesComponent', () => {
 
       expect(component.reload).toHaveBeenCalled();
     });
-
-    it('should reload on move node event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesMoved.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
   });
 
   describe('refresh', () => {
