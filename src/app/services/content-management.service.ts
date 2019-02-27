@@ -82,7 +82,6 @@ export class ContentManagementService {
   nodesDeleted = new Subject<any>();
   nodesPurged = new Subject<any>();
   nodesRestored = new Subject<any>();
-  folderEdited = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
@@ -268,9 +267,9 @@ export class ContentManagementService {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
-    dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
+    dialog.afterClosed().subscribe(node => {
       if (node) {
-        this.folderEdited.next(node);
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }

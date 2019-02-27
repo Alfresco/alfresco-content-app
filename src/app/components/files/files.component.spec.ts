@@ -176,12 +176,6 @@ describe('FilesComponent', () => {
       expect(component.documentList.reload).not.toHaveBeenCalled();
     });
 
-    it('should call refresh editFolder event', () => {
-      contentManagementService.folderEdited.next();
-
-      expect(component.documentList.reload).toHaveBeenCalled();
-    });
-
     it('should call refresh deleteNode event', () => {
       contentManagementService.nodesDeleted.next();
 

@@ -84,7 +84,7 @@ export class DocumentListDirective implements OnInit, OnDestroy {
       .subscribe(() => this.onReady());
 
     this.content.reload.pipe(takeUntil(this.onDestroy$)).subscribe(() => {
-      this.documentList.reload();
+      this.reload();
     });
   }
 
@@ -130,5 +130,11 @@ export class DocumentListDirective implements OnInit, OnDestroy {
     });
 
     this.store.dispatch(new SetSelectedNodesAction(selection));
+  }
+
+  private reload() {
+    this.documentList.resetSelection();
+    this.store.dispatch(new SetSelectedNodesAction([]));
+    this.documentList.reload();
   }
 }

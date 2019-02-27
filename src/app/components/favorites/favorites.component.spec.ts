@@ -108,12 +108,6 @@ describe('FavoritesComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should refresh on editing folder event', () => {
-      contentService.folderEdited.next(null);
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
     it('should refresh on move node event', () => {
       contentService.nodesMoved.next(null);
 
