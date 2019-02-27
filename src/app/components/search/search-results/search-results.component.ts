@@ -114,6 +114,33 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     }
   }
 
+  private isOperator(input: string): boolean {
+    if (input) {
+      input = input.trim().toUpperCase();
+
+      const operators = ['AND', 'OR'];
+      return operators.includes(input);
+    }
+    return false;
+  }
+
+  private formatFields(fields: string[], term: string): string {
+    let prefix = '';
+    let suffix = '*';
+
+    if (term.startsWith('=')) {
+      prefix = '=';
+      suffix = '';
+      term = term.substring(1);
+    }
+
+    return (
+      '(' +
+      fields.map(field => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') +
+      ')'
+    );
+  }
+
   formatSearchQuery(userInput: string) {
     if (!userInput) {
       return null;
@@ -121,14 +148,28 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
     userInput = userInput.trim();
 
-    if (userInput.includes(':')) {
+    if (userInput.includes(':') || userInput.includes('"')) {
       return userInput;
     }
 
     const fields = this.config.get<string[]>('search.aca:fields', ['cm:name']);
-    const query = fields.map(field => `${field}:"${userInput}*"`).join(' OR ');
+    const words = userInput.split(' ');
 
-    return query;
+    if (words.length > 1) {
+      const separator = words.some(this.isOperator) ? ' ' : ' AND ';
+
+      return words
+        .map(term => {
+          if (this.isOperator(term)) {
+            return term;
+          }
+
+          return this.formatFields(fields, term);
+        })
+        .join(separator);
+    }
+
+    return this.formatFields(fields, userInput);
   }
 
   onSearchResultLoaded(nodePaging: NodePaging) {
