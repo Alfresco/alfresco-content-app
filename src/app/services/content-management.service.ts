@@ -40,7 +40,8 @@ import {
   NavigateToParentFolder,
   SnackbarUserAction,
   UndoDeleteNodesAction,
-  SetSelectedNodesAction
+  SetSelectedNodesAction,
+  ReloadDocumentListAction
 } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
@@ -76,12 +77,12 @@ interface RestoredNode {
   providedIn: 'root'
 })
 export class ContentManagementService {
+  reload = new Subject<any>();
   nodesMoved = new Subject<any>();
   nodesDeleted = new Subject<any>();
   nodesPurged = new Subject<any>();
   nodesRestored = new Subject<any>();
   folderEdited = new Subject<any>();
-  folderCreated = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
@@ -246,7 +247,7 @@ export class ContentManagementService {
 
     dialogInstance.afterClosed().subscribe(node => {
       if (node) {
-        this.folderCreated.next(node);
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }
