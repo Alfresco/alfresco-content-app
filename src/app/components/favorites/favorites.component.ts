@@ -68,7 +68,6 @@ export class FavoritesComponent extends PageComponent implements OnInit {
       this.content.nodesDeleted.subscribe(() => this.reload()),
       this.content.nodesRestored.subscribe(() => this.reload()),
       this.content.nodesMoved.subscribe(() => this.reload()),
-      this.content.favoriteRemoved.subscribe(() => this.reload()),
       this.uploadService.fileUploadComplete
         .pipe(debounceTime(300))
         .subscribe(file => this.onFileUploadedEvent(file)),

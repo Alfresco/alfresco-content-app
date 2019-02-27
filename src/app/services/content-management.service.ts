@@ -90,8 +90,6 @@ export class ContentManagementService {
   library400Error = new Subject<any>();
   joinLibraryToggle = new Subject<string>();
   linksUnshared = new Subject<any>();
-  favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
-  favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
   favoriteLibraryToggle = new Subject<any>();
 
   constructor(
@@ -112,7 +110,6 @@ export class ContentManagementService {
           node.entry.isFavorite = true;
         });
         this.store.dispatch(new SetSelectedNodesAction(nodes));
-        this.favoriteAdded.next(nodes);
         this.store.dispatch(new ReloadDocumentListAction());
       });
     }
@@ -125,7 +122,6 @@ export class ContentManagementService {
           node.entry.isFavorite = false;
         });
         this.store.dispatch(new SetSelectedNodesAction(nodes));
-        this.favoriteRemoved.next(nodes);
         this.store.dispatch(new ReloadDocumentListAction());
       });
     }
