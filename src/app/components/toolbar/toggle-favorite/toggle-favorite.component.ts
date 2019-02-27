@@ -29,7 +29,7 @@ import { AppStore } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
-import { ContentManagementService } from '../../../services/content-management.service';
+import { ReloadDocumentListAction } from '../../../store/actions';
 
 @Component({
   selector: 'app-toggle-favorite',
@@ -51,14 +51,11 @@ import { ContentManagementService } from '../../../services/content-management.s
 export class ToggleFavoriteComponent {
   selection$: Observable<SelectionState>;
 
-  constructor(
-    private store: Store<AppStore>,
-    private content: ContentManagementService
-  ) {
+  constructor(private store: Store<AppStore>) {
     this.selection$ = this.store.select(appSelection);
   }
 
   onToggleEvent() {
-    this.content.favoriteToggle.next();
+    this.store.dispatch(new ReloadDocumentListAction());
   }
 }
