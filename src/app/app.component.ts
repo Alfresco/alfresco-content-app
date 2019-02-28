@@ -147,7 +147,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadAppSettings() {
+  loadAppSettings() {
     let baseShareUrl = this.config.get<string>('baseShareUrl');
     if (!baseShareUrl.endsWith('/')) {
       baseShareUrl += '/';
