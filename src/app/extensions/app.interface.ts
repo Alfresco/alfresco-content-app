@@ -23,10 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleContext, RepositoryState } from '@alfresco/adf-extensions';
+import { RuleContext } from '@alfresco/adf-extensions';
 import { AuthenticationService } from '@alfresco/adf-core';
+import { RepositoryInfo } from '@alfresco/js-api';
 
 export interface AppRuleContext extends RuleContext {
-  repository: RepositoryState;
+  repository: RepositoryInfo;
   auth: AuthenticationService;
 }

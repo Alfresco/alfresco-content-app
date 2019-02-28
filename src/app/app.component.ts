@@ -40,7 +40,7 @@ import {
   SetCurrentUrlAction,
   SetInitialStateAction,
   CloseModalDialogsAction,
-  SetRepositoryStatusAction,
+  SetRepositoryInfoAction,
   SetUserProfileAction
 } from './store/actions';
 import {
@@ -136,7 +136,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .getRepositoryInformation()
       .subscribe((response: DiscoveryEntry) => {
         this.store.dispatch(
-          new SetRepositoryStatusAction(response.entry.repository.status)
+          new SetRepositoryInfoAction(response.entry.repository)
         );
       });
   }

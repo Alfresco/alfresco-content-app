@@ -26,9 +26,9 @@
 import {
   SelectionState,
   ProfileState,
-  NavigationState,
-  RepositoryState
+  NavigationState
 } from '@alfresco/adf-extensions';
+import { RepositoryInfo } from '@alfresco/js-api';
 
 export interface AppState {
   appName: string;
@@ -41,7 +41,7 @@ export interface AppState {
   navigation: NavigationState;
   infoDrawerOpened: boolean;
   documentDisplayMode: string;
-  repository: RepositoryState;
+  repository: RepositoryInfo;
 }
 
 export const INITIAL_APP_STATE: AppState = {
@@ -67,8 +67,10 @@ export const INITIAL_APP_STATE: AppState = {
   },
   infoDrawerOpened: false,
   documentDisplayMode: 'list',
-  repository: {
-    isQuickShareEnabled: true
+  repository: <any>{
+    status: <any>{
+      isQuickShareEnabled: true
+    }
   }
 };
 
