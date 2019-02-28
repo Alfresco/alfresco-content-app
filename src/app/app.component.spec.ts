@@ -36,7 +36,7 @@ describe('AppComponent', () => {
   const configMock: any = {
     get: (key: string) => {
       if (key === 'baseShareUrl') {
-        return 'http://localhost:4200//#/preview/s';
+        return 'http://localhost:4200/#/preview/s';
       }
       return null;
     }
@@ -65,7 +65,7 @@ describe('AppComponent', () => {
   it('should setup baseShareUrl as per config', done => {
     storeMock.dispatch.and.callFake((action: SetInitialStateAction) => {
       expect(action.payload.sharedUrl).toBe(
-        'http://localhost:4200//#/preview/s/'
+        'http://localhost:4200/#/preview/s/'
       );
       done();
     });
