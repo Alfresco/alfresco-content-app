@@ -1,7 +1,7 @@
 {
   "ecmHost": "{protocol}//{hostname}{:port}",
   "aosHost": "{protocol}//{hostname}{:port}/alfresco/aos",
-  "baseShareUrl": "{protocol}//{hostname}{:port}",
+  "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s",
   "providers": "ECM",
   "authType": "BASIC",
   "oauth2": {

@@ -148,9 +148,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private loadAppSettings() {
-    const baseShareUrl =
-      this.config.get<string>('baseShareUrl') ||
-      this.config.get<string>('ecmHost');
+    let baseShareUrl = this.config.get<string>('baseShareUrl');
+    if (!baseShareUrl.endsWith('/')) {
+      baseShareUrl += '/';
+    }
 
     const state: AppState = {
       ...INITIAL_APP_STATE,
@@ -158,7 +159,7 @@ export class AppComponent implements OnInit, OnDestroy {
       appName: this.config.get<string>('application.name'),
       headerColor: this.config.get<string>('headerColor'),
       logoPath: this.config.get<string>('application.logo'),
-      sharedUrl: `${baseShareUrl}/#/preview/s/`
+      sharedUrl: baseShareUrl
     };
 
     this.store.dispatch(new SetInitialStateAction(state));
