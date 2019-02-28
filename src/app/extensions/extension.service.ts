@@ -48,7 +48,6 @@ import {
   ExtensionService,
   ProfileState,
   mergeObjects,
-  RepositoryState,
   ExtensionRef
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
@@ -56,6 +55,7 @@ import { DocumentListPresetRef } from './document-list.extensions';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IconRef } from './icon.extensions';
 import { AppRuleContext } from './app.interface';
+import { RepositoryInfo } from '@alfresco/js-api';
 
 @Injectable({
   providedIn: 'root'
@@ -103,7 +103,7 @@ export class AppExtensionService implements AppRuleContext {
   selection: SelectionState;
   navigation: NavigationState;
   profile: ProfileState;
-  repository: RepositoryState;
+  repository: RepositoryInfo;
 
   references$: Observable<ExtensionRef[]>;
 

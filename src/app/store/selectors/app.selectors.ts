@@ -90,7 +90,7 @@ export const repositoryStatus = createSelector(
 
 export const isQuickShareEnabled = createSelector(
   repositoryStatus,
-  status => status.isQuickShareEnabled
+  info => info.status.isQuickShareEnabled
 );
 
 export const isAdmin = createSelector(

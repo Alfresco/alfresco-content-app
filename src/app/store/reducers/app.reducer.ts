@@ -30,8 +30,8 @@ import {
   SetSelectedNodesAction,
   SET_USER_PROFILE,
   SetUserProfileAction,
-  SET_REPOSITORY_STATUS,
-  SetRepositoryStatusAction,
+  SET_REPOSITORY_INFO,
+  SetRepositoryInfoAction,
   SET_LANGUAGE_PICKER,
   SetLanguagePickerAction,
   SET_CURRENT_FOLDER,
@@ -86,10 +86,8 @@ export function appReducer(
         action
       ));
       break;
-    case SET_REPOSITORY_STATUS:
-      newState = updateRepositoryStatus(state, <SetRepositoryStatusAction>(
-        action
-      ));
+    case SET_REPOSITORY_INFO:
+      newState = updateRepositoryStatus(state, <SetRepositoryInfoAction>action);
       break;
     default:
       newState = Object.assign({}, state);
@@ -241,7 +239,7 @@ function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
 
 function updateRepositoryStatus(
   state: AppState,
-  action: SetRepositoryStatusAction
+  action: SetRepositoryInfoAction
 ) {
   const newState = Object.assign({}, state);
   newState.repository = action.payload;

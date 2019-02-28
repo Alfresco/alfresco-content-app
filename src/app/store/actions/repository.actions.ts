@@ -24,12 +24,11 @@
  */
 
 import { Action } from '@ngrx/store';
-import { RepositoryState } from '@alfresco/adf-extensions';
+import { RepositoryInfo } from '@alfresco/js-api';
 
-export const SET_REPOSITORY_STATUS = 'SET_REPOSITORY_STATUS';
-export const GET_REPOSITORY_STATUS = 'GET_REPOSITORY_STATUS';
+export const SET_REPOSITORY_INFO = 'SET_REPOSITORY_INFO';
 
-export class SetRepositoryStatusAction implements Action {
-  readonly type = SET_REPOSITORY_STATUS;
-  constructor(public payload: RepositoryState) {}
+export class SetRepositoryInfoAction implements Action {
+  readonly type = SET_REPOSITORY_INFO;
+  constructor(public payload: RepositoryInfo) {}
 }

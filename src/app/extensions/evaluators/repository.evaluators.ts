@@ -30,5 +30,5 @@ export function hasQuickShareEnabled(
   context: AppRuleContext,
   ...args: RuleParameter[]
 ): boolean {
-  return context.repository.isQuickShareEnabled;
+  return context.repository.status.isQuickShareEnabled;
 }
