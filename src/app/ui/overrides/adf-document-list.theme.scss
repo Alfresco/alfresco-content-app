@@ -32,6 +32,14 @@
       }
     }
 
+    .adf-cell-container {
+      position: relative;
+    }
+
+    .adf-data-table-cell {
+      height: 56px;
+    }
+
     .adf-datatable-table-cell-header:focus {
       outline: none !important;
     }
