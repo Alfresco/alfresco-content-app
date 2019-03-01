@@ -35,9 +35,9 @@ import { of } from 'rxjs';
 describe('InfoDrawerComponent', () => {
   let fixture: ComponentFixture<InfoDrawerComponent>;
   let component: InfoDrawerComponent;
-  let contentApiService;
+  let contentApiService: ContentApiService;
   let tab;
-  let appExtensionService;
+  let appExtensionService: AppExtensionService;
   const storeMock = {
     dispatch: jasmine.createSpy('dispatch')
   };
@@ -66,6 +66,10 @@ describe('InfoDrawerComponent', () => {
     spyOn(appExtensionService, 'getSidebarTabs').and.returnValue([tab]);
   });
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should get tabs configuration on initialization', () => {
     fixture.detectChanges();
 
@@ -83,7 +87,7 @@ describe('InfoDrawerComponent', () => {
 
   it('should set displayNode when node is from personal list', () => {
     spyOn(contentApiService, 'getNodeInfo');
-    const nodeMock = <any>{ entry: { id: 'nodeId' } };
+    const nodeMock = <any>{ entry: { id: 'nodeId', aspectNames: [] } };
     component.node = nodeMock;
 
     fixture.detectChanges();
