@@ -33,7 +33,6 @@ import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { SidebarTabRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../../store/states/app.state';
 import { SetInfoDrawerStateAction } from '../../store/actions';
 
 @Component({
@@ -51,7 +50,7 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
   tabs: Array<SidebarTabRef> = [];
 
   constructor(
-    private store: Store<AppStore>,
+    private store: Store<any>,
     private contentApi: ContentApiService,
     private extensions: AppExtensionService
   ) {}
@@ -66,37 +65,19 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnChanges() {
     if (this.node) {
-      const entry: any = this.node.entry;
-
-      if (this.isLibraryListNode(this.node)) {
+      if (this.node['isLibrary']) {
         return this.setDisplayNode(this.node);
       }
 
-      if (this.isSharedFilesNode(this.node)) {
-        return this.loadNodeInfo(entry.nodeId);
-      }
+      const entry: any = this.node.entry;
 
-      if (this.isFavoriteListNode(this.node)) {
-        return this.loadNodeInfo(entry.id);
-      }
-
-      if (this.isRecentListFileNode(this.node)) {
-        return this.loadNodeInfo(entry.id);
+      if (!entry.aspectNames) {
+        const id = entry.nodeId || entry.id;
+        return this.loadNodeInfo(id);
       }
 
       this.setDisplayNode(entry);
     }
-  }
-
-  private hasAspectNames(entry: MinimalNodeEntryEntity): boolean {
-    return entry.aspectNames && entry.aspectNames.includes('exif:exif');
-  }
-
-  private isTypeImage(entry: MinimalNodeEntryEntity): boolean {
-    if (entry && entry.content && entry.content.mimeType) {
-      return entry.content.mimeType.includes('image/');
-    }
-    return false;
   }
 
   private loadNodeInfo(nodeId: string) {
@@ -115,21 +96,5 @@ export class InfoDrawerComponent implements OnChanges, OnInit, OnDestroy {
 
   private setDisplayNode(node: any) {
     this.displayNode = node;
-  }
-
-  private isLibraryListNode(node: any): boolean {
-    return node.isLibrary;
-  }
-
-  private isFavoriteListNode(node: MinimalNodeEntity): boolean {
-    return !this.isLibraryListNode(node) && (<any>node).entry.guid;
-  }
-
-  private isSharedFilesNode(node: any): boolean {
-    return !!node.entry.nodeId;
-  }
-
-  private isRecentListFileNode(node: MinimalNodeEntity): boolean {
-    return this.isTypeImage(node.entry) && !this.hasAspectNames(node.entry);
   }
 }
