@@ -49,31 +49,11 @@ Alternatively, you can provide a static address for the ACS server if necessary:
 
 The "baseShareUrl" property tells the application how to construct the address where users will access shared files.
 
-#### Default
-
-When the default value is set the application will construct the File Share URL from the "ecmHost" property: 
-
 ```json
 {
-    ...
-    "baseShareUrl": null,
-    ...
+  "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s"
 }
 ```
-
-#### Configuration
-
-If you run the application from a different server than the Content Services server the "baseShareUrl" property should must be configured correctly, for example:
-
-```json
-{
-    ...
-    "baseShareUrl": "http://{serveraddress}{:port}",
-    ...
-}
-```
-
-**Note:** If you run the application as part of Tomcat and not in the root (subfolder), then "baseShareUrl" value should contain full address to the app, for example: "baseShareUrl": "http://{serveraddress}{:port}/{folder}".
 
 ## Application settings
 
@@ -103,7 +83,6 @@ The default logo displayed in the top left corner of the Alfresco Content Applic
 1. Place your custom logo image file in the [app-name]/src/assets/images folder. The displayed image will resize automatically, an image with extreme width/height might not retain its dimensions.
 
 2. In the app.config.json file, set the value of the application.logo to contain the name of the custom logo image: "logo": "/assets/images/[image-name].[extension]"
-
 
 ```json
 {

@@ -24,11 +24,22 @@
  */
 
 import { AppComponent } from './app.component';
+import { SetInitialStateAction } from './store/actions';
 
 describe('AppComponent', () => {
-  let component;
-  const storeMock = <any>{
+  let component: AppComponent;
+
+  const storeMock: any = {
     dispatch: jasmine.createSpy('dispatch')
+  };
+
+  const configMock: any = {
+    get: (key: string) => {
+      if (key === 'baseShareUrl') {
+        return 'http://localhost:4200/#/preview/s';
+      }
+      return null;
+    }
   };
 
   beforeAll(() => {
@@ -37,7 +48,7 @@ describe('AppComponent', () => {
       null,
       null,
       storeMock,
-      null,
+      configMock,
       null,
       null,
       null,
@@ -47,48 +58,59 @@ describe('AppComponent', () => {
     );
   });
 
-  describe('onFileUploadedError', () => {
-    afterEach(() => {
-      storeMock.dispatch['calls'].reset();
+  beforeEach(() => {
+    storeMock.dispatch = jasmine.createSpy('dispatch');
+  });
+
+  it('should setup baseShareUrl as per config', done => {
+    storeMock.dispatch.and.callFake((action: SetInitialStateAction) => {
+      expect(action.payload.sharedUrl).toBe(
+        'http://localhost:4200/#/preview/s/'
+      );
+      done();
     });
 
+    component.loadAppSettings();
+  });
+
+  describe('onFileUploadedError', () => {
     it('should dispatch 403 error message', () => {
-      component.onFileUploadedError({ error: { status: 403 } });
+      component.onFileUploadedError(<any>{ error: { status: 403 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.403'
       );
     });
 
     it('should dispatch 404 error message', () => {
-      component.onFileUploadedError({ error: { status: 404 } });
+      component.onFileUploadedError(<any>{ error: { status: 404 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.404'
       );
     });
 
     it('should dispatch 409 error message', () => {
-      component.onFileUploadedError({ error: { status: 409 } });
+      component.onFileUploadedError(<any>{ error: { status: 409 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.CONFLICT'
       );
     });
 
     it('should dispatch 500 error message', () => {
-      component.onFileUploadedError({ error: { status: 500 } });
+      component.onFileUploadedError(<any>{ error: { status: 500 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.500'
       );
     });
 
     it('should dispatch 504 error message', () => {
-      component.onFileUploadedError({ error: { status: 504 } });
+      component.onFileUploadedError(<any>{ error: { status: 504 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.504'
       );
     });
 
     it('should dispatch generic error message', () => {
-      component.onFileUploadedError({ error: { status: 999 } });
+      component.onFileUploadedError(<any>{ error: { status: 999 } });
       expect(storeMock.dispatch['calls'].argsFor(0)[0].payload).toBe(
         'APP.MESSAGES.UPLOAD.ERROR.GENERIC'
       );
