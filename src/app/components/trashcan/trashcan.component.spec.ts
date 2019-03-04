@@ -26,8 +26,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
   AlfrescoApiService,
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe
@@ -56,8 +54,6 @@ describe('TrashcanComponent', () => {
       imports: [AppTestingModule],
       declarations: [
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
         TrashcanComponent,

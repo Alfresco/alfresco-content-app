@@ -32,9 +32,6 @@ import {
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
-  FileSizePipe,
   NodeFavoriteDirective,
   DataTableComponent,
   UploadService,
@@ -62,11 +59,8 @@ describe('FilesComponent', () => {
       declarations: [
         FilesComponent,
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
-        FileSizePipe,
         AppConfigPipe
       ],
       providers: [

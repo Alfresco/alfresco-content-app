@@ -28,8 +28,6 @@ import { Router } from '@angular/router';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
   AlfrescoApiService,
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe
@@ -75,8 +73,6 @@ describe('FavoritesComponent', () => {
       imports: [AppTestingModule],
       declarations: [
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
         FavoritesComponent,

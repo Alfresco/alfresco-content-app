@@ -28,8 +28,6 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AlfrescoApiService,
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe
@@ -61,8 +59,6 @@ describe('LibrariesComponent', () => {
       imports: [AppTestingModule, EffectsModule.forRoot([LibraryEffects])],
       declarations: [
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
         LibrariesComponent,
