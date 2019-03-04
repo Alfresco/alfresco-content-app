@@ -12,7 +12,7 @@
     "build": "npm run build.extensions && npm run build.app -- --prod",
     "build.e2e": "npm run build.extensions && npm run build.app -- --prod --configuration=e2e",
     "test": "ng test app --code-coverage",
-    "test:ci": "npm run build.extensions && ng test app --code-coverage --watch=false",
+    "test:ci": "npm run build.extensions && ng test adf-office-services-ext --watch=false && ng test app --code-coverage --watch=false",
     "lint": "ng lint && npm run spellcheck && npm run format:check",
     "wd:update": "webdriver-manager update --gecko=false",
     "e2e": "npm run wd:update && protractor --baseUrl=http://localhost:4000",
