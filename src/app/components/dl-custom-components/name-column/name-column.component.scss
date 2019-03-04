@@ -1,11 +1,8 @@
 .aca-name-column-container {
-  .adf-datatable-cell {
-    top: 8px;
-  }
-
   aca-locked-by {
     position: absolute;
-    bottom: 6px;
+    top: 10px;
+    left: -4px;
     display: flex;
     align-items: center;
   }
