@@ -3,6 +3,7 @@
     <adf-breadcrumb
       [root]="title"
       [folderNode]="node"
+      [maxItems]="isSmallScreen ? 1 : 0"
       (navigate)="onBreadcrumbNavigate($event)"
     >
     </adf-breadcrumb>
