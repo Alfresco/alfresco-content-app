@@ -41,7 +41,8 @@ import {
   ContentService,
   ThumbnailService,
   UploadService,
-  AlfrescoApiMock
+  AlfrescoApiMock,
+  PipeModule
 } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateServiceMock } from './translation.service';
@@ -63,10 +64,11 @@ import { MaterialModule } from '../material.module';
     RouterTestingModule,
     MaterialModule,
     StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    PipeModule
   ],
   declarations: [TranslatePipeMock],
-  exports: [TranslatePipeMock, RouterTestingModule, MaterialModule],
+  exports: [TranslatePipeMock, RouterTestingModule, MaterialModule, PipeModule],
   providers: [
     { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
     { provide: TranslationService, useClass: TranslationMock },
