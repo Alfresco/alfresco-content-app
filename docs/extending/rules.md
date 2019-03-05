@@ -164,25 +164,28 @@ for example mixing `core.every` and `core.not`.
 **Tip:** You can also negate any rule by utilizing a `!` prefix:
 `!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
 
-| Key                               | Description                                             |
-| --------------------------------- | ------------------------------------------------------- |
-| app.navigation.folder.canCreate   | User can create content in the currently opened folder. |
-| app.navigation.folder.canUpload   | User can upload content to the currently opened folder. |
-| app.navigation.isTrashcan         | User is using the **Trashcan** page.                    |
-| app.navigation.isNotTrashcan      | Current page is not a **Trashcan**.                     |
-| app.navigation.isLibraries        | User is using a **Libraries** page.                     |
-| app.navigation.isNotLibraries     | Current page is not a **Libraries** page.               |
-| app.navigation.isSharedFiles      | User is using the **Shared Files** page.                |
-| app.navigation.isNotSharedFiles   | Current page is not **Shared Files**.                   |
-| app.navigation.isFavorites        | User is using the **Favorites** page.                   |
-| app.navigation.isNotFavorites     | Current page is not **Favorites**                       |
-| app.navigation.isRecentFiles      | User is using the **Recent Files** page.                |
-| app.navigation.isNotRecentFiles   | Current page is not **Recent Files**.                   |
-| app.navigation.isSearchResults    | User is using the **Search Results** page.              |
-| app.navigation.isNotSearchResults | Current page is not the **Search Results**.             |
-| app.navigation.isSharedPreview    | Current page is preview **Shared Files**                |
-| app.navigation.isFavoritesPreview | Current page is preview **Favorites**                   |
-| app.navigation.isSharedFileViewer | Current page is shared file preview page                |
+| Key                               | Description                                                      |
+| --------------------------------- | ---------------------------------------------------------------- |
+| app.navigation.folder.canCreate   | User can create content in the currently opened folder.          |
+| app.navigation.folder.canUpload   | User can upload content to the currently opened folder.          |
+| app.navigation.isTrashcan         | User is using the **Trashcan** page.                             |
+| app.navigation.isNotTrashcan      | Current page is not a **Trashcan**.                              |
+| app.navigation.isLibraries        | User is using a **Libraries** or **Library Search Result** page. |
+| app.navigation.isNotLibraries     | Current page is not a **Libraries** page.                        |
+| app.navigation.isSharedFiles      | User is using the **Shared Files** page.                         |
+| app.navigation.isNotSharedFiles   | Current page is not **Shared Files**.                            |
+| app.navigation.isFavorites        | User is using the **Favorites** page.                            |
+| app.navigation.isNotFavorites     | Current page is not **Favorites**.                               |
+| app.navigation.isRecentFiles      | User is using the **Recent Files** page.                         |
+| app.navigation.isNotRecentFiles   | Current page is not **Recent Files**.                            |
+| app.navigation.isSearchResults    | User is using the **Search Results** page.                       |
+| app.navigation.isNotSearchResults | Current page is not the **Search Results**.                      |
+| app.navigation.isSharedPreview    | Current page is preview **Shared Files**.                        |
+| app.navigation.isFavoritesPreview | Current page is preview **Favorites**.                           |
+| app.navigation.isSharedFileViewer | Current page is shared file preview page.                        |
+| app.navigation.isPreview          | Current page is **Preview**.                                     |
+| app.navigation.isPersonalFiles    | Current page is **Personal Files**.                              |
+| app.navigation.isLibraryFiles     | Current page is **Library Files**.                               |
 
 **Tip:** See the [Registration](/extending/registration) section for more details
 on how to register your own entries to be re-used at runtime.
