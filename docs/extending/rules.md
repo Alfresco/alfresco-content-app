@@ -140,9 +140,10 @@ The button will be visible only when the linked rule evaluates to `true`.
 | app.selection.first.canUpdate       | User has permission to update selected node(s).              |
 | app.selection.file                  | A single File node is selected.                              |
 | app.selection.file.canShare         | User is able to share the selected file.                     |
-| app.selection.file.isShared         | A shared node is selected                                    |
-| app.selection.file.isLocked         | File is locked for editing                                   |
-| app.selection.file.canUploadVersion | User can update file version                                 |
+| app.selection.file.isShared         | A shared node is selected.                                   |
+| app.selection.file.isLocked         | File is locked for editing.                                  |
+| app.selection.file.isLockOwner      | File is locked and current user is the lock owner.           |
+| app.selection.file.canUploadVersion | User can update file version.                                |
 | app.selection.library               | A single Library node is selected.                           |
 | app.selection.isPrivateLibrary      | A private Library node is selected.                          |
 | app.selection.hasLibraryRole        | The selected Library node has a role property.               |
