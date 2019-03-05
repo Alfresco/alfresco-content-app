@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "npm run build.extensions && ng serve --open",
     "start:prod": "node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng serve --prod --open",
-    "build:aos-extension": "rm -rf dist/@alfresco/adf-office-services-ext && ng build adf-office-services-ext && cp projects/adf-office-services-ext/ngi.json dist/@alfresco/adf-office-services-ext && cpr projects/adf-office-services-ext/assets dist/@alfresco/adf-office-services-ext/assets",
+    "build:aos-extension": "npx rimraf dist/@alfresco/adf-office-services-ext && ng build adf-office-services-ext && cp projects/adf-office-services-ext/ngi.json dist/@alfresco/adf-office-services-ext && cpr projects/adf-office-services-ext/assets dist/@alfresco/adf-office-services-ext/assets",
     "build.extensions": "npm run build:aos-extension",
     "build.app": "node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build app",
     "build": "npm run build.extensions && npm run build.app -- --prod",
