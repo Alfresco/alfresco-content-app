@@ -29,8 +29,6 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import {
   AlfrescoApiService,
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe
@@ -71,8 +69,6 @@ describe('FavoriteLibrariesComponent', () => {
       ],
       declarations: [
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
         FavoriteLibrariesComponent,

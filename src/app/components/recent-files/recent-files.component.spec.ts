@@ -27,8 +27,6 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   AlfrescoApiService,
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe
@@ -57,8 +55,6 @@ describe('RecentFilesComponent', () => {
       imports: [AppTestingModule],
       declarations: [
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
         RecentFilesComponent,
