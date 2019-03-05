@@ -12,7 +12,11 @@ export function canOpenWithOffice(
     return false;
   }
 
-  const file = context.selection.file;
+  if (!context || !context.selection) {
+    return false;
+  }
+
+  const { file } = context.selection;
 
   if (!file || !file.entry || !file.entry.properties) {
     return false;
@@ -43,12 +47,8 @@ export function canOpenWithOffice(
     file.entry.properties['cm:lockType'] === 'WRITE_LOCK' ||
     file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK'
   ) {
-    return false;
-  }
-
-  const lockOwner = file.entry.properties['cm:lockOwner'];
-  if (lockOwner && lockOwner.id !== context.profile.id) {
-    return false;
+    const lockOwner = file.entry.properties['cm:lockOwner'];
+    return lockOwner && lockOwner.id === context.profile.id;
   }
 
   return true;

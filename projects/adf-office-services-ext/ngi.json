@@ -1,7 +1,12 @@
 {
   "assets": [
     {
-      "glob": "**/*.json",
+      "glob": "**/*",
+      "input": "./assets",
+      "output": "./assets/adf-office-services-ext"
+    },
+    {
+      "glob": "aos.plugin.json",
       "input": "./assets",
       "output": "./assets/plugins"
     }

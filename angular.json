@@ -51,12 +51,22 @@
                 "output": "./assets"
               },
               {
-                "glob": "**/*.json",
+                "glob": "**/*",
+                "input": "node_modules/@alfresco/adf-office-services-ext/assets",
+                "output": "./assets/adf-office-services-ext"
+              },
+              {
+                "glob": "**/*",
+                "input": "projects/adf-office-services-ext/assets",
+                "output": "./assets/adf-office-services-ext"
+              },
+              {
+                "glob": "aos.plugin.json",
                 "input": "node_modules/@alfresco/adf-office-services-ext/assets",
                 "output": "./assets/plugins"
               },
               {
-                "glob": "**/*.json",
+                "glob": "aos.plugin.json",
                 "input": "projects/adf-office-services-ext/assets",
                 "output": "./assets/plugins"
               }
