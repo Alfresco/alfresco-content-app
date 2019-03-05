@@ -81,8 +81,14 @@ export class AppComponent implements OnInit, OnDestroy {
       if (error.status === 401) {
         if (!this.authenticationService.isLoggedIn()) {
           this.store.dispatch(new CloseModalDialogsAction());
+
+          let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
+          if (!redirectUrl) {
+            redirectUrl = this.router.url;
+          }
+
           this.router.navigate(['/login'], {
-            queryParams: { returnUrl: 'personal-files' }
+            queryParams: { redirectUrl: redirectUrl }
           });
         }
       }
