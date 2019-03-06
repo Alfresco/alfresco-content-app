@@ -2,6 +2,7 @@
   class="app-search-container searchMenuTrigger"
   [matMenuTriggerFor]="searchOptionsMenu"
   (menuOpened)="onMenuOpened()"
+  (menuClosed)="syncInputValues()"
 >
   <button
     mat-icon-button

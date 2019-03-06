@@ -165,6 +165,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   searchByOption() {
+    this.syncInputValues();
     this.has400LibraryError = false;
     if (this.isLibrariesChecked()) {
       if (this.searchedWord && !this.onLibrariesSearchResults) {
@@ -250,5 +251,11 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.queryBuilder.removeFilterQuery(
       `+TYPE:'cm:${SearchOptionIds.Folders}'`
     );
+  }
+
+  syncInputValues() {
+    if (this.searchInputControl.searchTerm !== this.searchedWord) {
+      this.searchedWord = this.searchInputControl.searchTerm;
+    }
   }
 }
