@@ -152,9 +152,11 @@ export class SearchInputComponent implements OnInit, OnDestroy {
    *
    * @param event Parameters relating to the search
    */
-  onSearchSubmit(event: KeyboardEvent) {
+  onSearchSubmit(event: any) {
     this.has400LibraryError = false;
-    const searchTerm = (event.target as HTMLInputElement).value;
+    const searchTerm = event.target
+      ? (event.target as HTMLInputElement).value
+      : event;
     if (searchTerm) {
       this.searchedWord = searchTerm;
 
