@@ -165,7 +165,7 @@ describe('evaluators', () => {
       expect(canOpenWithOffice(context)).toBeFalsy();
     });
 
-    it('should return [true] if current user is lock owner', () => {
+    it('should return [false] if current user is lock owner', () => {
       const context: any = {
         profile: {
           id: 'user1'
@@ -186,7 +186,7 @@ describe('evaluators', () => {
         }
       };
 
-      expect(canOpenWithOffice(context)).toBeTruthy();
+      expect(canOpenWithOffice(context)).toBeFalsy();
     });
 
     it('should return [true] if all checks succeed', () => {
