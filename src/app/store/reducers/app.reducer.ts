@@ -49,6 +49,11 @@ import {
   SET_INITIAL_STATE,
   SetInitialStateAction
 } from '../actions/app.actions';
+import {
+  TOGGLE_SEARCH_FILTER,
+  SHOW_SEARCH_FILTER,
+  HIDE_SEARCH_FILTER
+} from '../actions/search.actions';
 
 export function appReducer(
   state: AppState = INITIAL_APP_STATE,
@@ -89,10 +94,37 @@ export function appReducer(
     case SET_REPOSITORY_INFO:
       newState = updateRepositoryStatus(state, <SetRepositoryInfoAction>action);
       break;
+    case TOGGLE_SEARCH_FILTER:
+      newState = toggleSearchFilter(state);
+      break;
+    case SHOW_SEARCH_FILTER:
+      newState = showSearchFilter(state);
+      break;
+    case HIDE_SEARCH_FILTER:
+      newState = hideSearchFilter(state);
+      break;
     default:
       newState = Object.assign({}, state);
   }
 
+  return newState;
+}
+
+function toggleSearchFilter(state: AppState): AppState {
+  const newState = Object.assign({}, state);
+  newState.showFacetFilter = !newState.showFacetFilter;
+  return newState;
+}
+
+function hideSearchFilter(state: AppState): AppState {
+  const newState = Object.assign({}, state);
+  newState.showFacetFilter = false;
+  return newState;
+}
+
+function showSearchFilter(state: AppState): AppState {
+  const newState = Object.assign({}, state);
+  newState.showFacetFilter = true;
   return newState;
 }
 

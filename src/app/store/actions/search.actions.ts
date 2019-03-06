@@ -26,8 +26,23 @@
 import { Action } from '@ngrx/store';
 
 export const SEARCH_BY_TERM = 'SEARCH_BY_TERM';
+export const TOGGLE_SEARCH_FILTER = 'TOGGLE_SEARCH_FILTER';
+export const SHOW_SEARCH_FILTER = 'SHOW_SEARCH_FILTER';
+export const HIDE_SEARCH_FILTER = 'HIDE_SEARCH_FILTER';
 
 export class SearchByTermAction implements Action {
   readonly type = SEARCH_BY_TERM;
   constructor(public payload: string, public searchOptions?: any) {}
+}
+
+export class ToggleSearchFilterAction implements Action {
+  readonly type = TOGGLE_SEARCH_FILTER;
+}
+
+export class ShowSearchFilterAction implements Action {
+  readonly type = SHOW_SEARCH_FILTER;
+}
+
+export class HideSearchFilterAction implements Action {
+  readonly type = HIDE_SEARCH_FILTER;
 }
