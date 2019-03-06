@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { NavigateToFolder } from '../../../store/actions';
 import { Pagination } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
+import { ActivatedRoute } from '@angular/router';
 
 describe('SearchComponent', () => {
   let component: SearchResultsComponent;
@@ -18,7 +19,25 @@ describe('SearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule]
+      imports: [CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              data: {
+                sortingPreferenceKey: ''
+              }
+            },
+            params: [
+              {
+                q:
+                  'TYPE: "cm:folder" AND %28=cm: name: email OR cm: name: budget%29'
+              }
+            ]
+          }
+        }
+      ]
     });
 
     config = TestBed.get(AppConfigService);
@@ -27,8 +46,17 @@ describe('SearchComponent', () => {
 
     fixture = TestBed.createComponent(SearchResultsComponent);
     component = fixture.componentInstance;
+
+    spyOn(queryBuilder, 'update').and.stub();
+
     fixture.detectChanges();
   }));
+
+  it('should decode encoded URI', () => {
+    expect(queryBuilder.userQuery).toEqual(
+      '(TYPE: "cm:folder" AND (=cm: name: email OR cm: name: budget))'
+    );
+  });
 
   it('should return null if formatting invalid query', () => {
     expect(component.formatSearchQuery(null)).toBeNull();
@@ -168,8 +196,6 @@ describe('SearchComponent', () => {
       maxItems: 10,
       skipCount: 0
     });
-
-    spyOn(queryBuilder, 'update').and.stub();
 
     component.onPaginationChanged(page);
 
