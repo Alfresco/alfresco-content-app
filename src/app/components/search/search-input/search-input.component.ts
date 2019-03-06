@@ -63,9 +63,6 @@ export enum SearchOptionIds {
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
-  hasOneChange = false;
-  hasNewChange = false;
-  navigationTimer: any;
   has400LibraryError = false;
 
   searchedWord = null;
@@ -165,31 +162,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSearchChange(searchTerm: string) {
-    this.has400LibraryError = false;
-    this.searchedWord = searchTerm;
-
-    if (this.hasOneChange) {
-      this.hasNewChange = true;
-    } else {
-      this.hasOneChange = true;
-    }
-
-    if (this.hasNewChange) {
-      clearTimeout(this.navigationTimer);
-      this.hasNewChange = false;
-    }
-
-    this.navigationTimer = setTimeout(() => {
-      if (searchTerm) {
-        this.store.dispatch(
-          new SearchByTermAction(searchTerm, this.searchOptions)
-        );
-      }
-      this.hasOneChange = false;
-    }, 1000);
-  }
-
   searchByOption() {
     this.has400LibraryError = false;
     if (this.isLibrariesChecked()) {
@@ -211,7 +183,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
       if (this.onSearchResults) {
         this.queryBuilder.update();
-      } else if (this.searchedWord) {
+      }
+
+      if (this.searchedWord) {
         this.store.dispatch(
           new SearchByTermAction(this.searchedWord, this.searchOptions)
         );
