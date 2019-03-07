@@ -78,6 +78,11 @@ export const infoDrawerOpened = createSelector(
   state => state.infoDrawerOpened
 );
 
+export const showFacetFilter = createSelector(
+  selectApp,
+  state => state.showFacetFilter
+);
+
 export const documentDisplayMode = createSelector(
   selectApp,
   state => state.documentDisplayMode

@@ -118,3 +118,6 @@ Below is the list of public actions types you can use in the plugin definitions 
 | FULLSCREEN_VIEWER      | n/a                 | Enters fullscreen mode to view the file opened in the Viewer.                                   |
 | LOGOUT                 | n/a                 | Log out and redirect to Login screen.                                                           |
 | RELOAD_DOCUMENT_LIST   | n/a                 | Reload active document list                                                                     |
+| TOGGLE_SEARCH_FILTER   | n/a                 | Toggle Filter component visibility in Search Results.                                           |
+| SHOW_SEARCH_FILTER     | n/a                 | Show Filter component in Search Results.                                                        |
+| HIDE_SEARCH_FILTER     | n/a                 | Hide Filter component in Search Results                                                         |

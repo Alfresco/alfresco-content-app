@@ -36,6 +36,7 @@ export class Toolbar extends Component {
     share: `.mat-icon-button[title='Share']`,
     shareEdit: `.mat-icon-button[title='Shared link settings']`,
     view: `.mat-icon-button[title='View']`,
+    searchFilterToggle: `.mat-icon-button[title='Toggle search filter']`,
     download: `.mat-icon-button[title='Download']`,
     editFolder: 'app.toolbar.editFolder',
     viewDetails: `.mat-icon-button[title='View details']`,
@@ -52,6 +53,7 @@ export class Toolbar extends Component {
   shareButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.share));
   shareEditButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.shareEdit));
   viewButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.view));
+  searchFiltersToggleButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.searchFilterToggle));
   downloadButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.download));
   editFolderButton: ElementFinder = this.component.element(by.id(Toolbar.selectors.editFolder));
   viewDetailsButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.viewDetails));
@@ -69,6 +71,10 @@ export class Toolbar extends Component {
   async isEmpty() {
     const count = await this.buttons.count();
     return count === 0;
+  }
+
+  async numberOfAvailableActions() {
+    return await this.buttons.count();
   }
 
   async isButtonPresent(title: string) {
@@ -119,6 +125,10 @@ export class Toolbar extends Component {
 
   async isViewPresent() {
     return await browser.isElementPresent(this.viewButton);
+  }
+
+  async isToggleSearchFiltersPresent() {
+    return await browser.isElementPresent(this.searchFiltersToggleButton);
   }
 
   async isDownloadPresent() {
@@ -231,7 +241,6 @@ export class Toolbar extends Component {
     await this.openMoreMenu();
     return await this.menu.clickMenuItem('Upload new version');
   }
-
 
   async clickFullScreen() {
     return await this.fullScreenButton.click();

@@ -168,7 +168,8 @@
                     "SIZE": "Size"
                 },
                 "UNKNOWN_LOCATION": "Unknown",
-                "NO_RESULTS": "Your search returned 0 results"
+                "NO_RESULTS": "Your search returned 0 results",
+                "TOGGLE_SEARCH_FILTER": "Toggle search filter"
             },
             "SEARCH_LIBRARIES": {
               "TITLE": "Libraries found...",
