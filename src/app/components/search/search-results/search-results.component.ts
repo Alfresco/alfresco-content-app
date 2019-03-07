@@ -37,9 +37,10 @@ import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { AppConfigService } from '@alfresco/adf-core';
-import { Observable } from 'rxjs';
+import { AppConfigService, AlfrescoApiService } from '@alfresco/adf-core';
+import { Observable, Subject } from 'rxjs';
 import { showFacetFilter } from '../../../store/selectors/app.selectors';
+import { SnackbarErrorAction } from '../../../store/actions';
 
 @Component({
   selector: 'aca-search-results',
@@ -62,8 +63,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   hasSelectedFilters = false;
   sorting = ['name', 'asc'];
   isLoading = false;
+  searchQueryError: Subject<any> = new Subject();
 
   constructor(
+    private alfrescoApiService: AlfrescoApiService,
     private queryBuilder: SearchQueryBuilderService,
     private route: ActivatedRoute,
     private config: AppConfigService,
@@ -84,6 +87,25 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   ngOnInit() {
     super.ngOnInit();
 
+    // todo: remove once ADF-4193 is resolved
+    this.queryBuilder.execute = async () => {
+      const query = this.queryBuilder.buildQuery();
+      if (query) {
+        try {
+          const response = await this.alfrescoApiService.searchApi.search(
+            query
+          );
+          this.queryBuilder.executed.next(response);
+        } catch (error) {
+          this.searchQueryError.next(error);
+
+          this.queryBuilder.executed.next({
+            list: { pagination: { totalItems: 0 }, entries: [] }
+          });
+        }
+      }
+    };
+
     this.sorting = this.getSorting();
 
     this.subscriptions.push(
@@ -97,6 +119,16 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
         this.onSearchResultLoaded(data);
         this.isLoading = false;
+      }),
+
+      this.searchQueryError.subscribe(error => {
+        const { statusCode } = JSON.parse(error.message).error;
+
+        this.store.dispatch(
+          new SnackbarErrorAction(
+            `APP.BROWSE.SEARCH.ERRORS.${statusCode || 'GENERIC'}`
+          )
+        );
       })
     );
 
