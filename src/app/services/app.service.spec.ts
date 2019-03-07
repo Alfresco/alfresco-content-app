@@ -26,7 +26,7 @@
 import { AppService } from './app.service';
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../testing/app-testing.module';
-import { AuthenticationService } from '@alfresco/adf-core';
+import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { AppRouteReuseStrategy } from '../app.routes.strategy';
 import { Subject } from 'rxjs';
 
@@ -34,6 +34,7 @@ describe('AppService', () => {
   let service: AppService;
   let auth: AuthenticationService;
   let routeReuse: AppRouteReuseStrategy;
+  let appConfig: AppConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -53,9 +54,25 @@ describe('AppService', () => {
 
     routeReuse = TestBed.get(AppRouteReuseStrategy);
     auth = TestBed.get(AuthenticationService);
+    appConfig = TestBed.get(AppConfigService);
     spyOn(routeReuse, 'resetCache').and.stub();
 
-    service = new AppService(auth, routeReuse);
+    service = new AppService(auth, appConfig, routeReuse);
+  });
+
+  it('should be ready if [withCredentials] mode is used', done => {
+    appConfig.config = {
+      auth: {
+        withCredentials: true
+      }
+    };
+
+    const instance = new AppService(auth, appConfig, routeReuse);
+    expect(instance.withCredentials).toBeTruthy();
+
+    instance.ready$.subscribe(() => {
+      done();
+    });
   });
 
   it('should reset route cache on login', async () => {
