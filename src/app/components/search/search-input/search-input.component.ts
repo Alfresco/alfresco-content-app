@@ -255,7 +255,11 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   syncInputValues() {
     if (this.searchInputControl.searchTerm !== this.searchedWord) {
-      this.searchedWord = this.searchInputControl.searchTerm;
+      if (this.searchInputControl.searchTerm) {
+        this.searchedWord = this.searchInputControl.searchTerm;
+      } else {
+        this.searchInputControl.searchTerm = this.searchedWord;
+      }
     }
   }
 }
