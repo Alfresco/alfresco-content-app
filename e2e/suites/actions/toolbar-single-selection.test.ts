@@ -673,7 +673,7 @@ describe('Toolbar actions - single selection : ', () => {
       done();
     });
 
-    it('actions are not displayed when no item is selected - [C291815]', async () => {
+    xit('actions are not displayed when no item is selected - [C291815]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchForTextAndCloseSearchOptions(fileInSite);
