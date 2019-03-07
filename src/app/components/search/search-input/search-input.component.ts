@@ -157,7 +157,6 @@ export class SearchInputComponent implements OnInit, OnDestroy {
    * @param event Parameters relating to the search
    */
   onSearchSubmit(event: any) {
-    this.has400LibraryError = false;
     const searchTerm = event.target
       ? (event.target as HTMLInputElement).value
       : event;
@@ -167,19 +166,20 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       this.searchByOption();
     }
     this.trigger.closeMenu();
-
   }
 
   searchByOption() {
     this.syncInputValues();
     this.has400LibraryError = false;
     if (this.isLibrariesChecked()) {
-      if (this.searchedWord && !this.onLibrariesSearchResults) {
+      if (this.onLibrariesSearchResults) {
+        this.queryLibrariesBuilder.update();
+      }
+
+      if (this.searchedWord) {
         this.store.dispatch(
           new SearchByTermAction(this.searchedWord, this.searchOptions)
         );
-      } else {
-        this.queryLibrariesBuilder.update();
       }
     } else {
       if (this.isFoldersChecked() && !this.isFilesChecked()) {
