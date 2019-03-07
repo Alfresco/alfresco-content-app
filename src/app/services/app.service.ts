@@ -41,10 +41,7 @@ export class AppService {
    * Usually means that `Kerberos` mode is used.
    */
   get withCredentials(): boolean {
-    return this.config.get<boolean>(
-      'auth.withCredentials',
-      false
-    );
+    return this.config.get<boolean>('auth.withCredentials', false);
   }
 
   constructor(
