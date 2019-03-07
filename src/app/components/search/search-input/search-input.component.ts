@@ -48,6 +48,7 @@ import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { Subject } from 'rxjs';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
+import { MatMenuTrigger } from '@angular/material';
 
 export enum SearchOptionIds {
   Files = 'content',
@@ -89,6 +90,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   @ViewChild('searchInputControl')
   searchInputControl: SearchInputControlComponent;
+
+  @ViewChild(MatMenuTrigger)
+  trigger: MatMenuTrigger;
 
   constructor(
     private queryBuilder: SearchQueryBuilderService,
@@ -162,6 +166,8 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
       this.searchByOption();
     }
+    this.trigger.closeMenu();
+
   }
 
   searchByOption() {
