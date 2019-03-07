@@ -673,12 +673,13 @@ describe('Toolbar actions - single selection : ', () => {
       done();
     });
 
-    it('actions are not displayed when no item is selected - [C291815]', async () => {
+    it('nodes actions are not displayed when no item is selected - [C291815]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchForTextAndCloseSearchOptions(fileInSite);
 
-      expect(await toolbar.isEmpty()).toBe(true, `actions displayed though nothing selected`);
+      expect(await toolbar.isToggleSearchFiltersPresent()).toBe(true, `Search filter toggle is not displayed`);
+      expect(await toolbar.numberOfAvailableActions()).toBe(1, `more than 1 action is present`);
     });
 
     it('correct actions appear when a file is selected - [C291816]', async () => {

@@ -40,6 +40,7 @@ export interface AppState {
   user: ProfileState;
   navigation: NavigationState;
   infoDrawerOpened: boolean;
+  showFacetFilter: boolean;
   documentDisplayMode: string;
   repository: RepositoryInfo;
 }
@@ -66,6 +67,7 @@ export const INITIAL_APP_STATE: AppState = {
     currentFolder: null
   },
   infoDrawerOpened: false,
+  showFacetFilter: true,
   documentDisplayMode: 'list',
   repository: <any>{
     status: <any>{
