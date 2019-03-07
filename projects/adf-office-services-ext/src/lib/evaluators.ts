@@ -6,6 +6,11 @@ export function canOpenWithOffice(
   context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
+  const { url } = context.navigation;
+  if (url && url.startsWith('/trashcan')) {
+    return false;
+  }
+
   // todo: needs to have typed access via SDK (1.8)
   const auth: AuthenticationService = (<any>context).auth;
   if (auth && auth.isOauth()) {
