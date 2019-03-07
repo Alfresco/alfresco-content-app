@@ -36,6 +36,10 @@ import {
   isPreview
 } from './navigation.evaluators';
 
+/**
+ * Checks if user can mark selected nodes as **Favorite**.
+ * JSON ref: `app.selection.canAddFavorite`
+ */
 export function canAddFavorite(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -53,6 +57,10 @@ export function canAddFavorite(
   return false;
 }
 
+/**
+ * Checks if user can un-mark selected nodes as **Favorite**.
+ * JSON ref: `app.selection.canRemoveFavorite`
+ */
 export function canRemoveFavorite(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -66,6 +74,10 @@ export function canRemoveFavorite(
   return false;
 }
 
+/**
+ * Checks if user can share selected file.
+ * JSON ref: `app.selection.file.canShare`
+ */
 export function canShareFile(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -76,6 +88,10 @@ export function canShareFile(
   return false;
 }
 
+/**
+ * Checks if the selected file is already shared.
+ * JSON ref: `app.selection.file.isShared`
+ */
 export function isShared(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -98,6 +114,10 @@ export function isShared(
   return false;
 }
 
+/**
+ * Checks if user can delete selected nodes.
+ * JSON ref: `app.selection.canDelete`
+ */
 export function canDeleteSelection(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -133,6 +153,10 @@ export function canDeleteSelection(
   return false;
 }
 
+/**
+ * Checks if user can un-share selected nodes.
+ * JSON ref: `app.selection.canUnshare`
+ */
 export function canUnshareNodes(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -145,6 +169,10 @@ export function canUnshareNodes(
   return false;
 }
 
+/**
+ * Checks if user selected anything.
+ * JSON ref: `app.selection.notEmpty`
+ */
 export function hasSelection(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -152,6 +180,10 @@ export function hasSelection(
   return !context.selection.isEmpty;
 }
 
+/**
+ * Checks if user can create a new folder with current path.
+ * JSON ref: `app.navigation.folder.canCreate`
+ */
 export function canCreateFolder(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -163,6 +195,10 @@ export function canCreateFolder(
   return false;
 }
 
+/**
+ * Checks if user can upload content to current folder.
+ * JSON ref: `app.navigation.folder.canUpload`
+ */
 export function canUpload(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -174,6 +210,10 @@ export function canUpload(
   return false;
 }
 
+/**
+ * Checks if user can download selected nodes (either files or folders).
+ * JSON ref: `app.selection.canDownload`
+ */
 export function canDownloadSelection(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -189,6 +229,10 @@ export function canDownloadSelection(
   return false;
 }
 
+/**
+ * Checks if user has selected a folder.
+ * JSON ref: `app.selection.folder`
+ */
 export function hasFolderSelected(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -197,6 +241,10 @@ export function hasFolderSelected(
   return folder ? true : false;
 }
 
+/**
+ * Checks if user has selected a library (site).
+ * JSON ref: `app.selection.library`
+ */
 export function hasLibrarySelected(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -205,6 +253,10 @@ export function hasLibrarySelected(
   return library ? true : false;
 }
 
+/**
+ * Checks if user has selected a **private** library (site)
+ * JSON ref: `app.selection.isPrivateLibrary`
+ */
 export function isPrivateLibrary(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -219,6 +271,10 @@ export function isPrivateLibrary(
     : false;
 }
 
+/**
+ * Checks if the selected library has a **role** property defined.
+ * JSON ref: `app.selection.hasLibraryRole`
+ */
 export function hasLibraryRole(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -227,6 +283,10 @@ export function hasLibraryRole(
   return library ? !!(library.entry && library.entry.role) : false;
 }
 
+/**
+ * Checks if the selected library has no **role** property defined.
+ * JSON ref: `app.selection.hasNoLibraryRole`
+ */
 export function hasNoLibraryRole(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -234,6 +294,10 @@ export function hasNoLibraryRole(
   return !hasLibraryRole(context, ...args);
 }
 
+/**
+ * Checks if user has selected a file.
+ * JSON ref: `app.selection.file`
+ */
 export function hasFileSelected(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -242,6 +306,10 @@ export function hasFileSelected(
   return file ? true : false;
 }
 
+/**
+ * Checks if user can update the first selected node.
+ * JSON ref: `app.selection.first.canUpdate`
+ */
 export function canUpdateSelectedNode(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -264,6 +332,10 @@ export function canUpdateSelectedNode(
   return false;
 }
 
+/**
+ * Checks if user can update the first selected folder.
+ * JSON ref: `app.selection.folder.canUpdate`
+ */
 export function canUpdateSelectedFolder(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -279,6 +351,10 @@ export function canUpdateSelectedFolder(
   return false;
 }
 
+/**
+ * Checks if user has selected a **locked** file node.
+ * JSON ref: `app.selection.file.isLocked`
+ */
 export function hasLockedFiles(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -300,6 +376,10 @@ export function hasLockedFiles(
   return false;
 }
 
+/**
+ * Checks if the selected file has **write** or **read-only** locks specified.
+ * JSON ref: `app.selection.file.isLocked`
+ */
 export function isWriteLocked(
   context: AppRuleContext,
   ...args: RuleParameter[]
@@ -316,6 +396,11 @@ export function isWriteLocked(
   );
 }
 
+/**
+ * Checks if the selected file has **write** or **read-only** locks specified,
+ * and that current user is the owner of the lock.
+ * JSON ref: `app.selection.file.isLockOwner`
+ */
 export function isUserWriteLockOwner(
   context: AppRuleContext,
   ...args: RuleParameter[]
@@ -328,6 +413,10 @@ export function isUserWriteLockOwner(
   );
 }
 
+/**
+ * Checks if user can lock selected file.
+ * JSON ref: `app.selection.file.canLock`
+ */
 export function canLockFile(
   context: AppRuleContext,
   ...args: RuleParameter[]
@@ -337,6 +426,10 @@ export function canLockFile(
   );
 }
 
+/**
+ * Checks if user can unlock selected file.
+ * JSON ref: `app.selection.file.canLock`
+ */
 export function canUnlockFile(
   context: AppRuleContext,
   ...args: RuleParameter[]
@@ -349,6 +442,10 @@ export function canUnlockFile(
   );
 }
 
+/**
+ * Checks if user can upload a new version of the file.
+ * JSON ref: `app.selection.file.canUploadVersion`
+ */
 export function canUploadVersion(
   context: AppRuleContext,
   ...args: RuleParameter[]

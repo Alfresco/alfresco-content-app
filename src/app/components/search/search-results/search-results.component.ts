@@ -108,7 +108,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         const query = this.formatSearchQuery(this.searchedWord);
 
         if (query) {
-          this.queryBuilder.userQuery = query;
+          this.queryBuilder.userQuery = decodeURIComponent(query);
           this.queryBuilder.update();
         } else {
           this.queryBuilder.userQuery = null;

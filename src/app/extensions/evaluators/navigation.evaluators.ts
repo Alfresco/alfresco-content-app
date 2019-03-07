@@ -25,6 +25,10 @@
 
 import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
 
+/**
+ * Checks if a Preview route is activated.
+ * JSON ref: `app.navigation.isPreview`
+ */
 export function isPreview(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -33,6 +37,10 @@ export function isPreview(
   return url && url.includes('/preview/');
 }
 
+/**
+ * Checks if a **Favorites** route is activated.
+ * JSON ref: `app.navigation.isFavorites`
+ */
 export function isFavorites(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -41,6 +49,10 @@ export function isFavorites(
   return url && url.startsWith('/favorites') && !isPreview(context, ...args);
 }
 
+/**
+ * Checks if the activated route is not **Favorites**.
+ * JSON ref: `app.navigation.isNotFavorites`
+ */
 export function isNotFavorites(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -48,6 +60,10 @@ export function isNotFavorites(
   return !isFavorites(context, ...args);
 }
 
+/**
+ * Checks if a **Shared Files** route is activated.
+ * JSON ref: `app.navigation.isSharedFiles`
+ */
 export function isSharedFiles(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -56,6 +72,10 @@ export function isSharedFiles(
   return url && url.startsWith('/shared') && !isPreview(context, ...args);
 }
 
+/**
+ * Checks if the activated route is not **Shared Files**.
+ * JSON ref: `app.navigation.isNotSharedFiles`
+ */
 export function isNotSharedFiles(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -63,6 +83,10 @@ export function isNotSharedFiles(
   return !isSharedFiles(context, ...args);
 }
 
+/**
+ * Checks if a **Trashcan** route is activated.
+ * JSON ref: `app.navigation.isTrashcan`
+ */
 export function isTrashcan(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -71,6 +95,10 @@ export function isTrashcan(
   return url && url.startsWith('/trashcan');
 }
 
+/**
+ * Checks if the activated route is not **Trashcan**.
+ * JSON ref: `app.navigation.isNotTrashcan`
+ */
 export function isNotTrashcan(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -78,6 +106,10 @@ export function isNotTrashcan(
   return !isTrashcan(context, ...args);
 }
 
+/**
+ * Checks if a **Personal Files** route is activated.
+ * JSON ref: `app.navigation.isPersonalFiles`
+ */
 export function isPersonalFiles(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -86,6 +118,10 @@ export function isPersonalFiles(
   return url && url.startsWith('/personal-files');
 }
 
+/**
+ * Checks if a **Library Files** route is activated.
+ * JSON ref: `app.navigation.isLibraryFiles`
+ */
 export function isLibraryFiles(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -94,6 +130,10 @@ export function isLibraryFiles(
   return url && url.startsWith('/libraries');
 }
 
+/**
+ * Checks if a **Library Files** or **Library Search Result** route is activated.
+ * JSON ref: `app.navigation.isLibraryFiles`
+ */
 export function isLibraries(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -104,6 +144,10 @@ export function isLibraries(
   );
 }
 
+/**
+ * Checks if the activated route is neither **Libraries** nor **Library Search Results**.
+ * JSON ref: `app.navigation.isNotLibraries`
+ */
 export function isNotLibraries(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -111,6 +155,10 @@ export function isNotLibraries(
   return !isLibraries(context, ...args);
 }
 
+/**
+ * Checks if a **Recent Files** route is activated.
+ * JSON ref: `app.navigation.isRecentFiles`
+ */
 export function isRecentFiles(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -119,6 +167,10 @@ export function isRecentFiles(
   return url && url.startsWith('/recent-files');
 }
 
+/**
+ * Checks if the activated route is not **Recent Files**.
+ * JSON ref: `app.navigation.isNotRecentFiles`
+ */
 export function isNotRecentFiles(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -126,6 +178,10 @@ export function isNotRecentFiles(
   return !isRecentFiles(context, ...args);
 }
 
+/**
+ * Checks if a **Search Results** route is activated.
+ * JSON ref: `app.navigation.isSearchResults`
+ */
 export function isSearchResults(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -134,6 +190,10 @@ export function isSearchResults(
   return url && url.startsWith('/search');
 }
 
+/**
+ * Checks if the activated route is not **Search Results**.
+ * JSON ref: `app.navigation.isNotSearchResults`
+ */
 export function isNotSearchResults(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -141,6 +201,10 @@ export function isNotSearchResults(
   return !isSearchResults(context, ...args);
 }
 
+/**
+ * Checks if a **Shared Preview** route is activated.
+ * JSON ref: `app.navigation.isSharedPreview`
+ */
 export function isSharedPreview(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -149,6 +213,10 @@ export function isSharedPreview(
   return url && url.startsWith('/shared/preview/');
 }
 
+/**
+ * Checks if a **Favorites Preview** route is activated.
+ * JSON ref: `app.navigation.isFavoritesPreview`
+ */
 export function isFavoritesPreview(
   context: RuleContext,
   ...args: RuleParameter[]
@@ -157,6 +225,10 @@ export function isFavoritesPreview(
   return url && url.startsWith('/favorites/preview/');
 }
 
+/**
+ * Checks if a **Shared File Preview** route is activated.
+ * JSON ref: `app.navigation.isFavoritesPreview`
+ */
 export function isSharedFileViewer(
   context: RuleContext,
   ...args: RuleParameter[]
