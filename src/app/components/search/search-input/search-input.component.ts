@@ -49,6 +49,7 @@ import { ContentManagementService } from '../../../services/content-management.s
 import { Subject } from 'rxjs';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 import { MatMenuTrigger } from '@angular/material';
+import { AppConfigService } from '@alfresco/adf-core';
 
 export enum SearchOptionIds {
   Files = 'content',
@@ -64,7 +65,11 @@ export enum SearchOptionIds {
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
+  hasOneChange = false;
+  hasNewChange = false;
+  navigationTimer: any;
   has400LibraryError = false;
+  searchOnChange;
 
   searchedWord = null;
   searchOptions: Array<any> = [
@@ -97,10 +102,16 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   constructor(
     private queryBuilder: SearchQueryBuilderService,
     private queryLibrariesBuilder: SearchLibrariesQueryBuilderService,
+    private config: AppConfigService,
     private content: ContentManagementService,
     private router: Router,
     private store: Store<AppStore>
-  ) {}
+  ) {
+    this.searchOnChange = this.config.get<boolean>(
+      'search.triggeredOnChange',
+      true
+    );
+  }
 
   ngOnInit() {
     this.showInputValue();
@@ -168,6 +179,35 @@ export class SearchInputComponent implements OnInit, OnDestroy {
       this.searchByOption();
     }
     this.trigger.closeMenu();
+  }
+
+  onSearchChange(searchTerm: string) {
+    if (!this.searchOnChange) {
+      return;
+    }
+
+    this.has400LibraryError = false;
+    this.searchedWord = searchTerm;
+
+    if (this.hasOneChange) {
+      this.hasNewChange = true;
+    } else {
+      this.hasOneChange = true;
+    }
+
+    if (this.hasNewChange) {
+      clearTimeout(this.navigationTimer);
+      this.hasNewChange = false;
+    }
+
+    this.navigationTimer = setTimeout(() => {
+      if (searchTerm) {
+        this.store.dispatch(
+          new SearchByTermAction(searchTerm, this.searchOptions)
+        );
+      }
+      this.hasOneChange = false;
+    }, 1000);
   }
 
   searchByOption() {

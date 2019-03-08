@@ -114,6 +114,35 @@ describe('SearchInputComponent', () => {
     }));
   });
 
+  describe('onSearchChange()', () => {
+    it('should call search action with correct search options', fakeAsync(done => {
+      const searchedTerm = 's';
+      const currentSearchOptions = [{ key: 'test' }];
+      actions$.pipe(
+        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        map(action => {
+          expect(action.searchOptions[0].key).toBe(currentSearchOptions[0].key);
+          done();
+        })
+      );
+      component.onSearchChange(searchedTerm);
+      tick(1000);
+    }));
+
+    it('should call search action with correct searched term', fakeAsync(done => {
+      const searchedTerm = 's';
+      actions$.pipe(
+        ofType<SearchByTermAction>(SEARCH_BY_TERM),
+        map(action => {
+          expect(action.payload).toBe(searchedTerm);
+          done();
+        })
+      );
+      component.onSearchChange(searchedTerm);
+      tick(1000);
+    }));
+  });
+
   describe('isLibrariesChecked()', () => {
     it('should return false by default', () => {
       expect(component.isLibrariesChecked()).toBe(false);
