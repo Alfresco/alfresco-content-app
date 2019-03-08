@@ -6,8 +6,11 @@ export function canOpenWithOffice(
   context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
-  const { url } = context.navigation;
-  if (url && url.startsWith('/trashcan')) {
+  if (
+    context.navigation &&
+    context.navigation.url &&
+    context.navigation.url.startsWith('/trashcan')
+  ) {
     return false;
   }
 
