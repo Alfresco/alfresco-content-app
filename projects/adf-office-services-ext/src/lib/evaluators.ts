@@ -6,6 +6,14 @@ export function canOpenWithOffice(
   context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
+  if (
+    context.navigation &&
+    context.navigation.url &&
+    context.navigation.url.startsWith('/trashcan')
+  ) {
+    return false;
+  }
+
   // todo: needs to have typed access via SDK (1.8)
   const auth: AuthenticationService = (<any>context).auth;
   if (auth && auth.isOauth()) {
@@ -47,8 +55,12 @@ export function canOpenWithOffice(
     file.entry.properties['cm:lockType'] === 'WRITE_LOCK' ||
     file.entry.properties['cm:lockType'] === 'READ_ONLY_LOCK'
   ) {
-    const lockOwner = file.entry.properties['cm:lockOwner'];
-    return lockOwner && lockOwner.id === context.profile.id;
+    return false;
+  }
+
+  const lockOwner = file.entry.properties['cm:lockOwner'];
+  if (lockOwner && lockOwner.id !== context.profile.id) {
+    return false;
   }
 
   return true;

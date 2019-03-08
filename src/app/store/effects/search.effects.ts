@@ -38,18 +38,20 @@ export class SearchEffects {
   searchByTerm$ = this.actions$.pipe(
     ofType<SearchByTermAction>(SEARCH_BY_TERM),
     map(action => {
+      const query = action.payload
+        .replace(/[(]/g, '%28')
+        .replace(/[)]/g, '%29');
+
       const libItem = action.searchOptions.find(
         item => item.id === SearchOptionIds.Libraries
       );
       const librarySelected = !!libItem && libItem.value;
       if (librarySelected) {
         this.router.navigateByUrl(
-          '/search-libraries;q=' + encodeURIComponent(action.payload)
+          '/search-libraries;q=' + encodeURIComponent(query)
         );
       } else {
-        this.router.navigateByUrl(
-          '/search;q=' + encodeURIComponent(action.payload)
-        );
+        this.router.navigateByUrl('/search;q=' + encodeURIComponent(query));
       }
     })
   );

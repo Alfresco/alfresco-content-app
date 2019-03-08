@@ -38,6 +38,8 @@ import { NavigateToFolder } from '../../../store/actions';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
 import { AppConfigService } from '@alfresco/adf-core';
+import { Observable } from 'rxjs';
+import { showFacetFilter } from '../../../store/selectors/app.selectors';
 
 @Component({
   selector: 'aca-search-results',
@@ -50,6 +52,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   @ViewChild('searchFilter')
   searchFilter: SearchFilterComponent;
+
+  showFacetFilter$: Observable<boolean>;
 
   searchedWord: string;
   queryParamName = 'q';
@@ -73,6 +77,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       skipCount: 0,
       maxItems: 25
     };
+
+    this.showFacetFilter$ = store.select(showFacetFilter);
   }
 
   ngOnInit() {
@@ -102,7 +108,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         const query = this.formatSearchQuery(this.searchedWord);
 
         if (query) {
-          this.queryBuilder.userQuery = query;
+          this.queryBuilder.userQuery = decodeURIComponent(query);
           this.queryBuilder.update();
         } else {
           this.queryBuilder.userQuery = null;
