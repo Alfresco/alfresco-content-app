@@ -1,11 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 
 import { SearchResultsComponent } from './search-results.component';
 import { AppTestingModule } from '../../../testing/app-testing.module';
 import { AppSearchResultsModule } from '../search-results.module';
-import { CoreModule, AppConfigService } from '@alfresco/adf-core';
+import {
+  CoreModule,
+  AppConfigService,
+  AlfrescoApiService,
+  AlfrescoApiServiceMock
+} from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
-import { NavigateToFolder } from '../../../store/actions';
+import { NavigateToFolder, SnackbarErrorAction } from '../../../store/actions';
 import { Pagination } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
@@ -16,11 +27,16 @@ describe('SearchComponent', () => {
   let config: AppConfigService;
   let store: Store<any>;
   let queryBuilder: SearchQueryBuilderService;
+  let alfrescoApi: AlfrescoApiService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CoreModule.forRoot(), AppTestingModule, AppSearchResultsModule],
       providers: [
+        {
+          provide: AlfrescoApiService,
+          useClass: AlfrescoApiServiceMock
+        },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -43,6 +59,7 @@ describe('SearchComponent', () => {
     config = TestBed.get(AppConfigService);
     store = TestBed.get(Store);
     queryBuilder = TestBed.get(SearchQueryBuilderService);
+    alfrescoApi = TestBed.get(AlfrescoApiService);
 
     fixture = TestBed.createComponent(SearchResultsComponent);
     component = fixture.componentInstance;
@@ -50,6 +67,24 @@ describe('SearchComponent', () => {
     spyOn(queryBuilder, 'update').and.stub();
 
     fixture.detectChanges();
+  }));
+
+  it('should raise an error if search fails', fakeAsync(() => {
+    spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
+      Promise.reject({
+        message: `{ "error": { "statusCode": 500 } } `
+      })
+    );
+
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({});
+    spyOn(store, 'dispatch').and.stub();
+
+    queryBuilder.execute();
+    tick();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new SnackbarErrorAction('APP.BROWSE.SEARCH.ERRORS.500')
+    );
   }));
 
   it('should decode encoded URI', () => {
