@@ -239,11 +239,13 @@ export class AppExtensionService implements AppRuleContext {
       return {
         ...group,
         items: (group.items || [])
+          .filter(entry => !entry.disabled)
           .filter(item => this.filterByRules(item))
           .sort(sortByOrder)
           .map(item => {
             if (item.children && item.children.length > 0) {
               item.children = item.children
+                .filter(entry => !entry.disabled)
                 .filter(child => this.filterByRules(child))
                 .sort(sortByOrder)
                 .map(child => {
