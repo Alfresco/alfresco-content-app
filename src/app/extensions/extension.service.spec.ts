@@ -682,6 +682,18 @@ describe('AppExtensionService', () => {
         }
       ]);
     });
+
+    it('should filter out disabled items', () => {
+      const navigation = service.getApplicationNavigation([
+        { items: [{ route: 'route1' }, { route: 'route2', disabled: true }] },
+        { items: [{ children: [{ route: 'route3', disabled: true }] }] }
+      ]);
+
+      expect(navigation).toEqual([
+        { items: [{ route: 'route1', url: '/route1' }] },
+        { items: [{ children: [] }] }
+      ]);
+    });
   });
 
   describe('getSharedLinkViewerToolbarActions', () => {
