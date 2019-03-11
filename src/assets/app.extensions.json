@@ -612,7 +612,7 @@
           {
             "id": "app.toolbar.favorite.remove",
             "order": 403,
-            "title": "APP.ACTIONS.FAVORITE",
+            "title": "APP.ACTIONS.REMOVE_FAVORITE",
             "icon": "star",
             "actions": {
               "click": "REMOVE_FAVORITE"
@@ -792,7 +792,7 @@
       },
       {
         "id": "app.context.menu.favorite.remove",
-        "title": "APP.ACTIONS.FAVORITE",
+        "title": "APP.ACTIONS.REMOVE_FAVORITE",
         "order": 701,
         "icon": "star",
         "actions": {
@@ -1090,7 +1090,7 @@
             {
               "id": "app.viewer.favorite.remove",
               "order": 401,
-              "title": "APP.ACTIONS.FAVORITE",
+              "title": "APP.ACTIONS.REMOVE_FAVORITE",
               "icon": "star",
               "actions": {
                 "click": "REMOVE_FAVORITE"
