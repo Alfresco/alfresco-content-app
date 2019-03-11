@@ -42,7 +42,11 @@ import { ReloadDocumentListAction } from '../../../store/actions';
     >
       <mat-icon *ngIf="favorites.hasFavorites()">star</mat-icon>
       <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
-      <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
+      <span>{{
+        (favorites.hasFavorites()
+          ? 'APP.ACTIONS.REMOVE_FAVORITE'
+          : 'APP.ACTIONS.FAVORITE') | translate
+      }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
