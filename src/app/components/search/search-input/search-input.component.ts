@@ -134,20 +134,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
 
   showInputValue() {
     this.has400LibraryError = false;
-    this.searchedWord = '';
-
-    if (this.onSearchResults || this.onLibrariesSearchResults) {
-      const urlTree: UrlTree = this.router.parseUrl(this.router.url);
-      const urlSegmentGroup: UrlSegmentGroup =
-        urlTree.root.children[PRIMARY_OUTLET];
-
-      if (urlSegmentGroup) {
-        const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
-        this.searchedWord = urlSegments[0].parameters['q']
-          ? decodeURIComponent(urlSegments[0].parameters['q'])
-          : '';
-      }
-    }
+    this.searchedWord = this.getUrlSearchTerm();
 
     if (this.searchInputControl) {
       this.searchInputControl.searchTerm = this.searchedWord;
@@ -214,11 +201,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     this.syncInputValues();
     this.has400LibraryError = false;
     if (this.isLibrariesChecked()) {
-      if (this.onLibrariesSearchResults) {
+      if (this.onLibrariesSearchResults && this.isSameSearchTerm()) {
         this.queryLibrariesBuilder.update();
-      }
-
-      if (this.searchedWord) {
+      } else if (this.searchedWord) {
         this.store.dispatch(
           new SearchByTermAction(this.searchedWord, this.searchOptions)
         );
@@ -232,11 +217,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
         this.removeContentFilters();
       }
 
-      if (this.onSearchResults) {
+      if (this.onSearchResults && this.isSameSearchTerm()) {
         this.queryBuilder.update();
-      }
-
-      if (this.searchedWord) {
+      } else if (this.searchedWord) {
         this.store.dispatch(
           new SearchByTermAction(this.searchedWord, this.searchOptions)
         );
@@ -309,5 +292,28 @@ export class SearchInputComponent implements OnInit, OnDestroy {
         this.searchInputControl.searchTerm = this.searchedWord;
       }
     }
+  }
+
+  getUrlSearchTerm(): string {
+    let searchTerm = '';
+    if (this.onSearchResults || this.onLibrariesSearchResults) {
+      const urlTree: UrlTree = this.router.parseUrl(this.router.url);
+      const urlSegmentGroup: UrlSegmentGroup =
+        urlTree.root.children[PRIMARY_OUTLET];
+
+      if (urlSegmentGroup) {
+        const urlSegments: UrlSegment[] = urlSegmentGroup.segments;
+        searchTerm = urlSegments[0].parameters['q']
+          ? decodeURIComponent(urlSegments[0].parameters['q'])
+          : '';
+      }
+    }
+
+    return searchTerm;
+  }
+
+  isSameSearchTerm(): boolean {
+    const urlSearchTerm = this.getUrlSearchTerm();
+    return this.searchedWord === urlSearchTerm;
   }
 }
