@@ -108,7 +108,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
     private store: Store<AppStore>
   ) {
     this.searchOnChange = this.config.get<boolean>(
-      'search.triggeredOnChange',
+      'search.aca:triggeredOnChange',
       true
     );
   }
