@@ -3,7 +3,7 @@
 # Alfresco Content Application
 
 Testing Supported By<br/>
-<img width="160" src="docs/images/BrowserStack-logo.svg" alt="BrowserStack"/>
+<img width="160" src="docs/images/Browserstack-logo.svg" alt="BrowserStack"/>
 
 ## Introduction
 

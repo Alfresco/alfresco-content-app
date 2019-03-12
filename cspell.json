@@ -8,6 +8,7 @@
     "Redistributable",
     "fullscreen",
     "LGPL",
+    "Browserstack",
 
     "ngrx",
     "ngstack",
