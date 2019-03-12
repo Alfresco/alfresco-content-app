@@ -248,7 +248,7 @@
           "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
         },
         {
-          "label": "In last 6 months",
+          "label": "In the last 6 months",
           "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
         },
         {

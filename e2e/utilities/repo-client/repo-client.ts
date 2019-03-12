@@ -27,6 +27,7 @@ import { RepoClientAuth } from './repo-client-models';
 
 import { PeopleApi } from './apis/people/people-api';
 import { NodesApi } from './apis/nodes/nodes-api';
+import { CommentsApi } from './apis/comments/comments-api';
 import { SitesApi } from './apis/sites/sites-api';
 import { FavoritesApi } from './apis/favorites/favorites-api';
 import { QueriesApi } from './apis/queries/queries-api';
@@ -53,6 +54,10 @@ export class RepoClient {
 
     get nodes() {
         return new NodesApi(this.auth.username, this.auth.password);
+    }
+
+    get comments() {
+        return new CommentsApi(this.auth.username, this.auth.password);
     }
 
     get sites() {
