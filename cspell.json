@@ -9,6 +9,10 @@
     "fullscreen",
     "LGPL",
     "Browserstack",
+    "mincount",
+    "QNAME",
+    "PNAME",
+    "mimetype",
 
     "ngrx",
     "ngstack",
