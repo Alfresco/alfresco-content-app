@@ -6,5 +6,8 @@
   "editor.formatOnSave": true,
   "[json]": {
     "editor.formatOnSave": false
+  },
+  "markdownlint.config": {
+    "MD033": false
   }
 }
