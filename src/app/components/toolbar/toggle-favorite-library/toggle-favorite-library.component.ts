@@ -44,12 +44,16 @@ import { Router } from '@angular/router';
       [attr.title]="
         favoriteLibrary.isFavorite()
           ? ('APP.ACTIONS.REMOVE_FAVORITE' | translate)
-          : ('APP.ACTIONS.ADD_FAVORITE' | translate)
+          : ('APP.ACTIONS.FAVORITE' | translate)
       "
     >
       <mat-icon *ngIf="favoriteLibrary.isFavorite()">star</mat-icon>
       <mat-icon *ngIf="!favoriteLibrary.isFavorite()">star_border</mat-icon>
-      <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
+      <span>{{
+        (favoriteLibrary.isFavorite()
+          ? 'APP.ACTIONS.REMOVE_FAVORITE'
+          : 'APP.ACTIONS.FAVORITE') | translate
+      }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
