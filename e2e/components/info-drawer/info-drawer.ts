@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, until } from 'protractor';
 import { Component } from '../component';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
@@ -43,6 +43,19 @@ export class InfoDrawer extends Component {
     previous: '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron',
 
     headerTitle: '.adf-info-drawer-layout-header-title',
+
+    // comments tab
+    commentsContainer: '.adf-comments-container',
+    commentsHeader: '.adf-comments-header',
+    commentsTextArea: '.adf-comments-input-container textarea',
+    addCommentButton: 'button.adf-comments-input-add',
+    commentsList: '.adf-comment-list',
+    commentsListItem: '.adf-comment-list-item',
+    commentById: `adf-comment-`,
+    commentUserName: 'comment-user',
+    commentUserAvatar: 'comment-user-icon',
+    commentMessage: 'comment-message',
+    commentTime: 'comment-time',
 
     // metadata card
     metadataTabContent: '.app-metadata-tab .mat-card-content',
@@ -64,6 +77,19 @@ export class InfoDrawer extends Component {
   tabActiveLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabActiveLabel));
 
   tabActiveContent: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.activeTabContent));
+
+  commentsContainer: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.commentsContainer));
+  commentsHeader: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.commentsHeader));
+  commentTextarea: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.commentsTextArea));
+  addCommentButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.addCommentButton));
+  commentsList: ElementArrayFinder = this.component.all(by.css(InfoDrawer.selectors.commentsListItem));
+
+  commentListItem = by.css(InfoDrawer.selectors.commentsListItem);
+
+  commentUserAvatar = by.id(InfoDrawer.selectors.commentUserAvatar);
+  commentUser = by.id(InfoDrawer.selectors.commentUserName)
+  commentText = by.id(InfoDrawer.selectors.commentMessage);
+  commentTime = by.id(InfoDrawer.selectors.commentTime);
 
   nextButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.next));
   previousButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.previous));
@@ -98,8 +124,16 @@ export class InfoDrawer extends Component {
     return !(await browser.isElementPresent(by.css(InfoDrawer.selectors.tabs)));
   }
 
+  async waitForCommentsTabContainer() {
+    await browser.wait(EC.visibilityOf(this.commentsContainer), BROWSER_WAIT_TIMEOUT);
+  }
+
   getTabByTitle(title: string) {
     return this.component.element(by.cssContainingText(InfoDrawer.selectors.tabLabel, title));
+  }
+
+  async getTabsCount() {
+    return await this.component.all(by.css(InfoDrawer.selectors.tabLabel)).count();
   }
 
   async isTabPresent(title: string) {
@@ -107,11 +141,17 @@ export class InfoDrawer extends Component {
   }
 
   async isTabDisplayed(title: string) {
-    return await this.getTabByTitle(title).isDisplayed();
+    if (await browser.isElementPresent(this.getTabByTitle(title))) {
+      return await this.getTabByTitle(title).isDisplayed();
+    }
   }
 
   async getTabTitle(index: number) {
     return await this.tabLabelsList.get(index - 1).getAttribute('innerText');
+  }
+
+  async getActiveTabTitle() {
+    return await this.tabActiveLabel.getText();
   }
 
   async clickTab(title: string) {
@@ -182,6 +222,34 @@ export class InfoDrawer extends Component {
 
   async isAboutTabDisplayed() {
     return await this.isTabDisplayed('About');
+  }
+
+  async isPropertiesTabDisplayed() {
+    return await this.isTabDisplayed('Properties');
+  }
+
+  async isCommentsTabDisplayed() {
+    return await this.isTabDisplayed('Comments');
+  }
+
+
+  async clickCommentsTab() {
+    try {
+      await this.getTabByTitle('Comments').click();
+      await this.waitForCommentsTabContainer();
+      await browser.wait(EC.visibilityOf(this.addCommentButton), BROWSER_WAIT_TIMEOUT);
+    } catch (error) {
+      console.error('--- catch error on clickCommentsTab ---');
+      throw error;
+    }
+  }
+
+  async clickAboutTab() {
+    try {
+      return await this.getTabByTitle('About').click();
+    } catch (error) {
+      console.error('--- catch error on clickAboutTab ---');
+    }
   }
 
 
@@ -321,5 +389,75 @@ export class InfoDrawer extends Component {
     return await this.clickButton('Cancel');
   }
 
+
+  async getCommentsTabHeaderText() {
+    return await this.commentsHeader.getText();
+  }
+
+  async isCommentTextAreaDisplayed() {
+    return await browser.isElementPresent(this.commentTextarea);
+  }
+
+  async isAddCommentButtonEnabled() {
+    const present = await browser.isElementPresent(this.addCommentButton);
+    if (present) {
+      return await this.addCommentButton.isEnabled();
+    }
+    return false;
+  }
+
+  async getCommentListItem() {
+    return await browser.wait(until.elementLocated(this.commentListItem), BROWSER_WAIT_TIMEOUT / 2);
+  }
+
+  async getCommentById(commentId?: string) {
+    if (commentId) {
+      return await browser.wait(until.elementLocated(by.id(`${InfoDrawer.selectors.commentById}${commentId}`)), BROWSER_WAIT_TIMEOUT / 2);
+    }
+    return await this.getCommentListItem();
+  }
+
+  async isCommentDisplayed(commentId?: string) {
+    return await browser.isElementPresent(await this.getCommentById(commentId));
+  }
+
+  async isCommentUserAvatarDisplayed(commentId?: string) {
+    const commentElement = await this.getCommentById(commentId);
+    return await browser.isElementPresent(commentElement.findElement(this.commentUserAvatar));
+  }
+
+  async getCommentText(commentId?: string) {
+    const commentElement = await this.getCommentById(commentId);
+    const message = await commentElement.findElement(this.commentText);
+    return await message.getText();
+  }
+
+  async getCommentUserName(commentId?: string) {
+    const commentElement = await this.getCommentById(commentId);
+    const user = await commentElement.findElement(this.commentUser);
+    return await user.getText();
+  }
+
+  async getCommentTime(commentId?: string) {
+    const commentElement = await this.getCommentById(commentId);
+    const time = await commentElement.findElement(this.commentTime);
+    return await time.getText();
+  }
+
+  async getNthCommentId(index: number) {
+    return await this.commentsList.get(index - 1).getAttribute('id');
+  }
+
+  async typeComment(text: string) {
+    return await this.commentTextarea.sendKeys(text);
+  }
+
+  async clickAddButton() {
+    return await this.addCommentButton.click();
+  }
+
+  async getCommentTextFromTextArea() {
+    return await this.commentTextarea.getAttribute('value');
+  }
 }
 
