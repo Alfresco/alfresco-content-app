@@ -63,5 +63,11 @@ export function canOpenWithOffice(
     return false;
   }
 
-  return true;
+  if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
+    return context.permissions.check(file, ['update'], {
+      target: 'allowableOperationsOnTarget'
+    });
+  }
+
+  return context.permissions.check(file, ['update']);
 }
