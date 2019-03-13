@@ -112,22 +112,16 @@ export class AosEditOnlineService {
   ) {
     const protocolUrl = protocolHandler + ':ofe%7Cu%7C' + url;
 
-    const input = document.createElement('input');
-    const inputTop = document.body.scrollTop + 10;
-    input.setAttribute(
-      'style',
-      'z-index: 1000; background-color: rgba(0, 0, 0, 0); ' +
-        'border: none; outline: none; position: absolute; left: 10px; top: ' +
-        inputTop +
-        'px;'
-    );
-    document.getElementsByTagName('body')[0].appendChild(input);
-    input.focus();
-    location.href = protocolUrl;
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = protocolUrl;
 
-    setTimeout(function() {
-      input.onblur = null;
-      input.remove();
+    document.body.appendChild(iframe);
+
+    setTimeout(() => {
+      if (iframe) {
+        document.body.removeChild(iframe);
+      }
     }, 500);
   }
 }
