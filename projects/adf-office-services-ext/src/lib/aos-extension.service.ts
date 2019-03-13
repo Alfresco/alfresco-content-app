@@ -119,7 +119,9 @@ export class AosEditOnlineService {
     document.body.appendChild(iframe);
 
     setTimeout(() => {
-      document.body.removeChild(iframe);
+      if (iframe) {
+        document.body.removeChild(iframe);
+      }
     }, 500);
   }
 }
