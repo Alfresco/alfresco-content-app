@@ -111,23 +111,15 @@ export class AosEditOnlineService {
     url: string
   ) {
     const protocolUrl = protocolHandler + ':ofe%7Cu%7C' + url;
-    const handlerElement = this.getElementHandler(protocolUrl);
 
-    handlerElement.click();
-  }
-
-  private getElementHandler(url: string): HTMLAnchorElement {
     const iframe = document.createElement('iframe');
     iframe.style.display = 'none';
+    iframe.src = protocolUrl;
+
     document.body.appendChild(iframe);
 
-    const link = iframe.contentWindow.document.createElement('a');
-    link.href = url;
-
-    link.addEventListener('click', () => {
-      setTimeout(() => document.body.removeChild(iframe), 500);
-    });
-
-    return link;
+    setTimeout(() => {
+      document.body.removeChild(iframe);
+    }, 500);
   }
 }
