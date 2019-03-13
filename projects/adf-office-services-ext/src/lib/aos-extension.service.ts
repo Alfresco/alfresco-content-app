@@ -111,23 +111,23 @@ export class AosEditOnlineService {
     url: string
   ) {
     const protocolUrl = protocolHandler + ':ofe%7Cu%7C' + url;
+    const handlerElement = this.getElementHandler(protocolUrl);
 
-    const input = document.createElement('input');
-    const inputTop = document.body.scrollTop + 10;
-    input.setAttribute(
-      'style',
-      'z-index: 1000; background-color: rgba(0, 0, 0, 0); ' +
-        'border: none; outline: none; position: absolute; left: 10px; top: ' +
-        inputTop +
-        'px;'
-    );
-    document.getElementsByTagName('body')[0].appendChild(input);
-    input.focus();
-    location.href = protocolUrl;
+    handlerElement.click();
+  }
 
-    setTimeout(function() {
-      input.onblur = null;
-      input.remove();
-    }, 500);
+  private getElementHandler(url: string): HTMLAnchorElement {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const link = iframe.contentWindow.document.createElement('a');
+    link.href = url;
+
+    link.addEventListener('click', () => {
+      setTimeout(() => document.body.removeChild(iframe), 500);
+    });
+
+    return link;
   }
 }
