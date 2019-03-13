@@ -141,13 +141,6 @@ export function canDeleteSelection(
       return context.permissions.check(context.selection.nodes, ['delete']);
     }
 
-    // workaround for Shared Files
-    if (isSharedFiles(context, ...args)) {
-      return context.permissions.check(context.selection.nodes, ['delete'], {
-        target: 'allowableOperationsOnTarget'
-      });
-    }
-
     return context.permissions.check(context.selection.nodes, ['delete']);
   }
   return false;
@@ -319,12 +312,6 @@ export function canUpdateSelectedNode(
 
     if (node.entry.isFile && hasLockedFiles(context, ...args)) {
       return false;
-    }
-
-    if (node.entry.hasOwnProperty('allowableOperationsOnTarget')) {
-      return context.permissions.check(node, ['update'], {
-        target: 'allowableOperationsOnTarget'
-      });
     }
 
     return context.permissions.check(node, ['update']);

@@ -208,31 +208,6 @@ describe('evaluators', () => {
       expect(canOpenWithOffice(context)).toBeFalsy();
     });
 
-    it('should check the [update] permission when selected file has allowableOperationsOnTarget', () => {
-      let checkOnTarget = '';
-      const context: any = {
-        selection: {
-          file: {
-            entry: {
-              name: 'document.docx',
-              isLocked: false,
-              properties: {},
-              allowableOperationsOnTarget: {}
-            }
-          }
-        },
-        permissions: {
-          check: (source: any, permissions: string[], options?: any) => {
-            checkOnTarget = options && options.target;
-            return true;
-          }
-        }
-      };
-
-      expect(canOpenWithOffice(context)).toBeTruthy();
-      expect(checkOnTarget).toEqual('allowableOperationsOnTarget');
-    });
-
     it('should return [true] if all checks succeed', () => {
       const context: any = {
         selection: {

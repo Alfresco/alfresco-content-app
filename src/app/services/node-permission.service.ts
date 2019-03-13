@@ -80,6 +80,10 @@ export class NodePermissionService implements NodePermissions {
   private getAllowableOperations(node, target): string[] {
     const entry = node.entry || node;
 
+    if (!target && entry.allowableOperationsOnTarget) {
+      return entry.allowableOperationsOnTarget;
+    }
+
     if (!target && entry.allowableOperations) {
       return entry.allowableOperations;
     }
