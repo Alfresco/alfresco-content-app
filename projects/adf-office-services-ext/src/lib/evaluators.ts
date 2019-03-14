@@ -36,7 +36,7 @@ export function canOpenWithOffice(
     context.navigation.url &&
     context.navigation.url.startsWith('/shared')
   ) {
-    if (file.entry['allowableOperationsOnTarget']) {
+    if (file.entry.hasOwnProperty('allowableOperationsOnTarget')) {
       return context.permissions.check(file, ['update'], {
         target: 'allowableOperationsOnTarget'
       });
