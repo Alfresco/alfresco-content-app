@@ -141,6 +141,13 @@ export function canDeleteSelection(
       return context.permissions.check(context.selection.nodes, ['delete']);
     }
 
+    // workaround for Shared Files
+    if (isSharedFiles(context, ...args)) {
+      return context.permissions.check(context.selection.nodes, ['delete'], {
+        target: 'allowableOperationsOnTarget'
+      });
+    }
+
     return context.permissions.check(context.selection.nodes, ['delete']);
   }
   return false;
