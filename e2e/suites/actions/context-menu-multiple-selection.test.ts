@@ -173,7 +173,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -189,7 +189,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -206,7 +206,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -223,7 +223,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -337,7 +337,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is not displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -354,7 +354,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is not displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -385,7 +385,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -402,7 +402,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -433,7 +433,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -450,7 +450,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -467,7 +467,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -484,7 +484,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -588,7 +588,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -608,7 +608,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -628,7 +628,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });
@@ -648,7 +648,7 @@ describe('Context menu actions - multiple selection : ', () => {
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await contextMenu.isToggleFavoritePresent()).toBe(true, `Toggle favorite is not displayed`);
       expect(await contextMenu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
       expect(await contextMenu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
     });

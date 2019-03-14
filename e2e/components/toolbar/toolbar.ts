@@ -207,6 +207,11 @@ export class Toolbar extends Component {
     return await this.menu.clickMenuItem('Favorite');
   }
 
+  async clickMoreActionsRemoveFavorite() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Remove favorite');
+  }
+
   async clickMoreActionsDelete() {
     await this.openMoreMenu();
     return await this.menu.clickMenuItem('Delete');

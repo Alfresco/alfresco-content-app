@@ -14,9 +14,11 @@
     {{ 'APP.LANGUAGE' | translate }}
   </button>
 
-  <button mat-menu-item (click)="onLogoutEvent()" adf-logout>
-    {{ 'APP.SIGN_OUT' | translate }}
-  </button>
+  <ng-container *ngIf="showLogout">
+    <button mat-menu-item (click)="onLogoutEvent()" adf-logout>
+      {{ 'APP.SIGN_OUT' | translate }}
+    </button>
+  </ng-container>
 </mat-menu>
 
 <mat-menu #langMenu="matMenu">

@@ -149,7 +149,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload New Version is not displayed for ${fileUser}`);
 
@@ -171,7 +171,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
@@ -193,7 +193,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${folderUser}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folderUser}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folderUser}`);
 
@@ -309,7 +309,7 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${siteName}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -325,7 +325,7 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${siteName}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -341,7 +341,7 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminPublic}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${adminPublic}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -357,7 +357,7 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${adminModerated}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -375,7 +375,7 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${siteName}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -393,7 +393,7 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminPublic}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${adminPublic}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -411,7 +411,7 @@ describe('Toolbar actions - single selection : ', () => {
       await toolbar.openMoreMenu();
 
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${adminModerated}`);
 
       await toolbar.closeMoreMenu();
     });
@@ -450,7 +450,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileUser}`);
 
@@ -474,7 +474,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
@@ -513,7 +513,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileUser}`);
 
@@ -535,7 +535,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
@@ -575,7 +575,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileUser}`);
 
@@ -598,7 +598,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
@@ -620,7 +620,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for ${folderUser}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folderUser}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folderUser}`);
 
@@ -700,7 +700,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileUser}`);
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${fileUser}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileUser}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileUser}`);
 
@@ -725,7 +725,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileLocked}`);
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${fileLocked}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed for ${fileLocked}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed for ${fileLocked}`);
 
@@ -750,7 +750,7 @@ describe('Toolbar actions - single selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for ${folderUser}`);
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for ${folderUser}`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${folderUser}`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed for ${folderUser}`);
       expect(await toolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed for ${folderUser}`);
 

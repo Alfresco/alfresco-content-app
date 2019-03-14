@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.e2e.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "noUnusedLocals": true
+  }
+}
