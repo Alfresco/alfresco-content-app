@@ -240,13 +240,13 @@ export class AppExtensionService implements AppRuleContext {
         ...group,
         items: (group.items || [])
           .filter(entry => !entry.disabled)
-          .filter(item => this.filterByRules(item))
+          .filter(item => this.filterVisible(item))
           .sort(sortByOrder)
           .map(item => {
             if (item.children && item.children.length > 0) {
               item.children = item.children
                 .filter(entry => !entry.disabled)
-                .filter(child => this.filterByRules(child))
+                .filter(child => this.filterVisible(child))
                 .sort(sortByOrder)
                 .map(child => {
                   const childRouteRef = this.extensions.getRouteById(
@@ -320,7 +320,7 @@ export class AppExtensionService implements AppRuleContext {
   }
 
   getSidebarTabs(): Array<SidebarTabRef> {
-    return this.sidebar.filter(action => this.filterByRules(<any>action));
+    return this.sidebar.filter(action => this.filterVisible(<any>action));
   }
 
   getComponentById(id: string): Type<{}> {
@@ -351,6 +351,7 @@ export class AppExtensionService implements AppRuleContext {
 
   getCreateActions(): Array<ContentActionRef> {
     return this.createActions
+      .filter(action => this.filterVisible(action))
       .map(action => this.copyAction(action))
       .map(action => this.buildMenu(action))
       .map(action => {
@@ -374,7 +375,7 @@ export class AppExtensionService implements AppRuleContext {
       actionRef.children.length > 0
     ) {
       const children = actionRef.children
-        .filter(action => this.filterByRules(action))
+        .filter(action => this.filterVisible(action))
         .map(action => this.buildMenu(action));
 
       actionRef.children = children
@@ -403,14 +404,14 @@ export class AppExtensionService implements AppRuleContext {
 
   private getAllowedActions(actions: ContentActionRef[]): ContentActionRef[] {
     return (actions || [])
-      .filter(action => this.filterByRules(action))
+      .filter(action => this.filterVisible(action))
       .map(action => {
         if (action.type === ContentActionType.menu) {
           const copy = this.copyAction(action);
           if (copy.children && copy.children.length > 0) {
             copy.children = copy.children
               .filter(entry => !entry.disabled)
-              .filter(childAction => this.filterByRules(childAction))
+              .filter(childAction => this.filterVisible(childAction))
               .sort(sortByOrder)
               .reduce(reduceSeparators, []);
           }
@@ -435,7 +436,7 @@ export class AppExtensionService implements AppRuleContext {
   }
 
   getHeaderActions(): Array<ContentActionRef> {
-    return this.headerActions.filter(action => this.filterByRules(action));
+    return this.headerActions.filter(action => this.filterVisible(action));
   }
 
   getAllowedContextMenuActions(): Array<ContentActionRef> {
@@ -449,7 +450,7 @@ export class AppExtensionService implements AppRuleContext {
     };
   }
 
-  filterByRules(action: ContentActionRef): boolean {
+  filterVisible(action: ContentActionRef): boolean {
     if (action && action.rules && action.rules.visible) {
       return this.extensions.evaluateRule(action.rules.visible, this);
     }
