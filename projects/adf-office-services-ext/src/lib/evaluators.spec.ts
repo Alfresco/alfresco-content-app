@@ -189,6 +189,25 @@ describe('evaluators', () => {
       expect(canOpenWithOffice(context)).toBeFalsy();
     });
 
+    it('should return [false] if permissions check is false', () => {
+      const context: any = {
+        selection: {
+          file: {
+            entry: {
+              name: 'document.docx',
+              isLocked: false,
+              properties: {}
+            }
+          }
+        },
+        permissions: {
+          check: () => false
+        }
+      };
+
+      expect(canOpenWithOffice(context)).toBeFalsy();
+    });
+
     it('should return [true] if all checks succeed', () => {
       const context: any = {
         selection: {
@@ -199,6 +218,9 @@ describe('evaluators', () => {
               properties: {}
             }
           }
+        },
+        permissions: {
+          check: () => true
         }
       };
 

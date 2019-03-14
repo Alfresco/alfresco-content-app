@@ -321,12 +321,6 @@ export function canUpdateSelectedNode(
       return false;
     }
 
-    if (node.entry.hasOwnProperty('allowableOperationsOnTarget')) {
-      return context.permissions.check(node, ['update'], {
-        target: 'allowableOperationsOnTarget'
-      });
-    }
-
     return context.permissions.check(node, ['update']);
   }
   return false;
