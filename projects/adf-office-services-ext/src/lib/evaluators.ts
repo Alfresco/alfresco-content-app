@@ -26,7 +26,24 @@ export function canOpenWithOffice(
 
   const { file } = context.selection;
 
-  if (!file || !file.entry || !file.entry.properties) {
+  if (!file || !file.entry) {
+    return false;
+  }
+
+  // workaround for Shared files
+  if (
+    context.navigation &&
+    context.navigation.url &&
+    context.navigation.url.startsWith('/shared')
+  ) {
+    if (file.entry['allowableOperationsOnTarget']) {
+      return context.permissions.check(file, ['update'], {
+        target: 'allowableOperationsOnTarget'
+      });
+    }
+  }
+
+  if (!file.entry.properties) {
     return false;
   }
 
