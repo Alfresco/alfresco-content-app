@@ -123,7 +123,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileFavUI);
       await toolbar.openMoreMenu();
 
-      expect(await toolbar.menu.getItemIconText('Favorite')).toEqual('star');
+      expect(await toolbar.menu.getItemIconText('Remove favorite')).toEqual('star');
     });
 
     it('favorite a file - [C217189]', async () => {
@@ -142,7 +142,7 @@ describe('Mark items as favorites', () => {
 
     it('unfavorite an item - [C217190]', async () => {
       await dataTable.selectItem(fileFav1);
-      await toolbar.clickMoreActionsFavorite();
+      await toolbar.clickMoreActionsRemoveFavorite();
 
       expect(await apis.user.favorites.isFavoriteWithRetry(fileFav1Id, { expect: false })).toBe(false, `${fileFav1} is marked as favorite`);
     });
@@ -315,7 +315,7 @@ describe('Mark items as favorites', () => {
       await dataTable.selectItem(fileFav2);
       await toolbar.openMoreMenu();
 
-      expect(await toolbar.menu.getItemIconText('Favorite')).toEqual('star');
+      expect(await toolbar.menu.getItemIconText('Remove favorite')).toEqual('star');
     });
   });
 
@@ -465,7 +465,7 @@ describe('Mark items as favorites', () => {
     it('Remove a library from favorites - on My Libraries - [C289975]', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.selectItem(adminSite2);
-      await toolbar.clickMoreActionsFavorite();
+      await toolbar.clickMoreActionsRemoveFavorite();
 
       expect(await apis.user.favorites.isFavoriteWithRetry(adminSite2, { expect: false })).toBe(false, `${adminSite2} still favorite`);
     });
@@ -473,7 +473,7 @@ describe('Mark items as favorites', () => {
     it('Remove a library from favorites - on Favorite Libraries - [C289976]', async () => {
       await page.goToFavoriteLibrariesAndWait();
       await dataTable.selectItem(adminSite3);
-      await toolbar.clickMoreActionsFavorite();
+      await toolbar.clickMoreActionsRemoveFavorite();
 
       expect(await dataTable.isItemPresent(adminSite3)).toBe(false, `${adminSite3} is displayed`);
       expect(await apis.user.favorites.isFavoriteWithRetry(adminSite3, { expect: false })).toBe(false, `${adminSite3} still favorite`);

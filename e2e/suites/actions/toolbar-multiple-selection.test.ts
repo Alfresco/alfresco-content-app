@@ -177,7 +177,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isRemoveFavoritePresent()).toBe(true, `Remove Favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -198,7 +198,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -219,7 +219,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -240,7 +240,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -374,7 +374,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -395,7 +395,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -430,7 +430,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -451,7 +451,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -486,7 +486,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -507,7 +507,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -528,7 +528,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -549,7 +549,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -619,7 +619,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -643,7 +643,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -667,7 +667,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
@@ -691,7 +691,7 @@ describe('Toolbar actions - multiple selection : ', () => {
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed for selected files`);
       expect(await toolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed for selected files`);
       expect(await toolbar.menu.isMovePresent()).toBe(false, `Move is displayed for selected files`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed for selected files`);
+      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Remove favorite is not displayed for selected files`);
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
       expect(await toolbar.menu.isManageVersionsPresent()).toBe(false, `Manage versions is displayed`);
