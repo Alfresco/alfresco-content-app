@@ -54,5 +54,6 @@ export class CommentsTabComponent {
     ) {
       return this.permission.check(this.node, ['update']);
     }
+    return false;
   }
 }
