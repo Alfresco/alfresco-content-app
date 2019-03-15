@@ -44,10 +44,16 @@ export class CommentsTabComponent {
   constructor(private permission: NodePermissionService) {}
 
   get canUpdateNode(): boolean {
-    if (this.node && this.node.isFile && !isLocked({ entry: this.node })) {
-      return this.permission.check(this.node, ['update']);
+    if (!this.node) {
+      return false;
     }
 
+    if (
+      this.node.isFolder ||
+      (this.node.isFile && !isLocked({ entry: this.node }))
+    ) {
+      return this.permission.check(this.node, ['update']);
+    }
     return false;
   }
 }
