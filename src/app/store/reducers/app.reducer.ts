@@ -227,14 +227,7 @@ function updateSelectedNodes(
           ? true
           : false;
       });
-      folder = nodes.find((entity: any) =>
-        // workaround Shared
-        entity.entry.isFolder ||
-        entity.entry.nodeId ||
-        entity.entry.sharedByUser
-          ? true
-          : false
-      );
+      folder = nodes.find((entity: any) => entity.entry.isFolder);
     }
   }
 

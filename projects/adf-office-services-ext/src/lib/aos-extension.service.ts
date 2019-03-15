@@ -69,7 +69,9 @@ export class AosEditOnlineService {
 
   private triggerEditOnlineAos(node: MinimalNodeEntryEntity): void {
     const aosHost = this.appConfigService.get('aosHost');
-    const url = `${aosHost}/_aos_nodeid/${node.id}/${node.name}`;
+    const url = `${aosHost}/_aos_nodeid/${node.id}/${encodeURIComponent(
+      node.name
+    )}`;
     const fileExtension = getFileExtension(node.name);
     const protocolHandler = this.getProtocolForFileExtension(fileExtension);
 

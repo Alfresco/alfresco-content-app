@@ -619,7 +619,7 @@ describe('Viewer actions', () => {
 
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(true, `Edit offline is not displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await toolbar.menu.isToggleFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
@@ -645,7 +645,7 @@ describe('Viewer actions', () => {
 
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await toolbar.menu.isToggleFavoritePresent()).toBe(true, `Favorite is not displayed`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
@@ -1085,7 +1085,7 @@ describe('Viewer actions', () => {
 
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(true, `Edit offline is not displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
@@ -1111,7 +1111,7 @@ describe('Viewer actions', () => {
 
       expect(await toolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
       expect(await toolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
-      expect(await toolbar.menu.isFavoritePresent()).toBe(true, `Favorite is not displayed`);
+      expect(await toolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
       expect(await toolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
       expect(await toolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
       expect(await toolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
@@ -1171,7 +1171,7 @@ describe('Viewer actions', () => {
       await dataTable.doubleClickOnRowByName(xlsxFavorites);
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-      await toolbar.clickMoreActionsFavorite();
+      await toolbar.clickMoreActionsRemoveFavorite();
       await viewer.clickClose();
       await page.clickFavoritesAndWait();
       expect(await apis.user.favorites.isFavorite(xlsxFileId)).toBe(false, 'Item is still favorite');

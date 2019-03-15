@@ -30,7 +30,7 @@ import { QueriesApi as AdfQueriesApi } from '@alfresco/js-api';
 export class QueriesApi extends RepoApi {
   queriesApi = new AdfQueriesApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
       super(username, password);
   }
 
@@ -51,10 +51,10 @@ export class QueriesApi extends RepoApi {
     };
 
     await this.apiAuth();
-    return this.alfrescoJsApi.core.queriesApi.findNodes(searchTerm, data);
+    return this.queriesApi.findNodes(searchTerm, data);
   }
 
-  async waitForSites(searchTerm, data) {
+  async waitForSites(searchTerm: string, data: any) {
     try {
       const sites = async () => {
         const totalItems = (await this.findSites(searchTerm)).list.pagination.totalItems;
@@ -71,7 +71,7 @@ export class QueriesApi extends RepoApi {
     }
   }
 
-  async waitForFilesAndFolders(searchTerm, data) {
+  async waitForFilesAndFolders(searchTerm: string, data: any) {
     try {
       const nodes = async () => {
         const totalItems = (await this.findNodes(searchTerm)).list.pagination.totalItems;

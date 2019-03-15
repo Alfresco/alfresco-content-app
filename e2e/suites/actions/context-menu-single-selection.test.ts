@@ -183,7 +183,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${fileUser}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await contextMenu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileUser}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
@@ -202,7 +202,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed for ${fileLocked}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await contextMenu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${fileLocked}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
@@ -219,7 +219,7 @@ describe('Context menu actions - single selection : ', () => {
 
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folderUser}`);
       expect(await contextMenu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      expect(await contextMenu.isRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed for ${folderUser}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${folderUser}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderUser}`);
@@ -323,7 +323,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
       expect(await contextMenu.isLeaveLibraryPresent()).toBe(true, `Leave is not displayed for ${siteName}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${siteName}`);
     });
 
     it('Available actions for a library - Favorite Libraries - user is a member - [C290081]', async () => {
@@ -333,7 +333,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
       expect(await contextMenu.isLeaveLibraryPresent()).toBe(true, `Leave is not displayed for ${siteName}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${siteName}`);
     });
 
     it('Available actions for a library - Favorite Libraries - user is not a member - [C290082]', async () => {
@@ -343,7 +343,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
       expect(await contextMenu.isJoinLibraryPresent()).toBe(true, `Join is not displayed for ${adminPublic}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminPublic}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${adminPublic}`);
     });
 
     it('Available actions for a moderated library - Favorite Libraries - user requested to join - [C290089]', async () => {
@@ -353,7 +353,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
       expect(await contextMenu.isCancelJoinPresent()).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${adminModerated}`);
     });
 
     it('Available actions for a library - Search Results - user is a member - [C291812]', async () => {
@@ -365,7 +365,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
       expect(await contextMenu.isLeaveLibraryPresent()).toBe(true, `Leave is not displayed for ${siteName}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${siteName}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${siteName}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${siteName}`);
     });
 
     it('Available actions for a library - Search Results - user is not a member - [C291813]', async () => {
@@ -377,7 +377,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
       expect(await contextMenu.isJoinLibraryPresent()).toBe(true, `Join is not displayed for ${adminPublic}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminPublic}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminPublic}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${adminPublic}`);
     });
 
     it('Available actions for a moderated library - Search Results - user requested to join - [C291814]', async () => {
@@ -389,7 +389,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
       expect(await contextMenu.isCancelJoinPresent()).toBe(true, `Cancel join is not displayed for ${adminModerated}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${adminModerated}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${adminModerated}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${adminModerated}`);
     });
   });
 
@@ -413,7 +413,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${fileUser}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${fileUser}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
@@ -433,7 +433,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${fileLocked}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${fileLocked}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
@@ -465,7 +465,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${fileUser}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${fileUser}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
@@ -484,7 +484,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed for ${fileLocked}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${fileLocked}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
@@ -517,7 +517,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${fileUser}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileUser}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileUser}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileUser}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${fileUser}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileUser}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileUser}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileUser}`);
@@ -536,7 +536,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${fileLocked}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${fileLocked}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${fileLocked}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${fileLocked}`);
@@ -552,7 +552,7 @@ describe('Context menu actions - single selection : ', () => {
 
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folderUser}`);
       expect(await contextMenu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderUser}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderUser}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${folderUser}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderUser}`);
       expect(await contextMenu.isMovePresent()).toBe(true, `Move is not displayed for ${folderUser}`);
       expect(await contextMenu.isDeletePresent()).toBe(true, `Delete is not displayed for ${folderUser}`);
@@ -639,7 +639,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed for ${fileSiteUser}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileSiteUser}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileSiteUser}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileSiteUser}`);
+      expect(await contextMenu.isToggleFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${fileSiteUser}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileSiteUser}`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${fileSiteUser}`);
       expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileSiteUser}`);
@@ -661,7 +661,7 @@ describe('Context menu actions - single selection : ', () => {
       expect(await contextMenu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed for ${fileLocked}`);
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${fileLocked}`);
       expect(await contextMenu.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${fileLocked}`);
+      expect(await contextMenu.isToggleRemoveFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${fileLocked}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${fileLocked}`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${fileLocked}`);
       expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${fileLocked}`);
@@ -681,7 +681,7 @@ describe('Context menu actions - single selection : ', () => {
 
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folderSiteUser}`);
       expect(await contextMenu.isEditFolderPresent()).toBe(true, `Edit folder is not displayed for ${folderSiteUser}`);
-      expect(await contextMenu.isFavoritePresent()).toBe(true, `Favorite is not displayed for ${folderSiteUser}`);
+      expect(await contextMenu.isToggleFavoritePresent()).toBe(true, `Toggle favorite is not displayed for ${folderSiteUser}`);
       expect(await contextMenu.isCopyPresent()).toBe(true, `Copy is not displayed for ${folderSiteUser}`);
       expect(await contextMenu.isMovePresent()).toBe(false, `Move is displayed for ${folderSiteUser}`);
       expect(await contextMenu.isDeletePresent()).toBe(false, `Delete is displayed for ${folderSiteUser}`);
