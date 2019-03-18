@@ -168,7 +168,12 @@
           "SIZE": "Tamanho"
         },
         "UNKNOWN_LOCATION": "Desconhecido",
-        "NO_RESULTS": "Sua pesquisa retornou 0 resultados"
+        "NO_RESULTS": "Sua pesquisa retornou 0 resultados",
+        "TOGGLE_SEARCH_FILTER": "Alternar filtro de pesquisa",
+        "ERRORS": {
+          "500": "Houve um erro ao processar a consulta da pesquisa [500]",
+          "GENERIC": "Houve um erro ao processar a consulta da pesquisa"
+        }
       },
       "SEARCH_LIBRARIES": {
         "TITLE": "Bibliotecas encontradas...",
@@ -194,6 +199,7 @@
       "UNSHARE": "Descompartilhar",
       "DETAILS": "Exibir detalhes",
       "VERSIONS": "Gerenciar versões",
+      "UPLOAD_VERSION": "Carregar nova versão",
       "TOGGLE-SIDENAV": "Alternar a barra de navegação lateral",
       "SHARE": "Compartilhar",
       "SHARE_EDIT": "Configurações de links compartilhados",
@@ -201,7 +207,9 @@
       "FULLSCREEN": "Ativar modo de tela cheia",
       "JOIN": "Ingressar",
       "CANCEL_JOIN": "Cancelar solicitação de ingressar",
-      "LEAVE": "Sair da biblioteca"
+      "LEAVE": "Sair da biblioteca",
+      "EDIT_OFFLINE": "Editar offline",
+      "EDIT_OFFLINE_CANCEL": "Cancelar a edição"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -250,6 +258,8 @@
         "NODE_RESTORE": "Não foi possível restaurar {{ name }}",
         "NODE_RESTORE_PLURAL": "Não foi possível restaurar {{ number }} itens",
         "PERMISSION": "Você não tem acesso para fazer isso",
+        "LOCK_NODE": "Houve um problema ao bloquear o arquivo {{ fileName }}",
+        "UNLOCK_NODE": "Houve um problema ao desbloquear o arquivo {{ fileName }}",
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "Não foi possível excluir {{ number }} itens",
@@ -355,13 +365,31 @@
     "UNSHARE_PERMISSION_ERROR": "Você não tem permissão para descompartilhar deste arquivo"
   },
   "VERSION": {
-    "DIALOG": {
+    "DIALOG_ADF": {
       "TITLE": "Gerenciar versões",
       "CLOSE": "Fechar"
+    },
+    "DIALOG": {
+      "TITLE": "Carregar nova versão",
+      "CANCEL": "Cancelar",
+      "UPLOAD": "Carregar"
+    },
+    "FORM": {
+      "SUBTITLE": "Qual foi o nível das mudanças feitas nesta versão?",
+      "VERSION": {
+        "MINOR": "Poucas (#.1)",
+        "MAJOR": "Muitas (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Inclua notas descrevendo o que mudou"
+      }
     },
     "SELECTION": {
       "EMPTY": "Escolha um documento para ver suas versões.",
       "NO_PERMISSION": "Você não tem permissão para gerenciar as versões deste conteúdo."
+    },
+    "ERROR": {
+      "GENERIC": "Houve um erro ao controlar a versão do arquivo"
     }
   },
   "LIBRARY": {
@@ -442,6 +470,11 @@
   "ADF_VIEWER": {
     "ACTIONS": {
       "INFO": "Exibir detalhes"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "Este nome já está em uso, tente outro [409]"
     }
   },
   "ADF_VERSION_LIST": {
