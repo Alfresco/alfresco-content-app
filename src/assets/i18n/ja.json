@@ -168,7 +168,12 @@
           "SIZE": "サイズ"
         },
         "UNKNOWN_LOCATION": "不明",
-        "NO_RESULTS": "検索結果は 0 件です"
+        "NO_RESULTS": "検索結果は 0 件です",
+        "TOGGLE_SEARCH_FILTER": "検索フィルタを切り替えます",
+        "ERRORS": {
+          "500": "検索クエリの処理中にエラーが発生しました [500]",
+          "GENERIC": "検索クエリの処理中にエラーが発生しました"
+        }
       },
       "SEARCH_LIBRARIES": {
         "TITLE": "ライブラリが見つかりました...",
@@ -194,6 +199,7 @@
       "UNSHARE": "共有の解除",
       "DETAILS": "詳細の表示",
       "VERSIONS": "バージョンの管理",
+      "UPLOAD_VERSION": "新しいバージョンのアップロード",
       "TOGGLE-SIDENAV": "サイドナビゲーションバーの切り替え",
       "SHARE": "共有",
       "SHARE_EDIT": "共有リンクの設定",
@@ -201,7 +207,9 @@
       "FULLSCREEN": "全画面表示モードをアクティブにする",
       "JOIN": "参加",
       "CANCEL_JOIN": "参加リクエストのキャンセル",
-      "LEAVE": "ライブラリから脱退"
+      "LEAVE": "ライブラリから脱退",
+      "EDIT_OFFLINE": "オフライン編集",
+      "EDIT_OFFLINE_CANCEL": "編集のキャンセル"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -250,6 +258,8 @@
         "NODE_RESTORE": "{{ name }} を復元できませんでした",
         "NODE_RESTORE_PLURAL": "{{ number }} 件のアイテムを復元できませんでした",
         "PERMISSION": "この操作を行うための権限がありません",
+        "LOCK_NODE": "{{ fileName }} ファイルのロック中に問題が発生しました",
+        "UNLOCK_NODE": "{{ fileName }} ファイルのロック解除中に問題が発生しました",
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 件のアイテムを削除できませんでした",
@@ -355,13 +365,31 @@
     "UNSHARE_PERMISSION_ERROR": "このファイルの共有を解除する権限がありません。"
   },
   "VERSION": {
-    "DIALOG": {
+    "DIALOG_ADF": {
       "TITLE": "バージョンの管理",
       "CLOSE": "閉じる"
+    },
+    "DIALOG": {
+      "TITLE": "新しいバージョンのアップロード",
+      "CANCEL": "キャンセル",
+      "UPLOAD": "アップロード"
+    },
+    "FORM": {
+      "SUBTITLE": "このバージョンに加えた変更はどのレベルですか?",
+      "VERSION": {
+        "MINOR": "マイナー (#.1)",
+        "MAJOR": "メジャー (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "変更内容の説明を追加してください"
+      }
     },
     "SELECTION": {
       "EMPTY": "バージョンを表示する文書を選択してください。",
       "NO_PERMISSION": "このコンテンツのバージョンを管理するための権限がありません。"
+    },
+    "ERROR": {
+      "GENERIC": "ファイルのバージョン作成中にエラーが発生しました"
     }
   },
   "LIBRARY": {
@@ -442,6 +470,11 @@
   "ADF_VIEWER": {
     "ACTIONS": {
       "INFO": "詳細の表示"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "この名前は既に使用されています。別の名前を使用してください [409]"
     }
   },
   "ADF_VERSION_LIST": {
