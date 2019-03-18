@@ -1,0 +1,487 @@
+{
+  "APP": {
+    "ABOUT": {
+      "VERSION": "Versio:",
+      "PLUGINS": {
+        "TITLE": "Laajennukset",
+        "ID": "Tunnus",
+        "NAME": "Nimi",
+        "VERSION": "Versio",
+        "VENDOR": "Toimittaja",
+        "LICENSE": "Käyttöoikeus",
+        "RUNTIME": "Suorituspalvelu",
+        "DESCRIPTION": "Kuvaus"
+      },
+      "LICENSE": {
+        "TITLE": "Käyttöoikeus",
+        "PROPERTY": "Ominaisuus",
+        "VALUE": "Arvo"
+      },
+      "STATUS": {
+        "TITLE": "Tila",
+        "PROPERTY": "Ominaisuus",
+        "VALUE": "Arvo"
+      },
+      "MODULES": {
+        "TITLE": "Alfresco-alustamoduulit",
+        "ID": "Tunnus",
+        "NAME": "Nimi",
+        "VERSION": "Versio"
+      },
+      "PACKAGES": {
+        "TITLE": "Paketit",
+        "NAME": "Nimi",
+        "VERSION": "Versio"
+      }
+    },
+    "LANGUAGE": "Kieli",
+    "SIGN_IN": "Kirjaudu sisään",
+    "SIGN_OUT": "Kirjaudu ulos",
+    "SETTINGS": {
+      "TITLE": "Asetukset",
+      "APPLICATION-SETTINGS": "Sovellusasetukset",
+      "REPOSITORY-SETTINGS": "Säilöasetukset",
+      "INVALID-VALUE-FORMAT": "Virheellinen arvon muoto",
+      "REQUIRED-FIELD": "Tämä kenttä on pakollinen",
+      "RESET": "Nollaa",
+      "APPLY": "Käytä"
+    },
+    "PREVIEW": {
+      "TITLE": "Esikatselu"
+    },
+    "NEW_MENU": {
+      "LABEL": "Uusi",
+      "TOOLTIP": "Lisää uusia tiedostoja ja kansioita tai luo uusi tiedostokirjasto",
+      "MENU_ITEMS": {
+        "CREATE_FOLDER": "Luo kansio",
+        "UPLOAD_FILE": "Lataa tiedosto",
+        "UPLOAD_FOLDER": "Lataa kansio",
+        "CREATE_LIBRARY": "Luo kirjasto"
+      },
+      "TOOLTIPS": {
+        "CREATE_FOLDER": "Luo uusi kansio",
+        "CREATE_FOLDER_NOT_ALLOWED": "Kansioita ei voi luoda, kun tarkastelet nykyisiä kohteita",
+        "UPLOAD_FILES": "Valitse ladattavat tiedostot",
+        "UPLOAD_FILES_NOT_ALLOWED": "Tiedostoja ei voi ladata, kun tarkastelet nykyisiä kohteita",
+        "UPLOAD_FOLDERS": "Valitse ladattavat kansiot",
+        "UPLOAD_FOLDERS_NOT_ALLOWED": "Kansioita ei voi ladata, kun tarkastelet nykyisiä kohteita",
+        "CREATE_LIBRARY": "Luo uusi tiedostokirjasto"
+      }
+    },
+    "BROWSE": {
+      "PERSONAL": {
+        "TITLE": "Omat tiedostot",
+        "SIDENAV_LINK": {
+          "LABEL": "Omat tiedostot",
+          "TOOLTIP": "Näytä omat tiedostot"
+        }
+      },
+      "LIBRARIES": {
+        "TITLE": "Omat kirjastot",
+        "DESCRIPTION": "Käytä tiedostokirjastoja",
+        "SIDENAV_LINK": {
+          "LABEL": "Tiedostokirjastot",
+          "TOOLTIP": "Tiedostokirjastot"
+        },
+        "EMPTY_STATE": {
+          "FILE_LIBRARIES": {
+            "TITLE": "Et ole vielä jäsen missään tiedostokirjastossa",
+            "TEXT": "Jos haluat ladata, tarkastella ja jakaa tiedostoja, liity kirjastoihin."
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Ei suosikkikirjastoja",
+            "TEXT": "Voit lisätä suosikkeihin kirjastoja, jotka haluat löytää helposti myöhemmin."
+          }
+        },
+        "MENU": {
+          "MY_LIBRARIES": {
+            "TITLE": "Omat kirjastot",
+            "SIDENAV_LINK": {
+              "LABEL": "Omat kirjastot",
+              "TOOLTIP": "Siirry omiin kirjastoihin"
+            }
+          },
+          "FAVORITE_LIBRARIES": {
+            "TITLE": "Suosikkikirjastot",
+            "SIDENAV_LINK": {
+              "LABEL": "Suosikkikirjastot",
+              "TOOLTIP": "Siirry omiin suosikkikirjastoihin"
+            }
+          }
+        }
+      },
+      "SHARED": {
+        "TITLE": "Jaetut tiedostot",
+        "SIDENAV_LINK": {
+          "LABEL": "Jaetut",
+          "TOOLTIP": "Näytä jaetut tiedostot"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Ei jaettuja tiedostoja tai kansioita",
+          "TEXT": "Täällä näytetään kohteet, jotka jaat Jaa-toiminnolla."
+        }
+      },
+      "RECENT": {
+        "TITLE": "Viimeisimmät tiedostot",
+        "SIDENAV_LINK": {
+          "LABEL": "Viimeisimmät tiedostot",
+          "TOOLTIP": "Näytä viimeksi muokkaamasi tiedostot"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Ei viimeisimpiä tiedostoja",
+          "TEXT": "Täällä näytetään edellisen 30 päivän aikana lataamasi tai muokkaamasi kohteet."
+        }
+      },
+      "FAVORITES": {
+        "TITLE": "Suosikit",
+        "SIDENAV_LINK": {
+          "LABEL": "Suosikit",
+          "TOOLTIP": "Näytä suosikkitiedostot ja -kansiot"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Ei suosikkitiedostoja tai- kansioita",
+          "TEXT": "Voit lisätä suosikkeihin kohteita, jotka haluat löytää helposti myöhemmin."
+        }
+      },
+      "TRASHCAN": {
+        "TITLE": "Roskakori",
+        "SIDENAV_LINK": {
+          "LABEL": "Roskakori",
+          "TOOLTIP": "Näytä roskakoriin siirretyt poistetut tiedostot"
+        },
+        "EMPTY_STATE": {
+          "TITLE": "Roskakori on tyhjä",
+          "FIRST_TEXT": "Poistamasi kohteet siirretään roskakoriin.",
+          "SECOND_TEXT": "Jos haluat poistaa kohteet pysyvästi, tyhjennä roskakori."
+        }
+      },
+      "ABOUT": {
+        "TITLE": "Tietoja"
+      },
+      "SEARCH": {
+        "TITLE": "Hakutulosta",
+        "FOUND_RESULTS": "Löytyi {{ number }} tulosta",
+        "FOUND_ONE_RESULT": "Löytyi {{ number }} tulos",
+        "CUSTOM_ROW": {
+          "MODIFIED": "Muokattu",
+          "LOCATION": "Sijainti",
+          "SIZE": "Koko"
+        },
+        "UNKNOWN_LOCATION": "Tuntematon",
+        "NO_RESULTS": "Hakusi ei tuottanut yhtään tulosta",
+        "TOGGLE_SEARCH_FILTER": "Näytä tai piilota hakusuodatin",
+        "ERRORS": {
+          "500": "Hakusanan käsittelyssä tapahtui virhe [500]",
+          "GENERIC": "Hakusanan käsittelyssä tapahtui virhe"
+        }
+      },
+      "SEARCH_LIBRARIES": {
+        "TITLE": "Löydetyt kirjastot...",
+        "FOUND_RESULTS": "{{ number }} tulosta",
+        "FOUND_ONE_RESULT": "{{ number }} tulos"
+      }
+    },
+    "ACTIONS": {
+      "VIEW": "Näytä",
+      "EDIT": "Muokkaa",
+      "DOWNLOAD": "Lataa",
+      "COPY": "Kopioi",
+      "MOVE": "Siirrä",
+      "DELETE": "Poista",
+      "DELETE_PERMANENT": "Poista pysyvästi",
+      "MORE": "Lisää toimintoja",
+      "UNDO": "Kumoa",
+      "PERMISSIONS": "Oikeudet",
+      "RESTORE": "Palauta",
+      "FAVORITE": "Suosikki",
+      "ADD_FAVORITE": "Lisää suosikki",
+      "REMOVE_FAVORITE": "Poista suosikki",
+      "UNSHARE": "Peruuta jakaminen",
+      "DETAILS": "Näytä tiedot",
+      "VERSIONS": "Hallitse versioita",
+      "UPLOAD_VERSION": "Lataa uusi versio",
+      "TOGGLE-SIDENAV": "Näytä tai piilota sivusiirtymispalkki",
+      "SHARE": "Jaa",
+      "SHARE_EDIT": "Jaetun linkin asetukset",
+      "PRINT": "Tulosta",
+      "FULLSCREEN": "Ota koko näytön tila käyttöön",
+      "JOIN": "Liity",
+      "CANCEL_JOIN": "Peruuta liittymispyyntö",
+      "LEAVE": "Poistu kirjastosta",
+      "EDIT_OFFLINE": "Muokkaa offline-tilassa",
+      "EDIT_OFFLINE_CANCEL": "Peruuta muokkaus"
+    },
+    "DIALOGS": {
+      "CONFIRM_PURGE": {
+        "TITLE": "Poistetaanko roskakorista?",
+        "MESSAGE": "Tämä poistaa valitut kohteet pysyvästi.",
+        "YES_LABEL": "Poista",
+        "NO_LABEL": "Säilytä"
+      },
+      "CONFIRM_LEAVE": {
+        "TITLE": "Poistutaanko tästä kirjastosta?",
+        "MESSAGE": "Jos poistut kirjastosta, menetät käyttöoikeutesi siihen.",
+        "YES_LABEL": "OK",
+        "NO_LABEL": "Peruuta"
+      }
+    },
+    "DOCUMENT_LIST": {
+      "COLUMNS": {
+        "ID": "Tunnus",
+        "NAME": "Nimi",
+        "SIZE": "Koko",
+        "MODIFIED_ON": "Muokattu",
+        "MODIFIED_BY": "Muokkaaja:",
+        "VISIBILITY": "Näkyvyys",
+        "TITLE": "Otsikko",
+        "LOCATION": "Sijainti",
+        "SHARED_BY": "Jakaja:",
+        "DELETED_ON": "Poistettu",
+        "DELETED_BY": "Poistaja:",
+        "ROLE": "Oma rooli"
+      },
+      "TOOLBAR": {
+        "CARDVIEW": "Korttinäkymätila",
+        "LISTVIEW": "Luettelonäkymätila"
+      }
+    },
+    "MESSAGES": {
+      "ERRORS": {
+        "CANNOT_NAVIGATE_LOCATION": "Tämän sijainnin avaaminen ei onnistu",
+        "MISSING_CONTENT": "Tätä kohdetta ei ole enää olemassa tai sinulla ei ole oikeuksia sen tarkasteluun.",
+        "GENERIC": "Toiminto ei onnistunut. Yritä uudelleen tai ota yhteyttä IT-tukeesi.",
+        "CONFLICT": "Tämä nimi on jo käytössä. Käytä toista nimeä.",
+        "NODE_MOVE": "Siirtäminen epäonnistui, koska samanniminen tiedosto on jo olemassa.",
+        "EXISTENT_FOLDER": "Samanniminen kansio on jo olemassa. Käytä toista nimeä.",
+        "NODE_DELETION": "Kohteen {{ name }} poistaminen ei onnistunut",
+        "NODE_DELETION_PLURAL": "{{ number }} kohteen poistaminen ei onnistunut",
+        "NODE_RESTORE": "Kohteen {{ name }} palauttaminen ei onnistunut",
+        "NODE_RESTORE_PLURAL": "{{ number }} kohteen palauttaminen ei onnistunut",
+        "PERMISSION": "Sinulla ei ole oikeuksia tähän",
+        "LOCK_NODE": "{{ fileName }} -tiedoston lukitsemisessa tapahtui virhe",
+        "UNLOCK_NODE": "{{ fileName }} -tiedoston avaamisessa tapahtui virhe",
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} kohteen poistaminen ei onnistunut",
+            "SINGULAR": "Kohteen {{ name }} poistaminen ei onnistunut"
+          },
+          "NODES_RESTORE": {
+            "PARTIAL_PLURAL": "{{ number }} kohdetta ei palautettu palautussijainnin ongelmien vuoksi",
+            "NODE_EXISTS": "Palauttaminen ei onnistu: {{ name }} on jo olemassa",
+            "LOCATION_MISSING": "Kohteen {{ name }} palauttaminen ei onnistu, koska alkuperäistä sijaintia ei ole enää olemassa",
+            "GENERIC": "Kohteen {{ name }} palauttamisessa ilmeni ongelma"
+          }
+        },
+        "DELETE_LIBRARY_FAILED": "Kirjaston poistaminen ei onnistu",
+        "JOIN_REQUEST_FAILED": "Kirjastoon liittyminen ei onnistu",
+        "JOIN_CANCEL_FAILED": "Liittymispyynnön peruuttaminen ei onnistu",
+        "LEAVE_LIBRARY_FAILED": "Kirjastosta poistuminen ei onnistu",
+        "INVALID_SENDER_EMAIL": "Sähköpostiosoitteesi täytyy olla kelvollinen, ennen kuin voit pyytää liittymistä.",
+        "INVALID_RECEIVER_EMAIL": "Vastaanottajien sähköpostiosoitteet eivät ole kelvollisia. Ota yhteyttä IT-tukeen."
+      },
+      "UPLOAD": {
+        "ERROR": {
+          "GENERIC": "Lataus epäonnistui. Jos ongelma jatkuu, ota yhteyttä IT-tukeen.",
+          "CONFLICT": "Uutta versiota ei ladattu, koska samanniminen tiedosto on jo olemassa",
+          "500": "Sisäisessä palvelimessa ilmeni virhe. Yritä uudelleen tai ota yhteyttä IT-tukeen. [500]",
+          "504": "Palvelin aikakatkaistiin. Yritä uudelleen tai ota yhteyttä IT-tukeen. [504]",
+          "403": "Oikeudet eivät riitä tähän sijaintiin lataamiseen [403]",
+          "404": "Lataussijaintia ei ole enää olemassa [404]"
+        }
+      },
+      "INFO": {
+        "TRASH": {
+          "NODES_PURGE": {
+            "PLURAL": "{{ number }} kohdetta poistettiin",
+            "SINGULAR": "{{ name }} poistettiin",
+            "PARTIAL_SINGULAR": "{{ name }} poistettiin, {{ failed }} kohteen poistaminen ei onnistunut",
+            "PARTIAL_PLURAL": "{{ number }} kohdetta poistettiin, {{ failed }} kohteen poistaminen ei onnistunut"
+          },
+          "NODES_RESTORE": {
+            "PLURAL": "Palautus onnistui",
+            "SINGULAR": "{{ name }} palautettiin"
+          }
+        },
+        "NODE_DELETION": {
+          "SINGULAR": "{{ name }} poistettiin",
+          "PLURAL": "Poistettiin {{ number }} kohdetta",
+          "PARTIAL_SINGULAR": "Poistettiin {{ success }} kohde, {{ failed }} kohteen poistaminen ei onnistunut",
+          "PARTIAL_PLURAL": "Poistettiin {{ success }} kohdetta, {{ failed }} kohteen poistaminen ei onnistunut"
+        },
+        "NODE_COPY": {
+          "SINGULAR": "Kopioitiin {{ success }} kohde",
+          "PLURAL": "Kopioitiin {{ success }} kohdetta",
+          "PARTIAL_SINGULAR": "Kopioitiin {{ success }} kohde, {{ failed }} kohteen kopiointi ei onnistunut.",
+          "PARTIAL_PLURAL": "Kopioitiin {{ success }} kohdetta, {{ failed }} kohteen kopiointi ei onnistunut.",
+          "FAIL_SINGULAR": "{{ failed }} kohteen kopiointi ei onnistunut.",
+          "FAIL_PLURAL": "{{ failed }} kohteen kopiointi ei onnistunut."
+        },
+        "NODE_MOVE": {
+          "SINGULAR": "Siirrettiin {{ success }} kohde.",
+          "PLURAL": "Siirrettiin {{ success }} kohdetta.",
+          "PARTIAL": {
+            "SINGULAR": "Siirrettiin osittain {{ partially }} kohde.",
+            "PLURAL": "Siirrettiin osittain {{ partially }} kohdetta.",
+            "FAIL": "{{ failed }} kohteen siirtäminen ei onnistunut."
+          }
+        },
+        "LIBRARY_DELETED": "Kirjasto poistettiin",
+        "JOINED": "Kirjastoon liityttiin",
+        "JOIN_REQUESTED": "Tämän kirjaston liittymispyyntö lähetettiin",
+        "JOIN_CANCELED": "Tämän kirjaston liittymispyyntö peruutettiin",
+        "LEFT_LIBRARY": "Olet poistunut kirjastosta"
+      }
+    },
+    "CONTENT_METADATA": {
+      "EXIF_GROUP_TITLE": "Kuva – EXIF"
+    },
+    "INFO_DRAWER": {
+      "TITLE": "Tiedot",
+      "TABS": {
+        "PROPERTIES": "Ominaisuudet",
+        "LIBRARY_PROPERTIES": "Tietoja",
+        "VERSIONS": "Versiot",
+        "COMMENTS": "Kommentit"
+      }
+    }
+  },
+  "NODE_SELECTOR": {
+    "COPY_ITEM": "Kopioi '{{ name }}' kohteeseen...",
+    "COPY_ITEMS": "Kopioi {{ number }} kohdetta kohteeseen...",
+    "MOVE_ITEM": "Siirrä '{{ name }}' kohteeseen...",
+    "MOVE_ITEMS": "Siirrä {{ number }} kohdetta kohteeseen...",
+    "SEARCH": "Hae"
+  },
+  "PERMISSIONS": {
+    "DIALOG": {
+      "TITLE": "Hallitse oikeuksia",
+      "CLOSE": "Sulje",
+      "INHERIT_PERMISSIONS_BUTTON": "Peri oikeudet",
+      "INHERITED_PERMISSIONS_BUTTON": "Oikeudet peritty",
+      "ADD_USER_OR_GROUP": "Lisää käyttäjä tai ryhmä"
+    }
+  },
+  "SHARED_LINK": {
+    "UNSHARE_PERMISSION_ERROR": "Sinulla ei ole oikeuksia peruuttaa tämän tiedoston jakamista"
+  },
+  "VERSION": {
+    "DIALOG_ADF": {
+      "TITLE": "Hallitse versioita",
+      "CLOSE": "Sulje"
+    },
+    "DIALOG": {
+      "TITLE": "Lataa uusi versio",
+      "CANCEL": "Peruuta",
+      "UPLOAD": "Lataa"
+    },
+    "FORM": {
+      "SUBTITLE": "Millainen muutos tähän versioon tehtiin?",
+      "VERSION": {
+        "MINOR": "Vähäinen (#.1)",
+        "MAJOR": "Merkittävä (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Lisää muutosta koskevia tietoja"
+      }
+    },
+    "SELECTION": {
+      "EMPTY": "Jos haluat nähdä asiakirjan versiot, valitse haluamasi asiakirja.",
+      "NO_PERMISSION": "Sinulla ei ole oikeuksia hallita tämän sisällön versioita."
+    },
+    "ERROR": {
+      "GENERIC": "Tiedoston versionhallinnassa tapahtui virhe"
+    }
+  },
+  "LIBRARY": {
+    "DIALOG": {
+      "CREATE_TITLE": "Luo kirjasto",
+      "CREATE": "Luo",
+      "UPDATE": "Päivitä",
+      "EDIT": "Muokkaa",
+      "CANCEL": "Peruuta",
+      "FORM": {
+        "DESCRIPTION": "Kuvaus",
+        "SITE_ID": "Kirjastotunnus",
+        "NAME": "Nimi",
+        "VISIBILITY": "Näkyvyys"
+      }
+    },
+    "VISIBILITY": {
+      "PRIVATE": "Yksityinen",
+      "PUBLIC": "Julkinen",
+      "MODERATED": "Valvottu"
+    },
+    "HINTS": {
+      "SITE_TITLE_EXISTS": "Kirjaston nimi on jo käytössä"
+    },
+    "ERRORS": {
+      "GENERIC": "Ilmeni ongelma",
+      "EXISTENT_SITE": "Kirjastotunnus ei ole käytettävissä. Käytä toista kirjastotunnusta.",
+      "CONFLICT": "Kirjastotunnus on jo käytössä. Tarkista roskakori.",
+      "ID_TOO_LONG": "URL-osoitteessa voi olla enintään 72 merkkiä",
+      "DESCRIPTION_TOO_LONG": "Kuvauksessa voi olla enintään 512 merkkiä",
+      "TITLE_TOO_LONG": "Otsikossa voi olla enintään 256 merkkiä",
+      "ILLEGAL_CHARACTERS": "Käytä vain kirjaimia ja numeroita",
+      "ONLY_SPACES": "Kirjaston nimi ei voi sisältää pelkkiä välilyöntejä",
+      "LIBRARY_UPDATE_ERROR": "Kirjaston ominaisuuksien päivittämisessä tapahtui virhe"
+    },
+    "SUCCESS": {
+      "LIBRARY_UPDATED": "Kirjaston ominaisuudet päivitettiin"
+    }
+  },
+  "SEARCH": {
+    "INPUT": {
+      "PLACEHOLDER": "Hae",
+      "FILES": "Tiedostot",
+      "FOLDERS": "Kansiot",
+      "LIBRARIES": "Kirjastot",
+      "HINT": "Hakuehdoissa täytyy olla vähintään kaksi aakkosnumeerista merkkiä."
+    },
+    "SORT": {
+      "RELEVANCE": "Osuvuus",
+      "FILENAME": "Tiedostonimi",
+      "TITLE": "Otsikko",
+      "MODIFIED_DATE": "Muokkauspäivämäärä",
+      "SIZE": "Koko",
+      "TYPE": "Tyyppi",
+      "MODIFIER": "Muokkaaja",
+      "CREATE_DATE": "Luontipäivämäärä"
+    },
+    "FACET_FIELDS": {
+      "FILE_TYPE": "Tiedostotyyppi",
+      "CREATOR": "Tekijä",
+      "MODIFIER": "Muokkaaja",
+      "LOCATION": "Sijainti"
+    },
+    "CATEGORIES": {
+      "MODIFIED_DATE": "Muokkauspäivämäärä",
+      "SIZE": "Koko",
+      "CREATED_DATE": "Luontipäivämäärä"
+    }
+  },
+  "CORE": {
+    "METADATA": {
+      "ACTIONS": {
+        "SAVE": "Tallenna muutokset",
+        "CANCEL": "Hylkää muutokset"
+      }
+    }
+  },
+  "ADF_VIEWER": {
+    "ACTIONS": {
+      "INFO": "Näytä tiedot"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "Tämä nimi on jo käytössä. Käytä toista nimeä [409]"
+    }
+  },
+  "ADF_VERSION_LIST": {
+    "ACTIONS": {
+      "UPLOAD": {
+        "TOOLTIP": "Lataa uusi versio"
+      }
+    }
+  }
+}

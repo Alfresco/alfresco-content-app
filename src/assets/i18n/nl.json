@@ -168,7 +168,12 @@
           "SIZE": "Grootte"
         },
         "UNKNOWN_LOCATION": "Onbekend",
-        "NO_RESULTS": "Uw zoekopdracht heeft 0 resultaten opgeleverd"
+        "NO_RESULTS": "Uw zoekopdracht heeft 0 resultaten opgeleverd",
+        "TOGGLE_SEARCH_FILTER": "Zoekfilter in- of uitschakelen",
+        "ERRORS": {
+          "500": "Er is een fout opgetreden bij het verwerken van de zoekquery [500]",
+          "GENERIC": "Er is een fout opgetreden bij het verwerken van de zoekquery"
+        }
       },
       "SEARCH_LIBRARIES": {
         "TITLE": "Bibliotheken gevonden...",
@@ -194,6 +199,7 @@
       "UNSHARE": "Delen ongedaan maken",
       "DETAILS": "Details weergeven",
       "VERSIONS": "Versies beheren",
+      "UPLOAD_VERSION": "Nieuwe versie uploaden",
       "TOGGLE-SIDENAV": "Zij-navigatiebalk in- of uitschakelen",
       "SHARE": "Delen",
       "SHARE_EDIT": "Instellingen gedeelde koppeling",
@@ -201,7 +207,9 @@
       "FULLSCREEN": "Modus voor volledig scherm activeren",
       "JOIN": "Lid worden",
       "CANCEL_JOIN": "Verzoek om lid te worden annuleren",
-      "LEAVE": "Bibliotheek verlaten"
+      "LEAVE": "Bibliotheek verlaten",
+      "EDIT_OFFLINE": "Offline bewerken",
+      "EDIT_OFFLINE_CANCEL": "Bewerken annuleren"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -250,6 +258,8 @@
         "NODE_RESTORE": "Kan {{ name }} niet herstellen",
         "NODE_RESTORE_PLURAL": "Kan {{ number }} items niet herstellen",
         "PERMISSION": "U hebt geen toegang om dit te doen",
+        "LOCK_NODE": "Er is een probleem opgetreden bij het vergrendelen van het bestand {{ fileName }}",
+        "UNLOCK_NODE": "Er is een probleem opgetreden bij het ontgrendelen van het bestand {{ fileName }}",
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "Kan {{ number }} items niet verwijderen",
@@ -355,13 +365,31 @@
     "UNSHARE_PERMISSION_ERROR": "U hebt geen rechten om het delen van dit bestand ongedaan te maken"
   },
   "VERSION": {
-    "DIALOG": {
+    "DIALOG_ADF": {
       "TITLE": "Versies beheren",
       "CLOSE": "Sluiten"
+    },
+    "DIALOG": {
+      "TITLE": "Nieuwe versie uploaden",
+      "CANCEL": "Annuleren",
+      "UPLOAD": "Uploaden"
+    },
+    "FORM": {
+      "SUBTITLE": "Welk niveau wijzigingen zijn in deze versie aangebracht?",
+      "VERSION": {
+        "MINOR": "Klein (#.1)",
+        "MAJOR": "Belangrijk (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Voeg opmerkingen toe met een beschrijving van wat er is gewijzigd"
+      }
     },
     "SELECTION": {
       "EMPTY": "Kies een document om de versies ervan weer te geven.",
       "NO_PERMISSION": "U hebt geen rechten voor het beheren van de versies van deze content."
+    },
+    "ERROR": {
+      "GENERIC": "Er is een fout opgetreden bij het versiebeheer van het bestand"
     }
   },
   "LIBRARY": {
@@ -442,6 +470,11 @@
   "ADF_VIEWER": {
     "ACTIONS": {
       "INFO": "Details weergeven"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "Deze naam wordt al gebruikt, probeer een andere naam [409]"
     }
   },
   "ADF_VERSION_LIST": {

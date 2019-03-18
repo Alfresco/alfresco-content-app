@@ -168,7 +168,12 @@
           "SIZE": "Dimensione"
         },
         "UNKNOWN_LOCATION": "Sconosciuto",
-        "NO_RESULTS": "La ricerca ha restituito 0 risultati"
+        "NO_RESULTS": "La ricerca ha restituito 0 risultati",
+        "TOGGLE_SEARCH_FILTER": "Attiva filtro di ricerca",
+        "ERRORS": {
+          "500": "Si è verificato un errore di elaborazione della query di ricerca [500]",
+          "GENERIC": "Si è verificato un errore di elaborazione della query di ricerca"
+        }
       },
       "SEARCH_LIBRARIES": {
         "TITLE": "Raccolte trovate...",
@@ -194,6 +199,7 @@
       "UNSHARE": "Rimuovi condivisione",
       "DETAILS": "Visualizza dettagli",
       "VERSIONS": "Gestione versioni",
+      "UPLOAD_VERSION": "Caricare la nuova versione",
       "TOGGLE-SIDENAV": "Attiva/disattiva barra di navigazione laterale",
       "SHARE": "Condividi",
       "SHARE_EDIT": "Impostazioni di collegamento condiviso",
@@ -201,7 +207,9 @@
       "FULLSCREEN": "Attiva modalità schermo intero",
       "JOIN": "Partecipa",
       "CANCEL_JOIN": "Annulla richiesta di partecipazione",
-      "LEAVE": "Esci dalla raccolta"
+      "LEAVE": "Esci dalla raccolta",
+      "EDIT_OFFLINE": "Modifica offline",
+      "EDIT_OFFLINE_CANCEL": "Annulla modifica"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -250,6 +258,8 @@
         "NODE_RESTORE": "Impossibile ripristinare {{ name }}",
         "NODE_RESTORE_PLURAL": "Impossibile ripristinare {{ number }} elementi",
         "PERMISSION": "Non si dispone dell'accesso per eseguire questa operazione",
+        "LOCK_NODE": "Si è verificato un problema con il blocco del file {{ fileName }}",
+        "UNLOCK_NODE": "Si è verificato un problema con lo sblocco del file {{ fileName }}",
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "Impossibile eliminare {{ number }} elementi",
@@ -355,13 +365,31 @@
     "UNSHARE_PERMISSION_ERROR": "Non hai il permesso per rimuovere la condivisione di questo file"
   },
   "VERSION": {
-    "DIALOG": {
+    "DIALOG_ADF": {
       "TITLE": "Gestione versioni",
       "CLOSE": "Chiudi"
+    },
+    "DIALOG": {
+      "TITLE": "Utilizza nuova versione",
+      "CANCEL": "Annulla",
+      "UPLOAD": "Carica"
+    },
+    "FORM": {
+      "SUBTITLE": "Qual è il livello delle modifiche apportate a questa versione?",
+      "VERSION": {
+        "MINOR": "Minore (x.1)",
+        "MAJOR": "Maggiore (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Aggiungere note per descrivere le modifiche"
+      }
     },
     "SELECTION": {
       "EMPTY": "Selezionare un documento per vedere le versioni.",
       "NO_PERMISSION": "Non hai il permesso per gestire le versioni di questo documento."
+    },
+    "ERROR": {
+      "GENERIC": "Si è verificato un errore di gestione della versione del file"
     }
   },
   "LIBRARY": {
@@ -442,6 +470,11 @@
   "ADF_VIEWER": {
     "ACTIONS": {
       "INFO": "Visualizza dettagli"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "Questo nome è già in uso. Provare con un altro nome [409]."
     }
   },
   "ADF_VERSION_LIST": {
