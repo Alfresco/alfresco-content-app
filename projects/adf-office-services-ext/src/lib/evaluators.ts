@@ -30,6 +30,11 @@ export function canOpenWithOffice(
     return false;
   }
 
+  const extension = getFileExtension(file.entry.name);
+  if (!extension || !supportedExtensions[extension]) {
+    return false;
+  }
+
   // workaround for Shared files
   if (
     context.navigation &&
@@ -48,11 +53,6 @@ export function canOpenWithOffice(
   }
 
   if (file.entry.isLocked) {
-    return false;
-  }
-
-  const extension = getFileExtension(file.entry.name);
-  if (!extension || !supportedExtensions[extension]) {
     return false;
   }
 
