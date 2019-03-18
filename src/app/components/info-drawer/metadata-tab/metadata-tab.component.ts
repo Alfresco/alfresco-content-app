@@ -35,7 +35,6 @@ import { isLocked } from '../../../utils/node.utils';
   template: `
     <adf-content-metadata-card
       [readOnly]="!canUpdateNode"
-      [displayEmpty]="canUpdateNode"
       [preset]="'custom'"
       [node]="node"
     >
