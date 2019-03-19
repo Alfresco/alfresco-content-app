@@ -168,7 +168,12 @@
           "SIZE": "Taille"
         },
         "UNKNOWN_LOCATION": "Inconnu",
-        "NO_RESULTS": "Votre recherche a renvoyé 0 résultat"
+        "NO_RESULTS": "Votre recherche a renvoyé 0 résultat",
+        "TOGGLE_SEARCH_FILTER": "Activer/désactiver le filtre de recherche",
+        "ERRORS": {
+          "500": "Une erreur s'est produite lors du traitement de la requête [500]",
+          "GENERIC": "Une erreur s'est produite lors du traitement de la requête"
+        }
       },
       "SEARCH_LIBRARIES": {
         "TITLE": "Bibliothèques trouvées...",
@@ -194,6 +199,7 @@
       "UNSHARE": "Ne pas partager",
       "DETAILS": "Afficher les détails",
       "VERSIONS": "Gérer les versions",
+      "UPLOAD_VERSION": "Importer une nouvelle version",
       "TOGGLE-SIDENAV": "Activer/désactiver la barre de navigation latérale",
       "SHARE": "Partager",
       "SHARE_EDIT": "Paramètres du lien partagé",
@@ -201,7 +207,9 @@
       "FULLSCREEN": "Activer le mode plein écran",
       "JOIN": "Rejoindre",
       "CANCEL_JOIN": "Annuler la demande pour rejoindre",
-      "LEAVE": "Quitter la bibliothèque"
+      "LEAVE": "Quitter la bibliothèque",
+      "EDIT_OFFLINE": "Editer hors-ligne",
+      "EDIT_OFFLINE_CANCEL": "Annuler l'édition"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -250,6 +258,8 @@
         "NODE_RESTORE": "{{ name }} n'a pas pu être restauré",
         "NODE_RESTORE_PLURAL": "{{ number }} éléments n'ont pas pu être restaurés",
         "PERMISSION": "Vous n'avez pas les droits d'accès requis pour effectuer cette action",
+        "LOCK_NODE": "Un problème est survenu lors du verrouillage du fichier {{ fileName }}",
+        "UNLOCK_NODE": "Un problème est survenu lors du déverrouillage du fichier {{ fileName }}",
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} éléments n'ont pas pu être supprimés",
@@ -355,13 +365,31 @@
     "UNSHARE_PERMISSION_ERROR": "Vous n'avez pas les droits d'accès pour ne pas partager ce fichier"
   },
   "VERSION": {
-    "DIALOG": {
+    "DIALOG_ADF": {
       "TITLE": "Gérer les versions",
       "CLOSE": "Fermer"
+    },
+    "DIALOG": {
+      "TITLE": "Importer une nouvelle version",
+      "CANCEL": "Annuler",
+      "UPLOAD": "Importer"
+    },
+    "FORM": {
+      "SUBTITLE": "Quel type de changements ont été apportés à cette version ?",
+      "VERSION": {
+        "MINOR": "Mineure (#.1)",
+        "MAJOR": "Majeure (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Ajouter des commentaires décrivant les changements"
+      }
     },
     "SELECTION": {
       "EMPTY": "Choisissez un document pour en voir les versions.",
       "NO_PERMISSION": "Vous n'êtes pas autorisé(e) à gérer les versions de ce contenu."
+    },
+    "ERROR": {
+      "GENERIC": "Une erreur s'est produite lors du versionnage du fichier"
     }
   },
   "LIBRARY": {
@@ -442,6 +470,11 @@
   "ADF_VIEWER": {
     "ACTIONS": {
       "INFO": "Afficher les détails"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "Ce nom existe déjà, choisissez-en un autre [409]"
     }
   },
   "ADF_VERSION_LIST": {

@@ -168,7 +168,12 @@
           "SIZE": "字号(&S)"
         },
         "UNKNOWN_LOCATION": "未知",
-        "NO_RESULTS": "您的搜索返回了 0 个结果"
+        "NO_RESULTS": "您的搜索返回了 0 个结果",
+        "TOGGLE_SEARCH_FILTER": "切换搜索过滤器",
+        "ERRORS": {
+          "500": "处理搜索查询时发生错误 [500]",
+          "GENERIC": "处理搜索查询时发生错误"
+        }
       },
       "SEARCH_LIBRARIES": {
         "TITLE": "库找到...",
@@ -194,6 +199,7 @@
       "UNSHARE": "取消共享",
       "DETAILS": "查看详细信息",
       "VERSIONS": "管理版本",
+      "UPLOAD_VERSION": "上传新版本",
       "TOGGLE-SIDENAV": "切换侧导航栏",
       "SHARE": "共享",
       "SHARE_EDIT": "已共享链接的设置",
@@ -201,7 +207,9 @@
       "FULLSCREEN": "激活全屏模式",
       "JOIN": "加入",
       "CANCEL_JOIN": "取消加入请求",
-      "LEAVE": "离开库"
+      "LEAVE": "离开库",
+      "EDIT_OFFLINE": "离线编辑",
+      "EDIT_OFFLINE_CANCEL": "取消编辑"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -250,6 +258,8 @@
         "NODE_RESTORE": "{{ name }} 无法恢复",
         "NODE_RESTORE_PLURAL": "{{ number }} 个项目无法恢复",
         "PERMISSION": "您没有执行此操作的访问权",
+        "LOCK_NODE": "锁定 {{ fileName }} 文件时出现问题",
+        "UNLOCK_NODE": "解锁 {{ fileName }} 文件时出现问题",
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} 个项目无法删除",
@@ -355,13 +365,31 @@
     "UNSHARE_PERMISSION_ERROR": "你没有权限取消这个文件的共享"
   },
   "VERSION": {
-    "DIALOG": {
+    "DIALOG_ADF": {
       "TITLE": "管理版本",
       "CLOSE": "关闭"
+    },
+    "DIALOG": {
+      "TITLE": "上传新版本",
+      "CANCEL": "取消",
+      "UPLOAD": "上传"
+    },
+    "FORM": {
+      "SUBTITLE": "对此版本进行了多大程度的变更？",
+      "VERSION": {
+        "MINOR": "次要 (#.1)",
+        "MAJOR": "主要 (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "添加注释，描述变更内容"
+      }
     },
     "SELECTION": {
       "EMPTY": "请选定一个文件去看它的版本。",
       "NO_PERMISSION": "你没有权限管理此内容的版本。"
+    },
+    "ERROR": {
+      "GENERIC": "对文件进行版本控制时发生错误"
     }
   },
   "LIBRARY": {
@@ -442,6 +470,11 @@
   "ADF_VIEWER": {
     "ACTIONS": {
       "INFO": "查看详细信息"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "此名称已使用，请尝试其他名称 [409]"
     }
   },
   "ADF_VERSION_LIST": {
