@@ -1200,7 +1200,7 @@
             "title": "APP.ACTIONS.DOWNLOAD",
             "icon": "get_app",
             "actions": {
-              "click": "DOWNLOAD_NODES"
+              "click": "DOWNLOAD_SHARED_CONTENT"
             }
           }
         ]

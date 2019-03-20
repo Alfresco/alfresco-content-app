@@ -214,6 +214,10 @@ export class ContentApiService {
     return from(this.api.sharedLinksApi.findSharedLinks(opts));
   }
 
+  getSharedLinkContent(sharedId: string, attachment?: boolean): string {
+    return this.api.contentApi.getSharedLinkContentUrl(sharedId, attachment);
+  }
+
   search(request: SearchRequest): Observable<ResultSetPaging> {
     return from(this.api.searchApi.search(request));
   }
