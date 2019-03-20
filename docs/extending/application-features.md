@@ -420,6 +420,22 @@ Every custom component receives the following properties at runtime:
 | url       | string                 | File content URL.           |
 | extension | string                 | File name extension.        |
 
+#### Rules
+
+You can also provide a rule for the `disabled` state.
+That allows to provide conditional availability for Viewer extensions based on external factors.
+
+```json
+{
+  "id": "app.viewer.pdf",
+  "fileExtension": "png",
+  "component": "app.components.tabs.metadata",
+  "rules": {
+    "disabled": "isViewerDisabled"
+  }
+}
+```
+
 ### Toolbar actions
 
 The default toolbar actions from the ACA viewer can be customized through extensions to be replaced, modified or disabled.
