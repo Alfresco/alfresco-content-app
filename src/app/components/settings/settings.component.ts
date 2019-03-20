@@ -30,7 +30,7 @@ import {
   OauthConfigModel
 } from '@alfresco/adf-core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import {
@@ -64,6 +64,7 @@ export class SettingsComponent implements OnInit {
   appName$: Observable<string>;
   headerColor$: Observable<string>;
   languagePicker$: Observable<boolean>;
+  aiExtensions$: Observable<boolean>;
 
   constructor(
     private store: Store<AppStore>,
@@ -82,6 +83,10 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.aiExtensions$ = new BehaviorSubject(
+      this.storage.getItem('ai') === 'true'
+    );
+
     this.form = this.fb.group({
       ecmHost: [
         '',
@@ -131,5 +136,9 @@ export class SettingsComponent implements OnInit {
   onLanguagePickerValueChanged(event: MatCheckboxChange) {
     this.storage.setItem('languagePicker', event.checked.toString());
     this.store.dispatch(new SetLanguagePickerAction(event.checked));
+  }
+
+  onToggleAiExtensions(event: MatCheckboxChange) {
+    this.storage.setItem('ai', event.checked.toString());
   }
 }

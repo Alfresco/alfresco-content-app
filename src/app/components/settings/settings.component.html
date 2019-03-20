@@ -81,4 +81,17 @@
       Language Picker
     </mat-checkbox>
   </mat-expansion-panel>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Extensions</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <mat-checkbox
+      [ngModel]="aiExtensions$ | async"
+      (change)="onToggleAiExtensions($event)"
+    >
+      Enable AI Extensions
+    </mat-checkbox>
+  </mat-expansion-panel>
 </mat-accordion>
