@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MinimalNodeEntity, SharedLinkEntry } from '@alfresco/js-api';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 
 export const SET_SELECTED_NODES = 'SET_SELECTED_NODES';
 export const DELETE_NODES = 'DELETE_NODES';
@@ -32,7 +32,6 @@ export const UNDO_DELETE_NODES = 'UNDO_DELETE_NODES';
 export const RESTORE_DELETED_NODES = 'RESTORE_DELETED_NODES';
 export const PURGE_DELETED_NODES = 'PURGE_DELETED_NODES';
 export const DOWNLOAD_NODES = 'DOWNLOAD_NODES';
-export const DOWNLOAD_SHARED_CONTENT = 'DOWNLOAD_SHARED_CONTENT';
 export const CREATE_FOLDER = 'CREATE_FOLDER';
 export const EDIT_FOLDER = 'EDIT_FOLDER';
 export const SHARE_NODE = 'SHARE_NODE';
@@ -74,10 +73,6 @@ export class PurgeDeletedNodesAction implements Action {
 export class DownloadNodesAction implements Action {
   readonly type = DOWNLOAD_NODES;
   constructor(public payload: MinimalNodeEntity[] = []) {}
-}
-export class DownloadSharedContentAction implements Action {
-  readonly type = DOWNLOAD_SHARED_CONTENT;
-  constructor(public payload: SharedLinkEntry) {}
 }
 
 export class CreateFolderAction implements Action {

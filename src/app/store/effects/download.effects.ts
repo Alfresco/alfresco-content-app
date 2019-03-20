@@ -28,12 +28,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, take } from 'rxjs/operators';
-import {
-  DownloadNodesAction,
-  DOWNLOAD_NODES,
-  DownloadSharedContentAction,
-  DOWNLOAD_SHARED_CONTENT
-} from '../actions';
+import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
 import { NodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
 import { MinimalNodeEntity } from '@alfresco/js-api';
@@ -49,25 +44,6 @@ export class DownloadEffects {
     private contentApi: ContentApiService,
     private dialog: MatDialog
   ) {}
-
-  @Effect({ dispatch: false })
-  downloadSharedNode$ = this.actions$.pipe(
-    ofType<DownloadSharedContentAction>(DOWNLOAD_SHARED_CONTENT),
-    map(action => {
-      if (action.payload) {
-        this.downloadSharedContent(action.payload);
-      } else {
-        this.store
-          .select(appSelection)
-          .pipe(take(1))
-          .subscribe(selection => {
-            if (selection && !selection.isEmpty) {
-              this.downloadSharedContent(selection.first.entry);
-            }
-          });
-      }
-    })
-  );
 
   @Effect({ dispatch: false })
   downloadNode$ = this.actions$.pipe(
@@ -90,13 +66,16 @@ export class DownloadEffects {
 
   private downloadNodes(toDownload: Array<MinimalNodeEntity>) {
     const nodes = toDownload.map(node => {
-      const { id, nodeId, name, isFile, isFolder } = <any>node.entry;
+      const { id, nodeId, name, isFile, isFolder, sharedByUser } = <any>(
+        node.entry
+      );
 
       return {
-        id: nodeId || id,
+        id: !!sharedByUser ? id : nodeId || id,
         name,
         isFile,
-        isFolder
+        isFolder,
+        isShared: !!sharedByUser
       };
     });
 
@@ -122,8 +101,15 @@ export class DownloadEffects {
   }
 
   private downloadFile(node: NodeInfo) {
-    if (node) {
+    if (node && !node.isShared) {
       this.download(this.contentApi.getContentUrl(node.id, true), node.name);
+    }
+
+    if (node && node.isShared) {
+      this.download(
+        this.contentApi.getSharedLinkContent(node.id, false),
+        node.name
+      );
     }
   }
 
@@ -153,10 +139,5 @@ export class DownloadEffects {
       link.click();
       document.body.removeChild(link);
     }
-  }
-
-  private downloadSharedContent(node) {
-    const url = this.contentApi.getSharedLinkContent(node.id, false);
-    this.download(url, node.name);
   }
 }
