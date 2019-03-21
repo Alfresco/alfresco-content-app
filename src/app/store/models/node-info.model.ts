@@ -29,5 +29,4 @@ export interface NodeInfo {
   name: string;
   isFile?: boolean;
   isFolder?: boolean;
-  isShared?: boolean;
 }
