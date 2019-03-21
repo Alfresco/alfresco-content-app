@@ -66,16 +66,13 @@ export class DownloadEffects {
 
   private downloadNodes(toDownload: Array<MinimalNodeEntity>) {
     const nodes = toDownload.map(node => {
-      const { id, nodeId, name, isFile, isFolder, sharedByUser } = <any>(
-        node.entry
-      );
+      const { id, nodeId, name, isFile, isFolder } = <any>node.entry;
 
       return {
-        id: !!sharedByUser ? id : nodeId || id,
+        id: this.isSharedLinkPreview ? id : nodeId || id,
         name,
         isFile,
-        isFolder,
-        isShared: !!sharedByUser
+        isFolder
       };
     });
 
@@ -101,11 +98,11 @@ export class DownloadEffects {
   }
 
   private downloadFile(node: NodeInfo) {
-    if (node && !node.isShared) {
+    if (node && !this.isSharedLinkPreview) {
       this.download(this.contentApi.getContentUrl(node.id, true), node.name);
     }
 
-    if (node && node.isShared) {
+    if (node && this.isSharedLinkPreview) {
       this.download(
         this.contentApi.getSharedLinkContent(node.id, false),
         node.name
@@ -139,5 +136,9 @@ export class DownloadEffects {
       link.click();
       document.body.removeChild(link);
     }
+  }
+
+  private get isSharedLinkPreview() {
+    return location.href.includes('/preview/s/');
   }
 }
