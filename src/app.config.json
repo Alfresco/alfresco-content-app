@@ -130,7 +130,7 @@
           "label": "SEARCH.SORT.RELEVANCE",
           "type": "FIELD",
           "field": "score",
-          "ascending": true
+          "ascending": false
         },
         {
           "key": "name",
