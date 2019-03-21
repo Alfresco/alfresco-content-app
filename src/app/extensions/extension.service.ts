@@ -153,10 +153,11 @@ export class AppExtensionService implements AppRuleContext {
       config,
       'features.viewer.shared.toolbarActions'
     );
-    this.viewerContentExtensions = this.loader.getElements<ViewerExtensionRef>(
-      config,
-      'features.viewer.content'
-    );
+
+    this.viewerContentExtensions = this.loader
+      .getElements<ViewerExtensionRef>(config, 'features.viewer.content')
+      .filter(ref => !this.isViewerExtensionDisabled(ref));
+
     this.contextMenuActions = this.loader.getContentActions(
       config,
       'features.contextMenu'
@@ -455,6 +456,20 @@ export class AppExtensionService implements AppRuleContext {
       return this.extensions.evaluateRule(action.rules.visible, this);
     }
     return true;
+  }
+
+  isViewerExtensionDisabled(extension: any): boolean {
+    if (extension) {
+      if (extension.disabled) {
+        return true;
+      }
+
+      if (extension.rules && extension.rules.disabled) {
+        return this.extensions.evaluateRule(extension.rules.disabled, this);
+      }
+    }
+
+    return false;
   }
 
   runActionById(id: string) {
