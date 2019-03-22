@@ -13,7 +13,8 @@ import {
   CoreModule,
   AppConfigService,
   AlfrescoApiService,
-  AlfrescoApiServiceMock
+  AlfrescoApiServiceMock,
+  TranslationService
 } from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { NavigateToFolder, SnackbarErrorAction } from '../../../store/actions';
@@ -28,6 +29,7 @@ describe('SearchComponent', () => {
   let store: Store<any>;
   let queryBuilder: SearchQueryBuilderService;
   let alfrescoApi: AlfrescoApiService;
+  let translate: TranslationService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -60,6 +62,7 @@ describe('SearchComponent', () => {
     store = TestBed.get(Store);
     queryBuilder = TestBed.get(SearchQueryBuilderService);
     alfrescoApi = TestBed.get(AlfrescoApiService);
+    translate = TestBed.get(TranslationService);
 
     fixture = TestBed.createComponent(SearchResultsComponent);
     component = fixture.componentInstance;
@@ -83,7 +86,57 @@ describe('SearchComponent', () => {
     tick();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new SnackbarErrorAction('APP.BROWSE.SEARCH.ERRORS.500')
+      new SnackbarErrorAction('APP.BROWSE.SEARCH.ERRORS.GENERIC')
+    );
+  }));
+
+  it('should raise a known error if search fails', fakeAsync(() => {
+    spyOn(translate, 'instant').and.callFake((key: string) => {
+      if (key === 'APP.BROWSE.SEARCH.ERRORS.401') {
+        return 'Known Error';
+      }
+      return key;
+    });
+
+    spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
+      Promise.reject({
+        message: `{ "error": { "statusCode": 401 } } `
+      })
+    );
+
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({});
+    spyOn(store, 'dispatch').and.stub();
+
+    queryBuilder.execute();
+    tick();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new SnackbarErrorAction('Known Error')
+    );
+  }));
+
+  it('should raise a generic error if search fails', fakeAsync(() => {
+    spyOn(translate, 'instant').and.callFake((key: string) => {
+      if (key === 'APP.BROWSE.SEARCH.ERRORS.GENERIC') {
+        return 'Generic Error';
+      }
+      return key;
+    });
+
+    spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
+      Promise.reject({
+        message: `{ "error": { "statusCode": 401 } } `
+      })
+    );
+
+    spyOn(queryBuilder, 'buildQuery').and.returnValue({});
+    spyOn(store, 'dispatch').and.stub();
+
+    queryBuilder.execute();
+    tick();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new SnackbarErrorAction('Generic Error')
     );
   }));
 

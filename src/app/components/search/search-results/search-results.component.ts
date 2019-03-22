@@ -37,7 +37,11 @@ import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { AppConfigService, AlfrescoApiService } from '@alfresco/adf-core';
+import {
+  AppConfigService,
+  AlfrescoApiService,
+  TranslationService
+} from '@alfresco/adf-core';
 import { Observable, Subject } from 'rxjs';
 import { showFacetFilter } from '../../../store/selectors/app.selectors';
 import { SnackbarErrorAction } from '../../../store/actions';
@@ -72,7 +76,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     private config: AppConfigService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
-    content: ContentManagementService
+    content: ContentManagementService,
+    private translationService: TranslationService
   ) {
     super(store, extensions, content);
 
@@ -124,13 +129,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       }),
 
       this.searchQueryError.subscribe(error => {
-        const { statusCode } = JSON.parse(error.message).error;
-
-        this.store.dispatch(
-          new SnackbarErrorAction(
-            `APP.BROWSE.SEARCH.ERRORS.${statusCode || 'GENERIC'}`
-          )
-        );
+        this.onSearchError(error);
       })
     );
 
@@ -152,6 +151,21 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         }
       });
     }
+  }
+
+  onSearchError(error: { message: any }) {
+    const { statusCode } = JSON.parse(error.message).error;
+
+    const messageKey = `APP.BROWSE.SEARCH.ERRORS.${statusCode}`;
+    let translated = this.translationService.instant(messageKey);
+
+    if (translated === messageKey) {
+      translated = this.translationService.instant(
+        `APP.BROWSE.SEARCH.ERRORS.GENERIC`
+      );
+    }
+
+    this.store.dispatch(new SnackbarErrorAction(translated));
   }
 
   private isOperator(input: string): boolean {
