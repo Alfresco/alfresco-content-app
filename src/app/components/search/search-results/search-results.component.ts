@@ -156,12 +156,16 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   onSearchError(error: { message: any }) {
     const { statusCode } = JSON.parse(error.message).error;
 
-    const message =
-      this.translationService.instant(
-        `APP.BROWSE.SEARCH.ERRORS.${statusCode}`
-      ) || this.translationService.instant(`APP.BROWSE.SEARCH.ERRORS.GENERIC`);
+    const messageKey = `APP.BROWSE.SEARCH.ERRORS.${statusCode}`;
+    let translated = this.translationService.instant(messageKey);
 
-    this.store.dispatch(new SnackbarErrorAction(message));
+    if (translated === messageKey) {
+      translated = this.translationService.instant(
+        `APP.BROWSE.SEARCH.ERRORS.GENERIC`
+      );
+    }
+
+    this.store.dispatch(new SnackbarErrorAction(translated));
   }
 
   private isOperator(input: string): boolean {

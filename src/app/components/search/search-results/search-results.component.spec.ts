@@ -22,7 +22,7 @@ import { Pagination } from '@alfresco/js-api';
 import { SearchQueryBuilderService } from '@alfresco/adf-content-services';
 import { ActivatedRoute } from '@angular/router';
 
-describe('SearchComponent', () => {
+fdescribe('SearchComponent', () => {
   let component: SearchResultsComponent;
   let fixture: ComponentFixture<SearchResultsComponent>;
   let config: AppConfigService;
@@ -86,7 +86,7 @@ describe('SearchComponent', () => {
     tick();
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      new SnackbarErrorAction('APP.BROWSE.SEARCH.ERRORS.500')
+      new SnackbarErrorAction('APP.BROWSE.SEARCH.ERRORS.GENERIC')
     );
   }));
 
@@ -95,7 +95,7 @@ describe('SearchComponent', () => {
       if (key === 'APP.BROWSE.SEARCH.ERRORS.401') {
         return 'Known Error';
       }
-      return null;
+      return key;
     });
 
     spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
@@ -120,7 +120,7 @@ describe('SearchComponent', () => {
       if (key === 'APP.BROWSE.SEARCH.ERRORS.GENERIC') {
         return 'Generic Error';
       }
-      return null;
+      return key;
     });
 
     spyOn(alfrescoApi.searchApi, 'search').and.returnValue(
