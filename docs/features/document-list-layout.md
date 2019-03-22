@@ -81,13 +81,16 @@ actions are automatically hidden when the user does not have permission.
 
 | Action | File | Folder |
 | -- | -- | -- |
-| View | Opens the selected file using the [Preview component](../../src/app/components/preview). If the file cannot be displayed natively in a browser, a PDF rendition is obtained from the repository. | Not applicable |
+| Edit in Microsoft Office | Opens Word, Powerpoint and Excel files directly in your Microsoft Office applications, requires Alfresco Office Services | Not applicable |
+| Edit offline | Downloads the file and locks it in the repository for offline editing | Not applicable |
+| Upload a new version | Upload a new version for the selected file | Not applicable |
+| Share | Create and copy a link to a file that can be shared, the links are accessible without granting permissions to the file, and do not require users to login to the application.  Share links can automatically expire based on a date, the minimum expiry date is controlled by the Content Services repository, which is 1 day from the date of creation. | Not applicable |
 | Download | Downloads single files to the user's computer, when multiple files are selected they are compressed into a ZIP and then downloaded. | Folders are automatically compressed into a ZIP and then downloaded to the user's computer. |
+| View | Opens the selected file using the [Preview component](../../src/app/components/preview). If the file cannot be displayed natively in a browser, a PDF rendition is obtained from the repository. | Not applicable |
 | Edit | Not applicable | The folder name and description can be edited in a dialog. |
 | Favorite | Toggle the favorite mark on or off for files and folders. If multiple items are selected and one or more are not favorites then the mark will be toggled on. |
 | Copy | Files and folders can be copied to another location in the content repository using the [Content node selector component](https://www.alfresco.com/abn/adf/docs/content-services/content-node-selector.component/). When the copy action has completed the user is notified and can undo the action (which permanently deletes the created copies). |
 | Move | Files and folders can be moved to another location in the content repository using the [Content node selector component](https://www.alfresco.com/abn/adf/docs/content-services/content-node-selector.component/). When the move action has completed the user is notified and can undo the action (which moves the items back to the original location). |
-| Share | Create and copy a link to a file that can be shared, the links are accessible without granting permissions to the file, and do not require users to login to the application.  Share links can automatically expire based on a date, the minimum expiry date is controlled by the Content Services repository, which is 1 day from the date of creation. | Not applicable |
 | Delete | Files and folders can be deleted from their location in the content repository. When the delete action has completed the user is notified and can undo the action (which restores the items from the trash). |
 | Manage Versions | Versions of files can be viewed, uploaded, restored, downloaded and deleted by using the version manager dialog. When each action has completed the list of versions is updated according to the change. | Not applicable |
 | Permissions | Permissions on a file can be adjusted as required in a number of ways; disable inheritance from the parent folder, change a user or groups role and grant users/groups access. | Not available |
