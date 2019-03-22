@@ -41,15 +41,15 @@ Please refer to the [release notes] for details of all changes.
 
 #### High level feature themes planned for 2019
 - Extensibility
-  - Building on the existing framework to futher enhance the developer experiance
+  - Building on the existing framework to futher enhance the developer experience
 - Collaboration & File Management
   - Folder rule creation
   - File/Folder linking via secondary association
 - File Library Management
-  - For managers: manage Libtrary users and requests to join
+  - For managers: manage Library users and requests to join
 - Enhanced UI and user experience
   - New language translations (Arabic, Czech, Danish, Finnish, Polish and Swedish).
-  - Accessibility WCAG AA complaince
+  - Accessibility WCAG AA compliance
   - Search result facet improvements
   - Search query input assistance
   - Metadata information drawer enhancements
