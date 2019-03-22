@@ -199,6 +199,10 @@
           "description": "Element order",
           "type": "number"
         },
+        "disabled": {
+          "description": "Toggles disabled state",
+          "type": "boolean"
+        },
         "children": {
           "description": "Navigation children items",
           "type": "array",
@@ -223,6 +227,10 @@
                   "route": {
                     "description": "Route reference identifier",
                     "type": "string"
+                  },
+                  "disabled": {
+                    "description": "Toggles disabled state",
+                    "type": "boolean"
                   }
                 },
                 "not": {
