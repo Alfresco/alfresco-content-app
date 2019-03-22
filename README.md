@@ -33,7 +33,7 @@ Please include a clear description, steps to reproduce and screenshots where app
 
 - Edit Offline - lock and download files whilst editing
 - Edit Online - edit files directly in Microsoft Office 
-- [Alfresco Search Query Language](https://alfresco-content-app.netlify.com/#/features/search-results?id=alfresco-full-text-search) enhanced search input using the Alfresco Search Query Language
+- [Alfresco Full Text Search (FTS) syntax](https://alfresco-content-app.netlify.com/#/features/search-results?id=alfresco-full-text-search) - enhanced search input to support the Alfresco Search Query Language
 - [Single Sign-On](https://alfresco-content-app.netlify.com/#/getting-started/sso) (SSO) support with Alfresco Identity Service and ADF 3.0.0, basic Kerberos support
 
 Please refer to the [release notes] for details of all changes.
