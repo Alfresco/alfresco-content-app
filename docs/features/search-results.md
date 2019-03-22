@@ -4,7 +4,7 @@ Title: Search Results
 
 # Search Results
 
-When you type text in the Search Input component, you will see the Search Results page.
+When you type queries into the Search Input component, the application will return the Search Results in a page. From the search results page you can open files and perform various actions depending on the permissions available for the selected item.
 
 ![Search Results](../images/aca-search-results.png)
 
@@ -22,7 +22,7 @@ And also the Info Drawer, Toolbar and Node Selector dialogs for copy and move op
 ## Alfresco Full Text Search
 
 The following table describes current support of the
-[Alfresco Full Text Search](http://docs.alfresco.com/6.0/concepts/rm-searchsyntax-intro.html) (FTS) syntax
+[Alfresco Full Text Search](http://docs.alfresco.com/6.1/concepts/rm-searchsyntax-intro.html) (FTS) syntax
 in the Content Application when using **Search Input** component.
 
 | Feature                                                          | Full | Partial | N/A | Details                                                                            |
