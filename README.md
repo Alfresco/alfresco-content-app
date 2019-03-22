@@ -13,7 +13,7 @@ and was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
 ### Who is this application for
 
-The Content Application is a streamlined experience for end users on top of Alfresco Content Services, focused on file management within the Alfresco content repository. It provides developers with an easily extendable environment for lightening fast custom application development by providing safe ways to inject custom controls, viewer components, pages and plug-ins without upgrade concerns.
+The Content Application is a streamlined experience for end users on top of Alfresco Content Services, focused on file management within the Alfresco content repository. It provides developers with an easily extendable environment for lightning fast custom application development by providing safe ways to inject custom controls, viewer components, pages and plug-ins without upgrade concerns.
 
 ### Where to get help
 
@@ -22,13 +22,13 @@ There are a number of resources available to help get you started with the Conte
 - [Gitter Chat](https://gitter.im/Alfresco/content-app) - Developer community chat
 - [Content App Documentation](https://alfresco-content-app.netlify.com/) - Developer documentation
 - [Alfresco ADF Documentation](https://www.alfresco.com/abn/adf/) - Application Development Framework documentation
-- [Alfresco Community Portal](https://community.alfresco.com/) - Developer Communinty Forums
+- [Alfresco Community Portal](https://community.alfresco.com/) - Developer Community Forums
 - [Alfresco Customer Support](https://support.alfresco.com/) - Customer support for the Alfresco Digital Workspace
 
 ### Raising issues and feature requests
 
 Issues can be raised in [GitHub] or in the Alfresco JIRA project.
-Please include a clear description, steps to reproduce and screenshots where appropriate.All issues will be reviewed; bugs will be categorized if reproducible and enhancement/feature suggestions will be considered against existing priorities if the use case serves a general-purpose need.
+Please include a clear description, steps to reproduce and screenshots where appropriate. All issues will be reviewed; bugs will be categorized if reproducible and enhancement/feature suggestions will be considered against existing priorities if the use case serves a general-purpose need.
 
 #### Features added in the latest release
 
@@ -40,16 +40,17 @@ Please include a clear description, steps to reproduce and screenshots where app
 Please refer to the [release notes] for details of all changes.
 
 #### High level feature themes planned for 2019
+
 - Extensibility
-  - Building on the existing framework to futher enhance the developer experiance
+  - Building on the existing framework to further enhance the developer experience
 - Collaboration & File Management
   - Folder rule creation
   - File/Folder linking via secondary association
 - File Library Management
-  - For managers: manage Libtrary users and requests to join
+  - For managers: manage Library users and requests to join
 - Enhanced UI and user experience
   - New language translations (Arabic, Czech, Danish, Finnish, Polish and Swedish).
-  - Accessibility WCAG AA complaince
+  - Accessibility WCAG AA compliance
   - Search result facet improvements
   - Search query input assistance
   - Metadata information drawer enhancements
