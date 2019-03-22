@@ -19,10 +19,11 @@ The Content Application is a streamlined experience for end users on top of Alfr
 
 There are a number of resources available to help get you started with the Content App and the ADF:
 
-- [Gitter Chat for Community](https://gitter.im/Alfresco/content-app)
-- [Content App Documentation](https://alfresco-content-app.netlify.com/)
-- [Alfresco ADF Documentation](https://www.alfresco.com/abn/adf/)
-- [Alfresco Community Portal](https://community.alfresco.com/)
+- [Gitter Chat](https://gitter.im/Alfresco/content-app) - Developer community chat
+- [Content App Documentation](https://alfresco-content-app.netlify.com/) - Developer documentation
+- [Alfresco ADF Documentation](https://www.alfresco.com/abn/adf/) - Application Development Framework documentation
+- [Alfresco Community Portal](https://community.alfresco.com/) - Developer Communinty Forums
+- [Alfresco Customer Support](https://support.alfresco.com/) - Customer support for the Alfresco Digital Workspace
 
 ### Raising issues and feature requests
 
