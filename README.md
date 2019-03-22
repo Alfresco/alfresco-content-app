@@ -47,6 +47,7 @@ Please refer to the [release notes] for details of all changes.
 - File Library Management
   - For managers: manage Libtrary users and requests to join
 - Enhanced UI and user experience
+  - New language translations (Arabic, Czech, Danish, Finnish, Polish and Swedish).
   - Accessibility WCAG AA complaince
   - Search result facet improvements
   - Search query input assistance
