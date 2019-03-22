@@ -22,7 +22,7 @@ There are a number of resources available to help get you started with the Conte
 - [Gitter Chat](https://gitter.im/Alfresco/content-app) - Developer community chat
 - [Content App Documentation](https://alfresco-content-app.netlify.com/) - Developer documentation
 - [Alfresco ADF Documentation](https://www.alfresco.com/abn/adf/) - Application Development Framework documentation
-- [Alfresco Community Portal](https://community.alfresco.com/) - Developer Communinty Forums
+- [Alfresco Community Portal](https://community.alfresco.com/) - Developer Community Forums
 - [Alfresco Customer Support](https://support.alfresco.com/) - Customer support for the Alfresco Digital Workspace
 
 ### Raising issues and feature requests
