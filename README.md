@@ -7,13 +7,13 @@ Testing Supported By<br/>
 
 ## Introduction
 
-The Alfresco Content Application a file management application built using
+The Alfresco Content Application a content management application built using
 [Alfresco Application Development Framework (ADF)](https://github.com/Alfresco/alfresco-ng2-components) components
 and was generated with [Angular CLI](https://github.com/angular/angular-cli).
 
 ### Who is this application for
 
-The Content Application is a streamlined experience for end users on top of Alfresco Content Services, focused on file management within the content repository. It provides developers with an easily extendable environment for lightening fast custom application development by providing safe ways to inject custom controls, viewer components, pages and plug-ins without upgrade concerns.
+The Content Application is a streamlined experience for end users on top of Alfresco Content Services, focused on file management within the Alfresco content repository. It provides developers with an easily extendable environment for lightening fast custom application development by providing safe ways to inject custom controls, viewer components, pages and plug-ins without upgrade concerns.
 
 ### Where to get help
 
@@ -31,25 +31,23 @@ Please include a clear description, steps to reproduce and screenshots where app
 
 #### Features added in the latest release
 
-- Edit Offline
-- Edit Online with Microsoft Office (Alfresco Office Services)
-- [Search input improvements](https://alfresco-content-app.netlify.com/#/features/search-results?id=alfresco-full-text-search)
+- Edit Offline - lock and download files whilst editing
+- Edit Online - edit files directly in Microsoft Office 
+- [Alfresco Search Query Language](https://alfresco-content-app.netlify.com/#/features/search-results?id=alfresco-full-text-search) enhanced search input using the Alfresco Search Query Language
 - [Single Sign-On](https://alfresco-content-app.netlify.com/#/getting-started/sso) (SSO) support with Alfresco Identity Service and ADF 3.0.0, basic Kerberos support
 
 Please refer to the [release notes] for details of all changes.
 
 #### High level feature themes planned for 2019
-
+- Extensibility
+  - Building on the existing framework to futher enhance the developer experiance
 - Collaboration & File Management
-  - ✅[1.7] Edit offline, and edit online with Alfresco Office Services (AOS)
   - Folder rule creation
   - File/Folder linking via secondary association
 - File Library Management
-  - ✅[1.7] For managers: Create libraries, manage users and requests to join
-- Single Sign On
-  - ✅[1.7] Support for Alfresco Identity Service
+  - For managers: manage Libtrary users and requests to join
 - Enhanced UI and user experience
-
+  - Accessibility WCAG AA complaince
   - Search result facet improvements
   - Search query input assistance
   - Metadata information drawer enhancements
@@ -94,7 +92,8 @@ Read up on our guidelines for [contributing] and then check out one of our issue
 | 1.6     | Library management         | Join and favorite libraries. New search input to find Libraries, files and/or folders.                                                                                                         |
 | 1.7     | Edit Offline               | Lock and unlock for editing, download current version, upload new version.                                                                                                                     |
 | 1.7     | Edit with Microsoft Office | Extension to edit online with Alfresco Office Services (AOS)                                                                                                                                   |
-| 1.7     | Single Sign-On (SSO)       | Support for Alfresco Identity Service, with ADF 3.0.0                                                                                                                                          |
+| 1.7     | Single Sign-On (SSO)       | Support for Alfresco Identity Service, with ADF 3.0.0    |        
+| 1.7     | Search Query Language     | Enhanced search input using the Alfresco Search Query Language    |        
 
 [contributing]: https://github.com/Alfresco/alfresco-content-app/blob/master/CONTRIBUTING.md
 [github]: https://github.com/Alfresco/alfresco-content-app/issues
