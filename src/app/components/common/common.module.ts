@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -28,46 +28,18 @@ import { CommonModule } from '@angular/common';
 import { GenericErrorComponent } from './generic-error/generic-error.component';
 import { CoreModule } from '@alfresco/adf-core';
 import { LocationLinkComponent } from './location-link/location-link.component';
-import { NameColumnComponent } from './name-column/name-column.component';
-import { LibraryNameColumnComponent } from './library-name-column/library-name-column.component';
-import { LibraryStatusColumnComponent } from './library-status-column/library-status-column.component';
-import { LibraryRoleColumnComponent } from './library-role-column/library-role-column.component';
-import { TrashcanNameColumnComponent } from './trashcan-name-column/trashcan-name-column.component';
-import { DynamicColumnComponent } from './dynamic-column/dynamic-column.component';
-import { IconComponent } from './icon/icon.component';
 import { MatIconModule } from '@angular/material';
+import { ExtensionsModule } from '@alfresco/adf-extensions';
 
 @NgModule({
-  imports: [CommonModule, CoreModule.forChild(), MatIconModule],
-  declarations: [
-    GenericErrorComponent,
-    LocationLinkComponent,
-    NameColumnComponent,
-    LibraryNameColumnComponent,
-    LibraryStatusColumnComponent,
-    LibraryRoleColumnComponent,
-    TrashcanNameColumnComponent,
-    DynamicColumnComponent,
-    IconComponent
+  imports: [
+    CommonModule,
+    CoreModule.forChild(),
+    MatIconModule,
+    ExtensionsModule
   ],
-  exports: [
-    GenericErrorComponent,
-    LocationLinkComponent,
-    NameColumnComponent,
-    LibraryNameColumnComponent,
-    LibraryStatusColumnComponent,
-    LibraryRoleColumnComponent,
-    TrashcanNameColumnComponent,
-    DynamicColumnComponent,
-    IconComponent
-  ],
-  entryComponents: [
-    LocationLinkComponent,
-    NameColumnComponent,
-    LibraryNameColumnComponent,
-    LibraryStatusColumnComponent,
-    LibraryRoleColumnComponent,
-    TrashcanNameColumnComponent
-  ]
+  declarations: [GenericErrorComponent, LocationLinkComponent],
+  exports: [ExtensionsModule, GenericErrorComponent, LocationLinkComponent],
+  entryComponents: [LocationLinkComponent]
 })
 export class AppCommonModule {}

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -87,12 +87,10 @@ describe('Shared Files', () => {
   });
 
   it('has the correct columns - [C213113]', async () => {
-    const expectedHeader = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
-    const headers = dataTable.getColumnHeaders();
-    const count = await headers.count();
-    expect(count).toBe(6 + 1, 'Incorrect number of columns');
+    const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by', 'Shared by' ];
+    const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(await dataTable.getHeaderText()).toEqual(expectedHeader);
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('default sorting column - [C213115]', async () => {
@@ -101,20 +99,20 @@ describe('Shared Files', () => {
   });
 
   it('displays the files shared by everyone - [C213114]', async () => {
-    expect(await dataTable.getRowByName(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
-    expect(await dataTable.getRowByName(file1User).isPresent()).toBe(true, `${file1User} not displayed`);
+    expect(await dataTable.isItemPresent(fileAdmin)).toBe(true, `${fileAdmin} not displayed`);
+    expect(await dataTable.isItemPresent(file1User)).toBe(true, `${file1User} not displayed`);
   });
 
   it(`file not displayed if it's been deleted - [C213117]`, async () => {
-    expect(await dataTable.getRowByName(file2User).isPresent()).toBe(false, `${file2User} is displayed`);
+    expect(await dataTable.isItemPresent(file2User)).toBe(false, `${file2User} is displayed`);
   });
 
   it('unshared file is not displayed - [C213118]', async () => {
-    expect(await dataTable.getRowByName(file3User).isPresent()).toBe(false, `${file3User} is displayed`);
+    expect(await dataTable.isItemPresent(file3User)).toBe(false, `${file3User} is displayed`);
   });
 
   it('Location column displays the parent folder of the file - [C213665]', async () => {
-    expect(await dataTable.getItemLocationTileAttr(file4User)).toEqual('Personal Files');
+    expect(await dataTable.getItemLocationTooltip(file4User)).toEqual('Personal Files');
     expect(await dataTable.getItemLocation(fileAdmin)).toEqual(siteName);
     expect(await dataTable.getItemLocation(file1User)).toEqual(folderUser);
   });
@@ -135,7 +133,7 @@ describe('Shared Files', () => {
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213667]', async () => {
-    expect(await dataTable.getItemLocationTileAttr(fileAdmin)).toEqual(`File Libraries/${siteName}`);
-    expect(await dataTable.getItemLocationTileAttr(file1User)).toEqual(`Personal Files/${folderUser}`);
+    expect(await dataTable.getItemLocationTooltip(fileAdmin)).toEqual(`File Libraries/${siteName}`);
+    expect(await dataTable.getItemLocationTooltip(file1User)).toEqual(`Personal Files/${folderUser}`);
   });
 });

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -83,7 +83,7 @@ describe('Extensions - Metadata presets', () => {
     await page.refresh();
 
     await page.dataTable.selectItem(file);
-    await page.toolbar.getButtonByTitleAttribute('View details').click();
+    await page.toolbar.clickViewDetails();
     await infoDrawer.waitForInfoDrawerToOpen();
 
     await infoDrawer.clickTab(properties_tab.title);

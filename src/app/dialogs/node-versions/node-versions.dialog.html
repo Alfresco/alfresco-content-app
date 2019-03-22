@@ -1,12 +1,17 @@
-<header mat-dialog-title>{{'VERSION.DIALOG.TITLE' | translate}}</header>
+<header mat-dialog-title>
+  {{ 'VERSION.DIALOG_ADF.TITLE' | translate }}
+</header>
 <section mat-dialog-content>
-    <adf-version-manager
-        [node]="node"
-        [showComments]="'adf-version-manager.allowComments' | adfAppConfig:true"
-        [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig:true"
-        (uploadError)="uploadError($event)">
-    </adf-version-manager>
+  <adf-version-manager
+    [node]="node"
+    [showComments]="'adf-version-manager.allowComments' | adfAppConfig: true"
+    [allowDownload]="'adf-version-manager.allowDownload' | adfAppConfig: true"
+    (uploadError)="uploadError($event)"
+  >
+  </adf-version-manager>
 </section>
 <footer mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="true">{{'VERSION.DIALOG.CLOSE' | translate}}</button>
+  <button mat-button [mat-dialog-close]="true">
+    {{ 'VERSION.DIALOG_ADF.CLOSE' | translate }}
+  </button>
 </footer>

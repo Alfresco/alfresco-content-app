@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,19 +25,27 @@
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TestBed, ComponentFixture } from '@angular/core/testing';
+import {
+  TestBed,
+  ComponentFixture,
+  async,
+  fakeAsync,
+  tick
+} from '@angular/core/testing';
 import {
   UserPreferencesService,
   AppConfigPipe,
-  NodeFavoriteDirective
+  NodeFavoriteDirective,
+  UploadService,
+  AlfrescoApiService
 } from '@alfresco/adf-core';
 import { PreviewComponent } from './preview.component';
 import { of, throwError } from 'rxjs';
 import { EffectsModule } from '@ngrx/effects';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
+import { ContentManagementService } from '../../services/content-management.service';
 
 describe('PreviewComponent', () => {
   let fixture: ComponentFixture<PreviewComponent>;
@@ -46,16 +54,15 @@ describe('PreviewComponent', () => {
   let route: ActivatedRoute;
   let preferences: UserPreferencesService;
   let contentApi: ContentApiService;
+  let uploadService: UploadService;
+  let alfrescoApiService: AlfrescoApiService;
+  let contentManagementService: ContentManagementService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects])],
-      declarations: [
-        AppConfigPipe,
-        PreviewComponent,
-        NodeFavoriteDirective,
-        ExperimentalDirective
-      ],
+      providers: [AlfrescoApiService, ContentManagementService],
+      declarations: [AppConfigPipe, PreviewComponent, NodeFavoriteDirective],
       schemas: [NO_ERRORS_SCHEMA]
     });
 
@@ -66,6 +73,9 @@ describe('PreviewComponent', () => {
     route = TestBed.get(ActivatedRoute);
     preferences = TestBed.get(UserPreferencesService);
     contentApi = TestBed.get(ContentApiService);
+    uploadService = TestBed.get(UploadService);
+    alfrescoApiService = TestBed.get(AlfrescoApiService);
+    contentManagementService = TestBed.get(ContentManagementService);
   });
 
   it('should extract the property path root', () => {
@@ -697,4 +707,29 @@ describe('PreviewComponent', () => {
     const ids = await component.getFileIds('recent-files');
     expect(ids).toEqual(['node2', 'node1']);
   });
+
+  it('should return to parent folder on nodesDeleted event', async(() => {
+    spyOn(component, 'navigateToFileLocation');
+    fixture.detectChanges();
+    contentManagementService.nodesDeleted.next();
+
+    expect(component.navigateToFileLocation).toHaveBeenCalled();
+  }));
+
+  it('should return to parent folder on fileUploadDeleted event', async(() => {
+    spyOn(component, 'navigateToFileLocation');
+    fixture.detectChanges();
+    uploadService.fileUploadDeleted.next();
+
+    expect(component.navigateToFileLocation).toHaveBeenCalled();
+  }));
+
+  it('should emit nodeUpdated event on fileUploadComplete event', fakeAsync(() => {
+    spyOn(alfrescoApiService.nodeUpdated, 'next');
+    fixture.detectChanges();
+    uploadService.fileUploadComplete.next(<any>{ data: { entry: {} } });
+    tick(300);
+
+    expect(alfrescoApiService.nodeUpdated.next).toHaveBeenCalled();
+  }));
 });

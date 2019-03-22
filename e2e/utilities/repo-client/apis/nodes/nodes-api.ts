@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,27 +23,26 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NodeBodyLock } from 'alfresco-js-api-node';
 import { RepoApi } from '../repo-api';
 import { NodeBodyCreate } from './node-body-create';
 import { NodeContentTree, flattenNodeContentTree } from './node-content-tree';
+import { NodesApi as AdfNodeApi, NodeBodyLock} from '@alfresco/js-api';
 
 export class NodesApi extends RepoApi {
+    nodesApi = new AdfNodeApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
     }
 
-    // nodes
-
     async getNodeByPath(relativePath: string = '/') {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNode('-my-', { relativePath });
+        return await this.nodesApi.getNode('-my-', { relativePath });
     }
 
     async getNodeById(id: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNode(id);
+        return await this.nodesApi.getNode(id);
     }
 
     async getNodeDescription(name: string, parentId: string) {
@@ -59,13 +58,41 @@ export class NodesApi extends RepoApi {
       return '';
     }
 
+    async getFileVersionType(nodeId: string) {
+      const prop = await this.getNodeProperty(nodeId, 'cm:versionType');
+      if ( prop ) {
+        return prop;
+      }
+      return '';
+    }
+    async getFileVersionLabel(nodeId: string) {
+      const prop = await this.getNodeProperty(nodeId, 'cm:versionLabel');
+      if ( prop ) {
+        return prop;
+      }
+      return '';
+    }
+
+
+    async getSharedId(nodeId: string) {
+      return await this.getNodeProperty(nodeId, 'qshare:sharedId');
+    }
+
+    async getSharedExpiryDate(nodeId: string) {
+      return await this.getNodeProperty(nodeId, 'qshare:expiryDate');
+    }
+
     async isFileShared(nodeId: string) {
-      return (await this.getNodeProperty(nodeId, 'qshare:sharedId')) !== '';
+      return (await this.getSharedId(nodeId)) !== '';
     }
 
     async deleteNodeById(id: string, permanent: boolean = true) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.deleteNode(id, { permanent });
+        try {
+          return await this.nodesApi.deleteNode(id, { permanent });
+        } catch (error) {
+          console.log('------ deleteNodeById failed ');
+        }
     }
 
     async deleteNodeByPath(path: string, permanent: boolean = true) {
@@ -87,14 +114,12 @@ export class NodesApi extends RepoApi {
         }, Promise.resolve());
     }
 
-    // children
-
     async getNodeChildren(nodeId: string) {
         const opts = {
           include: [ 'properties' ]
         };
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNodeChildren(nodeId, opts);
+        return await this.nodesApi.listNodeChildren(nodeId, opts);
     }
 
     async deleteNodeChildren(parentId: string) {
@@ -111,7 +136,7 @@ export class NodesApi extends RepoApi {
       return await this.createNode('cm:content', name, parentId, title, description, imageProps);
     }
 
-    async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null) {
+    async createNode(nodeType: string, name: string, parentId: string = '-my-', title: string = '', description: string = '', imageProps: any = null, majorVersion: boolean = true) {
         const nodeBody = {
             name,
             nodeType,
@@ -125,11 +150,11 @@ export class NodesApi extends RepoApi {
         }
 
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.addNode(parentId, nodeBody);
+        return await this.nodesApi.createNode(parentId, nodeBody, { majorVersion: true });
     }
 
-    async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
-        return await this.createNode('cm:content', name, parentId, title, description);
+    async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', majorVersion: boolean = true) {
+        return await this.createNode('cm:content', name, parentId, title, description, majorVersion);
     }
 
     async createImage(name: string, parentId: string = '-my-', title: string = '', description: string = '') {
@@ -142,7 +167,7 @@ export class NodesApi extends RepoApi {
 
     async createChildren(data: NodeBodyCreate[]): Promise<any> {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.addNode('-my-', data);
+        return await this.nodesApi.createNode('-my-', <any>data);
     }
 
     async createContent(content: NodeContentTree, relativePath: string = '/') {
@@ -160,17 +185,17 @@ export class NodesApi extends RepoApi {
     // node content
     async getNodeContent(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNodeContent(nodeId);
+        return await this.nodesApi.getNodeContent(nodeId);
     }
 
     async editNodeContent(nodeId: string, content: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.updateNodeContent(nodeId, content);
+        return await this.nodesApi.updateNodeContent(nodeId, content);
     }
 
     async renameNode(nodeId: string, newName: string) {
         await this.apiAuth();
-        return this.alfrescoJsApi.core.nodesApi.updateNode(nodeId, { name: newName });
+        return this.nodesApi.updateNode(nodeId, { name: newName });
     }
 
     // node permissions
@@ -188,25 +213,39 @@ export class NodesApi extends RepoApi {
         };
 
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.updateNode(nodeId, data);
+        return await this.nodesApi.updateNode(nodeId, data);
     }
 
     async getNodePermissions(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.getNode(nodeId, { include: ['permissions'] });
+        return await this.nodesApi.getNode(nodeId, { include: ['permissions'] });
     }
 
     // lock node
-    async lockFile(nodeId: string, lockType: string = 'FULL') {
+    async lockFile(nodeId: string, lockType: string = 'ALLOW_OWNER_CHANGES') {
         const data = <NodeBodyLock>{
             type: lockType
         };
+
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.lockNode(nodeId, data );
+        return await this.nodesApi.lockNode(nodeId, data );
     }
 
     async unlockFile(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.nodesApi.unlockNode(nodeId);
+        return await this.nodesApi.unlockNode(nodeId);
+    }
+
+    async getLockType(nodeId: string) {
+      return await this.getNodeProperty(nodeId, 'cm:lockType');
+    }
+
+    async getLockOwner(nodeId: string) {
+      return await this.getNodeProperty(nodeId, 'cm:lockOwner');
+    }
+
+    async isFileLockedWrite(nodeId: string) {
+        await this.apiAuth();
+        return (await this.getLockType(nodeId)) === 'WRITE_LOCK';
     }
 }

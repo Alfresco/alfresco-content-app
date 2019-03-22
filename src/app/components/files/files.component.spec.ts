@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -32,28 +32,22 @@ import {
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
-  FileSizePipe,
   NodeFavoriteDirective,
   DataTableComponent,
   UploadService,
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { FilesComponent } from './files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { of, throwError } from 'rxjs';
 
 describe('FilesComponent', () => {
   let node;
   let fixture: ComponentFixture<FilesComponent>;
   let component: FilesComponent;
-  let contentManagementService: ContentManagementService;
   let uploadService: UploadService;
   let router: Router;
   let nodeActionsService: NodeActionsService;
@@ -65,13 +59,9 @@ describe('FilesComponent', () => {
       declarations: [
         FilesComponent,
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
-        FileSizePipe,
-        AppConfigPipe,
-        ExperimentalDirective
+        AppConfigPipe
       ],
       providers: [
         {
@@ -88,7 +78,6 @@ describe('FilesComponent', () => {
     fixture = TestBed.createComponent(FilesComponent);
     component = fixture.componentInstance;
 
-    contentManagementService = TestBed.get(ContentManagementService);
     uploadService = TestBed.get(UploadService);
     router = TestBed.get(Router);
     nodeActionsService = TestBed.get(NodeActionsService);
@@ -147,109 +136,79 @@ describe('FilesComponent', () => {
   describe('refresh on events', () => {
     beforeEach(() => {
       spyOn(contentApi, 'getNode').and.returnValue(of({ entry: node }));
-      spyOn(component.documentList, 'reload');
+      spyOn(component, 'reload');
 
       fixture.detectChanges();
     });
 
     it('should call refresh onContentCopied event if parent is the same', () => {
       const nodes = [
-        { entry: { parentId: '1' } },
-        { entry: { parentId: '2' } }
+        <any>{ entry: { parentId: '1' } },
+        <any>{ entry: { parentId: '2' } }
       ];
 
-      component.node = { id: '1' };
+      component.node = <any>{ id: '1' };
 
       nodeActionsService.contentCopied.next(nodes);
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
 
     it('should not call refresh onContentCopied event when parent mismatch', () => {
       const nodes = [
-        { entry: { parentId: '1' } },
-        { entry: { parentId: '2' } }
+        <any>{ entry: { parentId: '1' } },
+        <any>{ entry: { parentId: '2' } }
       ];
 
-      component.node = { id: '3' };
+      component.node = <any>{ id: '3' };
 
       nodeActionsService.contentCopied.next(nodes);
 
-      expect(component.documentList.reload).not.toHaveBeenCalled();
-    });
-
-    it('should call refresh onCreateFolder event', () => {
-      contentManagementService.folderCreated.next();
-
-      expect(component.documentList.reload).toHaveBeenCalled();
-    });
-
-    it('should call refresh editFolder event', () => {
-      contentManagementService.folderEdited.next();
-
-      expect(component.documentList.reload).toHaveBeenCalled();
-    });
-
-    it('should call refresh deleteNode event', () => {
-      contentManagementService.nodesDeleted.next();
-
-      expect(component.documentList.reload).toHaveBeenCalled();
-    });
-
-    it('should call refresh moveNode event', () => {
-      contentManagementService.nodesMoved.next();
-
-      expect(component.documentList.reload).toHaveBeenCalled();
-    });
-
-    it('should call refresh restoreNode event', () => {
-      contentManagementService.nodesRestored.next();
-
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
     });
 
     it('should call refresh on fileUploadComplete event if parent node match', fakeAsync(() => {
       const file = { file: { options: { parentId: 'parentId' } } };
-      component.node = { id: 'parentId' };
+      component.node = <any>{ id: 'parentId' };
 
       uploadService.fileUploadComplete.next(<any>file);
 
       tick(500);
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     }));
 
     it('should not call refresh on fileUploadComplete event if parent mismatch', fakeAsync(() => {
       const file = { file: { options: { parentId: 'otherId' } } };
-      component.node = { id: 'parentId' };
+      component.node = <any>{ id: 'parentId' };
 
       uploadService.fileUploadComplete.next(<any>file);
 
       tick(500);
 
-      expect(component.documentList.reload).not.toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
     }));
 
     it('should call refresh on fileUploadDeleted event if parent node match', fakeAsync(() => {
       const file = { file: { options: { parentId: 'parentId' } } };
-      component.node = { id: 'parentId' };
+      component.node = <any>{ id: 'parentId' };
 
       uploadService.fileUploadDeleted.next(<any>file);
 
       tick(500);
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     }));
 
     it('should not call refresh on fileUploadDeleted event if parent mismatch', fakeAsync(() => {
       const file: any = { file: { options: { parentId: 'otherId' } } };
-      component.node = { id: 'parentId' };
+      component.node = <any>{ id: 'parentId' };
 
       uploadService.fileUploadDeleted.next(file);
 
       tick(500);
 
-      expect(component.documentList.reload).not.toHaveBeenCalled();
+      expect(component.reload).not.toHaveBeenCalled();
     }));
   });
 
@@ -293,7 +252,7 @@ describe('FilesComponent', () => {
     });
 
     it('should navigate home if node is root', () => {
-      component.node = {
+      component.node = <any>{
         path: {
           elements: [{ id: 'node-id' }]
         }
@@ -307,19 +266,19 @@ describe('FilesComponent', () => {
 
   describe('isSiteContainer', () => {
     it('should return false if node has no aspectNames', () => {
-      const mock = { aspectNames: [] };
+      const mock = <any>{ aspectNames: [] };
 
       expect(component.isSiteContainer(mock)).toBe(false);
     });
 
     it('should return false if node is not site container', () => {
-      const mock = { aspectNames: ['something-else'] };
+      const mock = <any>{ aspectNames: ['something-else'] };
 
       expect(component.isSiteContainer(mock)).toBe(false);
     });
 
     it('should return true if node is a site container', () => {
-      const mock = { aspectNames: ['st:siteContainer'] };
+      const mock = <any>{ aspectNames: ['st:siteContainer'] };
 
       expect(component.isSiteContainer(mock)).toBe(true);
     });

@@ -1,7 +1,10 @@
 ---
+Title: Actions
 ---
 
 # Actions
+
+Below are the details of the JSON properties that are used to define actions.
 
 | Name | Description |
 | -- | -- |

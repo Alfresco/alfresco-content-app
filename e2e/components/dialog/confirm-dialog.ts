@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -81,4 +81,47 @@ export class ConfirmDialog extends Component {
     const button = this.getButtonByName(name);
     return await button.isEnabled();
   }
+
+
+  async isOkEnabled() {
+    return await this.isButtonEnabled('OK');
+  }
+
+  async isCancelEnabled() {
+    return await this.isButtonEnabled('Cancel');
+  }
+
+  async isKeepEnabled() {
+    return await this.isButtonEnabled('Keep');
+  }
+
+  async isDeleteEnabled() {
+    return await this.isButtonEnabled('Delete');
+  }
+
+  async isRemoveEnabled() {
+    return await this.isButtonEnabled('Remove');
+  }
+
+
+  async clickOk() {
+    return await this.clickButton('OK');
+  }
+
+  async clickCancel() {
+    return await this.clickButton('Cancel');
+  }
+
+  async clickKeep() {
+    return await this.clickButton('Keep');
+  }
+
+  async clickDelete() {
+    return await this.clickButton('Delete');
+  }
+
+  async clickRemove() {
+    return await this.clickButton('Remove');
+  }
+
 }

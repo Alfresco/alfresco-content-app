@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -38,6 +38,7 @@ import {
   DebugAppConfigService
 } from '@alfresco/adf-core';
 import {
+  LibraryDialogComponent,
   ContentModule,
   CustomResourcesService
 } from '@alfresco/adf-content-services';
@@ -48,8 +49,8 @@ import { APP_ROUTES } from './app.routes';
 import { FilesComponent } from './components/files/files.component';
 import { LibrariesComponent } from './components/libraries/libraries.component';
 import { FavoriteLibrariesComponent } from './components/favorite-libraries/favorite-libraries.component';
+import { NodeVersionUploadDialogComponent } from './dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from './dialogs/node-versions/node-versions.dialog';
-import { LibraryDialogComponent } from './dialogs/library/library.dialog';
 
 import { AppStoreModule } from './store/app-store.module';
 import { MaterialModule } from './material.module';
@@ -69,9 +70,11 @@ import { AppCommonModule } from './components/common/common.module';
 import { AppLayoutModule } from './components/layout/layout.module';
 import { AppCurrentUserModule } from './components/current-user/current-user.module';
 import { AppSearchInputModule } from './components/search/search-input.module';
+import { DocumentListCustomComponentsModule } from './components/dl-custom-components/document-list-custom-components.module';
 import { AppSearchResultsModule } from './components/search/search-results.module';
 import { AppLoginModule } from './components/login/login.module';
 import { AppHeaderModule } from './components/header/header.module';
+import { AppNodeVersionModule } from './components/node-version/node-version.module';
 import { environment } from '../environments/environment';
 import { AppDataService } from './services/data.service';
 
@@ -103,18 +106,20 @@ import { AppDataService } from './services/data.service';
     AppSharedModule,
     AppSidenavModule,
     AppCreateMenuModule,
+    DocumentListCustomComponentsModule,
     AppPermissionsModule,
     AppSearchInputModule,
     AppSearchResultsModule,
-    AppHeaderModule
+    AppHeaderModule,
+    AppNodeVersionModule
   ],
   declarations: [
     AppComponent,
     FilesComponent,
     LibrariesComponent,
     FavoriteLibrariesComponent,
-    NodeVersionsDialogComponent,
-    LibraryDialogComponent
+    NodeVersionUploadDialogComponent,
+    NodeVersionsDialogComponent
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy },
@@ -129,7 +134,11 @@ import { AppDataService } from './services/data.service';
       }
     }
   ],
-  entryComponents: [LibraryDialogComponent, NodeVersionsDialogComponent],
+  entryComponents: [
+    NodeVersionsDialogComponent,
+    NodeVersionUploadDialogComponent,
+    LibraryDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

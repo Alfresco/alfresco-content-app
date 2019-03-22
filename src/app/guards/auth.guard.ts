@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -38,13 +38,18 @@ export class AppAuthGuard extends AuthGuardEcm {
   constructor(
     private _auth: AuthenticationService,
     private _router: Router,
-    config: AppConfigService
+    private _config: AppConfigService
   ) {
-    super(_auth, _router, config);
+    super(_auth, _router, _config);
   }
 
   checkLogin(redirectUrl: string): boolean {
-    if (this._auth.isEcmLoggedIn()) {
+    const withCredentials = this._config.get<boolean>(
+      'auth.withCredentials',
+      false
+    );
+
+    if (withCredentials || this._auth.isEcmLoggedIn()) {
       return true;
     }
 

@@ -2,11 +2,17 @@
   "version": "0.1",
   "language": "en",
   "words": [
+    "Kerberos",
     "succes",
     "sharedlinks",
     "Redistributable",
     "fullscreen",
     "LGPL",
+    "Browserstack",
+    "mincount",
+    "QNAME",
+    "PNAME",
+    "mimetype",
 
     "ngrx",
     "ngstack",
@@ -56,8 +62,7 @@
     "keycodes",
     "denysvuika",
     "submenu",
-    "submenus",
-    "simpletask"
+    "submenus"
   ],
   "dictionaries": ["html", "en-gb", "en_US"]
 }

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,8 +24,9 @@
  */
 
 import { Component, Input } from '@angular/core';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService } from '../../../services/node-permission.service';
+import { isLocked } from '../../../utils/node.utils';
 
 @Component({
   selector: 'app-comments-tab',
@@ -42,7 +43,17 @@ export class CommentsTabComponent {
 
   constructor(private permission: NodePermissionService) {}
 
-  get canUpdateNode() {
-    return this.node && this.permission.check(this.node, ['update']);
+  get canUpdateNode(): boolean {
+    if (!this.node) {
+      return false;
+    }
+
+    if (
+      this.node.isFolder ||
+      (this.node.isFile && !isLocked({ entry: this.node }))
+    ) {
+      return this.permission.check(this.node, ['update']);
+    }
+    return false;
   }
 }

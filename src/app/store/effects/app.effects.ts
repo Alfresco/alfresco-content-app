@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,17 +26,32 @@
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { LogoutAction, LOGOUT } from '../actions/app.actions';
+import {
+  LogoutAction,
+  LOGOUT,
+  ReloadDocumentListAction,
+  RELOAD_DOCUMENT_LIST
+} from '../actions/app.actions';
 import { AuthenticationService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
+import { ContentManagementService } from '../../services/content-management.service';
 
 @Injectable()
 export class AppEffects {
   constructor(
     private actions$: Actions,
     private auth: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private content: ContentManagementService
   ) {}
+
+  @Effect({ dispatch: false })
+  reload = this.actions$.pipe(
+    ofType<ReloadDocumentListAction>(RELOAD_DOCUMENT_LIST),
+    map(action => {
+      this.content.reload.next(action);
+    })
+  );
 
   @Effect({ dispatch: false })
   logout$ = this.actions$.pipe(

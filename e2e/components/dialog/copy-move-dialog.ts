@@ -3,7 +3,7 @@ import { Utils } from './../../utilities/utils';
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -39,7 +39,7 @@ export class CopyMoveDialog extends Component {
 
     dataTable: '.adf-datatable-body',
     row: '.adf-datatable-row[role]',
-    selectedRow: '.is-selected',
+    selectedRow: '.adf-is-selected',
 
     button: '.mat-dialog-actions button'
   };
@@ -102,6 +102,13 @@ export class CopyMoveDialog extends Component {
     return this.dataTable.element(by.cssContainingText('.adf-name-location-cell', folderName));
   }
 
+  async doubleClickOnRow(name: string) {
+    const item = this.getRow(name);
+    await Utils.waitUntilElementClickable(item);
+    await browser.actions().mouseMove(item).perform();
+    await browser.actions().click().click().perform();
+  }
+
   async selectLocation(location: 'Personal Files' | 'File Libraries') {
     await this.locationDropDown.click();
     await this.waitForDropDownToOpen();
@@ -115,7 +122,7 @@ export class CopyMoveDialog extends Component {
     await this.waitForDropDownToClose();
   }
 
-  async chooseDestination(folderName: string) {
+  async selectDestination(folderName: string) {
     const row = this.getRow(folderName);
     await Utils.waitUntilElementClickable(row);
     await row.click();

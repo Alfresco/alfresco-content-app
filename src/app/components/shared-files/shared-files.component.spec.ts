@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -27,22 +27,17 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import {
   AlfrescoApiService,
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
 import { SharedFilesComponent } from './shared-files.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('SharedFilesComponent', () => {
   let fixture: ComponentFixture<SharedFilesComponent>;
   let component: SharedFilesComponent;
-  let contentService: ContentManagementService;
   let alfrescoApi: AlfrescoApiService;
   let page;
 
@@ -60,13 +55,10 @@ describe('SharedFilesComponent', () => {
       imports: [AppTestingModule],
       declarations: [
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
         SharedFilesComponent,
-        AppConfigPipe,
-        ExperimentalDirective
+        AppConfigPipe
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -74,7 +66,6 @@ describe('SharedFilesComponent', () => {
     fixture = TestBed.createComponent(SharedFilesComponent);
     component = fixture.componentInstance;
 
-    contentService = TestBed.get(ContentManagementService);
     alfrescoApi = TestBed.get(AlfrescoApiService);
     alfrescoApi.reset();
 
@@ -83,44 +74,14 @@ describe('SharedFilesComponent', () => {
     );
   });
 
-  describe('OnInit', () => {
-    beforeEach(() => {
-      spyOn(component, 'reload').and.callFake(val => val);
-    });
-
-    it('should refresh on deleteNode event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesDeleted.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
-    it('should refresh on restoreNode event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesRestored.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-
-    it('should reload on move node event', () => {
-      fixture.detectChanges();
-
-      contentService.nodesMoved.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-  });
-
   describe('refresh', () => {
     it('should call document list reload', () => {
-      spyOn(component.documentList, 'reload');
+      spyOn(component, 'reload');
       fixture.detectChanges();
 
       component.reload();
 
-      expect(component.documentList.reload).toHaveBeenCalled();
+      expect(component.reload).toHaveBeenCalled();
     });
   });
 });

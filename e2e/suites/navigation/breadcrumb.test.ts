@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -90,13 +90,13 @@ describe('Breadcrumb', () => {
   });
 
   it('My Libraries breadcrumb main node - [C260966]', async () => {
-    await page.goToMyLibraries();
+    await page.goToMyLibrariesAndWait();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('My Libraries');
   });
 
   it('Favorite Libraries breadcrumb main node - [C289891]', async () => {
-    await page.goToFavoriteLibraries();
+    await page.goToFavoriteLibrariesAndWait();
     expect(await breadcrumb.getItemsCount()).toEqual(1, 'Breadcrumb has incorrect number of items');
     expect(await breadcrumb.getCurrentItemName()).toBe('Favorite Libraries');
   });
@@ -185,9 +185,8 @@ describe('Breadcrumb', () => {
     expect(await breadcrumb.getAllItems()).toEqual(expectedBreadcrumb);
   });
 
-  // disabled cause of ACA-1039
-  xdescribe('as admin', () => {
-    const user2 = 'a_user';
+  describe('as admin', () => {
+    const user2 = `user2-${Utils.random()}`;
     const userFolder = `userFolder-${Utils.random()}`; let userFolderId;
     const user2Api = new RepoClient(user2, user2);
 
@@ -203,7 +202,7 @@ describe('Breadcrumb', () => {
       done();
     });
 
-    xit(`Breadcrumb on navigation to a user's home - [C260970]`, async () => {
+    it(`Breadcrumb on navigation to a user's home - [C260970]`, async () => {
       await page.dataTable.doubleClickOnRowByName('User Homes');
       await page.dataTable.doubleClickOnRowByName(user2);
       expect(await breadcrumb.getAllItems()).toEqual([ 'Personal Files', 'User Homes', user2 ]);

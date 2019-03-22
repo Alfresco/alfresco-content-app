@@ -1,4 +1,5 @@
 ---
+Title: Navigation
 ---
 
 # Navigation
@@ -53,9 +54,7 @@ Navigation configuration supports array and object like schema. Defining an obje
 
 `label` - represents the visual name of the link. It can be a string or a i18n defined reference.
 
-<p class="danger">
-  Changing ` "route": { "url": "/..." } ` value will affect the navigation since these are mapped to application routing system.
-</p>
+**Caution:** Changing ` "route": { "url": "/..." } ` value will affect the navigation since these are mapped to application routing system.
 
 ### Custom text (i18n)
 

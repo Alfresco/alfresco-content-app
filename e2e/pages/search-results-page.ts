@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,9 +23,8 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, ElementFinder, by, ExpectedConditions as EC } from 'protractor';
+import { browser, ElementFinder } from 'protractor';
 import { BrowsingPage } from './browsing-page';
-import { BROWSER_WAIT_TIMEOUT } from '../configs';
 
 export class SearchResultsPage extends BrowsingPage {
 
@@ -51,5 +50,8 @@ export class SearchResultsPage extends BrowsingPage {
 
   root: ElementFinder = browser.$(SearchResultsPage.selectors.root);
 
+  waitForResults() {
+    return this.dataTable.waitForBody();
+  }
 
 }

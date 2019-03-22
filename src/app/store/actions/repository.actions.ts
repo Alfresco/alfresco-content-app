@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,12 +24,11 @@
  */
 
 import { Action } from '@ngrx/store';
-import { RepositoryState } from '@alfresco/adf-extensions';
+import { RepositoryInfo } from '@alfresco/js-api';
 
-export const SET_REPOSITORY_STATUS = 'SET_REPOSITORY_STATUS';
-export const GET_REPOSITORY_STATUS = 'GET_REPOSITORY_STATUS';
+export const SET_REPOSITORY_INFO = 'SET_REPOSITORY_INFO';
 
-export class SetRepositoryStatusAction implements Action {
-  readonly type = SET_REPOSITORY_STATUS;
-  constructor(public payload: RepositoryState) {}
+export class SetRepositoryInfoAction implements Action {
+  readonly type = SET_REPOSITORY_INFO;
+  constructor(public payload: RepositoryInfo) {}
 }

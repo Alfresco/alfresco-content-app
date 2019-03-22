@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -32,13 +32,14 @@ import {
   MinimalNodeEntryEntity,
   PathElementEntity,
   PathInfo
-} from 'alfresco-js-api';
+} from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { AppStore } from '../../store/states/app.state';
 import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
-import { map } from 'rxjs/operators';
+import { map, debounceTime } from 'rxjs/operators';
+import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
 
 @Component({
   templateUrl: './favorites.component.html'
@@ -54,6 +55,7 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     extensions: AppExtensionService,
     private contentApi: ContentApiService,
     content: ContentManagementService,
+    private uploadService: UploadService,
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
@@ -63,12 +65,12 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.content.nodesDeleted.subscribe(() => this.reload()),
-      this.content.nodesRestored.subscribe(() => this.reload()),
-      this.content.folderEdited.subscribe(() => this.reload()),
-      this.content.nodesMoved.subscribe(() => this.reload()),
-      this.content.favoriteRemoved.subscribe(() => this.reload()),
-      this.content.favoriteToggle.subscribe(() => this.reload()),
+      this.uploadService.fileUploadComplete
+        .pipe(debounceTime(300))
+        .subscribe(file => this.onFileUploadedEvent(file)),
+      this.uploadService.fileUploadDeleted
+        .pipe(debounceTime(300))
+        .subscribe(file => this.onFileUploadedEvent(file)),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
@@ -113,5 +115,9 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         this.showPreview(node);
       }
     }
+  }
+
+  private onFileUploadedEvent(event: FileUploadEvent) {
+    this.reload();
   }
 }

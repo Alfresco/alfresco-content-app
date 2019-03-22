@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -57,9 +57,6 @@ export class TrashcanComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions.push(
-      this.content.nodesRestored.subscribe(() => this.reload()),
-      this.content.nodesPurged.subscribe(() => this.reload()),
-
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
         .subscribe(result => {

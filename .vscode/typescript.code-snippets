@@ -1,0 +1,19 @@
+{
+  "ext-evaluator": {
+    "description": "Generate a new evaluator.",
+    "scope": "typescript",
+    "prefix": "ext-evaluator",
+    "body": [
+      "/**",
+      " * Checks if ${2:<description>}.",
+      " * JSON ref: `app.$1`",
+      " */",
+      "export function ${1:name}(",
+      "\tcontext: AppRuleContext,",
+      "\t...args: RuleParameter[]",
+      "): boolean {",
+      "\treturn ${3:true};${0}",
+      "}"
+    ]
+  }
+}

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -28,7 +28,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { AppConfigService } from '@alfresco/adf-core';
+import { CoreModule } from '@alfresco/adf-core';
 import { ContextMenuService } from './context-menu.service';
 import { ContextMenuModule } from './context-menu.module';
 
@@ -42,12 +42,8 @@ describe('ContextMenuService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ContextMenuModule],
-      providers: [
-        Overlay,
-        { provide: Store, useValue: { select: () => of() } },
-        { provide: AppConfigService, useValue: {} }
-      ]
+      imports: [CoreModule.forRoot(), ContextMenuModule],
+      providers: [Overlay, { provide: Store, useValue: { select: () => of() } }]
     });
 
     const injector = TestBed.get(Injector);

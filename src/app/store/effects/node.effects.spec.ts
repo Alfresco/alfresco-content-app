@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -28,7 +28,6 @@ import { AppTestingModule } from '../../testing/app-testing.module';
 import { NodeEffects } from './node.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { AppStore } from '../states/app.state';
 import { ContentManagementService } from '../../services/content-management.service';
 import {
   ShareNodeAction,
@@ -43,12 +42,14 @@ import {
   CopyNodesAction,
   MoveNodesAction,
   ManagePermissionsAction,
-  ManageVersionsAction
+  UnlockWriteAction,
+  FullscreenViewerAction,
+  PrintFileAction
 } from '../actions/node.actions';
 import { SetCurrentFolderAction } from '../actions/app.actions';
 
 describe('NodeEffects', () => {
-  let store: Store<AppStore>;
+  let store: Store<any>;
   // let actions$: Actions;
   let contentService: ContentManagementService;
 
@@ -400,35 +401,61 @@ describe('NodeEffects', () => {
     });
   });
 
-  describe('manageVersions$', () => {
-    it('should manage versions from the payload', () => {
-      spyOn(contentService, 'manageVersions').and.stub();
+  describe('printFile$', () => {
+    it('it should print node content from payload', () => {
+      spyOn(contentService, 'printFile').and.stub();
+      const node: any = { entry: { id: 'node-id' } };
 
-      const node: any = { entry: { isFile: true } };
-      store.dispatch(new ManageVersionsAction(node));
+      store.dispatch(new PrintFileAction(node));
 
-      expect(contentService.manageVersions).toHaveBeenCalledWith(node);
+      expect(contentService.printFile).toHaveBeenCalledWith(node);
     });
 
-    it('should manage versions from the active selection', fakeAsync(() => {
-      spyOn(contentService, 'manageVersions').and.stub();
+    it('it should print node content from store', fakeAsync(() => {
+      spyOn(contentService, 'printFile').and.stub();
+      const node: any = { entry: { isFile: true, id: 'node-id' } };
 
-      const node: any = { entry: { isFile: true } };
       store.dispatch(new SetSelectedNodesAction([node]));
 
       tick(100);
 
-      store.dispatch(new ManageVersionsAction(null));
+      store.dispatch(new PrintFileAction(null));
 
-      expect(contentService.manageVersions).toHaveBeenCalledWith(node);
+      expect(contentService.printFile).toHaveBeenCalledWith(node);
     }));
+  });
 
-    it('should do nothing if invoking manage versions with no data', () => {
-      spyOn(contentService, 'manageVersions').and.stub();
+  describe('fullscreenViewer$', () => {
+    it('should call fullscreen viewer', () => {
+      spyOn(contentService, 'fullscreenViewer').and.stub();
 
-      store.dispatch(new ManageVersionsAction(null));
+      store.dispatch(new FullscreenViewerAction(null));
 
-      expect(contentService.manageVersions).not.toHaveBeenCalled();
+      expect(contentService.fullscreenViewer).toHaveBeenCalled();
     });
+  });
+
+  describe('unlockWrite$', () => {
+    it('should unlock node from payload', () => {
+      spyOn(contentService, 'unlockNode').and.stub();
+      const node: any = { entry: { id: 'node-id' } };
+
+      store.dispatch(new UnlockWriteAction(node));
+
+      expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+    });
+
+    it('should unlock node from store selection', fakeAsync(() => {
+      spyOn(contentService, 'unlockNode').and.stub();
+      const node: any = { entry: { isFile: true, id: 'node-id' } };
+
+      store.dispatch(new SetSelectedNodesAction([node]));
+
+      tick(100);
+
+      store.dispatch(new UnlockWriteAction(null));
+
+      expect(contentService.unlockNode).toHaveBeenCalledWith(node);
+    }));
   });
 });

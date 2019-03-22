@@ -1,4 +1,5 @@
 ---
+Title: Building from source
 ---
 
 # Building from source
@@ -8,7 +9,10 @@ The Content App is based on [Angular CLI](https://cli.angular.io), and you can u
 ## Prerequisites for building
 
 - [Node.js](https://nodejs.org/en/) LTS
-- [Angular CLI](https://cli.angular.io/) 1.7.3
+- (optional) [Angular CLI](https://cli.angular.io/) 7.3.4 or later
+
+> The Angular CLI libraries are already part of the setup.
+> You may want installing it as a global (recommended) tool only if you intend using CLI commands separately.
 
 ## Cloning and running
 
@@ -27,12 +31,10 @@ The application runs at port `4200` by default, and should automatically open in
 
 The Content App provides a proxy configuration for a local development server that allows you to address specific scenarios with CORS and a native authentication dialog.
 
-You can find settings in the "proxy.conf.js" file in the project root directory.
+You can find settings in the `proxy.conf.js` file in the project root directory.
 
-<p class="warning">
-The proxy settings get automatically applied every time you run the application with the "npm start" script.
+**Note:** The proxy settings get automatically applied every time you run the application with the `npm start` script.
 You must restart the application every time you change its settings.
-</p>
 
 ## Running unit tests
 

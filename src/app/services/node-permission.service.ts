@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,6 +25,14 @@
 
 import { Injectable } from '@angular/core';
 import { NodePermissions } from '@alfresco/adf-extensions';
+import { Node, SharedLink, SharedLinkEntry, NodeEntry } from '@alfresco/js-api';
+
+export type PermissionSource = NodeEntry | SharedLinkEntry | Node;
+
+export interface PermissionOptions {
+  target?: string;
+  operation?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -32,31 +40,41 @@ import { NodePermissions } from '@alfresco/adf-extensions';
 export class NodePermissionService implements NodePermissions {
   static DEFAULT_OPERATION = 'OR';
 
-  private defaultOptions = {
+  private defaultOptions: PermissionOptions = {
     operation: NodePermissionService.DEFAULT_OPERATION,
     target: null
   };
 
-  check(source: any, permissions: string[], options?: any): boolean {
+  check(
+    source: PermissionSource | PermissionSource[],
+    permissions: string[],
+    options?: PermissionOptions
+  ): boolean {
     const opts = Object.assign({}, this.defaultOptions, options || {});
 
-    if (source) {
-      if (Array.isArray(source) && source.length) {
-        const arr = this.sanitize(source);
-
-        return (
-          !!arr.length &&
-          source.every(node => this.hasPermission(node, permissions, opts))
-        );
-      }
-
-      return this.hasPermission(source, permissions, opts);
+    if (!source) {
+      return false;
     }
 
-    return false;
+    if (Array.isArray(source)) {
+      source = source.filter(item => item);
+
+      if (source.length > 0) {
+        return source.every(node =>
+          this.isOperationAllowed(node, permissions, opts)
+        );
+      }
+      return false;
+    } else {
+      return this.isOperationAllowed(source, permissions, opts);
+    }
   }
 
-  private hasPermission(node, permissions, options): boolean {
+  private isOperationAllowed(
+    node: PermissionSource,
+    permissions: string[],
+    options: PermissionOptions
+  ): boolean {
     const allowableOperations = this.getAllowableOperations(
       node,
       options.target
@@ -77,21 +95,26 @@ export class NodePermissionService implements NodePermissions {
     return false;
   }
 
-  private getAllowableOperations(node, target): string[] {
-    const entry = node.entry || node;
+  private getAllowableOperations(
+    node: PermissionSource,
+    property?: string
+  ): string[] {
+    let entry: Node | SharedLink;
 
-    if (!target && entry.allowableOperations) {
-      return entry.allowableOperations;
+    if ('entry' in node) {
+      entry = node.entry;
+    } else {
+      entry = node;
     }
 
-    if (target && entry[target]) {
-      return entry[target];
+    if (property) {
+      return entry[property] || [];
     }
 
-    return [];
-  }
-
-  private sanitize(selection): any[] {
-    return (selection || []).filter(item => item);
+    if ('allowableOperationsOnTarget' in entry) {
+      return entry.allowableOperationsOnTarget || [];
+    } else {
+      return entry.allowableOperations || [];
+    }
   }
 }

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -41,15 +41,18 @@ import { CommentsTabComponent } from '../components/info-drawer/comments-tab/com
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 import { AppAuthGuard } from '../guards/auth.guard';
-import { NameColumnComponent } from '../components/common/name-column/name-column.component';
-import { LibraryNameColumnComponent } from '../components/common/library-name-column/library-name-column.component';
-import { LibraryRoleColumnComponent } from '../components/common/library-role-column/library-role-column.component';
-import { LibraryStatusColumnComponent } from '../components/common/library-status-column/library-status-column.component';
-import { TrashcanNameColumnComponent } from '../components/common/trashcan-name-column/trashcan-name-column.component';
 import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
 import { DocumentDisplayModeComponent } from '../components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleJoinLibraryButtonComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-button.component';
 import { ToggleJoinLibraryMenuComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-menu.component';
+import { ToggleEditOfflineComponent } from '../components/toolbar/toggle-edit-offline/toggle-edit-offline.component';
+import { CustomNameColumnComponent } from '../components/dl-custom-components/name-column/name-column.component';
+import {
+  LibraryNameColumnComponent,
+  LibraryStatusColumnComponent,
+  TrashcanNameColumnComponent,
+  LibraryRoleColumnComponent
+} from '@alfresco/adf-content-services';
 
 export function setupExtensions(service: AppExtensionService): Function {
   return () => service.load();
@@ -93,12 +96,13 @@ export class CoreExtensionsModule {
       'app.toolbar.cardView': DocumentDisplayModeComponent,
       'app.menu.toggleJoinLibrary': ToggleJoinLibraryMenuComponent,
       'app.shared-link.toggleSharedLink': ToggleSharedComponent,
-      'app.columns.name': NameColumnComponent,
+      'app.columns.name': CustomNameColumnComponent,
       'app.columns.libraryName': LibraryNameColumnComponent,
       'app.columns.libraryRole': LibraryRoleColumnComponent,
       'app.columns.libraryStatus': LibraryStatusColumnComponent,
       'app.columns.trashcanName': TrashcanNameColumnComponent,
-      'app.columns.location': LocationLinkComponent
+      'app.columns.location': LocationLinkComponent,
+      'app.toolbar.toggleEditOffline': ToggleEditOfflineComponent
     });
 
     extensions.setAuthGuards({
@@ -107,6 +111,8 @@ export class CoreExtensionsModule {
 
     extensions.setEvaluators({
       'app.selection.canDelete': app.canDeleteSelection,
+      'app.selection.file.canUnlock': app.canUnlockFile,
+      'app.selection.file.canLock': app.canLockFile,
       'app.selection.canDownload': app.canDownloadSelection,
       'app.selection.notEmpty': app.hasSelection,
       'app.selection.canUnshare': app.canUnshareNodes,
@@ -117,6 +123,8 @@ export class CoreExtensionsModule {
       'app.selection.file.canShare': app.canShareFile,
       'app.selection.file.isShared': app.isShared,
       'app.selection.file.isLocked': app.hasLockedFiles,
+      'app.selection.file.isLockOwner': app.isUserWriteLockOwner,
+      'app.selection.file.canUploadVersion': app.canUploadVersion,
       'app.selection.library': app.hasLibrarySelected,
       'app.selection.isPrivateLibrary': app.isPrivateLibrary,
       'app.selection.hasLibraryRole': app.hasLibraryRole,
@@ -129,6 +137,8 @@ export class CoreExtensionsModule {
       'app.navigation.isTrashcan': nav.isTrashcan,
       'app.navigation.isNotTrashcan': nav.isNotTrashcan,
       'app.navigation.isLibraries': nav.isLibraries,
+      'app.navigation.isLibraryFiles': nav.isLibraryFiles,
+      'app.navigation.isPersonalFiles': nav.isPersonalFiles,
       'app.navigation.isNotLibraries': nav.isNotLibraries,
       'app.navigation.isSharedFiles': nav.isSharedFiles,
       'app.navigation.isNotSharedFiles': nav.isNotSharedFiles,
@@ -139,6 +149,9 @@ export class CoreExtensionsModule {
       'app.navigation.isSearchResults': nav.isSearchResults,
       'app.navigation.isNotSearchResults': nav.isNotSearchResults,
       'app.navigation.isPreview': nav.isPreview,
+      'app.navigation.isSharedPreview': nav.isSharedPreview,
+      'app.navigation.isFavoritesPreview': nav.isFavoritesPreview,
+      'app.navigation.isSharedFileViewer': nav.isSharedFileViewer,
 
       'repository.isQuickShareEnabled': repository.hasQuickShareEnabled
     });

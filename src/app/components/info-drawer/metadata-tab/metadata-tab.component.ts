@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,17 +24,17 @@
  */
 
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { NodePermissionService } from '../../../services/node-permission.service';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { AppConfigService } from '@alfresco/adf-core';
+import { isLocked } from '../../../utils/node.utils';
 
 @Component({
   selector: 'app-metadata-tab',
   template: `
     <adf-content-metadata-card
       [readOnly]="!canUpdateNode"
-      [displayEmpty]="canUpdateNode"
       [preset]="'custom'"
       [node]="node"
     >
@@ -64,26 +64,11 @@ export class MetadataTabComponent {
     }
   }
 
-  get canUpdateNode() {
-    if (this.node) {
-      if (this.fileIsLocked()) {
-        return false;
-      }
+  get canUpdateNode(): boolean {
+    if (this.node && this.node.isFile && !isLocked({ entry: this.node })) {
       return this.permission.check(this.node, ['update']);
     }
 
     return false;
-  }
-
-  private fileIsLocked() {
-    if (!this.node.isFile) {
-      return false;
-    }
-
-    return (
-      this.node.isLocked ||
-      (this.node.properties &&
-        this.node.properties['cm:lockType'] === 'READ_ONLY_LOCK')
-    );
   }
 }

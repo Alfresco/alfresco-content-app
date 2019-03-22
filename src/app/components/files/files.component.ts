@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -32,7 +32,7 @@ import {
   MinimalNodeEntryEntity,
   PathElement,
   PathElementEntity
-} from 'alfresco-js-api';
+} from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { NodeActionsService } from '../../services/node-actions.service';
 import { AppStore } from '../../store/states/app.state';
@@ -73,7 +73,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     super.ngOnInit();
 
-    const { route, content, nodeActionsService, uploadService } = this;
+    const { route, nodeActionsService, uploadService } = this;
     const { data } = route.snapshot;
 
     this.title = data.title;
@@ -101,11 +101,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       nodeActionsService.contentCopied.subscribe(nodes =>
         this.onContentCopied(nodes)
       ),
-      content.folderCreated.subscribe(() => this.documentList.reload()),
-      content.folderEdited.subscribe(() => this.documentList.reload()),
-      content.nodesDeleted.subscribe(() => this.documentList.reload()),
-      content.nodesMoved.subscribe(() => this.documentList.reload()),
-      content.nodesRestored.subscribe(() => this.documentList.reload()),
       uploadService.fileUploadComplete
         .pipe(debounceTime(300))
         .subscribe(file => this.onFileUploadedEvent(file)),
@@ -156,11 +151,6 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      if (PageComponent.isLockedNode(node.entry)) {
-        event.preventDefault();
-        return;
-      }
-
       this.showPreview(node);
     }
   }
@@ -183,7 +173,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
 
     // check root and child nodes
     if (node && node.entry && node.entry.parentId === this.getParentNodeId()) {
-      this.documentList.reload();
+      this.reload();
       return;
     }
 
@@ -220,7 +210,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     if (alreadyDisplayedParentFolder) {
       return;
     }
-    this.documentList.reload();
+    this.reload();
   }
 
   onContentCopied(nodes: MinimalNodeEntity[]) {
@@ -230,7 +220,7 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
       );
     });
     if (newNode) {
-      this.documentList.reload();
+      this.reload();
     }
   }
 

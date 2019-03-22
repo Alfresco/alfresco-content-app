@@ -6,7 +6,7 @@ addons:
   chrome: stable
 language: node_js
 node_js:
-  - '8'
+  - '10'
 before_script:
   - sudo /etc/init.d/postgresql stop
 before_install:
@@ -20,8 +20,6 @@ jobs:
       name: 'Code quality checks'
       script:
         - npm run lint
-        - npm run spellcheck
-        - npm run format:check
     - stage: test
       name: 'Unit tests'
       script:

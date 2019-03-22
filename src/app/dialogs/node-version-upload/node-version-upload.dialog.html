@@ -1,0 +1,20 @@
+<h1 mat-dialog-title class="node-version-dialog__title">
+  {{ 'VERSION.DIALOG.TITLE' | translate }}
+</h1>
+
+<div mat-dialog-content class="node-version-dialog__content">
+  <app-node-version-form #nodeVersion="nodeVersionForm"></app-node-version-form>
+</div>
+
+<div mat-dialog-actions class="dialog-actions">
+  <button mat-button mat-dialog-close>
+    {{ 'VERSION.DIALOG.CANCEL' | translate }}
+  </button>
+  <button
+    mat-button
+    [disabled]="!nodeVersion.form.valid"
+    [mat-dialog-close]="nodeVersion.form.value"
+  >
+    {{ 'VERSION.DIALOG.UPLOAD' | translate }}
+  </button>
+</div>

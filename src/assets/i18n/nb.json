@@ -41,7 +41,6 @@
       "TITLE": "Innstillinger",
       "APPLICATION-SETTINGS": "Programinnstillinger",
       "REPOSITORY-SETTINGS": "Databaseinnstillinger",
-      "EXPERIMENTAL-FEATURES": "Eksperimentelle funksjoner",
       "INVALID-VALUE-FORMAT": "Ugyldig verdiformat",
       "REQUIRED-FIELD": "Dette feltet er obligatorisk",
       "RESET": "Tilbakestill",
@@ -169,7 +168,12 @@
           "SIZE": "Størrelse"
         },
         "UNKNOWN_LOCATION": "Ukjent",
-        "NO_RESULTS": "Søket ditt ga 0 resultater"
+        "NO_RESULTS": "Søket ditt ga 0 resultater",
+        "TOGGLE_SEARCH_FILTER": "Aktiver/deaktiver søkefilter",
+        "ERRORS": {
+          "500": "Det oppstod en feil med behandling av søkespørringen [500]",
+          "GENERIC": "Det oppstod en feil med behandling av søkespørringen"
+        }
       },
       "SEARCH_LIBRARIES": {
         "TITLE": "Biblioteker funnet...",
@@ -195,6 +199,7 @@
       "UNSHARE": "Opphev deling",
       "DETAILS": "Visningsdetaljer",
       "VERSIONS": "Administrer versjoner",
+      "UPLOAD_VERSION": "Last opp ny versjon",
       "TOGGLE-SIDENAV": "Aktiver/deaktiver sidenavigasjonsfelt",
       "SHARE": "Del",
       "SHARE_EDIT": "Innstillinger for delt kobling",
@@ -202,7 +207,9 @@
       "FULLSCREEN": "Aktiver fullskjermmodus",
       "JOIN": "Bli med",
       "CANCEL_JOIN": "Avbryt forespørsel om tilslutning",
-      "LEAVE": "Forlat bibliotek"
+      "LEAVE": "Forlat bibliotek",
+      "EDIT_OFFLINE": "Rediger frakoblet",
+      "EDIT_OFFLINE_CANCEL": "Avbryt redigering"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -238,17 +245,6 @@
         "LISTVIEW": "Listevisningsmodus"
       }
     },
-    "SITES_VISIBILITY": {
-      "PUBLIC": "Offentlig",
-      "MODERATED": "Moderert",
-      "PRIVATE": "Privat"
-    },
-    "SITES_ROLE": {
-      "MANAGER": "Administrator",
-      "COLLABORATOR": "Medarbeider",
-      "CONTRIBUTOR": "Bidragsyter",
-      "CONSUMER": "Forbruker"
-    },
     "MESSAGES": {
       "ERRORS": {
         "CANNOT_NAVIGATE_LOCATION": "Kan ikke åpne dette stedet",
@@ -262,6 +258,8 @@
         "NODE_RESTORE": "{{ name }} kan ikke gjenopprettes",
         "NODE_RESTORE_PLURAL": "{{ number }} elementer kan ikke gjenopprettes",
         "PERMISSION": "Du har ikke tilgang til å gjøre dette",
+        "LOCK_NODE": "Det oppstod et problem med å låse {{ fileName }}-filen",
+        "UNLOCK_NODE": "Det oppstod et problem med å låse opp {{ fileName }}-filen",
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementer kan ikke slettes",
@@ -367,13 +365,31 @@
     "UNSHARE_PERMISSION_ERROR": "Du har ikke tillatelse til å oppheve deling av denne filen"
   },
   "VERSION": {
-    "DIALOG": {
+    "DIALOG_ADF": {
       "TITLE": "Administrer versjoner",
       "CLOSE": "Lukk"
+    },
+    "DIALOG": {
+      "TITLE": "Last opp ny versjon",
+      "CANCEL": "Avbryt",
+      "UPLOAD": "Laster opp"
+    },
+    "FORM": {
+      "SUBTITLE": "Hvor omfattende endringer ble gjort i denne versjonen?",
+      "VERSION": {
+        "MINOR": "Små (#.1)",
+        "MAJOR": "Store (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Legg til merknader som beskriver hva som er endret"
+      }
     },
     "SELECTION": {
       "EMPTY": "Velg et dokument for å se versjonene av det.",
       "NO_PERMISSION": "Du har ikke tillatelse til å administrere versjonene av dette innholdet."
+    },
+    "ERROR": {
+      "GENERIC": "Det oppstod en feil med versjonskontroll av filen"
     }
   },
   "LIBRARY": {
@@ -454,6 +470,11 @@
   "ADF_VIEWER": {
     "ACTIONS": {
       "INFO": "Visningsdetaljer"
+    }
+  },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "Dette navnet er allerede i bruk – prøv et annet navn [409]"
     }
   },
   "ADF_VERSION_LIST": {

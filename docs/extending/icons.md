@@ -1,3 +1,7 @@
+---
+Title: Custom Icons
+---
+
 # Custom Icons
 
 You can register and use custom `.svg` icons with toolbars, context menus, etc.

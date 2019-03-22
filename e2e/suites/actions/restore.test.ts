@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -52,8 +52,6 @@ describe('Restore from Trash', () => {
     done();
   });
 
-  xit('');
-
   describe('successful restore', () => {
     const file = `file-${Utils.random()}.txt`; let fileId;
     const folder = `folder-${Utils.random()}`; let folderId;
@@ -81,59 +79,59 @@ describe('Restore from Trash', () => {
 
     it('restore file - [C217177]', async () => {
       await dataTable.selectItem(file);
-      await toolbar.getButtonByTitleAttribute('Restore').click();
+      await toolbar.clickRestore();
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${file} restored`);
       expect(text).toContain(`View`);
-      expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
+      expect(await dataTable.isItemPresent(file)).toBe(false, 'Item was not removed from list');
       await page.clickPersonalFilesAndWait();
-      expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
+      expect(await page.dataTable.isItemPresent(file)).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodeById(fileId, false);
     });
 
     it('restore folder - [C280438]', async () => {
       await dataTable.selectItem(folder);
-      await toolbar.getButtonByTitleAttribute('Restore').click();
+      await toolbar.clickRestore();
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${folder} restored`);
       expect(text).toContain(`View`);
-      expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
+      expect(await dataTable.isItemPresent(folder)).toBe(false, 'Item was not removed from list');
       await page.clickPersonalFilesAndWait();
-      expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
+      expect(await page.dataTable.isItemPresent(folder)).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodeById(folderId, false);
     });
 
     it('restore library - [C290104]', async () => {
       await dataTable.selectItem(site);
-      await toolbar.getButtonByTitleAttribute('Restore').click();
+      await toolbar.clickRestore();
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`${site} restored`);
       expect(text).toContain(`View`);
-      expect(await dataTable.getRowByName(site).isPresent()).toBe(false, `${site} was not removed from list`);
+      expect(await dataTable.isItemPresent(site)).toBe(false, `${site} was not removed from list`);
       await page.clickFileLibrariesAndWait();
-      expect(await page.dataTable.getRowByName(site).isPresent()).toBe(true, `${site} not displayed in list`);
+      expect(await page.dataTable.isItemPresent(site)).toBe(true, `${site} not displayed in list`);
     });
 
     it('restore multiple items - [C217182]', async () => {
       await dataTable.selectMultipleItems([file, folder]);
-      await toolbar.getButtonByTitleAttribute('Restore').click();
+      await toolbar.clickRestore();
       const text = await page.getSnackBarMessage();
       expect(text).toContain(`Restore successful`);
       expect(text).not.toContain(`View`);
-      expect(await dataTable.getRowByName(file).isPresent()).toBe(false, 'Item was not removed from list');
-      expect(await dataTable.getRowByName(folder).isPresent()).toBe(false, 'Item was not removed from list');
+      expect(await dataTable.isItemPresent(file)).toBe(false, 'Item was not removed from list');
+      expect(await dataTable.isItemPresent(folder)).toBe(false, 'Item was not removed from list');
       await page.clickPersonalFilesAndWait();
-      expect(await page.dataTable.getRowByName(file).isPresent()).toBe(true, 'Item not displayed in list');
-      expect(await page.dataTable.getRowByName(folder).isPresent()).toBe(true, 'Item not displayed in list');
+      expect(await page.dataTable.isItemPresent(file)).toBe(true, 'Item not displayed in list');
+      expect(await page.dataTable.isItemPresent(folder)).toBe(true, 'Item not displayed in list');
 
       await apis.user.nodes.deleteNodesById([fileId, folderId], false);
     });
 
     it('View from notification - [C217181]', async () => {
       await dataTable.selectItem(file);
-      await toolbar.getButtonByTitleAttribute('Restore').click();
+      await toolbar.clickRestore();
       await page.clickSnackBarAction();
       await page.dataTable.waitForHeader();
       expect(await page.sidenav.isActive('Personal Files')).toBe(true, 'Personal Files sidebar link not active');
@@ -184,17 +182,15 @@ describe('Restore from Trash', () => {
     it('Restore a file when another file with same name exists on the restore location - [C217178]', async () => {
       await page.clickTrashAndWait();
       await dataTable.selectItem(file1);
-      await toolbar.getButtonByTitleAttribute('Restore').click();
-      const text = await page.getSnackBarMessage();
-      expect(text).toEqual(`Can't restore, ${file1} already exists`);
+      await toolbar.clickRestore();
+      expect(await page.getSnackBarMessage()).toEqual(`Can't restore, ${file1} already exists`);
     });
 
     it('Restore a file when original location no longer exists - [C217179]', async () => {
       await page.clickTrashAndWait();
       await dataTable.selectItem(file2);
-      await toolbar.getButtonByTitleAttribute('Restore').click();
-      const text = await page.getSnackBarMessage();
-      expect(text).toEqual(`Can't restore ${file2}, the original location no longer exists`);
+      await toolbar.clickRestore();
+      expect(await page.getSnackBarMessage()).toEqual(`Can't restore ${file2}, the original location no longer exists`);
     });
   });
 
@@ -254,16 +250,14 @@ describe('Restore from Trash', () => {
 
     it('one failure - [C217183]', async () => {
       await dataTable.selectMultipleItems([file1, file2]);
-      await toolbar.getButtonByTitleAttribute('Restore').click();
-      const text = await page.getSnackBarMessage();
-      expect(text).toEqual(`Can't restore ${file1}, the original location no longer exists`);
+      await toolbar.clickRestore();
+      expect(await page.getSnackBarMessage()).toEqual(`Can't restore ${file1}, the original location no longer exists`);
     });
 
     it('multiple failures - [C217184]', async () => {
       await dataTable.selectMultipleItems([file3, file4, file5]);
-      await toolbar.getButtonByTitleAttribute('Restore').click();
-      const text = await page.getSnackBarMessage();
-      expect(text).toEqual('2 items not restored because of issues with the restore location');
+      await toolbar.clickRestore();
+      expect(await page.getSnackBarMessage()).toEqual('2 items not restored because of issues with the restore location');
     });
   });
 });

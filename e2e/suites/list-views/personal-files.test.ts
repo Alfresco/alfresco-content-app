@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -65,8 +65,6 @@ describe('Personal Files', () => {
     done();
   });
 
-  xit('');
-
   describe(`Admin user's personal files`, () => {
     beforeAll(async (done) => {
       await loginPage.loginWithAdmin();
@@ -79,8 +77,8 @@ describe('Personal Files', () => {
     });
 
     it('has Data Dictionary and created content - [C213241]', async () => {
-      expect(await dataTable.getRowByName('Data Dictionary').isPresent()).toBe(true, 'Data Dictionary not displayed');
-      expect(await dataTable.getRowByName(adminFolder).isPresent()).toBe(true, 'admin folder not displayed');
+      expect(await dataTable.isItemPresent('Data Dictionary')).toBe(true, 'Data Dictionary not displayed');
+      expect(await dataTable.isItemPresent(adminFolder)).toBe(true, 'admin folder not displayed');
     });
   });
 
@@ -96,22 +94,18 @@ describe('Personal Files', () => {
     });
 
     it('has the correct columns - [C217142]', async () => {
-      const labels = [ 'Name', 'Size', 'Modified', 'Modified by' ];
-      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+      const expectedColumns = [ 'Thumbnail', 'Name', 'Size', 'Modified', 'Modified by' ];
+      const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(await dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
-
-      await elements.forEach(async (element, index) => {
-        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-      });
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('has default sorted column - [C217143]', async () => {
-      expect(await dataTable.getSortedColumnHeader().getText()).toBe('Modified');
+      expect(await dataTable.getSortedColumnHeaderText()).toBe('Modified');
     });
 
     it('has user created content - [C213242]', async () => {
-      expect(await dataTable.getRowByName(userFolder).isPresent()).toBe(true, 'user folder not displayed');
+      expect(await dataTable.isItemPresent(userFolder)).toBe(true, 'user folder not displayed');
     });
 
     it('navigates to folder - [C213244]', async () => {
@@ -121,7 +115,7 @@ describe('Personal Files', () => {
       await dataTable.waitForHeader();
 
       expect(await browser.getCurrentUrl()).toContain(nodeId, 'Node ID is not in the URL');
-      expect(await dataTable.getRowByName(userFile).isPresent()).toBe(true, 'user file is missing');
+      expect(await dataTable.isItemPresent(userFile)).toBe(true, 'user file is missing');
     });
 
     it('redirects to Personal Files on clicking the link from sidebar - [C213245]', async () => {

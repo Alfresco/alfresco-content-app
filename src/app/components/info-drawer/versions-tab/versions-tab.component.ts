@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,12 +24,12 @@
  */
 
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 
 @Component({
   selector: 'app-versions-tab',
   template: `
-    <ng-container *ngIf="isFileSelected; else: empty">
+    <ng-container *ngIf="isFileSelected; else empty">
       <adf-version-manager
         [showComments]="
           'adf-version-manager.allowComments' | adfAppConfig: true
@@ -65,7 +65,7 @@ export class VersionsTabComponent implements OnInit, OnChanges {
   }
 
   private updateState() {
-    if (this.node && this.node.nodeId) {
+    if (this.node && (<any>this.node).nodeId) {
       // workaround for shared files type.
       this.isFileSelected = true;
     } else {

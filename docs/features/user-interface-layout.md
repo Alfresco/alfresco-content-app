@@ -1,9 +1,10 @@
 ---
+Title: User Interface - layout
 ---
 
 # User Interface - layout
 
-There are three main areas of the application controlled by the [Layout component](https://github.com/Alfresco/alfresco-content-app/tree/master/src/app/components/layout):
+There are three main areas of the application controlled by the [Layout component](../../src/app/components/layout):
 
 1. [Application Header](/features/header)
 2. [Side Navigation](/features/side-navigation)

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, protractor, ExpectedConditions as EC, promise } from 'protractor';
+import { ElementFinder, by, browser, protractor, ExpectedConditions as EC } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
@@ -72,9 +72,37 @@ export class CreateOrEditFolderDialog extends Component {
     return await this.validationMessage.isDisplayed();
   }
 
+  async isUpdateButtonEnabled() {
+    return this.updateButton.isEnabled();
+  }
+
+  async isCreateButtonEnabled() {
+    return this.createButton.isEnabled();
+  }
+
+  async isCancelButtonEnabled() {
+    return this.cancelButton.isEnabled();
+  }
+
+  async isNameDisplayed() {
+    return await this.nameInput.isDisplayed();
+  }
+
+  async isDescriptionDisplayed() {
+    return await this.descriptionTextArea.isDisplayed();
+  }
+
   async getValidationMessage() {
     await this.isValidationMessageDisplayed();
     return await this.validationMessage.getText();
+  }
+
+  async getName() {
+    return await this.nameInput.getAttribute('value');
+  }
+
+  async getDescription() {
+    return await this.descriptionTextArea.getAttribute('value');
   }
 
   async enterName(name: string) {
@@ -104,4 +132,5 @@ export class CreateOrEditFolderDialog extends Component {
   async clickUpdate() {
     await this.updateButton.click();
   }
+
 }

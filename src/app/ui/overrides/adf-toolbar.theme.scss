@@ -1,6 +1,10 @@
 @mixin adf-toolbar-theme($theme) {
   $foreground: map-get($theme, foreground);
 
+  .app-toolbar-menu-item:last-child > .mat-divider-horizontal {
+    display: none;
+  }
+
   .adf-viewer {
     .adf-toolbar {
       .mat-toolbar {

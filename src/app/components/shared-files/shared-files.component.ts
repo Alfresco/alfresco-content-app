@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -31,6 +31,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { debounceTime } from 'rxjs/operators';
+import { UploadService } from '@alfresco/adf-core';
 
 @Component({
   templateUrl: './shared-files.component.html'
@@ -44,6 +45,7 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService,
+    private uploadService: UploadService,
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
@@ -53,12 +55,16 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.content.nodesDeleted.subscribe(() => this.reload()),
-      this.content.nodesMoved.subscribe(() => this.reload()),
-      this.content.nodesRestored.subscribe(() => this.reload()),
       this.content.linksUnshared
         .pipe(debounceTime(300))
         .subscribe(() => this.reload()),
+
+      this.uploadService.fileUploadComplete
+        .pipe(debounceTime(300))
+        .subscribe(file => this.reload()),
+      this.uploadService.fileUploadDeleted
+        .pipe(debounceTime(300))
+        .subscribe(file => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])

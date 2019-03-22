@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -81,32 +81,37 @@ describe('Pagination on single page', () => {
 
   it('page selector not displayed on Favorites - [C280112]', async () => {
     await page.clickFavoritesAndWait();
-    expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
+    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
-  it('page selector not displayed on File Libraries - [C280085]', async () => {
-    await page.clickFileLibrariesAndWait();
-    expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
+  it('page selector not displayed on My Libraries - [C280085]', async () => {
+    await page.goToMyLibrariesAndWait();
+    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
+  });
+
+  it('page selector not displayed on Favorite Libraries - [C291874]', async () => {
+    await page.goToFavoriteLibrariesAndWait();
+    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on Personal Files - [C280076]', async () => {
     await page.clickPersonalFilesAndWait();
-    expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
+    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on Recent Files - [C280103]', async () => {
     await page.clickRecentFilesAndWait();
-    expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
+    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on Shared Files - [C280094]', async () => {
     await page.clickSharedFilesAndWait();
-    expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
+    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on Trash - [C280121]', async () => {
     await page.clickTrashAndWait();
-    expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
+    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
   it('page selector not displayed on Search results - [C290124]', async () => {
@@ -114,7 +119,7 @@ describe('Pagination on single page', () => {
     await searchInput.checkOnlyFiles();
     await searchInput.searchFor(file);
     await dataTable.waitForBody();
-    expect(await pagination.pagesButton.isPresent()).toBe(false, 'page selector displayed');
+    expect(await pagination.isPagesButtonPresent()).toBe(false, 'page selector displayed');
   });
 
 });

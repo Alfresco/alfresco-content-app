@@ -1,4 +1,5 @@
 ---
+Title: Configuration
 ---
 
 # Configuration
@@ -48,34 +49,11 @@ Alternatively, you can provide a static address for the ACS server if necessary:
 
 The "baseShareUrl" property tells the application how to construct the address where users will access shared files.
 
-#### Default
-
-When the default value is set the application will construct the File Share URL from the "ecmHost" property: 
-
 ```json
 {
-    ...
-    "baseShareUrl": null,
-    ...
+  "baseShareUrl": "{protocol}//{hostname}{:port}/#/preview/s"
 }
 ```
-
-#### Configuration
-
-If you run the application from a different server than the Content Services server the "baseShareUrl" property should must be configured correctly, for example:
-
-```json
-{
-    ...
-    "baseShareUrl": "http://{serveraddress}{:port}",
-    ...
-}
-```
-
-<p class="warning">
-If you run the application as part of Tomcat and not in the root (subfolder), then "baseShareUrl" value should contain full address to the app, for example: "baseShareUrl": "http://{serveraddress}{:port}/{folder}".
-</p>
-
 
 ## Application settings
 
@@ -105,7 +83,6 @@ The default logo displayed in the top left corner of the Alfresco Content Applic
 1. Place your custom logo image file in the [app-name]/src/assets/images folder. The displayed image will resize automatically, an image with extreme width/height might not retain its dimensions.
 
 2. In the app.config.json file, set the value of the application.logo to contain the name of the custom logo image: "logo": "/assets/images/[image-name].[extension]"
-
 
 ```json
 {
@@ -148,9 +125,7 @@ By default, the application ships with the following rules already predefined:
 }
 ```
 
-<p class="tip">
-You can get more details on the supported rules in the following article: <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/upload.service.md" target="_blank">Upload Service</a>.
-</p>
+**Tip:** You can find more details on the supported rules in the ADF [Upload Service](https://www.alfresco.com/abn/adf/docs/core/upload.service/) docs.
 
 ### Pagination settings
 
@@ -174,6 +149,5 @@ You can change the default settings of the pagination that gets applied to all t
 
 You can store any information in the application configuration file, and access it at runtime by using the `AppConfigService` service provided by ADF.
 
-<p class="tip">
-Please refer to the <a href="https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/app-config.service.md" target="_blank">AppConfigService</a> documentation to get more details on Application Configuration features and API's available.
-</p>
+**Tip:** Please refer to the ADF
+[App Config Service](https://www.alfresco.com/abn/adf/docs/core/app-config.service/) documentation to get more details on the Application Configuration features and APIs available.

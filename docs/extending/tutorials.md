@@ -1,7 +1,10 @@
 ---
+Title: Tutorials
 ---
 
 # Tutorials
+
+Below are some short tutorials that cover common tasks.
 
 ## Custom route with parameters
 

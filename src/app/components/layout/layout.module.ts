@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -30,9 +30,9 @@ import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { ContentModule } from '@alfresco/adf-content-services';
 import { RouterModule } from '@angular/router';
 import { AppSidenavModule } from '../sidenav/sidenav.module';
+import { AppUploadingDialogModule } from '../upload-dialog/upload.module';
 import { AppCommonModule } from '../common/common.module';
 import { AppHeaderModule } from '../header/header.module';
-import { AppUploadingDialogModule } from '../upload-dialog/upload-dialog.module';
 import { PageLayoutComponent } from './page-layout/page-layout.component';
 import { PageLayoutHeaderComponent } from './page-layout/page-layout-header.component';
 import { PageLayoutContentComponent } from './page-layout/page-layout-content.component';

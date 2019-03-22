@@ -1,10 +1,10 @@
 ---
+Title: Rules
 ---
 
 # Rules
 
-Rules allow evaluating conditions for extension components.
-For example, you can disable or hide elements based on certain rules.
+Rules allow you to evaluate conditions for extension components, so you can disable or hide elements based on certain rules, for example.
 
 Every rule is backed by a condition evaluator.
 
@@ -46,10 +46,8 @@ Rules can accept other rules as parameters:
 }
 ```
 
-<p class="tip">
-You can also negate any rule by utilizing a `!` prefix:
+**Tip:** You can also negate any rule by utilizing a `!` prefix:
 `!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
-</p>
 
 It is also possible to use inline references to registered evaluators without declaring rules,
 in case you do not need providing extra parameters, or chaining multiple rules together.
@@ -131,26 +129,31 @@ The button will be visible only when the linked rule evaluates to `true`.
 
 ## Application Evaluators
 
-| Key                             | Description                                                  |
-| ------------------------------- | ------------------------------------------------------------ |
-| app.selection.canDelete         | User has permission to delete selected node(s).              |
-| app.selection.canDownload       | User can download selected node(s).                          |
-| app.selection.notEmpty          | At least one node is selected.                               |
-| app.selection.canUnshare        | User is able to remove selected node(s) from public sharing. |
-| app.selection.canAddFavorite    | User can add selected node(s) to favorites.                  |
-| app.selection.canRemoveFavorite | User can remove selected node(s) from favorites.             |
-| app.selection.first.canUpdate   | User has permission to update selected node(s).              |
-| app.selection.file              | A single File node is selected.                              |
-| app.selection.file.canShare     | User is able to share the selected file.                     |
-| app.selection.file.isShared     | A shared node is selected                                    |
-| app.selection.file.isLocked     | File is locked for editing                                   |
-| app.selection.library           | A single Library node is selected.                           |
-| app.selection.isPrivateLibrary  | A private Library node is selected.                          |
-| app.selection.hasLibraryRole    | The selected Library node has a role property.               |
-| app.selection.hasNoLibraryRole  | The selected Library node has no role property.              |
-| app.selection.folder            | A single Folder node is selected.                            |
-| app.selection.folder.canUpdate  | User has permissions to update the selected folder.          |
-| repository.isQuickShareEnabled  | Whether the quick share repository option is enabled or not. |
+| Key                                 | Description                                                  |
+| ----------------------------------- | ------------------------------------------------------------ |
+| app.selection.canDelete             | User has permission to delete selected node(s).              |
+| app.selection.canDownload           | User can download selected node(s).                          |
+| app.selection.notEmpty              | At least one node is selected.                               |
+| app.selection.canUnshare            | User is able to remove selected node(s) from public sharing. |
+| app.selection.canAddFavorite        | User can add selected node(s) to favorites.                  |
+| app.selection.canRemoveFavorite     | User can remove selected node(s) from favorites.             |
+| app.selection.first.canUpdate       | User has permission to update selected node(s).              |
+| app.selection.file                  | A single File node is selected.                              |
+| app.selection.file.canShare         | User is able to share the selected file.                     |
+| app.selection.file.isShared         | A shared node is selected.                                   |
+| app.selection.file.isLocked         | File is locked for editing.                                  |
+| app.selection.file.isLockOwner      | File is locked and current user is the lock owner.           |
+| app.selection.file.canUploadVersion | User can update file version.                                |
+| app.selection.library               | A single Library node is selected.                           |
+| app.selection.isPrivateLibrary      | A private Library node is selected.                          |
+| app.selection.hasLibraryRole        | The selected Library node has a role property.               |
+| app.selection.hasNoLibraryRole      | The selected Library node has no role property.              |
+| app.selection.folder                | A single Folder node is selected.                            |
+| app.selection.folder.canUpdate      | User has permissions to update the selected folder.          |
+| app.selection.folder.canUpdate      | User has permissions to update the selected folder.          |
+| app.selection.file.canLock          | User has permissions to lock file.                           |
+| app.selection.file.canUnlock        | User has permissions to unlock file.                         |
+| repository.isQuickShareEnabled      | Whether the quick share repository option is enabled or not. |
 
 ## Navigation Evaluators
 
@@ -159,32 +162,34 @@ The application exposes a set of navigation-related evaluators to help developer
 The negated evaluators are provided just to simplify development, and to avoid having complex rule trees just to negate the rules,
 for example mixing `core.every` and `core.not`.
 
-<p class="tip">
-You can also negate any rule by utilizing a `!` prefix:
+**Tip:** You can also negate any rule by utilizing a `!` prefix:
 `!app.navigation.isTrashcan` is the opposite of the `app.navigation.isTrashcan`.
-</p>
 
-| Key                               | Description                                             |
-| --------------------------------- | ------------------------------------------------------- |
-| app.navigation.folder.canCreate   | User can create content in the currently opened folder. |
-| app.navigation.folder.canUpload   | User can upload content to the currently opened folder. |
-| app.navigation.isTrashcan         | User is using the **Trashcan** page.                    |
-| app.navigation.isNotTrashcan      | Current page is not a **Trashcan**.                     |
-| app.navigation.isLibraries        | User is using a **Libraries** page.                     |
-| app.navigation.isNotLibraries     | Current page is not a **Libraries** page.               |
-| app.navigation.isSharedFiles      | User is using the **Shared Files** page.                |
-| app.navigation.isNotSharedFiles   | Current page is not **Shared Files**.                   |
-| app.navigation.isFavorites        | User is using the **Favorites** page.                   |
-| app.navigation.isNotFavorites     | Current page is not **Favorites**                       |
-| app.navigation.isRecentFiles      | User is using the **Recent Files** page.                |
-| app.navigation.isNotRecentFiles   | Current page is not **Recent Files**.                   |
-| app.navigation.isSearchResults    | User is using the **Search Results** page.              |
-| app.navigation.isNotSearchResults | Current page is not the **Search Results**.             |
+| Key                               | Description                                                      |
+| --------------------------------- | ---------------------------------------------------------------- |
+| app.navigation.folder.canCreate   | User can create content in the currently opened folder.          |
+| app.navigation.folder.canUpload   | User can upload content to the currently opened folder.          |
+| app.navigation.isTrashcan         | User is using the **Trashcan** page.                             |
+| app.navigation.isNotTrashcan      | Current page is not a **Trashcan**.                              |
+| app.navigation.isLibraries        | User is using a **Libraries** or **Library Search Result** page. |
+| app.navigation.isNotLibraries     | Current page is not a **Libraries** page.                        |
+| app.navigation.isSharedFiles      | User is using the **Shared Files** page.                         |
+| app.navigation.isNotSharedFiles   | Current page is not **Shared Files**.                            |
+| app.navigation.isFavorites        | User is using the **Favorites** page.                            |
+| app.navigation.isNotFavorites     | Current page is not **Favorites**.                               |
+| app.navigation.isRecentFiles      | User is using the **Recent Files** page.                         |
+| app.navigation.isNotRecentFiles   | Current page is not **Recent Files**.                            |
+| app.navigation.isSearchResults    | User is using the **Search Results** page.                       |
+| app.navigation.isNotSearchResults | Current page is not the **Search Results**.                      |
+| app.navigation.isSharedPreview    | Current page is preview **Shared Files**.                        |
+| app.navigation.isFavoritesPreview | Current page is preview **Favorites**.                           |
+| app.navigation.isSharedFileViewer | Current page is shared file preview page.                        |
+| app.navigation.isPreview          | Current page is **Preview**.                                     |
+| app.navigation.isPersonalFiles    | Current page is **Personal Files**.                              |
+| app.navigation.isLibraryFiles     | Current page is **Library Files**.                               |
 
-<p class="tip">
-See [Registration](/extending/registration) section for more details
+**Tip:** See the [Registration](/extending/registration) section for more details
 on how to register your own entries to be re-used at runtime.
-</p>
 
 ### Example
 

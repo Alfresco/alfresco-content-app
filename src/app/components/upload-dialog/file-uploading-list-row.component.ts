@@ -1,6 +1,6 @@
 /*!
  * @license
- * Copyright 2016 Alfresco Software, Ltd.
+ * Copyright 2019 Alfresco Software, Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,33 +15,34 @@
  * limitations under the License.
  */
 
-import { FileModel, FileUploadStatus } from '@alfresco/adf-core';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-
+import { Component } from '@angular/core';
+import { FileUploadingListRowComponent } from '@alfresco/adf-content-services';
 @Component({
   selector: 'app-file-uploading-list-row',
   templateUrl: './file-uploading-list-row.component.html'
 })
-export class FileUploadingListRowComponent {
-  @Input()
-  file: FileModel;
-
-  @Input()
-  error: any;
-
-  @Output()
-  cancel: EventEmitter<FileModel> = new EventEmitter<FileModel>();
-
-  @Output()
-  remove: EventEmitter<FileModel> = new EventEmitter<FileModel>();
-
-  FileUploadStatus = FileUploadStatus;
-
-  onCancel(file: FileModel): void {
-    this.cancel.emit(file);
+export class AppFileUploadingListRowComponent extends FileUploadingListRowComponent {
+  isUploadVersion() {
+    return (
+      !!this.file.data &&
+      this.file.options &&
+      this.file.options.newVersion &&
+      this.file.data.entry.properties &&
+      this.file.data.entry.properties['cm:versionLabel']
+    );
   }
 
-  onRemove(file: FileModel): void {
-    this.remove.emit(file);
+  // todo: move to ADF 3.x.x
+  get versionNumber() {
+    return this.file.data.entry.properties['cm:versionLabel'];
+  }
+
+  // todo: move to ADF 3.x.x
+  get mimeType(): string {
+    if (this.file && this.file.file && this.file.file.type) {
+      return this.file.file.type;
+    }
+
+    return 'default';
   }
 }

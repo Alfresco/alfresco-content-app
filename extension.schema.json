@@ -386,11 +386,11 @@
       }
     },
     "content-metadata-layout-group": {
-      "description": "Content metadata's layout groups definition",
+      "description": "Content metadata layout groups definition",
       "type": "array",
       "items": [
         {
-          "description": "Content metadata's one layout group definition",
+          "description": "Content metadata layout group definition",
           "type": "object",
           "required": ["id"],
           "properties": {
@@ -400,11 +400,11 @@
             },
             "title": {
               "type": "string",
-              "description": "Content metadata's one layout group definition's title"
+              "description": "Content metadata layout group definition title"
             },
             "items": {
               "type": "array",
-              "description": "Content metadata's one layout group definition's items",
+              "description": "Content metadata layout group definition items",
               "items": {
                 "oneOf": [
                   {
@@ -528,6 +528,14 @@
         "id": {
           "description": "Unique identifier.",
           "type": "string"
+        },
+        "disabled": {
+          "description": "Toggles the disabled state",
+          "type": "boolean"
+        },
+        "order": {
+          "description": "Element order",
+          "type": "number"
         },
         "key": {
           "description": "Property key",
@@ -670,12 +678,6 @@
           "properties": {
             "openWith": {
               "description": "The [Open With] menu extensions",
-              "type": "array",
-              "items": { "$ref": "#/definitions/contentActionRef" },
-              "minItems": 1
-            },
-            "toolbarMoreMenu": {
-              "description": "Toolbar entries from the More actions menu",
               "type": "array",
               "items": { "$ref": "#/definitions/contentActionRef" },
               "minItems": 1

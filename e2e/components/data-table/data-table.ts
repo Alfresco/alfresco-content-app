@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -42,13 +42,15 @@ export class DataTable extends Component {
 
     body: '.adf-datatable-body',
     row: '.adf-datatable-row[role]',
-    selectedRow: '.adf-datatable-row.is-selected',
+    selectedRow: '.adf-datatable-row.adf-is-selected',
     cell: '.adf-data-table-cell',
     locationLink: '.aca-location-link',
-    nameLink: '.dl-link',
-    libraryRole: 'app-library-role-column',
+    nameLink: '.adf-datatable-link',
+    libraryRole: 'adf-library-role-column',
 
-    selectedIcon: '.mat-icon',
+    selectedIcon: '.mat-icon[class*="selected"]',
+    lockIcon: 'img[src*="lock"]',
+    lockOwner: '.aca-locked-by',
 
     emptyListContainer: 'div.adf-no-content-container',
     emptyFolderDragAndDrop: '.adf-empty-list_template .adf-empty-folder',
@@ -60,9 +62,7 @@ export class DataTable extends Component {
 
   head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
   body: ElementFinder = this.component.element(by.css(DataTable.selectors.body));
-  cell = by.css(DataTable.selectors.cell);
-  locationLink = by.css(DataTable.selectors.locationLink);
-  nameLink: ElementFinder = browser.element(by.css(DataTable.selectors.nameLink));
+
   emptyList: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListContainer));
   emptyFolderDragAndDrop: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyFolderDragAndDrop));
   emptyListTitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListTitle));
@@ -94,7 +94,7 @@ export class DataTable extends Component {
     return this.head.all(locator);
   }
 
-  async getHeaderText() {
+  async getColumnHeadersText() {
     const el = this.getColumnHeaders();
     return await el.getText();
   }
@@ -157,12 +157,17 @@ export class DataTable extends Component {
     return this.getRows().get(nth - 1);
   }
 
-  getRowByName(name: string) {
+  getRowByName(name: string, location: string = '') {
+    if (location) {
+      return this.body.all(by.cssContainingText(DataTable.selectors.row, name))
+        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.cell, location))))
+        .first();
+    }
     return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
   }
 
-  getRowFirstCell(name: string) {
-    return this.getRowByName(name).all(by.css(DataTable.selectors.cell)).get(0);
+  getRowFirstCell(name: string, location: string = '') {
+    return this.getRowByName(name, location).all(by.css(DataTable.selectors.cell)).get(0);
   }
 
   getRowNameCell(name: string) {
@@ -177,8 +182,27 @@ export class DataTable extends Component {
     return await this.getRowNameCellText(name).getAttribute('title');
   }
 
-  async hasCheckMarkIcon(itemName: string) {
-    return await this.getRowByName(itemName).element(by.css(DataTable.selectors.selectedIcon)).isPresent();
+  async hasCheckMarkIcon(itemName: string, location: string = '') {
+    const row = this.getRowByName(itemName, location);
+    return await row.element(by.css(DataTable.selectors.selectedIcon)).isPresent();
+  }
+
+  async hasLockIcon(itemName: string, location: string = '') {
+    const row = this.getRowByName(itemName, location);
+    return await row.element(by.css(DataTable.selectors.lockIcon)).isPresent();
+  }
+
+  async hasLockOwnerInfo(itemName: string, location: string = '') {
+    const row = this.getRowByName(itemName, location);
+    return await row.element(by.css(DataTable.selectors.lockOwner)).isPresent();
+  }
+
+  async getLockOwner(itemName: string, location: string = '') {
+    if (await this.hasLockOwnerInfo(itemName, location)) {
+      const row = this.getRowByName(itemName, location);
+      return await row.$(DataTable.selectors.lockOwner).$('.locked_by--name').getText();
+    }
+    return '';
   }
 
   getNameLink(itemName: string) {
@@ -191,15 +215,19 @@ export class DataTable extends Component {
 
   // Navigation/selection methods
   async doubleClickOnRowByName(name: string) {
-    const item = this.getRowFirstCell(name);
-    await Utils.waitUntilElementClickable(item);
-    await browser.actions().mouseMove(item).perform();
-    await browser.actions().click().click().perform();
+    try {
+      const item = this.getRowFirstCell(name);
+      await Utils.waitUntilElementClickable(item);
+      await browser.actions().mouseMove(item).perform();
+      await browser.actions().click().click().perform();
+    } catch (error) {
+      console.log('--- catch: doubleClickOnRowByName', error);
+    }
   }
 
-  async selectItem(name: string) {
+  async selectItem(name: string, location: string = '') {
     try{
-      const item = this.getRowFirstCell(name);
+      const item = this.getRowFirstCell(name, location);
       await item.click();
 
     } catch (e) {
@@ -211,11 +239,11 @@ export class DataTable extends Component {
     await this.getNameLink(itemName).click();
   }
 
-  async selectMultipleItems(names: string[]) {
+  async selectMultipleItems(names: string[], location: string = '') {
     await this.clearSelection();
     await browser.actions().sendKeys(protractor.Key.COMMAND).perform();
     for (const name of names) {
-      await this.selectItem(name);
+      await this.selectItem(name, location);
     }
     await browser.actions().sendKeys(protractor.Key.NULL).perform();
   }
@@ -225,7 +253,7 @@ export class DataTable extends Component {
       const count = await this.countSelectedRows();
       if (count !== 0) {
         await browser.refresh();
-        await this.waitForHeader();
+        await this.wait();
       }
     } catch (error) {
       console.log('------ clearSelection catch : ', error);
@@ -238,13 +266,13 @@ export class DataTable extends Component {
   }
 
   async rightClickOnMultipleSelection() {
-    await this.waitForHeader();
+    await this.wait();
     const itemFromSelection = this.getSelectedRows().get(0);
     await browser.actions().click(itemFromSelection, protractor.Button.RIGHT).perform();
   }
 
   getItemLocationEl(name: string) {
-    return this.getRowByName(name).element(this.locationLink);
+    return this.getRowByName(name).element(by.css(DataTable.selectors.locationLink));
   }
 
   async getItemLocation(name: string) {
@@ -252,10 +280,6 @@ export class DataTable extends Component {
   }
 
   async getItemLocationTooltip(name: string) {
-    return await this.getItemLocationEl(name).$('a').getAttribute('title');
-  }
-
-  async getItemLocationTileAttr(name: string) {
     const location = this.getItemLocationEl(name).$('a');
     const condition = () => location.getAttribute('title').then(value => value && value.length > 0);
 
@@ -319,4 +343,31 @@ export class DataTable extends Component {
   async getLibraryRole(name: string) {
     return await this.getRowByName(name).element(by.css(DataTable.selectors.libraryRole)).getText();
   }
+
+  async isItemPresent(name: string, location? : string) {
+    return await this.getRowByName(name, location).isPresent();
+  }
+
+  async getEntireDataTableText() {
+    return this.getRows().map((row) => {
+      return row.all(by.css(DataTable.selectors.cell)).map(async cell => await cell.getText());
+    });
+  }
+
+  async getSitesNameAndVisibility() {
+    const data = await this.getEntireDataTableText();
+    return data.reduce((acc, cell) => {
+      acc[cell[1]] = cell[3].toUpperCase();
+      return acc;
+    }, {});
+  }
+
+  async getSitesNameAndRole() {
+    const data = await this.getEntireDataTableText();
+    return data.reduce((acc, cell) => {
+      acc[cell[1]] = cell[2];
+      return acc;
+    }, {});
+  }
+
 }

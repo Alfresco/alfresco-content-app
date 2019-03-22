@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -27,6 +27,7 @@ import { Action } from '@ngrx/store';
 
 export const UPLOAD_FILES = 'UPLOAD_FILES';
 export const UPLOAD_FOLDER = 'UPLOAD_FOLDER';
+export const UPLOAD_FILE_VERSION = 'UPLOAD_FILE_VERSION';
 
 export class UploadFilesAction implements Action {
   readonly type = UPLOAD_FILES;
@@ -36,4 +37,8 @@ export class UploadFilesAction implements Action {
 export class UploadFolderAction implements Action {
   readonly type = UPLOAD_FOLDER;
   constructor(public payload: any) {}
+}
+
+export class UploadFileVersionAction implements Action {
+  readonly type = UPLOAD_FILE_VERSION;
 }

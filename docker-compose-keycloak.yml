@@ -1,0 +1,146 @@
+version: '2'
+
+services:
+  alfresco:
+    image: alfresco/alfresco-content-repository-community:6.1.2-ga
+    mem_limit: 1500m
+    depends_on:
+      - postgres
+      - auth
+    environment:
+      AUTH_SERVER_URL: ${AUTH_SERVER_URL}
+      JAVA_OPTS: '
+        -Ddb.driver=org.postgresql.Driver
+        -Ddb.username=alfresco
+        -Ddb.password=alfresco
+        -Ddb.url=jdbc:postgresql://postgres:5432/alfresco
+        -Dsolr.host=solr6
+        -Dsolr.port=8983
+        -Dsolr.secureComms=none
+        -Dsolr.base.url=/solr
+        -Dindex.subsystem.name=solr6
+        -Dshare.host=localhost
+        -Dalfresco.port=8080
+        -Daos.baseUrlOverwrite=http://localhost:8080/alfresco/aos
+        -Dmessaging.broker.url="failover:(nio://activemq:61616)?timeout=3000&jms.useCompression=true"
+        -Ddeployment.method=DOCKER_COMPOSE
+        -Dcsrf.filter.enabled=false
+        -Xms1g -Xmx1g
+        -Dauthentication.chain=identity-service1:identity-service,alfrescoNtlm1:alfrescoNtlm
+        -Didentity-service.enable-basic-auth=true
+        -Didentity-service.authentication.validation.failure.silent=false
+        -Didentity-service.auth-server-url=${AUTH_SERVER_URL}
+        -Didentity-service.realm=alfresco
+        -Didentity-service.resource=alfresco
+        '
+    networks:
+      - internal
+    ports:
+      - 8080:8080 #Browser port
+
+  share:
+    image: alfresco/alfresco-share:6.1.0-RC3
+    mem_limit: 1g
+    depends_on:
+      - alfresco
+    environment:
+      - REPO_HOST=alfresco
+      - REPO_PORT=8080
+      - 'CATALINA_OPTS= -Xms500m -Xmx500m'
+    networks:
+      - internal
+    ports:
+      - 8083:8080
+
+  postgres:
+    image: postgres:10.1
+    mem_limit: 1500m
+    environment:
+      - POSTGRES_PASSWORD=alfresco
+      - POSTGRES_USER=alfresco
+      - POSTGRES_DB=alfresco
+    command: postgres -c max_connections=300 -c log_min_messages=LOG
+    networks:
+      - internal
+    ports:
+      - 5432:5432
+
+  solr6:
+    image: alfresco/alfresco-search-services:1.3.0-RC2
+    mem_limit: 2500m
+    depends_on:
+      - alfresco
+    environment:
+      #Solr needs to know how to register itself with Alfresco
+      - SOLR_ALFRESCO_HOST=alfresco
+      - SOLR_ALFRESCO_PORT=8080
+      #Alfresco needs to know how to call solr
+      - SOLR_SOLR_HOST=solr6
+      - SOLR_SOLR_PORT=8983
+      #Create the default alfresco and archive cores
+      - SOLR_CREATE_ALFRESCO_DEFAULTS=alfresco,archive
+      - 'SOLR_JAVA_MEM=-Xms2g -Xmx2g'
+    networks:
+      - internal
+    ports:
+      - 8983:8983 #Browser port
+
+  activemq:
+    image: alfresco/alfresco-activemq:5.15.6
+    mem_limit: 2048m
+    networks:
+      - internal
+    ports:
+      - 8161:8161 # Web Console
+      - 5672:5672 # AMQP
+      - 61616:61616 # OpenWire
+      - 61613:61613 # STOMP
+
+  content-app:
+    image: alfresco/alfresco-content-app:latest
+    build: .
+    environment:
+      # BASEPATH: ./
+      APP_CONFIG_OAUTH2_HOST: ${APP_CONFIG_OAUTH2_HOST}
+      APP_CONFIG_AUTH_TYPE: ${APP_CONFIG_AUTH_TYPE}
+      APP_CONFIG_OAUTH2_CLIENTID: ${APP_CONFIG_OAUTH2_CLIENTID}
+      APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI: ${APP_CONFIG_OAUTH2_REDIRECT_SILENT_IFRAME_URI}
+      APP_CONFIG_OAUTH2_REDIRECT_LOGIN: ${APP_CONFIG_OAUTH2_REDIRECT_LOGIN}
+      APP_CONFIG_OAUTH2_REDIRECT_LOGOUT: ${APP_CONFIG_OAUTH2_REDIRECT_LOGOUT}
+    depends_on:
+      - alfresco
+    networks:
+      - internal
+    ports:
+      - 4001:80
+    # volumes:
+    #     - ./app.config.json:/usr/share/nginx/html/app.config.json
+    #     - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
+  proxy:
+    image: nginx:stable-alpine
+    depends_on:
+      - content-app
+    volumes:
+      - ./docker/proxy/nginx.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - internal
+    ports:
+      - 4000:80
+
+  auth:
+    image: jboss/keycloak:4.8.3.Final
+    volumes:
+      - ./docker/auth/alfresco-realm.json:/tmp/alfresco-realm.json
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_IMPORT=/tmp/alfresco-realm.json
+      - DB_VENDOR=h2
+    networks:
+      - internal
+    ports:
+      - 8085:8080
+
+networks:
+  internal:

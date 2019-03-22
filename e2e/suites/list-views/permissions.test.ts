@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -40,8 +40,6 @@ describe('Special permissions', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
-
-  xit('');
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -84,7 +82,7 @@ describe('Special permissions', () => {
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.countRows()).toBe(0, 'Incorrect number of items');
+      expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
     });
 
     it('on Favorites - [C213227]', async () => {
@@ -92,7 +90,7 @@ describe('Special permissions', () => {
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.countRows()).toBe(0, 'Incorrect number of items');
+      expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
     });
 
     it('on Shared Files - [C213116]', async () => {
@@ -100,7 +98,7 @@ describe('Special permissions', () => {
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
       await apis.admin.sites.deleteSiteMember(sitePrivate, username);
       await page.refresh();
-      expect(await dataTable.countRows()).toBe(0, 'Incorrect number of items');
+      expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
     });
   });
 

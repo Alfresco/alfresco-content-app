@@ -1,0 +1,15 @@
+.aca-node-version-upload-dialog {
+  overflow: unset;
+
+  .dialog-actions {
+    justify-content: flex-end;
+
+    button {
+      text-transform: uppercase;
+    }
+  }
+
+  .node-version-dialog__title {
+    padding-left: 8px;
+  }
+}

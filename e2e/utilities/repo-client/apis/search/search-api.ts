@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,8 +25,10 @@
 
 import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
+import { SearchApi as AdfSearchApi } from '@alfresco/js-api';
 
 export class SearchApi extends RepoApi {
+    searchApi = new AdfSearchApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
@@ -46,8 +48,37 @@ export class SearchApi extends RepoApi {
         };
 
         await this.apiAuth();
-        return this.alfrescoJsApi.search.searchApi.search(data);
+        return this.searchApi.search(data);
+    }
 
+    async queryNodesNames(searchTerm: string) {
+      const data = {
+        query: {
+          query: `cm:name:\"${searchTerm}*\"`,
+          language: 'afts'
+        },
+        filterQueries: [
+          { query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'`}
+        ]
+      };
+
+      await this.apiAuth();
+      return this.searchApi.search(data);
+    }
+
+    async queryNodesExactNames(searchTerm: string) {
+      const data = {
+        query: {
+          query: `cm:name:\"${searchTerm}\"`,
+          language: 'afts'
+        },
+        filterQueries: [
+          { query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'`}
+        ]
+      };
+
+      await this.apiAuth();
+      return this.searchApi.search(data);
     }
 
     async waitForApi(username, data) {
@@ -64,6 +95,23 @@ export class SearchApi extends RepoApi {
       return await Utils.retryCall(recentFiles);
       } catch (error) {
         console.log('-----> catch search: ', error);
+      }
+    }
+
+    async waitForNodes(searchTerm: string, data) {
+      try {
+        const nodes = async () => {
+          const totalItems = (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
+          if ( totalItems !== data.expect) {
+              return Promise.reject(totalItems);
+          } else {
+              return Promise.resolve(totalItems);
+          }
+      };
+
+      return await Utils.retryCall(nodes);
+      } catch (error) {
+        console.log('-----> catch search nodes: ', error);
       }
     }
 }

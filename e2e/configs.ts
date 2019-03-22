@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -69,10 +69,15 @@ export const SIDEBAR_LABELS = {
 
 // Page titles
 export const PAGE_TITLES = {
-  VIEWER: 'Preview',
-  SEARCH: 'Search Results',
+  PERSONAL_FILES: 'Personal Files',
   MY_LIBRARIES: 'My Libraries',
-  FAVORITE_LIBRARIES: 'Favorite Libraries'
+  FAVORITE_LIBRARIES: 'Favorite Libraries',
+  SHARED_FILES: 'Shared',
+  RECENT_FILES: 'Recent Files',
+  FAVORITES: 'Favorites',
+  TRASH: 'Trash',
+  VIEWER: 'Preview',
+  SEARCH: 'Search Results'
 };
 
 // Site visibility
@@ -104,7 +109,9 @@ export const SITE_ROLES = {
 
 export const FILES = {
   docxFile: 'file-docx.docx',
+  docxFile2: 'file2-docx.docx',
   xlsxFile: 'file-xlsx.xlsx',
+  xlsxFile2: 'file2-xlsx.xlsx',
   pdfFile: 'file-pdf.pdf',
   unsupportedFile: 'file_unsupported.3DS'
 };

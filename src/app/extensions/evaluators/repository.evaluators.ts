@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,9 +26,13 @@
 import { RuleParameter } from '@alfresco/adf-extensions';
 import { AppRuleContext } from '../app.interface';
 
+/**
+ * Checks if the quick share repository option is enabled or not.
+ * JSON ref: `repository.isQuickShareEnabled`
+ */
 export function hasQuickShareEnabled(
   context: AppRuleContext,
   ...args: RuleParameter[]
 ): boolean {
-  return context.repository.isQuickShareEnabled;
+  return context.repository.status.isQuickShareEnabled;
 }

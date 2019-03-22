@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -81,30 +81,26 @@ describe('Recent Files', () => {
   });
 
   it('has the correct columns - [C213168]', async () => {
-    const labels = [ 'Name', 'Location', 'Size', 'Modified' ];
-    const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+    const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified' ];
+    const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(await dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
-
-    await elements.forEach(async (element, index) => {
-      expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-    });
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('default sorting column - [C213171]', async () => {
-    expect(await dataTable.getSortedColumnHeader().getText()).toBe('Modified');
+    expect(await dataTable.getSortedColumnHeaderText()).toBe('Modified');
     expect(await dataTable.getSortingOrder()).toBe('desc');
   });
 
   it('displays the files added by the current user in the last 30 days - [C213170]', async () => {
     expect(await dataTable.countRows()).toEqual(3, 'Incorrect number of files displayed');
-    expect(await dataTable.getRowByName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
-    expect(await dataTable.getRowByName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
-    expect(await dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
+    expect(await dataTable.isItemPresent(fileName1)).toBe(true, `${fileName1} not displayed`);
+    expect(await dataTable.isItemPresent(fileName2)).toBe(true, `${fileName2} not displayed`);
+    expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);
   });
 
   it(`file not displayed if it's been deleted - [C213174]`, async () => {
-    expect(await dataTable.getRowByName(fileName3).isPresent()).not.toBe(true, `${fileName3} is displayed`);
+    expect(await dataTable.isItemPresent(fileName3)).not.toBe(true, `${fileName3} is displayed`);
   });
 
   it('Location column displays the parent folder of the file - [C213175]', async () => {
@@ -114,9 +110,9 @@ describe('Recent Files', () => {
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213177]', async () => {
-    expect(await dataTable.getItemLocationTileAttr(fileName1)).toEqual(`Personal Files/${folderName}`);
-    expect(await dataTable.getItemLocationTileAttr(fileName2)).toEqual('Personal Files');
-    expect(await dataTable.getItemLocationTileAttr(fileSite)).toEqual(`File Libraries/${siteName}/${folderSite}`);
+    expect(await dataTable.getItemLocationTooltip(fileName1)).toEqual(`Personal Files/${folderName}`);
+    expect(await dataTable.getItemLocationTooltip(fileName2)).toEqual('Personal Files');
+    expect(await dataTable.getItemLocationTooltip(fileSite)).toEqual(`File Libraries/${siteName}/${folderSite}`);
   });
 
   it('Location column redirect - file in user Home - [C213176]', async () => {

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,10 +25,12 @@
 
 import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
+import { QueriesApi as AdfQueriesApi } from '@alfresco/js-api';
 
 export class QueriesApi extends RepoApi {
+  queriesApi = new AdfQueriesApi(this.alfrescoJsApi);
 
-  constructor(username?, password?) {
+  constructor(username?: string, password?: string) {
       super(username, password);
   }
 
@@ -39,10 +41,20 @@ export class QueriesApi extends RepoApi {
     };
 
     await this.apiAuth();
-    return this.alfrescoJsApi.core.queriesApi.findSites(searchTerm, data);
+    return this.queriesApi.findSites(searchTerm, data);
   }
 
-  async waitForApi(searchTerm, data) {
+  async findNodes(searchTerm: string) {
+    const data = {
+        term: searchTerm,
+        fields: ['name']
+    };
+
+    await this.apiAuth();
+    return this.queriesApi.findNodes(searchTerm, data);
+  }
+
+  async waitForSites(searchTerm: string, data: any) {
     try {
       const sites = async () => {
         const totalItems = (await this.findSites(searchTerm)).list.pagination.totalItems;
@@ -56,6 +68,23 @@ export class QueriesApi extends RepoApi {
       return await Utils.retryCall(sites);
     } catch (error) {
       console.log('-----> catch queries findSites: ', error);
+    }
+  }
+
+  async waitForFilesAndFolders(searchTerm: string, data: any) {
+    try {
+      const nodes = async () => {
+        const totalItems = (await this.findNodes(searchTerm)).list.pagination.totalItems;
+        if ( totalItems !== data.expect ) {
+          return Promise.reject(totalItems);
+        } else {
+          return Promise.resolve(totalItems);
+        }
+      };
+
+      return await Utils.retryCall(nodes);
+    } catch (error) {
+      console.log('-----> catch queries findFilesAndFolders: ', error);
     }
   }
 }

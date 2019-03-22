@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,8 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleContext, RepositoryState } from '@alfresco/adf-extensions';
+import { RuleContext } from '@alfresco/adf-extensions';
+import { AuthenticationService } from '@alfresco/adf-core';
+import { RepositoryInfo } from '@alfresco/js-api';
 
 export interface AppRuleContext extends RuleContext {
-  repository: RepositoryState;
+  repository: RepositoryInfo;
+  auth: AuthenticationService;
 }

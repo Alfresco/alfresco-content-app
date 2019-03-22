@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -28,9 +28,9 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import {
   FolderDialogComponent,
-  ConfirmDialogComponent
+  ConfirmDialogComponent,
+  LibraryDialogComponent
 } from '@alfresco/adf-content-services';
-import { LibraryDialogComponent } from '../dialogs/library/library.dialog';
 import {
   SnackbarErrorAction,
   SnackbarInfoAction,
@@ -40,7 +40,8 @@ import {
   NavigateToParentFolder,
   SnackbarUserAction,
   UndoDeleteNodesAction,
-  SetSelectedNodesAction
+  SetSelectedNodesAction,
+  ReloadDocumentListAction
 } from '../store/actions';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../store/states';
@@ -51,17 +52,19 @@ import {
   SiteEntry,
   DeletedNodesPaging,
   PathInfoEntity,
-  SiteBody
-} from 'alfresco-js-api';
+  SiteBody,
+  NodeEntry
+} from '@alfresco/js-api';
 import { NodePermissionService } from './node-permission.service';
 import { NodeInfo, DeletedNodeInfo, DeleteStatus } from '../store/models';
 import { ContentApiService } from './content-api.service';
-import { sharedUrl } from '../store/selectors/app.selectors';
+import { sharedUrl, appSelection } from '../store/selectors/app.selectors';
 import { NodeActionsService } from './node-actions.service';
 import { TranslationService, ViewUtilService } from '@alfresco/adf-core';
+import { NodeVersionUploadDialogComponent } from '../dialogs/node-version-upload/node-version-upload.dialog';
 import { NodeVersionsDialogComponent } from '../dialogs/node-versions/node-versions.dialog';
 import { ShareDialogComponent } from '../components/shared/content-node-share/content-node-share.dialog';
-import { take, map, tap, mergeMap, catchError } from 'rxjs/operators';
+import { take, map, tap, mergeMap, catchError, flatMap } from 'rxjs/operators';
 import { NodePermissionsDialogComponent } from '../components/permissions/permission-dialog/node-permissions.dialog';
 
 interface RestoredNode {
@@ -74,12 +77,8 @@ interface RestoredNode {
   providedIn: 'root'
 })
 export class ContentManagementService {
-  nodesMoved = new Subject<any>();
+  reload = new Subject<any>();
   nodesDeleted = new Subject<any>();
-  nodesPurged = new Subject<any>();
-  nodesRestored = new Subject<any>();
-  folderEdited = new Subject<any>();
-  folderCreated = new Subject<any>();
   libraryDeleted = new Subject<string>();
   libraryCreated = new Subject<SiteEntry>();
   libraryUpdated = new Subject<SiteEntry>();
@@ -88,9 +87,6 @@ export class ContentManagementService {
   library400Error = new Subject<any>();
   joinLibraryToggle = new Subject<string>();
   linksUnshared = new Subject<any>();
-  favoriteAdded = new Subject<Array<MinimalNodeEntity>>();
-  favoriteRemoved = new Subject<Array<MinimalNodeEntity>>();
-  favoriteToggle = new Subject<Array<MinimalNodeEntity>>();
   favoriteLibraryToggle = new Subject<any>();
 
   constructor(
@@ -111,8 +107,7 @@ export class ContentManagementService {
           node.entry.isFavorite = true;
         });
         this.store.dispatch(new SetSelectedNodesAction(nodes));
-        this.favoriteAdded.next(nodes);
-        this.favoriteToggle.next(nodes);
+        this.store.dispatch(new ReloadDocumentListAction());
       });
     }
   }
@@ -124,15 +119,14 @@ export class ContentManagementService {
           node.entry.isFavorite = false;
         });
         this.store.dispatch(new SetSelectedNodesAction(nodes));
-        this.favoriteRemoved.next(nodes);
-        this.favoriteToggle.next(nodes);
+        this.store.dispatch(new ReloadDocumentListAction());
       });
     }
   }
 
   managePermissions(node: MinimalNodeEntity): void {
     if (node && node.entry) {
-      const { nodeId, id } = node.entry;
+      const { nodeId, id } = <any>node.entry;
       const siteId = node.entry['guid'];
       const targetId = siteId || nodeId || id;
 
@@ -150,7 +144,7 @@ export class ContentManagementService {
     }
   }
 
-  manageVersions(node: MinimalNodeEntity) {
+  manageVersions(node: any) {
     if (node && node.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (<any>node).entry.guid;
@@ -165,7 +159,7 @@ export class ContentManagementService {
     }
   }
 
-  private openVersionManagerDialog(node: MinimalNodeEntryEntity) {
+  private openVersionManagerDialog(node: any) {
     // workaround Shared
     if (node.isFile || node.nodeId) {
       this.dialogRef.open(NodeVersionsDialogComponent, {
@@ -180,7 +174,13 @@ export class ContentManagementService {
     }
   }
 
-  shareNode(node: MinimalNodeEntity): void {
+  versionUploadDialog() {
+    return this.dialogRef.open(NodeVersionUploadDialogComponent, {
+      panelClass: 'aca-node-version-dialog'
+    });
+  }
+
+  shareNode(node: any): void {
     if (node && node.entry) {
       // shared and favorite
       const id = node.entry.nodeId || (<any>node).entry.guid;
@@ -238,7 +238,7 @@ export class ContentManagementService {
 
     dialogInstance.afterClosed().subscribe(node => {
       if (node) {
-        this.folderCreated.next(node);
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }
@@ -259,9 +259,9 @@ export class ContentManagementService {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
-    dialog.afterClosed().subscribe((node: MinimalNodeEntryEntity) => {
+    dialog.afterClosed().subscribe(node => {
       if (node) {
-        this.folderEdited.next(node);
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }
@@ -389,7 +389,7 @@ export class ContentManagementService {
       if (result === true) {
         const nodesToDelete: NodeInfo[] = nodes.map(node => {
           const { name } = node.entry;
-          const id = node.entry.nodeId || node.entry.id;
+          const id = (<any>node).entry.nodeId || node.entry.id;
 
           return {
             id,
@@ -412,7 +412,7 @@ export class ContentManagementService {
       const failedStatus = this.processStatus([]);
       failedStatus.fail.push(...selection);
       this.showRestoreNotification(failedStatus);
-      this.nodesRestored.next();
+      this.store.dispatch(new ReloadDocumentListAction());
       return;
     }
 
@@ -431,7 +431,7 @@ export class ContentManagementService {
 
         if (!remainingNodes.length) {
           this.showRestoreNotification(status);
-          this.nodesRestored.next();
+          this.store.dispatch(new ReloadDocumentListAction());
         } else {
           this.restoreDeletedNodes(remainingNodes);
         }
@@ -523,6 +523,7 @@ export class ContentManagementService {
     forkJoin(...batch).subscribe(
       () => {
         this.nodesDeleted.next(null);
+        this.store.dispatch(new ReloadDocumentListAction());
       },
       error => {
         let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
@@ -556,7 +557,7 @@ export class ContentManagementService {
         const [operationResult, moveResponse] = result;
         this.showMoveMessage(nodes, operationResult, moveResponse);
 
-        this.nodesMoved.next(null);
+        this.store.dispatch(new ReloadDocumentListAction());
       },
       error => {
         this.showMoveMessage(nodes, error);
@@ -611,7 +612,7 @@ export class ContentManagementService {
       )
       .subscribe(
         () => {
-          this.nodesMoved.next(null);
+          this.store.dispatch(new ReloadDocumentListAction());
         },
         error => {
           let message = 'APP.MESSAGES.ERRORS.GENERIC';
@@ -657,6 +658,7 @@ export class ContentManagementService {
 
       if (status.someSucceeded) {
         this.nodesDeleted.next();
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }
@@ -677,7 +679,7 @@ export class ContentManagementService {
       }
 
       if (processedData.someSucceeded) {
-        this.nodesRestored.next();
+        this.store.dispatch(new ReloadDocumentListAction());
       }
     });
   }
@@ -751,7 +753,7 @@ export class ContentManagementService {
       const status = this.processStatus(purgedNodes);
 
       if (status.success.length) {
-        this.nodesPurged.next();
+        this.store.dispatch(new ReloadDocumentListAction());
       }
       const message = this.getPurgeMessage(status);
       if (message) {
@@ -973,7 +975,7 @@ export class ContentManagementService {
     });
   }
 
-  private deleteNode(node: MinimalNodeEntity): Observable<DeletedNodeInfo> {
+  private deleteNode(node: any): Observable<DeletedNodeInfo> {
     const { name } = node.entry;
     const id = node.entry.nodeId || node.entry.id;
 
@@ -1162,10 +1164,10 @@ export class ContentManagementService {
     return i18nMessageString;
   }
 
-  printFile(node: MinimalNodeEntity) {
+  printFile(node: any) {
     if (node && node.entry) {
       // shared and favorite
-      const id = node.entry.nodeId || (<any>node).entry.guid || node.entry.id;
+      const id = node.entry.nodeId || node.entry.guid || node.entry.id;
       const mimeType = node.entry.content.mimeType;
 
       if (id) {
@@ -1194,5 +1196,29 @@ export class ContentManagementService {
         container.msRequestFullscreen();
       }
     }
+  }
+
+  getNodeInfo() {
+    return this.store.select(appSelection).pipe(
+      take(1),
+      flatMap(({ file }) => {
+        const id = (<any>file).entry.nodeId || (<any>file).entry.guid;
+        if (!id) {
+          return of(<any>file.entry);
+        } else {
+          return this.contentApi.getNodeInfo(id);
+        }
+      })
+    );
+  }
+
+  unlockNode(node: NodeEntry) {
+    this.contentApi.unlockNode(node.entry.id).catch(() => {
+      this.store.dispatch(
+        new SnackbarErrorAction('APP.MESSAGES.ERRORS.UNLOCK_NODE', {
+          fileName: node.entry.name
+        })
+      );
+    });
   }
 }

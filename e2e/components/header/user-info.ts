@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -28,14 +28,14 @@ import { Menu } from '../menu/menu';
 import { Component } from '../component';
 
 export class UserInfo extends Component {
-  private locators = {
+  private static selectors = {
     avatar: by.css('.current-user__avatar'),
     fullName: by.css('.current-user__full-name'),
     menuItems: by.css('[mat-menu-item]')
   };
 
-  fullName: ElementFinder = this.component.element(this.locators.fullName);
-  avatar: ElementFinder = this.component.element(this.locators.avatar);
+  fullName: ElementFinder = this.component.element(UserInfo.selectors.fullName);
+  avatar: ElementFinder = this.component.element(UserInfo.selectors.avatar);
 
   menu: Menu = new Menu();
 

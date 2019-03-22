@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -37,7 +37,7 @@ export class ShareDialog extends Component {
     label: '.adf-share-link__label',
     shareToggle: `[data-automation-id='adf-share-toggle']`,
     linkUrl: `[data-automation-id='adf-share-link']`,
-    inputAction: '.input-action',
+    inputAction: '.adf-input-action',
     expireToggle: `[data-automation-id='adf-expire-toggle']`,
     datetimePickerButton: '.mat-datetimepicker-toggle',
     expirationInput: 'input[formcontrolname="time"]',
@@ -92,6 +92,10 @@ export class ShareDialog extends Component {
 
   async isUrlReadOnly() {
     return await this.url.getAttribute('readonly');
+  }
+
+  async isCloseEnabled() {
+    return await this.closeButton.isEnabled();
   }
 
   async clickClose() {

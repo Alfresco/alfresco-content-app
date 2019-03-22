@@ -1,4 +1,5 @@
 ---
+Title: Registration
 ---
 
 # Registration
@@ -16,7 +17,7 @@ and use the following snippet to register custom content:
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
 
 @NgModule({
-    imports: [ ExtensionsModule.forChild() ]
+    imports: [ ExtensionsModule ]
     declarations: [ MyComponent1, MyLayout ],
     entryComponents: [ MyComponent1, MyLayout ]
 })
@@ -41,13 +42,8 @@ export class MyExtensionModule {
 }
 ```
 
-Use `ExtensionsModule.forChild()` when importing into the child modules,
-and `ExtensionsModule.forRoot()` for the main application module.
-
-<p class="warning">
-According to Angular rules, all components that are created dynamically at runtime
+**Note:** According to Angular rules, all components that are created dynamically at runtime
 need to be registered within the `entryComponents` section of the NgModule.
-</p>
 
 The Registration API is not limited to the custom content only.
 You can replace any existing entries by replacing the values from your module.

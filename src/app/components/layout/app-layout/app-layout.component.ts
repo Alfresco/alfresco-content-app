@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -152,10 +152,19 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  hideMenu(event: Event) {
+    if (this.layout.container.isMobileScreenSize) {
+      event.preventDefault();
+      this.layout.container.toggleMenu();
+    }
+  }
+
   private updateState() {
     if (this.minimizeSidenav && !this.layout.isMenuMinimized) {
       this.layout.isMenuMinimized = true;
-      this.layout.container.toggleMenu();
+      if (!this.layout.container.isMobileScreenSize) {
+        this.layout.container.toggleMenu();
+      }
     }
 
     if (!this.minimizeSidenav) {

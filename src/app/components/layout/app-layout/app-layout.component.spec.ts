@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -140,7 +140,7 @@ describe('AppLayoutComponent', () => {
 
   it('should reset selection before navigation', done => {
     fixture.detectChanges();
-    const selection = [{ entry: { id: 'nodeId', name: 'name' } }];
+    const selection = [<any>{ entry: { id: 'nodeId', name: 'name' } }];
     store.dispatch(new SetSelectedNodesAction(selection));
 
     router.navigateByUrl('somewhere/over/the/rainbow');
@@ -153,7 +153,7 @@ describe('AppLayoutComponent', () => {
 
   it('should not reset selection if route is `/search`', done => {
     fixture.detectChanges();
-    const selection = [{ entry: { id: 'nodeId', name: 'name' } }];
+    const selection = [<any>{ entry: { id: 'nodeId', name: 'name' } }];
     store.dispatch(new SetSelectedNodesAction(selection));
 
     router.navigateByUrl('/search;q=');
@@ -162,5 +162,36 @@ describe('AppLayoutComponent', () => {
       expect(state.isEmpty).toBe(false);
       done();
     });
+  });
+
+  it('should close menu on mobile screen size', () => {
+    component.minimizeSidenav = false;
+    component.layout.container = {
+      isMobileScreenSize: true,
+      toggleMenu: () => {}
+    };
+
+    spyOn(component.layout.container, 'toggleMenu');
+    fixture.detectChanges();
+
+    component.hideMenu(<any>{ preventDefault: () => {} });
+
+    expect(component.layout.container.toggleMenu).toHaveBeenCalled();
+  });
+
+  it('should close menu on mobile screen size also when minimizeSidenav true', () => {
+    fixture.detectChanges();
+    component.minimizeSidenav = true;
+    component.layout.container = {
+      isMobileScreenSize: true,
+      toggleMenu: () => {}
+    };
+
+    spyOn(component.layout.container, 'toggleMenu');
+    fixture.detectChanges();
+
+    component.hideMenu(<any>{ preventDefault: () => {} });
+
+    expect(component.layout.container.toggleMenu).toHaveBeenCalled();
   });
 });

@@ -41,7 +41,6 @@
       "TITLE": "Configuración",
       "APPLICATION-SETTINGS": "Configuración de la aplicación",
       "REPOSITORY-SETTINGS": "Configuración del repositorio",
-      "EXPERIMENTAL-FEATURES": "Funciones experimentales",
       "INVALID-VALUE-FORMAT": "Formato de valor no válido",
       "REQUIRED-FIELD": "Este campo es obligatorio",
       "RESET": "Reiniciar",
@@ -74,7 +73,7 @@
         "TITLE": "Ficheros personales",
         "SIDENAV_LINK": {
           "LABEL": "Ficheros personales",
-          "TOOLTIP": "Ver sus ficheros personales"
+          "TOOLTIP": "Vea sus ficheros personales"
         }
       },
       "LIBRARIES": {
@@ -115,7 +114,7 @@
         "TITLE": "Ficheros compartidos",
         "SIDENAV_LINK": {
           "LABEL": "Compartido",
-          "TOOLTIP": "Ver ficheros que se hayan compartido"
+          "TOOLTIP": "Vea los ficheros que se hayan compartido"
         },
         "EMPTY_STATE": {
           "TITLE": "No hay carpetas ni ficheros compartidos",
@@ -126,7 +125,7 @@
         "TITLE": "Ficheros recientes",
         "SIDENAV_LINK": {
           "LABEL": "Ficheros recientes",
-          "TOOLTIP": "Ver ficheros que ha editado recientemente"
+          "TOOLTIP": "Vea los ficheros que ha editado recientemente"
         },
         "EMPTY_STATE": {
           "TITLE": "No hay ficheros recientes",
@@ -137,7 +136,7 @@
         "TITLE": "Favoritos",
         "SIDENAV_LINK": {
           "LABEL": "Favoritos",
-          "TOOLTIP": "Ver sus ficheros y carpetas favoritos"
+          "TOOLTIP": "Vea sus ficheros y carpetas favoritos"
         },
         "EMPTY_STATE": {
           "TITLE": "No hay ficheros ni carpetas favoritos",
@@ -169,7 +168,12 @@
           "SIZE": "Tamaño"
         },
         "UNKNOWN_LOCATION": "Desconocido",
-        "NO_RESULTS": "Su búsqueda arrojó 0 resultados"
+        "NO_RESULTS": "Su búsqueda arrojó 0 resultados",
+        "TOGGLE_SEARCH_FILTER": "Alternar filtro de búsqueda",
+        "ERRORS": {
+          "500": "Error al procesar la consulta de búsqueda [500]",
+          "GENERIC": "Error al procesar la consulta de búsqueda"
+        }
       },
       "SEARCH_LIBRARIES": {
         "TITLE": "Bibliotecas encontradas...",
@@ -195,6 +199,7 @@
       "UNSHARE": "No compartir",
       "DETAILS": "Ver los detalles",
       "VERSIONS": "Gestionar versiones",
+      "UPLOAD_VERSION": "Cargar nueva versión",
       "TOGGLE-SIDENAV": "Alternar barra de navegación lateral",
       "SHARE": "Compartir",
       "SHARE_EDIT": "Configuración de enlaces compartidos",
@@ -202,7 +207,9 @@
       "FULLSCREEN": "Activar el modo de pantalla completa",
       "JOIN": "Unirse",
       "CANCEL_JOIN": "Cancelar solicitud de unirse",
-      "LEAVE": "Abandonar biblioteca"
+      "LEAVE": "Abandonar biblioteca",
+      "EDIT_OFFLINE": "Editar fuera de línea",
+      "EDIT_OFFLINE_CANCEL": "Cancelar edición"
     },
     "DIALOGS": {
       "CONFIRM_PURGE": {
@@ -238,17 +245,6 @@
         "LISTVIEW": "Modo de vista de lista"
       }
     },
-    "SITES_VISIBILITY": {
-      "PUBLIC": "Público",
-      "MODERATED": "Moderado",
-      "PRIVATE": "Lista privada"
-    },
-    "SITES_ROLE": {
-      "MANAGER": "Administrador",
-      "COLLABORATOR": "Colaborador",
-      "CONTRIBUTOR": "Contribuidor",
-      "CONSUMER": "Consumidor"
-    },
     "MESSAGES": {
       "ERRORS": {
         "CANNOT_NAVIGATE_LOCATION": "No puede abrirse esta ubicación",
@@ -262,6 +258,8 @@
         "NODE_RESTORE": "{{ name }} no se ha podido restaurar",
         "NODE_RESTORE_PLURAL": "{{ number }} elementos no se han podido restaurar",
         "PERMISSION": "No tiene acceso para hacer esto",
+        "LOCK_NODE": "Hubo un problema de bloqueo del fichero {{ fileName }}",
+        "UNLOCK_NODE": "Hubo un problema de desbloqueo del fichero {{ fileName }}",
         "TRASH": {
           "NODES_PURGE": {
             "PLURAL": "{{ number }} elementos no se han podido eliminar",
@@ -306,17 +304,17 @@
         },
         "NODE_DELETION": {
           "SINGULAR": "{{ name }} eliminado",
-          "PLURAL": "Se ha eliminado {{ number }} elementos",
-          "PARTIAL_SINGULAR": "Se ha eliminado el elemento {{ success }}, {{ failed }} no se ha podido eliminar",
+          "PLURAL": "Se han eliminado {{ number }} elementos",
+          "PARTIAL_SINGULAR": "Se ha eliminado {{ success }} elemento, {{ failed }} no se ha podido eliminar",
           "PARTIAL_PLURAL": "Se han eliminado {{ success }} elementos, {{ failed }} no se han podido eliminar"
         },
         "NODE_COPY": {
-          "SINGULAR": "Se ha copiado el elemento {{ success }}",
-          "PLURAL": "Se han copiado los elementos {{ success }}",
-          "PARTIAL_SINGULAR": "Se ha copiado el elemento {{ success }}, {{ failed }} no se ha podido copiar.",
-          "PARTIAL_PLURAL": "Se han copiado los elementos {{ success }}, {{ failed }} no se han podido copiar.",
-          "FAIL_SINGULAR": "El elemento {{ failed }} no se ha podido copiar.",
-          "FAIL_PLURAL": "Los elementos {{ failed }} no se han podido copiar."
+          "SINGULAR": "Se ha copiado {{ success }} elemento",
+          "PLURAL": "Se han copiado {{ success }} elementos",
+          "PARTIAL_SINGULAR": "Se ha copiado {{ success }} elemento, {{ failed }} no se ha podido copiar.",
+          "PARTIAL_PLURAL": "Se han copiado {{ success }} elementos, {{ failed }} no se han podido copiar.",
+          "FAIL_SINGULAR": "{{ failed }} elemento no se ha podido copiar.",
+          "FAIL_PLURAL": "{{ failed }} elementos no se han podido copiar."
         },
         "NODE_MOVE": {
           "SINGULAR": "Se ha movido {{ success }} elemento.",
@@ -367,13 +365,31 @@
     "UNSHARE_PERMISSION_ERROR": "No tiene acceso para dejar de compartir este fichero"
   },
   "VERSION": {
-    "DIALOG": {
+    "DIALOG_ADF": {
       "TITLE": "Gestionar versiones",
       "CLOSE": "Cerrar"
+    },
+    "DIALOG": {
+      "TITLE": "Cargar nueva versión",
+      "CANCEL": "Cancelar",
+      "UPLOAD": "Cargar"
+    },
+    "FORM": {
+      "SUBTITLE": "¿Qué nivel de cambios se hicieron a esta versión?",
+      "VERSION": {
+        "MINOR": "Menor (#.1)",
+        "MAJOR": "Mayor (2.0)"
+      },
+      "COMMENT": {
+        "PLACEHOLDER": "Añadir notas describiendo lo que se cambió"
+      }
     },
     "SELECTION": {
       "EMPTY": "Por favor, seleccione un documento para ver sus versiones.",
       "NO_PERMISSION": "No tiene permiso para gestionar las versiones de este contenido."
+    },
+    "ERROR": {
+      "GENERIC": "Error al versionar el fichero"
     }
   },
   "LIBRARY": {
@@ -456,10 +472,15 @@
       "INFO": "Ver los detalles"
     }
   },
+  "FILE_UPLOAD": {
+    "ERRORS": {
+      "409": "Este nombre ya está en uso, intente con un nombre diferente [409]"
+    }
+  },
   "ADF_VERSION_LIST": {
     "ACTIONS": {
       "UPLOAD": {
-        "TOOLTIP": "Cargar nueva versión"
+        "TOOLTIP": "Cargue nueva versión"
       }
     }
   }

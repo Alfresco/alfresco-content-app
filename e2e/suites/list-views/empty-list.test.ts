@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -98,62 +98,72 @@ describe('Empty list views', () => {
 
   it('Favorites - pagination controls not displayed - [C280111]', async () => {
     await page.clickFavorites();
-    expect(await pagination.range.isPresent()).toBe(false);
-    expect(await pagination.maxItems.isPresent()).toBe(false);
-    expect(await pagination.currentPage.isPresent()).toBe(false);
-    expect(await pagination.totalPages.isPresent()).toBe(false);
-    expect(await pagination.previousButton.isPresent()).toBe(false);
-    expect(await pagination.nextButton.isPresent()).toBe(false);
+    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
+    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
+    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
+    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
+    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
+    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
-  it('File Libraries - pagination controls not displayed - [C280084]', async () => {
-    await page.clickFileLibraries();
-    expect(await pagination.range.isPresent()).toBe(false);
-    expect(await pagination.maxItems.isPresent()).toBe(false);
-    expect(await pagination.currentPage.isPresent()).toBe(false);
-    expect(await pagination.totalPages.isPresent()).toBe(false);
-    expect(await pagination.previousButton.isPresent()).toBe(false);
-    expect(await pagination.nextButton.isPresent()).toBe(false);
+  it('My Libraries - pagination controls not displayed - [C280084]', async () => {
+    await page.goToMyLibraries();
+    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
+    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
+    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
+    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
+    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
+    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
+  });
+
+  it('Favorite Libraries - pagination controls not displayed - [C291873]', async () => {
+    await page.goToFavoriteLibraries();
+    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
+    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
+    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
+    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
+    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
+    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
   it('Personal Files - pagination controls not displayed - [C280075]', async () => {
     await page.clickPersonalFiles();
-    expect(await pagination.range.isPresent()).toBe(false);
-    expect(await pagination.maxItems.isPresent()).toBe(false);
-    expect(await pagination.currentPage.isPresent()).toBe(false);
-    expect(await pagination.totalPages.isPresent()).toBe(false);
-    expect(await pagination.previousButton.isPresent()).toBe(false);
-    expect(await pagination.nextButton.isPresent()).toBe(false);
+    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
+    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
+    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
+    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
+    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
+    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
   it('Recent Files - pagination controls not displayed - [C280102]', async () => {
     await page.clickRecentFiles();
-    expect(await pagination.range.isPresent()).toBe(false);
-    expect(await pagination.maxItems.isPresent()).toBe(false);
-    expect(await pagination.currentPage.isPresent()).toBe(false);
-    expect(await pagination.totalPages.isPresent()).toBe(false);
-    expect(await pagination.previousButton.isPresent()).toBe(false);
-    expect(await pagination.nextButton.isPresent()).toBe(false);
+    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
+    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
+    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
+    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
+    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
+    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
   it('Shared Files - pagination controls not displayed - [C280094]', async () => {
     await page.clickSharedFiles();
-    expect(await pagination.range.isPresent()).toBe(false);
-    expect(await pagination.maxItems.isPresent()).toBe(false);
-    expect(await pagination.currentPage.isPresent()).toBe(false);
-    expect(await pagination.totalPages.isPresent()).toBe(false);
-    expect(await pagination.previousButton.isPresent()).toBe(false);
-    expect(await pagination.nextButton.isPresent()).toBe(false);
+    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
+    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
+    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
+    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
+    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
+    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
   it('Trash - pagination controls not displayed - [C280120]', async () => {
     await page.clickTrash();
-    expect(await pagination.range.isPresent()).toBe(false);
-    expect(await pagination.maxItems.isPresent()).toBe(false);
-    expect(await pagination.currentPage.isPresent()).toBe(false);
-    expect(await pagination.totalPages.isPresent()).toBe(false);
-    expect(await pagination.previousButton.isPresent()).toBe(false);
-    expect(await pagination.nextButton.isPresent()).toBe(false);
+    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
+    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
+    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
+    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
+    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
+    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 
   it('Search results - pagination controls not displayed - [C290123]', async () => {
@@ -163,11 +173,11 @@ describe('Empty list views', () => {
     await searchInput.searchFor('qwertyuiop');
     await dataTable.waitForBody();
 
-    expect(await pagination.range.isPresent()).toBe(false);
-    expect(await pagination.maxItems.isPresent()).toBe(false);
-    expect(await pagination.currentPage.isPresent()).toBe(false);
-    expect(await pagination.totalPages.isPresent()).toBe(false);
-    expect(await pagination.previousButton.isPresent()).toBe(false);
-    expect(await pagination.nextButton.isPresent()).toBe(false);
+    expect(await pagination.isRangePresent()).toBe(false, 'Range is present');
+    expect(await pagination.isMaxItemsPresent()).toBe(false, 'Max items is present');
+    expect(await pagination.isCurrentPagePresent()).toBe(false, 'Current page is present');
+    expect(await pagination.isTotalPagesPresent()).toBe(false, 'Total pages is present');
+    expect(await pagination.isPreviousButtonPresent()).toBe(false, 'Previous button is present');
+    expect(await pagination.isNextButtonPresent()).toBe(false, 'Next button is present');
   });
 });

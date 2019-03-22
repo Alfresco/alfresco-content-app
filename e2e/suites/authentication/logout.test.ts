@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -49,7 +49,7 @@ describe('Logout', () => {
 
   it('Sign out option is available - [C213143]', async () => {
     await page.header.userInfo.openMenu();
-    expect(await page.header.userInfo.menu.isMenuItemPresent('Sign out')).toBe(true, 'Sign out option not displayed');
+    expect(await page.header.isSignOutDisplayed()).toBe(true, 'Sign out option not displayed');
   });
 
   it('redirects to Login page on sign out - [C213144]', async () => {

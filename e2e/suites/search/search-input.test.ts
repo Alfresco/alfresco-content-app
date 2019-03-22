@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,8 +24,7 @@
  */
 
 import { BrowsingPage, LoginPage } from '../../pages/pages';
-// import { Utils } from '../../utilities/utils';
-import { browser } from 'protractor';
+import { Utils } from '../../utilities/utils';
 
 describe('Search input', () => {
   const loginPage = new LoginPage();
@@ -38,8 +37,8 @@ describe('Search input', () => {
   });
 
   beforeEach(async (done) => {
-    // await Utils.pressEscape();
-    await browser.actions().mouseMove(browser.$('body'), { x: 0, y: 0 }).click().perform();
+    await Utils.pressEscape();
+    await page.clickPersonalFiles();
     done();
   });
 

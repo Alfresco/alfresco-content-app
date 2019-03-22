@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -27,10 +27,10 @@ import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import {
   AppConfigService,
   StorageService,
-  SettingsService
+  OauthConfigModel
 } from '@alfresco/adf-core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states';
 import {
@@ -42,6 +42,12 @@ import {
 import { MatCheckboxChange } from '@angular/material';
 import { SetLanguagePickerAction } from '../../store/actions';
 import { ProfileState } from '@alfresco/adf-extensions';
+
+interface RepositoryConfig {
+  ecmHost: string;
+  authType: string;
+  aisHost: string;
+}
 
 @Component({
   selector: 'aca-settings',
@@ -58,12 +64,11 @@ export class SettingsComponent implements OnInit {
   appName$: Observable<string>;
   headerColor$: Observable<string>;
   languagePicker$: Observable<boolean>;
-  experimental: Array<{ key: string; value: boolean }> = [];
+  aiExtensions$: Observable<boolean>;
 
   constructor(
     private store: Store<AppStore>,
     private appConfig: AppConfigService,
-    private settingsService: SettingsService,
     private storage: StorageService,
     private fb: FormBuilder
   ) {
@@ -78,35 +83,53 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.aiExtensions$ = new BehaviorSubject(
+      this.storage.getItem('ai') === 'true'
+    );
+
     this.form = this.fb.group({
       ecmHost: [
         '',
         [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]
-      ]
+      ],
+      aisHost: [
+        '',
+        [Validators.required, Validators.pattern('^(http|https)://.*[^/]$')]
+      ],
+      authType: ['']
     });
 
     this.reset();
-
-    const settings = this.appConfig.get('experimental');
-    this.experimental = Object.keys(settings).map(key => {
-      const value = this.appConfig.get(`experimental.${key}`);
-      return {
-        key,
-        value: value === true || value === 'true'
-      };
-    });
   }
 
-  apply(model: any, isValid: boolean) {
+  apply(model: RepositoryConfig, isValid: boolean) {
     if (isValid) {
       this.storage.setItem('ecmHost', model.ecmHost);
+      this.storage.setItem('authType', model.authType);
+
+      const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>(
+        'oauth2',
+        null
+      );
+      config.host = model.aisHost;
+      this.storage.setItem('oauth2', JSON.stringify(config));
+
       // window.location.reload(true);
     }
   }
 
   reset() {
-    this.form.reset({
-      ecmHost: this.storage.getItem('ecmHost') || this.settingsService.ecmHost
+    const config: OauthConfigModel = this.appConfig.get<OauthConfigModel>(
+      'oauth2',
+      null
+    );
+
+    this.form.reset(<RepositoryConfig>{
+      ecmHost:
+        this.storage.getItem('ecmHost') ||
+        this.appConfig.get<string>('ecmHost'),
+      aisHost: config.host,
+      authType: this.appConfig.get<string>('authType')
     });
   }
 
@@ -115,7 +138,7 @@ export class SettingsComponent implements OnInit {
     this.store.dispatch(new SetLanguagePickerAction(event.checked));
   }
 
-  onToggleExperimentalFeature(key: string, event: MatCheckboxChange) {
-    this.storage.setItem(`experimental.${key}`, event.checked.toString());
+  onToggleAiExtensions(event: MatCheckboxChange) {
+    this.storage.setItem('ai', event.checked.toString());
   }
 }

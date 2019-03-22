@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -96,30 +96,24 @@ describe('File Libraries', () => {
     done();
   });
 
-  xit('');
-
   describe('My Libraries', () => {
     beforeEach(async (done) => {
-      await page.goToMyLibraries();
+      await page.goToMyLibrariesAndWait();
       done();
     });
 
     it('has the correct columns - [C217095]', async () => {
-      const labels = [ 'Name', 'My Role', 'Visibility' ];
-      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+      const expectedColumns = [ 'Thumbnail', 'Name', 'My Role', 'Visibility' ];
+      const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(await dataTable.getColumnHeaders().count()).toBe(3 + 1, 'Incorrect number of columns');
-
-      await elements.forEach(async (element, index) => {
-        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-      });
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('User can see only the sites he is a member of - [C280501]', async () => {
       const sitesCount = await dataTable.countRows();
 
       expect(sitesCount).toEqual(10, 'Incorrect number of sites displayed');
-      expect(await dataTable.getRowByName(adminSite5).isPresent()).toBe(false, `${adminSite5} should not appear in the list`);
+      expect(await dataTable.isItemPresent(adminSite5)).toBe(false, `${adminSite5} should not appear in the list`);
     });
 
     it('Library visibility is correctly displayed - [C289905]', async () => {
@@ -129,17 +123,11 @@ describe('File Libraries', () => {
         [userSitePublic]: SITE_VISIBILITY.PUBLIC
       };
 
-      const rowCells = await dataTable.getRows().map((row) => {
-        return row.all(dataTable.cell).map(async cell => await cell.getText());
-      });
-      const sitesList = rowCells.reduce((acc, cell) => {
-        acc[cell[1]] = cell[3].toUpperCase();
-        return acc;
-      }, {});
+      const sitesList = await dataTable.getSitesNameAndVisibility();
 
-      Object.keys(expectedSitesVisibility).forEach((site) => {
+      for (const site of Object.keys(expectedSitesVisibility)) {
         expect(sitesList[site]).toEqual(expectedSitesVisibility[site]);
-      });
+      }
     });
 
     it('User role is correctly displayed - [C289903]', async () => {
@@ -150,17 +138,11 @@ describe('File Libraries', () => {
         [adminSite4]: SITE_ROLES.SITE_MANAGER.LABEL
       };
 
-      const rowCells = await dataTable.getRows().map((row) => {
-        return row.all(dataTable.cell).map(async cell => await cell.getText());
-      });
-      const sitesList = rowCells.reduce((acc, cell) => {
-        acc[cell[1]] = cell[2];
-        return acc;
-      }, {});
+      const sitesList = await dataTable.getSitesNameAndRole();
 
-      Object.keys(expectedSitesRoles).forEach((site) => {
+      for (const site of Object.keys(expectedSitesRoles)) {
         expect(sitesList[site]).toEqual(expectedSitesRoles[site]);
-      });
+      }
     });
 
     it('Site ID is displayed when two sites have the same name - [C217098]', async () => {
@@ -187,26 +169,22 @@ describe('File Libraries', () => {
 
   describe('Favorite Libraries', () => {
     beforeEach(async (done) => {
-      await page.goToFavoriteLibraries();
+      await page.goToFavoriteLibrariesAndWait();
       done();
     });
 
     it('has the correct columns - [C289893]', async () => {
-      const labels = [ 'Name', 'My Role', 'Visibility' ];
-      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+      const expectedColumns = [ 'Thumbnail', 'Name', 'My Role', 'Visibility' ];
+      const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(await dataTable.getColumnHeaders().count()).toBe(3 + 1, 'Incorrect number of columns');
-
-      await elements.forEach(async (element, index) => {
-        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-      });
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('User can see only his favorite sites - [C289897]', async () => {
       const sitesCount = await dataTable.countRows();
 
       expect(sitesCount).toEqual(9, 'Incorrect number of sites displayed');
-      expect(await dataTable.getRowByName(adminSite6).isPresent()).toBe(false, `${adminSite6} should not appear`);
+      expect(await dataTable.isItemPresent(adminSite6)).toBe(false, `${adminSite6} should not appear`);
     });
 
     it('Library visibility is correctly displayed - [C289906]', async () => {
@@ -216,17 +194,11 @@ describe('File Libraries', () => {
         [userSitePublic]: SITE_VISIBILITY.PUBLIC
       };
 
-      const rowCells = await dataTable.getRows().map((row) => {
-        return row.all(dataTable.cell).map(async cell => await cell.getText());
-      });
-      const sitesList = rowCells.reduce((acc, cell) => {
-        acc[cell[1]] = cell[3].toUpperCase();
-        return acc;
-      }, {});
+      const sitesList = await dataTable.getSitesNameAndVisibility();
 
-      Object.keys(expectedSitesVisibility).forEach((site) => {
+      for (const site of Object.keys(expectedSitesVisibility)) {
         expect(sitesList[site]).toEqual(expectedSitesVisibility[site]);
-      });
+      }
     });
 
     it('User role is correctly displayed - [C289904]', async () => {
@@ -237,17 +209,11 @@ describe('File Libraries', () => {
         [adminSite4]: SITE_ROLES.SITE_MANAGER.LABEL
       };
 
-      const rowCells = await dataTable.getRows().map((row) => {
-        return row.all(dataTable.cell).map(async cell => await cell.getText());
-      });
-      const sitesList = rowCells.reduce((acc, cell) => {
-        acc[cell[1]] = cell[2];
-        return acc;
-      }, {});
+      const sitesList = await dataTable.getSitesNameAndRole();
 
-      Object.keys(expectedSitesRoles).forEach((site) => {
+      for (const site of Object.keys(expectedSitesRoles)) {
         expect(sitesList[site]).toEqual(expectedSitesRoles[site]);
-      });
+      }
     });
 
     it('Site ID is displayed when two sites have the same name - [C289896]', async () => {

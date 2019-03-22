@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -36,13 +36,15 @@ import {
   reduceSeparators,
   reduceEmptyMenus,
   ExtensionService,
-  ExtensionConfig
+  ExtensionConfig,
+  ComponentRegisterService
 } from '@alfresco/adf-extensions';
 
 describe('AppExtensionService', () => {
   let service: AppExtensionService;
   let store: Store<AppStore>;
   let extensions: ExtensionService;
+  let components: ComponentRegisterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +54,7 @@ describe('AppExtensionService', () => {
     store = TestBed.get(Store);
     service = TestBed.get(AppExtensionService);
     extensions = TestBed.get(ExtensionService);
+    components = TestBed.get(ComponentRegisterService);
   });
 
   const applyConfig = (config: ExtensionConfig) => {
@@ -226,7 +229,9 @@ describe('AppExtensionService', () => {
     beforeEach(() => {
       component1 = {};
 
-      extensions.components['component-1'] = component1;
+      components.setComponents({
+        'component-1': component1
+      });
     });
 
     it('should fetch registered component', () => {
@@ -268,8 +273,11 @@ describe('AppExtensionService', () => {
 
       component1 = {};
       component2 = {};
-      extensions.components['aca:components/about'] = component1;
-      extensions.components['aca:layouts/main'] = component2;
+
+      components.setComponents({
+        'aca:components/about': component1,
+        'aca:layouts/main': component2
+      });
 
       guard1 = {};
       extensions.authGuards['aca:auth'] = guard1;
@@ -578,7 +586,7 @@ describe('AppExtensionService', () => {
     });
 
     it('should filter out all disabled items', () => {
-      const items = [
+      const items: any[] = [
         { id: '1', disabled: true },
         {
           id: '2',
@@ -673,6 +681,51 @@ describe('AppExtensionService', () => {
           items: [{ children: [{ route: 'route3', url: '/route3' }] }]
         }
       ]);
+    });
+
+    it('should filter out disabled items', () => {
+      const navigation = service.getApplicationNavigation([
+        { items: [{ route: 'route1' }, { route: 'route2', disabled: true }] },
+        { items: [{ children: [{ route: 'route3', disabled: true }] }] }
+      ]);
+
+      expect(navigation).toEqual([
+        { items: [{ route: 'route1', url: '/route1' }] },
+        { items: [{ children: [] }] }
+      ]);
+    });
+  });
+
+  describe('getSharedLinkViewerToolbarActions', () => {
+    it('should get shared link viewer actions', () => {
+      const actions = [
+        {
+          id: 'id',
+          type: ContentActionType.button,
+          icon: 'icon',
+          actions: {
+            click: 'click'
+          }
+        }
+      ];
+
+      applyConfig({
+        $id: 'test',
+        $name: 'test',
+        $version: '1.0.0',
+        $license: 'MIT',
+        $vendor: 'Good company',
+        $runtime: '1.5.0',
+        features: {
+          viewer: {
+            shared: {
+              toolbarActions: actions
+            }
+          }
+        }
+      });
+
+      expect(service.getSharedLinkViewerToolbarActions()).toEqual(<any>actions);
     });
   });
 });

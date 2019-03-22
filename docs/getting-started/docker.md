@@ -1,9 +1,11 @@
 ---
+Title: Docker
 ---
 
 # Docker
 
-The ACA comes with the ACS 6.0 Community Edition preconfigured.
+ACA comes with the ACS 6.0 Community Edition preconfigured.
+
 The application runs in two modes:
 
 - Development (runs latest source code, requires building application)
@@ -26,17 +28,5 @@ Use the following command to stop all the containers:
 npm run stop:docker
 ```
 
-## Preview Mode
-
-<p class="tip">
-With this mode, you do not need building application from source code or installing dependencies.
-</p>
-
-To run the latest published container go to the `docker-compose` folder and start docker compose from there:
-
-```sh
-cd docker-compose
-docker-compose up
-```
-
-The application is available at the `http://localhost:3000` address.
+You can also develop the application and run in default port (4200),
+it is going to use the same docker containers automatically.

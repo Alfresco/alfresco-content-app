@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,8 +26,11 @@
 import { RepoApi } from '../repo-api';
 import { RepoClient } from './../../repo-client';
 import { Utils } from '../../../../utilities/utils';
+import { FavoritesApi as AdfFavoritesApi, SitesApi as AdfSiteApi } from '@alfresco/js-api';
 
 export class FavoritesApi extends RepoApi {
+    favoritesApi = new AdfFavoritesApi(this.alfrescoJsApi);
+    sitesApi = new AdfSiteApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
@@ -42,7 +45,7 @@ export class FavoritesApi extends RepoApi {
                 }
             }
         };
-        return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
+        return await this.favoritesApi.createFavorite('-me-', data);
     }
 
     async addFavoriteById(nodeType: 'file' | 'folder' | 'site', id: string) {
@@ -50,7 +53,7 @@ export class FavoritesApi extends RepoApi {
         await this.apiAuth();
 
         if ( nodeType === 'site' ) {
-            guid = (await this.alfrescoJsApi.core.sitesApi.getSite(id)).entry.guid;
+            guid = (await this.sitesApi.getSite(id)).entry.guid;
         } else {
             guid = id;
         }
@@ -61,11 +64,14 @@ export class FavoritesApi extends RepoApi {
                 }
             }
         };
-        return await this.alfrescoJsApi.core.favoritesApi.addFavorite('-me-', data);
+        try {
+          return await this.favoritesApi.createFavorite('-me-', data);
+        } catch (error) {
+          // console.log('--- add favorite by id catch ');
+        }
     }
 
     async addFavoritesByIds(nodeType: 'file' | 'folder' | 'site', ids: string[]) {
-        await this.apiAuth();
         return await ids.reduce(async (previous, current) => {
             await previous;
             await this.addFavoriteById(nodeType, current);
@@ -74,12 +80,12 @@ export class FavoritesApi extends RepoApi {
 
     async getFavorites() {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.favoritesApi.getFavorites(this.getUsername());
+        return await this.favoritesApi.listFavorites(this.getUsername());
     }
 
     async getFavoriteById(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.favoritesApi.getFavorite('-me-', nodeId);
+        return await this.favoritesApi.getFavorite('-me-', nodeId);
     }
 
     async isFavorite(nodeId: string) {
@@ -90,7 +96,7 @@ export class FavoritesApi extends RepoApi {
       let isFavorite;
       try {
         const favorite = async () => {
-          isFavorite = JSON.stringify((await this.getFavorites()).list.entries).includes(nodeId);
+          isFavorite = await this.isFavorite(nodeId);
           if ( isFavorite !== data.expect ) {
             return Promise.reject(isFavorite);
           } else {
@@ -107,13 +113,19 @@ export class FavoritesApi extends RepoApi {
 
     async removeFavoriteById(nodeId: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.peopleApi.removeFavoriteSite('-me-', nodeId);
+        try {
+          return await this.favoritesApi.deleteFavorite('-me-', nodeId);
+        } catch (error) {
+          // console.log('--- remove favorite by id catch ');
+        }
     }
 
-    async removeFavorite(api: RepoClient, name: string) {
-        const nodeId = (await api.nodes.getNodeByPath(name)).entry.id;
-        return await this.removeFavoriteById(nodeId);
-    }
+    async removeFavoritesByIds(ids: string[]) {
+      return await ids.reduce(async (previous, current) => {
+          await previous;
+          await this.removeFavoriteById(current);
+      }, Promise.resolve());
+  }
 
     async waitForApi(data) {
       try {
@@ -130,6 +142,5 @@ export class FavoritesApi extends RepoApi {
       } catch (error) {
         console.log('-----> catch favorites: ', error);
       }
-
     }
 }

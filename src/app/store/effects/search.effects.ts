@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -38,18 +38,20 @@ export class SearchEffects {
   searchByTerm$ = this.actions$.pipe(
     ofType<SearchByTermAction>(SEARCH_BY_TERM),
     map(action => {
+      const query = action.payload
+        .replace(/[(]/g, '%28')
+        .replace(/[)]/g, '%29');
+
       const libItem = action.searchOptions.find(
         item => item.id === SearchOptionIds.Libraries
       );
       const librarySelected = !!libItem && libItem.value;
       if (librarySelected) {
         this.router.navigateByUrl(
-          '/search-libraries;q=' + encodeURIComponent(action.payload)
+          '/search-libraries;q=' + encodeURIComponent(query)
         );
       } else {
-        this.router.navigateByUrl(
-          '/search;q=' + encodeURIComponent(action.payload)
-        );
+        this.router.navigateByUrl('/search;q=' + encodeURIComponent(query));
       }
     })
   );

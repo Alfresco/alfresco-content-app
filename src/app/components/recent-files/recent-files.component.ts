@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,12 +25,14 @@
 
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 import { ContentManagementService } from '../../services/content-management.service';
 import { PageComponent } from '../page.component';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { AppExtensionService } from '../../extensions/extension.service';
+import { UploadService } from '@alfresco/adf-core';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   templateUrl: './recent-files.component.html'
@@ -44,6 +46,7 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService,
+    private uploadService: UploadService,
     private breakpointObserver: BreakpointObserver
   ) {
     super(store, extensions, content);
@@ -53,9 +56,12 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
     super.ngOnInit();
 
     this.subscriptions = this.subscriptions.concat([
-      this.content.nodesDeleted.subscribe(() => this.reload()),
-      this.content.nodesMoved.subscribe(() => this.reload()),
-      this.content.nodesRestored.subscribe(() => this.reload()),
+      this.uploadService.fileUploadComplete
+        .pipe(debounceTime(300))
+        .subscribe(() => this.onFileUploadedEvent()),
+      this.uploadService.fileUploadDeleted
+        .pipe(debounceTime(300))
+        .subscribe(() => this.onFileUploadedEvent()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
@@ -69,12 +75,11 @@ export class RecentFilesComponent extends PageComponent implements OnInit {
 
   onNodeDoubleClick(node: MinimalNodeEntity) {
     if (node && node.entry) {
-      if (PageComponent.isLockedNode(node.entry)) {
-        event.preventDefault();
-        return;
-      }
-
       this.showPreview(node);
     }
+  }
+
+  private onFileUploadedEvent() {
+    this.reload();
   }
 }

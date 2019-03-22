@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -44,7 +44,6 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
 import { ContentApiService } from '../../services/content-api.service';
-import { SiteBody } from 'alfresco-js-api-node';
 import { SnackbarErrorAction } from '../actions/snackbar.actions';
 
 @Injectable()
@@ -136,7 +135,7 @@ export class LibraryEffects {
             const { id } = selection.library.entry;
             const { title, description, visibility } = action.payload;
 
-            const siteBody = <SiteBody>{
+            const siteBody = {
               title,
               description,
               visibility

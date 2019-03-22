@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -32,6 +32,7 @@ import { DirectivesModule } from '../../directives/directives.module';
 import { AppCommonModule } from '../common/common.module';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 
 const routes: Routes = [
   {
@@ -51,6 +52,7 @@ const routes: Routes = [
     DirectivesModule,
     AppCommonModule,
     AppToolbarModule,
+    CoreExtensionsModule.forChild(),
     AppInfoDrawerModule
   ],
   declarations: [SharedLinkViewComponent],

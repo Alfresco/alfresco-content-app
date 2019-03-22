@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -29,7 +29,7 @@ import { of, throwError } from 'rxjs';
 import { AlfrescoApiService, TranslationService } from '@alfresco/adf-core';
 import { DocumentListService } from '@alfresco/adf-content-services';
 import { NodeActionsService } from './node-actions.service';
-import { MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { AppTestingModule } from '../testing/app-testing.module';
 import { ContentApiService } from '../services/content-api.service';
 
@@ -44,7 +44,7 @@ class TestNode {
     nodeType?: string,
     properties?: any
   ) {
-    this.entry = {};
+    this.entry = <any>{};
     this.entry.id = id || 'node-id';
     this.entry.isFile = isFile;
     this.entry.isFolder = !isFile;
@@ -241,14 +241,14 @@ describe('NodeActionsService', () => {
   describe('getEntryParentId', () => {
     it('should return the parentId, if that exists on the node entry', () => {
       const parentID = 'parent-id';
-      const entry = { nodeId: '1234', parentId: parentID };
+      const entry = <any>{ nodeId: '1234', parentId: parentID };
 
       expect(service.getEntryParentId(entry)).toBe(parentID);
     });
 
     it('should give the last element in path property, if parentId is missing and path exists on the node entry', () => {
       const firstParentId = 'parent-0-id';
-      const entry = {
+      const entry = <any>{
         nodeId: '1234',
         path: { elements: [{ id: 'parent-1-id' }, { id: firstParentId }] }
       };

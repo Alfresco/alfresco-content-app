@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -56,7 +56,7 @@ describe('LibraryFavoriteDirective', () => {
   let selection;
 
   setupTestBed({
-    imports: [CoreModule],
+    imports: [CoreModule.forRoot()],
     declarations: [TestComponent, LibraryFavoriteDirective],
     providers: [
       {
@@ -123,7 +123,7 @@ describe('LibraryFavoriteDirective', () => {
 
   it('should call removeFavoriteSite() on click event when selection is not a favorite', async(() => {
     spyOn(api.peopleApi, 'getFavoriteSite').and.returnValue(Promise.resolve());
-    spyOn(api.peopleApi, 'removeFavoriteSite').and.returnValue(
+    spyOn(api.favoritesApi, 'removeFavoriteSite').and.returnValue(
       Promise.resolve()
     );
     component.selection = selection;
@@ -138,7 +138,7 @@ describe('LibraryFavoriteDirective', () => {
 
       fixture.detectChanges();
 
-      expect(api.peopleApi.removeFavoriteSite).toHaveBeenCalled();
+      expect(api.favoritesApi.removeFavoriteSite).toHaveBeenCalled();
     });
   }));
 });

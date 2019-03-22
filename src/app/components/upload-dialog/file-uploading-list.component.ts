@@ -1,6 +1,6 @@
 /*!
  * @license
- * Copyright 2016 Alfresco Software, Ltd.
+ * Copyright 2019 Alfresco Software, Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import {
   FileModel,
   FileUploadStatus,
   NodesApiService,
+  AlfrescoApiService,
   TranslationService,
   UploadService
 } from '@alfresco/adf-core';
@@ -30,14 +31,14 @@ import {
   TemplateRef,
   EventEmitter
 } from '@angular/core';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable, forkJoin, of, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-file-uploading-list',
   templateUrl: './file-uploading-list.component.html'
 })
-export class FileUploadingListComponent {
+export class AppFileUploadingListComponent {
   FileUploadStatus = FileUploadStatus;
 
   @ContentChild(TemplateRef)
@@ -51,6 +52,7 @@ export class FileUploadingListComponent {
   error: EventEmitter<any> = new EventEmitter();
 
   constructor(
+    private alfrescoApiService: AlfrescoApiService,
     private uploadService: UploadService,
     private nodesApi: NodesApiService,
     private translateService: TranslationService
@@ -67,14 +69,25 @@ export class FileUploadingListComponent {
     this.uploadService.cancelUpload(file);
   }
 
+  // todo: move to ADF 3.x.x
   removeFile(file: FileModel): void {
-    this.deleteNode(file).subscribe(() => {
-      if (file.status === FileUploadStatus.Error) {
-        this.notifyError(file);
-      }
+    if (file.options && file.options.newVersion) {
+      this.deleteNodeVersion(file).subscribe(() => {
+        if (file.status === FileUploadStatus.Error) {
+          this.notifyError(file);
+        }
+        this.uploadService.cancelUpload(file);
+      });
+    } else {
+      this.deleteNode(file).subscribe(() => {
+        if (file.status === FileUploadStatus.Error) {
+          this.notifyError(file);
+        }
 
-      this.uploadService.cancelUpload(file);
-    });
+        this.cancelNodeVersionInstances(file);
+        this.uploadService.cancelUpload(file);
+      });
+    }
   }
 
   /**
@@ -131,6 +144,37 @@ export class FileUploadingListComponent {
           status === FileUploadStatus.Deleted
       )
     );
+  }
+
+  // todo: move to ADF 3.x.x
+  private deleteNodeVersion(file: FileModel): Observable<FileModel> {
+    return from(
+      this.alfrescoApiService.versionsApi.deleteVersion(
+        file.data.entry.id,
+        file.data.entry.properties['cm:versionLabel']
+      )
+    ).pipe(
+      map(() => {
+        file.status = FileUploadStatus.Deleted;
+        return file;
+      }),
+      catchError(() => {
+        file.status = FileUploadStatus.Error;
+        return of(file);
+      })
+    );
+  }
+
+  // todo: move to ADF 3.x.x
+  private cancelNodeVersionInstances(file) {
+    this.files
+      .filter(
+        item =>
+          item.data.entry.id === file.data.entry.id && item.options.newVersion
+      )
+      .map(item => {
+        item.status = FileUploadStatus.Deleted;
+      });
   }
 
   private deleteNode(file: FileModel): Observable<FileModel> {

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,8 +25,10 @@
 
 import { PersonModel, Person } from './people-api-models';
 import { RepoApi } from '../repo-api';
+import { PeopleApi as AdfPeopleApi} from '@alfresco/js-api';
 
 export class PeopleApi extends RepoApi {
+    peopleApi = new AdfPeopleApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
@@ -35,17 +37,17 @@ export class PeopleApi extends RepoApi {
     async createUser(user: PersonModel) {
         const person = new Person(user);
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.peopleApi.addPerson(person);
+        return await this.peopleApi.createPerson(person);
     }
 
     async getUser(username: string) {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.peopleApi.getPerson(username);
+        return await this.peopleApi.getPerson(username);
     }
 
     async updateUser(username: string, userDetails?: PersonModel) {
         await this.apiAuth();
-        return this.alfrescoJsApi.core.peopleApi.updatePerson(username, userDetails);
+        return this.peopleApi.updatePerson(username, userDetails);
     }
 
     async disableUser(username: string) {

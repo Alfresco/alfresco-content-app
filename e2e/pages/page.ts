@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -27,7 +27,7 @@ import { browser, by, ElementFinder, ExpectedConditions as EC, until } from 'pro
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
 
 export abstract class Page {
-  private static locators = {
+  protected static locators = {
     app: 'app-root',
     layout: 'app-layout',
     overlay: '.cdk-overlay-container',
@@ -106,6 +106,12 @@ export abstract class Page {
 
   async getGenericErrorTitle() {
     return await this.genericErrorTitle.getText();
+  }
+
+
+  async isUndoActionPresent() {
+    const message = await this.snackBar.getAttribute('innerText');
+    return message.includes('Undo');
   }
 
 }

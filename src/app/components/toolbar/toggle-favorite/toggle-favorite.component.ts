@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -29,7 +29,7 @@ import { AppStore } from '../../../store/states';
 import { appSelection } from '../../../store/selectors/app.selectors';
 import { Observable } from 'rxjs';
 import { SelectionState } from '@alfresco/adf-extensions';
-import { ContentManagementService } from '../../../services/content-management.service';
+import { ReloadDocumentListAction } from '../../../store/actions';
 
 @Component({
   selector: 'app-toggle-favorite',
@@ -42,7 +42,11 @@ import { ContentManagementService } from '../../../services/content-management.s
     >
       <mat-icon *ngIf="favorites.hasFavorites()">star</mat-icon>
       <mat-icon *ngIf="!favorites.hasFavorites()">star_border</mat-icon>
-      <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
+      <span>{{
+        (favorites.hasFavorites()
+          ? 'APP.ACTIONS.REMOVE_FAVORITE'
+          : 'APP.ACTIONS.FAVORITE') | translate
+      }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -51,14 +55,11 @@ import { ContentManagementService } from '../../../services/content-management.s
 export class ToggleFavoriteComponent {
   selection$: Observable<SelectionState>;
 
-  constructor(
-    private store: Store<AppStore>,
-    private content: ContentManagementService
-  ) {
+  constructor(private store: Store<AppStore>) {
     this.selection$ = this.store.select(appSelection);
   }
 
   onToggleEvent() {
-    this.content.favoriteToggle.next();
+    this.store.dispatch(new ReloadDocumentListAction());
   }
 }

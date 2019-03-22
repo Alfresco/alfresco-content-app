@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -30,12 +30,12 @@ import {
 import { ContentActionRef, SelectionState } from '@alfresco/adf-extensions';
 import { OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MinimalNodeEntity, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AppExtensionService } from '../extensions/extension.service';
 import { ContentManagementService } from '../services/content-management.service';
-import { SetSelectedNodesAction, ViewFileAction } from '../store/actions';
+import { ViewFileAction, ReloadDocumentListAction } from '../store/actions';
 import {
   appSelection,
   currentFolder,
@@ -44,6 +44,7 @@ import {
   sharedUrl
 } from '../store/selectors/app.selectors';
 import { AppStore } from '../store/states/app.state';
+import { isLocked, isLibrary } from '../utils/node.utils';
 
 export abstract class PageComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<boolean> = new Subject<boolean>();
@@ -59,29 +60,10 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   sharedPreviewUrl$: Observable<string>;
   actions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
-  viewerToolbarMoreActions: Array<ContentActionRef> = [];
   canUpdateNode = false;
   canUpload = false;
 
   protected subscriptions: Subscription[] = [];
-
-  static isLockedNode(node) {
-    return (
-      node.isLocked ||
-      (node.properties && node.properties['cm:lockType'] === 'READ_ONLY_LOCK')
-    );
-  }
-
-  static isLibrary(entry) {
-    return (
-      (entry.guid &&
-        entry.id &&
-        entry.preset &&
-        entry.title &&
-        entry.visibility) ||
-      entry.nodeType === 'st:site'
-    );
-  }
 
   constructor(
     protected store: Store<AppStore>,
@@ -101,7 +83,6 @@ export abstract class PageComponent implements OnInit, OnDestroy {
         this.selection = selection;
         this.actions = this.extensions.getAllowedToolbarActions();
         this.viewerToolbarActions = this.extensions.getViewerToolbarActions();
-        this.viewerToolbarMoreActions = this.extensions.getViewerToolbarMoreActions();
         this.canUpdateNode =
           this.selection.count === 1 &&
           this.content.canUpdateNode(selection.first);
@@ -135,13 +116,11 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   }
 
   imageResolver(row: ShareDataRow): string | null {
-    const entry: MinimalNodeEntryEntity = row.node.entry;
-
-    if (PageComponent.isLockedNode(entry)) {
-      return 'assets/images/ic_lock_black_24dp_1x.png';
+    if (isLocked(row.node)) {
+      return 'assets/images/baseline-lock-24px.svg';
     }
 
-    if (PageComponent.isLibrary(entry)) {
+    if (isLibrary(row.node)) {
       return 'assets/images/baseline-library_books-24px.svg';
     }
 
@@ -149,11 +128,7 @@ export abstract class PageComponent implements OnInit, OnDestroy {
   }
 
   reload(): void {
-    if (this.documentList) {
-      this.documentList.resetSelection();
-      this.store.dispatch(new SetSelectedNodesAction([]));
-      this.documentList.reload();
-    }
+    this.store.dispatch(new ReloadDocumentListAction());
   }
 
   trackByActionId(index: number, action: ContentActionRef) {

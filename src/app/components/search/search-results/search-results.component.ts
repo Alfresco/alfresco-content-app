@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,7 +24,7 @@
  */
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NodePaging, Pagination, MinimalNodeEntity } from 'alfresco-js-api';
+import { NodePaging, Pagination, MinimalNodeEntity } from '@alfresco/js-api';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   SearchQueryBuilderService,
@@ -37,7 +37,14 @@ import { AppStore } from '../../../store/states/app.state';
 import { NavigateToFolder } from '../../../store/actions';
 import { AppExtensionService } from '../../../extensions/extension.service';
 import { ContentManagementService } from '../../../services/content-management.service';
-import { AppConfigService } from '@alfresco/adf-core';
+import {
+  AppConfigService,
+  AlfrescoApiService,
+  TranslationService
+} from '@alfresco/adf-core';
+import { Observable, Subject } from 'rxjs';
+import { showFacetFilter } from '../../../store/selectors/app.selectors';
+import { SnackbarErrorAction } from '../../../store/actions';
 
 @Component({
   selector: 'aca-search-results',
@@ -51,6 +58,8 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   @ViewChild('searchFilter')
   searchFilter: SearchFilterComponent;
 
+  showFacetFilter$: Observable<boolean>;
+
   searchedWord: string;
   queryParamName = 'q';
   data: NodePaging;
@@ -58,14 +67,17 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
   hasSelectedFilters = false;
   sorting = ['name', 'asc'];
   isLoading = false;
+  searchQueryError: Subject<any> = new Subject();
 
   constructor(
+    private alfrescoApiService: AlfrescoApiService,
     private queryBuilder: SearchQueryBuilderService,
     private route: ActivatedRoute,
     private config: AppConfigService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
-    content: ContentManagementService
+    content: ContentManagementService,
+    private translationService: TranslationService
   ) {
     super(store, extensions, content);
 
@@ -73,17 +85,40 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
       skipCount: 0,
       maxItems: 25
     };
+
+    this.showFacetFilter$ = store.select(showFacetFilter);
   }
 
   ngOnInit() {
     super.ngOnInit();
 
+    // todo: remove once ADF-4193 is resolved
+    this.queryBuilder.execute = async () => {
+      const query = this.queryBuilder.buildQuery();
+      if (query) {
+        try {
+          const response = await this.alfrescoApiService.searchApi.search(
+            query
+          );
+          this.queryBuilder.executed.next(response);
+        } catch (error) {
+          this.searchQueryError.next(error);
+
+          this.queryBuilder.executed.next({
+            list: { pagination: { totalItems: 0 }, entries: [] }
+          });
+        }
+      }
+    };
+
     this.sorting = this.getSorting();
 
     this.subscriptions.push(
-      this.queryBuilder.updated.subscribe(() => {
-        this.sorting = this.getSorting();
-        this.isLoading = true;
+      this.queryBuilder.updated.subscribe(query => {
+        if (query) {
+          this.sorting = this.getSorting();
+          this.isLoading = true;
+        }
       }),
 
       this.queryBuilder.executed.subscribe(data => {
@@ -91,6 +126,10 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
         this.onSearchResultLoaded(data);
         this.isLoading = false;
+      }),
+
+      this.searchQueryError.subscribe(error => {
+        this.onSearchError(error);
       })
     );
 
@@ -102,7 +141,7 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
         const query = this.formatSearchQuery(this.searchedWord);
 
         if (query) {
-          this.queryBuilder.userQuery = query;
+          this.queryBuilder.userQuery = decodeURIComponent(query);
           this.queryBuilder.update();
         } else {
           this.queryBuilder.userQuery = null;
@@ -114,15 +153,77 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     }
   }
 
-  private formatSearchQuery(userInput: string) {
+  onSearchError(error: { message: any }) {
+    const { statusCode } = JSON.parse(error.message).error;
+
+    const messageKey = `APP.BROWSE.SEARCH.ERRORS.${statusCode}`;
+    let translated = this.translationService.instant(messageKey);
+
+    if (translated === messageKey) {
+      translated = this.translationService.instant(
+        `APP.BROWSE.SEARCH.ERRORS.GENERIC`
+      );
+    }
+
+    this.store.dispatch(new SnackbarErrorAction(translated));
+  }
+
+  private isOperator(input: string): boolean {
+    if (input) {
+      input = input.trim().toUpperCase();
+
+      const operators = ['AND', 'OR'];
+      return operators.includes(input);
+    }
+    return false;
+  }
+
+  private formatFields(fields: string[], term: string): string {
+    let prefix = '';
+    let suffix = '*';
+
+    if (term.startsWith('=')) {
+      prefix = '=';
+      suffix = '';
+      term = term.substring(1);
+    }
+
+    return (
+      '(' +
+      fields.map(field => `${prefix}${field}:"${term}${suffix}"`).join(' OR ') +
+      ')'
+    );
+  }
+
+  formatSearchQuery(userInput: string) {
     if (!userInput) {
       return null;
     }
 
-    const fields = this.config.get<string[]>('search.aca:fields', ['cm:name']);
-    const query = fields.map(field => `${field}:"${userInput}*"`).join(' OR ');
+    userInput = userInput.trim();
 
-    return query;
+    if (userInput.includes(':') || userInput.includes('"')) {
+      return userInput;
+    }
+
+    const fields = this.config.get<string[]>('search.aca:fields', ['cm:name']);
+    const words = userInput.split(' ');
+
+    if (words.length > 1) {
+      const separator = words.some(this.isOperator) ? ' ' : ' AND ';
+
+      return words
+        .map(term => {
+          if (this.isOperator(term)) {
+            return term;
+          }
+
+          return this.formatFields(fields, term);
+        })
+        .join(separator);
+    }
+
+    return this.formatFields(fields, userInput);
   }
 
   onSearchResultLoaded(nodePaging: NodePaging) {
@@ -140,7 +241,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
 
   isFiltered(): boolean {
     return (
-      this.searchFilter.selectedFacetQueries.length > 0 ||
       this.searchFilter.selectedBuckets.length > 0 ||
       this.hasCheckedCategories()
     );
@@ -175,11 +275,6 @@ export class SearchResultsComponent extends PageComponent implements OnInit {
     if (node && node.entry) {
       if (node.entry.isFolder) {
         this.store.dispatch(new NavigateToFolder(node));
-        return;
-      }
-
-      if (PageComponent.isLockedNode(node.entry)) {
-        event.preventDefault();
         return;
       }
 

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -54,7 +54,11 @@ export class Viewer extends Component {
   }
 
   async waitForViewerToOpen() {
-    await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT);
+    try {
+      await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT);
+    } catch (error) {
+      console.log('\n-----> catch waitForViewerToOpen <-----\n', error)
+    }
   }
 
   async isViewerOpened() {

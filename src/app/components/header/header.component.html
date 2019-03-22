@@ -4,21 +4,18 @@
   [tooltip]="appName$ | async"
   [color]="headerColor$ | async"
   [title]="appName$ | async"
-  (clicked)="toggleClicked.emit($event)">
-
+  (clicked)="toggleClicked.emit($event)"
+>
   <div class="adf-toolbar--spacer adf-toolbar-divider"></div>
 
   <aca-search-input></aca-search-input>
 
-  <div class="adf-toolbar-divider"></div>
+  <adf-toolbar-divider></adf-toolbar-divider>
 
   <aca-current-user></aca-current-user>
 
   <ng-container *ngFor="let actionRef of actions; trackBy: trackByActionId">
-    <aca-toolbar-action
-      [actionRef]="actionRef"
-      color="default">
+    <aca-toolbar-action [actionRef]="actionRef" color="default">
     </aca-toolbar-action>
   </ng-container>
-
 </adf-layout-header>

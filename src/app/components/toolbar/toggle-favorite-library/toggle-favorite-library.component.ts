@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -44,12 +44,16 @@ import { Router } from '@angular/router';
       [attr.title]="
         favoriteLibrary.isFavorite()
           ? ('APP.ACTIONS.REMOVE_FAVORITE' | translate)
-          : ('APP.ACTIONS.ADD_FAVORITE' | translate)
+          : ('APP.ACTIONS.FAVORITE' | translate)
       "
     >
       <mat-icon *ngIf="favoriteLibrary.isFavorite()">star</mat-icon>
       <mat-icon *ngIf="!favoriteLibrary.isFavorite()">star_border</mat-icon>
-      <span>{{ 'APP.ACTIONS.FAVORITE' | translate }}</span>
+      <span>{{
+        (favoriteLibrary.isFavorite()
+          ? 'APP.ACTIONS.REMOVE_FAVORITE'
+          : 'APP.ACTIONS.FAVORITE') | translate
+      }}</span>
     </button>
   `,
   encapsulation: ViewEncapsulation.None,

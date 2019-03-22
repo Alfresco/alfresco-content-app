@@ -1,5 +1,5 @@
 ---
-title: Get Help
+Title: Get Help
 ---
 
 # Where to get help

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -37,7 +37,6 @@ describe('General', () => {
   const { nodes: nodesApi, authentication: authApi } = adminApi;
   const folder = `folder-${Utils.random()}`;
   let folderId;
-  xit('');
 
   describe('on session expire', () => {
     beforeAll(async (done) => {
@@ -61,8 +60,7 @@ describe('General', () => {
 
       await createDialog.clickCreate();
 
-      const message = await page.getSnackBarMessage();
-      expect(message).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
+      expect(await page.getSnackBarMessage()).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
 
       expect(await browser.getTitle()).toContain('Sign in');
 

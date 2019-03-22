@@ -1,6 +1,6 @@
 /*!
  * @license
- * Copyright 2016 Alfresco Software, Ltd.
+ * Copyright 2019 Alfresco Software, Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import {
 } from '@alfresco/adf-core';
 import { ContentNodeShareModule } from './content-node-share.module';
 import { ShareDialogComponent } from './content-node-share.dialog';
-import moment from 'moment-es6';
+import * as moment from 'moment';
 import { Store } from '@ngrx/store';
 
 describe('ShareDialogComponent', () => {
@@ -153,7 +153,7 @@ describe('ShareDialogComponent', () => {
       fixture.detectChanges();
 
       fixture.nativeElement
-        .querySelector('.input-action')
+        .querySelector('.adf-input-action')
         .dispatchEvent(new MouseEvent('click'));
 
       fixture.detectChanges();

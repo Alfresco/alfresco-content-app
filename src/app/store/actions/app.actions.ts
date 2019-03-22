@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { Node, Person } from 'alfresco-js-api';
+import { Node, Person } from '@alfresco/js-api';
 import { AppState } from '../states';
 
 export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
@@ -35,6 +35,7 @@ export const SET_USER_PROFILE = 'SET_USER_PROFILE';
 export const TOGGLE_INFO_DRAWER = 'TOGGLE_INFO_DRAWER';
 export const TOGGLE_DOCUMENT_DISPLAY_MODE = 'TOGGLE_DOCUMENT_DISPLAY_MODE';
 export const LOGOUT = 'LOGOUT';
+export const RELOAD_DOCUMENT_LIST = 'RELOAD_DOCUMENT_LIST';
 
 export class SetInitialStateAction implements Action {
   readonly type = SET_INITIAL_STATE;
@@ -73,5 +74,10 @@ export class ToggleDocumentDisplayMode implements Action {
 
 export class LogoutAction implements Action {
   readonly type = LOGOUT;
+  constructor(public payload?: any) {}
+}
+
+export class ReloadDocumentListAction implements Action {
+  readonly type = RELOAD_DOCUMENT_LIST;
   constructor(public payload?: any) {}
 }

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,7 +26,7 @@
 import { AppAuthGuard } from './auth.guard';
 import { TestBed } from '@angular/core/testing';
 import { AppTestingModule } from '../testing/app-testing.module';
-import { AuthenticationService } from '@alfresco/adf-core';
+import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
@@ -34,6 +34,7 @@ describe('AppAuthGuard', () => {
   let auth: AuthenticationService;
   let guard: AppAuthGuard;
   let router: Router;
+  let config: AppConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,8 +45,29 @@ describe('AppAuthGuard', () => {
     auth = TestBed.get(AuthenticationService);
     guard = TestBed.get(AppAuthGuard);
     router = TestBed.get(Router);
+    config = TestBed.get(AppConfigService);
 
     spyOn(router, 'navigateByUrl').and.stub();
+  });
+
+  it('should fall through when withCredentials enabled', () => {
+    spyOn(auth, 'isEcmLoggedIn').and.returnValue(false);
+
+    config.config = {
+      auth: {
+        withCredentials: false
+      }
+    };
+
+    expect(guard.checkLogin(null)).toBe(false);
+
+    config.config = {
+      auth: {
+        withCredentials: true
+      }
+    };
+
+    expect(guard.checkLogin(null)).toBe(true);
   });
 
   it('should evaluate to [true] if logged in already', () => {

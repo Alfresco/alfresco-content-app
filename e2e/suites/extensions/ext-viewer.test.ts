@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -103,8 +103,6 @@ describe('Extensions - Viewer', () => {
         done();
     });
 
-    xit('');
-
     describe('content', () => {
         it('Insert new component in a content viewer - [C284659]', async () => {
             await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
@@ -141,7 +139,7 @@ describe('Extensions - Viewer', () => {
             await page.dataTable.doubleClickOnRowByName(pdfFile.file_name);
             expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
-            expect(await toolbar.isButtonPresent('Print')).toBe(false, 'Print button is still displayed');
+            expect(await toolbar.isPrintPresent()).toBe(false, 'Print button is still displayed');
         });
     });
 
@@ -169,7 +167,7 @@ describe('Extensions - Viewer', () => {
             expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
 
             await toolbar.openMoreMenu();
-            expect(await toolbar.menu.isMenuItemPresent('Permissions')).toBe(false, 'Action is still displayed');
+            expect(await toolbar.menu.isManagePermissionsPresent()).toBe(false, 'Action is still displayed');
         });
     });
 });

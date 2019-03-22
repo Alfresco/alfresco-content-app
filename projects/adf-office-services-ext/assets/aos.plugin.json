@@ -1,0 +1,75 @@
+{
+  "$schema": "../../../extension.schema.json",
+  "$id": "9a635542-d87a-4558-ae64-ffa199d1a364",
+  "$version": "0.0.6",
+  "$name": "keensoft.aos.plugin",
+  "$description": "Extension that provides Office Edit Online Action",
+  "$vendor": "Keensoft",
+  "$license": "Apache-2.0",
+  "$runtime": "1.6.0",
+
+  "actions": [
+    {
+      "id": "aos.openWith.office",
+      "type": "AOS_ACTION",
+      "payload": "$(context.selection.first.entry)"
+    }
+  ],
+
+  "features": {
+    "toolbar": [
+      {
+        "id": "app.toolbar.more",
+        "children": [
+          {
+            "id": "aos.toolbar.openWith.office",
+            "order": 90,
+            "icon": "edit",
+            "title": "AOS.ACTION_TITLE",
+            "actions": {
+              "click": "aos.openWith.office"
+            },
+            "rules": {
+              "visible": "aos.canOpenWithOffice"
+            }
+          }
+        ]
+      }
+    ],
+    "contextMenu": [
+      {
+        "id": "aos.context.openWith.office",
+        "order": 90,
+        "icon": "edit",
+        "title": "AOS.ACTION_TITLE",
+        "actions": {
+          "click": "aos.openWith.office"
+        },
+        "rules": {
+          "visible": "aos.canOpenWithOffice"
+        }
+      }
+    ],
+    "viewer": {
+      "toolbarActions": [
+        {
+            "id": "app.viewer.toolbar.more",
+            "children": [
+              {
+                "id": "aos.viewer.openWith.office",
+                "order": 1,
+                "icon": "edit",
+                "title": "AOS.ACTION_TITLE",
+                "actions": {
+                  "click": "aos.openWith.office"
+                },
+                "rules": {
+                  "visible": "aos.canOpenWithOffice"
+                }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

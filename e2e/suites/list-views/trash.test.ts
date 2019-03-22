@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -87,8 +87,6 @@ describe('Trash', () => {
     done();
   });
 
-  xit('');
-
   describe('as admin', () => {
     beforeAll(async (done) => {
       await loginPage.loginWithAdmin();
@@ -101,24 +99,20 @@ describe('Trash', () => {
     });
 
     it('has the correct columns - [C213217]', async () => {
-      const labels = [ 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
-      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+      const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Deleted', 'Deleted by' ];
+      const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(await dataTable.getColumnHeaders().count()).toBe(5 + 1, 'Incorrect number of columns');
-
-      await elements.forEach(async (element, index) => {
-        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-      });
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('displays the files and folders deleted by everyone - [C280493]', async () => {
       expect(await dataTable.countRows()).toEqual(8, 'Incorrect number of deleted items displayed');
 
-      expect(await dataTable.getRowByName(fileAdmin).isPresent()).toBe(true, `${fileAdmin} not displayed`);
-      expect(await dataTable.getRowByName(folderAdmin).isPresent()).toBe(true, `${folderAdmin} not displayed`);
-      expect(await dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
-      expect(await dataTable.getRowByName(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
-      expect(await dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
+      expect(await dataTable.isItemPresent(fileAdmin)).toBe(true, `${fileAdmin} not displayed`);
+      expect(await dataTable.isItemPresent(folderAdmin)).toBe(true, `${folderAdmin} not displayed`);
+      expect(await dataTable.isItemPresent(fileUser)).toBe(true, `${fileUser} not displayed`);
+      expect(await dataTable.isItemPresent(folderUser)).toBe(true, `${folderUser} not displayed`);
+      expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);
     });
   });
 
@@ -134,27 +128,23 @@ describe('Trash', () => {
     });
 
     it('has the correct columns - [C280494]', async () => {
-      const labels = [ 'Name', 'Location', 'Size', 'Deleted'];
-      const elements = labels.map(label => dataTable.getColumnHeaderByLabel(label));
+      const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Deleted'];
+      const actualColumns = await dataTable.getColumnHeadersText();
 
-      expect(await dataTable.getColumnHeaders().count()).toBe(4 + 1, 'Incorrect number of columns');
-
-      await elements.forEach(async (element, index) => {
-        expect(await element.isPresent()).toBe(true, `"${labels[index]}" is missing`);
-      });
+      expect(actualColumns).toEqual(expectedColumns);
     });
 
     it('displays the files and folders deleted by the user - [C213218]', async () => {
       expect(await dataTable.countRows()).toEqual(6, 'Incorrect number of deleted items displayed');
 
-      expect(await dataTable.getRowByName(fileSite).isPresent()).toBe(true, `${fileSite} not displayed`);
-      expect(await dataTable.getRowByName(fileUser).isPresent()).toBe(true, `${fileUser} not displayed`);
-      expect(await dataTable.getRowByName(folderUser).isPresent()).toBe(true, `${folderUser} not displayed`);
-      expect(await dataTable.getRowByName(fileAdmin).isPresent()).toBe(false, `${fileAdmin} is displayed`);
+      expect(await dataTable.isItemPresent(fileSite)).toBe(true, `${fileSite} not displayed`);
+      expect(await dataTable.isItemPresent(fileUser)).toBe(true, `${fileUser} not displayed`);
+      expect(await dataTable.isItemPresent(folderUser)).toBe(true, `${folderUser} not displayed`);
+      expect(await dataTable.isItemPresent(fileAdmin)).toBe(false, `${fileAdmin} is displayed`);
     });
 
     it('default sorting column - [C213219]', async () => {
-      expect(await dataTable.getSortedColumnHeader().getText()).toBe('Deleted');
+      expect(await dataTable.getSortedColumnHeaderText()).toBe('Deleted');
       expect(await dataTable.getSortingOrder()).toBe('desc');
     });
 
@@ -165,9 +155,9 @@ describe('Trash', () => {
     });
 
     it('Location column displays a tooltip with the entire path of the file - [C280499]', async () => {
-      expect(await dataTable.getItemLocationTileAttr(fileInFolder)).toEqual(`Personal Files/${folderNotDeleted}`);
-      expect(await dataTable.getItemLocationTileAttr(fileUser)).toEqual('Personal Files');
-      expect(await dataTable.getItemLocationTileAttr(fileSite)).toEqual(`File Libraries/${siteName}`);
+      expect(await dataTable.getItemLocationTooltip(fileInFolder)).toEqual(`Personal Files/${folderNotDeleted}`);
+      expect(await dataTable.getItemLocationTooltip(fileUser)).toEqual('Personal Files');
+      expect(await dataTable.getItemLocationTooltip(fileSite)).toEqual(`File Libraries/${siteName}`);
     });
 
     it('Location column is empty if parent folder no longer exists - [C280500]', async () => {

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -40,7 +40,7 @@ import {
   SetCurrentUrlAction,
   SetInitialStateAction,
   CloseModalDialogsAction,
-  SetRepositoryStatusAction,
+  SetRepositoryInfoAction,
   SetUserProfileAction
 } from './store/actions';
 import {
@@ -50,7 +50,7 @@ import {
 } from './store/states/app.state';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ContentApiService } from './services/content-api.service';
-import { DiscoveryEntry } from 'alfresco-js-api';
+import { DiscoveryEntry } from '@alfresco/js-api';
 import { AppService } from './services/app.service';
 import { Subject } from 'rxjs';
 
@@ -81,8 +81,14 @@ export class AppComponent implements OnInit, OnDestroy {
       if (error.status === 401) {
         if (!this.authenticationService.isLoggedIn()) {
           this.store.dispatch(new CloseModalDialogsAction());
+
+          let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
+          if (!redirectUrl) {
+            redirectUrl = this.router.url;
+          }
+
           this.router.navigate(['/login'], {
-            queryParams: { returnUrl: 'personal-files' }
+            queryParams: { redirectUrl: redirectUrl }
           });
         }
       }
@@ -136,7 +142,7 @@ export class AppComponent implements OnInit, OnDestroy {
       .getRepositoryInformation()
       .subscribe((response: DiscoveryEntry) => {
         this.store.dispatch(
-          new SetRepositoryStatusAction(response.entry.repository.status)
+          new SetRepositoryInfoAction(response.entry.repository)
         );
       });
   }
@@ -147,10 +153,11 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  private loadAppSettings() {
-    const baseShareUrl =
-      this.config.get<string>('baseShareUrl') ||
-      this.config.get<string>('ecmHost');
+  loadAppSettings() {
+    let baseShareUrl = this.config.get<string>('baseShareUrl');
+    if (!baseShareUrl.endsWith('/')) {
+      baseShareUrl += '/';
+    }
 
     const state: AppState = {
       ...INITIAL_APP_STATE,
@@ -158,7 +165,7 @@ export class AppComponent implements OnInit, OnDestroy {
       appName: this.config.get<string>('application.name'),
       headerColor: this.config.get<string>('headerColor'),
       logoPath: this.config.get<string>('application.logo'),
-      sharedUrl: `${baseShareUrl}/#/preview/s/`
+      sharedUrl: baseShareUrl
     };
 
     this.store.dispatch(new SetInitialStateAction(state));

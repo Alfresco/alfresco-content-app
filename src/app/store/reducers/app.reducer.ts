@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -30,8 +30,8 @@ import {
   SetSelectedNodesAction,
   SET_USER_PROFILE,
   SetUserProfileAction,
-  SET_REPOSITORY_STATUS,
-  SetRepositoryStatusAction,
+  SET_REPOSITORY_INFO,
+  SetRepositoryInfoAction,
   SET_LANGUAGE_PICKER,
   SetLanguagePickerAction,
   SET_CURRENT_FOLDER,
@@ -49,6 +49,11 @@ import {
   SET_INITIAL_STATE,
   SetInitialStateAction
 } from '../actions/app.actions';
+import {
+  TOGGLE_SEARCH_FILTER,
+  SHOW_SEARCH_FILTER,
+  HIDE_SEARCH_FILTER
+} from '../actions/search.actions';
 
 export function appReducer(
   state: AppState = INITIAL_APP_STATE,
@@ -86,15 +91,40 @@ export function appReducer(
         action
       ));
       break;
-    case SET_REPOSITORY_STATUS:
-      newState = updateRepositoryStatus(state, <SetRepositoryStatusAction>(
-        action
-      ));
+    case SET_REPOSITORY_INFO:
+      newState = updateRepositoryStatus(state, <SetRepositoryInfoAction>action);
+      break;
+    case TOGGLE_SEARCH_FILTER:
+      newState = toggleSearchFilter(state);
+      break;
+    case SHOW_SEARCH_FILTER:
+      newState = showSearchFilter(state);
+      break;
+    case HIDE_SEARCH_FILTER:
+      newState = hideSearchFilter(state);
       break;
     default:
       newState = Object.assign({}, state);
   }
 
+  return newState;
+}
+
+function toggleSearchFilter(state: AppState): AppState {
+  const newState = Object.assign({}, state);
+  newState.showFacetFilter = !newState.showFacetFilter;
+  return newState;
+}
+
+function hideSearchFilter(state: AppState): AppState {
+  const newState = Object.assign({}, state);
+  newState.showFacetFilter = false;
+  return newState;
+}
+
+function showSearchFilter(state: AppState): AppState {
+  const newState = Object.assign({}, state);
+  newState.showFacetFilter = true;
   return newState;
 }
 
@@ -189,15 +219,21 @@ function updateSelectedNodes(
     last = nodes[nodes.length - 1];
 
     if (nodes.length === 1) {
-      file = nodes.find(entity => {
+      file = nodes.find((entity: any) => {
         // workaround Shared
-        return entity.entry.isFile || entity.entry.nodeId ? true : false;
+        return entity.entry.isFile ||
+          entity.entry.nodeId ||
+          entity.entry.sharedByUser
+          ? true
+          : false;
       });
-      folder = nodes.find(entity => entity.entry.isFolder);
+      folder = nodes.find((entity: any) => entity.entry.isFolder);
     }
   }
 
-  const libraries = [...action.payload].filter((node: any) => node.isLibrary);
+  const libraries: any[] = [...action.payload].filter(
+    (node: any) => node.isLibrary
+  );
   if (libraries.length === 1) {
     library = libraries[0];
   }
@@ -228,7 +264,7 @@ function setInfoDrawer(state: AppState, action: SetInfoDrawerStateAction) {
 
 function updateRepositoryStatus(
   state: AppState,
-  action: SetRepositoryStatusAction
+  action: SetRepositoryInfoAction
 ) {
   const newState = Object.assign({}, state);
   newState.repository = action.payload;

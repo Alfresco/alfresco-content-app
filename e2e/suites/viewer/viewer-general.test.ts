@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,7 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { protractor, browser } from 'protractor';
 import { LoginPage, BrowsingPage } from '../../pages/pages';
 import { FILES, SITE_VISIBILITY } from '../../configs';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
@@ -83,7 +82,7 @@ describe('Viewer general', () => {
     });
 
     afterEach(async (done) => {
-        await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+        await Utils.pressEscape();
         done();
     });
 
@@ -101,7 +100,7 @@ describe('Viewer general', () => {
 
     it('Viewer opens when clicking the View action for a file - [C279270]', async () => {
         await dataTable.selectItem(xlsxFile);
-        await page.toolbar.getButtonByTitleAttribute('View').click();
+        await page.toolbar.clickView();
         expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
     });
 
@@ -139,7 +138,7 @@ describe('Viewer general', () => {
     });
 
     it('Viewer opens for a file from File Libraries - [C284633]', async () => {
-      await page.clickFileLibrariesAndWait();
+      await page.goToMyLibrariesAndWait();
         await dataTable.doubleClickOnRowByName(siteUser);
         await dataTable.waitForHeader();
         await dataTable.doubleClickOnRowByName(fileInSite);

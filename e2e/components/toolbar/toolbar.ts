@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,23 +23,46 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, protractor, browser } from 'protractor';
+import { ElementFinder, ElementArrayFinder, by, browser } from 'protractor';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
+import { Utils } from '../../utilities/utils';
 
 export class Toolbar extends Component {
   private static selectors = {
     root: '.adf-toolbar',
     button: 'button',
-    
+
     share: `.mat-icon-button[title='Share']`,
-    shareEdit: `.mat-icon-button[title='Shared link settings']`
+    shareEdit: `.mat-icon-button[title='Shared link settings']`,
+    view: `.mat-icon-button[title='View']`,
+    searchFilterToggle: `.mat-icon-button[title='Toggle search filter']`,
+    download: `.mat-icon-button[title='Download']`,
+    editFolder: 'app.toolbar.editFolder',
+    viewDetails: `.mat-icon-button[title='View details']`,
+    print: `.mat-icon-button[title='Print']`,
+    fullScreen: `.mat-icon-button[title='Activate full-screen mode']`,
+    joinLibrary: `.mat-icon-button[title='Join']`,
+    leaveLibrary: `.mat-icon-button[title='Leave library']`,
+    permanentlyDelete: `.mat-icon-button[title='Permanently delete']`,
+    restore: `.mat-icon-button[title='Restore']`
   };
 
   menu: Menu = new Menu();
   buttons: ElementArrayFinder = this.component.all(by.css(Toolbar.selectors.button));
   shareButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.share));
   shareEditButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.shareEdit));
+  viewButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.view));
+  searchFiltersToggleButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.searchFilterToggle));
+  downloadButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.download));
+  editFolderButton: ElementFinder = this.component.element(by.id(Toolbar.selectors.editFolder));
+  viewDetailsButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.viewDetails));
+  printButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.print));
+  fullScreenButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.fullScreen));
+  joinButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.joinLibrary));
+  leaveButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.leaveLibrary));
+  permanentlyDeleteButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.permanentlyDelete));
+  restoreButton: ElementFinder = this.component.element(by.css(Toolbar.selectors.restore));
 
   constructor(ancestor?: ElementFinder) {
     super(Toolbar.selectors.root, ancestor);
@@ -48,6 +71,10 @@ export class Toolbar extends Component {
   async isEmpty() {
     const count = await this.buttons.count();
     return count === 0;
+  }
+
+  async numberOfAvailableActions() {
+    return await this.buttons.count();
   }
 
   async isButtonPresent(title: string) {
@@ -75,7 +102,7 @@ export class Toolbar extends Component {
   }
 
   async closeMoreMenu() {
-    await browser.actions().sendKeys(protractor.Key.ESCAPE).perform();
+    await Utils.pressEscape();
   }
 
   async getButtonTooltip(button: ElementFinder) {
@@ -87,21 +114,141 @@ export class Toolbar extends Component {
     await btn.click();
   }
 
-  async clickShareButton() {
+
+  async isSharedLinkSettingsPresent() {
+    return await browser.isElementPresent(this.shareEditButton);
+  }
+
+  async isSharePresent() {
+    return await browser.isElementPresent(this.shareButton);
+  }
+
+  async isViewPresent() {
+    return await browser.isElementPresent(this.viewButton);
+  }
+
+  async isToggleSearchFiltersPresent() {
+    return await browser.isElementPresent(this.searchFiltersToggleButton);
+  }
+
+  async isDownloadPresent() {
+    return await browser.isElementPresent(this.downloadButton);
+  }
+
+  async isPermanentlyDeletePresent() {
+    return await browser.isElementPresent(this.permanentlyDeleteButton);
+  }
+
+  async isRestorePresent() {
+    return await browser.isElementPresent(this.restoreButton);
+  }
+
+  async isEditFolderPresent() {
+    return await browser.isElementPresent(this.editFolderButton);
+  }
+
+  async isViewDetailsPresent() {
+    return await browser.isElementPresent(this.viewDetailsButton);
+  }
+
+  async isPrintPresent() {
+    return await browser.isElementPresent(this.printButton);
+  }
+
+  async isFullScreenPresent() {
+    return await browser.isElementPresent(this.fullScreenButton);
+  }
+
+
+  async clickShare() {
     const btn = this.shareButton;
     await btn.click();
   }
 
-  async isShareButtonPresent() {
-    return await browser.isElementPresent(this.shareButton);
-  }
-
-  async clickShareEditButton() {
+  async clickSharedLinkSettings() {
     const btn = this.shareEditButton;
     await btn.click();
   }
 
-  async isShareEditButtonPresent() {
-    return await browser.isElementPresent(this.shareEditButton);
+  async clickView() {
+    return await this.viewButton.click();
   }
+
+  async clickEditFolder() {
+    return await this.editFolderButton.click();
+  }
+
+  async clickViewDetails() {
+    return await this.viewDetailsButton.click();
+  }
+
+  async clickDownload() {
+    return await this.downloadButton.click();
+  }
+
+  async clickJoin() {
+    return await this.joinButton.click();
+  }
+
+  async clickLeave() {
+    return await this.leaveButton.click();
+  }
+
+  async clickPermanentlyDelete() {
+    return await this.permanentlyDeleteButton.click();
+  }
+  async clickRestore() {
+    return await this.restoreButton.click();
+  }
+
+
+  async clickMoreActionsFavorite() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Favorite');
+  }
+
+  async clickMoreActionsRemoveFavorite() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Remove favorite');
+  }
+
+  async clickMoreActionsDelete() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Delete');
+  }
+
+  async clickMoreActionsManageVersions() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Manage Versions');
+  }
+
+  async clickMoreActionsMove() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Move');
+  }
+
+  async clickMoreActionsCopy() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Copy');
+  }
+
+  async clickMoreActionsEditOffline() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Edit offline');
+  }
+
+  async clickMoreActionsCancelEditing() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Cancel editing');
+  }
+
+  async clickMoreActionsUploadNewVersion() {
+    await this.openMoreMenu();
+    return await this.menu.clickMenuItem('Upload new version');
+  }
+
+  async clickFullScreen() {
+    return await this.fullScreenButton.click();
+  }
+
 }

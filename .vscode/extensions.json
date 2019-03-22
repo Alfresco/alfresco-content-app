@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "eg2.tslint",
+    "angular.ng-template",
+    "streetsidesoftware.code-spell-checker",
+    "peterjausovec.vscode-docker",
+    "editorconfig.editorconfig",
+    "davidanson.vscode-markdownlint",
+    "esbenp.prettier-vscode",
+    "eamodio.gitlens"
+  ]
+}

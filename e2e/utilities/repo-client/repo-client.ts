@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -27,6 +27,7 @@ import { RepoClientAuth } from './repo-client-models';
 
 import { PeopleApi } from './apis/people/people-api';
 import { NodesApi } from './apis/nodes/nodes-api';
+import { CommentsApi } from './apis/comments/comments-api';
 import { SitesApi } from './apis/sites/sites-api';
 import { FavoritesApi } from './apis/favorites/favorites-api';
 import { QueriesApi } from './apis/queries/queries-api';
@@ -53,6 +54,10 @@ export class RepoClient {
 
     get nodes() {
         return new NodesApi(this.auth.username, this.auth.password);
+    }
+
+    get comments() {
+        return new CommentsApi(this.auth.username, this.auth.password);
     }
 
     get sites() {

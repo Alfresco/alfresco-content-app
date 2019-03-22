@@ -5,7 +5,7 @@
     (click)="editSharedNode(selection)"
   >
     <mat-icon>link</mat-icon>
-    <ng-container *ngIf="isShared(selection); else: not_shared">
+    <ng-container *ngIf="isShared(selection); else not_shared">
       <span>{{ 'APP.ACTIONS.SHARE_EDIT' | translate }}</span>
     </ng-container>
   </button>

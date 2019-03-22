@@ -1,6 +1,6 @@
 /*!
  * @license
- * Copyright 2016 Alfresco Software, Ltd.
+ * Copyright 2019 Alfresco Software, Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,9 +36,9 @@ import {
   distinctUntilChanged
 } from 'rxjs/operators';
 import { SharedLinksApiService, NodesApiService } from '@alfresco/adf-core';
-import { SharedLinkEntry, MinimalNodeEntryEntity } from 'alfresco-js-api';
+import { SharedLinkEntry, MinimalNodeEntryEntity } from '@alfresco/js-api';
 import { ConfirmDialogComponent } from '@alfresco/adf-content-services';
-import moment from 'moment-es6';
+import * as moment from 'moment';
 
 @Component({
   selector: 'aca-share-dialog',

@@ -1,9 +1,11 @@
 ---
+Title: CORS
 ---
 
 # CORS
 
 The Alfresco Content Application comes with the proxy configuration for Angular CLI to address CORS-related issues for development.
+
 Also, the docker images contain Nginx settings needed for CORS when developing and debugging an application locally.
 
 ## Chrome Workaround

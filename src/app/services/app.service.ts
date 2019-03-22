@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,9 +23,11 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Injectable } from '@angular/core';
-import { AuthenticationService } from '@alfresco/adf-core';
+import { Injectable, Inject } from '@angular/core';
+import { AuthenticationService, AppConfigService } from '@alfresco/adf-core';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { AppRouteReuseStrategy } from '../app.routes.strategy';
+import { RouteReuseStrategy } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +36,29 @@ export class AppService {
   private ready: BehaviorSubject<boolean>;
   ready$: Observable<boolean>;
 
-  constructor(auth: AuthenticationService) {
-    this.ready = new BehaviorSubject(auth.isLoggedIn());
+  /**
+   * Whether `withCredentials` mode is enabled.
+   * Usually means that `Kerberos` mode is used.
+   */
+  get withCredentials(): boolean {
+    return this.config.get<boolean>('auth.withCredentials', false);
+  }
+
+  constructor(
+    auth: AuthenticationService,
+    private config: AppConfigService,
+    @Inject(RouteReuseStrategy) routeStrategy: AppRouteReuseStrategy
+  ) {
+    this.ready = new BehaviorSubject(auth.isLoggedIn() || this.withCredentials);
     this.ready$ = this.ready.asObservable();
 
-    auth.onLogin.subscribe(e => {
+    auth.onLogin.subscribe(() => {
+      routeStrategy.resetCache();
       this.ready.next(true);
+    });
+
+    auth.onLogout.subscribe(() => {
+      routeStrategy.resetCache();
     });
   }
 }

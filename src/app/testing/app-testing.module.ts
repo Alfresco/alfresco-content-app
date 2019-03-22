@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -41,7 +41,8 @@ import {
   ContentService,
   ThumbnailService,
   UploadService,
-  AlfrescoApiMock
+  AlfrescoApiMock,
+  PipeModule
 } from '@alfresco/adf-core';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateServiceMock } from './translation.service';
@@ -63,10 +64,11 @@ import { MaterialModule } from '../material.module';
     RouterTestingModule,
     MaterialModule,
     StoreModule.forRoot({ app: appReducer }, { initialState: INITIAL_STATE }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    PipeModule
   ],
   declarations: [TranslatePipeMock],
-  exports: [TranslatePipeMock, RouterTestingModule, MaterialModule],
+  exports: [TranslatePipeMock, RouterTestingModule, MaterialModule, PipeModule],
   providers: [
     { provide: AlfrescoApiService, useClass: AlfrescoApiMock },
     { provide: TranslationService, useClass: TranslationMock },

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -38,7 +38,13 @@ import {
   UrlSegment,
   PRIMARY_OUTLET
 } from '@angular/router';
-import { UserPreferencesService, ObjectUtils } from '@alfresco/adf-core';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import {
+  UserPreferencesService,
+  ObjectUtils,
+  UploadService,
+  AlfrescoApiService
+} from '@alfresco/adf-core';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../store/states/app.state';
 import { SetSelectedNodesAction } from '../../store/actions';
@@ -47,8 +53,9 @@ import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { ContentManagementService } from '../../services/content-management.service';
 import { ContentActionRef, ViewerExtensionRef } from '@alfresco/adf-extensions';
-import { SearchRequest } from 'alfresco-js-api';
+import { SearchRequest } from '@alfresco/js-api';
 import { AppDataService } from '../../services/data.service';
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-preview',
@@ -76,7 +83,7 @@ export class PreviewComponent extends PageComponent
   navigateMultiple = false;
   openWith: Array<ContentActionRef> = [];
   contentExtensions: Array<ViewerExtensionRef> = [];
-  hasRightSidebar = true;
+  showRightSide = false;
 
   constructor(
     private contentApi: ContentApiService,
@@ -84,6 +91,8 @@ export class PreviewComponent extends PageComponent
     private appDataService: AppDataService,
     private route: ActivatedRoute,
     private router: Router,
+    private apiService: AlfrescoApiService,
+    private uploadService: UploadService,
     store: Store<AppStore>,
     extensions: AppExtensionService,
     content: ContentManagementService
@@ -93,6 +102,12 @@ export class PreviewComponent extends PageComponent
 
   ngOnInit() {
     super.ngOnInit();
+
+    from(this.infoDrawerOpened$)
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(val => {
+        this.showRightSide = val;
+      });
 
     this.previewLocation = this.router.url
       .substr(0, this.router.url.indexOf('/', 1))
@@ -122,7 +137,15 @@ export class PreviewComponent extends PageComponent
     this.subscriptions = this.subscriptions.concat([
       this.content.nodesDeleted.subscribe(() =>
         this.navigateToFileLocation(true)
-      )
+      ),
+
+      this.uploadService.fileUploadDeleted.subscribe(() =>
+        this.navigateToFileLocation(true)
+      ),
+
+      this.uploadService.fileUploadComplete
+        .pipe(debounceTime(300))
+        .subscribe(file => this.apiService.nodeUpdated.next(file.data.entry))
     ]);
 
     this.openWith = this.extensions.openWithActions;

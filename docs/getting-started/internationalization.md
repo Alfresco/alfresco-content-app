@@ -1,4 +1,5 @@
 ---
+Title: Internationalization
 ---
 
 # Internationalization (i18n)
@@ -22,7 +23,7 @@ The default language is English, however the current browser language is taken a
 ## User-defined language
 
 You can allow users to set custom languages that are saved to their preferences.
-The main application menu already has the [ADF Language Menu](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/language-menu.component.md) component integrated and pre-filled with the supported items.
+The main application menu already has the [ADF Language Menu](https://www.alfresco.com/abn/adf/docs/core/language-menu.component/) component integrated and pre-filled with the supported items.
 
 To change the default language set edit the `app.config.json` file and add or remove items:
 
@@ -79,7 +80,7 @@ You can copy the content over to your newly created file and replace the English
 The Content Application automatically bundles your file when the project builds.
 You can test your locale by changing the browser language settings and reloading the page.
 
-Optionally, you can extend the [ADF Language Menu](https://github.com/Alfresco/alfresco-ng2-components/blob/master/docs/core/language-menu.component.md) component with the newly added language by updating the `app.config.json` file.
+Optionally, you can extend the [ADF Language Menu](https://www.alfresco.com/abn/adf/docs/core/language-menu.component/) component with the newly added language by updating the `app.config.json` file.
 
 ## Customizing ADF translations
 

@@ -1,11 +1,14 @@
 ---
+Title: Creating custom evaluators
 ---
 
 # Creating custom evaluators
 
 Rule evaluators are plain JavaScript (or TypeScript) functions that take `RuleContext` references and an optional list of `RuleParameter` instances.
 
-Application provides a special [RuleEvaluator](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app/extensions/rule.extensions.ts#L30) type alias for evaluator functions:
+Application provides a special
+[RuleEvaluator](https://github.com/Alfresco/alfresco-ng2-components/blob/development/lib/extensions/src/lib/config/rule.extensions.ts)
+type alias for evaluator functions:
 
 ```ts
 export type RuleEvaluator = (context: RuleContext, ...args: any[]) => boolean;
@@ -22,7 +25,7 @@ export function hasSelection(
 }
 ```
 
-The `context` is a reference to a special instance of the [RuleContext](https://github.com/Alfresco/alfresco-content-app/blob/master/src/app/extensions/rule.extensions.ts#L32) type,
+The `context` is a reference to a special instance of the [RuleContext](https://github.com/Alfresco/alfresco-ng2-components/blob/development/lib/extensions/src/lib/config/rule.extensions.ts) type,
 that provides each evaluator access to runtime entities.
 
 ```ts
@@ -62,7 +65,5 @@ extensions.setEvaluators({
 Now, the `plugin1.rules.hasSelection` evaluator can be used as an inline rule reference,
 or part of the composite rule like `core.every`.
 
-<p class="tip">
-See the [Registration](/extending/registration) section for more details
+**Tip:** See the [Registration](/extending/registration) section for more details
 on how to register your own entries to be re-used at runtime.
-</p>

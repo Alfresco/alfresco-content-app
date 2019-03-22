@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,8 +26,23 @@
 import { Action } from '@ngrx/store';
 
 export const SEARCH_BY_TERM = 'SEARCH_BY_TERM';
+export const TOGGLE_SEARCH_FILTER = 'TOGGLE_SEARCH_FILTER';
+export const SHOW_SEARCH_FILTER = 'SHOW_SEARCH_FILTER';
+export const HIDE_SEARCH_FILTER = 'HIDE_SEARCH_FILTER';
 
 export class SearchByTermAction implements Action {
   readonly type = SEARCH_BY_TERM;
   constructor(public payload: string, public searchOptions?: any) {}
+}
+
+export class ToggleSearchFilterAction implements Action {
+  readonly type = TOGGLE_SEARCH_FILTER;
+}
+
+export class ShowSearchFilterAction implements Action {
+  readonly type = SHOW_SEARCH_FILTER;
+}
+
+export class HideSearchFilterAction implements Action {
+  readonly type = HIDE_SEARCH_FILTER;
 }

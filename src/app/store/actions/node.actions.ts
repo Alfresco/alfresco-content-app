@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -24,7 +24,7 @@
  */
 
 import { Action } from '@ngrx/store';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 
 export const SET_SELECTED_NODES = 'SET_SELECTED_NODES';
 export const DELETE_NODES = 'DELETE_NODES';
@@ -39,9 +39,11 @@ export const UNSHARE_NODES = 'UNSHARE_NODES';
 export const COPY_NODES = 'COPY_NODES';
 export const MOVE_NODES = 'MOVE_NODES';
 export const MANAGE_PERMISSIONS = 'MANAGE_PERMISSIONS';
-export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
 export const PRINT_FILE = 'PRINT_FILE';
 export const FULLSCREEN_VIEWER = 'FULLSCREEN_VIEWER';
+export const MANAGE_VERSIONS = 'MANAGE_VERSIONS';
+export const EDIT_OFFLINE = 'EDIT_OFFLINE';
+export const UNLOCK_WRITE = 'UNLOCK_WRITE_LOCK';
 
 export class SetSelectedNodesAction implements Action {
   readonly type = SET_SELECTED_NODES;
@@ -108,11 +110,6 @@ export class ManagePermissionsAction implements Action {
   constructor(public payload: MinimalNodeEntity) {}
 }
 
-export class ManageVersionsAction implements Action {
-  readonly type = MANAGE_VERSIONS;
-  constructor(public payload: MinimalNodeEntity) {}
-}
-
 export class PrintFileAction implements Action {
   readonly type = PRINT_FILE;
   constructor(public payload: MinimalNodeEntity) {}
@@ -121,4 +118,19 @@ export class PrintFileAction implements Action {
 export class FullscreenViewerAction implements Action {
   readonly type = FULLSCREEN_VIEWER;
   constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class ManageVersionsAction implements Action {
+  readonly type = MANAGE_VERSIONS;
+  constructor(public payload: MinimalNodeEntity) {}
+}
+
+export class EditOfflineAction implements Action {
+  readonly type = EDIT_OFFLINE;
+  constructor(public payload: any) {}
+}
+
+export class UnlockWriteAction implements Action {
+  readonly type = UNLOCK_WRITE;
+  constructor(public payload: any) {}
 }

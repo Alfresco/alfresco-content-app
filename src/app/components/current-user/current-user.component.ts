@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -33,6 +33,7 @@ import {
 import { AppStore } from '../../store/states';
 import { ProfileState } from '@alfresco/adf-extensions';
 import { SetSelectedNodesAction } from '../../store/actions';
+import { AppService } from '../../services/app.service';
 
 @Component({
   selector: 'aca-current-user',
@@ -44,7 +45,11 @@ export class CurrentUserComponent {
   profile$: Observable<ProfileState>;
   languagePicker$: Observable<boolean>;
 
-  constructor(private store: Store<AppStore>) {
+  get showLogout(): boolean {
+    return !this.appService.withCredentials;
+  }
+
+  constructor(private store: Store<AppStore>, private appService: AppService) {
     this.profile$ = this.store.select(selectUser);
     this.languagePicker$ = store.select(appLanguagePicker);
   }

@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,23 +26,18 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
   AlfrescoApiService,
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe
 } from '@alfresco/adf-core';
 import { DocumentListComponent } from '@alfresco/adf-content-services';
-import { ContentManagementService } from '../../services/content-management.service';
 import { TrashcanComponent } from './trashcan.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 
 describe('TrashcanComponent', () => {
   let fixture: ComponentFixture<TrashcanComponent>;
   let component: TrashcanComponent;
   let alfrescoApi: AlfrescoApiService;
-  let contentService: ContentManagementService;
   let page;
 
   beforeEach(() => {
@@ -59,13 +54,10 @@ describe('TrashcanComponent', () => {
       imports: [AppTestingModule],
       declarations: [
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
         TrashcanComponent,
-        AppConfigPipe,
-        ExperimentalDirective
+        AppConfigPipe
       ],
       schemas: [NO_ERRORS_SCHEMA]
     });
@@ -75,7 +67,6 @@ describe('TrashcanComponent', () => {
 
     alfrescoApi = TestBed.get(AlfrescoApiService);
     alfrescoApi.reset();
-    contentService = TestBed.get(ContentManagementService);
 
     component.documentList = <any>{
       reload: jasmine.createSpy('reload'),
@@ -87,35 +78,5 @@ describe('TrashcanComponent', () => {
     spyOn(alfrescoApi.nodesApi, 'getDeletedNodes').and.returnValue(
       Promise.resolve(page)
     );
-  });
-
-  it('should reload on nodes purged', () => {
-    component.ngOnInit();
-    spyOn(component, 'reload').and.stub();
-    contentService.nodesPurged.next({});
-    expect(component.reload).toHaveBeenCalled();
-  });
-
-  describe('onRestoreNode()', () => {
-    it('should call refresh()', () => {
-      spyOn(component, 'reload');
-      fixture.detectChanges();
-
-      contentService.nodesRestored.next();
-
-      expect(component.reload).toHaveBeenCalled();
-    });
-  });
-
-  describe('refresh()', () => {
-    it('calls child component to reload', () => {
-      component.reload();
-      expect(component.documentList.reload).toHaveBeenCalled();
-    });
-
-    it('calls child component to reset selection', () => {
-      component.reload();
-      expect(component.documentList.resetSelection).toHaveBeenCalled();
-    });
   });
 });

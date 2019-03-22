@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -31,7 +31,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { SiteBody, FavoriteBody, FavoriteEntry, Site } from 'alfresco-js-api';
+import { SiteBody, FavoriteBody, FavoriteEntry, Site } from '@alfresco/js-api';
 import { AlfrescoApiService } from '@alfresco/adf-core';
 
 interface LibraryEntity {
@@ -119,7 +119,7 @@ export class LibraryFavoriteDirective implements OnChanges {
   }
 
   private removeFavorite(favoriteId: string) {
-    this.alfrescoApiService.peopleApi
+    this.alfrescoApiService.favoritesApi
       .removeFavoriteSite('-me-', favoriteId)
       .then((libraryBody: SiteBody) => {
         this.targetLibrary.isFavorite = false;

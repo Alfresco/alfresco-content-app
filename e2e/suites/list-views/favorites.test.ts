@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -88,27 +88,25 @@ describe('Favorites', () => {
   });
 
   it('has the correct columns - [C280482]', async () => {
-    const expectedHeader = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
-    const headers = dataTable.getColumnHeaders();
-    const count = await headers.count();
-    expect(count).toBe(5 + 1, 'Incorrect number of columns');
+    const expectedColumns = [ 'Thumbnail', 'Name', 'Location', 'Size', 'Modified', 'Modified by' ];
+    const actualColumns = await dataTable.getColumnHeadersText();
 
-    expect(await dataTable.getHeaderText()).toEqual(expectedHeader);
+    expect(actualColumns).toEqual(expectedColumns);
   });
 
   it('displays the favorite files and folders - [C213226]', async () => {
     expect(await dataTable.countRows()).toEqual(4, 'Incorrect number of items displayed');
-    expect(await dataTable.getRowByName(fileName1).isPresent()).toBe(true, `${fileName1} not displayed`);
-    expect(await dataTable.getRowByName(fileName2).isPresent()).toBe(true, `${fileName2} not displayed`);
-    expect(await dataTable.getRowByName(favFolderName).isPresent()).toBe(true, `${favFolderName} not displayed`);
+    expect(await dataTable.isItemPresent(fileName1)).toBe(true, `${fileName1} not displayed`);
+    expect(await dataTable.isItemPresent(fileName2)).toBe(true, `${fileName2} not displayed`);
+    expect(await dataTable.isItemPresent(favFolderName)).toBe(true, `${favFolderName} not displayed`);
   });
 
   it(`deleted favorite file does not appear - [C213228]`, async () => {
-    expect(await dataTable.getRowByName(fileName3).isPresent()).not.toBe(true, `${fileName3} is displayed`);
+    expect(await dataTable.isItemPresent(fileName3)).not.toBe(true, `${fileName3} is displayed`);
   });
 
   it(`file is displayed after it is restored from Trashcan - [C213229]`, async () => {
-    expect(await dataTable.getRowByName(fileName4).isPresent()).toBe(true, `${fileName4} not displayed`);
+    expect(await dataTable.isItemPresent(fileName4)).toBe(true, `${fileName4} not displayed`);
   });
 
   it('Location column displays the parent folder of the files - [C213231]', async () => {
@@ -118,9 +116,9 @@ describe('Favorites', () => {
   });
 
   it('Location column displays a tooltip with the entire path of the file - [C213671]', async () => {
-    expect(await dataTable.getItemLocationTileAttr(fileName1)).toEqual(`File Libraries/${siteName}`);
-    expect(await dataTable.getItemLocationTileAttr(fileName2)).toEqual(`Personal Files/${parentFolder}`);
-    expect(await dataTable.getItemLocationTileAttr(favFolderName)).toEqual('Personal Files');
+    expect(await dataTable.getItemLocationTooltip(fileName1)).toEqual(`File Libraries/${siteName}`);
+    expect(await dataTable.getItemLocationTooltip(fileName2)).toEqual(`Personal Files/${parentFolder}`);
+    expect(await dataTable.getItemLocationTooltip(favFolderName)).toEqual('Personal Files');
   });
 
   it('Location column redirect - item in user Home - [C213650]', async () => {

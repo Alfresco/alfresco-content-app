@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,21 +23,22 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import * as AlfrescoApi from 'alfresco-js-api-node';
+import { AlfrescoApi } from '@alfresco/js-api';
 import { REPO_API_HOST } from '../../../configs';
 import { RepoClientAuth } from '../repo-client-models';
 
 export abstract class RepoApi {
-
-    alfrescoJsApi = new AlfrescoApi({
-        provider: 'ECM',
-        hostEcm: REPO_API_HOST
-    });
+    alfrescoJsApi = new AlfrescoApi();
 
     constructor(
         private username: string = RepoClientAuth.DEFAULT_USERNAME,
         private password: string = RepoClientAuth.DEFAULT_PASSWORD
-    ) {}
+    ) {
+        this.alfrescoJsApi.setConfig({
+            provider: 'ECM',
+            hostEcm: REPO_API_HOST
+        });
+    }
 
     apiAuth() {
         return this.alfrescoJsApi.login(this.username, this.password);

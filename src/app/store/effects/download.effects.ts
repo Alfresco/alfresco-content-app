@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { DownloadZipDialogComponent } from '@alfresco/adf-content-services';
+import { DownloadZipDialogComponent } from '@alfresco/adf-core';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -31,7 +31,7 @@ import { map, take } from 'rxjs/operators';
 import { DownloadNodesAction, DOWNLOAD_NODES } from '../actions';
 import { NodeInfo } from '../models';
 import { ContentApiService } from '../../services/content-api.service';
-import { MinimalNodeEntity } from 'alfresco-js-api';
+import { MinimalNodeEntity } from '@alfresco/js-api';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection } from '../selectors/app.selectors';
@@ -66,10 +66,10 @@ export class DownloadEffects {
 
   private downloadNodes(toDownload: Array<MinimalNodeEntity>) {
     const nodes = toDownload.map(node => {
-      const { id, nodeId, name, isFile, isFolder } = node.entry;
+      const { id, nodeId, name, isFile, isFolder } = <any>node.entry;
 
       return {
-        id: nodeId || id,
+        id: this.isSharedLinkPreview ? id : nodeId || id,
         name,
         isFile,
         isFolder
@@ -98,8 +98,15 @@ export class DownloadEffects {
   }
 
   private downloadFile(node: NodeInfo) {
-    if (node) {
+    if (node && !this.isSharedLinkPreview) {
       this.download(this.contentApi.getContentUrl(node.id, true), node.name);
+    }
+
+    if (node && this.isSharedLinkPreview) {
+      this.download(
+        this.contentApi.getSharedLinkContent(node.id, false),
+        node.name
+      );
     }
   }
 
@@ -129,5 +136,9 @@ export class DownloadEffects {
       link.click();
       document.body.removeChild(link);
     }
+  }
+
+  private get isSharedLinkPreview() {
+    return location.href.includes('/preview/s/');
   }
 }

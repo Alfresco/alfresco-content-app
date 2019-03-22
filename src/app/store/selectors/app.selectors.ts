@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -78,6 +78,11 @@ export const infoDrawerOpened = createSelector(
   state => state.infoDrawerOpened
 );
 
+export const showFacetFilter = createSelector(
+  selectApp,
+  state => state.showFacetFilter
+);
+
 export const documentDisplayMode = createSelector(
   selectApp,
   state => state.documentDisplayMode
@@ -90,7 +95,7 @@ export const repositoryStatus = createSelector(
 
 export const isQuickShareEnabled = createSelector(
   repositoryStatus,
-  status => status.isQuickShareEnabled
+  info => info.status.isQuickShareEnabled
 );
 
 export const isAdmin = createSelector(

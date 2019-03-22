@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -42,7 +42,11 @@ import {
   RestoreDeletedNodesAction,
   RESTORE_DELETED_NODES,
   ShareNodeAction,
-  SHARE_NODE
+  SHARE_NODE,
+  ManageVersionsAction,
+  MANAGE_VERSIONS,
+  UnlockWriteAction,
+  UNLOCK_WRITE
 } from '../actions';
 import { ContentManagementService } from '../../services/content-management.service';
 import { currentFolder, appSelection } from '../selectors/app.selectors';
@@ -55,8 +59,6 @@ import {
   MOVE_NODES,
   ManagePermissionsAction,
   MANAGE_PERMISSIONS,
-  ManageVersionsAction,
-  MANAGE_VERSIONS,
   PRINT_FILE,
   PrintFileAction,
   FULLSCREEN_VIEWER,
@@ -314,6 +316,25 @@ export class NodeEffects {
     ofType<FullscreenViewerAction>(FULLSCREEN_VIEWER),
     map(() => {
       this.contentService.fullscreenViewer();
+    })
+  );
+
+  @Effect({ dispatch: false })
+  unlockWrite$ = this.actions$.pipe(
+    ofType<UnlockWriteAction>(UNLOCK_WRITE),
+    map(action => {
+      if (action && action.payload) {
+        this.contentService.unlockNode(action.payload);
+      } else {
+        this.store
+          .select(appSelection)
+          .pipe(take(1))
+          .subscribe(selection => {
+            if (selection && selection.file) {
+              this.contentService.unlockNode(selection.file);
+            }
+          });
+      }
     })
   );
 }

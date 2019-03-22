@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -25,8 +25,10 @@
 
 import { RepoApi } from '../repo-api';
 import { Utils } from '../../../../utilities/utils';
+import { SharedlinksApi as AdfSharedlinksApi } from '@alfresco/js-api';
 
 export class SharedLinksApi extends RepoApi {
+    sharedlinksApi = new AdfSharedlinksApi(this.alfrescoJsApi);
 
     constructor(username?, password?) {
         super(username, password);
@@ -39,7 +41,7 @@ export class SharedLinksApi extends RepoApi {
           nodeId: id,
           expiresAt: expireDate
         };
-      return await this.alfrescoJsApi.core.sharedlinksApi.addSharedLink(data);
+      return await this.sharedlinksApi.createSharedLink(data);
       } catch (error) {
         console.log('---- shareFileById error: ', error);
       }
@@ -60,12 +62,12 @@ export class SharedLinksApi extends RepoApi {
 
     async unshareFile(name: string) {
         const id = await this.getSharedIdOfNode(name);
-        return await this.alfrescoJsApi.core.sharedlinksApi.deleteSharedLink(id);
+        return await this.sharedlinksApi.deleteSharedLink(id);
     }
 
     async getSharedLinks() {
         await this.apiAuth();
-        return await this.alfrescoJsApi.core.sharedlinksApi.findSharedLinks();
+        return await this.sharedlinksApi.listSharedLinks();
     }
 
     async waitForApi(data) {

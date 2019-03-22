@@ -41,7 +41,6 @@
             "TITLE": "Settings",
             "APPLICATION-SETTINGS": "Application Settings",
             "REPOSITORY-SETTINGS": "Repository Settings",
-            "EXPERIMENTAL-FEATURES": "Experimental Features",
             "INVALID-VALUE-FORMAT": "Invalid value format",
             "REQUIRED-FIELD": "This field is required",
             "RESET": "Reset",
@@ -169,7 +168,12 @@
                     "SIZE": "Size"
                 },
                 "UNKNOWN_LOCATION": "Unknown",
-                "NO_RESULTS": "Your search returned 0 results"
+                "NO_RESULTS": "Your search returned 0 results",
+                "TOGGLE_SEARCH_FILTER": "Toggle search filter",
+                "ERRORS": {
+                    "500": "There was an error processing the search query [500]",
+                    "GENERIC": "There was an error processing the search query"
+                }
             },
             "SEARCH_LIBRARIES": {
               "TITLE": "Libraries found...",
@@ -195,6 +199,7 @@
             "UNSHARE": "Unshare",
             "DETAILS": "View details",
             "VERSIONS": "Manage Versions",
+            "UPLOAD_VERSION": "Upload new version",
             "TOGGLE-SIDENAV": "Toggle side navigation bar",
             "SHARE": "Share",
             "SHARE_EDIT": "Shared link settings",
@@ -202,7 +207,9 @@
             "FULLSCREEN": "Activate full-screen mode",
             "JOIN": "Join",
             "CANCEL_JOIN": "Cancel join request",
-            "LEAVE": "Leave library"
+            "LEAVE": "Leave library",
+            "EDIT_OFFLINE": "Edit offline",
+            "EDIT_OFFLINE_CANCEL": "Cancel editing"
         },
         "DIALOGS": {
             "CONFIRM_PURGE": {
@@ -238,20 +245,9 @@
                 "LISTVIEW": "List view mode"
             }
         },
-        "SITES_VISIBILITY": {
-            "PUBLIC": "Public",
-            "MODERATED": "Moderated",
-            "PRIVATE": "Private"
-        },
-        "SITES_ROLE": {
-            "MANAGER": "Manager",
-            "COLLABORATOR": "Collaborator",
-            "CONTRIBUTOR": "Contributor",
-            "CONSUMER": "Consumer"
-        },
         "MESSAGES": {
             "ERRORS":{
-              "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",
+                "CANNOT_NAVIGATE_LOCATION": "Cannot open this location",
                 "MISSING_CONTENT": "This item no longer exists or you don't have permission to view it.",
                 "GENERIC": "The action was unsuccessful. Try again or contact your IT Team.",
                 "CONFLICT": "This name is already in use, try a different name.",
@@ -262,6 +258,8 @@
                 "NODE_RESTORE": "{{ name }} couldn't be restored",
                 "NODE_RESTORE_PLURAL": "{{ number }} items couldn't be restored",
                 "PERMISSION": "You don't have access to do this",
+                "LOCK_NODE": "There was a problem locking the {{ fileName }} file",
+                "UNLOCK_NODE": "There was a problem unlocking the {{ fileName }} file",
                 "TRASH": {
                     "NODES_PURGE": {
                         "PLURAL": "{{ number }} items couldn't be deleted",
@@ -367,13 +365,31 @@
         "UNSHARE_PERMISSION_ERROR": "You don't have permission to unshare this file"
     },
     "VERSION": {
-        "DIALOG": {
+        "DIALOG_ADF": {
             "TITLE": "Manage Versions",
             "CLOSE": "Close"
+        },
+        "DIALOG": {
+            "TITLE": "Upload New Version",
+            "CANCEL": "Cancel",
+            "UPLOAD": "Upload"
+        },
+        "FORM": {
+            "SUBTITLE": "What level of changes were made to this version?",
+            "VERSION": {
+                "MINOR": "Minor (#.1)",
+                "MAJOR": "Major (2.0)"
+            },
+            "COMMENT": {
+                "PLACEHOLDER": "Add notes describing what changed"
+            }
         },
         "SELECTION": {
             "EMPTY": "Please choose a document to see the versions of it.",
             "NO_PERMISSION": "You don't have permission to manage the versions of this content."
+        },
+        "ERROR": {
+            "GENERIC": "There was an error versioning the file"
         }
     },
     "LIBRARY": {
@@ -413,7 +429,6 @@
             "LIBRARY_UPDATED": "Library properties updated"
         }
     },
-
     "SEARCH": {
         "INPUT": {
           "PLACEHOLDER": "Search",
@@ -455,6 +470,11 @@
     "ADF_VIEWER": {
         "ACTIONS": {
             "INFO": "View details"
+        }
+    },
+    "FILE_UPLOAD": {
+        "ERRORS": {
+            "409": "This name is already in use, try a different name [409]"
         }
     },
     "ADF_VERSION_LIST": {

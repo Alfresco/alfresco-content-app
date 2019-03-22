@@ -1,0 +1,14 @@
+.aca-name-column-container {
+  aca-locked-by {
+    position: absolute;
+    top: 10px;
+    left: -4px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.aca-custom-name-column {
+  display: flex;
+  align-items: center;
+}

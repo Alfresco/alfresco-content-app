@@ -1,9 +1,12 @@
 ---
+Title: File Viewer
 ---
 
 # File Viewer
 
-The File Viewer has been created using the [ViewerComponent](https://alfresco.github.io/adf-component-catalog/components/ViewerComponent.html) from the ADF. The Viewer has four main areas:
+The File Viewer has been created using the [ViewerComponent](https://www.alfresco.com/abn/adf/core/viewer.component/) from ADF.
+
+The Viewer has four main areas:
 
 ![File Viewer](../images/File-Viewer.png)
 
@@ -23,7 +26,7 @@ The Header & Toolbar section of the viewer contains a number of features that re
 
 ## Content
 
-The File Viewer consists of four separate views that handle displaying the content based on four types of content, covering various [file/mime](https://alfresco.github.io/adf-component-catalog/components/ViewerComponent.html#supported-file-formats) types:
+The File Viewer consists of four separate views that handle displaying the content based on four types of content, covering various [file/mime](https://www.alfresco.com/abn/adf/core/viewer.component/#supported-file-formats) types:
 
 - Document View: PDF files are displayed in the application File Viewer, for other document types (DOCX etc) then a PDF rendition is automatically retrieved.
 - Image View: JPEG, PNG, GIF, BMP and SVG images are natively displayed in the application File Viewer.

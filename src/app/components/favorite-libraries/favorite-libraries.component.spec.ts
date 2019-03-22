@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -29,8 +29,6 @@ import { UserPreferencesService } from '@alfresco/adf-core';
 import { Router } from '@angular/router';
 import {
   AlfrescoApiService,
-  TimeAgoPipe,
-  NodeNameTooltipPipe,
   NodeFavoriteDirective,
   DataTableComponent,
   AppConfigPipe
@@ -39,7 +37,6 @@ import { DocumentListComponent } from '@alfresco/adf-content-services';
 import { FavoriteLibrariesComponent } from './favorite-libraries.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
 import { ContentApiService } from '../../services/content-api.service';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
 import { ContentManagementService } from '../../services/content-management.service';
 import { EffectsModule } from '@ngrx/effects';
 import { LibraryEffects, RouterEffects } from '../../store/effects';
@@ -72,13 +69,10 @@ describe('FavoriteLibrariesComponent', () => {
       ],
       declarations: [
         DataTableComponent,
-        TimeAgoPipe,
-        NodeNameTooltipPipe,
         NodeFavoriteDirective,
         DocumentListComponent,
         FavoriteLibrariesComponent,
-        AppConfigPipe,
-        ExperimentalDirective
+        AppConfigPipe
       ],
       providers: [ContentManagementService, UserPreferencesService],
       schemas: [NO_ERRORS_SCHEMA]
@@ -146,7 +140,7 @@ describe('FavoriteLibrariesComponent', () => {
 
     it('does not navigate when id is not passed', () => {
       spyOn(router, 'navigate').and.stub();
-      component.navigateTo({ entry: { guid: 'guid' } });
+      component.navigateTo(<any>{ entry: { guid: 'guid' } });
 
       expect(router.navigate).toHaveBeenCalledWith(['libraries', 'libraryId']);
     });

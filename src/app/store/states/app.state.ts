@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,9 +26,9 @@
 import {
   SelectionState,
   ProfileState,
-  NavigationState,
-  RepositoryState
+  NavigationState
 } from '@alfresco/adf-extensions';
+import { RepositoryInfo } from '@alfresco/js-api';
 
 export interface AppState {
   appName: string;
@@ -40,8 +40,9 @@ export interface AppState {
   user: ProfileState;
   navigation: NavigationState;
   infoDrawerOpened: boolean;
+  showFacetFilter: boolean;
   documentDisplayMode: string;
-  repository: RepositoryState;
+  repository: RepositoryInfo;
 }
 
 export const INITIAL_APP_STATE: AppState = {
@@ -66,9 +67,12 @@ export const INITIAL_APP_STATE: AppState = {
     currentFolder: null
   },
   infoDrawerOpened: false,
+  showFacetFilter: true,
   documentDisplayMode: 'list',
-  repository: {
-    isQuickShareEnabled: true
+  repository: <any>{
+    status: <any>{
+      isQuickShareEnabled: true
+    }
   }
 };
 

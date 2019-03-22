@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -26,29 +26,53 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { SidenavComponent } from './sidenav.component';
-import { EffectsModule } from '@ngrx/effects';
-import { NodeEffects } from '../../store/effects/node.effects';
 import { AppTestingModule } from '../../testing/app-testing.module';
-import { ExperimentalDirective } from '../../directives/experimental.directive';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { AppExtensionService } from '../../extensions/extension.service';
 
 describe('SidenavComponent', () => {
   let fixture: ComponentFixture<SidenavComponent>;
   let component: SidenavComponent;
+  let extensionService: AppExtensionService;
+  const navbarMock = <any>[
+    {
+      items: [
+        {
+          route: 'route'
+        }
+      ]
+    }
+  ];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AppTestingModule, EffectsModule.forRoot([NodeEffects])],
-      declarations: [SidenavComponent, ExperimentalDirective],
+      imports: [MatExpansionModule, AppTestingModule],
+      providers: [AppExtensionService],
+      declarations: [SidenavComponent],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents()
       .then(() => {
         fixture = TestBed.createComponent(SidenavComponent);
         component = fixture.componentInstance;
+        extensionService = TestBed.get(AppExtensionService);
+
+        extensionService.navbar = navbarMock;
+
+        fixture.detectChanges();
       });
   }));
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should set the sidenav data', async(() => {
+    expect(component.groups).toEqual(<any>[
+      {
+        items: [
+          {
+            route: 'route',
+            url: '/route'
+          }
+        ]
+      }
+    ]);
+  }));
 });

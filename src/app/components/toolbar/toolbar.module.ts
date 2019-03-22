@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -38,6 +38,7 @@ import { ToggleJoinLibraryButtonComponent } from './toggle-join-library/toggle-j
 import { ToggleJoinLibraryMenuComponent } from './toggle-join-library/toggle-join-library-menu.component';
 import { DirectivesModule } from '../../directives/directives.module';
 import { ToggleFavoriteLibraryComponent } from './toggle-favorite-library/toggle-favorite-library.component';
+import { ToggleEditOfflineComponent } from './toggle-edit-offline/toggle-edit-offline.component';
 import { AppCommonModule } from '../common/common.module';
 
 export function components() {
@@ -51,7 +52,8 @@ export function components() {
     ToolbarMenuComponent,
     ToggleJoinLibraryButtonComponent,
     ToggleJoinLibraryMenuComponent,
-    ToggleFavoriteLibraryComponent
+    ToggleFavoriteLibraryComponent,
+    ToggleEditOfflineComponent
   ];
 }
 

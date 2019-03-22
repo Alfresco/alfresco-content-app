@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -56,7 +56,7 @@ export class ViewerEffects {
     ofType<ViewFileAction>(VIEW_FILE),
     map(action => {
       if (action.payload && action.payload.entry) {
-        const { id, nodeId, isFile } = action.payload.entry;
+        const { id, nodeId, isFile } = <any>action.payload.entry;
 
         if (isFile || nodeId) {
           this.displayPreview(nodeId || id, action.parentId);
@@ -67,7 +67,7 @@ export class ViewerEffects {
           .pipe(take(1))
           .subscribe(result => {
             if (result.selection && result.selection.file) {
-              const { id, nodeId, isFile } = result.selection.file.entry;
+              const { id, nodeId, isFile } = <any>result.selection.file.entry;
 
               if (isFile || nodeId) {
                 const parentId = result.folder ? result.folder.id : null;

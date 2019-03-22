@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -28,6 +28,7 @@ import {
   DetachedRouteHandle,
   ActivatedRouteSnapshot
 } from '@angular/router';
+import { ComponentRef } from '@angular/core';
 
 interface RouteData {
   reuse: boolean;
@@ -40,6 +41,23 @@ interface RouteInfo {
 
 export class AppRouteReuseStrategy implements RouteReuseStrategy {
   private routeCache = new Map<string, RouteInfo>();
+
+  resetCache() {
+    this.routeCache.forEach(value => {
+      this.deactivateComponent(value.handle);
+    });
+    this.routeCache.clear();
+  }
+
+  private deactivateComponent(handle: DetachedRouteHandle): void {
+    if (!handle) {
+      return;
+    }
+    const componentRef: ComponentRef<any> = handle['componentRef'];
+    if (componentRef) {
+      componentRef.destroy();
+    }
+  }
 
   shouldReuseRoute(
     future: ActivatedRouteSnapshot,

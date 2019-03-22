@@ -2,7 +2,7 @@
  * @license
  * Alfresco Example Content Application
  *
- * Copyright (C) 2005 - 2018 Alfresco Software Limited
+ * Copyright (C) 2005 - 2019 Alfresco Software Limited
  *
  * This file is part of the Alfresco Example Content Application.
  * If the software was purchased under a paid Alfresco license, the terms of
@@ -27,26 +27,26 @@ import { by, ElementFinder } from 'protractor';
 import { Component } from '../component';
 
 export class LoginComponent extends Component {
-  static selector = 'adf-login';
+  private static selectors = {
+    root: 'adf-login',
 
-  private locators = {
     usernameInput: by.css('input#username'),
     passwordInput: by.css('input#password'),
     passwordVisibility: by.css('.adf-login-password-icon'),
     submitButton: by.css('button#login-button'),
-    errorMessage: by.css('.login-error-message'),
-    copyright: by.css('.copyright')
+    errorMessage: by.css('.adf-login-error-message'),
+    copyright: by.css('.adf-copyright')
   };
 
-  usernameInput: ElementFinder = this.component.element(this.locators.usernameInput);
-  passwordInput: ElementFinder = this.component.element(this.locators.passwordInput);
-  submitButton: ElementFinder = this.component.element(this.locators.submitButton);
-  errorMessage: ElementFinder = this.component.element(this.locators.errorMessage);
-  copyright: ElementFinder = this.component.element(this.locators.copyright);
-  passwordVisibility: ElementFinder = this.component.element(this.locators.passwordVisibility);
+  usernameInput: ElementFinder = this.component.element(LoginComponent.selectors.usernameInput);
+  passwordInput: ElementFinder = this.component.element(LoginComponent.selectors.passwordInput);
+  submitButton: ElementFinder = this.component.element(LoginComponent.selectors.submitButton);
+  errorMessage: ElementFinder = this.component.element(LoginComponent.selectors.errorMessage);
+  copyright: ElementFinder = this.component.element(LoginComponent.selectors.copyright);
+  passwordVisibility: ElementFinder = this.component.element(LoginComponent.selectors.passwordVisibility);
 
   constructor(ancestor?: ElementFinder) {
-    super(LoginComponent.selector, ancestor);
+    super(LoginComponent.selectors.root, ancestor);
   }
 
   async enterUsername(username: string) {
@@ -72,6 +72,10 @@ export class LoginComponent extends Component {
     return this.submitButton.click();
   }
 
+  async clickPasswordVisibility() {
+    return await this.passwordVisibility.click();
+  }
+
   async getPasswordVisibility() {
     const text = await this.passwordVisibility.getText();
     if (text.endsWith('visibility_off')) {
@@ -84,7 +88,7 @@ export class LoginComponent extends Component {
     }
   }
 
-  async isPasswordShown() {
+  async isPasswordDisplayed() {
     const type = await this.passwordInput.getAttribute('type');
     if (type === 'text') {
       return true;
@@ -95,4 +99,21 @@ export class LoginComponent extends Component {
       }
     }
   }
+
+  async isUsernameEnabled() {
+    return await this.usernameInput.isEnabled();
+  }
+
+  async isPasswordEnabled() {
+    return await this.passwordInput.isEnabled();
+  }
+
+  async isSubmitEnabled() {
+    return await this.submitButton.isEnabled();
+  }
+
+  async isPasswordHidden() {
+    return !(await this.getPasswordVisibility());
+  }
+
 }
