@@ -25,6 +25,7 @@
     "spellcheck": "cspell 'src/**/*.ts' 'e2e/**/*.ts' 'projects/**/*.ts'",
     "inspect.bundle": "ng build app --prod --stats-json && npx webpack-bundle-analyzer dist/app/stats.json",
     "format:check": "prettier --check \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
+    "format:check.e2e": "prettier --check \"e2e/**/*.{ts,js,css,scss,html}\"",
     "format:fix": "prettier --write \"src/{app,environments}/**/*.{ts,js,css,scss,html}\"",
     "build.tomcat": "npm run build.extensions && npm run build.app -- --prod --base-href ./ && jar -cvf docker/tomcat/artifacts/content-app.war -C dist/app/ .",
     "build.tomcat.e2e": "./build-tomcat-e2e.sh",

@@ -24,28 +24,30 @@
  */
 
 import { AlfrescoApi } from '@alfresco/js-api';
-import { REPO_API_HOST } from '../../../configs';
-import { RepoClientAuth } from '../repo-client-models';
+import {
+  REPO_API_HOST,
+  ADMIN_USERNAME,
+  ADMIN_PASSWORD
+} from '../../../configs';
 
 export abstract class RepoApi {
-    alfrescoJsApi = new AlfrescoApi();
+  alfrescoJsApi = new AlfrescoApi();
 
-    constructor(
-        private username: string = RepoClientAuth.DEFAULT_USERNAME,
-        private password: string = RepoClientAuth.DEFAULT_PASSWORD
-    ) {
-        this.alfrescoJsApi.setConfig({
-            provider: 'ECM',
-            hostEcm: REPO_API_HOST
-        });
-    }
+  constructor(
+    private username: string = ADMIN_USERNAME,
+    private password: string = ADMIN_PASSWORD
+  ) {
+    this.alfrescoJsApi.setConfig({
+      provider: 'ECM',
+      hostEcm: REPO_API_HOST
+    });
+  }
 
-    apiAuth() {
-        return this.alfrescoJsApi.login(this.username, this.password);
-    }
+  apiAuth() {
+    return this.alfrescoJsApi.login(this.username, this.password);
+  }
 
-    getUsername() {
-        return this.username;
-    }
-
+  getUsername() {
+    return this.username;
+  }
 }

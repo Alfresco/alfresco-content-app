@@ -23,8 +23,6 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RepoClientAuth } from './repo-client-models';
-
 import { PeopleApi } from './apis/people/people-api';
 import { NodesApi } from './apis/nodes/nodes-api';
 import { CommentsApi } from './apis/comments/comments-api';
@@ -36,61 +34,62 @@ import { TrashcanApi } from './apis/trashcan/trashcan-api';
 import { SearchApi } from './apis/search/search-api';
 import { UploadApi } from './apis/upload/upload-api';
 import { AuthenticationApi } from './apis/authentication/authentication-api';
+import { ADMIN_USERNAME, ADMIN_PASSWORD } from '../../configs';
 
 export class RepoClient {
-    constructor(
-        private username: string = RepoClientAuth.DEFAULT_USERNAME,
-        private password: string = RepoClientAuth.DEFAULT_PASSWORD
-    ) {}
+  constructor(
+    private username: string = ADMIN_USERNAME,
+    private password: string = ADMIN_PASSWORD
+  ) {}
 
-    private get auth() {
-        const { username, password } = this;
-        return { username, password };
-    }
+  private get auth() {
+    const { username, password } = this;
+    return { username, password };
+  }
 
-    get people () {
-        return new PeopleApi(this.auth.username, this.auth.password);
-    }
+  get people() {
+    return new PeopleApi(this.auth.username, this.auth.password);
+  }
 
-    get nodes() {
-        return new NodesApi(this.auth.username, this.auth.password);
-    }
+  get nodes() {
+    return new NodesApi(this.auth.username, this.auth.password);
+  }
 
-    get comments() {
-        return new CommentsApi(this.auth.username, this.auth.password);
-    }
+  get comments() {
+    return new CommentsApi(this.auth.username, this.auth.password);
+  }
 
-    get sites() {
-        return new SitesApi(this.auth.username, this.auth.password);
-    }
+  get sites() {
+    return new SitesApi(this.auth.username, this.auth.password);
+  }
 
-    get favorites() {
-        return new FavoritesApi(this.auth.username, this.auth.password);
-    }
+  get favorites() {
+    return new FavoritesApi(this.auth.username, this.auth.password);
+  }
 
-    get shared() {
-        return new SharedLinksApi(this.auth.username, this.auth.password);
-    }
+  get shared() {
+    return new SharedLinksApi(this.auth.username, this.auth.password);
+  }
 
-    get trashcan() {
-        return new TrashcanApi(this.auth.username, this.auth.password);
-    }
+  get trashcan() {
+    return new TrashcanApi(this.auth.username, this.auth.password);
+  }
 
-    get search() {
-        return new SearchApi(this.auth.username, this.auth.password);
-    }
+  get search() {
+    return new SearchApi(this.auth.username, this.auth.password);
+  }
 
-    get queries() {
-        return new QueriesApi(this.auth.username, this.auth.password);
-    }
+  get queries() {
+    return new QueriesApi(this.auth.username, this.auth.password);
+  }
 
-    get upload() {
-        return new UploadApi(this.auth.username, this.auth.password);
-    }
+  get upload() {
+    return new UploadApi(this.auth.username, this.auth.password);
+  }
 
-    get authentication() {
-        return new AuthenticationApi(this.auth.username, this.auth.password);
-    }
+  get authentication() {
+    return new AuthenticationApi(this.auth.username, this.auth.password);
+  }
 }
 
 export * from './apis/nodes/node-body-create';
