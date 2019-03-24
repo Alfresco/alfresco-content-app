@@ -23,7 +23,10 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
+/** @deprecated Not used */
 export const BROWSER_RESOLUTION_WIDTH = 1200;
+
+/** @deprecated Not used */
 export const BROWSER_RESOLUTION_HEIGHT = 800;
 
 // Application configs
@@ -36,6 +39,8 @@ export const REPO_API_TENANT = '-default-';
 // Admin details
 export const ADMIN_USERNAME = 'admin';
 export const ADMIN_PASSWORD = 'admin';
+
+/** @deprecated Not used */
 export const ADMIN_FULL_NAME = 'Administrator';
 
 export const E2E_ROOT_PATH = __dirname;
