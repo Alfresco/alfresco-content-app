@@ -23,10 +23,18 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+  ElementFinder,
+  by,
+  browser,
+  ExpectedConditions as EC
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
+/**
+ * @deprecated Use ADF implementation instead.
+ */
 export class ManageVersionsDialog extends Component {
   private static selectors = {
     root: '.aca-node-versions-dialog',
@@ -36,9 +44,15 @@ export class ManageVersionsDialog extends Component {
     button: '.mat-button'
   };
 
-  title: ElementFinder = this.component.element(by.css(ManageVersionsDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(ManageVersionsDialog.selectors.content));
-  closeButton: ElementFinder = this.component.element(by.cssContainingText(ManageVersionsDialog.selectors.button, 'Close'));
+  title: ElementFinder = this.component.element(
+    by.css(ManageVersionsDialog.selectors.title)
+  );
+  content: ElementFinder = this.component.element(
+    by.css(ManageVersionsDialog.selectors.content)
+  );
+  closeButton: ElementFinder = this.component.element(
+    by.cssContainingText(ManageVersionsDialog.selectors.button, 'Close')
+  );
 
   constructor(ancestor?: ElementFinder) {
     super(ManageVersionsDialog.selectors.root, ancestor);

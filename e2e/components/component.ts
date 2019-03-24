@@ -26,6 +26,9 @@
 import { ElementFinder, ExpectedConditions as EC, browser } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../configs';
 
+/**
+ * @deprecated Use ADF implementation instead.
+ */
 export abstract class Component {
   component: ElementFinder;
 

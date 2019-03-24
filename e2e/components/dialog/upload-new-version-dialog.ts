@@ -23,11 +23,19 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+  ElementFinder,
+  by,
+  browser,
+  ExpectedConditions as EC
+} from 'protractor';
 import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import { Utils } from '../../utilities/utils';
 
+/**
+ * @deprecated Use ADF implementation instead.
+ */
 export class UploadNewVersionDialog extends Component {
   private static selectors = {
     root: '.aca-node-version-upload-dialog',
@@ -41,15 +49,29 @@ export class UploadNewVersionDialog extends Component {
     descriptionTextArea: 'textarea'
   };
 
-  title: ElementFinder = this.component.element(by.css(UploadNewVersionDialog.selectors.title));
-  content: ElementFinder = this.component.element(by.css(UploadNewVersionDialog.selectors.content));
-  cancelButton: ElementFinder = this.component.element(by.cssContainingText(UploadNewVersionDialog.selectors.button, 'Cancel'));
-  uploadButton: ElementFinder = this.component.element(by.cssContainingText(UploadNewVersionDialog.selectors.button, 'Upload'));
+  title: ElementFinder = this.component.element(
+    by.css(UploadNewVersionDialog.selectors.title)
+  );
+  content: ElementFinder = this.component.element(
+    by.css(UploadNewVersionDialog.selectors.content)
+  );
+  cancelButton: ElementFinder = this.component.element(
+    by.cssContainingText(UploadNewVersionDialog.selectors.button, 'Cancel')
+  );
+  uploadButton: ElementFinder = this.component.element(
+    by.cssContainingText(UploadNewVersionDialog.selectors.button, 'Upload')
+  );
 
-  majorOption: ElementFinder = this.component.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Major'));
-  minorOption: ElementFinder = this.component.element(by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Minor'));
+  majorOption: ElementFinder = this.component.element(
+    by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Major')
+  );
+  minorOption: ElementFinder = this.component.element(
+    by.cssContainingText(UploadNewVersionDialog.selectors.radioButton, 'Minor')
+  );
 
-  description: ElementFinder = this.component.element(by.css(UploadNewVersionDialog.selectors.descriptionTextArea));
+  description: ElementFinder = this.component.element(
+    by.css(UploadNewVersionDialog.selectors.descriptionTextArea)
+  );
 
   constructor(ancestor?: ElementFinder) {
     super(UploadNewVersionDialog.selectors.root, ancestor);
@@ -71,7 +93,6 @@ export class UploadNewVersionDialog extends Component {
     return await this.content.getText();
   }
 
-
   async isDescriptionDisplayed() {
     return await this.description.isDisplayed();
   }
@@ -92,7 +113,6 @@ export class UploadNewVersionDialog extends Component {
     return this.uploadButton.isEnabled();
   }
 
-
   async clickCancel() {
     await this.cancelButton.click();
     await this.waitForDialogToClose();
@@ -103,7 +123,6 @@ export class UploadNewVersionDialog extends Component {
     await this.waitForDialogToClose();
   }
 
-
   async clickMajor() {
     return await this.majorOption.click();
   }
@@ -112,10 +131,8 @@ export class UploadNewVersionDialog extends Component {
     return await this.minorOption.click();
   }
 
-
   async enterDescription(description: string) {
     await this.description.clear();
     await Utils.typeInField(this.description, description);
   }
-
 }
