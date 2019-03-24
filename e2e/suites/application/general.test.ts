@@ -39,12 +39,12 @@ describe('General', () => {
   let folderId;
 
   describe('on session expire', () => {
-    beforeAll(async (done) => {
+    beforeAll(async done => {
       folderId = (await nodesApi.createFolder(folder)).entry.id;
       done();
     });
 
-    afterAll(async (done) => {
+    afterAll(async done => {
       await nodesApi.deleteNodeById(folderId);
       done();
     });
@@ -56,11 +56,14 @@ describe('General', () => {
       await createDialog.waitForDialogToOpen();
       await createDialog.enterName(folder);
 
+      await authApi.login();
       await authApi.logout();
 
       await createDialog.clickCreate();
 
-      expect(await page.getSnackBarMessage()).toEqual('The action was unsuccessful. Try again or contact your IT Team.');
+      expect(await page.getSnackBarMessage()).toEqual(
+        'The action was unsuccessful. Try again or contact your IT Team.'
+      );
 
       expect(await browser.getTitle()).toContain('Sign in');
 
@@ -69,7 +72,10 @@ describe('General', () => {
       } catch (error) {
         console.log('err: ', error);
       }
-      expect(await createDialog.isDialogOpen()).not.toBe(true, 'dialog is present');
+      expect(await createDialog.isDialogOpen()).not.toBe(
+        true,
+        'dialog is present'
+      );
     });
   });
 });
