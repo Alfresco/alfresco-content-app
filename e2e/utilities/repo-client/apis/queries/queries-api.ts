@@ -31,34 +31,35 @@ export class QueriesApi extends RepoApi {
   queriesApi = new AdfQueriesApi(this.alfrescoJsApi);
 
   constructor(username?: string, password?: string) {
-      super(username, password);
+    super(username, password);
   }
 
   async findSites(searchTerm: string) {
     const data = {
-        term: searchTerm,
-        fields: ['title']
+      term: searchTerm,
+      fields: ['title']
     };
 
-    await this.apiAuth();
+    await this.login();
     return this.queriesApi.findSites(searchTerm, data);
   }
 
   async findNodes(searchTerm: string) {
     const data = {
-        term: searchTerm,
-        fields: ['name']
+      term: searchTerm,
+      fields: ['name']
     };
 
-    await this.apiAuth();
+    await this.login();
     return this.queriesApi.findNodes(searchTerm, data);
   }
 
   async waitForSites(searchTerm: string, data: any) {
     try {
       const sites = async () => {
-        const totalItems = (await this.findSites(searchTerm)).list.pagination.totalItems;
-        if ( totalItems !== data.expect ) {
+        const totalItems = (await this.findSites(searchTerm)).list.pagination
+          .totalItems;
+        if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
           return Promise.resolve(totalItems);
@@ -74,8 +75,9 @@ export class QueriesApi extends RepoApi {
   async waitForFilesAndFolders(searchTerm: string, data: any) {
     try {
       const nodes = async () => {
-        const totalItems = (await this.findNodes(searchTerm)).list.pagination.totalItems;
-        if ( totalItems !== data.expect ) {
+        const totalItems = (await this.findNodes(searchTerm)).list.pagination
+          .totalItems;
+        if (totalItems !== data.expect) {
           return Promise.reject(totalItems);
         } else {
           return Promise.resolve(totalItems);

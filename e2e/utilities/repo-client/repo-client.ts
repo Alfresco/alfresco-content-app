@@ -42,53 +42,48 @@ export class RepoClient {
     private password: string = ADMIN_PASSWORD
   ) {}
 
-  private get auth() {
-    const { username, password } = this;
-    return { username, password };
-  }
-
   get people() {
-    return new PeopleApi(this.auth.username, this.auth.password);
+    return new PeopleApi(this.username, this.password);
   }
 
   get nodes() {
-    return new NodesApi(this.auth.username, this.auth.password);
+    return new NodesApi(this.username, this.password);
   }
 
   get comments() {
-    return new CommentsApi(this.auth.username, this.auth.password);
+    return new CommentsApi(this.username, this.password);
   }
 
   get sites() {
-    return new SitesApi(this.auth.username, this.auth.password);
+    return new SitesApi(this.username, this.password);
   }
 
   get favorites() {
-    return new FavoritesApi(this.auth.username, this.auth.password);
+    return new FavoritesApi(this.username, this.password);
   }
 
   get shared() {
-    return new SharedLinksApi(this.auth.username, this.auth.password);
+    return new SharedLinksApi(this.username, this.password);
   }
 
   get trashcan() {
-    return new TrashcanApi(this.auth.username, this.auth.password);
+    return new TrashcanApi(this.username, this.password);
   }
 
   get search() {
-    return new SearchApi(this.auth.username, this.auth.password);
+    return new SearchApi(this.username, this.password);
   }
 
   get queries() {
-    return new QueriesApi(this.auth.username, this.auth.password);
+    return new QueriesApi(this.username, this.password);
   }
 
   get upload() {
-    return new UploadApi(this.auth.username, this.auth.password);
+    return new UploadApi(this.username, this.password);
   }
 
   get authentication() {
-    return new AuthenticationApi(this.auth.username, this.auth.password);
+    return new AuthenticationApi(this.username, this.password);
   }
 }
 

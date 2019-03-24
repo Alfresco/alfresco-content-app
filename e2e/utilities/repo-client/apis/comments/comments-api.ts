@@ -27,23 +27,23 @@ import { RepoApi } from '../repo-api';
 import { CommentsApi as AdfCommentsApi } from '@alfresco/js-api';
 
 export class CommentsApi extends RepoApi {
-    commentsApi = new AdfCommentsApi(this.alfrescoJsApi);
+  commentsApi = new AdfCommentsApi(this.alfrescoJsApi);
 
-    constructor(username?, password?) {
-        super(username, password);
-    }
+  constructor(username?: string, password?: string) {
+    super(username, password);
+  }
 
-    async getNodeComments(nodeId: string) {
-      await this.apiAuth();
-      return await this.commentsApi.listComments(nodeId);
-    }
+  async getNodeComments(nodeId: string) {
+    await this.login();
+    return await this.commentsApi.listComments(nodeId);
+  }
 
-    async addComment(nodeId: string, comment: string) {
-      await this.apiAuth();
-      return await this.commentsApi.createComment(nodeId, { "content": comment });
-    }
-    async addComments(nodeId: string, comment: any) {
-      await this.apiAuth();
-      return await this.commentsApi.createComment(nodeId, comment);
-    }
+  async addComment(nodeId: string, comment: string) {
+    await this.login();
+    return await this.commentsApi.createComment(nodeId, { content: comment });
+  }
+  async addComments(nodeId: string, comment: any) {
+    await this.login();
+    return await this.commentsApi.createComment(nodeId, comment);
+  }
 }

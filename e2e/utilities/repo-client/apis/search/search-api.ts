@@ -28,90 +28,88 @@ import { Utils } from '../../../../utilities/utils';
 import { SearchApi as AdfSearchApi } from '@alfresco/js-api';
 
 export class SearchApi extends RepoApi {
-    searchApi = new AdfSearchApi(this.alfrescoJsApi);
+  searchApi = new AdfSearchApi(this.alfrescoJsApi);
 
-    constructor(username?, password?) {
-        super(username, password);
-    }
+  constructor(username?: string, password?: string) {
+    super(username, password);
+  }
 
-    async queryRecentFiles(username: string) {
-        const data = {
-            query: {
-                query: '*',
-                language: 'afts'
-            },
-            filterQueries: [
-                { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
-                { query: `cm:modifier:${username} OR cm:creator:${username}` },
-                { query: `TYPE:"content" AND -TYPE:"app:filelink" AND -TYPE:"fm:post"` }
-            ]
-        };
+  async queryRecentFiles(username: string) {
+    const data = {
+      query: {
+        query: '*',
+        language: 'afts'
+      },
+      filterQueries: [
+        { query: `cm:modified:[NOW/DAY-30DAYS TO NOW/DAY+1DAY]` },
+        { query: `cm:modifier:${username} OR cm:creator:${username}` },
+        { query: `TYPE:"content" AND -TYPE:"app:filelink" AND -TYPE:"fm:post"` }
+      ]
+    };
 
-        await this.apiAuth();
-        return this.searchApi.search(data);
-    }
+    await this.login();
+    return this.searchApi.search(data);
+  }
 
-    async queryNodesNames(searchTerm: string) {
-      const data = {
-        query: {
-          query: `cm:name:\"${searchTerm}*\"`,
-          language: 'afts'
-        },
-        filterQueries: [
-          { query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'`}
-        ]
-      };
+  async queryNodesNames(searchTerm: string) {
+    const data = {
+      query: {
+        query: `cm:name:\"${searchTerm}*\"`,
+        language: 'afts'
+      },
+      filterQueries: [{ query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'` }]
+    };
 
-      await this.apiAuth();
-      return this.searchApi.search(data);
-    }
+    await this.login();
+    return this.searchApi.search(data);
+  }
 
-    async queryNodesExactNames(searchTerm: string) {
-      const data = {
-        query: {
-          query: `cm:name:\"${searchTerm}\"`,
-          language: 'afts'
-        },
-        filterQueries: [
-          { query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'`}
-        ]
-      };
+  async queryNodesExactNames(searchTerm: string) {
+    const data = {
+      query: {
+        query: `cm:name:\"${searchTerm}\"`,
+        language: 'afts'
+      },
+      filterQueries: [{ query: `+TYPE:'cm:folder' OR +TYPE:'cm:content'` }]
+    };
 
-      await this.apiAuth();
-      return this.searchApi.search(data);
-    }
+    await this.login();
+    return this.searchApi.search(data);
+  }
 
-    async waitForApi(username, data) {
-      try {
-        const recentFiles = async () => {
-          const totalItems = (await this.queryRecentFiles(username)).list.pagination.totalItems;
-          if ( totalItems !== data.expect) {
-              return Promise.reject(totalItems);
-          } else {
-              return Promise.resolve(totalItems);
-          }
+  async waitForApi(username, data) {
+    try {
+      const recentFiles = async () => {
+        const totalItems = (await this.queryRecentFiles(username)).list
+          .pagination.totalItems;
+        if (totalItems !== data.expect) {
+          return Promise.reject(totalItems);
+        } else {
+          return Promise.resolve(totalItems);
+        }
       };
 
       return await Utils.retryCall(recentFiles);
-      } catch (error) {
-        console.log('-----> catch search: ', error);
-      }
+    } catch (error) {
+      console.log('-----> catch search: ', error);
     }
+  }
 
-    async waitForNodes(searchTerm: string, data) {
-      try {
-        const nodes = async () => {
-          const totalItems = (await this.queryNodesNames(searchTerm)).list.pagination.totalItems;
-          if ( totalItems !== data.expect) {
-              return Promise.reject(totalItems);
-          } else {
-              return Promise.resolve(totalItems);
-          }
+  async waitForNodes(searchTerm: string, data) {
+    try {
+      const nodes = async () => {
+        const totalItems = (await this.queryNodesNames(searchTerm)).list
+          .pagination.totalItems;
+        if (totalItems !== data.expect) {
+          return Promise.reject(totalItems);
+        } else {
+          return Promise.resolve(totalItems);
+        }
       };
 
       return await Utils.retryCall(nodes);
-      } catch (error) {
-        console.log('-----> catch search nodes: ', error);
-      }
+    } catch (error) {
+      console.log('-----> catch search nodes: ', error);
     }
+  }
 }
