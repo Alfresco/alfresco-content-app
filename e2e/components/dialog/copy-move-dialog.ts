@@ -1,4 +1,3 @@
-import { Utils } from './../../utilities/utils';
 /*!
  * @license
  * Alfresco Example Content Application
@@ -30,7 +29,6 @@ import {
   browser,
   ExpectedConditions as EC
 } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
 /**
@@ -96,20 +94,20 @@ export class CopyMoveDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.stalenessOf(this.title), this.waitTimeout);
   }
 
   async waitForDropDownToOpen() {
     await browser.wait(
       EC.presenceOf(this.locationPersonalFiles),
-      BROWSER_WAIT_TIMEOUT
+      this.waitTimeout
     );
   }
 
   async waitForDropDownToClose() {
     await browser.wait(
       EC.stalenessOf(browser.$(CopyMoveDialog.selectors.locationOption)),
-      BROWSER_WAIT_TIMEOUT
+      this.waitTimeout
     );
   }
 
@@ -118,7 +116,7 @@ export class CopyMoveDialog extends Component {
       EC.presenceOf(
         this.component.element(by.css(CopyMoveDialog.selectors.selectedRow))
       ),
-      BROWSER_WAIT_TIMEOUT
+      this.waitTimeout
     );
   }
 
@@ -151,7 +149,7 @@ export class CopyMoveDialog extends Component {
 
   async doubleClickOnRow(name: string) {
     const item = this.getRow(name);
-    await Utils.waitUntilElementClickable(item);
+    await this.waitUntilElementClickable(item);
     await browser
       .actions()
       .mouseMove(item)
@@ -178,7 +176,7 @@ export class CopyMoveDialog extends Component {
 
   async selectDestination(folderName: string) {
     const row = this.getRow(folderName);
-    await Utils.waitUntilElementClickable(row);
+    await this.waitUntilElementClickable(row);
     await row.click();
     await this.waitForRowToBeSelected();
   }

@@ -24,7 +24,6 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { Utils } from '../../../../utilities/utils';
 import { TrashcanApi as AdfTrashcanApi } from '@alfresco/js-api';
 
 export class TrashcanApi extends RepoApi {
@@ -75,7 +74,7 @@ export class TrashcanApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(deletedFiles);
+      return await this.retryCall(deletedFiles);
     } catch (error) {
       console.log('-----> catch trash: ', error);
     }

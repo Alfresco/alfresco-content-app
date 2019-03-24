@@ -26,7 +26,7 @@ import { browser, ExpectedConditions as EC } from 'protractor';
 import { LoginComponent } from '../components/components';
 import { Page } from './page';
 
-import { ADMIN_USERNAME, ADMIN_PASSWORD, BROWSER_WAIT_TIMEOUT, APP_ROUTES } from '../configs';
+import { ADMIN_USERNAME, ADMIN_PASSWORD, APP_ROUTES } from '../configs';
 
 export class LoginPage extends Page {
   login: LoginComponent = new LoginComponent(this.app);
@@ -41,13 +41,13 @@ export class LoginPage extends Page {
     await super.load();
     const { submitButton } = this.login;
     const hasSubmitButton = EC.presenceOf(submitButton);
-    return browser.wait(hasSubmitButton, BROWSER_WAIT_TIMEOUT);
+    return browser.wait(hasSubmitButton, this.waitTimeout);
   }
 
   async loginWith(username: string, password?: string) {
     const pass = password || username;
     await this.load();
-    await this.login.enterCredentials(username, pass)
+    await this.login.enterCredentials(username, pass);
     await this.login.submit();
     return super.waitForApp();
   }
@@ -62,6 +62,9 @@ export class LoginPage extends Page {
     await this.load();
     await this.login.enterCredentials(username, pass);
     await this.login.submit();
-    return browser.wait(EC.presenceOf(this.login.errorMessage), BROWSER_WAIT_TIMEOUT);
+    return browser.wait(
+      EC.presenceOf(this.login.errorMessage),
+      this.waitTimeout
+    );
   }
 }

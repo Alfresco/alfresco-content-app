@@ -30,7 +30,6 @@ import {
   browser,
   ExpectedConditions as EC
 } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { DateTimePicker } from '../../components/datetime-picker/datetime-picker';
 import { Component } from '../component';
 
@@ -93,13 +92,13 @@ export class ShareDialog extends Component {
   async waitForDialogToClose() {
     await browser.wait(
       EC.stalenessOf(this.title),
-      BROWSER_WAIT_TIMEOUT,
+      this.waitTimeout,
       'share dialog did not close'
     );
   }
 
   async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(this.title), this.waitTimeout);
   }
 
   async isDialogOpen() {

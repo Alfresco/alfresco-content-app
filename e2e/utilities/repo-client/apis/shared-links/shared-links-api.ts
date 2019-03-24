@@ -24,7 +24,6 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { Utils } from '../../../../utilities/utils';
 import { SharedlinksApi as AdfSharedlinksApi } from '@alfresco/js-api';
 
 export class SharedLinksApi extends RepoApi {
@@ -84,7 +83,7 @@ export class SharedLinksApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(sharedFiles);
+      return await this.retryCall(sharedFiles);
     } catch (error) {
       console.log('-----> catch shared: ', error);
     }

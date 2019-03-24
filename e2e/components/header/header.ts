@@ -29,7 +29,6 @@ import { UserInfo } from './user-info';
 import { Menu } from '../menu/menu';
 import { Toolbar } from './../toolbar/toolbar';
 import { SearchInput } from '../search/search-input';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class Header extends Component {
   private static selectors = {
@@ -45,7 +44,9 @@ export class Header extends Component {
 
   logoLink: ElementFinder = this.component.element(Header.selectors.logoLink);
   moreActions: ElementFinder = browser.element(Header.selectors.moreActions);
-  sidenavToggle: ElementFinder = this.component.element(by.css(Header.selectors.sidenavToggle));
+  sidenavToggle: ElementFinder = this.component.element(
+    by.css(Header.selectors.sidenavToggle)
+  );
 
   userInfo: UserInfo = new UserInfo(this.component);
   menu: Menu = new Menu();
@@ -75,19 +76,25 @@ export class Header extends Component {
 
   async expandSideNav() {
     const expanded = await this.isExpandedSidenav();
-    if ( !expanded ) {
+    if (!expanded) {
       await this.clickSidenavToggle();
-      await browser.wait(until.elementLocated(Header.selectors.expandedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for expanded sidenav' );
+      await browser.wait(
+        until.elementLocated(Header.selectors.expandedSidenav),
+        this.waitTimeout,
+        '--- timeout waiting for expanded sidenav'
+      );
     }
   }
 
   async collapseSideNav() {
     const expanded = await this.isExpandedSidenav();
-    if ( expanded ) {
+    if (expanded) {
       await this.clickSidenavToggle();
-      await browser.wait(until.elementLocated(Header.selectors.collapsedSidenav), BROWSER_WAIT_TIMEOUT, '--- timeout waiting for collapsed sidenav')
+      await browser.wait(
+        until.elementLocated(Header.selectors.collapsedSidenav),
+        this.waitTimeout,
+        '--- timeout waiting for collapsed sidenav'
+      );
     }
   }
-
 }
-

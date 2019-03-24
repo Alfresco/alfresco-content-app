@@ -23,19 +23,24 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, element, browser } from 'protractor';
-import { SIDEBAR_LABELS, BROWSER_WAIT_TIMEOUT } from '../../configs';
+import {
+  ElementFinder,
+  ElementArrayFinder,
+  by,
+  element,
+  browser
+} from 'protractor';
+import { SIDEBAR_LABELS } from '../../configs';
 import { Menu } from '../menu/menu';
 import { Component } from '../component';
-import { Utils } from '../../utilities/utils';
 
 export class Sidenav extends Component {
   private static selectors = {
     root: 'app-sidenav',
     link: '.menu__item',
     label: '.item--label',
-    expansion_panel: ".mat-expansion-panel-header",
-    expansion_panel_content: ".mat-expansion-panel-body",
+    expansion_panel: '.mat-expansion-panel-header',
+    expansion_panel_content: '.mat-expansion-panel-body',
     active: 'mat-accent',
     activeClass: '.item--active',
     activeChild: 'item--active',
@@ -52,18 +57,40 @@ export class Sidenav extends Component {
     trash: `[data-automation-id='app.navbar.trashcan']`
   };
 
-  links: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.link));
-  activeLink: ElementFinder = this.component.element(by.css(Sidenav.selectors.activeClass));
-  newButton: ElementArrayFinder = this.component.all(by.css(Sidenav.selectors.newButton));
+  links: ElementArrayFinder = this.component.all(
+    by.css(Sidenav.selectors.link)
+  );
+  activeLink: ElementFinder = this.component.element(
+    by.css(Sidenav.selectors.activeClass)
+  );
+  newButton: ElementArrayFinder = this.component.all(
+    by.css(Sidenav.selectors.newButton)
+  );
 
-  personalFiles: ElementFinder = this.component.element(by.css(Sidenav.selectors.personalFiles));
-  fileLibraries: ElementFinder = this.component.element(by.css(Sidenav.selectors.fileLibraries));
-  myLibraries: ElementFinder = browser.element(by.css(Sidenav.selectors.myLibraries));
-  favoriteLibraries: ElementFinder = browser.element(by.css(Sidenav.selectors.favoriteLibraries));
-  shared: ElementFinder = this.component.element(by.css(Sidenav.selectors.shared));
-  recentFiles: ElementFinder = this.component.element(by.css(Sidenav.selectors.recentFiles));
-  favorites: ElementFinder = this.component.element(by.css(Sidenav.selectors.favorites));
-  trash: ElementFinder = this.component.element(by.css(Sidenav.selectors.trash));
+  personalFiles: ElementFinder = this.component.element(
+    by.css(Sidenav.selectors.personalFiles)
+  );
+  fileLibraries: ElementFinder = this.component.element(
+    by.css(Sidenav.selectors.fileLibraries)
+  );
+  myLibraries: ElementFinder = browser.element(
+    by.css(Sidenav.selectors.myLibraries)
+  );
+  favoriteLibraries: ElementFinder = browser.element(
+    by.css(Sidenav.selectors.favoriteLibraries)
+  );
+  shared: ElementFinder = this.component.element(
+    by.css(Sidenav.selectors.shared)
+  );
+  recentFiles: ElementFinder = this.component.element(
+    by.css(Sidenav.selectors.recentFiles)
+  );
+  favorites: ElementFinder = this.component.element(
+    by.css(Sidenav.selectors.favorites)
+  );
+  trash: ElementFinder = this.component.element(
+    by.css(Sidenav.selectors.trash)
+  );
 
   menu: Menu = new Menu();
 
@@ -72,17 +99,19 @@ export class Sidenav extends Component {
   }
 
   private async expandMenu(name: string) {
-    try{
-
-      if (await element(by.cssContainingText('.mat-expanded', name)).isPresent()) {
+    try {
+      if (
+        await element(by.cssContainingText('.mat-expanded', name)).isPresent()
+      ) {
         return Promise.resolve();
       } else {
         const link = this.getLink(name);
-        await Utils.waitUntilElementClickable(link);
+        await this.waitUntilElementClickable(link);
         await link.click();
-        await element(by.css(Sidenav.selectors.expansion_panel_content)).isPresent();
+        await element(
+          by.css(Sidenav.selectors.expansion_panel_content)
+        ).isPresent();
       }
-
     } catch (e) {
       console.log('---- sidebar navigation catch expandMenu: ', e);
     }
@@ -106,11 +135,15 @@ export class Sidenav extends Component {
   }
 
   async isActive(name: string) {
-    return await this.getLinkLabel(name).isElementPresent(by.css(Sidenav.selectors.activeClass));
+    return await this.getLinkLabel(name).isElementPresent(
+      by.css(Sidenav.selectors.activeClass)
+    );
   }
 
   async childIsActive(name: string) {
-    const childClass = await this.getLinkLabel(name).element(by.css('span')).getAttribute('class');
+    const childClass = await this.getLinkLabel(name)
+      .element(by.css('span'))
+      .getAttribute('class');
     return childClass.includes(Sidenav.selectors.activeChild);
   }
 
@@ -120,15 +153,24 @@ export class Sidenav extends Component {
 
   getLinkLabel(name: string) {
     switch (name) {
-      case 'Personal Files': return this.personalFiles;
-      case 'File Libraries': return this.fileLibraries;
-      case 'My Libraries': return this.myLibraries;
-      case 'Favorite Libraries': return this.favoriteLibraries;
-      case 'Shared': return this.shared;
-      case 'Recent Files': return this.recentFiles;
-      case 'Favorites': return this.favorites;
-      case 'Trash': return this.trash;
-      default: return this.personalFiles;
+      case 'Personal Files':
+        return this.personalFiles;
+      case 'File Libraries':
+        return this.fileLibraries;
+      case 'My Libraries':
+        return this.myLibraries;
+      case 'Favorite Libraries':
+        return this.favoriteLibraries;
+      case 'Shared':
+        return this.shared;
+      case 'Recent Files':
+        return this.recentFiles;
+      case 'Favorites':
+        return this.favorites;
+      case 'Trash':
+        return this.trash;
+      default:
+        return this.personalFiles;
     }
   }
 
@@ -139,32 +181,36 @@ export class Sidenav extends Component {
   async getLinkTooltip(name: string) {
     const link = this.getLinkLabel(name);
 
-    const condition = () => link.getAttribute('title').then(value => value && value.length > 0);
+    const condition = () =>
+      link.getAttribute('title').then(value => value && value.length > 0);
 
-    await browser.actions().mouseMove(link).perform();
+    await browser
+      .actions()
+      .mouseMove(link)
+      .perform();
 
-    await browser.wait(condition, BROWSER_WAIT_TIMEOUT);
+    await browser.wait(condition, this.waitTimeout);
 
     return await link.getAttribute('title');
   }
 
   async clickLink(name: string) {
-    try{
+    try {
       const link = this.getLinkLabel(name);
-      await Utils.waitUntilElementClickable(link);
+      await this.waitUntilElementClickable(link);
       return await link.click();
-
-    } catch (e){
+    } catch (e) {
       console.log('---- sidebar navigation catch clickLink: ', e);
     }
   }
 
   async isFileLibrariesMenuExpanded() {
-    return await element(by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)).isPresent();
+    return await element(
+      by.cssContainingText('.mat-expanded', SIDEBAR_LABELS.FILE_LIBRARIES)
+    ).isPresent();
   }
 
   async expandFileLibraries() {
     return await this.expandMenu(SIDEBAR_LABELS.FILE_LIBRARIES);
   }
-
 }

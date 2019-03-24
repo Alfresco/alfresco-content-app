@@ -25,7 +25,6 @@
 
 import { RepoApi } from '../repo-api';
 import { RepoClient } from './../../repo-client';
-import { Utils } from '../../../../utilities/utils';
 import {
   FavoritesApi as AdfFavoritesApi,
   SitesApi as AdfSiteApi
@@ -109,7 +108,7 @@ export class FavoritesApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(favorite);
+      return await this.retryCall(favorite);
     } catch (error) {
       console.log('-----> catch isFavoriteWithRetry: ', error);
     }
@@ -144,7 +143,7 @@ export class FavoritesApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(favoriteFiles);
+      return await this.retryCall(favoriteFiles);
     } catch (error) {
       console.log('-----> catch favorites: ', error);
     }

@@ -29,7 +29,6 @@ import {
   browser,
   ExpectedConditions as EC
 } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 import * as moment from 'moment';
 
@@ -70,11 +69,11 @@ export class DateTimePicker extends Component {
   }
 
   async waitForDateTimePickerToOpen() {
-    await browser.wait(EC.presenceOf(this.calendar), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(this.calendar), this.waitTimeout);
   }
 
   async waitForDateTimePickerToClose() {
-    await browser.wait(EC.stalenessOf(this.calendar), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.stalenessOf(this.calendar), this.waitTimeout);
   }
 
   async isCalendarOpen() {

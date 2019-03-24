@@ -26,7 +26,6 @@
 import { RepoApi } from '../repo-api';
 import { SiteBody, SiteMemberRoleBody, SiteMemberBody } from '@alfresco/js-api';
 import { SITE_VISIBILITY } from '../../../../configs';
-import { Utils } from '../../../../utilities/utils';
 import { SitesApi as AdfSiteApi } from '@alfresco/js-api';
 
 export class SitesApi extends RepoApi {
@@ -172,7 +171,7 @@ export class SitesApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(sites);
+      return await this.retryCall(sites);
     } catch (error) {
       console.log('-----> catch sites: ', error);
     }

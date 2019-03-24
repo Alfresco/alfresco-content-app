@@ -23,9 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ElementArrayFinder, by, browser, ExpectedConditions as EC, until } from 'protractor';
+import {
+  ElementFinder,
+  ElementArrayFinder,
+  by,
+  browser,
+  ExpectedConditions as EC,
+  until
+} from 'protractor';
 import { Component } from '../component';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 export class InfoDrawer extends Component {
   private static selectors = {
@@ -38,9 +44,11 @@ export class InfoDrawer extends Component {
     tabLabel: '.mat-tab-label-content',
     tabActiveLabel: '.mat-tab-label-active',
 
-    activeTabContent: '.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab',
+    activeTabContent:
+      '.mat-tab-body-active .mat-tab-body-content adf-dynamic-tab',
     next: '.mat-tab-header-pagination-after .mat-tab-header-pagination-chevron',
-    previous: '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron',
+    previous:
+      '.mat-tab-header-pagination-before .mat-tab-header-pagination-chevron',
 
     headerTitle: '.adf-info-drawer-layout-header-title',
 
@@ -70,50 +78,95 @@ export class InfoDrawer extends Component {
     error: '.mat-error'
   };
 
-  header: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.header));
-  headerTitle: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.headerTitle));
-  tabLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabLabel));
-  tabLabelsList: ElementArrayFinder = this.component.all(by.css(InfoDrawer.selectors.tabLabel));
-  tabActiveLabel: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.tabActiveLabel));
+  header: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.header)
+  );
+  headerTitle: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.headerTitle)
+  );
+  tabLabel: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.tabLabel)
+  );
+  tabLabelsList: ElementArrayFinder = this.component.all(
+    by.css(InfoDrawer.selectors.tabLabel)
+  );
+  tabActiveLabel: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.tabActiveLabel)
+  );
 
-  tabActiveContent: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.activeTabContent));
+  tabActiveContent: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.activeTabContent)
+  );
 
-  commentsContainer: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.commentsContainer));
-  commentsHeader: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.commentsHeader));
-  commentTextarea: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.commentsTextArea));
-  addCommentButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.addCommentButton));
-  commentsList: ElementArrayFinder = this.component.all(by.css(InfoDrawer.selectors.commentsListItem));
+  commentsContainer: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.commentsContainer)
+  );
+  commentsHeader: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.commentsHeader)
+  );
+  commentTextarea: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.commentsTextArea)
+  );
+  addCommentButton: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.addCommentButton)
+  );
+  commentsList: ElementArrayFinder = this.component.all(
+    by.css(InfoDrawer.selectors.commentsListItem)
+  );
 
   commentListItem = by.css(InfoDrawer.selectors.commentsListItem);
 
   commentUserAvatar = by.id(InfoDrawer.selectors.commentUserAvatar);
-  commentUser = by.id(InfoDrawer.selectors.commentUserName)
+  commentUser = by.id(InfoDrawer.selectors.commentUserName);
   commentText = by.id(InfoDrawer.selectors.commentMessage);
   commentTime = by.id(InfoDrawer.selectors.commentTime);
 
-  nextButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.next));
-  previousButton: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.previous));
+  nextButton: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.next)
+  );
+  previousButton: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.previous)
+  );
 
-  metadataTabContent: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.metadataTabContent));
-  metadataTabAction: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.metadataTabAction));
-  fieldLabelWrapper: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.fieldLabelWrapper));
-  fieldInput: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.fieldInput));
+  metadataTabContent: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.metadataTabContent)
+  );
+  metadataTabAction: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.metadataTabAction)
+  );
+  fieldLabelWrapper: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.fieldLabelWrapper)
+  );
+  fieldInput: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.fieldInput)
+  );
 
-  visibilityDropDown: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.dropDown));
-  visibilityPublic: ElementFinder = browser.element(by.cssContainingText(InfoDrawer.selectors.visibilityOption, 'Public'));
-  visibilityPrivate: ElementFinder = browser.element(by.cssContainingText(InfoDrawer.selectors.visibilityOption, 'Private'));
-  visibilityModerated: ElementFinder = browser.element(by.cssContainingText(InfoDrawer.selectors.visibilityOption, 'Moderated'));
+  visibilityDropDown: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.dropDown)
+  );
+  visibilityPublic: ElementFinder = browser.element(
+    by.cssContainingText(InfoDrawer.selectors.visibilityOption, 'Public')
+  );
+  visibilityPrivate: ElementFinder = browser.element(
+    by.cssContainingText(InfoDrawer.selectors.visibilityOption, 'Private')
+  );
+  visibilityModerated: ElementFinder = browser.element(
+    by.cssContainingText(InfoDrawer.selectors.visibilityOption, 'Moderated')
+  );
 
-  hint: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.hint));
-  error: ElementFinder = this.component.element(by.css(InfoDrawer.selectors.error));
+  hint: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.hint)
+  );
+  error: ElementFinder = this.component.element(
+    by.css(InfoDrawer.selectors.error)
+  );
 
   constructor(ancestor?: ElementFinder) {
     super(InfoDrawer.selectors.root, ancestor);
   }
 
-
   async waitForInfoDrawerToOpen() {
-    return await browser.wait(EC.presenceOf(this.header), BROWSER_WAIT_TIMEOUT);
+    return await browser.wait(EC.presenceOf(this.header), this.waitTimeout);
   }
 
   async isOpen() {
@@ -125,15 +178,22 @@ export class InfoDrawer extends Component {
   }
 
   async waitForCommentsTabContainer() {
-    await browser.wait(EC.visibilityOf(this.commentsContainer), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(
+      EC.visibilityOf(this.commentsContainer),
+      this.waitTimeout
+    );
   }
 
   getTabByTitle(title: string) {
-    return this.component.element(by.cssContainingText(InfoDrawer.selectors.tabLabel, title));
+    return this.component.element(
+      by.cssContainingText(InfoDrawer.selectors.tabLabel, title)
+    );
   }
 
   async getTabsCount() {
-    return await this.component.all(by.css(InfoDrawer.selectors.tabLabel)).count();
+    return await this.component
+      .all(by.css(InfoDrawer.selectors.tabLabel))
+      .count();
   }
 
   async isTabPresent(title: string) {
@@ -167,12 +227,16 @@ export class InfoDrawer extends Component {
   }
 
   getLabelWrapper(label: string) {
-    return this.component.element(by.cssContainingText(InfoDrawer.selectors.fieldLabelWrapper, label));
+    return this.component.element(
+      by.cssContainingText(InfoDrawer.selectors.fieldLabelWrapper, label)
+    );
   }
 
   getFieldByName(fieldName: string) {
     const wrapper = this.getLabelWrapper(fieldName);
-    return wrapper.element(by.xpath('..')).element(by.css(InfoDrawer.selectors.fieldInput));
+    return wrapper
+      .element(by.xpath('..'))
+      .element(by.css(InfoDrawer.selectors.fieldInput));
   }
 
   async isFieldDisplayed(fieldName: string) {
@@ -193,9 +257,10 @@ export class InfoDrawer extends Component {
     return await input.sendKeys(text);
   }
 
-
   getButton(button: string) {
-    return this.component.element(by.cssContainingText(InfoDrawer.selectors.metadataTabAction, button));
+    return this.component.element(
+      by.cssContainingText(InfoDrawer.selectors.metadataTabAction, button)
+    );
   }
 
   async isButtonDisplayed(button: string) {
@@ -211,11 +276,17 @@ export class InfoDrawer extends Component {
   }
 
   async waitForVisibilityDropDownToOpen() {
-    await browser.wait(EC.presenceOf(this.visibilityDropDown), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(
+      EC.presenceOf(this.visibilityDropDown),
+      this.waitTimeout
+    );
   }
 
   async waitForVisibilityDropDownToClose() {
-    await browser.wait(EC.stalenessOf(browser.$('.mat-option .mat-option-text')), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(
+      EC.stalenessOf(browser.$('.mat-option .mat-option-text')),
+      this.waitTimeout
+    );
   }
 
   // ---------------
@@ -232,12 +303,14 @@ export class InfoDrawer extends Component {
     return await this.isTabDisplayed('Comments');
   }
 
-
   async clickCommentsTab() {
     try {
       await this.getTabByTitle('Comments').click();
       await this.waitForCommentsTabContainer();
-      await browser.wait(EC.visibilityOf(this.addCommentButton), BROWSER_WAIT_TIMEOUT);
+      await browser.wait(
+        EC.visibilityOf(this.addCommentButton),
+        this.waitTimeout
+      );
     } catch (error) {
       console.error('--- catch error on clickCommentsTab ---');
       throw error;
@@ -251,7 +324,6 @@ export class InfoDrawer extends Component {
       console.error('--- catch error on clickAboutTab ---');
     }
   }
-
 
   async isMessageDisplayed() {
     return await browser.isElementPresent(this.hint);
@@ -269,7 +341,6 @@ export class InfoDrawer extends Component {
     return await this.error.getText();
   }
 
-
   async isNameDisplayed() {
     return await this.isFieldDisplayed('Name');
   }
@@ -285,7 +356,6 @@ export class InfoDrawer extends Component {
   async enterName(name: string) {
     return await this.enterTextInInput('Name', name);
   }
-
 
   async isDescriptionDisplayed() {
     return await this.isFieldDisplayed('Description');
@@ -303,10 +373,11 @@ export class InfoDrawer extends Component {
     return await this.enterTextInInput('Description', desc);
   }
 
-
   async isVisibilityEnabled() {
     const wrapper = this.getLabelWrapper('Visibility');
-    const field = wrapper.element(by.xpath('..')).element(by.css(InfoDrawer.selectors.dropDown));
+    const field = wrapper
+      .element(by.xpath('..'))
+      .element(by.css(InfoDrawer.selectors.dropDown));
     return await field.isEnabled();
   }
 
@@ -337,7 +408,6 @@ export class InfoDrawer extends Component {
     await this.waitForVisibilityDropDownToClose();
   }
 
-
   async isLibraryIdDisplayed() {
     return await this.isFieldDisplayed('Library ID');
   }
@@ -349,7 +419,6 @@ export class InfoDrawer extends Component {
   async getLibraryId() {
     return await this.getValueOfField('Library ID');
   }
-
 
   async isEditEnabled() {
     return await this.isButtonEnabled('Edit');
@@ -363,7 +432,6 @@ export class InfoDrawer extends Component {
     return await this.clickButton('Edit');
   }
 
-
   async isUpdateEnabled() {
     return await this.isButtonEnabled('Update');
   }
@@ -376,7 +444,6 @@ export class InfoDrawer extends Component {
     return await this.clickButton('Update');
   }
 
-
   async isCancelEnabled() {
     return await this.isButtonEnabled('Cancel');
   }
@@ -388,7 +455,6 @@ export class InfoDrawer extends Component {
   async clickCancel() {
     return await this.clickButton('Cancel');
   }
-
 
   async getCommentsTabHeaderText() {
     return await this.commentsHeader.getText();
@@ -407,12 +473,20 @@ export class InfoDrawer extends Component {
   }
 
   async getCommentListItem() {
-    return await browser.wait(until.elementLocated(this.commentListItem), BROWSER_WAIT_TIMEOUT / 2);
+    return await browser.wait(
+      until.elementLocated(this.commentListItem),
+      this.waitTimeout / 2
+    );
   }
 
   async getCommentById(commentId?: string) {
     if (commentId) {
-      return await browser.wait(until.elementLocated(by.id(`${InfoDrawer.selectors.commentById}${commentId}`)), BROWSER_WAIT_TIMEOUT / 2);
+      return await browser.wait(
+        until.elementLocated(
+          by.id(`${InfoDrawer.selectors.commentById}${commentId}`)
+        ),
+        this.waitTimeout / 2
+      );
     }
     return await this.getCommentListItem();
   }
@@ -423,7 +497,9 @@ export class InfoDrawer extends Component {
 
   async isCommentUserAvatarDisplayed(commentId?: string) {
     const commentElement = await this.getCommentById(commentId);
-    return await browser.isElementPresent(commentElement.findElement(this.commentUserAvatar));
+    return await browser.isElementPresent(
+      commentElement.findElement(this.commentUserAvatar)
+    );
   }
 
   async getCommentText(commentId?: string) {
@@ -460,4 +536,3 @@ export class InfoDrawer extends Component {
     return await this.commentTextarea.getAttribute('value');
   }
 }
-

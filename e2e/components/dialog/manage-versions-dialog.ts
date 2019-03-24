@@ -29,7 +29,6 @@ import {
   browser,
   ExpectedConditions as EC
 } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
 
 /**
@@ -59,7 +58,7 @@ export class ManageVersionsDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    return await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    return await browser.wait(EC.stalenessOf(this.title), this.waitTimeout);
   }
 
   async isDialogOpen() {

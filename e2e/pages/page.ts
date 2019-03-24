@@ -23,8 +23,14 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { browser, by, ElementFinder, ExpectedConditions as EC, until } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
+import {
+  browser,
+  by,
+  ElementFinder,
+  ExpectedConditions as EC,
+  until
+} from 'protractor';
+import { USE_HASH_STRATEGY } from './../configs';
 
 export abstract class Page {
   protected static locators = {
@@ -41,17 +47,31 @@ export abstract class Page {
     genericErrorTitle: '.generic-error__title'
   };
 
+  waitTimeout = 10000;
+
   app: ElementFinder = browser.element(by.css(Page.locators.app));
   layout: ElementFinder = browser.element(by.css(Page.locators.layout));
   overlay: ElementFinder = browser.element(by.css(Page.locators.overlay));
   snackBar: ElementFinder = browser.element(by.css(Page.locators.snackBar));
-  dialogContainer: ElementFinder = browser.element(by.css(Page.locators.dialogContainer));
-  snackBarContainer: ElementFinder = browser.element(by.css(Page.locators.snackBarContainer));
-  snackBarAction: ElementFinder = browser.element(by.css(Page.locators.snackBarAction));
+  dialogContainer: ElementFinder = browser.element(
+    by.css(Page.locators.dialogContainer)
+  );
+  snackBarContainer: ElementFinder = browser.element(
+    by.css(Page.locators.snackBarContainer)
+  );
+  snackBarAction: ElementFinder = browser.element(
+    by.css(Page.locators.snackBarAction)
+  );
 
-  genericError: ElementFinder = browser.element(by.css(Page.locators.genericError));
-  genericErrorIcon: ElementFinder = browser.element(by.css(Page.locators.genericErrorIcon));
-  genericErrorTitle: ElementFinder = browser.element(by.css(Page.locators.genericErrorTitle));
+  genericError: ElementFinder = browser.element(
+    by.css(Page.locators.genericError)
+  );
+  genericErrorIcon: ElementFinder = browser.element(
+    by.css(Page.locators.genericErrorIcon)
+  );
+  genericErrorTitle: ElementFinder = browser.element(
+    by.css(Page.locators.genericErrorTitle)
+  );
 
   constructor(public url: string = '') {}
 
@@ -66,19 +86,26 @@ export abstract class Page {
   }
 
   waitForApp() {
-    return browser.wait(EC.presenceOf(this.layout), BROWSER_WAIT_TIMEOUT);
+    return browser.wait(EC.presenceOf(this.layout), this.waitTimeout);
   }
 
   waitForSnackBarToAppear() {
-    return browser.wait(until.elementLocated(by.css('.mat-snack-bar-container')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snackbar to appear');
+    return browser.wait(
+      until.elementLocated(by.css('.mat-snack-bar-container')),
+      this.waitTimeout,
+      '------- timeout waiting for snackbar to appear'
+    );
   }
 
   async waitForSnackBarToClose() {
-    await browser.wait(EC.not(EC.visibilityOf(this.snackBarContainer)), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(
+      EC.not(EC.visibilityOf(this.snackBarContainer)),
+      this.waitTimeout
+    );
   }
 
   async waitForDialog() {
-    await browser.wait(EC.visibilityOf(this.dialogContainer), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.visibilityOf(this.dialogContainer), this.waitTimeout);
   }
 
   async refresh() {
@@ -93,7 +120,11 @@ export abstract class Page {
 
   async clickSnackBarAction() {
     try {
-      const action = browser.wait(until.elementLocated(by.css('.mat-simple-snackbar-action button')), BROWSER_WAIT_TIMEOUT, '------- timeout waiting for snack action to appear');
+      const action = browser.wait(
+        until.elementLocated(by.css('.mat-simple-snackbar-action button')),
+        this.waitTimeout,
+        '------- timeout waiting for snack action to appear'
+      );
       return await action.click();
     } catch (e) {
       console.log(e, '.......failed on click snack bar action.........');
@@ -108,10 +139,8 @@ export abstract class Page {
     return await this.genericErrorTitle.getText();
   }
 
-
   async isUndoActionPresent() {
     const message = await this.snackBar.getAttribute('innerText');
     return message.includes('Undo');
   }
-
 }

@@ -24,7 +24,6 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { Utils } from '../../../../utilities/utils';
 import { QueriesApi as AdfQueriesApi } from '@alfresco/js-api';
 
 export class QueriesApi extends RepoApi {
@@ -66,7 +65,7 @@ export class QueriesApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(sites);
+      return await this.retryCall(sites);
     } catch (error) {
       console.log('-----> catch queries findSites: ', error);
     }
@@ -84,7 +83,7 @@ export class QueriesApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(nodes);
+      return await this.retryCall(nodes);
     } catch (error) {
       console.log('-----> catch queries findFilesAndFolders: ', error);
     }

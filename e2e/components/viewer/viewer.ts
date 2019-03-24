@@ -23,9 +23,13 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, by, browser, ExpectedConditions as EC } from 'protractor';
+import {
+  ElementFinder,
+  by,
+  browser,
+  ExpectedConditions as EC
+} from 'protractor';
 import { Component } from '../component';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Toolbar } from '../toolbar/toolbar';
 
 export class Viewer extends Component {
@@ -41,11 +45,21 @@ export class Viewer extends Component {
   };
 
   root: ElementFinder = browser.$(Viewer.selectors.root);
-  viewerLayout: ElementFinder = this.component.element(by.css(Viewer.selectors.layout));
-  viewerContainer: ElementFinder = this.component.element(by.css(Viewer.selectors.contentContainer));
-  closeButton: ElementFinder = this.component.element(by.css(Viewer.selectors.closeBtn));
-  fileTitle: ElementFinder = this.component.element(by.css(Viewer.selectors.fileTitle));
-  viewerExtensionContent: ElementFinder = this.component.element(by.css(Viewer.selectors.viewerExtensionContent));
+  viewerLayout: ElementFinder = this.component.element(
+    by.css(Viewer.selectors.layout)
+  );
+  viewerContainer: ElementFinder = this.component.element(
+    by.css(Viewer.selectors.contentContainer)
+  );
+  closeButton: ElementFinder = this.component.element(
+    by.css(Viewer.selectors.closeBtn)
+  );
+  fileTitle: ElementFinder = this.component.element(
+    by.css(Viewer.selectors.fileTitle)
+  );
+  viewerExtensionContent: ElementFinder = this.component.element(
+    by.css(Viewer.selectors.viewerExtensionContent)
+  );
 
   toolbar = new Toolbar(this.component);
 
@@ -55,9 +69,9 @@ export class Viewer extends Component {
 
   async waitForViewerToOpen() {
     try {
-      await browser.wait(EC.presenceOf(this.viewerContainer), BROWSER_WAIT_TIMEOUT);
+      await browser.wait(EC.presenceOf(this.viewerContainer), this.waitTimeout);
     } catch (error) {
-      console.log('\n-----> catch waitForViewerToOpen <-----\n', error)
+      console.log('\n-----> catch waitForViewerToOpen <-----\n', error);
     }
   }
 
@@ -100,7 +114,9 @@ export class Viewer extends Component {
 
   async getComponentIdOfView() {
     if (await this.isCustomContentPresent()) {
-      return await this.viewerExtensionContent.getAttribute('data-automation-id');
+      return await this.viewerExtensionContent.getAttribute(
+        'data-automation-id'
+      );
     }
   }
 }

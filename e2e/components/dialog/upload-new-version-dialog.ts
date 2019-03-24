@@ -29,9 +29,7 @@ import {
   browser,
   ExpectedConditions as EC
 } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
-import { Utils } from '../../utilities/utils';
 
 /**
  * @deprecated Use ADF implementation instead.
@@ -78,7 +76,7 @@ export class UploadNewVersionDialog extends Component {
   }
 
   async waitForDialogToClose() {
-    return await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    return await browser.wait(EC.stalenessOf(this.title), this.waitTimeout);
   }
 
   async isDialogOpen() {
@@ -133,6 +131,6 @@ export class UploadNewVersionDialog extends Component {
 
   async enterDescription(description: string) {
     await this.description.clear();
-    await Utils.typeInField(this.description, description);
+    await this.typeInField(this.description, description);
   }
 }

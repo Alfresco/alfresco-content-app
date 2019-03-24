@@ -31,7 +31,6 @@ import {
   ElementArrayFinder
 } from 'protractor';
 import { Component } from '../component';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 
 /**
  * @deprecated Use ADF implementation instead.
@@ -70,7 +69,7 @@ export class MetadataCard extends Component {
   async waitForFirstExpansionPanel() {
     return await browser.wait(
       EC.presenceOf(this.expansionPanels.get(0)),
-      BROWSER_WAIT_TIMEOUT
+      this.waitTimeout
     );
   }
 

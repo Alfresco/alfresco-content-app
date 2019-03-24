@@ -30,9 +30,7 @@ import {
   protractor,
   ExpectedConditions as EC
 } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../../configs';
 import { Component } from '../component';
-import { Utils } from '../../utilities/utils';
 
 /**
  * @deprecated Use ADF implementation instead.
@@ -87,15 +85,15 @@ export class CreateLibraryDialog extends Component {
   }
 
   async waitForDialogToOpen() {
-    await browser.wait(EC.presenceOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(this.title), this.waitTimeout);
     await browser.wait(
       EC.presenceOf(browser.element(by.css('.cdk-overlay-backdrop'))),
-      BROWSER_WAIT_TIMEOUT
+      this.waitTimeout
     );
   }
 
   async waitForDialogToClose() {
-    await browser.wait(EC.stalenessOf(this.title), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.stalenessOf(this.title), this.waitTimeout);
   }
 
   async isDialogOpen() {
@@ -143,17 +141,17 @@ export class CreateLibraryDialog extends Component {
 
   async enterName(name: string) {
     await this.nameInput.clear();
-    await Utils.typeInField(this.nameInput, name);
+    await this.typeInField(this.nameInput, name);
   }
 
   async enterLibraryId(id: string) {
     await this.libraryIdInput.clear();
-    await Utils.typeInField(this.libraryIdInput, id);
+    await this.typeInField(this.libraryIdInput, id);
   }
 
   async enterDescription(description: string) {
     await this.descriptionTextArea.clear();
-    await Utils.typeInField(this.descriptionTextArea, description);
+    await this.typeInField(this.descriptionTextArea, description);
   }
 
   async deleteNameWithBackspace() {

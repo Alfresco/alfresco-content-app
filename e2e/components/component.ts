@@ -23,14 +23,20 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { ElementFinder, ExpectedConditions as EC, browser } from 'protractor';
-import { BROWSER_WAIT_TIMEOUT } from '../configs';
+import {
+  ElementFinder,
+  ExpectedConditions as EC,
+  browser,
+  protractor
+} from 'protractor';
 
 /**
  * @deprecated Use ADF implementation instead.
  */
 export abstract class Component {
   component: ElementFinder;
+
+  waitTimeout = 10000;
 
   constructor(selector: string, ancestor?: ElementFinder) {
     const locator = selector;
@@ -41,6 +47,34 @@ export abstract class Component {
   }
 
   async wait() {
-    await browser.wait(EC.presenceOf(this.component), BROWSER_WAIT_TIMEOUT);
+    await browser.wait(EC.presenceOf(this.component), this.waitTimeout);
+  }
+
+  async waitUntilElementClickable(element: ElementFinder) {
+    return await browser
+      .wait(EC.elementToBeClickable(element), this.waitTimeout)
+      .catch(Error);
+  }
+
+  async typeInField(elem: ElementFinder, value: string) {
+    for (let i = 0; i < value.length; i++) {
+      const c = value.charAt(i);
+      await elem.sendKeys(c);
+      await browser.sleep(100);
+    }
+  }
+
+  async pressEscape() {
+    return await browser
+      .actions()
+      .sendKeys(protractor.Key.ESCAPE)
+      .perform();
+  }
+
+  async pressTab() {
+    return await browser
+      .actions()
+      .sendKeys(protractor.Key.TAB)
+      .perform();
   }
 }

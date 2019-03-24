@@ -24,7 +24,6 @@
  */
 
 import { RepoApi } from '../repo-api';
-import { Utils } from '../../../../utilities/utils';
 import { SearchApi as AdfSearchApi } from '@alfresco/js-api';
 
 export class SearchApi extends RepoApi {
@@ -89,7 +88,7 @@ export class SearchApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(recentFiles);
+      return await this.retryCall(recentFiles);
     } catch (error) {
       console.log('-----> catch search: ', error);
     }
@@ -107,7 +106,7 @@ export class SearchApi extends RepoApi {
         }
       };
 
-      return await Utils.retryCall(nodes);
+      return await this.retryCall(nodes);
     } catch (error) {
       console.log('-----> catch search nodes: ', error);
     }
