@@ -84,6 +84,30 @@
     {
       "key": "zh-CN",
       "label": "中文简体"
+    },
+    {
+      "key": "ar",
+      "label": "العربية"
+    },
+    {
+      "key": "cs",
+      "label": "Čeština"
+    },
+    {
+      "key": "da",
+      "label": "Dansk"
+    },
+    {
+      "key": "fi",
+      "label": "Suomi"
+    },
+    {
+      "key": "pl",
+      "label": "Polski"
+    },
+    {
+      "key": "sv",
+      "label": "Svenska"
     }
   ],
   "content-metadata": {
