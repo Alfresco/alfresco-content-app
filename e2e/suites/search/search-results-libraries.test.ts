@@ -103,13 +103,14 @@ describe('Search results - libraries', () => {
 
     await apis.user.sites.waitForApi({ expect: 12 });
     await apis.user.queries.waitForSites('lib', { expect: 2 });
+    await apis.user.queries.waitForSites('my-site', { expect: 1 });
 
     await loginPage.loginWith(username);
     done();
   });
 
   afterAll(async (done) => {
-    await Promise.all([
+    await Promise.all(<any>[
       apis.admin.sites.deleteSites([ adminSite1, adminSite2, adminSite3, adminSite4, adminPrivate ]),
       apis.user.sites.deleteSites([ site1.id, site2.id, site3.id, site4.id, userSitePublic, userSiteModerated, userSitePrivate, siteRussian.id ])
     ]);
