@@ -139,6 +139,7 @@
     }
   },
   "search": {
+    "filterWithContains": true,
     "aca:fields": [
       "cm:name",
       "cm:title",
