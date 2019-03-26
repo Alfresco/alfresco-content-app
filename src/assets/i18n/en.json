@@ -456,7 +456,20 @@
         "CATEGORIES": {
             "MODIFIED_DATE": "Modified date",
             "SIZE": "Size",
+            "SIZE_OPTIONS": {
+                "SMALL": "Small",
+                "MEDIUM": "Medium",
+                "LARGE": "Large",
+                "HUGE": "Huge"
+            },
             "CREATED_DATE": "Created date"
+        },
+        "FACET_QUERIES": {
+            "TODAY": "Today",
+            "THIS_WEEK": "This week",
+            "THIS_MONTH": "This month",
+            "LAST_6_MONTHS": "In the last 6 months",
+            "THIS_YEAR": "This year"
         }
     },
     "CORE": {

@@ -263,21 +263,21 @@
       "expanded": true,
       "mincount": 0,
       "queries": [
-        { "label": "Today", "query": "cm:modified:[TODAY to TODAY]" },
+        { "label": "SEARCH.FACET_QUERIES.TODAY", "query": "cm:modified:[TODAY to TODAY]" },
         {
-          "label": "This week",
+          "label": "SEARCH.FACET_QUERIES.THIS_WEEK",
           "query": "cm:modified:[NOW/DAY-7DAYS TO NOW/DAY+1DAY]"
         },
         {
-          "label": "This month",
+          "label": "SEARCH.FACET_QUERIES.THIS_MONTH",
           "query": "cm:modified:[NOW/DAY-1MONTH TO NOW/DAY+1DAY]"
         },
         {
-          "label": "In the last 6 months",
+          "label": "SEARCH.FACET_QUERIES.LAST_6_MONTHS",
           "query": "cm:modified:[NOW/DAY-6MONTHS TO NOW/DAY+1DAY]"
         },
         {
-          "label": "This year",
+          "label": "SEARCH.FACET_QUERIES.THIS_YEAR",
           "query": "cm:modified:[NOW/DAY-1YEAR TO NOW/DAY+1DAY]"
         }
       ]
@@ -291,16 +291,16 @@
           "selector": "check-list",
           "settings": {
             "options": [
-              { "name": "Small", "value": "content.size:[0 TO 1048576>" },
+              { "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.SMALL", "value": "content.size:[0 TO 1048576>" },
               {
-                "name": "Medium",
+                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.MEDIUM",
                 "value": "content.size:[1048576 TO 52428800]"
               },
               {
-                "name": "Large",
+                "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.LARGE",
                 "value": "content.size:<52428800 TO 524288000]"
               },
-              { "name": "Huge", "value": "content.size:<524288000 TO MAX]" }
+              { "name": "SEARCH.CATEGORIES.SIZE_OPTIONS.HUGE", "value": "content.size:<524288000 TO MAX]" }
             ]
           }
         }
