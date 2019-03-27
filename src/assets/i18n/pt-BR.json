@@ -77,7 +77,7 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Minhas bibliotecas",
+        "TITLE": "Bibliotecas de arquivos",
         "DESCRIPTION": "Acessar bibliotecas de arquivos",
         "SIDENAV_LINK": {
           "LABEL": "Bibliotecas de arquivos",

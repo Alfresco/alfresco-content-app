@@ -77,7 +77,7 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "あなたのライブラリ",
+        "TITLE": "ファイルライブラリ",
         "DESCRIPTION": "ファイルライブラリにアクセスします",
         "SIDENAV_LINK": {
           "LABEL": "ファイルライブラリ",
