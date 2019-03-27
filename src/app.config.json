@@ -18,7 +18,7 @@
   "application": {
     "name": "Alfresco Content Application",
     "logo": "assets/images/alfresco-logo-flower.svg",
-    "copyright": "© 2017 - 2019 Alfresco Software, Inc. All rights reserved."
+    "copyright": "APP.COPYRIGHT"
   },
   "headerColor": "#2196F3",
   "languagePicker": false,
