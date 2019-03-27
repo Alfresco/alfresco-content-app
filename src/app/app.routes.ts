@@ -85,7 +85,7 @@ export const APP_ROUTES: Routes = [
             path: '',
             component: LibrariesComponent,
             data: {
-              title: 'APP.BROWSE.LIBRARIES.TITLE',
+              title: 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE',
               sortingPreferenceKey: 'libraries'
             }
           },
@@ -93,7 +93,7 @@ export const APP_ROUTES: Routes = [
             path: ':folderId',
             component: FilesComponent,
             data: {
-              title: 'APP.BROWSE.LIBRARIES.TITLE',
+              title: 'APP.BROWSE.LIBRARIES.MENU.MY_LIBRARIES.TITLE',
               sortingPreferenceKey: 'libraries-files'
             }
           },
