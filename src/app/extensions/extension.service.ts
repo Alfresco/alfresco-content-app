@@ -36,7 +36,6 @@ import {
   NavigationState,
   ExtensionConfig,
   RuleEvaluator,
-  ViewerExtensionRef,
   ContentActionRef,
   ContentActionType,
   ExtensionLoaderService,
@@ -72,7 +71,6 @@ export class AppExtensionService implements RuleContext {
   toolbarActions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
   sharedLinkViewerToolbarActions: Array<ContentActionRef> = [];
-  viewerContentExtensions: Array<ViewerExtensionRef> = [];
   contextMenuActions: Array<ContentActionRef> = [];
   openWithActions: Array<ContentActionRef> = [];
   createActions: Array<ContentActionRef> = [];
@@ -153,10 +151,6 @@ export class AppExtensionService implements RuleContext {
       config,
       'features.viewer.shared.toolbarActions'
     );
-
-    this.viewerContentExtensions = this.loader
-      .getElements<ViewerExtensionRef>(config, 'features.viewer.content')
-      .filter(ref => !this.isViewerExtensionDisabled(ref));
 
     this.contextMenuActions = this.loader.getContentActions(
       config,

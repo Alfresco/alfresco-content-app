@@ -34,7 +34,7 @@ export class DataTable extends Component {
     root: 'adf-datatable',
 
     head: '.adf-datatable-header',
-    columnHeader: '.adf-datatable-row .adf-datatable-table-cell-header',
+    columnHeader: '.adf-datatable-row .adf-datatable-cell-header',
     sortedColumnHeader: `
             .adf-data-table__header--sorted-asc,
             .adf-data-table__header--sorted-desc

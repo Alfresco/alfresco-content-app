@@ -41,53 +41,7 @@
         &:focus {
           background-color: unset;
         }
-
-        .adf-datatable-table-cell {
-          border: none;
-        }
       }
     }
   }
-
-  /*
-  .adf-data-table {
-    @include flex-column;
-    overflow-y: scroll;
-
-    .adf-data-table-cell,
-    .adf-datatable-header {
-      width: 100%;
-      text-align: left;
-    }
-
-    .adf-datatable-body .adf-data-table-cell--image {
-      padding-left: 24px;
-      padding-right: 0;
-      width: 10px;
-    }
-
-    .adf-data-table-cell--ellipsis .adf-cell-value,
-    .adf-data-table-cell--ellipsis__name .adf-cell-value {
-      display: flex;
-      align-items: center;
-    }
-
-    .adf-data-table-cell--ellipsis .adf-datatable-cell,
-    .adf-data-table-cell--ellipsis__name .adf-datatable-cell {
-      white-space: nowrap;
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .adf-data-table-cell--ellipsis .adf-datatable-cell {
-      max-width: 7vw;
-    }
-
-    .adf-data-table-cell--ellipsis__name .adf-datatable-cell {
-      position: absolute;
-      max-width: calc(100% - 2em);
-    }
-  }
-  */
 }
