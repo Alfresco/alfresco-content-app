@@ -24,7 +24,6 @@
  */
 
 import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
-import { AppRuleContext } from '../app.interface';
 import {
   isNotTrashcan,
   isNotLibraries,
@@ -375,7 +374,7 @@ export function hasLockedFiles(
  * JSON ref: `app.selection.file.isLocked`
  */
 export function isWriteLocked(
-  context: AppRuleContext,
+  context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
   return !!(
@@ -396,7 +395,7 @@ export function isWriteLocked(
  * JSON ref: `app.selection.file.isLockOwner`
  */
 export function isUserWriteLockOwner(
-  context: AppRuleContext,
+  context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
   return (
@@ -412,7 +411,7 @@ export function isUserWriteLockOwner(
  * JSON ref: `app.selection.file.canLock`
  */
 export function canLockFile(
-  context: AppRuleContext,
+  context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
   return (
@@ -425,7 +424,7 @@ export function canLockFile(
  * JSON ref: `app.selection.file.canLock`
  */
 export function canUnlockFile(
-  context: AppRuleContext,
+  context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
   const { file } = context.selection;
@@ -441,7 +440,7 @@ export function canUnlockFile(
  * JSON ref: `app.selection.file.canUploadVersion`
  */
 export function canUploadVersion(
-  context: AppRuleContext,
+  context: RuleContext,
   ...args: RuleParameter[]
 ): boolean {
   if (isFavorites(context, ...args) || isSharedFiles(context, ...args)) {

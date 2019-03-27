@@ -48,19 +48,19 @@ import {
   ExtensionService,
   ProfileState,
   mergeObjects,
-  ExtensionRef
+  ExtensionRef,
+  RuleContext,
+  DocumentListPresetRef,
+  IconRef
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
-import { DocumentListPresetRef } from './document-list.extensions';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IconRef } from './icon.extensions';
-import { AppRuleContext } from './app.interface';
 import { RepositoryInfo } from '@alfresco/js-api';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AppExtensionService implements AppRuleContext {
+export class AppExtensionService implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
 
   defaults = {
