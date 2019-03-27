@@ -165,6 +165,7 @@
                 "FOUND_ONE_RESULT": "{{ number }} result found",
                 "CUSTOM_ROW": {
                     "MODIFIED": "Modified",
+                    "BY_USER": "by {{ user }}",
                     "LOCATION": "Location",
                     "SIZE": "Size"
                 },
