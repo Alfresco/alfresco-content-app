@@ -23,29 +23,9 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { AuthenticationService } from '@alfresco/adf-core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component } from '@angular/core';
 
 @Component({
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit {
-  constructor(
-    private location: Location,
-    private auth: AuthenticationService,
-    private route: ActivatedRoute
-  ) {}
-
-  ngOnInit() {
-    if (this.auth.isEcmLoggedIn()) {
-      this.location.forward();
-    } else {
-      this.route.queryParams.subscribe((params: Params) => {
-        const redirectUrl = params['redirectUrl'];
-        this.auth.setRedirect({ provider: 'ECM', url: redirectUrl });
-      });
-    }
-  }
-}
+export class LoginComponent {}
