@@ -77,7 +77,7 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Meine Bibliotheken",
+        "TITLE": "Dateibibliotheken",
         "DESCRIPTION": "Auf Dateibibliotheken zugreifen",
         "SIDENAV_LINK": {
           "LABEL": "Dateibibliotheken",

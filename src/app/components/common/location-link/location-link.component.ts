@@ -38,6 +38,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 import { NavigateToParentFolder } from '../../../store/actions';
 import { ContentApiService } from '../../../services/content-api.service';
+import { TranslationService } from '@alfresco/adf-core';
 
 @Component({
   selector: 'aca-location-link',
@@ -74,7 +75,8 @@ export class LocationLinkComponent implements OnInit {
 
   constructor(
     private store: Store<AppStore>,
-    private contentApi: ContentApiService
+    private contentApi: ContentApiService,
+    private translationService: TranslationService
   ) {}
 
   goToLocation() {
@@ -106,7 +108,7 @@ export class LocationLinkComponent implements OnInit {
 
     // for admin users
     if (elements.length === 1 && elements[0] === 'Company Home') {
-      return of('Personal Files');
+      return of('APP.BROWSE.PERSONAL.TITLE');
     }
 
     // for non-admin users
@@ -115,7 +117,7 @@ export class LocationLinkComponent implements OnInit {
       elements[0] === 'Company Home' &&
       elements[1] === 'User Homes'
     ) {
-      return of('Personal Files');
+      return of('APP.BROWSE.PERSONAL.TITLE');
     }
 
     const result = elements[elements.length - 1];
@@ -151,9 +153,15 @@ export class LocationLinkComponent implements OnInit {
     let result: string = null;
 
     const elements = path.elements.map(e => Object.assign({}, e));
+    const personalFiles = this.translationService.instant(
+      'APP.BROWSE.PERSONAL.TITLE'
+    );
+    const fileLibraries = this.translationService.instant(
+      'APP.BROWSE.LIBRARIES.TITLE'
+    );
 
     if (elements[0].name === 'Company Home') {
-      elements[0].name = 'Personal Files';
+      elements[0].name = personalFiles;
 
       if (elements.length > 2) {
         if (elements[1].name === 'Sites') {
@@ -164,14 +172,14 @@ export class LocationLinkComponent implements OnInit {
               elements[0].name =
                 node.properties['cm:title'] || node.name || fragment.name;
               elements.splice(1, 1);
-              elements.unshift({ id: null, name: 'File Libraries' });
+              elements.unshift({ id: null, name: fileLibraries });
 
               result = elements.map(e => e.name).join('/');
               this.nodeLocation$.next(result);
             },
             () => {
               elements.splice(0, 2);
-              elements.unshift({ id: null, name: 'File Libraries' });
+              elements.unshift({ id: null, name: fileLibraries });
               elements.splice(2, 1);
 
               result = elements.map(e => e.name).join('/');
@@ -182,7 +190,7 @@ export class LocationLinkComponent implements OnInit {
 
         if (elements[1].name === 'User Homes') {
           elements.splice(0, 3);
-          elements.unshift({ id: null, name: 'Personal Files' });
+          elements.unshift({ id: null, name: personalFiles });
         }
       }
     }

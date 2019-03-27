@@ -77,7 +77,7 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "我的库",
+        "TITLE": "文件库",
         "DESCRIPTION": "访问文件库",
         "SIDENAV_LINK": {
           "LABEL": "文件库",
