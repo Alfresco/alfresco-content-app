@@ -1,47 +1,31 @@
 @import 'mixins';
 
 @mixin adf-document-list-theme($theme) {
-  $foreground: map-get($theme, foreground);
-  $background: map-get($theme, background);
-  $primary: map-get($theme, primary);
+  // $foreground: map-get($theme, foreground);
+  // $background: map-get($theme, background);
+  // $primary: map-get($theme, primary);
+
+  .adf-datatable-list {
+    border: none;
+  }
+
+  .mat-icon.adf-datatable-selected > svg {
+    fill: #2196f3;
+  }
 
   adf-document-list {
     @include flex-column;
-    background-color: mat-color($background, card);
+    // background-color: mat-color($background, card);
   }
 
-  adf-datatable {
+  .adf-datatable {
     @include flex-column;
     overflow-y: scroll;
-  }
 
-  .adf-data-table {
-    border: none !important;
-
-    .adf-datatable-selected > svg {
-      // fill: mat-color($primary);
-      fill: #2196f3;
-    }
-
-    .adf-datatable-header,
-    .adf-datatable-row,
-    .adf-data-table-cell {
-      color: mat-color($foreground, text, 0.54);
+    .adf-datatable-cell-header {
       &:focus {
         outline: none !important;
       }
-    }
-
-    .adf-cell-container {
-      position: relative;
-    }
-
-    .adf-data-table-cell {
-      height: 56px;
-    }
-
-    .adf-datatable-table-cell-header:focus {
-      outline: none !important;
     }
 
     .adf-datatable-body .adf-datatable-row {
@@ -55,6 +39,25 @@
         background-color: #e0f7fa;
       }
     }
+
+    .adf-datatable--empty {
+      .adf-datatable-row {
+        &:hover,
+        &:focus {
+          background-color: unset;
+        }
+
+        .adf-datatable-table-cell {
+          border: none;
+        }
+      }
+    }
+  }
+
+  /*
+  .adf-data-table {
+    @include flex-column;
+    overflow-y: scroll;
 
     .adf-data-table-cell,
     .adf-datatable-header {
@@ -90,22 +93,6 @@
       position: absolute;
       max-width: calc(100% - 2em);
     }
-
-    .adf-datatable-row:last-child .adf-datatable-table-cell {
-      border-bottom: 1px solid mat-color($foreground, text, 0.07);
-    }
-
-    &.adf-data-table--empty {
-      .adf-datatable-row {
-        &:hover,
-        &:focus {
-          background-color: unset;
-        }
-
-        .adf-datatable-table-cell {
-          border: none;
-        }
-      }
-    }
   }
+  */
 }
