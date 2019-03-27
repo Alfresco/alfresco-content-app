@@ -32,8 +32,8 @@ import { GenericErrorComponent } from './components/common/generic-error/generic
 import { SearchResultsComponent } from './components/search/search-results/search-results.component';
 import { SearchLibrariesResultsComponent } from './components/search/search-libraries-results/search-libraries-results.component';
 import { LoginComponent } from './components/login/login.component';
-import { AppAuthGuard } from './guards/auth.guard';
 import { AppSharedRuleGuard } from './guards/shared.guard';
+import { AuthGuardEcm } from '@alfresco/adf-core';
 
 export const APP_ROUTES: Routes = [
   {
@@ -242,7 +242,7 @@ export const APP_ROUTES: Routes = [
         component: GenericErrorComponent
       }
     ],
-    canActivateChild: [AppAuthGuard],
-    canActivate: [AppAuthGuard]
+    canActivateChild: [AuthGuardEcm],
+    canActivate: [AuthGuardEcm]
   }
 ];

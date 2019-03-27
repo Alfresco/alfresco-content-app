@@ -31,13 +31,15 @@ import {
   AlfrescoApiService,
   ContentService,
   DataColumn,
-  TranslationService
+  TranslationService,
+  ThumbnailService
 } from '@alfresco/adf-core';
 import {
   DocumentListService,
   ContentNodeSelectorComponent,
   ContentNodeSelectorComponentData,
-  ContentNodeDialogService
+  ContentNodeDialogService,
+  ShareDataRow
 } from '@alfresco/adf-content-services';
 import {
   MinimalNodeEntity,
@@ -68,7 +70,8 @@ export class NodeActionsService {
     private dialog: MatDialog,
     private documentListService: DocumentListService,
     private apiService: AlfrescoApiService,
-    private translation: TranslationService
+    private translation: TranslationService,
+    private thumbnailService: ThumbnailService
   ) {}
 
   /**
@@ -634,22 +637,17 @@ export class NodeActionsService {
     return this.contentService.hasAllowableOperations(node, permission);
   }
 
-  // todo: review once 1.10-beta6 is out
-  private rowFilter(row: /*ShareDataRow*/ any): boolean {
+  private rowFilter(row: ShareDataRow): boolean {
     const node: MinimalNodeEntryEntity = row.node.entry;
 
     this.isSitesDestinationAvailable = !!node['guid'];
     return !node.isFile && node.nodeType !== 'app:folderlink';
   }
 
-  // todo: review once 1.10-beta6 is out
-  private imageResolver(
-    row: /*ShareDataRow*/ any,
-    col: DataColumn
-  ): string | null {
+  private imageResolver(row: ShareDataRow, _: DataColumn): string | null {
     const entry: MinimalNodeEntryEntity = row.node.entry;
     if (!this.contentService.hasAllowableOperations(entry, 'update')) {
-      return this.documentListService.getMimeTypeIcon('disable/folder');
+      return this.thumbnailService.getMimeTypeIcon('disable/folder');
     }
 
     return null;
