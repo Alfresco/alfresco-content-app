@@ -1,10 +1,6 @@
 @import 'mixins';
 
 @mixin adf-document-list-theme($theme) {
-  // $foreground: map-get($theme, foreground);
-  // $background: map-get($theme, background);
-  // $primary: map-get($theme, primary);
-
   .adf-datatable-list {
     border: none;
   }
@@ -15,7 +11,6 @@
 
   adf-document-list {
     @include flex-column;
-    // background-color: mat-color($background, card);
   }
 
   .adf-datatable {

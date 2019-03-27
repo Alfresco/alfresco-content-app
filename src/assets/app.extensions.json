@@ -1304,7 +1304,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-expand-cell-5",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false
@@ -1331,7 +1331,7 @@
           "key": "modifiedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1459,7 +1459,7 @@
           "key": "modifiedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         },
@@ -1468,7 +1468,7 @@
           "key": "sharedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.SHARED_BY",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         }
@@ -1567,7 +1567,7 @@
           "key": "modifiedByUser.displayName",
           "title": "APP.DOCUMENT_LIST.COLUMNS.MODIFIED_BY",
           "type": "text",
-          "class": "adf-data-table-cell--ellipsis",
+          "class": "adf-ellipsis-cell",
           "sortable": true,
           "desktopOnly": true
         }
