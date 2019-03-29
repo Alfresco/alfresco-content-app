@@ -37,7 +37,7 @@ export class Viewer extends Component {
     closeBtn: '.adf-viewer-close-button',
     fileTitle: '.adf-viewer__file-title',
 
-    viewerExtensionContent: 'app-preview-extension'
+    viewerExtensionContent: 'adf-preview-extension'
   };
 
   root: ElementFinder = browser.$(Viewer.selectors.root);
