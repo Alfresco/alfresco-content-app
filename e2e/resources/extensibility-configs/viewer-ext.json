@@ -976,6 +976,18 @@
           }
         },
         {
+          "id": "app.viewer.my-action",
+          "order": 150,
+          "title": "My action",
+          "icon": "http",
+          "actions": {
+              "click": "SHARE_NODE"
+          },
+          "rules": {
+              "visible": "app.selection.file.canShare"
+          }
+        },
+        {
           "id": "app.viewer.separator.1",
           "type": "separator",
           "order": 180
@@ -1007,7 +1019,7 @@
         {
           "id": "app.viewer.download",
           "order": 300,
-          "title": "APP.ACTIONS.DOWNLOAD",
+          "title": "My custom title",
           "icon": "get_app",
           "actions": {
             "click": "DOWNLOAD_NODES"
@@ -1021,6 +1033,7 @@
           "order": 400,
           "title": "APP.ACTIONS.PRINT",
           "icon": "print",
+          "disabled": true,
           "actions": {
             "click": "PRINT_FILE"
           },
@@ -1056,6 +1069,18 @@
               "component": "app.toolbar.toggleEditOffline",
               "rules": {
                 "visible": "app.toolbar.canToggleLock"
+              }
+            },
+            {
+              "id": "app.viewer.my-secondary-action",
+              "order": 150,
+              "title": "My secondary action",
+              "icon": "alarm",
+              "actions": {
+                  "click": "PRINT_FILE"
+              },
+              "rules": {
+                  "visible": "app.toolbar.canViewFile"
               }
             },
             {
@@ -1129,7 +1154,7 @@
             {
               "id": "app.viewer.move",
               "order": 700,
-              "title": "APP.ACTIONS.MOVE",
+              "title": "My new title",
               "icon": "adf:move_file",
               "actions": {
                 "click": "MOVE_NODES"
@@ -1172,6 +1197,7 @@
               "id": "app.viewer.permissions",
               "order": 1100,
               "title": "APP.ACTIONS.PERMISSIONS",
+              "disabled": true,
               "icon": "settings_input_component",
               "actions": {
                 "click": "MANAGE_PERMISSIONS"

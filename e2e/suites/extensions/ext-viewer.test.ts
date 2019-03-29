@@ -45,19 +45,19 @@ describe('Extensions - Viewer', () => {
     let docxFileId;
 
     const customAction = {
-        id: 'app.toolbar.my-action',
+        id: 'app.viewer.my-action',
         title: 'My action',
         icon: 'http'
     };
 
     const customSecondaryAction = {
-        id: 'app.toolbar.my-secondary-action',
+        id: 'app.viewer.my-secondary-action',
         title: 'My secondary action',
         icon: 'alarm'
     };
 
     const downloadButton = {
-        id: 'app.toolbar.download',
+        id: 'app.viewer.download',
         title: 'My custom title'
     };
 
