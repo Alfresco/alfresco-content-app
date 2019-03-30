@@ -149,7 +149,6 @@ export class PreviewComponent extends PageComponent
     ]);
 
     this.openWith = this.extensions.openWithActions;
-    this.contentExtensions = this.extensions.viewerContentExtensions;
   }
 
   ngOnDestroy() {

@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CoreModule } from '@alfresco/adf-core';
+import { CoreModule, AuthGuardEcm } from '@alfresco/adf-core';
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { AppLayoutComponent } from '../components/layout/app-layout/app-layout.component';
@@ -40,7 +40,6 @@ import { LibraryMetadataTabComponent } from '../components/info-drawer/library-m
 import { CommentsTabComponent } from '../components/info-drawer/comments-tab/comments-tab.component';
 import { VersionsTabComponent } from '../components/info-drawer/versions-tab/versions-tab.component';
 import { ExtensionsModule, ExtensionService } from '@alfresco/adf-extensions';
-import { AppAuthGuard } from '../guards/auth.guard';
 import { LocationLinkComponent } from '../components/common/location-link/location-link.component';
 import { DocumentDisplayModeComponent } from '../components/toolbar/document-display-mode/document-display-mode.component';
 import { ToggleJoinLibraryButtonComponent } from '../components/toolbar/toggle-join-library/toggle-join-library-button.component';
@@ -106,7 +105,7 @@ export class CoreExtensionsModule {
     });
 
     extensions.setAuthGuards({
-      'app.auth': AppAuthGuard
+      'app.auth': AuthGuardEcm
     });
 
     extensions.setEvaluators({
