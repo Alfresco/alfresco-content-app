@@ -92,8 +92,7 @@ describe('Extensions - Info Drawer', () => {
             done();
         });
 
-        // TODO: enable when ADF-4330 is fixed
-        xit('Add a new tab with icon and title - [C284646]', async () => {
+        it('Add a new tab with icon and title - [C284646]', async () => {
             await page.dataTable.selectItem(file);
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
@@ -129,8 +128,7 @@ describe('Extensions - Info Drawer', () => {
             expect((await infoDrawer.getTabTitle(no_title_tab.order)).trim()).toEqual(`${no_title_tab.icon}`.trim());
         });
 
-        // TODO: enable when ADF-4330 is fixed
-        xit('Insert new component in tab - [C284651]', async () => {
+        it('Insert new component in tab - [C284651]', async () => {
             await page.dataTable.selectItem(file);
             await page.toolbar.clickViewDetails();
             await infoDrawer.waitForInfoDrawerToOpen();
