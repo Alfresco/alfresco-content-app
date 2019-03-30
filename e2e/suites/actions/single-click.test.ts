@@ -100,7 +100,8 @@ describe('Single click on item name', () => {
         expect(await dataTable.hasLinkOnName(file1)).toBe(true, 'Link on name is missing');
     });
 
-    it('File preview opens when clicking the hyperlink - [C280033]', async () => {
+    // TODO: investigate
+    xit('File preview opens when clicking the hyperlink - [C280033]', async () => {
       await dataTable.clickNameLink(file1);
 
       expect(await viewer.isViewerOpened()).toBe(true, 'Viewer is not opened');
@@ -108,7 +109,8 @@ describe('Single click on item name', () => {
       await Utils.pressEscape();
     });
 
-    it('Navigate inside the folder when clicking the hyperlink - [C280034]', async () => {
+    // TODO: investigate
+    xit('Navigate inside the folder when clicking the hyperlink - [C280034]', async () => {
       await dataTable.clickNameLink(folder1);
 
       expect(await breadcrumb.getCurrentItemName()).toBe(folder1);
