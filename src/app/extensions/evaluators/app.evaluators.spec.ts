@@ -40,7 +40,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.isWriteLocked(context, null)).toBe(true);
+      expect(app.isWriteLocked(context)).toBe(true);
     });
 
     it('should return [false] if lock type is not set', () => {
@@ -54,20 +54,20 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.isWriteLocked(context, null)).toBe(false);
+      expect(app.isWriteLocked(context)).toBe(false);
     });
 
     it('should return [false] if selection not present', () => {
       const context: any = {};
 
-      expect(app.isWriteLocked(context, null)).toBe(false);
+      expect(app.isWriteLocked(context)).toBe(false);
     });
   });
 
   describe('hasLockedFiles', () => {
     it('should return [false] if selection not present', () => {
       const context: any = {};
-      expect(app.hasLockedFiles(context, null)).toBe(false);
+      expect(app.hasLockedFiles(context)).toBe(false);
     });
 
     it('should return [false] if nodes not present', () => {
@@ -77,7 +77,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.hasLockedFiles(context, null)).toBe(false);
+      expect(app.hasLockedFiles(context)).toBe(false);
     });
 
     it('should return [false] if no files selected', () => {
@@ -98,7 +98,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.hasLockedFiles(context, null)).toBe(false);
+      expect(app.hasLockedFiles(context)).toBe(false);
     });
 
     it('should return [true] when one of files is locked', () => {
@@ -121,7 +121,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.hasLockedFiles(context, null)).toBe(true);
+      expect(app.hasLockedFiles(context)).toBe(true);
     });
   });
 
@@ -148,14 +148,14 @@ describe('app.evaluators', () => {
       }
     };
 
-    expect(app.hasLockedFiles(context, null)).toBe(true);
+    expect(app.hasLockedFiles(context)).toBe(true);
   });
 
   describe('canUpdateSelectedNode', () => {
     it('should return [false] if selection not preset', () => {
       const context: any = {};
 
-      expect(app.canUpdateSelectedNode(context, null)).toBe(false);
+      expect(app.canUpdateSelectedNode(context)).toBe(false);
     });
 
     it('should return [false] if selection is empty', () => {
@@ -165,7 +165,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUpdateSelectedNode(context, null)).toBe(false);
+      expect(app.canUpdateSelectedNode(context)).toBe(false);
     });
 
     it('should return [false] if first selection is not a file', () => {
@@ -183,7 +183,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUpdateSelectedNode(context, null)).toBe(false);
+      expect(app.canUpdateSelectedNode(context)).toBe(false);
     });
 
     it('should return [false] if the file is locked', () => {
@@ -210,7 +210,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUpdateSelectedNode(context, null)).toBe(false);
+      expect(app.canUpdateSelectedNode(context)).toBe(false);
     });
 
     it('should evaluate allowable operation for the file', () => {
@@ -237,7 +237,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUpdateSelectedNode(context, null)).toBe(true);
+      expect(app.canUpdateSelectedNode(context)).toBe(true);
     });
   });
 
@@ -264,7 +264,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUploadVersion(context, null)).toBe(true);
+      expect(app.canUploadVersion(context)).toBe(true);
     });
 
     it('should return [false] if other user has locked it previously', () => {
@@ -289,7 +289,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUploadVersion(context, null)).toBe(false);
+      expect(app.canUploadVersion(context)).toBe(false);
     });
 
     it('should check the [update] operation when no write lock present', () => {
@@ -318,7 +318,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUploadVersion(context, null)).toBe(true);
+      expect(app.canUploadVersion(context)).toBe(true);
       expect(checked).toBe(true);
     });
 
@@ -329,7 +329,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUploadVersion(context, null)).toBe(true);
+      expect(app.canUploadVersion(context)).toBe(true);
     });
 
     it('should return [true] if route is `/favorites`', () => {
@@ -339,7 +339,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUploadVersion(context, null)).toBe(true);
+      expect(app.canUploadVersion(context)).toBe(true);
     });
 
     it('should return [true] if route is `/shared`', () => {
@@ -349,7 +349,7 @@ describe('app.evaluators', () => {
         }
       };
 
-      expect(app.canUploadVersion(context, null)).toBe(true);
+      expect(app.canUploadVersion(context)).toBe(true);
     });
   });
 });
