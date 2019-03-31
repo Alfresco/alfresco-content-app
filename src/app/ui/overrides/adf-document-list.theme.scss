@@ -3,6 +3,11 @@
 @mixin adf-document-list-theme($theme) {
   .adf-datatable-list {
     border: none;
+
+    .adf-datatable-cell-value {
+      max-width: calc(100% - 2em) !important;
+      width: auto !important;
+    }
   }
 
   .mat-icon.adf-datatable-selected > svg {
