@@ -45,10 +45,16 @@ import {
   MinimalNodeEntity,
   MinimalNodeEntryEntity,
   SitePaging,
-  Site
+  Site,
+  NodeChildAssociationPaging
 } from '@alfresco/js-api';
 import { ContentApiService } from '../services/content-api.service';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+
+export enum BatchOperationType {
+  copy = 'copy',
+  move = 'move'
+}
 
 @Injectable({
   providedIn: 'root'
@@ -80,11 +86,12 @@ export class NodeActionsService {
    * @param contentEntities nodes to copy
    * @param permission permission which is needed to apply the action
    */
-  public copyNodes(
-    contentEntities: any[],
-    permission?: string
-  ): Subject<string> {
-    return this.doBatchOperation('copy', contentEntities, permission);
+  copyNodes(contentEntities: any[], permission?: string): Subject<string> {
+    return this.doBatchOperation(
+      BatchOperationType.copy,
+      contentEntities,
+      permission
+    );
   }
 
   /**
@@ -93,11 +100,12 @@ export class NodeActionsService {
    * @param contentEntities nodes to move
    * @param permission permission which is needed to apply the action
    */
-  public moveNodes(
-    contentEntities: any[],
-    permission?: string
-  ): Subject<string> {
-    return this.doBatchOperation('move', contentEntities, permission);
+  moveNodes(contentEntities: any[], permission?: string): Subject<string> {
+    return this.doBatchOperation(
+      BatchOperationType.move,
+      contentEntities,
+      permission
+    );
   }
 
   /**
@@ -108,7 +116,7 @@ export class NodeActionsService {
    * @param permission permission which is needed to apply the action
    */
   doBatchOperation(
-    action: string,
+    action: BatchOperationType,
     contentEntities: any[],
     permission?: string
   ): Subject<string> {
@@ -128,14 +136,14 @@ export class NodeActionsService {
         // Check if there's nodeId for Shared Files
         const contentEntryId = contentEntry.nodeId || contentEntry.id;
         const type = contentEntry.isFolder ? 'folder' : 'content';
-        const batch = [];
+        const batch: any[] = [];
 
         // consider only first item in the selection
         const selection = selections[0];
         let action$: Observable<any>;
 
         if (
-          action === 'move' &&
+          action === BatchOperationType.move &&
           contentEntities.length === 1 &&
           type === 'content'
         ) {
@@ -145,7 +153,7 @@ export class NodeActionsService {
           );
         } else {
           contentEntities.forEach(node => {
-            batch.push(this[`${action}NodeAction`](node.entry, selection.id));
+            batch.push(this.copyNodeAction(node.entry, selection.id));
           });
           action$ = zip(...batch);
         }
@@ -156,9 +164,9 @@ export class NodeActionsService {
           );
 
           const processedData = this.processResponse(newContent);
-          if (action === 'copy') {
+          if (action === BatchOperationType.copy) {
             this.contentCopied.next(processedData.succeeded);
-          } else if (action === 'move') {
+          } else if (action === BatchOperationType.move) {
             this.contentMoved.next(processedData);
           }
         }, observable.error.bind(observable));
@@ -182,7 +190,11 @@ export class NodeActionsService {
     return false;
   }
 
-  checkPermission(action: string, contentEntities: any[], permission?: string) {
+  checkPermission(
+    action: BatchOperationType,
+    contentEntities: any[],
+    permission?: string
+  ) {
     const notAllowedNode = contentEntities.find(
       node => !this.isActionAllowed(action, node.entry, permission)
     );
@@ -370,7 +382,7 @@ export class NodeActionsService {
     return false;
   }
 
-  copyNodeAction(nodeEntry, selectionId): Observable<any> {
+  copyNodeAction(nodeEntry: any, selectionId: string): Observable<any> {
     if (nodeEntry.isFolder) {
       return this.copyFolderAction(nodeEntry, selectionId);
     } else {
@@ -379,7 +391,11 @@ export class NodeActionsService {
     }
   }
 
-  copyContentAction(contentEntry, selectionId, oldName?): Observable<any> {
+  copyContentAction(
+    contentEntry: any,
+    selectionId: string,
+    oldName?: string
+  ): Observable<any> {
     const _oldName = oldName || contentEntry.name;
     // Check if there's nodeId for Shared Files
     const contentEntryId = contentEntry.nodeId || contentEntry.id;
@@ -411,7 +427,7 @@ export class NodeActionsService {
     );
   }
 
-  copyFolderAction(contentEntry, selectionId): Observable<any> {
+  copyFolderAction(contentEntry: any, selectionId: string): Observable<any> {
     // Check if there's nodeId for Shared Files
     const contentEntryId = contentEntry.nodeId || contentEntry.id;
     let $destinationFolder: Observable<any>;
@@ -474,7 +490,7 @@ export class NodeActionsService {
     );
   }
 
-  moveNodeAction(nodeEntry, selectionId): Observable<any> {
+  moveNodeAction(nodeEntry, selectionId: string): Observable<any> {
     this.moveDeletedEntries = [];
 
     if (nodeEntry.isFolder) {
@@ -519,7 +535,7 @@ export class NodeActionsService {
     }
   }
 
-  moveFolderAction(contentEntry, selectionId): Observable<any> {
+  moveFolderAction(contentEntry, selectionId: string): Observable<any> {
     // Check if there's nodeId for Shared Files
     const contentEntryId = contentEntry.nodeId || contentEntry.id;
     const initialParentId = this.getEntryParentId(contentEntry);
@@ -555,7 +571,7 @@ export class NodeActionsService {
               return $childrenToMove;
             }),
             mergeMap(childrenToMove => {
-              const batch = [];
+              const batch: any[] = [];
               childrenToMove.list.entries.forEach(node => {
                 if (node.entry.isFolder) {
                   batch.push(
@@ -588,7 +604,7 @@ export class NodeActionsService {
     );
   }
 
-  moveContentAction(contentEntry, selectionId) {
+  moveContentAction(contentEntry: any, selectionId: string) {
     // Check if there's nodeId for Shared Files
     const contentEntryId = contentEntry.nodeId || contentEntry.id;
     const initialParentId = this.getEntryParentId(contentEntry);
@@ -604,8 +620,8 @@ export class NodeActionsService {
     );
   }
 
-  getChildByName(parentId, name) {
-    const matchedNodes: Subject<any> = new Subject<any>();
+  getChildByName(parentId: string, name: string) {
+    const matchedNodes = new Subject<any>();
 
     this.getNodeChildren(parentId).subscribe(
       (childrenNodes: any) => {
@@ -627,11 +643,11 @@ export class NodeActionsService {
   }
 
   private isActionAllowed(
-    action: string,
+    action: BatchOperationType,
     node: MinimalNodeEntryEntity,
     permission?: string
   ): boolean {
-    if (action === 'copy') {
+    if (action === BatchOperationType.copy) {
       return true;
     }
     return this.contentService.hasAllowableOperations(node, permission);
@@ -695,7 +711,10 @@ export class NodeActionsService {
    * @param nodeId The id of the parent node
    * @param params optional parameters
    */
-  getNodeChildren(nodeId: string, params?) {
+  getNodeChildren(
+    nodeId: string,
+    params?: any
+  ): Observable<NodeChildAssociationPaging> {
     return from(
       this.apiService.getInstance().nodes.getNodeChildren(nodeId, params)
     );
@@ -717,13 +736,13 @@ export class NodeActionsService {
     );
   }
 
-  public flatten(nDimArray) {
+  public flatten(nDimArray: any[]) {
     if (!Array.isArray(nDimArray)) {
       return nDimArray;
     }
 
     const nodeQueue = nDimArray.slice(0);
-    const resultingArray = [];
+    const resultingArray: any[] = [];
 
     do {
       nodeQueue.forEach(node => {

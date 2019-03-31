@@ -175,7 +175,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     }
   }
 
-  onExpanded(state) {
+  onExpanded(state: boolean) {
     if (
       !this.minimizeSidenav &&
       this.appConfigService.get('sideNav.preserveState')

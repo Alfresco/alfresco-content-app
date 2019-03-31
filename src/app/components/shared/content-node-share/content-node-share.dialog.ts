@@ -240,7 +240,7 @@ export class ShareDialogComponent implements OnInit, OnDestroy {
     properties['qshare:expiryDate'] = date ? date.toDate() : null;
   }
 
-  private showError(response) {
+  private showError(response: { message: any }) {
     let message;
     const statusCode = JSON.parse(response.message).error.statusCode;
     if (statusCode === 403) {
