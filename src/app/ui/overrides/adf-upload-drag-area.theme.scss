@@ -24,33 +24,6 @@ $alfresco-app-color--default: #00bcd4;
     }
   }
 
-  adf-upload-drag-area:first-child {
-    & > div {
-      adf-upload-drag-area {
-        .adf-file-draggable__input-focus {
-          @include file-draggable__input-focus($theme);
-        }
-      }
-    }
-
-    .adf-upload-border {
-      vertical-align: inherit !important;
-      text-align: inherit !important;
-    }
-
-    .adf-file-draggable__input-focus {
-      color: none !important;
-      border: none !important;
-      margin-left: 0 !important;
-
-      adf-upload-drag-area {
-        & > div {
-          @include file-draggable__input-focus($theme);
-        }
-      }
-    }
-  }
-
   adf-upload-drag-area {
     .adf-file-draggable__input-focus {
       adf-document-list {
@@ -77,6 +50,33 @@ $alfresco-app-color--default: #00bcd4;
 
       &:last-child {
         border-right: 1px solid $alfresco-app-color--default !important;
+      }
+    }
+  }
+
+  adf-upload-drag-area:first-child {
+    & > div {
+      adf-upload-drag-area {
+        .adf-file-draggable__input-focus {
+          @include file-draggable__input-focus($theme);
+        }
+      }
+    }
+
+    .adf-upload-border {
+      vertical-align: inherit !important;
+      text-align: inherit !important;
+    }
+
+    .adf-file-draggable__input-focus {
+      color: none !important;
+      border: none !important;
+      margin-left: 0 !important;
+
+      adf-upload-drag-area {
+        & > div {
+          @include file-draggable__input-focus($theme);
+        }
       }
     }
   }
