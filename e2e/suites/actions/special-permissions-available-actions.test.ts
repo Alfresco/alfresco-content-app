@@ -916,7 +916,7 @@ describe('Special permissions available actions : ', () => {
       });
     });
 
-  describe('context menu actions are correct for multiple selection of files', () => {
+    describe('context menu actions are correct for multiple selection of files', () => {
       beforeEach(async (done) => {
         await Utils.pressEscape();
         await dataTable.clearSelection();
@@ -1162,7 +1162,6 @@ describe('Special permissions available actions : ', () => {
     describe('toolbar actions appear correctly in the viewer', () => {
       beforeEach(async (done) => {
         await Utils.pressEscape();
-        await dataTable.clearSelection();
         await page.clickPersonalFiles();
         done();
       });
@@ -1230,6 +1229,36 @@ describe('Special permissions available actions : ', () => {
 
       it('file from Favorites - [C286311]', async () => {
         await page.clickFavoritesAndWait();
+        await dataTable.doubleClickOnRowByName(docxFile);
+        await viewer.waitForViewerToOpen();
+
+        expect(await viewerToolbar.isViewPresent()).toBe(false, `View is displayed`);
+        expect(await viewerToolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
+        expect(await viewerToolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
+        expect(await viewerToolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
+        expect(await viewerToolbar.isSharedLinkSettingsPresent()).toBe(true, 'Shared link settings is not displayed');
+        expect(await viewerToolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed`);
+
+        await viewerToolbar.openMoreMenu();
+
+        expect(await viewerToolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
+        expect(await viewerToolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
+        expect(await viewerToolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
+        expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
+        expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+        expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
+
+        await toolbar.closeMoreMenu();
+      });
+
+      it('file from Search Results - []', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkOnlyFiles();
+        await searchInput.searchFor(docxFile);
+        await dataTable.waitForBody();
         await dataTable.doubleClickOnRowByName(docxFile);
         await viewer.waitForViewerToOpen();
 
@@ -1463,6 +1492,36 @@ describe('Special permissions available actions : ', () => {
 
         await viewerToolbar.closeMoreMenu();
       });
+
+      it('file opened from Search Results - []', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkOnlyFiles();
+        await searchInput.searchFor(docxFile);
+        await dataTable.waitForBody();
+        await dataTable.doubleClickOnRowByName(docxFile);
+        await viewer.waitForViewerToOpen();
+
+        expect(await viewerToolbar.isViewPresent()).toBe(false, `View is displayed`);
+        expect(await viewerToolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
+        expect(await viewerToolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
+        expect(await viewerToolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
+        expect(await viewerToolbar.isSharedLinkSettingsPresent()).toBe(true, 'Shared link settings is not displayed');
+        expect(await viewerToolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed`);
+
+        await viewerToolbar.openMoreMenu();
+
+        expect(await viewerToolbar.menu.isEditOfflinePresent()).toBe(true, `Edit offline is not displayed`);
+        expect(await viewerToolbar.menu.isCancelEditingPresent()).toBe(false, `Cancel editing is displayed`);
+        expect(await viewerToolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
+        expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
+        expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+        expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
+
+        await viewerToolbar.closeMoreMenu();
+      });
     });
   });
 
@@ -1652,6 +1711,36 @@ describe('Special permissions available actions : ', () => {
         await viewer.waitForViewerToOpen();
 
         expect(await viewerToolbar.isEmpty()).toBe(false, `viewer toolbar is empty`);
+        expect(await viewerToolbar.isViewPresent()).toBe(false, `View is displayed`);
+        expect(await viewerToolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
+        expect(await viewerToolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
+        expect(await viewerToolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
+        expect(await viewerToolbar.isSharedLinkSettingsPresent()).toBe(true, 'Shared link settings is not displayed');
+        expect(await viewerToolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed`);
+
+        await viewerToolbar.openMoreMenu();
+
+        expect(await viewerToolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
+        expect(await viewerToolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
+        expect(await viewerToolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
+        expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
+        expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is displayed`);
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is displayed`);
+        expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(true, `Upload new version is not displayed`);
+
+        await viewerToolbar.closeMoreMenu();
+      });
+
+      it('file opened from Search Results - []', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkOnlyFiles();
+        await searchInput.searchFor(fileLocked);
+        await dataTable.waitForBody();
+        await dataTable.doubleClickOnRowByName(fileLocked);
+        await viewer.waitForViewerToOpen();
+
         expect(await viewerToolbar.isViewPresent()).toBe(false, `View is displayed`);
         expect(await viewerToolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
         expect(await viewerToolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
@@ -1878,6 +1967,38 @@ describe('Special permissions available actions : ', () => {
         expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
         expect(await viewerToolbar.menu.isMovePresent()).toBe(true, `Move is not displayed`);
         expect(await viewerToolbar.menu.isDeletePresent()).toBe(true, `Delete is not displayed`);
+        expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
+        expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
+
+        await viewerToolbar.closeMoreMenu();
+      });
+
+      it('file opened from Search Results - []', async () => {
+        await searchInput.clickSearchButton();
+        await searchInput.checkOnlyFiles();
+        await searchInput.searchFor(fileLocked);
+        await dataTable.waitForBody();
+        await dataTable.doubleClickOnRowByName(fileLocked);
+        await viewer.waitForViewerToOpen();
+
+        expect(await viewerToolbar.isViewPresent()).toBe(false, `View is displayed`);
+        expect(await viewerToolbar.isDownloadPresent()).toBe(true, `Download is not displayed`);
+        expect(await viewerToolbar.isPrintPresent()).toBe(true, `Print is not displayed`);
+        expect(await viewerToolbar.isFullScreenPresent()).toBe(true, `Full screen is not displayed`);
+        expect(await viewerToolbar.isSharedLinkSettingsPresent()).toBe(true, 'Shared link settings is not displayed');
+        expect(await viewerToolbar.isViewDetailsPresent()).toBe(true, `View details is not displayed`);
+
+        await viewerToolbar.openMoreMenu();
+
+        expect(await viewerToolbar.menu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed`);
+        expect(await viewerToolbar.menu.isCancelEditingPresent()).toBe(true, `Cancel editing is not displayed`);
+        expect(await viewerToolbar.menu.isToggleRemoveFavoritePresent()).toBe(true, `Remove favorite is not displayed`);
+        expect(await viewerToolbar.menu.isSharePresent()).toBe(false, `Share is displayed in More actions`);
+        expect(await viewerToolbar.menu.isCopyPresent()).toBe(true, `Copy is not displayed`);
+        // TODO: change expect to true when ACA-2319 is fixed
+        expect(await viewerToolbar.menu.isMovePresent()).toBe(false, `Move is not displayed`);
+        // TODO: change expect to true when ACA-2319 is fixed
+        expect(await viewerToolbar.menu.isDeletePresent()).toBe(false, `Delete is not displayed`);
         expect(await viewerToolbar.menu.isManageVersionsPresent()).toBe(true, `Manage versions is not displayed`);
         expect(await viewerToolbar.menu.isUploadNewVersionPresent()).toBe(false, `Upload new version is displayed`);
 

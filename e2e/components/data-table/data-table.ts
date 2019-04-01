@@ -62,7 +62,8 @@ export class DataTable extends Component {
     emptySearchText: '.empty-search__text',
 
     searchResultsRow: 'aca-search-results-row',
-    searchResultsRowLine: '.adf-cell-container .line'
+    searchResultsRowLine: '.line',
+    searchResultsNameLink: '.link'
   };
 
   head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
@@ -281,7 +282,6 @@ export class DataTable extends Component {
   }
 
   async rightClickOnMultipleSelection() {
-    await this.wait();
     const itemFromSelection = this.getSelectedRows().get(0);
     await browser.actions().click(itemFromSelection, protractor.Button.RIGHT).perform();
   }
@@ -424,6 +424,18 @@ export class DataTable extends Component {
 
   async getSearchResultLocation(name: string, location: string = '') {
     return await this.getSearchResultNthLine(name, location, 3).getText();
+  }
+
+  getSearchResultNameLink(itemName: string, location: string = '') {
+    return this.getSearchResultsRowByName(itemName, location).$(DataTable.selectors.searchResultsNameLink);
+  }
+
+  async hasLinkOnSearchResultName(itemName: string, location: string = '') {
+    return await this.getSearchResultNameLink(itemName, location).isPresent();
+  }
+
+  async clickSearchResultNameLink(itemName: string, location: string = '') {
+    await this.getSearchResultNameLink(itemName, location).click();
   }
 
 }
