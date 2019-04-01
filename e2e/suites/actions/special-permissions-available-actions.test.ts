@@ -217,7 +217,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291823]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
-        await searchInput.searchForTextAndCloseSearchOptions('my-file');
+        await searchInput.searchFor('my-file');
         await dataTable.selectMultipleItems([file1, file2]);
 
         expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for selected files`);
@@ -335,7 +335,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291818]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
-        await searchInput.searchForTextAndCloseSearchOptions(file1);
+        await searchInput.searchFor(file1);
         await dataTable.selectItem(file1);
 
         expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${file1}`);
@@ -428,7 +428,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291819]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFolders();
-        await searchInput.searchForTextAndCloseSearchOptions(folder1);
+        await searchInput.searchFor(folder1);
         await dataTable.selectItem(folder1);
 
         expect(await toolbar.isViewPresent()).toBe(false, `View is displayed for ${folder1}`);
@@ -541,7 +541,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291824]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
-        await searchInput.searchForTextAndCloseSearchOptions('my-file');
+        await searchInput.searchFor('my-file');
         await dataTable.selectMultipleItems([file1, file2]);
 
         expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
@@ -630,7 +630,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291825]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFolders();
-        await searchInput.searchForTextAndCloseSearchOptions('my-folder');
+        await searchInput.searchFor('my-folder');
         await dataTable.selectMultipleItems([folder1, folder2]);
 
         expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
@@ -719,7 +719,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291826]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkFilesAndFolders();
-        await searchInput.searchForTextAndCloseSearchOptions('my-f');
+        await searchInput.searchFor('my-f');
         await dataTable.selectMultipleItems([file1, folder1]);
 
         expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
@@ -822,7 +822,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291829]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
-        await searchInput.searchForTextAndCloseSearchOptions(file1);
+        await searchInput.searchFor(file1);
         await dataTable.rightClickOnItem(file1);
 
         expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${file1}`);
@@ -898,7 +898,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291830]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFolders();
-        await searchInput.searchForTextAndCloseSearchOptions(folder1);
+        await searchInput.searchFor(folder1);
         await dataTable.rightClickOnItem(folder1);
 
         expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folder1}`);
@@ -990,7 +990,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291834]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
-        await searchInput.searchForTextAndCloseSearchOptions('my-file');
+        await searchInput.searchFor('my-file');
         await dataTable.selectMultipleItems([file1, file2]);
         await dataTable.rightClickOnMultipleSelection();
 
@@ -1066,7 +1066,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291835]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFolders();
-        await searchInput.searchForTextAndCloseSearchOptions('my-folder');
+        await searchInput.searchFor('my-folder');
         await dataTable.selectMultipleItems([folder1, folder2]);
         await dataTable.rightClickOnMultipleSelection();
 
@@ -1141,7 +1141,7 @@ describe('Special permissions available actions : ', () => {
       it('on Search Results - [C291836]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkFilesAndFolders();
-        await searchInput.searchForTextAndCloseSearchOptions('my-f');
+        await searchInput.searchFor('my-f');
         await dataTable.selectMultipleItems([file1, folder1]);
         await dataTable.rightClickOnMultipleSelection();
 
@@ -1345,7 +1345,7 @@ describe('Special permissions available actions : ', () => {
     it('on Search Results - [C297653]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions(file1);
+      await searchInput.searchFor(file1);
       await dataTable.selectItem(file1);
 
       expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${file1}`);
@@ -1554,7 +1554,7 @@ describe('Special permissions available actions : ', () => {
     it('on Search Results - [C297660]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions(fileLocked);
+      await searchInput.searchFor(fileLocked);
       await dataTable.selectItem(fileLocked);
 
       expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);
@@ -1764,7 +1764,7 @@ describe('Special permissions available actions : ', () => {
     it('on Search Results - [C297667]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions(fileLocked);
+      await searchInput.searchFor(fileLocked);
       await dataTable.selectItem(fileLocked);
 
       expect(await toolbar.isViewPresent()).toBe(true, `View is not displayed for ${fileLocked}`);

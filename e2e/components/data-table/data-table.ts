@@ -57,7 +57,12 @@ export class DataTable extends Component {
 
     emptyListTitle: '.adf-empty-content__title',
     emptyListSubtitle: '.adf-empty-content__subtitle',
-    emptyListText: '.adf-empty-content__text'
+    emptyListText: '.adf-empty-content__text',
+
+    emptySearchText: '.empty-search__text',
+
+    searchResultsRow: 'aca-search-results-row',
+    searchResultsRowLine: '.adf-cell-container .line'
   };
 
   head: ElementFinder = this.component.element(by.css(DataTable.selectors.head));
@@ -69,6 +74,8 @@ export class DataTable extends Component {
   emptyListSubtitle: ElementFinder = this.component.element(by.css(DataTable.selectors.emptyListSubtitle));
   emptyListText: ElementArrayFinder = this.component.all(by.css(DataTable.selectors.emptyListText));
 
+  emptySearchText: ElementFinder = this.component.element(by.css(DataTable.selectors.emptySearchText));
+
   menu: Menu = new Menu();
 
   constructor(ancestor?: ElementFinder) {
@@ -76,12 +83,12 @@ export class DataTable extends Component {
   }
 
   // Wait methods (waits for elements)
-  waitForHeader() {
-    return browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT, '--- timeout waitForHeader ---');
+  async waitForHeader() {
+    return await browser.wait(EC.presenceOf(this.head), BROWSER_WAIT_TIMEOUT, '--- timeout waitForHeader ---');
   }
 
-  waitForBody() {
-    return browser.wait(EC.presenceOf(this.body), BROWSER_WAIT_TIMEOUT, '--- timeout waitForBody ---');
+  async waitForBody() {
+    return await browser.wait(EC.presenceOf(this.body), BROWSER_WAIT_TIMEOUT, '--- timeout waitForBody ---');
   }
 
   async waitForEmptyState() {
@@ -166,20 +173,28 @@ export class DataTable extends Component {
     return this.body.element(by.cssContainingText(DataTable.selectors.row, name));
   }
 
+  getRowCells(name: string, location: string = '') {
+    return this.getRowByName(name, location).all(by.css(DataTable.selectors.cell));
+  }
+
+  async getRowCellsCount(itemName: string) {
+    return await this.getRowCells(itemName).count();
+  }
+
   getRowFirstCell(name: string, location: string = '') {
-    return this.getRowByName(name, location).all(by.css(DataTable.selectors.cell)).get(0);
+    return this.getRowCells(name, location).get(0);
   }
 
-  getRowNameCell(name: string) {
-    return this.getRowByName(name).all(by.css(DataTable.selectors.cell)).get(1);
+  getRowNameCell(name: string, location: string = '') {
+    return this.getRowCells(name, location).get(1);
   }
 
-  getRowNameCellText(name: string) {
-    return this.getRowNameCell(name).$('span');
+  getRowNameCellSpan(name: string, location: string = '') {
+    return this.getRowNameCell(name, location).$('span');
   }
 
-  async getItemNameTooltip(name: string) {
-    return await this.getRowNameCellText(name).getAttribute('title');
+  async getItemNameTooltip(name: string, location: string = '') {
+    return await this.getRowNameCellSpan(name, location).getAttribute('title');
   }
 
   async hasCheckMarkIcon(itemName: string, location: string = '') {
@@ -330,6 +345,10 @@ export class DataTable extends Component {
     }
   }
 
+  async getEmptySearchResultsText() {
+    return await this.emptySearchText.getText();
+  }
+
   async getCellsContainingName(name: string) {
     const rows = this.getRows().all(by.cssContainingText(DataTable.selectors.cell, name));
     return rows.map(async cell => await cell.getText());
@@ -368,6 +387,43 @@ export class DataTable extends Component {
       acc[cell[1]] = cell[2];
       return acc;
     }, {});
+  }
+
+  getSearchResultsRowByName(name: string, location: string = '') {
+    if (location) {
+      return this.body.all(by.cssContainingText(DataTable.selectors.searchResultsRow, name))
+        .filter(async (elem) => await browser.isElementPresent(elem.element(by.cssContainingText(DataTable.selectors.searchResultsRowLine, location))))
+        .first();
+    }
+    return this.body.element(by.cssContainingText(DataTable.selectors.searchResultsRow, name));
+  }
+
+  getSearchResultRowLines(name: string, location: string = '') {
+    return this.getSearchResultsRowByName(name, location).all(by.css(DataTable.selectors.searchResultsRowLine));
+  }
+
+  async getSearchResultLinesCount(name: string, location: string = '') {
+    return await this.getSearchResultRowLines(name, location).count();
+  }
+
+  getSearchResultNthLine(name: string, location: string = '', index: number) {
+    return this.getSearchResultRowLines(name, location).get(index);
+  }
+
+  async getSearchResultNameAndTitle(name: string, location: string = '') {
+    return await this.getSearchResultNthLine(name, location, 0).getText();
+  }
+
+  async getSearchResultDescription(name: string, location: string = '') {
+    return await this.getSearchResultNthLine(name, location, 1).getText();
+  }
+
+  async getSearchResultModified(name: string, location: string = '') {
+    return await this.getSearchResultNthLine(name, location, 2).getText();
+  }
+
+  async getSearchResultLocation(name: string, location: string = '') {
+    return await this.getSearchResultNthLine(name, location, 3).getText();
   }
 
 }

@@ -167,9 +167,4 @@ export class SearchInput extends Component {
     await this.searchBar.sendKeys(text);
     await this.searchBar.sendKeys(protractor.Key.ENTER);
   }
-
-  async searchForTextAndCloseSearchOptions(text: string) {
-    await this.searchFor(text);
-    await Utils.pressEscape();
-  }
 }

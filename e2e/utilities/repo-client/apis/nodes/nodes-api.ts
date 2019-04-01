@@ -150,7 +150,7 @@ export class NodesApi extends RepoApi {
         }
 
         await this.apiAuth();
-        return await this.nodesApi.createNode(parentId, nodeBody, { majorVersion: true });
+        return await this.nodesApi.createNode(parentId, nodeBody, { majorVersion });
     }
 
     async createFile(name: string, parentId: string = '-my-', title: string = '', description: string = '', majorVersion: boolean = true) {
