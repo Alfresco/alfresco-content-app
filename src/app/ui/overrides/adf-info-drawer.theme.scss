@@ -4,10 +4,14 @@
   $icon-size: 48px;
 
   .adf-info-drawer {
+    height: 100%;
+
     .adf-info-drawer-layout {
       height: 100%;
 
       .mat-tab-label {
+        // cannot move this color style to ADF, but:
+        // check if this is still needed after ADF upgrades @angular/material version to be > 7.1.0
         color: mat-color($accent);
       }
 
@@ -32,6 +36,7 @@
       }
     }
 
+    //todo: delete these stylings - they are handled on ADF side
     .adf-version-list-container {
       .adf-version-list {
         height: auto;
