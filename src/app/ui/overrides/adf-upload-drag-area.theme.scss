@@ -1,12 +1,13 @@
 @import 'mixins';
 
-$alfresco-app-color--default: #00bcd4;
+$adf-upload-drag-hover-color: #00bcd4 !default;
+$adf-upload-drag-hover-light-color: #e0f7fa !default;
 
 @mixin file-draggable__input-focus($theme) {
   $foreground: map-get($theme, foreground);
 
   color: mat-color($foreground, text, 0.54);
-  border: 1px solid $alfresco-app-color--default !important;
+  border: 1px solid $adf-upload-drag-hover-color !important;
   margin-left: 0 !important;
 }
 
@@ -25,7 +26,7 @@ $alfresco-app-color--default: #00bcd4;
 
     .adf-file-draggable__input-focus {
       adf-document-list {
-        background: #e0f7fa;
+        background: $adf-upload-drag-hover-light-color;
         adf-datatable > table {
           background: inherit;
         }
@@ -33,20 +34,20 @@ $alfresco-app-color--default: #00bcd4;
     }
 
     .adf-upload__dragging {
-      background: #e0f7fa;
+      background: $adf-upload-drag-hover-light-color;
       color: mat-color($foreground, text, 0.54);
     }
 
     .adf-upload__dragging td {
-      border-top: 1px solid $alfresco-app-color--default !important;
-      border-bottom: 1px solid $alfresco-app-color--default !important;
+      border-top: 1px solid $adf-upload-drag-hover-color !important;
+      border-bottom: 1px solid $adf-upload-drag-hover-color !important;
 
       &:first-child {
-        border-left: 1px solid $alfresco-app-color--default !important;
+        border-left: 1px solid $adf-upload-drag-hover-color !important;
       }
 
       &:last-child {
-        border-right: 1px solid $alfresco-app-color--default !important;
+        border-right: 1px solid $adf-upload-drag-hover-color !important;
       }
     }
 
@@ -65,7 +66,7 @@ $alfresco-app-color--default: #00bcd4;
       }
 
       .adf-file-draggable__input-focus {
-        color: none !important;
+        color: transparent !important;
         border: none !important;
         margin-left: 0 !important;
 
