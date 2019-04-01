@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FileUploadingListRowComponent } from '@alfresco/adf-content-services';
 @Component({
   selector: 'app-file-uploading-list-row',
-  templateUrl: './file-uploading-list-row.component.html'
+  templateUrl: './file-uploading-list-row.component.html',
+  styleUrls: ['./file-uploading-list-row.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AppFileUploadingListRowComponent extends FileUploadingListRowComponent {
   isUploadVersion() {
