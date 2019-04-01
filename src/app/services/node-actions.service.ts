@@ -153,7 +153,8 @@ export class NodeActionsService {
           );
         } else {
           contentEntities.forEach(node => {
-            batch.push(this.copyNodeAction(node.entry, selection.id));
+            // batch.push(this.copyNodeAction(node.entry, selection.id));
+            batch.push(this[`${action}NodeAction`](node.entry, selection.id));
           });
           action$ = zip(...batch);
         }
