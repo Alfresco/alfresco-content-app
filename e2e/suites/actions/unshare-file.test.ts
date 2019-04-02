@@ -692,6 +692,7 @@ describe('Unshare a file', () => {
 
     afterEach(async (done) => {
       await page.closeOpenDialogs();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
