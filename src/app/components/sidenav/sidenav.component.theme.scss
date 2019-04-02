@@ -6,9 +6,17 @@
 
   $border: 1px solid mat-color($foreground, divider, 0.07);
 
-  .sidenav {
-    @include angular-material-theme($theme);
+  .aca-menu-panel {
+    .action-button--active {
+      color: mat-color($accent) !important;
+    }
 
+    .action-button {
+      color: mat-color($primary);
+    }
+  }
+
+  .sidenav {
     background-color: mat-color($background, background);
 
     .mat-expansion-panel {
@@ -29,28 +37,20 @@
       font-size: 14px !important;
     }
 
-    .adf-sidebar-action-menu-button {
-      background-color: mat-color($accent);
+    .mat-expansion-panel-header-title > span {
+      margin-left: 0 !important;
+    }
+
+    .action-button--active {
+      color: mat-color($accent) !important;
+    }
+
+    .action-button {
+      color: mat-color($primary);
     }
 
     .section {
       border-bottom: $border;
-    }
-
-    .item--label:not(.item--active):hover {
-      color: mat-color($foreground, text);
-    }
-
-    .item--label {
-      color: mat-color($primary, 0.87);
-    }
-
-    .item--active {
-      color: mat-color($accent);
-    }
-
-    .item--default {
-      color: mat-color($primary, 0.87);
     }
   }
 }
