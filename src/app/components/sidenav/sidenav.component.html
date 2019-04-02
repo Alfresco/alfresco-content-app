@@ -16,12 +16,7 @@
           </ng-container>
 
           <ng-container *ngIf="!expandedTemplate">
-            <app-expand-menu [item]="item">
-              <app-link-item
-                *appItemTemplate="let data"
-                [item]="data"
-              ></app-link-item>
-            </app-expand-menu>
+            <app-expand-menu [item]="item"></app-expand-menu>
           </ng-container>
         </mat-list-item>
       </ng-container>
@@ -40,12 +35,7 @@
           </ng-container>
 
           <ng-container *ngIf="!collapsedTemplate">
-            <app-button-menu [item]="item">
-              <app-link-item
-                *appItemTemplate="let data"
-                [item]="data"
-              ></app-link-item>
-            </app-button-menu>
+            <app-button-menu [item]="item"></app-button-menu>
           </ng-container>
         </div>
       </ng-container>
