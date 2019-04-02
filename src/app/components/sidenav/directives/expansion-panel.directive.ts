@@ -43,13 +43,13 @@ import { AppStore } from '../../../store/states/app.state';
 })
 export class ExpansionPanelDirective implements OnInit, OnDestroy {
   @Input() acaExpansionPanel;
-  private hasActiveChildren = false;
+  public hasActiveChildren = false;
 
   private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   @HostListener('click')
   onClick() {
-    if (this.expansionPanel.expanded && !this.hasActiveChildren) {
+    if (this.expansionPanel.expanded && !this.hasActiveLinks()) {
       const firstChild = this.acaExpansionPanel.children[0];
       if (firstChild.url) {
         this.router.navigate([firstChild.url]);
