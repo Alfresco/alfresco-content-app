@@ -26,13 +26,10 @@
 import {
   Component,
   OnInit,
-  ContentChild,
-  TemplateRef,
   Input,
   ViewEncapsulation,
   ChangeDetectorRef
 } from '@angular/core';
-import { ItemTemplateDirective } from '../directives/item-template.directive';
 
 @Component({
   selector: 'app-expand-menu',
@@ -42,9 +39,6 @@ import { ItemTemplateDirective } from '../directives/item-template.directive';
 })
 export class ExpandMenuComponent implements OnInit {
   @Input() item;
-
-  @ContentChild(ItemTemplateDirective, { read: TemplateRef })
-  itemTemplate;
 
   constructor(private cd: ChangeDetectorRef) {}
 

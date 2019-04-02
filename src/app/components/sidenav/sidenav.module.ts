@@ -32,7 +32,6 @@ import { ExpansionPanelDirective } from './directives/expansion-panel.directive'
 import { MenuPanelDirective } from './directives/menu-panel.directive';
 import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
 import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
-import { ItemTemplateDirective } from './directives/item-template.directive';
 import { SidenavComponent } from './sidenav.component';
 import { ActiveLinkDirective } from './directives/active-link.directive';
 import { ExpandMenuComponent } from './components/expand-menu.component';
@@ -52,7 +51,6 @@ import { ActionDirective } from './directives/action.directive';
     CollapsedTemplateDirective,
     ActiveLinkDirective,
     ActionDirective,
-    ItemTemplateDirective,
     ExpandMenuComponent,
     ButtonMenuComponent,
     SidenavComponent
@@ -62,7 +60,6 @@ import { ActionDirective } from './directives/action.directive';
     ExpansionPanelDirective,
     ExpandedTemplateDirective,
     CollapsedTemplateDirective,
-    ItemTemplateDirective,
     ActiveLinkDirective,
     ActionDirective,
     ExpandMenuComponent,
