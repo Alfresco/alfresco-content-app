@@ -1,9 +1,8 @@
+$adf-toolbar-single-row-height: 48px;
+$adf-toolbar-padding: 14px;
+
 @mixin adf-toolbar-theme($theme) {
   $foreground: map-get($theme, foreground);
-
-  .app-toolbar-menu-item:last-child > .mat-divider-horizontal {
-    display: none;
-  }
 
   .adf-viewer {
     .adf-toolbar {
@@ -17,8 +16,8 @@
     @include angular-material-theme($theme);
 
     .mat-toolbar-single-row {
-      padding: 0 14px;
-      height: 48px;
+      padding: 0 $adf-toolbar-padding;
+      height: $adf-toolbar-single-row-height;
     }
 
     &.inline {
