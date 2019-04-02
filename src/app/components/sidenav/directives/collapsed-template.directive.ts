@@ -26,6 +26,6 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[appCollapsedTemplate]'
+  selector: '[acaCollapsedTemplate]'
 })
 export class CollapsedTemplateDirective {}

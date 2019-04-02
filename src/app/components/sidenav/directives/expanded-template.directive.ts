@@ -26,6 +26,6 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[appExpandedTemplate]'
+  selector: '[acaExpandedTemplate]'
 })
 export class ExpandedTemplateDirective {}

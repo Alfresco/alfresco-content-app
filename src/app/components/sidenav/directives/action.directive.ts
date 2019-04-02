@@ -29,6 +29,7 @@ import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
 
 @Directive({
+  /* tslint:disable-next-line */
   selector: '[action]',
   exportAs: 'action'
 })
