@@ -26,11 +26,19 @@
 import { NgModule } from '@angular/core';
 import { AppCreateMenuModule } from '../create-menu/create-menu.module';
 import { CommonModule } from '@angular/common';
-import { SidenavComponent } from './sidenav.component';
 import { CoreModule } from '@alfresco/adf-core';
 import { RouterModule } from '@angular/router';
-import { AcaExpansionPanelDirective } from './expansion-panel.directive';
-
+import { ExpansionPanelDirective } from './directives/expansion-panel.directive';
+import { MenuPanelDirective } from './directives/menu-panel.directive';
+import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
+import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
+import { ItemTemplateDirective } from './directives/item-template.directive';
+import { SidenavComponent } from './sidenav.component';
+import { ActiveLinkDirective } from './directives/active-link.directive';
+import { LinkItemComponent } from './components/link-item.component';
+import { ExpandMenuComponent } from './components/expand-menu.component';
+import { ButtonMenuComponent } from './components/button-menu.component';
+import { ActionDirective } from './directives/action.directive';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +46,31 @@ import { AcaExpansionPanelDirective } from './expansion-panel.directive';
     RouterModule,
     AppCreateMenuModule
   ],
-  declarations: [SidenavComponent, AcaExpansionPanelDirective],
-  exports: [SidenavComponent, AcaExpansionPanelDirective]
+  declarations: [
+    MenuPanelDirective,
+    ExpansionPanelDirective,
+    ExpandedTemplateDirective,
+    CollapsedTemplateDirective,
+    ActiveLinkDirective,
+    ActionDirective,
+    ItemTemplateDirective,
+    ExpandMenuComponent,
+    LinkItemComponent,
+    ButtonMenuComponent,
+    SidenavComponent
+  ],
+  exports: [
+    MenuPanelDirective,
+    ExpansionPanelDirective,
+    ExpandedTemplateDirective,
+    CollapsedTemplateDirective,
+    ItemTemplateDirective,
+    ActiveLinkDirective,
+    ActionDirective,
+    ExpandMenuComponent,
+    LinkItemComponent,
+    ButtonMenuComponent,
+    SidenavComponent
+  ]
 })
 export class AppSidenavModule {}
