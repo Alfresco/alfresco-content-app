@@ -35,7 +35,6 @@ import { ExpandedTemplateDirective } from './directives/expanded-template.direct
 import { ItemTemplateDirective } from './directives/item-template.directive';
 import { SidenavComponent } from './sidenav.component';
 import { ActiveLinkDirective } from './directives/active-link.directive';
-import { LinkItemComponent } from './components/link-item.component';
 import { ExpandMenuComponent } from './components/expand-menu.component';
 import { ButtonMenuComponent } from './components/button-menu.component';
 import { ActionDirective } from './directives/action.directive';
@@ -55,7 +54,6 @@ import { ActionDirective } from './directives/action.directive';
     ActionDirective,
     ItemTemplateDirective,
     ExpandMenuComponent,
-    LinkItemComponent,
     ButtonMenuComponent,
     SidenavComponent
   ],
@@ -68,7 +66,6 @@ import { ActionDirective } from './directives/action.directive';
     ActiveLinkDirective,
     ActionDirective,
     ExpandMenuComponent,
-    LinkItemComponent,
     ButtonMenuComponent,
     SidenavComponent
   ]
