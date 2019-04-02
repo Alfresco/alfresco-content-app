@@ -25,11 +25,15 @@
 
 import {
   Component,
+  ContentChild,
   Input,
+  TemplateRef,
   OnInit,
   ViewEncapsulation,
   OnDestroy
 } from '@angular/core';
+import { CollapsedTemplateDirective } from './directives/collapsed-template.directive';
+import { ExpandedTemplateDirective } from './directives/expanded-template.directive';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { NavBarGroupRef } from '@alfresco/adf-extensions';
 import { Store } from '@ngrx/store';
@@ -46,12 +50,16 @@ import { takeUntil, distinctUntilChanged, map } from 'rxjs/operators';
   host: { class: 'app-sidenav' }
 })
 export class SidenavComponent implements OnInit, OnDestroy {
-  private onDestroy$: Subject<boolean> = new Subject<boolean>();
+  @Input() mode: 'collapsed' | 'expanded' = 'expanded';
 
-  @Input()
-  showLabel: boolean;
+  @ContentChild(ExpandedTemplateDirective, { read: TemplateRef })
+  expandedTemplate;
+
+  @ContentChild(CollapsedTemplateDirective, { read: TemplateRef })
+  collapsedTemplate;
 
   groups: Array<NavBarGroupRef> = [];
+  private onDestroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store<AppStore>,
