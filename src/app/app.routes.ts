@@ -57,11 +57,16 @@ export const APP_ROUTES: Routes = [
     component: AppLayoutComponent,
     children: [
       {
-        path: 'n/:nodeId',
-        loadChildren: './components/viewer/viewer.module#AppViewerModule'
+        path: ':nodeId',
+        outlet: 'viewer',
+        children: [
+          {
+            path: '',
+            loadChildren: './components/viewer/viewer.module#AppViewerModule'
+          }
+        ]
       }
     ]
-    // loadChildren: './components/viewer/viewer.module#AppViewerModule'
   },
   {
     path: '',
@@ -160,6 +165,18 @@ export const APP_ROUTES: Routes = [
               navigateSource: 'personal-files'
             }
           }
+          // Do not remove, will be enabled in future iterations
+          // {
+          //   path: 'view/:nodeId',
+          //   outlet: 'viewer',
+          //   children: [
+          //     {
+          //       path: '',
+          //       loadChildren:
+          //         './components/viewer/viewer.module#AppViewerModule'
+          //     }
+          //   ]
+          // }
         ]
       },
       {

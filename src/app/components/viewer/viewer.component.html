@@ -1,11 +1,4 @@
 <ng-container *ngIf="nodeId">
-  <!--
-    [canNavigateBefore]="previousNodeId"
-    [canNavigateNext]="nextNodeId"
-    (showViewerChange)="onVisibilityChanged($event)"
-    (navigateBefore)="onNavigateBefore()"
-    (navigateNext)="onNavigateNext()"
-   -->
   <adf-viewer
     [nodeId]="nodeId"
     [allowNavigate]="false"
@@ -14,7 +7,6 @@
     [allowFullScreen]="false"
     [allowRightSidebar]="showRightSide"
     [showRightSidebar]="showRightSide"
-    (goBack)="onClose($event)"
   >
     <adf-viewer-sidebar *ngIf="(infoDrawerOpened$ | async)">
       <aca-info-drawer [node]="selection.file"></aca-info-drawer>

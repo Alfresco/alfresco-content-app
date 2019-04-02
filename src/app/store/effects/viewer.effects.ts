@@ -31,6 +31,7 @@ import { Router } from '@angular/router';
 import { Store, createSelector } from '@ngrx/store';
 import { AppStore } from '../states';
 import { appSelection, currentFolder } from '../selectors/app.selectors';
+import { ViewNodeAction, VIEW_NODE } from '../actions/viewer.actions';
 
 export const fileToPreview = createSelector(
   appSelection,
@@ -50,6 +51,28 @@ export class ViewerEffects {
     private actions$: Actions,
     private router: Router
   ) {}
+
+  @Effect({ dispatch: false })
+  viewNode$ = this.actions$.pipe(
+    ofType<ViewNodeAction>(VIEW_NODE),
+    map(action => {
+      if (action.location) {
+        this.router.navigate(
+          [action.location, { outlets: { viewer: ['view', action.nodeId] } }],
+          {
+            queryParams: {
+              source: action.location
+            }
+          }
+        );
+      } else {
+        this.router.navigate([
+          'view',
+          { outlets: { viewer: [action.nodeId] } }
+        ]);
+      }
+    })
+  );
 
   @Effect({ dispatch: false })
   viewFile$ = this.actions$.pipe(
@@ -98,7 +121,6 @@ export class ViewerEffects {
       path.push(parentId);
     }
     path.push('preview', nodeId);
-    // this.router.navigateByUrl(path.join('/'));
-    this.router.navigate(['/view/n', nodeId]);
+    this.router.navigateByUrl(path.join('/'));
   }
 }

@@ -37,8 +37,7 @@ import { AppViewerComponent } from './viewer.component';
 const routes: Routes = [
   {
     path: '',
-    component: AppViewerComponent,
-    outlet: 'viewer'
+    component: AppViewerComponent
   }
 ];
 

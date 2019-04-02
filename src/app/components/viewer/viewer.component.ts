@@ -82,17 +82,12 @@ export class AppViewerComponent implements OnInit, OnDestroy {
 
         this.toolbarActions = this.extensions.getViewerToolbarActions();
         this.openWith = this.extensions.openWithActions;
-
-        console.log(selection);
-        console.log(this.toolbarActions);
       });
 
     this.route.params.subscribe(params => {
       const { nodeId } = params;
       if (nodeId) {
-        // console.log(nodeId);
         this.displayNode(nodeId);
-        // this.nodeId = nodeId;
       }
     });
   }
@@ -114,20 +109,13 @@ export class AppViewerComponent implements OnInit, OnDestroy {
 
         if (this.node && this.node.isFile) {
           this.nodeId = this.node.id;
-          console.log(this.nodeId);
           return;
         }
-        // this.router.navigate([this.previewLocation, id]);
       } catch (err) {
         if (!err || err.status !== 401) {
           // this.router.navigate([this.previewLocation, id]);
         }
       }
     }
-  }
-
-  onClose(event: Event) {
-    // event.preventDefault();
-    // this.router.navigate(['/viewer', { outlets: { viewer: null } }]);
   }
 }
