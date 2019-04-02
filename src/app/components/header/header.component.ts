@@ -70,7 +70,7 @@ export class AppHeaderComponent implements OnInit {
     this.actions = this.appExtensions.getHeaderActions();
   }
 
-  trackByActionId(index: number, action: ContentActionRef) {
+  trackByActionId(_: number, action: ContentActionRef) {
     return action.id;
   }
 }

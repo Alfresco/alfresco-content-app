@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { RuleContext, RuleParameter } from '@alfresco/adf-extensions';
+import { RuleContext } from '@alfresco/adf-extensions';
 import {
   isNotTrashcan,
   isNotLibraries,
@@ -39,16 +39,9 @@ import {
  * Checks if user can mark selected nodes as **Favorite**.
  * JSON ref: `app.selection.canAddFavorite`
  */
-export function canAddFavorite(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canAddFavorite(context: RuleContext): boolean {
   if (!context.selection.isEmpty) {
-    if (
-      isFavorites(context, ...args) ||
-      isLibraries(context, ...args) ||
-      isTrashcan(context, ...args)
-    ) {
+    if (isFavorites(context) || isLibraries(context) || isTrashcan(context)) {
       return false;
     }
     return context.selection.nodes.some(node => !node.entry.isFavorite);
@@ -60,12 +53,9 @@ export function canAddFavorite(
  * Checks if user can un-mark selected nodes as **Favorite**.
  * JSON ref: `app.selection.canRemoveFavorite`
  */
-export function canRemoveFavorite(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
-  if (!context.selection.isEmpty && !isTrashcan(context, ...args)) {
-    if (isFavorites(context, ...args)) {
+export function canRemoveFavorite(context: RuleContext): boolean {
+  if (!context.selection.isEmpty && !isTrashcan(context)) {
+    if (isFavorites(context)) {
       return true;
     }
     return context.selection.nodes.every(node => node.entry.isFavorite);
@@ -77,11 +67,8 @@ export function canRemoveFavorite(
  * Checks if user can share selected file.
  * JSON ref: `app.selection.file.canShare`
  */
-export function canShareFile(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
-  if (isNotTrashcan(context, ...args) && context.selection.file) {
+export function canShareFile(context: RuleContext): boolean {
+  if (isNotTrashcan(context) && context.selection.file) {
     return true;
   }
   return false;
@@ -91,16 +78,13 @@ export function canShareFile(
  * Checks if the selected file is already shared.
  * JSON ref: `app.selection.file.isShared`
  */
-export function isShared(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
-  if (isSharedFiles(context, ...args) && !context.selection.isEmpty) {
+export function isShared(context: RuleContext): boolean {
+  if (isSharedFiles(context) && !context.selection.isEmpty) {
     return true;
   }
 
   if (
-    (isNotTrashcan(context, ...args),
+    (isNotTrashcan(context),
     !context.selection.isEmpty && context.selection.file)
   ) {
     return !!(
@@ -117,31 +101,28 @@ export function isShared(
  * Checks if user can delete selected nodes.
  * JSON ref: `app.selection.canDelete`
  */
-export function canDeleteSelection(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canDeleteSelection(context: RuleContext): boolean {
   if (
-    isNotTrashcan(context, ...args) &&
-    isNotLibraries(context, ...args) &&
-    isNotSearchResults(context, ...args) &&
+    isNotTrashcan(context) &&
+    isNotLibraries(context) &&
+    isNotSearchResults(context) &&
     !context.selection.isEmpty
   ) {
-    if (hasLockedFiles(context, ...args)) {
+    if (hasLockedFiles(context)) {
       return false;
     }
 
     // temp workaround for Search api
-    if (isFavorites(context, ...args)) {
+    if (isFavorites(context)) {
       return true;
     }
 
-    if (isPreview(context, ...args)) {
+    if (isPreview(context)) {
       return context.permissions.check(context.selection.nodes, ['delete']);
     }
 
     // workaround for Shared Files
-    if (isSharedFiles(context, ...args)) {
+    if (isSharedFiles(context)) {
       return context.permissions.check(context.selection.nodes, ['delete'], {
         target: 'allowableOperationsOnTarget'
       });
@@ -156,10 +137,7 @@ export function canDeleteSelection(
  * Checks if user can un-share selected nodes.
  * JSON ref: `app.selection.canUnshare`
  */
-export function canUnshareNodes(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canUnshareNodes(context: RuleContext): boolean {
   if (!context.selection.isEmpty) {
     return context.permissions.check(context.selection.nodes, ['delete'], {
       target: 'allowableOperationsOnTarget'
@@ -172,10 +150,7 @@ export function canUnshareNodes(
  * Checks if user selected anything.
  * JSON ref: `app.selection.notEmpty`
  */
-export function hasSelection(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function hasSelection(context: RuleContext): boolean {
   return !context.selection.isEmpty;
 }
 
@@ -183,10 +158,7 @@ export function hasSelection(
  * Checks if user can create a new folder with current path.
  * JSON ref: `app.navigation.folder.canCreate`
  */
-export function canCreateFolder(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canCreateFolder(context: RuleContext): boolean {
   const { currentFolder } = context.navigation;
   if (currentFolder) {
     return context.permissions.check(currentFolder, ['create']);
@@ -198,10 +170,7 @@ export function canCreateFolder(
  * Checks if user can upload content to current folder.
  * JSON ref: `app.navigation.folder.canUpload`
  */
-export function canUpload(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canUpload(context: RuleContext): boolean {
   const { currentFolder } = context.navigation;
   if (currentFolder) {
     return context.permissions.check(currentFolder, ['create']);
@@ -213,10 +182,7 @@ export function canUpload(
  * Checks if user can download selected nodes (either files or folders).
  * JSON ref: `app.selection.canDownload`
  */
-export function canDownloadSelection(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canDownloadSelection(context: RuleContext): boolean {
   if (!context.selection.isEmpty) {
     return context.selection.nodes.every((node: any) => {
       return (
@@ -232,10 +198,7 @@ export function canDownloadSelection(
  * Checks if user has selected a folder.
  * JSON ref: `app.selection.folder`
  */
-export function hasFolderSelected(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function hasFolderSelected(context: RuleContext): boolean {
   const folder = context.selection.folder;
   return folder ? true : false;
 }
@@ -244,10 +207,7 @@ export function hasFolderSelected(
  * Checks if user has selected a library (site).
  * JSON ref: `app.selection.library`
  */
-export function hasLibrarySelected(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function hasLibrarySelected(context: RuleContext): boolean {
   const library = context.selection.library;
   return library ? true : false;
 }
@@ -256,10 +216,7 @@ export function hasLibrarySelected(
  * Checks if user has selected a **private** library (site)
  * JSON ref: `app.selection.isPrivateLibrary`
  */
-export function isPrivateLibrary(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function isPrivateLibrary(context: RuleContext): boolean {
   const library = context.selection.library;
   return library
     ? !!(
@@ -274,10 +231,7 @@ export function isPrivateLibrary(
  * Checks if the selected library has a **role** property defined.
  * JSON ref: `app.selection.hasLibraryRole`
  */
-export function hasLibraryRole(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function hasLibraryRole(context: RuleContext): boolean {
   const library = context.selection.library;
   return library ? !!(library.entry && library.entry.role) : false;
 }
@@ -286,21 +240,15 @@ export function hasLibraryRole(
  * Checks if the selected library has no **role** property defined.
  * JSON ref: `app.selection.hasNoLibraryRole`
  */
-export function hasNoLibraryRole(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
-  return !hasLibraryRole(context, ...args);
+export function hasNoLibraryRole(context: RuleContext): boolean {
+  return !hasLibraryRole(context);
 }
 
 /**
  * Checks if user has selected a file.
  * JSON ref: `app.selection.file`
  */
-export function hasFileSelected(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function hasFileSelected(context: RuleContext): boolean {
   const file = context.selection.file;
   return file ? true : false;
 }
@@ -309,14 +257,11 @@ export function hasFileSelected(
  * Checks if user can update the first selected node.
  * JSON ref: `app.selection.first.canUpdate`
  */
-export function canUpdateSelectedNode(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canUpdateSelectedNode(context: RuleContext): boolean {
   if (context.selection && !context.selection.isEmpty) {
     const node = context.selection.first;
 
-    if (node.entry.isFile && hasLockedFiles(context, ...args)) {
+    if (node.entry.isFile && hasLockedFiles(context)) {
       return false;
     }
 
@@ -329,15 +274,12 @@ export function canUpdateSelectedNode(
  * Checks if user can update the first selected folder.
  * JSON ref: `app.selection.folder.canUpdate`
  */
-export function canUpdateSelectedFolder(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canUpdateSelectedFolder(context: RuleContext): boolean {
   const { folder } = context.selection;
   if (folder) {
     return (
       // workaround for Favorites Api
-      isFavorites(context, ...args) ||
+      isFavorites(context) ||
       context.permissions.check(folder.entry, ['update'])
     );
   }
@@ -348,10 +290,7 @@ export function canUpdateSelectedFolder(
  * Checks if user has selected a **locked** file node.
  * JSON ref: `app.selection.file.isLocked`
  */
-export function hasLockedFiles(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function hasLockedFiles(context: RuleContext): boolean {
   if (context && context.selection && context.selection.nodes) {
     return context.selection.nodes.some(node => {
       if (!node.entry.isFile) {
@@ -373,10 +312,7 @@ export function hasLockedFiles(
  * Checks if the selected file has **write** or **read-only** locks specified.
  * JSON ref: `app.selection.file.isLocked`
  */
-export function isWriteLocked(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function isWriteLocked(context: RuleContext): boolean {
   return !!(
     context &&
     context.selection &&
@@ -394,12 +330,9 @@ export function isWriteLocked(
  * and that current user is the owner of the lock.
  * JSON ref: `app.selection.file.isLockOwner`
  */
-export function isUserWriteLockOwner(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function isUserWriteLockOwner(context: RuleContext): boolean {
   return (
-    isWriteLocked(context, ...args) &&
+    isWriteLocked(context) &&
     (context.selection.file.entry.properties['cm:lockOwner'] &&
       context.selection.file.entry.properties['cm:lockOwner'].id ===
         context.profile.id)
@@ -410,28 +343,20 @@ export function isUserWriteLockOwner(
  * Checks if user can lock selected file.
  * JSON ref: `app.selection.file.canLock`
  */
-export function canLockFile(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
-  return (
-    !isWriteLocked(context, ...args) && canUpdateSelectedNode(context, ...args)
-  );
+export function canLockFile(context: RuleContext): boolean {
+  return !isWriteLocked(context) && canUpdateSelectedNode(context);
 }
 
 /**
  * Checks if user can unlock selected file.
  * JSON ref: `app.selection.file.canLock`
  */
-export function canUnlockFile(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
+export function canUnlockFile(context: RuleContext): boolean {
   const { file } = context.selection;
   return (
-    isWriteLocked(context, ...args) &&
+    isWriteLocked(context) &&
     (context.permissions.check(file.entry, ['delete']) ||
-      isUserWriteLockOwner(context, ...args))
+      isUserWriteLockOwner(context))
   );
 }
 
@@ -439,15 +364,12 @@ export function canUnlockFile(
  * Checks if user can upload a new version of the file.
  * JSON ref: `app.selection.file.canUploadVersion`
  */
-export function canUploadVersion(
-  context: RuleContext,
-  ...args: RuleParameter[]
-): boolean {
-  if (isFavorites(context, ...args) || isSharedFiles(context, ...args)) {
+export function canUploadVersion(context: RuleContext): boolean {
+  if (isFavorites(context) || isSharedFiles(context)) {
     return true;
   }
 
-  return isWriteLocked(context, ...args)
-    ? isUserWriteLockOwner(context, ...args)
-    : canUpdateSelectedNode(context, ...args);
+  return isWriteLocked(context)
+    ? isUserWriteLockOwner(context)
+    : canUpdateSelectedNode(context);
 }

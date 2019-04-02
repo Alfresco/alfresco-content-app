@@ -23,30 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
-import { SearchOptionModel } from '../models/searchOption.model';
-
-export const SEARCH_BY_TERM = 'SEARCH_BY_TERM';
-export const TOGGLE_SEARCH_FILTER = 'TOGGLE_SEARCH_FILTER';
-export const SHOW_SEARCH_FILTER = 'SHOW_SEARCH_FILTER';
-export const HIDE_SEARCH_FILTER = 'HIDE_SEARCH_FILTER';
-
-export class SearchByTermAction implements Action {
-  readonly type = SEARCH_BY_TERM;
-  constructor(
-    public payload: string,
-    public searchOptions?: SearchOptionModel[]
-  ) {}
+export enum SearchOptionIds {
+  Files = 'content',
+  Folders = 'folder',
+  Libraries = 'libraries'
 }
 
-export class ToggleSearchFilterAction implements Action {
-  readonly type = TOGGLE_SEARCH_FILTER;
-}
-
-export class ShowSearchFilterAction implements Action {
-  readonly type = SHOW_SEARCH_FILTER;
-}
-
-export class HideSearchFilterAction implements Action {
-  readonly type = HIDE_SEARCH_FILTER;
+export interface SearchOptionModel {
+  id: SearchOptionIds;
+  key: string;
+  value: boolean;
+  shouldDisable(): boolean;
 }

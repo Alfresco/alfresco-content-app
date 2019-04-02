@@ -39,21 +39,15 @@ import {
   SET_CURRENT_URL,
   SetCurrentUrlAction,
   SET_INFO_DRAWER_STATE,
-  SetInfoDrawerStateAction
-} from '../actions';
-import {
+  SetInfoDrawerStateAction,
   TOGGLE_INFO_DRAWER,
-  ToggleInfoDrawerAction,
   TOGGLE_DOCUMENT_DISPLAY_MODE,
-  ToggleDocumentDisplayMode,
   SET_INITIAL_STATE,
-  SetInitialStateAction
-} from '../actions/app.actions';
-import {
+  SetInitialStateAction,
   TOGGLE_SEARCH_FILTER,
   SHOW_SEARCH_FILTER,
   HIDE_SEARCH_FILTER
-} from '../actions/search.actions';
+} from '../actions';
 
 export function appReducer(
   state: AppState = INITIAL_APP_STATE,
@@ -81,15 +75,13 @@ export function appReducer(
       newState = updateCurrentUrl(state, <SetCurrentUrlAction>action);
       break;
     case TOGGLE_INFO_DRAWER:
-      newState = updateInfoDrawer(state, <ToggleInfoDrawerAction>action);
+      newState = toggleInfoDrawer(state);
       break;
     case SET_INFO_DRAWER_STATE:
       newState = setInfoDrawer(state, <SetInfoDrawerStateAction>action);
       break;
     case TOGGLE_DOCUMENT_DISPLAY_MODE:
-      newState = updateDocumentDisplayMode(state, <ToggleDocumentDisplayMode>(
-        action
-      ));
+      newState = toggleDocumentDisplayMode(state);
       break;
     case SET_REPOSITORY_INFO:
       newState = updateRepositoryStatus(state, <SetRepositoryInfoAction>action);
@@ -174,7 +166,7 @@ function updateCurrentUrl(state: AppState, action: SetCurrentUrlAction) {
   return newState;
 }
 
-function updateInfoDrawer(state: AppState, action: ToggleInfoDrawerAction) {
+function toggleInfoDrawer(state: AppState) {
   const newState = Object.assign({}, state);
 
   let value = state.infoDrawerOpened;
@@ -189,10 +181,7 @@ function updateInfoDrawer(state: AppState, action: ToggleInfoDrawerAction) {
   return newState;
 }
 
-function updateDocumentDisplayMode(
-  state: AppState,
-  action: ToggleDocumentDisplayMode
-) {
+function toggleDocumentDisplayMode(state: AppState) {
   const newState = Object.assign({}, state);
   newState.documentDisplayMode =
     newState.documentDisplayMode === 'list' ? 'gallery' : 'list';

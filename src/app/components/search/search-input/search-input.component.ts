@@ -50,12 +50,10 @@ import { Subject } from 'rxjs';
 import { SearchLibrariesQueryBuilderService } from '../search-libraries-results/search-libraries-query-builder.service';
 import { MatMenuTrigger } from '@angular/material';
 import { AppConfigService } from '@alfresco/adf-core';
-
-export enum SearchOptionIds {
-  Files = 'content',
-  Folders = 'folder',
-  Libraries = 'libraries'
-}
+import {
+  SearchOptionModel,
+  SearchOptionIds
+} from '../../../store/models/searchOption.model';
 
 @Component({
   selector: 'aca-search-input',
@@ -69,10 +67,10 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   hasNewChange = false;
   navigationTimer: any;
   has400LibraryError = false;
-  searchOnChange;
+  searchOnChange: boolean;
 
-  searchedWord = null;
-  searchOptions: Array<any> = [
+  searchedWord: string = null;
+  searchOptions: Array<SearchOptionModel> = [
     {
       id: SearchOptionIds.Files,
       key: 'SEARCH.INPUT.FILES',

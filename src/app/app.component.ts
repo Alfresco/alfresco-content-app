@@ -77,22 +77,24 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.alfrescoApiService.getInstance().on('error', error => {
-      if (error.status === 401) {
-        if (!this.authenticationService.isLoggedIn()) {
-          this.store.dispatch(new CloseModalDialogsAction());
+    this.alfrescoApiService
+      .getInstance()
+      .on('error', (error: { status: number }) => {
+        if (error.status === 401) {
+          if (!this.authenticationService.isLoggedIn()) {
+            this.store.dispatch(new CloseModalDialogsAction());
 
-          let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
-          if (!redirectUrl) {
-            redirectUrl = this.router.url;
+            let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
+            if (!redirectUrl) {
+              redirectUrl = this.router.url;
+            }
+
+            this.router.navigate(['/login'], {
+              queryParams: { redirectUrl: redirectUrl }
+            });
           }
-
-          this.router.navigate(['/login'], {
-            queryParams: { redirectUrl: redirectUrl }
-          });
         }
-      }
-    });
+      });
 
     this.loadAppSettings();
 
