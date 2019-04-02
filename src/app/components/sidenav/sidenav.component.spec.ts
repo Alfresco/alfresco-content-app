@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { NO_ERRORS_SCHEMA, TemplateRef } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { SidenavComponent } from './sidenav.component';
 import { AppTestingModule } from '../../testing/app-testing.module';
