@@ -53,6 +53,17 @@ export const APP_ROUTES: Routes = [
       './components/shared-link-view/shared-link-view.module#AppSharedLinkViewModule'
   },
   {
+    path: 'view',
+    component: AppLayoutComponent,
+    children: [
+      {
+        path: 'n/:nodeId',
+        loadChildren: './components/viewer/viewer.module#AppViewerModule'
+      }
+    ]
+    // loadChildren: './components/viewer/viewer.module#AppViewerModule'
+  },
+  {
     path: '',
     component: AppLayoutComponent,
     children: [

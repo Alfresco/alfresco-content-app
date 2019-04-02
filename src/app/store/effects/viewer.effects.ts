@@ -98,6 +98,7 @@ export class ViewerEffects {
       path.push(parentId);
     }
     path.push('preview', nodeId);
-    this.router.navigateByUrl(path.join('/'));
+    // this.router.navigateByUrl(path.join('/'));
+    this.router.navigate(['/view/n', nodeId]);
   }
 }
