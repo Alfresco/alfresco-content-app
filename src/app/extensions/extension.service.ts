@@ -36,7 +36,6 @@ import {
   NavigationState,
   ExtensionConfig,
   RuleEvaluator,
-  ViewerExtensionRef,
   ContentActionRef,
   ContentActionType,
   ExtensionLoaderService,
@@ -48,19 +47,19 @@ import {
   ExtensionService,
   ProfileState,
   mergeObjects,
-  ExtensionRef
+  ExtensionRef,
+  RuleContext,
+  DocumentListPresetRef,
+  IconRef
 } from '@alfresco/adf-extensions';
 import { AppConfigService, AuthenticationService } from '@alfresco/adf-core';
-import { DocumentListPresetRef } from './document-list.extensions';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { IconRef } from './icon.extensions';
-import { AppRuleContext } from './app.interface';
 import { RepositoryInfo } from '@alfresco/js-api';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AppExtensionService implements AppRuleContext {
+export class AppExtensionService implements RuleContext {
   private _references = new BehaviorSubject<ExtensionRef[]>([]);
 
   defaults = {
@@ -72,7 +71,6 @@ export class AppExtensionService implements AppRuleContext {
   toolbarActions: Array<ContentActionRef> = [];
   viewerToolbarActions: Array<ContentActionRef> = [];
   sharedLinkViewerToolbarActions: Array<ContentActionRef> = [];
-  viewerContentExtensions: Array<ViewerExtensionRef> = [];
   contextMenuActions: Array<ContentActionRef> = [];
   openWithActions: Array<ContentActionRef> = [];
   createActions: Array<ContentActionRef> = [];
@@ -153,10 +151,6 @@ export class AppExtensionService implements AppRuleContext {
       config,
       'features.viewer.shared.toolbarActions'
     );
-
-    this.viewerContentExtensions = this.loader
-      .getElements<ViewerExtensionRef>(config, 'features.viewer.content')
-      .filter(ref => !this.isViewerExtensionDisabled(ref));
 
     this.contextMenuActions = this.loader.getContentActions(
       config,

@@ -31,12 +31,15 @@ import {
   AlfrescoApiService,
   ContentService,
   DataColumn,
-  TranslationService
+  TranslationService,
+  ThumbnailService
 } from '@alfresco/adf-core';
 import {
   DocumentListService,
   ContentNodeSelectorComponent,
-  ContentNodeSelectorComponentData
+  ContentNodeSelectorComponentData,
+  ContentNodeDialogService,
+  ShareDataRow
 } from '@alfresco/adf-content-services';
 import {
   MinimalNodeEntity,
@@ -53,14 +56,6 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 export class NodeActionsService {
   static SNACK_MESSAGE_DURATION_WITH_UNDO = 10000;
   static SNACK_MESSAGE_DURATION = 3000;
-  static restrictedSiteContent = [
-    'blog',
-    'calendar',
-    'dataLists',
-    'discussions',
-    'links',
-    'wiki'
-  ];
 
   contentCopied: Subject<MinimalNodeEntity[]> = new Subject<
     MinimalNodeEntity[]
@@ -75,7 +70,8 @@ export class NodeActionsService {
     private dialog: MatDialog,
     private documentListService: DocumentListService,
     private apiService: AlfrescoApiService,
-    private translation: TranslationService
+    private translation: TranslationService,
+    private thumbnailService: ThumbnailService
   ) {}
 
   /**
@@ -251,7 +247,7 @@ export class NodeActionsService {
       isSelectionValid: this.canCopyMoveInsideIt.bind(this),
       breadcrumbTransform: this.customizeBreadcrumb.bind(this),
       select: new Subject<MinimalNodeEntryEntity[]>(),
-      excludeSiteContent: []
+      excludeSiteContent: ContentNodeDialogService.nonDocumentSiteContent
     };
 
     this.dialog.open(ContentNodeSelectorComponent, <any>{
@@ -297,17 +293,6 @@ export class NodeActionsService {
       entry.nodeType === 'st:site' ||
       entry.nodeType === 'st:sites'
     );
-  }
-
-  private isRestrictedSiteContent(entry) {
-    if (entry && entry.properties && entry.properties['st:componentId']) {
-      const restrictedItem = NodeActionsService.restrictedSiteContent.find(
-        restrictedId => entry.properties['st:componentId'] === restrictedId
-      );
-      return !!restrictedItem;
-    }
-
-    return false;
   }
 
   close() {
@@ -652,26 +637,17 @@ export class NodeActionsService {
     return this.contentService.hasAllowableOperations(node, permission);
   }
 
-  // todo: review once 1.10-beta6 is out
-  private rowFilter(row: /*ShareDataRow*/ any): boolean {
+  private rowFilter(row: ShareDataRow): boolean {
     const node: MinimalNodeEntryEntity = row.node.entry;
 
     this.isSitesDestinationAvailable = !!node['guid'];
-    return (
-      !node.isFile &&
-      node.nodeType !== 'app:folderlink' &&
-      !this.isRestrictedSiteContent(node)
-    );
+    return !node.isFile && node.nodeType !== 'app:folderlink';
   }
 
-  // todo: review once 1.10-beta6 is out
-  private imageResolver(
-    row: /*ShareDataRow*/ any,
-    col: DataColumn
-  ): string | null {
+  private imageResolver(row: ShareDataRow, _: DataColumn): string | null {
     const entry: MinimalNodeEntryEntity = row.node.entry;
     if (!this.contentService.hasAllowableOperations(entry, 'update')) {
-      return this.documentListService.getMimeTypeIcon('disable/folder');
+      return this.thumbnailService.getMimeTypeIcon('disable/folder');
     }
 
     return null;

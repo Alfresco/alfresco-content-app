@@ -309,22 +309,6 @@ describe('NodeActionsService', () => {
         })
       ).toBe(true);
     });
-
-    it('should filter destination nodes and not show the restricted site content', () => {
-      const restrictedSiteContent = new TestNode(
-        'blog-id',
-        !isFile,
-        'blog',
-        [],
-        'cm:folder',
-        { 'st:componentId': 'blog' }
-      );
-      expect(
-        testContentNodeSelectorComponentData.data.rowFilter({
-          node: restrictedSiteContent
-        })
-      ).toBe(false);
-    });
   });
 
   describe('copyNodes', () => {

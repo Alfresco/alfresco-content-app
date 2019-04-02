@@ -45,8 +45,7 @@ describe('ContextActionsDirective', () => {
 
   it('should call service to render context menu', fakeAsync(() => {
     const el = document.createElement('div');
-    el.className =
-      'adf-data-table-cell adf-datatable-table-cell adf-datatable-row';
+    el.className = 'adf-data-table-cell adf-datatable-cell adf-datatable-row';
 
     const fragment = document.createDocumentFragment();
     fragment.appendChild(el);

@@ -77,7 +77,7 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Le mie raccolte",
+        "TITLE": "Raccolte file",
         "DESCRIPTION": "Accedi alle raccolte di file",
         "SIDENAV_LINK": {
           "LABEL": "Raccolte file",

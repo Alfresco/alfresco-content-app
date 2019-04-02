@@ -77,7 +77,7 @@
         }
       },
       "LIBRARIES": {
-        "TITLE": "Mis bibliotecas",
+        "TITLE": "Bibliotecas de ficheros",
         "DESCRIPTION": "Acceder a bibliotecas de ficheros",
         "SIDENAV_LINK": {
           "LABEL": "Bibliotecas de ficheros",

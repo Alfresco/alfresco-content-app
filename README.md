@@ -40,6 +40,7 @@ Please include a clear description, steps to reproduce and screenshots where app
 Please refer to the [release notes] for details of all changes.
 
 #### High level feature themes planned for 2019
+
 - Extensibility
   - Building on the existing framework to further enhance the developer experience
 - Collaboration & File Management
