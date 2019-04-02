@@ -23,7 +23,7 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Directive, OnInit, Input, HostListener } from '@angular/core';
+import { Directive, Input, HostListener } from '@angular/core';
 import { PRIMARY_OUTLET, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppStore } from '../../../store/states/app.state';
@@ -32,11 +32,11 @@ import { AppStore } from '../../../store/states/app.state';
   selector: '[action]',
   exportAs: 'action'
 })
-export class ActionDirective implements OnInit {
+export class ActionDirective {
   @Input() action;
 
-  @HostListener('click', ['$event'])
-  onClick(event: MouseEvent) {
+  @HostListener('click')
+  onClick() {
     if (this.action.route) {
       this.router.navigate([this.action.route]);
     } else if (this.action.click) {
@@ -46,7 +46,7 @@ export class ActionDirective implements OnInit {
 
   constructor(private router: Router, private store: Store<AppStore>) {}
 
-  dispatchAction(action) {
+  private dispatchAction(action) {
     this.store.dispatch({
       type: action.action,
       payload: this.getNavigationCommands(action.payload)
@@ -68,6 +68,4 @@ export class ActionDirective implements OnInit {
       return acc;
     }, []);
   }
-
-  ngOnInit() {}
 }
