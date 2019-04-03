@@ -66,7 +66,7 @@ $adf-upload-drag-hover-light-color: #e0f7fa !default;
       }
 
       .adf-file-draggable__input-focus {
-        color: transparent !important;
+        color: unset !important;
         border: none !important;
         margin-left: 0 !important;
 
