@@ -1,5 +1,9 @@
 <div class="sidenav">
   <ng-container [ngSwitch]="mode">
+    <div class="section action-menu" [ngClass]="'section--' + mode">
+      <app-create-menu [expanded]="mode === 'expanded'"></app-create-menu>
+    </div>
+
     <div
       *ngFor="let group of groups; trackBy: trackById"
       class="section"

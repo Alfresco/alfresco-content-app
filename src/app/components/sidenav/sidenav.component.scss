@@ -15,6 +15,17 @@
     border-bottom: 0;
   }
 
+  .action-menu {
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .section.action-menu {
+    padding: 8px 14px;
+  }
+
   .section {
     padding: 8px 6px;
   }

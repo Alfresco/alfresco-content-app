@@ -19,6 +19,10 @@
   .sidenav {
     background-color: mat-color($background, background);
 
+    .item:hover .action-button__label {
+      color: mat-color($accent);
+    }
+
     .mat-expansion-panel {
       background-color: unset;
       color: mat-color($primary, 0.87) !important;

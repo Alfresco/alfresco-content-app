@@ -16,7 +16,6 @@
 
 <ng-container *ngIf="!expanded">
   <button
-    color="accent"
     mat-icon-button
     class="app-create-menu--collapsed"
     data-automation-id="create-button"
@@ -25,7 +24,7 @@
     title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}"
   >
     <mat-icon
-      [color]="createMenu.menuOpen ? 'accent' : 'primary'"
+      class="app-create-menu--icon"
       title="{{ 'APP.NEW_MENU.TOOLTIP' | translate }}"
       >queue</mat-icon
     >
