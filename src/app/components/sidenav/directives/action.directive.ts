@@ -39,7 +39,7 @@ export class ActionDirective {
   @HostListener('click')
   onClick() {
     if (this.action.route) {
-      this.router.navigate([this.action.route]);
+      this.router.navigate(this.getNavigationCommands(this.action.route));
     } else if (this.action.click) {
       this.dispatchAction(this.action.click);
     }

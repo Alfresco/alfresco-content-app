@@ -36,13 +36,21 @@ class RouterStub {
     this.url = url;
   }
 
+  parseUrl() {
+    return {
+      root: {
+        children: []
+      }
+    };
+  }
+
   navigate(nextUrl: string) {
     const navigationEnd = new NavigationEnd(0, this.url, nextUrl);
     this.subject.next(navigationEnd);
   }
 }
 
-describe('MenuPanelDirective', () => {
+fdescribe('MenuPanelDirective', () => {
   const mockStore = <any>{
     dispatch: jasmine.createSpy('dispatch')
   };

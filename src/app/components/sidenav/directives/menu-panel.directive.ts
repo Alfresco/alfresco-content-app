@@ -51,7 +51,7 @@ export class MenuPanelDirective implements OnInit, OnDestroy {
     if (this.acaMenuPanel.children && !this.hasActiveLinks()) {
       const firstChild = this.acaMenuPanel.children[0];
       if (firstChild.url) {
-        this.router.navigate([firstChild.url]);
+        this.router.navigate(this.getNavigationCommands(firstChild.url));
       } else {
         this.store.dispatch({
           type: firstChild.action.action,

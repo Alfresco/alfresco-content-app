@@ -36,6 +36,14 @@ class RouterStub {
     this.url = url;
   }
 
+  parseUrl() {
+    return {
+      root: {
+        children: []
+      }
+    };
+  }
+
   navigate(nextUrl: string) {
     const navigationEnd = new NavigationEnd(0, this.url, nextUrl);
     this.subject.next(navigationEnd);

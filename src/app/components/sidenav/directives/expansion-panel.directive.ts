@@ -52,7 +52,7 @@ export class ExpansionPanelDirective implements OnInit, OnDestroy {
     if (this.expansionPanel.expanded && !this.hasActiveLinks()) {
       const firstChild = this.acaExpansionPanel.children[0];
       if (firstChild.url) {
-        this.router.navigate([firstChild.url]);
+        this.router.navigate(this.getNavigationCommands(firstChild.url));
       } else {
         this.store.dispatch({
           type: firstChild.action.action,
