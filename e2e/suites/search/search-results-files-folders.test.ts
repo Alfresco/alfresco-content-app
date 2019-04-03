@@ -85,7 +85,7 @@ describe('Search results - files and folders', () => {
     done();
   });
 
-  it('Results page title - []', async () => {
+  it('Results page title - [C307002]', async () => {
     await searchInput.clickSearchButton();
     await searchInput.checkFilesAndFolders();
     await searchInput.searchFor('test-');

@@ -1254,7 +1254,7 @@ describe('Special permissions available actions : ', () => {
         await toolbar.closeMoreMenu();
       });
 
-      it('file from Search Results - []', async () => {
+      it('file from Search Results - [C306991]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
         await searchInput.searchFor(docxFile);
@@ -1493,7 +1493,7 @@ describe('Special permissions available actions : ', () => {
         await viewerToolbar.closeMoreMenu();
       });
 
-      it('file opened from Search Results - []', async () => {
+      it('file opened from Search Results - [C306992]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
         await searchInput.searchFor(docxFile);
@@ -1733,7 +1733,7 @@ describe('Special permissions available actions : ', () => {
         await viewerToolbar.closeMoreMenu();
       });
 
-      it('file opened from Search Results - []', async () => {
+      it('file opened from Search Results - [C306993]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
         await searchInput.searchFor(fileLocked);
@@ -1973,7 +1973,7 @@ describe('Special permissions available actions : ', () => {
         await viewerToolbar.closeMoreMenu();
       });
 
-      it('file opened from Search Results - []', async () => {
+      it('file opened from Search Results - [C306994]', async () => {
         await searchInput.clickSearchButton();
         await searchInput.checkOnlyFiles();
         await searchInput.searchFor(fileLocked);

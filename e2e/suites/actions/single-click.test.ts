@@ -212,14 +212,14 @@ describe('Single click on item name', () => {
       done();
     });
 
-    it('Hyperlink appears when mouse over a file - []', async () => {
+    it('Hyperlink appears when mouse over a file - [C306988]', async () => {
       await searchInput.searchFor(file1);
       await dataTable.waitForBody();
 
       expect(await dataTable.hasLinkOnSearchResultName(file1)).toBe(true, 'Link on name is missing');
     });
 
-    it('File preview opens when clicking the hyperlink - []', async () => {
+    it('File preview opens when clicking the hyperlink - [C306989]', async () => {
       await searchInput.searchFor(file1);
       await dataTable.waitForBody();
       await dataTable.clickSearchResultNameLink(file1);
@@ -229,7 +229,7 @@ describe('Single click on item name', () => {
       await Utils.pressEscape();
     });
 
-    it('Navigate inside the folder when clicking the hyperlink - []', async () => {
+    it('Navigate inside the folder when clicking the hyperlink - [C306990]', async () => {
       await searchInput.searchFor(folder1);
       await dataTable.waitForBody();
       await dataTable.clickSearchResultNameLink(folder1);

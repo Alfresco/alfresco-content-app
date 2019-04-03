@@ -588,7 +588,7 @@ describe('Copy content', () => {
       done();
     });
 
-    it('Copy a file - []', async () => {
+    it('Copy a file - [C306932]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(file1);
@@ -609,7 +609,7 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in destination folder`);
     });
 
-    it('Copy a folder with content - []', async () => {
+    it('Copy a folder with content - [C306943]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(folder1);
@@ -634,7 +634,7 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(fileInFolder)).toBe(true, `${fileInFolder} is not present in parent folder`);
     });
 
-    it('Copy multiple items - []', async () => {
+    it('Copy multiple items - [C306944]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor('file');
@@ -656,7 +656,7 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(file3)).toBe(true, `${file3} not present in destination folder`);
     });
 
-    it('Copy a file with a name that already exists on the destination - []', async () => {
+    it('Copy a file with a name that already exists on the destination - [C306933]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(existingFile);
@@ -678,7 +678,7 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(`${existingFile}-1.txt`)).toBe(true, `${existingFile}-1.txt not present in destination folder`);
     });
 
-    it('Copy a folder with a name that already exists on the destination - []', async () => {
+    it('Copy a folder with a name that already exists on the destination - [C306934]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor(existingFolder);
@@ -702,7 +702,7 @@ describe('Copy content', () => {
       expect(await dataTable.isItemPresent(file3InFolder)).toBe(true, `${file3InFolder} not present in destination folder`);
     });
 
-    it('Copy items into a library - []', async () => {
+    it('Copy items into a library - [C306942]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
       await searchInput.searchFor('file');

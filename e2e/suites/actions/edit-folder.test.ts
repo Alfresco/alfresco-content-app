@@ -305,7 +305,7 @@ describe('Edit folder', () => {
       done();
     });
 
-    it('properties are modified when pressing OK - []', async () => {
+    it('properties are modified when pressing OK - [C306947]', async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFolders();
@@ -327,7 +327,7 @@ describe('Edit folder', () => {
       expect(desc).toEqual(folderDescriptionEdited);
     });
 
-    it('with duplicate folder name - []', async () => {
+    it('with duplicate folder name - [C306948]', async () => {
       await page.clickPersonalFiles();
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFolders();
