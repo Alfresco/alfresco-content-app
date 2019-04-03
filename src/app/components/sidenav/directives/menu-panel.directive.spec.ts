@@ -50,7 +50,7 @@ class RouterStub {
   }
 }
 
-fdescribe('MenuPanelDirective', () => {
+describe('MenuPanelDirective', () => {
   const mockStore = <any>{
     dispatch: jasmine.createSpy('dispatch')
   };
