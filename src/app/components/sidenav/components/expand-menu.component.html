@@ -24,7 +24,7 @@
     [@.disabled]="true"
   >
     <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px">
-      <mat-panel-title [attr.title]="item.description | translate">
+      <mat-panel-title>
         <div class="item">
           <button
             [ngClass]="{
@@ -32,6 +32,7 @@
             }"
             [attr.aria-label]="item.title | translate"
             [id]="item.id"
+            [attr.title]="item.description | translate"
             [attr.data-automation-id]="item.id"
             mat-button
             class="action-button full-width"
