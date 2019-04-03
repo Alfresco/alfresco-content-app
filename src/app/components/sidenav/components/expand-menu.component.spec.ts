@@ -65,10 +65,8 @@ describe('ExpandMenuComponent', () => {
 
     fixture.detectChanges();
 
-    const actionButton = document.body.querySelectorAll('button');
-
-    expect(actionButton.length).toBe(1);
-    expect(actionButton[0].id).toBe('test-action-button');
+    const actionButton = document.body.querySelector('#test-action-button');
+    expect(actionButton).not.toBeNull();
   });
 
   it('should render action item with children', () => {
