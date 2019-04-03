@@ -5,6 +5,8 @@
       [action]="item"
       [attr.aria-label]="item.title | translate"
       [id]="item.id"
+      [attr.data-automation-id]="item.id"
+      [attr.title]="item.description | translate"
       mat-button
       class="action-button full-width"
     >
@@ -22,7 +24,7 @@
     [@.disabled]="true"
   >
     <mat-expansion-panel-header expandedHeight="48px" collapsedHeight="48px">
-      <mat-panel-title>
+      <mat-panel-title [attr.title]="item.description | translate">
         <div class="item">
           <button
             [ngClass]="{
@@ -30,6 +32,7 @@
             }"
             [attr.aria-label]="item.title | translate"
             [id]="item.id"
+            [attr.data-automation-id]="item.id"
             mat-button
             class="action-button full-width"
           >
@@ -48,6 +51,8 @@
         [action]="child"
         [attr.aria-label]="child.title | translate"
         [id]="child.id"
+        [attr.data-automation-id]="child.id"
+        [attr.title]="child.description | translate"
         mat-button
         class="action-button full-width"
       >

@@ -5,6 +5,9 @@
     acaActiveLink="action-button--active"
     [action]="item"
     [id]="item.id"
+    [attr.aria-label]="item.title | translate"
+    [attr.title]="item.description | translate"
+    [attr.data-automation-id]="item.id"
   >
     <adf-icon [value]="item.icon"></adf-icon>
   </button>
@@ -17,6 +20,9 @@
     #acaMenuPanel="acaMenuPanel"
     mat-icon-button
     [id]="item.id"
+    [attr.data-automation-id]="item.id"
+    [attr.title]="item.description | translate"
+    [attr.aria-label]="item.title | translate"
     class="action-button"
     [ngClass]="{
       'action-button--active': acaMenuPanel.hasActiveLinks()
@@ -32,6 +38,8 @@
       [action]="child"
       [attr.aria-label]="child.title | translate"
       [id]="child.id"
+      [attr.title]="child.description | translate"
+      [attr.data-automation-id]="child.id"
       mat-menu-item
       class="action-button"
     >
