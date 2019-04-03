@@ -54,7 +54,7 @@ export class SharedLinkViewComponent implements OnInit {
     });
   }
 
-  trackByActionId(index: number, action: ContentActionRef) {
+  trackByActionId(_: number, action: ContentActionRef) {
     return action.id;
   }
 }

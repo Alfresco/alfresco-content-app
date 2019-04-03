@@ -34,7 +34,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isPreview(context, null)).toBe(true);
+      expect(app.isPreview(context)).toBe(true);
     });
   });
 
@@ -46,7 +46,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isFavorites(context, null)).toBe(true);
+      expect(app.isFavorites(context)).toBe(true);
     });
 
     it('should return [false] if `/favorites` url contains `/preview/`', () => {
@@ -56,7 +56,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isFavorites(context, null)).toBe(false);
+      expect(app.isFavorites(context)).toBe(false);
     });
   });
 
@@ -68,7 +68,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isNotFavorites(context, null)).toBe(true);
+      expect(app.isNotFavorites(context)).toBe(true);
     });
 
     it('should return [false] if url starts with `/favorites`', () => {
@@ -78,7 +78,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isNotFavorites(context, null)).toBe(false);
+      expect(app.isNotFavorites(context)).toBe(false);
     });
   });
 
@@ -90,7 +90,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isSharedFiles(context, null)).toBe(true);
+      expect(app.isSharedFiles(context)).toBe(true);
     });
 
     it('should return [false] if `/shared` url contains `/preview/`', () => {
@@ -100,7 +100,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isSharedFiles(context, null)).toBe(false);
+      expect(app.isSharedFiles(context)).toBe(false);
     });
   });
 
@@ -112,7 +112,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isNotSharedFiles(context, null)).toBe(true);
+      expect(app.isNotSharedFiles(context)).toBe(true);
     });
 
     it('should return [false] if path contains `/shared`', () => {
@@ -122,7 +122,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isNotSharedFiles(context, null)).toBe(false);
+      expect(app.isNotSharedFiles(context)).toBe(false);
     });
   });
 
@@ -134,7 +134,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isTrashcan(context, null)).toBe(true);
+      expect(app.isTrashcan(context)).toBe(true);
     });
 
     it('should return [false] if url does not start with `/trashcan`', () => {
@@ -144,7 +144,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isTrashcan(context, null)).toBe(false);
+      expect(app.isTrashcan(context)).toBe(false);
     });
   });
 
@@ -156,7 +156,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isNotTrashcan(context, null)).toBe(true);
+      expect(app.isNotTrashcan(context)).toBe(true);
     });
 
     it('should return [false] if url does start with `/trashcan`', () => {
@@ -166,7 +166,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isNotTrashcan(context, null)).toBe(false);
+      expect(app.isNotTrashcan(context)).toBe(false);
     });
   });
 
@@ -178,7 +178,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isPersonalFiles(context, null)).toBe(true);
+      expect(app.isPersonalFiles(context)).toBe(true);
     });
 
     it('should return [false] if url does not start with `/personal-files`', () => {
@@ -188,7 +188,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isPersonalFiles(context, null)).toBe(false);
+      expect(app.isPersonalFiles(context)).toBe(false);
     });
   });
 
@@ -200,7 +200,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isLibraries(context, null)).toBe(true);
+      expect(app.isLibraries(context)).toBe(true);
     });
 
     it('should return [true] if url starts with `/search-libraries`', () => {
@@ -210,7 +210,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isLibraries(context, null)).toBe(true);
+      expect(app.isLibraries(context)).toBe(true);
     });
   });
 
@@ -222,7 +222,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isNotLibraries(context, null)).toBe(true);
+      expect(app.isNotLibraries(context)).toBe(true);
     });
   });
 
@@ -234,7 +234,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isRecentFiles(context, null)).toBe(true);
+      expect(app.isRecentFiles(context)).toBe(true);
     });
 
     it('should return [false] if url does not start with `/recent-files`', () => {
@@ -244,7 +244,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isRecentFiles(context, null)).toBe(false);
+      expect(app.isRecentFiles(context)).toBe(false);
     });
   });
 
@@ -256,7 +256,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isSearchResults(context, null)).toBe(true);
+      expect(app.isSearchResults(context)).toBe(true);
     });
 
     it('should return [false] if url does not start with `/search`', () => {
@@ -266,7 +266,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isSearchResults(context, null)).toBe(false);
+      expect(app.isSearchResults(context)).toBe(false);
     });
   });
 
@@ -278,7 +278,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isSharedPreview(context, null)).toBe(true);
+      expect(app.isSharedPreview(context)).toBe(true);
     });
 
     it('should return [false] if url does not start with `/shared/preview/`', () => {
@@ -288,7 +288,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isSharedPreview(context, null)).toBe(false);
+      expect(app.isSharedPreview(context)).toBe(false);
     });
   });
 
@@ -300,7 +300,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isFavoritesPreview(context, null)).toBe(true);
+      expect(app.isFavoritesPreview(context)).toBe(true);
     });
 
     it('should return [false] if url does not start with `/favorites/preview/`', () => {
@@ -310,7 +310,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isFavoritesPreview(context, null)).toBe(false);
+      expect(app.isFavoritesPreview(context)).toBe(false);
     });
   });
 
@@ -322,7 +322,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isSharedFileViewer(context, null)).toBe(true);
+      expect(app.isSharedFileViewer(context)).toBe(true);
     });
 
     it('should return [false] if url does not start with `/preview/s/`', () => {
@@ -332,7 +332,7 @@ describe('navigation.evaluators', () => {
         }
       };
 
-      expect(app.isSharedFileViewer(context, null)).toBe(false);
+      expect(app.isSharedFileViewer(context)).toBe(false);
     });
   });
 });

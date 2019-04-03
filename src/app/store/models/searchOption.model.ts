@@ -23,10 +23,15 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { PreviewExtensionComponent } from './preview-extension.component';
+export enum SearchOptionIds {
+  Files = 'content',
+  Folders = 'folder',
+  Libraries = 'libraries'
+}
 
-describe('PreviewExtensionComponent', () => {
-  it('should be defined', () => {
-    expect(PreviewExtensionComponent).toBeDefined();
-  });
-});
+export interface SearchOptionModel {
+  id: SearchOptionIds;
+  key: string;
+  value: boolean;
+  shouldDisable(): boolean;
+}

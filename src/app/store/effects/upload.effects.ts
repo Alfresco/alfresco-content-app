@@ -145,7 +145,7 @@ export class UploadEffects {
           this.fileVersionInput.value = '';
           this.uploadAndUnlock(fileModel);
         }),
-        catchError(error => {
+        catchError(_ => {
           this.fileVersionInput.value = '';
           return of(new SnackbarErrorAction('VERSION.ERROR.GENERIC'));
         })

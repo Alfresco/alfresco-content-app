@@ -23,30 +23,36 @@
  * along with Alfresco. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Action } from '@ngrx/store';
-import { SearchOptionModel } from '../models/searchOption.model';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes } from '@angular/router';
+import { CoreModule } from '@alfresco/adf-core';
+import { ContentDirectiveModule } from '@alfresco/adf-content-services';
+import { DirectivesModule } from '../../directives/directives.module';
+import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
+import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
+import { AppToolbarModule } from '../toolbar/toolbar.module';
+import { AppViewerComponent } from './viewer.component';
 
-export const SEARCH_BY_TERM = 'SEARCH_BY_TERM';
-export const TOGGLE_SEARCH_FILTER = 'TOGGLE_SEARCH_FILTER';
-export const SHOW_SEARCH_FILTER = 'SHOW_SEARCH_FILTER';
-export const HIDE_SEARCH_FILTER = 'HIDE_SEARCH_FILTER';
+const routes: Routes = [
+  {
+    path: '',
+    component: AppViewerComponent
+  }
+];
 
-export class SearchByTermAction implements Action {
-  readonly type = SEARCH_BY_TERM;
-  constructor(
-    public payload: string,
-    public searchOptions?: SearchOptionModel[]
-  ) {}
-}
-
-export class ToggleSearchFilterAction implements Action {
-  readonly type = TOGGLE_SEARCH_FILTER;
-}
-
-export class ShowSearchFilterAction implements Action {
-  readonly type = SHOW_SEARCH_FILTER;
-}
-
-export class HideSearchFilterAction implements Action {
-  readonly type = HIDE_SEARCH_FILTER;
-}
+@NgModule({
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    CoreModule.forChild(),
+    ContentDirectiveModule,
+    DirectivesModule,
+    AppInfoDrawerModule,
+    CoreExtensionsModule.forChild(),
+    AppToolbarModule
+  ],
+  declarations: [AppViewerComponent],
+  exports: [AppViewerComponent]
+})
+export class AppViewerModule {}

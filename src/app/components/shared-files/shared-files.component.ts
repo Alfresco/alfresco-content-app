@@ -61,10 +61,10 @@ export class SharedFilesComponent extends PageComponent implements OnInit {
 
       this.uploadService.fileUploadComplete
         .pipe(debounceTime(300))
-        .subscribe(file => this.reload()),
+        .subscribe(_ => this.reload()),
       this.uploadService.fileUploadDeleted
         .pipe(debounceTime(300))
-        .subscribe(file => this.reload()),
+        .subscribe(_ => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])

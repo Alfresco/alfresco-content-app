@@ -13,10 +13,9 @@ export class ContextMenuService {
 
   open(config: ContextmenuOverlayConfig) {
     const overlay = this.createOverlay(config);
-
     const overlayRef = new ContextMenuOverlayRef(overlay);
 
-    this.attachDialogContainer(overlay, config, overlayRef);
+    this.attachDialogContainer(overlay, overlayRef);
 
     return overlayRef;
   }
@@ -28,10 +27,9 @@ export class ContextMenuService {
 
   private attachDialogContainer(
     overlay: OverlayRef,
-    config: ContextmenuOverlayConfig,
     contextmenuOverlayRef: ContextMenuOverlayRef
   ) {
-    const injector = this.createInjector(config, contextmenuOverlayRef);
+    const injector = this.createInjector(contextmenuOverlayRef);
 
     const containerPortal = new ComponentPortal(
       ContextMenuComponent,
@@ -46,7 +44,6 @@ export class ContextMenuService {
   }
 
   private createInjector(
-    config: ContextmenuOverlayConfig,
     contextmenuOverlayRef: ContextMenuOverlayRef
   ): PortalInjector {
     const injectionTokens = new WeakMap();

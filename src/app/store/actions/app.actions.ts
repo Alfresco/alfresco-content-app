@@ -64,17 +64,14 @@ export class SetUserProfileAction implements Action {
 
 export class ToggleInfoDrawerAction implements Action {
   readonly type = TOGGLE_INFO_DRAWER;
-  constructor(public payload?: any) {}
 }
 
 export class ToggleDocumentDisplayMode implements Action {
   readonly type = TOGGLE_DOCUMENT_DISPLAY_MODE;
-  constructor(public payload?: any) {}
 }
 
 export class LogoutAction implements Action {
   readonly type = LOGOUT;
-  constructor(public payload?: any) {}
 }
 
 export class ReloadDocumentListAction implements Action {

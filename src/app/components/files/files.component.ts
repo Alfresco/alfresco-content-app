@@ -43,6 +43,7 @@ import { SetCurrentFolderAction } from '../../store/actions';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { isAdmin } from '../../store/selectors/app.selectors';
+import { ShareDataRow } from '@alfresco/adf-content-services';
 
 @Component({
   templateUrl: './files.component.html'
@@ -199,9 +200,10 @@ export class FilesComponent extends PageComponent implements OnInit, OnDestroy {
     }
   }
 
-  displayFolderParent(filePath = '', index) {
+  displayFolderParent(filePath = '', index: number) {
     const parentName = filePath.split('/')[index];
-    const currentFoldersDisplayed: any = this.documentList.data.getRows() || [];
+    const currentFoldersDisplayed =
+      <ShareDataRow[]>this.documentList.data.getRows() || [];
 
     const alreadyDisplayedParentFolder = currentFoldersDisplayed.find(
       row => row.node.entry.isFolder && row.node.entry.name === parentName

@@ -32,7 +32,6 @@ import { CoreExtensionsModule } from '../../extensions/core.extensions.module';
 import { DirectivesModule } from '../../directives/directives.module';
 import { AppInfoDrawerModule } from '../info-drawer/info.drawer.module';
 import { PreviewComponent } from './preview.component';
-import { PreviewExtensionComponent } from './preview-extension.component';
 import { AppToolbarModule } from '../toolbar/toolbar.module';
 
 const routes: Routes = [
@@ -57,7 +56,7 @@ const routes: Routes = [
     CoreExtensionsModule.forChild(),
     AppToolbarModule
   ],
-  declarations: [PreviewComponent, PreviewExtensionComponent],
+  declarations: [PreviewComponent],
   exports: [PreviewComponent]
 })
 export class PreviewModule {}
