@@ -31,7 +31,7 @@ import { RuleContext } from '@alfresco/adf-extensions';
  */
 export function isPreview(context: RuleContext): boolean {
   const { url } = context.navigation;
-  return url && url.includes('/preview/');
+  return url && (url.includes('/preview/') || url.includes('/view/'));
 }
 
 /**
