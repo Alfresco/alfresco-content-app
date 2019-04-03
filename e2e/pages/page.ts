@@ -25,6 +25,7 @@
 
 import { browser, by, ElementFinder, ExpectedConditions as EC, until } from 'protractor';
 import { BROWSER_WAIT_TIMEOUT, USE_HASH_STRATEGY } from './../configs';
+import { Utils } from '../utilities/utils';
 
 export abstract class Page {
   protected static locators = {
@@ -79,6 +80,16 @@ export abstract class Page {
 
   async waitForDialog() {
     await browser.wait(EC.visibilityOf(this.dialogContainer), BROWSER_WAIT_TIMEOUT);
+  }
+
+  async isDialogOpen() {
+    return await browser.isElementPresent(this.dialogContainer);
+  }
+
+  async closeOpenDialogs() {
+    while (await this.isDialogOpen()) {
+      await Utils.pressEscape();
+    }
   }
 
   async refresh() {

@@ -365,7 +365,7 @@ describe('Toolbar actions - single selection : ', () => {
     it('Available actions for a library - Search Results - [C290084]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchForTextAndCloseSearchOptions(siteName);
+      await searchInput.searchFor(siteName);
       await dataTable.selectItem(siteName);
 
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
@@ -383,7 +383,7 @@ describe('Toolbar actions - single selection : ', () => {
     it('Available actions for a library - Search Results - user is not a member - [C290085]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchForTextAndCloseSearchOptions(adminPublic);
+      await searchInput.searchFor(adminPublic);
       await dataTable.selectItem(adminPublic);
 
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
@@ -401,7 +401,7 @@ describe('Toolbar actions - single selection : ', () => {
     it('Available actions for a moderated library - Search Results - user requested to join - [C290086]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchForTextAndCloseSearchOptions(adminModerated);
+      await searchInput.searchFor(adminModerated);
       await dataTable.selectItem(adminModerated);
 
       expect(await toolbar.isEmpty()).toBe(false, 'toolbar not displayed');
@@ -676,7 +676,7 @@ describe('Toolbar actions - single selection : ', () => {
     it('nodes actions are not displayed when no item is selected - [C291815]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchForTextAndCloseSearchOptions(fileInSite);
+      await searchInput.searchFor(fileInSite);
 
       expect(await toolbar.isToggleSearchFiltersPresent()).toBe(true, `Search filter toggle is not displayed`);
       expect(await toolbar.numberOfAvailableActions()).toBe(1, `more than 1 action is present`);
@@ -685,7 +685,7 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a file is selected - [C291816]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions(fileUser);
+      await searchInput.searchFor(fileUser);
       await dataTable.selectItem(fileUser);
 
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileUser}`);
@@ -710,7 +710,7 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a locked file is selected - [C297618]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions(fileLocked);
+      await searchInput.searchFor(fileLocked);
       await dataTable.selectItem(fileLocked);
 
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${fileLocked}`);
@@ -735,7 +735,7 @@ describe('Toolbar actions - single selection : ', () => {
     it('correct actions appear when a folder is selected - [C291817]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFolders();
-      await searchInput.searchForTextAndCloseSearchOptions(folderUser);
+      await searchInput.searchFor(folderUser);
       await dataTable.selectItem(folderUser);
 
       expect(await toolbar.isEmpty()).toBe(false, `actions not displayed for ${folderUser}`);

@@ -359,7 +359,7 @@ describe('Context menu actions - single selection : ', () => {
     it('Available actions for a library - Search Results - user is a member - [C291812]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchForTextAndCloseSearchOptions(siteName);
+      await searchInput.searchFor(siteName);
       await dataTable.rightClickOnItem(siteName);
 
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
@@ -371,7 +371,7 @@ describe('Context menu actions - single selection : ', () => {
     it('Available actions for a library - Search Results - user is not a member - [C291813]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchForTextAndCloseSearchOptions(adminPublic);
+      await searchInput.searchFor(adminPublic);
       await dataTable.rightClickOnItem(adminPublic);
 
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
@@ -383,7 +383,7 @@ describe('Context menu actions - single selection : ', () => {
     it('Available actions for a moderated library - Search Results - user requested to join - [C291814]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkLibraries();
-      await searchInput.searchForTextAndCloseSearchOptions(adminModerated);
+      await searchInput.searchFor(adminModerated);
       await dataTable.rightClickOnItem(adminModerated);
 
       expect(await dataTable.hasContextMenu()).toBe(true, 'Context menu is not displayed');
@@ -632,7 +632,7 @@ describe('Context menu actions - single selection : ', () => {
     it('Context menu has the correct actions for a file - [C291827]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions(fileSiteUser);
+      await searchInput.searchFor(fileSiteUser);
       await dataTable.rightClickOnItem(fileSiteUser);
 
       expect(await contextMenu.isEditOfflinePresent()).toBe(true, `Edit offline is not displayed for ${fileSiteUser}`);
@@ -654,7 +654,7 @@ describe('Context menu actions - single selection : ', () => {
     it('Context menu has the correct actions for a locked file - [C297638]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions(fileLocked);
+      await searchInput.searchFor(fileLocked);
       await dataTable.rightClickOnItem(fileLocked);
 
       expect(await contextMenu.isEditOfflinePresent()).toBe(false, `Edit offline is displayed for ${fileLocked}`);
@@ -676,7 +676,7 @@ describe('Context menu actions - single selection : ', () => {
     it('Context menu has the correct actions for a folder - [C291828]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFolders();
-      await searchInput.searchForTextAndCloseSearchOptions(folderSiteUser);
+      await searchInput.searchFor(folderSiteUser);
       await dataTable.rightClickOnItem(folderSiteUser);
 
       expect(await contextMenu.isDownloadPresent()).toBe(true, `Download is not displayed for ${folderSiteUser}`);
