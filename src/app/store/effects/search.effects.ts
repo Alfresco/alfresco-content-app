@@ -28,7 +28,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { SEARCH_BY_TERM, SearchByTermAction } from '../actions/search.actions';
 import { Router } from '@angular/router';
-import { SearchOptionIds } from '../../components/search/search-input/search-input.component';
+import { SearchOptionIds } from '../models/searchOption.model';
 
 @Injectable()
 export class SearchEffects {

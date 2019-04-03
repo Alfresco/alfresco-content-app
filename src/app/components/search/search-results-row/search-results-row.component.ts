@@ -108,7 +108,7 @@ export class SearchResultsRowComponent implements OnInit {
     this.store.dispatch(new NavigateToFolder(this.node));
   }
 
-  private getValue(path) {
+  private getValue(path: string) {
     return path
       .replace('["', '.')
       .replace('"]', '')

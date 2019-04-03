@@ -40,7 +40,8 @@ import {
   ResultSetPaging,
   SiteBody,
   SiteEntry,
-  FavoriteBody
+  FavoriteBody,
+  FavoriteEntry
 } from '@alfresco/js-api';
 import { map } from 'rxjs/operators';
 
@@ -256,7 +257,7 @@ export class ContentApiService {
     return from(this.api.sitesApi.updateSite(siteId, siteBody));
   }
 
-  addFavorite(nodes: Array<MinimalNodeEntity>): Observable<any> {
+  addFavorite(nodes: Array<MinimalNodeEntity>): Observable<FavoriteEntry> {
     const payload: FavoriteBody[] = nodes.map(node => {
       const { isFolder, nodeId, id } = <any>node.entry;
       const siteId = node.entry['guid'];
@@ -286,7 +287,7 @@ export class ContentApiService {
     );
   }
 
-  unlockNode(nodeId: string, opts?) {
+  unlockNode(nodeId: string, opts?: any) {
     return this.api.nodesApi.unlockNode(nodeId, opts);
   }
 }

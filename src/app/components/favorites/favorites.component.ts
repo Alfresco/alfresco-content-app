@@ -39,7 +39,7 @@ import { PageComponent } from '../page.component';
 import { ContentApiService } from '../../services/content-api.service';
 import { AppExtensionService } from '../../extensions/extension.service';
 import { map, debounceTime } from 'rxjs/operators';
-import { FileUploadEvent, UploadService } from '@alfresco/adf-core';
+import { UploadService } from '@alfresco/adf-core';
 
 @Component({
   templateUrl: './favorites.component.html'
@@ -67,10 +67,10 @@ export class FavoritesComponent extends PageComponent implements OnInit {
     this.subscriptions = this.subscriptions.concat([
       this.uploadService.fileUploadComplete
         .pipe(debounceTime(300))
-        .subscribe(file => this.onFileUploadedEvent(file)),
+        .subscribe(_ => this.reload()),
       this.uploadService.fileUploadDeleted
         .pipe(debounceTime(300))
-        .subscribe(file => this.onFileUploadedEvent(file)),
+        .subscribe(_ => this.reload()),
 
       this.breakpointObserver
         .observe([Breakpoints.HandsetPortrait, Breakpoints.HandsetLandscape])
@@ -115,9 +115,5 @@ export class FavoritesComponent extends PageComponent implements OnInit {
         this.showPreview(node);
       }
     }
-  }
-
-  private onFileUploadedEvent(event: FileUploadEvent) {
-    this.reload();
   }
 }

@@ -52,7 +52,7 @@ export class ContextMenuItemComponent {
     return false;
   }
 
-  trackById(index: number, obj: { id: string }) {
+  trackById(_: number, obj: { id: string }) {
     return obj.id;
   }
 }

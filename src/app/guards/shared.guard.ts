@@ -42,7 +42,7 @@ export class AppSharedRuleGuard implements CanActivate {
   }
 
   canActivate(
-    route: ActivatedRouteSnapshot
+    _: ActivatedRouteSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.isQuickShareEnabled$;
   }

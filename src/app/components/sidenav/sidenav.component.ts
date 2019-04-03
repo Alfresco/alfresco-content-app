@@ -81,7 +81,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
       });
   }
 
-  trackById(index: number, obj: { id: string }) {
+  trackById(_: number, obj: { id: string }) {
     return obj.id;
   }
 

@@ -44,12 +44,12 @@ export class ToggleSharedComponent implements OnInit {
     this.selection$ = this.store.select(appSelection);
   }
 
-  isShared(selection) {
+  isShared(selection: SelectionState) {
     // workaround for shared files
     if (
       selection.first &&
       selection.first.entry &&
-      selection.first.entry.sharedByUser
+      (<any>selection.first.entry).sharedByUser
     ) {
       return true;
     }
@@ -62,7 +62,7 @@ export class ToggleSharedComponent implements OnInit {
     );
   }
 
-  editSharedNode(selection) {
+  editSharedNode(selection: SelectionState) {
     this.store.dispatch(new ShareNodeAction(selection.first));
   }
 }

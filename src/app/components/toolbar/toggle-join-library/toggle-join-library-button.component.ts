@@ -35,6 +35,10 @@ import {
   SnackbarInfoAction
 } from '../../../store/actions/snackbar.actions';
 import { SetSelectedNodesAction } from '../../../store/actions/node.actions';
+import {
+  LibraryMembershipToggleEvent,
+  LibraryMembershipErrorEvent
+} from '../../../directives/library-membership.directive';
 
 @Component({
   selector: 'app-toggle-join-library-button',
@@ -72,7 +76,7 @@ export class ToggleJoinLibraryButtonComponent {
     this.selection$ = this.store.select(appSelection);
   }
 
-  onToggleEvent(event) {
+  onToggleEvent(event: LibraryMembershipToggleEvent) {
     this.store.dispatch(new SnackbarInfoAction(event.i18nKey));
 
     if (event.shouldReload) {
@@ -89,7 +93,7 @@ export class ToggleJoinLibraryButtonComponent {
     }
   }
 
-  onErrorEvent(event) {
+  onErrorEvent(event: LibraryMembershipErrorEvent) {
     this.store.dispatch(new SnackbarErrorAction(event.i18nKey));
   }
 }
