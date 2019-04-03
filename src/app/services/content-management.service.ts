@@ -232,7 +232,7 @@ export class ContentManagementService {
       width: '400px'
     });
 
-    dialogInstance.componentInstance.error.subscribe(message => {
+    dialogInstance.componentInstance.error.subscribe((message: string) => {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
@@ -255,7 +255,7 @@ export class ContentManagementService {
       width: '400px'
     });
 
-    dialog.componentInstance.error.subscribe(message => {
+    dialog.componentInstance.error.subscribe((message: string) => {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
@@ -271,7 +271,7 @@ export class ContentManagementService {
       width: '400px'
     });
 
-    dialogInstance.componentInstance.error.subscribe(message => {
+    dialogInstance.componentInstance.error.subscribe((message: string) => {
       this.store.dispatch(new SnackbarErrorAction(message));
     });
 
@@ -565,7 +565,7 @@ export class ContentManagementService {
     );
   }
 
-  private undoMoveNodes(moveResponse, selectionParentId) {
+  private undoMoveNodes(moveResponse, selectionParentId: string) {
     const movedNodes =
       moveResponse && moveResponse['succeeded']
         ? moveResponse['succeeded']
@@ -963,7 +963,7 @@ export class ContentManagementService {
     return null;
   }
 
-  private diff(selection, list, fromList = true): any {
+  private diff(selection: any[], list: any[], fromList = true): any {
     const ids = selection.map(item => item.entry.id);
 
     return list.filter(item => {
@@ -1144,7 +1144,7 @@ export class ContentManagementService {
       .subscribe(() => this.undoMoveNodes(moveResponse, initialParentId));
   }
 
-  getErrorMessage(errorObject): string {
+  getErrorMessage(errorObject: { message: any }): string {
     let i18nMessageString = 'APP.MESSAGES.ERRORS.GENERIC';
 
     try {

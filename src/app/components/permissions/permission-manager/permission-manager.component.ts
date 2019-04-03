@@ -77,7 +77,7 @@ export class PermissionsManagerComponent implements OnInit {
     this.permissionList.reload();
   }
 
-  openAddPermissionDialog(event: Event) {
+  openAddPermissionDialog() {
     this.nodePermissionDialogService
       .updateNodePermissionByDialog(this.nodeId)
       .subscribe(

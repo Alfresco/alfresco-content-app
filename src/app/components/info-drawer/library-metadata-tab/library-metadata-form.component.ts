@@ -74,7 +74,7 @@ export class LibraryMetadataFormComponent
     );
   }
 
-  getVisibilityLabel(value) {
+  getVisibilityLabel(value: string) {
     return this.libraryType.find(type => type.value === value).label;
   }
 

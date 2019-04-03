@@ -89,7 +89,7 @@ export class RouterEffects {
   );
 
   private navigateToFolder(node: MinimalNodeEntryEntity) {
-    let link = null;
+    let link: any[] = null;
     const { path, id } = node;
 
     if (path && path.name && path.elements) {
@@ -114,7 +114,7 @@ export class RouterEffects {
   }
 
   private navigateToParentFolder(node: MinimalNodeEntryEntity) {
-    let link = null;
+    let link: any[] = null;
     const { path } = node;
 
     if (path && path.name && path.elements) {
