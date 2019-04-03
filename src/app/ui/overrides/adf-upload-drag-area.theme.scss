@@ -1,32 +1,35 @@
 @import 'mixins';
 
-$adf-upload-drag-hover-color: #00bcd4 !default;
-$adf-upload-drag-hover-light-color: #e0f7fa !default;
+$adf-upload-dragging-color: unset !default;
+$adf-upload-dragging-border: 1px solid #00bcd4 !default;
+$adf-upload-dragging-background: #e0f7fa !default;
+$adf-upload-dragging-level1-color: unset !default;
+$adf-upload-dragging-level1-border: none !default;
 
-@mixin file-draggable__input-focus($theme) {
-  $foreground: map-get($theme, foreground);
-
-  color: mat-color($foreground, text, 0.54);
-  border: 1px solid $adf-upload-drag-hover-color !important;
+@mixin file-draggable__input-focus($text-color, $border) {
+  color: $text-color;
+  border: $border !important;
   margin-left: 0 !important;
 }
 
 @mixin adf-upload-drag-area-theme($theme) {
-  $foreground: map-get($theme, foreground);
-
   adf-upload-drag-area {
     @include flex-column;
 
     .adf-upload-border {
       @include flex-column;
-
       vertical-align: unset;
       text-align: unset;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .adf-file-draggable__input-focus {
+      color: $adf-upload-dragging-color;
+      border: $adf-upload-dragging-border;
+
       adf-document-list {
-        background: $adf-upload-drag-hover-light-color;
+        background: $adf-upload-dragging-background;
         adf-datatable > table {
           background: inherit;
         }
@@ -34,20 +37,20 @@ $adf-upload-drag-hover-light-color: #e0f7fa !default;
     }
 
     .adf-upload__dragging {
-      background: $adf-upload-drag-hover-light-color;
-      color: mat-color($foreground, text, 0.54);
+      background: $adf-upload-dragging-background;
+      color: $adf-upload-dragging-color;
     }
 
     .adf-upload__dragging td {
-      border-top: 1px solid $adf-upload-drag-hover-color !important;
-      border-bottom: 1px solid $adf-upload-drag-hover-color !important;
+      border-top: $adf-upload-dragging-border !important;
+      border-bottom: $adf-upload-dragging-border !important;
 
       &:first-child {
-        border-left: 1px solid $adf-upload-drag-hover-color !important;
+        border-left: $adf-upload-dragging-border !important;
       }
 
       &:last-child {
-        border-right: 1px solid $adf-upload-drag-hover-color !important;
+        border-right: $adf-upload-dragging-border !important;
       }
     }
 
@@ -55,7 +58,10 @@ $adf-upload-drag-hover-light-color: #e0f7fa !default;
       & > div {
         adf-upload-drag-area {
           .adf-file-draggable__input-focus {
-            @include file-draggable__input-focus($theme);
+            @include file-draggable__input-focus(
+              $adf-upload-dragging-color,
+              $adf-upload-dragging-border
+            );
           }
         }
       }
@@ -66,13 +72,16 @@ $adf-upload-drag-hover-light-color: #e0f7fa !default;
       }
 
       .adf-file-draggable__input-focus {
-        color: unset !important;
-        border: none !important;
+        color: $adf-upload-dragging-level1-color !important;
+        border: $adf-upload-dragging-level1-border !important;
         margin-left: 0 !important;
 
         adf-upload-drag-area {
           & > div {
-            @include file-draggable__input-focus($theme);
+            @include file-draggable__input-focus(
+              $adf-upload-dragging-color,
+              $adf-upload-dragging-border
+            );
           }
         }
       }
