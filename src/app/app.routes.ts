@@ -53,6 +53,22 @@ export const APP_ROUTES: Routes = [
       './components/shared-link-view/shared-link-view.module#AppSharedLinkViewModule'
   },
   {
+    path: 'view',
+    component: AppLayoutComponent,
+    children: [
+      {
+        path: ':nodeId',
+        outlet: 'viewer',
+        children: [
+          {
+            path: '',
+            loadChildren: './components/viewer/viewer.module#AppViewerModule'
+          }
+        ]
+      }
+    ]
+  },
+  {
     path: '',
     component: AppLayoutComponent,
     children: [
@@ -149,6 +165,18 @@ export const APP_ROUTES: Routes = [
               navigateSource: 'personal-files'
             }
           }
+          // Do not remove, will be enabled in future iterations
+          // {
+          //   path: 'view/:nodeId',
+          //   outlet: 'viewer',
+          //   children: [
+          //     {
+          //       path: '',
+          //       loadChildren:
+          //         './components/viewer/viewer.module#AppViewerModule'
+          //     }
+          //   ]
+          // }
         ]
       },
       {
