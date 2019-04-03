@@ -1,13 +1,16 @@
+@import 'mixins';
+
 @mixin adf-info-drawer-theme($theme) {
   $foreground: map-get($theme, foreground);
   $accent: map-get($theme, accent);
   $icon-size: 48px;
 
   .adf-info-drawer {
-    height: 100%;
+    @include flex-column;
 
     .adf-info-drawer-layout {
-      height: 100%;
+      @include flex-column;
+      overflow: auto;
 
       .mat-tab-label {
         // cannot move this color style to ADF, but:
