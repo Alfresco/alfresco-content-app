@@ -83,7 +83,7 @@ describe('Unshare a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.refresh();
+      await page.closeOpenDialogs();
       await page.clickPersonalFilesAndWait();
       await dataTable.doubleClickOnRowByName(parent);
       await dataTable.waitForHeader();
@@ -91,7 +91,7 @@ describe('Unshare a file', () => {
     });
 
     afterEach(async (done) => {
-      await Utils.pressEscape();
+      await page.closeOpenDialogs();
       done();
     });
 
@@ -132,10 +132,6 @@ describe('Unshare a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
-
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).not.toEqual(file2);
@@ -173,10 +169,6 @@ describe('Unshare a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
-
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).not.toEqual(file4);
@@ -213,7 +205,7 @@ describe('Unshare a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.refresh();
+      await page.closeOpenDialogs();
       await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(siteName);
       await dataTable.waitForHeader();
@@ -223,7 +215,7 @@ describe('Unshare a file', () => {
     });
 
     afterEach(async (done) => {
-      await Utils.pressEscape();
+      await page.closeOpenDialogs();
       done();
     });
 
@@ -260,10 +252,6 @@ describe('Unshare a file', () => {
       await shareDialog.waitForDialogToClose();
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
-
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
 
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
@@ -302,10 +290,6 @@ describe('Unshare a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
-
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).not.toEqual(file4);
@@ -335,13 +319,13 @@ describe('Unshare a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.refresh();
+      await page.closeOpenDialogs();
       await page.clickRecentFilesAndWait();
       done();
     });
 
     afterEach(async (done) => {
-      await Utils.pressEscape();
+      await page.closeOpenDialogs();
       done();
     });
 
@@ -382,10 +366,6 @@ describe('Unshare a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
-
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).not.toEqual(file2);
@@ -423,10 +403,6 @@ describe('Unshare a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
-
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).not.toEqual(file4);
@@ -456,13 +432,13 @@ describe('Unshare a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.refresh();
+      await page.closeOpenDialogs();
       await page.clickSharedFilesAndWait();
       done();
     });
 
     afterEach(async (done) => {
-      await Utils.pressEscape();
+      await page.closeOpenDialogs();
       done();
     });
 
@@ -582,13 +558,13 @@ describe('Unshare a file', () => {
     });
 
     beforeEach(async (done) => {
-      await page.refresh();
+      await page.closeOpenDialogs();
       await page.clickFavoritesAndWait();
       done();
     });
 
     afterEach(async (done) => {
-      await Utils.pressEscape();
+      await page.closeOpenDialogs();
       done();
     });
 
@@ -633,10 +609,6 @@ describe('Unshare a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file2Id)).toBe(false, `${file2} is shared`);
 
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file2)).toBe(false, `${file2} is in the Shared files list`);
-
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).not.toEqual(file2);
@@ -678,10 +650,6 @@ describe('Unshare a file', () => {
       expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
       expect(await apis.user.nodes.isFileShared(file4Id)).toBe(false, `${file4} is shared`);
 
-      // TODO: disable check cause api is slow to update
-      // await page.clickSharedFiles();
-      // expect(await dataTable.isItemPresent(file4)).toBe(false, `${file4} is in the Shared files list`);
-
       await browser.get(url);
       expect(await viewer.isViewerOpened()).toBe(true, 'viewer is not open');
       expect(await viewer.getFileTitle()).not.toEqual(file4);
@@ -694,25 +662,38 @@ describe('Unshare a file', () => {
 
     const sitePrivate = `site-private-${Utils.random()}`;
 
-    const file1 = `file1-${Utils.random()}.txt`; let file1Id;
-    const file2 = `file2-${Utils.random()}.txt`; let file2Id;
+    const file1FileLib = `file1-FL-${Utils.random()}.txt`; let file1FileLibId;
+    const file2FileLib = `file2-FL-${Utils.random()}.txt`; let file2FileLibId;
+    const file1Shared = `file1-Shared-${Utils.random()}.txt`; let file1SharedId;
+    const file2Shared = `file2-Shared-${Utils.random()}.txt`; let file2SharedId;
+    const file1Fav = `file1-Fav-${Utils.random()}.txt`; let file1FavId;
+    const file2Fav = `file2-Fav-${Utils.random()}.txt`; let file2FavId;
 
     beforeAll(async (done) => {
       await apis.admin.sites.createSite(sitePrivate, SITE_VISIBILITY.PRIVATE);
       const docLibId = await apis.admin.sites.getDocLibId(sitePrivate);
 
-      file1Id = (await apis.admin.nodes.createFile(file1, docLibId)).entry.id;
-      file2Id = (await apis.admin.nodes.createFile(file2, docLibId)).entry.id;
+      file1FileLibId = (await apis.admin.nodes.createFile(file1FileLib, docLibId)).entry.id;
+      file2FileLibId = (await apis.admin.nodes.createFile(file2FileLib, docLibId)).entry.id;
+      file1SharedId = (await apis.admin.nodes.createFile(file1Shared, docLibId)).entry.id;
+      file2SharedId = (await apis.admin.nodes.createFile(file2Shared, docLibId)).entry.id;
+      file1FavId = (await apis.admin.nodes.createFile(file1Fav, docLibId)).entry.id;
+      file2FavId = (await apis.admin.nodes.createFile(file2Fav, docLibId)).entry.id;
 
       await apis.admin.sites.addSiteMember(sitePrivate, username, SITE_ROLES.SITE_CONSUMER.ROLE);
 
-      await apis.admin.shared.shareFileById(file1Id);
-      await apis.user.shared.shareFileById(file2Id);
-      await apis.user.shared.waitForApi({ expect: 2 });
+      await apis.admin.shared.shareFileById(file1FileLibId);
+      await apis.user.shared.shareFileById(file2FileLibId);
+      await apis.admin.shared.shareFileById(file1SharedId);
+      await apis.user.shared.shareFileById(file2SharedId);
+      await apis.admin.shared.shareFileById(file1FavId);
+      await apis.user.shared.shareFileById(file2FavId);
 
-      await apis.user.favorites.addFavoriteById('file', file1Id);
-      await apis.user.favorites.addFavoriteById('file', file2Id);
+      await apis.user.favorites.addFavoriteById('file', file1FavId);
+      await apis.user.favorites.addFavoriteById('file', file2FavId);
+
       await apis.user.favorites.waitForApi({ expect: 2 });
+      await apis.user.shared.waitForApi({ expect: 6 });
 
       done();
     });
@@ -722,13 +703,9 @@ describe('Unshare a file', () => {
       done();
     });
 
-    beforeEach(async (done) => {
-      await page.refresh();
-      done();
-    });
-
     afterEach(async (done) => {
-      await Utils.pressEscape();
+      await page.closeOpenDialogs();
+      await page.clickPersonalFilesAndWait();
       done();
     });
 
@@ -736,62 +713,104 @@ describe('Unshare a file', () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
-      await dataTable.selectItem(file1);
+      await dataTable.selectItem(file1FileLib);
       await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
+
+      await shareDialog.clickShareToggle();
+      await confirmDialog.clickRemove();
+
+      const msg = await page.getSnackBarMessage();
+      expect(msg).toContain(`You don't have permission to unshare this file`);
     });
 
     it('on File Libraries - file shared by the user - [C286701]', async () => {
       await page.goToMyLibrariesAndWait();
       await dataTable.doubleClickOnRowByName(sitePrivate);
       await dataTable.waitForHeader();
-      await dataTable.selectItem(file2);
+      await dataTable.selectItem(file2FileLib);
       await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
+
+      await shareDialog.clickShareToggle();
+      await confirmDialog.clickRemove();
+      await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
+
+      expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
+      expect(await apis.user.nodes.isFileShared(file2FileLibId)).toBe(false, `${file2FileLib} is shared`);
     });
 
     it('on Shared Files - file shared by other user - [C286687]', async () => {
       await page.clickSharedFilesAndWait();
-      await dataTable.selectItem(file1);
+      await dataTable.selectItem(file1Shared);
       await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
+
+      await shareDialog.clickShareToggle();
+      await confirmDialog.clickRemove();
+
+      const msg = await page.getSnackBarMessage();
+      expect(msg).toContain(`You don't have permission to unshare this file`);
     });
 
     it('on Shared Files - file shared by the user - [C286702]', async () => {
       await page.clickSharedFilesAndWait();
-      await dataTable.selectItem(file1);
+      await dataTable.selectItem(file2Shared);
       await toolbar.clickSharedLinkSettings();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
+
+      await shareDialog.clickShareToggle();
+      await confirmDialog.clickRemove();
+      await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
+
+      expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
+      expect(await apis.user.nodes.isFileShared(file2SharedId)).toBe(false, `${file2Shared} is shared`);
     });
 
     it('on Favorites - file shared by other user - [C286697]', async () => {
       await page.clickFavoritesAndWait();
-      await dataTable.selectItem(file1);
+      await dataTable.selectItem(file1Fav);
       // TODO: remove workaround for favorites
       // await toolbar.clickSharedLinkSettings();
       await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
+
+      await shareDialog.clickShareToggle();
+      await confirmDialog.clickRemove();
+
+      const msg = await page.getSnackBarMessage();
+      expect(msg).toContain(`You don't have permission to unshare this file`);
     });
 
     it('on Favorites - file shared by the user - [C286703]', async () => {
       await page.clickFavoritesAndWait();
-      await dataTable.selectItem(file1);
+      await dataTable.selectItem(file2Fav);
       // TODO: remove workaround for favorites
       // await toolbar.clickSharedLinkSettings();
       await toolbar.clickShare();
       await shareDialog.waitForDialogToOpen();
 
-      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle enabled for consumer');
+      expect(await shareDialog.isShareToggleDisabled()).toBe(false, 'Share toggle disabled for consumer');
+
+      await shareDialog.clickShareToggle();
+      await confirmDialog.clickRemove();
+      await confirmDialog.waitForDialogToClose();
+      await shareDialog.waitForDialogToClose();
+
+      expect(await shareDialog.isDialogOpen()).toBe(false, 'Share dialog open');
+      expect(await apis.user.nodes.isFileShared(file2FavId)).toBe(false, `${file2Fav} is shared`);
     });
   });
 

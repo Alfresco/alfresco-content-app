@@ -105,7 +105,7 @@ describe('Download', () => {
     await apis.user.trashcan.emptyTrash();
     done();
   });
-  
+
   afterEach(async (done) => {
     await Utils.renameFile(archiveZip, `${Utils.random()}.zip`);
     done();
@@ -273,7 +273,7 @@ describe('Download', () => {
       await page.clickPersonalFilesAndWait();
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchForTextAndCloseSearchOptions('*Search*');
+      await searchInput.searchFor('*Search*');
       done();
     });
 

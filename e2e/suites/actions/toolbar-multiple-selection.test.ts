@@ -607,7 +607,7 @@ describe('Toolbar actions - multiple selection : ', () => {
     it('correct actions appear when multiple files are selected - [C291820]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions('my-fileInSite');
+      await searchInput.searchFor('my-fileInSite');
       await dataTable.selectMultipleItems([file1InSite, file2InSite]);
 
       expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed for selected files');
@@ -631,7 +631,7 @@ describe('Toolbar actions - multiple selection : ', () => {
     it('correct actions appear when multiple locked files are selected - [C297626]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions('my-fileLockedInSite');
+      await searchInput.searchFor('my-fileLockedInSite');
       await dataTable.selectMultipleItems([fileLocked1InSite, fileLocked2InSite]);
 
       expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed for selected files');
@@ -655,7 +655,7 @@ describe('Toolbar actions - multiple selection : ', () => {
     it('correct actions appear when multiple folders are selected - [C291821]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFolders();
-      await searchInput.searchForTextAndCloseSearchOptions('my-folderInSite');
+      await searchInput.searchFor('my-folderInSite');
       await dataTable.selectMultipleItems([folder1InSite, folder2InSite]);
 
       expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');
@@ -679,7 +679,7 @@ describe('Toolbar actions - multiple selection : ', () => {
     it('correct actions appear when both files and folders are selected - [C291822]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchForTextAndCloseSearchOptions('my-f');
+      await searchInput.searchFor('my-f');
       await dataTable.selectMultipleItems([file1InSite, file2InSite, folder1InSite, folder2InSite]);
 
       expect(await toolbar.isViewPresent()).toBe(false, 'View is displayed');

@@ -40,6 +40,7 @@ describe('Special permissions', () => {
   const loginPage = new LoginPage();
   const page = new BrowsingPage();
   const { dataTable } = page;
+  const { searchInput } = page.header;
 
   beforeAll(async (done) => {
     await apis.admin.people.createUser({ username });
@@ -100,6 +101,24 @@ describe('Special permissions', () => {
       await page.refresh();
       expect(await dataTable.isEmptyList()).toBe(true, 'Items are still displayed');
     });
+
+    it('on Search Results - [C290122]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(fileName);
+      await dataTable.waitForBody();
+
+      expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} is not displayed`);
+
+      await apis.admin.sites.deleteSiteMember(sitePrivate, username);
+
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(fileName);
+      await dataTable.waitForBody();
+
+      expect(await dataTable.isItemPresent(fileName)).toBe(false, `${fileName} is displayed`);
+    });
   });
 
   describe(`Location column is empty if user doesn't have permissions on the file's parent folder`, () => {
@@ -141,6 +160,16 @@ describe('Special permissions', () => {
     it(`on Shared Files - [C213668]`, async () => {
       await page.clickSharedFilesAndWait();
       expect(await dataTable.countRows()).toBe(1, 'Incorrect number of items');
+      expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
+    });
+
+    it('on Search results - [C306868]', async () => {
+      await searchInput.clickSearchButton();
+      await searchInput.checkFilesAndFolders();
+      await searchInput.searchFor(fileName);
+      await dataTable.waitForBody();
+
+      expect(await dataTable.isItemPresent(fileName)).toBe(true, `${fileName} is not displayed`);
       expect(await dataTable.getItemLocation(fileName)).toEqual('Unknown');
     });
   });
