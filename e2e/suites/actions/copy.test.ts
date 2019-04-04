@@ -132,18 +132,18 @@ describe('Copy content', () => {
     await apis.user.nodes.createFolder(folderSiteFav, docLibId);
     await apis.user.nodes.createFolder(folderSiteSearch, docLibId);
 
-    await apis.user.shared.waitForApi({ expect: 4 });
-    await apis.user.favorites.waitForApi({ expect: 7 });
+    await apis.user.shared.waitForApi({ expect: 5 });
+    await apis.user.favorites.waitForApi({ expect: 8 });
 
     await loginPage.loginWith(username);
     done();
   });
 
-  afterAll(async (done) => {
-    await apis.user.nodes.deleteNodeById(sourceId);
-    await apis.user.sites.deleteSite(siteName);
-    done();
-  });
+  // afterAll(async (done) => {
+  //   await apis.user.nodes.deleteNodeById(sourceId);
+  //   await apis.user.sites.deleteSite(siteName);
+  //   done();
+  // });
 
   describe('from Personal Files', () => {
     beforeEach(async (done) => {
@@ -153,10 +153,10 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
-      await apis.user.nodes.deleteNodeById(destinationIdPF);
-      done();
-    });
+    // afterAll(async done => {
+    //   await apis.user.nodes.deleteNodeById(destinationIdPF);
+    //   done();
+    // });
 
     it('Copy a file - [C217135]', async () => copyAFile());
 
@@ -191,10 +191,10 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
-      await apis.user.nodes.deleteNodeById(destinationIdRF);
-      done();
-    });
+    // afterAll(async done => {
+    //   await apis.user.nodes.deleteNodeById(destinationIdRF);
+    //   done();
+    // });
 
     it('Copy a file - [C280194]', async () => copyAFile());
 
@@ -217,10 +217,10 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
-      await apis.user.nodes.deleteNodeById(destinationIdSF);
-      done();
-    });
+    // afterAll(async done => {
+    //   await apis.user.nodes.deleteNodeById(destinationIdSF);
+    //   done();
+    // });
 
     it('Copy a file - [C280206]', async () => copyAFile());
 
@@ -243,10 +243,10 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
-      await apis.user.nodes.deleteNodeById(destinationIdFav);
-      done();
-    });
+    // afterAll(async done => {
+    //   await apis.user.nodes.deleteNodeById(destinationIdFav);
+    //   done();
+    // });
 
     it('Copy a file - [C280218]', async () => copyAFile());
 
@@ -282,10 +282,10 @@ describe('Copy content', () => {
       done();
     });
 
-    afterAll(async done => {
-      await apis.user.nodes.deleteNodeById(destinationIdSearch);
-      done();
-    });
+    // afterAll(async done => {
+    //   await apis.user.nodes.deleteNodeById(destinationIdSearch);
+    //   done();
+    // });
 
     it('Copy a file - [C306932]', async () => {
       await searchInput.searchFor(file1);
@@ -328,6 +328,49 @@ describe('Copy content', () => {
 
       copyItemsIntoALibrary();
     });
+
+    it('Copy locked file - [C306935]', async () => {
+      await searchInput.searchFor('file');
+      await dataTable.waitForBody();
+
+      copyLockedFile();
+    });
+
+    it('Copy folder that contains locked file - [C306936]', async () => {
+      await searchInput.searchFor(folder1);
+      await dataTable.waitForBody();
+
+      copyFolderThatContainsLockedFile();
+    });
+
+    it('Undo copy of files - [C306938]', async () => {
+      await searchInput.searchFor('file');
+      await dataTable.waitForBody();
+
+      undoCopyOfFiles();
+    });
+
+    it('Undo copy of folders - [C306939]', async () => {
+      await searchInput.searchFor('file');
+      await dataTable.waitForBody();
+
+      undoCopyOfFolders();
+    });
+
+    it('Undo copy of a file when a file with same name already exists on the destination - [C306940]', async () => {
+      await searchInput.searchFor('file');
+      await dataTable.waitForBody();
+
+      undoCopyOfAFile();
+    });
+
+    it('Undo copy of a folder when a folder with same name already exists on the destination - [C306941]', async () => {
+      await searchInput.searchFor(folder1);
+      await dataTable.waitForBody();
+
+      undoCopyOfAFolder();
+    });
+
   });
 
   async function copyAFile() {
@@ -515,7 +558,10 @@ describe('Copy content', () => {
   }
 
   async function undoCopyOfFolders() {
-    await dataTable.selectItem(folder1);
+    const folder2 = `folder2-${Utils.random()}`;
+    await apis.user.nodes.createFolder(folder2, sourceId)
+
+    await dataTable.selectItem(folder2);
     await toolbar.clickMoreActionsCopy();
     await copyDialog.selectLocation('Personal Files');
     await copyDialog.selectDestination(destinationPF);
@@ -529,7 +575,7 @@ describe('Copy content', () => {
     expect(await dataTable.isItemPresent(file1)).toBe(true, `${file1} not present in source folder`);
     await page.clickPersonalFilesAndWait();
     await dataTable.doubleClickOnRowByName(destinationPF);
-    expect(await dataTable.isItemPresent(folder1)).toBe(false, `${folder1} present in destination folder`);
+    expect(await dataTable.isItemPresent(folder2)).toBe(false, `${folder2} present in destination folder`);
 
     await page.clickTrash();
     expect(await dataTable.isEmptyList()).toBe(true, 'Trash is not empty');
