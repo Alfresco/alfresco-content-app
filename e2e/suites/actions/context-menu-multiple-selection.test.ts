@@ -576,7 +576,7 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when multiple files are selected - [C291831]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-file');
+      await searchInput.searchFor('my-inSite-file');
       await dataTable.selectMultipleItems([ file1Site, file2Site ]);
       await dataTable.rightClickOnMultipleSelection();
 
@@ -596,7 +596,7 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when multiple locked files are selected - [C297632]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFiles();
-      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-file');
+      await searchInput.searchFor('my-inSite-file');
       await dataTable.selectMultipleItems([ fileLocked1Site, fileLocked2Site ]);
       await dataTable.rightClickOnMultipleSelection();
 
@@ -616,7 +616,7 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when multiple folders are selected - [C291832]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkOnlyFolders();
-      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-folder');
+      await searchInput.searchFor('my-inSite-folder');
       await dataTable.selectMultipleItems([ folder1Site, folder2Site ]);
       await dataTable.rightClickOnMultipleSelection();
 
@@ -636,7 +636,7 @@ describe('Context menu actions - multiple selection : ', () => {
     it('correct actions appear when both files and folders are selected - [C291833]', async () => {
       await searchInput.clickSearchButton();
       await searchInput.checkFilesAndFolders();
-      await searchInput.searchForTextAndCloseSearchOptions('my-inSite-f');
+      await searchInput.searchFor('my-inSite-f');
       await dataTable.selectMultipleItems([ file1Site, file2Site, folder1Site, folder2Site ]);
       await dataTable.rightClickOnMultipleSelection();
 

@@ -26,8 +26,9 @@
 import { LoginPage, SearchResultsPage } from '../../pages/pages';
 import { RepoClient } from '../../utilities/repo-client/repo-client';
 import { Utils } from '../../utilities/utils';
+import { browser } from 'protractor';
 
-describe('Search results', () => {
+describe('Search results general', () => {
   const username = `user-${Utils.random()}`;
 
   const file = `test-file-${Utils.random()}.txt`; let fileId;
@@ -113,6 +114,38 @@ describe('Search results', () => {
 
     expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);
     expect(await dataTable.isItemPresent(folder)).toBe(false, `${folder} is displayed`);
+    expect(await dataTable.isItemPresent(site)).toBe(true, `${site} not displayed`);
+  });
+
+  it('Results are updated automatically when changing the search term - [C279162]', async () => {
+    await searchInput.clickSearchButton();
+    await searchInput.searchFor(file);
+    await page.waitForResults();
+
+    expect(await dataTable.isItemPresent(file)).toBe(true, `${file} is not displayed`);
+    expect(await dataTable.isItemPresent(folder)).toBe(false, `${folder} is displayed`);
+
+    await searchInput.clickSearchButton();
+    await searchInput.searchFor(folder);
+
+    expect(await dataTable.isItemPresent(file)).toBe(false, `${file} is displayed`);
+    expect(await dataTable.isItemPresent(folder)).toBe(true, `${folder} is not displayed`);
+  });
+
+  it('Results are returned when accessing an URL containing a search query - [C279178]', async () => {
+    await searchInput.clickSearchButton();
+    await searchInput.checkLibraries();
+    await searchInput.searchFor(site);
+    await page.waitForResults();
+
+    expect(await dataTable.isItemPresent(site)).toBe(true, `${site} not displayed`);
+
+    const url = await browser.getCurrentUrl();
+
+    await page.clickPersonalFiles();
+    await browser.get(url);
+    await page.waitForResults();
+
     expect(await dataTable.isItemPresent(site)).toBe(true, `${site} not displayed`);
   });
 
