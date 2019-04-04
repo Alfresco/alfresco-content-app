@@ -1349,7 +1349,7 @@
           "key": "title",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-expand-cell-5",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.libraryName",
           "desktopOnly": false
@@ -1386,7 +1386,7 @@
           "key": "title",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-expand-cell-5",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.libraryName",
           "desktopOnly": false
@@ -1423,7 +1423,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-expand-cell-5",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false
@@ -1486,7 +1486,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-expand-cell-5",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false
@@ -1531,7 +1531,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-expand-cell-5",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.name",
           "desktopOnly": false
@@ -1585,7 +1585,7 @@
           "key": "name",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-expand-cell-5",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.trashcanName",
           "desktopOnly": false
@@ -1630,7 +1630,7 @@
           "key": "title",
           "title": "APP.DOCUMENT_LIST.COLUMNS.NAME",
           "type": "text",
-          "class": "adf-expand-cell-5",
+          "class": "adf-ellipsis-cell adf-expand-cell-5",
           "sortable": true,
           "template": "app.columns.libraryName",
           "desktopOnly": false
