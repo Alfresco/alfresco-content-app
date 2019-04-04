@@ -70,7 +70,7 @@ export class ActiveLinkDirective implements OnInit, AfterContentInit {
   private update(url: string) {
     this.links.map(item => {
       const itemUrl = this.resolveUrl(item);
-      if (url && url.substring(1) === itemUrl) {
+      if (url && url.substring(1).startsWith(itemUrl)) {
         this.isLinkActive = true;
         this.renderer.addClass(this.element.nativeElement, this.acaActiveLink);
       } else {

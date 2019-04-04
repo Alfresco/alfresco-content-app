@@ -66,7 +66,7 @@ export class MenuPanelDirective implements OnInit, OnDestroy {
   hasActiveLinks() {
     if (this.acaMenuPanel && this.acaMenuPanel.children) {
       return this.acaMenuPanel.children.some(child => {
-        return this.router.url.endsWith(child.url || child.action.payload);
+        return this.router.url.startsWith(child.url || child.action.payload);
       });
     }
     return false;
